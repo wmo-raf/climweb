@@ -1,0 +1,473 @@
+{% load static %}
+<section class="hero is-medium" style="background-position: bottom;  background-position: top;
+background-size: 100% 70%;
+background-repeat: no-repeat; 
+">
+<div class="hero-body has-text-centered pb-6 ">
+    <div class="container">
+        <div class="columns is-justify-content-center">
+            <div class="column is-6">
+                <p class="title pb-4" style="font-weight:400; font-size: 40px;">
+                    National Meteorological & Hydrological Services
+                </p>
+                <p class="subtitle pb-6 mb-4" style="font-weight: 400; font-size: 18px;">
+                    Observing and understanding weather and climate
+                </p>
+            </div>
+        </div>
+
+
+        <!-- forecasts section  -->
+        <div class="columns is-justify-content-center" style="position:relative; ">
+            <div class="column is-11">
+                <div id="tabs-with-content">
+
+                    <!-- tabs  -->
+                    <div class="tabs is-boxed is-centered">
+                        <ul>
+                            <li class="is-active box animate__animated" style="text-align: left;">
+                                <!-- <a style="border-color: transparent;"> -->
+                                <div class="city">
+
+                                    <div class="columns">
+                                        <div class="column">
+                                            <h2 class="title" style="font-size: 17px">
+                                                Khartoum
+                                            </h2>
+                                            <h2 class="subtitle" style="font-size: 11px">Light Showers</h2>
+                                        </div>
+                                        <div class="is-divider-vertical"
+                                            style="padding-right:0; padding-left:0">
+                                        </div>
+
+                                        <div class="column">
+                                            <h2 class="title"
+                                                style="font-size: 19px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                Today
+                                            </h2>
+
+                                            <div class="columns is-gapless">
+                                                <div class="column" style="align-self:end">
+                                                    <img src="{% static 'img/weather.png'%}" alt="">
+                                                </div>
+                                                <div class="column">
+                                                    <h2 style="font-size:18px; font-weight:600">23 °C</h2>
+                                                    <h3 style="font-size:13px; font-weight:600">17 °C</h3>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- </a> -->
+
+                            </li>
+                            <li class="box animate__animated" style="text-align: left;">
+                                <div class="city">
+                                    <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Nyala</h2>
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column" style="align-self:end;">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column">
+                                            <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li class="box animate__animated" style="text-align: left;">
+                                <div class="city">
+                                    <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Kosti</h2>
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column" style="align-self:end">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column">
+                                            <h2 style="font-size:14px; font-weight:600">25 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">11 °C</h3>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li class="box animate__animated" style="text-align: left;">
+                                <div class="city">
+                                    <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Atbara
+                                    </h2>
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column" style="align-self:end">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column">
+                                            <h2 style="font-size:14px; font-weight:600">19 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li class="box animate__animated" style="text-align: left;">
+                                <div class="city">
+                                    <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Kadugli
+                                    </h2>
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column" style="align-self:end">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column">
+                                            <h2 style="font-size:14px; font-weight:600">29 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">16 °C</h3>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li class="box animate__animated" style="text-align: left;">
+                                <div class="city">
+                                    <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Berber
+                                    </h2>
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column" style="align-self:end">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column">
+                                            <h2 style="font-size:14px; font-weight:600">23 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li class="box animate__animated" style="text-align: left;">
+                                <div class="city">
+                                    <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Suakin
+                                    </h2>
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column" style="align-self:end">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column">
+                                            <h2 style="font-size:14px; font-weight:600">20 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">9 °C</h3>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <!-- tab contents  -->
+                    <div class="box">
+                        <section class="tab-content">
+                            <div class="columns is-gapless">
+                                <div class="column">
+
+                                    <h2 class="title"
+                                        style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        Today
+                                    </h2>
+
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column mr-1" style="align-self:end; text-align: end;">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column ml-1" style="text-align: start;">
+                                            <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+
+                                    <span class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem; ">
+                                        <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
+                                            style="transform:rotate(60deg);opacity: 0.7;">
+
+                                        SSE
+                                        </h2>
+                                    </span>
+
+
+                                    <h2 class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        6 Km/h
+                                    </h2>
+
+
+                                </div>
+
+                                <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                    <h2 class="title"
+                                        style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        Thur 20 Oct
+                                    </h2>
+
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column mr-1" style="align-self:end; text-align: end;">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column ml-1" style="text-align: start;">
+                                            <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+                                    <span class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
+                                            style="transform:rotate(180deg);opacity: 0.7;">
+
+                                        W
+                                        </h2>
+                                    </span>
+
+                                    <h2 class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        6 Km/h
+                                    </h2>
+
+
+                                </div>
+
+                                <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                    <h2 class="title"
+                                        style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        Fri 21 Oct
+                                    </h2>
+
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column mr-1" style="align-self:end; text-align: end;">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column ml-1" style="text-align: start;">
+                                            <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+                                    <span class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
+                                            style="transform:rotate(-90deg);opacity: 0.7;">
+
+                                        NNW
+                                        </h2>
+                                    </span>
+
+                                    <h2 class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        6 Km/h
+                                    </h2>
+
+
+                                </div>
+
+                                <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                    <h2 class="title"
+                                        style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        Sat 22 Oct
+                                    </h2>
+
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column mr-1" style="align-self:end; text-align: end;">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column ml-1" style="text-align: start;">
+                                            <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+                                    <span class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
+                                            style="opacity: 0.7;">
+
+                                        NNW
+                                        </h2>
+                                    </span>
+
+                                    <h2 class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        6 Km/h
+                                    </h2>
+
+
+                                </div>
+
+                                <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                    <h2 class="title"
+                                        style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        Sun 23 Oct
+                                    </h2>
+
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column mr-1" style="align-self:end; text-align: end;">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column ml-1" style="text-align: start;">
+                                            <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+                                    <span class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
+                                            style="transform:rotate(45deg);opacity: 0.7;">
+
+                                        NNW
+                                        </h2>
+                                    </span>
+
+                                    <h2 class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        6 Km/h
+                                    </h2>
+
+
+                                </div>
+
+                                <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                    <h2 class="title"
+                                        style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        Mon 24 Oct
+                                    </h2>
+
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column mr-1" style="align-self:end; text-align: end;">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column ml-1" style="text-align: start;">
+                                            <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+                                    <span class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
+                                            style="opacity: 0.7;">
+
+                                        NNW
+                                        </h2>
+                                    </span>
+
+                                    <h2 class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        6 Km/h
+                                    </h2>
+
+
+                                </div>
+
+                                <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                    <h2 class="title"
+                                        style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        Tue 25 Oct
+                                    </h2>
+
+                                    <div class="columns is-gapless pb-1">
+                                        <div class="column mr-1" style="align-self:end; text-align: end;">
+                                            <img src="{% static 'img/weather.png'%}" alt="" width="30">
+                                        </div>
+                                        <div class="column ml-1" style="text-align: start;">
+                                            <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                            <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                        </div>
+
+                                    </div>
+                                    <span class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
+                                            style="transform:rotate(-90deg);opacity: 0.7;">
+
+                                        NNW
+                                        </h2>
+                                    </span>
+
+                                    <h2 class="title"
+                                        style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                        6 Km/h
+                                    </h2>
+
+
+                                </div>
+
+
+
+                            </div>
+                        </section>
+                        <section class="tab-content">Nyala Forecasts</section>
+                        <section class="tab-content">Kosti Forecasts</section>
+                        <section class="tab-content">Atbara Forecasts</section>
+                        <section class="tab-content">Kadugli Forecasts</section>
+                        <section class="tab-content">Berber Forecasts</section>
+                        <section class="tab-content">Suakin Forecasts</section>
+                    </div>
+
+                </div>
+                <!-- </div> -->
+            </div>
+
+            <div style="bottom: -0.9em;margin: auto; position: absolute;">
+
+                <div class="columns is-justify-content-center">
+                    <div class="column">
+                        <a class="button has-text-weight-bold is-dark"
+                            style=" border-radius: 0.5em;font-size: 14px; padding: 20px;">
+
+                            <span class="icon">
+                                <i class="fa fa-cloud-sun-rain"></i>
+                            </span>
+                            <span> All Forecasts</span>
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    </div>
+</div>
+
+</section>
+    
+
+<script type="text/javascript" src="{% static 'js/hero.js' %}"></script>

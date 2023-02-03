@@ -1,0 +1,91 @@
+{% load static %}
+
+<section class="py-6">
+    <div class="container">
+        <div class="columns is-justify-content-center">
+            <div class="column is-11">
+                <div class="columns is-align-items-center">
+                    <div class="column is-4 mr-3">
+                        <h2 class="title pb-4" style="font-size: 23px; font-weight: 700;">
+                            Latest Weather Warnings
+                        </h2>
+
+                        <div class="box"
+                            style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                            <div class="columns is-gapless">
+                                <div class="column is-1" style="margin-right:10px">
+                                    <img src="{% static 'img/cap.png'%}" alt="" width="20">
+                                </div>
+                                <div class="column">
+                                    <p class="title" style="font-size: 13px;">Ongoing: Snow parts of Khartoum</p>
+                                    <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box"
+                            style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                            <div class="columns is-gapless">
+                                <div class="column is-1" style="margin-right:10px">
+                                    <img src="{% static 'img/cap.png'%}" alt="" width="20">
+                                </div>
+                                <div class="column">
+                                    <p class="title" style="font-size: 13px;">Expected: Lighting and thundestoms</p>
+                                    <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box"
+                            style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                            <div class="columns is-gapless">
+                                <div class="column is-1" style="margin-right:10px">
+                                    <img src="{% static 'img/cap.png'%}" alt="" width="20">
+                                </div>
+                                <div class="column">
+                                    <p class="title" style="font-size: 13px;">Expected: Hail stones in northern part
+                                        of
+                                        Berber</p>
+                                    <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box"
+                            style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                            <div class="columns is-gapless">
+                                <div class="column is-1" style="margin-right:10px">
+                                    <img src="{% static 'img/cap.png'%}" alt="" width="20">
+                                </div>
+                                <div class="column">
+                                    <p class="title" style="font-size: 13px;">Expected: Lighting and thundestoms</p>
+                                    <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a class="button is-dark is-small p-4" style="font-weight: 600; border-radius: 0.5em;">
+                            <span>More</span>
+
+                            <span class="icon">
+                                <i class="fa fa-chevron-right"></i>
+                            </span>
+                        </a>
+                        <a class="button is-dark is-danger is-small p-4"
+                            style=" font-weight: 600;  border-radius: 0.5em;">
+                            <span>CAP</span>
+
+                            <span class="icon">
+                                <i class="fa fa-exclamation-triangle"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="column ml-3">
+                        <div class="card">
+                            <div id="home-map" style="border-radius: 0.5rem"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+</section>
+

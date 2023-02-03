@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home - NMHS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-divider@2.0.1/dist/css/bulma-divider.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+    <script src="https://kit.fontawesome.com/db8ac3c257.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="container is-fluid" style="border-bottom:1px solid rgba(195, 192, 192, 0.37)">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="#"
+                        style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
+                        <!-- <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"> -->
+                        N.M.H.S
+                    </a>
+
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                        data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+
+                <div id="navbarBasicExample" class="navbar-menu">
+
+
+                    <div class="navbar-end">
+
+                        <div class="navbar-item">
+                            <span class="icon">
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                            </span>
+                            <span class="icon">
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </span>
+                            <span class="icon">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                            </span>
+                            <span class="icon">
+                                <i class="fa fa-youtube" aria-hidden="true"></i>
+                            </span>
+
+                        </div>
+                        <div class="navbar-item">
+
+                            <div class="buttons" style="font-weight: 600;">
+                                <a class="button is-small is-text px-1" style="text-decoration: none;">
+                                    <span>Language</span>
+
+                                    <span class="icon">
+                                        <i class="fa fa-globe"></i>
+                                    </span>
+                                </a>
+                                <a class="button is-small is-text px-1" style="text-decoration: none;">
+                                    <span>Search</span>
+
+                                    <span class="icon">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </a>
+                                <a class="button is-dark is-small" style="border-radius: 0.4em; ">
+                                    Contact us
+                                </a>
+                                <a class="button is-dark is-small" style="border-radius: 0.4em;">
+                                    Log in
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <nav class="navbar is-justify-content-center is-align-content-center" role="navigation"
+                aria-label="main navigation" id="sticky_nav">
+
+
+                <div id="navbarBasicExample" class="navbar-menu"
+                    style="flex-grow: initial!important;flex-shrink: initial!important; ">
+                    <div class="navbar-start" style="text-transform:uppercase; font-size:14px; font-weight: 700">
+                        <a class="navbar-item">
+                            About Us
+                        </a>
+
+                        <a class="navbar-item">
+                            Forecasts & Observations
+                        </a>
+                        <a class="navbar-item">
+                            Climate Change
+                        </a>
+
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Products & Services
+                            </a>
+
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item">
+                                    About
+                                </a>
+                                <a class="navbar-item">
+                                    Jobs
+                                </a>
+                                <a class="navbar-item">
+                                    Contact
+                                </a>
+                                <hr class="navbar-divider">
+                                <a class="navbar-item">
+                                    Report an issue
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="navbar-item">
+                            Media
+                        </a>
+                        <a class="navbar-item">
+                            Publications
+                        </a>
+                        <a class="navbar-item">
+                            Careers
+                        </a>
+                    </div>
+
+
+                </div>
+            </nav>
+        </div>
+
+    </div>
+
+    <section class="hero is-medium" style="background-position: bottom;  background-position: top;
+        background-size: 100% 70%;
+        background-repeat: no-repeat; 
+">
+        <div class="hero-body has-text-centered pb-6 ">
+            <div class="container">
+                <div class="columns is-justify-content-center">
+                    <div class="column is-6">
+                        <p class="title pb-4" style="font-weight:400; font-size: 40px;">
+                            National Meteorological & Hydrological Services
+                        </p>
+                        <p class="subtitle pb-6 mb-4" style="font-weight: 400; font-size: 18px;">
+                            Observing and understanding weather and climate
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- forecasts section  -->
+                <div class="columns is-justify-content-center" style="position:relative; ">
+                    <div class="column is-11">
+                        <div id="tabs-with-content">
+
+                            <!-- tabs  -->
+                            <div class="tabs is-boxed is-centered">
+                                <ul>
+                                    <li class="is-active box animate__animated" style="text-align: left;">
+                                        <!-- <a style="border-color: transparent;"> -->
+                                        <div class="city">
+
+                                            <div class="columns">
+                                                <div class="column">
+                                                    <h2 class="title" style="font-size: 17px">
+                                                        Khartoum
+                                                    </h2>
+                                                    <h2 class="subtitle" style="font-size: 11px">Light Showers</h2>
+                                                </div>
+                                                <div class="is-divider-vertical"
+                                                    style="padding-right:0; padding-left:0">
+                                                </div>
+
+                                                <div class="column">
+                                                    <h2 class="title"
+                                                        style="font-size: 19px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                        Today
+                                                    </h2>
+
+                                                    <div class="columns is-gapless">
+                                                        <div class="column" style="align-self:end">
+                                                            <img src="../../static/weather.png" alt="">
+                                                        </div>
+                                                        <div class="column">
+                                                            <h2 style="font-size:18px; font-weight:600">23 °C</h2>
+                                                            <h3 style="font-size:13px; font-weight:600">17 °C</h3>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <!-- </a> -->
+
+                                    </li>
+                                    <li class="box animate__animated" style="text-align: left;">
+                                        <div class="city">
+                                            <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Nyala</h2>
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column" style="align-self:end;">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column">
+                                                    <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                    <li class="box animate__animated" style="text-align: left;">
+                                        <div class="city">
+                                            <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Kosti</h2>
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column" style="align-self:end">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column">
+                                                    <h2 style="font-size:14px; font-weight:600">25 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">11 °C</h3>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                    <li class="box animate__animated" style="text-align: left;">
+                                        <div class="city">
+                                            <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Atbara
+                                            </h2>
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column" style="align-self:end">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column">
+                                                    <h2 style="font-size:14px; font-weight:600">19 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                    <li class="box animate__animated" style="text-align: left;">
+                                        <div class="city">
+                                            <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Kadugli
+                                            </h2>
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column" style="align-self:end">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column">
+                                                    <h2 style="font-size:14px; font-weight:600">29 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">16 °C</h3>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+
+                                    
+                                    <li class="box animate__animated" style="text-align: left;">
+                                        <div class="city">
+                                            <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Berber
+                                            </h2>
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column" style="align-self:end">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column">
+                                                    <h2 style="font-size:14px; font-weight:600">23 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                    <li class="box animate__animated" style="text-align: left;">
+                                        <div class="city">
+                                            <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">Suakin
+                                            </h2>
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column" style="align-self:end">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column">
+                                                    <h2 style="font-size:14px; font-weight:600">20 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">9 °C</h3>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            <!-- tab contents  -->
+                            <div class="box">
+                                <section class="tab-content">
+                                    <div class="columns is-gapless">
+                                        <div class="column">
+
+                                            <h2 class="title"
+                                                style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                Today
+                                            </h2>
+
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column mr-1" style="align-self:end; text-align: end;">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column ml-1" style="text-align: start;">
+                                                    <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+
+                                            <span class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem; ">
+                                                <img src="../../static/wind_icon.png" alt="" width="15"
+                                                    style="transform:rotate(60deg);opacity: 0.7;">
+
+                                                SSE
+                                                </h2>
+                                            </span>
+
+
+                                            <h2 class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                6 Km/h
+                                            </h2>
+
+
+                                        </div>
+
+                                        <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                            <h2 class="title"
+                                                style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                Thur 20 Oct
+                                            </h2>
+
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column mr-1" style="align-self:end; text-align: end;">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column ml-1" style="text-align: start;">
+                                                    <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+                                            <span class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                <img src="../../static/wind_icon.png" alt="" width="15"
+                                                    style="transform:rotate(180deg);opacity: 0.7;">
+
+                                                W
+                                                </h2>
+                                            </span>
+
+                                            <h2 class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                6 Km/h
+                                            </h2>
+
+
+                                        </div>
+
+                                        <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                            <h2 class="title"
+                                                style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                Fri 21 Oct
+                                            </h2>
+
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column mr-1" style="align-self:end; text-align: end;">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column ml-1" style="text-align: start;">
+                                                    <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+                                            <span class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                <img src="../../static/wind_icon.png" alt="" width="15"
+                                                    style="transform:rotate(-90deg);opacity: 0.7;">
+
+                                                NNW
+                                                </h2>
+                                            </span>
+
+                                            <h2 class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                6 Km/h
+                                            </h2>
+
+
+                                        </div>
+
+                                        <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                            <h2 class="title"
+                                                style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                Sat 22 Oct
+                                            </h2>
+
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column mr-1" style="align-self:end; text-align: end;">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column ml-1" style="text-align: start;">
+                                                    <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+                                            <span class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                <img src="../../static/wind_icon.png" alt="" width="15"
+                                                    style="opacity: 0.7;">
+
+                                                NNW
+                                                </h2>
+                                            </span>
+
+                                            <h2 class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                6 Km/h
+                                            </h2>
+
+
+                                        </div>
+
+                                        <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                            <h2 class="title"
+                                                style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                Sun 23 Oct
+                                            </h2>
+
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column mr-1" style="align-self:end; text-align: end;">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column ml-1" style="text-align: start;">
+                                                    <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+                                            <span class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                <img src="../../static/wind_icon.png" alt="" width="15"
+                                                    style="transform:rotate(45deg);opacity: 0.7;">
+
+                                                NNW
+                                                </h2>
+                                            </span>
+
+                                            <h2 class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                6 Km/h
+                                            </h2>
+
+
+                                        </div>
+
+                                        <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                            <h2 class="title"
+                                                style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                Mon 24 Oct
+                                            </h2>
+
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column mr-1" style="align-self:end; text-align: end;">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column ml-1" style="text-align: start;">
+                                                    <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+                                            <span class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                <img src="../../static/wind_icon.png" alt="" width="15"
+                                                    style="opacity: 0.7;">
+
+                                                NNW
+                                                </h2>
+                                            </span>
+
+                                            <h2 class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                6 Km/h
+                                            </h2>
+
+
+                                        </div>
+
+                                        <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                            <h2 class="title"
+                                                style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                Tue 25 Oct
+                                            </h2>
+
+                                            <div class="columns is-gapless pb-1">
+                                                <div class="column mr-1" style="align-self:end; text-align: end;">
+                                                    <img src="../../static/weather.png" alt="" width="30">
+                                                </div>
+                                                <div class="column ml-1" style="text-align: start;">
+                                                    <h2 style="font-size:14px; font-weight:600">27 °C</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">14 °C</h3>
+
+                                                </div>
+
+                                            </div>
+                                            <span class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                <img src="../../static/wind_icon.png" alt="" width="15"
+                                                    style="transform:rotate(-90deg);opacity: 0.7;">
+
+                                                NNW
+                                                </h2>
+                                            </span>
+
+                                            <h2 class="title"
+                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                6 Km/h
+                                            </h2>
+
+
+                                        </div>
+
+
+
+                                    </div>
+                                </section>
+                                <section class="tab-content">Nyala Forecasts</section>
+                                <section class="tab-content">Kosti Forecasts</section>
+                                <section class="tab-content">Atbara Forecasts</section>
+                                <section class="tab-content">Kadugli Forecasts</section>
+                                <section class="tab-content">Berber Forecasts</section>
+                                <section class="tab-content">Suakin Forecasts</section>
+                            </div>
+
+                        </div>
+                        <!-- </div> -->
+                    </div>
+
+                    <div style="bottom: -0.9em;margin: auto; position: absolute;">
+
+                        <div class="columns is-justify-content-center">
+                            <div class="column">
+                                <a class="button has-text-weight-bold is-dark"
+                                    style=" border-radius: 0.5em;font-size: 14px; padding: 20px;">
+    
+                                    <span class="icon">
+                                        <i class="fa fa-cloud-sun-rain"></i>
+                                    </span>
+                                    <span> All Forecasts</span>
+    
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+        </div>
+
+    </section>
+
+    <section class="py-6">
+        <div class="container">
+            <div class="columns is-justify-content-center">
+                <div class="column is-11">
+                    <div class="columns is-align-items-center">
+                        <div class="column is-4 mr-3">
+                            <h2 class="title pb-4" style="font-size: 23px; font-weight: 700;">
+                                Latest Weather Warnings
+                            </h2>
+
+                            <div class="box"
+                                style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                                <div class="columns is-gapless">
+                                    <div class="column is-1" style="margin-right:10px">
+                                        <img src="../../static/cap.png" alt="" width="20">
+                                    </div>
+                                    <div class="column">
+                                        <p class="title" style="font-size: 13px;">Ongoing: Snow parts of Khartoum</p>
+                                        <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box"
+                                style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                                <div class="columns is-gapless">
+                                    <div class="column is-1" style="margin-right:10px">
+                                        <img src="../../static/cap.png" alt="" width="20">
+                                    </div>
+                                    <div class="column">
+                                        <p class="title" style="font-size: 13px;">Expected: Lighting and thundestoms</p>
+                                        <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box"
+                                style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                                <div class="columns is-gapless">
+                                    <div class="column is-1" style="margin-right:10px">
+                                        <img src="../../static/cap.png" alt="" width="20">
+                                    </div>
+                                    <div class="column">
+                                        <p class="title" style="font-size: 13px;">Expected: Hail stones in northern part
+                                            of
+                                            Berber</p>
+                                        <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box"
+                                style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                                <div class="columns is-gapless">
+                                    <div class="column is-1" style="margin-right:10px">
+                                        <img src="../../static/cap.png" alt="" width="20">
+                                    </div>
+                                    <div class="column">
+                                        <p class="title" style="font-size: 13px;">Expected: Lighting and thundestoms</p>
+                                        <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="button is-dark is-small p-4" style="font-weight: 600; border-radius: 0.5em;">
+                                <span>More</span>
+
+                                <span class="icon">
+                                    <i class="fa fa-chevron-right"></i>
+                                </span>
+                            </a>
+                            <a class="button is-dark is-danger is-small p-4"
+                                style=" font-weight: 600;  border-radius: 0.5em;">
+                                <span>CAP</span>
+
+                                <span class="icon">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="column ml-3">
+                            <div class="card">
+                                <div id="home-map" style="border-radius: 0.5rem"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+    </section>
+
+    <section style="background-color:#f9f9f9; padding-top: 4rem; padding-bottom:4rem;" class="has-text-centered">
+        <div class="container">
+
+            <h2 class="title py-4" style="font-size: 27px; font-weight:700"> Explore Current Conditions</h2>
+
+            <div class="columns is-justify-content-center">
+                <div class="column is-11">
+                    <div class="card">
+                        <div id="climate-map" style="min-height: 400px;border-radius: 0.5rem;"></div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div style="padding-top: 1rem;">
+                <a class="button is-dark" style="font-weight: 500;">
+                    <span>Climate Change</span>
+
+                    <span class="icon">
+                        <i class="fa fa-chevron-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+
+    </section>
+
+    <section style="padding-top: 4rem; padding-bottom: 4rem;" class="has-text-centered">
+
+        <div class="container is-justify-content-center ma-2">
+            <h2 class="title py-4" style="font-size: 27px; font-weight:700"> Our Service Areas</h2>
+
+            <div class="columns has-text-left is-multiline is-justify-content-center">
+                <div class="column is-one-quarter-desktop is-full-mobile">
+                    <div class="card m-1" style="border-radius: 1em">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="../../static/forecasting.png" alt="Placeholder image"
+                                    style="border-radius: 1em 1em 0 0">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+
+                                <div class="media-content">
+                                    <p class="title is-5 has-text-weight-bold">Forecasting</p>
+
+                                </div>
+                            </div>
+
+                            <div class="content" style="font-size: 14px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Phasellus nec iaculis mauris.
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="column is-one-quarter-desktop is-full-mobile">
+                    <div class="card m-1" style="border-radius: 1em">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="../../static/climate.png" alt="Placeholder image"
+                                    style="border-radius: 1em 1em 0 0">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+
+                                <div class="media-content">
+                                    <p class="title is-5 has-text-weight-bold">Climate</p>
+
+                                </div>
+                            </div>
+
+                            <div class="content" style="font-size: 14px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Phasellus nec iaculis mauris.
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="column is-one-quarter-desktop is-full-mobile">
+                    <div class="card m-1" style="border-radius: 1em">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="../../static/aviation.png" alt="Placeholder image"
+                                    style="border-radius: 1em 1em 0 0">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+
+                                <div class="media-content">
+                                    <p class="title is-5 has-text-weight-bold">Aviation</p>
+
+                                </div>
+                            </div>
+
+                            <div class="content" style="font-size: 14px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Phasellus nec iaculis mauris.
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="column is-one-quarter-desktop is-full-mobile">
+                    <div class="card m-1" style="border-radius: 1em">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="../../static/air_quality.png" alt="Placeholder image"
+                                    style="border-radius: 1em 1em 0 0">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+
+                                <div class="media-content">
+                                    <p class="title is-5 has-text-weight-bold">Air Quality</p>
+
+                                </div>
+                            </div>
+
+                            <div class="content" style="font-size: 14px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Phasellus nec iaculis mauris.
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </section>
+
+    <section style="background-color:#f9f9f9; padding-top: 4rem; padding-bottom: 4rem;">
+
+        <div class="container">
+            <div class="columns is-align-items-center is-justify-content-center">
+                <div class="column is-4">
+                    <div class="content">
+                        <h2 class="title py-4" style="font-size: 29px; font-weight:700"> Latest Media</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices
+                            eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut
+                            vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.
+                        </p>
+
+                        <a class="button is-dark">More</a>
+
+                    </div>
+
+                </div>
+                <div class="column is-7">
+                    <div class="columns is-multiline">
+                        <div class="column is-6">
+                            <div class="card m-4" style="border-radius: 1em">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="../../static/air_quality_yt.png" alt="Placeholder image"
+                                            style="border-radius: 1em 1em 0 0; object-fit: cover;">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+
+                                        <div class="media-content">
+                                            <p class="title is-6 has-text-weight-medium">How a community is
+                                                commiting to sustainable growth of food</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="column is-6">
+                            <div class="card m-4" style="border-radius: 1em">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="../../static/aviation_yt.png" alt="Placeholder image"
+                                            style="border-radius: 1em 1em 0 0; object-fit: cover;">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+
+                                        <div class="media-content">
+                                            <p class="title is-6 has-text-weight-medium">How a community is
+                                                commiting to sustainable growth of food</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="column is-6">
+                            <div class="card m-4" style="border-radius: 1em">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="../../static/climate_yt.png" alt="Placeholder image"
+                                            style="border-radius: 1em 1em 0 0; object-fit: cover;">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+
+                                        <div class="media-content">
+                                            <p class="title is-6 has-text-weight-medium">How a community is
+                                                commiting to sustainable growth of food</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="column is-6">
+                            <div class="card m-4" style="border-radius: 1em">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="../../static/forecasting_yt.png" alt="Placeholder image"
+                                            style="border-radius: 1em 1em 0 0; object-fit: cover;">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+
+                                        <div class="media-content">
+                                            <p class="title is-6 has-text-weight-medium">How a community is
+                                                commiting to sustainable growth of food</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </section>
+
+    <footer class="footer" style="background-color: #262c38; color: #f9f9f9;">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+
+                    <a class="navbar-item" href="#"
+                        style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: rgb(228, 226, 226);">N.M.H.S
+                    </a>
+                    <p class="title is-5 has-text-white-ter has-text-weight-normal">National Meteorological &
+                        Hydrological Services
+                    </p>
+                </div>
+
+
+                <div class="column">
+                    <div class="content">
+                        <h1 class="title is-6 has-text-white-ter has-text-weight-medium">SERVICES
+                        </h1>
+
+
+                    </div>
+                    <div style="font-size: 14px;" class=" has-text-weight-light">
+
+                        <p>Forecasting</p>
+                        <p>Marine</p>
+                        <p>Climate</p>
+                        <p>Aviation</p>
+                        <p>Air quality</p>
+                    </div>
+                </div>
+                <div class="column">
+                    QUICK LINKS
+                </div>
+                <div class="column">
+                    Fourth column
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <style>
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            left: 0;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #262c39;
+            transition-duration: 1s;
+        }
+
+        a:hover {
+            color: #262c38 !important;
+        }
+
+        .sticky a {
+            color: rgb(241, 241, 241);
+        }
+
+        .navbar-link:not(.is-arrowless)::after {
+            border-color: #d3d4d6;
+        }
+
+        .is-divider-vertical {
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        #tabs-with-content .tabs:not(:last-child) {
+            margin-bottom: 0;
+        }
+
+        #tabs-with-content .box:not(:last-child) {
+            margin-bottom: 0;
+        }
+
+        #tabs-with-content .tab-content {
+            padding: 1rem;
+            display: none;
+        }
+
+        #tabs-with-content .tabs .box {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            border-top-right-radius: 0.2rem;
+            border-top-left-radius: 0.2rem;
+        }
+
+        #tabs-with-content .tabs .city {
+            padding-bottom: 1px;
+        }
+
+        #tabs-with-content .tabs .is-active .city {
+            padding-bottom: 0.5rem;
+            /* padding-right: 3rem;
+            padding-left: 3rem; */
+            margin-bottom: 0;
+            max-width: 200px;
+            border-color: transparent;
+            justify-content: start;
+
+        }
+
+        #tabs-with-content .tabs ul {
+            align-items: end
+        }
+
+        #tabs-with-content .tabs ul li {
+            padding-bottom: 0;
+            background-color: #fff;
+        }
+
+        #tabs-with-content .tabs ul li:not(.is-active) {
+            padding-bottom: 0;
+            background-color: rgba(248, 248, 248, 0.75);
+            ;
+
+        }
+
+        #tabs-with-content .tab-content.is-active {
+            display: block;
+
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #212121;
+            /* letter-spacing: 0.1rem; */
+        }
+
+        #home-map {
+            /* position: absolute; */
+            min-height: 450px;
+            /* top: 0;
+            bottom: 0; */
+            width: 100%;
+            /* height: auto; */
+        }
+
+        #climate-map {
+            /* position: absolute; */
+            /* top: 0;
+            bottom: 0; */
+            width: 100%;
+        }
+
+        .box {
+            box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.124), 0 0 0 1px rgb(10 10 10 / 2%);
+        }
+
+        .zoom {
+            transition: transform .2s;
+            /* Animation */
+        }
+
+        .zoom:hover {
+            transform: translate(0, -5px);
+            /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+
+        }
+
+        @media screen and (max-width: 1605px) {
+            .container {
+                max-width: 75vw !important;
+            }
+        }
+    </style>
+
+    <script>
+        window.onscroll = function () { myFunction() };
+
+        var navbar = document.getElementById("sticky_nav");
+        var sticky = navbar.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("sticky")
+            } else {
+                navbar.classList.remove("sticky");
+            }
+        }
+        $('ul li').each(function (i) {
+            var t = $(this);
+
+            t.css({
+                'animation': 'slideInUp',
+                'animation-duration': `${i * 0.4}s`
+            })
+            // setTimeout(function () { t.addClass('animation'); }, (i + 1) * 50);
+        });
+        let tabsWithContent = (function () {
+            let tabs = document.querySelectorAll('.tabs li');
+            let tabsContent = document.querySelectorAll('.tab-content');
+
+            let deactvateAllTabs = function () {
+                tabs.forEach(function (tab) {
+                    tab.classList.remove('is-active');
+                });
+            };
+
+            let hideTabsContent = function () {
+                tabsContent.forEach(function (tabContent) {
+                    tabContent.classList.remove('is-active');
+                });
+            };
+
+            let activateTabsContent = function (tab) {
+                tabsContent[getIndex(tab)].classList.add('is-active');
+            };
+
+            let getIndex = function (el) {
+                return [...el.parentElement.children].indexOf(el);
+            };
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    deactvateAllTabs();
+                    hideTabsContent();
+                    tab.classList.add('is-active');
+                    activateTabsContent(tab);
+                });
+            })
+
+            tabs[0].click();
+        })();
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JhY2VhbW9uZGkiLCJhIjoiY2s4dGphcGQwMDBhcjNmcnkzdGk3MnlrZCJ9.54r40Umo0l3dHseEbrQpUg';
+        const homeMap = new mapboxgl.Map({
+            container: 'home-map', // container ID
+            // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+            style: 'mapbox://styles/mapbox/light-v10', // style URL
+            center: [30.61964793664734,
+                12.859737131856392], // starting position [lng, lat]
+            zoom: 4,// starting zoom,
+            scrollZoom: false
+
+        });
+
+        const climateMap = new mapboxgl.Map({
+            container: 'climate-map', // container ID
+            // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+            style: 'mapbox://styles/mapbox/dark-v10', // style URL
+            center: [30.61964793664734,
+                12.859737131856392], // starting position [lng, lat]
+            zoom: 4, // starting zoom
+            scrollZoom: false
+
+        });
+    </script>
+</body>
+
+</html>

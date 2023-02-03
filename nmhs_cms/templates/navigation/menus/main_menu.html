@@ -1,0 +1,31 @@
+{% load menu_tags %} 
+{% for item in menu_items%}
+<a class="navbar-item" href="{{item.href}}"> {{item.text}} </a>
+{% if item.has_children_in_menu %}
+<div class="navbar-dropdown">
+  <a class="navbar-item"> {% sub_menu item %}< </a>
+  <a class="navbar-item"> Jobs </a>
+  <a class="navbar-item"> Contact </a>
+  <hr class="navbar-divider" />
+  <a class="navbar-item"> Report an issue </a>
+</div>
+{% endif %} {% endfor %}
+
+{% comment %} <a class="navbar-item"> Forecasts & Observations </a>
+<a class="navbar-item"> Climate Change </a>
+
+<div class="navbar-item has-dropdown is-hoverable">
+  <a class="navbar-link"> Products & Services </a>
+
+  <div class="navbar-dropdown">
+    <a class="navbar-item"> About </a>
+    <a class="navbar-item"> Jobs </a>
+    <a class="navbar-item"> Contact </a>
+    <hr class="navbar-divider" />
+    <a class="navbar-item"> Report an issue </a>
+  </div>
+</div>
+
+<a class="navbar-item"> Media </a>
+<a class="navbar-item"> Publications </a>
+<a class="navbar-item"> Careers </a> {% endcomment %}
