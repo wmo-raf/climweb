@@ -1,23 +1,27 @@
 {% load static %}
-<section class="hero is-medium" style="background-position: bottom;  background-position: top;
-background-size: 100% 70%;
-background-repeat: no-repeat; 
-">
-<div class="hero-body has-text-centered pb-6 ">
+{% load wagtailcore_tags lazyimages_tags %}
+
+{% lazy_image page.hero_banner width-1366 height-768 as img %}
+
+<section class="hero is-medium progressive__bg progressive--not-loaded" style="background-position: center;background-repeat: no-repeat;background-image: url({{img.lazy_url}}); background-size:cover"
+  data-progressive="{{img.url}}">
+<div class="hero-body has-text-centered pb-6">
     <div class="container">
         <div class="columns is-justify-content-center">
             <div class="column is-6">
-                <p class="title pb-4" style="font-weight:400; font-size: 40px;">
-                    National Meteorological & Hydrological Services
+                <p class="title pb-4" style="font-weight:400; font-size: 40px; color: {{self.text_color}};">
+                    {{self.hero_title|richtext}}
                 </p>
-                <p class="subtitle pb-6 mb-4" style="font-weight: 400; font-size: 18px;">
-                    Observing and understanding weather and climate
+                <p class="subtitle pb-6 mb-4" style="font-weight: 400; font-size: 18px; color: {{self.text_color}};">
+                    {{self.hero_subtitle}}
                 </p>
             </div>
         </div>
 
 
         <!-- forecasts section  -->
+        {% if self.enable_weather_forecasts == True %}
+
         <div class="columns is-justify-content-center" style="position:relative; ">
             <div class="column is-11">
                 <div id="tabs-with-content">
@@ -36,11 +40,8 @@ background-repeat: no-repeat;
                                             </h2>
                                             <h2 class="subtitle" style="font-size: 11px">Light Showers</h2>
                                         </div>
-                                        <div class="is-divider-vertical"
-                                            style="padding-right:0; padding-left:0">
-                                        </div>
 
-                                        <div class="column">
+                                        <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
                                             <h2 class="title"
                                                 style="font-size: 19px; font-weight: 600;margin-bottom: 0.5rem;">
                                                 Today
@@ -462,7 +463,7 @@ background-repeat: no-repeat;
                 </div>
             </div>
         </div>
-
+        {% endif %}
        
     </div>
 </div>

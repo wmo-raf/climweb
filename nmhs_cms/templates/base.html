@@ -52,9 +52,13 @@
         {# Global javascript #}
         {% comment %} <script type="text/javascript" src="{% static 'js/main.js' %}"></script> {% endcomment %}
         {% include 'navigation/footer.html' %}
-        <script type="text/javascript" src="{% static 'js/maps.js' %}"></script>
+        {% comment %} <script type="text/javascript" src="{% static 'js/maps.js' %}"></script> {% endcomment %}
         <script type="text/javascript" src="{% static 'js/nav.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/progressively.js' %}"></script>
 
+        <script type="text/javascript">
+            progressively.init()
+        </script>
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
     

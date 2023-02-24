@@ -9,7 +9,7 @@ from wagtailgeowidget.panels import LeafletPanel
 # Create your models here.
 @register_snippet
 class City(models.Model):
-    id = id = models.UUIDField(
+    id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         editable=False,
@@ -29,9 +29,8 @@ class City(models.Model):
     class Meta:
         verbose_name = "City"
         verbose_name_plural = "Cities"
-        
 
-@register_snippet
+# @register_snippet
 class Forecast(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     forecast_date = models.DateField( auto_now=False, auto_now_add=False, verbose_name="Forecasts Date")
@@ -40,7 +39,6 @@ class Forecast(models.Model):
     wind_direction = models.IntegerField(verbose_name="Wind Direction", blank=True)
     wind_speed = models.IntegerField(verbose_name="Wind Speed", blank=True)
     condition = models.CharField(verbose_name="General Weather Condition", max_length=255, null=True, blank=True, help_text="E.g Light Showers")
-
 
     class Meta:
         verbose_name = "Forecast"

@@ -1,7 +1,9 @@
+{% load static %}
+{% if self.enable_climate == True %}
 <section style="background-color:#f9f9f9; padding-top: 4rem; padding-bottom:4rem;" class="has-text-centered">
     <div class="container">
 
-        <h2 class="title py-4" style="font-size: 27px; font-weight:700"> Explore Current Conditions</h2>
+        <h2 class="title py-4" style="font-size: 27px; font-weight:700">{{self.climate_title}}</h2>
 
         <div class="columns is-justify-content-center">
             <div class="column is-11">
@@ -28,3 +30,6 @@
 
 
 </section>
+<script type="text/javascript" src="{% static 'js/climate_map.js' %}"></script>
+
+{% endif %}

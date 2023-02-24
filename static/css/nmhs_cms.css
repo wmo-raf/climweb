@@ -1,3 +1,26 @@
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #262c39;
+    transition-duration: 1s;
+}
+
+a:hover {
+    color: #262c38 !important;
+}
+
+.sticky a {
+    color: rgb(241, 241, 241);
+}
+
+.navbar-link:not(.is-arrowless)::after {
+    border-color: #d3d4d6;
+}
+
 .is-divider-vertical {
     padding-right: 0;
     padding-left: 0;
@@ -49,7 +72,7 @@
 
 #tabs-with-content .tabs ul li:not(.is-active) {
     padding-bottom: 0;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(248, 248, 248, 0.75);
     ;
 
 }
@@ -67,7 +90,7 @@ body {
 
 #home-map {
     /* position: absolute; */
-    min-height: 400px;
+    min-height: 450px;
     /* top: 0;
     bottom: 0; */
     width: 100%;
@@ -82,7 +105,7 @@ body {
 }
 
 .box {
-    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 5%), 0 0 0 1px rgb(10 10 10 / 2%);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.124), 0 0 0 1px rgb(10 10 10 / 2%);
 }
 
 .zoom {
@@ -96,8 +119,8 @@ body {
 
 }
 
-@media screen and (max-width: 1605px){
+@media screen and (max-width: 1605px) {
     .container {
-    max-width: 75vw !important;
-}
+        max-width: 75vw !important;
+    }
 }

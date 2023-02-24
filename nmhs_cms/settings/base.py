@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.redirects",
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
+    'wagtail.contrib.styleguide',
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -52,7 +53,9 @@ INSTALLED_APPS = [
     "site_settings",
     "forecast_manager",
     "wagtailgeowidget",
-
+    "wagtail_lazyimages",
+    "wagtail_color_panel",
+    "capeditor"
 ]
 
 
@@ -65,8 +68,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-   
-
 ]
 
 ROOT_URLCONF = "nmhs_cms.urls"
@@ -86,8 +87,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                 "wagtail.contrib.settings.context_processors.settings",
-    "wagtailmenus.context_processors.wagtailmenus"
+                "wagtail.contrib.settings.context_processors.settings",
+                "wagtailmenus.context_processors.wagtailmenus"
             ],
         },
     },

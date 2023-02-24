@@ -1,5 +1,7 @@
 {% load static %}
 
+{% if self.enable_weather_forecasts == True %}
+
 <section class="py-6">
     <div class="container">
         <div class="columns is-justify-content-center">
@@ -89,3 +91,6 @@
 
 </section>
 
+<script type="text/javascript" src="{% static 'js/weather_map.js' %}"></script>
+
+{% endif %}

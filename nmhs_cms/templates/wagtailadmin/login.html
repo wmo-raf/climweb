@@ -1,0 +1,15 @@
+{% extends "wagtailadmin/login.html" %}
+
+{% block branding_login %}Sign in to NMHS CMS{% endblock %}
+
+{% block extra_css %}
+  {{ block.super }}
+  
+  <style>
+    .login-logo {
+        display: none
+    }
+
+  </style>
+
+{% endblock %}
