@@ -1,14 +1,13 @@
 from django.db import models
 from wagtail.admin.edit_handlers import MultiFieldPanel,FieldPanel
 # from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.core.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
 
-
 # Create your models here.
 @register_setting(icon='radio-full')
-class MeasurementSettings(BaseSetting):
+class MeasurementSettings(BaseSiteSetting):
     
     TEMPERATURE_UNITS = (
         ("celsius","°C"),
@@ -30,7 +29,7 @@ class MeasurementSettings(BaseSetting):
 
 
 @register_setting
-class LogoAndMottoSettings(BaseSetting):
+class LogoAndMottoSettings(BaseSiteSetting):
     motto = models.CharField(blank=True,null=True, max_length=50)
     logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+")    
 
@@ -40,11 +39,11 @@ class LogoAndMottoSettings(BaseSetting):
     ]
 
 @register_setting
-class SocialAndAddressSettings(BaseSetting):
-    twitter = models.CharField(max_length = 250, blank = True, null = True, help_text = "Twitter handle")  
-    facebook = models.CharField(max_length = 250, blank = True, null = True, help_text = "Facebook handle")  
-    youtube = models.CharField(max_length = 250, blank = True, null = True, help_text = "Youtube handle")  
-    instagram = models.CharField(max_length = 250, blank = True, null = True, help_text = "Instagram handle")  
+class SocialAndAddressSettings(BaseSiteSetting):
+    twitter = models.URLField(max_length = 250, blank = True, null = True, help_text = "Twitter handle")  
+    facebook = models.URLField(max_length = 250, blank = True, null = True, help_text = "Facebook handle")  
+    youtube = models.URLField(max_length = 250, blank = True, null = True, help_text = "Youtube handle")  
+    instagram = models.URLField(max_length = 250, blank = True, null = True, help_text = "Instagram handle")  
     phone = models.IntegerField(blank = True, null=True, help_text = "Phone Number")
     email = models.EmailField(blank = True, null=True, max_length=254, help_text = "Email address")
     address = RichTextField(max_length = 250, blank=True,null=True, help_text = "Postal Address")
@@ -67,7 +66,7 @@ class SocialAndAddressSettings(BaseSetting):
     ]
 
 @register_setting()
-class AnalyticsSettings(BaseSetting):
+class AnalyticsSettings(BaseSiteSetting):
     """
     Tracking and Google Analytics.
     """

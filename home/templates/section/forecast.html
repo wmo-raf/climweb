@@ -2,66 +2,53 @@
 
 {% if self.enable_weather_forecasts == True %}
 
+{% for alert in alerts.all %}
+{% for info in alert.alert_info.all %}
+{% for alert_area in info.alert_areas.values%}
+
+ 
+ <input
+  name="alert-area"
+  class="alert-area"
+  id="area-{{ alert_area.id }}"
+  type="hidden"
+  value="{{info.severity}}~{{alert_area.area_desc}}~{{ alert_area.area }}"
+/>
+{% endfor %}
+{% endfor %}
+{% endfor %}
+
+
 <section class="py-6">
     <div class="container">
         <div class="columns is-justify-content-center">
             <div class="column is-11">
-                <div class="columns is-align-items-center">
+                <div class="columns">
                     <div class="column is-4 mr-3">
                         <h2 class="title pb-4" style="font-size: 23px; font-weight: 700;">
                             Latest Weather Warnings
                         </h2>
 
-                        <div class="box"
+                        {% for alert in latest_alerts.all %}
+                        {% for info in alert.alert_info.all %}
+                        {% if alerts %}
+                            <div class="box"
                             style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
                             <div class="columns is-gapless">
                                 <div class="column is-1" style="margin-right:10px">
                                     <img src="{% static 'img/cap.png'%}" alt="" width="20">
                                 </div>
                                 <div class="column">
-                                    <p class="title" style="font-size: 13px;">Ongoing: Snow parts of Khartoum</p>
-                                    <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
+                                    <p class="title" style="font-size: 13px;">{{info.event}}</p>
+                                    <p class="subtitle" style="font-size: 12px;">{{info.get_severity_display}} severity</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="box"
-                            style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
-                            <div class="columns is-gapless">
-                                <div class="column is-1" style="margin-right:10px">
-                                    <img src="{% static 'img/cap.png'%}" alt="" width="20">
-                                </div>
-                                <div class="column">
-                                    <p class="title" style="font-size: 13px;">Expected: Lighting and thundestoms</p>
-                                    <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box"
-                            style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
-                            <div class="columns is-gapless">
-                                <div class="column is-1" style="margin-right:10px">
-                                    <img src="{% static 'img/cap.png'%}" alt="" width="20">
-                                </div>
-                                <div class="column">
-                                    <p class="title" style="font-size: 13px;">Expected: Hail stones in northern part
-                                        of
-                                        Berber</p>
-                                    <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box"
-                            style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
-                            <div class="columns is-gapless">
-                                <div class="column is-1" style="margin-right:10px">
-                                    <img src="{% static 'img/cap.png'%}" alt="" width="20">
-                                </div>
-                                <div class="column">
-                                    <p class="title" style="font-size: 13px;">Expected: Lighting and thundestoms</p>
-                                    <p class="subtitle" style="font-size: 12px;">Yellow severity</p>
-                                </div>
-                            </div>
-                        </div>
+                        {% endif %}
+
+                        {% endfor %}
+                        {% endfor %}
+                       
 
                         <a class="button is-dark is-small p-4" style="font-weight: 600; border-radius: 0.5em;">
                             <span>More</span>
@@ -71,7 +58,7 @@
                             </span>
                         </a>
                         <a class="button is-dark is-danger is-small p-4"
-                            style=" font-weight: 600;  border-radius: 0.5em;">
+                            style=" font-weight: 600;  border-radius: 0.5em;" href="/all-alerts">
                             <span>CAP</span>
 
                             <span class="icon">
@@ -91,6 +78,130 @@
 
 </section>
 
-<script type="text/javascript" src="{% static 'js/weather_map.js' %}"></script>
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+
+<script>
+    mapboxgl.accessToken =
+    "pk.eyJ1IjoiZ3JhY2VhbW9uZGkiLCJhIjoiY2s4dGphcGQwMDBhcjNmcnkzdGk3MnlrZCJ9.54r40Umo0l3dHseEbrQpUg";
+
+  const map = new mapboxgl.Map({
+    container: "home-map", // container ID
+    // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+    style: "mapbox://styles/mapbox/light-v10", // style URL
+    center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
+    zoom: 4.2, // starting zoom
+    scrollZoom: false,
+  });
+
+  var allAreas = $(".alert-area")
+    .map(function () {
+      return this.value;
+    })
+    .get();
+
+  if (allAreas.length > 0) {
+    var polyFeature = [];
+    allAreas.map((area) => {
+      // Remove the SRID prefix
+      const wktWithoutSrid = area.split("~")[2].replace(/^SRID=\d+;/, "");
+
+      // Extract the coordinates from the polygon string using a regex pattern
+      const match = /\((.*?)\)/.exec(wktWithoutSrid);
+
+      revCoords = [];
+
+      if (match) {
+        const coordinatePairs = match[1].split(", ");
+        const coordinates = coordinatePairs.map((pair) =>
+          pair.replace("(", "").split(" ").map(parseFloat)
+        );
+
+        polyFeature.push({
+          type: "Feature",
+          geometry: {
+            type: "Polygon",
+            coordinates: [coordinates],
+          },
+          properties: {
+            areaDesc: area.split("~")[1],
+            severity: area.split("~")[0],
+          },
+        });
+      }
+    });
+
+    console.log(polyFeature);
+
+    map.on("load", () => {
+      map.addSource("alert-areas", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: polyFeature,
+        },
+      });
+
+      map.addLayer({
+        id: "alert-areas-layer",
+        type: "fill",
+        source: "alert-areas",
+        paint: {
+          "fill-color": "#088",
+          "fill-opacity": 0.8,
+          "fill-color": [
+            "case",
+            ["==", ["get", "severity"], "Extreme"],
+            "#d72f2a",
+            ["==", ["get", "severity"], "Severe"],
+            "#f89904",
+            ["==", ["get", "severity"], "Moderate"],
+            "#e4e616",
+            ["==", ["get", "severity"], "Minor"],
+            "#53ffff",
+            ["==", ["get", "severity"], "Unknown"],
+            "#3366ff",
+            "black",
+          ],
+          "fill-opacity": 0.8,
+        },
+      });
+      var sourceBounds = new mapboxgl.LngLatBounds();
+      map.getSource("alert-areas")._data.features.forEach(function (feature) {
+        sourceBounds.extend(feature.geometry.coordinates[0]);
+      });
+
+      var bounds = turf.bbox({
+        type: "FeatureCollection",
+        features: polyFeature,
+      });
+      map.fitBounds(bounds, { padding: 20 });
+      
+      // When a click event occurs on a feature in the places layer, open a popup at the
+      // location of the feature, with description HTML from its properties.
+      map.on("click", "alert-areas-layer", (e) => {
+        // Copy coordinates array.
+        const description = e.features[0].properties.areaDesc;
+        const severity = e.features[0].properties.severity;
+
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(`<h2 class="title" style="font-size:16px; margin:10px">${description}</h2> `)
+          .addTo(map);
+      });
+
+      // Change the cursor to a pointer when the mouse is over the places layer.
+      map.on("mouseenter", "alert-areas-layer", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      // Change it back to a pointer when it leaves.
+      map.on("mouseleave", "alert-areas-layer", () => {
+        map.getCanvas().style.cursor = "";
+      });
+    });
+  }
+</script>
+
+{% comment %} <script type="text/javascript" src="{% static 'js/weather_map.js' %}"></script> {% endcomment %}
 
 {% endif %}

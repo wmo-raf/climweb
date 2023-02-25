@@ -18,7 +18,7 @@
 
         {# Force all links in the live preview panel to be opened in a new tab #}
         {% if request.in_preview_panel %}
-        <base target="_blank">
+        <base target="_blank" rel=”noopener noreferrer”>
         {% endif %}
 
         {# Global stylesheets #}
@@ -38,6 +38,23 @@
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
     <script src="https://kit.fontawesome.com/db8ac3c257.js" crossorigin="anonymous"></script>
     
+    {% if request.user.is_authenticated or request.is_preview %} {% else %}
+    {% if settings.site_settings.AnalyticsSettings.ga_tracking_id %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script async
+        src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.AnalyticsSettings.ga_tracking_id }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', '{{settings.site_settings.AnalyticsSettings.ga_tracking_id}}');
+    </script>
+    {% endif %}
+    {% endif %}
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}

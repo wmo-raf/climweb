@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, register_converter
 from django.contrib import admin
 
 from wagtail.admin import urls as wagtailadmin_urls
@@ -9,13 +9,28 @@ from forecast_manager import urls as forecast_urls
 
 
 from search import views as search_views
+from capeditor import urls as cap_urls
+
+
+class IdentifierConverter:
+    regex = r'[A-Za-z0-9_-]+'
+
+    def to_python(self, value):
+        return value
+
+    def to_url(self, value):
+        return value
+
+register_converter(IdentifierConverter, 'identifier')
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("forecast/", include(forecast_urls)),
+    path("cap/", include(cap_urls)),
     path("search/", search_views.search, name="search"),
+
 ]
 
 

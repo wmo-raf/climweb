@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "wagtailgeowidget",
     "wagtail_lazyimages",
     "wagtail_color_panel",
+    "rest_framework",
+    'rest_framework_xml',
     "capeditor"
 ]
 
@@ -117,6 +119,15 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework_xml.renderers.XMLRenderer',  # add XMLRenderer
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework_xml.parsers.XMLParser',
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

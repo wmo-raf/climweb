@@ -3,7 +3,7 @@ from django.db import models
 from wagtail.admin.edit_handlers import MultiFieldPanel,FieldPanel
 from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
-
+from capeditor.models import Alert
     
 
 class HomePage(Page):
@@ -51,5 +51,13 @@ class HomePage(Page):
     class Meta:
         verbose_name = "Home Page"
         verbose_name_plural = "Home Pages"
+
+
+    def get_context(self, request, *args, **kwargs):
+        context =super().get_context(request, *args, **kwargs)
+       
+        context['alerts'] = Alert.objects.live().public()
+        context['latest_alerts'] = context['alerts'][:3]
+        return context    
 
 
