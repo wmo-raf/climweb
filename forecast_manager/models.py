@@ -2,7 +2,7 @@ import uuid
 
 from django.contrib.gis.db import models
 from wagtail.snippets.models import register_snippet
-from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.panels import FieldPanel
 from wagtailgeowidget.panels import LeafletPanel
 
 

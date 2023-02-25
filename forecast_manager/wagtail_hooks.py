@@ -1,6 +1,6 @@
 from django.urls import path, include, reverse
 from wagtail.admin.menu import MenuItem
-from wagtail.core import hooks
+from wagtail import hooks
 from forecast_manager import urls
 from django.utils.html import format_html
 from django.templatetags.static import static

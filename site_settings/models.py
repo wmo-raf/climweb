@@ -1,8 +1,8 @@
 from django.db import models
-from wagtail.admin.edit_handlers import MultiFieldPanel,FieldPanel
+from wagtail.admin.panels import MultiFieldPanel,FieldPanel
 # from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
-from wagtail.core.fields import RichTextField
+from wagtail.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.

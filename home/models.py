@@ -1,6 +1,6 @@
 from wagtail.models import Page
 from django.db import models
-from wagtail.admin.edit_handlers import MultiFieldPanel,FieldPanel
+from wagtail.admin.panels import MultiFieldPanel,FieldPanel
 from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from capeditor.models import Alert
