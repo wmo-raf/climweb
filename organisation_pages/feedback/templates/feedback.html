@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags bulma_tags svg %}
+
+{% block body_class %}feedback_page{% endblock %}
+
+{% block page_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/feedback.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% comment %} {% include 'hero.html' with page=page %} {% endcomment %}
+    <main class="is-index">
+        <section>
+            <div class="container">
+                <div class="columns is-centered feedback-columns">
+                    <div class="column is-5-desktop is-full-mobile">
+                        <h2 class="feedback-detail-title">
+                            {{ page.introduction_title }}
+                        </h2>
+                        {% if page.introduction_subtitle %}
+                            <h5 class="feedback-detail-subtitle">{{ page.introduction_subtitle }}</h5>
+                        {% endif %}
+                        <figure class="image">
+                            {% if page.illustration %}
+                                {% svg page.illustration.file.name %}
+                            {% endif %}
+                        </figure>
+                    </div>
+                    <div class="column is-half-desktop is-offset-1-desktop is-full-mobile feedback-form box">
+                        {% if form.fields %}
+                            <form action="{% pageurl page %}" method="POST">
+                                {% csrf_token %}
+                                {{ form|bulma }}
+                                <div class="field">
+                                    <button type="submit"
+                                            class="button feedback-submit-button submit-button has-no-border">Submit
+                                    </button>
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+

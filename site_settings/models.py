@@ -1,9 +1,10 @@
-from django.db import models
-from wagtail.admin.panels import MultiFieldPanel,FieldPanel
-# from wagtail.images.edit_handlers import ImageChooserPanel
+from django.contrib.gis.db import models
+from wagtail.admin.panels import MultiFieldPanel,FieldPanel, StreamFieldPanel
+# from wagtail.images.panels import ImageChooserPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
-from wagtail.fields import RichTextField
-from django.utils.translation import gettext_lazy as _
+from wagtail.fields import RichTextField, StreamField
+from wagtail import blocks
+from django.utils.functional import cached_property
 
 # Create your models here.
 @register_setting(icon='radio-full')
@@ -72,27 +73,26 @@ class AnalyticsSettings(BaseSiteSetting):
     """
 
     class Meta:
-        verbose_name = _('Tracking')
+        verbose_name = ('Tracking')
 
     ga_tracking_id = models.CharField(
         blank=True,
         max_length=255,
-        verbose_name=_('GA Tracking ID'),
-        help_text=_('Your Google Analytics tracking ID (begins with "UA-")'),
+        verbose_name='GA Tracking ID',
+        help_text='Your Google Analytics tracking ID (begins with "UA-")',
     )
     ga_track_button_clicks = models.BooleanField(
         default=False,
-        verbose_name=_('Track button clicks'),
-        help_text=_(
-            'Track all button clicks using Google Analytics event tracking. '
-            'Event tracking details can be specified in each button’s advanced settings options.'),
-    )
+        verbose_name=('Track button clicks'),
+        help_text=(
+            'Track all button clicks using Google Analytics event tracking, ' 
+            'Event tracking details can be specified in each button’s advanced settings options.'), )
 
     track_internally = models.BooleanField(
         default=False,
-        verbose_name=_('Track pages internally'),
-        help_text=_(
-            'Track all pages internally. This will enable the internal analytics dashboard, '
+        verbose_name=('Track pages internally'),
+        help_text=(
+            'Track   all pages internally. This will enable the internal analytics dashboard, '
             'alongside Google Analytics, if also enabled'), )
 
     panels = [
@@ -102,6 +102,69 @@ class AnalyticsSettings(BaseSiteSetting):
                 FieldPanel('ga_track_button_clicks'),
                 FieldPanel('track_internally'),
             ],
-            heading=_('Google Analytics')
+            heading='Google Analytics'
+        )
+    ]
+
+class Country(models.Model):
+    name = models.CharField(max_length=100)
+    iso = models.CharField(max_length=100)
+    size = models.CharField(max_length=100)
+    geom = models.MultiPolygonField(help_text="The paired values of points defining a polygon that delineates the affected "
+                                         "area of the alert message", null=True, srid=4326)
+
+
+    def __str__(self):
+        return self.name
+    
+@register_setting
+class CountrySetting(BaseSiteSetting):
+    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_setting", null=True)
+    
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('country'),
+            ],
+            heading='Country'
+        )
+    ]
+
+@register_setting(icon="fa-language")
+class LanguageSettings(BaseSiteSetting):
+    languages = StreamField([
+        ('languages', blocks.StructBlock([
+            ('prefix', blocks.CharBlock(max_length=5)),
+            ('language', blocks.CharBlock(max_length=20)),
+            ('default', blocks.BooleanBlock(required=False)),
+        ]))
+    ], blank=True, null=True, use_json_field=False)
+
+    panels = [
+            FieldPanel('languages')
+    ]
+
+    class Meta:
+        verbose_name = "Languages"
+
+    @cached_property
+    def get_list(self):
+        return list(map(lambda x: x.value['prefix'], self.languages))
+
+
+@register_setting()
+class OtherSettings(BaseSiteSetting):
+    wagtail_form_key = models.CharField(
+        blank=True,
+        max_length=255,
+        help_text=('A Unique key for managing submitted forms'),
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('wagtail_form_key'),
+            ],
+            heading='Forms Security'
         )
     ]

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags %}
+{% wagtail_site as current_site %}
+
+{% block page_css %}
+    {% if page.youtube_playlist %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
+    {% endif %}
+
+    {% if page.applications %}
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <link rel="stylesheet" type="text/css"
+              href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    {% endif %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}">
+{% endblock %}
+
+
+{% block page_js %}
+    {% if page.youtube_playlist %}
+        <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
+    {% endif %}
+
+    {% if page.applications %}
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    {% endif %}
+
+    <script src="{% static 'js/jquery.event.move.js' %}"></script>
+    <script src="{% static 'js/jquery.twentytwenty.js' %}"></script>
+    <script>
+
+        const has_applications =
+        {{ page.applications|yesno:'true,false' }}
+
+        const page_youtube_playlist =
+        {{ page.youtube_playlist|yesno:'true,false' }}
+
+        if (page_youtube_playlist) {
+            $('#videoWrapper').scheletrone({
+                onComplete: function () {
+                    $.ajax({
+                        url: '{{ current_site.root_url }}/api/videos/{{ page.youtube_playlist.pk }}',
+                        dataType: "html",
+                        success: function (data) {
+                            // if we have videos append them, else hide whole section
+                            if (data.length > 1) {
+                                $('#videoWrapper').html('').append(data).ready();
+                            } else {
+                                $('#videoSection').hide()
+                            }
+                        },
+                        error: function () {
+                            $('#videoSection').remove()
+                        }
+                    });
+                }
+            });
+        }
+
+        if (has_applications) {
+            //APPLICATIONS Slider
+            $('.slider').slick({
+                dots: true,
+                speed: 300,
+                slidesToShow: 4,
+                slidesToScroll: 3,
+                arrows: false,
+                responsive: [
+                    {
+                        breakpoint: 1025,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 2,
+                            infinite: true
+                        }
+                    },
+                    {
+                        breakpoint: 601,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                        }
+                    }
+                ]
+            });
+        }
+    </script>
+{% endblock %}

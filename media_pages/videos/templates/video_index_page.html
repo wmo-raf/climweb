@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/video.css' %}">
+{% endblock %}
+
+{% block body_class %}videos"{% endblock %}
+
+{% block content %}
+    {% comment %} {% include 'hero.html' with page=page %} {% endcomment %}
+    <main>
+        <!--Service intro section -->
+        {% comment %} {% include 'service_introduction.html' with page=page %} {% endcomment %}
+        <!--Service intro section end -->
+    </main>
+{% endblock content %}
+
+

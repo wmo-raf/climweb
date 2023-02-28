@@ -1,0 +1,34 @@
+<div class="alternate-text">
+    <h3 class="sub-header">{{ value.title }}</h3>
+    <p class="dark-grey">
+        {{ value.text }}
+    </p>
+    {% if value.action_link or value.action_link_external and value.action_link_text %}
+        <div class="more-container">
+            {% if value.action_link and not value.action_link_external %}
+                <a class="more" href="{{ value.action_link.url }}">
+                    {{ value.action_link_text }}
+                    <span class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            {% endif %}
+            {% if value.action_link_external and not value.action_link %}
+                <a class="more" href="{{ value.action_link_external }}" target="_blank" rel="noopener">
+                    {{ value.action_link_text }}
+                    <span class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            {% endif %}
+            {% if value.action_link and value.action_link_external %}
+                <a class="more" href="{{ value.action_link_external }}" target="_blank" rel="noopener">
+                    {{ value.action_link_text }}
+                    <span class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

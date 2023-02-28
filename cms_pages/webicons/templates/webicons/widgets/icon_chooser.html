@@ -1,0 +1,19 @@
+{% extends "wagtailadmin/widgets/chooser.html" %}
+
+{% block chooser_class %}image-chooser{% endblock %}
+
+{% block chosen_state_view %}
+    <div class="preview-image">
+        {% if icon %}
+            <figure style="max-width: 165px;max-height: 165px;">
+                <img src="{{ icon.url }}" alt="" style="width: 100%;height: 100%;object-fit: contain"
+                     title="{{ icon.title }}"
+                     class="show-transparency">
+            </figure>
+        {% else %}
+            <img alt="">
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block edit_chosen_item_url %}{% if icon %}{% url 'webicons:edit' icon.id %}{% endif %}{% endblock %}

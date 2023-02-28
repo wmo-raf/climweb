@@ -1,0 +1,83 @@
+{% load wagtailimages_tags static lazyimages_tags wagtailcore_tags %}
+
+<div class="hero-header">
+    {% if page.banner_image %}
+        {% image page.banner_image original as img %}
+        <section id="page-hero" class="hero is-large is-large progressive__bg progressive--not-loaded"
+                 data-progressive="{{ img.url }}" style="background-image: url({% lazy_image_url img %});">
+            {% if page.show_banner_video and page.banner_youtube_video_id %}
+                <div id="banner-video"></div>
+            {% endif %}
+            <div class="hero-body">
+                <div class="container">
+                    <hr class="top-line"/>
+                    {% block banner_title %}
+                        <h1 class="title page-title" style="padding-bottom: 1rem;">
+                            {{ page.banner_title }}
+                        </h1>
+                    {% endblock %}
+                    {% if page.banner_subtitle %}
+                        {% block page_subtitle %}
+                            <div class="columns" style="margin: 0">
+                                <div class="column is-half-desktop" style="padding: 0">
+                                    <h2 class="subtitle page-subtitle">
+                                        {{ page.banner_subtitle }}
+                                    </h2>
+                                </div>
+                            </div>
+                        {% endblock %}
+                    {% endif %}
+                    {% if page.call_to_action_button_text %}
+                        {% if page.call_to_action_related_page or page.call_to_action_external_link %}
+                            {% if page.call_to_action_related_page %}
+                                <a href="{{ page.call_to_action_related_page.url }}"
+                                   data-ga-event-category="Banner Call to Action"
+                                   data-ga-event-label="{{ page.title }}"
+                                   data-ga-value="{{ page.call_to_action_button_text }} - {{ page.call_to_action_related_page }}"
+                                   class="button is-rounded pri-btn sign-up">
+                                    <span class="has-text-white">{{ page.call_to_action_button_text }}</span>
+                                    <span class="icon">
+                                        <i class="fas fa-arrow-right has-text-white"></i>
+                                    </span>
+                                </a>
+                            {% else %}
+                                <a href="{{ page.call_to_action_external_link }}"
+                                   target="_blank"
+                                   rel="noopener"
+                                   class="button is-rounded pri-btn sign-up"
+                                   data-ga-event-category="Banner Call to Action"
+                                   data-ga-event-label="{{ page.title }}"
+                                >
+                                    <span class="has-text-white">{{ page.call_to_action_button_text }}</span>
+                                    <span class="icon">
+                                        <i class="fas fa-arrow-right has-text-white"></i>
+                                    </span>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    {% block hero_extra %}{% endblock %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+</div>
+
+{% if not page.banner_image and not hide_breadcrumbs %}
+    <section class="breadcrumb center">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="breadcrumbs" style="overflow: hidden">
+                <ul>
+                    {% for page in self.get_ancestors %}
+                        {% if page.is_root == False %}
+                            <li><a data-ga-event-category="BreadCrumbs Link Click"
+                                   data-ga-label="{{ page.title }}"
+                                   href="{% pageurl page %}"> {{ page.title }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class=”active”><b style="padding-left: 8px"> {{ self.title }}</b></li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+{% endif %}

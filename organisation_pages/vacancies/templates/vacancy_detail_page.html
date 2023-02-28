@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags %}
+
+{% block page_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vacancy_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}vacancy-detail-page"{% endblock %}
+
+{% block content %}
+    {% comment %} {% include 'hero.html' with page=page %} {% endcomment %}
+    <main>
+        <section>
+            <div class="container">
+                <div class="columns is-centered is-multiline vacancy-detail-wrapper">
+                    <div class="column is-10-desktop is-full-mobile">
+                        <h2 class="vacancy-detail-title">{{ page.position_title }}</h2>
+                        <div class="vacancy-detail-header">
+                            <div class="vacancy-detail-header-items">
+                                {% if page.is_closed %}
+                                    <div class="vacancy-header-item">
+                                        <div class="vacancy-header-item-pre" style="color: red">
+                                            <span class="vacancy-header-item-icon">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </span>
+                                            <span class="vacancy-header-item-title">
+                                                Note: This opening has been closed. </span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="vacancy-header-item">
+                                    <div class="vacancy-header-item-pre">
+                                        <span class="vacancy-header-item-icon">
+                                            <i class="fas fa-calendar-plus"></i>
+                                        </span>
+                                        <span class="vacancy-header-item-title"> Posted On: </span>
+                                    </div>
+                                    <span>
+                                        {{ page.posting_date|date:"d M Y" }}
+                                    </span>
+                                </div>
+                                <div class="vacancy-header-item">
+                                    <div class="vacancy-header-item-pre">
+                                        <span class="vacancy-header-item-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </span>
+                                        <span class="vacancy-header-item-title"> Closing On: </span>
+                                    </div>
+                                    <span>
+                                        {{ page.deadline|date:"d M Y, H:i" }}
+                                    </span>
+                                </div>
+                                <div class="vacancy-header-item">
+                                    <div class="vacancy-header-item-pre">
+                                        <span class="vacancy-header-item-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </span>
+                                        <span class="vacancy-header-item-title"> Duty Station: </span>
+                                    </div>
+                                    <span>
+                                        {{ page.duty_station }}
+                                    </span>
+                                </div>
+                                {% if page.duration %}
+                                    <div class="vacancy-header-item">
+                                        <div class="vacancy-header-item-pre">
+                                            <span class="vacancy-header-item-icon">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                            <span class="vacancy-header-item-title"> Duration: </span>
+                                        </div>
+                                        <span>
+                                            {{ page.duration }}
+                                        </span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="vacancy-detail-actions share-buttons">
+                                {% if page.document %}
+                                    <a class="button is-rounded is-small" href="{{ page.document.url }}"
+                                       download="{{ page.position_title }}"
+                                       data-ga-action="download"
+                                       data-ga-event-category="Vacancy Document Download"
+                                       data-ga-event-label="{{ page.title }}"
+                                       data-ga-value="{{ page.document.url }}"
+                                    >
+                                        <span class="icon">
+                                            <i class="fas fa-download"></i>
+                                        </span>
+                                        <span class="share-button-title">Download pdf</span>
+                                    </a>
+                                {% endif %}
+                                TODO: FIX
+                                {% comment %} {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %} {% endcomment %}
+                            </div>
+                        </div>
+                        <div class="vacancy-detail-description format-text">
+                            {{ page.description| richtext }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+

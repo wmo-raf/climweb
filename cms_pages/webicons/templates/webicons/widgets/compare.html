@@ -1,0 +1,55 @@
+{% if icon_a != icon_b %}
+    {% if icon_a and icon_b %}
+        {# Icon has changed #}
+        <div class="preview-image deletion">
+            <figure style="max-width: 165px;max-height: 165px;">
+                <img src="{{ icon_a.url }}" alt="" style="width: 100%;height: 100%;object-fit: contain"
+                     title="{{ icon_a.title }}"
+                     class="show-transparency">
+            </figure>
+        </div>
+
+        <div class="preview-image addition">
+            <figure style="max-width: 165px;max-height: 165px;">
+                <img src="{{ icon_b.url }}" alt="" style="width: 100%;height: 100%;object-fit: contain"
+                     title="{{ icon_b.title }}"
+                     class="show-transparency">
+            </figure>
+        </div>
+
+    {% elif icon_b %}
+        {# Icon has been added #}
+
+        <div class="preview-image addition">
+            <figure style="max-width: 165px;max-height: 165px;">
+                <img src="{{ icon_b.url }}" alt="" style="width: 100%;height: 100%;object-fit: contain"
+                     title="{{ icon_b.title }}"
+                     class="show-transparency">
+            </figure>
+        </div>
+
+    {% elif icon_a %}
+        {# Image has been removed #}
+
+        <div class="preview-image deletion">
+            <figure style="max-width: 165px;max-height: 165px;">
+                <img src="{{ icon_a.url }}" alt="" style="width: 100%;height: 100%;object-fit: contain"
+                     title="{{ icon_a.title }}"
+                     class="show-transparency">
+            </figure>
+        </div>
+
+    {% endif %}
+{% else %}
+    <div class="preview-image">
+        {% if image_a %}
+            <figure style="max-width: 165px;max-height: 165px;">
+                <img src="{{ icon_a.url }}" alt="" style="width: 100%;height: 100%;object-fit: contain"
+                     title="{{ icon_a.title }}"
+                     class="show-transparency">
+            </figure>
+        {% else %}
+            <img alt="">
+        {% endif %}
+    </div>
+{% endif %}

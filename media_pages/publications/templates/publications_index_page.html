@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/publication.css' %}">
+{% endblock %}
+
+{% block body_class %}research"{% endblock %}
+
+{% block content %}
+    {% comment %} {% include 'hero.html' with page=page %} {% endcomment %}
+    <main class="is-index">
+        {% if page.featured_publications %}
+            <section class="featured-publications-section">
+                <div class="container">
+                    <h2 class="section-title has-text-centered ">Featured Publications</h2>
+                    <div class="columns is-multiline is-centered">
+                        {% for publication in page.featured_publications %}
+                            {% if publication.card_props %}
+                                <div class="column is-one-quarter-desktop is-half-tablet is-full-mobile update-item">
+                                    {% comment %} {% include 'update_card_include.html' with card=publication.card_props show_type=True %} {% endcomment %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+        <section id="publication-items" class="listing-section">
+            <h2 id="results" class="section-title center">All Publications</h2>
+            <div class="container">
+                <div class="columns" style="width: 100%;margin: 0">
+                    <div class="column is-3 is-full-mobile">
+                        {% include 'publications_filter_include.html' with filters=page.filters %}
+                    </div>
+                    <div class="column is-9 is-full-mobile">
+                        {% include 'publications_list_include.html' with publications=publications %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+
+{% block page_js %}
+
+    <script>
+
+        $(document).ready(function () {
+
+            // If on smaller screens, collapse all filter items
+            const windowWidth = $(window).width();
+
+            if (windowWidth <= 768) {
+                //for  smaller devices
+                $('.results-filter .js-accordion-item').removeClass('active');
+            }
+
+            // initialize filter accordion
+            accordion.init({speed: 300, oneOpen: false});
+
+            const listButton = $("#list-view-button");
+            const gridButton = $("#grid-view-button");
+            const wrapper = $(".results-list");
+            const resultItem = $(".result-list-item");
+
+
+            const params = getParams(window.location.href);
+
+            // mark checkboxes from params url, on load
+            markCheckboxesFromUrlParams('publication-filter', params, function (params) {
+                    if (params) {
+                        if (params.view) {
+                            if (params.view === 'grid') {
+                                listButton.removeClass("active");
+                                gridButton.addClass("active");
+                                wrapper.removeClass("list-view").addClass("grid-view columns is-mobile is-multiline");
+                                resultItem.addClass("column is-one-third-desktop is-full-mobile");
+                            } else {
+                                gridButton.removeClass("active");
+                                listButton.addClass("active");
+                                wrapper.removeClass("grid-view columns is-mobile is-multiline").addClass("list-view");
+                                resultItem.removeClass("column is-one-third-desktop is-full-mobile");
+                            }
+                        }
+
+
+                    }
+                }
+            );
+
+            const baseUrl = "{{ page.url }}";
+            const queryForm = $('#queryForm')
+            const queryInput = $('#queryInput')
+            const queryClearButton = $('#qClear')
+
+            // listen for input changes
+            filterChangeListener('publication-filter', params, function (clickedEl, url_params) {
+
+                window.location.href = `${baseUrl}?${url_params}#results`;
+
+            });
+
+            queryForm.on('submit', function (e) {
+                e.preventDefault()
+                const inputValue = queryInput.val()
+
+                const url_params = urlParamsFromObject(params, ['q'])
+
+                if (inputValue) {
+                    window.location.href = `${baseUrl}?${url_params}&q=${inputValue}#results`;
+                } else {
+                    window.location.href = `${baseUrl}?${url_params}#results`;
+                }
+            })
+
+            queryClearButton.on('click', function () {
+
+                const url_params = urlParamsFromObject(params, ['q'])
+
+                window.location.href = `${baseUrl}?${url_params}#results`;
+
+
+            })
+        });
+
+
+    </script>
+
+{% endblock %}
+
+

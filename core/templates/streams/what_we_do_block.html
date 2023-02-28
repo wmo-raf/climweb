@@ -1,0 +1,15 @@
+<div class="column {% if is_by3 %}is-one-third-tablet {% else %}is-one-quarter-desktop is-half-tablet {% endif %}is-full-mobile intro-item">
+    <figure class="image is-64x64">
+        <img src="{{ value.icon.url }}" alt="{{ value.title }}" style="height: 100%"/>
+    </figure>
+
+    <div style="display: flex;flex-direction: column;height: 100%;">
+        {% if value.title %}
+            <h5 class="what-we-do-item-title {% if is_by_3 %}is-by3 {% else %}is-by4{% endif %}">{{ value.title }}</h5>
+        {% endif %}
+        <p style="padding: 0">
+            {{ value.description }}
+        </p>
+    </div>
+</div>
+

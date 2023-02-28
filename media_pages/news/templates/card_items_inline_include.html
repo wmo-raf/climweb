@@ -1,0 +1,63 @@
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags wagtailsettings_tags %}
+{% get_settings use_default_site=True %}
+
+{% for item in items %}
+    <div class="event-inline-item">
+        {% if not show_thumbnail == False %}
+            <div>
+                <figure class="image event-inline-img">
+                    {% if item.card_props.card_image %}
+                        {% if item.card_props.card_image_type == "url" %}
+                            <img src="{{ item.card_props.card_image }}" alt="{{ item.card_props.card_title }}"
+                            />
+                        {% else %}
+                            {% image item.card_props.card_image original as item_card_img %}
+                            <img class="progressive__img progressive--not-loaded"
+                                 data-progressive="{{ item_card_img.url }}"
+                                 src="{% lazy_image_url item_card_img %}" alt="{{ item.card_props.card_title }}"
+                            />
+                        {% endif %}
+                    {% else %}
+                        <img src="{% static 'images/event_placeholder.png' %}" alt="{{ item.card_props.card_title }}">
+                    {% endif %}
+                </figure>
+            </div>
+        {% endif %}
+        <div class="event-inline-detail" style="{% if show_thumbnail == False %}padding-left:0;{% endif %}">
+            <a class="event-inline-title" href="{{ item.card_props.card_more_link }}">
+                {{ item.card_props.card_title }}
+            </a>
+            <div class="events-inline-meta">
+                {% if not show_card_tag == False %}
+                    {% if item.card_props.card_tag or item.card_props.card_tag_category %}
+                        {% if show_type and item.card_props.card_tag_category %}
+                            <span>
+                                {{ item.card_props.card_tag_category }}
+                            </span>
+                        {% else %}
+                            <span>
+                                {{ item.card_props.card_tag }}
+                            </span>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                <span>
+                    {{ item.card_props.card_meta }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr/>
+{% endfor %}
+
+{% if more_link and more_link_title %}
+    <div class="more-container" style="padding-left: 0">
+        <a href="{{ more_link }}" class="more">
+            {{ more_link_title }}
+            <span class="icon">
+                <i class="fas fa-arrow-right"></i>
+            </span>
+        </a>
+    </div>
+{% endif %}
+

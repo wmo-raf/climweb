@@ -1,0 +1,99 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags svg %}
+
+<div class="results-view">
+    <div class="results-header">
+        <h5 class="results-count results">
+            Showing {{ publications.paginator.count }} result{{ publications.paginator.count|pluralize }}
+        </h5>
+        <div>
+            <button id="list-view-button" class="publication-filter view active" name="view" value="list">
+                <i class="fas fa-th-list"></i>
+            </button>
+            <button id="grid-view-button" class="publication-filter view" name="view" value="grid">
+                <i class="fas fa-grip-horizontal"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-half-tablet is-full-mobile">
+            <form class="results-search-form" action="{{ page.url }}" id="queryForm">
+                <div class="field is-fullwidth has-addons" style="align-items: center">
+                    <div class="control is-expanded">
+                        <input id="queryInput" class="input is-small is-fullwidth is-rounded" type="text"
+                               placeholder="Search by title"
+                               value="{{ request.GET.q }}" name="q">
+                    </div>
+                    <div class="control">
+                        <button class="button is-small submit-button is-rounded" type="submit">
+                            Search
+                        </button>
+                    </div>
+                    {% if request.GET.q %}
+                        <a class="delete" style="margin-left: 14px" id="qClear" title="Clear"></a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="results-list list-view">
+        {% for publication in publications %}
+            <div class="result-list-item">
+                <div class="result-list-item-wrapper">
+                    <a href="{{ publication.url }}" class="result-list-item-image">
+                        <figure class="image">
+                            {% if publication.thumbnail %}
+                                {% image publication.thumbnail original as pub_img %}
+                                TODO: FIX Lazy image
+                                {% comment %} <img class="progressive__img progressive--not-loaded" 
+                                     style="object-fit: cover"
+                                     data-progressive="{{ pub_img.url }}"
+                                     src="{% lazy_image_url pub_img %}"
+                                      alt="{{ publication.publication_type }}"/> {% endcomment %}
+                            {% endif %}
+                        </figure>
+                    </a>
+                    <div class="result-list-item-detail">
+                        <div class="result-list-item-tag">
+                            <div>
+                                {% if publication.publication_type.icon %}
+                                    <span class="icon result-list-item-icon" style="padding-right: 10px">
+                                        {% svg publication.publication_type.icon.file.name %}
+                                    </span>
+                                {% endif %}
+                                <span class="item-tag">{{ publication.publication_type }}</span>
+                            </div>
+                            <div>
+                                <span class="icon item-tag" title="No of views">
+                                    <i class="fas fa-eye"></i>
+                                    <span class="item-tag-content">{{ publication.webhits.count }}</span>
+                                </span>
+                                <span class="icon item-tag" style="padding-left: 10px" title="No of Downloads">
+                                    <i class="fas fa-file-download"></i>
+                                    <span class="item-tag-content">{{ publication.document.download_count }}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <a href="{{ publication.url }}" class="result-list-item-title">
+                            <h5>
+                                {{ publication.publication_title }}
+                            </h5>
+                        </a>
+                        <div class="result-list-item-snippet">
+                            {{ publication.summary|truncatewords_html:35|richtext }}
+                        </div>
+                        <div class="result-list-item-meta">
+                            <span class="">{{ publication.publication_date|date:'d M Y' }}</span>
+                            <a class="result-list-item-more read" href="{{ publication.url }}">
+                                Read More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% comment %} {% include 'pagination_include.html' with items=publications %} {% endcomment %}
+</div>

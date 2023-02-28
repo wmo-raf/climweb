@@ -1,0 +1,46 @@
+<style>
+    #{{datatopic}}.content_page.vital_signs h2.chart_article_title {
+        color: {{ slider_color }};
+    }
+
+    #{{datatopic}}.content_page.vital_signs .readout .title {
+        color: {{ slider_color }};
+    }
+
+    #{{datatopic}}.content_page.vital_signs .readout .value {
+        stroke: {{ slider_color }};
+        fill: {{ slider_color }};
+    }
+
+    #{{datatopic}}.content_page.vital_signs .readout .value.up {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    #{{datatopic}}.content_page.vital_signs .latest_measurement .date {
+        color: {{ slider_color }};
+    }
+
+    #{{datatopic}} .time_series .controllers_container {
+        color: {{ slider_color }};
+    }
+
+    #{{datatopic}} .time_series .controllers_container .edssAxe {
+        border: solid 3px {{ slider_color }};
+    }
+
+    #{{datatopic}} .time_series .controllers_container .edssPointSlider {
+        border: 2px solid {{ slider_color }};
+    }
+
+    #{{datatopic}} .time_series .date_of_change,
+
+    #{{datatopic}} .time_series .hint {
+        background-color: {{ slider_color }};
+    }
+
+    #{{datatopic}} .time_series .date_of_change:after,
+    #{{datatopic}} .time_series .hint:after {
+        border-top-color: {{ slider_color }};
+    }
+</style>

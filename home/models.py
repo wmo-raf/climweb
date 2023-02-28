@@ -1,20 +1,31 @@
-from wagtail.models import Page
-from django.db import models
+from wagtail.models import Page, TranslatableMixin
+from django.contrib.gis.db import models
 from wagtail.admin.panels import MultiFieldPanel,FieldPanel
 from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from capeditor.models import Alert
-    
+from wagtail.contrib.routable_page.models import path
 
 class HomePage(Page):
     templates = "home_page.html"
 
     subpage_types = [
         'capeditor.AlertList',  # appname.ModelName
+        'contact.ContactPage',  # appname.ModelName
+        'services.ServicesPage',
+        'products.ProductIndexPage',
+        'feedback.FeedbackPage',
+        'vacancies.VacanciesIndexPage',
+        'publications.PublicationsIndexPage',
+        'videos.VideoGalleryPage',
+        'news.NewsIndexPage',
+        'projects.ProjectIndexPage',
     ]
     parent_page_type = [
         'wagtailcore.Page'  # appname.ModelName
     ]
+    max_count = 1
+
 
     text_color = ColorField(blank=True, null=True, default="#f0f0f0")
 
@@ -53,11 +64,28 @@ class HomePage(Page):
         verbose_name_plural = "Home Pages"
 
 
+    @path('contact')
+    def contact_page(self, request):
+        return self.render(request=request, template="contact/contact_page.html")
+
     def get_context(self, request, *args, **kwargs):
         context =super().get_context(request, *args, **kwargs)
        
         context['alerts'] = Alert.objects.live().public()
-        context['latest_alerts'] = context['alerts'][:3]
+        context['latest_alerts'] = context['alerts'][:2]
         return context    
 
+    # COMMON_PANELS = (
+    #     FieldPanel('slug'),
+    #     FieldPanel('seo_title'),
+    #     FieldPanel('show_in_menus'),
+    #     FieldPanel('search_description'),
+
+
+    #     # add fields in any position you feel you have need for
+    # )
+
+    # promote_panels = [
+    #     MultiFieldPanel(COMMON_PANELS, heading="Common page configuration"),
+    # ]
 

@@ -12,11 +12,20 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import environ
+
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+)
+
+# reading .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -24,13 +33,39 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
+
+    # Common
+    'core',
+    
     "home",
     "search",
+    "services",
+    "products",
+
+    # Organisation pages 
+    "organisation_pages.about",
+    "organisation_pages.contact",
+    "organisation_pages.feedback",
+    "organisation_pages.events",
+    "organisation_pages.projects",
+    "organisation_pages.vacancies",
+    "organisation_pages.tenders",
+
+    # Media Pages 
+    "media_pages.videos",
+    "media_pages.news",
+    "media_pages.mediacenter",
+    "media_pages.publications",
+
+    # Utility apps & pages 
+    'cms_pages.webicons',
+
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
     'wagtail.contrib.styleguide',
+    "wagtail.contrib.routable_page",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -40,9 +75,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
-    "wagtailmenus",
-    "modelcluster",
-    "taggit",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -50,6 +83,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.gis",
+
     "site_settings",
     "forecast_manager",
     "wagtailgeowidget",
@@ -57,7 +91,17 @@ INSTALLED_APPS = [
     "wagtail_color_panel",
     "rest_framework",
     'rest_framework_xml',
-    "capeditor"
+    "capeditor",
+    "widget_tweaks",
+    "captcha",
+    'wagtailcaptcha',
+    "wagtailmenus",
+    "modelcluster",
+    "taggit",
+    "django_jsonfield_backport",
+    "bulma",
+    "svg",
+    
 ]
 
 
@@ -66,10 +110,13 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+
 ]
 
 ROOT_URLCONF = "nmhs_cms.urls"
@@ -90,14 +137,17 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
-                "wagtailmenus.context_processors.wagtailmenus"
+                "wagtailmenus.context_processors.wagtailmenus",
+                'django.template.context_processors.i18n',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = "nmhs_cms.wsgi.application"
-
+WAGTAILLOCALIZE_MACHINE_TRANSLATOR = {
+    "CLASS": "wagtail_localize.machine_translators.dummy.DummyTranslator",
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -111,11 +161,11 @@ WSGI_APPLICATION = "nmhs_cms.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'nmhs_cms',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': env('PG_DBNAME', default='nmhs_cms'),
+        'USER': env('PG_USER', default='postgres'),
+        'PASSWORD': env('PG_PASSWORD', default='test1234'),
+        'HOST': env('PG_HOST', default='localhost'),
+        'PORT': env('PG_PORT', default=5432),
     }
 }
 
@@ -150,8 +200,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
+LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Español'),
+    ('fr', 'French'),
+]
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "UTC"
 
@@ -161,6 +216,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_LANGUAGES = ('en', 'es')
+WAGTAIL_CONTENT_LANGUAGES = [    ('en', 'English'),    ('es', 'Spanish'),]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -172,6 +230,10 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
+]
+
+SVG_DIRS = [
+    os.path.join(BASE_DIR, 'media/svg'),
 ]
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
@@ -187,7 +249,7 @@ MEDIA_URL = "/media/"
 
 
 # Wagtail settings
-
+SITE_NAME="nmhs_cms"
 WAGTAIL_SITE_NAME = "nmhs_cms"
 
 # Search
@@ -207,5 +269,16 @@ GEO_WIDGET_DEFAULT_LOCATION = {
     'lng':23.9479,
      'lat': 4.0310
 }
+GEO_WIDGET_EMPTY_LOCATION = False
+
 
 GEO_WIDGET_ZOOM=3
+
+SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript"]
+
+# RECAPTCHA Settings
+RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY', default='')
+RECAPTCHA_PRIVATE_KEY =env('RECAPTCHA_PRIVATE_KEY', default='')
+NOCAPTCHA = True
+
+ORDERING_FIELD = 'position'
