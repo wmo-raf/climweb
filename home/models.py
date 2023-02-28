@@ -10,19 +10,24 @@ class HomePage(Page):
     templates = "home_page.html"
 
     subpage_types = [
-        'capeditor.AlertList',  # appname.ModelName
-        'contact.ContactPage',  # appname.ModelName
+        'capeditor.AlertList', 
+        'contact.ContactPage',
         'services.ServicesPage',
-        'products.ProductIndexPage',
+        'products.ProductsPage',
         'feedback.FeedbackPage',
-        'vacancies.VacanciesIndexPage',
+        'vacancies.VacanciesPage',
         'publications.PublicationsIndexPage',
         'videos.VideoGalleryPage',
         'news.NewsIndexPage',
         'projects.ProjectIndexPage',
+        'mediacenter.MediaIndexPage',
+        'tenders.TendersPage',
+        'about.AboutPage',
+        'about.PartnersPage',
+        'events.EventIndexPage'
     ]
     parent_page_type = [
-        'wagtailcore.Page'  # appname.ModelName
+        'wagtailcore.Page' 
     ]
     max_count = 1
 

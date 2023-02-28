@@ -130,7 +130,7 @@ class CountrySetting(BaseSiteSetting):
         )
     ]
 
-@register_setting(icon="fa-language")
+@register_setting(icon="site")
 class LanguageSettings(BaseSiteSetting):
     languages = StreamField([
         ('languages', blocks.StructBlock([

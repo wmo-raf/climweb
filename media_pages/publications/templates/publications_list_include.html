@@ -46,11 +46,11 @@
                             {% if publication.thumbnail %}
                                 {% image publication.thumbnail original as pub_img %}
                                 TODO: FIX Lazy image
-                                {% comment %} <img class="progressive__img progressive--not-loaded" 
+                                <img class="progressive__img progressive--not-loaded" 
                                      style="object-fit: cover"
                                      data-progressive="{{ pub_img.url }}"
                                      src="{% lazy_image_url pub_img %}"
-                                      alt="{{ publication.publication_type }}"/> {% endcomment %}
+                                      alt="{{ publication.publication_type }}"/>
                             {% endif %}
                         </figure>
                     </a>

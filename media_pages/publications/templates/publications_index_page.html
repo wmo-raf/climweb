@@ -8,7 +8,7 @@
 {% block body_class %}research"{% endblock %}
 
 {% block content %}
-    {% comment %} {% include 'hero.html' with page=page %} {% endcomment %}
+    {% include 'hero.html' with page=page %}
     <main class="is-index">
         {% if page.featured_publications %}
             <section class="featured-publications-section">

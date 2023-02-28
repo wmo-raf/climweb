@@ -8,7 +8,6 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.api import APIField
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable, Page
-from wagtail.documents.edit_handlers import DocumentChooserPanel
 # from wagtailmetadata.models import MetadataPageMixin
 
 from cms_pages.webicons.edit_handlers import WebIconChooserPanel
@@ -16,7 +15,7 @@ from core.utils import paginate, get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 
-class VacanciesIndexPage(Page):
+class VacanciesPage(Page):
     template = 'vacancies_index_page.html'
     parent_page_types = ['home.HomePage']
     subpage_types = ['vacancies.VacancyDetailPage']
@@ -138,7 +137,7 @@ class VacanciesIndexPage(Page):
         return VacancyDetailPage.objects.live().order_by('-posting_date')
 
     def get_context(self, request, *args, **kwargs):
-        context = super(VacanciesIndexPage, self).get_context(
+        context = super(VacanciesPage, self).get_context(
             request, *args, **kwargs)
 
         context['vacancies'] = self.filter_and_paginate_vacancies(request)
@@ -159,7 +158,7 @@ class VacanciesIndexPage(Page):
 
 class VacancyDetailPage(Page):
     template = 'vacancy_detail_page.html'
-    parent_page_types = ['vacancies.VacanciesIndexPage']
+    parent_page_types = ['vacancies.VacanciesPage']
 
     posting_date = models.DateTimeField(default=timezone.now, verbose_name="Date of Posting")
     duty_station = models.CharField(max_length=100)

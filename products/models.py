@@ -18,11 +18,21 @@ from core.models import ProductCategory, ServiceCategory
 from core.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
+class ProductsPage(Page):
+
+    parent_page_types = ['home.HomePage']
+    subpage_types = ['products.ProductIndexPage']
+
+    max_count = 1
+
+    class Meta:
+        verbose_name = 'Product Page'
+        verbose_name_plural = 'Product Pages'
 
 class ProductIndexPage(Page):
     template = 'product_index.html'
     ajax_template = 'product_list_include.html'
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['products.ProductsPage']
     subpage_types = ['products.ProductDetailPage']
     # max_count = 1
     show_in_menus_default = True

@@ -8,12 +8,8 @@ from wagtail.documents import urls as wagtaildocs_urls
 from forecast_manager import urls as forecast_urls
 from django.conf.urls.i18n import i18n_patterns
 
-
 from search import views as search_views
 from capeditor import urls as cap_urls
-# from site_settings import urls as site_settings_urls
-# from site_settings.views import SiteSettingsView
-
 
 class IdentifierConverter:
     regex = r'[A-Za-z0-9_-]+'
@@ -28,8 +24,6 @@ register_converter(IdentifierConverter, 'identifier')
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
-    # path('admin/settings/site_settings/countrysetting/2/', SiteSettingsView.as_view(), name='site_settings'),
-
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("forecast/", include(forecast_urls)),

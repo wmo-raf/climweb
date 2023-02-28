@@ -59,6 +59,8 @@ INSTALLED_APPS = [
 
     # Utility apps & pages 
     'cms_pages.webicons',
+    'cms_pages.wagtailzoom',
+    'cms_pages.mailchimper',
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -101,6 +103,8 @@ INSTALLED_APPS = [
     "django_jsonfield_backport",
     "bulma",
     "svg",
+    "django_celery_results",
+    "mailchimp3"
     
 ]
 
@@ -282,3 +286,19 @@ RECAPTCHA_PRIVATE_KEY =env('RECAPTCHA_PRIVATE_KEY', default='')
 NOCAPTCHA = True
 
 ORDERING_FIELD = 'position'
+WAGTAILDOCS_DOCUMENT_MODEL = 'core.CustomDocumentModel'
+
+
+# CELERY Settings
+CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', 'redis://localhost:6379')
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'
+CELERY_SEND_TASK_ERROR_EMAILS = True
+
+# ZOOM Settings
+ZOOM_JWT_API_KEY = env.str('ZOOM_JWT_API_KEY',  default='')
+ZOOM_JWT_API_SECRET = env.str('ZOOM_JWT_API_SECRET',  default='')

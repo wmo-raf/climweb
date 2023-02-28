@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags %}
+
+
+{% block page_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-timeline.min.css' %}">
+{% endblock %}
+
+{% block body_class %}about-page{% endblock %}
+
+{% block content %}
+    {% include 'hero.html' with page=page %}
+    <main class="is-index">
+        <section class="icpac-work introduction-section">
+            <div class="work container">
+                {% include 'service_introduction.html' with page=page %}
+            </div>
+        </section>
+
+        {% if page.timeline %}
+            <section class="timeline-section">
+                <div class="container">
+                    {% if page.timeline_heading %}
+                        <h2 class="section-title has-text-centered timeline-section-heading">{{ page.timeline_heading }}</h2>
+                    {% endif %}
+                    <div class="timeline is-centered">
+                        {% for block in page.timeline %}
+                            <span class="timeline-header">
+                                <span class="tag ">{{ block.value.year }}</span>
+                            </span>
+                            {% for milestone in block.value.milestones %}
+                                <div class="timeline-item ">
+                                    <div class="timeline-marker is-primary">
+                                    </div>
+                                    <div class="timeline-content">
+                                        <p class="heading">{{ milestone.period }}</p>
+                                        <p>{{ milestone.description }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.feature_block %}
+            <section class="about-feature-blocks-section">
+                {% include 'feature_block_section.html' with feature_blocks=page.feature_block %}
+            </section>
+        {% endif %}
+
+
+
+
+        {% if page.additional_materials %}
+            <section class="additional-materials-section">
+                <div class="container">
+                    <div class="columns is-multiline is-mobile is-centered"
+                         style="display: flex;align-items: center">
+                        <div class="column is-two-thirds-desktop is-full-mobile">
+                            <div class="columns is-multiline is-centered is-mobile">
+                                {% for category in page.additional_materials %}
+                                    <div class="column is-half-desktop is-full-mobile">
+                                        {% include_block category %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.partners %}
+            <section>
+                <div class="container">
+                    <h2 class="section-title has-text-centered">Our Partners</h2>
+                    <div class="columns is-multiline is-mobile is-centered partners-list">
+                        {% for partner in page.partners %}
+                            <div class="column is-one-fifth-desktop is-half-mobile partner-item">
+                                <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
+                                   target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                                   rel="noopener">
+                                    <div class="partner-img-wrapper" title="{{ partner.name }}">
+                                        <figure class="image">
+                                            {% image partner.logo original as p_logo %}
+                                            <img class="progressive__img progressive--not-loaded"
+                                                 data-progressive="{{ p_logo.url }}"
+                                                 src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"/>
+                                        </figure>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if  settings.core.ImportantPages.all_partners_page %}
+                        <div class="more-container has-text-centered">
+                            <a href="{{ settings.core.ImportantPages.all_partners_page.url }}" class="more">
+                                More Partners
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.bottom_call_to_action_heading %}
+            <section class="about-us-cta-section">
+                <div class="container icpac-work">
+                    <div class="columns is-centered">
+                        <div class="column is-half-desktop"
+                             style="align-items: center;display: flex;flex-direction: column">
+                            <h2 class="section-title has-text-centered">{{ page.bottom_call_to_action_heading }}</h2>
+                            <p class="has-text-centered">{{ page.bottom_call_to_action_description }}</p>
+                            {% if page.bottom_call_to_action_button_text and page.bottom_call_to_action_button_link %}
+                                <div class="more-container">
+                                    <a href="{{ page.bottom_call_to_action_button_link.url }}"
+                                       class="button is-small is-rounded center sec-btn cta-btn">
+                                        <span>{{ page.bottom_call_to_action_button_text }}</span>
+                                        <span class="icon">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+
+    </main>
+{% endblock %}

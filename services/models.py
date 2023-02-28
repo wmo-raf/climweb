@@ -15,10 +15,20 @@ from media_pages.videos.models import YoutubePlaylist
 # from organisation_pages.events.models import EventPage
 from organisation_pages.projects.models import ServiceProject
 
-
 class ServicesPage(Page):
-    template = 'services_page.html'
+
     parent_page_types = ['home.HomePage']
+    subpage_types = ['services.ServiceIndexPage']
+
+    max_count = 1
+
+    class Meta:
+        verbose_name = 'Service Page'
+        verbose_name_plural = 'Service Pages'
+
+class ServiceIndexPage(Page):
+    template = 'services_page.html'
+    parent_page_types = ['services.ServicesPage']
     subpage_types = []
     show_in_menus_default = True
 

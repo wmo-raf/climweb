@@ -31,7 +31,7 @@ def register_styleguide_menu_item():
     return IconsMenuItem(
         ('SVG Icons'),
         reverse('webicons:index'),
-        classnames='icon icon-fa-image',
+        icon_name= 'radio-empty',
         order=500
     )
 

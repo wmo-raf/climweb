@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags %}
+
+
+{% block page_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
+{% endblock %}
+
+{% block body_class %}partners-page{% endblock %}
+
+{% block content %}
+    {% include 'hero.html' with page=page %}
+    <main class="is-index">
+        <section class="icpac-work introduction-section">
+            <div class="work container">
+                {% include 'service_introduction.html' with page=page %}
+            </div>
+        </section>
+
+        {% if partners %}
+            <section>
+                <div class="container">
+                    <h2 class="section-title has-text-centered">Our Partners</h2>
+                    <div class="columns is-multiline is-mobile is-centered partners-list">
+                        {% for partner in partners %}
+                            <div class="column is-4-mobile is-4-tablet is-2-desktop  partner-item">
+                                <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
+                                   target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                                   rel="noopener">
+                                    <div class="partner-img-wrapper" title="{{ partner.name }}">
+                                        <figure class="image">
+                                            {% image partner.logo original as p_logo %}
+                                            <img class="progressive__img progressive--not-loaded"
+                                                 data-progressive="{{ p_logo.url }}"
+                                                 src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"/>
+                                        </figure>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+
+        <section class="icpac-work partners-cta-section ">
+            <div class="container work">
+                {% include 'partners_cta.html' with page=page %}
+            </div>
+        </section>
+
+
+    </main>
+{% endblock %}

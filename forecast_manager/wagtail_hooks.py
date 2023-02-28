@@ -36,7 +36,7 @@ def register_forecast_menu():
     return ForecastMenu(
         "Forecasts",
         reverse("forecast_admin:upload_forecast"),
-        icon_name= 'radio-empty'
+        icon_name= 'table'
     )
 
 

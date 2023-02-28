@@ -25,6 +25,6 @@ def register_styleguide_menu_item():
     return VideoMenuItem(
         ('Videos'),
         reverse('playlist_view'),
-        classnames='icon icon-fa-youtube',
+        icon_name= 'radio-empty',
         order=1000
     )
