@@ -1,11 +1,16 @@
 {% load static %}
-{% load wagtailcore_tags lazyimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags %}
 
-{% lazy_image page.hero_banner width-1366 height-768 as img %}
+{% image page.hero_banner original as img %}
 
-<section class="hero is-medium progressive__bg progressive--not-loaded" style="background-position: center;background-repeat: no-repeat;background-image: url({{img.lazy_url}}); background-size:cover"
+{% block extra_css %}
+<link href="{% static 'css/forecasts.css' %}" type="text/css" rel="stylesheet" />
+
+{% endblock extra_css %}
+
+<section id="page-hero" class="hero is-medium progressive__bg progressive--not-loaded" style="background-position: center;background-repeat: no-repeat;background-image: background-image: url({% lazy_image_url img %}); background-size:cover"
   data-progressive="{{img.url}}">
-<div class="hero-body has-text-centered pb-6">
+  <div class="hero-body has-text-centered pb-6">
     <div class="container">
         <div class="columns is-justify-content-center">
             <div class="column is-6">
@@ -463,6 +468,12 @@
                 </div>
             </div>
         </div>
+
+        
+        {% for city in self.city_item.cities.all %}
+        {{city.lat}}
+
+        {% endfor %}
         {% endif %}
        
     </div>
@@ -470,5 +481,52 @@
 
 </section>
     
+{% block extra_js %}
+{% comment %} <script type="text/javascript" src="{% static 'js/hero.js' %}"></script> {% endcomment %}
+<script>
 
-<script type="text/javascript" src="{% static 'js/hero.js' %}"></script>
+let tabsWithContent = (function () {
+    let tabs = document.querySelectorAll('.tabs li');
+    let tabsContent = document.querySelectorAll('.tab-content');
+
+    let deactvateAllTabs = function () {
+        tabs.forEach(function (tab) {
+            tab.classList.remove('is-active');
+        });
+    };
+
+    let hideTabsContent = function () {
+        tabsContent.forEach(function (tabContent) {
+            tabContent.classList.remove('is-active');
+        });
+    };
+
+    let activateTabsContent = function (tab) {
+        tabsContent[getIndex(tab)].classList.add('is-active');
+    };
+
+    let getIndex = function (el) {
+        return [...el.parentElement.children].indexOf(el);
+    };
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            deactvateAllTabs();
+            hideTabsContent();
+            tab.classList.add('is-active');
+            activateTabsContent(tab);
+        });
+    })
+
+    tabs[0].click();
+})();
+</script>
+
+<script type="text/javascript" src="{% static 'js/progressively.js' %}"></script>
+
+        <script type="text/javascript">
+            progressively.init()
+        </script>
+
+{% endblock extra_js %}
+

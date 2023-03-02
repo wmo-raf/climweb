@@ -3,16 +3,15 @@
 <div class="hero-header">
     {% if page.banner_image %}
         {% image page.banner_image original as img %}
-        <section id="page-hero" class="hero is-large is-large progressive__bg progressive--not-loaded"
-                 data-progressive="{{ img.url }}" style="background-image: url({% lazy_image_url img %});">
+        <section id="page-hero" class="hero is-medium progressive__bg progressive--not-loaded"
+                 data-progressive="{{ img.url }}" style="background-image: url({% lazy_image_url img %}) ;background-repeat:no-repeat; background-size:cover; height:550px; background-position:center">
             {% if page.show_banner_video and page.banner_youtube_video_id %}
                 <div id="banner-video"></div>
             {% endif %}
             <div class="hero-body">
                 <div class="container">
-                    <hr class="top-line"/>
                     {% block banner_title %}
-                        <h1 class="title page-title" style="padding-bottom: 1rem;">
+                        <h1 class="title page-title has-text-white" style="padding-bottom: 1rem; font-size:40px; font-weight:700">
                             {{ page.banner_title }}
                         </h1>
                     {% endblock %}
@@ -20,7 +19,7 @@
                         {% block page_subtitle %}
                             <div class="columns" style="margin: 0">
                                 <div class="column is-half-desktop" style="padding: 0">
-                                    <h2 class="subtitle page-subtitle">
+                                    <h2 class="subtitle page-subtitle  has-text-white">
                                         {{ page.banner_subtitle }}
                                     </h2>
                                 </div>
@@ -29,12 +28,17 @@
                     {% endif %}
                     {% if page.call_to_action_button_text %}
                         {% if page.call_to_action_related_page or page.call_to_action_external_link %}
+
+                            <div style="padding:2em 0">
                             {% if page.call_to_action_related_page %}
                                 <a href="{{ page.call_to_action_related_page.url }}"
                                    data-ga-event-category="Banner Call to Action"
                                    data-ga-event-label="{{ page.title }}"
                                    data-ga-value="{{ page.call_to_action_button_text }} - {{ page.call_to_action_related_page }}"
-                                   class="button is-rounded pri-btn sign-up">
+                                   class="button is-rounded pri-btn sign-up"
+                                   style="    background-color: rgb(132, 148, 178);
+                                   border: 0;"
+                                   >
                                     <span class="has-text-white">{{ page.call_to_action_button_text }}</span>
                                     <span class="icon">
                                         <i class="fas fa-arrow-right has-text-white"></i>
@@ -47,6 +51,8 @@
                                    class="button is-rounded pri-btn sign-up"
                                    data-ga-event-category="Banner Call to Action"
                                    data-ga-event-label="{{ page.title }}"
+                                   style="    background-color: rgb(132, 148, 178);
+                                   border: 0;"
                                 >
                                     <span class="has-text-white">{{ page.call_to_action_button_text }}</span>
                                     <span class="icon">
@@ -54,6 +60,7 @@
                                     </span>
                                 </a>
                             {% endif %}
+                            </div>
                         {% endif %}
                     {% endif %}
                     {% block hero_extra %}{% endblock %}
@@ -63,21 +70,4 @@
     {% endif %}
 </div>
 
-{% if not page.banner_image and not hide_breadcrumbs %}
-    <section class="breadcrumb center">
-        <div class="container">
-            <nav class="breadcrumb" aria-label="breadcrumbs" style="overflow: hidden">
-                <ul>
-                    {% for page in self.get_ancestors %}
-                        {% if page.is_root == False %}
-                            <li><a data-ga-event-category="BreadCrumbs Link Click"
-                                   data-ga-label="{{ page.title }}"
-                                   href="{% pageurl page %}"> {{ page.title }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                    <li class=”active”><b style="padding-left: 8px"> {{ self.title }}</b></li>
-                </ul>
-            </nav>
-        </div>
-    </section>
-{% endif %}
+

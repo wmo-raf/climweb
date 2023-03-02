@@ -43,11 +43,11 @@ class TendersPage(Page):
     )
 
     introduction_title = models.CharField(max_length=100, help_text="Introduction section title")
-    introduction_text = RichTextField(help_text="A description of tenders at ICPAC", features=SUMMARY_RICHTEXT_FEATURES)
+    introduction_text = RichTextField(help_text="A description of tenders at your organisation", features=SUMMARY_RICHTEXT_FEATURES)
     introduction_image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name="Introduction Image",
-        help_text="A high quality image related to tenders at ICPAC",
+        help_text="A high quality image related to tenders at your organisation",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

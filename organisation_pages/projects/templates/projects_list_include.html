@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags ORG_cms_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
 <div class="results-view">
     <div class="results-header">
@@ -61,5 +61,5 @@
             </div>
         {% endfor %}
     </div>
-    {% comment %} {% include 'pagination_include.html' with items=projects %} {% endcomment %}
+    {% include 'pagination_include.html' with items=projects %}
 </div>

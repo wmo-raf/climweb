@@ -56,7 +56,7 @@ class EventIndexPage(Page):
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name="Banner Image",
-        help_text="A high quality image related to ICPAC events/trainings",
+        help_text="A high quality image related to your organisation events/trainings",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -193,7 +193,7 @@ class EventPage( Page, ZoomEventsModel):
     date_to = models.DateTimeField(blank=True, null=True,
                                    verbose_name="End date - Note: Not Required if this is a one day Event",
                                    help_text="Not required if this is a one day event")
-    timezone = TimeZoneField(default='Africa/Nairobi', help_text="Timezone")
+    timezone = TimeZoneField(default='Africa/Nairobi', help_text="Timezone", choices_display="WITH_GMT_OFFSET",  use_pytz=True)
 
     location = models.CharField(max_length=100, help_text="Where will the event take place ?")
     cost = models.CharField(max_length=100, blank=True, null=True,

@@ -1,6 +1,16 @@
 {% extends "wagtailadmin/login.html" %}
+{% load nmhs_cms_tags %}
 
-{% block branding_login %}Sign in to NMHS CMS{% endblock %}
+{% block branding_login %}
+
+{% if 'WAGTAIL_SITE_NAME'|django_settings %}
+        Sign in to {{ 'WAGTAIL_SITE_NAME'|django_settings }}
+    {% else %}
+        Sign in
+    {% endif %}
+
+{% endblock %}
+
 
 {% block extra_css %}
   {{ block.super }}

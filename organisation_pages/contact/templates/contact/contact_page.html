@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 {% load static lazyimages_tags wagtailcore_tags widget_tweaks %}
 {% block extra_css %}
-<style>
-    .required::after {
-    color: red;
-    content: "*";
-    }
-</style>
+{{block.super}}
+<link href="{% static 'contact/css/contact.css' %}" type="text/css" rel="stylesheet"/>
+
 {% endblock extra_css %}
 
 {% block content %}
 
+
 {% lazy_image page.hero_banner width-1366 height-768 as img %}
-<section class="hero is-medium" id="contact-map" style="height:400px">
+<section class="hero is-medium" id="contact-map" style="height:400px; background-color:#cad2d3">
 </section>
 
 <input type="hidden" value="{{page.point}}" id="location"/>

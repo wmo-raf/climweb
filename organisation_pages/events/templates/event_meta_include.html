@@ -1,0 +1,144 @@
+<div class="event-detail-meta" style="margin-top: 20px">
+    {% if page.is_ended %}
+        <div class="event-meta-item">
+            <div class="event-meta-item-pre">
+                <span class="event-meta-item-icon">
+                    <i class="fas fa-archive" style="color: #de2828"></i>
+                </span>
+                <div class="event-meta-item-title" style="color: #de2828 ;font-weight: bold">
+                    Ended
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="event-meta-item">
+        <div class="event-meta-item-pre">
+            <span class="event-meta-item-icon">
+                {% if page.event_type.icon %}
+                    <img src="{{ page.event_type.icon.url }}" alt="location_icon"/>
+                {% else %}
+                    <i class="fas fa-user-tag"></i>
+                {% endif %}
+            </span>
+            <div class="event-meta-item-title">
+                <span class=""> Type: </span>
+                {{ page.event_type.event_type }}
+            </div>
+        </div>
+    </div>
+    <div class="event-meta-item">
+        <div class="event-meta-item-pre">
+            <span class="event-meta-item-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </span>
+            <div class="event-meta-item-title">
+                <span> Location:</span>
+                {{ page.location }}
+            </div>
+
+        </div>
+    </div>
+    <div class="event-meta-item">
+        <div class="event-meta-item-pre">
+            <span class="event-meta-item-icon">
+                <i class="fas fa-clock"></i>
+            </span>
+            <div class="event-meta-item-title">
+                <span> Start Date:</span>
+                {{ page.date_from|date:"d M, Y h:i A" }}
+            </div>
+
+        </div>
+    </div>
+    {% if page.date_to %}
+        <div class="event-meta-item">
+            <div class="event-meta-item-pre">
+                <span class="event-meta-item-icon">
+                    <i class="fas fa-clock"></i>
+                </span>
+                <div class="event-meta-item-title">
+                    <span> End Date:</span>
+                    {{ page.date_to|date:"d M, Y h:i A" }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="event-meta-item">
+        <div class="event-meta-item-pre">
+            <span class="event-meta-item-icon">
+                <i class="fas fa-clock"></i>
+            </span>
+            <div class="event-meta-item-title">
+                <span> Timezone:</span>
+                {{ page.tz_gmt_offset }}
+            </div>
+        </div>
+    </div>
+    {% if page.cost %}
+        <div class="event-meta-item">
+            <div class="event-meta-item-pre">
+                <span class="event-meta-item-icon">
+                    <i class="fas fa-wallet"></i>
+                </span>
+                <div class="event-meta-item-title">
+                    <span> Cost:</span>
+                    {{ page.cost }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if not page.is_ended and page.registration_page and not page.registration_open %}
+        <div class="event-meta-item">
+            <div class="event-meta-item-pre">
+                <span class="event-meta-item-icon">
+                    <i class="fas fa-times-circle"></i>
+                </span>
+                <div class="event-meta-item-title">
+                    Registration closed
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if page.registration_open and not page.is_ended and page.registration_page and not page.registration_page.live %}
+        <div class="event-meta-item">
+            <div class="event-meta-item-pre">
+                <span class="event-meta-item-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                </span>
+                <div class="event-meta-item-title">
+                    Registration will be open soon
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if page.registration_open and not page.is_ended %}
+        {% if page.registration_page and page.registration_page.live %}
+            <div class="registration-button">
+                <a href="{{ page.registration_page.url }}"
+                   data-ga-action="click"
+                   data-ga-event-category="Event Registration"
+                   data-ga-event-label="{{ page.title }}"
+                   data-ga-value="{{ page.registration_page.url }}"
+                   class="button is-medium is-fullwidth">Register</a>
+            </div>
+        {% elif page.zoom_events_id and page.zoom_events_url %}
+            <div class="registration-button">
+                <a href="{{ page.zoom_events_url }}"
+                   target="_blank"
+                   rel="noopener"
+                   data-ga-action="click"
+                   data-ga-event-category="Zoom Event Registration"
+                   data-ga-event-label="{{ page.title }}"
+                   data-ga-value="{{ page.zoom_events_url }}"
+                   class="button is-medium is-fullwidth">Register on Zoom</a>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="share-buttons" style="margin-top: 20px">
+        {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}
+    </div>
+
+
+</div>

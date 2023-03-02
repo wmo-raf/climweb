@@ -1,4 +1,8 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load static  i18n wagtailsettings_tags nmhs_cms_tags %}
+{% load wagtailuserbar wagtailadmin_tags wagtailcore_tags %}
+{% get_settings use_default_site=True %}
+{% wagtail_site as current_site %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +38,10 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/google-translate.css' %}">
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/nmhs_cms.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/override.css' %}">
+        <link rel="stylesheet" href="{% static 'css/services_common.css' %}">
         <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
@@ -71,6 +79,9 @@
 
         gtag('config', '{{settings.site_settings.AnalyticsSettings.ga_tracking_id}}');
     </script>
+    <script src="https://kit.fontawesome.com/a5bc3e0ffc.js" crossorigin="anonymous"></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script src="{% static 'js/bulma-toast.min.js' %}"></script>
     {% endif %}
     {% endif %}
         {% block extra_css %}

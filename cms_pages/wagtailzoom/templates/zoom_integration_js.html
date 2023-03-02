@@ -1,0 +1,67 @@
+<script>
+    var zoom_event_id = "{{ stored_event_id }}";
+
+    $(document).ready(function () {
+        populate_fields_for_{{ widget_js_name }}();
+    });
+
+    function populate_fields_for_{{ widget_js_name }}() {
+        populate_event_field_for_{{ widget_js_name }}();
+        populate_email_field_for_{{ widget_js_name }}();
+        populate_first_name_field_for_{{ widget_js_name }}();
+        populate_last_name_field_for_{{ widget_js_name }}();
+    }
+
+    function populate_event_field_for_{{ widget_js_name }}() {
+        var zoom_data = get_zoom_json_data_for_{{ widget_js_name }}();
+        $("input[name='event-id-{{ widget_name }}").val(zoom_data['event_id']);
+    }
+
+    function populate_email_field_for_{{ widget_js_name }}() {
+        var zoom_data = get_zoom_json_data_for_{{ widget_js_name }}();
+        $("input[name='email-{{ widget_name }}").val(zoom_data['email_field']);
+    }
+
+    function populate_first_name_field_for_{{ widget_js_name }}() {
+        var zoom_data = get_zoom_json_data_for_{{ widget_js_name }}();
+        $("input[name='first-name-{{ widget_name }}").val(zoom_data['first_name_field']);
+    }
+
+    function populate_last_name_field_for_{{ widget_js_name }}() {
+        var zoom_data = get_zoom_json_data_for_{{ widget_js_name }}();
+        $("input[name='last-name-{{ widget_name }}").val(zoom_data['last_name_field']);
+    }
+
+    function get_zoom_json_data_for_{{ widget_js_name }}() {
+        return JSON.parse($("input[name='{{ widget_name }}']").val());
+    }
+
+    function set_zoom_json_data_for_{{ widget_js_name }}(json_data) {
+        $("input[name='{{ widget_name }}']").val(JSON.stringify(json_data));
+    }
+
+    $("div[name='event-id-field-{{ widget_name }}']").on('input', 'input', function () {
+        var zoom_data = get_zoom_json_data_for_{{ widget_js_name }}();
+        zoom_data['event_id'] = $(this).val();
+        set_zoom_json_data_for_{{ widget_js_name }}(zoom_data);
+    });
+
+    $("div[name='email-field-{{ widget_name }}']").on('input', 'input', function () {
+        var zoom_data = get_zoom_json_data_for_{{ widget_js_name }}();
+        zoom_data['email_field'] = $(this).val();
+        set_zoom_json_data_for_{{ widget_js_name }}(zoom_data);
+    });
+
+    $("div[name='first-name-field-{{ widget_name }}']").on('input', 'input', function () {
+        var zoom_data = get_zoom_json_data_for_{{ widget_js_name }}();
+        zoom_data['first_name_field'] = $(this).val();
+        set_zoom_json_data_for_{{ widget_js_name }}(zoom_data);
+    });
+
+    $("div[name='last-name-field-{{ widget_name }}']").on('input', 'input', function () {
+        var zoom_data = get_zoom_json_data_for_{{ widget_js_name }}();
+        zoom_data['last_name_field'] = $(this).val();
+        set_zoom_json_data_for_{{ widget_js_name }}(zoom_data);
+    });
+
+</script>

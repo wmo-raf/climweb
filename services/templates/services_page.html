@@ -1,24 +1,26 @@
-{% extends 'services_page_base.html' %}
+{% extends 'base.html' %}
 {% load static wagtailsettings_tags %}
 {% get_settings use_default_site=True %}
 
-{% block page_css %}
+{% block extra_css %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/climate_change.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/services_page.css' %}">
+    <style>
+
+    </style>
 {% endblock %}
 
 {% block body_class %}climate_change{% endblock %}
 
 {% block content %}
     {% include 'hero.html' with page=page %}
-    <main class="is-index">
-        <section class="icpac-work is-desktop">
+        <section class="nmhs-work is-desktop" style="padding:6em 0">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}
             </div>
         </section>
         {% if page.what_we_do_items %}
-            <section class="icpac-work is-desktop">
+            <section class="nmhs-work is-desktop">
                 <div class="work container">
                     {% include 'what_we_do_section.html' with page=page %}
                 </div>
@@ -112,7 +114,6 @@
             </section>
         {% endif %}
 
-    </main>
 {% endblock content %}
 
 

@@ -36,6 +36,7 @@ class ContactPage(WagtailCaptchaEmailForm,RoutablePageMixin):
 
     template = "contact/contact_page.html"
     max_count = 1
+    landing_page_template = 'form_thank_you_landing.html'
 
 
     location = models.CharField(help_text="Location of organisation", blank=False, null=True, max_length=250)

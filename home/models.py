@@ -5,6 +5,9 @@ from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from capeditor.models import Alert
 from wagtail.contrib.routable_page.models import path
+from forecast_manager.models import City
+from django.utils.functional import cached_property
+from django.http import JsonResponse
 
 class HomePage(Page):
     templates = "home_page.html"
@@ -69,16 +72,18 @@ class HomePage(Page):
         verbose_name_plural = "Home Pages"
 
 
-    @path('contact')
-    def contact_page(self, request):
-        return self.render(request=request, template="contact/contact_page.html")
-
     def get_context(self, request, *args, **kwargs):
         context =super().get_context(request, *args, **kwargs)
        
         context['alerts'] = Alert.objects.live().public()
         context['latest_alerts'] = context['alerts'][:2]
         return context    
+
+
+    @cached_property
+    def city_item(self):
+        cities = City.objects.all()
+        return {'cities':cities.values()}
 
     # COMMON_PANELS = (
     #     FieldPanel('slug'),

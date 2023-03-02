@@ -40,7 +40,7 @@
                                     <img src="{% static 'img/cap.png'%}" alt="" width="20">
                                 </div>
                                 <div class="column">
-                                    <p class="title" style="font-size: 13px;">{{info.event}}</p>
+                                    <p class="title" style="font-size: 13px;font-weight:700;"><a href="/alerts/{{alert.slug}}">{{info.event}}</a> </p>
                                     <p class="subtitle" style="font-size: 12px;">{{info.get_severity_display}} severity</p>
                                 </div>
                             </div>
@@ -50,22 +50,22 @@
                         {% endfor %}
                         {% endfor %}
                        
-
-                        <a class="button is-dark is-small p-4" style="font-weight: 600; border-radius: 0.5em;">
-                            <span>More</span>
-
-                            <span class="icon">
-                                <i class="fa fa-chevron-right"></i>
-                            </span>
-                        </a>
                         <a class="button is-dark is-danger is-small p-4"
-                            style=" font-weight: 600;  border-radius: 0.5em;" href="/all-alerts">
-                            <span>CAP</span>
+                        style=" font-weight: 600;  border-radius: 0.5em;" href="/all-alerts">
+                        <span>CAP</span>
+
+                        <span class="icon">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </span>
+                    </a>
+                        <a class="button is-dark is-small p-4" style="font-weight: 600; border-radius: 0.5em;" href="/news">
+                            <span>News</span>
 
                             <span class="icon">
-                                <i class="fa fa-exclamation-triangle"></i>
+                                <i class="fa fa-bell"></i>
                             </span>
                         </a>
+                        
                     </div>
                     <div class="column ml-3">
                         <div class="card">
@@ -100,72 +100,7 @@
     })
     .get();
 
-  if (allAreas.length > 0) {
-    var polyFeature = [];
-    allAreas.map((area) => {
-      // Remove the SRID prefix
-      const wktWithoutSrid = area.area.replace(/^SRID=\d+;/, "");
-
-      // Extract the coordinates from the polygon string using a regex pattern
-      const match = /\((.*?)\)/.exec(wktWithoutSrid);
-
-      revCoords = [];
-
-      if (match) {
-        const coordinatePairs = match[1].split(", ");
-        const coordinates = coordinatePairs.map((pair) =>
-          pair.replace("(", "").split(" ").map(parseFloat)
-        );
-
-        polyFeature.push({
-          type: "Feature",
-          geometry: {
-            type: "Polygon",
-            coordinates: [coordinates],
-          },
-          properties: {
-            areaDesc: area.areaDesc,
-            severity: area.severity,
-            severityInfo: area.severityInfo,
-            event: area.event
-          },
-        });
-      }
-    });
-
     map.on("load", () => {
-      map.addSource("alert-areas", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: polyFeature,
-        },
-      });
-
-      map.addLayer({
-        id: "alert-areas-layer",
-        type: "fill",
-        source: "alert-areas",
-        paint: {
-          "fill-color": "#088",
-          "fill-opacity": 0.8,
-          "fill-color": [
-            "case",
-            ["==", ["get", "severity"], "Extreme"],
-            "#d72f2a",
-            ["==", ["get", "severity"], "Severe"],
-            "#f89904",
-            ["==", ["get", "severity"], "Moderate"],
-            "#e4e616",
-            ["==", ["get", "severity"], "Minor"],
-            "#53ffff",
-            ["==", ["get", "severity"], "Unknown"],
-            "#3366ff",
-            "black",
-          ],
-          "fill-opacity": 0.8,
-        },
-    });
 
     if('{{settings.site_settings.CountrySetting.country.geom}}'){
         const wktWithoutSrids = '{{settings.site_settings.CountrySetting.country.geom}}'.replace(/^SRID=\d+;/, "");
@@ -201,35 +136,105 @@
             type: "FeatureCollection",
             features: [multipolyFeature],
           });
-          map.fitBounds(bounds, { padding: 20 });
-    
-    }
-      
-    // When a click event occurs on a feature in the places layer, open a popup at the
-    // location of the feature, with description HTML from its properties.
-    map.on("click", "alert-areas-layer", (e) => {
-    // Copy coordinates array.
-    const description = e.features[0].properties.areaDesc;
-    const severity = e.features[0].properties.severityInfo;
-    const event = e.features[0].properties.event;
+        map.fitBounds(bounds, { padding: 20 });
 
-    new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:18px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity}</p></div>`)
-        .addTo(map);
-    });
+      }
 
-    // Change the cursor to a pointer when the mouse is over the places layer.
-    map.on("mouseenter", "alert-areas-layer", () => {
-    map.getCanvas().style.cursor = "pointer";
-    });
-
-    // Change it back to a pointer when it leaves.
-    map.on("mouseleave", "alert-areas-layer", () => {
-    map.getCanvas().style.cursor = "";
+    if (allAreas.length > 0) {
+      var polyFeature = [];
+      allAreas.map((area) => {
+        // Remove the SRID prefix
+        const wktWithoutSrid = area.area.replace(/^SRID=\d+;/, "");
+  
+        // Extract the coordinates from the polygon string using a regex pattern
+        const match = /\((.*?)\)/.exec(wktWithoutSrid);
+  
+        revCoords = [];
+  
+        if (match) {
+          const coordinatePairs = match[1].split(", ");
+          const coordinates = coordinatePairs.map((pair) =>
+            pair.replace("(", "").split(" ").map(parseFloat)
+          );
+  
+          polyFeature.push({
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: [coordinates],
+            },
+            properties: {
+              areaDesc: area.areaDesc,
+              severity: area.severity,
+              severityInfo: area.severityInfo,
+              event: area.event
+            },
+          });
+        }
       });
-    });
-  }
+  
+        map.addSource("alert-areas", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: polyFeature,
+          },
+        });
+  
+        map.addLayer({
+          id: "alert-areas-layer",
+          type: "fill",
+          source: "alert-areas",
+          paint: {
+            "fill-color": "#088",
+            "fill-opacity": 0.8,
+            "fill-color": [
+              "case",
+              ["==", ["get", "severity"], "Extreme"],
+              "#d72f2a",
+              ["==", ["get", "severity"], "Severe"],
+              "#f89904",
+              ["==", ["get", "severity"], "Moderate"],
+              "#e4e616",
+              ["==", ["get", "severity"], "Minor"],
+              "#53ffff",
+              ["==", ["get", "severity"], "Unknown"],
+              "#3366ff",
+              "black",
+            ],
+            "fill-opacity": 0.8,
+          },
+      });
+  
+      
+        
+      // When a click event occurs on a feature in the places layer, open a popup at the
+      // location of the feature, with description HTML from its properties.
+      map.on("click", "alert-areas-layer", (e) => {
+        // Copy coordinates array.
+        const description = e.features[0].properties.areaDesc;
+        const severity = e.features[0].properties.severityInfo;
+        const event = e.features[0].properties.event;
+    
+        new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:18px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity}</p></div>`)
+            .addTo(map);
+      });
+  
+      // Change the cursor to a pointer when the mouse is over the places layer.
+      map.on("mouseenter", "alert-areas-layer", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+  
+      // Change it back to a pointer when it leaves.
+      map.on("mouseleave", "alert-areas-layer", () => {
+        map.getCanvas().style.cursor = "";
+      });
+    }
+  })
+  
+  
 </script>
 
 {% comment %} <script type="text/javascript" src="{% static 'js/weather_map.js' %}"></script> {% endcomment %}

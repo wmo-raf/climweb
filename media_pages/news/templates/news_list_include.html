@@ -41,7 +41,7 @@
                             <div>
                                 <span class="icon item-tag" title="No of views">
                                     <i class="fas fa-eye"></i>
-                                    <span class="item-tag-content">{{ news_item.webhits.count }}</span>
+                                    {% comment %} <span class="item-tag-content">{{ news_item.webhits.count }}</span> {% endcomment %}
                                 </span>
                             </div>
                         </div>
@@ -64,5 +64,5 @@
             </div>
         {% endfor %}
     </div>
-    {% comment %} {% include 'pagination_include.html' with items=news %} {% endcomment %}
+    {% include 'pagination_include.html' with items=news %}
 </div>

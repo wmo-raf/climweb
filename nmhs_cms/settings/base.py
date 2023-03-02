@@ -21,8 +21,10 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False),
+    DEBUG=(bool, True),
 )
+
+DEBUG = True
 
 # reading .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -66,7 +68,6 @@ INSTALLED_APPS = [
     "wagtail.contrib.redirects",
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
-    'wagtail.contrib.styleguide',
     "wagtail.contrib.routable_page",
     "wagtail.embeds",
     "wagtail.sites",
@@ -104,7 +105,7 @@ INSTALLED_APPS = [
     "bulma",
     "svg",
     "django_celery_results",
-    "mailchimp3"
+    "mailchimp3",
     
 ]
 
@@ -232,6 +233,10 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
+# STATICFILES_DIRS = [
+#     os.path.join(PROJECT_DIR, "static"),
+# ]
+
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
 ]
@@ -302,3 +307,26 @@ CELERY_SEND_TASK_ERROR_EMAILS = True
 # ZOOM Settings
 ZOOM_JWT_API_KEY = env.str('ZOOM_JWT_API_KEY',  default='')
 ZOOM_JWT_API_SECRET = env.str('ZOOM_JWT_API_SECRET',  default='')
+
+# # Upload permissions for files
+# FILE_UPLOAD_PERMISSIONS = 0o666
+# # Upload permissions for files
+# FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o666
+
+
+# AUTH STUFF
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
+ACCOUNT_USERNAME_MIN_LENGTH = 3

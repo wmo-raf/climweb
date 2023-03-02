@@ -4,7 +4,7 @@ from contextlib import contextmanager
 
 from django.conf import settings
 from django.db import models
-from wagtail.models import CollectionMember
+from wagtail.models import CollectionMember,ReferenceIndex
 from wagtail.images.models import SourceImageIOError
 from wagtail.search import index
 from wagtail.search.queryset import SearchableQuerySetMixin
@@ -71,6 +71,10 @@ class WebIcon(CollectionMember, index.Indexed, models.Model):
             self.save(update_fields=['file_size'])
 
         return self.file_size
+
+    def get_usage(self):
+        return ReferenceIndex.get_references_to(self).group_by_source_object()
+
 
     def _set_file_hash(self, file_contents):
         self.file_hash = hashlib.sha1(file_contents).hexdigest()

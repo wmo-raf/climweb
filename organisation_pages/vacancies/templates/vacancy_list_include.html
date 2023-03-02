@@ -1,4 +1,5 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags  %}
+{% load nmhs_cms_tags %}
 
 <div class="results-view">
     <div class="results-list list-view">
@@ -49,6 +50,5 @@
             </div>
         {% endfor %}
     </div>
-    TODO:
-    {% comment %} {% include 'pagination_include.html' with items=vacancies %} {% endcomment %}
+    {% include 'pagination_include.html' with items=vacancies %}
 </div>

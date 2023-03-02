@@ -12,7 +12,7 @@ from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from media_pages.news.models import NewsPage
 from media_pages.publications.models import PublicationPage
 from media_pages.videos.models import YoutubePlaylist
-# from organisation_pages.events.models import EventPage
+from organisation_pages.events.models import EventPage
 from organisation_pages.projects.models import ServiceProject
 
 class ServicesPage(Page):
@@ -21,6 +21,10 @@ class ServicesPage(Page):
     subpage_types = ['services.ServiceIndexPage']
 
     max_count = 1
+
+
+    def get_children_pages(self):
+        return self.get_children().live()
 
     class Meta:
         verbose_name = 'Service Page'
@@ -82,9 +86,9 @@ class ServiceIndexPage(Page):
                                                                   "page above is chosen")
 
     # TODO: FIX THIS AND RETURN
-    # what_we_do_items = StreamField([
-    #     ('what_we_do', blocks.WhatWeDoBlock()),
-    # ], null=True, blank=True,  use_json_field=False)
+    what_we_do_items = StreamField([
+        ('what_we_do', blocks.WhatWeDoBlock()),
+    ], null=True, blank=True,  use_json_field=True)
     what_we_do_button_text = models.TextField(max_length=20, blank=True, null=True)
     what_we_do_button_link = models.ForeignKey(
         'wagtailcore.Page',
@@ -134,7 +138,7 @@ class ServiceIndexPage(Page):
             heading="Introduction Section",
         ),
         MultiFieldPanel([
-            # FieldPanel('what_we_do_items'),
+            FieldPanel('what_we_do_items'),
             FieldPanel('what_we_do_button_text'),
             PageChooserPanel('what_we_do_button_link'),
         ],
@@ -159,17 +163,16 @@ class ServiceIndexPage(Page):
         projects = ServiceProject.objects.filter(service=self.service, project__live=True)
         return projects
 
-    # TODO: ADD EVENTS TO SERVICES PAGE 
-    # @cached_property
-    # def events(self):
-    #     """
-    #     Get list of events related to this service and not archived
-    #     :return: events list
-    #     """
-    #     events = EventPage.objects.live().filter(
-    #         category__in=[self.service], is_archived=False, is_hidden=False).order_by('-date_from')[:3]
+    @cached_property
+    def events(self):
+        """
+        Get list of events related to this service and not archived
+        :return: events list
+        """
+        events = EventPage.objects.live().filter(
+            category__in=[self.service], is_archived=False, is_hidden=False).order_by('-date_from')[:3]
 
-    #     return events
+        return events
 
     @cached_property
     def latest_updates(self):
