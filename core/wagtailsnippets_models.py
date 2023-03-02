@@ -190,7 +190,7 @@ class ImportantPages(BaseSiteSetting):
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     contact_us_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-    all_cropmonitors_page = models.ForeignKey(
+    all_products_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     all_foodsecuritystatements_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
@@ -234,7 +234,7 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_weekly_forecasts_page'),
         PageChooserPanel('all_monthly_forecasts_page'),
         PageChooserPanel('all_seasonal_forecasts_page'),
-        PageChooserPanel('all_cropmonitors_page'),
+        PageChooserPanel('all_products_page'),
         PageChooserPanel('all_foodsecuritystatements_page'),
         PageChooserPanel('all_projects_page'),
         PageChooserPanel('all_tenders_page'),

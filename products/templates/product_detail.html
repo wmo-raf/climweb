@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/document_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/product_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}product_detail{% endblock %}
+
+{% block content %}
+    {% include 'hero.html' with page=page %}
+    <main>
+        <section class=product-detail>
+            <div class="container">
+                {% include 'document_detail_include.html' with card=page.card_props %}
+            </div>
+        </section>
+
+        {% if related_items %}
+            <section class="product-related">
+                <h2 class="section-title center">Other Recent Product Updates</h2>
+                <div class="container">
+                    <div class="columns is-multiline is-centered">
+                        {% for item in related_items %}
+                            <div class="column is-one-quarter-desktop is-full-mobile update-item">
+                                {% include 'update_card_include.html' with card=item.card_props show_card_tag=False show_card_text=False %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+    </main>
+{% endblock content %}

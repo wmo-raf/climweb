@@ -72,18 +72,28 @@ class HomePage(Page):
         verbose_name_plural = "Home Pages"
 
 
-    def get_context(self, request, *args, **kwargs):
-        context =super().get_context(request, *args, **kwargs)
+    # def get_context(self, request, *args, **kwargs):
+    #     context =super().get_context(request, *args, **kwargs)
        
-        context['alerts'] = Alert.objects.live().public()
-        context['latest_alerts'] = context['alerts'][:2]
-        return context    
+    #     context['alerts'] = Alert.objects.live().public()
+    #     context['latest_alerts'] = context['alerts'][:2]
+    #     return context    
 
 
     @cached_property
     def city_item(self):
         cities = City.objects.all()
         return {'cities':cities.values()}
+
+    @cached_property
+    def alerts(self):
+        alerts = Alert.objects.live().public()
+        latest_alerts = alerts[:3]
+
+        return {
+            'alerts': alerts,
+            'latest_alerts':latest_alerts
+        }
 
     # COMMON_PANELS = (
     #     FieldPanel('slug'),

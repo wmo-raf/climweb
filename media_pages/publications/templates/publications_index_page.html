@@ -18,7 +18,7 @@
                         {% for publication in page.featured_publications %}
                             {% if publication.card_props %}
                                 <div class="column is-one-quarter-desktop is-half-tablet is-full-mobile update-item">
-                                    {% comment %} {% include 'update_card_include.html' with card=publication.card_props show_type=True %} {% endcomment %}
+                                    {% include 'update_card_include.html' with card=publication.card_props show_type=True %}
                                 </div>
                             {% endif %}
                         {% endfor %}

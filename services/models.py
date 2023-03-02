@@ -86,9 +86,9 @@ class ServiceIndexPage(Page):
                                                                   "page above is chosen")
 
     # TODO: FIX THIS AND RETURN
-    what_we_do_items = StreamField([
-        ('what_we_do', blocks.WhatWeDoBlock()),
-    ], null=True, blank=True,  use_json_field=True)
+    # what_we_do_items = StreamField([
+    #     ('what_we_do', blocks.WhatWeDoBlock()),
+    # ], null=True, blank=True,  use_json_field=True)
     what_we_do_button_text = models.TextField(max_length=20, blank=True, null=True)
     what_we_do_button_link = models.ForeignKey(
         'wagtailcore.Page',
@@ -138,7 +138,7 @@ class ServiceIndexPage(Page):
             heading="Introduction Section",
         ),
         MultiFieldPanel([
-            FieldPanel('what_we_do_items'),
+            # FieldPanel('what_we_do_items'),
             FieldPanel('what_we_do_button_text'),
             PageChooserPanel('what_we_do_button_link'),
         ],

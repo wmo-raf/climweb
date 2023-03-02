@@ -1,4 +1,4 @@
-{% load menu_tags i18n wagtailcore_tags %}
+{% load menu_tags i18n wagtailcore_tags static %}
 
 <div class="container is-fluid" style="border-bottom:1px solid rgba(195, 192, 192, 0.37)">
     <div class="container">
@@ -78,41 +78,61 @@
                                 <span class="icon">
                                     <i class="fa fa-globe"></i>
                                 </span>
+                            </a>
 
                                 <div class="navbar-dropdown languages" >
                                     {% for lang in settings.site_settings.LanguageSettings.languages %}
 
-                                    <a class="navbar-item dropdown-item" data-lang="{{ lang.value.language }}"
+                                    <a class="navbar-item dropdown-item py-2" data-lang="{{ lang.value.language }}"
                                        data-lang-prefix="{{ lang.value.prefix }}">
                                         {{ lang.value.language }}
                                     </a>
                                     {% endfor %}
                                   </div>
-                            </a>
+                           
                         </div>
 
                     </div>
                     {% endif %}
 
-
+                    <div class="navbar-item">
+                        <div id="search-input" class="field is-hidden search-input">
+                            <form action="{% url 'search' %}">
+                                <div class="control is-small has-icons-right">
+                                    <input id="input-el"
+                                           class="input is-small is-rounded" type="text" name="query"
+                                           value="{{ request.GET.query }}"
+                                           placeholder="Search">
+                                    <span class="icon is-small is-right">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="search-trigger" class="search-trigger">
+                            <a class="button is-small is-text px-1" style="text-decoration: none;">
+                                <span>Search</span>
+    
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
                     <div class="navbar-item" >
+
+                        
                         <div class="buttons" style="font-weight: 600;">
-                        <a class="button is-small is-text px-1" style="text-decoration: none;">
-                            <span>Search</span>
-
-                            <span class="icon">
-                                <i class="fa fa-search"></i>
-                            </span>
-                        </a>
-                        <a class="button is-dark is-small" style="border-radius: 0.4em; " href="/contact-us">
-                            Contact us
-                        </a>
-                        <a class="button is-dark is-small" style="border-radius: 0.4em;" href="/admin">
-                            Log in
-                        </a>
+                           <a class="button is-dark is-small" style="border-radius: 0.4em; " href="/contact-us">
+                                Contact us
+                            </a>
+                            <a class="button is-dark is-small" style="border-radius: 0.4em;" href="/admin">
+                                Log in
+                            </a>
+                        </div>
                     </div>
+                    
 
-                    </div>
                 </div>
             </div>
         </nav>

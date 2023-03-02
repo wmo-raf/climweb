@@ -6,15 +6,37 @@
 {% block extra_css %}
 <link href="{% static 'css/forecasts.css' %}" type="text/css" rel="stylesheet" />
 
+<style>
+    .overlay {
+        position: absolute; 
+        background: rgba(255, 255, 255, 1);
+        
+        /* center overlay text */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+      }
+      
+      
+      .overlay_1 {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 1rem;
+      }
+    </style>
 {% endblock extra_css %}
 
-<section id="page-hero" class="hero is-medium progressive__bg progressive--not-loaded" style="background-position: center;background-repeat: no-repeat;background-image: background-image: url({% lazy_image_url img %}); background-size:cover"
+<main style="position: relative;">
+{% comment %} <section id="page-hero" class="hero" style="position: absolute;background-color: white;z-index: 1;height: 200px;width: 100%;top: 55vh;min-height:unset"></section> {% endcomment %}
+<section id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: background-image: url({% lazy_image_url img %}); background-size:cover; min-height:600px"
   data-progressive="{{img.url}}">
   <div class="hero-body has-text-centered pb-6">
     <div class="container">
         <div class="columns is-justify-content-center">
             <div class="column is-6">
-                <p class="title pb-4" style="font-weight:400; font-size: 40px; color: {{self.text_color}};">
+                <p class="title pb-4" style="font-weight:600; font-size: 38px; color: {{self.text_color}};">
                     {{self.hero_title|richtext}}
                 </p>
                 <p class="subtitle pb-6 mb-4" style="font-weight: 400; font-size: 18px; color: {{self.text_color}};">
@@ -27,7 +49,7 @@
         <!-- forecasts section  -->
         {% if self.enable_weather_forecasts == True %}
 
-        <div class="columns is-justify-content-center" style="position:relative; ">
+        <div class="columns is-justify-content-center" style="position:inherit;z-index: 1 ">
             <div class="column is-11">
                 <div id="tabs-with-content">
 
@@ -480,7 +502,12 @@
 </div>
 
 </section>
+
+<section class="overlay overlay_1">
+</section>
     
+
+</main>
 {% block extra_js %}
 {% comment %} <script type="text/javascript" src="{% static 'js/hero.js' %}"></script> {% endcomment %}
 <script>

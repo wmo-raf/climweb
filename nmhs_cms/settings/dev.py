@@ -22,12 +22,12 @@ WAGTAIL_CACHE = False
 
 INSTALLED_APPS = INSTALLED_APPS + [
     'wagtail.contrib.styleguide',
-    'debug_toolbar',
+    # 'debug_toolbar',
 ]
 
-MIDDLEWARE = MIDDLEWARE + [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-]
+# MIDDLEWARE = MIDDLEWARE + [
+#     'debug_toolbar.middleware.DebugToolbarMiddleware',
+# ]
 
 INTERNAL_IPS = [
     # ...
@@ -35,5 +35,5 @@ INTERNAL_IPS = [
     # ...
 ]
 
-SHOW_TOOLBAR_CALLBACK=True
-SHOW_COLLAPSED=True
+SHOW_TOOLBAR_CALLBACK=False
+SHOW_COLLAPSED=False
