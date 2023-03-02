@@ -82,16 +82,16 @@ class PublicationsIndexPage(Page):
 
     @cached_property
     def filters(self):
-        # from organisation_pages.projects.models import ProjectPage TODO:FIX
+        from organisation_pages.projects.models import ProjectPage
         publication_types = PublicationType.objects.all()
         service_categories = ServiceCategory.objects.all()
-        # projects = ProjectPage.objects.live() TODO:FIX
+        projects = ProjectPage.objects.live()
 
         return {
             'publication_types': publication_types,
             'service_categories': service_categories,
             'year': get_years(self.earliest_publication_year),
-            # 'projects': projects TODO:FIX
+            'projects': projects
         }
 
     def filter_publications(self, request):
@@ -160,10 +160,11 @@ class PublicationPageTag(TaggedItemBase):
 class PublicationPage(Page):
     template = 'publication_page.html'
     parent_page_types = ['publications.PublicationsIndexPage']
+    subpage_types = []
 
     publication_type = models.ForeignKey('core.PublicationType', on_delete=models.PROTECT)
     categories = ParentalManyToManyField('core.ServiceCategory', verbose_name="Services related to this publication")
-    # projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name="Relevant Projects")
+    projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name="Relevant Projects")
     summary = RichTextField(features=SUMMARY_RICHTEXT_FEATURES)
     publication_date = models.DateField("Date of Publish", default=date.today)
     is_visible_on_homepage = models.BooleanField(default=False,
@@ -204,7 +205,7 @@ class PublicationPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('publication_type'),
         FieldPanel('categories', widget=CheckboxSelectMultiple),
-        # FieldPanel('projects', widget=CheckboxSelectMultiple), TODO: FIX pROJECTS REFERENCE
+        FieldPanel('projects', widget=CheckboxSelectMultiple),
         FieldPanel('thumbnail'),
         FieldPanel('publication_date'),
         FieldPanel('document'),
@@ -262,7 +263,7 @@ class PublicationPage(Page):
             "card_file": card_file,
             "card_external_publication_url": self.external_publication_url,
             "card_tags": card_tags,
-            "card_views": self.webhits.count,
+            # "card_views": self.webhits.count,
             "card_ga_label": "Publication",
         }
 

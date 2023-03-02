@@ -16,3 +16,24 @@ try:
     from .local import *
 except ImportError:
     pass
+
+# Disable caching in dev
+WAGTAIL_CACHE = False
+
+INSTALLED_APPS = INSTALLED_APPS + [
+    'wagtail.contrib.styleguide',
+    'debug_toolbar',
+]
+
+MIDDLEWARE = MIDDLEWARE + [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
+
+SHOW_TOOLBAR_CALLBACK=True
+SHOW_COLLAPSED=True

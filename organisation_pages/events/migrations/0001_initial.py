@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
                 ('banner_subtitle', models.CharField(max_length=255)),
                 ('call_to_action_button_text', models.CharField(blank=True, max_length=100, null=True)),
                 ('events_per_page', models.PositiveIntegerField(default=6, help_text='How many events should be visible on the all events section ?', validators=[django.core.validators.MinValueValidator(6), django.core.validators.MaxValueValidator(20)])),
-                ('banner_image', models.ForeignKey(blank=True, help_text='A high quality image related to ICPAC events/trainings', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.image', verbose_name='Banner Image')),
+                ('banner_image', models.ForeignKey(blank=True, help_text='A high quality image related to your organisation events/trainings', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.image', verbose_name='Banner Image')),
                 ('call_to_action_related_page', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailcore.page')),
             ],
             options={

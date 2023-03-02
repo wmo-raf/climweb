@@ -1,0 +1,60 @@
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+
+<div class="update-card-wrapper">
+    <div class="update-card-header">
+        <figure class="image">
+            {% if top_tag %}
+                <span class="update-card-top-tag">
+                    {{ top_tag }}
+                </span>
+            {% endif %}
+            {% if card.card_image %}
+                {% if card.card_image_type == "url" %}
+                    <img src="{{ card.card_image }}" alt="{{ card.card_title }}"
+                    />
+                {% else %}
+                    {% image card.card_image original as item_card_img %}
+                    <img class="progressive__img progressive--not-loaded"
+                         data-progressive="{{ item_card_img.url }}"
+                         src="{% lazy_image_url item_card_img %}" alt="{{ card.card_title }}"
+                    />
+                {% endif %}
+            {% endif %}
+        </figure>
+        <div class="update-card-tags">
+            {% if not show_card_tag == False %}
+                {% if card.card_tag or card.card_tag_category %}
+                    {% if show_type and card.card_tag_category %}
+                        <h5 class="update-card-tag">
+                            {{ card.card_tag_category }}
+                        </h5>
+                    {% else %}
+                        <h5 class="update-card-tag">
+                            {{ card.card_tag }}
+                        </h5>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="update-card-content">
+        <h5 class="update-card-title">
+            <a href="{{ card.card_more_link }}">
+                {{ card.card_title }}
+            </a>
+        </h5>
+        {% if card.card_text  and not show_card_text == False %}
+            <div class="update-card-text">
+                {{ card.card_text|richtext|truncatechars_html:100 }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="update-card-footer">
+        {% if card.card_meta %}
+            <span class="update-card-meta">{{ card.card_meta }}</span>
+        {% endif %}
+        <a href="{{ card.card_more_link }}" class="update-card-more">
+            <span class="more-link">Read more</span>
+        </a>
+    </div>
+</div>

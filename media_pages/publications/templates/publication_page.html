@@ -13,7 +13,7 @@
     <main>
         <section class="publication-detail-section">
             <div class="container">
-                {% comment %} {% include 'document_detail_include.html' with card=page.card_props %} {% endcomment %}
+                {% include 'document_detail_include.html' with card=page.card_props %}
             </div>
         </section>
 
@@ -24,7 +24,7 @@
                     <div class="columns is-multiline is-flex is-centered">
                         {% for item in related_items %}
                             <div class="column is-one-quarter-desktop is-full-mobile update-card-column">
-                                {% comment %} {% include 'update_card_include.html' with card=item.card_props show_card_tag=True show_card_text=False show_type=True %} {% endcomment %}
+                                {% include 'update_card_include.html' with card=item.card_props show_card_tag=True show_card_text=False show_type=True %}
                             </div>
                         {% endfor %}
                     </div>

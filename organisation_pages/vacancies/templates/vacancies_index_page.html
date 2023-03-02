@@ -12,8 +12,7 @@
     <main class="is-index">
         <section class="ORG-work intro-section">
             <div class="work container">
-                {% comment %} {% include 'service_introduction.html' with page=page %} {% endcomment %} 
-                TODO: FIX
+                {% include 'service_introduction.html' with page=page %} 
             </div>
         </section>
 
@@ -27,8 +26,7 @@
                         </div>
                     </div>
                 {% else %}
-                TODO: FIX
-                    {% comment %} {% include 'empty_items.html' with empty_header=page.no_vacancies_header_text  empty_description=page.no_vacancies_description_text %} {% endcomment %}
+                    {% include 'empty_items.html' with empty_header=page.no_vacancies_header_text  empty_description=page.no_vacancies_description_text %}
                 {% endif %}
             </div>
         </section>

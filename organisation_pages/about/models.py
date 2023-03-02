@@ -20,11 +20,11 @@ class AboutPage(Page):
     show_in_menus_default = True
 
     introduction_title = models.CharField(max_length=100, help_text="Introduction section title")
-    introduction_text = RichTextField(help_text="A short summary of ICPAC as an organisation")
+    introduction_text = RichTextField(help_text="A short summary of your organisation as an organisation")
     introduction_image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name="Introduction Image",
-        help_text="A high quality image related to ICPAC as an organisation",
+        help_text="A high quality image related to your organisation as an organisation",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -43,7 +43,7 @@ class AboutPage(Page):
     timeline_heading = models.CharField(max_length=255, blank=True, null=True)
 
     timeline = StreamField([
-        ('icpac_timeline', TimelineBlock()),
+        ('nmhs_timeline', TimelineBlock()),
     ], null=True, blank=True, verbose_name="Timeline items", use_json_field=True)
 
     feature_block = StreamField([
@@ -164,7 +164,7 @@ class PartnersPage(Page):
 
     introduction_title = models.CharField(max_length=100, help_text="Introduction section title")
     introduction_text = RichTextField(
-        help_text="A summary of ICPAC relations with partners",
+        help_text="A summary of your organisation relations with partners",
         features=SUMMARY_RICHTEXT_FEATURES)
 
     introduction_image = models.ForeignKey(

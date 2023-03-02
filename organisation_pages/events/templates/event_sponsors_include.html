@@ -1,0 +1,16 @@
+{% load wagtailcore_tags  wagtailimages_tags lazyimages_tags %}
+
+<div class="columns is-multiline is-mobile is-centered">
+    {% for sponsor in sponsors %}
+        <a href="{% if sponsor.value.link %}{{ sponsor.value.link }}{% endif %}"
+           target="_blank"
+           rel="noopener"
+           class="column is-one-fifth-desktop is-one-third-mobile"
+           style="display: flex;justify-content: center;align-items: center">
+            <figure class="image {% if sponsor.value.enlarge %}{% else %} is-96x96{% endif %}"
+                    style="{% if sponsor.value.enlarge %}height:80px;{% endif %}">
+                {% image sponsor.value.image original class="partner-logo" title=sponsor.value.name alt=sponsor.value.name style="height:100%;width:100%;object-fit:contain" %}
+            </figure>
+        </a>
+    {% endfor %}
+</div>

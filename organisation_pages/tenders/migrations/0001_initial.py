@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('banner_subtitle', models.CharField(blank=True, max_length=255, null=True)),
                 ('call_to_action_button_text', models.CharField(blank=True, max_length=100, null=True)),
                 ('introduction_title', models.CharField(help_text='Introduction section title', max_length=100)),
-                ('introduction_text', wagtail.fields.RichTextField(help_text='A description of tenders at ICPAC')),
+                ('introduction_text', wagtail.fields.RichTextField(help_text='A description of tenders at your organisation')),
                 ('introduction_button_text', models.TextField(blank=True, max_length=20, null=True)),
                 ('no_tenders_header_text', models.TextField(blank=True, help_text='Text to appear when there are no tenders', null=True)),
                 ('no_tenders_description_text', models.TextField(blank=True, help_text='Additional text to appear when there are no tenders,below the no tenders header text', null=True)),
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('banner_image', models.ForeignKey(blank=True, help_text='A high quality image related to Tenders', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.image', verbose_name='Banner Image')),
                 ('call_to_action_related_page', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailcore.page')),
                 ('introduction_button_link', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailcore.page')),
-                ('introduction_image', models.ForeignKey(blank=True, help_text='A high quality image related to tenders at ICPAC', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.image', verbose_name='Introduction Image')),
+                ('introduction_image', models.ForeignKey(blank=True, help_text='A high quality image related to tenders at your organisation', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.image', verbose_name='Introduction Image')),
             ],
             options={
                 'abstract': False,

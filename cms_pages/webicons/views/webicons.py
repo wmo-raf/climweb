@@ -99,7 +99,7 @@ def add(request):
             search_index.insert_or_update_object(icon)
 
             messages.success(request, ("Icon '{0}' added.").format(icon.title), buttons=[
-                messages.button(reverse('webicons:edit', args=(icon.id,)), _('Edit'))
+                messages.button(reverse('webicons:edit', args=(icon.id,)), ('Edit'))
             ])
             return redirect('webicons:index')
         else:
@@ -145,7 +145,7 @@ def edit(request, icon_id):
             search_index.insert_or_update_object(icon)
 
             messages.success(request, ("Icon '{0}' updated.").format(icon.title), buttons=[
-                messages.button(reverse('webicons:edit', args=(icon.id,)), _('Edit again'))
+                messages.button(reverse('webicons:edit', args=(icon.id,)), ('Edit again'))
             ])
 
             return redirect('webicons:index')
@@ -157,10 +157,10 @@ def edit(request, icon_id):
     if icon.is_stored_locally():
         # Give error if image file doesn't exist
         if not os.path.isfile(icon.file.path):
-            messages.error(request, _(
+            messages.error(request, (
                 "The source icon file could not be found. Please change the source or delete the icon."
             ).format(icon.title), buttons=[
-                messages.button(reverse('webicons:delete', args=(icon.id,)), _('Delete'))
+                messages.button(reverse('webicons:delete', args=(icon.id,)),('Delete'))
             ])
 
     try:

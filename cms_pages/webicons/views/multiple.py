@@ -94,7 +94,7 @@ def edit(request, icon_id, callback=None):
         raise PermissionDenied
 
     form = WebIconForm(
-        request.POST, request.FILES, instance=icon, prefix='icon-' + icon_id, user=request.user
+        request.POST, request.FILES, instance=icon, prefix='icon-' + str(icon_id), user=request.user
     )
 
     if form.is_valid():

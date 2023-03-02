@@ -1,0 +1,98 @@
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags %}
+
+<style>
+    .panelist-figure {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+    }
+
+    .panelist-figure img {
+        object-fit: cover;
+        height: 100%;
+    }
+
+    .panelist-intro {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .panelist-el {
+        padding: 0 0 6px;
+    }
+
+    .panelist-badge {
+        background-color: #eff8f8;
+        color: #009997;
+        padding: 0 8px;
+        display: inline-block;
+        text-transform: capitalize;
+    }
+
+    .panelist-position {
+        font-style: italic;
+    }
+
+    .panelist-topic {
+        padding: 5px 0;
+    }
+
+    .panelist-bio {
+        padding-top: 20px;
+    }
+
+    /*1280px  and lower*/
+    @media screen and (max-width: 1280px) {
+        .panelist-figure {
+            height: 100px;
+            width: 100px;
+        }
+    }
+</style>
+
+<div class="columns is-multiline">
+    {% for panelist in panelists %}
+        <div class="column is-full">
+            <div class="columns panelist-item">
+                <div class="column is-one-fifth-tablet is-full-mobile">
+                    <figure class="panelist-figure image">
+                        {% if panelist.value.image %}
+                            {% image panelist.value.image original as panelist_img %}
+                            <img class="is-rounded progressive__img progressive--not-loaded"
+                                 data-progressive="{{ panelist_img.url }}"
+                                 src="{% lazy_image_url panelist_img %}"
+                                 alt="{{ panelist.value.name }}"/>
+                        {% endif %}
+                    </figure>
+                </div>
+                <div class="column is-four-fifths-tablet is-full-mobile">
+                    <div class="panelist-intro">
+                        <h4 class="panelist-name panelist-el">
+                            {{ panelist.value.name }}
+                        </h4>
+                        {% if panelist.value.position %}
+                            <span class="panelist-position panelist-el">{{ panelist.value.position }}</span>
+                        {% endif %}
+                        {% if panelist.value.organisation %}
+                            <span class="panelist-org panelist-el">{{ panelist.value.organisation }}</span>
+                        {% endif %}
+                        {% if panelist.value.role %}
+                            <div style="padding: 8px 0;">
+                                <h5 class="panelist-badge panelist-el">{{ panelist.value.role }}</h5>
+                            </div>
+                        {% endif %}
+                        {% if panelist.value.topic_title %}
+                            <h4 class="panelist-topic panelist-el"><b>Topic:</b> {{ panelist.value.topic_title }}</h4>
+                        {% endif %}
+                    </div>
+                    <div class="panelist-bio format-text">
+                        {{ panelist.value.bio | richtext }}
+                    </div>
+                    {% if not forloop.last %}
+                        <hr>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

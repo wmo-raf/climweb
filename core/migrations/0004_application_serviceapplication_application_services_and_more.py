@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=100)),
                 ('url', models.URLField()),
-                ('show_in_geoportal', models.BooleanField(default=False, help_text='Show in geoportal.icpac.net applications section', verbose_name='Show in Geoportal apps section - geoportal.icpac.net')),
+                ('show_in_geoportal', models.BooleanField(default=False, help_text='Show in geoportal.nmhs.net applications section', verbose_name='Show in Geoportal apps section - geoportal.nmhs.net')),
                 ('order', models.PositiveIntegerField(default=0)),
             ],
             options={

@@ -22,7 +22,7 @@ from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from media_pages.news.models import NewsPage
 from media_pages.publications.models import PublicationPage
 from media_pages.videos.models import YoutubePlaylist
-# from organisation_pages.events.models import EventPage
+from organisation_pages.events.models import EventPage
 
 
 class ProjectIndexPage(Page):
@@ -207,8 +207,7 @@ class ProjectPage(Page):
         related_name='+',
     )
 
-    # TODO: RETURN Partners to project 
-    # partners = ParentalManyToManyField('about.Partner', blank=True, related_name='projects') 
+    partners = ParentalManyToManyField('about.Partner', blank=True, related_name='projects') 
 
     introduction_button_text = models.TextField(max_length=20, blank=True, null=True)
     introduction_button_link = models.ForeignKey(
@@ -292,10 +291,9 @@ class ProjectPage(Page):
     def news(self):
         return NewsPage.objects.live().filter(projects=self.pk).order_by('-date')[:4]
 
-    # TODO: INCLUDE EVENTS 
-    # @cached_property
-    # def events(self):
-    #     return EventPage.objects.live().filter(projects=self.pk, is_hidden=False).order_by('-date_from')[:4]
+    @cached_property
+    def events(self):
+        return EventPage.objects.live().filter(projects=self.pk, is_hidden=False).order_by('-date_from')[:4]
 
     content_panels = Page.content_panels + [
         FieldPanel('services', widget=CheckboxSelectMultiple),
@@ -328,7 +326,7 @@ class ProjectPage(Page):
         FieldPanel('feature_block'),
         FieldPanel('project_materials'),
         FieldPanel('youtube_playlist'),
-        # FieldPanel('partners', widget=CheckboxSelectMultiple), TODO: RETURN THIS
+        FieldPanel('partners', widget=CheckboxSelectMultiple),
     ]
 
     api_fields = [

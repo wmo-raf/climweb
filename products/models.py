@@ -62,7 +62,7 @@ class ProductIndexPage(Page):
     )
 
     introduction_title = models.CharField(max_length=100, help_text="Introduction section title")
-    introduction_text = RichTextField(help_text="A description of what ICPAC does under  this Product",
+    introduction_text = RichTextField(help_text="A description of what your organisation does under  this Product",
                                       features=SUMMARY_RICHTEXT_FEATURES)
     introduction_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -254,7 +254,7 @@ class ProductDetailPage(Page):
             "card_tag": self.product_category,
             "card_file": card_file,
             "card_tags": card_tags,
-            "card_views": self.webhits.count,
+            # "card_views": self.webhits.count,
             "card_ga_label": self.product_category
         }
 

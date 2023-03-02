@@ -1,0 +1,261 @@
+{% load static wagtailcore_tags wagtailimages_tags nmhs_cms_tags lazyimages_tags %}
+
+<style>
+
+    .sessions-info {
+        margin-top: 30px;
+    }
+
+    .tabs li {
+        font-size: 20px;
+    }
+
+    .tabs li.is-active a {
+        border-bottom-color: #3273dc;
+        border-width: 2px;
+        color: inherit;
+    }
+
+    .content-tab {
+        display: none;
+    }
+
+    .content-tab.is-active {
+        display: block;
+    }
+
+
+    .session-list-wrap {
+    }
+
+    .session-date {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 24px;
+        margin-top: 48px;
+    }
+
+    .session-weekday {
+        color: #de2828;
+        margin-right: 4px;
+        font-weight: 700;
+    }
+
+    .session-time {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        margin: 18px 0 16px;
+    }
+
+    .session-card-wrap {
+        background: #fff;
+        border: 1px solid rgba(82, 82, 128, .18);
+        border-radius: 16px;
+        color: #222230;
+        overflow: hidden;
+        display: flex;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .session-image {
+        height: auto;
+        width: 256px
+    }
+
+    .session-image img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        position: relative;
+        border-radius: inherit;
+        overflow: hidden;
+    }
+
+    .session-content {
+        display: flex;
+        flex: 1 1;
+        justify-content: space-between;
+        padding: 16px;
+        width: calc(100% - 256px);
+    }
+
+    .session-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+
+    }
+
+    .session-time-and-recording {
+
+    }
+
+    .session-card-time {
+        color: #222230;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 16px;
+    }
+
+    .session-name {
+        font-size: 20px;
+        line-height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 700;
+        height: 40px;
+        margin-top: 10px;
+    }
+
+    .session-role {
+
+    }
+
+    .role-img {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        overflow: hidden;
+        margin-top: 20px;
+        position: relative;
+        font-size: 1.25rem;
+        align-items: center;
+        flex-shrink: 0;
+        line-height: 1;
+        user-select: none;
+        justify-content: center;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+
+    .person-name {
+        color: #000;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 24px;
+        margin-bottom: 4px;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .role-detail {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .role-name {
+        font-size: 12px;
+        text-transform: capitalize;
+    }
+
+
+    @media (max-width: 640px) {
+        .session-card-wrap {
+            flex-direction: column;
+        }
+
+        .session-image {
+            width: 100%;
+            height: 200px;
+        }
+
+        .session-content {
+            width: 100%;
+        }
+
+        .session-name {
+            font-size: 16px;
+            font-weight: 700;
+            height: 40px;
+            line-height: 20px;
+            overflow: hidden;
+            white-space: normal;
+        }
+    }
+
+
+</style>
+<div class="sessions-info">
+    <div class="tabs ">
+        <ul>
+            {% for date,sessions in sessions.items %}
+                <li class="schedule-date {% if forloop.first %}is-active{% endif %}"
+                    data-id="{{ date|parse_date:"%Y-%m-%d" |date:"D-M-d-Y" }}">
+                    <a style="font-weight: bold">
+                        {{ date|parse_date:"%Y-%m-%d"|date:"D M, d Y " }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% for session_date, sessions_by_time in sessions.items %}
+        <div id="{{ session_date|parse_date:"%Y-%m-%d"|date:"D-M-d-Y" }}"
+             class="content-tab {% if forloop.first %}is-active{% endif %}">
+            <div>
+                {% for time,sessions in sessions_by_time.items %}
+                    <div class="session-time">{{ time }}</div>
+                    <div class="columns is-multiline is-mobile">
+                        {% for session in sessions %}
+                            <div class="column is-full">
+                                <div class="session-card-wrap">
+                                    <div class="session-image">
+                                        {% if session.value.image %}
+                                            {% image session.value.image original as session_img %}
+                                            <img class="progressive__img progressive--not-loaded"
+                                                 data-progressive="{{ session_img.url }}"
+                                                 src="{% lazy_image_url session_img %}"
+                                                 alt="{{ session.value.title }}"
+                                            />
+                                        {% endif %}
+                                    </div>
+                                    <div class="session-content">
+                                        <div class="session-info">
+                                            <div class="session-time-and-recording">
+                                                <div class="session-card-time">{{ session.value.start_time|date:"h:i A" }}
+                                                    - {{ session.value.end_time|date:"h:i A" }}</div>
+                                            </div>
+                                            <h2 class="session-name"
+                                                title="{{ session.value.title }}">{{ session.value.title }}</h2>
+                                            <div class="session-description">
+                                                <div class="format-text">{{ session.value.detail|richtext }}</div>
+                                            </div>
+                                            {% if session.value.roles %}
+                                                <div class="session-roles columns">
+                                                    {% for role in session.value.roles %}
+                                                        <div class="column is-one-third-desktop is-full-mobile session-role">
+                                                            {% if role.image %}
+                                                                {% image role.image original as role_image %}
+                                                                <img class="role-img progressive__img progressive--not-loaded"
+                                                                     data-progressive="{{ role_image.url }}"
+                                                                     src="{% lazy_image_url role_image %}"
+                                                                     alt="{{ role.name }}"
+                                                                />
+                                                            {% else %}
+                                                                <div class="role-img"
+                                                                     style="background-image: url('{% static 'icons/person.svg' %}')"></div>
+                                                            {% endif %}
+                                                            <div class="role-detail">
+                                                                <span class="person-name">{{ role.name }}</span>
+                                                                <span class="role-name">{{ role.role }}</span>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+</div>

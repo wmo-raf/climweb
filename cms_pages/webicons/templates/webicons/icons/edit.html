@@ -37,7 +37,7 @@
                 <ul class="fields">
                     {% for field in form %}
                         {% if field.name == 'file' %}
-                            {% include "wagtailimages/images/_file_field_as_li.html" with li_classes="label-above label-uppercase" %}
+                            {% include "wagtailimages/images/_file_field.html" with li_classes="label-above label-uppercase" %}
                         {% elif field.is_hidden %}
                             {{ field }}
                         {% else %}
@@ -45,14 +45,14 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
-                <div class="u-hidden@xs">
+                {% comment %} <div class="u-hidden@xs">
                     <input type="submit" value="{% trans 'Save' %}" class="button"/>
                     {% if user_can_delete %}
                         <a href="{% url 'webicons:delete' icon.id %}"
                            class="button button-secondary no">{% trans "Delete icon" %}</a>
                     {% endif %}
 
-                </div>
+                </div> {% endcomment %}
             </div>
 
             <div class="col6">

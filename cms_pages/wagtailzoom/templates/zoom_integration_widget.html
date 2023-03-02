@@ -1,0 +1,36 @@
+<input type="hidden" name="{{ widget.name }}"{% if widget.value != None %}
+       value="{{ widget.value }}"{% endif %}{% include "django/forms/widgets/attrs.html" %}>
+
+<div name="event-id-field-{{ widget.name }}">
+    <br/>
+    <label style="float:left;width: 100%"> Meeting / Webinar ID - Required - (Make sure the ID is valid) </label>
+    <div class="input">
+        <input type="number" name="event-id-{{ widget.name }}" value=""/>
+    </div>
+</div>
+
+<div name="email-field-{{ widget.name }}">
+    <br/>
+    <label style="float:left;width: 100%">Email Address Field - Required </label>
+    <div class="input">
+        <input type="text" name="email-{{ widget.name }}" value=""/>
+    </div>
+</div>
+
+<div name="first-name-field-{{ widget.name }}">
+    <br/>
+    <label style="float:left;width: 100%">First Name Field - (Required)</label>
+    <div class="input">
+        <input type="text" name="first-name-{{ widget.name }}" value=""/>
+    </div>
+</div>
+
+<div name="last-name-field-{{ widget.name }}">
+    <br/>
+    <label style="float:left;width: 100%"> Last Name Field - (Required) </label>
+    <div class="input">
+        <input type="text" name="last-name-{{ widget.name }}" value=""/>
+    </div>
+</div>
+
+{{ widget.extra_js|safe }}

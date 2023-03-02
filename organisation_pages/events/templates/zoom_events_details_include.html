@@ -1,0 +1,401 @@
+{% load wagtailcore_tags %}
+{% load nmhs_cms_tags static %}
+
+<style>
+
+    .zoom-event-info {
+        margin-top: 30px;
+    }
+
+    .tabs li {
+        font-size: 20px;
+    }
+
+    .tabs li.is-active a {
+        border-bottom-color: #3273dc;
+        border-width: 2px;
+        color: inherit;
+    }
+
+    .content-tab {
+        display: none;
+    }
+
+    .content-tab.is-active {
+        display: block;
+    }
+
+
+    .session-list-wrap {
+    }
+
+    .session-date {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 24px;
+        margin-top: 48px;
+    }
+
+    .session-weekday {
+        color: #de2828;
+        margin-right: 4px;
+        font-weight: 700;
+    }
+
+    .session-time {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        margin: 18px 0 16px;
+    }
+
+    .session-card-wrap {
+        background: #fff;
+        border: 1px solid rgba(82, 82, 128, .18);
+        border-radius: 16px;
+        color: #222230;
+        overflow: hidden;
+        display: flex;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .session-image {
+        height: 160px;
+        width: 256px
+    }
+
+    .session-image img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        position: relative;
+        border-radius: inherit;
+        overflow: hidden;
+    }
+
+    .session-content {
+        display: flex;
+        flex: 1 1;
+        justify-content: space-between;
+        padding: 16px;
+        width: calc(100% - 256px);
+    }
+
+    .session-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+
+    }
+
+    .session-time-and-recording {
+
+    }
+
+    .session-card-time {
+        color: #222230;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 16px;
+    }
+
+    .session-name {
+        font-size: 20px;
+        line-height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 700;
+        height: 40px;
+        margin-top: 10px;
+    }
+
+    .session-speaker-avatar {
+        height: 72px;
+        width: 72px;
+        border-radius: 12px;
+        margin-left: 24px;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+        font-size: 1.25rem;
+        align-items: center;
+        flex-shrink: 0;
+        line-height: 1;
+        user-select: none;
+
+        justify-content: center;
+    }
+
+    .session-speaker-avatar img {
+        color: transparent;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        text-align: center;
+        text-indent: 10000px;
+        border-style: none;
+        vertical-align: middle;
+    }
+
+    .speaker-content {
+        max-width: 160px;
+    }
+
+    .speaker-img {
+        height: 160px;
+        width: 160px;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+        font-size: 1.25rem;
+        align-items: center;
+        flex-shrink: 0;
+        line-height: 1;
+        user-select: none;
+        justify-content: center;
+        border-radius: 12px;
+    }
+
+    .speaker-img img {
+        color: transparent;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        text-align: center;
+        text-indent: 10000px;
+    }
+
+    .speaker-info-wrap {
+        margin-top: 8px;
+        overflow: hidden;
+    }
+
+    .speaker-name {
+        color: #000;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        margin-bottom: 4px;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .speaker-title {
+        color: rgba(4, 4, 19, .56);
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .sponsor-level {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32px;
+        margin: 0 0 16px;
+    }
+
+    .sponsor-item-wrap {
+        height: 200px;
+        border: 1px solid rgba(82, 82, 128, .18);
+        border-radius: 16px;
+        display: flex;
+        overflow: hidden;
+        color: #222230;
+        margin: 0 0 16px;
+        background-color: #fff;
+    }
+
+    .sponsor-cover {
+        align-items: center;
+        background: #fff;
+        border-radius: 16px 0 0 16px;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        overflow: hidden;
+        width: 320px;
+    }
+
+
+    .sponsor-cover .img-wrap {
+        height: 100%;
+        width: 100%;
+    }
+
+    .sponsor-cover .img-wrap img {
+        display: block;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: inherit;
+        overflow: hidden;
+        position: relative;
+        border-style: none;
+        vertical-align: middle;
+    }
+
+    .sponsor-content {
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex: 1 1;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        padding: 24px;
+    }
+
+    .sponsor-name {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        margin-bottom: 16px;
+    }
+
+    .sponsor-description {
+        font-size: 14px;
+        line-height: 24px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
+    }
+
+
+    @media (max-width: 640px) {
+        .session-card-wrap {
+            flex-direction: column;
+        }
+
+        .session-image {
+            width: 100%
+        }
+
+        .session-content {
+            width: 100%;
+        }
+
+        .session-name {
+            font-size: 16px;
+            font-weight: 700;
+            height: 40px;
+            line-height: 20px;
+            overflow: hidden;
+            white-space: normal;
+        }
+    }
+
+
+</style>
+
+<div class="zoom-event-info">
+    <div class="tabs ">
+        <ul>
+            <li class="is-active" data-id="sessions-tab">
+                <a>
+                    <span>Sessions</span>
+                </a>
+            </li>
+            <li data-id="speakers-tab">
+                <a>
+                    <span>Speakers</span>
+                </a>
+            </li>
+            <li data-id="sponsors-tab">
+                <a>
+                    <span>Sponsors</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="sessions-tab" class="session-list-wrap content-tab is-active">
+        {% for session_date, sessions_by_time in page.zoom_events_details.sessions.items %}
+            <div class="session-date">
+                <span class="session-weekday">{{ session_date|date:"l" }}</span>
+                <span>{{ session_date|date:"M d, Y" }}</span>
+            </div>
+            <div>
+                {% for time,sessions in sessions_by_time.items %}
+                    <div class="session-time">{{ time }}</div>
+                    <div class="columns is-multiline is-mobile">
+                        {% for session in sessions %}
+                            <div class="column is-full">
+                                <div class="session-card-wrap">
+                                    <div class="session-image">
+                                        <img src="{{ session.thumbnailImageUrl }}" alt="">
+                                    </div>
+                                    <div class="session-content">
+                                        <div class="session-info">
+                                            <div class="session-time-and-recording">
+                                                <div class="session-card-time">{{ session.startTime|date:"h:i A" }}
+                                                    - {{ session.endTime|date:"h:i A" }}</div>
+                                            </div>
+                                            <h2 class="session-name"
+                                                title="{{ session.sessionName }}">{{ session.sessionName }}</h2>
+                                            <div class="session-description">
+                                                <p>{{ session.description|truncatechars:140 }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="session-speaker-avatar">
+                                            <img src="{{ session.speakerList.0.speakerThumbnailImageUrl }}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="speakers-tab" class="speakers-list-wrap content-tab ">
+        <div class="columns is-multiline is-mobile">
+            {% for speaker in page.zoom_events_details.speakers %}
+                <div class="column is-one-fifth-desktop is-one-third-tablet is-full-mobile">
+                    <div class="speaker-content">
+                        <div class="speaker-img">
+                            <img src="{% if speaker.avatar %}{{ speaker.avatar }}{% else %}{% static "images/portrait_placeholder.png"%}{% endif %}" alt="{{ speaker.name }}">
+                        </div>
+                        <div class="speaker-info-wrap">
+                            <div class="speaker-name">{{ speaker.name }}</div>
+                            <div class="speaker-title">{{ speaker.title }}</div>
+                            <div class="speaker-title">{{ speaker.company }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="sponsors-tab" class="sponsors-list-wrap content-tab ">
+        {% for sponsor_type, sponsors_list in  page.zoom_events_details.sponsors.items %}
+            <h2 class="sponsor-level">{{ sponsor_type }}</h2>
+            <div class="columns is-multiline is-mobile">
+                {% for sponsor in sponsors_list %}
+                    <div class="column is-full">
+                        <div class="sponsor-item-wrap">
+                            <div class="image sponsor-cover">
+                                <div class="img-wrap">
+                                    <img src="{{ sponsor.logoUrl }}" alt="{{ sponsor.name }}">
+                                </div>
+                            </div>
+                            <div class="sponsor-content is-hidden-mobile">
+                                <div class="sponsor-name">
+                                    {{ sponsor.name }}
+                                </div>
+                                <div class="sponsor-description">
+                                    {{ sponsor.description }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
