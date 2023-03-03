@@ -1,5 +1,8 @@
 {% load static %}
+{% load  wagtailimages_tags lazyimages_tags wagtailcore_tags%}
 
+
+{% if self.get_services.services.all %}
 
 <section style="padding-top: 4rem; padding-bottom: 4rem;" class="has-text-centered">
 
@@ -7,11 +10,19 @@
         <h2 class="title py-4" style="font-size: 27px; font-weight:700"> Our Service Areas</h2>
 
         <div class="columns has-text-left is-multiline is-justify-content-center">
+
+            {% for service in self.get_services.services.all %}
+            {% image service.banner_image original as img %}
+
             <div class="column is-one-quarter-desktop is-full-mobile">
-                <div class="card m-1" style="border-radius: 1em">
+                <a href="{{service.url}}">
+                <div class="card m-1" style="border-radius: 1em; height:100%">
                     <div class="card-image">
                         <figure class="image is-4by3">
-                            <img src="{% static 'img/forecasting.png' %}" alt="Placeholder image"
+                            <img class="progressive__img progressive--not-loaded feature-block-image"
+                            data-progressive="{{ img.url }}"
+                            src="{% lazy_image_url img %}"
+                            alt="{{ value.title }}"
                                 style="border-radius: 1em 1em 0 0">
                         </figure>
                     </div>
@@ -19,98 +30,23 @@
                         <div class="media">
 
                             <div class="media-content">
-                                <p class="title is-5 has-text-weight-bold">Forecasting</p>
+                                <p class="title is-5 has-text-weight-bold">{{service.banner_title}}</p>
 
                             </div>
                         </div>
 
                         <div class="content" style="font-size: 14px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Phasellus nec iaculis mauris.
+                            {{service.introduction_text|richtext|truncatechars_html:90}}
 
                         </div>
                     </div>
                 </div>
+            </a>
 
             </div>
-            <div class="column is-one-quarter-desktop is-full-mobile">
-                <div class="card m-1" style="border-radius: 1em">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img src="{% static 'img/climate.png' %}" alt="Placeholder image"
-                                style="border-radius: 1em 1em 0 0">
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="media">
-
-                            <div class="media-content">
-                                <p class="title is-5 has-text-weight-bold">Climate</p>
-
-                            </div>
-                        </div>
-
-                        <div class="content" style="font-size: 14px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Phasellus nec iaculis mauris.
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="column is-one-quarter-desktop is-full-mobile">
-                <div class="card m-1" style="border-radius: 1em">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img src="{% static 'img/aviation.png' %}" alt="Placeholder image"
-                                style="border-radius: 1em 1em 0 0">
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="media">
-
-                            <div class="media-content">
-                                <p class="title is-5 has-text-weight-bold">Aviation</p>
-
-                            </div>
-                        </div>
-
-                        <div class="content" style="font-size: 14px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Phasellus nec iaculis mauris.
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="column is-one-quarter-desktop is-full-mobile">
-                <div class="card m-1" style="border-radius: 1em">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img src="{% static 'img/air_quality.png' %}" alt="Placeholder image"
-                                style="border-radius: 1em 1em 0 0">
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="media">
-
-                            <div class="media-content">
-                                <p class="title is-5 has-text-weight-bold">Air Quality</p>
-
-                            </div>
-                        </div>
-
-                        <div class="content" style="font-size: 14px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Phasellus nec iaculis mauris.
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            {% endfor %}
+            
+           
 
         </div>
     </div>
@@ -118,3 +54,4 @@
 
 
 </section>
+{% endif %}

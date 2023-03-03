@@ -55,7 +55,6 @@ a:hover {
     /* padding-right: 3rem;
     padding-left: 3rem; */
     margin-bottom: 0;
-    max-width: 200px;
     border-color: transparent;
     justify-content: start;
 
@@ -70,11 +69,19 @@ a:hover {
     background-color: #fff;
 }
 
-#tabs-with-content .tabs ul li:not(.is-active) {
+#tabs-with-content .tabs ul li:not(.is-active){
     padding-bottom: 0;
     background-color: rgba(248, 248, 248, 0.75);
     ;
 
+}
+
+#tabs-with-content .tabs ul li:not(.is-active) .city.active{
+    display:none;
+}
+
+#tabs-with-content .tabs ul li.is-active .city.inactive{
+    display:none;
 }
 
 #tabs-with-content .tab-content.is-active {
@@ -134,3 +141,5 @@ body {
 .hero-body .title{
     width: unset !important;
 }
+
+

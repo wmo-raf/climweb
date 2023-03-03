@@ -1,8 +1,7 @@
 {% load static %}
 
 {% if self.enable_weather_forecasts == True %}
-
-{% for alert in alerts.all %}
+{% for alert in self.get_alerts.alerts.all %}
 {% for info in alert.alert_info.all %}
 {% for alert_area in info.alert_areas.values%}
 
@@ -27,20 +26,20 @@
                     <div class="column is-4 mr-3">
                         <h2 class="title pb-4" style="font-size: 23px; font-weight: 700;">
                             Latest Weather Warnings 
-
                         </h2>
+                        {% if self.get_alerts %}
 
-                        {% for alert in latest_alerts.all %}
+                        {% for alert in self.get_alerts.latest_alerts.all %}
                         {% for info in alert.alert_info.all %}
-                        {% if alerts %}
                             <div class="box"
                             style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                            <a href="{{alert.url}}">
                             <div class="columns is-gapless">
                                 <div class="column is-1" style="margin-right:10px;border-radius:4px; ">
                                     <img src="{% static 'img/CAPLogo.jpeg'%}" alt="" width="20" style="border-radius:4px; padding-top:5px">
                                 </div>
                                 <div class="column">
-                                    <p class="title  py-0 my-1" style="font-size: 13px;font-weight:700;"><a href="/alerts/{{alert.slug}}">{{alert.title}}</a> </p>
+                                    <p class="title  py-0 my-1" style="font-size: 13px;font-weight:700;">{{alert.title}}</p>
                                     
                                     <p class="subtitle  py-0 my-1" style="font-size: 12px;">{{info.get_severity_display}} severity</p>
                                     {% for alert_area in info.alert_areas.values%}
@@ -49,12 +48,17 @@
                                     {% endfor %}
                                 </div>
                             </div>
+                          </a>
                         </div>
-                        {% endif %}
 
                         {% endfor %}
                         {% endfor %}
-                       
+
+                        {% else %}
+
+                        <p>No alerts at the moment</p>
+                        {% endif %}
+
                         <div>
                         <a class="button is-dark has-text-white is-small p-4"
                         style=" font-weight: 600;  border-radius: 0.5em;" href="/alerts">

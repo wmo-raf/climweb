@@ -1,13 +1,20 @@
-from wagtail.models import Page, TranslatableMixin
+from datetime import datetime, timedelta
+from itertools import groupby
+import json
+
 from django.contrib.gis.db import models
+from django.utils.functional import cached_property
+from django.http import JsonResponse
+from django.db.models import Count
+
+from wagtail.models import Page
 from wagtail.admin.panels import MultiFieldPanel,FieldPanel
 from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
+
 from capeditor.models import Alert
-from wagtail.contrib.routable_page.models import path
-from forecast_manager.models import City
-from django.utils.functional import cached_property
-from django.http import JsonResponse
+from services.models import ServiceIndexPage
+from forecast_manager.models import City, Forecast, ConditionCategory     
 
 class HomePage(Page):
     templates = "home_page.html"
@@ -71,22 +78,37 @@ class HomePage(Page):
         verbose_name = "Home Page"
         verbose_name_plural = "Home Pages"
 
-
-    # def get_context(self, request, *args, **kwargs):
-    #     context =super().get_context(request, *args, **kwargs)
-       
-    #     context['alerts'] = Alert.objects.live().public()
-    #     context['latest_alerts'] = context['alerts'][:2]
-    #     return context    
-
-
     @cached_property
     def city_item(self):
         cities = City.objects.all()
         return {'cities':cities.values()}
 
     @cached_property
-    def alerts(self):
+    def get_forecast_by_city(request):
+
+        start_date_param = datetime.today()
+        end_date_param = start_date_param + timedelta(days=7)
+        forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),  forecast_date__lte=end_date_param.date()).order_by('forecast_date').values('id','city','forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition').annotate()
+
+        # sort the data by city
+        data_sorted = sorted(forecast_data, key=lambda x: x['city'])
+
+        # group the data by city
+        grouped_forecast = []
+        for city, group in groupby(data_sorted, lambda x: x['city']):
+            city_data = {'city':City.objects.get(id=city), 'forecast_items': list(group)}
+
+            for item in city_data['forecast_items']:
+                item['condition'] = ConditionCategory.objects.get(id=item['condition'])
+
+            grouped_forecast.append(city_data)
+
+        return {
+            'forecasts':grouped_forecast
+        }
+
+    @cached_property
+    def get_alerts(self):
         alerts = Alert.objects.live().public()
         latest_alerts = alerts[:3]
 
@@ -95,6 +117,20 @@ class HomePage(Page):
             'latest_alerts':latest_alerts
         }
 
+    @cached_property
+    def get_services(self):
+        services = ServiceIndexPage.objects.live().public
+
+        return {
+            'services':services
+        }
+
+    @cached_property
+    def get_cities(self):
+        cities = City.objects.all()
+        return {
+            'cities':cities
+        }
     # COMMON_PANELS = (
     #     FieldPanel('slug'),
     #     FieldPanel('seo_title'),
