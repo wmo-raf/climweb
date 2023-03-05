@@ -18,7 +18,7 @@
     <main class="is-index">
         <section class="ORG-work is-desktop">
             <div class="work container">
-                {% comment %} {% include 'service_introduction.html' with page=page %} {% endcomment %}
+                {% include 'service_introduction.html' with page=page %}
             </div>
         </section>
 
@@ -44,7 +44,7 @@
             <section class="project-latest-publications-section">
                 <div class="container">
                     <h2 class="section-title"> Latest News</h2>
-                    {% comment %} {% include 'card_items_inline_include.html' with items=page.news more_link=settings.core.ImportantPages.all_news_page.url more_link_title="More News" %} {% endcomment %}
+                    {% include 'card_items_inline_include.html' with items=page.news more_link=settings.core.ImportantPages.all_news_page.url more_link_title="More News" %}
                 </div>
             </section>
         {% endif %}
@@ -108,7 +108,7 @@
                     <div class="columns is-multiline is-mobile is-centered">
                         {% for publication in page.publications %}
                             <div class="column is-one-quarter-desktop is-full-mobile">
-                                {% comment %} {% include 'update_card_include.html' with card=publication.card_props show_type=True %} {% endcomment %}
+                                {% include 'update_card_include.html' with card=publication.card_props show_type=True %}
                             </div>
                         {% endfor %}
                     </div>

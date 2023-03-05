@@ -1,0 +1,12 @@
+{% load static %}
+
+<div style="display: flex;justify-content: center;align-items: center">
+    <div style="padding-left: 20px">
+        <h3>
+            {% if empty_header %}{{ empty_header }}{% else %} Empty list at the moment{% endif %}
+        </h3>
+        {% if empty_header and empty_description %}
+            <h5 style="color: grey">{{ empty_description }}</h5>
+        {% endif %}
+    </div>
+</div>

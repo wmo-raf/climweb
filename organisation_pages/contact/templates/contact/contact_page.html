@@ -23,7 +23,7 @@
                         <div class="card" style="background-color:#f8f9fb">
                             <div class="card-content mx-6">
                                 
-                            <form method="post" action="{% pageurl page %}" class="my-6">
+                            <form id="cfde" method="GET" class="my-6">
                                 {% csrf_token %}
                                 {{ form.non_field_errors }}
 
@@ -61,7 +61,7 @@
 
                                   <div class="field">
                                     <div class="control">
-                                      <button class="button is-dark" type="submit">Submit</button>
+                                      <button class="button is-dark" id="cf">Submit</button>
                                     </div>
                                   </div>
                             </form>
@@ -141,6 +141,16 @@
 
 {% block extra_js %}
 <script>
+
+
+    $('#cf').click(function (e) {
+
+        const data = $('#cfde').serializeArray()
+
+        $('input[name="wagtailkey"]').val("{{ settings.site_settings.OtherSettings.wagtail_form_key }}");
+
+        $('#cfde').attr('action', "{% pageurl page %}").attr('method', "POST").submit()
+    })
 
     var locationStr = JSON.parse($('#location').val())
 

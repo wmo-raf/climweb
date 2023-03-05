@@ -1,7 +1,7 @@
 {% load menu_tags %}
 
 {% for item in menu_items %}
-    <a class="navbar-item {{ item.active_class }}" href="{{ item.href }}" style="color:#333">
+    <a class="navbar-item {{ item.active_class }}" href="{{ item.href }}" style="color:#333; text-transform:capitalize; font-weight:500">
         {{ item.text }}
     </a>
 

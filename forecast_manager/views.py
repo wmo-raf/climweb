@@ -7,7 +7,6 @@ from django.core import serializers
 
 from .models import City, Forecast, ConditionCategory
 
-# 5caf9348-85df-4613-bb9b-36a6de8f5d09
 
 # Create your views here.
 def upload_forecast(request):
@@ -60,7 +59,7 @@ def get_data(request):
     start_date_param = request.GET.get('start_date', None)
     end_date_param = request.GET.get('end_date', None)
     city_id = request.GET.get('city_id', None)
-    forecast_data = Forecast.objects.filter(city_id=city_id, forecast_date__gte=start_date_param,  forecast_date__lte=end_date_param).values('city','forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition')
+    forecast_data = Forecast.objects.filter(city_id=city_id, forecast_date__gte=start_date_param,  forecast_date__lte=end_date_param).values('city__name','forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title')
 
     if city_id is not None:
         return JsonResponse(list(forecast_data), safe=False)

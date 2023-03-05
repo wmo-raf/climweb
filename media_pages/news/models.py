@@ -159,7 +159,7 @@ class NewsPage(Page):
     body = RichTextField(features=NEWS_ALLOWED_RICHTEXT_FEATURES)
     feature_img_src = models.TextField(blank=True, null=True)
     services = ParentalManyToManyField('core.ServiceCategory', blank=True, verbose_name="Relevant Services")
-    # projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name="Relevant Projects")
+    projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name="Relevant Projects")
     is_featured = models.BooleanField(default=False, help_text="Should this news appear on the news landing "
                                                                "paging as the featured one ?")
     is_alert = models.BooleanField(default=False, help_text="Is this an alert ?")
@@ -180,7 +180,7 @@ class NewsPage(Page):
         FieldPanel('subtitle'),
         FieldPanel('body'),
         FieldPanel('services', widget=CheckboxSelectMultiple),
-        # FieldPanel('projects', widget=CheckboxSelectMultiple),
+        FieldPanel('projects', widget=CheckboxSelectMultiple),
         FieldPanel('tags'),
 
         MultiFieldPanel([

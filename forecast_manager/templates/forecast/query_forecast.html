@@ -90,6 +90,7 @@
         readOnly: true,
         rowHeaders: true,
         colHeaders: [
+            "City",
             "Date",
             "Min Temperature (°C)",
             "Max Temperature (°C)",
@@ -98,6 +99,10 @@
             "General Condition",
         ],
         columns: [
+            {
+                data: 'city__name',
+
+            },
             {
                 data: 'forecast_date',
 
@@ -119,7 +124,7 @@
 
             },
             {
-                data: 'condition',
+                data: 'condition__title',
 
             },
         ],
@@ -143,6 +148,7 @@
             dataType: 'json',
             success: function (data) {
                 // Populate the Handsontable table with the data
+                console.log(data)
                 hotQuery.loadData(data)
 
             },

@@ -22,7 +22,7 @@ class MediaIndexPage(Page):
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name="Banner Image",
-        help_text="A high quality image related to IFRAH",
+        help_text="A high quality image",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

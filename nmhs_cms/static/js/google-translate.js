@@ -12,6 +12,7 @@ function triggerHtmlEvent(element, eventName) {
 }
 
 function doGoogleLanguageTranslator(default_lang, lang_prefix) {
+    console.log(default_lang, )
     let event;
 
     const classic = $(".goog-te-combo");
@@ -26,6 +27,7 @@ function doGoogleLanguageTranslator(default_lang, lang_prefix) {
                 event.value = lang_prefix;
                 triggerHtmlEvent(event, "change");
             } else {
+
                 $(".goog-te-banner-frame:first")
                     .contents()
                     .find(".goog-close-link")

@@ -18,16 +18,16 @@ import environ
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True),
+    DEBUG=(bool, False),
 )
 
-DEBUG = True
+if os.path.exists(os.path.join(BASE_DIR, '.env')):
+    # reading .env file
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# reading .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -285,11 +285,13 @@ GEO_WIDGET_EMPTY_LOCATION = False
 GEO_WIDGET_ZOOM=3
 
 SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript"]
-
+RECAPTCHA_PRIVATE_KEY="6LeMKNIkAAAAAN7zSlskTdE03o0mV_nYUzOMZ33J"
+RECAPTCHA_PUBLIC_KEY="6LeMKNIkAAAAAMcSHmws7O4PVPe9kM7Lv-U7r649"
 # RECAPTCHA Settings
-RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY', default='')
-RECAPTCHA_PRIVATE_KEY =env('RECAPTCHA_PRIVATE_KEY', default='')
+# RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY', default='')
+# RECAPTCHA_PRIVATE_KEY =env('RECAPTCHA_PRIVATE_KEY', default='')
 NOCAPTCHA = True
+# RECAPTCHA_TESTING = True
 
 ORDERING_FIELD = 'position'
 WAGTAILDOCS_DOCUMENT_MODEL = 'core.CustomDocumentModel'

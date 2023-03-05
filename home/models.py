@@ -1,20 +1,19 @@
 from datetime import datetime, timedelta
 from itertools import groupby
-import json
 
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
-from django.http import JsonResponse
-from django.db.models import Count
+import json
 
 from wagtail.models import Page
 from wagtail.admin.panels import MultiFieldPanel,FieldPanel
 from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
+from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 from capeditor.models import Alert
 from services.models import ServiceIndexPage
-from forecast_manager.models import City, Forecast, ConditionCategory     
+from forecast_manager.models import City, Forecast     
 
 class HomePage(Page):
     templates = "home_page.html"
@@ -88,23 +87,93 @@ class HomePage(Page):
 
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=7)
-        forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),  forecast_date__lte=end_date_param.date()).order_by('forecast_date').values('id','city','forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition').annotate()
+        forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),  forecast_date__lte=end_date_param.date())\
+                .order_by('forecast_date')\
+                .values('id','city__name','forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title', 'condition__icon__file')
+                # .annotate(
+                #     forecast_date_str = Cast(
+                #         TruncDate('forecast_date', DateField()), CharField(),
+                #     ),
+                # )
 
         # sort the data by city
-        data_sorted = sorted(forecast_data, key=lambda x: x['city'])
+        data_sorted = sorted(forecast_data, key=lambda x: x['city__name'])
 
         # group the data by city
         grouped_forecast = []
-        for city, group in groupby(data_sorted, lambda x: x['city']):
-            city_data = {'city':City.objects.get(id=city), 'forecast_items': list(group)}
+        for city, group in groupby(data_sorted, lambda x: x['city__name']):
+            city_data = {'city':city, 'forecast_items': list(group)}
 
             for item in city_data['forecast_items']:
-                item['condition'] = ConditionCategory.objects.get(id=item['condition'])
+                # date_obj = datetime.strptime( item['forecast_date'], '%Y-%m-%d').date()
+                item['forecast_date'] =item['forecast_date'].strftime('%a %d, %b').replace(' 0', ' ')
 
             grouped_forecast.append(city_data)
+            
 
         return {
             'forecasts':grouped_forecast
+        }
+
+
+    @cached_property
+    def get_forecast_by_daterange(request):
+        start_date_param = datetime.today()
+        end_date_param = start_date_param + timedelta(days=7)
+        forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),  forecast_date__lte=end_date_param.date())\
+                .values('id','city__name', 'city__location', 'forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title', 'condition__icon__file')
+        
+
+        # sort the data by date
+        data_sorted = sorted(forecast_data, key=lambda x: x['forecast_date'])
+
+        # group the data by date
+        grouped_forecast = []
+        for forecast_date, group in groupby(data_sorted, lambda x: x['forecast_date']):
+            city_data = {
+                'forecast_date':forecast_date.strftime('%a %d, %b').replace(' 0', ' '), 
+                'forecast_features': {}
+            }
+
+
+            forecast_features = []
+            for forecast in list(group):
+                location = geosgeometry_str_to_struct(str(forecast['city__location']))
+                feature ={
+                        "type": "Feature",
+                        "properties": {
+                            'id':forecast['id'],
+                            'city_name':forecast['city__name'],
+                            'forecast_date':forecast['forecast_date'].strftime('%a %d, %b').replace(' 0', ' '),
+                            'max_temp':forecast['max_temp'],
+                            'min_temp':forecast['min_temp'],
+                            'wind_speed':forecast['wind_speed'],
+                            'wind_direction':forecast['wind_direction'],
+                            'condition_icon':forecast['condition__icon__file'],
+                            'condition_desc':forecast['condition__title'],
+                        },
+                        "geometry": {
+                            "coordinates": [
+                            location['x'],
+                            location['y'],
+                            ],
+                            "type": "Point"
+                    }
+                }
+            
+                forecast_features.append(feature)
+
+                print(feature)
+            city_data['forecast_features'] = {
+                "type": "FeatureCollection",
+                "features":forecast_features
+            }
+
+            grouped_forecast.append(city_data)
+          
+
+        return {
+            'day_forecast':grouped_forecast
         }
 
     @cached_property

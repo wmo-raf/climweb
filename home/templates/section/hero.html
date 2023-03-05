@@ -61,17 +61,16 @@
 
                             
                             <li class="is-active box animate__animated" style="text-align: left;">
-                                {% with forecasts.forecast_items|last as latest_forcast %}
+                                {% with forecasts.forecast_items|first as latest_forcast %}
 
                                 <div class="city active">
                                     <div class="columns">
                                         <div class="column">
                                             <h2 class="title" style="font-size: 17px">
-                                                {{forecasts.city.name|wordwrap:7|linebreaksbr}}
+                                                {{forecasts.city|wordwrap:7|linebreaksbr}}
                                             </h2>
                                                 {% comment %} {{ first_object.propertyname }} {% endcomment %}
-                                                <h2 class="subtitle" style="font-size: 11px">{{latest_forcast.condition.title|wordwrap:10|linebreaksbr}}</h2>
-
+                                                <h2 class="subtitle" style="font-size: 11px">{{latest_forcast.condition__title|wordwrap:10|linebreaksbr}}</h2>
                                         </div>
 
                                         <div class="column" style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
@@ -83,9 +82,10 @@
 
                                             <div class="columns is-gapless">
                                                 <div class="column" style="align-self:end">
-                                                        {% if latest_forcast.condition.icon %}
+                                                    
+                                                        {% if latest_forcast.condition__icon__file %}
                                                         <figure class="image" style="width:40px;display: inline-flex;">
-                                                                {% svg latest_forcast.condition.icon.file.name %}
+                                                                {% svg latest_forcast.condition__icon__file %}
                                                         </figure>
                                                         {% endif %}
 
@@ -104,12 +104,12 @@
                                 </div>
 
                                 <div class="city inactive">
-                                    <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">{{forecasts.city.name}}</h2>
+                                    <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">{{forecasts.city}}</h2>
                                     <div class="columns is-gapless pb-1">
                                         <div class="column" style="align-self:end;">
-                                            {% if latest_forcast.condition.icon %}
+                                            {% if latest_forcast.condition__icon__file %}
                                             <figure class="image" style="width:30px;display: inline-flex;filter: drop-shadow(0 0 0.2rem white);">
-                                                    {% svg latest_forcast.condition.icon.file.name %}
+                                                    {% svg latest_forcast.condition__icon__file %}
                                             </figure>
                                             {% endif %}                                        </div>
                                         <div class="column">
@@ -144,14 +144,14 @@
 
                                             <h2 class="title"
                                                 style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
-                                                {{item.forecast_date|date:'D j M'}}
+                                                {{item.forecast_date}}
                                             </h2>
 
                                             <div class="columns is-gapless pb-1">
                                                 <div class="column mr-1" style="align-self:end; text-align: end;">
                                                     <figure style="width:30px;display: inline-flex;">
-                                                    {% if item.condition.icon %}
-                                                        {% svg item.condition.icon.file.name %}
+                                                    {% if item.condition__icon__file %}
+                                                        {% svg item.condition__icon__file %}
                                                     {% endif %}
                                                     </figure>
                                                 </div>
@@ -175,7 +175,7 @@
 
                                             <h2 class="title"
                                                 style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
-                                                {{item.wind_speed}} Km/h
+                                                {{item.wind_speed}} Km/hr
                                             </h2>
 
 
