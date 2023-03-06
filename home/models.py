@@ -86,7 +86,7 @@ class HomePage(Page):
     def get_forecast_by_city(request):
 
         start_date_param = datetime.today()
-        end_date_param = start_date_param + timedelta(days=7)
+        end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),  forecast_date__lte=end_date_param.date())\
                 .order_by('forecast_date')\
                 .values('id','city__name','forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title', 'condition__icon__file')
@@ -119,7 +119,7 @@ class HomePage(Page):
     @cached_property
     def get_forecast_by_daterange(request):
         start_date_param = datetime.today()
-        end_date_param = start_date_param + timedelta(days=7)
+        end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),  forecast_date__lte=end_date_param.date())\
                 .values('id','city__name', 'city__location', 'forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title', 'condition__icon__file')
         
@@ -163,7 +163,6 @@ class HomePage(Page):
             
                 forecast_features.append(feature)
 
-                print(feature)
             city_data['forecast_features'] = {
                 "type": "FeatureCollection",
                 "features":forecast_features

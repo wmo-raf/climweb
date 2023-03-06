@@ -80,24 +80,75 @@
                     <div class="column ml-3">
                         <div class="card">
                             <div id="home-map" style="border-radius: 0.5rem"></div>
-                            <div id="floating-div" style="position: absolute;
-                            top: 0.5em;
-                            left: 0.5em;
-                            z-index: 1;
-                            background-color: white;
-                            padding: 10px;
-                            border-radius: 5px;
-                            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);">
-                            <div class="select">
-                              <select id="daily_forecast">
-                                {% for day in self.get_forecast_by_daterange.day_forecast %}
-                                  <option value="{{day.forecast_date}}">{{day.forecast_date}}</option>
+                              <div id="floating-div" style="position: absolute;
+                              top: 0.5em;
+                              left: 0;
+                              z-index: 1;
+                              background-color: transparent;
+                              padding: 10px;
+                              border-radius: 5px;
+                              ">
+                                <div class="control has-icons-left">
+                                  <div class="select">
+                                    <select id="daily_forecast">
+                                      {% for day in self.get_forecast_by_daterange.day_forecast %}
+                                        <option value="{{day.forecast_date}}">{{day.forecast_date}}</option>
 
-                                {% endfor %}
-                              </select>
+                                      {% endfor %}
+                                    </select>
+                                    
+                                  </div>
+                                  <span class="icon is-left">
+                                    <i class="fas fa-calendar-days"></i>
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div id="floating-div" style="position: absolute;
+                              bottom: 1.5em;
+                              right: 0.5em;
+                              z-index: 1;
+                              background-color: white;
+                              padding: 10px;
+                              border-radius: 5px;
+                              ">
+                              <h2 class="title" style="font-size:14px; margin-bottom:1em">CAP Alerts</h2>
+                              {% comment %} <ul>
+                                <li> {% endcomment %}
+                                  <div class="legend-item" style="display:flex; align-items: center;">
+                                    <div class="legend-icon" style="width: 12px;
+                                    height: 12px;
+                                    background-color: rgb(215, 47, 42); border-radius:100%; border:1px solid #c8c8c8"></div>
+                                    <span style="padding-left:0.3em; font-size:13px">Extreme Severity<span>
+                                  </div>
+                                  <div class="legend-item" style="display:flex; align-items: center;">
+                                    <div class="legend-icon" style="width: 12px;
+                                    height: 12px;
+                                    background-color: #f89904; border-radius:100%; border:1px solid #c8c8c8"></div>
+                                    <span style="padding-left:0.3em; font-size:13px">Severe Severity<span>
+                                  </div>
+                                  <div class="legend-item" style="display:flex; align-items: center;">
+                                    <div class="legend-icon" style="width: 12px;
+                                    height: 12px;
+                                    background-color: #fdff00; border-radius:100%; border:1px solid #c8c8c8"></div>
+                                    <span style="padding-left:0.3em; font-size:13px">Moderate Severity<span>
+                                  </div>
+                                  <div class="legend-item" style="display:flex; align-items: center;">
+                                    <div class="legend-icon" style="width: 12px;
+                                    height: 12px;
+                                    background-color: #53ffff; border-radius:100%; border:1px solid #c8c8c8"></div>
+                                    <span style="padding-left:0.3em; font-size:13px">Minor Severity<span>
+                                  </div>
+                                  <div class="legend-item" style="display:flex; align-items: center;">
+                                    <div class="legend-icon" style="width: 12px;
+                                    height: 12px;
+                                    background-color: #3366ff; border-radius:100%; border:1px solid #c8c8c8"></div>
+                                    <span style="padding-left:0.3em; font-size:13px">Unknown Severity<span>
+                                  </div>
+                                  {% comment %} <li>
+                              </ul> {% endcomment %}
                             </div>
                             </div>
-                        </div>
                     </div>
                 </div>
 
@@ -232,7 +283,7 @@
                 "#3366ff",
                 "black",
               ],
-              "fill-opacity": 0.6,
+              "fill-opacity": 0.7,
             },
         });
     
@@ -263,8 +314,6 @@
 
       var cityForecasts = JSON.parse('{{self.get_forecast_by_daterange.day_forecast|escapejs}}'.replace(/'/g, '"'))
       if (cityForecasts){
-        console.log(cityForecasts)
-
         cityForecasts.map(forecast => {
           forecast.forecast_features.features.map(city => {  
             
@@ -290,7 +339,8 @@
           type:"symbol",
           'layout': {
             'icon-image':['get', 'condition_icon'],
-            'icon-size': 0.35
+            'icon-size': 0.3,
+            'icon-allow-overlap':true
           },
           'paint':{
             'icon-halo-color':'red',
@@ -299,20 +349,62 @@
             'icon-halo-blur':10
           }
         })
+        map.addLayer({
+          id:"city-forecasts-max_temp",
+          source:"city-forecasts",
+          type:"symbol",
+          'layout': {
+            'text-offset':[2,-0.5],
+            'text-field':['concat', ['get','max_temp'], '°C'],
+            'text-allow-overlap':true
+          },
+          'paint':{
+            'text-halo-color':'#fff',
+            'text-halo-width':2,
+
+          }
+          
+        })
+        map.addLayer({
+          id:"city-forecasts-min_temp",
+          source:"city-forecasts",
+          type:"symbol",
+          'layout': {
+            'text-offset':[2.5,0.5],
+            'text-field':['concat', ['get','min_temp'], '°C'],
+            'text-size':12,
+            'text-allow-overlap':true
+
+          },
+          'paint':{
+            'text-halo-color':'#fff',
+            'text-halo-width':2,
+
+          }
+          
+        })
 
         // toggle forecasts by selected date 
         $('#daily_forecast').on('change', function (e) {
           var optionSelected = $("option:selected", this);
           var valueSelected = this.value;
           var selectedForecast = cityForecasts.find(forecast => forecast.forecast_date === valueSelected)
-          console.log("Value selected",selectedForecast)
   
           if (map.getLayer("city-forecasts")) {
             map.removeLayer("city-forecasts");
           }
+          if (map.getLayer("city-forecasts-max_temp")) {
+            map.removeLayer("city-forecasts-max_temp");
+          }
+
+          if (map.getLayer("city-forecasts-min_temp")) {
+            map.removeLayer("city-forecasts-min_temp");
+          }
           if (map.getSource("city-forecasts")) {
             map.removeSource("city-forecasts");
           }
+
+         
 
           map.addSource("city-forecasts",{
             type:"geojson",
@@ -325,7 +417,9 @@
             type:"symbol",
             'layout': {
               'icon-image':['get', 'condition_icon'],
-              'icon-size': 0.35
+              'icon-size': 0.30,
+              'icon-allow-overlap':true
+
             },
             'paint':{
               'icon-halo-color':'red',
@@ -333,6 +427,41 @@
               'icon-color':'#fff',
               'icon-halo-blur':10
             }
+          })
+
+          map.addLayer({
+            id:"city-forecasts-max_temp",
+            source:"city-forecasts",
+            type:"symbol",
+            'layout': {
+              'text-offset':[2,-0.5],
+              'text-field':['concat', ['get','max_temp'], '°C'],
+              'text-allow-overlap':true
+            },
+            'paint':{
+              'text-halo-color':'#fff',
+              'text-halo-width':2,
+  
+            }
+            
+          })
+          map.addLayer({
+            id:"city-forecasts-min_temp",
+            source:"city-forecasts",
+            type:"symbol",
+            'layout': {
+              'text-offset':[2.5,0.5],
+              'text-field':['concat', ['get','min_temp'], '°C'],
+              'text-size':12,
+              'text-allow-overlap':true
+  
+            },
+            'paint':{
+              'text-halo-color':'#fff',
+              'text-halo-width':2,
+  
+            }
+            
           })
         });
 

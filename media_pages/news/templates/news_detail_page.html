@@ -5,7 +5,7 @@
 
 {% block page_meta %}
     {% if page.feature_img_src %}
-        {% comment %} {% setvar current_site.root_url|add:page.feature_img_src as meta_image %} {% endcomment %}
+        {% setvar current_site.root_url|add:page.feature_img_src as meta_image %}
     {% endif %}
     {% include 'wagtailmetadata/parts/tags.html' with object=page site_name=current_site.site_name meta_image=meta_image %}
 {% endblock %}
@@ -36,7 +36,7 @@
                                     <span>{{ page.news_type }}</span>
                                     <span class="icon" title="No of views" style="padding-left: 30px">
                                         <i class="fas fa-eye"></i>
-                                        {% comment %} <span class="item-tag-content">{{ page.webhits.count }}</span> {% endcomment %}
+                                        <span class="item-tag-content">{{ page.webhits.count }}</span>
                                     </span>
                                 </div>
                                 <div class="share-buttons">

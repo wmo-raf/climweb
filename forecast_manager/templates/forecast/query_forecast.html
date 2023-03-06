@@ -4,7 +4,9 @@
 
 <h2 style="padding-top: 2em">Query Forecasts</h2>
 
-<form style="display: inline-flex;" id="queryForm" method="get">
+<form  id="queryForm" method="get">
+    <div class="row row-flush">
+        <div class="col9" style="display:inline-flex">
     <div class="w-field__wrapper" data-field-wrapper="">
         <label class="w-field__label" for="id_start_date" id="id_start_date-label">
             Start Date
@@ -54,20 +56,31 @@
             <div data-field-help=""></div>
         </div>
     </div>
+</div>
 
-    <div>
-        <label class="w-field__label" for="id_select" id="id_select-label" style="visibility: hidden;">
-            Load
-        </label>
+    <div class="col3" style="text-align:end">
+        <div>
+            <label class="w-field__label" for="id_select" id="id_select-label" style="visibility: hidden;">
+                Load
+            </label>
 
-        <button type="submit" class="button actionbutton queryForecast" id="loadForecast"
-            style="display:none">Load</button>
+            <button type="submit" class="button actionbutton queryForecast" id="loadForecast"
+                style="display:none">Load</button>
+        </div>
     </div>
+
+</div>
 
 </form>
 
 <div id="queryTable" style="z-index: 1"></div>
 
+<div class="row row-flush" style="padding-top:1rem">
+    <div class="col12" style="text-align:end">
+      <button type="button" class="button actionbutton" id="exportQueryTable">Export Table as CSV</button>
+    </div>
+  </div>
+  
 <script>
     var city_ls = JSON.parse('{{city_ls|escapejs}}')
     city_ls.map(city => {
@@ -104,15 +117,17 @@
 
             },
             {
+                type: 'date',
                 data: 'forecast_date',
-
-            },
-            {
-                data: 'max_temp',
+                dateFormat: 'YYYY-MM-DD',
 
             },
             {
                 data: 'min_temp',
+
+            },
+            {
+                data: 'max_temp',
 
             },
             {
@@ -148,7 +163,6 @@
             dataType: 'json',
             success: function (data) {
                 // Populate the Handsontable table with the data
-                console.log(data)
                 hotQuery.loadData(data)
 
             },
@@ -163,5 +177,22 @@
         var values = $(this).serialize();
         fetchData(values)
 
+    })
+
+    const exportQueryPlugin = hotQuery.getPlugin('exportFile');
+
+    document.getElementById('exportQueryTable').addEventListener('click', function(){
+        exportQueryPlugin.downloadFile('csv', {
+            bom: false,
+            columnDelimiter: ',',
+            columnHeaders: true,
+            exportHiddenColumns: true,
+            exportHiddenRows: true,
+            fileExtension: 'csv',
+            filename: 'city_forecasts_[YYYY]-[MM]-[DD]',
+            mimeType: 'text/csv',
+            rowDelimiter: '\r\n',
+            rowHeaders: true
+        });
     })
 </script>

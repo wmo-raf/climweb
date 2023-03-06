@@ -14,9 +14,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 180px;
+        height: 100px;
       }
-      
       
       .overlay_1 {
         left: 0;
@@ -30,11 +29,11 @@
 {% image page.hero_banner original as img %}
 
 <main style="position: relative;">
-<section id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: background-image: url({% lazy_image_url img %}); background-size:cover; min-height:600px"
+<section id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; height:750px"
   data-progressive="{{img.url}}">
   <div class="hero-body has-text-centered pb-6">
     <div class="container">
-        <div class="columns is-justify-content-center">
+        <div class="columns is-justify-content-center py-4">
             <div class="column is-6">
                 <p class="title pb-4" style="font-weight:600; font-size: 38px; color: {{self.text_color}};">
                     {{self.hero_title|richtext}}
@@ -45,21 +44,18 @@
             </div>
         </div>
 
-
         <!-- forecasts section  -->
-        {% if self.enable_weather_forecasts %}
+        {% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
 
         <div class="columns is-justify-content-center" style="position:inherit;z-index: 1 ">
             <div class="column is-11">
                 <div id="tabs-with-content">
-
                     <!-- tabs  -->
                     <div class="tabs is-boxed is-centered">
                         <ul>
 
                             {% for forecasts in self.get_forecast_by_city.forecasts %}
-
-                            
+                          
                             <li class="is-active box animate__animated" style="text-align: left;">
                                 {% with forecasts.forecast_items|first as latest_forcast %}
 
@@ -95,11 +91,8 @@
                                                     <h3 style="font-size:13px; font-weight:600">{{latest_forcast.min_temp}}</h3>
 
                                                 </div>
-
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
 
@@ -182,14 +175,12 @@
                                         </div>
                                         {% endfor %}
 
-
                                     </div>
 
                                 </section>
 
                         {% endfor %}
-                       
-                       
+                     
                     </div>
 
                 </div>
@@ -220,9 +211,10 @@
 
 </section>
 
+{% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
 <section class="overlay overlay_1">
 </section>
-    
+{% endif %}    
 
 </main>
 {% block extra_js %}

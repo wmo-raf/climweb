@@ -1,3 +1,4 @@
+{% load wagtailcore_tags %}
 <footer class="footer" style="background-color: #262c38; color: #f9f9f9">
   <div class="container">
     <div class="columns py-6">
@@ -13,29 +14,43 @@
           "
           >N.M.H.S
         </a>
-        <p class="title is-6 has-text-white-ter has-text-weight-normal">
+        <p class="title is-6 has-text-white has-text-weight-normal">
           National Meteorological & <br> Hydrological Services
         </p>
       </div>
 
       <div class="column">
         <div class="content">
-          <h1 class="title is-6 has-text-white-ter has-text-weight-medium">
+          <h1 class="title is-6 has-text-white has-text-weight-bold">
             SERVICES
           </h1>
         </div>
-        <div style="font-size: 14px" class="has-text-weight-light">
-          <p>Forecasting</p>
-          <p>Marine</p>
-          <p>Climate</p>
-          <p>Aviation</p>
-          <p>Air quality</p>
+        <div class="has-text-weight-normal">
+          <p style="font-size: 14px" >Forecasting</p>
+          <p style="font-size: 14px">Marine</p>
+          <p style="font-size: 14px">Climate</p>
+          <p style="font-size: 14px">Aviation</p>
+          <p style="font-size: 14px">Air quality</p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h1 class="title is-6 has-text-white has-text-weight-bold">
+            SERVICES
+          </h1>
+        </div>
+        <div class="has-text-weight-normal">
+          <p style="font-size: 14px" >Forecasting</p>
+          <p style="font-size: 14px">Marine</p>
+          <p style="font-size: 14px">Climate</p>
+          <p style="font-size: 14px">Aviation</p>
+          <p style="font-size: 14px">Air quality</p>
         </div>
       </div>
       <div class="column">
         <div class="quick-links">
           <div class="content">
-            <h1 class="title is-6 has-text-white-ter has-text-weight-medium">
+            <h1 class="title is-6 has-text-white has-text-weight-medium">
               QUICK LINKS
             </h1>
           </div>
@@ -47,17 +62,30 @@
         </div>
         <div class="address pt-6">
           <div class="content">
-            <h1 class="title is-6 has-text-white-ter has-text-weight-medium">
+            <h1 class="title is-6 has-text-white has-text-weight-medium">
               OUR OFFICE
             </h1>
           </div>
+
+          {% if settings.site_settings.SocialAndAddressSettings.address  %}
+
           <div style="font-size: 14px" class="has-text-weight-light">
-            <p>Khartoum Corner</p>
-            <p>Khartoum Road, P.O Box 30259, 00100 GPO</p>
-            <p>Khartoum, Sudan</p>
-            <p><b>Phone:</b> +25X 20 38567880-5, +25X 724 255153-4</p>
-            <p><b>Email:</b> director@meteo.go.sud, info@meteo.go.sud</p>
+            {{settings.site_settings.SocialAndAddressSettings.address|richtext}}
           </div>
+          {% endif %}
+
+          {% if settings.site_settings.SocialAndAddressSettings.phone  %}
+
+          <div style="font-size: 14px" class="has-text-weight-light">
+            Tel: {{settings.site_settings.SocialAndAddressSettings.phone}}
+          </div>
+          {% endif %}
+          {% if settings.site_settings.SocialAndAddressSettings.email  %}
+
+          <div style="font-size: 14px" class="has-text-weight-light">
+            Email: {{settings.site_settings.SocialAndAddressSettings.email}}
+          </div>
+          {% endif %}
         </div>
       </div>
       <div class="colum">

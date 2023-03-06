@@ -2,10 +2,14 @@
 
 <div id="createTable" style=z-index:1></div>
 <div class="row row-flush" style="padding-top:1rem">
-  <div class="col12" style="text-align:start">
+  <div class="col6" style="text-align:start">
 
     <button type="button" class="button button-secondary actionbutton" id="addRows">Add 10+ Rows</button>
+    <button type="button" class="button button-secondary actionbutton" id="clearRows">Clear Table</button>
 
+  </div>
+  <div class="col6" style="text-align:end">
+    <button type="button" class="button actionbutton" id="exportTable">Export Table as CSV</button>
   </div>
 </div>
 
@@ -29,6 +33,7 @@
       {
         type: 'date',
         allowEmpty: false,
+        dateFormat: 'YYYY-MM-DD',
       },
       {
         type: 'numeric',
@@ -102,6 +107,28 @@
     return hasError
   }
 
+  document.getElementById('clearRows').addEventListener('click', function (){
+    //reset table 
+    hot.updateData([])
+  })
+
+  const exportPlugin = hot.getPlugin('exportFile');
+
+  document.getElementById('exportTable').addEventListener('click', function(){
+    exportPlugin.downloadFile('csv', {
+      bom: false,
+      columnDelimiter: ',',
+      columnHeaders: true,
+      exportHiddenColumns: true,
+      exportHiddenRows: true,
+      fileExtension: 'csv',
+      filename: 'city_forecasts_[YYYY]-[MM]-[DD]',
+      mimeType: 'text/csv',
+      rowDelimiter: '\r\n',
+      rowHeaders: true
+    });
+  })
+
 
   document.getElementById('submitForecast').addEventListener('click', function () {
 
@@ -124,10 +151,9 @@
     if (nonNullRows.length > 0) {
 
       for (var i = 0; i < nonNullRows.length; i++) {
-        var forecast_date = nonNullRows[i][1].split('/')
         var row = {
           'city': nonNullRows[i][0],
-          'forecast_date': `${forecast_date[2]}-${forecast_date[1]}-${forecast_date[0]}`,
+          'forecast_date': nonNullRows[i][1],
           'min_temp': nonNullRows[i][2],
           'max_temp': nonNullRows[i][3],
           'wind_direction': nonNullRows[i][5],
@@ -147,7 +173,15 @@
         },
         success: function (response) {
           // Clear the Handsontable table
-          $('#creatSuccess').show()
+          $('#creatSuccess').show('slow')
+
+          setTimeout(function () {
+            $('#creatSuccess').hide('slow')
+
+          }, 5000)
+
+          //clear table on successful submission
+          hot.updateData([])
         },
         error: function (jqXHR, textStatus, errorThrown) {
 
@@ -158,7 +192,7 @@
             setTimeout(function () {
               $('#creatError').hide('slow')
 
-            }, 3000)
+            }, 5000)
 
           }
 
@@ -172,7 +206,7 @@
       setTimeout(function () {
         $('#creatError').hide('slow')
 
-      }, 3000)
+      }, 5000)
     }
 
   })

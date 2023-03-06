@@ -65,7 +65,7 @@
                                             </h4>
                                             {% if result.search_description %}
                                                 <p class="search-result-item-desc format-text">
-                                                    {{ result.search_description|safe|richtext|truncatechars_html:100 }}
+                                                    {{ result.search_description|safe|richtext|truncatechars_html:200 }}
                                                 </p>
                                             {% endif %}
                                             {% if result.search_result_url %}
@@ -75,6 +75,7 @@
                                                 <a class="button is-rounded is-small search-result-item-more"
                                                    href="{% pageurl result %}">More</a>
                                             {% endif %}
+                                            <hr>
                                         </li>
                                     {% endfor %}
                                 </ul>

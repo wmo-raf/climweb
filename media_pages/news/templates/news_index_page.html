@@ -17,7 +17,7 @@
             <section class="featured-news-section">
                 <div class="container">
                     <h2 class="section-title center">Featured News</h2>
-                    {% comment %} {% include 'featured_item_include.html' with item_image_src=featured_news.feature_img_src item_title=featured_news.title  item_text=featured_news.body item_url=featured_news.url item_meta=featured_news.date item_tags=featured_news.tags %} {% endcomment %}
+                    {% include 'featured_item_include.html' with item_image_src=featured_news.feature_img_src item_title=featured_news.title  item_text=featured_news.body item_url=featured_news.url item_meta=featured_news.date item_tags=featured_news.tags %}
                 </div>
             </section>
         {% endif %}

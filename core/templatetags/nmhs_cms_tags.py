@@ -141,11 +141,11 @@ def svg(filename, is_static=False):
 
     if is_static:
         BASE_DIR = getattr(settings, 'BASE_DIR')
-        path = os.path.join(BASE_DIR, 'svg', '{filename}.svg'.format(
+        path = os.path.join(BASE_DIR, 'svg', '{filename}'.format(
             filename=filename))
 
         if not path:
-            message = "SVG '{filename}.svg' not found".format(filename=filename)
+            message = "SVG hello '{filename}' not found".format(filename=filename)
 
             # Raise exception if DEBUG is True, else just log a warning.
             if settings.DEBUG:
