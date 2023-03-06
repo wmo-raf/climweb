@@ -1,14 +1,22 @@
 {% load menu_tags i18n wagtailcore_tags static %}
+{% load wagtailimages_tags %}
 
-<div class="container is-fluid" style="border-bottom:1px solid rgba(195, 192, 192, 0.37)">
+{% image settings.site_settings.LogoAndMottoSettings.logo width-400 as logo%}
+<div class="container is-fluid" style="border-bottom:1px solid rgba(195, 192, 192, 0.37);">
     <div class="container">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/"
                     style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
-                    <!-- <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"> -->
-                    N.M.H.S
+                    {% comment %} TODO: REVERT {% endcomment %}
+                    {% if not logo %} 
+                        <img src="{{logo.url}}" style="height:auto" >
 
+                        {% else %}
+                        N.M.H.S
+
+                    {% endif %}
+                </a>
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
                     data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>

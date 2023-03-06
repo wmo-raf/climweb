@@ -1,0 +1,28 @@
+{% load wagtailcore_tags %}
+<div class="intro-items-container">
+    <div class="intro-items-header">
+        <span>{% if what_we_do_title %}
+            {{ what_we_do_title }}
+        {% else %}
+            What we do
+        {% endif %} </span>
+    </div>
+    <div class="columns is-multiline is-mobile intro-items">
+        {% with page.what_we_do_items|length|divisibleby:3 as is_by3 %}
+            {% for block in page.what_we_do_items %}
+                {% include_block block with is_by3=is_by3 %}
+            {% endfor %}
+        {% endwith %}
+    </div>
+    {% if page.what_we_do_button_text and page.what_we_do_button_link %}
+        <div class="center">
+            <a href="{{ page.what_we_do_button_link.url }}"
+               class="button is-rounded center sec-btn cta-btn">
+                <span>{{ page.what_we_do_button_text }}</span>
+                <span class="icon">
+                    <i class="fas fa-arrow-right"></i>
+                </span>
+            </a>
+        </div>
+    {% endif %}
+</div>

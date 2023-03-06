@@ -1,4 +1,8 @@
 {% load wagtailcore_tags %}
+{% load menu_tags %}
+{% load wagtailsettings_tags %}
+{% get_settings use_default_site=True %}
+
 <footer class="footer" style="background-color: #262c38; color: #f9f9f9">
   <div class="container">
     <div class="columns py-6">
@@ -18,6 +22,8 @@
           National Meteorological & <br> Hydrological Services
         </p>
       </div>
+
+      {% flat_menu 'footer' max_levels=2 show_menu_heading=True fall_back_to_default_site_menus=True template="navigation/footer_menu.html" %}
 
       <div class="column">
         <div class="content">

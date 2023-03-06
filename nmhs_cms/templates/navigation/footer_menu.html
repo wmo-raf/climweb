@@ -1,0 +1,25 @@
+{% load wagtailsettings_tags %}
+{% get_settings use_default_site=True %}
+
+{% regroup menu_items by handle as menu_items_list %}
+
+{% for handle in menu_items_list %}
+    <div class="column is-one-quarter-desktop is-half-mobile ">
+        <p class="footer-link-title is-uppercase title">
+            <a class="has-text-white">{{ handle.grouper.title }}</a>
+        </p>
+        {% for item in handle.list %}
+            {% if item.is_action %}
+                <a href="{{ item.href }}"
+                   class="button is-small is-black is-inverted is-outlined is-rounded" style="margin-top: 8px"
+                   data-ga-event-category="Footer Action"
+                   data-ga-event-label="{{ item.text }}"
+                >
+                    {{ item.text }}
+                </a>
+            {% else %}
+                <a href="{{ item.href }}" class="footer-link has-text-white">{{ item.text }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endfor %}

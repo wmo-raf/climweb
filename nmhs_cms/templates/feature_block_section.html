@@ -1,0 +1,5 @@
+{% load wagtailcore_tags %}
+
+{% for block in feature_blocks %}
+    {% include_block block with is_even=forloop.counter|divisibleby:2 %}
+{% endfor %}
