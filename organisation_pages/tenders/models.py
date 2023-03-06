@@ -135,7 +135,7 @@ class TendersPage(Page):
         return TenderDetailPage.objects.live().order_by('-posting_date')
 
     def get_context(self, request, *args, **kwargs):
-        context = super(TendersIndexPage, self).get_context(
+        context = super(TendersPage, self).get_context(
             request, *args, **kwargs)
 
         context['tenders'] = self.filter_and_paginate_tenders(request)
