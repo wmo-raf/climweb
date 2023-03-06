@@ -128,12 +128,38 @@
 {% block extra_js %}
 <script>
 
-  mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JhY2VhbW9uZGkiLCJhIjoiY2s4dGphcGQwMDBhcjNmcnkzdGk3MnlrZCJ9.54r40Umo0l3dHseEbrQpUg';
+  const climateStyle = {
+    "version": 8,
+    "glyphs": "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+    "sources": {
+      "osm": {
+        "type": "raster",
+        "tiles": [
+          "https://stamen-tiles-a.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
+          "https://stamen-tiles-b.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
+          "https://stamen-tiles-c.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
+          "https://stamen-tiles-d.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
+          // "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}@2x.png"
+      ],
+        "tileSize": 256,
+        "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+       
+        "maxZoom": 18,
+      }
+    },
+    "layers": [
+      {
+        "id": "osm",
+        "type": "raster",
+        "source": "osm" // This must match the source key above
+      }
+    ]
+  };
 
-  const climateMap = new mapboxgl.Map({
+  const climateMap = new maplibregl.Map({
     container: 'climate-map', // container ID
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: 'mapbox://styles/mapbox/light-v10', // style URL
+    style: climateStyle,
     center: [30.30252782218591,
       15.302857659429051], // starting position [lng, lat]
     zoom: 4.2, // starting zoom
@@ -142,7 +168,7 @@
   });
 
   // Add zoom and rotation controls to the map.
-  climateMap.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+  climateMap.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 
   climateMap.on("load", () => {
 

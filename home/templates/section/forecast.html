@@ -4,83 +4,79 @@
 {% for info in alert.alert_info.all %}
 {% for alert_area in info.alert_areas.values%}
 
- 
- <input
-  name="alert-area"
-  class="alert-area"
-  id="area-{{ alert_area.id }}"
-  type="hidden"
-  value='{"severity":"{{info.severity}}","severityInfo":"{{info.get_severity_display}}","event":"{{info.event}}","areaDesc":"{{alert_area.area_desc}}","area":"{{ alert_area.area }}"}'
-/>
+
+<input name="alert-area" class="alert-area" id="area-{{ alert_area.id }}" type="hidden"
+  value='{"severity":"{{info.severity}}","severityInfo":"{{info.get_severity_display}}","event":"{{info.event}}","areaDesc":"{{alert_area.area_desc}}","area":"{{ alert_area.area }}"}' />
 {% endfor %}
 {% endfor %}
 {% endfor %}
 
 
 <section class="py-6">
-    <div class="container">
-        <div class="columns is-justify-content-center">
-            <div class="column is-11">
-                <div class="columns">
-                    <div class="column is-4 mr-3">
-                        <h2 class="title pb-4" style="font-size: 23px; font-weight: 700;">
-                            Latest Weather Warnings 
-                        </h2>
-                        {% if self.get_alerts %}
+  <div class="container">
+    <div class="columns is-justify-content-center">
+      <div class="column is-11">
+        <div class="columns">
+          <div class="column is-4 mr-3">
+            <h2 class="title pb-4" style="font-size: 23px; font-weight: 700;">
+              Latest Weather Warnings
+            </h2>
+            {% if self.get_alerts %}
 
-                        {% for alert in self.get_alerts.latest_alerts.all %}
-                        {% for info in alert.alert_info.all %}
-                            <div class="box"
-                            style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
-                            <a href="{{alert.url}}">
-                            <div class="columns is-gapless">
-                                <div class="column is-1" style="margin-right:10px;border-radius:4px; ">
-                                    <img src="{% static 'img/CAPLogo.jpeg'%}" alt="" width="20" style="border-radius:4px; padding-top:5px">
-                                </div>
-                                <div class="column">
-                                    <p class="title  py-0 my-1" style="font-size: 13px;font-weight:700;">{{alert.title}}</p>
-                                    
-                                    <p class="subtitle  py-0 my-1" style="font-size: 12px;">{{info.get_severity_display}} severity</p>
-                                    {% for alert_area in info.alert_areas.values%}
-                                    <span class="tag is-info"> <i class="fa fa-location-pin pr-1"> </i>  {{alert_area.area_desc}}</span> 
+            {% for alert in self.get_alerts.latest_alerts.all %}
+            {% for info in alert.alert_info.all %}
+            <div class="box" style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+              <a href="{{alert.url}}">
+                <div class="columns is-gapless">
+                  <div class="column is-1" style="margin-right:10px;border-radius:4px; ">
+                    <img src="{% static 'img/CAPLogo.jpeg'%}" alt="" width="20"
+                      style="border-radius:4px; padding-top:5px">
+                  </div>
+                  <div class="column">
+                    <p class="title  py-0 my-1" style="font-size: 13px;font-weight:700;">{{alert.title}}</p>
 
-                                    {% endfor %}
-                                </div>
-                            </div>
-                          </a>
-                        </div>
+                    <p class="subtitle  py-0 my-1" style="font-size: 12px;">{{info.get_severity_display}} severity</p>
+                    {% for alert_area in info.alert_areas.values%}
+                    <span class="tag is-info"> <i class="fa fa-location-pin pr-1"> </i> {{alert_area.area_desc}}</span>
 
-                        {% endfor %}
-                        {% endfor %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </a>
+            </div>
 
-                        {% else %}
+            {% endfor %}
+            {% endfor %}
 
-                        <p>No alerts at the moment</p>
-                        {% endif %}
+            {% else %}
 
-                        <div>
-                        <a class="button is-dark has-text-white is-small p-4"
-                        style=" font-weight: 600;  border-radius: 0.5em;" href="/alerts">
-                        <span>CAPs</span>
+            <p>No alerts at the moment</p>
+            {% endif %}
 
-                        <span class="icon">
-                            <i class="fa fa-rss"></i>
-                        </span>
-                    </a>
-                        <a class="button is-dark is-small p-4 has-text-white" style="font-weight: 600; border-radius: 0.5em;" href="/news">
-                            <span>News</span>
+            <div>
+              <a class="button is-dark has-text-white is-small p-4" style=" font-weight: 600;  border-radius: 0.5em;"
+                href="/alerts">
+                <span>CAPs</span>
 
-                            <span class="icon">
-                                <i class="fa fa-newspaper"></i>
-                            </span>
-                        </a>
-                      </div>
-                        
-                    </div>
-                    <div class="column ml-3">
-                        <div class="card">
-                            <div id="home-map" style="border-radius: 0.5rem"></div>
-                              <div id="floating-div" style="position: absolute;
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+              </a>
+              <a class="button is-dark is-small p-4 has-text-white" style="font-weight: 600; border-radius: 0.5em;"
+                href="/news">
+                <span>News</span>
+
+                <span class="icon">
+                  <i class="fa fa-newspaper"></i>
+                </span>
+              </a>
+            </div>
+
+          </div>
+          <div class="column ml-3">
+            <div class="card">
+              <div id="home-map" style="border-radius: 0.5rem"></div>
+              <div id="floating-div" style="position: absolute;
                               top: 0.5em;
                               left: 0;
                               z-index: 1;
@@ -88,93 +84,123 @@
                               padding: 10px;
                               border-radius: 5px;
                               ">
-                                <div class="control has-icons-left">
-                                  <div class="select">
-                                    <select id="daily_forecast">
-                                      {% for day in self.get_forecast_by_daterange.day_forecast %}
-                                        <option value="{{day.forecast_date}}">{{day.forecast_date}}</option>
+                <div class="control has-icons-left">
+                  <div class="select">
+                    <select id="daily_forecast">
+                      {% for day in self.get_forecast_by_daterange.day_forecast %}
+                      <option value="{{day.forecast_date}}">{{day.forecast_date}}</option>
 
-                                      {% endfor %}
-                                    </select>
-                                    
-                                  </div>
-                                  <span class="icon is-left">
-                                    <i class="fas fa-calendar-days"></i>
-                                  </span>
-                                </div>
-                              </div>
+                      {% endfor %}
+                    </select>
 
-                              <div id="floating-div" style="position: absolute;
-                              bottom: 1.5em;
-                              right: 0.5em;
+                  </div>
+                  <span class="icon is-left">
+                    <i class="fas fa-calendar-days"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div id="floating-div" style="position: absolute;
+                              bottom: 1em;
+                              left: 0.5em;
                               z-index: 1;
                               background-color: white;
                               padding: 10px;
                               border-radius: 5px;
+                              box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
                               ">
-                              <h2 class="title" style="font-size:14px; margin-bottom:1em">CAP Alerts</h2>
-                              {% comment %} <ul>
-                                <li> {% endcomment %}
-                                  <div class="legend-item" style="display:flex; align-items: center;">
-                                    <div class="legend-icon" style="width: 12px;
+                <h2 class="title" style="font-size:14px; margin-bottom:1em">CAP Alerts</h2>
+                {% comment %} <ul>
+                  <li> {% endcomment %}
+                    <div class="legend-item" style="display:flex; align-items: center;">
+                      <div class="legend-icon" style="width: 12px;
                                     height: 12px;
-                                    background-color: rgb(215, 47, 42); border-radius:100%; border:1px solid #c8c8c8"></div>
-                                    <span style="padding-left:0.3em; font-size:13px">Extreme Severity<span>
-                                  </div>
-                                  <div class="legend-item" style="display:flex; align-items: center;">
-                                    <div class="legend-icon" style="width: 12px;
+                                    background-color: rgb(215, 47, 42); border-radius:100%; border:1px solid #c8c8c8">
+                      </div>
+                      <span style="padding-left:0.3em; font-size:13px">Extreme Severity<span>
+                    </div>
+                    <div class="legend-item" style="display:flex; align-items: center;">
+                      <div class="legend-icon" style="width: 12px;
                                     height: 12px;
                                     background-color: #f89904; border-radius:100%; border:1px solid #c8c8c8"></div>
-                                    <span style="padding-left:0.3em; font-size:13px">Severe Severity<span>
-                                  </div>
-                                  <div class="legend-item" style="display:flex; align-items: center;">
-                                    <div class="legend-icon" style="width: 12px;
+                      <span style="padding-left:0.3em; font-size:13px">Severe Severity<span>
+                    </div>
+                    <div class="legend-item" style="display:flex; align-items: center;">
+                      <div class="legend-icon" style="width: 12px;
                                     height: 12px;
                                     background-color: #fdff00; border-radius:100%; border:1px solid #c8c8c8"></div>
-                                    <span style="padding-left:0.3em; font-size:13px">Moderate Severity<span>
-                                  </div>
-                                  <div class="legend-item" style="display:flex; align-items: center;">
-                                    <div class="legend-icon" style="width: 12px;
+                      <span style="padding-left:0.3em; font-size:13px">Moderate Severity<span>
+                    </div>
+                    <div class="legend-item" style="display:flex; align-items: center;">
+                      <div class="legend-icon" style="width: 12px;
                                     height: 12px;
                                     background-color: #53ffff; border-radius:100%; border:1px solid #c8c8c8"></div>
-                                    <span style="padding-left:0.3em; font-size:13px">Minor Severity<span>
-                                  </div>
-                                  <div class="legend-item" style="display:flex; align-items: center;">
-                                    <div class="legend-icon" style="width: 12px;
+                      <span style="padding-left:0.3em; font-size:13px">Minor Severity<span>
+                    </div>
+                    <div class="legend-item" style="display:flex; align-items: center;">
+                      <div class="legend-icon" style="width: 12px;
                                     height: 12px;
                                     background-color: #3366ff; border-radius:100%; border:1px solid #c8c8c8"></div>
-                                    <span style="padding-left:0.3em; font-size:13px">Unknown Severity<span>
-                                  </div>
-                                  {% comment %} <li>
-                              </ul> {% endcomment %}
-                            </div>
-                            </div>
+                      <span style="padding-left:0.3em; font-size:13px">Unknown Severity<span>
                     </div>
-                </div>
-
+                    {% comment %}
+                  <li>
+                </ul> {% endcomment %}
+              </div>
             </div>
+          </div>
         </div>
+
+      </div>
+    </div>
 
 </section>
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 
 <script>
 
-  
 
-    mapboxgl.accessToken =
-    "pk.eyJ1IjoiZ3JhY2VhbW9uZGkiLCJhIjoiY2s4dGphcGQwMDBhcjNmcnkzdGk3MnlrZCJ9.54r40Umo0l3dHseEbrQpUg";
+const style = {
+  "version": 8,
+  "glyphs": "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+	"sources": {
+    "osm": {
+			"type": "raster",
+			"tiles": [
+        "https://stamen-tiles-a.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
+        "https://stamen-tiles-b.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
+        "https://stamen-tiles-c.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
+        "https://stamen-tiles-d.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
+        // "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}@2x.png"
+    ],
+			"tileSize": 256,
+      "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+     
+	    "maxZoom": 18,
+    }
+  },
+  "layers": [
+    {
+      "id": "osm",
+      "type": "raster",
+      "source": "osm" // This must match the source key above
+    }
+  ]
+};
+  // mapboxgl.accessToken =
+  //   "pk.eyJ1IjoiZ3JhY2VhbW9uZGkiLCJhIjoiY2s4dGphcGQwMDBhcjNmcnkzdGk3MnlrZCJ9.54r40Umo0l3dHseEbrQpUg";
 
-  const map = new mapboxgl.Map({
+  const map = new maplibregl.Map({
     container: "home-map", // container ID
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: "mapbox://styles/mapbox/light-v10", // style URL
+    style: style, // style URL
     center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
     zoom: 4.2, // starting zoom
     scrollZoom: false,
   });
+
   // Add zoom and rotation controls to the map.
-  map.addControl(new mapboxgl.NavigationControl());
+  map.addControl(new maplibregl.NavigationControl());
 
   var allAreas = $(".alert-area")
     .map(function () {
@@ -182,303 +208,314 @@
     })
     .get();
 
-    map.on("load", () => {
+  map.on("load", () => {
 
-      if('{{settings.site_settings.CountrySetting.country.geom}}'){
-          const wktWithoutSrids = '{{settings.site_settings.CountrySetting.country.geom}}'.replace(/^SRID=\d+;/, "");
+    if ('{{settings.site_settings.CountrySetting.country.geom}}') {
+      const wktWithoutSrids = '{{settings.site_settings.CountrySetting.country.geom}}'.replace(/^SRID=\d+;/, "");
 
-        // define a regular expression pattern to match the coordinates
-          const pattern = /\(([^()]+)\)/g;
+      // define a regular expression pattern to match the coordinates
+      const pattern = /\(([^()]+)\)/g;
 
-          // create an array to store the coordinates
-          let coordinates = [];
+      // create an array to store the coordinates
+      let coordinates = [];
 
-          // loop through each match of the pattern and extract the coordinates
-          let match;
-          while ((match = pattern.exec(wktWithoutSrids)) !== null) {
-              // split the match into individual coordinates
-              const coords = match[1].trim().split(', ');
-              // convert the coordinates to an array of numbers
-              const coordsArray = coords.map(coord => coord.split(" ").map(co => Number(co)) );
-              // add the coordinates to the array
-              coordinates.push(coordsArray);
-
-          }
-
-          var multipolyFeature = {
-              type: "Feature",
-              geometry: {
-                type: "MultiPolygon",
-                coordinates: [coordinates],
-              },
-            }
-
-          // output the coordinates to the console
-          var bounds = turf.bbox({
-              type: "FeatureCollection",
-              features: [multipolyFeature],
-            });
-          map.fitBounds(bounds, { padding: 20 });
+      // loop through each match of the pattern and extract the coordinates
+      let match;
+      while ((match = pattern.exec(wktWithoutSrids)) !== null) {
+        // split the match into individual coordinates
+        const coords = match[1].trim().split(', ');
+        // convert the coordinates to an array of numbers
+        const coordsArray = coords.map(coord => coord.split(" ").map(co => Number(co)));
+        // add the coordinates to the array
+        coordinates.push(coordsArray);
 
       }
 
-      if (allAreas.length > 0) {
-        var polyFeature = [];
-        allAreas.map((area) => {
-          // Remove the SRID prefix
-          const wktWithoutSrid = area.area.replace(/^SRID=\d+;/, "");
-    
-          // Extract the coordinates from the polygon string using a regex pattern
-          const match = /\((.*?)\)/.exec(wktWithoutSrid);
-    
-          revCoords = [];
-    
-          if (match) {
-            const coordinatePairs = match[1].split(", ");
-            const coordinates = coordinatePairs.map((pair) =>
-              pair.replace("(", "").split(" ").map(parseFloat)
-            );
-    
-            polyFeature.push({
-              type: "Feature",
-              geometry: {
-                type: "Polygon",
-                coordinates: [coordinates],
-              },
-              properties: {
-                areaDesc: area.areaDesc,
-                severity: area.severity,
-                severityInfo: area.severityInfo,
-                event: area.event
-              },
-            });
-          }
-        });
-    
-          map.addSource("alert-areas", {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: polyFeature,
+      var multipolyFeature = {
+        type: "Feature",
+        geometry: {
+          type: "MultiPolygon",
+          coordinates: [coordinates],
+        },
+      }
+
+      // output the coordinates to the console
+      var bounds = turf.bbox({
+        type: "FeatureCollection",
+        features: [multipolyFeature],
+      });
+      map.fitBounds(bounds, { padding: 20 });
+
+    }
+
+    if (allAreas.length > 0) {
+      var polyFeature = [];
+      allAreas.map((area) => {
+        // Remove the SRID prefix
+        const wktWithoutSrid = area.area.replace(/^SRID=\d+;/, "");
+
+        // Extract the coordinates from the polygon string using a regex pattern
+        const match = /\((.*?)\)/.exec(wktWithoutSrid);
+
+        revCoords = [];
+
+        if (match) {
+          const coordinatePairs = match[1].split(", ");
+          const coordinates = coordinatePairs.map((pair) =>
+            pair.replace("(", "").split(" ").map(parseFloat)
+          );
+
+          polyFeature.push({
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: [coordinates],
+            },
+            properties: {
+              areaDesc: area.areaDesc,
+              severity: area.severity,
+              severityInfo: area.severityInfo,
+              event: area.event
             },
           });
-    
-          map.addLayer({
-            id: "alert-areas-layer",
-            type: "fill",
-            source: "alert-areas",
-            paint: {
-              "fill-color": "#088",
-              "fill-color": [
-                "case",
-                ["==", ["get", "severity"], "Extreme"],
-                "#d72f2a",
-                ["==", ["get", "severity"], "Severe"],
-                "#f89904",
-                ["==", ["get", "severity"], "Moderate"],
-                "#e4e616",
-                ["==", ["get", "severity"], "Minor"],
-                "#53ffff",
-                ["==", ["get", "severity"], "Unknown"],
-                "#3366ff",
-                "black",
-              ],
-              "fill-opacity": 0.7,
-            },
-        });
-    
-        // When a click event occurs on a feature in the places layer, open a popup at the
-        // location of the feature, with description HTML from its properties.
-        map.on("click", "alert-areas-layer", (e) => {
-          // Copy coordinates array.
-          const description = e.features[0].properties.areaDesc;
-          const severity = e.features[0].properties.severityInfo;
-          const event = e.features[0].properties.event;
-      
-          new mapboxgl.Popup()
-              .setLngLat(e.lngLat)
-              .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:18px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity}</p></div>`)
-              .addTo(map);
-        });
-    
-        // Change the cursor to a pointer when the mouse is over the places layer.
-        map.on("mouseenter", "alert-areas-layer", () => {
-          map.getCanvas().style.cursor = "pointer";
-        });
-    
-        // Change it back to a pointer when it leaves.
-        map.on("mouseleave", "alert-areas-layer", () => {
-          map.getCanvas().style.cursor = "";
-        });
-      }
+        }
+      });
 
-      var cityForecasts = JSON.parse('{{self.get_forecast_by_daterange.day_forecast|escapejs}}'.replace(/'/g, '"'))
-      if (cityForecasts){
-        cityForecasts.map(forecast => {
-          forecast.forecast_features.features.map(city => {  
-            
-            map.loadImage(`/media/weather_png/${city.properties.condition_icon.split(".")[0]}.png`, function(error, image) {
-              if (error) throw error;
-              if (!map.hasImage(city.properties.condition_icon)) map.addImage(city.properties.condition_icon, image);
-  
-            });
-  
-          })
+      map.addSource("alert-areas", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: polyFeature,
+        },
+      });
+
+      map.addLayer({
+        id: "alert-areas-layer",
+        type: "fill",
+        source: "alert-areas",
+        paint: {
+          "fill-color": "#088",
+          "fill-color": [
+            "case",
+            ["==", ["get", "severity"], "Extreme"],
+            "#d72f2a",
+            ["==", ["get", "severity"], "Severe"],
+            "#f89904",
+            ["==", ["get", "severity"], "Moderate"],
+            "#e4e616",
+            ["==", ["get", "severity"], "Minor"],
+            "#53ffff",
+            ["==", ["get", "severity"], "Unknown"],
+            "#3366ff",
+            "black",
+          ],
+          "fill-opacity": 0.7,
+        },
+      });
+
+      // When a click event occurs on a feature in the places layer, open a popup at the
+      // location of the feature, with description HTML from its properties.
+      map.on("click", "alert-areas-layer", (e) => {
+        // Copy coordinates array.
+        const description = e.features[0].properties.areaDesc;
+        const severity = e.features[0].properties.severityInfo;
+        const event = e.features[0].properties.event;
+
+        new maplibregl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:18px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity}</p></div>`)
+          .addTo(map);
+      });
+
+      // Change the cursor to a pointer when the mouse is over the places layer.
+      map.on("mouseenter", "alert-areas-layer", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      // Change it back to a pointer when it leaves.
+      map.on("mouseleave", "alert-areas-layer", () => {
+        map.getCanvas().style.cursor = "";
+      });
+    }
+
+    var cityForecasts = JSON.parse('{{self.get_forecast_by_daterange.day_forecast|escapejs}}'.replace(/'/g, '"'))
+    if (cityForecasts) {
+       // load svg icons as symbols
+       cityForecasts.map(forecast => {
+        forecast.forecast_features.features.map(city => {
+
+
+          let img = new Image()
+
+            img.onload = () =>{  
+              if (!map.hasImage(city.properties.condition_icon)) { 
+                return map.addImage(`${city.properties.condition_icon}`, img) 
+              }
+              
+            }
+            img.src = `/media/${city.properties.condition_icon}`
+
         })
-        
+      }) 
+      // initial loading of forecasts
+      map.addSource("city-forecasts", {
+        type: "geojson",
+        data: cityForecasts[0].forecast_features
+      })
 
-        // initial loading of forecasts
-        map.addSource("city-forecasts",{
-          type:"geojson",
-          data:cityForecasts[0].forecast_features
-        })
+      map.addLayer({
+        id: "city-forecasts",
+        source: "city-forecasts",
+        type: "symbol",
+        'layout': {
+          'icon-image': ['get', 'condition_icon'],
+          'icon-size': 0.25,
+          'icon-allow-overlap': true
+        },
+        'paint': {
+          // 'icon-halo-color': 'red',
+          // 'icon-halo-width': 100,
+          // 'icon-color': '#fff',
+          // 'icon-halo-blur': 100,
+        }
+      })
+      map.addLayer({
+        id: "city-forecasts-max_temp",
+        source: "city-forecasts",
+        type: "symbol",
+        'layout': {
+          'text-offset': [2, -0.5],
+          'text-field': ['concat', ['get', 'max_temp'], '°C'],
+          'text-allow-overlap': true,
+          'icon-allow-overlap': true
 
-        map.addLayer({
-          id:"city-forecasts",
-          source:"city-forecasts",
-          type:"symbol",
-          'layout': {
-            'icon-image':['get', 'condition_icon'],
-            'icon-size': 0.3,
-            'icon-allow-overlap':true
-          },
-          'paint':{
-            'icon-halo-color':'red',
-            'icon-halo-width':10,
-            'icon-color':'#fff',
-            'icon-halo-blur':10
-          }
-        })
-        map.addLayer({
-          id:"city-forecasts-max_temp",
-          source:"city-forecasts",
-          type:"symbol",
-          'layout': {
-            'text-offset':[2,-0.5],
-            'text-field':['concat', ['get','max_temp'], '°C'],
-            'text-allow-overlap':true
-          },
-          'paint':{
-            'text-halo-color':'#fff',
-            'text-halo-width':2,
-
-          }
+        },
+        'paint': {
+          'text-halo-color': '#fff',
+          'text-halo-width': 2,
           
+
+        }
+
+      })
+      map.addLayer({
+        id: "city-forecasts-min_temp",
+        source: "city-forecasts",
+        type: "symbol",
+        'layout': {
+          'text-offset': [2.5, 0.5],
+          'text-field': ['concat', ['get', 'min_temp'], '°C'],
+          'text-size': 12,
+          'text-allow-overlap': true,
+          'icon-allow-overlap': true
+
+
+        },
+        'paint': {
+          'text-halo-color': '#fff',
+          'text-halo-width': 2,
+
+        }
+
+      })
+
+     
+
+      // toggle forecasts by selected date 
+      $('#daily_forecast').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        var selectedForecast = cityForecasts.find(forecast => forecast.forecast_date === valueSelected)
+
+        if (map.getLayer("city-forecasts")) {
+          map.removeLayer("city-forecasts");
+        }
+        if (map.getLayer("city-forecasts-max_temp")) {
+          map.removeLayer("city-forecasts-max_temp");
+        }
+
+        if (map.getLayer("city-forecasts-min_temp")) {
+          map.removeLayer("city-forecasts-min_temp");
+        }
+        if (map.getSource("city-forecasts")) {
+          map.removeSource("city-forecasts");
+        }
+
+
+
+        map.addSource("city-forecasts", {
+          type: "geojson",
+          data: selectedForecast.forecast_features
         })
+
         map.addLayer({
-          id:"city-forecasts-min_temp",
-          source:"city-forecasts",
-          type:"symbol",
+          id: "city-forecasts",
+          source: "city-forecasts",
+          type: "symbol",
           'layout': {
-            'text-offset':[2.5,0.5],
-            'text-field':['concat', ['get','min_temp'], '°C'],
-            'text-size':12,
-            'text-allow-overlap':true
+            'icon-image': ['get', 'condition_icon'],
+            'icon-size': 0.25,
+            'icon-allow-overlap': true
 
           },
-          'paint':{
-            'text-halo-color':'#fff',
-            'text-halo-width':2,
-
+          'paint': {
+            'icon-halo-color': 'red',
+            'icon-halo-width': 10,
+            'icon-color': '#fff',
+            'icon-halo-blur': 10
           }
-          
         })
 
-        // toggle forecasts by selected date 
-        $('#daily_forecast').on('change', function (e) {
-          var optionSelected = $("option:selected", this);
-          var valueSelected = this.value;
-          var selectedForecast = cityForecasts.find(forecast => forecast.forecast_date === valueSelected)
-  
-          if (map.getLayer("city-forecasts")) {
-            map.removeLayer("city-forecasts");
-          }
-          if (map.getLayer("city-forecasts-max_temp")) {
-            map.removeLayer("city-forecasts-max_temp");
-          }
+        map.addLayer({
+          id: "city-forecasts-max_temp",
+          source: "city-forecasts",
+          type: "symbol",
+          'layout': {
+            'text-offset': [2, -0.5],
+            'text-field': ['concat', ['get', 'max_temp'], '°C'],
+            'text-allow-overlap': true
+          },
+          'paint': {
+            'text-halo-color': '#fff',
+            'text-halo-width': 2,
 
-          if (map.getLayer("city-forecasts-min_temp")) {
-            map.removeLayer("city-forecasts-min_temp");
-          }
-          if (map.getSource("city-forecasts")) {
-            map.removeSource("city-forecasts");
           }
 
-         
+        })
+        map.addLayer({
+          id: "city-forecasts-min_temp",
+          source: "city-forecasts",
+          type: "symbol",
+          'layout': {
+            'text-offset': [2.5, 0.5],
+            'text-field': ['concat', ['get', 'min_temp'], '°C'],
+            'text-size': 12,
+            'text-allow-overlap': true
 
-          map.addSource("city-forecasts",{
-            type:"geojson",
-            data:selectedForecast.forecast_features
-          })
-  
-          map.addLayer({
-            id:"city-forecasts",
-            source:"city-forecasts",
-            type:"symbol",
-            'layout': {
-              'icon-image':['get', 'condition_icon'],
-              'icon-size': 0.30,
-              'icon-allow-overlap':true
+          },
+          'paint': {
+            'text-halo-color': '#fff',
+            'text-halo-width': 2,
 
-            },
-            'paint':{
-              'icon-halo-color':'red',
-              'icon-halo-width':10,
-              'icon-color':'#fff',
-              'icon-halo-blur':10
-            }
-          })
+          }
 
-          map.addLayer({
-            id:"city-forecasts-max_temp",
-            source:"city-forecasts",
-            type:"symbol",
-            'layout': {
-              'text-offset':[2,-0.5],
-              'text-field':['concat', ['get','max_temp'], '°C'],
-              'text-allow-overlap':true
-            },
-            'paint':{
-              'text-halo-color':'#fff',
-              'text-halo-width':2,
-  
-            }
-            
-          })
-          map.addLayer({
-            id:"city-forecasts-min_temp",
-            source:"city-forecasts",
-            type:"symbol",
-            'layout': {
-              'text-offset':[2.5,0.5],
-              'text-field':['concat', ['get','min_temp'], '°C'],
-              'text-size':12,
-              'text-allow-overlap':true
-  
-            },
-            'paint':{
-              'text-halo-color':'#fff',
-              'text-halo-width':2,
-  
-            }
-            
-          })
-        });
+        })
+      });
 
-        // When a click event occurs on a feature in the places layer, open a popup at the
-        // location of the feature, with description HTML from its properties.
-        map.on("click", "city-forecasts", (e) => {
-          // Copy coordinates array.
-          const city_name = e.features[0].properties.city_name;
-          const condition_desc = e.features[0].properties.condition_desc;
-          const min_temp = e.features[0].properties.min_temp;
-          const max_temp = e.features[0].properties.max_temp;
-          const wind_direction = e.features[0].properties.wind_direction;
-          const wind_speed = e.features[0].properties.wind_speed;
-      
-          new mapboxgl.Popup()
-              .setLngLat(e.lngLat)
-              .setHTML(`
+      // When a click event occurs on a feature in the places layer, open a popup at the
+      // location of the feature, with description HTML from its properties.
+      map.on("click", "city-forecasts", (e) => {
+        // Copy coordinates array.
+        const city_name = e.features[0].properties.city_name;
+        const condition_desc = e.features[0].properties.condition_desc;
+        const min_temp = e.features[0].properties.min_temp;
+        const max_temp = e.features[0].properties.max_temp;
+        const wind_direction = e.features[0].properties.wind_direction;
+        const wind_speed = e.features[0].properties.wind_speed;
+
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(`
               <div class="block" style="margin:10px; width:200px">
                 <h2 class="title" style="font-size:18px;">${city_name}</h2> 
                 <h2 class="subtitle" style="font-size:14px;">${condition_desc}</h2> 
@@ -488,26 +525,27 @@
                 <p><b>Wind Direction: </b>${wind_direction} °</p> 
                 <p><b>Wind Speed: </b>${wind_speed} km/hr</p>
               </div>`)
-              .addTo(map);
-        });
-    
-        // Change the cursor to a pointer when the mouse is over the places layer.
-        map.on("mouseenter", "city-forecasts", () => {
-          map.getCanvas().style.cursor = "pointer";
-        });
-    
-        // Change it back to a pointer when it leaves.
-        map.on("mouseleave", "city-forecasts", () => {
-          map.getCanvas().style.cursor = "";
-        });
-                
-      }
+          .addTo(map);
+      });
 
-    })
-  
-  
+      // Change the cursor to a pointer when the mouse is over the places layer.
+      map.on("mouseenter", "city-forecasts", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      // Change it back to a pointer when it leaves.
+      map.on("mouseleave", "city-forecasts", () => {
+        map.getCanvas().style.cursor = "";
+      });
+
+    }
+
+  })
+
+
 </script>
 
-{% comment %} <script type="text/javascript" src="{% static 'js/weather_map.js' %}"></script> {% endcomment %}
+{% comment %}
+<script type="text/javascript" src="{% static 'js/weather_map.js' %}"></script> {% endcomment %}
 
 {% endif %}
