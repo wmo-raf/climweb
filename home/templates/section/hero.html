@@ -101,7 +101,7 @@
                                     <div class="columns is-gapless pb-1">
                                         <div class="column" style="align-self:end;">
                                             {% if latest_forcast.condition__icon__file %}
-                                            <figure class="image" style="width:30px;display: inline-flex;filter: drop-shadow(0 0 0.2rem black);">
+                                            <figure class="image" style="width:30px;display: inline-flex;filter: drop-shadow(0 0 0.2rem #494949);">
                                                     {% svg latest_forcast.condition__icon__file %}
                                             </figure>
                                             {% endif %}                                        </div>
@@ -187,7 +187,7 @@
                 <!-- </div> -->
             </div>
 
-            {% comment %} <div style="bottom: -0.9em;margin: auto; position: absolute;">
+            <div style="bottom: -0.9em;margin: auto; position: absolute;">
 
                 <div class="columns is-justify-content-center">
                     <div class="column">
@@ -202,7 +202,7 @@
                         </a>
                     </div>
                 </div>
-            </div> {% endcomment %}
+            </div>
         </div>
         {% endif %}
        
