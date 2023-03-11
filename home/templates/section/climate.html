@@ -21,6 +21,60 @@
   .stop-label:last-child {
     right: 0;
   }
+
+  .layer-list .layer-item {
+    border-radius: 2em;
+    padding: 0.5em 1em;
+    font-size: 14px;
+    background-color: rgba(73, 73, 73, 0.8);
+    color: white;
+    font-weight: 400;
+
+
+  }
+
+  .layer-list .layer-item.active {
+    background-color: rgba(41, 78, 156, 0.8);
+    font-weight: 600;
+
+
+  }
+
+  .layer-list .layer-item {
+    cursor: pointer;
+  }
+
+  .legend-panel {
+    position: absolute;
+    top: 1.0em;
+    right: 0.5em;
+    z-index: 1;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 250px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    height: auto
+  }
+
+
+
+  .layer-panel {
+    position: absolute;
+    top: 1.0em;
+    left: 0.5em;
+    z-index: 1;
+
+    padding: 10px;
+    border-radius: 5px;
+    text-align: left;
+    height: auto
+  }
+
+  .layer-panel .layer-item {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
 </style>
 {% endblock extra_css %}
 
@@ -40,7 +94,6 @@
   </div>
 </section> {% endcomment %}
 
-
 <section style="background-color:#f9f9f9; padding-top: 4rem; padding-bottom:4rem;" class="has-text-centered">
   <div class="container">
 
@@ -51,63 +104,21 @@
         <div class="card">
           <div id="climate-map" style="min-height: 450px;border-radius: 0.5rem;"></div>
 
-          <div id="floating-div" style="position: absolute;
-                              top: 1.0em;
-                              left: 0.5em;
-                              z-index: 1;
-                              
-                              padding: 10px;
-                              border-radius: 5px;
-                              text-align:left;
-                              height:auto
-                              ">
+          <div id="floating-layer" class="layer-panel">
             <div class="layer-list has-text-white">
-              <h2 class="subtitle has-text-white active"
-                style="background-color:rgba(13,78,158, 0.8); border-radius:2em; padding:0.3em 1em; font-size:16px">
-                Temperature Forecast</h2>
-              <h2 class="subtitle has-text-white"
-                style="background-color:rgba(0, 0, 0, 0.6); border-radius:2em; padding:0.3em 1em; font-size:16px">
-                Precipitation Forecast</h2>
-              <h2 class="subtitle has-text-white"
-                style="background-color:rgba(0, 0, 0, 0.6); border-radius:2em; padding:0.3em 1em; font-size:16px">
-                Wind Forecast</h2>
+
+
+              {% for wms in self.get_wms_layers.wms_layers %}
+              <h2 id="{{wms.id}}"
+                class="layer-item subtitle {% if wms == self.get_wms_layers.wms_layers|first %}active{% endif %} ">
+                {{wms.title}}
+              </h2>
+
+              {% endfor %}
 
             </div>
           </div>
-          <div id="floating-div" style="position: absolute;
-                              top: 1.0em;
-                              right: 0.5em;
-                              z-index: 1;
-                              background-color: white;
-                              padding: 10px;
-                              border-radius: 5px;
-                              width:250px;
-                              box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-                              text-align:left;
-                              height:auto
-                              ">
-
-            <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">Surface Temperature Forecast</p>
-            <p style="margin:0;font-size:12px;" class="subtitle">GFS Hourly</p>
-            <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> 2023-03-05 14:00</p>
-
-            {% comment %}
-            <hr style="background-color:#cad2d3; margin-top:0; margin-bottom:0.5em"> {% endcomment %}
-            <div style="width: 100%;
-                                height: 0.3em;
-                                position: relative;
-                                margin-bottom:2em;
-                                background: linear-gradient(to right, #9589D3, #81ccc5 , #5f8fc5 , #79921c, #dfb106, #ec5f15, #8A2B0A);
-                              ">
-              <span class="stop-label">-20</span>
-              <span class="stop-label">-10</span>
-              <span class="stop-label">0</span>
-              <span class="stop-label">10</span>
-              <span class="stop-label">20</span>
-              <span class="stop-label">30</span>
-              <span class="stop-label">40 °C</span>
-            </div>
-
+          <div id="floating-legend" class="legend-panel">
           </div>
 
         </div>
@@ -125,8 +136,6 @@
       </a>
     </div>
   </div>
-
-
 </section>
 
 {% endif %}
@@ -134,33 +143,20 @@
 {% block extra_js %}
 <script>
 
-  const climateStyle = {
-    "version": 8,
-    "glyphs": "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
-    "sources": {
-      "osm": {
-        "type": "raster",
-        "tiles": [
-          "https://stamen-tiles-a.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
-          "https://stamen-tiles-b.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
-          "https://stamen-tiles-c.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
-          "https://stamen-tiles-d.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}@2x.png",
-          // "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}@2x.png"
-        ],
-        "tileSize": 256,
-        "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  function roundToNearestHour(date) {
+    date.setMinutes(date.getMinutes() + 30);
+    date.setMinutes(0, 0, 0);
 
-        "maxZoom": 18,
-      }
-    },
-    "layers": [
-      {
-        "id": "osm",
-        "type": "raster",
-        "source": "osm" // This must match the source key above
-      }
-    ]
-  };
+    return date;
+  }
+
+  function subtractHours(date, hours) {
+    date.setHours(date.getHours() - hours);
+    return date;
+  }
+
+  const displayTime = new Date()
+  const wmsTime = roundToNearestHour(displayTime).toISOString()
 
   const climateMap = new maplibregl.Map({
     container: 'climate-map', // container ID
@@ -170,7 +166,6 @@
       15.302857659429051], // starting position [lng, lat]
     zoom: 4.2, // starting zoom
     scrollZoom: false
-
   });
 
   // Add zoom and rotation controls to the map.
@@ -178,8 +173,8 @@
 
   climateMap.on("load", () => {
 
-    if ('{{settings.site_settings.CountrySetting.country.geom}}') {
-      const wktWithoutSrids = '{{settings.site_settings.CountrySetting.country.geom}}'.replace(/^SRID=\d+;/, "");
+    if ('{{settings.site_settings.OrganisationSetting.country.geom}}') {
+      const wktWithoutSrids = '{{settings.site_settings.OrganisationSetting.country.geom}}'.replace(/^SRID=\d+;/, "");
 
       // define a regular expression pattern to match the coordinates
       const pattern = /\(([^()]+)\)/g;
@@ -216,26 +211,135 @@
 
     }
 
-    climateMap.addSource('wms-source', {
-      type: "raster",
-      tiles: [
-        `http://20.56.94.119/gsky/ows/gfs?service=WMS&request=GetMap&version=1.1.1&width=256&height=256&styles=&transparent=true&srs=EPSG:3857&bbox={bbox-epsg-3857}&format=image/png&time=2023-03-05T18:00:00.000Z&layers=gfs_temperature_2_m&geojson_feature_id=604d504a6104c0870e69369d68f1c620&canClipToGeom=true`,
-        //`https://eahazardswatch.icpac.net/gsky/ows/?service=WMS&request=GetMap&version=1.1.1&width=256&height=256&styles=&transparent=true&srs=EPSG:3857&bbox={bbox-epsg-3857}&format=image/png&time=2023-03-01T00:00:00.000Z&layers=weekly_mean_temp&clip_wkt=ETH`
-      ],
-      minzoom: 3,
-      maxzoom: 12,
-      'tileSize': 256
+    const styleLayers = map.getStyle().layers;
 
-    });
+    // Find the index of the first symbol layer in the map style.
+    let admin0Boundaries, admin1Boundaries, admin2Boundaries;
+    for (const l of styleLayers) {
+      if (l.id === "border_other") {
+        admin0Boundaries = l.id;
+      }
+      if (l.id === "border_disputed") {
+        admin1Boundaries = l.id;
+      }
+      if (l.id === "border_country") {
+        admin2Boundaries = l.id;
+      }
+    }
+    // Get all the items
+    const layer_items = document.querySelectorAll('.layer-item');
+    var wms_layers = JSON.parse('{{self.get_wms_layers.wms_layers_json|escapejs}}')
 
-    climateMap.addLayer({
-      'id': 'wms-layer',
-      'type': 'raster',
-      'source': 'wms-source',
-      //'paint': {
-      //  'raster-opacity': 0.8
-      //}
-    });
+    $('#floating-legend').html(`
+      <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${wms_layers[0].title}</p>
+      <p style="margin:0;font-size:12px;" class="subtitle">${wms_layers[0].subtitle}</p>
+      <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> ${displayTime} </p>
+
+      <div style="width: 100%;
+          height: 0.3em;
+          position: relative;
+          margin-bottom:2em;
+          background: linear-gradient(to right,${wms_layers[0].legend_colors.map(legend => legend.item_color)});
+        ">
+        ${wms_layers[0].legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${wms_layers[0].legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")}
+
+      </div>
+    `)
+
+    const countryIso = "{{settings.site_settings.OrganisationSetting.country.iso}}"
+
+    fetch(`http://20.56.94.119/api/geostore/admin/${countryIso}?thresh=0.005`)
+      .then(response => response.json())
+      .then(data => {
+        climateMap.addSource('wms-source', {
+          type: "raster",
+          tiles: [
+            `http://20.56.94.119/gsky/ows/gfs?service=WMS&request=GetMap&version=${wms_layers[0].version}&width=${wms_layers[0].width}&height=${wms_layers[0].height}&styles=&transparent=${wms_layers[0].transparent}&srs=${wms_layers[0].srs}&bbox={bbox-epsg-3857}&format=${wms_layers[0].format}&time=${wmsTime}&layers=${wms_layers[0].layers__name}&geojson_feature_id=${data.data.id}&canClipToGeom=true`,
+          ],
+          minzoom: 3,
+          maxzoom: 12,
+          'tileSize': 256
+
+        });
+
+        climateMap.addLayer({
+          'id': 'wms-layer',
+          'type': 'raster',
+          'source': 'wms-source',
+          //'paint': {
+          //  'raster-opacity': 0.8
+          //}
+        }, admin0Boundaries, admin1Boundaries, admin2Boundaries);
+
+        // Loop through the items and add a click event listener to each
+        layer_items.forEach(item => {
+
+          item.addEventListener('click', () => {
+            // Remove the active class from all items
+
+            layer_items.forEach(item => {
+              //  const item_id = item.id;
+
+              item.classList.remove('active');
+
+            });
+            wms_layers.map(layer => {
+
+              if (layer.id == item.id) {
+                $('#floating-legend').html(`
+                  <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${layer.title}</p>
+                      <p style="margin:0;font-size:12px;" class="subtitle">${layer.subtitle}</p>
+                      <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> ${displayTime}</p>
+
+                      <div style="width: 100%;
+                                          height: 0.3em;
+                                          position: relative;
+                                          margin-bottom:2em;
+                                          background: linear-gradient(to right, ${layer.legend_colors.map(legend => legend.item_color)});
+                                        ">
+                                        ${layer.legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${layer.legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")}
+                       
+                      </div>
+                  `)
+
+                if (climateMap.getLayer("wms-layer")) {
+                  climateMap.removeLayer("wms-layer");
+                }
+                if (climateMap.getSource("wms-source")) {
+                  climateMap.removeSource("wms-source");
+                }
+
+                climateMap.addSource('wms-source', {
+                  type: "raster",
+                  tiles: [
+                    `http://20.56.94.119/gsky/ows/gfs?service=WMS&request=GetMap&version=${layer.version}&width=${layer.width}&height=${layer.height}&styles=&transparent=${layer.transparent}&srs=${layer.srs}&bbox={bbox-epsg-3857}&format=${layer.format}&time=${wmsTime}&layers=${layer.layers__name}&geojson_feature_id=${data.data.id}&canClipToGeom=true`,
+                  ],
+                  minzoom: 3,
+                  maxzoom: 12,
+                  'tileSize': 256
+
+                });
+
+                climateMap.addLayer({
+                  'id': 'wms-layer',
+                  'type': 'raster',
+                  'source': 'wms-source',
+                  //'paint': {
+                  //  'raster-opacity': 0.8
+                  //}
+                }, admin0Boundaries, admin1Boundaries, admin2Boundaries);
+              }
+
+            })
+            // Add the active class to the clicked item
+            item.classList.add('active');
+          });
+        });
+      })
+
+
+
+
   })
 </script>
 

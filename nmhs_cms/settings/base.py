@@ -37,6 +37,7 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 INSTALLED_APPS = [
 
     # Common
+    "site_settings",
     'core',
     
     "home",
@@ -88,8 +89,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
 
-    "site_settings",
     "forecast_manager",
+    "layer_manager",
+
     "wagtailgeowidget",
     "wagtail_lazyimages",
     "wagtail_color_panel",
@@ -287,10 +289,10 @@ GEO_WIDGET_ZOOM=3
 SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript"]
 
 # RECAPTCHA Settings
-RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY', default='')
-RECAPTCHA_PRIVATE_KEY =env('RECAPTCHA_PRIVATE_KEY', default='')
-NOCAPTCHA = True
-# RECAPTCHA_TESTING = True
+RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
+
+RECAPTCHA_TESTING = True
 
 ORDERING_FIELD = 'position'
 WAGTAILDOCS_DOCUMENT_MODEL = 'core.CustomDocumentModel'
@@ -307,8 +309,11 @@ CELERY_TIMEZONE = 'Africa/Nairobi'
 CELERY_SEND_TASK_ERROR_EMAILS = True
 
 # ZOOM Settings
-ZOOM_JWT_API_KEY = env.str('ZOOM_JWT_API_KEY',  default='')
-ZOOM_JWT_API_SECRET = env.str('ZOOM_JWT_API_SECRET',  default='')
+# ZOOM_JWT_API_KEY = env.str('ZOOM_JWT_API_KEY',  default='')
+# ZOOM_JWT_API_SECRET = env.str('ZOOM_JWT_API_SECRET',  default='')
+
+# Youtube settings 
+# YOUTUBE_API_KEY = env.str('YOUTUBE_API_KEY', default='')
 
 # # Upload permissions for files
 # FILE_UPLOAD_PERMISSIONS = 0o666
@@ -332,3 +337,16 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
+
+# SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+# from django.utils.functional import lazy
+# from wagtail.core.models import Site
+# from site_settings.models import IntegrationSettings
+
+# def get_setting(name, default=None):
+#     try:
+#         site = Site.objects.get(is_default_site=True)
+#         settings = IntegrationSettings.for_site(site)
+#         return getattr(settings, name)
+#     except (Site.DoesNotExist, IntegrationSettings.DoesNotExist, AttributeError):
+#         return default

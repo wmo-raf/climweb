@@ -23,7 +23,14 @@
   const hot = new Handsontable(container, {
     width: '100%',
     rowHeaders: true,
-    colHeaders: ['City', 'Date', 'Min Temperature (°C)', 'Max Temperature (°C)', 'Wind Speed (km/h)', 'Wind Direction (°)', 'General Condition'],
+    colHeaders: [
+      'City', 
+      'Date', 
+      'Min Temperature ({{settings.site_settings.MeasurementSettings.get_temp_units_display}})', 
+      'Max Temperature ({{settings.site_settings.MeasurementSettings.get_temp_units_display}})', 
+      'Wind Speed ({{settings.site_settings.MeasurementSettings.get_wind_units_display}})', 
+      'Wind Direction (°)', 
+      'General Condition'],
     columns: [
       {
         type: 'dropdown',

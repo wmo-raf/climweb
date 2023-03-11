@@ -33,7 +33,7 @@
         <link
             href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
             rel="stylesheet">
-            <link href='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css' rel='stylesheet' />
+        <link href='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css' rel='stylesheet' />
 
         {% comment %} <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet"> {% endcomment %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -70,19 +70,19 @@
     <script src="{% static 'js/google-translate.js' %}"></script>
 
     {% if request.user.is_authenticated or request.is_preview %} {% else %}
-    {% if settings.site_settings.AnalyticsSettings.ga_tracking_id %}
+    {% if settings.site_settings.IntegrationSettings.ga_tracking_id %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script async
-        src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.AnalyticsSettings.ga_tracking_id }}"></script>
+        src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.IntegrationSettings.ga_tracking_id }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
-        gtag('config', '{{settings.site_settings.AnalyticsSettings.ga_tracking_id}}');
+        gtag('config', '{{settings.site_settings.IntegrationSettings.ga_tracking_id}}');
     </script>
     <script src="https://kit.fontawesome.com/a5bc3e0ffc.js" crossorigin="anonymous"></script>
 <script src="{% static 'js/common.js' %}"></script>

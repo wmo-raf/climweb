@@ -14,7 +14,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100px;
+        height: 200px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .container {
+          max-width: 90vw !important;
+        }
+      }
+
+      .hero{
+        box-shadow: inset 0 0 0 100vw rgb(0 0 0 / 20%) !important;
       }
       
       .overlay_1 {
@@ -23,22 +33,31 @@
         width: 100%;
         padding: 1rem;
       }
+
+      .forecast-icon svg{
+        height:50px;
+        width:100px
+      }
+
+      main section {
+        padding: 90px 0;
+    }
     </style>
 {% endblock extra_css %}
 
 {% image page.hero_banner original as img %}
 
 <main style="position: relative;">
-<section id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; height:750px"
+<section id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; max-height:fit-content"
   data-progressive="{{img.url}}">
   <div class="hero-body has-text-centered pb-6">
     <div class="container">
-        <div class="columns is-justify-content-center py-4">
+        <div class="columns is-justify-content-center py-3">
             <div class="column is-6">
-                <p class="title pb-4" style="font-weight:600; font-size: 38px; color: {{self.text_color}};">
+                <p class="title pb-4" style="font-weight:700; font-size: 34px; color: {{self.text_color}};">
                     {{self.hero_title|richtext}}
                 </p>
-                <p class="subtitle pb-6 mb-4" style="font-weight: 400; font-size: 18px; color: {{self.text_color}};">
+                <p class="subtitle pb-5 mb-4" style="font-weight: 400; font-size: 18px; color: {{self.text_color}};">
                     {{self.hero_subtitle}}
                 </p>
             </div>
@@ -73,15 +92,15 @@
 
                                             <h2 class="title"
                                                 style="font-size: 16px; font-weight: 600;margin-bottom: 0.5rem;">
-                                                {{latest_forcast.forecast_date}}
+                                                {{latest_forcast.forecast_date|wordwrap:15|linebreaksbr}}
                                             </h2>
 
                                             <div class="columns is-gapless">
                                                 <div class="column" style="align-self:end">
                                                     
                                                         {% if latest_forcast.condition__icon__file %}
-                                                        <figure class="image" style="width:40px;display: inline-flex;">
-                                                                {% svg latest_forcast.condition__icon__file %}
+                                                        <figure class="image forecast-icon" style="width:40px;height:40px;display: inline-flex;">
+                                                                {% svg latest_forcast.condition__icon__file  %}
                                                         </figure>
                                                         {% endif %}
 
@@ -101,7 +120,7 @@
                                     <div class="columns is-gapless pb-1">
                                         <div class="column" style="align-self:end;">
                                             {% if latest_forcast.condition__icon__file %}
-                                            <figure class="image" style="width:30px;display: inline-flex;filter: drop-shadow(0 0 0.2rem #494949);">
+                                            <figure class="image forecast-icon" style="width:30px;display: inline-flex;filter: drop-shadow(0 0 0.2rem #494949);">
                                                     {% svg latest_forcast.condition__icon__file %}
                                             </figure>
                                             {% endif %}                                        </div>
@@ -130,27 +149,27 @@
 
                                 <section class="tab-content">
 
-                                    <div class="columns is-gapless">
+                                    <div class="columns is-gapless is-multiline is-mobile is-centered">
                                         {% for item in forecasts.forecast_items %}
 
-                                        <div class="column" style="{% if not forloop.last or forecasts.forecast_items.count > 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
+                                        <div class="column is-3-mobile" style="{% if not forloop.last or forecasts.forecast_items.count > 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
 
-                                            <h2 class="title"
-                                                style="font-size: 14px; font-weight: 600;margin-bottom: 0.5rem;">
+                                            <h2 class="title mb-1"
+                                                style="font-size: 14px; font-weight: 600">
                                                 {{item.forecast_date}}
                                             </h2>
 
-                                            <div class="columns is-gapless pb-1">
+                                            <div class="columns is-gapless pb-1 mb-0 is-align-items-center">
                                                 <div class="column mr-1" style="align-self:end; text-align: end;">
-                                                    <figure style="width:30px;display: inline-flex;">
+                                                    <figure class="forecast-icon" style="width:30px;display: inline-flex;">
                                                     {% if item.condition__icon__file %}
                                                         {% svg item.condition__icon__file %}
                                                     {% endif %}
                                                     </figure>
                                                 </div>
                                                 <div class="column ml-1" style="text-align: start;">
-                                                    <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} °C</h2>
-                                                    <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} °C</h3>
+                                                    <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h2>
+                                                    <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h3>
 
                                                 </div>
 
@@ -168,7 +187,7 @@
 
                                             <h2 class="title"
                                                 style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
-                                                {{item.wind_speed}} Km/hr
+                                                {{item.wind_speed}} {{settings.site_settings.MeasurementSettings.get_wind_units_display}}
                                             </h2>
 
 
@@ -191,7 +210,7 @@
 
                 <div class="columns is-justify-content-center">
                     <div class="column">
-                        <a class="button has-text-weight-bold is-dark"
+                        <a class="button has-text-weight-bold is-dark has-text-white"
                             style=" border-radius: 0.5em;font-size: 14px; padding: 20px;">
 
                             <span class="icon">

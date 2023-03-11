@@ -184,15 +184,13 @@ class EventType(models.Model):
     ]
 
 
-@register_setting(icon='fa-info')
+@register_setting
 class ImportantPages(BaseSiteSetting):
     mailing_list_signup_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     contact_us_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     all_products_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-    all_foodsecuritystatements_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     all_projects_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
@@ -214,39 +212,23 @@ class ImportantPages(BaseSiteSetting):
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     all_images_of_change_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-    data_center_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     feedback_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-    rcc_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-    all_weekly_forecasts_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-    all_monthly_forecasts_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-    all_seasonal_forecasts_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-
+    
     panels = [
         PageChooserPanel('mailing_list_signup_page'),
         PageChooserPanel('contact_us_page'),
         PageChooserPanel('feedback_page'),
-        PageChooserPanel('all_weekly_forecasts_page'),
-        PageChooserPanel('all_monthly_forecasts_page'),
-        PageChooserPanel('all_seasonal_forecasts_page'),
         PageChooserPanel('all_products_page'),
-        PageChooserPanel('all_foodsecuritystatements_page'),
         PageChooserPanel('all_projects_page'),
         PageChooserPanel('all_tenders_page'),
         PageChooserPanel('all_vacancies_page'),
         PageChooserPanel('all_news_page'),
-        PageChooserPanel('rcc_page'),
         PageChooserPanel('all_publications_page'),
         PageChooserPanel('all_videos_page'),
         PageChooserPanel('all_applications_page'),
         PageChooserPanel('all_events_page'),
         PageChooserPanel('all_partners_page'),
-        PageChooserPanel('data_center_page'),
         PageChooserPanel('all_images_of_change_page'),
     ]
 

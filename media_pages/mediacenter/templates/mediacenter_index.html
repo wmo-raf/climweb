@@ -17,11 +17,11 @@
                 {% include 'service_introduction.html' with page=page %}
             </div>
         </section>
-        {% if settings.core.SocialMediaSettings.facebook_page_id or settings.core.SocialMediaSettings.twitter_page_id %}
+        {% if settings.core.OrganisationSetting.facebook_page_id or settings.core.OrganisationSetting.twitter_page_id %}
             <section class="social-media-feed-section">
                 <div class="container">
                     <div class="columns is-centered">
-                        {% if  settings.core.SocialMediaSettings.twitter_page_id %}
+                        {% if  settings.core.OrganisationSetting.twitter_page_id %}
                             <div class="column is-5-desktop is-offset-1-desktop">
                                 <div>
                                     <h3 class="social-media-feed-item-title">
@@ -35,13 +35,13 @@
                                     <a class="twitter-timeline"
                                        data-tweet-limit="10"
                                        data-dnt="true"
-                                       href="https://twitter.com/{{ settings.core.SocialMediaSettings.twitter_page_id }}">
-                                        Tweets by {{ settings.core.SocialMediaSettings.twitter_page_id }}
+                                       href="https://twitter.com/{{ settings.core.OrganisationSetting.twitter_page_id }}">
+                                        Tweets by {{ settings.core.OrganisationSetting.twitter_page_id }}
                                     </a>
                                 </div>
                             </div>
                         {% endif %}
-                        {% if settings.core.SocialMediaSettings.facebook_page_id %}
+                        {% if settings.core.OrganisationSetting.facebook_page_id %}
                             <div class="column is-5">
                                 <h3 class="social-media-feed-item-title"><span class="icon">
                                     <i class="fab fa-facebook-f"></i>
@@ -49,7 +49,7 @@
                                     <span>Facebook Feed</span></h3>
                                 <div class="social-media-feed-item box">
                                     <div class="fb-page"
-                                         data-href="https://www.facebook.com/{{ settings.core.SocialMediaSettings.facebook_page_id }}/"
+                                         data-href="https://www.facebook.com/{{ settings.core.OrganisationSetting.facebook_page_id }}/"
                                          data-tabs="timeline"
                                          data-width="500"
                                          data-height="700"
@@ -58,11 +58,11 @@
                                          data-hide-cover="false"
                                          data-show-facepile="false">
                                         <blockquote
-                                                cite="https://www.facebook.com/{{ settings.core.SocialMediaSettings.facebook_page_id }}/"
+                                                cite="https://www.facebook.com/{{ settings.core.OrganisationSetting.facebook_page_id }}/"
                                                 class="fb-xfbml-parse-ignore">
-                                            <a href="https://www.facebook.com/{{ settings.core.SocialMediaSettings.facebook_page_id }}/">
+                                            <a href="https://www.facebook.com/{{ settings.core.OrganisationSetting.facebook_page_id }}/">
                                                 Facebook Feed
-                                                from {{ settings.core.SocialMediaSettings.facebook_page_id }}
+                                                from {{ settings.core.OrganisationSetting.facebook_page_id }}
                                             </a>
                                         </blockquote>
                                     </div>
@@ -114,10 +114,10 @@
 
 {% block page_js %}
     {{ block.super }}
-    {% if settings.core.SocialMediaSettings.facebook_page_id %}
+    {% if settings.core.OrganisationSetting.facebook_page_id %}
         <script async src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0"></script>
     {% endif %}
-    {% if  settings.core.SocialMediaSettings.twitter_page_id %}
+    {% if  settings.core.OrganisationSetting.twitter_page_id %}
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     {% endif %}
 {% endblock %}

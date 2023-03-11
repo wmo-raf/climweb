@@ -73,23 +73,23 @@
             </h1>
           </div>
 
-          {% if settings.site_settings.SocialAndAddressSettings.address  %}
+          {% if settings.site_settings.OrganisationSetting.address  %}
 
           <div style="font-size: 14px" class="has-text-weight-light">
-            {{settings.site_settings.SocialAndAddressSettings.address|richtext}}
+            {{settings.site_settings.OrganisationSetting.address|richtext}}
           </div>
           {% endif %}
 
-          {% if settings.site_settings.SocialAndAddressSettings.phone  %}
+          {% if settings.site_settings.OrganisationSetting.phone  %}
 
           <div style="font-size: 14px" class="has-text-weight-light">
-            Tel: {{settings.site_settings.SocialAndAddressSettings.phone}}
+            Tel: {{settings.site_settings.OrganisationSetting.phone}}
           </div>
           {% endif %}
-          {% if settings.site_settings.SocialAndAddressSettings.email  %}
+          {% if settings.site_settings.OrganisationSetting.email  %}
 
           <div style="font-size: 14px" class="has-text-weight-light">
-            Email: {{settings.site_settings.SocialAndAddressSettings.email}}
+            Email: {{settings.site_settings.OrganisationSetting.email}}
           </div>
           {% endif %}
         </div>

@@ -7,50 +7,50 @@ from wagtail import blocks
 from django.utils.functional import cached_property
 
 # Create your models here.
-@register_setting(icon='radio-full')
-class MeasurementSettings(BaseSiteSetting):
+
+
+class Country(models.Model):
+    name = models.CharField(max_length=100)
+    iso = models.CharField(max_length=100)
+    size = models.CharField(max_length=100)
+    geom = models.MultiPolygonField(help_text="The paired values of points defining a polygon that delineates the affected "
+                                         "area of the alert message", null=True, srid=4326)
+
+
+    def __str__(self):
+        return self.name
     
-    TEMPERATURE_UNITS = (
-        ("celsius","°C"),
-        ("fareinheit","°F")
-    )
-    WIND_UNITS = (
-        ("knots","knots"),
-        ("km_p_hr","km/h"),
-        ("m_p_s","m/s")
-    )
-    temp_units = models.CharField(choices=TEMPERATURE_UNITS, default='celsius', max_length=255)  
-    wind_units =  models.CharField(choices=WIND_UNITS, default='km_p_hr', max_length=255)  
-
-    panels = [
-        FieldPanel("temp_units"),
-        FieldPanel("wind_units"),
-    ]
+@register_setting
+class OrganisationSetting(BaseSiteSetting):
+    # country 
+    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_setting", null=True, default="Ethiopia")
     
-
-
-@register_setting
-class LogoAndMottoSettings(BaseSiteSetting):
-    motto = models.CharField(blank=True,null=True, max_length=50)
-    logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+")    
-
-    panels = [
-        FieldPanel("motto"),
-        FieldPanel("logo"),
-    ]
-
-@register_setting
-class SocialAndAddressSettings(BaseSiteSetting):
-    twitter = models.URLField(max_length = 250, blank = True, null = True, help_text = "Twitter handle")  
-    facebook = models.URLField(max_length = 250, blank = True, null = True, help_text = "Facebook handle")  
-    youtube = models.URLField(max_length = 250, blank = True, null = True, help_text = "Youtube handle")  
-    instagram = models.URLField(max_length = 250, blank = True, null = True, help_text = "Instagram handle")  
+    # social media 
+    twitter = models.URLField(max_length = 250, blank = True, null = True, help_text = "Twitter url")  
+    facebook = models.URLField(max_length = 250, blank = True, null = True, help_text = "Facebook url")  
+    youtube = models.URLField(max_length = 250, blank = True, null = True, help_text = "Youtube url")  
+    instagram = models.URLField(max_length = 250, blank = True, null = True, help_text = "Instagram url")  
     phone = models.IntegerField(blank = True, null=True, help_text = "Phone Number")
     email = models.EmailField(blank = True, null=True, max_length=254, help_text = "Email address")
     address = RichTextField(max_length = 250, blank=True,null=True, help_text = "Postal Address")
 
+    # logo 
+    logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+")    
+
     panels = [
-         MultiFieldPanel([
+        MultiFieldPanel(
+            [
+                FieldPanel("logo"),
+            ],
+            heading="Logo"
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel('country'),
+            ],
+            heading='Country'
+        ),
+        MultiFieldPanel([
             FieldPanel("address"),
         ], heading = "Address Settings"),
         MultiFieldPanel([
@@ -66,14 +66,37 @@ class SocialAndAddressSettings(BaseSiteSetting):
         ], heading= "Social Media Settings")
     ]
 
-@register_setting()
-class AnalyticsSettings(BaseSiteSetting):
-    """
-    Tracking and Google Analytics.
-    """
+@register_setting(icon='radio-full')
+class MeasurementSettings(BaseSiteSetting):
+    
+    TEMPERATURE_UNITS = (
+        ("celsius","°C"),
+        ("fareinheit","°F"),
+        ("kelvin", "K")
+    )
+    WIND_UNITS = (
+        ("knots","knots"),
+        ("km_p_hr","km/h"),
+        ("mtr_p_s","m/s"),
+        ("mile_p_hr", "mph"),
+        ("feet_p_s", "ft/s")
+    )
+    temp_units = models.CharField(choices=TEMPERATURE_UNITS, default='celsius', max_length=255)  
+    wind_units =  models.CharField(choices=WIND_UNITS, default='km_p_hr', max_length=255)  
 
-    class Meta:
-        verbose_name = ('Tracking')
+    panels = [
+        FieldPanel("temp_units"),
+        FieldPanel("wind_units"),
+    ]
+
+
+
+@register_setting
+class IntegrationSettings(BaseSiteSetting):
+    youtube_api = models.CharField(verbose_name="Youtube API Key", max_length=50, blank=True,help_text="To set up Youtube API Key refer to https://developers.google.com/youtube/v3/getting-started")
+    mailchimp_api = models.CharField(verbose_name="Mailchimp API Key", max_length=50,blank=True, help_text="To set up Mailchimp API Key refer to ")
+    zoom_api_key = models.CharField(verbose_name="Zoom API Key", blank=True,max_length=50, help_text="To set up Zoom API Key refer to ")
+    zoom_api_secret = models.CharField(verbose_name="Zoom Secret Key", blank=True,max_length=50, help_text="To set up Zoom Secret Key refer to ")
 
     ga_tracking_id = models.CharField(
         blank=True,
@@ -95,7 +118,35 @@ class AnalyticsSettings(BaseSiteSetting):
             'Track   all pages internally. This will enable the internal analytics dashboard, '
             'alongside Google Analytics, if also enabled'), )
 
+    recaptcha_public_key =  models.CharField(
+        blank=True,
+        max_length=255,
+        verbose_name='Recaptcha Public Key',
+        help_text='Your Recaptcha Public Key',
+    )
+
+    recaptcha_private_key =  models.CharField(
+        blank=True,
+        max_length=255,
+        verbose_name='Recaptcha Private Key',
+        help_text='Your Recaptcha Private Key',
+    )
+
     panels = [
+        MultiFieldPanel([
+            FieldPanel('recaptcha_public_key'),
+            FieldPanel('recaptcha_private_key')
+        ], heading="Form Recaptcha Integration"),
+        MultiFieldPanel([
+            FieldPanel('youtube_api')
+        ], heading="Youtube Integration"),
+        MultiFieldPanel([
+            FieldPanel('mailchimp_api')
+        ], heading="Mailchimp Integration"),
+        MultiFieldPanel([
+            FieldPanel('zoom_api_key'),
+            FieldPanel('zoom_api_secret')
+        ], heading="Zoom Integration"),
         MultiFieldPanel(
             [
                 FieldPanel('ga_tracking_id'),
@@ -105,31 +156,7 @@ class AnalyticsSettings(BaseSiteSetting):
             heading='Google Analytics'
         )
     ]
-
-class Country(models.Model):
-    name = models.CharField(max_length=100)
-    iso = models.CharField(max_length=100)
-    size = models.CharField(max_length=100)
-    geom = models.MultiPolygonField(help_text="The paired values of points defining a polygon that delineates the affected "
-                                         "area of the alert message", null=True, srid=4326)
-
-
-    def __str__(self):
-        return self.name
     
-@register_setting
-class CountrySetting(BaseSiteSetting):
-    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_setting", null=True)
-    
-    panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel('country'),
-            ],
-            heading='Country'
-        )
-    ]
-
 @register_setting(icon="site")
 class LanguageSettings(BaseSiteSetting):
     languages = StreamField([
@@ -165,6 +192,6 @@ class OtherSettings(BaseSiteSetting):
             [
                 FieldPanel('wagtail_form_key'),
             ],
-            heading='Forms Security'
+            heading='Forms Security',
         )
     ]

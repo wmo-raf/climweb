@@ -1,5 +1,6 @@
 from .base import *
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -37,3 +38,4 @@ INTERNAL_IPS = [
 
 SHOW_TOOLBAR_CALLBACK=False
 SHOW_COLLAPSED=False
+

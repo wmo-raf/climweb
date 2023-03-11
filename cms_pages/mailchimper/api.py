@@ -1,5 +1,7 @@
 from django.conf import settings
 from mailchimp3 import MailChimp
+from site_settings.models import IntegrationSettings
+from wagtail.models import Site
 
 
 class MailchimpApi:
@@ -10,7 +12,12 @@ class MailchimpApi:
 
     def init_api(self):
         try:
-            api_key = getattr(settings, 'MAILCHIMP_API_KEY', '')
+            # Get the current site
+            current_site = Site.find_for_request(self.request)
+
+            # Get the SiteSettings for the current site
+            settings = IntegrationSettings.for_site(current_site)
+            api_key = settings.mailchimp_api
 
             self.client = MailChimp(mc_api=api_key)
             self.is_active = True

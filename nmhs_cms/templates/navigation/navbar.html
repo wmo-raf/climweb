@@ -1,7 +1,7 @@
 {% load menu_tags i18n wagtailcore_tags static %}
 {% load wagtailimages_tags %}
 
-{% image settings.site_settings.LogoAndMottoSettings.logo width-400 as logo%}
+{% image settings.site_settings.OrganisationSetting.logo width-400 as logo%}
 <div class="container is-fluid" style="border-bottom:1px solid rgba(195, 192, 192, 0.37);">
     <div class="container">
         <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -9,7 +9,7 @@
                 <a class="navbar-item" href="/"
                     style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
                     {% comment %} TODO: REVERT {% endcomment %}
-                    {% if not logo %} 
+                    {% if logo %} 
                         <img src="{{logo.url}}" style="height:auto" >
 
                         {% else %}
@@ -32,9 +32,9 @@
 
                     <div class="navbar-item" style="text-decoration:none">
 
-                        {% if settings.site_settings.SocialAndAddressSettings.instagram  %}
+                        {% if settings.site_settings.OrganisationSetting.instagram  %}
                             <span class="icon">
-                                <a href="{{settings.site_settings.SocialAndAddressSettings.instagram }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
+                                <a href="{{settings.site_settings.OrganisationSetting.instagram }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
 
                                 <i class="fa fa-instagram" aria-hidden="true"></i>
                             </a>
@@ -43,19 +43,19 @@
 
                             {% endif %}
 
-                            {% if settings.site_settings.SocialAndAddressSettings.twitter  %}
+                            {% if settings.site_settings.OrganisationSetting.twitter  %}
 
                         <span class="icon">
-                            <a href="{{settings.site_settings.SocialAndAddressSettings.twitter }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
+                            <a href="{{settings.site_settings.OrganisationSetting.twitter }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
 
                             <i class="fa fa-twitter" aria-hidden="true"></i>
                         </a>
                         </span>
                         {% endif %}
 
-                        {% if settings.site_settings.SocialAndAddressSettings.facebook  %}
+                        {% if settings.site_settings.OrganisationSetting.facebook  %}
                         <span class="icon">
-                            <a href="{{settings.site_settings.SocialAndAddressSettings.facebook }}" style="color:black" target=”_blank” rel=”noopener noreferrer” >
+                            <a href="{{settings.site_settings.OrganisationSetting.facebook }}" style="color:black" target=”_blank” rel=”noopener noreferrer” >
 
                             <i class="fa fa-facebook" aria-hidden="true"></i>
                         </a>
@@ -63,9 +63,9 @@
                         </span>
                         {% endif %}
 
-                        {% if settings.site_settings.SocialAndAddressSettings.youtube  %}
+                        {% if settings.site_settings.OrganisationSetting.youtube  %}
                         <span class="icon">
-                            <a href="{{settings.site_settings.SocialAndAddressSettings.youtube }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
+                            <a href="{{settings.site_settings.OrganisationSetting.youtube }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
 
                             <i class="fa fa-youtube" aria-hidden="true"></i>
                         </a>
@@ -134,9 +134,17 @@
                            <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em; " href="/contact-us">
                                 Contact us
                             </a>
-                            <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="/admin">
-                                Log in
-                            </a>
+
+                            {% if user.is_authenticated %}
+                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="/admin">
+                                    {{user.username}}, CMS 
+                                </a>
+                            {% else %}
+                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="/admin">
+                                    Log in
+                                </a>
+                            {% endif %}
+                            
                         </div>
                     </div>
                     

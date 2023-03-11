@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 import jwt
 from django.conf import settings
 import requests
+from site_settings.models import IntegrationSettings
+from wagtail.models import Site
 
 JWT_EXP_DELTA_SECONDS = 60 * 2  # 2 minutes
 
@@ -15,8 +17,12 @@ class ZoomApi:
         self.init_api()
 
     def init_api(self):
-        api_key = getattr(settings, 'ZOOM_JWT_API_KEY', '')
-        api_secret = getattr(settings, 'ZOOM_JWT_API_SECRET', '')
+        current_site = Site.objects.get(is_default_site=True)
+
+        # Get the SiteSettings for the current site
+        settings = IntegrationSettings.for_site(current_site)
+        api_key = settings.zoom_api_key
+        api_secret = settings.zoom_api_secret
 
         payload = {
             'iss': api_key,

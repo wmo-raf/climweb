@@ -3,6 +3,7 @@ from itertools import groupby
 
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
+from django.core import serializers
 import json
 
 from wagtail.models import Page
@@ -13,7 +14,8 @@ from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 from capeditor.models import Alert
 from services.models import ServiceIndexPage
-from forecast_manager.models import City, Forecast     
+from forecast_manager.models import City, Forecast    
+from layer_manager.models import WMSRequest, LegendItem
 
 class HomePage(Page):
     templates = "home_page.html"
@@ -180,7 +182,13 @@ class HomePage(Page):
         alerts = Alert.objects.live().public()
         latest_alerts = alerts[:3]
 
+        # for alert in list(alerts.values('alert_info', )):
+        #     print(alert)
+        # for alert in alerts:
+        #     print(alert['alert_area'])
+
         return {
+            # 'alerts': serializers.serialize('json',list(alerts) ),
             'alerts': alerts,
             'latest_alerts':latest_alerts
         }
@@ -199,6 +207,19 @@ class HomePage(Page):
         return {
             'cities':cities
         }
+
+    @cached_property
+    def get_wms_layers(self):
+        wms_layers = WMSRequest.objects.all()
+        wms_vals = list(wms_layers.values('id', 'title', 'subtitle', 'version', 'width', 'height','transparent', 'srs' , 'format', 'layers__name', 'legend_id'))
+        for val in wms_vals:
+            legends = LegendItem.objects.filter(legend_id =val['legend_id'] )
+            val['legend_colors'] = list(legends.values('item_val', 'item_color'))
+        
+        return {
+            'wms_layers':list(wms_layers),
+            'wms_layers_json':json.dumps(wms_vals)
+        }   
     # COMMON_PANELS = (
     #     FieldPanel('slug'),
     #     FieldPanel('seo_title'),
