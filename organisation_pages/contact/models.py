@@ -117,7 +117,7 @@ class ContactPage(WagtailCaptchaEmailForm):
             message = "Thank you for getting in touch!\nWe appreciate you contacting us about {}. Our team will be " \
                       "getting back to you shortly.\nHave a great day!".format(subject)
 
-            send_mail("Confirmation", message, [email], fail_silently=True, from_email="ICPAC - Contact Us")
+            send_mail("Confirmation", message, [email], fail_silently=True, from_email="NMHS - Contact Us")
 
     def process_suspicious_form(self, form):
         remove_captcha_field(form)
