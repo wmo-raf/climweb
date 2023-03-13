@@ -1,6 +1,6 @@
 {% load static nmhs_cms_tags %}
 {% if self.enable_weather_forecasts == True %}
-{% for alert in self.get_alerts.alerts.all %}
+{% for alert in self.get_alerts.active_alerts.all %}
   {% for info in alert.alert_info.all %}
     {% for alert_area in info.alert_areas.values%}
 
@@ -22,7 +22,7 @@
             </h2>
             {% if self.get_alerts %}
 
-            {% for alert in self.get_alerts.latest_alerts.all %}
+            {% for alert in self.get_alerts.active_alerts.all %}
             <div class="box" style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
               <a href="{{alert.url}}">
                 <div class="columns is-gapless">
@@ -31,10 +31,11 @@
                       style="border-radius:4px; padding-top:5px">
                   </div>
                   <div class="column">
-                    <p class="title  py-0 my-1" style="font-size: 13px;font-weight:700;">{{alert.title}}</p>
+                    <p class="title  py-0 my-1" style="font-size: 14px;font-weight:700;">{{alert.title}}</p>
 
                     {% for info in alert.alert_info.all %}
 
+                    <p class="subtitle  py-0 my-1" style="font-size: 12px;"><b>Effective: {{info.effective}}</b></p>
                     <p class="subtitle  py-0 my-1" style="font-size: 12px;">{{info.get_severity_display}} severity</p>
                     {% for alert_area in info.alert_areas.values%}
                     <span class="tag is-info"> <i class="fa fa-location-pin pr-1"> </i> {{alert_area.area_desc}}</span>
@@ -50,8 +51,9 @@
             {% endfor %}
 
             {% else %}
-
-            <p>No alerts at the moment</p>
+            <div class="block">
+            <p style="font-size:14px">We have <b>No</b> Ongoing or Incoming Alerts at the this time.</p>
+            </div>
             {% endif %}
 
             <div>
@@ -75,8 +77,8 @@
 
           </div>
           <div class="column ml-3">
-            <div class="card">
-              <div id="home-map" style="border-radius: 0.5rem"></div>
+            <div class="card" style="height:100%">
+              <div id="home-map" style="border-radius: 0.5rem; height:100%"></div>
               <div id="floating-div" style="position: absolute;
                               top: 0.5em;
                               left: 0;
@@ -101,6 +103,7 @@
                 </div>
               </div>
 
+              {% if self.get_alerts.active_alerts %}
               <div id="floating-div" style="position: absolute;
                               bottom: 1em;
                               left: 0.5em;
@@ -145,6 +148,8 @@
                     </div>
                     
               </div>
+              {% endif %}
+              
             </div>
           </div>
         </div>

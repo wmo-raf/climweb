@@ -149,10 +149,10 @@
 
                                 <section class="tab-content">
 
-                                    <div class="columns is-gapless is-multiline is-mobile is-centered">
+                                    <div class="columns is-gapless is-multiline is-mobile">
                                         {% for item in forecasts.forecast_items %}
 
-                                        <div class="column is-3-mobile" style="{% if not forloop.last or forecasts.forecast_items.count > 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
+                                        <div class="column is-3-mobile is-2" style="{% if not forloop.last or forecasts.forecast_items.count > 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
 
                                             <h2 class="title mb-1"
                                                 style="font-size: 14px; font-weight: 600">

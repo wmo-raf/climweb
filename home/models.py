@@ -194,12 +194,12 @@ class HomePage(Page):
 
     @cached_property
     def get_alerts(self):
-        alerts = Alert.objects.filter(expires__gte =datetime.today().date() )
-        latest_alerts = alerts[:3]
+        alerts = Alert.objects.all()
+        active_alerts = alerts.filter(alert_info__expires__gte =datetime.today().date())[:3]
         return {
             # 'alerts': serializers.serialize('json',list(alerts) ),
             'alerts': alerts,
-            'latest_alerts':latest_alerts
+            'active_alerts':active_alerts
         }
 
     @cached_property

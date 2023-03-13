@@ -1,14 +1,19 @@
 {% load wagtailcore_tags %}
-{% load menu_tags %}
+{% load menu_tags wagtailimages_tags %}
 {% load wagtailsettings_tags %}
 {% get_settings use_default_site=True %}
 
+{% image settings.site_settings.OrganisationSetting.logo width-300 as logo%}
 <footer class="footer" style="background-color: #262c38; color: #f9f9f9">
-  <div class="container">
-    <div class="columns py-6">
-      <div class="column">
+  <div class="container  my-6">
+    <div class="columns is-mobile is-multiline">
+      <div class="column is-one-fifth-desktop is-half-mobile">
+        {% if logo %} 
+        <a href="/">
+            <img src="{{logo.url}}" style="height:auto;filter: brightness(0) invert(1);" >
+        </a>
+        {% else %}
         <a
-          class="navbar-item"
           href="#"
           style="
             font-weight: 600;
@@ -18,6 +23,9 @@
           "
           >N.M.H.S
         </a>
+
+        {% endif %}
+      
         <p class="title is-6 has-text-white has-text-weight-normal">
           National Meteorological & <br> Hydrological Services
         </p>
@@ -25,76 +33,31 @@
 
       {% flat_menu 'footer' max_levels=2 show_menu_heading=True fall_back_to_default_site_menus=True template="navigation/footer_menu.html" %}
 
-      <div class="column">
-        <div class="content">
-          <h1 class="title is-6 has-text-white has-text-weight-bold">
-            SERVICES
-          </h1>
-        </div>
-        <div class="has-text-weight-normal">
-          <p style="font-size: 14px" >Forecasting</p>
-          <p style="font-size: 14px">Marine</p>
-          <p style="font-size: 14px">Climate</p>
-          <p style="font-size: 14px">Aviation</p>
-          <p style="font-size: 14px">Air quality</p>
-        </div>
-      </div>
-      <div class="column">
-        <div class="content">
-          <h1 class="title is-6 has-text-white has-text-weight-bold">
-            SERVICES
-          </h1>
-        </div>
-        <div class="has-text-weight-normal">
-          <p style="font-size: 14px" >Forecasting</p>
-          <p style="font-size: 14px">Marine</p>
-          <p style="font-size: 14px">Climate</p>
-          <p style="font-size: 14px">Aviation</p>
-          <p style="font-size: 14px">Air quality</p>
-        </div>
-      </div>
-      <div class="column">
-        <div class="quick-links">
-          <div class="content">
-            <h1 class="title is-6 has-text-white has-text-weight-medium">
-              QUICK LINKS
-            </h1>
-          </div>
-          <div style="font-size: 14px" class="has-text-weight-light">
-            <p>Ministry of Environment and Forestry</p>
-            <p>Ministry of Agriculture Livestock and Fisheries</p>
-            <p>National Drought Management Authority</p>
-          </div>
-        </div>
-        <div class="address pt-6">
-          <div class="content">
-            <h1 class="title is-6 has-text-white has-text-weight-medium">
-              OUR OFFICE
-            </h1>
-          </div>
+      
+      <div class="column  is-one-fifth-desktop is-half-mobile">
+       
+        <p class="footer-link-title is-uppercase title">
+          <a class="has-text-white">OUR OFFICE</a>
+      </p>
+        <div class="address">
+          
 
           {% if settings.site_settings.OrganisationSetting.address  %}
 
-          <div style="font-size: 14px" class="has-text-weight-light">
             {{settings.site_settings.OrganisationSetting.address|richtext}}
-          </div>
           {% endif %}
 
           {% if settings.site_settings.OrganisationSetting.phone  %}
 
-          <div style="font-size: 14px" class="has-text-weight-light">
-            Tel: {{settings.site_settings.OrganisationSetting.phone}}
-          </div>
+            <p><b>Tel: </b>{{settings.site_settings.OrganisationSetting.phone}}</p>
           {% endif %}
           {% if settings.site_settings.OrganisationSetting.email  %}
 
-          <div style="font-size: 14px" class="has-text-weight-light">
-            Email: {{settings.site_settings.OrganisationSetting.email}}
-          </div>
+            <p><b>Email: </b>{{settings.site_settings.OrganisationSetting.email}}</p>
           {% endif %}
         </div>
       </div>
-      <div class="colum">
+      <div class="column is-one-fifth-desktop is-half-mobile">
         <a
           class="button is-outlined is-light"
           style="border-radius: 0.5em; font-size: 14px; padding: 0 3em"

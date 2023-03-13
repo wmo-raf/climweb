@@ -52,43 +52,41 @@
         <script src='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js'></script>
         
         <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <script src="https://kit.fontawesome.com/db8ac3c257.js" crossorigin="anonymous"></script>
-    <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement(
-                {
-                    pageLanguage: "en",
-                    includedLanguages: "{{settings.site_settings.LanguageSettings.get_list|join:"," }}",
-                    layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
-                    autoDisplay: false
-                },
-                "google_language_translator"
-            );
-        }
-    </script>
-    
-    <script src="{% static 'js/google-translate.js' %}"></script>
+        <script src="https://kit.fontawesome.com/db8ac3c257.js" crossorigin="anonymous"></script>
+        <script>
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement(
+                    {
+                        pageLanguage: "en",
+                        includedLanguages: "{{settings.site_settings.LanguageSettings.get_list|join:"," }}",
+                        layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+                        autoDisplay: false
+                    },
+                    "google_language_translator"
+                );
+            }
+        </script>
+        
+        <script src="{% static 'js/google-translate.js' %}"></script>
 
-    {% if request.user.is_authenticated or request.is_preview %} {% else %}
-    {% if settings.site_settings.IntegrationSettings.ga_tracking_id %}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        {% if request.user.is_authenticated or request.is_preview %} {% else %}
+        {% if settings.site_settings.IntegrationSettings.ga_tracking_id %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script async
+            src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.IntegrationSettings.ga_tracking_id }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
 
-    <script async
-        src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.IntegrationSettings.ga_tracking_id }}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', '{{settings.site_settings.IntegrationSettings.ga_tracking_id}}');
-    </script>
-    <script src="https://kit.fontawesome.com/a5bc3e0ffc.js" crossorigin="anonymous"></script>
-<script src="{% static 'js/common.js' %}"></script>
-<script src="{% static 'js/bulma-toast.min.js' %}"></script>
-    {% endif %}
-    {% endif %}
+            gtag('config', '{{settings.site_settings.IntegrationSettings.ga_tracking_id}}');
+        </script>
+        <script src="https://kit.fontawesome.com/a5bc3e0ffc.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/bulma-toast.min.js' %}"></script>
+        {% endif %}
+        {% endif %}
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
