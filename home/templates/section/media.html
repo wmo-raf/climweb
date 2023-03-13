@@ -1,15 +1,13 @@
 {% load static %}
-
+{% if page.youtube_playlist %}
 <section style="background-color:#f9f9f9; padding-top: 4rem; padding-bottom: 4rem;">
 
     <div class="container">
         <div class="columns is-align-items-center is-justify-content-center">
-            <div class="column is-4">
+            <div class="column is-3">
                 <div class="content">
-                    <h2 class="title py-4" style="font-size: 29px; font-weight:700"> Latest Media</h2>
-                    <p style="font-size:14px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices
-                        eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut
-                        vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.
+                    <h2 class="title py-4" style="font-size: 29px; font-weight:700"> {{page.video_section_title}}</h2>
+                    <p style="font-size:14px">{{page.video_section_desc}}
                     </p>
 
                     <a class="button is-dark">More</a>
@@ -17,99 +15,8 @@
                 </div>
 
             </div>
-            <div class="column is-7">
-                <div class="columns is-multiline">
-                    <div class="column is-6">
-                        <div class="card m-4" style="border-radius: 1em">
-                            <div class="card-image">
-                                <figure class="image is-3by2">
-                                    <img src="{% static 'img/air_quality_yt.png' %}" alt="Placeholder image"
-                                        style="border-radius: 1em 1em 0 0; object-fit: cover;">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-
-                                    <div class="media-content">
-                                        <p class="title is-6 has-text-weight-medium">How a community is
-                                            commiting to sustainable growth of food</p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="column is-6">
-                        <div class="card m-4" style="border-radius: 1em">
-                            <div class="card-image">
-                                <figure class="image is-3by2">
-                                    <img src="{% static 'img/aviation_yt.png' %}" alt="Placeholder image"
-                                        style="border-radius: 1em 1em 0 0; object-fit: cover;">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-
-                                    <div class="media-content">
-                                        <p class="title is-6 has-text-weight-medium">How a community is
-                                            commiting to sustainable growth of food</p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="column is-6">
-                        <div class="card m-4" style="border-radius: 1em">
-                            <div class="card-image">
-                                <figure class="image is-3by2">
-                                    <img src="{% static 'img/climate_yt.png' %}" alt="Placeholder image"
-                                        style="border-radius: 1em 1em 0 0; object-fit: cover;">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-
-                                    <div class="media-content">
-                                        <p class="title is-6 has-text-weight-medium">How a community is
-                                            commiting to sustainable growth of food</p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="column is-6">
-                        <div class="card m-4" style="border-radius: 1em">
-                            <div class="card-image">
-                                <figure class="image is-3by2">
-                                    <img src="{% static 'img/forecasting_yt.png' %}" alt="Placeholder image"
-                                        style="border-radius: 1em 1em 0 0; object-fit: cover;">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-
-                                    <div class="media-content">
-                                        <p class="title is-6 has-text-weight-medium">How a community is
-                                            commiting to sustainable growth of food</p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
+            <div class="column is-8">
+                {% include 'videos_skeleton_home.html' with playlist_items=page.youtube_playlist.playlist_items %}
             </div>
         </div>
     </div>
@@ -118,3 +25,4 @@
 
 
 </section>
+{% endif %}

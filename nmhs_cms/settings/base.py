@@ -37,7 +37,6 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 INSTALLED_APPS = [
 
     # Common
-    "site_settings",
     'core',
     
     "home",
@@ -91,6 +90,7 @@ INSTALLED_APPS = [
 
     "forecast_manager",
     "layer_manager",
+    "site_settings",
 
     "wagtailgeowidget",
     "wagtail_lazyimages",

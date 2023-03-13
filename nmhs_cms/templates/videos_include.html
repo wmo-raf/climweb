@@ -1,4 +1,4 @@
-{% load icpac_cms_tags %}
+{% load nmhs_cms_tags %}
 
 {% for item in result.videos %}
     <div class="column is-one-third-desktop is-half-tablet is-full-mobile video-item">
@@ -11,7 +11,7 @@
                 </figure>
             </div>
             <div class="card-content">
-                <span class="card-tag-float">{{ result.title|truncatechars:35 }}</span>
+                <span class="card-tag-float">{{ result.title|}}</span>
                 <a class="card-title">
                     <h4>{{ item.snippet.title }}</h4>
                 </a>
@@ -21,16 +21,14 @@
                 </div>
 
                 <div class="card-video-meta">
-                    <a href=https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
+                    <a href="https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
                        target="_blank"
-                       rel="noopener"
-                    >
+                       rel="noopener">
                         SUBSCRIBE
                     </a>
-                    <a href=https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
+                    <a href="https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
                        target="_blank"
-                       rel="noopener"
-                    >
+                       rel="noopener">
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>

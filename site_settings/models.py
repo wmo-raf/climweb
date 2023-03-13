@@ -90,8 +90,7 @@ class MeasurementSettings(BaseSiteSetting):
     ]
 
 
-
-@register_setting
+@register_setting(icon="cogs")
 class IntegrationSettings(BaseSiteSetting):
     youtube_api = models.CharField(verbose_name="Youtube API Key", max_length=50, blank=True,help_text="To set up Youtube API Key refer to https://developers.google.com/youtube/v3/getting-started")
     mailchimp_api = models.CharField(verbose_name="Mailchimp API Key", max_length=50,blank=True, help_text="To set up Mailchimp API Key refer to ")
@@ -156,7 +155,7 @@ class IntegrationSettings(BaseSiteSetting):
             heading='Google Analytics'
         )
     ]
-    
+
 @register_setting(icon="site")
 class LanguageSettings(BaseSiteSetting):
     languages = StreamField([

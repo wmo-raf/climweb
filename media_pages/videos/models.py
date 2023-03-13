@@ -1,6 +1,6 @@
 import os
 
-from django.conf import settings
+# from django.conf import settings
 from django.db import models
 from googleapiclient.discovery import build
 from wagtail.admin.panels import (FieldPanel)
@@ -11,11 +11,10 @@ from wagtail.snippets.models import register_snippet
 from core.models import ServiceCategory
 from site_settings.models import IntegrationSettings
 
+
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
-
 youtube_service = None
-
 
 # Youtube playlists
 @register_snippet
@@ -26,6 +25,25 @@ class YoutubePlaylist(models.Model):
                                              "If the playlist is not created on Youtube, please create it first")
 
 
+    def set_api(self):
+        try:
+            current_site = Site.objects.get(is_default_site=True)
+
+            # Get the SiteSettings for the current site
+            settings = IntegrationSettings.for_site(current_site)
+            api_key = settings.youtube_api
+            YOUTUBE_API_KEY = api_key
+
+            # creating Youtube Resource Object
+            self.youtube_service = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                                    developerKey=YOUTUBE_API_KEY)
+
+            return  self.youtube_service
+
+        except Exception as e:
+            print("Error: ",e)
+            pass
+
     def __str__(self):
         return self.title
 
@@ -33,28 +51,14 @@ class YoutubePlaylist(models.Model):
     @property
     def videos_count(self):
          # Get the current site
-        current_site = Site.objects.get(is_default_site=True)
-
-        # Get the SiteSettings for the current site
-        settings = IntegrationSettings.for_site(current_site)
-        api_key = settings.youtube_api
-        print(api_key)
-
-        YOUTUBE_API_KEY = api_key
-
-        try:
-            # creating Youtube Resource Object
-            youtube_service = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                                    developerKey=YOUTUBE_API_KEY)
-        except:
-            pass
-
+        youtube_service = self.set_api()
 
         if youtube_service:
             info = None
             try:
                 videos = youtube_service.playlistItems().list(part="snippet",
                                                               playlistId=self.playlist_id).execute()
+
                 if "pageInfo" in videos:
                     info = videos['pageInfo']['totalResults']
             except:
@@ -63,16 +67,22 @@ class YoutubePlaylist(models.Model):
         return None
 
     def playlist_items(self, limit=None):
+        youtube_service = self.set_api()
+
         if youtube_service:
             info = None
             try:
                 videos = youtube_service.playlistItems().list(part="snippet,contentDetails",
                                                               playlistId=self.playlist_id,
-                                                              maxResults=limit).execute()
+                                                              maxResults=50).execute()
+                
                 if "items" in videos:
                     info = videos['items']
             except:
                 pass
+
+            # sort by video position in playlist 
+            info.sort(key=lambda info_item:info_item['snippet']['position'], reverse=True)
             return info
         return None
 

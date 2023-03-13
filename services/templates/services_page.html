@@ -85,12 +85,14 @@
                 {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}
             </section>
         {% endif %}
-
+        
+        
         {% if page.youtube_playlist %}
             <section id="videoSection" class="videos">
                 <div class="container">
                     <h2 class="section-title has-text-centered">Videos</h2>
-                    {% include 'videos_skeleton.html' %}
+                    {% include 'videos_skeleton.html' with playlist_items=page.youtube_playlist.playlist_items  %}
+                    
                     {% if  settings.core.ImportantPages.all_videos_page %}
                         <div class="more-container">
                             <a href="{{ settings.core.ImportantPages.all_videos_page.url }}" class="more">

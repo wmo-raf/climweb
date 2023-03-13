@@ -16,6 +16,7 @@ from capeditor.models import Alert
 from services.models import ServiceIndexPage
 from forecast_manager.models import City, Forecast    
 from layer_manager.models import WMSRequest, LegendItem
+from media_pages.videos.models import YoutubePlaylist
 
 class HomePage(Page):
     templates = "home_page.html"
@@ -54,6 +55,16 @@ class HomePage(Page):
     enable_weather_forecasts = models.BooleanField(blank=True, default=True)
     enable_climate = models.BooleanField(blank=True, default=True)
     climate_title = models.CharField(blank=True, null=True, max_length=100, verbose_name='Climate Title', default='Explore Current Conditions')
+    youtube_playlist = models.ForeignKey(
+        YoutubePlaylist,
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    video_section_title = models.CharField(blank=False, null=True, max_length=100, verbose_name='Media Section Title', default='Latest Media')
+    video_section_desc = models.TextField(blank=False, null=True, max_length=500, verbose_name='Media Section Description', default='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultriceseleifend gt')
 
     content_panels = Page.content_panels+[
         MultiFieldPanel([
@@ -62,16 +73,20 @@ class HomePage(Page):
             FieldPanel('hero_subtitle'),
             FieldPanel("hero_banner"),
         ], heading = "Hero Section"),
-
         MultiFieldPanel([
             FieldPanel('enable_weather_forecasts'),
             # FieldPanel('hero_subtitle')
         ], heading = "Weather forecasts Section"),
-
         MultiFieldPanel([
             FieldPanel('enable_climate'),
             FieldPanel('climate_title')
-        ], heading = "Climate Section Section")
+        ], heading = "Climate Section Section"),
+        MultiFieldPanel([
+            FieldPanel('video_section_title'),
+            FieldPanel('video_section_desc'),
+            FieldPanel('youtube_playlist'),
+        ], heading = "Media Section")
+
     ]
     
 
@@ -179,14 +194,8 @@ class HomePage(Page):
 
     @cached_property
     def get_alerts(self):
-        alerts = Alert.objects.live().public()
+        alerts = Alert.objects.filter(expires__gte =datetime.today().date() )
         latest_alerts = alerts[:3]
-
-        # for alert in list(alerts.values('alert_info', )):
-        #     print(alert)
-        # for alert in alerts:
-        #     print(alert['alert_area'])
-
         return {
             # 'alerts': serializers.serialize('json',list(alerts) ),
             'alerts': alerts,
@@ -220,6 +229,7 @@ class HomePage(Page):
             'wms_layers':list(wms_layers),
             'wms_layers_json':json.dumps(wms_vals)
         }   
+
     # COMMON_PANELS = (
     #     FieldPanel('slug'),
     #     FieldPanel('seo_title'),
