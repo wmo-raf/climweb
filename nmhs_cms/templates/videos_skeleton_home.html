@@ -3,29 +3,28 @@
 {% load static %}
 
 
-<div class="columns is-multiline">
+<div class="columns is-multiline  is-justify-content-center">
     {% for video in playlist_items|slice:"0:4" %}
-    <div class="column is-6 is-full-mobile video-item">
+    <div class="column is-5 is-full-mobile video-item">
         <div class="card m-2" style="border-radius: 1em">
             <div class="card-image">
                 <figure class="image" style="display:flex">
-                    <iframe style="flex-grow: 1;"
+                    <iframe style="flex-grow: 1;" height="200"
                             src="https://www.youtube.com/embed/{{ video.snippet.resourceId.videoId }}" allowfullscreen>
                     </iframe>
                 </figure>
             </div>
             <div class="card-content">
-                    <a class="card-tag-float" style="background-color:rgb(62,142,208); border-radius:0.5em">
-                        <h6 style="font-size:14px">
-                            {{ video.contentDetails.videoPublishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" }}</span>
-                        </h6>
-                    </a>
-                    <a class="card-title">
-                        <h4 style="font-size:17px">
-                            {{video.snippet.title|truncatechars:35}}
-                        </h4>
-                    </a>
-
+                <a class="card-tag-float" style="background-color:rgb(62,142,208); border-radius:0.5em">
+                    <h6 style="font-size:14px">
+                        {{ video.contentDetails.videoPublishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" }}</span>
+                    </h6>
+                </a>
+                <a class="card-title pt-5 pb-0">
+                    <h4 style="font-size:15px">
+                        {{video.snippet.title|truncatechars:35}}
+                    </h4>
+            </a>
             </div>
 
         </div>
