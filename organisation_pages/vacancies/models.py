@@ -7,7 +7,7 @@ from rest_framework.fields import BooleanField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.api import APIField
 from wagtail.fields import RichTextField
-from wagtail.models import Orderable, Page
+from wagtail.models import Page
 # from wagtailmetadata.models import MetadataPageMixin
 
 from cms_pages.webicons.edit_handlers import WebIconChooserPanel
@@ -17,7 +17,7 @@ from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 class VacanciesPage(Page):
     template = 'vacancies_index_page.html'
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['about.AboutIndexPage']
     subpage_types = ['vacancies.VacancyDetailPage']
     max_count = 1
     show_in_menus = True

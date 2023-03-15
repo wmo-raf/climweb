@@ -11,10 +11,21 @@ from core import blocks
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from .blocks import TimelineBlock 
 
+class AboutIndexPage(Page):
+    parent_page_types = ['home.HomePage']
+    # template = ''
+    subpage_types = [
+        'about.AboutPage',
+        'about.PartnersPage',
+        'vacancies.VacanciesPage',
+        'projects.ProjectIndexPage',
+        'tenders.TendersPage'
+    ]
+    show_in_menus_default = True
 
 class AboutPage(Page):
     template = 'about_page.html'
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['about.AboutIndexPage']
     subpage_types = []
     max_count = 1
     show_in_menus_default = True
@@ -136,9 +147,9 @@ class Partner(models.Model):
 
 class PartnersPage(Page):
     template = 'partners.html'
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['about.AboutIndexPage']
     subpage_types = []
-    max_count = 1
+    max_count = 2
     show_in_menus_default = True
 
     banner_image = models.ForeignKey(

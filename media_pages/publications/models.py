@@ -22,7 +22,7 @@ from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 class PublicationsIndexPage(Page):
     template = 'publications_index_page.html'
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['home.HomePage',]
     subpage_types = ['publications.PublicationPage']
     max_count = 1
     show_in_menus_default = True

@@ -17,9 +17,10 @@ from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 class TendersPage(Page):
     template = 'tenders_index_page.html'
     subpage_types = ['tenders.TenderDetailPage']
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['about.AboutIndexPage']
     max_count = 1
-    show_in_menus = True
+    show_in_menus_default = True
+
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',

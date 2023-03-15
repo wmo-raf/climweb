@@ -1,9 +1,7 @@
-{% load nmhs_cms_tags %}
-
-{% load static %}
-
+{% load nmhs_cms_tags static %}
 
 <div class="columns is-multiline  is-justify-content-center">
+    
     {% for video in playlist_items|slice:"0:4" %}
     <div class="column is-5 is-full-mobile video-item">
         <div class="card m-2" style="border-radius: 1em">
@@ -24,11 +22,9 @@
                     <h4 style="font-size:15px">
                         {{video.snippet.title|truncatechars:35}}
                     </h4>
-            </a>
+                </a>
             </div>
-
         </div>
-
     </div>
     {% endfor %}
 

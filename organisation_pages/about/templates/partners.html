@@ -32,7 +32,7 @@
                                             {% image partner.logo original as p_logo %}
                                             <img class="progressive__img progressive--not-loaded"
                                                  data-progressive="{{ p_logo.url }}"
-                                                 src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"/>
+                                                 src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}" syle="width:100px;object-fit: cover;"/>
                                         </figure>
                                     </div>
                                 </a>

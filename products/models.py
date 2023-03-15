@@ -18,10 +18,10 @@ from core.models import ProductCategory, ServiceCategory
 from core.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
-class ProductsPage(Page):
+class ProductIndexPage(Page):
 
     parent_page_types = ['home.HomePage']
-    subpage_types = ['products.ProductIndexPage']
+    subpage_types = ['products.ProductPage']
 
     max_count = 1
 
@@ -29,11 +29,11 @@ class ProductsPage(Page):
         verbose_name = 'Product Page'
         verbose_name_plural = 'Product Pages'
 
-class ProductIndexPage(Page):
+class ProductPage(Page):
     template = 'product_index.html'
     ajax_template = 'product_list_include.html'
-    parent_page_types = ['products.ProductsPage']
-    subpage_types = ['products.ProductDetailPage']
+    parent_page_types = ['products.ProductIndexPage']
+    subpage_types = ['products.ProductItemPage']
     # max_count = 1
     show_in_menus_default = True
 
@@ -139,7 +139,7 @@ class ProductIndexPage(Page):
 
     @property
     def all_products(self):
-        return ProductDetailPage.objects.live().order_by('-year', '-month')
+        return ProductItemPage.objects.live().order_by('-year', '-month')
 
     def filter_products(self, request):
         products = self.all_products
@@ -170,7 +170,7 @@ class ProductIndexPage(Page):
     #     return CropMonitorDetailPage.objects.live().order_by('-year', '-month')[:4]
 
     def get_context(self, request, *args, **kwargs):
-        context = super(ProductIndexPage,
+        context = super(ProductPage,
                         self).get_context(request, *args, **kwargs)
 
         context['products'] = self.filter_and_paginate_products(request)
@@ -189,13 +189,13 @@ class ProductIndexPage(Page):
 
 
 class ProductPageTag(TaggedItemBase):
-    content_object = ParentalKey('products.ProductDetailPage', on_delete=models.CASCADE,
+    content_object = ParentalKey('products.ProductItemPage', on_delete=models.CASCADE,
                                  related_name='product_tags')
 
 
-class ProductDetailPage(Page):
+class ProductItemPage(Page):
     template = 'product_detail.html'
-    parent_page_types = ['products.ProductIndexPage', ]
+    parent_page_types = ['products.ProductPage', ]
     subpage_types = []
 
     year = models.PositiveIntegerField(default=datetime.now().year, choices=get_years(2010, True))
@@ -260,11 +260,11 @@ class ProductDetailPage(Page):
 
     @cached_property
     def related_items(self):
-        related_items = ProductDetailPage.objects.live().exclude(pk=self.pk)[:3]
+        related_items = ProductItemPage.objects.live().exclude(pk=self.pk)[:3]
         return related_items
 
     def get_context(self, request, *args, **kwargs):
-        context = super(ProductDetailPage, self).get_context(request, *args, **kwargs)
+        context = super(ProductItemPage, self).get_context(request, *args, **kwargs)
 
         context['related_items'] = self.related_items
 

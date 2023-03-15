@@ -25,17 +25,13 @@ class HomePage(Page):
         'capeditor.AlertList', 
         'contact.ContactPage',
         'services.ServicesPage',
-        'products.ProductsPage',
+        'products.ProductIndexPage',
         'feedback.FeedbackPage',
-        'vacancies.VacanciesPage',
         'publications.PublicationsIndexPage',
         'videos.VideoGalleryPage',
         'news.NewsIndexPage',
-        'projects.ProjectIndexPage',
         'mediacenter.MediaIndexPage',
-        'tenders.TendersPage',
-        'about.AboutPage',
-        'about.PartnersPage',
+        'about.AboutIndexPage',
         'events.EventIndexPage'
     ]
     parent_page_type = [

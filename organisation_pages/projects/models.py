@@ -27,9 +27,9 @@ from organisation_pages.events.models import EventPage
 
 class ProjectIndexPage(Page):
     template = 'project_index_page.html'
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['about.AboutIndexPage']
     subpage_types = ['projects.ProjectPage']
-    max_count = 1
+    max_count = 2
     show_in_menus_default = True
 
     banner_image = models.ForeignKey(
