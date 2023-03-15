@@ -112,8 +112,8 @@ class MediaIndexPage(Page):
         return NewsPage.objects.live().order_by('-is_featured', '-date')[:4]
 
     def save(self, *args, **kwargs):
-        # if not self.search_image and self.banner_image:
-        #     self.search_image = self.banner_image
+        #if not self.search_image and self.banner_image:
+            #self.search_image = self.banner_image
         if not self.search_description and self.introduction_text:
             p = get_first_non_empty_p_string(self.introduction_text)
             if p:

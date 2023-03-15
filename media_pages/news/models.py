@@ -135,8 +135,8 @@ class NewsIndexPage(Page):
         return context
 
     def save(self, *args, **kwargs):
-        # if not self.search_image and self.banner_image:
-        #     self.search_image = self.banner_image
+        #if not self.search_image and self.banner_image:
+            #self.search_image = self.banner_image
         if not self.search_description and self.banner_subtitle:
             # Limit the search meta desc to google's 160 recommended chars
             self.search_description = truncatechars(self.banner_subtitle, 160)

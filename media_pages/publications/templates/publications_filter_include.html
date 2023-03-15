@@ -10,7 +10,9 @@
                 </h6>
                 <div class="accordion-body js-accordion-body">
                     <div class="accordion-body__contents">
+
                         {% for pub_type in filters.publication_types %}
+
                             <label class="checkbox-container" for="{{ pub_type.name }}">
                                 <span class="filter-sub-item">{{ pub_type.name }}</span>
                                 <input type="checkbox" id="{{ pub_type.name }}"
