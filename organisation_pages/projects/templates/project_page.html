@@ -3,7 +3,7 @@
 {% get_settings use_default_site=True %}
 {% wagtail_site as current_site %}
 
-{% block page_css %}
+{% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}">
@@ -149,7 +149,7 @@
     </main>
 {% endblock content %}
 
-{% block page_js %}
+{% block extra_js %}
     <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
     <script src="{% static 'js/jquery.event.move.js' %}"></script>
     <script src="{% static 'js/jquery.twentytwenty.js' %}"></script>

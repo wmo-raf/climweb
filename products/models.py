@@ -274,8 +274,8 @@ class ProductItemPage(Page):
         verbose_name = "Product Bulletin"
 
     def save(self, *args, **kwargs):
-        if not self.search_image and self.image:
-            self.search_image = self.image
+        # if not self.search_image and self.image:
+        #     self.search_image = self.image
         if not self.search_description and self.summary:
             p = get_first_non_empty_p_string(self.summary)
             if p:

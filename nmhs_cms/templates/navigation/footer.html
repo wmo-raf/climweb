@@ -39,23 +39,24 @@
         <p class="footer-link-title is-uppercase title">
           <a class="has-text-white">OUR OFFICE</a>
       </p>
-        <div class="address">
+        {% comment %} <div class="address"> {% endcomment %}
           
 
           {% if settings.site_settings.OrganisationSetting.address  %}
-
+            <a class="footer-link has-text-white">
             {{settings.site_settings.OrganisationSetting.address|richtext}}
+            </a>
           {% endif %}
 
           {% if settings.site_settings.OrganisationSetting.phone  %}
 
-            <p><b>Tel: </b>{{settings.site_settings.OrganisationSetting.phone}}</p>
+            <a class="footer-link has-text-white"><b>Tel: </b>{{settings.site_settings.OrganisationSetting.phone}}</a>
           {% endif %}
           {% if settings.site_settings.OrganisationSetting.email  %}
 
-            <p><b>Email: </b>{{settings.site_settings.OrganisationSetting.email}}</p>
+            <a class="footer-link has-text-white"><b>Email: </b>{{settings.site_settings.OrganisationSetting.email}}</a>
           {% endif %}
-        </div>
+        {% comment %} </div> {% endcomment %}
       </div>
       <div class="column is-one-fifth-desktop is-half-mobile">
         <a

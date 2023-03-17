@@ -4,7 +4,7 @@
 
 {% block title %}Search{% endblock %}
 
-{% block page_css %}
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/search.css' %}">
 {% endblock %}
 
@@ -75,7 +75,6 @@
                                                 <a class="button is-rounded is-small search-result-item-more"
                                                    href="{% pageurl result %}">More</a>
                                             {% endif %}
-                                            <hr>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -93,7 +92,7 @@
     </main>
 {% endblock %}
 
-{% block page_js %}
+{% block extra_js %}
     <script>
         /*** Tracking ***/
         if (typeof cr_track_clicks !== 'undefined' && cr_track_clicks) {

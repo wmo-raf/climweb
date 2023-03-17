@@ -28,7 +28,7 @@ def validate_svg(f):
     return f
 
 
-def get_years(start_year=2010, as_choices=False):
+def get_years(start_year=2019, as_choices=False):
     years = []
     for r in range(start_year, (datetime.datetime.now().year + 1)):
         if as_choices:

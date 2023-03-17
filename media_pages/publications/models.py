@@ -142,8 +142,8 @@ class PublicationsIndexPage(Page):
         return context
 
     def save(self, *args, **kwargs):
-        if not self.search_image and self.thumbnail:
-            self.search_image = self.thumbnail
+        # if not self.search_image and self.thumbnail:
+        #     self.search_image = self.thumbnail
         if not self.search_description and self.banner_subtitle:
             # Limit the search meta desc to google's 160 recommended chars
             self.search_description = truncatechars(self.banner_subtitle, 160)
@@ -281,8 +281,8 @@ class PublicationPage(Page):
         verbose_name = "Publication"
 
     def save(self, *args, **kwargs):
-        if not self.search_image and self.thumbnail:
-            self.search_image = self.thumbnail
+        # if not self.search_image and self.thumbnail:
+        #     self.search_image = self.thumbnail
         if not self.search_description and self.summary:
             p = get_first_non_empty_p_string(self.summary)
             if p:

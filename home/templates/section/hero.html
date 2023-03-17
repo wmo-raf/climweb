@@ -3,46 +3,7 @@
 
 
 {% block extra_css %}
-<link href="{% static 'css/forecasts.css' %}" type="text/css" rel="stylesheet" />
-
-<style>
-    .overlay {
-        position: absolute; 
-        background: rgba(255, 255, 255, 1);
-        
-        /* center overlay text */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 200px;
-      }
-
-      @media only screen and (max-width: 600px) {
-        .container {
-          max-width: 90vw !important;
-        }
-      }
-
-      .hero{
-        box-shadow: inset 0 0 0 100vw rgb(0 0 0 / 20%) !important;
-      }
-      
-      .overlay_1 {
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        padding: 1rem;
-      }
-
-      .forecast-icon svg{
-        height:50px;
-        width:100px
-      }
-
-      main section {
-        padding: 90px 0;
-    }
-    </style>
+<link href="{% static 'css/hero.css' %}" type="text/css" rel="stylesheet" />
 {% endblock extra_css %}
 
 {% image page.hero_banner original as img %}
@@ -50,7 +11,7 @@
 <main style="position: relative;">
 <section id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; max-height:fit-content"
   data-progressive="{{img.url}}">
-  <div class="hero-body has-text-centered pb-6">
+  <div class="hero-body has-text-centered pb-2">
     <div class="container">
         <div class="columns is-justify-content-center py-3">
             <div class="column is-6">
@@ -147,72 +108,72 @@
                     <div class="box">
                         {% for forecasts in self.get_forecast_by_city.forecasts %}
 
-                                <section class="tab-content">
+                            <section class="tab-content">
 
-                                    <div class="columns is-gapless is-multiline is-7 is-mobile">
+                                <div class="columns is-gapless is-multiline is-7 is-mobile">
 
-                                        {% comment %} {% if forecasts.forecast_items|length == 7 %} {% endcomment %}
+                                    {% comment %} {% if forecasts.forecast_items|length == 7 %} {% endcomment %}
 
-                                        {% for item in forecasts.forecast_items %}
-                                        <div class="column is-3-mobile " style="{% if not forloop.last or forecasts.forecast_items|length == 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
+                                    {% for item in forecasts.forecast_items %}
+                                    <div class="column is-3-mobile " style="{% if not forloop.last or forecasts.forecast_items|length == 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
 
-                                            <h2 class="title mb-1"
-                                                style="font-size: 14px; font-weight: 600">
-                                                {{item.forecast_date}}
-                                            </h2>
+                                        <h2 class="title mb-1"
+                                            style="font-size: 14px; font-weight: 600">
+                                            {{item.forecast_date}}
+                                        </h2>
 
-                                            <div class="columns is-gapless pb-1 mb-0 is-align-items-center">
-                                                <div class="column mr-1" style="align-self:end; text-align: end;">
-                                                    <figure class="forecast-icon" style="width:30px;display: inline-flex;">
-                                                    {% if item.condition__icon__file %}
-                                                        {% svg item.condition__icon__file %}
-                                                    {% endif %}
-                                                    </figure>
-                                                </div>
-                                                <div class="column ml-1" style="text-align: start;">
-                                                    <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h2>
-                                                    <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h3>
-
-                                                </div>
+                                        <div class="columns is-gapless pb-1 mb-0 is-align-items-center">
+                                            <div class="column mr-1" style="align-self:end; text-align: end;">
+                                                <figure class="forecast-icon" style="width:30px;display: inline-flex;">
+                                                {% if item.condition__icon__file %}
+                                                    {% svg item.condition__icon__file %}
+                                                {% endif %}
+                                                </figure>
+                                            </div>
+                                            <div class="column ml-1" style="text-align: start;">
+                                                <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h2>
+                                                <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h3>
 
                                             </div>
-
-                                            <span class="title"
-                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem; ">
-                                                <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
-                                                    style="transform:rotate(calc({{item.wind_direction}}deg - 90deg));opacity: 0.7;">
-                                                    {{item.wind_direction}} °
-                                                </h2>
-                                            </span>
-
-
-                                            <h2 class="title"
-                                                style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
-                                                {{item.wind_speed}} {{settings.site_settings.MeasurementSettings.get_wind_units_display}}
-                                            </h2>
-
 
                                         </div>
-                                        
-                                        {% endfor %}
 
-                                        {% with forecasts.forecast_items|length as forecast_length %}
-                                        {% with 7|subtract:forecast_length as rem %}
-                                            {% for c in 0|range:rem %}
-                                            <div class="column ">
-                                                
-                                            </div>
-                                            {% endfor %}
-                                        {% endwith %}
-                                        
-                                        {% endwith %}
-                                        
+                                        <span class="title"
+                                            style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem; ">
+                                            <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
+                                                style="transform:rotate(calc({{item.wind_direction}}deg - 90deg));opacity: 0.7;">
+                                                {{item.wind_direction}} °
+                                            </h2>
+                                        </span>
 
+
+                                        <h2 class="title"
+                                            style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                            {{item.wind_speed}} {{settings.site_settings.MeasurementSettings.get_wind_units_display}}
+                                        </h2>
 
 
                                     </div>
+                                    
+                                    {% endfor %}
 
-                                </section>
+                                    {% with forecasts.forecast_items|length as forecast_length %}
+                                    {% with 7|subtract:forecast_length as rem %}
+                                        {% for c in 0|range:rem %}
+                                        <div class="column ">
+                                            
+                                        </div>
+                                        {% endfor %}
+                                    {% endwith %}
+                                    
+                                    {% endwith %}
+                                    
+
+
+
+                                </div>
+
+                            </section>
 
                         {% endfor %}
                      
@@ -253,46 +214,7 @@
 
 </main>
 {% block extra_js %}
-{% comment %} <script type="text/javascript" src="{% static 'js/hero.js' %}"></script> {% endcomment %}
-<script>
-
-let tabsWithContent = (function () {
-    let tabs = document.querySelectorAll('.tabs li');
-    let tabsContent = document.querySelectorAll('.tab-content');
-
-    let deactvateAllTabs = function () {
-        tabs.forEach(function (tab) {
-            tab.classList.remove('is-active');
-        });
-    };
-
-    let hideTabsContent = function () {
-        tabsContent.forEach(function (tabContent) {
-            tabContent.classList.remove('is-active');
-        });
-    };
-
-    let activateTabsContent = function (tab) {
-        tabsContent[getIndex(tab)].classList.add('is-active');
-    };
-
-    let getIndex = function (el) {
-        return [...el.parentElement.children].indexOf(el);
-    };
-
-    tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-            deactvateAllTabs();
-            hideTabsContent();
-            tab.classList.add('is-active');
-            activateTabsContent(tab);
-        });
-    })
-
-    tabs[0].click();
-})();
-</script>
-
+<script type="text/javascript" src="{% static 'js/hero.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/progressively.js' %}"></script>
 
 <script type="text/javascript">

@@ -7,10 +7,10 @@
     {% if page.feature_img_src %}
         {% setvar current_site.root_url|add:page.feature_img_src as meta_image %}
     {% endif %}
-    {% include 'wagtailmetadata/parts/tags.html' with object=page site_name=current_site.site_name meta_image=meta_image %}
+    {% comment %} {% include 'wagtailmetadata/parts/tags.html' with object=page site_name=current_site.site_name meta_image=meta_image %} {% endcomment %}
 {% endblock %}
 
-{% block page_css %}
+{% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/news_detail.css' %}">
 {% endblock %}
 

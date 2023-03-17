@@ -133,13 +133,44 @@ body {
 }
 
 
-/* .hero{
-    box-shadow: unset !important;
-} */
-
-
 .hero-body .title{
     width: unset !important;
 }
 
 
+.overlay {
+    position: absolute;
+    background: rgba(255, 255, 255, 1);
+
+    /* center overlay text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        max-width: 90vw !important;
+    }
+}
+
+.hero {
+    box-shadow: inset 0 0 0 100vw rgb(0 0 0 / 20%) !important;
+}
+
+.overlay_1 {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+}
+
+.forecast-icon svg {
+    height: 50px;
+    width: 100px;
+}
+
+main section {
+    padding: 90px 0;
+}

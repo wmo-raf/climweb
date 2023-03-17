@@ -2,7 +2,7 @@
 {% load wagtailcore_tags static wagtailimages_tags lazyimages_tags %}
 
 
-{% block page_css %}
+{% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/event_detail.css' %}">
 {% endblock %}
 
@@ -195,7 +195,7 @@
 {% endblock content %}
 
 
-{% block page_js %}
+{% block extra_js %}
     {{ block.super }}
     <script>
         $('.schedule-section li').on('click', function () {

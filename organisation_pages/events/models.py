@@ -379,8 +379,8 @@ class EventPage( Page, ZoomEventsModel):
         return get_pytz_gmt_offset_str(self.timezone)
 
     def save(self, *args, **kwargs):
-        if not self.search_image and self.image:
-            self.search_image = self.image
+        # if not self.search_image and self.image:
+            # self.search_image = self.image
         if not self.search_description and self.description:
             p = get_first_non_empty_p_string(self.description)
             if p:
@@ -590,8 +590,8 @@ class EventRegistrationPage(WagtailCaptchaEmailForm, MailchimpSubscriberIntegrat
         # Get meta items from parent
         if parent.search_description:
             self.search_description = parent.search_description
-        if parent.search_image:
-            self.search_image = parent.search_image
+        # if parent.search_image:
+        #     self.search_image = parent.search_image
 
         return super().save(*args, **kwargs)
 

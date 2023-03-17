@@ -1,5 +1,3 @@
-console.log("{{self.cities}}")
-
 let tabsWithContent = (function () {
     let tabs = document.querySelectorAll('.tabs li');
     let tabsContent = document.querySelectorAll('.tab-content');

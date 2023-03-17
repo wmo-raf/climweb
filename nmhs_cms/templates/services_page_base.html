@@ -2,7 +2,7 @@
 {% load static wagtailcore_tags %}
 {% wagtail_site as current_site %}
 
-{% block page_css %}
+{% block extra_css %}
     {% if page.youtube_playlist %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
     {% endif %}
@@ -18,7 +18,7 @@
 {% endblock %}
 
 
-{% block page_js %}
+{% block extra_js %}
     {% if page.youtube_playlist %}
         <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
     {% endif %}

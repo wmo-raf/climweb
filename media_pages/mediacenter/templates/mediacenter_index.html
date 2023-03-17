@@ -2,7 +2,7 @@
 {% load static wagtailsettings_tags %}
 {% get_settings use_default_site=True %}
 
-{% block page_css %}
+{% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}">
 {% endblock %}
@@ -112,12 +112,12 @@
     </main>
 {% endblock content %}
 
-{% block page_js %}
+{% block extra_js %}
     {{ block.super }}
-    {% if settings.core.OrganisationSetting.facebook_page_id %}
+    {% if settings.site_settings.OrganisationSetting.facebook %}
         <script async src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0"></script>
     {% endif %}
-    {% if  settings.core.OrganisationSetting.twitter_page_id %}
+    {% if  settings.site_settings.OrganisationSetting.twitter %}
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     {% endif %}
 {% endblock %}

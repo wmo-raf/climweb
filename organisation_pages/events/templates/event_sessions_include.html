@@ -185,7 +185,7 @@
         <ul>
             {% for date,sessions in sessions.items %}
                 <li class="schedule-date {% if forloop.first %}is-active{% endif %}"
-                    data-id="{{ date|parse_date:"%Y-%m-%d" |date:"D-M-d-Y" }}">
+                    data-id="{{ date|parse_date:'%Y-%m-%d' |date:'D-M-d-Y' }}">
                     <a style="font-weight: bold">
                         {{ date|parse_date:"%Y-%m-%d"|date:"D M, d Y " }}
                     </a>
@@ -194,7 +194,7 @@
         </ul>
     </div>
     {% for session_date, sessions_by_time in sessions.items %}
-        <div id="{{ session_date|parse_date:"%Y-%m-%d"|date:"D-M-d-Y" }}"
+        <div id="{{ session_date|parse_date:'%Y-%m-%d'|date:'D-M-d-Y' }}"
              class="content-tab {% if forloop.first %}is-active{% endif %}">
             <div>
                 {% for time,sessions in sessions_by_time.items %}
