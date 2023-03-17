@@ -181,8 +181,8 @@
                 source: "city-forecasts",
                 type: "symbol",
                 'layout': {
-                    'icon-image': ['get', 'condition_icon'],
-                    'icon-size': 0.25,
+                    'icon-image': '01d',
+                    'icon-size': 0.4,
                     'icon-allow-overlap': true
                 },
                 'paint': {
@@ -232,8 +232,6 @@
 
             })
 
-
-
             // toggle forecasts by selected date 
             $('#daily_forecast').on('change', function (e) {
                 var optionSelected = $("option:selected", this);
@@ -267,16 +265,16 @@
                     type: "symbol",
                     'layout': {
                         'icon-image': ['get', 'condition_icon'],
-                        'icon-size': 0.25,
+                        'icon-size': 0.4,
                         'icon-allow-overlap': true
 
                     },
-                    'paint': {
-                        'icon-halo-color': 'red',
-                        'icon-halo-width': 10,
-                        'icon-color': '#fff',
-                        'icon-halo-blur': 10
-                    }
+                    // 'paint': {
+                    //     'icon-halo-color': 'red',
+                    //     'icon-halo-width': 10,
+                    //     'icon-color': '#fff',
+                    //     'icon-halo-blur': 10
+                    // }
                 })
                 // map.addLayer({
                 //   id: "city-forecasts-shadow",
