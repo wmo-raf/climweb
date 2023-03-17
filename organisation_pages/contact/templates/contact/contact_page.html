@@ -140,6 +140,8 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script type="text/javascript" src="{% static 'js/basemap.js' %}"></script>
+
 <script>
 
 
@@ -167,21 +169,19 @@
             }
         ]
     }
-    mapboxgl.accessToken =
-    "pk.eyJ1IjoiZ3JhY2VhbW9uZGkiLCJhIjoiY2s4dGphcGQwMDBhcjNmcnkzdGk3MnlrZCJ9.54r40Umo0l3dHseEbrQpUg";
 
-    const map = new mapboxgl.Map({
+    const map = new maplibregl.Map({
         container: "contact-map", // container ID
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: "mapbox://styles/mapbox/light-v10", // style URL
+        style: basemap,
         center: [locationStr.x, locationStr.y], // starting position [lng, lat]
         zoom: 4.2, // starting zoom
         scrollZoom: false,
+
     });
-    
+
     map.on("load", function(){
 
-        var marker = new mapboxgl.Marker({
+        var marker = new maplibregl.Marker({
             color: '#007cbf'
         })
 

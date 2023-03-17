@@ -4,7 +4,7 @@
 
     <div class="container">
         <div class="columns is-align-items-center is-justify-content-center is-centered">
-            <div class="column is-4">
+            <div class="column is-3">
                 <div class="content">
                     <h2 class="title py-4" style="font-size: 29px; font-weight:700"> {{page.video_section_title}}</h2>
                     <p style="font-size:14px">{{page.video_section_desc}}
@@ -15,7 +15,7 @@
                 </div>
 
             </div>
-            <div class="column is-8">
+            <div class="column is-9">
                 {% include 'videos_skeleton_home.html' with playlist_items=page.youtube_playlist.playlist_items %}
             </div>
         </div>

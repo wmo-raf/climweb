@@ -181,8 +181,8 @@
                 source: "city-forecasts",
                 type: "symbol",
                 'layout': {
-                    'icon-image': '01d',
-                    'icon-size': 0.4,
+                    'icon-image': ['get', 'condition_icon'],
+                    'icon-size': 0.3,
                     'icon-allow-overlap': true
                 },
                 'paint': {
@@ -265,7 +265,7 @@
                     type: "symbol",
                     'layout': {
                         'icon-image': ['get', 'condition_icon'],
-                        'icon-size': 0.4,
+                        'icon-size': 0.3,
                         'icon-allow-overlap': true
 
                     },
