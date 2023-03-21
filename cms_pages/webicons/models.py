@@ -22,7 +22,7 @@ class WebIcon(CollectionMember, index.Indexed, models.Model):
         null=True, blank=True, editable=False, on_delete=models.SET_NULL
     )
 
-    file = models.FileField()
+    file = models.FileField(upload_to ='svg')
 
     file_size = models.PositiveIntegerField(null=True, editable=False)
 

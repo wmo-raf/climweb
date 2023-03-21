@@ -59,13 +59,14 @@ class ConditionCategory(models.Model):
     # )
     
     description = models.CharField(max_length=250, blank=True, null=True)
-    icon = models.ForeignKey(
-        'webicons.WebIcon',
+    icon_image = models.ForeignKey(
+        'wagtailimages.Image',
         null=True,
         blank=False,
         on_delete=models.SET_NULL,
         related_name='+'
     )
+
 
     class Meta:
         verbose_name = "Weather Condition Category"

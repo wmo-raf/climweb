@@ -17,6 +17,8 @@ from services.models import ServiceIndexPage
 from forecast_manager.models import City, Forecast    
 from layer_manager.models import WMSRequest, LegendItem
 from media_pages.videos.models import YoutubePlaylist
+from media_pages.publications.models import PublicationPage
+from media_pages.news.models import NewsPage
 
 class HomePage(Page):
     templates = "home_page.html"
@@ -102,7 +104,7 @@ class HomePage(Page):
         end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),  forecast_date__lte=end_date_param.date())\
                 .order_by('forecast_date')\
-                .values('id','city__name','forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title', 'condition__icon__file')
+                .values('id','city__name','forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title','condition__icon_image', 'condition__icon_image__file')
                 # .annotate(
                 #     forecast_date_str = Cast(
                 #         TruncDate('forecast_date', DateField()), CharField(),
@@ -128,13 +130,33 @@ class HomePage(Page):
             'forecasts':grouped_forecast
         }
 
+    @cached_property
+    def latest_updates(self):
+
+        # get latest news, publication, crop monitor, seasonal forecast, food security statement,
+        news = NewsPage.objects.live().filter(is_visible_on_homepage=True).order_by('-date').first()
+
+        if news is None:
+            news = NewsPage.objects.live().order_by('-date').first()
+
+        publication = PublicationPage.objects.live().filter(is_visible_on_homepage=True).order_by(
+            '-publication_date').first()
+
+        if publication is None:
+            publication = PublicationPage.objects.live().order_by('-publication_date').first()
+
+        return {
+            'news':news,
+            'publication':publication
+        }
+
 
     @cached_property
     def get_forecast_by_daterange(request):
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),  forecast_date__lte=end_date_param.date())\
-                .values('id','city__name', 'city__location', 'forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title', 'condition__icon__file')
+                .values('id','city__name', 'city__location', 'forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction', 'condition__title', 'condition__icon_image', 'condition__icon_image__file')
         
 
         # sort the data by date
@@ -162,7 +184,7 @@ class HomePage(Page):
                             'min_temp':forecast['min_temp'],
                             'wind_speed':forecast['wind_speed'],
                             'wind_direction':forecast['wind_direction'],
-                            'condition_icon':forecast['condition__icon__file'].replace('.svg', ''),
+                            'condition_icon':forecast['condition__icon_image__file'],
                             'condition_desc':forecast['condition__title'],
                         },
                         "geometry": {

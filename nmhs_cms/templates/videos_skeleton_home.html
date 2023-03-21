@@ -1,32 +1,111 @@
 {% load nmhs_cms_tags static %}
 
-<div class="columns is-multiline  is-justify-content-center">
-    
-    {% for video in playlist_items|slice:"0:4" %}
+<div class="columns is-multiline  is-justify-content-center" id="youtube_playlist">
+
     <div class="column is-6 is-full-mobile video-item">
         <div class="card m-2" style="border-radius: 1em">
             <div class="card-image">
                 <figure class="image" style="display:flex">
                     <iframe style="flex-grow: 1;" height="200"
-                            src="https://www.youtube.com/embed/{{ video.snippet.resourceId.videoId }}" allowfullscreen>
+                            src="https://www.youtube.com/embed/${video.snippet.resourceId.videoId}" allowfullscreen>
                     </iframe>
                 </figure>
             </div>
             <div class="card-content">
                 <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:0.5em">
                     <p style="font-size:14px">
-                        {{ video.contentDetails.videoPublishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" }}</span>
+                        <span></span>
                     </p>
                 </a>
                 <a class="card-title pt-5 pb-0">
                     <p style="font-size:15px; font-weight:700;">
-                        {{video.snippet.title|truncatechars:35|title}}
+                        
                     </p>
                 </a>
             </div>
         </div>
     </div>
-    {% endfor %}
-
-
+    <div class="column is-6 is-full-mobile video-item">
+        <div class="card m-2" style="border-radius: 1em">
+            <div class="card-image">
+                <figure class="image" style="display:flex">
+                    <iframe style="flex-grow: 1;" height="200"
+                            src="https://www.youtube.com/embed/${video.snippet.resourceId.videoId}" allowfullscreen>
+                    </iframe>
+                </figure>
+            </div>
+            <div class="card-content">
+                <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:0.5em">
+                    <p style="font-size:14px">
+                        <span></span>
+                    </p>
+                </a>
+                <a class="card-title pt-5 pb-0">
+                    <p style="font-size:15px; font-weight:700;">
+                        
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="column is-6 is-full-mobile video-item">
+        <div class="card m-2" style="border-radius: 1em">
+            <div class="card-image">
+                <figure class="image" style="display:flex">
+                    <iframe style="flex-grow: 1;" height="200"
+                            src="https://www.youtube.com/embed/${video.snippet.resourceId.videoId}" allowfullscreen>
+                    </iframe>
+                </figure>
+            </div>
+            <div class="card-content">
+                <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:0.5em">
+                    <p style="font-size:14px">
+                        <span></span>
+                    </p>
+                </a>
+                <a class="card-title pt-5 pb-0">
+                    <p style="font-size:15px; font-weight:700;">
+                        
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="column is-6 is-full-mobile video-item">
+        <div class="card m-2" style="border-radius: 1em">
+            <div class="card-image">
+                <figure class="image" style="display:flex">
+                    <iframe style="flex-grow: 1;" height="200"
+                            src="https://www.youtube.com/embed/${video.snippet.resourceId.videoId}" allowfullscreen>
+                    </iframe>
+                </figure>
+            </div>
+            <div class="card-content">
+                <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:0.5em">
+                    <p style="font-size:14px">
+                        <span></span>
+                    </p>
+                </a>
+                <a class="card-title pt-5 pb-0">
+                    <p style="font-size:15px; font-weight:700;">
+                        
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>    
+
+
+{% comment %} {% block extra_js %} {% endcomment %}
+{% if settings.site_settings.IntegrationSettings.youtube_api %}
+
+<script>
+    const YT_API_KEY = "{{settings.site_settings.IntegrationSettings.youtube_api}}"
+    const PLAYLIST_ID = "{{page.youtube_playlist.playlist_id}}"
+    console.log(PLAYLIST_ID)
+</script>
+<script type="text/javascript" src="{% static 'js/yt_playlist.js' %}"></script>
+
+{% endif %}
+{% comment %} {% endblock extra_js %} {% endcomment %}

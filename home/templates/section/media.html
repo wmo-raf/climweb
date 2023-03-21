@@ -1,10 +1,16 @@
-{% load static %}
+{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+{% endblock %}
+
 {% if page.youtube_playlist %}
 <section style="background-color:#f9f9f9; padding-top: 4rem; padding-bottom: 4rem;">
 
     <div class="container">
         <div class="columns is-align-items-center is-justify-content-center is-centered">
-            <div class="column is-3">
+            <div class="column is-4">
                 <div class="content">
                     <h2 class="title py-4" style="font-size: 29px; font-weight:700"> {{page.video_section_title}}</h2>
                     <p style="font-size:14px">{{page.video_section_desc}}
@@ -15,10 +21,192 @@
                 </div>
 
             </div>
-            <div class="column is-9">
-                {% include 'videos_skeleton_home.html' with playlist_items=page.youtube_playlist.playlist_items %}
+            <div class="column is-8">
+                {% include 'videos_skeleton_home.html' %}
             </div>
         </div>
     </div>
 </section>
 {% endif %}
+
+
+{% if settings.site_settings.OrganisationSetting.facebook or settings.site_settings.OrganisationSetting.twitter %}
+<section class="social-media-feed-section" style="padding-top: 4rem; padding-bottom: 4rem;">
+    <div class="container">
+        <div class="columns is-centered">
+
+            <div class="column is-3">
+                <h3 class="social-media-feed-item-title">
+                    <span>Latest Updates</span></h3>
+                <div class="columns is-multiline">
+                    <div class="column is-12">
+                        {% with page.latest_updates.news.card_props as card %}
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure class="image" style="height:2xx00px">
+                                        {% if card.card_image %}
+                                            {% comment %} {% image card.card_image original as item_card_img %}
+                                            <img class="progressive__img progressive--not-loaded"
+                                                data-progressive="{{ item_card_img }}"
+                                                src="{% lazy_image_url item_card_img %}" alt="{{ card_title }}"
+                                                style="height:100%; object-fit: cover"
+                                            /> {% endcomment %}
+                                            {% if card.card_image_type == 'url' %}
+                                            <img src="{{card.card_image }}" style="height:100%; object-fit: cover"  alt="{{ news_item.news_item }}"/>
+                                          
+                                            {% endif %}
+                                        {% endif %}
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    {% if card.card_tag or card.card_tag_category %}
+                                        {% if show_type and card.card_tag_category %}
+                                            <p class="card-tag">
+                                                <span class="tag is-light"> {{ card.card_tag_category }}</span>
+                                            </p>
+                                        {% else %}
+                                            <p class="card-tag">
+                                                <span class="tag is-light">{{ card.card_tag }}</span>
+                                            </p>
+                                        {% endif %}
+                                    {% endif %}
+                            
+                                    <a href="{{ card.card_more_link }}" class="card-title">
+                                        <p style="font-size:16px; font-weight:700" class="title">{{ card.card_title }}</p>
+                                    </a>
+                                    {% comment %} {% if card.card_text %}
+                                        <div class="card-text">
+                                            {{ card.card_text|richtext|truncatewords_html:10 }}
+                                        </div>
+                                    {% endif %} {% endcomment %}
+                                    <div class="card-meta" style="{% if card.card_meta %}justify-content:space-between;{% endif %}">
+                                        {% if card.card_meta %}
+                                            <span class="" style="font-size:16px;" >{{ card.card_meta }}</span>
+                                        {% endif %}
+                                        <a href="{{ card.card_more_link }}" class="more card-more-link">
+                                            <span style="font-size:16px;" >Read more</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    </div>
+                    <div class="column is-12">
+                        {% with page.latest_updates.publication.card_props as card %}
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure class="image" style="height:200px">
+                                        {% if card.card_image %}
+                                            {% image card.card_image original as item_card_img %}
+                                            <img class="progressive__img progressive--not-loaded"
+                                                data-progressive="{{ item_card_img.url }}"
+                                                src="{% lazy_image_url item_card_img %}" alt="{{ card_title }}"
+                                                style="height:100%; object-fit: cover"
+                                            />
+                                        {% endif %}
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    {% if card.card_tag or card.card_tag_category %}
+                                        {% if show_type and card.card_tag_category %}
+                                            <p class="card-tag">
+                                               
+                                                <span class="tag is-light"> {{ card.card_tag_category }}</span>
+
+                                            </p>
+                                        {% else %}
+                                            <p class="card-tag">
+                                                <span class="tag is-light">{{ card.card_tag }}</span>
+
+                                                
+                                            </p>
+                                        {% endif %}
+                                    {% endif %}
+                            
+                                    <a href="{{ card.card_more_link }}" class="card-title">
+                                        <p style="font-size:16px; font-weight:700" class="title">{{ card.card_title }}</p>
+                                    </a>
+                                    {% comment %} {% if card.card_text %}
+                                        <div class="card-text">
+                                            {{ card.card_text|richtext|truncatewords_html:10 }}
+                                        </div>
+                                    {% endif %} {% endcomment %}
+                                    <div class="card-meta" style="{% if card.card_meta %}justify-content:space-between;{% endif %}">
+                                        {% if card.card_meta %}
+                                            <span class="" style="font-size:16px;" >{{ card.card_meta }}</span>
+                                        {% endif %}
+                                        <a href="{{ card.card_more_link }}" class="more card-more-link">
+                                            <span style="font-size:16px;" >Read more</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    </div>
+                   
+                </div>
+            </div>
+            
+            {% if  settings.site_settings.OrganisationSetting.twitter %}
+                <div class="column is-4" >
+                    <div>
+                        <h3 class="social-media-feed-item-title">
+                            <span class="icon">
+                                <i class="fab fa-twitter"></i>
+                            </span>
+                            <span>Twitter Feed</span>
+                        </h3>
+                    </div>
+                    <div class="social-media-feed-item box">
+                        <a class="twitter-timeline"
+                            data-tweet-limit="10"
+                            data-dnt="true"
+                            href="{{settings.site_settings.OrganisationSetting.twitter}}">
+                            Fecthing Tweets from {{ settings.site_settings.OrganisationSetting.twitter }}
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            {% if settings.site_settings.OrganisationSetting.facebook %}
+                <div class="column is-4">
+                    <h3 class="social-media-feed-item-title"><span class="icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </span>
+                        <span>Facebook Feed</span></h3>
+                    <div class="social-media-feed-item box">
+                        <div class="fb-page"
+                                data-href="{{settings.site_settings.OrganisationSetting.facebook}}"
+                                data-tabs="timeline"
+                                data-width="500"
+                                data-height="700"
+                                data-small-header="true"
+                                data-adapt-container-width="true"
+                                data-hide-cover="false"
+                                data-show-facepile="false">
+                            <blockquote
+                                    cite="{{settings.site_settings.OrganisationSetting.facebook}}"
+                                    class="fb-xfbml-parse-ignore">
+                                <a href="{{settings.site_settings.OrganisationSetting.facebook}}">
+                                    Fetching Facebook Feed
+                                    from {{ settings.site_settings.OrganisationSetting.facebook }}
+                                </a>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% block extra_js %}
+    {% if settings.site_settings.OrganisationSetting.facebook %}
+        <script async src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0"></script>
+    {% endif %}
+    {% if  settings.site_settings.OrganisationSetting.twitter %}
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    {% endif %}
+   
+
+{% endblock %}

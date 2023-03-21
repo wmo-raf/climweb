@@ -59,9 +59,12 @@
                                             <div class="columns is-gapless">
                                                 <div class="column" style="align-self:end">
                                                     
-                                                        {% if latest_forcast.condition__icon__file %}
-                                                        <figure class="image forecast-icon" style="width:40px;height:40px;display: inline-flex;">
-                                                                {% svg latest_forcast.condition__icon__file  %}
+                                                        {% if latest_forcast.condition__icon_image__file %}
+                                                        <figure class="image forecast-icon" style="width:50px;height:50px;display: inline-flex;">
+                                                            <img 
+                                                                src="media/{{ latest_forcast.condition__icon_image__file }}" 
+                                                                alt="{{ latest_forcast.condition__icon_image }}"
+                                                            />
                                                         </figure>
                                                         {% endif %}
 
@@ -80,10 +83,13 @@
                                     <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">{{forecasts.city}}</h2>
                                     <div class="columns is-gapless pb-1">
                                         <div class="column" style="align-self:end;">
-                                            {% if latest_forcast.condition__icon__file %}
-                                            <figure class="image forecast-icon" style="width:30px;display: inline-flex;filter: drop-shadow(0 0 0.2rem #494949);">
-                                                    {% svg latest_forcast.condition__icon__file %}
-                                            </figure>
+                                            {% if latest_forcast.condition__icon_image__file %}
+                                                <figure class="image forecast-icon" style="width:40px;display: inline-flex;">
+                                                    <img 
+                                                        src="media/{{ latest_forcast.condition__icon_image__file }}" 
+                                                        alt="{{ latest_forcast.condition__icon_image }}"
+                                                    />
+                                                </figure>
                                             {% endif %}                                        </div>
                                         <div class="column">
                                             <h2 style="font-size:18px; font-weight:600">{{latest_forcast.max_temp}}</h2>
@@ -124,11 +130,15 @@
 
                                         <div class="columns is-gapless pb-1 mb-0 is-align-items-center">
                                             <div class="column mr-1" style="align-self:end; text-align: end;">
-                                                <figure class="forecast-icon" style="width:30px;display: inline-flex;">
-                                                {% if item.condition__icon__file %}
-                                                    {% svg item.condition__icon__file %}
-                                                {% endif %}
+                                                {% if item.condition__icon_image__file %}
+                                                <figure class="forecast-icon" style="width:40px;display: inline-flex;">
+                                                    <img 
+                                                        src="media/{{ item.condition__icon_image__file }}" 
+                                                        alt="{{ item.condition__icon_image }}"
+                                                    />
                                                 </figure>
+                                                {% endif %}
+
                                             </div>
                                             <div class="column ml-1" style="text-align: start;">
                                                 <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h2>

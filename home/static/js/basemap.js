@@ -1,7 +1,7 @@
 var basemap = {
     "version": 8,
     "glyphs": "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
-    "sprite":"https://raw.githubusercontent.com/wmo-raf/nmhs-cms/main/media/weather/weather",
+    // "sprite":"https://raw.githubusercontent.com/wmo-raf/nmhs-cms/main/media/weather",
     sources: {
         "openmaptiles": {
             "type": "vector",

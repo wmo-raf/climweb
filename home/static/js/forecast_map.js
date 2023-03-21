@@ -1,4 +1,3 @@
-
  $(document).ready(function() {
     // code to be executed when the DOM is ready
  
@@ -152,24 +151,24 @@
 
         var cityForecasts = JSON.parse(daily_forecasts.replace(/'/g, '"'))
         if (cityForecasts) {
-            console.log(cityForecasts)
             // load svg icons as symbols
-            // cityForecasts.map(forecast => {
-            //     forecast.forecast_features.features.map(city => {
+            cityForecasts.map(forecast => {
+                return forecast.forecast_features.features.map(city => {
 
 
-            //         let img = new Image()
+                    let img = new Image()
 
-            //         img.onload = () => {
-            //             if (!map.hasImage(city.properties.condition_icon)) {
-            //                 return map.addImage(`${city.properties.condition_icon}`, img)
-            //             }
+                    img.onload = () => {
+                        if (!map.hasImage(city.properties.condition_icon)) {
+                            return map.addImage(`${city.properties.condition_icon}`, img)
+                        }
 
-            //         }
-            //         img.src = `/media/${city.properties.condition_icon}`
+                    }
+                    img.src = `/media/${city.properties.condition_icon}`
+                    return img.src
 
-            //     })
-            // })
+                })
+            })
             // initial loading of forecasts
             map.addSource("city-forecasts", {
                 type: "geojson",
