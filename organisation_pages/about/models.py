@@ -14,6 +14,7 @@ from .blocks import TimelineBlock
 class AboutIndexPage(Page):
     parent_page_types = ['home.HomePage']
     # template = ''
+    max_count = 1
     subpage_types = [
         'about.AboutPage',
         'about.PartnersPage',
@@ -51,11 +52,27 @@ class AboutPage(Page):
         related_name='+',
     )
 
+    mission = models.CharField(max_length=500, help_text="Organisation's mission", null=True, verbose_name = "Organisation's mission")
+    vision = models.CharField(max_length=500, help_text="Organisation's vision", null=True, verbose_name= "Organisation's vision")
+
     timeline_heading = models.CharField(max_length=255, blank=True, null=True)
 
     timeline = StreamField([
         ('nmhs_timeline', TimelineBlock()),
     ], null=True, blank=True, verbose_name="Timeline items", use_json_field=True)
+
+
+    org_struct_heading = models.CharField(max_length=250, help_text="Organisation's Structure Section Heading", null=True, verbose_name = "Organisation's Struture Heading", default="Our Organisational Structure")
+    org_struct_description = RichTextField( help_text="Organisation's Structure Description", null=True, verbose_name = "Organisation's Struture Description", features=SUMMARY_RICHTEXT_FEATURES)
+    org_struct_img = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name="Organisational Structure Image",
+        help_text="A high quality image related to your organisation's structure",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     feature_block = StreamField([
         ('feature_item', blocks.FeatureBlock()),
@@ -87,10 +104,25 @@ class AboutPage(Page):
             ],
             heading="Introduction Section",
         ),
+        MultiFieldPanel(
+            [
+                FieldPanel('mission'),
+                FieldPanel('vision'),
+            ],
+            heading="Mission & Vision Section",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel('org_struct_heading'),
+                FieldPanel('org_struct_description'),
+                FieldPanel('org_struct_img'),
+            ],
+            heading="Organisation Structure Section",
+        ),
         MultiFieldPanel([
             FieldPanel('timeline_heading'),
             FieldPanel('timeline'),
-        ], heading="Timeline Section"),
+        ], heading="Historical Timeline Section"),
         FieldPanel('additional_materials'),
         FieldPanel('feature_block'),
         MultiFieldPanel(

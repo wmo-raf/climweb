@@ -1,0 +1,29 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+
+<div class="columns is-centered intro-section-wrapper">
+    
+    <div class="column is-7 intro-image">
+        <figure class="image">
+            {% if page.org_struct_img %}
+                {% if page.org_struct_img.url %}
+                    {% svg page.org_struct_img.file.name %}
+                {% else %}
+                    {% image page.org_struct_img original as struct_img %}
+                    <img class="progressive__img progressive--not-loaded"
+                         data-progressive="{{ struct_img.url }}"
+                         src="{% lazy_image_url struct_img %}" alt=""/>
+                {% endif %}
+            {% endif %}
+        </figure>
+    </div>
+    <div class="column is-1 is-desktop">
+    </div>
+    <div class="column is-4 has-text-left">
+        <h2 class="section-subheader">
+            {{ page.org_struct_heading }}
+        </h2>
+        <div class="intro-description format-text">
+            {{ page.org_struct_description|richtext }}
+        </div>
+    </div>
+</div>

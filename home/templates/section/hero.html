@@ -151,7 +151,7 @@
                                         <span class="title"
                                             style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem; ">
                                             <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
-                                                style="transform:rotate(calc({{item.wind_direction}}deg - 90deg));opacity: 0.7;">
+                                                style="transform:rotate(calc({{item.wind_direction}}deg + 90deg));opacity: 0.7;">
                                                 {{item.wind_direction}} °
                                             </h2>
                                         </span>
@@ -168,18 +168,16 @@
                                     {% endfor %}
 
                                     {% with forecasts.forecast_items|length as forecast_length %}
-                                    {% with 7|subtract:forecast_length as rem %}
-                                        {% for c in 0|range:rem %}
-                                        <div class="column ">
-                                            
-                                        </div>
-                                        {% endfor %}
-                                    {% endwith %}
+                                        {% with 7|subtract:forecast_length as rem %}
+                                            {% for c in 0|range:rem %}
+                                            <div class="column ">
+                                                
+                                            </div>
+                                            {% endfor %}
+                                        {% endwith %}
                                     
                                     {% endwith %}
                                     
-
-
 
                                 </div>
 

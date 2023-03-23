@@ -48,6 +48,7 @@ class City(models.Model):
 @register_snippet
 class ConditionCategory(models.Model):
     title = models.CharField(max_length=50, help_text="Weather Condition Title", verbose_name="Weather Condtion Title")
+    short_name = models.CharField(max_length=50, help_text="Weather Condition Short Name (helpgul for yr.no weather api)", verbose_name="Weather Condtion Short Name", null=True, blank=True, editable=False)
     # icon = models.ForeignKey(
     #     'wagtailimages.Image',
     #     verbose_name="Weather Condition Icon",
@@ -75,6 +76,12 @@ class ConditionCategory(models.Model):
     
     def __str__(self):
         return self.title
+        
+
+    def save(self, *args, **kwargs):
+        if not self.short_name:
+            self.short_name = self.icon_image.file.name.split('/')[-1].split('.')[0]
+        super(ConditionCategory, self).save(*args, **kwargs)
 
 
 class Forecast(models.Model):
@@ -85,7 +92,7 @@ class Forecast(models.Model):
     wind_direction = models.IntegerField(verbose_name="Wind Direction", blank=True, null=True)
     wind_speed = models.IntegerField(verbose_name="Wind Speed", blank=True, null=True)
     # condition = models.CharField(verbose_name="General Weather Condition", max_length=255, blank=True, help_text="E.g Light Showers", default="Light Showers")
-    condition = models.ForeignKey(ConditionCategory, verbose_name="General Weather Condition", on_delete=models.CASCADE, help_text="E.g Light Showers")
+    condition = models.ForeignKey(ConditionCategory, verbose_name="General Weather Condition", on_delete=models.CASCADE, help_text="E.g Light Showers", null=True)
 
     class Meta:
         verbose_name = "Forecast"

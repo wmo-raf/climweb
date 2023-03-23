@@ -13,14 +13,121 @@
 {% block content %}
     {% include 'hero.html' with page=page %}
     <main class="is-index">
+        <div class="container pt-6 sections">
+            <div class="field has-addons is-justify-content-center">
+                <p class="control">
+                    <button class="button nav-section is-dark"  data-target="#mission_vision_section" style="border-color:#545454">
+                      <span class="icon is-small">
+                        <i class="fa-sharp fa-solid fa-eye"></i>
+                      </span>
+                      <span class="has-text-weight-semibold">Mission & Vision</span>
+                    </button>
+                  </p>
+                <p class="control" >
+                  <button class="button nav-section is-dark" data-target="#organisation_structure"  style="border-color:#545454">
+                    <span class="icon is-small">
+                      <i class="fa-solid fa-sitemap"></i>
+                    </span>
+                    <span class="has-text-weight-semibold">Organisational Structure</span>
+                  </button>
+                </p>
+               
+                <p class="control">
+                  <button class="button nav-section is-dark" data-target="#timeline_section" style="border-color:#545454">
+                    <span class="icon is-small">
+                      <i class="fa-solid fa-timeline"></i>
+                    </span>
+                    <span class="has-text-weight-semibold">History</span>
+                  </button>
+                </p>
+                <p class="control">
+                    <button class="button nav-section is-dark" data-target="#others_section" style="border-color:#545454">
+                      <span class="icon is-small">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                      </span>
+                      <span class="has-text-weight-semibold">Others</span>
+                    </button>
+                  </p>
+              </div>
+            {% comment %} <div class="columns is-centered is-gapless" style="text-align:center; justify-content: space-around">
+                <div class="column"><button class="button">Structure</button></div>
+                <div class="column"><button class="button">Mission & Vision</button></div>
+                <div class="column"><button class="button">History</button></div>
+                <div class="column"><button class="button">Others</button></div>
+            </div>
+             {% endcomment %}
+
+        </div>
         <section class="nmhs-work introduction-section">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}
             </div>
         </section>
+        {% if page.mission or page.vision %}
+        <section class="mission-vision-section" id="mission_vision_section" style="background-color:white">
+            <div class="container">
+                <div class="columns is-centered">
+                    {% if page.mission %}
+                    <div class="column is-4">
+                        <div class="card">
+                            <div class="card-content" style="text-align:center">
+                                <div class="card-title">
+                                    <div class="mission-logo pb-4">
+                                        <img src="{% static 'img/mission.png' %}" width="50"/>
+                                        </div>
+                                </div>
+                                <p class="subtitle">
+                                    Our Mission
+                                  </p>
+                                  
+                              <p class="title" style="font-size:20px">
+                                “{{page.mission}}”
+                              </p>
+                              
+                            </div>
+                           
+                          </div>
+                    </div>
+                    {% endif %}
+                    {% if page.vision %}
+                    <div class="column is-4">
+                        <div class="card">
+                           
+                            <div class="card-content" style="text-align:center">
+                                <div class="card-title">
+                                    <div class="mission-logo pb-4">
+                                        <img src="{% static 'img/vision.png' %}" width="50"/>
+                                        </div>
+                                </div>
+                                <p class="subtitle">
+                                    Our Vision
+                                  </p>
+                              <p class="title" style="font-size:20px">
+                                “{{page.vision}}”
+                              </p>
+                              
+                            </div>
+                           
+                          </div>
+                    </div>
+                    {% endif %}
+                </div>
 
+            </div>
+        </section>
+        {% endif %}
+
+        {% if page.org_struct_heading and page.org_struct_description %}
+        <section id="organisation_structure">
+            <div class="container">
+                {% include 'organisation_structure.html' with page=page %}
+            </div>
+        </section>
+        {% endif %}
+       
+       
         {% if page.timeline %}
-            <section class="timeline-section">
+            <section class="timeline-section" id="timeline_section">
                 <div class="container">
                     {% if page.timeline_heading %}
                         <h2 class="section-title has-text-centered timeline-section-heading">{{ page.timeline_heading }}</h2>
@@ -46,9 +153,13 @@
             </section>
         {% endif %}
 
+       
+
         {% if page.feature_block %}
-            <section class="about-feature-blocks-section">
+            <section class="about-feature-blocks-section"  id="others_section">
+                <div class="container">
                 {% include 'feature_block_section.html' with feature_blocks=page.feature_block %}
+                </div>
             </section>
         {% endif %}
 
@@ -138,4 +249,14 @@
 
 
     </main>
+    <script>
+        $(".nav-section").click(function(e) {
+            var dataTarget = $(e.target).closest('.nav-section').data('target')
+            $('html,body').animate({
+                scrollTop: $(`${dataTarget}`).offset().top},
+                'slow');
+        });
+    </script>
 {% endblock %}
+
+
