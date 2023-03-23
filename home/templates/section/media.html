@@ -35,6 +35,57 @@
     <div class="container">
         <div class="columns is-centered">
 
+            
+            
+            {% if  settings.site_settings.OrganisationSetting.twitter %}
+                <div class="column is-4" >
+                    <div>
+                        <h3 class="social-media-feed-item-title">
+                            <span class="icon">
+                                <i class="fab fa-twitter"></i>
+                            </span>
+                            <span>Twitter Feed</span>
+                        </h3>
+                    </div>
+                    <div class="social-media-feed-item box">
+                        <a class="twitter-timeline"
+                            data-tweet-limit="10"
+                            data-dnt="true"
+                            href="{{settings.site_settings.OrganisationSetting.twitter}}">
+                            Fecthing Tweets from {{ settings.site_settings.OrganisationSetting.twitter }}
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            {% if settings.site_settings.OrganisationSetting.facebook %}
+                <div class="column is-4">
+                    <h3 class="social-media-feed-item-title"><span class="icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </span>
+                        <span>Facebook Feed</span></h3>
+                    <div class="social-media-feed-item box">
+                        <div class="fb-page"
+                                data-href="{{settings.site_settings.OrganisationSetting.facebook}}"
+                                data-tabs="timeline"
+                                data-width="500"
+                                data-height="700"
+                                data-small-header="true"
+                                data-adapt-container-width="true"
+                                data-hide-cover="false"
+                                data-show-facepile="false">
+                            <blockquote
+                                    cite="{{settings.site_settings.OrganisationSetting.facebook}}"
+                                    class="fb-xfbml-parse-ignore">
+                                <a href="{{settings.site_settings.OrganisationSetting.facebook}}">
+                                    Fetching Facebook Feed
+                                    from {{ settings.site_settings.OrganisationSetting.facebook }}
+                                </a>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="column is-3">
                 <h3 class="social-media-feed-item-title">
                     <span>Latest Updates</span></h3>
@@ -146,55 +197,6 @@
                    
                 </div>
             </div>
-            
-            {% if  settings.site_settings.OrganisationSetting.twitter %}
-                <div class="column is-4" >
-                    <div>
-                        <h3 class="social-media-feed-item-title">
-                            <span class="icon">
-                                <i class="fab fa-twitter"></i>
-                            </span>
-                            <span>Twitter Feed</span>
-                        </h3>
-                    </div>
-                    <div class="social-media-feed-item box">
-                        <a class="twitter-timeline"
-                            data-tweet-limit="10"
-                            data-dnt="true"
-                            href="{{settings.site_settings.OrganisationSetting.twitter}}">
-                            Fecthing Tweets from {{ settings.site_settings.OrganisationSetting.twitter }}
-                        </a>
-                    </div>
-                </div>
-            {% endif %}
-            {% if settings.site_settings.OrganisationSetting.facebook %}
-                <div class="column is-4">
-                    <h3 class="social-media-feed-item-title"><span class="icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </span>
-                        <span>Facebook Feed</span></h3>
-                    <div class="social-media-feed-item box">
-                        <div class="fb-page"
-                                data-href="{{settings.site_settings.OrganisationSetting.facebook}}"
-                                data-tabs="timeline"
-                                data-width="500"
-                                data-height="700"
-                                data-small-header="true"
-                                data-adapt-container-width="true"
-                                data-hide-cover="false"
-                                data-show-facepile="false">
-                            <blockquote
-                                    cite="{{settings.site_settings.OrganisationSetting.facebook}}"
-                                    class="fb-xfbml-parse-ignore">
-                                <a href="{{settings.site_settings.OrganisationSetting.facebook}}">
-                                    Fetching Facebook Feed
-                                    from {{ settings.site_settings.OrganisationSetting.facebook }}
-                                </a>
-                            </blockquote>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
         </div>
     </div>
 </section>
