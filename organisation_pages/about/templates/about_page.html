@@ -13,102 +13,86 @@
 {% block content %}
     {% include 'hero.html' with page=page %}
     <main class="is-index">
-        <div class="container pt-6 sections">
-            <div class="field has-addons is-justify-content-center">
-                <p class="control">
-                    <button class="button nav-section is-dark"  data-target="#mission_vision_section" style="border-color:#545454">
-                      <span class="icon is-small">
+        <div class="container pt-6 pb-0 sections">
+
+            <div class="buttons is-justify-content-center">
+                <button class="button nav-section is-light"  data-target="#mission_vision_section">
+                    <span class="icon is-small">
                         <i class="fa-sharp fa-solid fa-eye"></i>
                       </span>
                       <span class="has-text-weight-semibold">Mission & Vision</span>
-                    </button>
-                  </p>
-                <p class="control" >
-                  <button class="button nav-section is-dark" data-target="#organisation_structure"  style="border-color:#545454">
+                    
+                </button>
+                <button class="button nav-section is-light" data-target="#organisation_structure" >
                     <span class="icon is-small">
-                      <i class="fa-solid fa-sitemap"></i>
-                    </span>
-                    <span class="has-text-weight-semibold">Organisational Structure</span>
-                  </button>
-                </p>
-               
-                <p class="control">
-                  <button class="button nav-section is-dark" data-target="#timeline_section" style="border-color:#545454">
+                        <i class="fa-solid fa-sitemap"></i>
+                      </span>
+                      <span class="has-text-weight-semibold">Organisational Structure</span>  
+                </button>
+                <button class="button nav-section is-light" data-target="#timeline_section" >
                     <span class="icon is-small">
-                      <i class="fa-solid fa-timeline"></i>
+                        <i class="fa-solid fa-timeline"></i>
                     </span>
-                    <span class="has-text-weight-semibold">History</span>
-                  </button>
-                </p>
-                <p class="control">
-                    <button class="button nav-section is-dark" data-target="#others_section" style="border-color:#545454">
-                      <span class="icon is-small">
+                  <span class="has-text-weight-semibold">History</span>
+                </button>
+                <button class="button nav-section is-light" data-target="#others_section" >
+                    <span class="icon is-small">
                         <i class="fa-solid fa-circle-nodes"></i>
                       </span>
-                      <span class="has-text-weight-semibold">Others</span>
-                    </button>
-                  </p>
-              </div>
-            {% comment %} <div class="columns is-centered is-gapless" style="text-align:center; justify-content: space-around">
-                <div class="column"><button class="button">Structure</button></div>
-                <div class="column"><button class="button">Mission & Vision</button></div>
-                <div class="column"><button class="button">History</button></div>
-                <div class="column"><button class="button">Others</button></div>
+                      <span class="has-text-weight-semibold">Additional Information</span>
+                </button>
             </div>
-             {% endcomment %}
 
         </div>
         <section class="nmhs-work introduction-section">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}
+
             </div>
         </section>
+
         {% if page.mission or page.vision %}
+        <div class="container">
+            <hr style="background:rgba(195, 192, 192, 0.37)">
+        </div>
+        
         <section class="mission-vision-section" id="mission_vision_section" style="background-color:white">
-            <div class="container">
-                <div class="columns is-centered">
+            <div class="container has-text-centered">
+
+                <h2 class="pb-4 mb-4 has-text-centered" style="font-size: 28px; font-weight:700">Mission & Vision</h2>
+
+                <div class="columns is-centered" style="padding-top:3em">
                     {% if page.mission %}
-                    <div class="column is-4">
-                        <div class="card">
-                            <div class="card-content" style="text-align:center">
-                                <div class="card-title">
-                                    <div class="mission-logo pb-4">
-                                        <img src="{% static 'img/mission.png' %}" width="50"/>
-                                        </div>
-                                </div>
-                                <p class="subtitle">
-                                    Our Mission
-                                  </p>
-                                  
-                              <p class="title" style="font-size:20px">
-                                “{{page.mission}}”
-                              </p>
-                              
-                            </div>
-                           
-                          </div>
+                    <div class="column is-3">
+                        <div class="mission-logo pb-4">
+                            <img src="{% static 'img/mission.png' %}" width="40"/>
+                        </div>
+                        
+                        <h3 class="title" style="font-size:22px">
+                            Our Mission
+                        </h3>
+
+                        <p class="subtitle"  style="font-size:16px">
+                            “{{page.mission}}”
+                        </p>
+                        
                     </div>
                     {% endif %}
+                    <div class="column is-1 is-desktop" ></div>
                     {% if page.vision %}
-                    <div class="column is-4">
-                        <div class="card">
-                           
-                            <div class="card-content" style="text-align:center">
-                                <div class="card-title">
-                                    <div class="mission-logo pb-4">
-                                        <img src="{% static 'img/vision.png' %}" width="50"/>
-                                        </div>
-                                </div>
-                                <p class="subtitle">
-                                    Our Vision
-                                  </p>
-                              <p class="title" style="font-size:20px">
-                                “{{page.vision}}”
-                              </p>
-                              
-                            </div>
-                           
-                          </div>
+                    <div class="column is-3">
+                        <div class="mission-logo pb-4">
+                            <img src="{% static 'img/vision.png' %}" width="40"/>
+                        </div>
+                        
+                        <h3 class="title" style="font-size:22px">
+                            Our Vision
+                        </h3>
+
+                        <p class="subtitle"  style="font-size:16px">
+                            “{{page.vision}}”
+                        </p>
+                        
                     </div>
                     {% endif %}
                 </div>
@@ -251,9 +235,11 @@
     </main>
     <script>
         $(".nav-section").click(function(e) {
+            $('.nav-section').removeClass('is-dark')
+            $(e.target).closest('.nav-section').addClass('is-dark')
             var dataTarget = $(e.target).closest('.nav-section').data('target')
             $('html,body').animate({
-                scrollTop: $(`${dataTarget}`).offset().top},
+                scrollTop: $(`${dataTarget}`).offset().top -100},
                 'slow');
         });
     </script>

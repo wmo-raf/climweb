@@ -2,7 +2,7 @@ from django.db import models
 
 
 from wagtail.models import Orderable, Page, ParentalKey, ClusterableModel
-from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel
 from wagtail.snippets.models import register_snippet
 
 
@@ -19,6 +19,8 @@ class WMSRequest(ClusterableModel):
 
     title = models.CharField(max_length=250, null=False, blank=False, help_text="Title of your layer", verbose_name="Layer Title")
     subtitle = models.CharField(max_length=250, null=True, blank=True, help_text="Subtitle of your layer", verbose_name="Layer Subtitle")
+    category = models.ForeignKey("LayerCategory", on_delete=models.CASCADE, null=True, verbose_name="Layer Categories")
+    base_url = models.CharField(max_length=250, help_text="BASE URL for WMS", default="http://20.56.94.119/gsky/ows/gfs", verbose_name="BASE URL for WMS")
     version = models.CharField(max_length=50, help_text="WMS Version", default="1.1.1", verbose_name="WMS Version")
     width = models.IntegerField(default=250, help_text="The size of the map image in pixels along the i axis", verbose_name="Pixel Width")
     height = models.IntegerField(default=250, help_text="The size of the map image in pixels along the j axis", verbose_name="Pixel Height")
@@ -30,23 +32,26 @@ class WMSRequest(ClusterableModel):
     panels = [
         FieldPanel("title"),
         FieldPanel("subtitle"),
-        FieldPanel("version"),
-        FieldRowPanel([
-            FieldPanel("width", classname="col6"),
-            FieldPanel("height", classname="col6"),
-        ]),
-        FieldPanel("transparent"),
-        FieldPanel("srs"),
-        FieldPanel("format"),
-        InlinePanel("layers", heading="WMS Layers", label="Layer" ),
-        InlinePanel("styles", heading="Layer Styles", label="Layer Style"),
-        InlinePanel("params", heading="Additional Parameters", label="Parameter"),
+        FieldPanel("category"),
+        MultiFieldPanel([
+            FieldPanel("base_url"),
+            FieldPanel("version"),
+            FieldRowPanel([
+                FieldPanel("width", classname="col6"),
+                FieldPanel("height", classname="col6"),
+            ]),
+            FieldPanel("transparent"),
+            FieldPanel("srs"),
+            FieldPanel("format"),
+            InlinePanel("layers", heading="WMS Layers", label="Layer" ),
+            InlinePanel("styles", heading="Layer Styles", label="Layer Style"),
+            InlinePanel("params", heading="Additional Parameters", label="Parameter"),
+        ], heading="WMS Configs"),
         FieldPanel("legend"),
-
     ]
 
     def __str__(self) -> str:
-        return self.title
+        return f"{self.title} ({self.category})"
 
     class Meta:
         verbose_name = "WMS Request"
@@ -62,6 +67,18 @@ class Layer(Orderable):
     wms_request = ParentalKey(WMSRequest, verbose_name=("WMS Layers"), on_delete=models.CASCADE, related_name="layers")
     name = models.CharField(max_length=250, null=False, blank=False, help_text="WMS Layer is requested by using this name in the\
                                                                                 LAYERS parameter of a GetMap request.")
+
+@register_snippet
+class LayerCategory(ClusterableModel):
+    name = models.CharField(max_length=250, null=False, blank=False, help_text="WMS Layer Category name")
+    description = models.CharField(max_length=250, null=False, blank=True, help_text="WMS Layer Category description")
+
+    class Meta:
+        verbose_name_plural = "Layer Categories"
+
+    def __str__(self) -> str:
+        return self.name
+
 
 class Param(Orderable):
     wms_request =  ParentalKey(WMSRequest, verbose_name=("Addtional Parameters"), on_delete=models.CASCADE, related_name="params")

@@ -1,8 +1,17 @@
 {% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
-<div class="columns is-centered intro-section-wrapper">
-    
-    <div class="column is-7 intro-image">
+<div class="columns is-centered is-align-items-center">
+    <div class="column is-4 has-text-left">
+        <h2 class="section-subheader">
+            {{ page.org_struct_heading }}
+        </h2>
+        <div class="intro-description format-text">
+            {{ page.org_struct_description|richtext }}
+        </div>
+    </div>
+    {% comment %} <div class="column is-1 is-desktop"> {% endcomment %}
+    {% comment %} </div> {% endcomment %}
+    <div class="column is-8">
         <figure class="image">
             {% if page.org_struct_img %}
                 {% if page.org_struct_img.url %}
@@ -16,14 +25,6 @@
             {% endif %}
         </figure>
     </div>
-    <div class="column is-1 is-desktop">
-    </div>
-    <div class="column is-4 has-text-left">
-        <h2 class="section-subheader">
-            {{ page.org_struct_heading }}
-        </h2>
-        <div class="intro-description format-text">
-            {{ page.org_struct_description|richtext }}
-        </div>
-    </div>
+    
+    
 </div>

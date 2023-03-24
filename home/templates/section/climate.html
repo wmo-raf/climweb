@@ -107,14 +107,28 @@
           <div id="floating-layer" class="layer-panel">
             <div class="layer-list has-text-white">
 
+              <div class="field has-addons">
 
-              {% for wms in self.get_wms_layers.wms_layers %}
-              <h2 id="{{wms.id}}"
-                class="layer-item subtitle {% if wms == self.get_wms_layers.wms_layers|first %}active{% endif %} ">
-                {{wms.title}}
-              </h2>
+                <p class="control pb-0" style="background-color:#f5f5f5;border-radius:2em">
 
-              {% endfor %}
+                {% for wms_category in self.get_wms_layers.categories %}
+
+                  <button class="button category-btn is-light" id="{{wms_category.id}}" style="border-radius:2em">
+                    {{wms_category.name}}
+                  </button>
+                
+                {% endfor %}
+              </p>
+
+              </div>
+
+
+              {% comment %} {% for wms in self.get_wms_layers.wms_layers %} {% endcomment %}
+              <div class="layer-list-items">
+             
+              </div>
+
+              {% comment %} {% endfor %} {% endcomment %}
 
             </div>
           </div>
@@ -144,7 +158,10 @@
 <script>
   var country_geom  = "{{settings.site_settings.OrganisationSetting.country.geom}}"
   const countryIso = "{{settings.site_settings.OrganisationSetting.country.iso}}"
+
   var wms_layers = JSON.parse('{{self.get_wms_layers.wms_layers_json|escapejs}}')
+  
+  
 
 </script>
 <script type="text/javascript" src="{% static 'js/climate_map.js' %}"></script>

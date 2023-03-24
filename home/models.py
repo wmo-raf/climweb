@@ -15,7 +15,7 @@ from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from capeditor.models import Alert
 from services.models import ServiceIndexPage
 from forecast_manager.models import City, Forecast    
-from layer_manager.models import WMSRequest, LegendItem
+from layer_manager.models import WMSRequest, LegendItem, LayerCategory
 from media_pages.videos.models import YoutubePlaylist
 from media_pages.publications.models import PublicationPage
 from media_pages.news.models import NewsPage
@@ -238,15 +238,20 @@ class HomePage(Page):
     @cached_property
     def get_wms_layers(self):
         wms_layers = WMSRequest.objects.all()
-        wms_vals = list(wms_layers.values('id', 'title', 'subtitle', 'version', 'width', 'height','transparent', 'srs' , 'format', 'layers__name', 'legend_id'))
+        wms_vals = list(wms_layers.values('id', 'title', 'subtitle', 'version', 'width', 'height','transparent', 'srs' , 'format', 'layers__name', 'legend_id', 'category_id', 'base_url'))
         for val in wms_vals:
             legends = LegendItem.objects.filter(legend_id =val['legend_id'] )
+            category = LayerCategory.objects.get(id = val['category_id'])
             val['legend_colors'] = list(legends.values('item_val', 'item_color'))
+            val['category'] = category.name
         
         return {
             'wms_layers':list(wms_layers),
-            'wms_layers_json':json.dumps(wms_vals)
+            'wms_layers_json':json.dumps(wms_vals),
+            'categories':list(LayerCategory.objects.all().values())
         }   
+
+    
 
     # COMMON_PANELS = (
     #     FieldPanel('slug'),

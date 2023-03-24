@@ -1,9 +1,12 @@
 // window.onload = function () {
 $(document).ready(function() {
+    
         // code to be executed when the DOM is ready
-
     function roundToNearestHour(date) {
+        const hours = date.getHours();
+        const roundedHours = Math.ceil(hours / 3) * 3; // Multiples of 3
         date.setMinutes(date.getMinutes() + 30);
+        date.setHours(roundedHours)
         date.setMinutes(0, 0, 0);
 
         return date;
@@ -14,9 +17,59 @@ $(document).ready(function() {
         return date;
     }
 
+    
+
     const displayTime = new Date()
     const wmsTime = roundToNearestHour(displayTime).toISOString()
 
+    wms_layers.map(layer =>{
+        if(layer.category_id == 1){
+            console.log(layer)
+          return $('.layer-list-items').append(
+            `
+            <h2 id="${layer.id}"
+            class="layer-item subtitle {% if wms == self.get_wms_layers.wms_layers|first %}active{% endif %} ">
+            ${layer.title}
+            </h2>
+            `
+          )
+        }
+      } )
+    
+      $('#floating-legend').html(`
+      <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${wms_layers[0].title}</p>
+      <p style="margin:0;font-size:12px;" class="subtitle">${wms_layers[0].subtitle}</p>
+      <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> ${displayTime} </p>
+    
+      <div style="width: 100%;
+          height: 0.3em;
+          position: relative;
+          margin-bottom:2em;
+          background: linear-gradient(to right,${wms_layers[0].legend_colors.map(legend => legend.item_color)});
+        ">
+        ${wms_layers[0].legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${wms_layers[0].legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")} </div>`)
+    
+        
+      $('.category-btn').click(function() {
+        $('.category-btn').removeClass('is-info')
+        $('.category-btn').addClass('is-light')
+        $(this).removeClass('is-light')
+        $(this).addClass('is-info')
+        $('.layer-list-items').html('')
+        
+        wms_layers.filter(layer => layer.category_id == this.id).map(layer => {
+          return $('.layer-list-items').append(
+            `
+            <h2 id="${layer.id}"
+            class="layer-item subtitle ">
+            ${layer.title}
+            </h2>
+            `
+          )
+      
+        })
+    
+      });
 
     const climateMap = new maplibregl.Map({
         container: "climate-map", // container ID
@@ -30,6 +83,8 @@ $(document).ready(function() {
     climateMap.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 
     climateMap.on("load", () => {
+
+
 
         if (country_geom) {
             const wktWithoutSrids = country_geom.replace(/^SRID=\d+;/, "");
@@ -87,22 +142,14 @@ $(document).ready(function() {
                 cityLabel = l.id;
             }
         }
+
+      
         // Get all the items
         const layer_items = document.querySelectorAll('.layer-item');
 
-        $('#floating-legend').html(`
-        <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${wms_layers[0].title}</p>
-        <p style="margin:0;font-size:12px;" class="subtitle">${wms_layers[0].subtitle}</p>
-        <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> ${displayTime} </p>
-    
-        <div style="width: 100%;
-            height: 0.3em;
-            position: relative;
-            margin-bottom:2em;
-            background: linear-gradient(to right,${wms_layers[0].legend_colors.map(legend => legend.item_color)});
-          ">
-          ${wms_layers[0].legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${wms_layers[0].legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")} </div>`)
+       
 
+       
 
 
         fetch(`http://20.56.94.119/api/geostore/admin/${countryIso}?thresh=0.005`)
@@ -111,7 +158,7 @@ $(document).ready(function() {
                 climateMap.addSource('wms-source', {
                     type: "raster",
                     tiles: [
-                        `http://20.56.94.119/gsky/ows/gfs?service=WMS&request=GetMap&version=${wms_layers[0].version}&width=${wms_layers[0].width}&height=${wms_layers[0].height}&styles=&transparent=${wms_layers[0].transparent}&srs=${wms_layers[0].srs}&bbox={bbox-epsg-3857}&format=${wms_layers[0].format}&time=${wmsTime}&layers=${wms_layers[0].layers__name}&geojson_feature_id=${data.data.id}&canClipToGeom=true`,
+                        `${wms_layers[0].base_url}?service=WMS&request=GetMap&version=${wms_layers[0].version}&width=${wms_layers[0].width}&height=${wms_layers[0].height}&styles=&transparent=${wms_layers[0].transparent}&srs=${wms_layers[0].srs}&bbox={bbox-epsg-3857}&format=${wms_layers[0].format}&time=${wmsTime}&layers=${wms_layers[0].layers__name}&geojson_feature_id=${data.data.id}&canClipToGeom=true`,
                     ],
                     minzoom: 3,
                     maxzoom: 12,
@@ -166,7 +213,7 @@ $(document).ready(function() {
                                 climateMap.addSource('wms-source', {
                                     type: "raster",
                                     tiles: [
-                                        `http://20.56.94.119/gsky/ows/gfs?service=WMS&request=GetMap&version=${layer.version}&width=${layer.width}&height=${layer.height}&styles=&transparent=${layer.transparent}&srs=${layer.srs}&bbox={bbox-epsg-3857}&format=${layer.format}&time=${wmsTime}&layers=${layer.layers__name}&geojson_feature_id=${data.data.id}&canClipToGeom=true`,
+                                        `${layer.base_url}?service=WMS&request=GetMap&version=${layer.version}&width=${layer.width}&height=${layer.height}&styles=&transparent=${layer.transparent}&srs=${layer.srs}&bbox={bbox-epsg-3857}&format=${layer.format}&time=${wmsTime}&layers=${layer.layers__name}&geojson_feature_id=${data.data.id}&canClipToGeom=true`,
                                     ],
                                     minzoom: 3,
                                     maxzoom: 12,

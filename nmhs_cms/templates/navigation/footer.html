@@ -26,9 +26,9 @@
 
         {% endif %}
       
-        <p class="title is-6 has-text-white has-text-weight-normal">
+        {% comment %} <p class="title is-6 has-text-white has-text-weight-normal">
           National Meteorological & <br> Hydrological Services
-        </p>
+        </p> {% endcomment %}
       </div>
 
       {% flat_menu 'footer' max_levels=2 show_menu_heading=True fall_back_to_default_site_menus=True template="navigation/footer_menu.html" %}
@@ -58,15 +58,7 @@
           {% endif %}
         {% comment %} </div> {% endcomment %}
       </div>
-      <div class="column is-one-fifth-desktop is-half-mobile">
-        <a
-          class="button is-outlined is-light"
-          style="border-radius: 0.5em; font-size: 14px; padding: 0 3em"
-          href="/feedback"
-        >
-          Leave feedback
-        </a>
-      </div>
+      
     </div>
   </div>
 </footer>
