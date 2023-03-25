@@ -71,7 +71,7 @@ class Layer(Orderable):
 @register_snippet
 class LayerCategory(ClusterableModel):
     name = models.CharField(max_length=250, null=False, blank=False, help_text="WMS Layer Category name")
-    description = models.CharField(max_length=250, null=False, blank=True, help_text="WMS Layer Category description")
+    description = models.CharField(max_length=250, null=False, blank=False, help_text="WMS Layer Category description")
 
     class Meta:
         verbose_name_plural = "Layer Categories"

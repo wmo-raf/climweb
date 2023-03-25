@@ -169,11 +169,11 @@ WAGTAILLOCALIZE_MACHINE_TRANSLATOR = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': env('PG_DBNAME', default='nmhs_cms'),
-        'USER': env('PG_USER', default='postgres'),
-        'PASSWORD': env('PG_PASSWORD', default='test1234'),
-        'HOST': env('PG_HOST', default='localhost'),
-        'PORT': env('PG_PORT', default=5432),
+        'NAME': os.getenv('DB_NAME_CMS', 'nmhs_cms'),
+        'USER': os.getenv('DB_USER_CMS', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD_CMS', 'test1234'),
+        'HOST': os.getenv('DB_HOST_CMS', 'localhost'),
+        'PORT': os.getenv('DB_PORT_CMS', '5432'),
     }
 }
 

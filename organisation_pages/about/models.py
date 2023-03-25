@@ -82,7 +82,7 @@ class AboutPage(Page):
         ('material', blocks.CategorizedAdditionalMaterialBlock())
     ], null=True, blank=True,use_json_field=True )
 
-    bottom_call_to_action_heading = models.CharField(max_length=100, blank=True, null=True)
+    bottom_call_to_action_heading = models.CharField(max_length=100, blank=True, null=True, verbose_name="Bottom Call to action heading")
     bottom_call_to_action_description = models.TextField(blank=True, null=True)
     bottom_call_to_action_button_text = models.CharField(max_length=20, blank=True, null=True)
     bottom_call_to_action_button_link = models.ForeignKey(
