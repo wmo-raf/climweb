@@ -13,6 +13,6 @@ done
 python manage.py migrate --noinput
 
 python manage.py collectstatic --no-input
-python manage.py loaddata dumpdata.json
+# python manage.py loaddata dumpdata.json
 
 exec "$@"
