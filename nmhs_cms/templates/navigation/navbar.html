@@ -131,16 +131,16 @@
 
                         
                         <div class="buttons" style="font-weight: 600;">
-                           <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em; " href="/contact-us">
+                           <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em; " href="cms/contact-us">
                                 Contact us
                             </a>
 
                             {% if user.is_authenticated %}
-                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="/admin">
+                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="{% url 'admin:login' %}">
                                     {{user.username}}, CMS 
                                 </a>
                             {% else %}
-                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="/admin">
+                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="{% url 'admin:login' %}">
                                     Log in
                                 </a>
                             {% endif %}
