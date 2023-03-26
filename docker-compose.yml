@@ -12,17 +12,14 @@ services:
       - 8000
     environment: 
       - DEBUG='TRUE'
-      - DB_PORT_CMS=5432
+      - DB_PORT_CMS=${POSTGRES_PORT_CMS}
       - DB_NAME_CMS=${POSTGRES_DB_CMS}
       - DB_PASSWORD_CMS=${POSTGRES_PASSWORD_CMS}
       - DB_USER_CMS=${POSTGRES_USER_CMS}
       - DB_HOST_CMS=cms_db
-      - ADMIN_NAME=${ADMIN_NAME}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY:-''}
       - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY:-''}
-      - ENVIRONMENT=dev
+      - ENVIRONMENT=${ENVIRONMENT}
       - DATABASE=${DATABASE}
     depends_on:
       - cms_db
@@ -41,7 +38,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB_CMS}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_CMS}
     ports: 
-      - ${POSTGRES_PORT_CMS}:5432
+      - ${POSTGRES_PORT_CMS}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
@@ -55,9 +52,14 @@ services:
     ports:
       - ${CMS_PORT}:80
     depends_on:
-      - cms_web
-      
-      
+      - cms_web  
+
+networks:
+    default:
+      name:  ${AHW_DOCKER_NETWORK}
+      external: true
+
+
 volumes:
   postgres_data:
   static_volume:
