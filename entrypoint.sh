@@ -9,11 +9,10 @@ do
 done
 
 # Apply database migrations
-python manage.py makemigrations
-python manage.py migrate 
+# python manage.py makemigrations
+python manage.py migrate --noinput
 
-python manage.py collectstatic --no-input --clear
+python manage.py collectstatic --no-input
 python manage.py loaddata dumpdata.json
-
 
 exec "$@"

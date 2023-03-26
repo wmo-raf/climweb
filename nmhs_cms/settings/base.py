@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False),
+    # DEBUG=(bool, False),
 )
 
 if os.path.exists(os.path.join(BASE_DIR, '.env')):
@@ -262,7 +262,7 @@ MEDIA_URL = "/media/"
 
 
 # Wagtail settings
-SITE_NAME="nmhs_cms"
+# SITE_NAME="nmhs_cms"
 WAGTAIL_SITE_NAME = "nmhs_cms"
 
 # Search
@@ -338,6 +338,9 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
+
+CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', 'http://127.0.0.1','http://*.localhost', 'http://localhost','http://example.com', 'http://localhost:8081']
+
 
 # SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 # from django.utils.functional import lazy

@@ -159,9 +159,9 @@ header {
     max-height: 80px;
 }
 
-.navbar-burger {
+/* .navbar-burger {
     color: #fff;
-}
+} */
 
 .navbar-burger span {
     height: 2px;
@@ -198,11 +198,26 @@ header {
     font-size: 14px
 }
 
+@media screen and (min-width: 768px) {
+    .navbar-container{
+        max-width: none!important;
+        padding-left: 32px;
+        padding-right: 32px;
+        width: 100%;
+    }
+}
+
 
 @media screen and (max-width: 768px) {
-
+    .navbar-brand img{
+        max-width: 200px;
+    }
     .top-alert {
         justify-content: space-between;
+    }
+
+    .navbar.bottom-nav{
+        min-height: 0;
     }
 
     .top-alert-text {

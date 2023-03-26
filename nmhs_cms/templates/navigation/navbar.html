@@ -1,16 +1,15 @@
 {% load menu_tags i18n wagtailcore_tags static %}
 {% load wagtailimages_tags %}
 
-{% image settings.site_settings.OrganisationSetting.logo width-400 as logo%}
-<div class="container is-fluid" style="border-bottom:1px solid rgba(195, 192, 192, 0.37);">
-    <div class="container">
+{% image settings.site_settings.OrganisationSetting.logo width-1000 as logo%}
+<div class="container" style="border-bottom:1px solid rgba(195, 192, 192, 0.37);">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/"
                     style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
                     {% comment %} TODO: REVERT {% endcomment %}
                     {% if logo %} 
-                        <img src="{{logo.url}}" style="height:auto;" >
+                        <img src="{{logo.url}}" style="height:auto" >
 
                         {% else %}
                         
@@ -153,7 +152,7 @@
                 </div>
             </div>
         </nav>
-        <nav class="navbar is-justify-content-center is-align-content-center" role="navigation"
+        <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
             aria-label="main navigation" id="sticky_nav" style="z-index:3">
 
 
@@ -167,7 +166,6 @@
 
             </div>
         </nav>
-    </div>
 
 </div>
 

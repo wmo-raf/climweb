@@ -39,7 +39,7 @@ INSTALLED_APPS = INSTALLED_APPS + [
 #     'debug_toolbar.middleware.DebugToolbarMiddleware',
 # ]
 
-INTERNAL_IPS = ("127.0.0.1", "172.17.0.1")
+# INTERNAL_IPS = ("127.0.0.1", "172.17.0.1")
 
 
 SHOW_TOOLBAR_CALLBACK=False

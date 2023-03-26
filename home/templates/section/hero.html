@@ -56,7 +56,7 @@
                                                 {{latest_forcast.forecast_date|wordwrap:15|linebreaksbr}}
                                             </h2>
 
-                                            <div class="columns is-gapless">
+                                            <div class="columns is-gapless is-mobile">
                                                 <div class="column" style="align-self:end">
                                                     
                                                         {% if latest_forcast.condition__icon_image__file %}
@@ -81,7 +81,7 @@
 
                                 <div class="city inactive">
                                     <h2 class="title" style="font-size: 13px; margin-bottom: 0.3rem;">{{forecasts.city}}</h2>
-                                    <div class="columns is-gapless pb-1">
+                                    <div class="columns is-gapless pb-1 is-mobile">
                                         <div class="column" style="align-self:end;">
                                             {% if latest_forcast.condition__icon_image__file %}
                                                 <figure class="image forecast-icon" style="width:40px;display: inline-flex;">
@@ -114,21 +114,21 @@
                     <div class="box">
                         {% for forecasts in self.get_forecast_by_city.forecasts %}
 
-                            <section class="tab-content">
+                            <section class="tab-content p-0">
 
                                 <div class="columns is-gapless is-multiline is-7 is-mobile">
 
                                     {% comment %} {% if forecasts.forecast_items|length == 7 %} {% endcomment %}
 
                                     {% for item in forecasts.forecast_items %}
-                                    <div class="column is-3-mobile " style="{% if not forloop.last or forecasts.forecast_items|length == 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
+                                    <div class="column is-3-mobile mt-2" style="{% if not forloop.last or forecasts.forecast_items|length == 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
 
                                         <h2 class="title mb-1"
                                             style="font-size: 14px; font-weight: 600">
                                             {{item.forecast_date}}
                                         </h2>
 
-                                        <div class="columns is-gapless pb-1 mb-0 is-align-items-center">
+                                        <div class="columns is-gapless pb-1 mb-0 is-align-items-center is-mobile">
                                             <div class="column mr-1" style="align-self:end; text-align: end;">
                                                 {% if item.condition__icon_image__file %}
                                                 <figure class="forecast-icon" style="width:40px;display: inline-flex;">

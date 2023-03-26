@@ -25,8 +25,8 @@ RUN apt-get update \
 # create directory for the app user
 RUN mkdir -p /home/app
 
-# create the app user
-RUN useradd app
+# # create the app user
+# RUN useradd app
 
 # Set up a working directory
 # create the appropriate directories
@@ -44,7 +44,7 @@ COPY requirements.txt .
 # RUN pip install --upgrade pip 
 # USER root
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy the application code
 COPY . $APP_HOME
