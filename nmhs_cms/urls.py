@@ -1,3 +1,4 @@
+import os 
 from django.conf import settings
 from django.urls import include, path, register_converter
 from django.contrib import admin
@@ -53,7 +54,7 @@ urlpatterns = urlpatterns + i18n_patterns(
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
-    path("", include(wagtail_urls)),
+    path(f"{os.getenv('BASE_PATH', '')}", include(wagtail_urls)),
     prefix_default_language=False,
     # Alternatively, if you want Wagtail pages to be served from a subpath
     # of your site, rather than the site root:
