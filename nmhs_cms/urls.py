@@ -24,13 +24,13 @@ class IdentifierConverter:
 register_converter(IdentifierConverter, 'identifier')
 
 urlpatterns = [
-    path("django-admin/", admin.site.urls),
-    path("admin/", include(wagtailadmin_urls)),
-    path("documents/", include(wagtaildocs_urls)),
-    path("forecast/", include(forecast_urls)),
-    path("cap/", include(cap_urls)),
+    path(f"{os.getenv('BASE_PATH', '')}"+"django-admin/", admin.site.urls),
+    path(f"{os.getenv('BASE_PATH', '')}"+"admin/", include(wagtailadmin_urls)),
+    path(f"{os.getenv('BASE_PATH', '')}"+"documents/", include(wagtaildocs_urls)),
+    path(f"{os.getenv('BASE_PATH', '')}"+"forecast/", include(forecast_urls)),
+    path(f"{os.getenv('BASE_PATH', '')}"+"cap/", include(cap_urls)),
 
-    path("search/", search_views.search, name="search"),
+    path(f"{os.getenv('BASE_PATH', '')}"+"search/", search_views.search, name="search"),
 
 ]
 
