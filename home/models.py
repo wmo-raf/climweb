@@ -1,3 +1,5 @@
+import os
+
 from datetime import datetime, timedelta
 from itertools import groupby
 
@@ -184,6 +186,7 @@ class HomePage(Page):
                             'min_temp':forecast['min_temp'],
                             'wind_speed':forecast['wind_speed'],
                             'wind_direction':forecast['wind_direction'],
+                            'media_path':f"{os.getenv('MEDIA_URL', '')}",
                             'condition_icon':forecast['condition__icon_image__file'],
                             'condition_desc':forecast['condition__title'],
                         },

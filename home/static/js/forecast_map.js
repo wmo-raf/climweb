@@ -164,7 +164,7 @@
                         }
 
                     }
-                    img.src = `/media/${city.properties.condition_icon}`
+                    img.src = `${city.properties.media_path}${city.properties.condition_icon}`
                     return img.src
 
                 })
@@ -182,7 +182,9 @@
                 'layout': {
                     'icon-image': ['get', 'condition_icon'],
                     'icon-size': 0.3,
-                    'icon-allow-overlap': true
+                    'icon-allow-overlap': true,
+                    'text-allow-overlap': true,
+
                 },
                 'paint': {
                     // 'icon-halo-color': 'red',
@@ -265,7 +267,9 @@
                     'layout': {
                         'icon-image': ['get', 'condition_icon'],
                         'icon-size': 0.3,
-                        'icon-allow-overlap': true
+                        'icon-allow-overlap': true,
+                        'text-allow-overlap': true,
+
 
                     },
                     // 'paint': {
@@ -300,7 +304,9 @@
                     'layout': {
                         'text-offset': [2, -0.5],
                         'text-field': ['concat', ['get', 'max_temp'], '°C'],
-                        'text-allow-overlap': true
+                        'text-allow-overlap': true,
+                        'icon-allow-overlap': true,
+
                     },
                     'paint': {
                         'text-halo-color': '#fff',
@@ -317,7 +323,9 @@
                         'text-offset': [2.5, 0.5],
                         'text-field': ['concat', ['get', 'min_temp'], '°C'],
                         'text-size': 12,
-                        'text-allow-overlap': true
+                        'text-allow-overlap': true,
+                        'icon-allow-overlap': true,
+
 
                     },
                     'paint': {
