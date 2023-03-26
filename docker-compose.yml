@@ -25,8 +25,8 @@ services:
       - STATIC_URL=${STATIC_URL}
     depends_on:
       - cms_db
-    # ports:
-    #   - 8000:8000
+    ports:
+      - 8000:8000
     volumes:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
@@ -44,7 +44,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
-  nginx:
+  cms_nginx:
     container_name: cms_nginx
     image: nginx:1.18.0-alpine
     volumes:
@@ -56,10 +56,10 @@ services:
     depends_on:
       - cms_web  
 
-# networks:
-#     default:
-#       name:  ${AHW_DOCKER_NETWORK}
-#       external: true
+networks:
+    default:
+      name:  ${AHW_DOCKER_NETWORK}
+      external: true
 
 
 volumes:
