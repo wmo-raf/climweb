@@ -194,6 +194,8 @@ class ImportantPages(BaseSiteSetting):
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     all_projects_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+    all_alerts_page = models.ForeignKey(
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     all_news_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     all_publications_page = models.ForeignKey(
@@ -223,6 +225,7 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_projects_page'),
         PageChooserPanel('all_tenders_page'),
         PageChooserPanel('all_vacancies_page'),
+        PageChooserPanel('all_alerts_page'),
         PageChooserPanel('all_news_page'),
         PageChooserPanel('all_publications_page'),
         PageChooserPanel('all_videos_page'),
