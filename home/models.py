@@ -248,10 +248,12 @@ class HomePage(Page):
             val['legend_colors'] = list(legends.values('item_val', 'item_color'))
             val['category'] = category.name
         
+        
         return {
-            'wms_layers':list(wms_layers),
+            'wms_layers':wms_vals,
             'wms_layers_json':json.dumps(wms_vals),
-            'categories':list(LayerCategory.objects.all().values())
+            'categories':list(LayerCategory.objects.all().values()),
+            'categories_json':json.dumps(list(LayerCategory.objects.all().values()))
         }   
 
     

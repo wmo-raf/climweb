@@ -1,41 +1,43 @@
-// window.onload = function () {
+const displayTime = new Date()
+
+function roundToNearestHour(date) {
+    const hours = date.getHours();
+    const roundedHours = Math.ceil(hours / 3) * 3; // Multiples of 3
+    date.setMinutes(date.getMinutes() + 30);
+    date.setHours(roundedHours)
+    date.setMinutes(0, 0, 0);
+
+    return date;
+}
+
+function addLegend(selected_layer){
+    $('#floating-legend').html(`
+    <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${selected_layer.title}</p>
+        <p style="margin:0;font-size:12px;" class="subtitle">${selected_layer.subtitle}</p>
+        <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> ${displayTime}</p>
+
+        <div style="width: 100%;
+        height: 0.3em;
+        position: relative;
+        margin-bottom:2em;
+        background: linear-gradient(to right, ${selected_layer.legend_colors.map(legend => legend.item_color)});
+    ">
+    ${selected_layer.legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${selected_layer.legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")}</div> `)
+
+}
+
+
 $(document).ready(function() {
     
-        // code to be executed when the DOM is ready
-    function roundToNearestHour(date) {
-        const hours = date.getHours();
-        const roundedHours = Math.ceil(hours / 3) * 3; // Multiples of 3
-        date.setMinutes(date.getMinutes() + 30);
-        date.setHours(roundedHours)
-        date.setMinutes(0, 0, 0);
-
-        return date;
-    }
-
-    function subtractHours(date, hours) {
-        date.setHours(date.getHours() - hours);
-        return date;
-    }
-
+    // code to be executed when the DOM is ready
     
-
-    const displayTime = new Date()
     const wmsTime = roundToNearestHour(displayTime).toISOString()
-
-    wms_layers.map(layer =>{
-        if(layer.category_id == 1){
-            console.log(layer)
-          return $('.layer-list-items').append(
-            `
-            <h2 id="${layer.id}"
-            class="layer-item subtitle {% if wms == self.get_wms_layers.wms_layers|first %}active{% endif %} ">
-            ${layer.title}
-            </h2>
-            `
-          )
-        }
-      } )
     
+    const categoryButtons = document.querySelectorAll('.category-btn');
+
+    
+
+ 
       $('#floating-legend').html(`
       <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${wms_layers[0].title}</p>
       <p style="margin:0;font-size:12px;" class="subtitle">${wms_layers[0].subtitle}</p>
@@ -50,26 +52,6 @@ $(document).ready(function() {
         ${wms_layers[0].legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${wms_layers[0].legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")} </div>`)
     
         
-      $('.category-btn').click(function() {
-        $('.category-btn').removeClass('is-info')
-        $('.category-btn').addClass('is-light')
-        $(this).removeClass('is-light')
-        $(this).addClass('is-info')
-        $('.layer-list-items').html('')
-        
-        wms_layers.filter(layer => layer.category_id == this.id).map(layer => {
-          return $('.layer-list-items').append(
-            `
-            <h2 id="${layer.id}"
-            class="layer-item subtitle ">
-            ${layer.title}
-            </h2>
-            `
-          )
-      
-        })
-    
-      });
 
     const climateMap = new maplibregl.Map({
         container: "climate-map", // container ID
@@ -147,11 +129,7 @@ $(document).ready(function() {
         // Get all the items
         const layer_items = document.querySelectorAll('.layer-item');
 
-       
-
-       
-
-
+    
         fetch(`http://20.56.94.119/api/geostore/admin/${countryIso}?thresh=0.005`)
             .then(response => response.json())
             .then(data => {
@@ -175,33 +153,100 @@ $(document).ready(function() {
                     //}
                 }, cityLabel,countryLabel,admin1Boundaries, admin0Boundaries, );
 
+                // Iterate over the buttons and add click event listeners
+                categoryButtons.forEach(button => {
+
+                    button.addEventListener('click', (e) => {
+                        // button.classList.remove('active')
+                        [].forEach.call(categoryButtons, function(el) {
+                            el.classList.remove("active");
+                        });
+
+                        // $('.category-btn').remove('active')
+                        // button.classList.remove('active')
+                        e.target.classList.add('active')
+                        
+                        // Get the category from the button's data attribute
+                        const category = button.dataset.category;
+
+                        // Get all the layers
+                        const layers = document.querySelectorAll('.layer-item');
+
+
+                        var match_layers = []
+                        layers.forEach(layer => {
+                          
+                           if(layer.dataset.category === category) {
+                            match_layers.push(layer)
+                            layer.style.display = 'block';
+                           }else{
+                            layer.style.display = 'none';
+
+                           }
+
+                        })
+
+                        match_layers[0].classList.add('active')
+                        var selected_layer = wms_layers.find(layer_item => layer_item.id == match_layers[0].id )
+                        addLegend(selected_layer)
+
+                        if (climateMap.getLayer("wms-layer")) {
+                            climateMap.removeLayer("wms-layer");
+                        }
+                        if (climateMap.getSource("wms-source")) {
+                            climateMap.removeSource("wms-source");
+                        }
+
+                        climateMap.addSource('wms-source', {
+                            type: "raster",
+                            tiles: [
+                                `${selected_layer.base_url}?service=WMS&request=GetMap&version=${selected_layer.version}&width=${selected_layer.width}&height=${selected_layer.height}&styles=&transparent=${selected_layer.transparent}&srs=${selected_layer.srs}&bbox={bbox-epsg-3857}&format=${selected_layer.format}&time=${wmsTime}&layers=${selected_layer.layers__name}&geojson_feature_id=${data.data.id}&canClipToGeom=true`,
+                            ],
+                            minzoom: 3,
+                            maxzoom: 12,
+                            'tileSize': 256
+
+                        });
+
+                        climateMap.addLayer({
+                            'id': 'wms-layer',
+                            'type': 'raster',
+                            'source': 'wms-source',
+                            //'paint': {
+                            //  'raster-opacity': 0.8
+                            //}
+                        }, cityLabel, countryLabel, admin1Boundaries, admin0Boundaries);
+
+                        match_layers.forEach(layer => {
+                            
+                            layer.addEventListener('click', (e) => {
+                                
+                                e.target.classList.add('active')
+
+                                
+                            })
+                        })
+
+                        
+                    });
+                });
+
                 // Loop through the items and add a click event listener to each
                 layer_items.forEach(item => {
 
-                    item.addEventListener('click', () => {
+                    item.addEventListener('click', (e) => {
                         // Remove the active class from all items
-
-                        layer_items.forEach(item => {
-                            //  const item_id = item.id;
-
-                            item.classList.remove('active');
-
+                        [].forEach.call(layer_items, function(el) {
+                            el.classList.remove("active");
                         });
+
+                        e.target.classList.add('active')
+
+
                         wms_layers.map(layer => {
 
                             if (layer.id == item.id) {
-                                $('#floating-legend').html(`
-                                    <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${layer.title}</p>
-                                        <p style="margin:0;font-size:12px;" class="subtitle">${layer.subtitle}</p>
-                                        <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> ${displayTime}</p>
-                    
-                                        <div style="width: 100%;
-                                                            height: 0.3em;
-                                                            position: relative;
-                                                            margin-bottom:2em;
-                                                            background: linear-gradient(to right, ${layer.legend_colors.map(legend => legend.item_color)});
-                                                        ">
-                                                        ${layer.legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${layer.legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")}</div> `)
+                                addLegend(layer)
 
                                 if (climateMap.getLayer("wms-layer")) {
                                     climateMap.removeLayer("wms-layer");
@@ -232,8 +277,8 @@ $(document).ready(function() {
                             }
 
                         })
-                        // Add the active class to the clicked item
-                        item.classList.add('active');
+                        // // Add the active class to the clicked item
+                        // item.classList.add('active');
 
                     })
 
