@@ -119,9 +119,15 @@ body {
 
 }
 
-@media screen and (max-width: 1605px) {
+@media screen and (min-width: 769px) and (max-width: 1605px) {
     .container {
         max-width: 75vw !important;
     }
 }
 
+@media screen and (max-width: 768px){
+    .container {
+        max-width: 90vw  !important;
+    }
+    
+}
