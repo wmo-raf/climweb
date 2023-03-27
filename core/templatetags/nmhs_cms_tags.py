@@ -7,14 +7,18 @@ import datetime
 
 
 from django.template.defaultfilters import stringfilter, dictsort
-from wagtail.models import Site
+from wagtail.models import Site, Page
 from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from django.shortcuts import get_object_or_404
 
 logger = logging.getLogger(__name__)
 register = template.Library()
 
+@register.simple_tag
+def get_page_by_url(url):
+    return get_object_or_404(Page, url=url)
 
 @register.filter(name='range')
 def filter_range(start, end):
