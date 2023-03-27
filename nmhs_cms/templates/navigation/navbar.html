@@ -1,5 +1,6 @@
-{% load menu_tags i18n wagtailcore_tags static %}
+{% load menu_tags i18n wagtailcore_tags static  %}
 {% load wagtailimages_tags %}
+{% url 'wagtailadmin_home' as wagtail_admin_url %}
 
 {% image settings.site_settings.OrganisationSetting.logo width-1000 as logo%}
 <div class="container" style="border-bottom:1px solid rgba(195, 192, 192, 0.37);">
@@ -131,16 +132,16 @@
 
                         
                         <div class="buttons" style="font-weight: 600;">
-                           <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em; " href="/contact-us">
+                           <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em; " href="{{settings.core.ImportantPages.contact_us_page.url}}">
                                 Contact us
                             </a>
 
                             {% if user.is_authenticated %}
-                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="/admin">
+                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="{{ wagtail_admin_url }}">
                                     {{user.username}}, CMS 
                                 </a>
                             {% else %}
-                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="/admin">
+                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="{{ wagtail_admin_url }}">
                                     Log in
                                 </a>
                             {% endif %}
