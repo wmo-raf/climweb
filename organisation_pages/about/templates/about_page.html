@@ -137,8 +137,7 @@
             </section>
         {% endif %}
 
-       
-
+    
         {% if page.feature_block %}
             <section class="about-feature-blocks-section"  id="others_section">
                 <div class="container">
@@ -146,8 +145,6 @@
                 </div>
             </section>
         {% endif %}
-
-
 
 
         {% if page.additional_materials %}
@@ -239,7 +236,7 @@
             $(e.target).closest('.nav-section').addClass('is-dark')
             var dataTarget = $(e.target).closest('.nav-section').data('target')
             $('html,body').animate({
-                scrollTop: $(`${dataTarget}`).offset().top -100},
+                scrollTop: $(`${dataTarget}`).offset().top},
                 'slow');
         });
     </script>
