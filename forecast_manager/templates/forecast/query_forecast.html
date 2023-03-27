@@ -158,7 +158,7 @@
     function fetchData(param_str) {
         // Send a GET request to a Django view that returns the data as JSON
         $.ajax({
-            url: '/forecast/get-data/?' + param_str,
+            url: "{% url 'get_data' %}" + `?${param_str}`,
             type: 'GET',
             dataType: 'json',
             success: function (data) {

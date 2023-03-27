@@ -15,7 +15,6 @@
 
 
 <script>
-
   var weather_condition_ls = JSON.parse('{{weather_condition_ls|escapejs}}')
   var city_ls = JSON.parse('{{city_ls|escapejs}}')
 
@@ -171,9 +170,10 @@
 
       }
 
+
       // Send the JSON data to a Django view via AJAX
       $.ajax({
-        url: '/forecast/save-data/',
+        url: '{% url "save_data"%}',
         type: 'POST',
         data: {
           'data': JSON.stringify(postData)
