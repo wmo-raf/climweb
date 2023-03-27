@@ -3,6 +3,7 @@ from django.conf import settings
 from django.urls import include, path, register_converter
 from django.contrib import admin
 
+from wagtail.views import serve as wagtail_serve
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
@@ -24,6 +25,8 @@ class IdentifierConverter:
 register_converter(IdentifierConverter, 'identifier')
 
 urlpatterns = [
+        # path('cms/<slug:slug>/', wagtail_serve, name='wagtailcore_serve'),
+
     path(f"{os.getenv('BASE_PATH', '')}"+"django-admin/", admin.site.urls),
     path(f"{os.getenv('BASE_PATH', '')}"+"admin/", include(wagtailadmin_urls)),
     path(f"{os.getenv('BASE_PATH', '')}"+"documents/", include(wagtaildocs_urls)),
@@ -31,6 +34,7 @@ urlpatterns = [
     path(f"{os.getenv('BASE_PATH', '')}"+"cap/", include(cap_urls)),
 
     path(f"{os.getenv('BASE_PATH', '')}"+"search/", search_views.search, name="search"),
+
 
 ]
 
