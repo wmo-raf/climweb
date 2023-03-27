@@ -1,81 +1,8 @@
 {% load static %}
 
 {% block extra_css %}
-<style>
-  .stop-label {
-    position: absolute;
-    top: 1.5em;
-    transform: translateY(-50%);
-    font-size: 12px;
-  }
+<link rel="stylesheet" href="{% static 'css/climate.css' %}" type="text/css" />
 
-  :root {
-    --stops: 7;
-    /* Define the number of color stops */
-  }
-
-  .stop-label:nth-child(n+1) {
-    left: calc((100% / var(--stops)) * (n - 1));
-  }
-
-  .stop-label:last-child {
-    right: 0;
-  }
-
-  .layer-list .layer-item {
-    border-radius: 2em;
-    padding: 0.5em 1em;
-    font-size: 14px;
-    background-color: rgba(73, 73, 73, 0.8);
-    color: white;
-    font-weight: 400;
-
-
-  }
-
-  .layer-list .layer-item.active {
-    background-color: rgba(62,142,208, 0.8);
-    font-weight: 600;
-
-
-  }
-
-  .layer-list .layer-item {
-    cursor: pointer;
-  }
-
-  .legend-panel {
-    position: absolute;
-    top: 1.0em;
-    right: 0.5em;
-    z-index: 1;
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    width: 250px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    text-align: left;
-    height: auto
-  }
-
-
-
-  .layer-panel {
-    position: absolute;
-    top: 1.0em;
-    left: 0.5em;
-    z-index: 1;
-
-    padding: 10px;
-    border-radius: 5px;
-    text-align: left;
-    height: auto
-  }
-
-  .layer-panel .layer-item {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  }
-</style>
 {% endblock extra_css %}
 
 {% if self.enable_climate == True %}
@@ -103,6 +30,7 @@
       <div class="column is-11">
         <div class="card">
           <div id="climate-map" style="min-height: 450px;border-radius: 0.5rem;"></div>
+          {% with selected_category=self.get_wms_layers.wms_layers|first %}
 
           <div id="floating-layer" class="layer-panel">
             <div class="layer-list has-text-white">
@@ -111,27 +39,35 @@
 
                 <p class="control pb-0" style="background-color:#f5f5f5;border-radius:2em">
 
-                {% for wms_category in self.get_wms_layers.categories %}
+                  {% for category in self.get_wms_layers.categories %}
+                  <button style="border-radius:2em"
+                    class="button category-btn {% if category.id == selected_category.category_id %}active{% endif %}"
+                    id="{{category.id}}" data-category="{{ category.id }}">{{ category.name }}</button>
 
-                  <button class="button category-btn is-light" id="{{wms_category.id}}" style="border-radius:2em">
-                    {{wms_category.name}}
-                  </button>
-                
-                {% endfor %}
-              </p>
+                  {% endfor %}
+
+                </p>
 
               </div>
 
-
-              {% comment %} {% for wms in self.get_wms_layers.wms_layers %} {% endcomment %}
               <div class="layer-list-items">
-             
+                {% for layer in self.get_wms_layers.wms_layers %}
+                <h2 id="{{layer.id}}"
+                  data-category="{{ layer.category_id }}"
+                  class="layer-item subtitle {% if forloop.first %}active{% endif %} "
+                  style="{% if layer.category_id == selected_category.category_id %}display:block {% else %} display:none{% endif %}"
+                  >
+                  {{layer.title}}
+                </h2>
+
+                {% endfor %}
               </div>
 
-              {% comment %} {% endfor %} {% endcomment %}
 
             </div>
           </div>
+          {% endwith %}
+
           <div id="floating-legend" class="legend-panel">
           </div>
 
@@ -156,12 +92,24 @@
 
 {% block extra_js %}
 <script>
-  var country_geom  = "{{settings.site_settings.OrganisationSetting.country.geom}}"
+  var country_geom = "{{settings.site_settings.OrganisationSetting.country.geom}}"
   const countryIso = "{{settings.site_settings.OrganisationSetting.country.iso}}"
 
   var wms_layers = JSON.parse('{{self.get_wms_layers.wms_layers_json|escapejs}}')
+  var wms_categories = JSON.parse('{{self.get_wms_layers.categories_json|escapejs}}')
+  // Get all the category buttons
   
-  
+
+  // const defaultCategory = wms_categories[0].id;
+  // console.log(defaultCategory)
+  // categoryButtons.forEach(button => {
+  //  if (button.dataset.category === defaultCategory) {
+  //    button.click();
+  //  }
+  //});
+
+  // Show the layers belonging to the first category by default
+
 
 </script>
 <script type="text/javascript" src="{% static 'js/climate_map.js' %}"></script>
