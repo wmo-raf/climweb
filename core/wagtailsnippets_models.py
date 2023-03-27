@@ -212,8 +212,6 @@ class ImportantPages(BaseSiteSetting):
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     all_vacancies_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
-    all_images_of_change_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     feedback_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     
@@ -232,6 +230,5 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_applications_page'),
         PageChooserPanel('all_events_page'),
         PageChooserPanel('all_partners_page'),
-        PageChooserPanel('all_images_of_change_page'),
     ]
 
