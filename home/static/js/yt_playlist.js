@@ -25,8 +25,6 @@ function fetchPlaylistVideos(nextPageToken = '') {
                 fetchPlaylistVideos(data.nextPageToken);
             } else {
 
-                console.log(data.items.slice(Math.max(data.items.length - 4, 1)).sort((a, b) => b.snippet.position - a.snippet.position))
-
                 document.getElementById('youtube_playlist').innerHTML = ''
                 
                 data.items.slice(Math.max(data.items.length - 4, 1)).sort((a, b) => b.snippet.position - a.snippet.position).forEach(video => {

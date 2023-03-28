@@ -1,6 +1,5 @@
 var a = "{{city_ls|safe}}";
 
-console.log(a)
 const data = [
     ['Khartoum', '05-02-2023', 11, 27, 5, 90, 'Light rain'],
   ];
