@@ -30,8 +30,8 @@
 {% endif %}
 
 
-{% if settings.site_settings.OrganisationSetting.facebook or settings.site_settings.OrganisationSetting.twitter %}
-<section class="social-media-feed-section" style="padding-top: 4rem; padding-bottom: 4rem;">
+{% comment %} {% if settings.site_settings.OrganisationSetting.facebook or settings.site_settings.OrganisationSetting.twitter %} {% endcomment %}
+{% comment %} <section class="social-media-feed-section" style="padding-top: 4rem; padding-bottom: 4rem;">
     <div class="container">
         <div class="columns is-centered">
 
@@ -96,12 +96,6 @@
                                 <div class="card-image">
                                     <figure class="image" style="height:2xx00px">
                                         {% if card.card_image %}
-                                            {% comment %} {% image card.card_image original as item_card_img %}
-                                            <img class="progressive__img progressive--not-loaded"
-                                                data-progressive="{{ item_card_img }}"
-                                                src="{% lazy_image_url item_card_img %}" alt="{{ card_title }}"
-                                                style="height:100%; object-fit: cover"
-                                            /> {% endcomment %}
                                             {% if card.card_image_type == 'url' %}
                                             <img src="{{card.card_image }}" style="height:100%; object-fit: cover"  alt="{{ news_item.news_item }}"/>
                                           
@@ -125,11 +119,6 @@
                                     <a href="{{ card.card_more_link }}" class="card-title">
                                         <p style="font-size:16px; font-weight:700" class="title">{{ card.card_title }}</p>
                                     </a>
-                                    {% comment %} {% if card.card_text %}
-                                        <div class="card-text">
-                                            {{ card.card_text|richtext|truncatewords_html:10 }}
-                                        </div>
-                                    {% endif %} {% endcomment %}
                                     <div class="card-meta" style="{% if card.card_meta %}justify-content:space-between;{% endif %}">
                                         {% if card.card_meta %}
                                             <span class="" style="font-size:16px;" >{{ card.card_meta }}</span>
@@ -177,11 +166,7 @@
                                     <a href="{{ card.card_more_link }}" class="card-title">
                                         <p style="font-size:16px; font-weight:700" class="title">{{ card.card_title }}</p>
                                     </a>
-                                    {% comment %} {% if card.card_text %}
-                                        <div class="card-text">
-                                            {{ card.card_text|richtext|truncatewords_html:10 }}
-                                        </div>
-                                    {% endif %} {% endcomment %}
+                                   
                                     <div class="card-meta" style="{% if card.card_meta %}justify-content:space-between;{% endif %}">
                                         {% if card.card_meta %}
                                             <span class="" style="font-size:16px;" >{{ card.card_meta }}</span>
@@ -199,8 +184,8 @@
             </div>
         </div>
     </div>
-</section>
-{% endif %}
+</section> {% endcomment %}
+{% comment %} {% endif %} {% endcomment %}
 
 {% block extra_js %}
     {% if settings.site_settings.OrganisationSetting.facebook %}
