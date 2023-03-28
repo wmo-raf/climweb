@@ -11,6 +11,7 @@
 {% block body_class %}climate_change{% endblock %}
 
 {% block content %}
+<main class="is-index">
     {% include 'hero.html' with page=page %}
         <section class="nmhs-work is-desktop" style="padding:6em 0">
             <div class="work container">
@@ -113,6 +114,7 @@
                 </div>
             </section>
         {% endif %}
+        </main>
 
 {% endblock content %}
 
