@@ -222,6 +222,7 @@ class VacancyDetailPage(Page):
             return True
         return False
 
+    
     def save(self, *args, **kwargs):
         if not self.title.istitle():
             self.title = self.title.title()

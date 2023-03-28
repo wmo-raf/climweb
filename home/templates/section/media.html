@@ -6,30 +6,108 @@
 {% endblock %}
 
 {% if page.youtube_playlist %}
-<section style="background-color:#f9f9f9; padding-top: 4rem; padding-bottom: 4rem;">
+<section style="background-color:#f9f9f9; padding-top: 4rem; padding-bottom: 4rem;" class="has-text-centered ">
 
-    <div class="container">
-        <div class="columns is-align-items-center is-justify-content-center is-centered">
-            <div class="column is-4">
-                <div class="content">
-                    <h2 class="title py-4" style="font-size: 29px; font-weight:700"> {{page.video_section_title}}</h2>
-                    <p style="font-size:14px">{{page.video_section_desc}}
-                    </p>
+    <div class="container is-align-content-center">
 
-                    <a class="button is-dark">More</a>
+        <h2 class="title py-6" style="font-weight:700">{{page.video_section_title}}</h2>
 
+        {% include 'videos_skeleton_home.html' %}
+
+        <div class="columns is-centered py-6">
+            {% if  settings.site_settings.OrganisationSetting.twitter %}
+                <div class="column is-6" >
+                    {% comment %} <div>
+                        <h3 class="social-media-feed-item-title">
+                            <span class="icon">
+                                <i class="fab fa-twitter"></i>
+                            </span>
+                            <span>Twitter Feed</span>
+                        </h3>
+                    </div> {% endcomment %}
+                    <div class="social-media-feed-item box">
+                        <a class="twitter-timeline"
+                            data-tweet-limit="10"
+                            data-dnt="true"
+                            href="{{settings.site_settings.OrganisationSetting.twitter}}">
+                            Fecthing Tweets from {{ settings.site_settings.OrganisationSetting.twitter }}
+                        </a>
+                    </div>
                 </div>
-
-            </div>
-            <div class="column is-8">
-                {% include 'videos_skeleton_home.html' %}
-            </div>
+            {% endif %}
+            {% if settings.site_settings.OrganisationSetting.facebook %}
+                <div class="column is-6">
+                    {% comment %} <h3 class="social-media-feed-item-title"><span class="icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </span>
+                        <span>Facebook Feed</span></h3> {% endcomment %}
+                    <div class="social-media-feed-item box">
+                        <div class="fb-page"
+                                data-href="{{settings.site_settings.OrganisationSetting.facebook}}"
+                                data-tabs="timeline"
+                                data-width="1200"
+                                data-height="700"
+                                data-small-header="true"
+                                data-adapt-container-width="true"
+                                data-hide-cover="false"
+                                data-show-facepile="false">
+                            <blockquote
+                                    cite="{{settings.site_settings.OrganisationSetting.facebook}}"
+                                    class="fb-xfbml-parse-ignore">
+                                <a href="{{settings.site_settings.OrganisationSetting.facebook}}">
+                                    Fetching Facebook Feed
+                                    from {{ settings.site_settings.OrganisationSetting.facebook }}
+                                </a>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
+    
 </section>
 {% endif %}
 
 
+
+{% if page.latest_updates %}
+{% comment %} {% with page.latest_updates.news.card_props as card %} {% endcomment %}
+    <section class="climate-change-publications">
+        <div class="container">
+            <h2 class="title pt-6 pb-6 has-text-centered" style="font-weight:700">Latest Updates</h2>
+
+            <div class="columns is-multiline is-centered update-items">
+                {% for update in page.latest_updates %}
+                    <div class="column is-one-quarter-desktop is-half-tablet is-full-mobile update-item is-centered">
+                        {% include 'update_card_include.html' with card=update.card_props show_type=True %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="more-container has-double">
+                {% if settings.core.ImportantPages.all_news_page %}
+                    <a href="{{ settings.core.ImportantPages.all_news_page.url }}" class="more">
+                        All News
+                        <span class="icon">
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                {% endif %}
+                {% if settings.core.ImportantPages.all_publications_page %}
+                    <a href="{{ settings.core.ImportantPages.all_publications_page.url }}" class="more">
+                        All Publications
+                        <span class="icon">
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </span>
+                    </a>
+
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+{% comment %} {% endwith %} {% endcomment %}
+{% endif %}
 {% comment %} {% if settings.site_settings.OrganisationSetting.facebook or settings.site_settings.OrganisationSetting.twitter %} {% endcomment %}
 {% comment %} <section class="social-media-feed-section" style="padding-top: 4rem; padding-bottom: 4rem;">
     <div class="container">

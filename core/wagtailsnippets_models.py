@@ -15,9 +15,11 @@ from wagtail.admin.panels import PageChooserPanel
 @register_snippet
 class ServiceCategory(models.Model):
     name = models.CharField(max_length=255)
+    icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT, blank=True, null=True)
 
     panels = [
         FieldPanel('name'),
+        WebIconChooserPanel('icon'),
     ]
 
     api_fields = [

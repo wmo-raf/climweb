@@ -1,5 +1,5 @@
 {% load static %}
-{% load  wagtailimages_tags lazyimages_tags wagtailcore_tags%}
+{% load  wagtailimages_tags lazyimages_tags wagtailcore_tags svg%}
 
 
 {% if self.get_services.services.all %}
@@ -7,48 +7,35 @@
 <section style="padding-top: 4rem; padding-bottom: 4rem;" class="has-text-centered">
 
     <div class="container is-justify-content-center ma-2">
-        <h2 class="title py-4" style="font-size: 27px; font-weight:700"> Our Service Areas</h2>
+        <h2 class="title py-4" style=" font-weight:700"> Our Service Areas</h2>
 
-        <div class="columns has-text-left is-multiline is-justify-content-center">
-
+        <div class="columns is-multiline is-mobile intro-items">
             {% for service in self.get_services.services.all %}
-            {% image service.banner_image original as img %}
 
-            <div class="column is-one-quarter-desktop is-full-mobile">
-                <a href="{{service.url}}">
-                <div class="card m-1" style="border-radius: 1em; height:100%">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img class="progressive__img progressive--not-loaded feature-block-image"
-                            data-progressive="{{ img.url }}"
-                            src="{% lazy_image_url img %}"
-                            alt="{{ value.title }}"
-                                style="border-radius: 1em 1em 0 0">
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="media">
-
-                            <div class="media-content">
-                                <p class="has-text-weight-bold" style="font-size:17px">{{service.banner_title}}</p>
-
-                            </div>
-                        </div>
-
-                        <div class="content" style="font-size: 14px;">
-                            {{service.introduction_text|richtext|truncatechars_html:90}}
-
+            <a href="{{service.url}}" class="column is-half-mobile is-half-tablet is-one-quarter-desktop service-item">
+                <figure class="image is-64x64">
+                    <div class="service-icon-container">
+                        <img class="service-icon-bg-img" src="{% static '/icons/icon-bg.svg' %}" alt="">
+                        <div class="service-icon">
+                            
+                            {% if service.service.icon %}
+                                {% svg service.service.icon %}
+                            {% endif %}                            
                         </div>
                     </div>
+                </figure>
+                <div class="service-detail">
+                    
+                    <p class="intro-item-title dark-grey">
+                        {{service.banner_title}}
+                    </p>
+                    
                 </div>
             </a>
 
-            </div>
             {% endfor %}
-            
-           
-
         </div>
+       
     </div>
 
 
