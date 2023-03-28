@@ -12,7 +12,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.forms import CheckboxSelectMultiple
-from django.template.defaultfilters import truncatechars
+from django.template.defaultfilters import truncatechars,date
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -21,6 +21,7 @@ from modelcluster.models import ClusterableModel
 from timezone_field import TimeZoneField
 from wagtail.admin.panels import (FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel,)
 from wagtail.admin.panels import TabbedInterface, ObjectList 
+from wagtail.templatetags.wagtailcore_tags import richtext
 from wagtail.admin.mail import send_mail
 from wagtail.api import APIField
 from wagtail.contrib.forms.forms import WagtailAdminFormPageForm
@@ -39,6 +40,7 @@ from cms_pages.wagtailzoom.models import ZoomBatchRegistration
 from core import blocks 
 from core.models import EventType
 from core.utils import get_pytz_gmt_offset_str
+
 from core.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string, get_object_or_none
 from organisation_pages.events.blocks import PanelistBlock, EventSponsorBlock, SessionBlock
 from .views import CustomSubmissionsListView
@@ -326,6 +328,19 @@ class EventPage( Page, ZoomEventsModel):
         return None
 
     @cached_property
+    def card_props(self):
+
+        return {
+            "card_image": self.image,
+            "card_title": self.title,
+            "card_text": self.description,
+            "card_meta": date(self.date_from, 'd M Y'),
+            "card_more_link": self.url,
+            "card_tag": self.event_type,
+            "card_tags": ""
+        }
+        
+    @cached_property
     def registration_page(self):
         return self.get_first_child()
 
@@ -379,8 +394,6 @@ class EventPage( Page, ZoomEventsModel):
         return get_pytz_gmt_offset_str(self.timezone)
 
     def save(self, *args, **kwargs):
-        # if not self.search_image and self.image:
-            # self.search_image = self.image
         if not self.search_description and self.description:
             p = get_first_non_empty_p_string(self.description)
             if p:

@@ -197,3 +197,44 @@
 
 
 }
+
+
+.service-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+}
+
+.service-icon-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+}
+
+.service-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%
+}
+
+.service-icon-bg-img {
+    height: 100%;
+    width: 100%;
+}
+
+.service-icon {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0
+}
+
+.service-icon > svg {
+    height: 100%;
+    width: 100%;
+    color: grey;
+}

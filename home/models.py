@@ -21,6 +21,8 @@ from layer_manager.models import WMSRequest, LegendItem, LayerCategory
 from media_pages.videos.models import YoutubePlaylist
 from media_pages.publications.models import PublicationPage
 from media_pages.news.models import NewsPage
+from organisation_pages.vacancies.models import VacancyDetailPage
+from organisation_pages.events.models import EventPage
 
 class HomePage(Page):
     templates = "home_page.html"
@@ -134,23 +136,32 @@ class HomePage(Page):
 
     @cached_property
     def latest_updates(self):
+        updates = []
 
         # get latest news, publication, crop monitor, seasonal forecast, food security statement,
         news = NewsPage.objects.live().filter(is_visible_on_homepage=True).order_by('-date').first()
+        events = EventPage.objects.live().filter(is_visible_on_homepage=True).order_by('-date_from').first()
+
+        if events is None:
+            events = EventPage.objects.live().order_by('-date_from').first()
 
         if news is None:
             news = NewsPage.objects.live().order_by('-date').first()
 
-        publication = PublicationPage.objects.live().filter(is_visible_on_homepage=True).order_by(
+        publications = PublicationPage.objects.live().filter(is_visible_on_homepage=True).order_by(
             '-publication_date').first()
 
-        if publication is None:
-            publication = PublicationPage.objects.live().order_by('-publication_date').first()
+        if publications is None:
+            publications = PublicationPage.objects.live().order_by('-publication_date').first()
 
-        return {
-            'news':news,
-            'publication':publication
-        }
+        if news:
+            updates.append(news)
+        if events:
+            updates.append(events)
+        if publications:
+            updates.append(publications)
+       
+        return updates
 
 
     @cached_property
