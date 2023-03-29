@@ -6,9 +6,9 @@
         {{item.text}}
       </a>
 
-      <div class="navbar-dropdown" >
-        {% sub_menu item %} 
-      </div>
+        <div class="navbar-dropdown {% if item.text == 'Services'%} megamenu {% endif %}">
+          {% sub_menu item %} 
+        </div>
     </div>
  {% else %}
  <a class="navbar-item" href="{{item.href}}"> {{item.text}} </a>
