@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"nmhs_cms.settings.{os.getenv('ENVIRONMENT', 'production')}")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"nmhs_cms.settings.{os.getenv('ENVIRONMENT', 'dev')}")
 
 application = get_wsgi_application()
