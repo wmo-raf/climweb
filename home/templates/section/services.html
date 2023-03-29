@@ -1,5 +1,5 @@
 {% load static %}
-{% load  wagtailimages_tags lazyimages_tags wagtailcore_tags svg%}
+{% load  wagtailimages_tags lazyimages_tags wagtailcore_tags nmhs_cms_tags%}
 
 
 {% if self.get_services.services.all %}
@@ -19,7 +19,7 @@
                         <div class="service-icon">
                             
                             {% if service.service.icon %}
-                                {% svg service.service.icon %}
+                                {% svg service.service.icon.file.name %}
                             {% endif %}                            
                         </div>
                     </div>
