@@ -82,7 +82,7 @@ main section {
 
 
 .megamenu .navbar-item svg {
-    color: rgb(0, 153, 151);
+    color: #3e8ed0;
 }
 
 
@@ -114,12 +114,12 @@ main section {
     width: 100% !important;
 }
 
-.megamenu .navbar-item svg path {
+/* .megamenu .navbar-item svg path {
     fill: currentColor !important;
-}
+} */
 
 .megamenu .navbar-item svg:hover {
-    color: rgb(0, 153, 151) !important;
+    color: #3e8ed0 !important;
 }
 
 
@@ -131,7 +131,7 @@ main section {
 }
 
 .service-item:hover svg, .service-item:hover .service-detail .intro-item-title {
-    color: #213e56 !important;
+    color: #3e8ed0 !important;
     font-weight: bold;
 }
 
@@ -412,3 +412,6 @@ input[type='checkbox'] {
 }
 
 
+.navbar-dropdown a.navbar-item:focus, .navbar-dropdown a.navbar-item:hover {
+    background-color: transparent;
+}

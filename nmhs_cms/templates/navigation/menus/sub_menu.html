@@ -1,8 +1,35 @@
-{% load menu_tags %}
+{% load menu_tags nmhs_cms_tags%}
+
+{% if item.text != 'Services' %}
 
 {% for item in menu_items %}
-    <a class="navbar-item {{ item.active_class }}" href="{{ item.href }}" style="color:#333; text-transform:capitalize; font-weight:500">
-        {{ item.text }}
-    </a>
+<a class="navbar-item {{ item.active_class }}" href="{{ item.href }}"
+    style="color:#333; text-transform:capitalize; font-weight:500">
+    {{ item.text }}
+</a>
 
 {% endfor %}
+
+{% else %}
+
+<div class="columns is-multiline" style="padding: 1em">
+    {% for item in menu_items %}
+    <div class="column is-half py-0">
+
+        <a class="navbar-item {{ item.active_class }}" href="{{ item.href }}"
+            style="color:#333; text-transform:capitalize; font-weight:500">
+            {% if item.service.icon %}
+                {% svg item.service.icon.file.name %}
+            {% endif %}
+            <p class="nav-dropdown-item-title">
+                {{ item.text }}
+            </p>
+        </a>
+    </div>
+
+    {% endfor %}
+
+
+</div>
+
+{% endif %}
