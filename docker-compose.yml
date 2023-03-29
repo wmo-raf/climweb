@@ -11,7 +11,6 @@ services:
     expose:
       - 8000
     environment: 
-      - DEBUG='TRUE'
       - DB_PORT_CMS=${POSTGRES_PORT_CMS}
       - DB_NAME_CMS=${POSTGRES_DB_CMS}
       - DB_PASSWORD_CMS=${POSTGRES_PASSWORD_CMS}
@@ -24,6 +23,7 @@ services:
       - MEDIA_URL=${MEDIA_URL}
       - STATIC_URL=${STATIC_URL}
       - BASE_PATH=${BASE_PATH}
+      - CMS_HOST=${CMS_HOST}
     depends_on:
       - cms_db
     # ports:
