@@ -10,6 +10,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from forecast_manager import urls as forecast_urls
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib.auth.views import LoginView
+from home.views import list_forecasts
 
 from search import views as search_views
 from capeditor import urls as cap_urls
@@ -26,17 +27,14 @@ class IdentifierConverter:
 register_converter(IdentifierConverter, 'identifier')
 
 urlpatterns = [
-        # path('cms/<slug:slug>/', wagtail_serve, name='wagtailcore_serve'),
-
+    # path('cms/<slug:slug>/', wagtail_serve, name='wagtailcore_serve'),
     path(f"{os.getenv('BASE_PATH', '')}"+"django-admin/", admin.site.urls),
     path(f"{os.getenv('BASE_PATH', '')}"+"admin/", include(wagtailadmin_urls), name='admin'),
     path(f"{os.getenv('BASE_PATH', '')}"+"documents/", include(wagtaildocs_urls)),
     path(f"{os.getenv('BASE_PATH', '')}"+"forecast/", include(forecast_urls)),
+    path(f"{os.getenv('BASE_PATH', '')}"+"list_forecast/", list_forecasts, name="list_forecasts"),
     path(f"{os.getenv('BASE_PATH', '')}"+"cap/", include(cap_urls)),
-
     path(f"{os.getenv('BASE_PATH', '')}"+"search/", search_views.search, name="search"),
-
-
 ]
 
 
