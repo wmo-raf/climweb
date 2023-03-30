@@ -135,7 +135,7 @@
                 new maplibregl.Popup()
                     .setLngLat(e.lngLat)
                     .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:18px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity}</p></div>`)
-                    .addTo(map);
+                    .addTo(forecast_map);
             });
 
             // Change the cursor to a pointer when the mouse is over the places layer.
