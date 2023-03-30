@@ -13,6 +13,7 @@ function triggerHtmlEvent(element, eventName) {
 
 function doGoogleLanguageTranslator(default_lang, lang_prefix) {
     console.log(default_lang, )
+    console.log(lang_prefix, )
     let event;
 
     const classic = $(".goog-te-combo");

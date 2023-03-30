@@ -1,7 +1,7 @@
  $(document).ready(function() {
     // code to be executed when the DOM is ready
  
-    const map = new maplibregl.Map({
+    const forecast_map = new maplibregl.Map({
         container: "home-map", // container ID
         style: basemap,
         center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
@@ -11,7 +11,7 @@
     });
 
     // Add zoom and rotation controls to the map.
-    map.addControl(new maplibregl.NavigationControl());
+    forecast_map.addControl(new maplibregl.NavigationControl());
 
     var allAreas = $(".alert-area")
         .map(function () {
@@ -19,7 +19,7 @@
         })
         .get();
 
-    map.on("load", () => {
+        forecast_map.on("load", () => {
 
         if (country_geom) {
             const wktWithoutSrids = country_geom.replace(/^SRID=\d+;/, "");
@@ -32,6 +32,7 @@
 
             // loop through each match of the pattern and extract the coordinates
             let match;
+
             while ((match = pattern.exec(wktWithoutSrids)) !== null) {
                 // split the match into individual coordinates
                 const coords = match[1].trim().split(', ');
@@ -55,8 +56,7 @@
                 type: "FeatureCollection",
                 features: [multipolyFeature],
             });
-            map.fitBounds(bounds, { padding: 20 });
-
+            forecast_map.fitBounds(bounds, { padding: 20 });
         }
 
         if (allAreas.length > 0) {
@@ -92,7 +92,7 @@
                 }
             });
 
-            map.addSource("alert-areas", {
+            forecast_map.addSource("alert-areas", {
                 type: "geojson",
                 data: {
                     type: "FeatureCollection",
@@ -100,7 +100,7 @@
                 },
             });
 
-            map.addLayer({
+            forecast_map.addLayer({
                 id: "alert-areas-layer",
                 type: "fill",
                 source: "alert-areas",
@@ -126,7 +126,7 @@
 
             // When a click event occurs on a feature in the places layer, open a popup at the
             // location of the feature, with description HTML from its properties.
-            map.on("click", "alert-areas-layer", (e) => {
+            forecast_map.on("click", "alert-areas-layer", (e) => {
                 // Copy coordinates array.
                 const description = e.features[0].properties.areaDesc;
                 const severity = e.features[0].properties.severityInfo;
@@ -139,13 +139,13 @@
             });
 
             // Change the cursor to a pointer when the mouse is over the places layer.
-            map.on("mouseenter", "alert-areas-layer", () => {
-                map.getCanvas().style.cursor = "pointer";
+            forecast_map.on("mouseenter", "alert-areas-layer", () => {
+                forecast_map.getCanvas().style.cursor = "pointer";
             });
 
             // Change it back to a pointer when it leaves.
-            map.on("mouseleave", "alert-areas-layer", () => {
-                map.getCanvas().style.cursor = "";
+            forecast_map.on("mouseleave", "alert-areas-layer", () => {
+                forecast_map.getCanvas().style.cursor = "";
             });
         }
 
@@ -159,8 +159,8 @@
                     let img = new Image()
 
                     img.onload = () => {
-                        if (!map.hasImage(city.properties.condition_icon)) {
-                            return map.addImage(`${city.properties.condition_icon}`, img)
+                        if (!forecast_map.hasImage(city.properties.condition_icon)) {
+                            return forecast_map.addImage(`${city.properties.condition_icon}`, img)
                         }
 
                     }
@@ -170,12 +170,12 @@
                 })
             })
             // initial loading of forecasts
-            map.addSource("city-forecasts", {
+            forecast_map.addSource("city-forecasts", {
                 type: "geojson",
                 data: cityForecasts[0].forecast_features
             })
 
-            map.addLayer({
+            forecast_map.addLayer({
                 id: "city-forecasts",
                 source: "city-forecasts",
                 type: "symbol",
@@ -193,7 +193,7 @@
                     // 'icon-halo-blur': 100,
                 }
             })
-            map.addLayer({
+            forecast_map.addLayer({
                 id: "city-forecasts-max_temp",
                 source: "city-forecasts",
                 type: "symbol",
@@ -212,7 +212,7 @@
                 }
 
             })
-            map.addLayer({
+            forecast_map.addLayer({
                 id: "city-forecasts-min_temp",
                 source: "city-forecasts",
                 type: "symbol",
@@ -239,28 +239,28 @@
                 var valueSelected = this.value;
                 var selectedForecast = cityForecasts.find(forecast => forecast.forecast_date === valueSelected)
 
-                if (map.getLayer("city-forecasts")) {
-                    map.removeLayer("city-forecasts");
+                if (forecast_map.getLayer("city-forecasts")) {
+                    forecast_map.removeLayer("city-forecasts");
                 }
-                if (map.getLayer("city-forecasts-max_temp")) {
-                    map.removeLayer("city-forecasts-max_temp");
-                }
-
-                if (map.getLayer("city-forecasts-min_temp")) {
-                    map.removeLayer("city-forecasts-min_temp");
-                }
-                if (map.getSource("city-forecasts")) {
-                    map.removeSource("city-forecasts");
+                if (forecast_map.getLayer("city-forecasts-max_temp")) {
+                    forecast_map.removeLayer("city-forecasts-max_temp");
                 }
 
+                if (forecast_map.getLayer("city-forecasts-min_temp")) {
+                    forecast_map.removeLayer("city-forecasts-min_temp");
+                }
+                if (forecast_map.getSource("city-forecasts")) {
+                    forecast_map.removeSource("city-forecasts");
+                }
 
 
-                map.addSource("city-forecasts", {
+
+                forecast_map.addSource("city-forecasts", {
                     type: "geojson",
                     data: selectedForecast.forecast_features
                 })
 
-                map.addLayer({
+                forecast_map.addLayer({
                     id: "city-forecasts",
                     source: "city-forecasts",
                     type: "symbol",
@@ -297,7 +297,7 @@
                 //   }
                 // })
 
-                map.addLayer({
+                forecast_map.addLayer({
                     id: "city-forecasts-max_temp",
                     source: "city-forecasts",
                     type: "symbol",
@@ -315,7 +315,7 @@
                     }
 
                 })
-                map.addLayer({
+                forecast_map.addLayer({
                     id: "city-forecasts-min_temp",
                     source: "city-forecasts",
                     type: "symbol",
@@ -339,7 +339,7 @@
 
             // When a click event occurs on a feature in the places layer, open a popup at the
             // location of the feature, with description HTML from its properties.
-            map.on("click", "city-forecasts", (e) => {
+            forecast_map.on("click", "city-forecasts", (e) => {
                 // Copy coordinates array.
                 const city_name = e.features[0].properties.city_name;
                 const condition_desc = e.features[0].properties.condition_desc;
@@ -360,17 +360,17 @@
                     <p><b>Wind Direction: </b>${wind_direction} °</p> 
                     <p><b>Wind Speed: </b>${wind_speed} km/hr</p>
                 </div>`)
-                    .addTo(map);
+                    .addTo(forecast_map);
             });
 
             // Change the cursor to a pointer when the mouse is over the places layer.
-            map.on("mouseenter", "city-forecasts", () => {
-                map.getCanvas().style.cursor = "pointer";
+            forecast_map.on("mouseenter", "city-forecasts", () => {
+                forecast_map.getCanvas().style.cursor = "pointer";
             });
 
             // Change it back to a pointer when it leaves.
-            map.on("mouseleave", "city-forecasts", () => {
-                map.getCanvas().style.cursor = "";
+            forecast_map.on("mouseleave", "city-forecasts", () => {
+                forecast_map.getCanvas().style.cursor = "";
             });
 
         }
