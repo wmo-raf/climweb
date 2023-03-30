@@ -360,7 +360,7 @@ $(document).ready(function () {
                 }
             }
         });
-        const default_lang = "en"
+        const default_lang = "en-us"
 
         $(".languages a").on("click", function () {
 
