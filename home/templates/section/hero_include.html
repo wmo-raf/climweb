@@ -9,7 +9,7 @@
 {% image page.hero_banner original as img %}
 
 <div style="position: relative;">
-<section id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; max-height:fit-content"
+<div id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; max-height:fit-content"
   data-progressive="{{img.url}}">
   <div class="hero-body has-text-centered pb-2">
     <div class="container">
@@ -229,7 +229,7 @@
     </div>
 </div>
 
-</section>
+</div>
 
 {% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
 <div class="overlay overlay_1">
