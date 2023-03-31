@@ -38,11 +38,11 @@
         </div>
     </div>
     <div class="update-card-content">
-        <h5 class="update-card-title">
+        <p class="update-card-title has-text-weight-bold">
             <a href="{{ card.card_more_link }}">
                 {{ card.card_title }}
             </a>
-        </h5>
+        </p>
         {% if card.card_text  and not show_card_text == False %}
             <div class="update-card-text">
                 {{ card.card_text|richtext|truncatechars_html:100 }}

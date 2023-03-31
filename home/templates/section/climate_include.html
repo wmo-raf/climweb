@@ -1,8 +1,21 @@
-{% load static %}
+{% load static nmhs_cms_tags%}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/climate.css' %}" type="text/css" />
 
+<style>
+  svg {
+    margin-right: 0.5em;
+    height: 30px;
+    width: 30px;
+    background-color: rgba(73, 73, 73, 0.8);
+    padding: 5px;
+    max-height: 30px;
+    border-radius:100%
+  }
+
+
+</style>
 {% endblock extra_css %}
 
 {% if self.enable_climate == True %}
@@ -52,14 +65,22 @@
 
               <div class="layer-list-items">
                 {% for layer in self.get_wms_layers.wms_layers %}
-                <h2 id="{{layer.id}}"
-                  data-category="{{ layer.category_id }}"
-                  class="layer-item subtitle {% if forloop.first %}active{% endif %} "
-                  style="{% if layer.category_id == selected_category.category_id %}display:block {% else %} display:none{% endif %}"
-                  >
+                <div style="align-items: flex-start;{% if layer.category_id == selected_category.category_id %}display:flex; {% else %} display:none;{% endif %} padding: 0.5em 0"
+                class="layer-list-block {% if forloop.first %} active{% endif %}"
+                data-category="{{ layer.category_id }}"
+                id="{{layer.id}}"
+                >
+                {% if layer.icon %}
+                  <figure class="image layer-icon">
+                      {% svg layer.icon__file %}
+                  </figure>
+                  {% endif %}
+                <h2 
+                  class="layer-item subtitle">
+                  
                   {{layer.title}}
                 </h2>
-
+              </div>
                 {% endfor %}
               </div>
 

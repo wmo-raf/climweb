@@ -34,22 +34,18 @@ $(document).ready(function() {
     const wmsTime = roundToNearestHour(displayTime).toISOString()
     
     const categoryButtons = document.querySelectorAll('.category-btn');
+    $('#floating-legend').html(`
+    <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${wms_layers[0].title}</p>
+    <p style="margin:0;font-size:12px;" class="subtitle">${wms_layers[0].subtitle}</p>
+    <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> ${displayTime} </p>
 
-    
-
- 
-      $('#floating-legend').html(`
-      <p style="font-weight:600; font-size:14px;margin-bottom:0" class="title">${wms_layers[0].title}</p>
-      <p style="margin:0;font-size:12px;" class="subtitle">${wms_layers[0].subtitle}</p>
-      <p style="margin:0;font-size:12px;" class="subtitle"><b>Period:</b> ${displayTime} </p>
-    
-      <div style="width: 100%;
-          height: 0.3em;
-          position: relative;
-          margin-bottom:2em;
-          background: linear-gradient(to right,${wms_layers[0].legend_colors.map(legend => legend.item_color)});
-        ">
-        ${wms_layers[0].legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${wms_layers[0].legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")} </div>`)
+    <div style="width: 100%;
+        height: 0.3em;
+        position: relative;
+        margin-bottom:2em;
+        background: linear-gradient(to right,${wms_layers[0].legend_colors.map(legend => legend.item_color)});
+    ">
+    ${wms_layers[0].legend_colors.map((legend, i) => `<span class="stop-label" style="left: calc( (100% / ${wms_layers[0].legend_colors.length}) * (${i}) )">${legend.item_val}</span>`).join(" ")} </div>`)
     
         
 
@@ -125,9 +121,8 @@ $(document).ready(function() {
             }
         }
 
-      
         // Get all the items
-        const layer_items = document.querySelectorAll('.layer-item');
+        const layer_items = document.querySelectorAll('.layer-list-block');
 
     
         fetch(`http://20.56.94.119/api/geostore/admin/${countryIso}?thresh=0.005`)
@@ -170,21 +165,26 @@ $(document).ready(function() {
                         const category = button.dataset.category;
 
                         // Get all the layers
-                        const layers = document.querySelectorAll('.layer-item');
-
+                        const layers = document.querySelectorAll('.layer-list-block');
 
                         var match_layers = []
+                        
+                        
                         layers.forEach(layer => {
-                          
+                            
                            if(layer.dataset.category === category) {
                             match_layers.push(layer)
-                            layer.style.display = 'block';
+                            layer.style.display = 'flex';
+
                            }else{
                             layer.style.display = 'none';
 
+                            
                            }
 
                         })
+
+                        console.log(match_layers)
 
                         match_layers[0].classList.add('active')
                         var selected_layer = wms_layers.find(layer_item => layer_item.id == match_layers[0].id )
@@ -217,10 +217,14 @@ $(document).ready(function() {
                             //}
                         }, cityLabel, countryLabel, admin1Boundaries, admin0Boundaries);
 
+
                         match_layers.forEach(layer => {
                             
                             layer.addEventListener('click', (e) => {
-                                
+                                [].forEach.call(match_layers, function(el) {
+                                    el.classList.remove("active");
+                                });
+        
                                 e.target.classList.add('active')
 
                                 
@@ -235,14 +239,14 @@ $(document).ready(function() {
                 layer_items.forEach(item => {
 
                     item.addEventListener('click', (e) => {
-                        // Remove the active class from all items
                         [].forEach.call(layer_items, function(el) {
                             el.classList.remove("active");
                         });
+                        console.log(e.target.parentNode.classList)
 
-                        e.target.classList.add('active')
-
-
+                        e.target.parentNode.classList.add('active')
+                        // Remove the active class from all items
+                       
                         wms_layers.map(layer => {
 
                             if (layer.id == item.id) {
