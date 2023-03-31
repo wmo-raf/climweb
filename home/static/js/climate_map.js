@@ -186,6 +186,10 @@ $(document).ready(function() {
 
                         console.log(match_layers)
 
+                        match_layers.forEach(layer => {
+                            layer.classList.remove('active')
+
+                        })
                         match_layers[0].classList.add('active')
                         var selected_layer = wms_layers.find(layer_item => layer_item.id == match_layers[0].id )
                         addLegend(selected_layer)
@@ -225,7 +229,7 @@ $(document).ready(function() {
                                     el.classList.remove("active");
                                 });
         
-                                e.target.classList.add('active')
+                                e.target.parentNode.classList.add('active')
 
                                 
                             })
@@ -242,7 +246,6 @@ $(document).ready(function() {
                         [].forEach.call(layer_items, function(el) {
                             el.classList.remove("active");
                         });
-                        console.log(e.target.parentNode.classList)
 
                         e.target.parentNode.classList.add('active')
                         // Remove the active class from all items
