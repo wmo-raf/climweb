@@ -255,7 +255,7 @@ class HomePage(Page):
     @cached_property
     def get_wms_layers(self):
         wms_layers = WMSRequest.objects.all()
-        wms_vals = list(wms_layers.values('id', 'title', 'subtitle', 'version', 'width', 'height','transparent', 'srs' , 'format', 'layers__name', 'legend_id', 'category_id', 'base_url'))
+        wms_vals = list(wms_layers.values('id', 'title', 'subtitle', 'version', 'width', 'height','transparent', 'srs' , 'format', 'layers__name', 'legend_id', 'category_id', 'base_url', 'icon', 'icon__file'))
         for val in wms_vals:
             legends = LegendItem.objects.filter(legend_id =val['legend_id'] )
             category = LayerCategory.objects.get(id = val['category_id'])

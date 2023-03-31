@@ -4,6 +4,7 @@ from django.db import models
 from wagtail.models import Orderable, Page, ParentalKey, ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel
 from wagtail.snippets.models import register_snippet
+from cms_pages.webicons.edit_handlers import WebIconChooserPanel
 
 
 # Create your models here.
@@ -20,6 +21,13 @@ class WMSRequest(ClusterableModel):
     title = models.CharField(max_length=250, null=False, blank=False, help_text="Title of your layer", verbose_name="Layer Title")
     subtitle = models.CharField(max_length=250, null=True, blank=True, help_text="Subtitle of your layer", verbose_name="Layer Subtitle")
     category = models.ForeignKey("LayerCategory", on_delete=models.CASCADE, null=True, verbose_name="Layer Categories")
+    icon = models.ForeignKey(
+        'webicons.WebIcon',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     base_url = models.CharField(max_length=250, help_text="BASE URL for WMS", default="http://20.56.94.119/gsky/ows/gfs", verbose_name="BASE URL for WMS")
     version = models.CharField(max_length=50, help_text="WMS Version", default="1.1.1", verbose_name="WMS Version")
     width = models.IntegerField(default=250, help_text="The size of the map image in pixels along the i axis", verbose_name="Pixel Width")
@@ -33,6 +41,7 @@ class WMSRequest(ClusterableModel):
         FieldPanel("title"),
         FieldPanel("subtitle"),
         FieldPanel("category"),
+        WebIconChooserPanel('icon'),
         MultiFieldPanel([
             FieldPanel("base_url"),
             FieldPanel("version"),
