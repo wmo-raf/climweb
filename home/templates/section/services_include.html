@@ -13,7 +13,7 @@
             {% for service in self.get_services.services.all %}
 
             <a href="{{service.url}}" class="column is-half-mobile is-half-tablet is-one-quarter-desktop service-item">
-                <figure class="image is-64x64">
+                <figure class="image" style="height:50px;width: 50px">
                     <div class="service-icon-container">
                         <img class="service-icon-bg-img" src="{% static '/icons/icon-bg.svg' %}" alt="">
                         <div class="service-icon">
