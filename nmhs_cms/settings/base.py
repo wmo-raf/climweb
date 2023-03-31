@@ -265,7 +265,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Wagtail settings
 # SITE_NAME="nmhs_cms"
-WAGTAIL_SITE_NAME = "nmhs_cms"
+WAGTAIL_SITE_NAME = "NMHS Content Management System"
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html

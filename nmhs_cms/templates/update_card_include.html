@@ -25,13 +25,13 @@
             {% if not show_card_tag == False %}
                 {% if card.card_tag or card.card_tag_category %}
                     {% if show_type and card.card_tag_category %}
-                        <h5 class="update-card-tag">
+                        <p class="update-card-tag  has-text-weight-bold has-text-grey">
                             {{ card.card_tag_category }}
-                        </h5>
+                        </p>
                     {% else %}
-                        <h5 class="update-card-tag">
+                        <p class="update-card-tag has-text-weight-bold has-text-grey">
                             {{ card.card_tag }}
-                        </h5>
+                        </p>
                     {% endif %}
                 {% endif %}
             {% endif %}
