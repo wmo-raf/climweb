@@ -25,7 +25,7 @@ from organisation_pages.vacancies.models import VacancyDetailPage
 from organisation_pages.events.models import EventPage
 
 class HomePage(Page):
-    templates = "home_page.html"
+    template = "home_page.html"
 
     subpage_types = [
         'capeditor.AlertList', 
@@ -57,10 +57,12 @@ class HomePage(Page):
     enable_weather_forecasts = models.BooleanField(blank=True, default=True)
     enable_climate = models.BooleanField(blank=True, default=True)
     climate_title = models.CharField(blank=True, null=True, max_length=100, verbose_name='Climate Title', default='Explore Current Conditions')
+    
+    enable_media= models.BooleanField(blank=True, default=True)
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
         null=True,
-        blank=False,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
@@ -84,6 +86,7 @@ class HomePage(Page):
             FieldPanel('climate_title')
         ], heading = "Climate Section Section"),
         MultiFieldPanel([
+            FieldPanel('enable_media'),
             FieldPanel('video_section_title'),
             FieldPanel('video_section_desc'),
             FieldPanel('youtube_playlist'),

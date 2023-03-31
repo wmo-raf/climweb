@@ -8,7 +8,7 @@
 
 {% image page.hero_banner original as img %}
 
-<main style="position: relative;">
+<div style="position: relative;">
 <section id="page-hero" class="hero progressive__bg progressive--not-loaded" style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; max-height:fit-content"
   data-progressive="{{img.url}}">
   <div class="hero-body has-text-centered pb-2">
@@ -26,19 +26,15 @@
 
         <!-- forecasts section  -->
         {% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
-
         <div class="columns is-justify-content-center" style="position:inherit;z-index: 1 ">
             <div class="column is-11">
                 <div id="tabs-with-content">
                     <!-- tabs  -->
-                    <div class="tabs is-boxed is-centered">
+                    <div class="tabs is-boxed is-centered" style="background-color:transparent">
                         <ul>
-
                             {% for forecasts in self.get_forecast_by_city.forecasts %}
-                          
                             <li class="is-active box animate__animated" style="text-align: left;">
                                 {% with forecasts.forecast_items|first as latest_forcast %}
-
                                 <div class="city active">
                                     <div class="columns">
                                         <div class="column">
@@ -114,7 +110,7 @@
                     <div class="box">
                         {% for forecasts in self.get_forecast_by_city.forecasts %}
 
-                            <section class="tab-content p-0">
+                            <section class="tab-content p-0"  style="background-color:transparent">
 
                                 <div class="columns is-gapless is-multiline is-7 is-mobile">
 
@@ -240,7 +236,7 @@
 </section>
 {% endif %}    
 
-</main>
+</div>
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'js/hero.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/progressively.js' %}"></script>

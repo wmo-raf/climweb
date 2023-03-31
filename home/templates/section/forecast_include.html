@@ -20,8 +20,7 @@
             <h2 class="title pb-4" style="font-size: 23px; font-weight: 700;">
               Latest Weather Warnings
             </h2>
-            {% if self.get_alerts %}
-
+            {% if self.get_alerts.active_alerts %}
             {% for alert in self.get_alerts.active_alerts.all %}
             <div class="box" style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
               <a href="{{alert.url}}">
