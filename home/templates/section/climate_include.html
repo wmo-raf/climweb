@@ -3,19 +3,6 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/climate.css' %}" type="text/css" />
 
-<style>
-  svg {
-    margin-right: 0.5em;
-    height: 30px;
-    width: 30px;
-    background-color: rgba(73, 73, 73, 0.8);
-    padding: 5px;
-    max-height: 30px;
-    border-radius:100%
-  }
-
-
-</style>
 {% endblock extra_css %}
 
 {% if self.enable_climate == True %}
