@@ -50,6 +50,17 @@
     background-color: #3488ce;
   }
 
+  .layer-list .layer-list-block .layer-icon svg path{
+    fill: currentColor !important
+  }
+
+  .navbar-item svg path{
+    fill: currentColor !important
+
+  }
+
+  
+
   .layer-list .layer-item {
     cursor: pointer;
   }
@@ -84,4 +95,14 @@
 
   .layer-panel .layer-item {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+
+  .layer-icon svg {
+    margin-right: 0.5em;
+    height: 30px;
+    width: 30px;
+    background-color: rgba(73, 73, 73, 0.8);
+    padding: 5px;
+    max-height: 30px;
+    border-radius:100%
   }
