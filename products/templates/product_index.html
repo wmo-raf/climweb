@@ -8,8 +8,9 @@
 {% block body_class %}product-page{% endblock %}
 
 {% block content %}
-    {% include 'hero.html' with page=page %}
     <main class="is-index">
+
+    {% include 'hero.html' with page=page %}
         <section class="nmhs-work is-desktop">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page what_we_do=False %}
