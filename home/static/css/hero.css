@@ -113,6 +113,10 @@ body {
 
 .box {
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.124), 0 0 0 1px rgb(10 10 10 / 2%);
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .zoom {
@@ -140,7 +144,7 @@ body {
 
 .overlay {
     position: absolute;
-    background: rgba(255, 255, 255, 1);
+    background: #fff;
 
     /* center overlay text */
     display: flex;
