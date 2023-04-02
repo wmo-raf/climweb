@@ -139,7 +139,11 @@ class ProductPage(Page):
 
     @property
     def all_products(self):
-        return ProductItemPage.objects.live().order_by('-year', '-month')
+
+        product_items = self.get_children().specific().live().order_by('-productitempage__year', '-productitempage__month')
+
+        # Return the related items
+        return product_items
 
     def filter_products(self, request):
         products = self.all_products
