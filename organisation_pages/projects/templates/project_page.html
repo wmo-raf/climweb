@@ -151,8 +151,8 @@
 
 {% block extra_js %}
     <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
-    <script src="{% static 'js/jquery.event.move.js' %}"></script>
-    <script src="{% static 'js/jquery.twentytwenty.js' %}"></script>
+    {% comment %} <script src="{% static 'js/jquery.event.move.js' %}"></script> {% endcomment %}
+    {% comment %} <script src="{% static 'js/jquery.twentytwenty.js' %}"></script> {% endcomment %}
     <script>
         // If on smaller screens, collapse all filter items
         const windowWidth = $(window).width();
