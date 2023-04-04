@@ -4,7 +4,7 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
     # reading .env file
     environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-DEBUG = os.getenv('DEBUG', False)
+DEBUG =False
 SECRET_KEY = "django-insecure-5=&i=f&w$_2=ktbhw43anl(uxgue*-i23r!1uibrh9l7-$q-1#"
 
 try:
@@ -30,7 +30,7 @@ CACHES = {
         'TIMEOUT': 14400, # one hour (in seconds)
     }
 }
-ALLOWED_HOSTS = ['*'] 
+ALLOWED_HOSTS = [os.getenv('CMS_HOST'), 'localhost', '127.0.0.1'] 
 
 MANIFEST_LOADER = {
     'cache': True,
