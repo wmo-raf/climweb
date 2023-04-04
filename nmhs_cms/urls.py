@@ -14,6 +14,16 @@ from home.views import list_forecasts
 
 from search import views as search_views
 from capeditor import urls as cap_urls
+import environ
+
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
+
+if os.path.exists(os.path.join(BASE_DIR, '.env')):
+    # reading .env file
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 handler500 = 'core.views.handler500'
 
@@ -38,6 +48,7 @@ urlpatterns = [
     path(f"{os.getenv('BASE_PATH', '')}"+"cap/", include(cap_urls)),
     path(f"{os.getenv('BASE_PATH', '')}"+"search/", search_views.search, name="search"),
 ]
+
 
 if settings.DEBUG:
     from django.conf.urls.static import static
