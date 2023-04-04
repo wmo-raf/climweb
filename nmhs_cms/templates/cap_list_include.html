@@ -42,7 +42,7 @@
                             {{info.get_severity_display}}
                         </p>
                             {% for alert_area in info.alert_areas.values%}
-                            <span class="tag is-info"> <i class="fa fa-location-pin pr-1"> </i> {{alert_area.area_desc}}</span>
+                            <span class="tag is-info"> <i class="fa fa-location-pin pr-1"> </i> {{alert_area.areaDesc}}</span>
                             <input name="alert-area" class="alert-area-geom" id="area-{{ alert_area.id }}" type="hidden"
                             value='{"id":"{{alert.identifier}}", "severity":"{{info.severity}}","area":"{{ alert_area.area }}"}' />
 
