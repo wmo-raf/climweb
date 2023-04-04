@@ -15,6 +15,8 @@ from home.views import list_forecasts
 from search import views as search_views
 from capeditor import urls as cap_urls
 
+handler500 = 'core.views.handler500'
+
 class IdentifierConverter:
     regex = r'[A-Za-z0-9_-]+'
 
@@ -37,7 +39,6 @@ urlpatterns = [
     path(f"{os.getenv('BASE_PATH', '')}"+"search/", search_views.search, name="search"),
 ]
 
-
 if settings.DEBUG:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -50,7 +51,7 @@ if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns = [
-                      path('__debug__/', include(debug_toolbar.urls)),
+                      path(f"{os.getenv('BASE_PATH', '')}"+'__debug__/', include(debug_toolbar.urls)),
                   ] + urlpatterns
 
 urlpatterns = urlpatterns + i18n_patterns(

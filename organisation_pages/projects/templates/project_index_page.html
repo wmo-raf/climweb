@@ -8,14 +8,15 @@
 {% block body_class %}projects-page"{% endblock %}
 
 {% block content %}
+<main>
+
     {% include 'hero.html' with page=page %}
-    <main class="is-index">
-        <section class="ORG-work is-desktop">
+        <section class="ORG-work is-desktop" style="background-color:#f8f9fb">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}
             </div>
         </section>
-        <section class="all-projects-section">
+        <section class="all-projects-section" style="background-color:#fff">
             <h2 id="results" class="section-title center">All Projects</h2>
             <div class="container">
                 <div class="columns">

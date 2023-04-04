@@ -8,8 +8,9 @@
 {% block body_class %}research"{% endblock %}
 
 {% block content %}
+<main class="is-index">
+
     {% include 'hero.html' with page=page %}
-    <main class="is-index">
         {% if page.featured_publications %}
             <section class="featured-publications-section">
                 <div class="container">

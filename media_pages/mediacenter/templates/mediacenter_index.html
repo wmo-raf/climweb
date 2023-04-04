@@ -10,8 +10,9 @@
 {% block body_class %}media-page{% endblock %}
 
 {% block content %}
+<main class="is-index">
+
     {% include 'hero.html' with page=page %}
-    <main class="is-index">
         <section class="nmhs-work">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}

@@ -11,6 +11,7 @@ services:
     expose:
       - 8000
     environment: 
+      - DEBUG=${DEBUG}
       - DB_PORT_CMS=${POSTGRES_PORT_CMS}
       - DB_NAME_CMS=${POSTGRES_DB_CMS}
       - DB_PASSWORD_CMS=${POSTGRES_PASSWORD_CMS}
@@ -31,6 +32,7 @@ services:
     volumes:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
+      - ./error.log:/home/app/web/error.log
      
   cms_db:
     container_name: cms_db
