@@ -1,6 +1,15 @@
 #!/usr/bin/env python
 import os
 import sys
+import environ
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
+
+if os.path.exists(os.path.join(BASE_DIR, '.env')):
+    # reading .env file
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"nmhs_cms.settings.{os.getenv('ENVIRONMENT', 'dev')}")

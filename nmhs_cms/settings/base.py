@@ -140,7 +140,6 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
-                "django.template.context_processors.debug",
                 'django.template.context_processors.media',
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
@@ -148,6 +147,7 @@ TEMPLATES = [
                 "wagtail.contrib.settings.context_processors.settings",
                 "wagtailmenus.context_processors.wagtailmenus",
                 'django.template.context_processors.i18n',
+                "django.template.context_processors.debug",
             ],
         },
     },
@@ -302,7 +302,7 @@ WAGTAILDOCS_DOCUMENT_MODEL = 'core.CustomDocumentModel'
 
 
 # CELERY Settings
-CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', 'redis://localhost:6379')
+# CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', 'redis://localhost:6379')
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_ACCEPT_CONTENT = ['application/json']
