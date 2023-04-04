@@ -12,7 +12,7 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"nmhs_cms.settings.{os.getenv('ENVIRONMENT', 'production')}")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"nmhs_cms.settings.{os.getenv('ENVIRONMENT', 'dev')}")
 
     from django.core.management import execute_from_command_line
 
