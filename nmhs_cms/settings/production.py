@@ -4,7 +4,9 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
     # reading .env file
     environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-DEBUG =os.getenv('DEBUG', False)
+#DEBUG =os.getenv('DEBUG')
+
+DEBUG = False
 SECRET_KEY = "django-insecure-5=&i=f&w$_2=ktbhw43anl(uxgue*-i23r!1uibrh9l7-$q-1#"
 
 try:
