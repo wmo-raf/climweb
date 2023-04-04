@@ -109,6 +109,7 @@ INSTALLED_APPS = [
     "svg",
     "django_celery_results",
     "mailchimp3",
+    "manifest_loader"
     
 ]
 
