@@ -6,7 +6,6 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
     
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', True)
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-5=&i=f&w$_2=ktbhw43anl(uxgue*-i23r!1uibrh9l7-$q-1#"
 
@@ -44,6 +43,7 @@ INSTALLED_APPS = INSTALLED_APPS + [
 
 # INTERNAL_IPS = ("127.0.0.1", "172.17.0.1")
 
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
 SHOW_TOOLBAR_CALLBACK=False
 SHOW_COLLAPSED=False
