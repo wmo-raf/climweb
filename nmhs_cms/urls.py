@@ -15,6 +15,7 @@ from home.views import list_forecasts
 from search import views as search_views
 from capeditor import urls as cap_urls
 import environ
+import debug_toolbar
 
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,6 +48,7 @@ urlpatterns = [
     path(f"{os.getenv('BASE_PATH', '')}"+"list_forecast/", list_forecasts, name="list_forecasts"),
     path(f"{os.getenv('BASE_PATH', '')}"+"cap/", include(cap_urls)),
     path(f"{os.getenv('BASE_PATH', '')}"+"search/", search_views.search, name="search"),
+
 ]
 
 
@@ -56,7 +58,6 @@ if settings.DEBUG:
 
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     import debug_toolbar
