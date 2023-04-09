@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-timeline.min.css' %}">
+
 {% endblock %}
 
 {% block body_class %}about-page{% endblock %}
@@ -230,16 +231,20 @@
 
 
     </main>
-    <script>
-        $(".nav-section").click(function(e) {
-            $('.nav-section').removeClass('is-dark')
-            $(e.target).closest('.nav-section').addClass('is-dark')
-            var dataTarget = $(e.target).closest('.nav-section').data('target')
-            $('html,body').animate({
-                scrollTop: $(`${dataTarget}`).offset().top},
-                'slow');
-        });
-    </script>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(".nav-section").click(function(e) {
+        $('.nav-section').removeClass('is-dark')
+        $(e.target).closest('.nav-section').addClass('is-dark')
+        var dataTarget = $(e.target).closest('.nav-section').data('target')
+        $('html,body').animate({
+            scrollTop: $(`${dataTarget}`).offset().top},
+            'slow');
+    });
+</script>
 {% endblock %}
 
 

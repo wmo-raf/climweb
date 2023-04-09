@@ -2,8 +2,23 @@ from itertools import groupby
 
 from datetime import datetime, timedelta
 from django.shortcuts import render
+from site_settings.models import Theme
+
 
 from forecast_manager.models import Forecast
+
+def latest_post_title(request):
+
+    theme_ls = Theme.objects.get(is_default = True)
+    # print("CURRENT THEME:", theme_ls)
+
+    theme = {
+        'primary_color': theme_ls.primary_color,
+        'secondary_color': theme_ls.secondary_color,
+        'border_radius': f"{theme_ls.border_radius * 0.06}em",
+    }
+
+    return theme
 
 def list_forecasts(request):
 

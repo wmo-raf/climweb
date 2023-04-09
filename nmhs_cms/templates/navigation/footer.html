@@ -4,7 +4,7 @@
 {% get_settings use_default_site=True %}
 
 {% image settings.site_settings.OrganisationSetting.logo width-300 as logo%}
-<footer class="footer" style="background-color: #262c38; color: #f9f9f9">
+<footer class="footer" style="background-color: var(--primary-color); color: #f9f9f9">
   <div class="container  my-6">
     <div class="columns is-mobile is-multiline">
       <div class="column is-one-fifth-desktop is-half-mobile">
@@ -37,24 +37,24 @@
       <div class="column  is-one-fifth-desktop is-half-mobile">
        
         <p class="footer-link-title is-uppercase title">
-          <a class="has-text-white">OUR OFFICE</a>
+          <a>OUR OFFICE</a>
       </p>
         {% comment %} <div class="address"> {% endcomment %}
           
 
           {% if settings.site_settings.OrganisationSetting.address  %}
-            <a class="footer-link has-text-white">
+            <a class="footer-link">
             {{settings.site_settings.OrganisationSetting.address|richtext}}
             </a>
           {% endif %}
 
           {% if settings.site_settings.OrganisationSetting.phone  %}
 
-            <a class="footer-link has-text-white"><b>Tel: </b>{{settings.site_settings.OrganisationSetting.phone}}</a>
+            <a class="footer-link"><b>Tel: </b>{{settings.site_settings.OrganisationSetting.phone}}</a>
           {% endif %}
           {% if settings.site_settings.OrganisationSetting.email  %}
 
-            <a class="footer-link has-text-white"><b>Email: </b>{{settings.site_settings.OrganisationSetting.email}}</a>
+            <a class="footer-link"><b>Email: </b>{{settings.site_settings.OrganisationSetting.email}}</a>
           {% endif %}
         {% comment %} </div> {% endcomment %}
       </div>

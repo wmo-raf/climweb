@@ -5,7 +5,10 @@ from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
 from wagtail import blocks
 from django.utils.functional import cached_property
-
+from django.core.validators import MinValueValidator, MaxValueValidator
+from wagtail_color_panel.edit_handlers import NativeColorPanel
+from wagtail_color_panel.fields import ColorField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, FieldRowPanel, TabbedInterface, ObjectList
 # Create your models here.
 
 
@@ -131,31 +134,28 @@ class IntegrationSettings(BaseSiteSetting):
         help_text='Your Recaptcha Private Key',
     )
 
-    panels = [
-        MultiFieldPanel([
+    edit_handler = TabbedInterface([
+        ObjectList([
             FieldPanel('recaptcha_public_key'),
             FieldPanel('recaptcha_private_key')
-        ], heading="Form Recaptcha Integration"),
-        MultiFieldPanel([
+        ],  heading="Form Recaptcha Integration"),
+        ObjectList([
             FieldPanel('youtube_api')
-        ], heading="Youtube Integration"),
-        MultiFieldPanel([
-            FieldPanel('mailchimp_api')
-        ], heading="Mailchimp Integration"),
-        MultiFieldPanel([
+        ],  heading="Form Recaptcha Integration"),
+        ObjectList([
+            FieldPanel('mailchimp_api'),
+        ],   heading="Mailchimp Integration"),
+        ObjectList([
             FieldPanel('zoom_api_key'),
             FieldPanel('zoom_api_secret')
         ], heading="Zoom Integration"),
-        MultiFieldPanel(
-            [
-                FieldPanel('ga_tracking_id'),
-                FieldPanel('ga_track_button_clicks'),
-                FieldPanel('track_internally'),
-            ],
-            heading='Google Analytics'
-        )
-    ]
-
+        ObjectList([
+            FieldPanel('ga_tracking_id'),
+            FieldPanel('ga_track_button_clicks'),
+            FieldPanel('track_internally'),
+        ], heading="Google Analytics"),
+    ])
+    
 @register_setting(icon="site")
 class LanguageSettings(BaseSiteSetting):
     languages = StreamField([
@@ -194,3 +194,74 @@ class OtherSettings(BaseSiteSetting):
             heading='Forms Security',
         )
     ]
+
+class Theme(models.Model):
+    
+    is_default = models.BooleanField(default=False, verbose_name="Is Default Theme", help_text="Enable if this is the default theme")
+    name = models.CharField(blank=False, verbose_name="Theme Name", max_length=250, null=True )
+    primary_color = ColorField(blank=True, null=True, default="#363636", help_text="Primary color (use color picker)")
+    secondary_color = ColorField(blank=True, null=True, default="#ffffff", help_text="Secondary color (use color picker)")
+    border_radius = models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(20)],verbose_name="Border radius (px)", help_text="Minimum 0 and Maximum 20 pixels", default=4)
+    
+    bs_hr_off = models.IntegerField(validators=[MinValueValidator(-100),
+                                       MaxValueValidator(100)],verbose_name="Horizontal Offset (px)", help_text="Minimum -100 and Maximum 100 pixels", default=0)
+    
+    bs_vt_off = models.IntegerField(validators=[MinValueValidator(-100),
+                                       MaxValueValidator(100)],verbose_name="Vertical Offset (px)", help_text="Minimum -100 and Maximum 100 pixels", default=1)
+    
+    bs_blur_rad = models.IntegerField(validators=[MinValueValidator(-100),
+                                       MaxValueValidator(100)],verbose_name="Blur radius (px)", help_text="Minimum -100 and Maximum 100 pixels", default=1)
+    
+    bs_spread_rad = models.IntegerField(validators=[MinValueValidator(-100),
+                                       MaxValueValidator(100)],verbose_name="Spread radius (px)", help_text="Minimum -100 and Maximum 100 pixels", default=-1)
+    bs_color = ColorField(blank=True, null=True, default="#363636", help_text="Box shadow color (use color picker)")
+    bs_color_opacity = models.DecimalField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(1)],decimal_places=3, max_digits=3, verbose_name="Color opacity", help_text="Minimum 0 and Maximum 1", default=0.125)
+    
+    edit_handler = TabbedInterface([
+        ObjectList([
+            FieldPanel('name'),
+            FieldPanel('is_default'),
+        ], heading="Information"),
+        ObjectList([
+            FieldRowPanel([
+                NativeColorPanel('primary_color'),
+                NativeColorPanel('secondary_color'),
+            ])
+        ], heading="Theme Colors"),
+        ObjectList([
+            FieldPanel('border_radius')], 
+            heading="Borders"),
+        ObjectList([
+            FieldRowPanel([
+                FieldPanel('bs_hr_off'),
+                FieldPanel('bs_vt_off'),
+            ], heading="Offsets"),
+            FieldRowPanel([
+                FieldPanel('bs_blur_rad'),
+                FieldPanel('bs_spread_rad'),
+            ], heading="Radius"), 
+            FieldRowPanel([
+                NativeColorPanel('bs_color'),
+                FieldPanel('bs_color_opacity'),
+            ], heading="Color and Opacity"), 
+            
+        ], heading="Box Shadow"),
+
+    ])
+
+    def __str__(self) -> str:
+        return self.name if not self.is_default else f"{self.name} (Default)"
+    
+    def save(self, *args, **kwargs):
+        themes = Theme.objects.all().exclude(name=self.name)
+
+        # when i default is enabled, disbale any other default theme 
+        if self.is_default:
+            themes.update(
+                is_default=False
+            )
+
+        super(Theme, self).save(*args, **kwargs)
+  

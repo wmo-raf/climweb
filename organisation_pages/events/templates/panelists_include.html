@@ -1,5 +1,6 @@
 {% load wagtailcore_tags static wagtailimages_tags lazyimages_tags %}
 
+{% block extra_css %}
 <style>
     .panelist-figure {
         height: 150px;
@@ -49,6 +50,8 @@
         }
     }
 </style>
+{% endblock extra_css %}
+
 
 <div class="columns is-multiline">
     {% for panelist in panelists %}

@@ -6,7 +6,7 @@
 {% for handle in menu_items_list %}
     <div class="column is-one-fifth-desktop is-half-mobile ">
         <p class="footer-link-title is-uppercase title">
-            <a class="has-text-white">{{ handle.grouper.title }}</a>
+            <a>{{ handle.grouper.title }}</a>
         </p>
         {% for item in handle.list %}
             {% if item.is_action %}
@@ -18,7 +18,7 @@
                     {{ item.text }}
                 </a>
             {% else %}
-                <a href="{{ item.href }}" class="footer-link has-text-white">{{ item.text }}</a>
+                <a href="{{ item.href }}" class="footer-link">{{ item.text }}</a>
             {% endif %}
         {% endfor %}
     </div>

@@ -4,13 +4,8 @@
 {% block body_class %}template-homepage{% endblock %}
 
 {% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<!-- <link rel="stylesheet" href="{% static 'css/welcome_page.css' %}"> -->
-
 
 {% endblock extra_css %}
 
@@ -25,7 +20,6 @@ Delete the line below if you're just getting started and want to remove the welc
 <main>
 
 {% include 'section/forecast_include.html' %}
-
 {% include 'section/climate_include.html' %}
 {% include 'section/services_include.html' %}
 {% include 'section/updates_include.html' with page=page %}

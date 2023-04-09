@@ -109,8 +109,14 @@ INSTALLED_APPS = [
     "svg",
     "django_celery_results",
     "mailchimp3",
-    "manifest_loader"
+    "manifest_loader",
+    "django_cron",
     
+]
+
+CRON_CLASSES = [
+    "forecast_manager.cron.YrJob",
+    # ...
 ]
 
 
@@ -148,6 +154,7 @@ TEMPLATES = [
                 "wagtail.contrib.settings.context_processors.settings",
                 "wagtailmenus.context_processors.wagtailmenus",
                 'django.template.context_processors.i18n',
+                'site_settings.context_processors.theme',
                 "django.template.context_processors.debug",
             ],
         },

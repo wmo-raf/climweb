@@ -30,7 +30,7 @@
                       style="border-radius:4px; padding-top:5px">
                   </div>
                   <div class="column">
-                    <p class="title  py-0 my-1" style="font-size: 14px;font-weight:700;">{{alert.title}}</p>
+                    <p class="title  py-0 my-1" style="font-size: 14px;font-weight:700; color: var(--primary-color);">{{alert.title}}</p>
 
                     {% for info in alert.alert_info.all %}
 
@@ -56,7 +56,7 @@
             {% endif %}
 
             <div>
-              <a class="button is-dark has-text-white is-small p-4" style=" font-weight: 600;  border-radius: 0.5em;"
+              <a class="button is-dark has-text-white is-small p-4" style=" font-weight: 600;  border-radius: var(--border-radius);"
                 href="{{settings.core.ImportantPages.all_alerts_page.url}}">
                 <span>CAPs</span>
 
@@ -64,7 +64,7 @@
                   <i class="fa fa-rss"></i>
                 </span>
               </a>
-              <a class="button is-dark is-small p-4 has-text-white" style="font-weight: 600; border-radius: 0.5em;"
+              <a class="button is-dark is-small p-4 has-text-white" style="font-weight: 600; border-radius: var(--border-radius);"
                 href="{{settings.core.ImportantPages.all_news_page.url}}">
                 <span>News</span>
 
@@ -77,14 +77,14 @@
           </div>
           <div class="column ml-3">
             <div class="card" style="height:100%">
-              <div id="home-map" style="border-radius: 0.5rem; height:100%"></div>
+              <div id="home-map" style="border-radius: var(--border-radius); height:100%"></div>
               <div id="floating-div" style="position: absolute;
                 top: 0.5em;
                 left: 0;
                 z-index: 1;
                 background-color: transparent;
                 padding: 10px;
-                border-radius: 5px;
+                border-radius: var(--border-radius);
                 ">
                 <div class="control has-icons-left">
                   <div class="select">
@@ -109,7 +109,7 @@
                               z-index: 1;
                               background-color: white;
                               padding: 10px;
-                              border-radius: 5px;
+                              border-radius: var(--border-radius);
                               box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
                               ">
                 <h2 class="title" style="font-size:14px; margin-bottom:1em">CAP Alerts</h2>
