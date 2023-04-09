@@ -13,6 +13,7 @@ from wagtail.admin.panels import MultiFieldPanel,FieldPanel
 from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+from site_settings.models import Theme
 
 from capeditor.models import Alert
 from services.models import ServiceIndexPage
@@ -93,11 +94,24 @@ class HomePage(Page):
         ], heading = "Media Section")
 
     ]
-    
 
     class Meta:
         verbose_name = "Home Page"
         verbose_name_plural = "Home Pages"
+
+    @cached_property
+    def default_theme(self):
+        theme = Theme.objects.get(is_default = True)
+        # print("CURRENT THEME:", theme)
+
+        context = {
+            'primary_color': theme.primary_color,
+            'secondary_color': theme.secondary_color,
+            'border_radius': f"{theme.border_radius * 0.06}em",
+        }
+
+        return context
+    
 
     @cached_property
     def city_item(self):

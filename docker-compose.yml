@@ -60,6 +60,15 @@ services:
     depends_on:
       - cms_web  
 
+  # cron:
+  #   container_name: cms_cron
+  #   build: .
+  #   command: sh -c "python manage.py runcrons && tail -f /dev/null"
+  #   volumes:
+  #     - .:/home/app/web/static
+  #   depends_on:
+  #     - cms_db
+
 networks:
     default:
       name:  ${AHW_DOCKER_NETWORK}

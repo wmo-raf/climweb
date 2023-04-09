@@ -1,9 +1,11 @@
 from django.db import models
 from django.forms import CheckboxSelectMultiple
 
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, FieldRowPanel
 from wagtail.api import APIField
 from wagtail.models import Site
+from wagtail_color_panel.fields import ColorField
+from wagtail_color_panel.edit_handlers import NativeColorPanel
 
 from cms_pages.webicons.models import WebIcon
 from cms_pages.webicons.edit_handlers import WebIconChooserPanel
@@ -12,6 +14,11 @@ from wagtail.snippets.models import register_snippet
 from wagtail_lazyimages.templatetags.lazyimages_tags import lazy_image
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.admin.panels import PageChooserPanel
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+
+# @register_snippet
+  
 @register_snippet
 class ServiceCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -233,4 +240,5 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_events_page'),
         PageChooserPanel('all_partners_page'),
     ]
+
 

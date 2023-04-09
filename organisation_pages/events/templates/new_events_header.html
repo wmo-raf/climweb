@@ -1,5 +1,6 @@
 {% load wagtailcore_tags wagtailimages_tags static %}
 
+{% block extra_css %}
 <style>
     .master-img {
         background-position: 50%;
@@ -103,6 +104,8 @@
 
 
 </style>
+{% endblock extra_css %}
+
 
 {% image page.image original as event_img %}
 

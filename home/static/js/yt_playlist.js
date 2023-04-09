@@ -42,7 +42,7 @@ function fetchPlaylistVideos(nextPageToken = '') {
                             </figure>
                         </div>
                         <div class="card-content">
-                            <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:0.5em">
+                            <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:var(--border-radius)">
                                 <p style="font-size:14px">
                                     <span> ${video.snippet.publishedAt} </span>
                                 </p>

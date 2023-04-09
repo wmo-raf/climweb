@@ -7,7 +7,7 @@
              data-progressive="{{ img.url }}"
              src="{% lazy_image_url img %}"
              alt="{{ value.title }}"
-             style="border-radius:0.5em"
+             style="border-radius:var(--border-radius)"
         />
     </figure>
 {% endif %}

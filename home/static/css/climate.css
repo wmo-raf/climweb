@@ -2,6 +2,7 @@
     background-color: #f5f5f5;
     border-color: transparent;
     color: rgba(0,0,0,.7);
+    border-radius: calc(var(--border-radius)*3) !important;
 }
 
 .category-btn.active{
@@ -66,7 +67,7 @@
     z-index: 1;
     background-color: white;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     width: 250px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     text-align: left;

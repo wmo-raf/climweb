@@ -8,35 +8,35 @@
 {% endblock %}
 
 {% block content %}
-        <section style="padding:8em 0">
-            <div class="container">
-                <div class="columns is-centered feedback-columns">
-                    <div class="column is-5-desktop is-full-mobile">
-                        <h1 class="title" style="font-weight:600; font-size:40px">{{ page.introduction_title }}</h1>
-                        <p>Get in touch with us and we will get back to you as soon as we can.</p>
+    <section style="padding:8em 0">
+        <div class="container">
+            <div class="columns is-centered feedback-columns">
+                <div class="column is-5-desktop is-full-mobile">
+                    <h1 class="title" style="font-weight:600; font-size:40px">{{ page.introduction_title }}</h1>
+                    <p>Get in touch with us and we will get back to you as soon as we can.</p>
 
-                        <figure class="image">
-                            {% if page.illustration %}
-                                {% svg page.illustration.file.name %}
-                            {% endif %}
-                        </figure>
-                    </div>
-                    <div class="column is-half-desktop is-offset-1-desktop is-full-mobile feedback-form box">
-                        {% if form.fields %}
-                            <form action="{% pageurl page %}" method="POST">
-                                {% csrf_token %}
-                                {{ form|bulma }}
-                                <div class="field">
-                                    <button type="submit"
-                                            class="button feedback-submit-button submit-button has-no-border">Submit
-                                    </button>
-                                </div>
-                            </form>
+                    <figure class="image">
+                        {% if page.illustration %}
+                            {% svg page.illustration.file.name %}
                         {% endif %}
-                    </div>
+                    </figure>
+                </div>
+                <div class="column is-half-desktop is-offset-1-desktop is-full-mobile feedback-form box">
+                    {% if form.fields %}
+                        <form action="{% pageurl page %}" method="POST">
+                            {% csrf_token %}
+                            {{ form|bulma }}
+                            <div class="field">
+                                <button type="submit"
+                                        class="button feedback-submit-button submit-button has-no-border">Submit
+                                </button>
+                            </div>
+                        </form>
+                    {% endif %}
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 {% endblock %}
 
 

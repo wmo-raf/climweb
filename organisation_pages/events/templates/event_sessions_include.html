@@ -1,5 +1,6 @@
 {% load static wagtailcore_tags wagtailimages_tags nmhs_cms_tags lazyimages_tags %}
 
+{% block extra_css %}
 <style>
 
     .sessions-info {
@@ -180,6 +181,8 @@
 
 
 </style>
+{% endblock extra_css %}
+
 <div class="sessions-info">
     <div class="tabs ">
         <ul>
