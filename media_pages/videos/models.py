@@ -17,7 +17,7 @@ YOUTUBE_API_VERSION = "v3"
 youtube_service = None
 
 # Youtube playlists
-@register_snippet
+# @register_snippet
 class YoutubePlaylist(models.Model):
     title = models.CharField(max_length=200)
     playlist_id = models.CharField(max_length=100,

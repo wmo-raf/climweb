@@ -173,7 +173,7 @@ img.services-feature-img {
 }
 
 .more:hover {
-    color: #cc7c09
+    color: var(--primary-hover-color)
 }
 
 .pri-btn {
@@ -313,12 +313,12 @@ a.pri-btn {
 
 .pagination a.active {
     color: #f8f9fb;
-    background-color: #226296
+    background-color: var(--primary-hover-color)
 }
 
 .pagination a:hover {
     color: #f8f9fb;
-    background-color: #f0af2f
+    background-color: var(--primary-hover-color)
 }
 
 .pagination-link,
@@ -576,7 +576,7 @@ img#work-map {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .02);
+    /* box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .02); */
     background-color: #fff;
 }
 
@@ -1045,7 +1045,7 @@ img#work-map {
 
 .share-buttons > a:hover {
     background-color: #e5eeee;
-    color: #006d6b;
+    color: var(--primary-hover-color);
 }
 
 .featured-item-body {
