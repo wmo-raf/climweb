@@ -200,7 +200,9 @@ class Theme(models.Model):
     is_default = models.BooleanField(default=False, verbose_name="Is Default Theme", help_text="Enable if this is the default theme")
     name = models.CharField(blank=False, verbose_name="Theme Name", max_length=250, null=True )
     primary_color = ColorField(blank=True, null=True, default="#363636", help_text="Primary color (use color picker)")
+    primary_hover_color = ColorField(blank=True, null=True, default="#176c9c", help_text="Primary Hover color (use color picker)")
     secondary_color = ColorField(blank=True, null=True, default="#ffffff", help_text="Secondary color (use color picker)")
+    # secondary_hover_color = ColorField(blank=True, null=True, default="#ffffff", help_text="Secondary Hover color (use color picker)")
     border_radius = models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(20)],verbose_name="Border radius (px)", help_text="Minimum 0 and Maximum 20 pixels", default=6)
     box_shadow =  models.IntegerField(validators=[MinValueValidator(1),
@@ -229,6 +231,9 @@ class Theme(models.Model):
         ObjectList([
             FieldRowPanel([
                 NativeColorPanel('primary_color'),
+                NativeColorPanel('primary_hover_color'),
+            ]),
+            FieldRowPanel([
                 NativeColorPanel('secondary_color'),
             ])
         ], heading="Theme Colors"),

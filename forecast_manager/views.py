@@ -11,7 +11,7 @@ from django.core import serializers
 from .models import City, Forecast, ConditionCategory
 
 # Create your views here.
-def upload_forecast(request):
+def add_forecast(request):
     city_ls = City.objects.all()
     weather_condition_ls = ConditionCategory.objects.all()
     # data = serializers.serialize('json', city_ls)

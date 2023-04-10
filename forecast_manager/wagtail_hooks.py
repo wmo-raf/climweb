@@ -28,16 +28,16 @@ def register_admin_urls():
         
     ]
 
-@hooks.register("register_admin_menu_item")
-def register_forecast_menu():
-    """
-    Registers wagtail-forecast settings panel in the wagtail admin.
-    """
-    return ForecastMenu(
-        "Forecasts",
-        reverse("forecast_admin:upload_forecast"),
-        icon_name= 'table'
-    )
+# @hooks.register("register_admin_menu_item")
+# def register_forecast_menu():
+#     """
+#     Registers wagtail-forecast settings panel in the wagtail admin.
+#     """
+#     return ForecastMenu(
+#         "Forecasts",
+#         reverse("forecast_admin:add_forecast"),
+#         icon_name= 'table'
+#     )
 
 
 @hooks.register("insert_global_admin_css")

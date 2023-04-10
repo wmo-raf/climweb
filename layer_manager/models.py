@@ -8,7 +8,6 @@ from cms_pages.webicons.edit_handlers import WebIconChooserPanel
 
 
 # Create your models here.
-@register_snippet
 class WMSRequest(ClusterableModel):
 
     OUTPUT_FORMATS = (
@@ -77,7 +76,6 @@ class Layer(Orderable):
     name = models.CharField(max_length=250, null=False, blank=False, help_text="WMS Layer is requested by using this name in the\
                                                                                 LAYERS parameter of a GetMap request.")
 
-@register_snippet
 class LayerCategory(ClusterableModel):
     name = models.CharField(max_length=250, null=False, blank=False, help_text="WMS Layer Category name")
     description = models.CharField(max_length=250, null=False, blank=False, help_text="WMS Layer Category description")
@@ -95,7 +93,6 @@ class Param(Orderable):
     value = models.CharField(max_length=250, null=False, blank=False, help_text="Value of the parameter")
 
 
-@register_snippet
 class Legend(ClusterableModel):
 
     LEGEND_TYPES =(
