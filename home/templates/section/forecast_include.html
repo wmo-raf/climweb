@@ -22,7 +22,7 @@
             </h2>
             {% if self.get_alerts.active_alerts %}
             {% for alert in self.get_alerts.active_alerts.all %}
-            <div class="box" style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+            <div class="box {{box_shadow}}" style="background-color: #f4f5fa; padding-bottom: 0.5rem; padding-top: 0.5rem;">
               <a href="{{alert.url}}">
                 <div class="columns is-gapless">
                   <div class="column is-1" style="margin-right:10px;border-radius:4px; ">
@@ -76,7 +76,7 @@
 
           </div>
           <div class="column ml-3">
-            <div class="card" style="height:100%">
+            <div class="card {{box_shadow}}" style="height:100%">
               <div id="home-map" style="border-radius: var(--border-radius); height:100%"></div>
               <div id="floating-div" style="position: absolute;
                 top: 0.5em;
