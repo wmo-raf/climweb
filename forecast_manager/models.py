@@ -9,7 +9,6 @@ from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 
 # Create your models here.
-@register_snippet
 class City(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -45,7 +44,6 @@ class City(models.Model):
         return self.point['x']
  
 
-@register_snippet
 class ConditionCategory(models.Model):
     title = models.CharField(max_length=50, help_text="Weather Condition Title", verbose_name="Weather Condtion Title")
     short_name = models.CharField(max_length=50, help_text="Weather Condition Short Name (helpgul for yr.no weather api)", verbose_name="Weather Condtion Short Name", null=True, blank=True, editable=False)

@@ -134,16 +134,16 @@
 
                         
                         <div class="buttons" style="font-weight: 600;">
-                           <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em; " href="{{settings.core.ImportantPages.contact_us_page.url}}">
+                           <a class="button is-dark is-small  has-text-white"  href="{{settings.core.ImportantPages.contact_us_page.url}}">
                                 Contact us
                             </a>
 
                             {% if user.is_authenticated %}
-                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="{{ wagtail_admin_url }}">
+                                <a class="button is-dark is-small  has-text-white" href="{{ wagtail_admin_url }}">
                                     {{user.username}}, CMS 
                                 </a>
                             {% else %}
-                                <a class="button is-dark is-small  has-text-white" style="border-radius: 0.4em;" href="{{ wagtail_admin_url }}">
+                                <a class="button is-dark is-small  has-text-white" href="{{ wagtail_admin_url }}">
                                     Log in
                                 </a>
                             {% endif %}
