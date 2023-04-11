@@ -8,12 +8,13 @@ class MailchimpApi:
     def __init__(self):
         self.client = None
         self.is_active = False
+
         self.init_api()
 
     def init_api(self):
         try:
             # Get the current site
-            current_site = Site.find_for_request(self.request)
+            current_site = Site.objects.get(is_default_site=True)
 
             # Get the SiteSettings for the current site
             settings = IntegrationSettings.for_site(current_site)
@@ -22,6 +23,7 @@ class MailchimpApi:
             self.client = MailChimp(mc_api=api_key)
             self.is_active = True
         except Exception as e:
+            print("EXCEPTION", e)
             return None
 
     def get_lists(self, fields='lists.id,lists.name'):
@@ -45,6 +47,7 @@ class MailchimpApi:
         try:
             result = self.client.lists.merge_fields.all(list_id=list_id, get_all=True, fields=fields)
             return result['merge_fields']
+        
         except:
             return []
 

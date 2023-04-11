@@ -39,7 +39,8 @@ class HomePage(Page):
         'news.NewsIndexPage',
         'mediacenter.MediaIndexPage',
         'about.AboutIndexPage',
-        'events.EventIndexPage'
+        'events.EventIndexPage',
+        'mailchimper.MailingListSubscriptionPage'
     ]
     parent_page_type = [
         'wagtailcore.Page' 

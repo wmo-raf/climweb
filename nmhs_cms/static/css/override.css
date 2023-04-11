@@ -535,3 +535,14 @@ input[type='checkbox'] {
 .navbar-link.is-active, .navbar-link:focus, .navbar-link:focus-within, .navbar-link:hover, a.navbar-item.is-active, a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover {
     color: var(--primary-hover-color);
 }
+
+.checkbox, .radio {
+    cursor: pointer;
+    line-height: 1.8;
+    position: relative;
+    display: inherit;
+}
+
+.radio+.radio {
+    margin-left: 0;
+}

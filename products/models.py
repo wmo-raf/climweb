@@ -146,7 +146,6 @@ class ProductPage(Page):
 
     def filter_products(self, request):
         products = self.all_products
-        print("PRODUCT ITEMS",products.values('productitempage__month'))
 
         years = query_param_to_list(request.GET.get("year"), as_int=True)
         months = query_param_to_list(request.GET.get("month"), as_int=True)

@@ -3,13 +3,11 @@ from django.conf import settings
 from django.urls import include, path, register_converter
 from django.contrib import admin
 
-from wagtail.views import serve as wagtail_serve
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from forecast_manager import urls as forecast_urls
 from django.conf.urls.i18n import i18n_patterns
-from django.contrib.auth.views import LoginView
 from home.views import list_forecasts
 
 from search import views as search_views
