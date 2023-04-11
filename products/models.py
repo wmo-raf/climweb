@@ -141,22 +141,27 @@ class ProductPage(Page):
     def all_products(self):
 
         product_items = self.get_children().specific().live().order_by('-productitempage__year', '-productitempage__month')
-
         # Return the related items
         return product_items
 
     def filter_products(self, request):
         products = self.all_products
+        print("PRODUCT ITEMS",products.values('productitempage__month'))
 
         years = query_param_to_list(request.GET.get("year"), as_int=True)
         months = query_param_to_list(request.GET.get("month"), as_int=True)
 
         filters = models.Q()
 
+        # if years:
+        #     filters &= models.Q(year__in=years)
+        # if months:
+        #     filters &= models.Q(month__in=months)
+
         if years:
-            filters &= models.Q(year__in=years)
+            filters &= models.Q(productitempage__year__in=years)
         if months:
-            filters &= models.Q(month__in=months)
+            filters &= models.Q(productitempage__month__in=months)
 
         return products.filter(filters)
 
