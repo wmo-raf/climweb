@@ -178,8 +178,11 @@ class MailChimpForm(forms.Form):
         :param selected_interests: selected_interests list.
         :rtype: django.forms.Field.
         """
+
         field_type = interest_category.get('type', None)
         title = interest_category.get('title', None)
+        print("MAILCHIMP",field_type,title  )
+
         interests = interest_category.get('interests', [])
         choices = ((x['id'], x['name']) for x in interests)
         kwargs = {'label': title, 'choices': choices, 'required': False}

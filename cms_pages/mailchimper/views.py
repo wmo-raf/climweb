@@ -62,6 +62,7 @@ class MailChimpView(FormView):
             if value:
                 merge_fields.update({name: value})
 
+
         return merge_fields
 
     def get_context_data(self, **kwargs):
@@ -123,6 +124,7 @@ class MailChimpView(FormView):
         # raise an HTTP 404 error.
         if not self.merge_fields:
             raise Http404
+        
 
         return self.merge_fields
 
