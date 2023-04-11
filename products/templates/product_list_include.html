@@ -32,7 +32,7 @@
                     <div class="result-list-item-detail">
                         <a href="{{ product.url }}" class="result-list-item-title">
                             <h5>
-                                {{ product.title }} - {{ product.month|month_name }} {{ product.year }}
+                                {{ product.title }} - {{ product.month|month_name }} - {{ product.year }}
                             </h5>
                         </a>
                         <div class="result-list-item-tag">
@@ -52,7 +52,7 @@
                             {{ product.summary|truncatewords_html:35|richtext }}
                         </div>
                         <div class="result-list-item-meta">
-                            <span class="">{{ product.month|month_name }} {{ product.year }}</span>
+                            <span class=""> {{ product.month|month_name }} {{ product.year }}</span>
                             <a class="result-list-item-more read" href="{{ product.url }}">
                                 Read More
                             </a>
