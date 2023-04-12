@@ -350,6 +350,10 @@ ACCOUNT_USERNAME_MIN_LENGTH = 3
 
 CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', 'http://127.0.0.1','http://*.localhost', 'http://localhost','http://example.com', 'http://localhost:8081']
 
+SOCIAL_MEDIA_SHARE_CONFIG = {
+    'facebook': {"base_url": "https://www.facebook.com/sharer/sharer.php", "link_param": "u"},
+    'twitter': {"base_url": "http://twitter.com/share", "text_param": "text", "link_param": "url"}
+}
 
 # SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 # from django.utils.functional import lazy
