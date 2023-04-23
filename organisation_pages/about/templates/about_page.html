@@ -141,9 +141,9 @@
     
         {% if page.feature_block %}
             <section class="about-feature-blocks-section"  id="others_section">
-                <div class="container">
+                {% comment %} <div class="container"> {% endcomment %}
                 {% include 'feature_block_section.html' with feature_blocks=page.feature_block %}
-                </div>
+                {% comment %} </div> {% endcomment %}
             </section>
         {% endif %}
 

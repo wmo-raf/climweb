@@ -178,7 +178,7 @@ WAGTAILLOCALIZE_MACHINE_TRANSLATOR = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME_CMS', 'nmhs_cms'),
+        'NAME': os.getenv('DB_NAME_CMS', 'nmhs_cms_db'),
         'USER': os.getenv('DB_USER_CMS', 'postgres'),
         'PASSWORD': os.getenv('DB_PASSWORD_CMS', 'test1234'),
         'HOST': os.getenv('DB_HOST_CMS', 'localhost'),
@@ -264,11 +264,10 @@ SVG_DIRS = [
 # STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
 STATIC_URL =os.getenv("STATIC_URL","/static/") 
-MEDIA_URL = os.getenv("MEDIA_URL","/media/") 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = os.getenv("MEDIA_URL","/media/") 
 
 
 # Wagtail settings

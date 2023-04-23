@@ -1,6 +1,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 
+<div class="container">
 <div class="columns alternate-container">
     {% if is_even %}
         <div class="column is-half-desktop is-full-mobile">
@@ -19,6 +20,7 @@
             {% include 'streams/feature_block_detail_include.html' with value=value %}
         </div>
     {% endif %}
+</div>
 </div>
 
 

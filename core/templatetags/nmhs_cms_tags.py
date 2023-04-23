@@ -178,7 +178,10 @@ def svg(filename, is_static=False):
     if isinstance(path, (list, tuple)):
         path = path[0]
 
-    with open(path) as svg_file:
-        svg = mark_safe(svg_file.read())
+    if path is not None:
+        with open(path) as svg_file:
+            svg = mark_safe(svg_file.read())
 
-    return svg
+        return svg
+    
+    return ''
