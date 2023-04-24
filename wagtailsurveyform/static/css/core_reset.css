@@ -168,16 +168,11 @@ input[type=checkbox]:checked:before {
     }
 }
 
-input[type=checkbox]:checked:before {
-    -webkit-mask-image: url(../images/icons/tick.svg);
-    mask-image: url(../images/icons/tick.svg)
-}
 
 select {
     -moz-appearance: none;
     appearance: none;
     background-color: var(--w-color-white);
-    background-image: url(../images/icons/chevron-down.svg);
     background-position-x: calc(100% - .8125rem);
     background-position-y: 1.0625rem;
     background-repeat: no-repeat;
