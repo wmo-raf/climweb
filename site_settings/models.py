@@ -69,29 +69,6 @@ class OrganisationSetting(BaseSiteSetting):
         ], heading= "Social Media Settings")
     ]
 
-@register_setting(icon='radio-full')
-class MeasurementSettings(BaseSiteSetting):
-    
-    TEMPERATURE_UNITS = (
-        ("celsius","°C"),
-        ("fareinheit","°F"),
-        ("kelvin", "K")
-    )
-    WIND_UNITS = (
-        ("knots","knots"),
-        ("km_p_hr","km/h"),
-        ("mtr_p_s","m/s"),
-        ("mile_p_hr", "mph"),
-        ("feet_p_s", "ft/s")
-    )
-    temp_units = models.CharField(choices=TEMPERATURE_UNITS, default='celsius', max_length=255)  
-    wind_units =  models.CharField(choices=WIND_UNITS, default='km_p_hr', max_length=255)  
-
-    panels = [
-        FieldPanel("temp_units"),
-        FieldPanel("wind_units"),
-    ]
-
 
 @register_setting(icon="cogs")
 class IntegrationSettings(BaseSiteSetting):
@@ -141,7 +118,7 @@ class IntegrationSettings(BaseSiteSetting):
         ],  heading="Form Recaptcha Integration"),
         ObjectList([
             FieldPanel('youtube_api')
-        ],  heading="Form Recaptcha Integration"),
+        ],  heading="Youtube Integration"),
         ObjectList([
             FieldPanel('mailchimp_api'),
         ],   heading="Mailchimp Integration"),
@@ -273,3 +250,26 @@ class Theme(models.Model):
 
         super(Theme, self).save(*args, **kwargs)
   
+
+@register_setting(icon='radio-full')
+class MeasurementSettings(BaseSiteSetting):
+    
+    TEMPERATURE_UNITS = (
+        ("celsius","°C"),
+        ("fareinheit","°F"),
+        ("kelvin", "K")
+    )
+    WIND_UNITS = (
+        ("knots","knots"),
+        ("km_p_hr","km/h"),
+        ("mtr_p_s","m/s"),
+        ("mile_p_hr", "mph"),
+        ("feet_p_s", "ft/s")
+    )
+    temp_units = models.CharField(choices=TEMPERATURE_UNITS, default='celsius', max_length=255)  
+    wind_units =  models.CharField(choices=WIND_UNITS, default='km_p_hr', max_length=255)  
+
+    panels = [
+        FieldPanel("temp_units"),
+        FieldPanel("wind_units"),
+    ]

@@ -4,14 +4,20 @@ from wagtail import hooks
 from forecast_manager import urls
 from django.utils.html import format_html
 from django.templatetags.static import static
+from forecast_manager.models import City, ConditionCategory
 
-class ForecastMenu(MenuItem):
-    """
-    Registers wagtail-forecast in wagtail admin for superusers.
-    """
+from wagtail.contrib.modeladmin.options import (
+    ModelAdmin, 
+    modeladmin_register,
+    ModelAdminGroup
+)
+# class ForecastMenu(MenuItem):
+#     """
+#     Registers wagtail-forecast in wagtail admin for superusers.
+#     """
 
-    def is_shown(self, request):
-        return request.user.is_authenticated
+#     def is_shown(self, request):
+#         return request.user.is_authenticated
         # return request.user.groups.filter(name='Data Managers').exists()
 
 
@@ -46,3 +52,40 @@ def insert_global_admin_css():
         '<link rel="stylesheet" type="text/css" href="{}">',
         static("css/admin.css"),
     )
+
+
+class CitiesAdmin(ModelAdmin):
+    model = City
+    menu_label = 'Cities'
+    menu_icon = 'cog'
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+
+class ConditionCategoryAdmin(ModelAdmin):
+    model = ConditionCategory
+    menu_label = 'Weather Conditions'
+    menu_icon = 'cog'
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+
+class CityForecastGroup(ModelAdminGroup):
+    menu_label = 'City Forecast'
+    menu_icon = 'table'  # change as required
+    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
+    items = (CitiesAdmin, ConditionCategoryAdmin)
+
+    def get_submenu_items(self):
+        menu_items = []
+        item_order = 1
+        for modeladmin in self.modeladmin_instances:
+            menu_items.append(modeladmin.get_menu_item(order=item_order))
+            item_order += 1
+
+            # append raster upload link
+        upload_menu_item = MenuItem(label="Forecasts", url=reverse("forecast_admin:add_forecast"), icon_name="cog")
+
+        menu_items.append(upload_menu_item)
+
+        return menu_items
+
+modeladmin_register(CityForecastGroup)

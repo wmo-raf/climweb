@@ -40,7 +40,8 @@ class HomePage(Page):
         'mediacenter.MediaIndexPage',
         'about.AboutIndexPage',
         'events.EventIndexPage',
-        'mailchimper.MailingListSubscriptionPage'
+        'mailchimper.MailingListSubscriptionPage',
+        'wagtailsurveyform.SurveyFormPage'
     ]
     parent_page_type = [
         'wagtailcore.Page' 

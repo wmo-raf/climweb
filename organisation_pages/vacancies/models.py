@@ -158,6 +158,7 @@ class VacanciesPage(Page):
 class VacancyDetailPage(Page):
     template = 'vacancy_detail_page.html'
     parent_page_types = ['vacancies.VacanciesPage']
+    subpage_types = []
 
     posting_date = models.DateTimeField(default=timezone.now, verbose_name="Date of Posting")
     duty_station = models.CharField(max_length=100)

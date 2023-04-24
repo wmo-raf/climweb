@@ -157,6 +157,7 @@ class TendersPage(Page):
 class TenderDetailPage(Page):
     template = 'tender_detail_page.html'
     parent_page_types = ['tenders.TendersPage']
+    subpage_types = []
 
     posting_date = models.DateTimeField(default=timezone.now, verbose_name="Date of Posting")
     ref_no = models.CharField("Reference Number", max_length=100, blank=True, null=True,

@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'cms_pages.wagtailzoom',
     'cms_pages.mailchimper',
 
+    'wagtailsurveyform',
+
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     'wagtail.contrib.modeladmin',
@@ -194,6 +196,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework_xml.parsers.XMLParser',
+        'rest_framework.parsers.JSONParser',
     ),
 }
 

@@ -6,9 +6,13 @@ from wagtail.snippets.models import register_snippet
 from wagtail.admin.panels import FieldPanel
 from wagtailgeowidget.panels import LeafletPanel
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
+from wagtail.contrib.settings.models import BaseSiteSetting,register_setting
 
 
 # Create your models here.
+
+
+
 class City(models.Model):
     id = models.UUIDField(
         primary_key=True,
