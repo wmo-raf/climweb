@@ -2,10 +2,32 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.models import Page
 
 from .mailchimp_page import BaseMailChimpPage
+from wagtailmautic.models import BaseMauticFormPage
 from django.db import models
 
 
-class MailingListSubscriptionPage(BaseMailChimpPage, Page):
+class MauticMailingListSubscriptionPage(BaseMauticFormPage,Page):
+    template = 'mailing_list_subscription.html'
+    parent_page_types = ['home.HomePage']
+    subpage_types = []
+    max_count = 1
+
+    heading = models.CharField(max_length=255, blank=True, null=True, help_text="Heading")
+    introduction_text = models.TextField(blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('heading'),
+        FieldPanel('introduction_text'),
+    ] + BaseMauticFormPage.content_panels
+
+    def save(self, *args, **kwargs):
+        if self.introduction_text:
+            self.search_description = self.introduction_text
+
+        super(MauticMailingListSubscriptionPage, self).save(*args, **kwargs)
+
+
+class MailchimpMailingListSubscriptionPage(BaseMailChimpPage, Page):
     template = 'mailing_list_subscription.html'
     parent_page_types = ['home.HomePage']
     subpage_types = []
@@ -23,7 +45,7 @@ class MailingListSubscriptionPage(BaseMailChimpPage, Page):
         if self.introduction_text:
             self.search_description = self.introduction_text
 
-        super(MailingListSubscriptionPage, self).save(*args, **kwargs)
+        super(MailchimpMailingListSubscriptionPage, self).save(*args, **kwargs)
 
 
 class MailChimpApiContact(models.Model):

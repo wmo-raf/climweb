@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'cms_pages.mailchimper',
 
     'wagtailsurveyform',
+    'wagtailmautic',
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
