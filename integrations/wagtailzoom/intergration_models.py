@@ -11,7 +11,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.forms.models import AbstractForm
 from django.template import Context, Template
 
-from cms_pages.wagtailzoom.api import ZoomApi, ZoomEventsApi
+from integrations.wagtailzoom.api import ZoomApi, ZoomEventsApi
 from core.mail import mail_developers
 from datetime import datetime
 

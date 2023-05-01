@@ -5,7 +5,7 @@ from wagtail.admin.panels import MultiFieldPanel, FieldPanel, PageChooserPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 
-from cms_pages.webicons.edit_handlers import WebIconChooserPanel
+from integrations.webicons.edit_handlers import WebIconChooserPanel
 from core import blocks
 from core.utils import get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES

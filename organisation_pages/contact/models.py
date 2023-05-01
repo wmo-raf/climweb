@@ -15,7 +15,7 @@ from wagtailgeowidget.panels import LeafletPanel
 
 from core.mail import send_mail
 from site_settings.models import OtherSettings
-from wagtailformkey.forms import WagtailCaptchaKeyFormBuilder, remove_wagtail_key_field
+from integrations.wagtailformkey.forms import WagtailCaptchaKeyFormBuilder, remove_wagtail_key_field
 from .utils import get_duplicates
 
 

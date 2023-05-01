@@ -5,7 +5,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 from django.utils.safestring import mark_safe
 
-from cms_pages.webicons.blocks import WebIconChooserBlock
+from integrations.webicons.blocks import WebIconChooserBlock
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 

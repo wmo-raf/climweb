@@ -5,8 +5,8 @@ from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from wagtailsurveyform.models import SurveyFormPage, SurveySettings, SurveyFormSubmission
-from wagtailsurveyform.serializers import SurveyFormPageSerializer, SurveyFormSubmissionSerializer
+from integrations.wagtailsurveyform.models import SurveyFormPage, SurveySettings, SurveyFormSubmission
+from integrations.wagtailsurveyform.serializers import SurveyFormPageSerializer, SurveyFormSubmissionSerializer
 
 
 def survey_creator(request, survey_id):

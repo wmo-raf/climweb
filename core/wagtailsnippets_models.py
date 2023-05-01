@@ -7,8 +7,8 @@ from wagtail.models import Site
 from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 
-from cms_pages.webicons.models import WebIcon
-from cms_pages.webicons.edit_handlers import WebIconChooserPanel
+from integrations.webicons.models import WebIcon
+from integrations.webicons.edit_handlers import WebIconChooserPanel
 from positions import PositionField
 from wagtail.snippets.models import register_snippet
 from wagtail_lazyimages.templatetags.lazyimages_tags import lazy_image

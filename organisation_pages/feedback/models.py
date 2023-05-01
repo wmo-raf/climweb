@@ -8,7 +8,7 @@ from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 # from wagtailmetadata.models import MetadataPageMixin
 
-from cms_pages.webicons.edit_handlers import WebIconChooserPanel
+from integrations.webicons.edit_handlers import WebIconChooserPanel
 from core.mail import send_mail
 from organisation_pages.contact.utils import get_duplicates
 

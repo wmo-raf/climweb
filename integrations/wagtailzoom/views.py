@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.generic import DetailView
 
-from cms_pages.wagtailzoom.forms import ZoomBatchRegistrationForm
-from cms_pages.wagtailzoom.models import ZoomBatchRegistration
-from cms_pages.wagtailzoom.tasks import batch_register_to_zoom
+from integrations.wagtailzoom.forms import ZoomBatchRegistrationForm
+from integrations.wagtailzoom.models import ZoomBatchRegistration
+from integrations.wagtailzoom.tasks import batch_register_to_zoom
  
 
 class ZoomEventView(DetailView):

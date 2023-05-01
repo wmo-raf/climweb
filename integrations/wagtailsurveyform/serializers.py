@@ -2,7 +2,7 @@ import json
 
 from rest_framework import serializers
 
-from wagtailsurveyform.models import SurveyFormPage, SurveyFormSubmission
+from integrations.wagtailsurveyform.models import SurveyFormPage, SurveyFormSubmission
 
 
 class SurveyFormPageSerializer(serializers.ModelSerializer):

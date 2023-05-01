@@ -1,7 +1,7 @@
 from celery.result import AsyncResult
 from wagtail.contrib.forms.views import SubmissionsListView
 
-from cms_pages.wagtailzoom.models import ZoomBatchRegistration
+from integrations.wagtailzoom.models import ZoomBatchRegistration
 from core.utils import get_object_or_none
 
 

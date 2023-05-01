@@ -1,6 +1,6 @@
 from django.urls import path
 
-from wagtailsurveyform.views import SurveyDetailView, SurveySubmissionAPIView
+from integrations.wagtailsurveyform.views import SurveyDetailView, SurveySubmissionAPIView
 
 urlpatterns = [
     path('api/surveys/<int:survey_id>', SurveyDetailView.as_view(), name="update_survey_json"),

@@ -8,13 +8,13 @@ from wagtail.admin.forms.search import SearchForm
 from wagtail.models import Collection
 from wagtail.images.models import SourceImageIOError
 
-from cms_pages.webicons.forms import WebIconForm
-from cms_pages.webicons.models import WebIcon
+from integrations.webicons.forms import WebIconForm
+from integrations.webicons.models import WebIcon
 from wagtail.search import index as search_index
 from wagtail.admin import messages
 from wagtail.admin.auth import PermissionPolicyChecker, permission_denied
 
-from cms_pages.webicons.permissions import permission_policy
+from integrations.webicons.permissions import permission_policy
 
 permission_checker = PermissionPolicyChecker(permission_policy)
 

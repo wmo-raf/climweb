@@ -60,12 +60,12 @@ INSTALLED_APPS = [
     "media_pages.publications",
 
     # Utility apps & pages 
-    'cms_pages.webicons',
-    'cms_pages.wagtailzoom',
-    'cms_pages.mailchimper',
+    'integrations.webicons',
+    'integrations.wagtailzoom',
+    'integrations.mailchimper',
 
-    'wagtailsurveyform',
-    'wagtailmautic',
+    'integrations.wagtailsurveyform',
+    'integrations.wagtailmautic',
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

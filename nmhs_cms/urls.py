@@ -7,7 +7,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from forecast_manager import urls as forecast_urls
-from wagtailsurveyform import urls as survey_urls
+from integrations.wagtailsurveyform import urls as survey_urls
 from django.conf.urls.i18n import i18n_patterns
 from home.views import list_forecasts
 
