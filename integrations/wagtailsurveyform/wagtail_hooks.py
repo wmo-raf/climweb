@@ -4,8 +4,8 @@ from wagtail import hooks
 from wagtail.admin.action_menu import ActionMenuItem
 from wagtail.contrib.modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
 
-from wagtailsurveyform.models import SurveyFormPage
-from wagtailsurveyform.views import survey_creator, survey_results
+from integrations.wagtailsurveyform.models import SurveyFormPage
+from integrations.wagtailsurveyform.views import survey_creator, survey_results
 
 
 @hooks.register('register_admin_urls')

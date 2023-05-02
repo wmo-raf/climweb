@@ -10,7 +10,7 @@ from wagtail.fields import RichTextField
 from wagtail.models import Page
 # from wagtailmetadata.models import MetadataPageMixin
 
-from cms_pages.webicons.edit_handlers import WebIconChooserPanel
+from integrations.webicons.edit_handlers import WebIconChooserPanel
 from core.utils import paginate, get_first_non_empty_p_string 
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 

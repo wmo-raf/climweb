@@ -4,7 +4,7 @@ from django.db import models
 from wagtail.models import Orderable, Page, ParentalKey, ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel
 from wagtail.snippets.models import register_snippet
-from cms_pages.webicons.edit_handlers import WebIconChooserPanel
+from integrations.webicons.edit_handlers import WebIconChooserPanel
 
 
 # Create your models here.

@@ -3,8 +3,8 @@ import json
 from celery import shared_task
 from django.core.serializers.json import DjangoJSONEncoder
 
-from cms_pages.wagtailzoom.api import ZoomApi
-from cms_pages.wagtailzoom.models import ZoomBatchRegistration
+from integrations.wagtailzoom.api import ZoomApi
+from integrations.wagtailzoom.models import ZoomBatchRegistration
 import time
 import logging
 

@@ -9,9 +9,9 @@ from wagtail import hooks
 from wagtail.models import Collection
 from wagtail.search import index as search_index
 
-from cms_pages.webicons.forms import WebIconForm
-from cms_pages.webicons.models import WebIcon
-from cms_pages.webicons.permissions import permission_policy
+from integrations.webicons.forms import WebIconForm
+from integrations.webicons.models import WebIcon
+from integrations.webicons.permissions import permission_policy
 
 permission_checker = PermissionPolicyChecker(permission_policy)
 

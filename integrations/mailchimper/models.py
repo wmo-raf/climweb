@@ -2,7 +2,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.models import Page
 
 from .mailchimp_page import BaseMailChimpPage
-from wagtailmautic.models import BaseMauticFormPage
+from integrations.wagtailmautic.models import BaseMauticFormPage
 from django.db import models
 
 

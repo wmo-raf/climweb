@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 from wagtail.admin.panels import FieldPanel, TabbedInterface, ObjectList
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 
-from wagtailmautic.utils import get_mautic_client
+from integrations.wagtailmautic.utils import get_mautic_client
 
 
 @register_setting

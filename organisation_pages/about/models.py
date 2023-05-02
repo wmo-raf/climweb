@@ -6,7 +6,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 from wagtail.snippets.models import register_snippet
 
-from cms_pages.webicons.edit_handlers import WebIconChooserPanel
+from integrations.webicons.edit_handlers import WebIconChooserPanel
 from core import blocks
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from .blocks import TimelineBlock 

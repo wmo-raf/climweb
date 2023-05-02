@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MailchimperConfig(AppConfig):
+class WagtailsurveyformConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'cms_pages.mailchimper'
+    name = 'integrations.wagtailsurveyform'

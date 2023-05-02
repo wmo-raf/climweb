@@ -33,9 +33,9 @@ from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
-from cms_pages.mailchimper.intergration_models import MailchimpSubscriberIntegrationForm   
-from cms_pages.wagtailzoom.intergration_models import ZoomMeetingIntegrationForm, ZoomEventsModel
-from cms_pages.wagtailzoom.models import ZoomBatchRegistration
+from integrations.mailchimper.intergration_models import MailchimpSubscriberIntegrationForm   
+from integrations.wagtailzoom.intergration_models import ZoomMeetingIntegrationForm, ZoomEventsModel
+from integrations.wagtailzoom.models import ZoomBatchRegistration
 
 from core import blocks 
 from core.models import EventType

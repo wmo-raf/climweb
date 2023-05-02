@@ -3,7 +3,7 @@ from django.utils.functional import cached_property
 from wagtail.admin.compare import BlockComparison
 from wagtail.blocks import ChooserBlock
 
-from cms_pages.webicons.models import WebIcon
+from integrations.webicons.models import WebIcon
 
 
 class WebIconChooserBlock(ChooserBlock):
@@ -13,7 +13,7 @@ class WebIconChooserBlock(ChooserBlock):
 
     @cached_property
     def widget(self):
-        from cms_pages.webicons.widgets import AdminWebIconChooser
+        from integrations.webicons.widgets import AdminWebIconChooser
         return AdminWebIconChooser
 
     def render_basic(self, value, context=None):
