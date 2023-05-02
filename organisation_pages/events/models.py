@@ -57,29 +57,31 @@ class EventIndexPage(Page):
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Banner Image",
-        help_text="A high quality image related to your organisation events/trainings",
+        verbose_name=_("Banner Image"),
+        help_text=_("A high quality image related to your organisation events/trainings"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    banner_title = models.CharField(max_length=255)
-    banner_subtitle = models.CharField(max_length=255)
+    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
+    banner_subtitle = models.CharField(max_length=255, verbose_name=_("Banner Subtitle"))
 
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True)
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
     call_to_action_related_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Call to action related page")
     )
 
     events_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
-    ], help_text="How many events should be visible on the all events section ?")
+    ], help_text=_("How many events should be visible on the all events section ?"), 
+    verbose_name=_("Events per page"))
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -90,14 +92,17 @@ class EventIndexPage(Page):
                 FieldPanel('call_to_action_button_text'),
                 PageChooserPanel('call_to_action_related_page', )
             ],
-            heading="Banner Section",
+            heading=_("Banner Section"),
         ),
         MultiFieldPanel(
             [
                 FieldPanel('events_per_page'),
             ],
-            heading="Other Settings",
+            heading=_("Other Settings"),
         ), ]
+    
+    class Meta:
+        verbose_name=_("Event Index Page")
 
     @property
     def filters(self):
@@ -187,24 +192,30 @@ class EventPage( Page, ZoomEventsModel):
     parent_page_types = ['events.EventIndexPage', ]
     subpage_types = ['events.EventRegistrationPage']
 
-    event_type = models.ForeignKey(EventType, on_delete=models.PROTECT)
-    category = ParentalManyToManyField('core.ServiceCategory', verbose_name="Service Categories")
-    projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name="Relevant Projects")
-    date_from = models.DateTimeField(verbose_name="Event begin date",
-                                     help_text="Day of the event. If multi-day, then this should be the first day")
+    event_type = models.ForeignKey(EventType, on_delete=models.PROTECT, verbose_name=_("Event Type"))
+    category = ParentalManyToManyField('core.ServiceCategory', verbose_name=_("Service Categories"))
+    projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name=_("Relevant Projects"))
+    date_from = models.DateTimeField(verbose_name=_("Event begin date"),
+                                     help_text=_("Day of the event. If multi-day, then this should be the first day"))
     date_to = models.DateTimeField(blank=True, null=True,
-                                   verbose_name="End date - Note: Not Required if this is a one day Event",
-                                   help_text="Not required if this is a one day event")
-    timezone = TimeZoneField(default='Africa/Nairobi', help_text="Timezone", choices_display="WITH_GMT_OFFSET",  use_pytz=True)
+                                   verbose_name=_("End date - Note: Not Required if this is a one day Event"),
+                                   help_text=_("Not required if this is a one day event"))
+    timezone = TimeZoneField(default='Africa/Nairobi', 
+                             help_text=_("Timezone"), 
+                             choices_display="WITH_GMT_OFFSET",  
+                             use_pytz=True,
+                             verbose_name=_("Timezone"))
 
-    location = models.CharField(max_length=100, help_text="Where will the event take place ?")
+    location = models.CharField(max_length=100, help_text=_("Where will the event take place ?"), verbose_name=_("Location"))
     cost = models.CharField(max_length=100, blank=True, null=True,
-                            help_text="What is the cost for participating in this event ? Leave blank if free")
-    description = RichTextField(help_text="A description of the event ", features=SUMMARY_RICHTEXT_FEATURES)
+                            help_text=_("What is the cost for participating in this event ? Leave blank if free"),
+                            verbose_name=_("Cost"))
+    description = RichTextField(help_text="A description of the event ", features=SUMMARY_RICHTEXT_FEATURES,
+                                verbose_name=_("Description"))
     agenda_document = models.ForeignKey(
         'core.CustomDocumentModel',
-        verbose_name="Downloadable agenda document",
-        help_text="Agenda document, preferably in PDF format",
+        verbose_name=_("Downloadable agenda document"),
+        help_text=_("Agenda document, preferably in PDF format"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -212,52 +223,52 @@ class EventPage( Page, ZoomEventsModel):
     )
     image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Event Image",
-        help_text="An image for this event, can be a poster or any relevant image",
+        verbose_name=_("Event Image"),
+        help_text=_("An image for this event, can be a poster or any relevant image"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    image_placement = models.CharField(max_length=50, choices=IMAGE_PLACEMENT_CHOICES, default='top')
+    image_placement = models.CharField(max_length=50, choices=IMAGE_PLACEMENT_CHOICES, default='top', verbose_name=_("Image Placement"))
     form_template = models.ForeignKey('events.EventRegistrationFormTemplate', on_delete=models.SET_NULL, blank=True,
-                                      null=True, default=1)
+                                      null=True, default=1, verbose_name=_("Form template"))
 
     featured = models.BooleanField(
         default=False,
-        help_text="Show this event in the events landing page as featured ?", )
+        help_text=_("Show this event in the events landing page as featured ?"), verbose_name=_("Featured"))
 
     is_hidden = models.BooleanField(
         default=False,
-        help_text="Make this event hidden in events page or elsewhere", )
+        help_text=_("Make this event hidden in events page or elsewhere"),verbose_name=_("Is hidden") )
 
     is_visible_on_homepage = models.BooleanField(
         default=False,
-        help_text="Show this event on the homepage ?", )
+        help_text=_("Show this event on the homepage ?"),verbose_name=_("Is visible on homepage") )
 
     panelists = StreamField([
         ('panelist', PanelistBlock()),
-    ], null=True, blank=True, use_json_field=True)
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Panelists"))
 
     sessions = StreamField([
         ('session', SessionBlock()),
-    ], null=True, blank=True, use_json_field=True)
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Sessions"))
 
     additional_materials = StreamField([
         ('additional_material', blocks.AdditionalMaterialBlock()),
-    ], null=True, blank=True, use_json_field=True)
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Additional Materials"))
     sponsors = StreamField([
         ('sponsor', EventSponsorBlock()),
-    ], null=True, blank=True, verbose_name="Acknowledgement/sponsors", use_json_field=True)
+    ], null=True, blank=True, verbose_name=_("Acknowledgement/sponsors"), use_json_field=True)
 
-    is_archived = models.BooleanField(default=False)
-    registration_open = models.BooleanField(default=True)
+    is_archived = models.BooleanField(default=False, verbose_name=_("Is archived"))
+    registration_open = models.BooleanField(default=True, verbose_name=_("Registration open"))
     youtube_video_id = models.CharField(max_length=100, blank=True,
-                                        help_text="Youtube Video ID if the event is being livestreamed")
-    meeting_platform = models.CharField(verbose_name="Meeting Registration Integration Platform",
+                                        help_text=_("Youtube Video ID if the event is being livestreamed"))
+    meeting_platform = models.CharField(verbose_name=_("Meeting Registration Integration Platform"),
                                         max_length=100,
                                         blank=True, choices=MEETING_PLATFORM_CHOICES,
-                                        help_text="Platform for Event", default="zoom")
+                                        help_text=_("Platform for Event"), default="zoom")
 
     content_panels = Page.content_panels + [
         FieldPanel('event_type'),
@@ -300,22 +311,23 @@ class EventPage( Page, ZoomEventsModel):
     zoom_events_panel = [
         MultiFieldPanel(
             ZoomEventsModel.panels,
-            heading="Zoom Events Settings",
+            heading=_("Zoom Events Settings"),
         ),
     ]
 
     # This is where all the tabs are created
     edit_handler = TabbedInterface(
         [
-            ObjectList(content_panels, heading='Content'),
+            ObjectList(content_panels, heading=_('Content')),
             ObjectList(Page.promote_panels, heading=_('SEO'), classname="seo"),
             ObjectList(Page.settings_panels, heading=_('Settings'), classname="settings"),
-            ObjectList(zoom_events_panel, heading='Zoom Events Settings'),
+            ObjectList(zoom_events_panel, heading=_('Zoom Events Settings')),
         ]
     )
 
     class Meta:
         ordering = ['-date_from', ]
+        verbose_name=_("Event Page")
 
     @property
     def count_down(self):
@@ -445,31 +457,33 @@ class EventRegistrationPage(WagtailCaptchaEmailForm, MailchimpSubscriberIntegrat
     max_count_per_parent = 1
 
     additional_information = models.TextField(blank=True, null=True,
-                                              help_text="Optional Additional information/details",
-                                              verbose_name="Additional Information - (Optional)")
+                                              help_text=_("Optional Additional information/details"),
+                                              verbose_name=_("Additional Information - (Optional)"))
     registration_limit = models.PositiveIntegerField(blank=True, null=True,
-                                                     help_text="Number of available registrations",
-                                                     verbose_name="Registration Limit - "
-                                                                  "(Leave blank if no limit)")
+                                                     help_text=_("Number of available registrations"),
+                                                     verbose_name=_("Registration Limit - "
+                                                                  "(Leave blank if no limit)"))
 
     thank_you_text = models.TextField(blank=True, null=True,
-                                      help_text="Text to display after successful submission")
-    validation_field = models.CharField(max_length=100, blank=True,
-                                        help_text="A field on the form to check if is already submitted so as to "
+                                      help_text=_("Text to display after successful submission"), verbose_name=_("Thank you text"))
+    validation_field = models.CharField(max_length=100, blank=True, verbose_name=_("Validation Field"),
+                                        help_text=_("A field on the form to check if is already submitted so as to "
                                                   "prevent multiple submissions by one person. This is usually the "
-                                                  "email address field in snake casing format", default="email_address")
+                                                  "email address field in snake casing format"), default="email_address")
 
     send_confirmation_email = models.BooleanField(default=False,
-                                                  help_text="Should we send a confirmation/follow up email ?")
+                                                  help_text=_("Should we send a confirmation/follow up email ?"), 
+                                                  verbose_name=_("Send confirmation Email"))
     email_field = models.CharField(max_length=100, blank=True,
-                                   help_text="The field in the form that corresponds to the email to use. "
-                                             "Should be snake_cased")
+                                   help_text=_("The field in the form that corresponds to the email to use. "
+                                             "Should be snake_cased"),verbose_name=_("Email Field"))
     email_confirmation_message = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, blank=True,
-                                               help_text="Message to send to the user. For example zoom links")
+                                               verbose_name=_("Email Confirmation message"),
+                                               help_text=_("Message to send to the user. For example zoom links"))
     batch_zoom_reg_enabled = models.BooleanField(default=False,
-                                                 verbose_name="Batch Zoom Registration Enabled - "
-                                                              "Leave unchecked for direct zoom registrations",
-                                                 help_text="Enable batch option for adding registrants to zoom later")
+                                                 verbose_name=_("Batch Zoom Registration Enabled - "
+                                                              "Leave unchecked for direct zoom registrations"),
+                                                 help_text=_("Enable batch option for adding registrants to zoom later"))
 
     content_panels = AbstractEmailForm.content_panels + [
         FieldPanel('additional_information'),
@@ -492,6 +506,9 @@ class EventRegistrationPage(WagtailCaptchaEmailForm, MailchimpSubscriberIntegrat
 
         # FieldPanel('batch_zoom_reg_enabled'), // Hide this for now TODO: Do we still need it ?
     ]
+
+    class Meta:
+        verbose_name=_("Event Registration Page")
 
     @cached_property
     def event(self):

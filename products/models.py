@@ -17,6 +17,7 @@ from core import blocks
 from core.models import ProductCategory, ServiceCategory
 from core.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
+from django.utils.translation import gettext_lazy as _
 
 class ProductIndexPage(Page):
 
@@ -26,8 +27,8 @@ class ProductIndexPage(Page):
     max_count = 1
 
     class Meta:
-        verbose_name = 'Product Page'
-        verbose_name_plural = 'Product Pages'
+        verbose_name =  _('Product Index Page')
+        verbose_name_plural =  _('Product Index Pages')
 
 class ProductPage(Page):
     template = 'product_index.html'
@@ -37,54 +38,56 @@ class ProductPage(Page):
     # max_count = 1
     show_in_menus_default = True
 
-    service = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT)
-    product = models.OneToOneField(ProductCategory, on_delete=models.PROTECT)
+    service = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
+    product = models.OneToOneField(ProductCategory, on_delete=models.PROTECT, verbose_name=_("Product"))
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Banner Image",
-        help_text="A high quality image related to this Product",
+        verbose_name= _("Banner Image"),
+        help_text= _("A high quality image related to this Product"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    banner_title = models.CharField(max_length=255)
-    banner_subtitle = models.CharField(max_length=255, blank=True, null=True)
+    banner_title = models.CharField(max_length=255, verbose_name= _('Banner Title'))
+    banner_subtitle = models.CharField(max_length=255, blank=True, null=True,verbose_name= _('Banner Subtitle'))
 
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True)
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name= _('Call to action button text'))
     call_to_action_related_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name= _('Call to action related page')
     )
 
-    introduction_title = models.CharField(max_length=100, help_text="Introduction section title")
-    introduction_text = RichTextField(help_text="A description of what your organisation does under  this Product",
-                                      features=SUMMARY_RICHTEXT_FEATURES)
+    introduction_title = models.CharField(max_length=100, help_text=_("Introduction section title"), verbose_name= _('Call to action related page'))
+    introduction_text = RichTextField(help_text=_("A description of what your organisation does under  this Product"),
+                                      features=SUMMARY_RICHTEXT_FEATURES, verbose_name= _('Introduction text'))
     introduction_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Introduction Image",
-        help_text="A high quality image related to this Product",
+        verbose_name=_("Introduction Image"),
+        help_text=_("A high quality image related to this Product"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True)
+    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"),)
     introduction_button_link = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Introduction button link"),
     )
 
     feature_block = StreamField([
-        ('feature_item', blocks.FeatureBlock()),
-    ], null=True, blank=True, use_json_field=True)
+        ('feature_item', blocks.FeatureBlock(), ),
+    ], null=True, blank=True, use_json_field=True,verbose_name=_("Feature block"))
 
     earliest_bulletin_year = models.PositiveIntegerField(
         default=datetime.now().year,
@@ -92,12 +95,14 @@ class ProductPage(Page):
             MinValueValidator(2000),
             MaxValueValidator(datetime.now().year),
         ],
-        help_text="The year for the earliest available bulletin. This is used to generate the years available for "
-                  "filtering ")
+        help_text=_("The year for the earliest available bulletin. This is used to generate the years available for "
+                  "filtering "),
+                  verbose_name=_("Earliest bulletin year"))
     products_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
-    ], help_text="How many of this products should be visible on the landing page filter section ?")
+    ], help_text=_("How many of this products should be visible on the landing page filter section ?"),
+    verbose_name=_("Products per page"))
 
     content_panels = Page.content_panels + [
         FieldPanel('service'),
@@ -111,7 +116,7 @@ class ProductPage(Page):
                 PageChooserPanel('call_to_action_related_page', )
 
             ],
-            heading="Banner Section",
+            heading=_("Banner Section"),
         ),
         MultiFieldPanel(
             [
@@ -121,7 +126,7 @@ class ProductPage(Page):
                 FieldPanel('introduction_button_text'),
                 PageChooserPanel('introduction_button_link'),
             ],
-            heading=" Introduction Section",
+            heading=_("Introduction Section"),
         ),
         FieldPanel('feature_block'),
         MultiFieldPanel(
@@ -129,7 +134,7 @@ class ProductPage(Page):
                 FieldPanel('earliest_bulletin_year'),
                 FieldPanel('products_per_page'),
             ],
-            heading="Other settings",
+            heading=_("Other settings"),
         ),
     ]
 
@@ -195,10 +200,13 @@ class ProductPage(Page):
                 self.search_description = truncatechars(p, 160)
         return super().save(*args, **kwargs)
 
+    class Meta:
+        verbose_name =  _('Product Page')
+        verbose_name_plural =  _('Product Pages')
 
 class ProductPageTag(TaggedItemBase):
     content_object = ParentalKey('products.ProductItemPage', on_delete=models.CASCADE,
-                                 related_name='product_tags')
+                                 related_name='product_tags',verbose_name=_("Product Tag"))
 
 
 class ProductItemPage(Page):
@@ -206,23 +214,25 @@ class ProductItemPage(Page):
     parent_page_types = ['products.ProductPage', ]
     subpage_types = []
 
-    year = models.PositiveIntegerField(default=datetime.now().year, choices=get_years(2010, True))
-    month = models.IntegerField(choices=MONTHS.items(), default=datetime.now().month)
-    summary = RichTextField(help_text="Summary of the product release", features=SUMMARY_RICHTEXT_FEATURES)
+    year = models.PositiveIntegerField(default=datetime.now().year, choices=get_years(2010, True), verbose_name=_("Year"))
+    month = models.IntegerField(choices=MONTHS.items(), default=datetime.now().month, verbose_name=_("Month"))
+    summary = RichTextField(help_text=_("Summary of the product release"), features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Summary"))
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text="Image that will appear as thumbnail"
+        help_text=_("Image that will appear as thumbnail"),
+        verbose_name=_("Image")
     )
     document = models.ForeignKey(
         'core.CustomDocumentModel',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name=_("Document")
     )
     tags = ClusterTaggableManager(through=ProductPageTag, blank=True)
 
@@ -279,7 +289,7 @@ class ProductItemPage(Page):
         return context
 
     class Meta:
-        verbose_name = "Product Bulletin"
+        verbose_name = _("Product Item")
 
     def save(self, *args, **kwargs):
         # if not self.search_image and self.image:

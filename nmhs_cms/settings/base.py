@@ -114,6 +114,7 @@ INSTALLED_APPS = [
     "mailchimp3",
     "manifest_loader",
     "django_cron",
+    "autotranslate"
     
 ]
 
@@ -121,6 +122,7 @@ CRON_CLASSES = [
     "forecast_manager.cron.YrJob",
     # ...
 ]
+
 
 
 MIDDLEWARE = [
@@ -226,9 +228,15 @@ LANGUAGES = [
     ('en', 'English'),
     ('es', 'Español'),
     ('fr', 'French'),
+    ('ar', 'Arabic'),
+    ('am', 'Amharic'),
 ]
 
 LANGUAGE_CODE = "en"
+
+LOCALE_PATHS = (
+    'products/locale',
+)
 
 TIME_ZONE = "UTC"
 
