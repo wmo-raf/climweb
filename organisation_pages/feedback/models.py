@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.template.response import TemplateResponse
+from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
@@ -24,16 +25,17 @@ class FeedbackPage( WagtailCaptchaEmailForm):
     show_in_menus_default = True
     landing_page_template = 'form_thank_you_landing.html'
 
-    introduction_title = models.TextField()
-    introduction_subtitle = models.TextField(blank=True, null=True)
+    introduction_title = models.TextField(verbose_name=_("Introduction Title"))
+    introduction_subtitle = models.TextField(blank=True, null=True, verbose_name=_("Introduction Subtitle"))
     illustration = models.ForeignKey(
         'webicons.WebIcon',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name=_("Illustration")
     )
-    thank_you_text = models.TextField(blank=True, null=True)
+    thank_you_text = models.TextField(blank=True, null=True, verbose_name=_("Thank you Text"))
 
     content_panels = AbstractEmailForm.content_panels + [
         FieldPanel("introduction_title"),
@@ -47,7 +49,7 @@ class FeedbackPage( WagtailCaptchaEmailForm):
                 FieldPanel('to_address', classname="col6"),
             ]),
             FieldPanel('subject'),
-        ], "Email"),
+        ], _("Email")),
     ]
 
     def get_form_fields(self):

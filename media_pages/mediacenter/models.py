@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel, PageChooserPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
@@ -21,55 +22,58 @@ class MediaIndexPage(Page):
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Banner Image",
-        help_text="A high quality image",
+        verbose_name=_("Banner Image"),
+        help_text=_("A high quality image"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    banner_title = models.CharField(max_length=255)
-    banner_subtitle = models.CharField(max_length=255, blank=True, null=True)
+    banner_title = models.CharField(max_length=255,verbose_name=_("Banner Title") )
+    banner_subtitle = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Banner Subtitle"))
 
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True)
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
     call_to_action_related_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Call to action related page")
     )
     call_to_action_external_link = models.URLField(max_length=200, blank=True, null=True,
-                                                   help_text="External Link if applicable")
+                                                   help_text=_("External Link if applicable"), verbose_name=_("Call to action external link"))
 
-    introduction_title = models.CharField(max_length=100, help_text="Introduction section title")
-    introduction_text = RichTextField(features=SUMMARY_RICHTEXT_FEATURES)
+    introduction_title = models.CharField(max_length=100, help_text=_("Introduction section title"), verbose_name=_("Introduction title"))
+    introduction_text = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Introduction text"))
 
     introduction_image = models.ForeignKey(
         'webicons.WebIcon',
-        verbose_name="Media SVG Illustration",
+        verbose_name=_("Media SVG Illustration"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True)
+    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"))
     introduction_button_link = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Introduction button link")
     )
     introduction_button_link_external = models.URLField(max_length=200, blank=True, null=True,
-                                                        help_text="External Link if applicable. Ignored if internal "
-                                                                  "page above is chosen")
+                                                        help_text=_("External Link if applicable. Ignored if internal "
+                                                                  "page above is chosen"), 
+                                                                  verbose_name=_("Introduction button link external"))
 
     feature_block_items = StreamField(
         [
             ('feature_item', blocks.FeatureBlock()),
         ],
-        null=True, blank=True, verbose_name="Items", use_json_field=True)
+        null=True, blank=True, verbose_name=_("Items"), use_json_field=True)
 
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
@@ -77,6 +81,7 @@ class MediaIndexPage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Youtube playlist")
     )
 
     content_panels = Page.content_panels + [
@@ -89,7 +94,7 @@ class MediaIndexPage(Page):
                 PageChooserPanel('call_to_action_related_page'),
                 FieldPanel('call_to_action_external_link')
             ],
-            heading="Banner Section",
+            heading=_("Banner Section"),
         ),
         MultiFieldPanel(
             [
@@ -100,11 +105,15 @@ class MediaIndexPage(Page):
                 PageChooserPanel('introduction_button_link'),
                 FieldPanel('introduction_button_link_external')
             ],
-            heading="Introduction Section",
+            heading=_("Introduction Section"),
         ),
         FieldPanel('feature_block_items'),
         FieldPanel('youtube_playlist'),
     ]
+
+    class Meta:
+        verbose_name=_("Media Page")
+
 
     @cached_property
     def latest_news(self):

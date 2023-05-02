@@ -3,6 +3,7 @@ from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from rest_framework.fields import BooleanField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.api import APIField
@@ -24,58 +25,63 @@ class VacanciesPage(Page):
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Banner Image",
-        help_text="A high quality image related to Vacancies",
+        verbose_name=_("Banner Image"),
+        help_text=_("A high quality image related to Vacancies"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    banner_title = models.CharField(max_length=255)
-    banner_subtitle = models.CharField(max_length=255, blank=True, null=True)
+    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
+    banner_subtitle = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Banner Subtitle"))
 
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True)
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
     call_to_action_related_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Call to action related page")
     )
 
-    introduction_title = models.CharField(max_length=100, help_text="Introduction section title")
-    introduction_text = RichTextField(help_text="A description of working at ORG",
-                                      features=SUMMARY_RICHTEXT_FEATURES)
+    introduction_title = models.CharField(max_length=100, help_text=_("Introduction section title"), verbose_name=_("Introduction Title"))
+    introduction_text = RichTextField(help_text=_("A description of working at ORG"),
+                                      features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Introduction text"))
     introduction_image = models.ForeignKey(
         'webicons.WebIcon',
-        help_text="A high quality illustration related to Working at ORG",
+        help_text=_("A high quality illustration related to Working at ORG"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        verbose_name="Vacancies SVG Illustration"
+        verbose_name=_("Vacancies SVG Illustration")
     )
 
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True)
+    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"))
     introduction_button_link = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Introduction button link")
     )
 
     items_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
-    ], help_text="How many items should be visible on the landing page filter section ?")
+    ], help_text=_("How many items should be visible on the landing page filter section ?"),
+    verbose_name=_("Items per page"))
 
     no_vacancies_header_text = models.TextField(blank=True, null=True,
-                                                help_text="Text to appear when there are no vacancies")
+                                                help_text=_("Text to appear when there are no vacancies"),
+                                                verbose_name=_("No vacancies header text"))
 
     no_vacancies_description_text = models.TextField(blank=True, null=True,
-                                                     help_text="Additional text to appear when there are no vacancies,"
-                                                               "below the no vacancies header text")
+                                                     help_text=_("Additional text to appear when there are no vacancies,"
+                                                               "below the no vacancies header text"),
+                                                               verbose_name=_("No vacancies description text"))
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -86,7 +92,7 @@ class VacanciesPage(Page):
                 FieldPanel('call_to_action_button_text'),
                 PageChooserPanel('call_to_action_related_page', )
             ],
-            heading="Banner Section",
+            heading=_("Banner Section"),
         ),
         MultiFieldPanel(
             [
@@ -96,7 +102,7 @@ class VacanciesPage(Page):
                 FieldPanel('introduction_button_text'),
                 PageChooserPanel('introduction_button_link'),
             ],
-            heading="Introduction Section",
+            heading=_("Introduction Section"),
         ),
         MultiFieldPanel(
             [
@@ -104,7 +110,7 @@ class VacanciesPage(Page):
                 FieldPanel('no_vacancies_description_text'),
                 FieldPanel('items_per_page'),
             ],
-            heading="Other Settings",
+            heading=_("Other Settings"),
         ),
     ]
 
@@ -153,6 +159,9 @@ class VacanciesPage(Page):
                 # Limit the search meta desc to google's 160 recommended chars
                 self.search_description = truncatechars(p, 160)
         return super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name=_("Vacancy Page")
 
 
 class VacancyDetailPage(Page):
@@ -160,20 +169,20 @@ class VacancyDetailPage(Page):
     parent_page_types = ['vacancies.VacanciesPage']
     subpage_types = []
 
-    posting_date = models.DateTimeField(default=timezone.now, verbose_name="Date of Posting")
-    duty_station = models.CharField(max_length=100)
-    deadline = models.DateTimeField("Application Deadline")
-    description = RichTextField("Job Description", blank=True, null=True,
+    posting_date = models.DateTimeField(default=timezone.now, verbose_name=_("Date of Posting"))
+    duty_station = models.CharField(max_length=100, verbose_name=_("Duty Station"))
+    deadline = models.DateTimeField(_("Application Deadline"))
+    description = RichTextField(_("Job Description"), blank=True, null=True,
                                 features=SUMMARY_RICHTEXT_FEATURES)
-    duration = models.CharField(max_length=100, blank=True, null=True)
+    duration = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Duration"))
     document = models.ForeignKey(
         'core.CustomDocumentModel',
-        verbose_name="Downloadable Job Description Document",
+        verbose_name=_("Downloadable Job Description Document"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text="Optional downloadable job description document"
+        help_text=_("Optional downloadable job description document")
     )
 
     content_panels = Page.content_panels + [
@@ -193,6 +202,9 @@ class VacancyDetailPage(Page):
         APIField('document'),
         APIField('closed', serializer=BooleanField(source='is_closed')),
     ]
+
+    class Meta:
+        verbose_name=_("Vacancy Detail Page")
 
     @property
     def item_type(self):

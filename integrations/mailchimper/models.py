@@ -1,5 +1,6 @@
 from wagtail.admin.panels import FieldPanel
 from wagtail.models import Page
+from django.utils.translation import gettext_lazy as _
 
 from .mailchimp_page import BaseMailChimpPage
 from integrations.wagtailmautic.models import BaseMauticFormPage
@@ -12,8 +13,8 @@ class MauticMailingListSubscriptionPage(BaseMauticFormPage,Page):
     subpage_types = []
     max_count = 1
 
-    heading = models.CharField(max_length=255, blank=True, null=True, help_text="Heading")
-    introduction_text = models.TextField(blank=True, null=True)
+    heading = models.CharField(max_length=255, blank=True, null=True, help_text=_("Heading"), verbose_name=_("Heading"))
+    introduction_text = models.TextField(blank=True, null=True, verbose_name=_("Introduction text"))
 
     content_panels = Page.content_panels + [
         FieldPanel('heading'),
@@ -33,8 +34,8 @@ class MailchimpMailingListSubscriptionPage(BaseMailChimpPage, Page):
     subpage_types = []
     max_count = 1
 
-    heading = models.CharField(max_length=255, blank=True, null=True, help_text="Heading")
-    introduction_text = models.TextField(blank=True, null=True)
+    heading = models.CharField(max_length=255, blank=True, null=True, help_text=_("Heading"), verbose_name=_("Heading"))
+    introduction_text = models.TextField(blank=True, null=True, verbose_name=_("Introduction text"))
 
     content_panels = Page.content_panels + [
         FieldPanel('heading'),

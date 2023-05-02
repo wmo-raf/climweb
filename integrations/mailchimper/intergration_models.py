@@ -144,9 +144,9 @@ class MailchimpSubscriberIntegrationForm(AbstractForm, models.Model):
         blank=True,
         verbose_name=_("Mailing List Settings")
     )
-    enable_mailing_list_subscription = models.BooleanField(default=False)
+    enable_mailing_list_subscription = models.BooleanField(default=False, verbose_name=_("Enable Mailing list subscription"))
 
-    mailing_list_checkbox_label = models.CharField(max_length=200, blank=True)
+    mailing_list_checkbox_label = models.CharField(max_length=200, blank=True, verbose_name=_("Mailing list checkbox label"))
 
     integration_panels = [
         FieldPanel('enable_mailing_list_subscription'),

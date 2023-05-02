@@ -1,5 +1,6 @@
 from wagtail import blocks
 from django.utils.module_loading import import_string
+from django.utils.translation import gettext_lazy as _
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
@@ -51,16 +52,16 @@ class FeatureBlock(blocks.StructBlock):
     figure_type = blocks.ChoiceBlock(choices=FIGURE_TYPE_CHOICES)
     # image_of_change = blocks.PageChooserBlock(required=False, target_model='imagesofchange.ImageOfChangePage')
     image = ImageChooserBlock(required=False)
-    chart_config_url = blocks.URLBlock(required=False, help_text="A URL that returns Highcharts.js configuration, "
-                                                                 "including the data")
+    chart_config_url = blocks.URLBlock(required=False, help_text=_("A URL that returns Highcharts.js configuration, "
+                                                                 "including the data"))
 
     title = blocks.CharBlock()
-    text = blocks.TextBlock(label="Description")
+    text = blocks.TextBlock(label=_("Description"))
     action_link_text = blocks.CharBlock(max_length=15, required=False)
-    action_link = blocks.PageChooserBlock(required=False, label="Action Link Internal")
+    action_link = blocks.PageChooserBlock(required=False, label=_("Action Link Internal"))
     action_link_external = blocks.URLBlock(required=False, max_length=400,
-                                           help_text="An external link to a detailed resource on the internet."
-                                                     "If provided, the internal link will be ignored")
+                                           help_text=_("An external link to a detailed resource on the internet."
+                                                     "If provided, the internal link will be ignored"))
 
     class Meta:
         template = "streams/feature_block.html"
@@ -98,10 +99,10 @@ class SocialMediaBlock(blocks.StructBlock):
                                    "the correct icon at "
                                    "<a target='_blank' href='https://fontawesome.com/icons?s=brands&m=free'>"
                                    "Font Awesome</a>. Type in on the search bar on that page to filter."))
-    full_url = blocks.URLBlock(max_length=255, help_text="The full url link that takes you to the page")
+    full_url = blocks.URLBlock(max_length=255, help_text=_("The full url link that takes you to the page"))
     user_id = blocks.CharBlock(max_length=100, required=False,
-                               help_text="The user id if available, For example the user Id/"
-                                         "name for twitter, Instagram or channel id for Youtube etc")
+                               help_text=_("The user id if available, For example the user Id/"
+                                         "name for twitter, Instagram or channel id for Youtube etc"))
 
     class Meta:
         icon = 'placeholder'
@@ -127,9 +128,9 @@ class AdditionalMaterialBlock(blocks.StructBlock):
     )
     type = blocks.ChoiceBlock(choices=MATERIAL_TYPE_CHOICES, required=True)
     title = blocks.CharBlock(max_length=255)
-    document = DocumentChooserBlock(required=False, help_text="Select document or file",
-                                    verbose_name="Document/File")
-    image = ImageChooserBlock(required=False, help_text="Select/upload image")
+    document = DocumentChooserBlock(required=False, help_text=_("Select document or file"),
+                                    verbose_name=_("Document/File"))
+    image = ImageChooserBlock(required=False, help_text=_("Select/upload image"))
 
     class Meta:
         icon = "placeholder"

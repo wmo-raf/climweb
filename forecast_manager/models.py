@@ -2,6 +2,7 @@ import uuid
 import json
 from django.utils.functional import cached_property
 from django.contrib.gis.db import models
+from django.utils.translation import gettext_lazy as _
 from wagtail.snippets.models import register_snippet
 from wagtail.admin.panels import FieldPanel
 from wagtailgeowidget.panels import LeafletPanel
@@ -18,10 +19,10 @@ class City(models.Model):
         primary_key=True,
         default=uuid.uuid4,
         editable=False,
-        help_text="Unique UUID. Auto generated on creation.",
+        help_text=_("Unique UUID. Auto generated on creation."),
     )
-    name = models.CharField(verbose_name="City Name", max_length=255, null=True, blank=False,unique=True)
-    location = models.PointField(verbose_name="City Location (Lat, Lng)")
+    name = models.CharField(verbose_name=_("City Name"), max_length=255, null=True, blank=False,unique=True)
+    location = models.PointField(verbose_name=_("City Location (Lat, Lng)"))
 
     panels = [
         FieldPanel("name"),
@@ -29,8 +30,8 @@ class City(models.Model):
     ]
 
     class Meta:
-        verbose_name = "City"
-        verbose_name_plural = "Cities"
+        verbose_name = _("City")
+        verbose_name_plural = _("Cities")
 
     def __str__(self) -> str:
         return self.name
@@ -49,11 +50,11 @@ class City(models.Model):
  
 
 class ConditionCategory(models.Model):
-    title = models.CharField(max_length=50, help_text="Weather Condition Title", verbose_name="Weather Condtion Title")
-    short_name = models.CharField(max_length=50, help_text="Weather Condition Short Name (helpgul for yr.no weather api)", verbose_name="Weather Condtion Short Name", null=True, blank=True, editable=False)
+    title = models.CharField(max_length=50, help_text=_("Weather Condition Title"), verbose_name=_("Weather Condtion Title"))
+    short_name = models.CharField(max_length=50, help_text=_("Weather Condition Short Name (helpgul for yr.no weather api)"), verbose_name=_("Weather Condtion Short Name"), null=True, blank=True, editable=False)
     # icon = models.ForeignKey(
     #     'wagtailimages.Image',
-    #     verbose_name="Weather Condition Icon",
+    #     verbose_name=_("Weather Condition Icon",
     #     help_text="An Icon representing the weather condtion",
     #     null=True,
     #     blank=True,
@@ -61,19 +62,20 @@ class ConditionCategory(models.Model):
     #     related_name='+',
     # )
     
-    description = models.CharField(max_length=250, blank=True, null=True)
+    description = models.CharField(max_length=250, blank=True, null=True, verbose_name=_("Description"))
     icon_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=False,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name=_("Icon image")
     )
 
 
     class Meta:
-        verbose_name = "Weather Condition Category"
-        verbose_name_plural = "Weather Condition Categories"
+        verbose_name = _("Weather Condition Category")
+        verbose_name_plural = _("Weather Condition Categories")
 
     
     def __str__(self):
@@ -87,18 +89,18 @@ class ConditionCategory(models.Model):
 
 
 class Forecast(models.Model):
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
-    forecast_date = models.DateField( auto_now=False, auto_now_add=False, verbose_name="Forecasts Date")
-    max_temp = models.IntegerField(verbose_name="Maximum Temperature", blank=True)
-    min_temp = models.IntegerField(verbose_name="Minimum Temperaure", blank=True)
-    wind_direction = models.IntegerField(verbose_name="Wind Direction", blank=True, null=True)
-    wind_speed = models.IntegerField(verbose_name="Wind Speed", blank=True, null=True)
-    # condition = models.CharField(verbose_name="General Weather Condition", max_length=255, blank=True, help_text="E.g Light Showers", default="Light Showers")
-    condition = models.ForeignKey(ConditionCategory, verbose_name="General Weather Condition", on_delete=models.CASCADE, help_text="E.g Light Showers", null=True)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name=_("City"))
+    forecast_date = models.DateField( auto_now=False, auto_now_add=False, verbose_name=_("Forecasts Date"))
+    max_temp = models.IntegerField(verbose_name=_("Maximum Temperature"), blank=True)
+    min_temp = models.IntegerField(verbose_name=_("Minimum Temperaure"), blank=True)
+    wind_direction = models.IntegerField(verbose_name=_("Wind Direction"), blank=True, null=True)
+    wind_speed = models.IntegerField(verbose_name=_("Wind Speed"), blank=True, null=True)
+    # condition = models.CharField(verbose_name=_("General Weather Condition", max_length=255, blank=True, help_text="E.g Light Showers", default="Light Showers")
+    condition = models.ForeignKey(ConditionCategory, verbose_name=_("General Weather Condition"), on_delete=models.CASCADE, help_text=_("E.g Light Showers"), null=True)
 
     class Meta:
-        verbose_name = "Forecast"
-        verbose_name_plural = "Forecasts"
+        verbose_name = _("Forecast")
+        verbose_name_plural = _("Forecasts")
         constraints = [
             models.UniqueConstraint(fields=['city', 'forecast_date'], name='Unique combination of city and forecast date')
         ]
