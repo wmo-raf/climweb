@@ -1,6 +1,8 @@
 from deep_translator import GoogleTranslator
 import polib
 
+from django.conf import settings
+
 po_file = polib.pofile('products/locale/es/LC_MESSAGES/django.po')
 
 for entry in po_file:
