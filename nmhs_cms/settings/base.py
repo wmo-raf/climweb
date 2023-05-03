@@ -114,7 +114,7 @@ INSTALLED_APPS = [
     "mailchimp3",
     "manifest_loader",
     "django_cron",
-    "autotranslate"
+    "django_deep_translator"
     
 ]
 
@@ -123,8 +123,9 @@ CRON_CLASSES = [
     # ...
 ]
 
-
-
+PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
+DEEPL_TRANSLATE_KEY="testkey"
+DEEPL_FREE_API = True
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -251,7 +252,7 @@ WAGTAILADMIN_PERMITTED_LANGUAGES = [
     ('fr', 'French'),
     ('ar', 'Arabic'),
     ('sw', 'Swahili'),
-    ('am', 'Amharic'),
+    # ('am', 'Amharic'),
 
 ]
 
