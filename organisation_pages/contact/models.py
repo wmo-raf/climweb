@@ -17,7 +17,7 @@ from core.mail import send_mail
 from site_settings.models import OtherSettings
 from integrations.wagtailformkey.forms import WagtailCaptchaKeyFormBuilder, remove_wagtail_key_field
 from .utils import get_duplicates
-
+from django.utils.translation import gettext_lazy as _
 
 class ContactPage(WagtailCaptchaEmailForm):
     template = 'contact/contact_page.html'
@@ -28,8 +28,8 @@ class ContactPage(WagtailCaptchaEmailForm):
     landing_page_template = 'form_thank_you_landing.html'
     form_builder = WagtailCaptchaKeyFormBuilder
 
-    location = models.CharField(help_text="Location of organisation", blank=False, null=True, max_length=250)
-    thank_you_text = RichTextField(blank=True)
+    location = models.CharField(help_text=_("Location of organisation"), blank=False, null=True, max_length=250, verbose_name=_("Location of organisation"))
+    thank_you_text = RichTextField(blank=True, verbose_name=_("Thank you message"))
 
     @cached_property
     def point(self):
@@ -53,7 +53,7 @@ class ContactPage(WagtailCaptchaEmailForm):
                 FieldPanel('to_address', classname="col6"),
             ]),
             FieldPanel('subject'),
-        ], "Email"),
+        ], _("Email")),
     ]
 
     def get_form_fields(self):
@@ -143,6 +143,8 @@ class ContactPage(WagtailCaptchaEmailForm):
         content = '\n'.join(content)
         send_mail("POSSIBLE SPAM - {}".format(self.subject), content, addresses, self.from_address, )
 
+    class Meta:
+        verbose_name=_("Contact Page")
 
 class ContactFormField(AbstractFormField):
     page = ParentalKey(ContactPage,

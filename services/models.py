@@ -4,6 +4,7 @@ from django.utils.functional import cached_property
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, PageChooserPanel)
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
+from django.utils.translation import gettext_lazy as _
 
 from core import blocks
 from core.models import ServiceCategory, ServiceApplication
@@ -22,13 +23,12 @@ class ServicesPage(Page):
 
     max_count = 1
 
-
     def get_children_pages(self):
         return self.get_children().live()
 
     class Meta:
-        verbose_name = 'Service Page'
-        verbose_name_plural = 'Service Pages'
+        verbose_name = 'Service Index Page'
+        verbose_name_plural = 'Service Index Pages'
 
 class ServiceIndexPage(Page):
     template = 'services_page.html'
@@ -40,76 +40,81 @@ class ServiceIndexPage(Page):
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Banner Image",
-        help_text="A high quality image related to this Service",
+        verbose_name=_("Banner Image"),
+        help_text=_("A high quality image related to this Service"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    banner_title = models.CharField(max_length=255, null=True)
-    banner_subtitle = models.CharField(max_length=255, null=True)
+    banner_title = models.CharField(max_length=255, null=True, verbose_name=_("Banner Title"))
+    banner_subtitle = models.CharField(max_length=255, null=True, verbose_name=_("Banner Subtitle"))
 
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True)
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
     call_to_action_related_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Call to action related page")
     )
     call_to_action_external_link = models.URLField(max_length=200, blank=True, null=True,
-                                                   help_text="External Link if applicable")
+                                                   help_text=_("External Link if applicable"),verbose_name=_("Call to action external link"))
 
-    introduction_title = models.CharField(max_length=100, help_text="Introduction section title", null=True)
-    introduction_text = RichTextField(help_text="A description of what ORG does under  this Service",
+    introduction_title = models.CharField(max_length=100, help_text=_("Introduction section title"), null=True, verbose_name=_("Introduction title"))
+    introduction_text = RichTextField(help_text=_("A description of what ORG does under  this Service"),
                                       features=SUMMARY_RICHTEXT_FEATURES, null=True)
     introduction_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Introduction Image",
-        help_text="A high quality image related to this Service",
+        verbose_name=_("Introduction Image"),
+        help_text=_("A high quality image related to this Service"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True)
+    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"))
     introduction_button_link = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Introduction button link")
     )
     introduction_button_link_external = models.URLField(max_length=200, blank=True, null=True,
-                                                        help_text="External Link if applicable. Ignored if internal "
-                                                                  "page above is chosen")
+                                                        help_text=_("External Link if applicable. Ignored if internal "
+                                                                  "page above is chosen"), verbose_name=_("Introduction button link external"))
 
     # TODO: FIX THIS AND RETURN
     # what_we_do_items = StreamField([
     #     ('what_we_do', blocks.WhatWeDoBlock()),
     # ], null=True, blank=True,  use_json_field=True)
-    what_we_do_button_text = models.TextField(max_length=20, blank=True, null=True)
+    what_we_do_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("What we do button text"))
     what_we_do_button_link = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("What we do button link")
     )
 
-    projects_description = RichTextField(help_text="Projects description text", blank=True, null=True,
-                                         features=SUMMARY_RICHTEXT_FEATURES)
+    projects_description = RichTextField(help_text=_("Projects description text"), blank=True, null=True,
+                                         features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Project Description"))
 
     feature_block_items = StreamField([
         ('feature_item', blocks.FeatureBlock()),
-    ], null=True, blank=True,  use_json_field=True)
+    ], null=True, blank=True,  use_json_field=True, verbose_name=_("Feature block items"))
+
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Youtube playlist")
     )
 
     content_panels = Page.content_panels + [
@@ -124,7 +129,7 @@ class ServiceIndexPage(Page):
                 FieldPanel('call_to_action_external_link')
 
             ],
-            heading="Banner Section",
+            heading=_("Banner Section"),
         ),
         MultiFieldPanel(
             [
@@ -135,23 +140,27 @@ class ServiceIndexPage(Page):
                 PageChooserPanel('introduction_button_link'),
                 FieldPanel('introduction_button_link_external')
             ],
-            heading="Introduction Section",
+            heading=_("Introduction Section"),
         ),
         MultiFieldPanel([
             # FieldPanel('what_we_do_items'),
             FieldPanel('what_we_do_button_text'),
             PageChooserPanel('what_we_do_button_link'),
         ],
-            heading="What we do in this Service section ",
+            heading=_("What we do in this Service section"),
         ),
         MultiFieldPanel([
             FieldPanel('projects_description'),
         ],
-            heading="Projects Section",
+            heading=_("Projects Section"),
         ),
         FieldPanel('feature_block_items'),
         FieldPanel('youtube_playlist'),
     ]
+
+    class Meta:
+        verbose_name =  _('Service Page')
+        verbose_name_plural =  _('Service Pages')
 
     @cached_property
     def projects(self):

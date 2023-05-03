@@ -3,6 +3,7 @@ from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from rest_framework.fields import BooleanField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.api import APIField
@@ -24,57 +25,61 @@ class TendersPage(Page):
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Banner Image",
-        help_text="A high quality image related to Tenders",
+        verbose_name=_("Banner Image"),
+        help_text=_("A high quality image related to Tenders"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    banner_title = models.CharField(max_length=255)
-    banner_subtitle = models.CharField(max_length=255, blank=True, null=True)
+    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
+    banner_subtitle = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Banner Subtitle"))
 
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True)
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
     call_to_action_related_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Call to action related page")
     )
 
-    introduction_title = models.CharField(max_length=100, help_text="Introduction section title")
-    introduction_text = RichTextField(help_text="A description of tenders at your organisation", features=SUMMARY_RICHTEXT_FEATURES)
+    introduction_title = models.CharField(max_length=100, help_text=_("Introduction section title"), verbose_name=_("Introduction Title"))
+    introduction_text = RichTextField(help_text=_("A description of tenders at your organisation"),verbose_name=_("Introduction Text"), features=SUMMARY_RICHTEXT_FEATURES)
     introduction_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Introduction Image",
-        help_text="A high quality image related to tenders at your organisation",
+        verbose_name=_("Introduction Image"),
+        help_text=_("A high quality image related to tenders at your organisation"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
 
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True)
+    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"))
     introduction_button_link = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Introduction button text")
     )
 
     no_tenders_header_text = models.TextField(blank=True, null=True,
-                                              help_text="Text to appear when there are no tenders")
+                                              help_text=_("Text to appear when there are no tenders"),
+                                              verbose_name=_("No tenders header text"))
 
     no_tenders_description_text = models.TextField(blank=True, null=True,
-                                                   help_text="Additional text to appear when there are no tenders,"
-                                                             "below the no tenders header text")
+                                                   help_text=_("Additional text to appear when there are no tenders,"
+                                                             "below the no tenders header text"),
+                                                             verbose_name=_("No tenders description text"))
 
     items_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
-    ], help_text="How many items should be visible on the landing page filter section ?")
+    ], help_text=_("How many items should be visible on the landing page filter section ?"), verbose_name=_("Items per page"))
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -85,7 +90,7 @@ class TendersPage(Page):
                 FieldPanel('call_to_action_button_text'),
                 PageChooserPanel('call_to_action_related_page', )
             ],
-            heading="Banner Section",
+            heading=_("Banner Section"),
         ),
         MultiFieldPanel(
             [
@@ -95,7 +100,7 @@ class TendersPage(Page):
                 FieldPanel('introduction_button_text'),
                 PageChooserPanel('introduction_button_link'),
             ],
-            heading="Introduction Section",
+            heading=_("Introduction Section"),
         ),
         MultiFieldPanel(
             [
@@ -103,7 +108,7 @@ class TendersPage(Page):
                 FieldPanel('no_tenders_description_text'),
                 FieldPanel('items_per_page'),
             ],
-            heading="Other Settings",
+            heading=_("Other Settings"),
         ),
     ]
 
@@ -154,25 +159,28 @@ class TendersPage(Page):
         return super().save(*args, **kwargs)
 
 
+    class Meta:
+        verbose_name=_("Tender Page")
+
 class TenderDetailPage(Page):
     template = 'tender_detail_page.html'
     parent_page_types = ['tenders.TendersPage']
     subpage_types = []
 
-    posting_date = models.DateTimeField(default=timezone.now, verbose_name="Date of Posting")
-    ref_no = models.CharField("Reference Number", max_length=100, blank=True, null=True,
-                              help_text="Any Reference number if available")
-    deadline = models.DateTimeField("Submission Deadline")
-    description = RichTextField(blank=True, null=True, features=SUMMARY_RICHTEXT_FEATURES)
+    posting_date = models.DateTimeField(default=timezone.now, verbose_name=_("Date of Posting"))
+    ref_no = models.CharField(_("Reference Number"), max_length=100, blank=True, null=True,
+                              help_text=_("Any Reference number if available"))
+    deadline = models.DateTimeField(_("Submission Deadline"))
+    description = RichTextField(blank=True, null=True, features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Description"))
     tender_document = models.ForeignKey(
         'core.CustomDocumentModel',
-        verbose_name="Downloadable tender description document",
+        verbose_name=_("Downloadable tender description document"),
         on_delete=models.PROTECT,
         related_name='+',
     )
     additional_documents = StreamField([
         ('additional_documents', blocks.AdditionalMaterialBlock()),
-    ], null=True, blank=True, use_json_field=True)
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Additional Documents"))
 
     content_panels = Page.content_panels + [
         FieldPanel('posting_date'),
@@ -180,7 +188,7 @@ class TenderDetailPage(Page):
         FieldPanel('deadline'),
         FieldPanel("description"),
         FieldPanel('tender_document'),
-        FieldPanel('additional_documents', heading="Additional Documents"),
+        FieldPanel('additional_documents', heading=_("Additional Documents")),
     ]
 
     api_fields = [
@@ -228,3 +236,6 @@ class TenderDetailPage(Page):
                 # Limit the search meta desc to google's 160 recommended chars
                 self.search_description = truncatechars(p, 160)
         return super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name=_("Tender Detail Page")

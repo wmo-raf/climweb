@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import CheckboxSelectMultiple
+from django.utils.translation import gettext_lazy as _
 
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, FieldRowPanel
 from wagtail.api import APIField
@@ -21,8 +22,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
   
 @register_snippet
 class ServiceCategory(models.Model):
-    name = models.CharField(max_length=255)
-    icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT, blank=True, null=True)
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+    icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_("Icon"))
 
     panels = [
         FieldPanel('name'),
@@ -37,13 +38,13 @@ class ServiceCategory(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Service Category"
-        verbose_name_plural = "Service Categories"
+        verbose_name = _("Service Category")
+        verbose_name_plural = _("Service Categories")
 
 
 @register_snippet
 class ProductCategory(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
 
     panels = [
         FieldPanel('name'),
@@ -53,14 +54,14 @@ class ProductCategory(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Product Category"
-        verbose_name_plural = "Products Categories"
+        verbose_name = _("Product Category")
+        verbose_name_plural = _("Products Categories")
 
 
 @register_snippet
 class PublicationType(models.Model):
-    name = models.CharField(max_length=255)
-    icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT, blank=True, null=True)
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+    icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_("Icon"))
 
     panels = [
         FieldPanel('name'),
@@ -75,13 +76,13 @@ class PublicationType(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Publication Types"
+        verbose_name_plural = _("Publication Types")
 
 @register_snippet
 class NewsType(models.Model):
-    name = models.CharField(max_length=255)
-    is_alert = models.BooleanField(default=False)
-    is_press_release = models.BooleanField(default=False)
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+    is_alert = models.BooleanField(default=False, verbose_name=_("Is alert"))
+    is_press_release = models.BooleanField(default=False, verbose_name=_("Is press release"))
 
     panels = [
         FieldPanel('name'),
@@ -99,25 +100,27 @@ class NewsType(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "News Type"
-        verbose_name_plural = "News Types"
+        verbose_name = _("News Type")
+        verbose_name_plural = _("News Types")
 
 @register_snippet
 class Application(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, verbose_name=_("Title"))
     thumbnail = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        verbose_name=_("Thumbnail")
     )
-    url = models.URLField()
-    services = models.ManyToManyField(ServiceCategory, through='ServiceApplication', related_name='applications')
-    order = models.PositiveIntegerField(default=0)
+    url = models.URLField(verbose_name=_("URL"))
+    services = models.ManyToManyField(ServiceCategory, through='ServiceApplication', related_name='applications', verbose_name=_("Services"))
+    order = models.PositiveIntegerField(default=0, verbose_name=_("Order"))
 
     class Meta:
         ordering = ["order"]
+        verbose_name=_("Application")
 
     panels = [
         FieldPanel('title'),
@@ -148,8 +151,8 @@ class Application(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = "GIS Application"
-        verbose_name_plural = "GIS Applications"
+        verbose_name = _("GIS Application")
+        verbose_name_plural = _("GIS Applications")
 
 
 class ServiceApplication(models.Model):
@@ -167,15 +170,15 @@ class ServiceApplication(models.Model):
 
 @register_snippet
 class EventType(models.Model):
-    event_type = models.CharField(max_length=255)
-    icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT, blank=True, null=True)
+    event_type = models.CharField(max_length=255, verbose_name=_("Event type"))
+    icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_("Icon"))
     thumbnail = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text="Thumbnail/image for this type of event."
+        help_text=_("Thumbnail/image for this type of event.")
     )
 
     def __str__(self):
@@ -192,37 +195,40 @@ class EventType(models.Model):
         APIField('icon'),
     ]
 
+    class Meta:
+        verbose_name=_("Event Type")
+
 
 @register_setting
 class ImportantPages(BaseSiteSetting):
     mailing_list_signup_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("Mailing list sign up page"))
     contact_us_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("Contact us page"))
     all_products_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All products page"))
     all_projects_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All projects page"))
     all_alerts_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All alerts page"))
     all_news_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All news page"))
     all_publications_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All publications page"))
     all_videos_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All videos page"))
     all_applications_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All applications page"))
     all_events_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All events page"))
     all_partners_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All partners page"))
     all_tenders_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All tenders page"))
     all_vacancies_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All vacancies page"))
     feedback_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name=_("All feedback page"))
     
     panels = [
         PageChooserPanel('mailing_list_signup_page'),

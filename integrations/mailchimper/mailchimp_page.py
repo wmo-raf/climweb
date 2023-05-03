@@ -1,16 +1,16 @@
 from django.db import models
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel, PageChooserPanel
-
+from django.utils.translation import gettext_lazy as _
 
 class BaseMailChimpPage(models.Model):
     """
     Abstract MailChimp page definition.
     """
-    list_id = models.CharField(('MailChimp List ID'), max_length=50,
-                               help_text=('Enter the MailChimp list ID to use for this form'))
-    double_optin = models.BooleanField(('Double Opt-In'), default=True,
-                                       help_text=('Use double opt-in process for new subscribers'))
-    thank_you_text = models.TextField(blank=True, null=True, help_text="Message to show on successful submission")
+    list_id = models.CharField(_('MailChimp List ID'), max_length=50,
+                               help_text=_('Enter the MailChimp list ID to use for this form'))
+    double_optin = models.BooleanField(_('Double Opt-In'), default=True,
+                                       help_text=_('Use double opt-in process for new subscribers'))
+    thank_you_text = models.TextField(blank=True, null=True, help_text=_("Message to show on successful submission"),verbose_name=_("Thank you text"))
 
     class Meta(object):
         abstract = True
@@ -34,6 +34,6 @@ class BaseMailChimpPage(models.Model):
                 FieldPanel('list_id'),
                 FieldPanel('double_optin')
             ], classname='label-above'),
-        ], (u'MailChimp Settings')),
+        ], (_('MailChimp Settings'))),
         FieldPanel('thank_you_text')
     ]

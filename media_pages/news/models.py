@@ -5,6 +5,7 @@ from django.db import models
 from django.forms import CheckboxSelectMultiple
 from django.template.defaultfilters import truncatechars, date
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
 from taggit.models import TaggedItemBase
@@ -32,28 +33,30 @@ class NewsIndexPage(Page):
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Banner Image",
-        help_text="A high quality image related to News",
+        verbose_name=_("Banner Image"),
+        help_text=_("A high quality image related to News"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    banner_title = models.CharField(max_length=255)
-    banner_subtitle = models.CharField(max_length=255)
+    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
+    banner_subtitle = models.CharField(max_length=255, verbose_name=_("Banner Subtitle"))
 
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True)
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
     call_to_action_related_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Call to action related page")
     )
     items_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
-    ], help_text="How many items should be visible on the news landing page filter section ?")
+    ], help_text=_("How many items should be visible on the news landing page filter section ?"),
+    verbose_name=_("Items per page"))
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -65,16 +68,19 @@ class NewsIndexPage(Page):
                 PageChooserPanel('call_to_action_related_page', )
 
             ],
-            heading="Banner Section",
+            heading=_("Banner Section"),
         ),
         MultiFieldPanel(
             [
                 FieldPanel('items_per_page'),
 
             ],
-            heading="Other settings",
+            heading=_("Other settings"),
         )
     ]
+
+    class Meta:
+        verbose_name=_("News Index Page")
 
     @cached_property
     def filters(self):
@@ -153,26 +159,26 @@ class NewsPage(Page):
     parent_page_types = ['news.NewsIndexPage']
     subpage_types = []
 
-    news_type = models.ForeignKey(NewsType, on_delete=models.PROTECT)
-    date = models.DateTimeField("Post date", default=datetime.today)
-    subtitle = models.TextField(blank=True, null=True, help_text="Optional subtitle")
-    body = RichTextField(features=NEWS_ALLOWED_RICHTEXT_FEATURES)
-    feature_img_src = models.TextField(blank=True, null=True)
-    services = ParentalManyToManyField('core.ServiceCategory', blank=True, verbose_name="Relevant Services")
-    projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name="Relevant Projects")
-    is_featured = models.BooleanField(default=False, help_text="Should this news appear on the news landing "
-                                                               "paging as the featured one ?")
-    is_alert = models.BooleanField(default=False, help_text="Is this an alert ?")
+    news_type = models.ForeignKey(NewsType, on_delete=models.PROTECT, verbose_name=_("News type"))
+    date = models.DateTimeField(_("Post date"), default=datetime.today)
+    subtitle = models.TextField(blank=True, null=True, help_text=_("Optional subtitle"), verbose_name=_("Subtitle"))
+    body = RichTextField(features=NEWS_ALLOWED_RICHTEXT_FEATURES, verbose_name=_("Body"))
+    feature_img_src = models.TextField(blank=True, null=True, verbose_name=_("Feature Image"))
+    services = ParentalManyToManyField('core.ServiceCategory', blank=True, verbose_name=_("Relevant Services"), )
+    projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name=_("Relevant Projects"))
+    is_featured = models.BooleanField(default=False, help_text=_("Should this news appear on the news landing "
+                                                               "paging as the featured one ?"), verbose_name=_("Is featured"))
+    is_alert = models.BooleanField(default=False, help_text=_("Is this an alert ?"), verbose_name=_("Is alert"))
     is_visible_on_homepage = models.BooleanField(default=False,
-                                                 help_text="Should this appear in the homepage as"
-                                                           " an alert/latest update ?")
-    extra_links_heading = models.CharField(max_length=255, blank=True, null=True)
+                                                 help_text=_("Should this appear in the homepage as"
+                                                           " an alert/latest update ?"), verbose_name=_("Is visible on homepage"))
+    extra_links_heading = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Extra links heading"))
 
     external_links = StreamField([
         ('link', ExternalLinkBlock())
-    ], blank=True, null=True, use_json_field=True)
+    ], blank=True, null=True, use_json_field=True, verbose_name=_("Extra links"))
 
-    tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
+    tags = ClusterTaggableManager(through=NewsPageTag, blank=True, verbose_name=_("Tags"))
 
     content_panels = Page.content_panels + [
         FieldPanel('news_type'),
@@ -186,7 +192,7 @@ class NewsPage(Page):
         MultiFieldPanel([
             FieldPanel('extra_links_heading'),
             FieldPanel('external_links'),
-        ], heading="Extra Links"),
+        ], heading=_("Extra Links")),
 
         FieldPanel('is_featured'),
         FieldPanel('is_alert'),
@@ -202,6 +208,9 @@ class NewsPage(Page):
         APIField('tags'),
         APIField('is_alert'),
     ]
+
+    class Meta:
+        verbose_name=_("News Page")
 
     @cached_property
     def card_props(self):

@@ -69,12 +69,12 @@ class ZoomMeetingIntegrationForm(AbstractForm, models.Model):
     )
 
     enable_adding_registrants = models.BooleanField(default=False,
-                                                    verbose_name="Enable registrations - Note: Works for zoom "
-                                                                 "meetings or webinars with Registration enabled ",
-                                                    help_text="Check to enable zoom integration")
+                                                    verbose_name=_("Enable registrations - Note: Works for zoom "
+                                                                 "meetings or webinars with Registration enabled "),
+                                                    help_text=_("Check to enable zoom integration"))
     is_webinar = models.BooleanField(default=False,
-                                     verbose_name="Is this a zoom webinar ? Leave unchecked if meeting",
-                                     help_text="Is this a webinar ? Leave unchecked for meetings ")
+                                     verbose_name=_("Is this a zoom webinar ? Leave unchecked if meeting"),
+                                     help_text=_("Is this a webinar ? Leave unchecked for meetings "))
 
     zoom_integration_panels = [
         FieldPanel('enable_adding_registrants'),

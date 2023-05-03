@@ -5,6 +5,7 @@ from itertools import groupby
 
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from django.core import serializers
 import json
 
@@ -31,7 +32,7 @@ class HomePage(Page):
     subpage_types = [
         'capeditor.AlertList', 
         'contact.ContactPage',
-        'services.ServicesPage',
+        'services.ServiceIndexPage',
         'products.ProductIndexPage',
         'feedback.FeedbackPage',
         'publications.PublicationsIndexPage',
@@ -50,29 +51,30 @@ class HomePage(Page):
     max_count = 1
 
 
-    text_color = ColorField(blank=True, null=True, default="#f0f0f0")
+    text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Text Color"))
 
-    hero_title = models.CharField(blank=False, null=True, max_length=100, verbose_name='Title', default='National Meteorological & Hydrological Services')
-    hero_subtitle = models.CharField(blank=False, null=True, max_length=100, verbose_name='Subtitle Title', default='Observing and understanding weather and climate')
+    hero_title = models.CharField(blank=False, null=True, max_length=100, verbose_name=_('Title'), default='National Meteorological & Hydrological Services')
+    hero_subtitle = models.CharField(blank=False, null=True, max_length=100, verbose_name=_('Subtitle Title'), default='Observing and understanding weather and climate')
     hero_banner = models.ForeignKey("wagtailimages.Image", 
         on_delete=models.SET_NULL, 
-        null=True, blank=False, related_name="+")    
+        null=True, blank=False, related_name="+", verbose_name=_("Hero Banner"))    
 
-    enable_weather_forecasts = models.BooleanField(blank=True, default=True)
-    enable_climate = models.BooleanField(blank=True, default=True)
-    climate_title = models.CharField(blank=True, null=True, max_length=100, verbose_name='Climate Title', default='Explore Current Conditions')
+    enable_weather_forecasts = models.BooleanField(blank=True, default=True, verbose_name=_("Enable weather forecasts section"))
+    enable_climate = models.BooleanField(blank=True, default=True, verbose_name=_("Enable climate section"))
+    climate_title = models.CharField(blank=True, null=True, max_length=100, verbose_name=_('Climate Title'), default='Explore Current Conditions')
     
-    enable_media= models.BooleanField(blank=True, default=True)
+    enable_media= models.BooleanField(blank=True, default=True, verbose_name=_("Enable media section"))
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Youtube Playlist")
     )
 
-    video_section_title = models.CharField(blank=False, null=True, max_length=100, verbose_name='Media Section Title', default='Latest Media')
-    video_section_desc = models.TextField(blank=False, null=True, max_length=500, verbose_name='Media Section Description', default='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultriceseleifend gt')
+    video_section_title = models.CharField(blank=False, null=True, max_length=100, verbose_name=_('Media Section Title'), default='Latest Media')
+    video_section_desc = models.TextField(blank=False, null=True, max_length=500, verbose_name=_('Media Section Description'), default='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultriceseleifend gt')
 
     content_panels = Page.content_panels+[
         MultiFieldPanel([
@@ -80,27 +82,27 @@ class HomePage(Page):
             FieldPanel('hero_title'),
             FieldPanel('hero_subtitle'),
             FieldPanel("hero_banner"),
-        ], heading = "Hero Section"),
+        ], heading = _("Hero Section")),
         MultiFieldPanel([
             FieldPanel('enable_weather_forecasts'),
             # FieldPanel('hero_subtitle')
-        ], heading = "Weather forecasts Section"),
+        ], heading = _("Weather forecasts Section")),
         MultiFieldPanel([
             FieldPanel('enable_climate'),
             FieldPanel('climate_title')
-        ], heading = "Climate Section Section"),
+        ], heading = _("Climate Section Section")),
         MultiFieldPanel([
             FieldPanel('enable_media'),
             FieldPanel('video_section_title'),
             FieldPanel('video_section_desc'),
             FieldPanel('youtube_playlist'),
-        ], heading = "Media Section")
+        ], heading = _("Media Section"))
 
     ]
 
     class Meta:
-        verbose_name = "Home Page"
-        verbose_name_plural = "Home Pages"
+        verbose_name = _("Home Page")
+        verbose_name_plural = _("Home Pages")
 
     @cached_property
     def default_theme(self):

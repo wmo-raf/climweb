@@ -5,6 +5,7 @@ from django.db import models
 from django.forms.widgets import CheckboxSelectMultiple
 from django.template.defaultfilters import truncatechars
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
 from taggit.models import TaggedItemBase
@@ -29,23 +30,24 @@ class PublicationsIndexPage(Page):
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name="Banner Image",
-        help_text="A high quality image related to Publications",
+        verbose_name=_("Banner Image"),
+        help_text=_("A high quality image related to Publications"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    banner_title = models.CharField(max_length=255)
-    banner_subtitle = models.CharField(max_length=255)
+    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
+    banner_subtitle = models.CharField(max_length=255, verbose_name=_("Banner Subtitle"))
 
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True)
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
     call_to_action_related_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name=_("Call to action related page")
     )
     earliest_publication_year = models.PositiveIntegerField(
         default=datetime.now().year,
@@ -53,12 +55,12 @@ class PublicationsIndexPage(Page):
             MinValueValidator(2000),
             MaxValueValidator(datetime.now().year),
         ],
-        help_text="The year for the earliest available publication. This is used to generate the years available for "
-                  "filtering ")
+        help_text=_("The year for the earliest available publication. This is used to generate the years available for "
+                  "filtering "), verbose_name=_("Earliest Publication Year"))
     publications_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
-    ], help_text="How many publications per page should be visible on the all publications section ?")
+    ], help_text=_("How many publications per page should be visible on the all publications section ?"))
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -79,6 +81,9 @@ class PublicationsIndexPage(Page):
             heading="Other Settings",
         ),
     ]
+
+    class Meta:
+        verbose_name=_("Publications Index Page")
 
     @cached_property
     def filters(self):
@@ -150,34 +155,34 @@ class PublicationsIndexPage(Page):
         return super().save(*args, **kwargs)
 
     
-    
-
 
 class PublicationPageTag(TaggedItemBase):
     content_object = ParentalKey('publications.PublicationPage', on_delete=models.CASCADE,
                                  related_name='publications_tags',)
-
 
 class PublicationPage(Page):
     template = 'publication_page.html'
     parent_page_types = ['publications.PublicationsIndexPage']
     subpage_types = []
 
-    publication_type = models.ForeignKey('core.PublicationType', on_delete=models.PROTECT)
-    categories = ParentalManyToManyField('core.ServiceCategory', verbose_name="Services related to this publication")
-    projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name="Relevant Projects")
-    summary = RichTextField(features=SUMMARY_RICHTEXT_FEATURES)
-    publication_date = models.DateField("Date of Publish", default=date.today)
+    publication_type = models.ForeignKey('core.PublicationType', on_delete=models.PROTECT, verbose_name=_("Publication Type"))
+    categories = ParentalManyToManyField('core.ServiceCategory', verbose_name=_("Services related to this publication"))
+    projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name=_("Relevant Projects"))
+    summary = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Summary"))
+    publication_date = models.DateField(_("Date of Publish"), default=date.today)
     is_visible_on_homepage = models.BooleanField(default=False,
                                                  help_text="Should this appear in the homepage as"
-                                                           " an alert/latest update ?")
+                                                           " an alert/latest update ?",
+                                                           verbose_name=_("Is visible on homepage"))
     featured = models.BooleanField(
-        "Mark as featured", default=False, help_text="Featured publications appear on the publications landing page")
+        _("Mark as featured"), default=False, help_text=_("Featured publications appear on the publications landing page"))
     period_start_date = models.DateField(blank=True, null=True,
-                                         help_text="Optional start date for which this publication is relevant")
+                                         help_text=_("Optional start date for which this publication is relevant"),
+                                         verbose_name=_("Start date"))
     period_end_date = models.DateField(blank=True, null=True,
-                                       help_text="Optional end date for which this publication is relevant")
-    peer_reviewed = models.BooleanField(default=False, help_text="Is this a peer reviewed publication ?")
+                                       help_text="Optional end date for which this publication is relevant",
+                                       verbose_name=_("End date"))
+    peer_reviewed = models.BooleanField(default=False, help_text="Is this a peer reviewed publication ?", verbose_name=_("Peer reviewed"))
 
     thumbnail = models.ForeignKey(
         'wagtailimages.Image',
@@ -185,8 +190,8 @@ class PublicationPage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        verbose_name="Publication image",
-        help_text="This can be a screenshot of the front page of the publication"
+        verbose_name=_("Publication image"),
+        help_text=_("This can be a screenshot of the front page of the publication")
     )
     document = models.ForeignKey(
         'core.CustomDocumentModel',
@@ -194,14 +199,14 @@ class PublicationPage(Page):
         null=True,
         blank=True,
         related_name='+',
-        verbose_name="Document or File",
-        help_text="Here you can upload pdfs, word documents, powerpoints, zip files or any other file"
+        verbose_name=_("Document or File"),
+        help_text=_("Here you can upload pdfs, word documents, powerpoints, zip files or any other file")
     )
     external_publication_url = models.URLField(max_length=500, blank=True, null=True,
-                                               verbose_name="External Url - *Only If published/hosted somewhere else",
-                                               help_text="Link to published resource if external")
+                                               verbose_name=_("External Url - *Only If published/hosted somewhere else"),
+                                               help_text=_("Link to published resource if external"))
 
-    tags = ClusterTaggableManager(through=PublicationPageTag, blank=True)
+    tags = ClusterTaggableManager(through=PublicationPageTag, blank=True, verbose_name=_("Tags"))
 
     content_panels = Page.content_panels + [
         FieldPanel('publication_type'),
@@ -218,7 +223,7 @@ class PublicationPage(Page):
         MultiFieldPanel([
             FieldPanel('period_start_date'),
             FieldPanel('period_end_date'),
-        ], heading="Additional Details"),
+        ], heading=_("Additional Details")),
     ]
 
     api_fields = [

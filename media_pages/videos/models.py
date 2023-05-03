@@ -2,6 +2,7 @@ import os
 
 # from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from googleapiclient.discovery import build
 from wagtail.admin.panels import (FieldPanel)
 from wagtail.fields import RichTextField
@@ -19,10 +20,11 @@ youtube_service = None
 # Youtube playlists
 # @register_snippet
 class YoutubePlaylist(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, verbose_name=_("Title"))
     playlist_id = models.CharField(max_length=100,
-                                   help_text="This is the playlist ID as obtained from Youtube. "
-                                             "If the playlist is not created on Youtube, please create it first")
+                                   help_text=_("This is the playlist ID as obtained from Youtube. "
+                                             "If the playlist is not created on Youtube, please create it first"),
+                                             verbose_name=_("Playlist ID"))
 
 
     def set_api(self):
@@ -98,7 +100,7 @@ class VideoGalleryPage(Page):
     subpage_types = []
     max_count = 1
 
-    introduction = RichTextField()
+    introduction = RichTextField(verbose_name=_("Introduction"))
 
     content_panels = Page.content_panels + [
         FieldPanel('introduction'),

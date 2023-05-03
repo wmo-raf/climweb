@@ -114,6 +114,7 @@ INSTALLED_APPS = [
     "mailchimp3",
     "manifest_loader",
     "django_cron",
+    "django_deep_translator"
     
 ]
 
@@ -122,7 +123,9 @@ CRON_CLASSES = [
     # ...
 ]
 
-
+PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
+DEEPL_TRANSLATE_KEY="testkey"
+DEEPL_FREE_API = True
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -226,9 +229,53 @@ LANGUAGES = [
     ('en', 'English'),
     ('es', 'Español'),
     ('fr', 'French'),
+    ('ar', 'Arabic'),
+    ('am', 'Amharic'),
+    ('sw', 'Swahili'),
 ]
 
 LANGUAGE_CODE = "en"
+
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES=[
+    ('en', 'English'),
+    ('es', 'Español'),
+    ('fr', 'French'),
+    ('ar', 'Arabic'),
+    ('am', 'Amharic'),
+    ('sw', 'Swahili'),
+]
+
+WAGTAIL_LANGUAGES_FALLBACK = False
+WAGTAILADMIN_PERMITTED_LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Español'),
+    ('fr', 'French'),
+    ('ar', 'Arabic'),
+    ('sw', 'Swahili'),
+    # ('am', 'Amharic'),
+
+]
+
+LOCALE_PATHS = (
+    'home/locale',
+    'products/locale',
+    'services/locale',
+    'organisation_pages/about/locale',
+    'organisation_pages/contact/locale',
+    'organisation_pages/events/locale',
+    'organisation_pages/feedback/locale',
+    'organisation_pages/projects/locale',
+    'organisation_pages/tenders/locale',
+    'organisation_pages/vacancies/locale',
+    'media_pages/mediacenter/locale',
+    'media_pages/videos/locale',
+    'media_pages/publications/locale',
+    'media_pages/news/locale',
+    'integrations/mailchimper/locale',
+    'integrations/wagtailzoom/locale',
+    'core/locale',
+    'forecast_manager/locale',
+)
 
 TIME_ZONE = "UTC"
 
@@ -240,7 +287,7 @@ USE_TZ = True
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 MODELTRANSLATION_LANGUAGES = ('en', 'es')
-WAGTAIL_CONTENT_LANGUAGES = [    ('en', 'English'),    ('es', 'Spanish'),]
+# WAGTAIL_CONTENT_LANGUAGES = [    ('en', 'English'),    ('es', 'Spanish'),]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
