@@ -1,6 +1,18 @@
 import argparse
+import os
+import shutil
 import subprocess
+import fileinput
+import re
 
+# ANSI escape codes for text colors
+RED = '\033[91m'
+GREEN = '\033[92m'
+YELLOW = '\033[93m'
+BLUE = '\033[94m'
+MAGENTA = '\033[95m'
+CYAN = '\033[96m'
+RESET = '\033[0m'
 
 DOCKER_COMPOSE_ARGS = """
     --file docker-compose.yml
@@ -18,6 +30,10 @@ parser.add_argument(
     help='simulate execution by printing action rather than executing')
 
 commands = [
+    'setup_cms',
+    'setup_postgres',
+    'setup_mautic',
+    'setup_recaptcha',
     'build',
     'config',
     'down',
@@ -43,6 +59,7 @@ commands = [
 parser.add_argument('command',
                     choices=commands,
                     help="""
+    - setup_XX: setup environment variables
     - config: validate and view Docker configuration
     - build [containers]: build all services
     - start [containers]: start system
@@ -63,6 +80,89 @@ parser.add_argument('command',
 parser.add_argument('args', nargs=argparse.REMAINDER)
 
 args = parser.parse_args()
+
+def update_nginx(suffix):
+    nginx_conf_file = 'nginx/nginx.conf'
+    new_proxy_pass = 'http://cms_web/'+suffix
+
+    # Use fileinput to modify the nginx.conf file in-place
+    with fileinput.FileInput(nginx_conf_file, inplace=True, backup='.bak') as file:
+        inside_location_block = False
+        for line in file:
+            # Search for the location directive with /
+            if re.match(r'\s*location\s*/', line):
+                inside_location_block = True
+            elif inside_location_block and line.strip() == '}':
+                inside_location_block = False
+
+            # Update the proxy_pass directive inside the location block
+            if inside_location_block and 'proxy_pass' in line:
+                line = line.replace(line.strip(), f'proxy_pass {new_proxy_pass};')
+                
+            print(line, end='')
+
+    print("nginx.conf updated successfully.")
+
+def setup_config(env_inputs):
+    # Get the default value from the .env file
+    # Load existing .env values
+    env_values = {}
+    with open('.env', 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#'):
+                key, value = line.split('=', 1)
+                env_values[key] = value
+
+    # list user input variables to be updated in .env             
+    # env_inputs =[
+    #     'POSTGRES_PORT_CMS',
+    #     'POSTGRES_PASSWORD_CMS',
+    # ]
+
+    if type(env_inputs) == list:
+        for val in env_inputs:
+            # Get the default value from the .env file
+            default_value = env_values.get(val)
+
+            # Prompt the user for the values
+            user_input = input(f"{YELLOW} ENTER {val}:{GREEN} (default -> {default_value}). {CYAN} Press enter to accept default {RESET}")  or default_value
+            
+            if val == "ENVIRONMENT" and user_input:
+                while user_input != "dev" or user_input != "production":
+
+                    if user_input == "dev" or user_input == "production":
+                        break
+
+                    print(f"{RED}Accepts only 'dev' or 'production!' {RESET}")
+                    user_input = input(f"{YELLOW} ENTER {val}:{GREEN} (default -> {default_value}). {CYAN} Press enter to accept default {RESET}")  or default_value
+
+            if val == "BASE_PATH":
+                # link with nginx 
+                update_nginx(user_input)
+                    
+            # Update the .env file
+            updated_lines = []   
+
+            with open('.env', 'r') as f:
+                lines = f.readlines()
+                key_found = False
+                for line in lines:
+                    if line.startswith(val + '='):
+                        line = f"{val}={user_input}\n"
+                        key_found=True
+
+                    updated_lines.append(line)
+
+                if not key_found:
+                    updated_lines.append(f"\n{val}={user_input}")
+
+
+            with open('.env', 'w') as f:
+                f.writelines(updated_lines)
+
+    else:
+        print("only accepts variables as list")
 
 def split(value: str) -> list:
     """
@@ -151,6 +251,8 @@ def make(args) -> None:
             run(args, split(
                 f'docker-compose {docker_compose_args} down --remove-orphans'))
             run(args, split(
+                f'docker-compose {docker_compose_args} build'))
+            run(args, split(
                 f'docker-compose {docker_compose_args} up -d --force-recreate'))
     elif args.command == "status":
         run(args, split(
@@ -171,7 +273,53 @@ def make(args) -> None:
     elif args.command == "collectstatic":
         run(args, split(
             f'docker-compose {docker_compose_args} exec -T cms_web python manage.py collectstatic --clear --no-input'))
+    elif args.command == "setup_postgres":
+        print(f"{MAGENTA}Setting up PostgreSQL Configs...{RESET}")
+        setup_config([
+            'POSTGRES_PORT_CMS',
+            'POSTGRES_PASSWORD_CMS',
+        ])
+        print(f"{MAGENTA}\u2713 Completed PostgreSQL Setup... Run {CYAN}'python3 nmhs-ctl.py restart' to reload changes{RESET}")
 
+
+    elif args.command == "setup_mautic":
+        print("Setting up Mautic Configs...")
+        setup_config([
+            'MAUTIC_DB_USER',
+            'MAUTIC_DB_PASSWORD',
+            'MYSQL_ROOT_PASSWORD'
+        ])
+        print(f"{MAGENTA}\u2713 Completed Mautic Setup... Run {CYAN}'python3 nmhs-ctl.py restart' to reload changes{RESET}")
+
+    
+    elif args.command == "setup_recaptcha":
+        print("Setting up Mautic Configs...")
+        setup_config([
+            'RECAPTCHA_PRIVATE_KEY',
+            'RECAPTCHA_PUBLIC_KEY',
+        ])
+        print(f"{MAGENTA}\u2713 Completed Recaptcha Setup... Run {CYAN}'python3 nmhs-ctl.py restart' to reload changes{RESET}")
+
+
+    elif args.command == "setup_cms":
+        print(f"{MAGENTA}Setting up CMS Configs...{RESET}")
+        setup_config([
+            'ENVIRONMENT',
+            'RECAPTCHA_PUBLIC_KEY',
+            'DEBUG',
+            'CMS_HOST',
+            'CMS_PORT',
+            'BASE_PATH',
+        ])
+
+        print(f"{MAGENTA}\u2713 Completed CMS Setup... Run {CYAN}'python3 nmhs-ctl.py restart'{MAGENTA} to reload changes{RESET}")
 
 if __name__ == "__main__":
+    env_file = '.env'
+    env_sample_file = '.env.sample'
+
+    if not os.path.exists(env_file):
+        shutil.copy(env_sample_file, env_file)
+        print(f"{env_file} file created from {env_sample_file}.")
+        
     make(args)
