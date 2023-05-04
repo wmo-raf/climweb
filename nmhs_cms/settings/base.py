@@ -275,6 +275,7 @@ LOCALE_PATHS = (
     'integrations/wagtailzoom/locale',
     'core/locale',
     'forecast_manager/locale',
+    'capeditor/locale'
 )
 
 TIME_ZONE = "UTC"

@@ -34,7 +34,7 @@ services:
       - ./media:/home/app/web/media
       - ./error.log:/home/app/web/error.log
       - ./cache:/home/app/web/cache
-      - ./dumpdata_new.json:/home/app/web/dumpdata_new.json
+      - ./dumpdata.json:/home/app/web/dumpdata.json
      
   cms_db:
     container_name: cms_db
