@@ -164,7 +164,7 @@
                         }
 
                     }
-                    img.src = `${city.properties.media_path}${city.properties.condition_icon}`
+                    img.src = `${media_url}${city.properties.condition_icon}`
                     return img.src
 
                 })
