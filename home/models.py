@@ -32,7 +32,7 @@ class HomePage(Page):
     subpage_types = [
         'capeditor.AlertList', 
         'contact.ContactPage',
-        'services.ServiceIndexPage',
+        'services.ServicesPage',
         'products.ProductIndexPage',
         'feedback.FeedbackPage',
         'publications.PublicationsIndexPage',
