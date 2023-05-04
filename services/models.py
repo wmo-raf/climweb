@@ -27,8 +27,8 @@ class ServicesPage(Page):
         return self.get_children().live()
 
     class Meta:
-        verbose_name = 'Service Index Page'
-        verbose_name_plural = 'Service Index Pages'
+        verbose_name = _('Service List Page')
+        verbose_name_plural = _('Service List Pages')
 
 class ServiceIndexPage(Page):
     template = 'services_page.html'
