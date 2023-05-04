@@ -87,7 +87,7 @@ args = parser.parse_args()
 
 def update_nginx(suffix):
     nginx_conf_file = 'nginx/nginx.conf'
-    new_proxy_pass = 'http://cms_web'+suffix
+    new_proxy_pass = 'http://cms_web/'+suffix
 
     # Use fileinput to modify the nginx.conf file in-place
     with fileinput.FileInput(nginx_conf_file, inplace=True, backup='.bak') as file:
@@ -156,11 +156,11 @@ def setup_config(env_inputs):
             elif val == "BASE_PATH":
                 # if string is not empty
                 if len(user_input)>0:
-                    user_input = f"/{user_input}/"
+                    user_input = f"{user_input}/"
                     # link with nginx and add leading and trailing slashes
                     update_nginx(user_input)
                 else:
-                    update_nginx(f"/")
+                    update_nginx(f"")
 
 
             # Update the .env file
