@@ -315,10 +315,10 @@ SVG_DIRS = [
 # STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL =os.getenv("STATIC_URL","/static/") 
+STATIC_URL =os.getenv("BASE_PATH", '/') + "static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = os.getenv("MEDIA_URL","/media/") 
+MEDIA_URL = os.getenv("BASE_PATH", '/') + "media/"
 
 
 # Wagtail settings

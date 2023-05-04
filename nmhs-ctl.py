@@ -83,7 +83,7 @@ args = parser.parse_args()
 
 def update_nginx(suffix):
     nginx_conf_file = 'nginx/nginx.conf'
-    new_proxy_pass = 'http://cms_web/'+suffix
+    new_proxy_pass = 'http://cms_web'+suffix
 
     # Use fileinput to modify the nginx.conf file in-place
     with fileinput.FileInput(nginx_conf_file, inplace=True, backup='.bak') as file:
@@ -128,19 +128,36 @@ def setup_config(env_inputs):
             # Prompt the user for the values
             user_input = input(f"{YELLOW} ENTER {val}:{GREEN} (default -> {default_value}). {CYAN} Press enter to accept default {RESET}")  or default_value
             
-            if val == "ENVIRONMENT" and user_input:
+            user_input = user_input if not user_input.isspace() else ''
+
+            if val == "ENVIRONMENT":
                 while user_input != "dev" or user_input != "production":
 
                     if user_input == "dev" or user_input == "production":
                         break
 
-                    print(f"{RED}Accepts only 'dev' or 'production!' {RESET}")
+                    print(f"{RED}Accepts only 'dev' or 'production' {RESET}")
                     user_input = input(f"{YELLOW} ENTER {val}:{GREEN} (default -> {default_value}). {CYAN} Press enter to accept default {RESET}")  or default_value
 
-            if val == "BASE_PATH":
-                # link with nginx 
-                update_nginx(user_input)
-                    
+            elif val == "DEBUG":
+                while user_input != "True" or user_input != "False":
+
+                    if user_input == "True" or user_input == "False":
+                        break
+
+                    print(f"{RED}Accepts only 'True' or 'False' {RESET}")
+                    user_input = input(f"{YELLOW} ENTER {val}:{GREEN} (default -> {default_value}). {CYAN} Press enter to accept default {RESET}")  or default_value
+
+
+            elif val == "BASE_PATH":
+                # if string is not empty
+                if len(user_input)>0:
+                    # link with nginx and add leading and trailing slashes
+                    update_nginx(f"/{user_input}/")
+                else:
+                    update_nginx(f"/")
+
+
             # Update the .env file
             updated_lines = []   
 
@@ -149,7 +166,7 @@ def setup_config(env_inputs):
                 key_found = False
                 for line in lines:
                     if line.startswith(val + '='):
-                        line = f"{val}={user_input}\n"
+                        line = f"{val}={user_input if not user_input.isspace() else ''}\n"
                         key_found=True
 
                     updated_lines.append(line)
@@ -305,7 +322,6 @@ def make(args) -> None:
         print(f"{MAGENTA}Setting up CMS Configs...{RESET}")
         setup_config([
             'ENVIRONMENT',
-            'RECAPTCHA_PUBLIC_KEY',
             'DEBUG',
             'CMS_HOST',
             'CMS_PORT',
@@ -315,11 +331,26 @@ def make(args) -> None:
         print(f"{MAGENTA}\u2713 Completed CMS Setup... Run {CYAN}'python3 nmhs-ctl.py restart'{MAGENTA} to reload changes{RESET}")
 
 if __name__ == "__main__":
-    env_file = '.env'
-    env_sample_file = '.env.sample'
+    # conf_files = ['.env','nginx/nginx.conf' ]
+    # conf_sample_files = ['.env.sample','nginx/nginx.sample.conf' ]
+    # env_file = '.env'
+    # env_sample_file = '.env.sample'
+    # nginx_file = 'nginx/nginx.conf'
+    # nginx_sample_file = 'nginx/nginx.sample.conf'
 
-    if not os.path.exists(env_file):
-        shutil.copy(env_sample_file, env_file)
-        print(f"{env_file} file created from {env_sample_file}.")
-        
+    # create production ready files from sample files 
+    config_files ={
+        'env':['.env', '.env.sample'],
+        'nginx':['nginx/nginx.conf','nginx/nginx.sample.conf' ]
+    }
+
+    for config in config_files:
+        sample_file = config_files[config][1]
+        prod_file = config_files[config][0]
+        print(config_files[config])
+
+        if not os.path.exists(prod_file):
+            shutil.copy(sample_file, prod_file)
+            print(f"{prod_file} file created from {sample_file}.")
+            
     make(args)
