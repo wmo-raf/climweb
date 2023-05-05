@@ -30,7 +30,10 @@ The `quickstart` executes the following steps:
 
 The instance can be found at `http://localhost:8081`
 
+3. Additionally, create superuser to access the CMS Admin interface:
 
+    `python3 nmhs-ctl.py createsuperuser`
+    
 ---
 
 ## Installation and configuration
