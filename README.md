@@ -17,23 +17,23 @@ The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with
     `python3 nmhs-ctl.py quickstart`
 
 
-The `quickstart` executes the following steps:
+    The `quickstart` executes the following steps:
 
-```py
-[1/6] BUILDING CONTAINERS
-[2/6] STARTING UP CONTAINERS 
-[3/6] MIGRATING DATABASE TABLES
-[4/6] LOADING DUMP DATA
-[5/6] COLLECTING STATIC FILES
-[6/6] FETCHING 7-DAY FORECAST
-```
+    ```py
+    [1/6] BUILDING CONTAINERS
+    [2/6] STARTING UP CONTAINERS 
+    [3/6] MIGRATING DATABASE TABLES
+    [4/6] LOADING DUMP DATA
+    [5/6] COLLECTING STATIC FILES
+    [6/6] FETCHING 7-DAY FORECAST
+    ```
 
-The instance can be found at `http://localhost:8081`
+    The instance can be found at `http://localhost:8081`
 
 3. Additionally, create superuser to access the CMS Admin interface:
 
     `python3 nmhs-ctl.py createsuperuser`
-    
+
 ---
 
 ## Installation and configuration
