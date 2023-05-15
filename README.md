@@ -2,7 +2,14 @@
 
 Template Content Management System for NMHSs in Africa
 
-## Quickstart with test data
+---
+
+## User Guide
+
+User guide - https://github.com/wmo-raf/nmhs-cms/wiki
+
+---
+## Quickstart with Test Data
 
 The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with a single command and requires python3 setup. When using nmhs-cms from source, the default port for web components is 8081.
 
@@ -38,34 +45,79 @@ The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with
 
 ## Installation and configuration
 
-In progress ...
+### 1. Download latest version
 
-<!-- git clone repo
+```sh
+wget -cO - https://github.com/wmo-raf/nmhs-cms/archive/refs/tags/v0.0.3.zip > nmhs-cms.zip
+```
 
-`wget https://github.com/wmo-raf/nmhs-cms/archive/refs/tags/v0.0.1.zip`
+`unzip`
 
-`unzip 
+`cd nmhs-cms-0.0.3`
 
+### 2. Setup environmental variables
 
-python3 nmhs-ctl.py setup_cms
+To set up environmental variables, execute the command below and answer the prompts. To use default variables press enter.
 
-python3 nmhs-ctl.py setup_db
+CMS Variables:
 
-python3 nmhs-ctl.py build
+`python3 nmhs-ctl.py setup_cms`
 
-python3 nmhs-ctl.py up
+Output as below:
 
-python3 nmhs-ctl.py loaddata
+```sh
+Setting up CMS Configs...
+ ENTER ENVIRONMENT: (default -> dev).  Press enter to accept default
+ ENTER DEBUG: (default -> True).  Press enter to accept default
+ ENTER CMS_HOST: (default -> 127.0.0.1).  Press enter to accept default
+ ENTER CMS_PORT: (default -> 3031).  Press enter to accept default 8000
+ ENTER BASE_PATH: (default -> ).  Press enter to accept default
+nginx.conf updated successfully.
+✓ Completed CMS Setup... Run 'python3 nmhs-ctl.py restart' to reload changes
+```
 
-python3 nmhs-ctl.py forecast
+Database Variables:
 
-python3 manage.py  createsuperuser -->
+`python3 nmhs-ctl.py setup_db`
 
+This command will create a .env file from the .env.sample and set the specified varibales.
 
----
+Output as below:
 
-## User Guide
+```sh
+Setting up PostgreSQL Configs...
+ ENTER POSTGRES_PORT_CMS: (default -> 5432).  Press enter to accept default
+ ENTER POSTGRES_PASSWORD_CMS: (default -> test1234).  Press enter to accept default
+✓ Completed PostgreSQL Setup... Run 'python3 nmhs-ctl.py restart' to reload changes
+```
 
-User guide - https://github.com/wmo-raf/nmhs-cms/wiki
+### 3. Build Images
 
+`python3 nmhs-ctl.py build`
+
+### 4. Start all Containers
+
+`python3 nmhs-ctl.py up`
+
+### 5. Load Dumpdata / Fixtures
+
+Load all fixtures / import backup of CMS
+
+`python3 nmhs-ctl.py loaddata`
+
+### 6. Generate 7-Day Forecast
+
+Fetch 7-day forecast from external source (https://developer.yr.no/).
+
+`python3 nmhs-ctl.py forecast`
+
+### 7. Create CMS Admin superuser
+
+`python3 manage.py createsuperuser`
+
+### Apply New changes?
+
+This command can be executed when changes are made to files in the project 
+
+`python3 nmhs-ctl.py restart`
 
