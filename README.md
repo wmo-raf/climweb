@@ -51,9 +51,13 @@ The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with
 wget -cO - https://github.com/wmo-raf/nmhs-cms/archive/refs/tags/v0.0.3.zip > nmhs-cms.zip
 ```
 
-`unzip`
+```sh
+unzip
+```
 
-`cd nmhs-cms-0.0.3`
+```sh
+cd nmhs-cms-0.0.3
+```
 
 ### 2. Setup environmental variables
 
@@ -61,7 +65,9 @@ To set up environmental variables, execute the command below and answer the prom
 
 CMS Variables:
 
-`python3 nmhs-ctl.py setup_cms`
+```sh
+python3 nmhs-ctl.py setup_cms
+```
 
 Output as below:
 
@@ -78,7 +84,9 @@ nginx.conf updated successfully.
 
 Database Variables:
 
-`python3 nmhs-ctl.py setup_db`
+```sh
+python3 nmhs-ctl.py setup_db
+```
 
 This command will create a .env file from the .env.sample and set the specified varibales.
 
@@ -93,31 +101,43 @@ Setting up PostgreSQL Configs...
 
 ### 3. Build Images
 
-`python3 nmhs-ctl.py build`
+```sh
+python3 nmhs-ctl.py build
+```
 
 ### 4. Start all Containers
 
-`python3 nmhs-ctl.py up`
+```sh
+python3 nmhs-ctl.py up
+```
 
 ### 5. Load Dumpdata / Fixtures
 
 Load all fixtures / import backup of CMS
 
-`python3 nmhs-ctl.py loaddata`
+```sh
+python3 nmhs-ctl.py loaddata
+```
 
 ### 6. Generate 7-Day Forecast
 
 Fetch 7-day forecast from external source (https://developer.yr.no/).
 
-`python3 nmhs-ctl.py forecast`
+```sh
+python3 nmhs-ctl.py forecast
+```
 
 ### 7. Create CMS Admin superuser
 
-`python3 manage.py createsuperuser`
+```sh
+python3 manage.py createsuperuser
+```
 
 ### Apply New changes?
 
 This command can be executed when changes are made to files in the project 
 
-`python3 nmhs-ctl.py restart`
+```sh
+python3 nmhs-ctl.py restart
+```
 
