@@ -16,6 +16,7 @@ from wagtail_lazyimages.templatetags.lazyimages_tags import lazy_image
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.admin.panels import PageChooserPanel
 from django.core.validators import MinValueValidator, MaxValueValidator
+from wagtailhumanitarianicons.widgets import IconChooserWidget
 
 
 # @register_snippet
@@ -23,10 +24,13 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 @register_snippet
 class ServiceCategory(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
+    # icon = models.CharField(max_length=100, null=True, blank=True, help_text="Humanitarian Icon")
     icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT, blank=True, null=True, verbose_name=_("Icon"))
+    
 
     panels = [
         FieldPanel('name'),
+        # FieldPanel('icon', widget=IconChooserWidget),
         WebIconChooserPanel('icon'),
     ]
 

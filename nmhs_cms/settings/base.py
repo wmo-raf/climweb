@@ -114,7 +114,8 @@ INSTALLED_APPS = [
     "mailchimp3",
     "manifest_loader",
     "django_cron",
-    "django_deep_translator"
+    "django_deep_translator",
+    "wagtailhumanitarianicons"
     
 ]
 
