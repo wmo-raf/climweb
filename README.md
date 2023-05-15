@@ -9,7 +9,7 @@ Template Content Management System for NMHSs in Africa
 User guide - https://github.com/wmo-raf/nmhs-cms/wiki
 
 ---
-## Quickstart with Test Data
+## Quickstart Installation with Test Data
 
 The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with a single command and requires python3 setup. When using nmhs-cms from source, the default port for web components is 8081.
 
