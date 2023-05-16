@@ -25,7 +25,6 @@ from media_pages.publications.models import PublicationPage
 from media_pages.news.models import NewsPage
 from organisation_pages.vacancies.models import VacancyDetailPage
 from organisation_pages.events.models import EventPage
-from wagtailhumanitarianicons.models import CustomIconPage
 
 class HomePage(Page):
     template = "home_page.html"

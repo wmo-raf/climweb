@@ -16,7 +16,6 @@ from wagtail_lazyimages.templatetags.lazyimages_tags import lazy_image
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.admin.panels import PageChooserPanel
 from django.core.validators import MinValueValidator, MaxValueValidator
-from wagtailhumanitarianicons.widgets import IconChooserWidget
 
 
 # @register_snippet
