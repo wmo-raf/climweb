@@ -307,7 +307,7 @@ def make(args) -> None:
             run(args, split(
                 f'docker-compose {docker_compose_args} exec -T cms_web python manage.py makemigrations'))
             run(args, split(
-                f'docker-compose {docker_compose_args} exec -T cms_web python manage.py migrate'))
+                f'docker-compose {docker_compose_args} exec -T cms_web python manage.py migrate --fake'))
             
             print(f"{YELLOW}=> [5/5] COLLECTING STATIC FILES {RESET}")
             run(args, split(
