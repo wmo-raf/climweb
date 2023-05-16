@@ -9,6 +9,18 @@ Template Content Management System for NMHSs in Africa
 User guide - https://github.com/wmo-raf/nmhs-cms/wiki
 
 ---
+
+## Prerequisites
+
+Before installing the CMS, there are a few prerequisites to consider installing on your server:
+
+1. **Docker Engine:** Ensure that Docker Engine is installed and running on the machine where you plan to execute the docker-compose command https://docs.docker.com/engine/install/. Docker Engine is the runtime environment for containers.
+
+2. **Docker Compose:** Install Docker Compose https://docs.docker.com/compose/install/ on the machine where you intend to run the command. Docker Compose is a tool that allows you to define and manage multi-container Docker applications using a YAML configuration file.
+
+3. **Python 3:** Ensure that Python 3 is installed on your machine. You can download the Python installer from the official Python website (https://www.python.org/downloads/) and follow the installation instructions for your operating system.
+
+---
 ## Quickstart Installation with Test Data
 
 The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with a single command and requires python3 setup. When using nmhs-cms from source, the default port for web components is 8081.
@@ -22,7 +34,6 @@ The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with
 2. Run quick instance.
 
     `python3 nmhs-ctl.py quickstart`
-
 
     The `quickstart` executes the following steps:
 
@@ -52,7 +63,7 @@ wget -cO - https://github.com/wmo-raf/nmhs-cms/archive/refs/tags/v0.0.3.zip > nm
 ```
 
 ```sh
-unzip
+unzip nmhs-cms.zip
 ```
 
 ```sh
@@ -133,11 +144,23 @@ python3 nmhs-ctl.py forecast
 python3 manage.py createsuperuser
 ```
 
-### Apply New changes?
+---
 
-This command can be executed when changes are made to files in the project 
+## Other useful commands
 
-```sh
-python3 nmhs-ctl.py restart
-```
+| Command      | Purpose |
+| -------- | ----- | 
+| `restart`   | apply all changes made to files in the project |
+| `config` |  validate and view the Compose file configuration |
+| `login` | interact with the container's command line and execute commands as if you were directly logged into the container |
+| `login-root` | access a running Docker container and open a Bash shell inside it with the root user |
+| `logs` | real-time output of the containers' logs |
+| `stop/down` | stop and remove Docker containers |
+| `prune` | clean up unused Docker resources such as containers, images, networks, and volumes. ***Exercise caution when using these commands and ensure that you do not accidentally remove resources that are still needed.*** |
+| `status` | display container names, their status (running, stopped), the associated services, and their respective health states |
+| `dumpdata` | export the data in json format (dumodata.json) that can be used for backups, migrations, or transferring data between different environments |
+| `migrate` | managing database schema changes and applying those changes to the database |
+| `collectstatic` | collect all static files from your applications and copy them to a single location |
+| `setup_mautic` | setup mautic environmental variables i.e `MAUTIC_DB_USER`,`MAUTIC_DB_PASSWORD` and  `MYSQL_ROOT_PASSWORD`,    |
+| `setup_recaptcha` | setup recaptcha environmental variables i.e `RECAPTCHA_PRIVATE_KEY` and `RECAPTCHA_PUBLIC_KEY`|
 
