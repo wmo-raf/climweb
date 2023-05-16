@@ -1,12 +1,12 @@
 # nmhs-cms
 
-Template Content Management System for NMHSs in Africa
+Content Management System for NMHSs in Africa
 
 ---
 
 ## User Guide
 
-User guide - https://github.com/wmo-raf/nmhs-cms/wiki
+Read more from the user guide - https://github.com/wmo-raf/nmhs-cms/wiki
 
 ---
 
