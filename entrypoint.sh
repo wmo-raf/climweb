@@ -10,11 +10,13 @@ do
   sleep 1
 done
 
-# Apply database migrations
-# python manage.py makemigrations
-# python manage.py migrate --noinput
+# Start Gunicorn server
+gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 &
 
-# python manage.py collectstatic --no-input
-# python manage.py loaddata dumpdata.json
+# Execute Django management command as a cron job
+while true; do
+  python manage.py generate_forecast
+  sleep 10800  # Delay between cron job executions (e.g., 3 hours)
+done
 
 exec "$@"

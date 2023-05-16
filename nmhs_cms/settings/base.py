@@ -115,14 +115,8 @@ INSTALLED_APPS = [
     "manifest_loader",
     "django_cron",
     "django_deep_translator",
-    "wagtailhumanitarianicons"
-    
 ]
 
-# CRON_CLASSES = [
-#     "forecast_manager.cron.YrJob",
-#     # ...
-# ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
 DEEPL_TRANSLATE_KEY="testkey"

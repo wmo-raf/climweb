@@ -7,7 +7,7 @@ services:
         context: .
         dockerfile: Dockerfile
     restart: on-failure
-    command: gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000
+    command: sh ./entrypoint.sh
     expose:
       - 8000
     environment: 
@@ -28,6 +28,7 @@ services:
     ports:
       - 8000:8000
     volumes:
+      - ./entrypoint.sh:/entrypoint.sh
       - static_volume:/home/app/web/static
       - ./media:/home/app/web/media
       - ./error.log:/home/app/web/error.log
@@ -90,15 +91,6 @@ services:
       - MAUTIC_DB_NAME=${MAUTIC_DB_NAME}
       - MAUTIC_RUN_CRON_JOBS=${MAUTIC_RUN_CRON_JOBS}
       # - MAUTIC_TRUSTED_PROXIES: 0.0.0.0/0
-
-  # cron:
-  #   container_name: cms_cron
-  #   build: .
-  #   command: sh -c "python manage.py runcrons && tail -f /dev/null"
-  #   volumes:
-  #     - .:/home/app/web/static
-  #   depends_on:
-  #     - cms_db
 
 networks:
     default:
