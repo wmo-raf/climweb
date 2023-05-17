@@ -116,7 +116,7 @@ class IntegrationSettings(BaseSiteSetting):
     )
 
     auto_forecast =  models.BooleanField(
-        default=False,
+        default=True,
         verbose_name=_('Enable automated forecasts')
     )
 
