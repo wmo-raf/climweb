@@ -11,13 +11,12 @@ do
 done
 
 # Start Gunicorn server
-gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 
-# &
+gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 &
 
-# # Execute Django management command as a cron job
-# while true; do
-#   python manage.py generate_forecast
-#   sleep 10800  # Delay between cron job executions (e.g., 3 hours)
-# done
+# Execute Django management command as a cron job
+while true; do
+  python manage.py generate_forecast
+  sleep 10800  # Delay between cron job executions (e.g., 3 hours)
+done
 
 exec "$@"

@@ -23,7 +23,7 @@
 
 <div class="messages" role="status">
     <ul>
-        {% comment %} {% if settings.site_settings.IntegrationSettings.auto_forecast %}
+        {% if settings.site_settings.IntegrationSettings.enable_auto_forecast %}
         <li class="warning">                            
             <svg class="icon icon-warning messages-icon" aria-hidden="true"><use href="#icon-warning"></use></svg>
             Autoforecasting has been enabled and manually added forecasts here will be overidden.
@@ -31,7 +31,7 @@
                 <a href="/admin/settings/site_settings/integrationsettings" class="button button-small button-secondary">Change autoforecasting setting</a>
             </span>
         </li>
-        {% endif %} {% endcomment %}
+        {% endif %}
         
         <li class="success" id="creatSuccess" style="display:none">
             <svg class="icon icon-success messages-icon" aria-hidden="true">
