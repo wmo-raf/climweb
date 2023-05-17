@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
         forecast_mode = list(IntegrationSettings.objects.all().values())
         print("ATTEMPTING TO GENERATE 7 DAY FORECAST")
-        # if forecast_mode[0]['auto_forecast']:
+        # if forecast_mode[0]['enable_auto_forecast']:
            
         cities_ls = list(City.objects.all().values())
 

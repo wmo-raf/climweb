@@ -115,14 +115,14 @@ class IntegrationSettings(BaseSiteSetting):
         help_text=_('Your Recaptcha Private Key'),
     )
 
-    auto_forecast =  models.BooleanField(
+    enable_auto_forecast =  models.BooleanField(
         default=True,
         verbose_name=_('Enable automated forecasts')
     )
 
     edit_handler = TabbedInterface([
         ObjectList([
-            FieldPanel('auto_forecast'),
+            FieldPanel('enable_auto_forecast'),
         ],  heading=_("Forecasts Integration")),
         ObjectList([
             FieldPanel('recaptcha_public_key'),
