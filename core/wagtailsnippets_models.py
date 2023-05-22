@@ -19,7 +19,69 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # @register_snippet
-  
+@register_snippet
+class ProductGroup(models.Model):
+    name = models.CharField(max_length=255)
+    icon = models.ForeignKey(WebIcon, on_delete=models.PROTECT)
+    order = models.PositiveIntegerField(default=0)
+
+    panels = [
+        FieldPanel('name'),
+        WebIconChooserPanel('icon'),
+        FieldPanel('order')
+    ]
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def icon_url(self):
+        return self.icon.url
+
+    class Meta:
+        verbose_name = "Product Group"
+        verbose_name_plural = "Products Groups"
+        ordering = ('order',)
+
+
+@register_snippet
+class ProductType(models.Model):
+    RESOURCE_FORMAT_CHOICES = [
+        ('png', 'PNG'),
+        ('pdf', 'PDF'),
+    ]
+
+    PRODUCT_CLASSIFICATION_CHOICES = (
+        ('forecast', 'Forecast'),
+        ('monitoring', 'Monitoring'),
+    )
+
+    name = models.CharField(max_length=255)
+    group = models.ForeignKey(ProductGroup, on_delete=models.PROTECT,
+                              related_name='product_types')
+    type = models.CharField(max_length=20, choices=RESOURCE_FORMAT_CHOICES)
+    classification = models.CharField(max_length=100, choices=PRODUCT_CLASSIFICATION_CHOICES, default='forecast')
+    ordering = models.PositiveIntegerField(default=0)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('group'),
+        FieldPanel('classification'),
+        FieldPanel('ordering'),
+    ]
+
+    api_fields = [
+        APIField('name'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Product Type"
+        verbose_name_plural = "Products Types"
+        ordering = ['ordering']
+
 @register_snippet
 class ServiceCategory(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"))

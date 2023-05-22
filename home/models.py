@@ -33,7 +33,7 @@ class HomePage(Page):
         'capeditor.AlertList', 
         'contact.ContactPage',
         'services.ServicesPage',
-        'products.ProductIndexPage',
+        'product.ProductIndexPage',
         'feedback.FeedbackPage',
         'publications.PublicationsIndexPage',
         'videos.VideoGalleryPage',
