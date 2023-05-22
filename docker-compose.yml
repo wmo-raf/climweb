@@ -92,10 +92,10 @@ services:
       - MAUTIC_RUN_CRON_JOBS=${MAUTIC_RUN_CRON_JOBS}
       # - MAUTIC_TRUSTED_PROXIES: 0.0.0.0/0
 
-networks:
-    default:
-      name:  ${AHW_DOCKER_NETWORK}
-      external: true
+# networks:
+#     default:
+#       name:  ${AHW_DOCKER_NETWORK}
+#       external: true
 
 
 volumes:
