@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "home",
     "search",
     "services",
-    # "products",
-    "product",
+    "products",
+    # "product",
 
     # Organisation pages 
     "organisation_pages.about",
