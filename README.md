@@ -141,7 +141,7 @@ python3 nmhs-ctl.py forecast
 ### 7. Create CMS Admin superuser
 
 ```sh
-python3 manage.py createsuperuser
+python3 nmhs-ctl.py createsuperuser
 ```
 
 ---
