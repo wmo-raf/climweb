@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "search",
     "services",
     "products",
+    "allauth",
+    "allauth.account",
     # "product",
 
     # Organisation pages 
@@ -60,13 +62,16 @@ INSTALLED_APPS = [
     "media_pages.mediacenter",
     "media_pages.publications",
 
+    "email_marketing",
+    "geomanager",
     # Utility apps & pages 
     'integrations.webicons',
-    'integrations.wagtailzoom',
-    'integrations.mailchimper',
+    # 'integrations.mailchimper',
 
     'integrations.wagtailsurveyform',
-    'integrations.wagtailmautic',
+    # 'integrations.wagtailmautic',
+    "wagtailmautic",
+    "wagtailzoom",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -116,6 +121,8 @@ INSTALLED_APPS = [
     "manifest_loader",
     "django_cron",
     "django_deep_translator",
+    "wagtailmailchimp",
+    "wagtailfontawesomesvg"
 ]
 
 
@@ -267,7 +274,7 @@ LOCALE_PATHS = (
     'media_pages/videos/locale',
     'media_pages/publications/locale',
     'media_pages/news/locale',
-    'integrations/mailchimper/locale',
+    # 'integrations/mailchimper/locale',
     'integrations/wagtailzoom/locale',
     'core/locale',
     'forecast_manager/locale',

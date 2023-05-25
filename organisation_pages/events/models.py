@@ -33,9 +33,9 @@ from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
-from integrations.mailchimper.intergration_models import MailchimpSubscriberIntegrationForm   
-from integrations.wagtailzoom.intergration_models import ZoomMeetingIntegrationForm, ZoomEventsModel
-from integrations.wagtailzoom.models import ZoomBatchRegistration
+from wagtailmailchimp.models import AbstractMailchimpIntegrationForm   
+from wagtailzoom.models import AbstractZoomIntegrationForm, ZoomSettings
+from wagtailzoom.widgets import ZoomEventSelectWidget
 
 from core import blocks 
 from core.models import EventType
@@ -43,7 +43,7 @@ from core.utils import get_pytz_gmt_offset_str
 
 from core.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string, get_object_or_none
 from organisation_pages.events.blocks import PanelistBlock, EventSponsorBlock, SessionBlock
-from .views import CustomSubmissionsListView
+# from .views import CustomSubmissionsListView
 
 SUMMARY_RICHTEXT_FEATURES = getattr(settings, "SUMMARY_RICHTEXT_FEATURES")
 
@@ -178,7 +178,7 @@ class EventIndexPage(Page):
         return super().save(*args, **kwargs)
 
 
-class EventPage( Page, ZoomEventsModel):
+class EventPage(Page):
     IMAGE_PLACEMENT_CHOICES = (
         ('side', "Side by Side with Text"),
         ('top', "At the top before text"),
@@ -308,12 +308,12 @@ class EventPage( Page, ZoomEventsModel):
         APIField('additional_materials'),
     ]
 
-    zoom_events_panel = [
-        MultiFieldPanel(
-            ZoomEventsModel.panels,
-            heading=_("Zoom Events Settings"),
-        ),
-    ]
+    # zoom_events_panel = [
+    #     MultiFieldPanel(
+    #         AbstractZoomIntegrationForm.panels,
+    #         heading=_("Zoom Events Settings"),
+    #     ),
+    # ]
 
     # This is where all the tabs are created
     edit_handler = TabbedInterface(
@@ -321,7 +321,8 @@ class EventPage( Page, ZoomEventsModel):
             ObjectList(content_panels, heading=_('Content')),
             ObjectList(Page.promote_panels, heading=_('SEO'), classname="seo"),
             ObjectList(Page.settings_panels, heading=_('Settings'), classname="settings"),
-            ObjectList(zoom_events_panel, heading=_('Zoom Events Settings')),
+            # ObjectList(zoom_events_panel, heading=_('Zoom Events Settings')),
+            # ObjectList(AbstractZoomIntegrationForm.integration_panels, heading=_('Zoom Events Settings'))
         ]
     )
 
@@ -446,9 +447,9 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
         self.parent_page = parent_page
 
 
-class EventRegistrationPage(WagtailCaptchaEmailForm, MailchimpSubscriberIntegrationForm, ZoomMeetingIntegrationForm):
+class EventRegistrationPage(WagtailCaptchaEmailForm,AbstractZoomIntegrationForm, AbstractMailchimpIntegrationForm):
     base_form_class = EventPageCustomForm
-    submissions_list_view_class = CustomSubmissionsListView
+    # submissions_list_view_class = CustomSubmissionsListView
 
     template = 'event_registration_page.html'
     landing_page_template = 'form_thank_you_landing.html'
@@ -524,21 +525,23 @@ class EventRegistrationPage(WagtailCaptchaEmailForm, MailchimpSubscriberIntegrat
             ObjectList(cls.content_panels, heading=_('Content')),
             ObjectList(cls.promote_panels, heading=_('SEO'), classname="seo"),
             ObjectList(cls.settings_panels, heading=_('Settings'), classname="settings"),
+            ObjectList(AbstractZoomIntegrationForm.integration_panels, heading=_('Zoom Events Settings')),
+            ObjectList(AbstractMailchimpIntegrationForm.integration_panels, heading=_('MailChimp Settings'))
         ]
 
-        if cls.integration_panels:
-            panels.append(ObjectList(
-                cls.integration_panels,
-                heading='Mailchimp Integration',
-                classname='mailchimp-integration'
-            ))
+        # if cls.integration_panels:
+        #     panels.append(ObjectList(
+        #         cls.integration_panels,
+        #         heading='Mailchimp Integration',
+        #         classname='mailchimp-integration'
+        #     ))
 
-        if cls.zoom_integration_panels:
-            panels.append(ObjectList(
-                cls.zoom_integration_panels,
-                heading='Zoom Integration',
-                classname='zoom-integration'
-            ))
+        # if cls.zoom_integration_panels:
+        #     panels.append(ObjectList(
+        #         cls.zoom_integration_panels,
+        #         heading='Zoom Integration',
+        #         classname='zoom-integration'
+        #     ))
 
         return TabbedInterface(panels).bind_to_model(model=cls)
 
@@ -668,17 +671,17 @@ def on_event_published(sender, **kwargs):
         cache.delete(f'zoom-events-{event_page.zoom_events_id}')
 
 
-def on_event_reg_published(sender, **kwargs):
-    event_reg_page = kwargs['instance']
+# def on_event_reg_published(sender, **kwargs):
+#     event_reg_page = kwargs['instance']
 
-    if event_reg_page.batch_zoom_reg_enabled and event_reg_page.can_add_to_zoom():
-        zoom_batch = ZoomBatchRegistration.objects.get_or_create(event_registration_page=event_reg_page)
-    else:
-        zoom_batch = get_object_or_none(ZoomBatchRegistration, event_registration_page=event_reg_page)
-        if zoom_batch:
-            zoom_batch.delete()
-            zoom_batch = None
+#     if event_reg_page.batch_zoom_reg_enabled and event_reg_page.can_add_to_zoom():
+#         zoom_batch = ZoomBatchRegistration.objects.get_or_create(event_registration_page=event_reg_page)
+#     else:
+#         zoom_batch = get_object_or_none(ZoomBatchRegistration, event_registration_page=event_reg_page)
+#         if zoom_batch:
+#             zoom_batch.delete()
+#             zoom_batch = None
 
 
-page_published.connect(on_event_published, sender=EventPage)
-page_published.connect(on_event_reg_published, sender=EventRegistrationPage)
+# page_published.connect(on_event_published, sender=EventPage)
+# page_published.connect(on_event_reg_published, sender=EventRegistrationPage)

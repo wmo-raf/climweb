@@ -22,7 +22,7 @@ services:
       - ENVIRONMENT=${ENVIRONMENT}
       - DATABASE=${DATABASE}
       - BASE_PATH=${BASE_PATH}
-      - CMS_HOST=cms_db
+      - CMS_HOST=${CMS_HOST}
     depends_on:
       - cms_db
     ports:
@@ -92,10 +92,11 @@ services:
       - MAUTIC_RUN_CRON_JOBS=${MAUTIC_RUN_CRON_JOBS}
       # - MAUTIC_TRUSTED_PROXIES: 0.0.0.0/0
 
-# networks:
-#     default:
-#       name:  ${AHW_DOCKER_NETWORK}
-#       external: true
+
+networks:
+    default:
+      name:  ${AHW_DOCKER_NETWORK}
+      external: true
 
 
 volumes:
