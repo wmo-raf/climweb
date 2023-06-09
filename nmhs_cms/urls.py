@@ -13,6 +13,7 @@ from home.views import list_forecasts
 
 from search import views as search_views
 from capeditor import urls as cap_urls
+from geomanager import urls as geomanager_urls
 import environ
 import debug_toolbar
 
@@ -47,6 +48,7 @@ urlpatterns = [
     path(f"{os.getenv('BASE_PATH', '')}"+"cap/", include(cap_urls)),
     path(f"{os.getenv('BASE_PATH', '')}"+"", include(survey_urls)),
     path(f"{os.getenv('BASE_PATH', '')}"+"search/", search_views.search, name="search"),
+    path(f"{os.getenv('BASE_PATH', '')}"+"", include(geomanager_urls)),
 
 ]
 
