@@ -7,7 +7,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from forecast_manager import urls as forecast_urls
-from integrations.wagtailsurveyform import urls as survey_urls
+# from integrations.wagtailsurveyform import urls as survey_urls
 from django.conf.urls.i18n import i18n_patterns
 from home.views import list_forecasts
 
@@ -46,9 +46,11 @@ urlpatterns = [
     path(f"{os.getenv('BASE_PATH', '')}"+"forecast/", include(forecast_urls)),
     path(f"{os.getenv('BASE_PATH', '')}"+"list_forecast/", list_forecasts, name="list_forecasts"),
     path(f"{os.getenv('BASE_PATH', '')}"+"cap/", include(cap_urls)),
-    path(f"{os.getenv('BASE_PATH', '')}"+"", include(survey_urls)),
+    # path(f"{os.getenv('BASE_PATH', '')}"+"", include(survey_urls)),
     path(f"{os.getenv('BASE_PATH', '')}"+"search/", search_views.search, name="search"),
-    path(f"{os.getenv('BASE_PATH', '')}"+"", include(geomanager_urls)),
+    path(f"{os.getenv('BASE_PATH', '')}"+"", include("geomanager.urls")),
+    path(f"{os.getenv('BASE_PATH', '')}"+"", include("django_nextjs.urls")),
+    path(f"{os.getenv('BASE_PATH', '')}"+"", include("wagtailsurveyjs.urls")),
 
 ]
 

@@ -337,19 +337,30 @@
                 })
             });
 
+            // Create a popup object
+            var popup = new maplibregl.Popup({
+                closeButton: false,
+                closeOnClick: false
+            });
+  
+
             // When a click event occurs on a feature in the places layer, open a popup at the
             // location of the feature, with description HTML from its properties.
-            forecast_map.on("click", "city-forecasts", (e) => {
-                // Copy coordinates array.
-                const city_name = e.features[0].properties.city_name;
-                const condition_desc = e.features[0].properties.condition_desc;
-                const min_temp = e.features[0].properties.min_temp;
-                const max_temp = e.features[0].properties.max_temp;
-                const wind_direction = e.features[0].properties.wind_direction;
-                const wind_speed = e.features[0].properties.wind_speed;
+            forecast_map.on("mouseenter", "city-forecasts", (e) => {
+                // Get the feature that was hovered over
+                var feature = e.features[0];
+                forecast_map.getCanvas().style.cursor = "pointer";
 
-                new maplibregl.Popup()
-                    .setLngLat(e.lngLat)
+                // Copy coordinates array.
+                const city_name = feature.properties.city_name;
+                const condition_desc = feature.properties.condition_desc;
+                const min_temp = feature.properties.min_temp;
+                const max_temp = feature.properties.max_temp;
+                const wind_direction = feature.properties.wind_direction;
+                const wind_speed = feature.properties.wind_speed;
+
+                
+                popup.setLngLat(feature.geometry.coordinates)
                     .setHTML(`
                 <div class="block" style="margin:10px; width:200px">
                     <h2 class="title" style="font-size:18px;">${city_name}</h2> 
@@ -363,13 +374,14 @@
                     .addTo(forecast_map);
             });
 
-            // Change the cursor to a pointer when the mouse is over the places layer.
-            forecast_map.on("mouseenter", "city-forecasts", () => {
-                forecast_map.getCanvas().style.cursor = "pointer";
-            });
+            // // Change the cursor to a pointer when the mouse is over the places layer.
+            // forecast_map.on("mouseenter", "city-forecasts", () => {
+            //     forecast_map.getCanvas().style.cursor = "pointer";
+            // });
 
             // Change it back to a pointer when it leaves.
             forecast_map.on("mouseleave", "city-forecasts", () => {
+                popup.remove()
                 forecast_map.getCanvas().style.cursor = "";
             });
 

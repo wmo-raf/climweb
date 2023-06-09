@@ -64,11 +64,12 @@ INSTALLED_APPS = [
 
     "email_marketing",
     "geomanager",
+    "surveys",
     # Utility apps & pages 
     'integrations.webicons',
     # 'integrations.mailchimper',
 
-    'integrations.wagtailsurveyform',
+    # 'integrations.wagtailsurveyform',
     # 'integrations.wagtailmautic',
     "wagtailmautic",
     "wagtailzoom",
@@ -105,9 +106,10 @@ INSTALLED_APPS = [
     "django.contrib.gis",
 
     "forecast_manager",
-    "layer_manager",
+    # "layer_manager",
     "site_settings",
 
+    "wagtailsurveyjs",
     "wagtailgeowidget",
     "wagtail_lazyimages",
     "wagtail_color_panel",

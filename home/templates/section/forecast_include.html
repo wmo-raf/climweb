@@ -155,7 +155,18 @@
 
       </div>
     </div>
+    {% if self.enable_mapviewer_cta == True %}
+      <div class="container" style="text-align:center">
+        <a class="button is-dark has-text-white p-4 mt-4 mb-6" style=" font-weight: 600;  border-radius: var(--border-radius);"
+          href="{{self.mapviewer_cta_url}}">
+          <span>{{self.mapviewer_cta_title}}</span>
 
+          <span class="icon">
+            <i class="fa fa-arrow-right"></i>
+          </span>
+        </a>
+      </div>
+    {% endif %}
 </section>
 
 
