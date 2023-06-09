@@ -14,12 +14,10 @@ from wagtail.admin.panels import MultiFieldPanel,FieldPanel
 from wagtail_color_panel.fields import ColorField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
-from site_settings.models import Theme
 
 from capeditor.models import Alert
 from services.models import ServiceIndexPage
 from forecast_manager.models import City, Forecast    
-from layer_manager.models import WMSRequest, LegendItem, LayerCategory
 from media_pages.videos.models import YoutubePlaylist
 from media_pages.publications.models import PublicationPage
 from media_pages.news.models import NewsPage
@@ -42,7 +40,7 @@ class HomePage(Page):
         'about.AboutIndexPage',
         'events.EventIndexPage',
         'email_marketing.MailchimpMailingListSubscriptionPage',
-        'wagtailsurveyform.SurveyFormPage',
+        'surveys.SurveyPage',
         'email_marketing.MauticMailingListSubscriptionPage'
     ]
     parent_page_type = [
@@ -60,9 +58,9 @@ class HomePage(Page):
         null=True, blank=False, related_name="+", verbose_name=_("Hero Banner"))    
 
     enable_weather_forecasts = models.BooleanField(blank=True, default=True, verbose_name=_("Enable weather forecasts section"))
-    enable_climate = models.BooleanField(blank=True, default=True, verbose_name=_("Enable climate section"))
-    climate_title = models.CharField(blank=True, null=True, max_length=100, verbose_name=_('Climate Title'), default='Explore Current Conditions')
-    
+    enable_mapviewer_cta = models.BooleanField(blank=True, default=True, verbose_name=_("Enable mapviewer section"))
+    mapviewer_cta_title = models.CharField(blank=True, null=True, max_length=100, verbose_name=_('Mapviewer Call to Action Title'), default='Explore Mapviewer')
+    mapviewer_cta_url = models.URLField(verbose_name=_("Mapviewer URL"), blank=True, null=True)
     enable_media= models.BooleanField(blank=True, default=True, verbose_name=_("Enable media section"))
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
@@ -88,8 +86,9 @@ class HomePage(Page):
             # FieldPanel('hero_subtitle')
         ], heading = _("Weather forecasts Section")),
         MultiFieldPanel([
-            FieldPanel('enable_climate'),
-            FieldPanel('climate_title')
+            FieldPanel('enable_mapviewer_cta'),
+            FieldPanel('mapviewer_cta_title'),
+            FieldPanel('mapviewer_cta_url')
         ], heading = _("Climate Section Section")),
         MultiFieldPanel([
             FieldPanel('enable_media'),
@@ -104,19 +103,6 @@ class HomePage(Page):
         verbose_name = _("Home Page")
         verbose_name_plural = _("Home Pages")
 
-    @cached_property
-    def default_theme(self):
-        theme = Theme.objects.get(is_default = True)
-        # print("CURRENT THEME:", theme)
-
-        context = {
-            'primary_color': theme.primary_color,
-            'secondary_color': theme.secondary_color,
-            'border_radius': f"{theme.border_radius * 0.06}em",
-        }
-
-        return context
-    
 
     @cached_property
     def city_item(self):
@@ -271,23 +257,6 @@ class HomePage(Page):
             'cities':cities
         }
 
-    @cached_property
-    def get_wms_layers(self):
-        wms_layers = WMSRequest.objects.all()
-        wms_vals = list(wms_layers.values('id', 'title', 'subtitle', 'version', 'width', 'height','transparent', 'srs' , 'format', 'layers__name', 'legend_id', 'category_id', 'base_url', 'icon', 'icon__file'))
-        for val in wms_vals:
-            legends = LegendItem.objects.filter(legend_id =val['legend_id'] )
-            category = LayerCategory.objects.get(id = val['category_id'])
-            val['legend_colors'] = list(legends.values('item_val', 'item_color'))
-            val['category'] = category.name
-        
-        
-        return {
-            'wms_layers':wms_vals,
-            'wms_layers_json':json.dumps(wms_vals),
-            'categories':list(LayerCategory.objects.all().values()),
-            'categories_json':json.dumps(list(LayerCategory.objects.all().values()))
-        }   
 
     
 

@@ -15,12 +15,12 @@
 {% comment %}
 Delete the line below if you're just getting started and want to remove the welcome screen!
 {% endcomment %}
+<main class="is-index">
 
 {% include 'section/hero_include.html' %}
-<main>
 
 {% include 'section/forecast_include.html' %}
-{% include 'section/climate_include.html' %}
+{% comment %} {% include 'section/climate_include.html' %} {% endcomment %}
 {% include 'section/services_include.html' %}
 {% include 'section/updates_include.html' with page=page %}
 {% include 'section/media_include.html' %}

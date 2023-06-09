@@ -229,7 +229,7 @@ class ProductItemPage(Page):
     document = models.ForeignKey(
         'core.CustomDocumentModel',
         null=True,
-        blank=True,
+        blank=False,
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name=_("Document")
@@ -263,6 +263,8 @@ class ProductItemPage(Page):
         }
         card_tags = self.tags.all()
 
+        print("card_file",self.document)
+
         return {
             "card_image": self.image,
             "card_title": self.title,
@@ -270,7 +272,11 @@ class ProductItemPage(Page):
             "card_meta": self.period,
             "card_more_link": self.url,
             "card_tag": self.product_category,
-            "card_file": card_file,
+            "card_file": card_file if self.document else {
+                "size": None,
+                "url": None,
+                "downloads": None
+            },
             "card_tags": card_tags,
             # "card_views": self.webhits.count,
             "card_ga_label": self.product_category

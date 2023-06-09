@@ -64,14 +64,22 @@ INSTALLED_APPS = [
 
     "email_marketing",
     "geomanager",
+    "surveys",
     # Utility apps & pages 
     'integrations.webicons',
     # 'integrations.mailchimper',
 
-    'integrations.wagtailsurveyform',
+    # 'integrations.wagtailsurveyform',
     # 'integrations.wagtailmautic',
     "wagtailmautic",
     "wagtailzoom",
+    "wagtail_adminsortable",
+    "wagtailiconchooser",
+    "wagtailhumanitarianicons",
+    "django_large_image",
+    'django_json_widget',
+    'django_nextjs',
+    "django_filters",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -98,9 +106,10 @@ INSTALLED_APPS = [
     "django.contrib.gis",
 
     "forecast_manager",
-    "layer_manager",
+    # "layer_manager",
     "site_settings",
 
+    "wagtailsurveyjs",
     "wagtailgeowidget",
     "wagtail_lazyimages",
     "wagtail_color_panel",
@@ -122,7 +131,8 @@ INSTALLED_APPS = [
     "django_cron",
     "django_deep_translator",
     "wagtailmailchimp",
-    "wagtailfontawesomesvg"
+    "wagtailfontawesomesvg",
+    "corsheaders"
 ]
 
 
@@ -131,6 +141,7 @@ DEEPL_TRANSLATE_KEY="testkey"
 DEEPL_FREE_API = True
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -408,6 +419,7 @@ SOCIAL_MEDIA_SHARE_CONFIG = {
     'facebook': {"base_url": "https://www.facebook.com/sharer/sharer.php", "link_param": "u"},
     'twitter': {"base_url": "http://twitter.com/share", "text_param": "text", "link_param": "url"}
 }
+CORS_ORIGIN_ALLOW_ALL = True
 
 # SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 # from django.utils.functional import lazy
