@@ -1,36 +1,200 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static wagtailcore_tags wagtailadmin_tags lazyimages_tags wagtailimages_tags %}
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/document_detail.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/product_detail.css' %}">
 {% endblock %}
 
 {% block body_class %}product_detail{% endblock %}
 
 {% block content %}
-    {% include 'hero.html' with page=page %}
+    {% if icons_svg_sprite %}
+        {{ icons_svg_sprite|safe }}
+    {% endif %}
     <main>
         <section class=product-detail>
             <div class="container">
-                {% include 'document_detail_include.html' with card=page.card_props %}
-            </div>
-        </section>
-
-        {% if related_items %}
-            <section class="product-related">
-                <h2 class="section-title center">Other Recent Product Updates</h2>
-                <div class="container">
-                    <div class="columns is-multiline is-centered">
-                        {% for item in related_items %}
-                            <div class="column is-one-quarter-desktop is-full-mobile update-item">
-                                {% include 'update_card_include.html' with card=item.card_props show_card_tag=False show_card_text=False %}
+                <div class="product-items-container">
+                    <div class="columns">
+                        <div class="column is-one-quarter-desktop is-full-mobile">
+                            <div class="categories">
+                                {% for category_id, category in categories.items %}
+                                    <div class="category">
+                                        <div class="category-heading">
+                                            <span class="category-icon">
+                                                {% icon name=category.icon %}
+                                            </span>
+                                            <span class="category-title">{{ category.name }}</span>
+                                        </div>
+                                        <div class="tabs" role="tablist">
+                                            {% for slug, product_item  in products.items %}
+                                                {% if product_item.value.product_item_type.category.id == category_id %}
+                                                    <a class="tab" id="tab-label-content"
+                                                       href="#tab-{{ slug }}"
+                                                       role="tab" aria-controls="tab-{{ slug }}">
+                                                        {{ product_item.value.product_item_type.name }}
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
-                        {% endfor %}
+                        </div>
+                        <div class="column is-half-desktop is-offset-1-desktop is-full-mobile">
+                            <div class="content-container">
+                                {% for slug, product_item  in products.items %}
+                                    <div class="content" id="tab-{{ slug }}">
+                                        <h3>{{ product_item.value.product_item_type.name }}</h3>
+                                        {% if product_item.block_type == "image_product" %}
+                                            <figure class="product-item-image box">
+                                                {% image product_item.value.image original as product_item_image %}
+                                                <img class="progressive__img progressive--not-loaded"
+                                                     data-progressive="{{ product_item_image.url }}"
+                                                     src="{% lazy_image_url product_item_image %}"
+                                                     alt="{{ product_item.value.product_item_type.name }}"
+                                                />
+                                            </figure>
+                                            <div class="share-buttons">
+                                                <a class="button is-rounded is-small"
+                                                   href="{{ product_item_image.url }}"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer"
+                                                >
+                                                    <span class="icon">
+                                                        <i class="fas fa-eye"></i>
+                                                    </span>
+                                                    <span class="share-button-title">View</span>
+                                                </a>
+                                                <a class="button is-rounded is-small"
+                                                   href="{{ product_item_image.url }}"
+                                                   download="{{ product_item.value.product_item_type.name }}"
+                                                >
+                                                    <span class="icon">
+                                                        <i class="fas fa-download"></i>
+                                                    </span>
+                                                    <span class="share-button-title">Download</span>
+                                                </a>
+                                                {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
+                                            </div>
+                                        {% elif product_item.block_type == "document_product" %}
+                                            <div class="product-item-doc-container box">
+                                                <figure class="product-item-doc">
+                                                    {% if  product_item.value.thumbnail %}
+                                                        {% image product_item.value.thumbnail original as product_item_thumbnail %}
+                                                        <img class="progressive__img progressive--not-loaded"
+                                                             data-progressive="{{ product_item_thumbnail.url }}"
+                                                             src="{% lazy_image_url product_item_thumbnail %}"
+                                                             alt="{{ product_item.value.product_item_type.name }}"
+                                                        />
+                                                    {% else %}
+                                                        {% icon name="document" %}
+                                                    {% endif %}
+                                                </figure>
+                                                <div class="product-item-doc-meta">
+                                                    <span class="document-detail-file-download">
+                                                        <a href="{{ product_item.value.document.url }}"
+                                                           title="{{ product_item.product_item_type.name }}"
+                                                        >
+                                                            <span class="icon">
+                                                                <i class="fas fa-download"></i>
+                                                            </span>
+                                                            <span>
+                                                                Download document
+                                                                - {{ product_item.value.document.file.size|filesizeformat }}
+                                                            </span>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="share-buttons">
+                                                <a class="button is-rounded is-small"
+                                                   href="{{ product_item.value.document.url }}"
+                                                   download="{{ product_item.product_item_type.name }}"
+                                                >
+                                                    <span class="icon">
+                                                        <i class="fas fa-download"></i>
+                                                    </span>
+                                                    <span class="share-button-title">Download document</span>
+                                                </a>
+                                                {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
+                                            </div>
+                                        {% endif %}
+                                        <p>{{ product_item.value.description|richtext }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
-        {% endif %}
-
+            </div>
+        </section>
     </main>
 {% endblock content %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const tabs = $(".categories .tab")
+            const contents = $(".content-container .content");
+            const hash = window.location.hash;
+
+            const setDefault = () => {
+                const firstTab = tabs.first()
+                const contentId = firstTab.attr("aria-controls")
+                if (contentId) {
+                    $(`#${contentId}`).addClass("active")
+                    firstTab.addClass("active")
+                }
+            }
+
+            if (hash) {
+                const hashId = hash.split("#")[1]
+                const $content = $(`#${hashId}`)
+
+                if ($content.length) {
+                    $content.addClass("active")
+                    const tab = $(`[aria-controls=${hashId}]`);
+
+                    if (tab) {
+                        tab.addClass("active")
+                    }
+                } else {
+                    setDefault()
+                }
+            } else {
+                setDefault()
+            }
+
+
+            const removeActiveClass = () => {
+                tabs.each(function () {
+                    const tab = $(this)
+                    tab.removeClass("active");
+                })
+
+                contents.each(function () {
+                    const content = $(this)
+                    content.removeClass("active");
+                });
+            };
+
+            tabs.each(function (i) {
+                const tab = $(this)
+                const contentId = tab.attr("aria-controls")
+
+                tab.click(function (e) {
+                    removeActiveClass();
+                    tab.addClass("active");
+                    if (contentId) {
+                        $(`#${contentId}`).addClass("active")
+                    }
+                })
+            });
+        });
+
+
+    </script>
+
+{% endblock %}

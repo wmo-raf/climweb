@@ -1,10 +1,9 @@
-from wagtail import blocks
 from django.utils.module_loading import import_string
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+from wagtail import blocks
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.snippets.blocks import SnippetChooserBlock
-from django.utils.safestring import mark_safe
 
 from integrations.webicons.blocks import WebIconChooserBlock
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
@@ -53,7 +52,7 @@ class FeatureBlock(blocks.StructBlock):
     # image_of_change = blocks.PageChooserBlock(required=False, target_model='imagesofchange.ImageOfChangePage')
     image = ImageChooserBlock(required=False)
     chart_config_url = blocks.URLBlock(required=False, help_text=_("A URL that returns Highcharts.js configuration, "
-                                                                 "including the data"))
+                                                                   "including the data"))
 
     title = blocks.CharBlock()
     text = blocks.TextBlock(label=_("Description"))
@@ -61,7 +60,7 @@ class FeatureBlock(blocks.StructBlock):
     action_link = blocks.PageChooserBlock(required=False, label=_("Action Link Internal"))
     action_link_external = blocks.URLBlock(required=False, max_length=400,
                                            help_text=_("An external link to a detailed resource on the internet."
-                                                     "If provided, the internal link will be ignored"))
+                                                       "If provided, the internal link will be ignored"))
 
     class Meta:
         template = "streams/feature_block.html"
@@ -102,7 +101,7 @@ class SocialMediaBlock(blocks.StructBlock):
     full_url = blocks.URLBlock(max_length=255, help_text=_("The full url link that takes you to the page"))
     user_id = blocks.CharBlock(max_length=100, required=False,
                                help_text=_("The user id if available, For example the user Id/"
-                                         "name for twitter, Instagram or channel id for Youtube etc"))
+                                           "name for twitter, Instagram or channel id for Youtube etc"))
 
     class Meta:
         icon = 'placeholder'

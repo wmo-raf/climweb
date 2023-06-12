@@ -59,8 +59,7 @@ class AbstractBannerPage(MetadataPageMixin, Page):
                 FieldPanel('banner_title'),
                 FieldPanel('banner_subtitle'),
                 FieldPanel('call_to_action_button_text'),
-                PageChooserPanel('call_to_action_related_page', )
-
+                PageChooserPanel('call_to_action_related_page')
             ],
             heading=_("Banner Section"),
         )
@@ -77,7 +76,7 @@ class AbstractBannerPage(MetadataPageMixin, Page):
 
 
 class AbstractBannerWithIntroPage(AbstractBannerPage):
-    introduction_title = models.CharField(max_length=100, verbose_name=_('Call to action related page'),
+    introduction_title = models.CharField(max_length=100, verbose_name=_('Introduction Title'),
                                           help_text=_("Introduction section title"), )
     introduction_text = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Introduction text'),
                                       help_text=_("Introduction section description"))
