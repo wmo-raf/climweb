@@ -327,12 +327,12 @@ SVG_DIRS = [
 # JavaScript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
 # See https://docs.djangoproject.com/en/4.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
 # STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
-BASE_PATH = os.getenv("BASE_PATH", '/')
+BASE_PATH = os.getenv("BASE_PATH", '')
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL ="/"+ BASE_PATH+ "static/"
+STATIC_URL = BASE_PATH+ "/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/"+ BASE_PATH + "media/"
+MEDIA_URL = BASE_PATH + "/media/"
 
 
 # Wagtail settings
