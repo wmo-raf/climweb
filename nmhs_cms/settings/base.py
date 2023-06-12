@@ -372,19 +372,6 @@ RECAPTCHA_TESTING = True
 ORDERING_FIELD = 'position'
 WAGTAILDOCS_DOCUMENT_MODEL = 'core.CustomDocumentModel'
 
-# ZOOM Settings
-# ZOOM_JWT_API_KEY = env.str('ZOOM_JWT_API_KEY',  default='')
-# ZOOM_JWT_API_SECRET = env.str('ZOOM_JWT_API_SECRET',  default='')
-
-# Youtube settings 
-# YOUTUBE_API_KEY = env.str('YOUTUBE_API_KEY', default='')
-
-# # Upload permissions for files
-# FILE_UPLOAD_PERMISSIONS = 0o666
-# # Upload permissions for files
-# FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o666
-
-
 # AUTH STUFF
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
