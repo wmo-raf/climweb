@@ -389,7 +389,7 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 
-CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', 'http://127.0.0.1','http://*.localhost', 'http://localhost','http://example.com', 'http://localhost:*', 'http://127.0.0.1:3100']
+CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', 'http://127.0.0.1','http://*.localhost', 'http://localhost','http://example.com', 'http://localhost:*', 'http://127.0.0.1:3031']
 
 SOCIAL_MEDIA_SHARE_CONFIG = {
     'facebook': {"base_url": "https://www.facebook.com/sharer/sharer.php", "link_param": "u"},
