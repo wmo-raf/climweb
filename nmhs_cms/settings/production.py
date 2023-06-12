@@ -82,8 +82,5 @@ LOGGING = {
     }
 }
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = "core.storage.ManifestStaticFilesStorageNotStrict"
 
-MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
