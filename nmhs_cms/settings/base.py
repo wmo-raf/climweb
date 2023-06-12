@@ -372,17 +372,6 @@ RECAPTCHA_TESTING = True
 ORDERING_FIELD = 'position'
 WAGTAILDOCS_DOCUMENT_MODEL = 'core.CustomDocumentModel'
 
-
-# CELERY Settings
-# CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', 'redis://localhost:6379')
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_CACHE_BACKEND = 'django-cache'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Africa/Nairobi'
-CELERY_SEND_TASK_ERROR_EMAILS = True
-
 # ZOOM Settings
 # ZOOM_JWT_API_KEY = env.str('ZOOM_JWT_API_KEY',  default='')
 # ZOOM_JWT_API_SECRET = env.str('ZOOM_JWT_API_SECRET',  default='')
@@ -420,16 +409,3 @@ SOCIAL_MEDIA_SHARE_CONFIG = {
     'twitter': {"base_url": "http://twitter.com/share", "text_param": "text", "link_param": "url"}
 }
 CORS_ORIGIN_ALLOW_ALL = True
-
-# SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
-# from django.utils.functional import lazy
-# from wagtail.core.models import Site
-# from site_settings.models import IntegrationSettings
-
-# def get_setting(name, default=None):
-#     try:
-#         site = Site.objects.get(is_default_site=True)
-#         settings = IntegrationSettings.for_site(site)
-#         return getattr(settings, name)
-#     except (Site.DoesNotExist, IntegrationSettings.DoesNotExist, AttributeError):
-#         return default
