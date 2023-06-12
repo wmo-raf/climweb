@@ -6,31 +6,33 @@ from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.utils.dates import MONTHS
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
-from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, PageChooserPanel)
+from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable, Page
+from wagtail.models import Page
+from wagtailmetadata.models import MetadataPageMixin
 
 from core import blocks
-from core.models import ProductCategory, ServiceCategory
+from core.models import ProductCategory, ServiceCategory, AbstractBannerWithIntroPage
 from core.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
-from django.utils.translation import gettext_lazy as _
+
 
 class ProductIndexPage(Page):
-
     parent_page_types = ['home.HomePage']
     subpage_types = ['products.ProductPage']
 
     max_count = 1
 
     class Meta:
-        verbose_name =  _('Product Index Page')
-        verbose_name_plural =  _('Product Index Pages')
+        verbose_name = _('Product Index Page')
+        verbose_name_plural = _('Product Index Pages')
 
-class ProductPage(Page):
+
+class ProductPage(AbstractBannerWithIntroPage):
     template = 'product_index.html'
     ajax_template = 'product_list_include.html'
     parent_page_types = ['products.ProductIndexPage']
@@ -41,53 +43,9 @@ class ProductPage(Page):
     service = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
     product = models.OneToOneField(ProductCategory, on_delete=models.PROTECT, verbose_name=_("Product"))
 
-    banner_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name= _("Banner Image"),
-        help_text= _("A high quality image related to this Product"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    banner_title = models.CharField(max_length=255, verbose_name= _('Banner Title'))
-    banner_subtitle = models.CharField(max_length=255, blank=True, null=True,verbose_name= _('Banner Subtitle'))
-
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name= _('Call to action button text'))
-    call_to_action_related_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name= _('Call to action related page')
-    )
-
-    introduction_title = models.CharField(max_length=100, help_text=_("Introduction section title"), verbose_name= _('Call to action related page'))
-    introduction_text = RichTextField(help_text=_("A description of what your organisation does under  this Product"),
-                                      features=SUMMARY_RICHTEXT_FEATURES, verbose_name= _('Introduction text'))
-    introduction_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Introduction Image"),
-        help_text=_("A high quality image related to this Product"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"),)
-    introduction_button_link = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Introduction button link"),
-    )
-
     feature_block = StreamField([
-        ('feature_item', blocks.FeatureBlock(), ),
-    ], null=True, blank=True, use_json_field=True,verbose_name=_("Feature block"))
+        ('feature_item', blocks.FeatureBlock(),),
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Feature block"))
 
     earliest_bulletin_year = models.PositiveIntegerField(
         default=datetime.now().year,
@@ -96,38 +54,18 @@ class ProductPage(Page):
             MaxValueValidator(datetime.now().year),
         ],
         help_text=_("The year for the earliest available bulletin. This is used to generate the years available for "
-                  "filtering "),
-                  verbose_name=_("Earliest bulletin year"))
+                    "filtering "),
+        verbose_name=_("Earliest bulletin year"))
     products_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
     ], help_text=_("How many of this products should be visible on the landing page filter section ?"),
-    verbose_name=_("Products per page"))
+                                                    verbose_name=_("Products per page"))
 
     content_panels = Page.content_panels + [
         FieldPanel('service'),
         FieldPanel('product'),
-        MultiFieldPanel(
-            [
-                FieldPanel('banner_image'),
-                FieldPanel('banner_title'),
-                FieldPanel('banner_subtitle'),
-                FieldPanel('call_to_action_button_text'),
-                PageChooserPanel('call_to_action_related_page', )
-
-            ],
-            heading=_("Banner Section"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel('introduction_title'),
-                FieldPanel('introduction_image'),
-                FieldPanel('introduction_text'),
-                FieldPanel('introduction_button_text'),
-                PageChooserPanel('introduction_button_link'),
-            ],
-            heading=_("Introduction Section"),
-        ),
+        *AbstractBannerWithIntroPage.content_panels,
         FieldPanel('feature_block'),
         MultiFieldPanel(
             [
@@ -145,7 +83,8 @@ class ProductPage(Page):
     @property
     def all_products(self):
 
-        product_items = self.get_children().specific().live().order_by('-productitempage__year', '-productitempage__month')
+        product_items = self.get_children().specific().live().order_by('-productitempage__year',
+                                                                       '-productitempage__month')
         # Return the related items
         return product_items
 
@@ -190,33 +129,26 @@ class ProductPage(Page):
 
         return context
 
-    def save(self, *args, **kwargs):
-        #if not self.search_image and self.banner_image:
-            #self.search_image = self.banner_image
-        if not self.search_description and self.introduction_text:
-            p = get_first_non_empty_p_string(self.introduction_text)
-            if p:
-                # Limit the search meta desc to google's 160 recommended chars
-                self.search_description = truncatechars(p, 160)
-        return super().save(*args, **kwargs)
-
     class Meta:
-        verbose_name =  _('Product Page')
-        verbose_name_plural =  _('Product Pages')
+        verbose_name = _('Product Page')
+        verbose_name_plural = _('Product Pages')
+
 
 class ProductPageTag(TaggedItemBase):
     content_object = ParentalKey('products.ProductItemPage', on_delete=models.CASCADE,
-                                 related_name='product_tags',verbose_name=_("Product Tag"))
+                                 related_name='product_tags', verbose_name=_("Product Tag"))
 
 
-class ProductItemPage(Page):
+class ProductItemPage(MetadataPageMixin, Page):
     template = 'product_detail.html'
     parent_page_types = ['products.ProductPage', ]
     subpage_types = []
 
-    year = models.PositiveIntegerField(default=datetime.now().year, choices=get_years(2010, True), verbose_name=_("Year"))
+    year = models.PositiveIntegerField(default=datetime.now().year, choices=get_years(2010, True),
+                                       verbose_name=_("Year"))
     month = models.IntegerField(choices=MONTHS.items(), default=datetime.now().month, verbose_name=_("Month"))
-    summary = RichTextField(help_text=_("Summary of the product release"), features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Summary"))
+    summary = RichTextField(help_text=_("Summary of the product release"), features=SUMMARY_RICHTEXT_FEATURES,
+                            verbose_name=_("Summary"))
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -263,7 +195,7 @@ class ProductItemPage(Page):
         }
         card_tags = self.tags.all()
 
-        print("card_file",self.document)
+        print("card_file", self.document)
 
         return {
             "card_image": self.image,

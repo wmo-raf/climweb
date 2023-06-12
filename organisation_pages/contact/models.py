@@ -1,25 +1,27 @@
-from django.contrib.gis.db import models
 import json
-from wagtailgeowidget.helpers import geosgeometry_str_to_struct
-from django.template.defaultfilters import truncatechars
+
+from django.contrib.gis.db import models
 from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
-from wagtail.fields import StreamField, RichTextField
+from wagtail.fields import RichTextField
 from wagtail.models import Site
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
+from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.panels import LeafletPanel
+from wagtailmetadata.models import MetadataPageMixin
 
 from core.mail import send_mail
-from site_settings.models import OtherSettings
 from integrations.wagtailformkey.forms import WagtailCaptchaKeyFormBuilder, remove_wagtail_key_field
+from site_settings.models import OtherSettings
 from .utils import get_duplicates
-from django.utils.translation import gettext_lazy as _
 
-class ContactPage(WagtailCaptchaEmailForm):
+
+class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     template = 'contact/contact_page.html'
     parent_page_types = ['home.HomePage']
     subpage_types = []
@@ -28,7 +30,8 @@ class ContactPage(WagtailCaptchaEmailForm):
     landing_page_template = 'form_thank_you_landing.html'
     form_builder = WagtailCaptchaKeyFormBuilder
 
-    location = models.CharField(help_text=_("Location of organisation"), blank=False, null=True, max_length=250, verbose_name=_("Location of organisation"))
+    location = models.CharField(help_text=_("Location of organisation"), blank=False, null=True, max_length=250,
+                                verbose_name=_("Location of organisation"))
     thank_you_text = RichTextField(blank=True, verbose_name=_("Thank you message"))
 
     @cached_property
@@ -44,7 +47,7 @@ class ContactPage(WagtailCaptchaEmailForm):
         return self.point['x']
 
     content_panels = AbstractEmailForm.content_panels + [
-        LeafletPanel('location' ),
+        LeafletPanel('location'),
         InlinePanel('contact_us_form_fields', label="Form fields"),
         FieldPanel('thank_you_text'),
         MultiFieldPanel([
@@ -144,7 +147,8 @@ class ContactPage(WagtailCaptchaEmailForm):
         send_mail("POSSIBLE SPAM - {}".format(self.subject), content, addresses, self.from_address, )
 
     class Meta:
-        verbose_name=_("Contact Page")
+        verbose_name = _("Contact Page")
+
 
 class ContactFormField(AbstractFormField):
     page = ParentalKey(ContactPage,

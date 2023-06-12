@@ -9,46 +9,24 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
 from taggit.models import TaggedItemBase
-from wagtail.admin.panels import (FieldPanel, MultiFieldPanel,
-                                         PageChooserPanel)
-from wagtail.fields import RichTextField
+from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.api import APIField
+from wagtail.fields import RichTextField
 from wagtail.models import Page
-from wagtail.documents.models import Document
+from wagtailmetadata.models import MetadataPageMixin
 
-from core.models import PublicationType, ServiceCategory 
+from core.models import PublicationType, ServiceCategory, AbstractBannerPage
 from core.utils import paginate, get_years, query_param_to_list, get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 
-class PublicationsIndexPage(Page):
+class PublicationsIndexPage(AbstractBannerPage):
     template = 'publications_index_page.html'
-    parent_page_types = ['home.HomePage',]
+    parent_page_types = ['home.HomePage', ]
     subpage_types = ['publications.PublicationPage']
     max_count = 1
     show_in_menus_default = True
 
-    banner_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Banner Image"),
-        help_text=_("A high quality image related to Publications"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
-    banner_subtitle = models.CharField(max_length=255, verbose_name=_("Banner Subtitle"))
-
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
-    call_to_action_related_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Call to action related page")
-    )
     earliest_publication_year = models.PositiveIntegerField(
         default=datetime.now().year,
         validators=[
@@ -56,23 +34,14 @@ class PublicationsIndexPage(Page):
             MaxValueValidator(datetime.now().year),
         ],
         help_text=_("The year for the earliest available publication. This is used to generate the years available for "
-                  "filtering "), verbose_name=_("Earliest Publication Year"))
+                    "filtering "), verbose_name=_("Earliest Publication Year"))
     publications_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
     ], help_text=_("How many publications per page should be visible on the all publications section ?"))
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel('banner_image'),
-                FieldPanel('banner_title'),
-                FieldPanel('banner_subtitle'),
-                FieldPanel('call_to_action_button_text'),
-                FieldPanel('call_to_action_related_page', )
-            ],
-            heading="Banner Section",
-        ),
+        *AbstractBannerPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('publications_per_page'),
@@ -83,13 +52,12 @@ class PublicationsIndexPage(Page):
     ]
 
     class Meta:
-        verbose_name=_("Publications Index Page")
+        verbose_name = _("Publications Index Page")
 
     @cached_property
     def filters(self):
         from organisation_pages.projects.models import ProjectPage
         publication_types = PublicationType.objects.all()
-        print(publication_types)
         service_categories = ServiceCategory.objects.all()
         projects = ProjectPage.objects.live()
 
@@ -146,26 +114,19 @@ class PublicationsIndexPage(Page):
 
         return context
 
-    def save(self, *args, **kwargs):
-        # if not self.search_image and self.thumbnail:
-        #     self.search_image = self.thumbnail
-        if not self.search_description and self.banner_subtitle:
-            # Limit the search meta desc to google's 160 recommended chars
-            self.search_description = truncatechars(self.banner_subtitle, 160)
-        return super().save(*args, **kwargs)
-
-    
 
 class PublicationPageTag(TaggedItemBase):
     content_object = ParentalKey('publications.PublicationPage', on_delete=models.CASCADE,
-                                 related_name='publications_tags',)
+                                 related_name='publications_tags', )
 
-class PublicationPage(Page):
+
+class PublicationPage(MetadataPageMixin, Page):
     template = 'publication_page.html'
     parent_page_types = ['publications.PublicationsIndexPage']
     subpage_types = []
 
-    publication_type = models.ForeignKey('core.PublicationType', on_delete=models.PROTECT, verbose_name=_("Publication Type"))
+    publication_type = models.ForeignKey('core.PublicationType', on_delete=models.PROTECT,
+                                         verbose_name=_("Publication Type"))
     categories = ParentalManyToManyField('core.ServiceCategory', verbose_name=_("Services related to this publication"))
     projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name=_("Relevant Projects"))
     summary = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Summary"))
@@ -173,16 +134,18 @@ class PublicationPage(Page):
     is_visible_on_homepage = models.BooleanField(default=False,
                                                  help_text="Should this appear in the homepage as"
                                                            " an alert/latest update ?",
-                                                           verbose_name=_("Is visible on homepage"))
+                                                 verbose_name=_("Is visible on homepage"))
     featured = models.BooleanField(
-        _("Mark as featured"), default=False, help_text=_("Featured publications appear on the publications landing page"))
+        _("Mark as featured"), default=False,
+        help_text=_("Featured publications appear on the publications landing page"))
     period_start_date = models.DateField(blank=True, null=True,
                                          help_text=_("Optional start date for which this publication is relevant"),
                                          verbose_name=_("Start date"))
     period_end_date = models.DateField(blank=True, null=True,
                                        help_text="Optional end date for which this publication is relevant",
                                        verbose_name=_("End date"))
-    peer_reviewed = models.BooleanField(default=False, help_text="Is this a peer reviewed publication ?", verbose_name=_("Peer reviewed"))
+    peer_reviewed = models.BooleanField(default=False, help_text="Is this a peer reviewed publication ?",
+                                        verbose_name=_("Peer reviewed"))
 
     thumbnail = models.ForeignKey(
         'wagtailimages.Image',
@@ -203,7 +166,8 @@ class PublicationPage(Page):
         help_text=_("Here you can upload pdfs, word documents, powerpoints, zip files or any other file")
     )
     external_publication_url = models.URLField(max_length=500, blank=True, null=True,
-                                               verbose_name=_("External Url - *Only If published/hosted somewhere else"),
+                                               verbose_name=_(
+                                                   "External Url - *Only If published/hosted somewhere else"),
                                                help_text=_("Link to published resource if external"))
 
     tags = ClusterTaggableManager(through=PublicationPageTag, blank=True, verbose_name=_("Tags"))
@@ -294,5 +258,3 @@ class PublicationPage(Page):
                 # Limit the search meta desc to google's 160 recommended chars
                 self.search_description = truncatechars(p, 160)
         return super().save(*args, **kwargs)
-
-    

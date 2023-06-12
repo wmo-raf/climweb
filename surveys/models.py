@@ -1,10 +1,10 @@
-from django.db import models
 from wagtail.models import Page
+from wagtailmetadata.models import MetadataPageMixin
 
 from wagtailsurveyjs.models import AbstractSurveyJsFormPage
-# Create your models here.
 
-class SurveyPage(AbstractSurveyJsFormPage):
+
+class SurveyPage(MetadataPageMixin, AbstractSurveyJsFormPage):
     parent_page_types = ['home.HomePage']
 
     subpage_types = []
