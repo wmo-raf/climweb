@@ -11,7 +11,7 @@
   {% endfor %}
 {% endfor %}
 
-<section class="{% if self.enable_weather_forecasts %} pt-0 {% endif %} pb-6" >
+<section class="{% if not self.enable_weather_forecasts or not self.get_forecast_by_city.forecasts %} pt-0 {% endif %} pb-6" >
   <div class="container">
     <div class="columns is-justify-content-center">
       <div class="column is-11">

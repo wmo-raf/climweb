@@ -28,8 +28,7 @@ class Country(models.Model):
 @register_setting
 class OrganisationSetting(BaseSiteSetting):
     # country 
-    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_setting", null=True,
-                                default="Ethiopia", verbose_name=_("Country"))
+    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_setting", null=True, verbose_name=_("Country"))
 
     # social media 
     twitter = models.URLField(max_length=250, blank=True, null=True, help_text=_("Twitter url"),
