@@ -1,21 +1,16 @@
-import os
-
-# from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from googleapiclient.discovery import build
 from wagtail.admin.panels import (FieldPanel)
 from wagtail.fields import RichTextField
-from wagtail.models import Orderable, Page, Site
-from wagtail.snippets.models import register_snippet
+from wagtail.models import Page, Site
 
-from core.models import ServiceCategory
 from site_settings.models import IntegrationSettings
-
 
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 youtube_service = None
+
 
 # Youtube playlists
 # @register_snippet
@@ -23,9 +18,8 @@ class YoutubePlaylist(models.Model):
     title = models.CharField(max_length=200, verbose_name=_("Title"))
     playlist_id = models.CharField(max_length=100,
                                    help_text=_("This is the playlist ID as obtained from Youtube. "
-                                             "If the playlist is not created on Youtube, please create it first"),
-                                             verbose_name=_("Playlist ID"))
-
+                                               "If the playlist is not created on Youtube, please create it first"),
+                                   verbose_name=_("Playlist ID"))
 
     def set_api(self):
         try:
@@ -38,21 +32,20 @@ class YoutubePlaylist(models.Model):
 
             # creating Youtube Resource Object
             self.youtube_service = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                                    developerKey=YOUTUBE_API_KEY)
+                                         developerKey=YOUTUBE_API_KEY)
 
-            return  self.youtube_service
+            return self.youtube_service
 
         except Exception as e:
-            print("Error: ",e)
+            print("Error: ", e)
             pass
 
     def __str__(self):
         return self.title
 
-
     @property
     def videos_count(self):
-         # Get the current site
+        # Get the current site
         youtube_service = self.set_api()
 
         if youtube_service:
@@ -77,14 +70,14 @@ class YoutubePlaylist(models.Model):
                 videos = youtube_service.playlistItems().list(part="snippet,contentDetails",
                                                               playlistId=self.playlist_id,
                                                               maxResults=50).execute()
-                
+
                 if "items" in videos:
                     info = videos['items']
             except:
                 pass
 
             # sort by video position in playlist 
-            info.sort(key=lambda info_item:info_item['snippet']['position'], reverse=True)
+            info.sort(key=lambda info_item: info_item['snippet']['position'], reverse=True)
             return info
         return None
 

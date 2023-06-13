@@ -1,15 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from wagtail.models import Page
 from wagtail.admin.panels import FieldPanel
-
-from wagtailmautic.models import BaseMauticFormPage
+from wagtail.models import Page
 from wagtailmailchimp.models import AbstractMailChimpPage
+from wagtailmautic.models import BaseMauticFormPage
+from wagtailmetadata.models import MetadataPageMixin
 
 
-# Create your models here.
-class MauticMailingListSubscriptionPage(BaseMauticFormPage,Page):
+class MauticMailingListSubscriptionPage(MetadataPageMixin, BaseMauticFormPage, Page):
     template = 'mailing_list_subscription.html'
     parent_page_types = ['home.HomePage']
     subpage_types = []
@@ -30,7 +28,7 @@ class MauticMailingListSubscriptionPage(BaseMauticFormPage,Page):
         super(MauticMailingListSubscriptionPage, self).save(*args, **kwargs)
 
 
-class MailchimpMailingListSubscriptionPage(AbstractMailChimpPage, Page):
+class MailchimpMailingListSubscriptionPage(MetadataPageMixin, AbstractMailChimpPage, Page):
     template = 'mailing_list_subscription.html'
     parent_page_types = ['home.HomePage']
     subpage_types = []

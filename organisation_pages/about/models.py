@@ -1,18 +1,18 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from positions import PositionField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
-from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable, Page
+from wagtail.models import Page
 from wagtail.snippets.models import register_snippet
+from wagtailmetadata.models import MetadataPageMixin
 
-from integrations.webicons.edit_handlers import WebIconChooserPanel
 from core import blocks
+from core.models import AbstractBannerWithIntroPage
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
-from .blocks import TimelineBlock 
+from .blocks import TimelineBlock
 
-class AboutIndexPage(Page):
+
+class AboutIndexPage(MetadataPageMixin, Page):
     parent_page_types = ['home.HomePage']
     # template = ''
     max_count = 1
@@ -26,49 +26,33 @@ class AboutIndexPage(Page):
     show_in_menus_default = True
 
     class Meta:
-        verbose_name=_("About Index Page")
+        verbose_name = _("About Index Page")
 
-class AboutPage(Page):
+
+class AboutPage(AbstractBannerWithIntroPage):
     template = 'about_page.html'
     parent_page_types = ['about.AboutIndexPage']
     subpage_types = []
     max_count = 1
     show_in_menus_default = True
 
-    introduction_title = models.CharField(max_length=100, help_text="Introduction section title",verbose_name=_("Introduction Title"))
-    introduction_text = RichTextField(help_text="A short summary of your organisation as an organisation", verbose_name=_("Introduction Text"))
-    introduction_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Introduction Image"),
-        help_text=_("A high quality image related to your organisation as an organisation"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
+    mission = models.CharField(max_length=500, help_text=_("Organisation's mission"), null=True,
+                               verbose_name=_("Organisation's mission"))
+    vision = models.CharField(max_length=500, help_text=_("Organisation's vision"), null=True,
+                              verbose_name=_("Organisation's vision"))
 
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction Button Text"))
-    introduction_button_link = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Introduction Button Link")
-    )
-
-    mission = models.CharField(max_length=500, help_text=_("Organisation's mission"), null=True, verbose_name = _("Organisation's mission"))
-    vision = models.CharField(max_length=500, help_text=_("Organisation's vision"), null=True, verbose_name= _("Organisation's vision"))
-
-    timeline_heading = models.CharField(max_length=255, blank=True, null=True, verbose_name = _("Timeline Heading"))
+    timeline_heading = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Timeline Heading"))
 
     timeline = StreamField([
         ('nmhs_timeline', TimelineBlock()),
     ], null=True, blank=True, verbose_name=_("Timeline items"), use_json_field=True)
 
-
-    org_struct_heading = models.CharField(max_length=250, help_text=_("Organisation's Structure Section Heading"), null=True, verbose_name=_("Organisation's Struture Heading"), default="Our Organisational Structure")
-    org_struct_description = RichTextField( help_text=_("Organisation's Structure Description"), null=True, verbose_name=_("Organisation's Struture Description"), features=SUMMARY_RICHTEXT_FEATURES)
+    org_struct_heading = models.CharField(max_length=250, help_text=_("Organisation's Structure Section Heading"),
+                                          null=True, verbose_name=_("Organisation's Struture Heading"),
+                                          default="Our Organisational Structure")
+    org_struct_description = RichTextField(help_text=_("Organisation's Structure Description"), null=True,
+                                           verbose_name=_("Organisation's Struture Description"),
+                                           features=SUMMARY_RICHTEXT_FEATURES)
     org_struct_img = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name=_("Organisational Structure Image"),
@@ -85,11 +69,14 @@ class AboutPage(Page):
 
     additional_materials = StreamField([
         ('material', blocks.CategorizedAdditionalMaterialBlock())
-    ], null=True, blank=True,use_json_field=True,  verbose_name=_("Additional Materials") )
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Additional Materials"))
 
-    bottom_call_to_action_heading = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Bottom Call to action heading"))
-    bottom_call_to_action_description = models.TextField(blank=True, null=True, verbose_name=_("Bottom call to action description"))
-    bottom_call_to_action_button_text = models.CharField(max_length=20, blank=True, null=True, verbose_name=_("Bottom call to action button text"))
+    bottom_call_to_action_heading = models.CharField(max_length=100, blank=True, null=True,
+                                                     verbose_name=_("Bottom Call to action heading"))
+    bottom_call_to_action_description = models.TextField(blank=True, null=True,
+                                                         verbose_name=_("Bottom call to action description"))
+    bottom_call_to_action_button_text = models.CharField(max_length=20, blank=True, null=True,
+                                                         verbose_name=_("Bottom call to action button text"))
     bottom_call_to_action_button_link = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
@@ -145,9 +132,9 @@ class AboutPage(Page):
     @property
     def partners(self):
         return Partner.objects.filter(is_main=True)[:5]
-    
+
     class Meta:
-        verbose_name=_("About Page")
+        verbose_name = _("About Page")
 
 
 @register_snippet
@@ -176,8 +163,7 @@ class Partner(models.Model):
 
     class Meta:
         ordering = ('order',)
-        verbose_name=_("Partner")
-
+        verbose_name = _("Partner")
 
     panels = [
         FieldPanel('name'),
@@ -189,57 +175,12 @@ class Partner(models.Model):
     ]
 
 
-class PartnersPage(Page):
+class PartnersPage(AbstractBannerWithIntroPage):
     template = 'partners.html'
     parent_page_types = ['about.AboutIndexPage']
     subpage_types = []
     max_count = 2
     show_in_menus_default = True
-
-    banner_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Banner Image"),
-        help_text=_("A high quality image related to Partners"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
-    banner_subtitle = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Banner Subtitle"))
-
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
-    call_to_action_related_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Call to action related page")
-    )
-
-    introduction_title = models.CharField(max_length=100,verbose_name=_("Introduction title"), help_text=_("Introduction section title"))
-    introduction_text = RichTextField(
-        help_text=_("A summary of your organisation relations with partners"),
-        features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Introduction text"))
-
-    introduction_image = models.ForeignKey(
-        'webicons.WebIcon',
-        verbose_name=_("Partners SVG Illustration"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"))
-    introduction_button_link = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Introduction button link")
-    )
 
     partners_cta_title = models.CharField(max_length=100, verbose_name=_("Partners Call to Action title"),
                                           help_text=_("Partners call to action section title"))
@@ -266,27 +207,7 @@ class PartnersPage(Page):
         related_name='+', verbose_name=_("Partners call to action page")
     )
     content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel('banner_image'),
-                FieldPanel('banner_title'),
-                FieldPanel('banner_subtitle'),
-                FieldPanel('call_to_action_button_text'),
-                PageChooserPanel('call_to_action_related_page', )
-
-            ],
-          heading=_("Banner Section"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel('introduction_title'),
-                WebIconChooserPanel('introduction_image'),
-                FieldPanel('introduction_text'),
-                FieldPanel('introduction_button_text'),
-                PageChooserPanel('introduction_button_link'),
-            ],
-            heading=_("Introduction Section"),
-        ),
+        *AbstractBannerWithIntroPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('partners_cta_title'),
@@ -303,6 +224,6 @@ class PartnersPage(Page):
         context = super(PartnersPage, self).get_context(request, *args, **kwargs)
         context['partners'] = Partner.objects.all()
         return context
-    
+
     class Meta:
-        verbose_name=_("Partners Page")
+        verbose_name = _("Partners Page")

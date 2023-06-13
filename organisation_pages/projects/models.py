@@ -10,101 +10,35 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalManyToManyField
 from positions import PositionField
-from rest_framework.fields import BooleanField
-from wagtail.admin.panels import (FieldPanel, PageChooserPanel, MultiFieldPanel)
+from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.api import APIField
-from wagtail.fields import StreamField, RichTextField
-from wagtail.models import Orderable, Page
+from wagtail.fields import StreamField
+from wagtail.models import Page
 
 from core import blocks
-from core.models import ServiceCategory
+from core.models import ServiceCategory, AbstractBannerWithIntroPage
 from core.utils import query_param_to_list, paginate, get_first_non_empty_p_string
-from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from media_pages.news.models import NewsPage
 from media_pages.publications.models import PublicationPage
 from media_pages.videos.models import YoutubePlaylist
 from organisation_pages.events.models import EventPage
 
 
-class ProjectIndexPage(Page):
+class ProjectIndexPage(AbstractBannerWithIntroPage):
     template = 'project_index_page.html'
     parent_page_types = ['about.AboutIndexPage']
     subpage_types = ['projects.ProjectPage']
     max_count = 2
     show_in_menus_default = True
 
-    banner_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Banner Image"),
-        help_text=_("A high quality image related to Projects"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
-    banner_subtitle = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Banner Subtitle"))
-
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
-    call_to_action_related_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Call to action related page")
-    )
-
-    introduction_title = models.CharField(max_length=100, help_text=_("Introduction section title"), verbose_name=_("Introduction title"))
-    introduction_text = RichTextField(help_text=_("A description of ORG Projects in general"), verbose_name=_("Introduction text"),
-                                      features=SUMMARY_RICHTEXT_FEATURES)
-    introduction_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Introduction Image"),
-        help_text=_("A high quality image related to Projects"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"))
-    introduction_button_link = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Introduction button link")
-    )
-
     items_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
     ], help_text=_("How many items should be visible on the projects landing page filter section ?"),
-    verbose_name=_("Items per page"))
+                                                 verbose_name=_("Items per page"))
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel('banner_image'),
-                FieldPanel('banner_title'),
-                FieldPanel('banner_subtitle'),
-                FieldPanel('call_to_action_button_text'),
-                PageChooserPanel('call_to_action_related_page', )
-            ],
-            heading=_("Banner Section"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel('introduction_title'),
-                FieldPanel('introduction_image'),
-                FieldPanel('introduction_text'),
-                FieldPanel('introduction_button_text'),
-                PageChooserPanel('introduction_button_link'),
-            ],
-            heading=_("Introduction Section"),
-        ),
+        *AbstractBannerWithIntroPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('items_per_page'),
@@ -152,96 +86,48 @@ class ProjectIndexPage(Page):
         return context
 
     def save(self, *args, **kwargs):
-        #if not self.search_image and self.banner_image:
-            #self.search_image = self.banner_image
+        # if not self.search_image and self.banner_image:
+        # self.search_image = self.banner_image
         if not self.search_description and self.introduction_text:
             p = get_first_non_empty_p_string(self.introduction_text)
             if p:
                 # Limit the search meta desc to google's 160 recommended chars
                 self.search_description = truncatechars(p, 160)
         return super().save(*args, **kwargs)
-    
+
     class Meta:
-        verbose_name=_("Project Index Page")
+        verbose_name = _("Project Index Page")
 
 
-class ProjectPage(Page):
+class ProjectPage(AbstractBannerWithIntroPage):
     template = 'project_page.html'
     parent_page_types = ['projects.ProjectIndexPage']
     subpage_types = []
 
-    services = ParentalManyToManyField('core.ServiceCategory', through='ServiceProject', related_name='projects', verbose_name=_("Services"))
+    services = ParentalManyToManyField('core.ServiceCategory', through='ServiceProject', related_name='projects',
+                                       verbose_name=_("Services"))
 
-    banner_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Project Banner Image"),
-        help_text=_("A high quality image related to this Project, that appears on the top banner"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
     full_name = models.CharField(max_length=200, verbose_name=_("Project full name"),
                                  help_text=_("Name of the project"))
     short_name = models.CharField(max_length=50, verbose_name=_("Project short name"),
                                   help_text=_("Short name of the project"))
 
-    call_to_action_button_text = models.CharField(max_length=20, blank=True, null=True, verbose_name=_("Call to action button text"))
-    call_to_action_related_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Call to action related page")
-    )
-    call_to_action_external_link = models.URLField(max_length=200, blank=True, null=True,
-                                                   help_text=_("External Link if applicable"),
-                                                   verbose_name=_("Call to action external link"))
-
     begin_date = models.DateField(verbose_name=_("Begin date"))
     end_date = models.DateField(verbose_name=_("End date"))
 
-    introduction_title = models.TextField(help_text="This can be the main objective of the project in one sentence",
-                                          verbose_name=_("Project Tagline"))
-    introduction_text = RichTextField(help_text=_("A description of this project"), features=SUMMARY_RICHTEXT_FEATURES,
-                                      verbose_name=_("Project summary"))
-    introduction_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Introduction Image"),
-        help_text=_("A high quality image related this project"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
+    partners = ParentalManyToManyField('about.Partner', blank=True, related_name='projects', verbose_name=_("Partners"))
 
-    partners = ParentalManyToManyField('about.Partner', blank=True, related_name='projects', verbose_name=_("Partners")) 
-
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True, verbose_name=_("Introduction button text"))
-    introduction_button_link = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Introduction button link")
-    )
-    introduction_button_link_external = models.URLField(max_length=200, blank=True, null=True,
-                                                        help_text=_("External Link if applicable. Ignored if internal "
-                                                                  "page above is chosen"),
-                                                                  verbose_name=_("Introduction button link external"))
     goals_block = StreamField([
         ('goal', blocks.CollapsibleBlock()),
     ], null=True, blank=True, verbose_name=_("Goals"), use_json_field=True)
 
     feature_block = StreamField([
         ('feature_item', blocks.FeatureBlock()),
-    ], null=True, blank=True,  use_json_field=True, verbose_name=_("Feature block"))
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Feature block"))
 
     project_materials = StreamField([
         ('material', blocks.CategorizedAdditionalMaterialBlock())
-    ], null=True, blank=True, use_json_field=True , verbose_name=_("Project Materials"))
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Project Materials"))
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
         null=True,
@@ -250,14 +136,6 @@ class ProjectPage(Page):
         related_name='+',
         verbose_name=_("Youtube playlist")
     )
-
-    @cached_property
-    def banner_title(self):
-        return self.short_name
-
-    @cached_property
-    def banner_subtitle(self):
-        return self.full_name
 
     @cached_property
     def period(self):
@@ -309,31 +187,7 @@ class ProjectPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('services', widget=CheckboxSelectMultiple),
-        MultiFieldPanel(
-            [
-                FieldPanel('banner_image'),
-                FieldPanel('full_name'),
-                FieldPanel('short_name'),
-                FieldPanel('begin_date'),
-                FieldPanel('end_date'),
-                FieldPanel('call_to_action_button_text'),
-                PageChooserPanel('call_to_action_related_page', ),
-                FieldPanel('call_to_action_external_link')
-
-            ],
-            heading=_("Banner Section / Project Details"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel('introduction_title'),
-                FieldPanel('introduction_image'),
-                FieldPanel('introduction_text'),
-                FieldPanel('introduction_button_text'),
-                PageChooserPanel('introduction_button_link'),
-                FieldPanel('introduction_button_link_external')
-            ],
-            heading=_("Introduction Section"),
-        ),
+        *AbstractBannerWithIntroPage.content_panels,
         FieldPanel('goals_block'),
         FieldPanel('feature_block'),
         FieldPanel('project_materials'),
@@ -354,8 +208,8 @@ class ProjectPage(Page):
         ordering = ['-end_date', ]
 
     def save(self, *args, **kwargs):
-        #if not self.search_image and self.banner_image:
-            #self.search_image = self.banner_image
+        # if not self.search_image and self.banner_image:
+        # self.search_image = self.banner_image
         if not self.search_description and self.introduction_title:
             # Limit the search meta desc to google's 160 recommended chars
             self.search_description = truncatechars(self.introduction_title, 160)

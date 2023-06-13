@@ -7,15 +7,14 @@ from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, Inl
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
-# from wagtailmetadata.models import MetadataPageMixin
+from wagtailmetadata.models import MetadataPageMixin
 
-from integrations.webicons.edit_handlers import WebIconChooserPanel
 from core.mail import send_mail
+from integrations.webicons.edit_handlers import WebIconChooserPanel
 from organisation_pages.contact.utils import get_duplicates
 
 
-# Create your models here.
-class FeedbackPage( WagtailCaptchaEmailForm):
+class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     required_css_class = 'required'
 
     template = 'feedback.html'

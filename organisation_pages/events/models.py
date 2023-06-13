@@ -1,9 +1,6 @@
-import datetime
 import json
-from collections import OrderedDict
 from itertools import chain
 
-from dateutil.parser import isoparse
 from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
@@ -12,97 +9,61 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.forms import CheckboxSelectMultiple
-from django.template.defaultfilters import truncatechars,date
+from django.template.defaultfilters import truncatechars, date
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.models import ClusterableModel
 from timezone_field import TimeZoneField
-from wagtail.admin.panels import (FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel,)
-from wagtail.admin.panels import TabbedInterface, ObjectList 
-from wagtail.templatetags.wagtailcore_tags import richtext
 from wagtail.admin.mail import send_mail
+from wagtail.admin.panels import (FieldPanel, InlinePanel, MultiFieldPanel, )
+from wagtail.admin.panels import TabbedInterface, ObjectList
 from wagtail.api import APIField
 from wagtail.contrib.forms.forms import WagtailAdminFormPageForm
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page
-from wagtail.signals import page_published
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
+from wagtailmailchimp.models import AbstractMailchimpIntegrationForm
+from wagtailmetadata.models import MetadataPageMixin
+from wagtailzoom.models import AbstractZoomIntegrationForm
 
-from wagtailmailchimp.models import AbstractMailchimpIntegrationForm   
-from wagtailzoom.models import AbstractZoomIntegrationForm, ZoomSettings
-from wagtailzoom.widgets import ZoomEventSelectWidget
-
-from core import blocks 
-from core.models import EventType
+from core import blocks
+from core.models import EventType, AbstractBannerPage
 from core.utils import get_pytz_gmt_offset_str
-
-from core.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string, get_object_or_none
+from core.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string
 from organisation_pages.events.blocks import PanelistBlock, EventSponsorBlock, SessionBlock
-# from .views import CustomSubmissionsListView
 
 SUMMARY_RICHTEXT_FEATURES = getattr(settings, "SUMMARY_RICHTEXT_FEATURES")
 
 
-class EventIndexPage(Page):
+class EventIndexPage(AbstractBannerPage):
     template = 'event_index_page.html'
     subpage_types = ['events.EventPage']
     parent_page_types = ['home.HomePage']
     max_count = 1
     show_in_menus = True
 
-    banner_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_("Banner Image"),
-        help_text=_("A high quality image related to your organisation events/trainings"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    banner_title = models.CharField(max_length=255, verbose_name=_("Banner Title"))
-    banner_subtitle = models.CharField(max_length=255, verbose_name=_("Banner Subtitle"))
-
-    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Call to action button text"))
-    call_to_action_related_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Call to action related page")
-    )
-
     events_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
-    ], help_text=_("How many events should be visible on the all events section ?"), 
-    verbose_name=_("Events per page"))
+    ], help_text=_("How many events should be visible on the all events section ?"),
+                                                  verbose_name=_("Events per page"))
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel('banner_image'),
-                FieldPanel('banner_title'),
-                FieldPanel('banner_subtitle'),
-                FieldPanel('call_to_action_button_text'),
-                PageChooserPanel('call_to_action_related_page', )
-            ],
-            heading=_("Banner Section"),
-        ),
+        *AbstractBannerPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('events_per_page'),
             ],
             heading=_("Other Settings"),
         ), ]
-    
+
     class Meta:
-        verbose_name=_("Event Index Page")
+        verbose_name = _("Event Index Page")
 
     @property
     def filters(self):
@@ -169,16 +130,8 @@ class EventIndexPage(Page):
 
         return context
 
-    def save(self, *args, **kwargs):
-        #if not self.search_image and self.banner_image:
-            #self.search_image = self.banner_image
-        if not self.search_description and self.banner_subtitle:
-            # Limit the search meta desc to google's 160 recommended chars
-            self.search_description = truncatechars(self.banner_subtitle, 160)
-        return super().save(*args, **kwargs)
 
-
-class EventPage(Page):
+class EventPage(MetadataPageMixin, Page):
     IMAGE_PLACEMENT_CHOICES = (
         ('side', "Side by Side with Text"),
         ('top', "At the top before text"),
@@ -200,13 +153,14 @@ class EventPage(Page):
     date_to = models.DateTimeField(blank=True, null=True,
                                    verbose_name=_("End date - Note: Not Required if this is a one day Event"),
                                    help_text=_("Not required if this is a one day event"))
-    timezone = TimeZoneField(default='Africa/Nairobi', 
-                             help_text=_("Timezone"), 
-                             choices_display="WITH_GMT_OFFSET",  
+    timezone = TimeZoneField(default='Africa/Nairobi',
+                             help_text=_("Timezone"),
+                             choices_display="WITH_GMT_OFFSET",
                              use_pytz=True,
                              verbose_name=_("Timezone"))
 
-    location = models.CharField(max_length=100, help_text=_("Where will the event take place ?"), verbose_name=_("Location"))
+    location = models.CharField(max_length=100, help_text=_("Where will the event take place ?"),
+                                verbose_name=_("Location"))
     cost = models.CharField(max_length=100, blank=True, null=True,
                             help_text=_("What is the cost for participating in this event ? Leave blank if free"),
                             verbose_name=_("Cost"))
@@ -230,7 +184,8 @@ class EventPage(Page):
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    image_placement = models.CharField(max_length=50, choices=IMAGE_PLACEMENT_CHOICES, default='top', verbose_name=_("Image Placement"))
+    image_placement = models.CharField(max_length=50, choices=IMAGE_PLACEMENT_CHOICES, default='top',
+                                       verbose_name=_("Image Placement"))
     form_template = models.ForeignKey('events.EventRegistrationFormTemplate', on_delete=models.SET_NULL, blank=True,
                                       null=True, default=1, verbose_name=_("Form template"))
 
@@ -240,11 +195,11 @@ class EventPage(Page):
 
     is_hidden = models.BooleanField(
         default=False,
-        help_text=_("Make this event hidden in events page or elsewhere"),verbose_name=_("Is hidden") )
+        help_text=_("Make this event hidden in events page or elsewhere"), verbose_name=_("Is hidden"))
 
     is_visible_on_homepage = models.BooleanField(
         default=False,
-        help_text=_("Show this event on the homepage ?"),verbose_name=_("Is visible on homepage") )
+        help_text=_("Show this event on the homepage ?"), verbose_name=_("Is visible on homepage"))
 
     panelists = StreamField([
         ('panelist', PanelistBlock()),
@@ -308,27 +263,18 @@ class EventPage(Page):
         APIField('additional_materials'),
     ]
 
-    # zoom_events_panel = [
-    #     MultiFieldPanel(
-    #         AbstractZoomIntegrationForm.panels,
-    #         heading=_("Zoom Events Settings"),
-    #     ),
-    # ]
-
     # This is where all the tabs are created
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading=_('Content')),
             ObjectList(Page.promote_panels, heading=_('SEO'), classname="seo"),
             ObjectList(Page.settings_panels, heading=_('Settings'), classname="settings"),
-            # ObjectList(zoom_events_panel, heading=_('Zoom Events Settings')),
-            # ObjectList(AbstractZoomIntegrationForm.integration_panels, heading=_('Zoom Events Settings'))
         ]
     )
 
     class Meta:
         ordering = ['-date_from', ]
-        verbose_name=_("Event Page")
+        verbose_name = _("Event Page")
 
     @property
     def count_down(self):
@@ -352,7 +298,7 @@ class EventPage(Page):
             "card_tag": self.event_type,
             "card_tags": ""
         }
-        
+
     @cached_property
     def registration_page(self):
         return self.get_first_child()
@@ -447,9 +393,9 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
         self.parent_page = parent_page
 
 
-class EventRegistrationPage(WagtailCaptchaEmailForm,AbstractZoomIntegrationForm, AbstractMailchimpIntegrationForm):
+class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, AbstractZoomIntegrationForm,
+                            AbstractMailchimpIntegrationForm):
     base_form_class = EventPageCustomForm
-    # submissions_list_view_class = CustomSubmissionsListView
 
     template = 'event_registration_page.html'
     landing_page_template = 'form_thank_you_landing.html'
@@ -463,28 +409,31 @@ class EventRegistrationPage(WagtailCaptchaEmailForm,AbstractZoomIntegrationForm,
     registration_limit = models.PositiveIntegerField(blank=True, null=True,
                                                      help_text=_("Number of available registrations"),
                                                      verbose_name=_("Registration Limit - "
-                                                                  "(Leave blank if no limit)"))
+                                                                    "(Leave blank if no limit)"))
 
     thank_you_text = models.TextField(blank=True, null=True,
-                                      help_text=_("Text to display after successful submission"), verbose_name=_("Thank you text"))
+                                      help_text=_("Text to display after successful submission"),
+                                      verbose_name=_("Thank you text"))
     validation_field = models.CharField(max_length=100, blank=True, verbose_name=_("Validation Field"),
                                         help_text=_("A field on the form to check if is already submitted so as to "
-                                                  "prevent multiple submissions by one person. This is usually the "
-                                                  "email address field in snake casing format"), default="email_address")
+                                                    "prevent multiple submissions by one person. This is usually the "
+                                                    "email address field in snake casing format"),
+                                        default="email_address")
 
     send_confirmation_email = models.BooleanField(default=False,
-                                                  help_text=_("Should we send a confirmation/follow up email ?"), 
+                                                  help_text=_("Should we send a confirmation/follow up email ?"),
                                                   verbose_name=_("Send confirmation Email"))
     email_field = models.CharField(max_length=100, blank=True,
                                    help_text=_("The field in the form that corresponds to the email to use. "
-                                             "Should be snake_cased"),verbose_name=_("Email Field"))
+                                               "Should be snake_cased"), verbose_name=_("Email Field"))
     email_confirmation_message = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, blank=True,
                                                verbose_name=_("Email Confirmation message"),
                                                help_text=_("Message to send to the user. For example zoom links"))
     batch_zoom_reg_enabled = models.BooleanField(default=False,
                                                  verbose_name=_("Batch Zoom Registration Enabled - "
-                                                              "Leave unchecked for direct zoom registrations"),
-                                                 help_text=_("Enable batch option for adding registrants to zoom later"))
+                                                                "Leave unchecked for direct zoom registrations"),
+                                                 help_text=_(
+                                                     "Enable batch option for adding registrants to zoom later"))
 
     content_panels = AbstractEmailForm.content_panels + [
         FieldPanel('additional_information'),
@@ -497,19 +446,12 @@ class EventRegistrationPage(WagtailCaptchaEmailForm,AbstractZoomIntegrationForm,
             FieldPanel('subject'),
         ], "Staff Email Notification Settings - When someone registers"),
 
-        # MultiFieldPanel([
-        #     FieldPanel('send_confirmation_email'),
-        #     FieldPanel('email_field'),
-        #     FieldPanel('email_confirmation_message'),
-        # ], "Confirmation Email Settings - Confirmation / follow up email to the user after registration"),
+        FieldPanel('thank_you_text', heading="Message to show on website after successful submission"),
 
-        FieldPanel('thank_you_text', heading="Message to show on website after suscessful submission"),
-
-        # FieldPanel('batch_zoom_reg_enabled'), // Hide this for now TODO: Do we still need it ?
     ]
 
     class Meta:
-        verbose_name=_("Event Registration Page")
+        verbose_name = _("Event Registration Page")
 
     @cached_property
     def event(self):
@@ -608,7 +550,6 @@ class EventRegistrationPage(WagtailCaptchaEmailForm,AbstractZoomIntegrationForm,
                     form_submission.form_data = form_data
                     form_submission.save()
 
-           
         if self.send_confirmation_email and self.email_field and self.email_confirmation_message:
             form_data = form.cleaned_data
             email = form_data.get(self.email_field.replace('-', '_'))
@@ -669,7 +610,6 @@ def on_event_published(sender, **kwargs):
 
     if event_page.zoom_events_id:
         cache.delete(f'zoom-events-{event_page.zoom_events_id}')
-
 
 # def on_event_reg_published(sender, **kwargs):
 #     event_reg_page = kwargs['instance']
