@@ -2,7 +2,7 @@ from django.contrib.gis.geos import GEOSGeometry
 import json
 from site_settings.models import Country
 
-with open('/home/app/web/nmhs_cms/countries_extents.geojson') as f:
+with open('/home/app/web/nmhs-cms/countries_extents.geojson') as f:
     data = json.load(f)
 
 for feature in data['features']:
