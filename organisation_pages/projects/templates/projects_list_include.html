@@ -31,7 +31,14 @@
                     </a>
                     <div class="result-list-item-detail" style="position: relative">
                         <div class="result-list-item-tag" style="justify-content: space-between">
-                            <span class="result-list-item-tag-float">{{ project.short_name }}</span>
+                            {% if project.short_name %}
+                                <span class="result-list-item-tag-float">
+                                    {{ project.short_name }}
+                                </span>
+                            {% else %}
+                                <span class="result-list-item-tag-float">
+                                </span>
+                            {% endif %}
                             <span class="project-progress">
                                 <span class="project-progress-status">{{ project.status }}</span>
                                 <span

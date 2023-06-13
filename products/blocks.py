@@ -17,6 +17,12 @@ class ProductItemStructValue(StructValue):
             return None
         return p
 
+    def p_image(self):
+        if self.get("image"):
+            return self.get("image")
+        if self.get("thumbnail"):
+            return self.get("thumbnail")
+
 
 class ProductItemTypeBlock(blocks.StructBlock):
     name = blocks.CharBlock(label=_("Name"))
@@ -30,19 +36,20 @@ class ProductCategoryBlock(blocks.StructBlock):
 
 
 class ProductItemImageContentBlock(blocks.StructBlock):
-    product_type = blocks.CharBlock(required=True)
-    image = ImageChooserBlock(required=True)
-    description = blocks.RichTextBlock()
+    product_type = blocks.CharBlock(required=True, label=_("Product Type"))
+    image = ImageChooserBlock(required=True, label=_("Image"))
+    description = blocks.RichTextBlock(label=_("Summary of the map/image information"))
 
     class Meta:
         value_class = ProductItemStructValue
 
 
 class ProductItemDocumentContentBlock(blocks.StructBlock):
-    product_type = blocks.CharBlock(required=True)
-    thumbnail = ImageChooserBlock(required=False)
-    document = DocumentChooserBlock(required=True)
-    description = blocks.RichTextBlock()
+    product_type = blocks.CharBlock(required=True, label=_("Product Type"))
+    thumbnail = ImageChooserBlock(required=False, label=_("Thumbnail of the document"),
+                                  help_text=_("For example a screen grab of the cover page"))
+    document = DocumentChooserBlock(required=True, label=_("Document"))
+    description = blocks.RichTextBlock(label=_("Summary of the document information"))
 
     class Meta:
         value_class = ProductItemStructValue

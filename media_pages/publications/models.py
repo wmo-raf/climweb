@@ -60,11 +60,12 @@ class PublicationsIndexPage(AbstractBannerPage):
         publication_types = PublicationType.objects.all()
         service_categories = ServiceCategory.objects.all()
         projects = ProjectPage.objects.live()
+        years = PublicationPage.objects.dates("publication_date", 'year')
 
         return {
             'publication_types': publication_types,
             'service_categories': service_categories,
-            'year': get_years(self.earliest_publication_year),
+            'year': years,
             'projects': projects
         }
 
