@@ -11,7 +11,6 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalManyToManyField
 from positions import PositionField
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
-from wagtail.api import APIField
 from wagtail.fields import StreamField
 from wagtail.models import Page
 
@@ -106,10 +105,9 @@ class ProjectPage(AbstractBannerWithIntroPage):
 
     services = ParentalManyToManyField('core.ServiceCategory', through='ServiceProject', related_name='projects',
                                        verbose_name=_("Services"))
-
     full_name = models.CharField(max_length=200, verbose_name=_("Project full name"),
                                  help_text=_("Name of the project"))
-    short_name = models.CharField(max_length=50, verbose_name=_("Project short name"),
+    short_name = models.CharField(max_length=50, blank=True, null=True, verbose_name=_("Project short name"),
                                   help_text=_("Short name of the project"))
 
     begin_date = models.DateField(verbose_name=_("Begin date"))
@@ -141,6 +139,13 @@ class ProjectPage(AbstractBannerWithIntroPage):
     def period(self):
         return "{} {} - {} {}".format(calendar.month_name[self.begin_date.month], self.begin_date.year,
                                       calendar.month_name[self.end_date.month], self.end_date.year)
+
+    @cached_property
+    def label(self):
+        if self.short_name:
+            return self.short_name
+        else:
+            return self.full_name
 
     @cached_property
     def progress(self):
@@ -188,19 +193,15 @@ class ProjectPage(AbstractBannerWithIntroPage):
     content_panels = Page.content_panels + [
         FieldPanel('services', widget=CheckboxSelectMultiple),
         *AbstractBannerWithIntroPage.content_panels,
+        FieldPanel('full_name'),
+        FieldPanel('short_name'),
+        FieldPanel('begin_date'),
+        FieldPanel('end_date'),
         FieldPanel('goals_block'),
         FieldPanel('feature_block'),
         FieldPanel('project_materials'),
         FieldPanel('youtube_playlist'),
         FieldPanel('partners', widget=CheckboxSelectMultiple),
-    ]
-
-    api_fields = [
-        APIField('full_name'),
-        APIField('short_name'),
-        APIField('begin_date'),
-        APIField('end_date'),
-        APIField('complete'),
     ]
 
     class Meta:

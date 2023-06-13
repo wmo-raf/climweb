@@ -1,5 +1,3 @@
-import calendar
-
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
@@ -16,7 +14,7 @@ from wagtail.models import Page
 from wagtailiconchooser.models import CustomIconPage
 from wagtailmetadata.models import MetadataPageMixin
 
-from core.models import ServiceCategory, AbstractBannerWithIntroPage, AbstractIntroPage
+from core.models import ServiceCategory, AbstractIntroPage
 from core.utils import paginate, query_param_to_list
 from core.wagtailsnippets_models import Product
 from products.blocks import ProductItemImageContentBlock, ProductItemDocumentContentBlock
