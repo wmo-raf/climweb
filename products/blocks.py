@@ -17,6 +17,12 @@ class ProductItemStructValue(StructValue):
             return None
         return p
 
+    def p_image(self):
+        if self.get("image"):
+            return self.get("image")
+        if self.get("thumbnail"):
+            return self.get("thumbnail")
+
 
 class ProductItemTypeBlock(blocks.StructBlock):
     name = blocks.CharBlock(label=_("Name"))

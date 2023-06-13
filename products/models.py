@@ -16,7 +16,7 @@ from wagtail.models import Page
 from wagtailiconchooser.models import CustomIconPage
 from wagtailmetadata.models import MetadataPageMixin
 
-from core.models import ServiceCategory, AbstractBannerWithIntroPage
+from core.models import ServiceCategory, AbstractBannerWithIntroPage, AbstractIntroPage
 from core.utils import paginate, query_param_to_list
 from core.wagtailsnippets_models import Product
 from products.blocks import ProductItemImageContentBlock, ProductItemDocumentContentBlock
@@ -33,7 +33,7 @@ class ProductIndexPage(Page):
         verbose_name_plural = _('Product Index Pages')
 
 
-class ProductPage(AbstractBannerWithIntroPage):
+class ProductPage(AbstractIntroPage):
     template = 'product_index.html'
     ajax_template = 'product_list_include.html'
     parent_page_types = ['products.ProductIndexPage']
@@ -53,7 +53,7 @@ class ProductPage(AbstractBannerWithIntroPage):
     content_panels = Page.content_panels + [
         FieldPanel('service'),
         FieldPanel('product'),
-        *AbstractBannerWithIntroPage.content_panels,
+        *AbstractIntroPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('products_per_page'),
