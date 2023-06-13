@@ -36,13 +36,14 @@
       
       <div class="column  is-one-fifth-desktop is-half-mobile">
        
-        <p class="footer-link-title is-uppercase title">
-          <a>OUR OFFICE</a>
-      </p>
+        
         {% comment %} <div class="address"> {% endcomment %}
           
 
           {% if settings.site_settings.OrganisationSetting.address  %}
+          <p class="footer-link-title is-uppercase title">
+            <a>OUR OFFICE</a>
+        </p>
             <a class="footer-link">
             {{settings.site_settings.OrganisationSetting.address|richtext}}
             </a>
