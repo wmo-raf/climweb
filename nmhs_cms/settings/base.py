@@ -398,5 +398,5 @@ SOCIAL_MEDIA_SHARE_CONFIG = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 NEXTJS_SETTINGS = {
-    "nextjs_server_url": os.getenv("NEXTJS_SERVER_URL", ""),
+    "nextjs_server_url": os.getenv("NEXTJS_SERVER_URL", "http://localhost:3000"),
 }
