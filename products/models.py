@@ -60,11 +60,12 @@ class ProductPage(AbstractIntroPage):
         ),
     ]
 
-    @property
+    @cached_property
     def filters(self):
-        return {'year': [], 'month': MONTHS}
+        years = self.all_products.dates("productitempage__date", "year")
+        return {'year': years, 'month': MONTHS}
 
-    @property
+    @cached_property
     def all_products(self):
         product_items = self.get_children().specific().live().order_by('-productitempage__date')
         # Return the related items
@@ -77,11 +78,6 @@ class ProductPage(AbstractIntroPage):
         months = query_param_to_list(request.GET.get("month"), as_int=True)
 
         filters = models.Q()
-
-        # if years:
-        #     filters &= models.Q(year__in=years)
-        # if months:
-        #     filters &= models.Q(month__in=months)
 
         if years:
             filters &= models.Q(productitempage__date__year__in=years)
@@ -157,9 +153,9 @@ class ProductItemPage(MetadataPageMixin, CustomIconPage, Page):
     valid_until = models.DateField(blank=True, null=True, verbose_name=_("Valid until"),
                                    help_text=_("Up to when is this product valid ? Leave blank if not applicable"))
     products = StreamField([
-        ("image_product", ProductItemImageContentBlock(label="Image")),
-        ("document_product", ProductItemDocumentContentBlock(label="Document"))
-    ], use_json_field=True, blank=True, null=True)
+        ("image_product", ProductItemImageContentBlock(label="Map/Image Product")),
+        ("document_product", ProductItemDocumentContentBlock(label="Document/Bulletin Product"))
+    ], use_json_field=True)
 
     content_panels = Page.content_panels + [
         FieldPanel("date"),

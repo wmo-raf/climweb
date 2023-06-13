@@ -10,10 +10,10 @@
                 </h6>
                 <div class="accordion-body js-accordion-body">
                     <div class="accordion-body__contents">
-                        {% for year in filters.year reversed %}
-                            <label class="checkbox-container" for="{{ year }}">
-                                <span class="filter-sub-item">{{ year }}</span>
-                                <input type="checkbox" id="{{ year }}" name="year" value="{{ year }}"
+                        {% for date in filters.year reversed %}
+                            <label class="checkbox-container" for="{{ date.year }}">
+                                <span class="filter-sub-item">{{ date.year }}</span>
+                                <input type="checkbox" id="{{ date.year }}" name="year" value="{{ date.year }}"
                                        class="product-filter year">
                                 <span class="checkmark"></span>
                             </label>
