@@ -49,17 +49,22 @@ class ProjectIndexPage(AbstractBannerWithIntroPage):
     @cached_property
     def filters(self):
         services = ServiceCategory.objects.all()
-        return {'services': services}
+        years = ProjectPage.objects.dates("begin_date", "year")
+        return {'services': services, "year": years}
 
     def filter_projects(self, request):
         projects = self.all_projects
 
         services = query_param_to_list(request.GET.get("service"), as_int=True)
+        years = query_param_to_list(request.GET.get("year"))
 
         filters = models.Q()
 
         if services:
             filters &= models.Q(services__in=services)
+
+        if years:
+            filters &= models.Q(begin_date__year__in=years)
 
         return projects.filter(filters).distinct()
 
