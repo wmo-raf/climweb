@@ -75,7 +75,7 @@ class AbstractBannerPage(MetadataPageMixin, Page):
         return super().save(*args, **kwargs)
 
 
-class AbstractBannerWithIntroPage(AbstractBannerPage):
+class AbstractIntroPage(MetadataPageMixin, Page):
     introduction_title = models.CharField(max_length=100, verbose_name=_('Introduction Title'),
                                           help_text=_("Introduction section title"), )
     introduction_text = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Introduction text'),
@@ -89,6 +89,7 @@ class AbstractBannerWithIntroPage(AbstractBannerPage):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+
     introduction_button_text = models.TextField(max_length=20, blank=True, null=True,
                                                 verbose_name=_("Introduction button text"), )
     introduction_button_link = models.ForeignKey(
@@ -104,7 +105,6 @@ class AbstractBannerWithIntroPage(AbstractBannerPage):
         abstract = True
 
     content_panels = [
-        *AbstractBannerPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('introduction_title'),
@@ -115,6 +115,27 @@ class AbstractBannerWithIntroPage(AbstractBannerPage):
             ],
             heading=_("Introduction Section"),
         ),
+    ]
+
+    def save(self, *args, **kwargs):
+        if not self.search_image and self.introduction_image:
+            self.search_image = self.introduction_image
+
+        if not self.search_description and self.introduction_text:
+            p = get_first_non_empty_p_string(self.introduction_text)
+            if p:
+                # Limit the search meta desc to Google's 160 recommended chars
+                self.search_description = truncatechars(p, 160)
+        return super().save(*args, **kwargs)
+
+
+class AbstractBannerWithIntroPage(AbstractBannerPage, AbstractIntroPage):
+    class Meta:
+        abstract = True
+
+    content_panels = [
+        *AbstractBannerPage.content_panels,
+        *AbstractIntroPage.content_panels,
     ]
 
     def save(self, *args, **kwargs):

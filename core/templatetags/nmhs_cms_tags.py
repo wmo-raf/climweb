@@ -1,24 +1,25 @@
-from __future__ import absolute_import
-
-import logging
-import os
 import calendar
 import datetime
+import logging
+import os
 
-
-from django.template.defaultfilters import stringfilter, dictsort
-from wagtail.models import Site, Page
 from django import template
 from django.conf import settings
-from django.utils.safestring import mark_safe
 from django.shortcuts import get_object_or_404
+from django.template.defaultfilters import stringfilter, truncatechars, truncatewords_html
+from django.utils.safestring import mark_safe
+from wagtail.models import Site, Page
+
+from core.utils import get_first_non_empty_p_string
 
 logger = logging.getLogger(__name__)
 register = template.Library()
 
+
 @register.simple_tag
 def get_page_by_url(url):
     return get_object_or_404(Page, url=url)
+
 
 @register.filter(name='range')
 def filter_range(start, end):
@@ -28,7 +29,8 @@ def filter_range(start, end):
 @register.filter
 def subtract(value, arg):
     return value - arg
-       
+
+
 @register.simple_tag
 def setvar(val=None):
     return val
@@ -142,6 +144,7 @@ def dict_key(d, k):
     '''Returns the given key from a dictionary.'''
     return d[k]
 
+
 class SVGNotFound(Exception):
     pass
 
@@ -183,5 +186,13 @@ def svg(filename, is_static=False):
             svg = mark_safe(svg_file.read())
 
         return svg
-    
+
     return ''
+
+
+@register.filter
+def html_summary(html, words_count=100):
+    summary = get_first_non_empty_p_string(html)
+    if summary:
+        summary = truncatewords_html(summary, words_count)
+    return summary

@@ -69,7 +69,9 @@ class EventIndexPage(AbstractBannerPage):
     def filters(self):
         event_types = EventType.objects.all()
 
-        return {'event_types': event_types, 'year': get_years(), }
+        years = EventPage.objects.dates("date_from", "year")
+
+        return {'event_types': event_types, 'year': years}
 
     def get_featured_event(self):
 
@@ -169,7 +171,7 @@ class EventPage(MetadataPageMixin, Page):
     agenda_document = models.ForeignKey(
         'core.CustomDocumentModel',
         verbose_name=_("Downloadable agenda document"),
-        help_text=_("Agenda document, preferably in PDF format"),
+        help_text=_("Agenda document, if available, preferably in PDF format"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -187,7 +189,7 @@ class EventPage(MetadataPageMixin, Page):
     image_placement = models.CharField(max_length=50, choices=IMAGE_PLACEMENT_CHOICES, default='top',
                                        verbose_name=_("Image Placement"))
     form_template = models.ForeignKey('events.EventRegistrationFormTemplate', on_delete=models.SET_NULL, blank=True,
-                                      null=True, default=1, verbose_name=_("Form template"))
+                                      null=True, verbose_name=_("Form template"))
 
     featured = models.BooleanField(
         default=False,
@@ -232,11 +234,11 @@ class EventPage(MetadataPageMixin, Page):
         FieldPanel('date_from'),
         FieldPanel('date_to'),
         FieldPanel('timezone'),
-        FieldPanel('description'),
-        FieldPanel('agenda_document'),
         FieldPanel('image'),
-        # SnippetChooserPanel('form_template'), Do not allow editing because it is misused
+        FieldPanel('description'),
         FieldPanel('location'),
+        FieldPanel('agenda_document'),
+        # SnippetChooserPanel('form_template'), Do not allow editing because it is misused
         FieldPanel('cost'),
         # FieldPanel('meeting_platform'), Hide this too for now since we dont use other integration platform but zoom
         FieldPanel('panelists'),
@@ -248,19 +250,6 @@ class EventPage(MetadataPageMixin, Page):
         FieldPanel('is_visible_on_homepage'),
         FieldPanel('sponsors'),
         # FieldPanel('youtube_video_id'),
-    ]
-
-    api_fields = [
-        APIField('event_type'),
-        APIField('category'),
-        APIField('projects'),
-        APIField('date_from'),
-        APIField('date_to'),
-        APIField('description'),
-        APIField('image'),
-        APIField('location'),
-        APIField('cost'),
-        APIField('additional_materials'),
     ]
 
     # This is where all the tabs are created
