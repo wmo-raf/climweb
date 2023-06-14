@@ -20,12 +20,12 @@ from base.utils import query_param_to_list, paginate, get_first_non_empty_p_stri
 from pages.media_pages.news.models import NewsPage
 from pages.media_pages.publications.models import PublicationPage
 from pages.media_pages.videos.models import YoutubePlaylist
-from pages.organisation_pages.events.models import EventPage
+from pages.events.models import EventPage
 
 
 class ProjectIndexPage(AbstractBannerWithIntroPage):
     template = 'project_index_page.html'
-    parent_page_types = ['about.AboutIndexPage']
+    parent_page_types = ['organisation.OrganisationIndexPage']
     subpage_types = ['projects.ProjectPage']
     max_count = 2
     show_in_menus_default = True
@@ -118,7 +118,8 @@ class ProjectPage(AbstractBannerWithIntroPage):
     begin_date = models.DateField(verbose_name=_("Begin date"))
     end_date = models.DateField(verbose_name=_("End date"))
 
-    partners = ParentalManyToManyField('about.Partner', blank=True, related_name='projects', verbose_name=_("Partners"))
+    partners = ParentalManyToManyField('partners.Partner', blank=True, related_name='projects',
+                                       verbose_name=_("Partners"))
 
     goals_block = StreamField([
         ('goal', blocks.CollapsibleBlock()),

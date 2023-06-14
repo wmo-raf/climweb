@@ -2,8 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from googleapiclient.discovery import build
 from wagtail.admin.panels import (FieldPanel)
-from wagtail.fields import RichTextField
-from wagtail.models import Page, Site
+from wagtail.models import Site
 
 from base.models import IntegrationSettings
 
@@ -12,8 +11,6 @@ YOUTUBE_API_VERSION = "v3"
 youtube_service = None
 
 
-# Youtube playlists
-# @register_snippet
 class YoutubePlaylist(models.Model):
     title = models.CharField(max_length=200, verbose_name=_("Title"))
     playlist_id = models.CharField(max_length=100,
@@ -76,7 +73,7 @@ class YoutubePlaylist(models.Model):
             except:
                 pass
 
-            # sort by video position in playlist 
+            # sort by video position in playlist
             info.sort(key=lambda info_item: info_item['snippet']['position'], reverse=True)
             return info
         return None
@@ -84,17 +81,4 @@ class YoutubePlaylist(models.Model):
     panels = [
         FieldPanel('title'),
         FieldPanel('playlist_id'),
-    ]
-
-
-class VideoGalleryPage(Page):
-    template = 'video_index_page.html'
-    parent_page_types = ['home.HomePage']
-    subpage_types = []
-    max_count = 1
-
-    introduction = RichTextField(verbose_name=_("Introduction"))
-
-    content_panels = Page.content_panels + [
-        FieldPanel('introduction'),
     ]

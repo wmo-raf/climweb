@@ -5,13 +5,13 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from rest_framework.fields import BooleanField
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
-from wagtailmetadata.models import MetadataPageMixin
 
 from base import blocks
+from base.mixins import MetadataPageMixin
 from base.models import AbstractBannerWithIntroPage
 from base.utils import paginate, get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
@@ -19,8 +19,8 @@ from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 class TendersPage(AbstractBannerWithIntroPage):
     template = 'tenders_index_page.html'
+    parent_page_types = ['organisation.OrganisationIndexPage']
     subpage_types = ['tenders.TenderDetailPage']
-    parent_page_types = ['about.AboutIndexPage']
     max_count = 1
     show_in_menus_default = True
 

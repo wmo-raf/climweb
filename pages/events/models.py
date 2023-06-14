@@ -19,7 +19,6 @@ from timezone_field import TimeZoneField
 from wagtail.admin.mail import send_mail
 from wagtail.admin.panels import (FieldPanel, InlinePanel, MultiFieldPanel, )
 from wagtail.admin.panels import TabbedInterface, ObjectList
-from wagtail.api import APIField
 from wagtail.contrib.forms.forms import WagtailAdminFormPageForm
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.fields import StreamField, RichTextField
@@ -27,17 +26,44 @@ from wagtail.models import Page
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
+from wagtailiconchooser.widgets import IconChooserWidget
 from wagtailmailchimp.models import AbstractMailchimpIntegrationForm
-from wagtailmetadata.models import MetadataPageMixin
 from wagtailzoom.models import AbstractZoomIntegrationForm
 
 from base import blocks
-from base.models import EventType, AbstractBannerPage
+from base.mixins import MetadataPageMixin
+from base.models import AbstractBannerPage
 from base.utils import get_pytz_gmt_offset_str
-from base.utils import get_years, paginate, query_param_to_list, get_first_non_empty_p_string
-from pages.organisation_pages.events.blocks import PanelistBlock, EventSponsorBlock, SessionBlock
+from base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
+from .blocks import PanelistBlock, EventSponsorBlock, SessionBlock
 
 SUMMARY_RICHTEXT_FEATURES = getattr(settings, "SUMMARY_RICHTEXT_FEATURES")
+
+
+@register_snippet
+class EventType(models.Model):
+    event_type = models.CharField(max_length=255, verbose_name=_("Event type"))
+    icon = models.CharField(max_length=100, null=True, blank=True)
+    thumbnail = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Thumbnail/image for this type of event.")
+    )
+
+    def __str__(self):
+        return self.event_type
+
+    panels = [
+        FieldPanel('event_type'),
+        FieldPanel('icon', widget=IconChooserWidget),
+        FieldPanel('thumbnail'),
+    ]
+
+    class Meta:
+        verbose_name = _("Event Type")
 
 
 class EventIndexPage(AbstractBannerPage):
@@ -599,18 +625,3 @@ def on_event_published(sender, **kwargs):
 
     if event_page.zoom_events_id:
         cache.delete(f'zoom-events-{event_page.zoom_events_id}')
-
-# def on_event_reg_published(sender, **kwargs):
-#     event_reg_page = kwargs['instance']
-
-#     if event_reg_page.batch_zoom_reg_enabled and event_reg_page.can_add_to_zoom():
-#         zoom_batch = ZoomBatchRegistration.objects.get_or_create(event_registration_page=event_reg_page)
-#     else:
-#         zoom_batch = get_object_or_none(ZoomBatchRegistration, event_registration_page=event_reg_page)
-#         if zoom_batch:
-#             zoom_batch.delete()
-#             zoom_batch = None
-
-
-# page_published.connect(on_event_published, sender=EventPage)
-# page_published.connect(on_event_reg_published, sender=EventRegistrationPage)

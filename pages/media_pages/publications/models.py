@@ -13,11 +13,34 @@ from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.api import APIField
 from wagtail.fields import RichTextField
 from wagtail.models import Page
-from wagtailmetadata.models import MetadataPageMixin
+from wagtail.snippets.models import register_snippet
+from wagtailiconchooser.widgets import IconChooserWidget
 
-from base.models import PublicationType, ServiceCategory, AbstractBannerPage
+from base.mixins import MetadataPageMixin
+from base.models import ServiceCategory, AbstractBannerPage
 from base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
+
+
+@register_snippet
+class PublicationType(models.Model):
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+    icon = models.CharField(max_length=100, null=True, blank=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('icon', widget=IconChooserWidget),
+    ]
+
+    api_fields = [
+        APIField('name'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = _("Publication Types")
 
 
 class PublicationsIndexPage(AbstractBannerPage):
@@ -56,7 +79,7 @@ class PublicationsIndexPage(AbstractBannerPage):
 
     @cached_property
     def filters(self):
-        from organisation_pages.projects.models import ProjectPage
+        from pages.organisation_pages.projects.models import ProjectPage
         publication_types = PublicationType.objects.all()
         service_categories = ServiceCategory.objects.all()
         projects = ProjectPage.objects.live()
@@ -126,8 +149,7 @@ class PublicationPage(MetadataPageMixin, Page):
     parent_page_types = ['publications.PublicationsIndexPage']
     subpage_types = []
 
-    publication_type = models.ForeignKey('base.PublicationType', on_delete=models.PROTECT,
-                                         verbose_name=_("Publication Type"))
+    publication_type = models.ForeignKey(PublicationType, on_delete=models.PROTECT, verbose_name=_("Publication Type"))
     categories = ParentalManyToManyField('base.ServiceCategory', verbose_name=_("Services related to this publication"))
     projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name=_("Relevant Projects"))
     summary = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Summary"))

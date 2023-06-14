@@ -1,5 +1,5 @@
 from wagtail.models import Page
-from wagtailmetadata.models import MetadataPageMixin
+from base.mixins import MetadataPageMixin
 
 from wagtailsurveyjs.models import AbstractSurveyJsFormPage
 

@@ -11,7 +11,7 @@
 {% block content %}
     <main>
 
-    {% include 'hero.html' with page=page %}
+        {% include 'hero.html' with page=page %}
         <section class="nmhs-work introduction-section">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}
@@ -33,7 +33,8 @@
                                             {% image partner.logo original as p_logo %}
                                             <img class="progressive__img progressive--not-loaded"
                                                  data-progressive="{{ p_logo.url }}"
-                                                 src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}" syle="width:100px;object-fit: cover;"/>
+                                                 src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"
+                                                 syle="width:100px;object-fit: cover;"/>
                                         </figure>
                                     </div>
                                 </a>
@@ -47,7 +48,7 @@
 
         <section class="nmhs-work partners-cta-section ">
             <div class="container work">
-                {% include 'partners_cta.html' with page=page %}
+                {% include 'partners/partners_cta.html' with page=page %}
             </div>
         </section>
 

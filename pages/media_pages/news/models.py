@@ -13,16 +13,36 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
+from wagtail.snippets.models import register_snippet
 from wagtail.templatetags.wagtailcore_tags import richtext
-from wagtailmetadata.models import MetadataPageMixin
+from wagtailiconchooser.widgets import IconChooserWidget
 
-from base.models import NewsType, AbstractBannerPage
-from base.utils import paginate, query_param_to_list, get_first_img_src, get_first_non_empty_p_string
+from base.mixins import MetadataPageMixin
+from base.models import AbstractBannerPage
 from base.models import ServiceCategory
+from base.utils import paginate, query_param_to_list, get_first_img_src, get_first_non_empty_p_string
 from pages.media_pages.news.blocks import ExternalLinkBlock
 
 NEWS_ALLOWED_RICHTEXT_FEATURES = ['bold', 'italic', 'h4', 'h5', 'h6', 'ol', 'ul', 'hr', 'link', 'image',
                                   'document-link', 'embed', ]
+
+
+@register_snippet
+class NewsType(models.Model):
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+    icon = models.CharField(max_length=100, null=True, blank=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('icon', widget=IconChooserWidget),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("News Type")
+        verbose_name_plural = _("News Types")
 
 
 class NewsIndexPage(AbstractBannerPage):

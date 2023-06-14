@@ -1,23 +1,24 @@
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, PageChooserPanel)
+from modelcluster.fields import ParentalKey
+from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel)
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Page
+from wagtail.models import Page, Orderable
 
 from base import blocks
-from base.models import ServiceCategory, ServiceApplication, AbstractBannerWithIntroPage
+from base.models import ServiceCategory, AbstractBannerWithIntroPage
 from pages.media_pages.news.models import NewsPage
 from pages.media_pages.publications.models import PublicationPage
 from pages.media_pages.videos.models import YoutubePlaylist
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
-from pages.organisation_pages.events.models import EventPage
+from pages.events.models import EventPage
 from pages.organisation_pages.projects.models import ServiceProject
 
 
-class ServicesPage(Page):
+class ServiceIndexPage(Page):
     parent_page_types = ['home.HomePage']
-    subpage_types = ['services.ServiceIndexPage']
+    subpage_types = ['services.ServicePage']
 
     max_count = 1
 
@@ -29,13 +30,13 @@ class ServicesPage(Page):
         verbose_name_plural = _('Service List Pages')
 
 
-class ServiceIndexPage(AbstractBannerWithIntroPage):
+class ServicePage(AbstractBannerWithIntroPage):
     template = 'services_page.html'
-    parent_page_types = ['services.ServicesPage']
+    parent_page_types = ['services.ServiceIndexPage']
     subpage_types = []
     show_in_menus_default = True
 
-    service = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT, null=True)
+    service = models.OneToOneField(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
 
     # TODO: FIX THIS AND RETURN
     # what_we_do_items = StreamField([
@@ -85,6 +86,7 @@ class ServiceIndexPage(AbstractBannerWithIntroPage):
         ),
         FieldPanel('feature_block_items'),
         FieldPanel('youtube_playlist'),
+        InlinePanel('applications', heading=_("Applications"), label=_("Heading")),
     ]
 
     class Meta:
@@ -141,14 +143,10 @@ class ServiceIndexPage(AbstractBannerWithIntroPage):
         return updates
 
     @cached_property
-    def applications(self):
-        """
-        Get all applications related to this service
-        :return: application list
-        """
-        apps = ServiceApplication.objects.filter(service=self.service)
-        return apps
-
-    @cached_property
     def nav_menu_icon(self):
         return self.service.icon
+
+
+class ServiceApplication(Orderable):
+    page = ParentalKey(ServicePage, on_delete=models.CASCADE, related_name="applications")
+    application = models.ForeignKey("base.Application", on_delete=models.CASCADE, verbose_name=_("Application"))

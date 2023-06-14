@@ -7,10 +7,10 @@ from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, Inl
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
-from wagtailmetadata.models import MetadataPageMixin
 
 from base.mail import send_mail
-from pages.organisation_pages.contact.utils import get_duplicates
+from base.mixins import MetadataPageMixin
+from pages.contact.utils import get_duplicates
 
 
 class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):

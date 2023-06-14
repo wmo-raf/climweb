@@ -4,9 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel, PageChooserPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page
-from wagtailmetadata.models import MetadataPageMixin
 
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
+from ..mixins import MetadataPageMixin
 from ..utils import get_first_non_empty_p_string
 
 

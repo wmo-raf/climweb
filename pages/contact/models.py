@@ -13,9 +13,9 @@ from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.panels import LeafletPanel
-from wagtailmetadata.models import MetadataPageMixin
 
 from base.mail import send_mail
+from base.mixins import MetadataPageMixin
 from base.models import OtherSettings
 from .utils import get_duplicates
 

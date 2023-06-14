@@ -5,14 +5,14 @@
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_page.css' %}">
-   
+
 {% endblock %}
 
 {% block body_class %}climate_change{% endblock %}
 
 {% block content %}
-<main class="is-index">
-    {% include 'hero.html' with page=page %}
+    <main class="is-index">
+        {% include 'hero.html' with page=page %}
         <section class="nmhs-work is-desktop" style="padding:6em 0">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}
@@ -27,7 +27,7 @@
         {% endif %}
 
         {% if page.projects.all %}
-            <section class="projects-inline" >
+            <section class="projects-inline">
                 <div class="container">
                     {% include 'projects_include.html' with page=page %}
                 </div>
@@ -84,14 +84,14 @@
                 {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}
             </section>
         {% endif %}
-        
-        
+
+
         {% comment %} {% if page.youtube_playlist %}
             <section id="videoSection" class="videos">
                 <div class="container">
                     <h2 class="section-title has-text-centered">Videos</h2>
-                    {% include 'videos_skeleton.html' with playlist_items=page.youtube_playlist.playlist_items  %}
-                    
+                    {% include 'videos_skeleton.html' with playlist_items=page.youtube_playlist.playlist_items %}
+
                     {% if  settings.base.ImportantPages.all_videos_page %}
                         <div class="more-container">
                             <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">
@@ -106,15 +106,15 @@
             </section>
         {% endif %} {% endcomment %}
 
-        {% if page.applications %}
+        {% if page.applications.all %}
             <section class="pb-6">
                 <div class="container">
                     <h2 class="section-title center">Applications</h2>
-                    {% include 'applications_include.html' with applications=page.applications %}
+                    {% include 'applications_include.html' with applications=page.applications.all %}
                 </div>
             </section>
         {% endif %}
-        </main>
+    </main>
 
 {% endblock content %}
 

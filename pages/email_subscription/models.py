@@ -4,7 +4,8 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.models import Page
 from wagtailmailchimp.models import AbstractMailChimpPage
 from wagtailmautic.models import BaseMauticFormPage
-from wagtailmetadata.models import MetadataPageMixin
+
+from base.mixins import MetadataPageMixin
 
 
 class MauticMailingListSubscriptionPage(MetadataPageMixin, BaseMauticFormPage, Page):

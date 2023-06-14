@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class FeedbackConfig(AppConfig):
+class OrganisationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'pages.organisation_pages.feedback'
+    name = 'pages.organisation_pages.organisation'

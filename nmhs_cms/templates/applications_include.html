@@ -2,7 +2,7 @@
 
 <div class="slider application-items">
     {% for app in applications %}
-        <a href="{{ app.application.url }}" class="application-item {{box_shadow}}" target="_blank" rel="noopener"
+        <a href="{{ app.application.url }}" class="application-item {{ box_shadow }}" target="_blank" rel="noopener"
            data-ga-action="click"
            data-ga-event-category="Geospatial App"
            data-ga-event-label="{{ app.application.title }}"

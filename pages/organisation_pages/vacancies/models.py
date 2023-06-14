@@ -9,7 +9,7 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.fields import RichTextField
 from wagtail.models import Page
-from wagtailmetadata.models import MetadataPageMixin
+from base.mixins import MetadataPageMixin
 
 from base.models import AbstractBannerWithIntroPage
 from base.utils import paginate, get_first_non_empty_p_string
@@ -18,7 +18,7 @@ from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 class VacanciesPage(AbstractBannerWithIntroPage):
     template = 'vacancies_index_page.html'
-    parent_page_types = ['about.AboutIndexPage']
+    parent_page_types = ['organisation.OrganisationIndexPage']
     subpage_types = ['vacancies.VacancyDetailPage']
     max_count = 1
     show_in_menus = True

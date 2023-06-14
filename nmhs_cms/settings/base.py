@@ -30,11 +30,9 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-
 # Application definition
 INSTALLED_APPS = [
     "base",
-
     "pages.home",
     "pages.services",
     "pages.products",
@@ -42,13 +40,15 @@ INSTALLED_APPS = [
     "pages.media_pages.news",
     "pages.media_pages.mediacenter",
     "pages.media_pages.publications",
+    "pages.contact",
+    "pages.feedback",
+    "pages.events",
+    "pages.organisation_pages.organisation",
     "pages.organisation_pages.about",
-    "pages.organisation_pages.contact",
-    "pages.organisation_pages.feedback",
-    "pages.organisation_pages.events",
+    "pages.organisation_pages.partners",
     "pages.organisation_pages.projects",
-    "pages.organisation_pages.vacancies",
     "pages.organisation_pages.tenders",
+    "pages.organisation_pages.vacancies",
     "pages.email_subscription",
     "pages.surveys",
     "pages.search",
@@ -230,21 +230,21 @@ WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = (
-    'home/locale',
-    'products/locale',
-    'services/locale',
-    'organisation_pages/about/locale',
-    'organisation_pages/contact/locale',
-    'organisation_pages/events/locale',
-    'organisation_pages/feedback/locale',
-    'organisation_pages/projects/locale',
-    'organisation_pages/tenders/locale',
-    'organisation_pages/vacancies/locale',
-    'media_pages/mediacenter/locale',
-    'media_pages/videos/locale',
-    'media_pages/publications/locale',
-    'media_pages/news/locale',
-    'core/locale',
+    'pages/home/locale',
+    'pages/products/locale',
+    'pages/services/locale',
+    'pages/events/locale',
+    'pages/feedback/locale',
+    'pages/media_pages/mediacenter/locale',
+    'pages/media_pages/videos/locale',
+    'pages/media_pages/publications/locale',
+    'pages/media_pages/news/locale',
+    'pages/organisation_pages/about/locale',
+    'pages/organisation_pages/contact/locale',
+    'pages/organisation_pages/projects/locale',
+    'pages/organisation_pages/tenders/locale',
+    'pages/organisation_pages/vacancies/locale',
+    'base/locale',
     'forecast_manager/locale',
 )
 
@@ -269,10 +269,6 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
-]
-
-SVG_DIRS = [
-    os.path.join(BASE_DIR, 'media/svg'),
 ]
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
@@ -349,3 +345,5 @@ CORS_ORIGIN_ALLOW_ALL = True
 NEXTJS_SETTINGS = {
     "nextjs_server_url": os.getenv("NEXTJS_SERVER_URL", "http://localhost:3000"),
 }
+
+WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]

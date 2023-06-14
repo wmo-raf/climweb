@@ -1,4 +1,4 @@
-{% load svg wagtailimages_tags %}
+{% load svg wagtailimages_tags wagtailiconchooser_tags %}
 
 {% if value.include_subpages or value.sub_items %}
     <div class="navbar-item has-dropdown is-hoverable">
@@ -17,7 +17,7 @@
                                             <div class="menu-item-figure">
                                                 {{ page.nav_menu_icon }}
                                                 {% if page.nav_menu_icon %}
-                                                    {% svg page.nav_menu_icon %}
+                                                    {% svg_icon page.nav_menu_icon %}
                                                 {% elif page.banner_image %}
                                                     {% image page.banner_image original as page_image %}
                                                     <img src="{{ page_image.url }}" alt="">

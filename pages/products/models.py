@@ -12,7 +12,7 @@ from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtailiconchooser.models import CustomIconPage
-from wagtailmetadata.models import MetadataPageMixin
+from base.mixins import MetadataPageMixin
 
 from base.models import ServiceCategory, AbstractIntroPage
 from base.utils import paginate, query_param_to_list
@@ -39,8 +39,7 @@ class ProductPage(AbstractIntroPage):
     show_in_menus_default = True
 
     service = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
-    product = models.OneToOneField(Product, blank=True, null=True, on_delete=models.PROTECT,
-                                   verbose_name=_("Product"))
+    product = models.OneToOneField(Product, on_delete=models.PROTECT, verbose_name=_("Product"))
 
     products_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),

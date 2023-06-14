@@ -11,13 +11,13 @@ from wagtail.models import Page
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
-from wagtailmetadata.models import MetadataPageMixin
 
+from base.mixins import MetadataPageMixin
 from forecast_manager.models import City, Forecast
 from pages.media_pages.news.models import NewsPage
 from pages.media_pages.publications.models import PublicationPage
 from pages.media_pages.videos.models import YoutubePlaylist
-from pages.organisation_pages.events.models import EventPage
+from pages.events.models import EventPage
 from pages.services.models import ServiceIndexPage
 
 
@@ -27,14 +27,13 @@ class HomePage(MetadataPageMixin, Page):
     subpage_types = [
         'capeditor.AlertList',
         'contact.ContactPage',
-        'services.ServicesPage',
+        'services.ServiceIndexPage',
         'products.ProductIndexPage',
         'feedback.FeedbackPage',
         'publications.PublicationsIndexPage',
-        'videos.VideoGalleryPage',
         'news.NewsIndexPage',
         'mediacenter.MediaIndexPage',
-        'about.AboutIndexPage',
+        'organisation.OrganisationIndexPage',
         'events.EventIndexPage',
         'surveys.SurveyPage',
         'email_subscription.MailchimpMailingListSubscriptionPage',
@@ -45,24 +44,21 @@ class HomePage(MetadataPageMixin, Page):
     ]
     max_count = 1
 
-    text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Text Color"))
-
-    hero_title = models.CharField(blank=False, null=True, max_length=100, verbose_name=_('Title'),
-                                  default='National Meteorological & Hydrological Services')
-    hero_subtitle = models.CharField(blank=False, null=True, max_length=100, verbose_name=_('Subtitle Title'),
-                                     default='Observing and understanding weather and climate')
-    hero_banner = models.ForeignKey("wagtailimages.Image",
-                                    on_delete=models.SET_NULL,
-                                    null=True, blank=False, related_name="+", verbose_name=_("Hero Banner"))
-
-    enable_weather_forecasts = models.BooleanField(blank=True, default=True,
-                                                   verbose_name=_("Enable weather forecasts section"))
-    enable_mapviewer_cta = models.BooleanField(blank=True, default=True, verbose_name=_("Enable mapviewer section"))
-    mapviewer_cta_title = models.CharField(blank=True, null=True, max_length=100,
-                                           verbose_name=_('Mapviewer Call to Action Title'),
-                                           default='Explore Mapviewer')
-    mapviewer_cta_url = models.URLField(verbose_name=_("Mapviewer URL"), blank=True, null=True)
-    enable_media = models.BooleanField(blank=True, default=True, verbose_name=_("Enable media section"))
+    hero_title = models.CharField(max_length=100, verbose_name=_('Title'))
+    hero_subtitle = models.CharField(blank=False, null=True, max_length=100, verbose_name=_('Subtitle'))
+    hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=False,
+                                    related_name="+", verbose_name=_("Banner Image"))
+    hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
+    enable_weather_forecasts = models.BooleanField(default=True, verbose_name=_("Enable weather forecasts section"))
+    enable_mapviewer_cta = models.BooleanField(default=True, verbose_name=_("Enable mapviewer section"))
+    mapviewer_cta_title = models.CharField(max_length=100, blank=True, null=True, default='Explore MapViewer',
+                                           verbose_name=_('MapViewer Call to Action Title'))
+    mapviewer_cta_url = models.URLField(blank=True, null=True, verbose_name=_("Mapviewer URL"), )
+    enable_media = models.BooleanField(default=True, verbose_name=_("Enable media section"))
+    video_section_title = models.CharField(max_length=100, blank=True, null=True, default='Latest Media',
+                                           verbose_name=_('Media Section Title'), )
+    video_section_desc = models.TextField(max_length=500, blank=True, null=True,
+                                          verbose_name=_('Media Section Description'))
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
         null=True,
@@ -71,20 +67,13 @@ class HomePage(MetadataPageMixin, Page):
         related_name='+',
         verbose_name=_("Youtube Playlist")
     )
-
-    video_section_title = models.CharField(blank=False, null=True, max_length=100,
-                                           verbose_name=_('Media Section Title'), default='Latest Media')
-    video_section_desc = models.TextField(blank=False, null=True, max_length=500,
-                                          verbose_name=_('Media Section Description'),
-                                          default='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultriceseleifend gt')
-
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            NativeColorPanel('text_color'),
             FieldPanel('hero_title'),
             FieldPanel('hero_subtitle'),
             FieldPanel("hero_banner"),
-        ], heading=_("Hero Section")),
+            NativeColorPanel('hero_text_color'),
+        ], heading=_("Banner Section")),
         MultiFieldPanel([
             FieldPanel('enable_weather_forecasts'),
             # FieldPanel('hero_subtitle')
