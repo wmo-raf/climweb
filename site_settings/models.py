@@ -28,9 +28,9 @@ class Country(models.Model):
 @register_setting
 class OrganisationSetting(BaseSiteSetting):
     # country 
-    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_setting", null=True,
-                                default="Ethiopia", verbose_name=_("Country"))
-
+    country = models.ForeignKey('Country', blank=True, null=True, on_delete=models.CASCADE,
+                                related_name="country_setting",
+                                verbose_name=_("Country"))
     # social media 
     twitter = models.URLField(max_length=250, blank=True, null=True, help_text=_("Twitter url"),
                               verbose_name=_("Twitter URL"))
@@ -50,12 +50,72 @@ class OrganisationSetting(BaseSiteSetting):
     logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
                              verbose_name=_("Logo"))
 
+    favicon = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="Does not need to be any larger than 200x200 pixels. A 1:1 (square) image ratio is best here "
+                  "- If the image is not square, it will be scaled to a square."
+    )
+
+    footer_logo = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Footer Logo"),
+        help_text=_("Logo that appears on the footer"),
+    )
+
+    cms_logo = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("CMS Logo"),
+        help_text=_("Logo that appears on the CMS. Should be a whit transparent logo preferably"),
+    )
+
+    page_not_found_error_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Page not Found Image"),
+        help_text=_("Image shown on error 404 page"),
+    )
+
+    server_error_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Server Error Image"),
+        help_text=_("Image shown on error 500 error page"),
+    )
+
     panels = [
         MultiFieldPanel(
             [
                 FieldPanel("logo"),
+                FieldPanel("favicon"),
+                FieldPanel("footer_logo"),
+                FieldPanel("cms_logo"),
             ],
             heading=_("Logo")
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("page_not_found_error_image"),
+                FieldPanel("server_error_image"),
+            ],
+            heading=_("Error Images")
         ),
         MultiFieldPanel(
             [
@@ -87,12 +147,6 @@ class OrganisationSetting(BaseSiteSetting):
 class IntegrationSettings(BaseSiteSetting):
     youtube_api = models.CharField(verbose_name=_("Youtube API Key"), max_length=50, blank=True, help_text=_(
         "To set up Youtube API Key refer to https://developers.google.com/youtube/v3/getting-started"))
-    mailchimp_api = models.CharField(verbose_name=_("Mailchimp API Key"), max_length=50, blank=True,
-                                     help_text=_("To set up Mailchimp API Key refer to "))
-    zoom_api_key = models.CharField(verbose_name=_("Zoom API Key"), blank=True, max_length=50,
-                                    help_text=_("To set up Zoom API Key refer to "))
-    zoom_api_secret = models.CharField(verbose_name=_("Zoom Secret Key"), blank=True, max_length=50,
-                                       help_text=_("To set up Zoom Secret Key refer to "))
 
     ga_tracking_id = models.CharField(
         blank=True,
@@ -144,13 +198,6 @@ class IntegrationSettings(BaseSiteSetting):
         ObjectList([
             FieldPanel('youtube_api')
         ], heading=_("Youtube Integration")),
-        ObjectList([
-            FieldPanel('mailchimp_api'),
-        ], heading=_("Mailchimp Integration")),
-        ObjectList([
-            FieldPanel('zoom_api_key'),
-            FieldPanel('zoom_api_secret')
-        ], heading=_("Zoom Integration")),
         ObjectList([
             FieldPanel('ga_tracking_id'),
             FieldPanel('ga_track_button_clicks'),

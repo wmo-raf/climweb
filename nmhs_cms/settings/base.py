@@ -66,10 +66,6 @@ INSTALLED_APPS = [
     "surveys",
     # Utility apps & pages 
     'integrations.webicons',
-    # 'integrations.mailchimper',
-
-    # 'integrations.wagtailsurveyform',
-    # 'integrations.wagtailmautic',
     "wagtailmautic",
     "wagtailzoom",
     "wagtail_adminsortable",
@@ -131,7 +127,8 @@ INSTALLED_APPS = [
     "django_deep_translator",
     "wagtailmailchimp",
     "wagtailfontawesomesvg",
-    "corsheaders"
+    "corsheaders",
+    "wagtailmetadata",
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'

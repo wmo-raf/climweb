@@ -1,129 +1,140 @@
-{% load static  i18n wagtailsettings_tags nmhs_cms_tags %}
+{% load static i18n wagtailsettings_tags nmhs_cms_tags wagtailmetadata_tags %}
 {% load wagtailuserbar wagtailadmin_tags wagtailcore_tags %}
 {% get_settings use_default_site=True %}
 {% wagtail_site as current_site %}
 
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>
-            {% block title %}
+<head>
+    <meta charset="utf-8"/>
+    <title>
+        {% block title %}
             {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
-            {% endblock %}
-            {% block title_suffix %}
+        {% endblock %}
+        {% block title_suffix %}
             {% wagtail_site as current_site %}
             {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
-            {% endblock %}
-        </title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {% block page_meta %}
         {% endblock %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    {% block page_meta %}
+        {% if page.get_meta_title %}
+            {% meta_tags %}
+        {% endif %}
+    {% endblock %}
 
-        {# Force all links in the live preview panel to be opened in a new tab #}
-        {% if request.in_preview_panel %}
+    {% block favicon %}
+        {% if settings.site_settings.OrganisationSetting.favicon %}
+            {# See https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/app-icon/ #}
+            {% include 'favicon_include.html' with favicon_image=settings.site_settings.OrganisationSetting.favicon %}
+        {% endif %}
+    {% endblock %}
+
+    <!--Force all links in the live preview panel to be opened in a new tab -->
+    {% if request.in_preview_panel %}
         <base target="_blank" rel=”noopener noreferrer”>
-        {% endif %}
+    {% endif %}
 
-        {# Global stylesheets #}
-        <style>
-            :root {
-                --primary-color: {{ primary_color }};
-                --secondary-color: {{ secondary_color }};
-                --border-radius: {{ border_radius }};
-                --primary-hover-color: {{ primary_hover_color }};
-            }
-        </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-divider@2.0.1/dist/css/bulma-divider.min.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-            rel="stylesheet">
-        <link href='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css' rel='stylesheet' />
+    {# Global stylesheets #}
+    <style>
+        :root {
+            --primary-color: {{ primary_color }};
+            --secondary-color: {{ secondary_color }};
+            --border-radius: {{ border_radius }};
+            --primary-hover-color: {{ primary_hover_color }};
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-divider@2.0.1/dist/css/bulma-divider.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/google-translate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/override.css' %}">
+    <link rel="stylesheet" href="{% static 'css/services_common.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/nmhs_cms.css' %}">
 
-        {% comment %} <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet"> {% endcomment %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-        <link rel="stylesheet" type="text/css" href="{% static 'css/google-translate.css' %}">
-
-        <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/override.css' %}">
-        <link rel="stylesheet" href="{% static 'css/services_common.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/nmhs_cms.css' %}">
-
-        <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-        {% comment %} <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script> {% endcomment %}
-
-        <script src='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js'></script>
-        
-        <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-        <script src="https://kit.fontawesome.com/db8ac3c257.js" crossorigin="anonymous"></script>
-        <script>
-            function googleTranslateElementInit() {
-                new google.translate.TranslateElement(
-                    {
-                        pageLanguage: "en",
-                        includedLanguages: "{{settings.site_settings.LanguageSettings.get_list|join:"," }}",
-                        layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
-                        autoDisplay: false
-                    },
-                    "google_language_translator"
-                );
-            }
-        </script>
-        
-        <script src="{% static 'js/google-translate.js' %}"></script>
-
-        {% if request.user.is_authenticated or request.is_preview %} {% else %}
+    {% if request.user.is_authenticated or request.is_preview %} {% else %}
         {% if settings.site_settings.IntegrationSettings.ga_tracking_id %}
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script async
-            src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.IntegrationSettings.ga_tracking_id }}"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async
+                    src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.IntegrationSettings.ga_tracking_id }}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
 
-            gtag('config', '{{settings.site_settings.IntegrationSettings.ga_tracking_id}}');
-        </script>
-        <script src="https://kit.fontawesome.com/a5bc3e0ffc.js" crossorigin="anonymous"></script>
-        <script src="{% static 'js/bulma-toast.min.js' %}"></script>
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+
+                gtag('js', new Date());
+
+                gtag('config', '{{settings.site_settings.IntegrationSettings.ga_tracking_id}}');
+            </script>
         {% endif %}
-        {% endif %}
-        {% block extra_css %}
+    {% endif %}
+
+    {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
-        {% endblock %}
-    </head>
+    {% endblock %}
+</head>
 
-    <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
-        {% include 'navigation/navbar.html' %}
-        
-        
-        {% block content %}{% endblock %}
-    
-    
-        {# Global javascript #}
-        {% comment %} <script type="text/javascript" src="{% static 'js/main.js' %}"></script> {% endcomment %}
-        {% include 'navigation/footer.html' %}
-        {% comment %} <script type="text/javascript" src="{% static 'js/maps.js' %}"></script> {% endcomment %}
-        {% comment %} <script type="text/javascript" src="{% static 'js/nav.js' %}"></script> {% endcomment %}
-        <script type="text/javascript" src="{% static 'js/progressively.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/common.js' %}"></script>
+<body class="{% block body_class %}{% endblock %}">
+{% wagtailuserbar %}
+{% include 'navigation/navbar.html' %}
 
-        <script type="text/javascript">
-            progressively.init()
-        </script>
-        {% block extra_js %}
-        {# Override this in templates to add extra javascript #}
-    
-        {% endblock %}
-    </body>
+<div class="page-container is-medium">
+    {% block content %}{% endblock %}
+    {% include 'navigation/footer.html' %}
+</div>
+
+<!-- Global javascript -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="text/javascript" src="{% static 'js/progressively.js' %}"></script>
+<script>
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            {
+                pageLanguage: "en",
+                includedLanguages: "{{settings.site_settings.LanguageSettings.get_list|join:"," }}",
+                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+                autoDisplay: false
+            },
+            "google_language_translator"
+        );
+    }
+</script>
+<script src="{% static 'js/google-translate.js' %}"></script>
+<script type="text/javascript">
+    progressively.init()
+</script>
+
+<script src="https://kit.fontawesome.com/db8ac3c257.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js/common.js' %}"></script>
+<script src="{% static 'js/bulma-toast.min.js' %}"></script>
+
+<script>
+    bulmaToast.setDefaults({
+        duration: 2500,
+        position: 'top-center',
+        closeOnClick: true,
+    })
+    {% if messages %}
+        {% for message in messages %}
+            const level = {{ message.level }}
+            const type = level === 25 ? "is-success" : level === 30 ? "is-warning" : level === 40 ? "is-error" : "is-info"
+            bulmaToast.toast({message: "{{ message }}", type: type})
+        {% endfor %}
+    {% endif %}
+</script>
+
+{% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+{% endblock %}
+</body>
 </html>
