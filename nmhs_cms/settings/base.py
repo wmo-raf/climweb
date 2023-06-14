@@ -32,49 +32,37 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 
 
 # Application definition
-
 INSTALLED_APPS = [
+    "base",
 
-    # Common
-    'core',
+    "pages.home",
+    "pages.services",
+    "pages.products",
+    "pages.media_pages.videos",
+    "pages.media_pages.news",
+    "pages.media_pages.mediacenter",
+    "pages.media_pages.publications",
+    "pages.organisation_pages.about",
+    "pages.organisation_pages.contact",
+    "pages.organisation_pages.feedback",
+    "pages.organisation_pages.events",
+    "pages.organisation_pages.projects",
+    "pages.organisation_pages.vacancies",
+    "pages.organisation_pages.tenders",
+    "pages.email_subscription",
+    "pages.surveys",
+    "pages.search",
 
-    "home",
-    "search",
-    "services",
-    "products",
-    "allauth",
-    "allauth.account",
-    # "product",
-
-    # Organisation pages 
-    "organisation_pages.about",
-    "organisation_pages.contact",
-    "organisation_pages.feedback",
-    "organisation_pages.events",
-    "organisation_pages.projects",
-    "organisation_pages.vacancies",
-    "organisation_pages.tenders",
-
-    # Media Pages 
-    "media_pages.videos",
-    "media_pages.news",
-    "media_pages.mediacenter",
-    "media_pages.publications",
-
-    "email_marketing",
+    "capeditor",
+    "forecast_manager",
     "geomanager",
-    "surveys",
-    # Utility apps & pages 
-    'integrations.webicons',
+
     "wagtailmautic",
     "wagtailzoom",
-    "wagtail_adminsortable",
-    "wagtailiconchooser",
+    "wagtailsurveyjs",
+    "wagtailmailchimp",
     "wagtailhumanitarianicons",
-    "django_large_image",
-    'django_json_widget',
-    'django_nextjs',
-    "django_filters",
+    "wagtailiconchooser",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -100,35 +88,31 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
 
-    "forecast_manager",
-    # "layer_manager",
-    "site_settings",
+    "modelcluster",
+    "rest_framework",
+    'rest_framework_xml',
+    "taggit",
+    "corsheaders",
 
-    "wagtailsurveyjs",
+    "allauth",
+    "allauth.account",
+    "wagtail_adminsortable",
+    "wagtailmetadata",
+    "wagtailfontawesomesvg",
     "wagtailgeowidget",
     "wagtail_lazyimages",
     "wagtail_color_panel",
-    "rest_framework",
-    'rest_framework_xml',
-    "capeditor",
+    "django_large_image",
+    'django_json_widget',
+    'django_nextjs',
+    "django_filters",
+    "django_deep_translator",
     "widget_tweaks",
     "captcha",
     'wagtailcaptcha',
-    "wagtailmenus",
-    "modelcluster",
-    "taggit",
-    "django_jsonfield_backport",
     "bulma",
-    "svg",
-    "django_celery_results",
     "mailchimp3",
     "manifest_loader",
-    "django_cron",
-    "django_deep_translator",
-    "wagtailmailchimp",
-    "wagtailfontawesomesvg",
-    "corsheaders",
-    "wagtailmetadata",
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
@@ -166,9 +150,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
-                "wagtailmenus.context_processors.wagtailmenus",
                 'django.template.context_processors.i18n',
-                'site_settings.context_processors.theme',
+                'base.context_processors.theme',
                 "django.template.context_processors.debug",
             ],
         },
@@ -176,9 +159,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "nmhs_cms.wsgi.application"
-WAGTAILLOCALIZE_MACHINE_TRANSLATOR = {
-    "CLASS": "wagtail_localize.machine_translators.dummy.DummyTranslator",
-}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -299,12 +279,11 @@ SVG_DIRS = [
 # JavaScript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
 # See https://docs.djangoproject.com/en/4.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
 # STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
-BASE_PATH = os.getenv("BASE_PATH", '')
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = BASE_PATH + "/static/"
+STATIC_URL = "/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = BASE_PATH + "/media/"
+MEDIA_URL = "/media/"
 
 # Wagtail settings
 # SITE_NAME="nmhs_cms"
@@ -339,7 +318,7 @@ RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY', '')
 RECAPTCHA_TESTING = True
 
 ORDERING_FIELD = 'position'
-WAGTAILDOCS_DOCUMENT_MODEL = 'core.CustomDocumentModel'
+WAGTAILDOCS_DOCUMENT_MODEL = 'base.CustomDocumentModel'
 
 # AUTH STUFF
 LOGIN_URL = '/login/'
@@ -358,7 +337,6 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 
-# CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', 'http://127.0.0.1','http://*.localhost', 'http://localhost','http://localhost:3031','http://example.com', 'http://localhost:*', 'http://127.0.0.1:3031']
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', cast=None)
 
 SOCIAL_MEDIA_SHARE_CONFIG = {

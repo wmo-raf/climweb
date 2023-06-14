@@ -14,28 +14,36 @@ Read more from the user guide - https://github.com/wmo-raf/nmhs-cms/wiki
 
 Before installing the CMS, there are a few prerequisites to consider installing on your server:
 
-1. **Docker Engine:** Ensure that Docker Engine is installed and running on the machine where you plan to execute the docker-compose command https://docs.docker.com/engine/install/. Docker Engine is the runtime environment for containers.
+1. **Docker Engine:** Ensure that Docker Engine is installed and running on the machine where you plan to execute the
+   docker-compose command https://docs.docker.com/engine/install/. Docker Engine is the runtime environment for
+   containers.
 
-2. **Docker Compose:** Install Docker Compose https://docs.docker.com/compose/install/ on the machine where you intend to run the command. Docker Compose is a tool that allows you to define and manage multi-container Docker applications using a YAML configuration file.
+2. **Docker Compose:** Install Docker Compose https://docs.docker.com/compose/install/ on the machine where you intend
+   to run the command. Docker Compose is a tool that allows you to define and manage multi-container Docker applications
+   using a YAML configuration file.
 
-3. **Python 3:** Ensure that Python 3 is installed on your machine. You can download the Python installer from the official Python website (https://www.python.org/downloads/) and follow the installation instructions for your operating system.
+3. **Python 3:** Ensure that Python 3 is installed on your machine. You can download the Python installer from the
+   official Python website (https://www.python.org/downloads/) and follow the installation instructions for your
+   operating system.
 
 ---
+
 ## Quickstart Installation with Test Data
 
-The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with a single command and requires python3 setup. When using nmhs-cms from source, the default port for web components is 8081.
+The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with a single command and requires python3
+setup. When using nmhs-cms from source, the default port for web components is 8081.
 
 1. Download from source:
 
-    `git clone https://github.com/wmo-raf/nmhs-cms.git`
+   `git clone https://github.com/wmo-raf/nmhs-cms.git`
 
-    `cd nmhs-cms`
+   `cd nmhs-cms`
 
 2. Run quick instance.
 
-    `python3 nmhs-ctl.py quickstart`
+   `python3 nmhs-ctl.py quickstart`
 
-    The `quickstart` executes the following steps:
+   The `quickstart` executes the following steps:
 
     ```py
     [1/6] BUILDING CONTAINERS
@@ -46,11 +54,11 @@ The `quickstart` arguement in `nmhs-ctl.py` deploys nmhs-cms with test data with
     [6/6] FETCHING 7-DAY FORECAST
     ```
 
-    The instance can be found at `http://localhost:8081`
+   The instance can be found at `http://localhost:8081`
 
 3. Additionally, create superuser to access the CMS Admin interface:
 
-    `python3 nmhs-ctl.py createsuperuser`
+   `python3 nmhs-ctl.py createsuperuser`
 
 ---
 
@@ -72,7 +80,8 @@ cd nmhs-cms-0.0.3
 
 ### 2. Setup environmental variables
 
-To set up environmental variables, execute the command below and answer the prompts. To use default variables press enter.
+To set up environmental variables, execute the command below and answer the prompts. To use default variables press
+enter.
 
 CMS Variables:
 
@@ -88,7 +97,6 @@ Setting up CMS Configs...
  ENTER DEBUG: (default -> True).  Press enter to accept default
  ENTER CMS_HOST: (default -> 127.0.0.1).  Press enter to accept default
  ENTER CMS_PORT: (default -> 3031).  Press enter to accept default 8000
- ENTER BASE_PATH: (default -> ).  Press enter to accept default
 nginx.conf updated successfully.
 ✓ Completed CMS Setup... Run 'python3 nmhs-ctl.py restart' to reload changes
 ```
@@ -156,7 +164,8 @@ python3 nmhs-ctl.py createsuperuser
 | `login-root` | access a running Docker container and open a Bash shell inside it with the root user |
 | `logs` | real-time output of the containers' logs |
 | `stop/down` | stop and remove Docker containers |
-| `prune` | clean up unused Docker resources such as containers, images, networks, and volumes. ***Exercise caution when using these commands and ensure that you do not accidentally remove resources that are still needed.*** |
+| `prune` | clean up unused Docker resources such as containers, images, networks, and volumes. ***Exercise caution when
+using these commands and ensure that you do not accidentally remove resources that are still needed.*** |
 | `status` | display container names, their status (running, stopped), the associated services, and their respective health states |
 | `dumpdata` | export the data in json format (dumodata.json) that can be used for backups, migrations, or transferring data between different environments |
 | `migrate` | managing database schema changes and applying those changes to the database |

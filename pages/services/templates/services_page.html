@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static wagtailsettings_tags %}
+{% get_settings use_default_site=True %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/services_page.css' %}">
+   
+{% endblock %}
+
+{% block body_class %}climate_change{% endblock %}
+
+{% block content %}
+<main class="is-index">
+    {% include 'hero.html' with page=page %}
+        <section class="nmhs-work is-desktop" style="padding:6em 0">
+            <div class="work container">
+                {% include 'service_introduction.html' with page=page %}
+            </div>
+        </section>
+        {% if page.what_we_do_items %}
+            <section class="nmhs-work is-desktop">
+                <div class="work container">
+                    {% include 'what_we_do_section.html' with page=page %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.projects.all %}
+            <section class="projects-inline" >
+                <div class="container">
+                    {% include 'projects_include.html' with page=page %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.events.all %}
+            <section class="events-inline">
+                <div class="container">
+                    <h2 class="section-subheader">
+                        Events
+                    </h2>
+                    {% include 'events_include.html' with events=page.events %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.latest_updates %}
+            <section class="climate-change-publications">
+                <div class="container">
+                    <h2 class="section-title center">Latest Updates</h2>
+                    <div class="columns is-multiline is-centered update-items">
+                        {% for update in page.latest_updates %}
+                            <div class="column is-one-quarter-desktop is-half-tablet is-full-mobile update-item is-centered">
+                                {% include 'update_card_include.html' with card=update.card_props show_type=True %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="more-container has-double">
+                        {% if settings.base.ImportantPages.all_news_page %}
+                            <a href="{{ settings.base.ImportantPages.all_news_page.url }}" class="more">
+                                All News
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        {% endif %}
+                        {% if settings.base.ImportantPages.all_publications_page %}
+                            <a href="{{ settings.base.ImportantPages.all_publications_page.url }}" class="more">
+                                All Publications
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.feature_block_items %}
+            <section class="climate-change-feature-blocks-section">
+                {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}
+            </section>
+        {% endif %}
+        
+        
+        {% comment %} {% if page.youtube_playlist %}
+            <section id="videoSection" class="videos">
+                <div class="container">
+                    <h2 class="section-title has-text-centered">Videos</h2>
+                    {% include 'videos_skeleton.html' with playlist_items=page.youtube_playlist.playlist_items  %}
+                    
+                    {% if  settings.base.ImportantPages.all_videos_page %}
+                        <div class="more-container">
+                            <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">
+                                More Videos
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %} {% endcomment %}
+
+        {% if page.applications %}
+            <section class="pb-6">
+                <div class="container">
+                    <h2 class="section-title center">Applications</h2>
+                    {% include 'applications_include.html' with applications=page.applications %}
+                </div>
+            </section>
+        {% endif %}
+        </main>
+
+{% endblock content %}
+
+
+
+

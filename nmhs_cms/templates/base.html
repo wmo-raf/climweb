@@ -25,9 +25,9 @@
     {% endblock %}
 
     {% block favicon %}
-        {% if settings.site_settings.OrganisationSetting.favicon %}
+        {% if settings.base.OrganisationSetting.favicon %}
             {# See https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/app-icon/ #}
-            {% include 'favicon_include.html' with favicon_image=settings.site_settings.OrganisationSetting.favicon %}
+            {% include 'favicon_include.html' with favicon_image=settings.base.OrganisationSetting.favicon %}
         {% endif %}
     {% endblock %}
 
@@ -52,17 +52,17 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/google-translate.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navigation.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/override.css' %}">
     <link rel="stylesheet" href="{% static 'css/services_common.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/nmhs_cms.css' %}">
 
     {% if request.user.is_authenticated or request.is_preview %} {% else %}
-        {% if settings.site_settings.IntegrationSettings.ga_tracking_id %}
+        {% if settings.base.IntegrationSettings.ga_tracking_id %}
             <!-- Global site tag (gtag.js) - Google Analytics -->
             <script async
-                    src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.IntegrationSettings.ga_tracking_id }}"></script>
+                    src="https://www.googletagmanager.com/gtag/js?id={{ settings.base.IntegrationSettings.ga_tracking_id }}"></script>
             <script>
                 window.dataLayer = window.dataLayer || [];
 
@@ -72,7 +72,7 @@
 
                 gtag('js', new Date());
 
-                gtag('config', '{{settings.site_settings.IntegrationSettings.ga_tracking_id}}');
+                gtag('config', '{{settings.base.IntegrationSettings.ga_tracking_id}}');
             </script>
         {% endif %}
     {% endif %}
@@ -101,7 +101,7 @@
         new google.translate.TranslateElement(
             {
                 pageLanguage: "en",
-                includedLanguages: "{{settings.site_settings.LanguageSettings.get_list|join:"," }}",
+                includedLanguages: "{{settings.base.LanguageSettings.get_list|join:"," }}",
                 layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
                 autoDisplay: false
             },

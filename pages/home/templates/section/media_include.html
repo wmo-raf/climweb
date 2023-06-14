@@ -1,0 +1,98 @@
+{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags %}
+{% block extra_css %}
+    {% comment %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}"> {% endcomment %}
+
+
+{% endblock %}
+
+{% if page.enable_media %}
+    <section style="" class="has-text-centered ">
+
+        <div class="container is-align-content-center">
+
+            <h2 class="title py-6" style="font-weight:700">{{ page.video_section_title }}</h2>
+
+            {% if page.youtube_playlist %}
+
+                {% include 'videos_skeleton_home.html' %}
+
+            {% endif %}
+
+            <div class="columns is-centered py-6">
+                {% if  settings.base.OrganisationSetting.twitter %}
+                    <div class="column is-6">
+                        {% comment %}
+                            <div>
+                                <h3 class="social-media-feed-item-title">
+                                    <span class="icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </span>
+                                    <span>Twitter Feed</span>
+                                </h3>
+                            </div> {% endcomment %}
+                        <div class="social-media-feed-item box"
+                             style="height: 400px;
+                    width: 100%;
+                    overflow-y: scroll;
+                    overflow-x: hidden;">
+
+                            <a class="twitter-timeline"
+                               data-tweet-limit="10"
+                               data-dnt="true"
+                               href="{{ settings.base.OrganisationSetting.twitter }}">
+                                Fecthing Tweets from {{ settings.base.OrganisationSetting.twitter }}
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if settings.base.OrganisationSetting.facebook %}
+                    <div class="column is-6">
+                        {% comment %} <h3 class="social-media-feed-item-title"><span class="icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </span>
+                            <span>Facebook Feed</span></h3> {% endcomment %}
+                        <div class="social-media-feed-item box"
+                             style="height: 400px;
+                    width: 100%;
+                    overflow-y: scroll;
+                    overflow-x: hidden;">
+                            <div class="fb-page"
+                                 data-href="{{ settings.base.OrganisationSetting.facebook }}"
+                                 data-tabs="timeline"
+                                 data-width="1200"
+                                 data-height="700"
+                                 data-small-header="true"
+                                 data-adapt-container-width="true"
+                                 data-hide-cover="false"
+                                 data-show-facepile="false">
+                                <blockquote
+                                        cite="{{ settings.base.OrganisationSetting.facebook }}"
+                                        class="fb-xfbml-parse-ignore">
+                                    <a href="{{ settings.base.OrganisationSetting.facebook }}">
+                                        Fetching Facebook Feed
+                                        from {{ settings.base.OrganisationSetting.facebook }}
+                                    </a>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </section>
+{% endif %}
+
+
+
+{% block extra_js %}
+    {% if settings.base.OrganisationSetting.facebook %}
+        <script async src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0"></script>
+    {% endif %}
+    {% if  settings.base.OrganisationSetting.twitter %}
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    {% endif %}
+
+
+{% endblock %}
