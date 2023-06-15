@@ -6,29 +6,28 @@
 
 {% block content %}
 
-<main>
-    <section>
-        <div class="container has-text-centered">
-            <div>
-                <div style="padding-left: 20px; align-items: center;
+    <main>
+        <section>
+            <div class="container has-text-centered">
+                <div>
+                    <div style="padding-left: 20px; align-items: center;
                 display: flex;
                 flex-direction: column">
-                    <h3 class="py-2">
-                        Page not found
-                    </h3>
-                    <h5  class="py-4" style="color: grey">Sorry, this page could not be found.</h5>
-
-                    <a href="{{BASE_PATH}}"
-               class="button is-rounded center sec-btn cta-btn" style="text-align:center">
-                <span>Back to Home Page</span>
-                <span class="icon">
-                    <i class="fas fa-arrow-right"></i>
-                </span>
-            </a>
+                        <h3 class="py-2">
+                            Page not found
+                        </h3>
+                        <h5 class="py-4" style="color: grey">Sorry, this page could not be found.</h5>
+                        <a href="/"
+                           class="button is-rounded center sec-btn cta-btn" style="text-align:center">
+                            <span>Back to Home Page</span>
+                            <span class="icon">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 
 {% endblock %}

@@ -1,37 +1,35 @@
 {% load wagtailcore_tags %}
-{% load menu_tags wagtailimages_tags %}
+{% load wagtailimages_tags %}
 {% load wagtailsettings_tags %}
 {% get_settings use_default_site=True %}
 
-{% image settings.site_settings.OrganisationSetting.logo width-300 as logo%}
+{% image settings.base.OrganisationSetting.logo width-300 as logo %}
 <footer class="footer" style="background-color: var(--primary-color); color: #f9f9f9">
-  <div class="container  my-6">
-    <div class="columns is-mobile is-multiline">
-      <div class="column is-one-fifth-desktop is-half-mobile">
-        {% if logo %} 
-        <a href="/">
-            <img src="{{logo.url}}" style="height:auto;filter: brightness(0) invert(1);" >
-        </a>
-        {% else %}
-        <a
-          href="#"
-          style="
+    <div class="container  my-6">
+        <div class="columns is-mobile is-multiline">
+            <div class="column is-one-fifth-desktop is-half-mobile">
+                {% if logo %}
+                    <a href="/">
+                        <img src="{{ logo.url }}" style="height:auto;filter: brightness(0) invert(1);">
+                    </a>
+                {% else %}
+                    <a
+                            href="#"
+                            style="
             font-weight: 600;
             font-size: 30px;
             letter-spacing: 0.2em;
             color: rgb(228, 226, 226);
           "
-          >N.M.H.S
-        </a>
+                    >N.M.H.S
+                    </a>
 
-        {% endif %}
-      
-        {% comment %} <p class="title is-6 has-text-white has-text-weight-normal">
-          National Meteorological & <br> Hydrological Services
-        </p> {% endcomment %}
-      </div>
+                {% endif %}
 
-      {% flat_menu 'footer' max_levels=2 show_menu_heading=True fall_back_to_default_site_menus=True template="navigation/footer_menu.html" %}
+                {% comment %} <p class="title is-6 has-text-white has-text-weight-normal">
+                    National Meteorological & <br> Hydrological Services
+                </p> {% endcomment %}
+            </div>
 
       
       <div class="column  is-one-fifth-desktop is-half-mobile">
@@ -49,17 +47,32 @@
             </a>
           {% endif %}
 
-          {% if settings.site_settings.OrganisationSetting.phone  %}
+            <div class="column  is-one-fifth-desktop is-half-mobile">
 
-            <a class="footer-link"><b>Tel: </b>{{settings.site_settings.OrganisationSetting.phone}}</a>
-          {% endif %}
-          {% if settings.site_settings.OrganisationSetting.email  %}
+                <p class="footer-link-title is-uppercase title">
+                    <a>OUR OFFICE</a>
+                </p>
+                {% comment %}
+                    <div class="address"> {% endcomment %}
 
-            <a class="footer-link"><b>Email: </b>{{settings.site_settings.OrganisationSetting.email}}</a>
-          {% endif %}
-        {% comment %} </div> {% endcomment %}
-      </div>
-      
+
+                {% if settings.base.OrganisationSetting.address %}
+                    <a class="footer-link">
+                        {{ settings.base.OrganisationSetting.address|richtext }}
+                    </a>
+                {% endif %}
+
+                {% if settings.base.OrganisationSetting.phone %}
+
+                    <a class="footer-link"><b>Tel: </b>{{ settings.base.OrganisationSetting.phone }}</a>
+                {% endif %}
+                {% if settings.base.OrganisationSetting.email %}
+
+                    <a class="footer-link"><b>Email: </b>{{ settings.base.OrganisationSetting.email }}</a>
+                {% endif %}
+                {% comment %} </div> {% endcomment %}
+            </div>
+
+        </div>
     </div>
-  </div>
 </footer>

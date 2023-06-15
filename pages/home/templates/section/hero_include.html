@@ -1,0 +1,256 @@
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+
+
+{% image page.hero_banner original as img %}
+
+<div style="position: relative;">
+    <div id="page-hero" class="hero progressive__bg progressive--not-loaded"
+         style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; max-height:fit-content"
+         data-progressive="{{ img.url }}">
+        <div class="hero-body has-text-centered pb-2">
+            <div class="container">
+                <div class="columns is-justify-content-center py-3">
+                    <div class="column is-6">
+                        <p class="title pb-4"
+                           style="font-weight:700; font-size: 34px; color: {{ self.hero_text_color }};">
+                            {{ self.hero_title|richtext }}
+                        </p>
+                        <p class="subtitle pb-5 mb-4"
+                           style="font-weight: 400; font-size: 18px; color: {{ self.hero_text_color }};">
+                            {{ self.hero_subtitle }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- forecasts section  -->
+                {% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
+                    <div class="columns is-justify-content-center" style="position:inherit;z-index: 1 ">
+                        <div class="column is-11">
+                            <div id="tabs-with-content">
+                                <!-- tabs  -->
+                                <div class="tabs is-boxed is-centered" style="background-color:transparent">
+                                    <ul>
+                                        {% for forecasts in self.get_forecast_by_city.forecasts %}
+                                            <li class="is-active box animate__animated" style="text-align: left;">
+                                                {% with forecasts.forecast_items|first as latest_forcast %}
+                                                    <div class="city active">
+                                                        <div class="columns">
+                                                            <div class="column">
+                                                                <h2 class="title" style="font-size: 17px;">
+                                                                    {{ forecasts.city|wordwrap:7|linebreaksbr}}
+                                                                </h2>
+                                                                {% comment %}
+                                                                    {{ first_object.propertyname }} {% endcomment %}
+                                                                <h2 class="subtitle"
+                                                                    style="font-size: 11px;white-space: break-spaces;">
+                                                                    {{ latest_forcast.condition__title|wordwrap:10|linebreaksbr}}</h2>
+                                                            </div>
+
+                                                            <div class="column"
+                                                                 style="border-left: 1px dotted rgba(107, 106, 106, 0.251);">
+
+                                                                <h2 class="title"
+                                                                    style="font-size: 16px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                                    {{ latest_forcast.forecast_date|wordwrap:15|linebreaksbr}}
+                                                                </h2>
+
+                                                                <div class="columns is-gapless is-mobile">
+                                                                    <div class="column" style="align-self:end">
+
+                                                                        {% if latest_forcast.condition__icon_image__file %}
+                                                                            <figure class="image forecast-icon"
+                                                                                    style="width:50px;height:50px;display: inline-flex;">
+                                                                                <img
+                                                                                        src="media/{{ latest_forcast.condition__icon_image__file }}"
+                                                                                        alt="{{ latest_forcast.condition__icon_image }}"
+                                                                                />
+                                                                            </figure>
+                                                                        {% endif %}
+
+                                                                    </div>
+                                                                    <div class="column">
+                                                                        <h2 style="font-size:18px; font-weight:600">{{ latest_forcast.max_temp }}</h2>
+                                                                        <h3 style="font-size:13px; font-weight:600">{{ latest_forcast.min_temp }}</h3>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="city inactive">
+                                                        <h2 class="title"
+                                                            style="font-size: 13px; margin-bottom: 0.3rem;">{{ forecasts.city }}</h2>
+                                                        <div class="columns is-gapless pb-1 is-mobile">
+                                                            <div class="column" style="align-self:end;">
+                                                                {% if latest_forcast.condition__icon_image__file %}
+                                                                    <figure class="image forecast-icon"
+                                                                            style="width:40px;display: inline-flex;">
+                                                                        <img
+                                                                                src="media/{{ latest_forcast.condition__icon_image__file }}"
+                                                                                alt="{{ latest_forcast.condition__icon_image }}"
+                                                                        />
+                                                                    </figure>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="column">
+                                                                <h2 style="font-size:18px; font-weight:600">{{ latest_forcast.max_temp }}</h2>
+                                                                <h3 style="font-size:13px; font-weight:600">{{ latest_forcast.min_temp }}</h3>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                {% endwith %}
+
+
+                                            </li>
+                                        {% endfor %}
+
+
+                                    </ul>
+                                </div>
+
+                                <!-- tab contents  -->
+                                <div class="box {{ box_shadow }}">
+                                    {% for forecasts in self.get_forecast_by_city.forecasts %}
+
+                                        <section class="tab-content p-0" style="background-color:transparent">
+
+                                            <div class="columns is-gapless is-multiline is-7 is-mobile">
+
+                                                {% comment %}
+                                                    {% if forecasts.forecast_items|length == 7 %} {% endcomment %}
+
+                                                {% for item in forecasts.forecast_items %}
+                                                    <div class="column is-3-mobile mt-2"
+                                                         style="{% if not forloop.last or forecasts.forecast_items|length == 1 %}border-right: 1px dotted rgba(107, 106, 106, 0.251);{% endif %}">
+
+                                                        <h2 class="title mb-1"
+                                                            style="font-size: 14px; font-weight: 600">
+                                                            {{ item.forecast_date }}
+                                                        </h2>
+
+                                                        <div class="columns is-gapless pb-1 mb-0 is-align-items-center is-mobile">
+                                                            <div class="column mr-1"
+                                                                 style="align-self:end; text-align: end;">
+                                                                {% if item.condition__icon_image__file %}
+                                                                    <figure class="forecast-icon"
+                                                                            style="width:40px;display: inline-flex;">
+                                                                        <img
+                                                                                src="media/{{ item.condition__icon_image__file }}"
+                                                                                alt="{{ item.condition__icon_image }}"
+                                                                        />
+                                                                    </figure>
+                                                                {% endif %}
+
+                                                            </div>
+                                                            <div class="column ml-1" style="text-align: start;">
+                                                                <h2 style="font-size:14px; font-weight:600">{{ item.max_temp }} {{ settings.base.MeasurementSettings.get_temp_units_display }}</h2>
+                                                                <h3 style="font-size:10px; font-weight:600">{{ item.min_temp }} {{ settings.base.MeasurementSettings.get_temp_units_display }}</h3>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <span class="title"
+                                                              style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem; ">
+                                                            <img src="{% static 'img/wind_icon.png' %}" alt=""
+                                                                 width="15"
+                                                                 style="transform:rotate(calc({{ item.wind_direction }}deg + 90deg));opacity: 0.7;">
+                                                            {{ item.wind_direction }} °
+                                                            </h2>
+                                                        </span>
+
+
+                                                        <h2 class="title"
+                                                            style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
+                                                            {{ item.wind_speed }} {{ settings.base.MeasurementSettings.get_wind_units_display }}
+                                                        </h2>
+
+
+                                                    </div>
+
+                                                {% endfor %}
+
+                                                {% with forecasts.forecast_items|length as forecast_length %}
+                                                    {% with 7|subtract:forecast_length as rem %}
+                                                        {% for c in 0|range:rem %}
+                                                            <div class="column ">
+
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endwith %}
+
+                                                {% endwith %}
+
+
+                                            </div>
+
+                                        </section>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+                            <!-- </div> -->
+                        </div>
+
+                        <div style="bottom: -0.8em;margin: auto; position: absolute;">
+
+                            <div class="columns is-justify-content-center">
+                                <div class="column">
+                                    <a class="button is-small has-text-weight-bold is-dark has-text-white is-rounded"
+                                       href="{% url 'list_forecasts' %}"
+                                       style="font-size: 14px;">
+                                        <span class="icon">
+                                            <i class="fa fa-cloud-sun-rain"></i>
+                                        </span>
+                                        <span> All Forecasts</span>
+
+                                    </a>
+                                </div>
+                                {% comment %}
+                                    <div class="column">
+                                        <a class="button is-small has-text-weight-bold is-dark is-rounded"
+                                           href="{% url 'list_forecasts' %}"
+                                           style="font-size: 14px;">
+                                            <span class="icon">
+                                                <i class="fa fa-image"></i>
+                                            </span>
+                                            <span> Image</span>
+
+                                        </a>
+                                    </div>
+                                    <div class="column">
+                                        <a class="button is-small has-text-weight-bold is-dark is-rounded"
+                                           href="{% url 'list_forecasts' %}"
+                                           style="font-size: 14px;">
+
+                                            <span class="icon">
+                                                <i class="fa fa-file-pdf"></i>
+                                            </span>
+                                            <span>PDF</span>
+
+                                        </a>
+                                    </div> {% endcomment %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+
+    {% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
+        <div class="overlay overlay_1">
+        </div>
+    {% endif %}
+
+</div>
+
