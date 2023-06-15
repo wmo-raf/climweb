@@ -9,7 +9,7 @@ from wagtailiconchooser.blocks import IconChooserBlock
 
 class ProductItemStructValue(StructValue):
     def product_item_type(self):
-        from core.models import ProductItemType
+        from base.models import ProductItemType
         product_type = self.get('product_type')
         try:
             p = ProductItemType.objects.get(pk=product_type)

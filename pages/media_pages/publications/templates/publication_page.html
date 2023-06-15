@@ -9,9 +9,9 @@
 {% block body_class %}research-detail"{% endblock %}
 
 {% block content %}
-<main class="is-index">
+    <main class="is-index">
 
-    {% include 'hero.html' with page=page %}
+        {% include 'hero.html' with page=page %}
         <section class="publication-detail-section">
             <div class="container">
                 {% include 'document_detail_include.html' with card=page.card_props %}

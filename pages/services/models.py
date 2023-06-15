@@ -31,7 +31,7 @@ class ServiceIndexPage(Page):
 
 
 class ServicePage(AbstractBannerWithIntroPage):
-    template = 'services_page.html'
+    template = 'service_page.html'
     parent_page_types = ['services.ServiceIndexPage']
     subpage_types = []
     show_in_menus_default = True

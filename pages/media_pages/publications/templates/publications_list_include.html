@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags svg nmhs_cms_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
 <div class="results-view">
     <div class="results-header">
@@ -45,11 +45,11 @@
                         <figure class="image">
                             {% if publication.thumbnail %}
                                 {% image publication.thumbnail original as pub_img %}
-                                <img class="progressive__img progressive--not-loaded" 
+                                <img class="progressive__img progressive--not-loaded"
                                      style="object-fit: cover"
                                      data-progressive="{{ pub_img.url }}"
                                      src="{% lazy_image_url pub_img %}"
-                                      alt="{{ publication.publication_type }}"/>
+                                     alt="{{ publication.publication_type }}"/>
                             {% endif %}
                         </figure>
                     </a>
@@ -58,7 +58,7 @@
                             <div>
                                 {% if publication.publication_type.icon %}
                                     <span class="icon result-list-item-icon" style="padding-right: 10px">
-                                        {% svg publication.publication_type.icon.file.name %}
+                                        {#                                        {% svg publication.publication_type.icon.file.name %}#}
                                     </span>
                                 {% endif %}
                                 <span class="item-tag">{{ publication.publication_type }}</span>

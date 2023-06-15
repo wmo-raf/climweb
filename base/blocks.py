@@ -2,6 +2,7 @@ from django.utils.module_loading import import_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
+from wagtail.blocks import StructValue
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 
@@ -151,6 +152,17 @@ class NavigationSubItemBlock(blocks.StructBlock):
     external_url = blocks.URLBlock(required=False, label=_("External URL"))
 
 
+class NavigationItemStructValue(StructValue):
+    def has_sub_items(self):
+        sub_items = self.get("sub_items")
+        page = self.get("page")
+        include_subpages = self.get("include_subpages")
+        if sub_items:
+            return True
+        if page and include_subpages and page.get_children():
+            return True
+
+
 class NavigationItemBlock(blocks.StructBlock):
     label = blocks.CharBlock(label=_("Label"))
     page = blocks.PageChooserBlock(required=False, label=_("Page"))
@@ -161,4 +173,5 @@ class NavigationItemBlock(blocks.StructBlock):
 
     class Meta:
         template = "blocks/menu.html"
-        icon = 'user'
+        icon = 'menu'
+        value_class = NavigationItemStructValue
