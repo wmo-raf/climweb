@@ -1,5 +1,5 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.gis.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
@@ -17,7 +17,8 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from base.blocks import NavigationItemBlock, FooterNavigationItemBlock
+from base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock
+from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT
 
 
 class Country(models.Model):
@@ -220,24 +221,32 @@ class IntegrationSettings(BaseSiteSetting):
 
 @register_setting(icon="site")
 class LanguageSettings(BaseSiteSetting):
+    default_language = models.CharField(max_length=10, blank=True, null=True, choices=LANGUAGE_CHOICES, default="en",
+                                        verbose_name=_("Default Language"))
     languages = StreamField([
-        ('languages', blocks.StructBlock([
-            ('prefix', blocks.CharBlock(max_length=5)),
-            ('language', blocks.CharBlock(max_length=20)),
-            ('default', blocks.BooleanBlock(required=False)),
-        ]))
+        ('languages', LanguageItemBlock())
     ], blank=True, null=True, use_json_field=True, verbose_name=_("languages"))
 
     panels = [
+        FieldPanel('default_language'),
         FieldPanel('languages')
     ]
 
+    @cached_property
+    def google_languages(self):
+        languages = []
+        default = LANGUAGE_CHOICES_DICT.get(self.default_language)
+        languages.append(default)
+        for lang in self.languages:
+            languages.append(lang.value.lang_val())
+        return languages
+
     class Meta:
-        verbose_name = "Languages"
+        verbose_name = "Google Translate Languages"
 
     @cached_property
-    def get_list(self):
-        return list(map(lambda x: x.value['prefix'], self.languages))
+    def included_languages(self):
+        return [lang["language"] for lang in self.google_languages]
 
 
 @register_setting()

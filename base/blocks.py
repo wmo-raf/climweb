@@ -6,6 +6,7 @@ from wagtail.blocks import StructValue
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 
+from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 
@@ -180,3 +181,17 @@ class NavigationItemBlock(blocks.StructBlock):
 class FooterNavigationItemBlock(NavigationItemBlock):
     class Meta:
         template = "blocks/footer_menu.html"
+
+
+class LanguageItemStructValue(StructValue):
+    def lang_val(self):
+        code = self.get("language")
+        language = LANGUAGE_CHOICES_DICT.get(code)
+        return language
+
+
+class LanguageItemBlock(blocks.StructBlock):
+    language = blocks.ChoiceBlock(max_length=20, choices=LANGUAGE_CHOICES)
+
+    class Meta:
+        value_class = LanguageItemStructValue

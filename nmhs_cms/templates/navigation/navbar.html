@@ -2,96 +2,48 @@
 {% load wagtailimages_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
 
-{% image settings.base.OrganisationSetting.logo width-1000 as logo %}
 <header>
     <div class="container">
-        <nav class="navbar top-nav" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item main-logo" href="/">
-                    {% if logo %}
-                        <img src="{{ logo.url }}" alt="logo">
-                    {% else %}
-                        N.M.H.S
+        <div id="google_language_translator"></div>
+        <div class="top-nav-wrapper">
+            <div class="level top-nav">
+                <div class="level-left">
+                    <a class="level-item main-logo" href="/">
+                        {% if settings.base.OrganisationSetting.logo %}
+                            {% image settings.base.OrganisationSetting.logo original as logo %}
+                            <img src="{{ logo.url }}" alt="Logo">
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="level-right is-hidden-mobile">
+                    {% if settings.base.ImportantPages.mailing_list_signup_page %}
+                        <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
+                           class="level-item top-nav-item"
+                        >
+                            Subscribe
+                        </a>
                     {% endif %}
-                </a>
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                   data-target="mainNav">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-            <div id="topNav" class="navbar-menu">
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        {% if settings.base.OrganisationSetting.instagram %}
-                            <span class="icon">
-                                <a href="{{ settings.base.OrganisationSetting.instagram }}"
-                                   target="_blank" rel="noopener noreferrer">
-                                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                                </a>
-                            </span>
-                        {% endif %}
-                        {% if settings.base.OrganisationSetting.twitter %}
-                            <span class="icon">
-                                <a href="{{ settings.base.OrganisationSetting.twitter }}"
-                                   target="_blank" rel="noopener noreferrer">
-                                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                                </a>
-                            </span>
-                        {% endif %}
-
-                        {% if settings.base.OrganisationSetting.facebook %}
-                            <span class="icon">
-                                <a href="{{ settings.base.OrganisationSetting.facebook }}"
-                                   target="_blank" rel="noopener noreferrer">
-
-                                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                                </a>
-
-                            </span>
-                        {% endif %}
-
-                        {% if settings.base.OrganisationSetting.youtube %}
-                            <span class="icon">
-                                <a href="{{ settings.base.OrganisationSetting.youtube }}"
-                                   target="_blank" rel="noopener noreferrer">
-                                    <i class="fa fa-youtube" aria-hidden="true"></i>
-                                </a>
-                            </span>
-                        {% endif %}
-
-                    </div>
-                    {% if settings.base.LanguageSettings.languages %}
-                        <div id="google_language_translator"></div>
-
-                        <div class="navbar-item has-dropdown is-hoverable">
-
-                            <div class="buttons" style="font-weight: 600;">
-                                <a class="button is-small is-text px-1">
+                    {% if settings.base.LanguageSettings.google_languages %}
+                        <div class="level-item dropdown is-hoverable">
+                            <div class="dropdown-trigger">
+                                <div class="top-nav-item">
                                     <span>Language</span>
-
-                                    <span class="icon">
-                                        <i class="fa fa-globe"></i>
-                                    </span>
-                                </a>
-
-                                <div class="navbar-dropdown languages">
-                                    {% for lang in settings.base.LanguageSettings.languages %}
-
-                                        <a class="navbar-item dropdown-item py-2" data-lang="{{ lang.value.language }}"
-                                           data-lang-prefix="{{ lang.value.prefix }}">
-                                            {{ lang.value.language }}
+                                    <img src="{% static 'icons/globe.svg' %}" style="margin-left: 6px" alt=""/>
+                                </div>
+                            </div>
+                            <div class="dropdown-menu top-nav-dropdown" role="menu">
+                                <div class="dropdown-content languages">
+                                    {% for lang in settings.base.LanguageSettings.google_languages %}
+                                        <a class="dropdown-item" data-lang="{{ lang.name }}"
+                                           data-lang-prefix="{{ lang.language }}">
+                                            {{ lang.name }}
                                         </a>
                                     {% endfor %}
                                 </div>
-
                             </div>
-
                         </div>
                     {% endif %}
-
-                    <div class="navbar-item">
+                    <div class="level-item top-nav-item">
                         <div id="search-input" class="field is-hidden search-input">
                             <form action="{% url 'search' %}">
                                 <div class="control is-small has-icons-right">
@@ -107,39 +59,20 @@
                         </div>
                         <div id="search-trigger" class="search-trigger">
                             <span>Search</span>
-                            <span class="icon">
-                                <i class="fa fa-search"></i>
-                            </span>
+                            <img src="{% static 'icons/search.svg' %}" style="margin-left: 6px" alt=""/>
                         </div>
                     </div>
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            {% if settings.base.ImportantPages.contact_us_page.url %}
-                                <a class="button is-dark is-small  has-text-white"
-                                   href="{{ settings.base.ImportantPages.contact_us_page.url }}">
-                                    Contact us
-                                </a>
-                            {% endif %}
-                            {% if settings.base.ImportantPages.feedback_page.url %}
-                                <a class="button is-dark is-small has-text-white"
-                                   href="{{ settings.base.ImportantPages.feedback_page.url }}">
-                                    Give us Feedback
-                                </a>
-                            {% endif %}
-                            {% if user.is_authenticated %}
-                                <a class="button is-dark is-small  has-text-white" href="{{ wagtail_admin_url }}">
-                                    {{ user.username }}, CMS
-                                </a>
-                            {% else %}
-                                <a class="button is-dark is-small  has-text-white" href="{{ wagtail_admin_url }}">
-                                    Log in
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% if settings.base.ImportantPages.contact_us_page %}
+                        <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
+                           class="level-item top-nav-item button is-rounded is-small is-inverted contact-us-btn has-no-border"
+                        >
+                            Contact us
+                        </a>
+                    {% endif %}
                 </div>
             </div>
-        </nav>
+        </div>
+
         <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
              aria-label="main navigation">
             <div id="mainNav" class="navbar-menu">
