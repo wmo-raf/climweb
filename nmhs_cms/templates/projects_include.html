@@ -8,9 +8,9 @@
         <div class="projects-inline-desc ">
             {{ page.projects_description|richtext }}
         </div>
-        {% if settings.core.ImportantPages.all_projects_page %}
+        {% if settings.base.ImportantPages.all_projects_page %}
             <div class="more-container">
-                <a class="more" href="{{ settings.core.ImportantPages.all_projects_page.url }}">
+                <a class="more" href="{{ settings.base.ImportantPages.all_projects_page.url }}">
                     More Projects
                     <span class="icon">
                         <i class="fas fa-arrow-right"></i>

@@ -1,0 +1,125 @@
+{% extends 'services_page_base.html' %}
+{% load static wagtailsettings_tags %}
+{% get_settings use_default_site=True %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}">
+{% endblock %}
+
+{% block body_class %}media-page{% endblock %}
+
+{% block content %}
+    <main class="is-index">
+        {% include 'hero.html' with page=page %}
+        <section class="nmhs-work">
+            <div class="work container">
+                {% include 'service_introduction.html' with page=page %}
+            </div>
+        </section>
+        {% if settings.base.OrganisationSetting.facebook or settings.base.OrganisationSetting.twitter %}
+            <section class="social-media-feed-section">
+                <div class="container">
+                    <div class="columns is-centered">
+                        {% if  settings.base.OrganisationSetting.twitter %}
+                            <div class="column is-5-desktop is-offset-1-desktop">
+                                <div>
+                                    <h3 class="social-media-feed-item-title">
+                                        <span class="icon">
+                                            <i class="fab fa-twitter"></i>
+                                        </span>
+                                        <span>Twitter Feed</span>
+                                    </h3>
+                                </div>
+                                <div class="social-media-feed-item box">
+                                    <a class="twitter-timeline"
+                                       data-tweet-limit="10"
+                                       data-dnt="true"
+                                       href="{{ settings.base.OrganisationSetting.twitter }}">
+                                        Tweets by {{ settings.base.OrganisationSetting.twitter }}
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if settings.base.OrganisationSetting.facebook %}
+                            <div class="column is-5">
+                                <h3 class="social-media-feed-item-title"><span class="icon">
+                                    <i class="fab fa-facebook-f"></i>
+                                </span>
+                                    <span>Facebook Feed</span></h3>
+                                <div class="social-media-feed-item box">
+                                    <div class="fb-page"
+                                         data-href="{{ settings.base.OrganisationSetting.facebook }} /"
+                                         data-tabs="timeline"
+                                         data-width="500"
+                                         data-height="700"
+                                         data-small-header="true"
+                                         data-adapt-container-width="true"
+                                         data-hide-cover="false"
+                                         data-show-facepile="false">
+                                        <blockquote
+                                                cite="{{ settings.base.OrganisationSetting.facebook }}/"
+                                                class="fb-xfbml-parse-ignore">
+                                            <a href="{{ settings.base.OrganisationSetting.facebook }}/">
+                                                Facebook Feed
+                                                from {{ settings.base.OrganisationSetting.facebook }}
+                                            </a>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.latest_news %}
+            <section class="news-inline">
+                <div class="container">
+                    <h2 class="section-subheader">
+                        Latest News Updates
+                    </h2>
+                    {% include 'news_include.html' with news=page.latest_news %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.youtube_playlist %}
+            <section id="videoSection" class="videos">
+                <div class="container">
+                    <h2 class="section-title center">Videos</h2>
+                    {% include 'videos_skeleton.html' %}
+                    {% if  settings.base.ImportantPages.all_videos_page %}
+                        <div class="more-container">
+                            <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">
+                                More Videos
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.feature_block_items %}
+            <section class="drm-feature-blocks-section">
+                {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}
+            </section>
+        {% endif %}
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+    {{ block.super }}
+    {% if settings.base.OrganisationSetting.facebook %}
+        <script async src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0"></script>
+    {% endif %}
+    {% if  settings.base.OrganisationSetting.twitter %}
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    {% endif %}
+{% endblock %}
+
+

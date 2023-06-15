@@ -46,7 +46,7 @@
             {% comment %} </div> {% endcomment %}
 
         <div class="featured-item-block" style="padding:60px 30px; border-radius:2em;    flex-direction: column;"  id="forecast-table">
-            {% image settings.site_settings.OrganisationSetting.logo width-1000 as logo%}  
+            {% image settings.base.OrganisationSetting.logo width-1000 as logo%}
 
             {% if logo %} 
             
@@ -86,8 +86,8 @@
 
                             </div>
                             <div class="column ml-1" style="text-align: start;">
-                                <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h2>
-                                <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.site_settings.MeasurementSettings.get_temp_units_display}}</h3>
+                                <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.base.MeasurementSettings.get_temp_units_display}}</h2>
+                                <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.base.MeasurementSettings.get_temp_units_display}}</h3>
 
                             </div>
 
@@ -106,7 +106,7 @@
                         <h2 class="title"
                             style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;display: flex;
                             justify-content: center;">
-                            {{item.wind_speed}} {{settings.site_settings.MeasurementSettings.get_wind_units_display}}
+                            {{item.wind_speed}} {{settings.base.MeasurementSettings.get_wind_units_display}}
                         </h2>
                    
                     </td>

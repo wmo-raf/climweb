@@ -1,109 +1,94 @@
-{% load menu_tags i18n wagtailcore_tags static  %}
+{% load i18n wagtailcore_tags static %}
 {% load wagtailimages_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
-{% comment %} <section style="background-color:rgba(195, 192, 192, 0.37); height:2em; border-bottom:solid px rgba(195, 192, 192, 1);">
-</section> {% endcomment %}
 
-{% image settings.site_settings.OrganisationSetting.logo width-1000 as logo%}
-<div class="container" style="border-bottom:1px solid rgba(195, 192, 192, 0.37);">
+{% image settings.base.OrganisationSetting.logo width-1000 as logo %}
+<header>
+    <div class="container">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="{{BASE_PATH}}"
-                    style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
-                    {% comment %} TODO: REVERT {% endcomment %}
-                    {% if logo %} 
-                        <img src="{{logo.url}}" style="height:auto" >
-
-                        {% else %}
-                        
+                <a class="navbar-item" href="/">
+                    {% if logo %}
+                        <img src="{{ logo.url }}" alt="logo">
+                    {% else %}
                         N.M.H.S
-
                     {% endif %}
                 </a>
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                    data-target="navbarBasicExample">
+                   data-target="mainNav">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-
-            <div  class="navbar-menu">
-
-
+            <div id="topNav" class="navbar-menu">
                 <div class="navbar-end">
-
-                    <div class="navbar-item" style="text-decoration:none">
-
-                        {% if settings.site_settings.OrganisationSetting.instagram  %}
+                    <div class="navbar-item">
+                        {% if settings.base.OrganisationSetting.instagram %}
                             <span class="icon">
-                                <a href="{{settings.site_settings.OrganisationSetting.instagram }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
+                                <a href="{{ settings.base.OrganisationSetting.instagram }}"
+                                   target="_blank" rel="noopener noreferrer">
+                                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        {% endif %}
+                        {% if settings.base.OrganisationSetting.twitter %}
+                            <span class="icon">
+                                <a href="{{ settings.base.OrganisationSetting.twitter }}"
+                                   target="_blank" rel="noopener noreferrer">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        {% endif %}
 
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
+                        {% if settings.base.OrganisationSetting.facebook %}
+                            <span class="icon">
+                                <a href="{{ settings.base.OrganisationSetting.facebook }}"
+                                   target="_blank" rel="noopener noreferrer">
+
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                </a>
 
                             </span>
-
-                            {% endif %}
-
-                            {% if settings.site_settings.OrganisationSetting.twitter  %}
-
-                        <span class="icon">
-                            <a href="{{settings.site_settings.OrganisationSetting.twitter }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
-
-                            <i class="fa fa-twitter" aria-hidden="true"></i>
-                        </a>
-                        </span>
                         {% endif %}
 
-                        {% if settings.site_settings.OrganisationSetting.facebook  %}
-                        <span class="icon">
-                            <a href="{{settings.site_settings.OrganisationSetting.facebook }}" style="color:black" target=”_blank” rel=”noopener noreferrer” >
-
-                            <i class="fa fa-facebook" aria-hidden="true"></i>
-                        </a>
-
-                        </span>
-                        {% endif %}
-
-                        {% if settings.site_settings.OrganisationSetting.youtube  %}
-                        <span class="icon">
-                            <a href="{{settings.site_settings.OrganisationSetting.youtube }}" style="color:black" target=”_blank” rel=”noopener noreferrer”>
-
-                            <i class="fa fa-youtube" aria-hidden="true"></i>
-                        </a>
-
-                        </span>
+                        {% if settings.base.OrganisationSetting.youtube %}
+                            <span class="icon">
+                                <a href="{{ settings.base.OrganisationSetting.youtube }}"
+                                   target="_blank" rel="noopener noreferrer">
+                                    <i class="fa fa-youtube" aria-hidden="true"></i>
+                                </a>
+                            </span>
                         {% endif %}
 
                     </div>
-                    {% if settings.site_settings.LanguageSettings.languages %}
-                    <div id="google_language_translator"></div>
+                    {% if settings.base.LanguageSettings.languages %}
+                        <div id="google_language_translator"></div>
 
-                    <div class="navbar-item has-dropdown is-hoverable" style="z-index:31">
+                        <div class="navbar-item has-dropdown is-hoverable">
 
-                        <div class="buttons" style="font-weight: 600;">
-                            <a class="button is-small is-text px-1" style="text-decoration: none;">
-                                <span>Language</span>
+                            <div class="buttons" style="font-weight: 600;">
+                                <a class="button is-small is-text px-1">
+                                    <span>Language</span>
 
-                                <span class="icon">
-                                    <i class="fa fa-globe"></i>
-                                </span>
-                            </a>
+                                    <span class="icon">
+                                        <i class="fa fa-globe"></i>
+                                    </span>
+                                </a>
 
-                                <div class="navbar-dropdown languages" >
-                                    {% for lang in settings.site_settings.LanguageSettings.languages %}
+                                <div class="navbar-dropdown languages">
+                                    {% for lang in settings.base.LanguageSettings.languages %}
 
-                                    <a class="navbar-item dropdown-item py-2" data-lang="{{ lang.value.language }}"
-                                       data-lang-prefix="{{ lang.value.prefix }}">
-                                        {{ lang.value.language }}
-                                    </a>
+                                        <a class="navbar-item dropdown-item py-2" data-lang="{{ lang.value.language }}"
+                                           data-lang-prefix="{{ lang.value.prefix }}">
+                                            {{ lang.value.language }}
+                                        </a>
                                     {% endfor %}
-                                  </div>
-                           
-                        </div>
+                                </div>
 
-                    </div>
+                            </div>
+
+                        </div>
                     {% endif %}
 
                     <div class="navbar-item">
@@ -121,81 +106,68 @@
                             </form>
                         </div>
                         <div id="search-trigger" class="search-trigger">
-                            <a class="button is-small is-text px-1" style="text-decoration: none;">
+                            <a class="button is-small is-text px-1">
                                 <span>Search</span>
-    
                                 <span class="icon">
                                     <i class="fa fa-search"></i>
                                 </span>
                             </a>
                         </div>
                     </div>
-                    <div class="navbar-item" >
-
-                        
-                        <div class="buttons" style="font-weight: 600;">
-                           <a class="button is-dark is-small  has-text-white"  href="{{settings.core.ImportantPages.contact_us_page.url}}">
-                                Contact us
-                            </a>
-
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            {% if settings.base.ImportantPages.contact_us_page.url %}
+                                <a class="button is-dark is-small  has-text-white"
+                                   href="{{ settings.base.ImportantPages.contact_us_page.url }}">
+                                    Contact us
+                                </a>
+                            {% endif %}
                             {% if user.is_authenticated %}
                                 <a class="button is-dark is-small  has-text-white" href="{{ wagtail_admin_url }}">
-                                    {{user.username}}, CMS 
+                                    {{ user.username }}, CMS
                                 </a>
                             {% else %}
                                 <a class="button is-dark is-small  has-text-white" href="{{ wagtail_admin_url }}">
                                     Log in
                                 </a>
                             {% endif %}
-                            
                         </div>
                     </div>
-                    
-
                 </div>
             </div>
         </nav>
         <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
-            aria-label="main navigation" id="sticky_nav" style="z-index:3">
-
-
-            <div id="navbarBasicExample" class="navbar-menu"
-                style="flex-grow: initial!important;flex-shrink: initial!important; ">
-                <div class="navbar-start" style="text-transform:uppercase; font-size:15px; font-weight: 700">
-                    {% main_menu max_levels=2 template="navigation/menus/main_menu.html" sub_menu_templates="navigation/menus/sub_menu.html " %}
-
+             aria-label="main navigation">
+            <div id="mainNav" class="navbar-menu">
+                <div class="navbar-start">
+                    {% for block in settings.base.NavigationSettings.main_menu %}
+                        {% include_block block %}
+                    {% endfor %}
                 </div>
-
-
             </div>
         </nav>
-
-</div>
-
+    </div>
+</header>
 {% block extra_js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
 
-        // Get all "navbar-burger" elements
-        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-      
-        // Add a click event on each of them
-        $navbarBurgers.forEach( el => {
-          el.addEventListener('click', () => {
-      
-            // Get the target from the "data-target" attribute
-            const target = el.dataset.target;
-            const $target = document.getElementById(target);
-      
-            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-            el.classList.toggle('is-active');
-            $target.classList.toggle('is-active');
-      
-          });
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
         });
-      
-      });
-</script>
+    </script>
 
 {% endblock extra_js %}
