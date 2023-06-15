@@ -1,0 +1,56 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags static %}
+
+<div class="results-view">
+    <div class="results-header">
+        <h5 class="results-count results">
+            Showing {{ products.paginator.count }} result{{ products.paginator.count|pluralize }}
+        </h5>
+        <div>
+            <button id="list-view-button" class="product-filter view active" name="view" value="list">
+                <i class="fas fa-th-list"></i>
+            </button>
+            <button id="grid-view-button" class="product-filter view" name="view" value="grid">
+                <i class="fas fa-grip-horizontal"></i>
+            </button>
+        </div>
+    </div>
+    <div class="results-list list-view">
+        {% for product in products %}
+            <div class="result-list-item">
+                <div class="result-list-item-wrapper">
+                    <a href="{{ product.url }}" class="result-list-item-image">
+                        <figure class="image" style="display: flex;align-items: center">
+                            {% if product.products.0.value.p_image %}
+                                {% image product.products.0.value.p_image original as p_img %}
+                                <img class="progressive__img progressive--not-loaded"
+                                     style="object-fit: cover"
+                                     data-progressive="{{ p_img.url }}"
+                                     src="{% lazy_image_url p_img %}" alt=""/>
+                            {% else %}
+                                <img style="object-fit: contain;height: 90%"
+                                     src="{% static 'img/doc-placeholder.png' %}" alt=""/>
+                            {% endif %}
+                        </figure>
+                    </a>
+                    <div class="result-list-item-detail">
+                        <a href="{{ product.url }}" class="result-list-item-title">
+                            <h5>
+                                {{ product.title }}
+                            </h5>
+                        </a>
+                        <div class="result-list-item-snippet">
+                            {{ product.products.0.value.description|truncatewords_html:35|richtext }}
+                        </div>
+                        <div class="result-list-item-meta">
+                            <span class=""> {{ product.date }}</span>
+                            <a class="result-list-item-more read" href="{{ product.url }}">
+                                Read More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% include 'pagination_include.html' with items=products %}
+</div>

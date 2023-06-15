@@ -1,0 +1,32 @@
+{% if page.latest_updates %}
+    <section class="climate-change-publications">
+        <div class="container">
+            <h2 class="title  pb-6 has-text-centered" style="font-weight:700">Latest Updates</h2>
+            <div class="columns is-multiline is-centered update-items">
+                {% for update in page.latest_updates %}
+                    <div class="column is-one-quarter-desktop is-half-tablet is-full-mobile update-item is-centered">
+                        {% include 'update_card_include.html' with card=update.card_props show_type=True %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="more-container has-double">
+                {% if settings.base.ImportantPages.all_news_page %}
+                    <a href="{{ settings.base.ImportantPages.all_news_page.url }}" class="more">
+                        All News
+                        <span class="icon">
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                {% endif %}
+                {% if settings.base.ImportantPages.all_publications_page %}
+                    <a href="{{ settings.base.ImportantPages.all_publications_page.url }}" class="more">
+                        All Publications
+                        <span class="icon">
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endif %}

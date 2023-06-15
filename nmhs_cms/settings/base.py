@@ -12,74 +12,57 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import environ
 
+import environ
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 env = environ.Env(
     # set casting, default value
-    # DEBUG=(bool, False),
+    DEBUG=(bool, False),
 )
 
 if os.path.exists(os.path.join(BASE_DIR, '.env')):
     # reading .env file
     environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-
 # Application definition
-
 INSTALLED_APPS = [
+    "base",
+    "pages.home",
+    "pages.services",
+    "pages.products",
+    "pages.media_pages.videos",
+    "pages.media_pages.news",
+    "pages.media_pages.mediacenter",
+    "pages.media_pages.publications",
+    "pages.contact",
+    "pages.feedback",
+    "pages.events",
+    "pages.organisation_pages.organisation",
+    "pages.organisation_pages.about",
+    "pages.organisation_pages.partners",
+    "pages.organisation_pages.projects",
+    "pages.organisation_pages.tenders",
+    "pages.organisation_pages.vacancies",
+    "pages.email_subscription",
+    "pages.surveys",
+    "pages.search",
 
-    # Common
-    'core',
-    
-    "home",
-    "search",
-    "services",
-    "products",
-    "allauth",
-    "allauth.account",
-    # "product",
-
-    # Organisation pages 
-    "organisation_pages.about",
-    "organisation_pages.contact",
-    "organisation_pages.feedback",
-    "organisation_pages.events",
-    "organisation_pages.projects",
-    "organisation_pages.vacancies",
-    "organisation_pages.tenders",
-
-    # Media Pages 
-    "media_pages.videos",
-    "media_pages.news",
-    "media_pages.mediacenter",
-    "media_pages.publications",
-
-    "email_marketing",
+    "capeditor",
+    "forecast_manager",
     "geomanager",
-    "surveys",
-    # Utility apps & pages 
-    'integrations.webicons',
-    # 'integrations.mailchimper',
 
-    # 'integrations.wagtailsurveyform',
-    # 'integrations.wagtailmautic',
     "wagtailmautic",
     "wagtailzoom",
-    "wagtail_adminsortable",
-    "wagtailiconchooser",
+    "wagtailsurveyjs",
+    "wagtailmailchimp",
     "wagtailhumanitarianicons",
-    "django_large_image",
-    'django_json_widget',
-    'django_nextjs',
-    "django_filters",
+    "wagtailiconchooser",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -105,39 +88,35 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
 
-    "forecast_manager",
-    # "layer_manager",
-    "site_settings",
+    "modelcluster",
+    "rest_framework",
+    'rest_framework_xml',
+    "taggit",
+    "corsheaders",
 
-    "wagtailsurveyjs",
+    "allauth",
+    "allauth.account",
+    "wagtail_adminsortable",
+    "wagtailmetadata",
+    "wagtailfontawesomesvg",
     "wagtailgeowidget",
     "wagtail_lazyimages",
     "wagtail_color_panel",
-    "rest_framework",
-    'rest_framework_xml',
-    "capeditor",
+    "django_large_image",
+    'django_json_widget',
+    'django_nextjs',
+    "django_filters",
+    "django_deep_translator",
     "widget_tweaks",
     "captcha",
     'wagtailcaptcha',
-    "wagtailmenus",
-    "modelcluster",
-    "taggit",
-    "django_jsonfield_backport",
     "bulma",
-    "svg",
-    "django_celery_results",
     "mailchimp3",
     "manifest_loader",
-    "django_cron",
-    "django_deep_translator",
-    "wagtailmailchimp",
-    "wagtailfontawesomesvg",
-    "corsheaders"
 ]
 
-
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
-DEEPL_TRANSLATE_KEY="testkey"
+DEEPL_TRANSLATE_KEY = "testkey"
 DEEPL_FREE_API = True
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -157,7 +136,6 @@ MIDDLEWARE = [
 ROOT_URLCONF = "nmhs_cms.urls"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -172,9 +150,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
-                "wagtailmenus.context_processors.wagtailmenus",
                 'django.template.context_processors.i18n',
-                'site_settings.context_processors.theme',
+                'base.context_processors.theme',
                 "django.template.context_processors.debug",
             ],
         },
@@ -182,30 +159,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "nmhs_cms.wsgi.application"
-WAGTAILLOCALIZE_MACHINE_TRANSLATOR = {
-    "CLASS": "wagtail_localize.machine_translators.dummy.DummyTranslator",
-}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#     }
-# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DB_NAME_CMS', 'nmhs_cms_db'),
-        'USER': os.getenv('DB_USER_CMS', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD_CMS', 'test1234'),
-        'HOST': os.getenv('DB_HOST_CMS', 'localhost'),
-        'PORT': os.getenv('DB_PORT_CMS', '5432'),
-    }
+    'default': env.db()
 }
-
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
@@ -236,7 +196,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 LANGUAGES = [
@@ -250,7 +209,7 @@ LANGUAGES = [
 
 LANGUAGE_CODE = "en"
 
-WAGTAIL_CONTENT_LANGUAGES = LANGUAGES=[
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ('en', 'English'),
     ('es', 'Español'),
     ('fr', 'French'),
@@ -271,23 +230,21 @@ WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = (
-    'home/locale',
-    'products/locale',
-    'services/locale',
-    'organisation_pages/about/locale',
-    'organisation_pages/contact/locale',
-    'organisation_pages/events/locale',
-    'organisation_pages/feedback/locale',
-    'organisation_pages/projects/locale',
-    'organisation_pages/tenders/locale',
-    'organisation_pages/vacancies/locale',
-    'media_pages/mediacenter/locale',
-    'media_pages/videos/locale',
-    'media_pages/publications/locale',
-    'media_pages/news/locale',
-    # 'integrations/mailchimper/locale',
-    'integrations/wagtailzoom/locale',
-    'core/locale',
+    'pages/home/locale',
+    'pages/products/locale',
+    'pages/services/locale',
+    'pages/events/locale',
+    'pages/feedback/locale',
+    'pages/media_pages/mediacenter/locale',
+    'pages/media_pages/videos/locale',
+    'pages/media_pages/publications/locale',
+    'pages/media_pages/news/locale',
+    'pages/organisation_pages/about/locale',
+    'pages/organisation_pages/contact/locale',
+    'pages/organisation_pages/projects/locale',
+    'pages/organisation_pages/tenders/locale',
+    'pages/organisation_pages/vacancies/locale',
+    'base/locale',
     'forecast_manager/locale',
 )
 
@@ -301,7 +258,6 @@ USE_TZ = True
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 MODELTRANSLATION_LANGUAGES = ('en', 'es')
-# WAGTAIL_CONTENT_LANGUAGES = [    ('en', 'English'),    ('es', 'Spanish'),]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -311,29 +267,19 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-# STATICFILES_DIRS = [
-#     os.path.join(PROJECT_DIR, "static"),
-# ]
-
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
-]
-
-SVG_DIRS = [
-    os.path.join(BASE_DIR, 'media/svg'),
 ]
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
 # JavaScript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
 # See https://docs.djangoproject.com/en/4.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
 # STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
-BASE_PATH = os.getenv("BASE_PATH", '')
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = BASE_PATH+ "/static/"
+STATIC_URL = "/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = BASE_PATH + "/media/"
-
+MEDIA_URL = "/media/"
 
 # Wagtail settings
 # SITE_NAME="nmhs_cms"
@@ -351,15 +297,13 @@ WAGTAILSEARCH_BACKENDS = {
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = "http://example.com"
 
-
 GEO_WIDGET_DEFAULT_LOCATION = {
-    'lng':23.9479,
-     'lat': 4.0310
+    'lng': 23.9479,
+    'lat': 4.0310
 }
 GEO_WIDGET_EMPTY_LOCATION = False
 
-
-GEO_WIDGET_ZOOM=3
+GEO_WIDGET_ZOOM = 3
 
 SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript"]
 
@@ -370,31 +314,7 @@ RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY', '')
 RECAPTCHA_TESTING = True
 
 ORDERING_FIELD = 'position'
-WAGTAILDOCS_DOCUMENT_MODEL = 'core.CustomDocumentModel'
-
-
-# CELERY Settings
-# CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', 'redis://localhost:6379')
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_CACHE_BACKEND = 'django-cache'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Africa/Nairobi'
-CELERY_SEND_TASK_ERROR_EMAILS = True
-
-# ZOOM Settings
-# ZOOM_JWT_API_KEY = env.str('ZOOM_JWT_API_KEY',  default='')
-# ZOOM_JWT_API_SECRET = env.str('ZOOM_JWT_API_SECRET',  default='')
-
-# Youtube settings 
-# YOUTUBE_API_KEY = env.str('YOUTUBE_API_KEY', default='')
-
-# # Upload permissions for files
-# FILE_UPLOAD_PERMISSIONS = 0o666
-# # Upload permissions for files
-# FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o666
-
+WAGTAILDOCS_DOCUMENT_MODEL = 'base.CustomDocumentModel'
 
 # AUTH STUFF
 LOGIN_URL = '/login/'
@@ -413,23 +333,17 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 
-CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', 'http://127.0.0.1','http://*.localhost', 'http://localhost','http://example.com', 'http://localhost:*']
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', cast=None)
 
 SOCIAL_MEDIA_SHARE_CONFIG = {
     'facebook': {"base_url": "https://www.facebook.com/sharer/sharer.php", "link_param": "u"},
     'twitter': {"base_url": "http://twitter.com/share", "text_param": "text", "link_param": "url"}
 }
+
 CORS_ORIGIN_ALLOW_ALL = True
 
-# SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
-# from django.utils.functional import lazy
-# from wagtail.core.models import Site
-# from site_settings.models import IntegrationSettings
+NEXTJS_SETTINGS = {
+    "nextjs_server_url": os.getenv("NEXTJS_SERVER_URL", "http://localhost:3000"),
+}
 
-# def get_setting(name, default=None):
-#     try:
-#         site = Site.objects.get(is_default_site=True)
-#         settings = IntegrationSettings.for_site(site)
-#         return getattr(settings, name)
-#     except (Site.DoesNotExist, IntegrationSettings.DoesNotExist, AttributeError):
-#         return default
+WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]

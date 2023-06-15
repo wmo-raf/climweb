@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags get_share_url %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags get_share_url nmhs_cms_tags %}
 
 <div class="columns is-multiline featured-item-block">
     <div class="column is-5-widescreen is-full-mobile featured-item-image">
@@ -38,7 +38,7 @@
                 </a>
             </h3>
             <div class="featured-item-snippet format-text">
-                {{ item_text|richtext|truncatewords_html:100 }}
+                {{ item_text|richtext|html_summary:100 }}
             </div>
         </div>
         <div class="featured-item-meta">
