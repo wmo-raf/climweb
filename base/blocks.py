@@ -172,6 +172,11 @@ class NavigationItemBlock(blocks.StructBlock):
     sub_items = blocks.ListBlock(NavigationSubItemBlock())
 
     class Meta:
-        template = "blocks/menu.html"
+        template = "blocks/main_menu.html"
         icon = 'menu'
         value_class = NavigationItemStructValue
+
+
+class FooterNavigationItemBlock(NavigationItemBlock):
+    class Meta:
+        template = "blocks/footer_menu.html"
