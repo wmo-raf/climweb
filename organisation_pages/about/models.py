@@ -87,16 +87,7 @@ class AboutPage(AbstractBannerWithIntroPage):
     )
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel('introduction_title'),
-                FieldPanel('introduction_image'),
-                FieldPanel('introduction_text'),
-                FieldPanel('introduction_button_text'),
-                PageChooserPanel('introduction_button_link'),
-            ],
-            heading=_("Introduction Section"),
-        ),
+        *AbstractBannerWithIntroPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('mission'),

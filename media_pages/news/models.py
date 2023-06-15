@@ -54,7 +54,13 @@ class NewsIndexPage(AbstractBannerPage):
     def filters(self):
         news_types = NewsType.objects.all()
         service_categories = ServiceCategory.objects.all()
-        return {'news_types': news_types, 'service_categories': service_categories, }
+        years = NewsPage.objects.dates("date", "year")
+
+        return {
+            "news_types": news_types,
+            "service_categories": service_categories,
+            "year": years
+        }
 
     @cached_property
     def featured_news(self):
@@ -75,6 +81,7 @@ class NewsIndexPage(AbstractBannerPage):
 
         news_types = query_param_to_list(request.GET.get("news_type"), as_int=True)
         services = query_param_to_list(request.GET.get("service"), as_int=True)
+        years = query_param_to_list(request.GET.get("year"), as_int=True)
 
         filters = models.Q()
 
@@ -82,6 +89,8 @@ class NewsIndexPage(AbstractBannerPage):
             filters &= models.Q(news_type__in=news_types)
         if services:
             filters &= models.Q(services__in=services)
+        if years:
+            filters &= models.Q(date__year__in=years)
 
         return news.filter(filters)
 
