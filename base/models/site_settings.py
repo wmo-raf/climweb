@@ -34,12 +34,19 @@ class Country(models.Model):
 
 @register_setting
 class OrganisationSetting(BaseSiteSetting):
+<<<<<<< HEAD:site_settings/models.py
+    # country 
+    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name="country_setting", null=True, verbose_name=_("Country"))
+
+    # social media 
+=======
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Organisation Name"))
     # country
     country = models.ForeignKey('Country', blank=True, null=True, on_delete=models.CASCADE,
                                 related_name="country_setting",
                                 verbose_name=_("Country"))
     # social media
+>>>>>>> fa5553882b7688c84810350fe450698bb1b8a35f:base/models/site_settings.py
     twitter = models.URLField(max_length=250, blank=True, null=True, help_text=_("Twitter url"),
                               verbose_name=_("Twitter URL"))
     facebook = models.URLField(max_length=250, blank=True, null=True, help_text=_("Facebook url"),

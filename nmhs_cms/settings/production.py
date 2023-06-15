@@ -38,7 +38,7 @@ CACHES = {
         'TIMEOUT': 14400,  # 4 hours (in seconds)
     },
     'pagecache': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
         'LOCATION': env('MEMCACHED_URI'),
         'KEY_PREFIX': 'nmhs_cms_pagecache',
         'TIMEOUT': 14400,  # 4 hours (in seconds)
