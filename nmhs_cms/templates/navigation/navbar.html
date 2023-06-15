@@ -5,9 +5,9 @@
 {% image settings.base.OrganisationSetting.logo width-1000 as logo %}
 <header>
     <div class="container">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
+        <nav class="navbar top-nav" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="/">
+                <a class="navbar-item main-logo" href="/">
                     {% if logo %}
                         <img src="{{ logo.url }}" alt="logo">
                     {% else %}
@@ -106,12 +106,10 @@
                             </form>
                         </div>
                         <div id="search-trigger" class="search-trigger">
-                            <a class="button is-small is-text px-1">
-                                <span>Search</span>
-                                <span class="icon">
-                                    <i class="fa fa-search"></i>
-                                </span>
-                            </a>
+                            <span>Search</span>
+                            <span class="icon">
+                                <i class="fa fa-search"></i>
+                            </span>
                         </div>
                     </div>
                     <div class="navbar-item">
@@ -120,6 +118,12 @@
                                 <a class="button is-dark is-small  has-text-white"
                                    href="{{ settings.base.ImportantPages.contact_us_page.url }}">
                                     Contact us
+                                </a>
+                            {% endif %}
+                            {% if settings.base.ImportantPages.feedback_page.url %}
+                                <a class="button is-dark is-small has-text-white"
+                                   href="{{ settings.base.ImportantPages.feedback_page.url }}">
+                                    Give us Feedback
                                 </a>
                             {% endif %}
                             {% if user.is_authenticated %}

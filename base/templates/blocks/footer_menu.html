@@ -1,0 +1,14 @@
+{% if value.has_sub_items %}
+    <div class="column is-one-quarter-desktop is-half-mobile ">
+        <p class="footer-link-title is-uppercase title">
+            <a class="has-text-white">{{ value.label }}</a>
+        </p>
+        {% if value.page %}
+            {% for sub_page in value.page.get_children %}
+                {% if sub_page.show_in_menus %}
+                    <a href="{{ sub_page.url }}" class="footer-link has-text-white">{{ sub_page.title }}</a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endif %}
