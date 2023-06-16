@@ -10,5 +10,26 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
+        {% if value.sub_items %}
+            {% for item in value.sub_items %}
+                {% if item.is_action %}
+                    <a class="button is-small is-black is-inverted is-outlined is-rounded"
+                       {% if item.page.url %}href="{{ item.page.url }}" {% else %}
+                       href="{{ item.external_url }}"
+                       target="_blank"
+                       rel="noopener norefferer" {% endif %}
+                       style="margin-top: 8px"
+                    >
+                        {{ item.label }}
+                    </a>
+                {% else %}
+                    <a class="footer-link has-text-white" {% if item.page.url %}href="{{ item.page.url }}" {% else %}
+                       href="{{ item.external_url }}"
+                       target="_blank"
+                       rel="noopener norefferer" {% endif %}> {{ item.label }}</a>
+
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
 {% endif %}

@@ -1,5 +1,4 @@
 from django.utils.module_loading import import_string
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.blocks import StructValue
@@ -144,6 +143,7 @@ class NavigationSubItemBlock(blocks.StructBlock):
     label = blocks.CharBlock(label=_("Label"))
     page = blocks.PageChooserBlock(required=False, label=_("Page"))
     external_url = blocks.URLBlock(required=False, label=_("External URL"))
+    is_action = blocks.BooleanBlock(required=False, label=_("Show as action button"))
 
 
 class NavigationItemStructValue(StructValue):
