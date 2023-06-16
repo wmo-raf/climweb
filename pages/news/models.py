@@ -21,7 +21,7 @@ from base.mixins import MetadataPageMixin
 from base.models import AbstractBannerPage
 from base.models import ServiceCategory
 from base.utils import paginate, query_param_to_list, get_first_img_src, get_first_non_empty_p_string
-from pages.media_pages.news.blocks import ExternalLinkBlock
+from pages.news.blocks import ExternalLinkBlock
 
 NEWS_ALLOWED_RICHTEXT_FEATURES = ['bold', 'italic', 'h4', 'h5', 'h6', 'ol', 'ul', 'hr', 'link', 'image',
                                   'document-link', 'embed', ]

@@ -61,6 +61,14 @@ class VacanciesPage(AbstractBannerWithIntroPage):
         ),
     ]
 
+    @cached_property
+    def listing_image(self):
+        if self.banner_image:
+            return self.banner_image
+        if self.introduction_image:
+            return self.introduction_image
+        return None
+
     def filter_vacancies(self, request):
         vacancies = self.all_vacancies
 

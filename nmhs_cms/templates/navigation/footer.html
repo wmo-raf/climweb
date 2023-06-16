@@ -1,4 +1,4 @@
-{% load static wagtailimages_tags wagtailsettings_tags wagtailcore_tags %}
+{% load static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags %}
 {% get_settings use_default_site=True %}
 
 <footer>
@@ -29,16 +29,14 @@
                     {% endif %}
                 </div>
                 <div class="column is-half" style="display: flex;justify-content: flex-end;">
-                    {#                    {% for account in settings.core.SocialMediaSettings.social_media_accounts %}#}
-                    {#                        <a title="{{ account.value.name }}" href="{{ account.value.full_url }}" target="_blank"#}
-                    {#                           rel="noopener"#}
-                    {#                           class="footer-social"#}
-                    {#                           data-ga-event-category="Footer Social Media Click"#}
-                    {#                           data-ga-event-label="{{ account.value.name }}"#}
-                    {#                           data-ga-value="{{ page.url }}"#}
-                    {#                        >#}
-                    {#                            <i class="fab {{ account.value.fa_icon }} has-text-white"></i></a>#}
-                    {#                    {% endfor %}#}
+                    {% for account in settings.base.OrganisationSetting.social_media_accounts %}
+                        <a title="{{ account.value.name }}" href="{{ account.value.full_url }}" target="_blank"
+                           rel="noopener"
+                           class="footer-social"
+                        >
+                            <span class="social-icon">{% svg_icon name=account.value.icon %}</span>
+                        </a>
+                    {% endfor %}
                 </div>
 
             </div>

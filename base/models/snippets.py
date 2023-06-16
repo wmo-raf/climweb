@@ -26,7 +26,8 @@ class Product(ClusterableModel):
         return self.name
 
     class Meta:
-        verbose_name_plural = _("Product")
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
 
 
 class ProductCategory(ClusterableModel):

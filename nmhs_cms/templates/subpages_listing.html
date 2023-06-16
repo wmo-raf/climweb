@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailsettings_tags %}
+
+{% block body_class %}service_page{% endblock %}
+
+{% block content %}
+
+    <style>
+
+        .subpage-item {
+            display: flex;
+            padding-bottom: 20px;
+            align-items: center;
+        }
+
+        .subpage-img figure {
+            background-color: #fff;
+            border-radius: 50%;
+            height: 96px;
+            width: 96px;
+        }
+
+        .subpage-img figure img {
+            object-fit: cover;
+            height: 100%;
+        }
+
+
+        .subpage-detail {
+            padding-left: 20px;
+        }
+
+        .subpage-title {
+            color: #4a4a4a;
+            padding-bottom: 8px;
+        }
+
+    </style>
+    <main class="is-index">
+        {% include "breadcrumbs_include.html" %}
+        <section>
+            <div class="container">
+                {% if page.get_children %}
+                    {% if page.listing_heading %}
+                        <h2 class="title">{{ page.listing_heading }}</h2>
+                    {% endif %}
+                    <div class="columns is-multiline" style="padding-top: 30px">
+                        {% for sub_page in page.get_children %}
+                            <div class="column is-one-third-desktop is-full-mobile">
+                                <div class="subpage-item">
+                                    <div class="subpage-img">
+                                        <figure class="image">
+                                            {% if sub_page.specific.listing_image %}
+                                                {% image sub_page.specific.listing_image original as sub_page_image %}
+                                                <img class="is-rounded progressive__img progressive--not-loaded"
+                                                     data-progressive="{{ sub_page_image.url }}"
+                                                     src="{% lazy_image_url sub_page_image %}"
+                                                     alt="{{ sub_page.title }}"/>
+
+                                            {% elif sub_page.specific.nav_menu_icon %}
+                                                <div>Hello</div>
+                                            {% endif %}
+                                        </figure>
+                                    </div>
+                                    <a href="{{ sub_page.url }}" class="subpage-detail">
+                                        <h4 class="subpage-title">
+                                            {{ sub_page.title }}
+                                        </h4>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}

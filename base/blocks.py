@@ -5,7 +5,9 @@ from wagtail import blocks
 from wagtail.blocks import StructValue
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtailiconchooser.blocks import IconChooserBlock
 
+from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 
@@ -92,16 +94,8 @@ class WhatWeDoBlock(blocks.StructBlock):
 
 class SocialMediaBlock(blocks.StructBlock):
     name = blocks.CharBlock(max_length=60, )
-    fa_icon = blocks.CharBlock(max_length=60, verbose_name="Font Awesome icon",
-                               help_text=mark_safe(
-                                   "Font Awesome icon without the leading fab. E.g for Facebook, fa-facebook-f. Check "
-                                   "the correct icon at "
-                                   "<a target='_blank' href='https://fontawesome.com/icons?s=brands&m=free'>"
-                                   "Font Awesome</a>. Type in on the search bar on that page to filter."))
+    icon = IconChooserBlock(required=False, label=_("Icon"))
     full_url = blocks.URLBlock(max_length=255, help_text=_("The full url link that takes you to the page"))
-    user_id = blocks.CharBlock(max_length=100, required=False,
-                               help_text=_("The user id if available, For example the user Id/"
-                                           "name for twitter, Instagram or channel id for Youtube etc"))
 
     class Meta:
         icon = 'placeholder'
@@ -180,3 +174,17 @@ class NavigationItemBlock(blocks.StructBlock):
 class FooterNavigationItemBlock(NavigationItemBlock):
     class Meta:
         template = "blocks/footer_menu.html"
+
+
+class LanguageItemStructValue(StructValue):
+    def lang_val(self):
+        code = self.get("language")
+        language = LANGUAGE_CHOICES_DICT.get(code)
+        return language
+
+
+class LanguageItemBlock(blocks.StructBlock):
+    language = blocks.ChoiceBlock(max_length=20, choices=LANGUAGE_CHOICES)
+
+    class Meta:
+        value_class = LanguageItemStructValue

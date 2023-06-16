@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.fields import RichTextField, StreamField
@@ -18,9 +19,9 @@ class AboutPage(AbstractBannerWithIntroPage):
     max_count = 1
     show_in_menus_default = True
 
-    mission = models.CharField(max_length=500, help_text=_("Organisation's mission"), null=True,
+    mission = models.CharField(max_length=500, help_text=_("Organisation's mission"), blank=True, null=True,
                                verbose_name=_("Organisation's mission"))
-    vision = models.CharField(max_length=500, help_text=_("Organisation's vision"), null=True,
+    vision = models.CharField(max_length=500, help_text=_("Organisation's vision"), blank=True, null=True,
                               verbose_name=_("Organisation's vision"))
 
     timeline_heading = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Timeline Heading"))
@@ -30,9 +31,9 @@ class AboutPage(AbstractBannerWithIntroPage):
     ], null=True, blank=True, verbose_name=_("Timeline items"), use_json_field=True)
 
     org_struct_heading = models.CharField(max_length=250, help_text=_("Organisation's Structure Section Heading"),
-                                          null=True, verbose_name=_("Organisation's Struture Heading"),
+                                          blank=True, null=True, verbose_name=_("Organisation's Struture Heading"),
                                           default="Our Organisational Structure")
-    org_struct_description = RichTextField(help_text=_("Organisation's Structure Description"), null=True,
+    org_struct_description = RichTextField(help_text=_("Organisation's Structure Description"), blank=True, null=True,
                                            verbose_name=_("Organisation's Struture Description"),
                                            features=SUMMARY_RICHTEXT_FEATURES)
     org_struct_img = models.ForeignKey(
@@ -101,6 +102,14 @@ class AboutPage(AbstractBannerWithIntroPage):
             heading=_("Bottom Call to action Section"),
         ),
     ]
+
+    @cached_property
+    def listing_image(self):
+        if self.banner_image:
+            return self.banner_image
+        if self.introduction_image:
+            return self.introduction_image
+        return None
 
     @property
     def partners(self):

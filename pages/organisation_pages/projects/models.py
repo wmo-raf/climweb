@@ -17,9 +17,9 @@ from wagtail.models import Page
 from base import blocks
 from base.models import ServiceCategory, AbstractBannerWithIntroPage
 from base.utils import query_param_to_list, paginate, get_first_non_empty_p_string
-from pages.media_pages.news.models import NewsPage
-from pages.media_pages.publications.models import PublicationPage
-from pages.media_pages.videos.models import YoutubePlaylist
+from pages.news.models import NewsPage
+from pages.publications.models import PublicationPage
+from pages.videos.models import YoutubePlaylist
 from pages.events.models import EventPage
 
 
@@ -27,7 +27,7 @@ class ProjectIndexPage(AbstractBannerWithIntroPage):
     template = 'project_index_page.html'
     parent_page_types = ['organisation.OrganisationIndexPage']
     subpage_types = ['projects.ProjectPage']
-    max_count = 2
+    max_count = 1
     show_in_menus_default = True
 
     items_per_page = models.PositiveIntegerField(default=6, validators=[
@@ -45,6 +45,14 @@ class ProjectIndexPage(AbstractBannerWithIntroPage):
             heading=_("Other Settings"),
         ),
     ]
+
+    @cached_property
+    def listing_image(self):
+        if self.banner_image:
+            return self.banner_image
+        if self.introduction_image:
+            return self.introduction_image
+        return None
 
     @cached_property
     def filters(self):

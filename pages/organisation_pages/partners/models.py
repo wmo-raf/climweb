@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.fields import RichTextField
@@ -47,18 +48,21 @@ class Partner(models.Model):
 
 
 class PartnersPage(AbstractBannerWithIntroPage):
-    template = 'partners.html'
+    template = 'partners/partners.html'
     parent_page_types = ['organisation.OrganisationIndexPage']
     subpage_types = []
-    max_count = 2
+    max_count = 1
     show_in_menus_default = True
 
-    partners_cta_title = models.CharField(max_length=100, verbose_name=_("Partners Call to Action title"),
+    partners_cta_title = models.CharField(max_length=100, blank=True, null=True,
+                                          verbose_name=_("Partners Call to Action title"),
                                           help_text=_("Partners call to action section title"))
     partners_cta_text = RichTextField(
-        help_text=_("Call to action description text"),
+        blank=True, null=True,
+        features=SUMMARY_RICHTEXT_FEATURES,
         verbose_name=_("Partners call to action text"),
-        features=SUMMARY_RICHTEXT_FEATURES)
+        help_text=_("Call to action description text"),
+    )
     partners_cta_image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name=_("Partners call to action Image"),
@@ -90,6 +94,14 @@ class PartnersPage(AbstractBannerWithIntroPage):
             heading=_("Partners Call to Action Section"),
         ),
     ]
+
+    @cached_property
+    def listing_image(self):
+        if self.banner_image:
+            return self.banner_image
+        if self.introduction_image:
+            return self.introduction_image
+        return None
 
     def get_context(self, request, *args, **kwargs):
         context = super(PartnersPage, self).get_context(request, *args, **kwargs)

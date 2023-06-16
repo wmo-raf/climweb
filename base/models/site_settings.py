@@ -1,8 +1,7 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.gis.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from wagtail import blocks
 from wagtail.admin.panels import (
     PageChooserPanel,
     MultiFieldPanel,
@@ -17,42 +16,26 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from base.blocks import NavigationItemBlock, FooterNavigationItemBlock
-
-
-class Country(models.Model):
-    name = models.CharField(max_length=100, verbose_name=_("Name"))
-    iso = models.CharField(max_length=100, verbose_name=_("ISO"))
-    size = models.CharField(max_length=100, verbose_name=_("Size"))
-    geom = models.MultiPolygonField(
-        help_text=_("The paired values of points defining a polygon that delineates the affected "
-                    "area of the alert message"), null=True, srid=4326, verbose_name=_("Geometry"))
-
-    def __str__(self):
-        return self.name
+from base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock, SocialMediaBlock
+from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT, COUNTRY_CHOICES
+from base.utils import get_country_info
 
 
 @register_setting
 class OrganisationSetting(BaseSiteSetting):
+    country = models.CharField(max_length=100, blank=True, null=True, choices=COUNTRY_CHOICES,
+                               verbose_name=_("Country"))
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Organisation Name"))
-    # country
-    country = models.ForeignKey('Country', blank=True, null=True, on_delete=models.CASCADE,
-                                related_name="country_setting",
-                                verbose_name=_("Country"))
-    # social media
-    twitter = models.URLField(max_length=250, blank=True, null=True, help_text=_("Twitter url"),
-                              verbose_name=_("Twitter URL"))
-    facebook = models.URLField(max_length=250, blank=True, null=True, help_text=_("Facebook url"),
-                               verbose_name=_("Facebook URL"))
-    youtube = models.URLField(max_length=250, blank=True, null=True, help_text=_("Youtube url"),
-                              verbose_name=_("Youtube URL"))
-    instagram = models.URLField(max_length=250, blank=True, null=True, help_text=_("Instagram url"),
-                                verbose_name=_("Instagram URL"))
+
     phone = models.IntegerField(blank=True, null=True, help_text=_("Phone Number"), verbose_name=_("Phone number"))
     email = models.EmailField(blank=True, null=True, max_length=254, help_text=_("Email address"),
                               verbose_name=_("Email address"))
     address = RichTextField(max_length=250, blank=True, null=True, help_text=_("Postal Address"),
                             verbose_name=_("Postal address"))
+
+    social_media_accounts = StreamField([
+        ('social_media_account', SocialMediaBlock()),
+    ], blank=True, null=True, use_json_field=True)
 
     # logo
     logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
@@ -110,6 +93,7 @@ class OrganisationSetting(BaseSiteSetting):
 
     panels = [
         FieldPanel("name"),
+        FieldPanel('country'),
         MultiFieldPanel(
             [
                 FieldPanel("logo"),
@@ -119,6 +103,7 @@ class OrganisationSetting(BaseSiteSetting):
             ],
             heading=_("Logo")
         ),
+        FieldPanel("social_media_accounts"),
         MultiFieldPanel(
             [
                 FieldPanel("page_not_found_error_image"),
@@ -126,12 +111,7 @@ class OrganisationSetting(BaseSiteSetting):
             ],
             heading=_("Error Images")
         ),
-        MultiFieldPanel(
-            [
-                FieldPanel('country'),
-            ],
-            heading=_('Country')
-        ),
+
         MultiFieldPanel([
             FieldPanel("address"),
         ], heading=_("Address Settings")),
@@ -139,17 +119,15 @@ class OrganisationSetting(BaseSiteSetting):
             FieldPanel("email"),
             FieldPanel("phone"),
         ], heading=_("Contact Settings")),
-        MultiFieldPanel([
-            FieldPanel("twitter"),
-            FieldPanel("facebook"),
-            FieldPanel("youtube"),
-            FieldPanel("instagram"),
-
-        ], heading=_("Social Media Settings"))
     ]
 
     class Meta:
         verbose_name = _("Organisation Settings")
+
+    @cached_property
+    def country_info(self):
+        if self.country:
+            return get_country_info(self.country)
 
 
 @register_setting(icon="cogs")
@@ -220,24 +198,32 @@ class IntegrationSettings(BaseSiteSetting):
 
 @register_setting(icon="site")
 class LanguageSettings(BaseSiteSetting):
+    default_language = models.CharField(max_length=10, blank=True, null=True, choices=LANGUAGE_CHOICES, default="en",
+                                        verbose_name=_("Default Language"))
     languages = StreamField([
-        ('languages', blocks.StructBlock([
-            ('prefix', blocks.CharBlock(max_length=5)),
-            ('language', blocks.CharBlock(max_length=20)),
-            ('default', blocks.BooleanBlock(required=False)),
-        ]))
+        ('languages', LanguageItemBlock())
     ], blank=True, null=True, use_json_field=True, verbose_name=_("languages"))
 
     panels = [
+        FieldPanel('default_language'),
         FieldPanel('languages')
     ]
 
+    @cached_property
+    def google_languages(self):
+        languages = []
+        default = LANGUAGE_CHOICES_DICT.get(self.default_language)
+        languages.append(default)
+        for lang in self.languages:
+            languages.append(lang.value.lang_val())
+        return languages
+
     class Meta:
-        verbose_name = "Languages"
+        verbose_name = "Google Translate Languages"
 
     @cached_property
-    def get_list(self):
-        return list(map(lambda x: x.value['prefix'], self.languages))
+    def included_languages(self):
+        return [lang["language"] for lang in self.google_languages]
 
 
 @register_setting()
