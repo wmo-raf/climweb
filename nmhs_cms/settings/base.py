@@ -32,6 +32,9 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 
 # Application definition
 INSTALLED_APPS = [
+
+    "wagtailiconchooser",
+
     "base",
     "pages.home",
     "pages.services",
@@ -62,7 +65,6 @@ INSTALLED_APPS = [
     "wagtailsurveyjs",
     "wagtailmailchimp",
     "wagtailhumanitarianicons",
-    "wagtailiconchooser",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

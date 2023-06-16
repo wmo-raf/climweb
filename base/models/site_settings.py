@@ -2,7 +2,6 @@ from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from wagtail import blocks
 from wagtail.admin.panels import (
     PageChooserPanel,
     MultiFieldPanel,
@@ -17,7 +16,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock
+from base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock, SocialMediaBlock
 from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT
 
 
@@ -40,20 +39,16 @@ class OrganisationSetting(BaseSiteSetting):
     country = models.ForeignKey('Country', blank=True, null=True, on_delete=models.CASCADE,
                                 related_name="country_setting",
                                 verbose_name=_("Country"))
-    # social media
-    twitter = models.URLField(max_length=250, blank=True, null=True, help_text=_("Twitter url"),
-                              verbose_name=_("Twitter URL"))
-    facebook = models.URLField(max_length=250, blank=True, null=True, help_text=_("Facebook url"),
-                               verbose_name=_("Facebook URL"))
-    youtube = models.URLField(max_length=250, blank=True, null=True, help_text=_("Youtube url"),
-                              verbose_name=_("Youtube URL"))
-    instagram = models.URLField(max_length=250, blank=True, null=True, help_text=_("Instagram url"),
-                                verbose_name=_("Instagram URL"))
+
     phone = models.IntegerField(blank=True, null=True, help_text=_("Phone Number"), verbose_name=_("Phone number"))
     email = models.EmailField(blank=True, null=True, max_length=254, help_text=_("Email address"),
                               verbose_name=_("Email address"))
     address = RichTextField(max_length=250, blank=True, null=True, help_text=_("Postal Address"),
                             verbose_name=_("Postal address"))
+
+    social_media_accounts = StreamField([
+        ('social_media_account', SocialMediaBlock()),
+    ], blank=True, null=True, use_json_field=True)
 
     # logo
     logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
@@ -120,6 +115,7 @@ class OrganisationSetting(BaseSiteSetting):
             ],
             heading=_("Logo")
         ),
+        FieldPanel("social_media_accounts"),
         MultiFieldPanel(
             [
                 FieldPanel("page_not_found_error_image"),
@@ -133,6 +129,7 @@ class OrganisationSetting(BaseSiteSetting):
             ],
             heading=_('Country')
         ),
+
         MultiFieldPanel([
             FieldPanel("address"),
         ], heading=_("Address Settings")),
@@ -140,13 +137,6 @@ class OrganisationSetting(BaseSiteSetting):
             FieldPanel("email"),
             FieldPanel("phone"),
         ], heading=_("Contact Settings")),
-        MultiFieldPanel([
-            FieldPanel("twitter"),
-            FieldPanel("facebook"),
-            FieldPanel("youtube"),
-            FieldPanel("instagram"),
-
-        ], heading=_("Social Media Settings"))
     ]
 
     class Meta:
