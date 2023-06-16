@@ -15,9 +15,9 @@ from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from base.mixins import MetadataPageMixin
 from forecast_manager.models import City, Forecast
 from pages.events.models import EventPage
-from pages.media_pages.news.models import NewsPage
-from pages.media_pages.publications.models import PublicationPage
-from pages.media_pages.videos.models import YoutubePlaylist
+from pages.news.models import NewsPage
+from pages.publications.models import PublicationPage
+from pages.videos.models import YoutubePlaylist
 from pages.services.models import ServicePage
 
 

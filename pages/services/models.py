@@ -8,9 +8,9 @@ from wagtail.models import Page, Orderable
 
 from base import blocks
 from base.models import ServiceCategory, AbstractBannerWithIntroPage
-from pages.media_pages.news.models import NewsPage
-from pages.media_pages.publications.models import PublicationPage
-from pages.media_pages.videos.models import YoutubePlaylist
+from pages.news.models import NewsPage
+from pages.publications.models import PublicationPage
+from pages.videos.models import YoutubePlaylist
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from pages.events.models import EventPage
 from pages.organisation_pages.projects.models import ServiceProject
@@ -19,8 +19,15 @@ from pages.organisation_pages.projects.models import ServiceProject
 class ServiceIndexPage(Page):
     parent_page_types = ['home.HomePage']
     subpage_types = ['services.ServicePage']
+    template = "subpages_listing.html"
 
+    listing_heading = models.CharField(max_length=255, default="Explore our Services",
+                                       verbose_name=_("Services listing Heading"))
     max_count = 1
+
+    content_panels = Page.content_panels + [
+        FieldPanel("listing_heading")
+    ]
 
     def get_children_pages(self):
         return self.get_children().live()
@@ -31,7 +38,7 @@ class ServiceIndexPage(Page):
 
 
 class ServicePage(AbstractBannerWithIntroPage):
-    template = 'service_page.html'
+    template = 'services/service_page.html'
     parent_page_types = ['services.ServiceIndexPage']
     subpage_types = []
     show_in_menus_default = True
@@ -92,6 +99,14 @@ class ServicePage(AbstractBannerWithIntroPage):
     class Meta:
         verbose_name = _('Service Page')
         verbose_name_plural = _('Service Pages')
+
+    @cached_property
+    def listing_image(self):
+        if self.banner_image:
+            return self.banner_image
+        if self.introduction_image:
+            return self.introduction_image
+        return None
 
     @cached_property
     def projects(self):
