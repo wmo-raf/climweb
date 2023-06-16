@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class NewsConfig(AppConfig):
+class PublicationsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'pages.media_pages.news'
+    name = 'pages.publications'

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PublicationsConfig(AppConfig):
+class VideosConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'pages.media_pages.publications'
+    name = 'pages.videos'

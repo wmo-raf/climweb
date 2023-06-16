@@ -100,8 +100,8 @@
     function googleTranslateElementInit() {
         new google.translate.TranslateElement(
             {
-                pageLanguage: "en",
-                includedLanguages: "{{settings.base.LanguageSettings.get_list|join:"," }}",
+                pageLanguage: "{{settings.base.LanguageSettings.default_language}}",
+                includedLanguages: "{{settings.base.LanguageSettings.included_languages|join:"," }}",
                 layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
                 autoDisplay: false
             },

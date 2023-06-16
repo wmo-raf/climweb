@@ -7,8 +7,8 @@ from wagtail.models import Page
 
 from base import blocks
 from base.models import AbstractBannerWithIntroPage
-from pages.media_pages.news.models import NewsPage
-from pages.media_pages.videos.models import YoutubePlaylist
+from pages.news.models import NewsPage
+from pages.videos.models import YoutubePlaylist
 
 
 class MediaIndexPage(AbstractBannerWithIntroPage):

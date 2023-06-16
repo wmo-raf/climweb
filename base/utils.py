@@ -1,10 +1,12 @@
-import xml.etree.cElementTree as et
 import datetime
+import xml.etree.cElementTree as et
 
 import pytz
 from bs4 import BeautifulSoup
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+from base.constants import COUNTRIES
 
 
 def validate_svg(f):
@@ -127,3 +129,6 @@ def get_pytz_gmt_offset_str(tz):
 
     return gmt_offset
 
+
+def get_country_info(country_iso):
+    return COUNTRIES.get(country_iso)

@@ -24,7 +24,12 @@
     <script src='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.js'></script>
     <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
     <script>
-        const country_geom = "{{settings.base.OrganisationSetting.country.geom}}"
+        {% if settings.base.OrganisationSetting.country_info %}
+            const country_info = {{settings.base.OrganisationSetting.country_info|safe}}
+        {% else %}
+            const country_info = null
+        {% endif %}
+
         const daily_forecasts = "{{self.get_forecast_by_daterange.day_forecast|escapejs}}"
         const media_url = "{{MEDIA_URL}}"
     </script>
