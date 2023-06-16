@@ -17,28 +17,15 @@ from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
 from base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock, SocialMediaBlock
-from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT
-
-
-class Country(models.Model):
-    name = models.CharField(max_length=100, verbose_name=_("Name"))
-    iso = models.CharField(max_length=100, verbose_name=_("ISO"))
-    size = models.CharField(max_length=100, verbose_name=_("Size"))
-    geom = models.MultiPolygonField(
-        help_text=_("The paired values of points defining a polygon that delineates the affected "
-                    "area of the alert message"), null=True, srid=4326, verbose_name=_("Geometry"))
-
-    def __str__(self):
-        return self.name
+from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT, COUNTRY_CHOICES
+from base.utils import get_country_info
 
 
 @register_setting
 class OrganisationSetting(BaseSiteSetting):
+    country = models.CharField(max_length=100, blank=True, null=True, choices=COUNTRY_CHOICES,
+                               verbose_name=_("Country"))
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Organisation Name"))
-    # country
-    country = models.ForeignKey('Country', blank=True, null=True, on_delete=models.CASCADE,
-                                related_name="country_setting",
-                                verbose_name=_("Country"))
 
     phone = models.IntegerField(blank=True, null=True, help_text=_("Phone Number"), verbose_name=_("Phone number"))
     email = models.EmailField(blank=True, null=True, max_length=254, help_text=_("Email address"),
@@ -106,6 +93,7 @@ class OrganisationSetting(BaseSiteSetting):
 
     panels = [
         FieldPanel("name"),
+        FieldPanel('country'),
         MultiFieldPanel(
             [
                 FieldPanel("logo"),
@@ -123,12 +111,6 @@ class OrganisationSetting(BaseSiteSetting):
             ],
             heading=_("Error Images")
         ),
-        MultiFieldPanel(
-            [
-                FieldPanel('country'),
-            ],
-            heading=_('Country')
-        ),
 
         MultiFieldPanel([
             FieldPanel("address"),
@@ -141,6 +123,11 @@ class OrganisationSetting(BaseSiteSetting):
 
     class Meta:
         verbose_name = _("Organisation Settings")
+
+    @cached_property
+    def country_info(self):
+        if self.country:
+            return get_country_info(self.country)
 
 
 @register_setting(icon="cogs")
