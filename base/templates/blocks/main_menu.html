@@ -2,7 +2,7 @@
 
 {% if value.has_sub_items %}
     <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-item nav-item-title">
+        <a class="navbar-item nav-item-title" {% if value.page.url %}href="{{ value.page.url }}" {% endif %}>
             {{ value.label }}
         </a>
         {% if value.large_submenu %}
@@ -78,7 +78,8 @@
 {% else %}
     {% if value.page.url or value.external_url %}
         <a class="navbar-item nav-item-title"
-           {% if value.page.url %}href="{{ value.page.url }}" {% else %} href="{{ value.external_url }}" target="_blank"
+           {% if value.page.url %}href="{{ value.page.url }}" {% else %} href="{{ value.external_url }}"
+           target="_blank"
            rel="noopener norefferer" {% endif %}>
             {{ value.label }}
         </a>
