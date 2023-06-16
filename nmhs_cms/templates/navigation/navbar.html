@@ -5,7 +5,7 @@
 <header>
     <div class="container">
         <div id="google_language_translator"></div>
-        <div class="top-nav-wrapper">
+        <div class="top-nav-wrapper is-hidden-touch">
             <div class="level top-nav">
                 <div class="level-left">
                     <a class="level-item main-logo" href="/">
@@ -72,9 +72,23 @@
                 </div>
             </div>
         </div>
-
         <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
              aria-label="main navigation">
+            <div class="navbar-brand is-hidden-desktop">
+                <a class="mobile-logo" href="/">
+                    {% if settings.base.OrganisationSetting.logo %}
+                        {% image settings.base.OrganisationSetting.logo original as logo %}
+                        <img src="{{ logo.url }}" alt="Logo">
+                    {% endif %}
+                </a>
+                <div>
+                    <div class="main-nav navbar-burger burger" data-target="mainNav">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
             <div id="mainNav" class="navbar-menu">
                 <div class="navbar-start">
                     {% for block in settings.base.NavigationSettings.main_menu %}
