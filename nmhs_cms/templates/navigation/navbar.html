@@ -7,7 +7,7 @@
     <div class="container">
         <nav class="navbar top-nav" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item main-logo" href="/">
+                <a class="navbar-item main-logo" href="/" style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
                     {% if logo %}
                         <img src="{{ logo.url }}" alt="logo">
                     {% else %}
@@ -106,10 +106,13 @@
                             </form>
                         </div>
                         <div id="search-trigger" class="search-trigger">
-                            <span>Search</span>
-                            <span class="icon">
-                                <i class="fa fa-search"></i>
-                            </span>
+                            <a class="button is-small is-text px-1" style="text-decoration: none;">
+                                <span>Search</span>
+    
+                                <span class="icon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </a>
                         </div>
                     </div>
                     <div class="navbar-item">
