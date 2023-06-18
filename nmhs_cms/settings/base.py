@@ -32,14 +32,17 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 
 # Application definition
 INSTALLED_APPS = [
+
+    "wagtailiconchooser",
+
     "base",
     "pages.home",
     "pages.services",
     "pages.products",
-    "pages.media_pages.videos",
-    "pages.media_pages.news",
-    "pages.media_pages.mediacenter",
-    "pages.media_pages.publications",
+    "pages.mediacenter",
+    "pages.news",
+    "pages.videos",
+    "pages.publications",
     "pages.contact",
     "pages.feedback",
     "pages.events",
@@ -54,7 +57,7 @@ INSTALLED_APPS = [
     "pages.search",
 
     "capeditor",
-    "forecast_manager",
+    "forecastmanager",
     "geomanager",
 
     "wagtailmautic",
@@ -62,7 +65,6 @@ INSTALLED_APPS = [
     "wagtailsurveyjs",
     "wagtailmailchimp",
     "wagtailhumanitarianicons",
-    "wagtailiconchooser",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

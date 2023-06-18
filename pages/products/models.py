@@ -23,8 +23,16 @@ from pages.products.blocks import ProductItemImageContentBlock, ProductItemDocum
 class ProductIndexPage(Page):
     parent_page_types = ['home.HomePage']
     subpage_types = ['products.ProductPage']
+    template = "subpages_listing.html"
 
     max_count = 1
+
+    listing_heading = models.CharField(max_length=255, default="Explore our Products",
+                                       verbose_name=_("Products listing Heading"))
+
+    content_panels = Page.content_panels + [
+        FieldPanel("listing_heading")
+    ]
 
     class Meta:
         verbose_name = _('Product Index Page')
@@ -58,6 +66,12 @@ class ProductPage(AbstractIntroPage):
             heading=_("Other settings"),
         ),
     ]
+
+    @cached_property
+    def listing_image(self):
+        if self.introduction_image:
+            return self.introduction_image
+        return None
 
     @cached_property
     def filters(self):

@@ -90,6 +90,14 @@ class TendersPage(AbstractBannerWithIntroPage):
     class Meta:
         verbose_name = _("Tender Page")
 
+    @cached_property
+    def listing_image(self):
+        if self.banner_image:
+            return self.banner_image
+        if self.introduction_image:
+            return self.introduction_image
+        return None
+
 
 class TenderDetailPage(MetadataPageMixin, Page):
     template = 'tender_detail_page.html'

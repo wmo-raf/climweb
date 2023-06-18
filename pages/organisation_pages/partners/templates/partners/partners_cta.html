@@ -13,9 +13,11 @@
     </div>
     <div class="column is-1 is-desktop"></div>
     <div class="column is-6 has-text-left">
-        <h2 class="section-subheader">
-            {{ page.partners_cta_title }}
-        </h2>
+        {% if partners_cta_title %}
+            <h2 class="section-subheader">
+                {{ page.partners_cta_title }}
+            </h2>{% endif %}
+
         <div class="intro-description format-text">
             {{ page.partners_cta_text|richtext }}
         </div>
