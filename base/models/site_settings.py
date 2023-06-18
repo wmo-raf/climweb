@@ -169,15 +169,7 @@ class IntegrationSettings(BaseSiteSetting):
         help_text=_('Your Recaptcha Private Key'),
     )
 
-    enable_auto_forecast = models.BooleanField(
-        default=True,
-        verbose_name=_('Enable automated forecasts')
-    )
-
     edit_handler = TabbedInterface([
-        ObjectList([
-            FieldPanel('enable_auto_forecast'),
-        ], heading=_("Forecasts Integration")),
         ObjectList([
             FieldPanel('recaptcha_public_key'),
             FieldPanel('recaptcha_private_key')
@@ -329,33 +321,6 @@ class Theme(models.Model):
             )
 
         super(Theme, self).save(*args, **kwargs)
-
-
-@register_setting(icon='radio-full')
-class MeasurementSettings(BaseSiteSetting):
-    TEMPERATURE_UNITS = (
-        ("celsius", "°C"),
-        ("fareinheit", "°F"),
-        ("kelvin", "K")
-    )
-    WIND_UNITS = (
-        ("knots", "knots"),
-        ("km_p_hr", "km/h"),
-        ("mtr_p_s", "m/s"),
-        ("mile_p_hr", "mph"),
-        ("feet_p_s", "ft/s")
-    )
-    temp_units = models.CharField(choices=TEMPERATURE_UNITS, default='celsius', max_length=255,
-                                  verbose_name=_("Temperature"))
-    wind_units = models.CharField(choices=WIND_UNITS, default='km_p_hr', max_length=255, verbose_name=_("Wind"))
-
-    panels = [
-        FieldPanel("temp_units"),
-        FieldPanel("wind_units"),
-    ]
-
-    class Meta:
-        verbose_name = _("Measurement Settings")
 
 
 @register_setting

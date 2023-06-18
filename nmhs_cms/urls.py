@@ -7,7 +7,7 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
-from forecast_manager import urls as forecast_urls
+# from forecastmanager import urls as forecast_urls
 from pages.home.views import list_forecasts
 from pages.search import views as search_views
 
@@ -17,7 +17,7 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls), name='admin'),
     path("documents/", include(wagtaildocs_urls)),
-    path("forecast/", include(forecast_urls)),
+    # path("", include(forecast_urls)),
     path("list_forecast/", list_forecasts, name="list_forecasts"),
     path("cap/", include(cap_urls)),
     path("search/", search_views.search, name="search"),

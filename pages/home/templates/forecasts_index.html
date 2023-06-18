@@ -3,6 +3,101 @@
 {% block title %}{% trans "Forecasts" %}{% endblock %}
 
 {% block extra_css %}
+<style>
+    .featured-item-block {
+        display: flex;
+        justify-content: center;
+        background-color: #fff;
+        padding: 60px 0;
+        margin: 0;
+        border-radius: var(--border-radius);
+        align-items: center;
+    }
+    
+    .featured-item-image figure {
+        height: 400px;
+        width: 100%;
+    }
+    
+    .featured-item-image figure img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: var(--border-radius);
+    }
+    
+    .featured-item-detail {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 40px;
+    }
+    .featured-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .featured-item-header-tag {
+        font-size: 14px;
+        font-weight: bold;
+        color: grey;
+    
+    }
+    
+    .featured-item-readmore a {
+        font-weight: bold;
+    }
+
+
+.share-buttons {
+    display: flex;
+    overflow: hidden;
+}
+
+.share-buttons > a {
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: #eff4f8;
+    color: #006799;
+    border: none;
+    font-weight: bold;
+}
+
+.share-buttons > a:hover {
+    background-color: #e5eeee;
+    color: var(--primary-hover-color);
+}
+
+.section-title {
+    color: #262c38;
+    font-weight: 700;
+    padding: 0 0 50px 0;
+}
+
+.section-title.has-subtitle {
+    padding-bottom: 30px
+}
+
+/* 1605px and lower*/
+@media screen and (max-width: 1605px) {
+h2,
+h2.section-title {
+    font-size: 36px;
+}
+
+}
+
+/*1440px and lower*/
+@media screen and (max-width: 1440px) {
+
+    h2,
+    h2.section-title {
+        font-size: 32px
+    }
+}
+</style>
 
 {% endblock extra_css %}
 
@@ -11,39 +106,32 @@
 <main class="is-index">
     <section>
         <div class="container">
-            {% comment %} <div class="columns"> {% endcomment %}
-                {% comment %} <div class="column">        {% endcomment %}
-                     <h2 class="section-title center pb-2">7 Day City Weather Forecast</h2>
-                     <div class="share-buttons center  pb-6">
-                        <a class="button is-small is-rounded"
-                        target="_blank" rel="noopener"
-                        id="forecast_img"
-                      >
-                         
-                          <span class="share-button-title">Download Image</span>
-                          <span class="icon">
-                            <i class="fa fa-image" aria-hidden="true"></i>
-                        </span>
-                      </a>
+        <h2 class="section-title center pb-2">7 Day City Weather Forecast</h2>
+        <div class="share-buttons center  pb-6">
+        <a class="button is-small is-rounded"
+        target="_blank" rel="noopener"
+        id="forecast_img"
+        >
+            
+            <span class="share-button-title">Download Image</span>
+            <span class="icon">
+            <i class="fa fa-image" aria-hidden="true"></i>
+        </span>
+        </a>
 
-                      <a class="button is-small is-rounded"
-                      target="_blank" rel="noopener"
-                      id="forecast_pdf"
+        <a class="button is-small is-rounded"
+        target="_blank" rel="noopener"
+        id="forecast_pdf"
 
-                    >
-                       
-                        <span class="share-button-title">Download PDF</span>
-                        <span class="icon">
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                      </span>
-                    </a>
-                      
-                      </div>
-                {% comment %} </div> {% endcomment %}
-                {% comment %} <div class="column">
-                    
-                </div> {% endcomment %}
-            {% comment %} </div> {% endcomment %}
+        >
+            
+            <span class="share-button-title">Download PDF</span>
+            <span class="icon">
+                <i class="fa fa-file-pdf" aria-hidden="true"></i>
+            </span>
+        </a>
+        
+        </div>
 
         <div class="featured-item-block" style="padding:60px 30px; border-radius:2em;    flex-direction: column;"  id="forecast-table">
             {% image settings.base.OrganisationSetting.logo width-1000 as logo%}
@@ -86,8 +174,8 @@
 
                             </div>
                             <div class="column ml-1" style="text-align: start;">
-                                <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.base.MeasurementSettings.get_temp_units_display}}</h2>
-                                <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.base.MeasurementSettings.get_temp_units_display}}</h3>
+                                <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.forecastmanager.Setting.get_temp_units_display}}</h2>
+                                <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.forecastmanager.Setting.get_temp_units_display}}</h3>
 
                             </div>
 
@@ -106,7 +194,7 @@
                         <h2 class="title"
                             style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;display: flex;
                             justify-content: center;">
-                            {{item.wind_speed}} {{settings.base.MeasurementSettings.get_wind_units_display}}
+                            {{item.wind_speed}} {{settings.forecastmanager.Setting.get_wind_units_display}}
                         </h2>
                    
                     </td>

@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "pages.search",
 
     "capeditor",
-    "forecast_manager",
+    "forecastmanager",
     "geomanager",
 
     "wagtailmautic",

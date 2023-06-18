@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from django.shortcuts import render
 
 
-from forecast_manager.models import Forecast
+from forecastmanager.models import Forecast
 
 def list_forecasts(request):
 

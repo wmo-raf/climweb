@@ -43,7 +43,7 @@
                                                                 {% comment %}
                                                                     {{ first_object.propertyname }} {% endcomment %}
                                                                 <h2 class="subtitle"
-                                                                    style="font-size: 11px;white-space: break-spaces;">
+                                                                    style="font-size: 11px;">
                                                                     {{ latest_forcast.condition__title|wordwrap:10|linebreaksbr}}</h2>
                                                             </div>
 
@@ -70,8 +70,8 @@
 
                                                                     </div>
                                                                     <div class="column">
-                                                                        <h2 style="font-size:18px; font-weight:600">{{ latest_forcast.max_temp }}</h2>
-                                                                        <h3 style="font-size:13px; font-weight:600">{{ latest_forcast.min_temp }}</h3>
+                                                                        <h2 style="font-size:18px; font-weight:600">{{ latest_forcast.max_temp }} {{ settings.forecastmanager.Setting.get_temp_units_display }}</h2>
+                                                                        <h3 style="font-size:13px; font-weight:600">{{ latest_forcast.min_temp }} {{ settings.forecastmanager.Setting.get_temp_units_display }}</h3>
 
                                                                     </div>
                                                                 </div>
@@ -148,8 +148,8 @@
 
                                                             </div>
                                                             <div class="column ml-1" style="text-align: start;">
-                                                                <h2 style="font-size:14px; font-weight:600">{{ item.max_temp }} {{ settings.base.MeasurementSettings.get_temp_units_display }}</h2>
-                                                                <h3 style="font-size:10px; font-weight:600">{{ item.min_temp }} {{ settings.base.MeasurementSettings.get_temp_units_display }}</h3>
+                                                                <h2 style="font-size:14px; font-weight:600">{{ item.max_temp }} {{ settings.forecastmanager.Setting.get_temp_units_display }}</h2>
+                                                                <h3 style="font-size:10px; font-weight:600">{{ item.min_temp }} {{ settings.forecastmanager.Setting.get_temp_units_display }}</h3>
 
                                                             </div>
 
@@ -167,7 +167,7 @@
 
                                                         <h2 class="title"
                                                             style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
-                                                            {{ item.wind_speed }} {{ settings.base.MeasurementSettings.get_wind_units_display }}
+                                                            {{ item.wind_speed }} {{ settings.forecastmanager.Setting.get_wind_units_display }}
                                                         </h2>
 
 

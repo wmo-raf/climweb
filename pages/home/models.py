@@ -13,7 +13,7 @@ from wagtail_color_panel.fields import ColorField
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 from base.mixins import MetadataPageMixin
-from forecast_manager.models import City, Forecast
+from forecastmanager.models import City, Forecast
 from pages.events.models import EventPage
 from pages.news.models import NewsPage
 from pages.publications.models import PublicationPage
