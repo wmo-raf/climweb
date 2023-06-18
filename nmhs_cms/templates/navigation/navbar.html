@@ -11,6 +11,9 @@
                         {% if settings.base.OrganisationSetting.logo %}
                             {% image settings.base.OrganisationSetting.logo original as logo %}
                             <img src="{{ logo.url }}" alt="Logo">
+                        {% else %}
+
+                            N.M.H.S
                         {% endif %}
                     </a>
                 </div>

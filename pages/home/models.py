@@ -54,7 +54,7 @@ class HomePage(MetadataPageMixin, Page):
     mapviewer_cta_title = models.CharField(max_length=100, blank=True, null=True, default='Explore MapViewer',
                                            verbose_name=_('MapViewer Call to Action Title'))
     mapviewer_cta_url = models.URLField(blank=True, null=True, verbose_name=_("Mapviewer URL"), )
-    enable_media = models.BooleanField(default=True, verbose_name=_("Enable media section"))
+    enable_media = models.BooleanField(default=False, verbose_name=_("Enable media section"))
     video_section_title = models.CharField(max_length=100, blank=True, null=True, default='Latest Media',
                                            verbose_name=_('Media Section Title'), )
     video_section_desc = models.TextField(max_length=500, blank=True, null=True,
