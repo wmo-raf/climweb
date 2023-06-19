@@ -9,8 +9,8 @@
                     <div>
                         <a class="footer-logo" href="/">
                             <figure class="image">
-                                {% if settings.base.OrganisationSetting.logo %}
-                                    {% image settings.base.OrganisationSetting.logo width-1000 as footer_logo %}
+                                {% if settings.base.OrganisationSetting.footer_logo %}
+                                    {% image settings.base.OrganisationSetting.footer_logo width-1000 as footer_logo %}
                                     <img src="{{ footer_logo.url }}" alt="Logo">
                                 {% endif %}
                             </figure>
