@@ -27,12 +27,13 @@
                                             </span>
                                             <span class="category-title">{{ category.name }}</span>
                                         </div>
-                                        <div class="tabs" role="tablist">
+                                        <div class="tabs" role="tablist" style="white-space:normal">
                                             {% for slug, product_item  in products.items %}
                                                 {% if product_item.value.product_item_type.category.id == category_id %}
                                                     <a class="tab" id="tab-label-content"
                                                        href="#tab-{{ slug }}"
-                                                       role="tab" aria-controls="tab-{{ slug }}">
+                                                       role="tab" aria-controls="tab-{{ slug }}" 
+                                                       style="border-bottom-style:none !important">
                                                         {{ product_item.value.product_item_type.name }}
                                                     </a>
                                                 {% endif %}
