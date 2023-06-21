@@ -23,7 +23,7 @@ urlpatterns = [
     path("search/", search_views.search, name="search"),
 
     path("", include("geomanager.urls")),
-    path("", include("django_nextjs.urls")),
+    # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
 ]
 

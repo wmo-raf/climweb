@@ -345,8 +345,8 @@ SOCIAL_MEDIA_SHARE_CONFIG = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 NEXTJS_SETTINGS = {
-    "nextjs_server_url": os.getenv("NEXTJS_SERVER_URL", "http://localhost:3000"),
+    "nextjs_server_url": env.str("NEXTJS_SERVER_URL"),
 }
-FORCE_SCRIPT_NAME=os.getenv("FORCE_SCRIPT_NAME", "")
+FORCE_SCRIPT_NAME=env.str("FORCE_SCRIPT_NAME")
 
 WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
