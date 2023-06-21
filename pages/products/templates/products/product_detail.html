@@ -80,7 +80,7 @@
                                                 {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
                                             </div>
                                         {% elif product_item.block_type == "document_product" %}
-                                            <div class="product-item-doc-container box">
+                                            <div class="product-item-doc-container box {{box_shadow}}">
                                                 <figure class="product-item-doc">
                                                     {% if  product_item.value.thumbnail %}
                                                         {% image product_item.value.thumbnail original as product_item_thumbnail %}
