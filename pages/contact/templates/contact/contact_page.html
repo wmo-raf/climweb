@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static lazyimages_tags wagtailcore_tags widget_tweaks %}
+{% load static lazyimages_tags wagtailcore_tags widget_tweaks wagtailiconchooser_tags %}
 {% block extra_css %}
     {{ block.super }}
     <link href='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.css' rel='stylesheet'/>
@@ -84,48 +84,29 @@
 
                                 {% endif %}
 
-                                <div class="block pt-3">
+                                {% if settings.base.OrganisationSetting.email or settings.base.OrganisationSetting.phone  %}
 
-                                    {% if settings.base.OrganisationSetting.instagram %}
-                                        <span class="icon">
-                                            <a href="{{ settings.base.OrganisationSetting.instagram }}"
-                                               style="color:black" target="_blank" rel="noopener noreferrer">
+                                    <div class="block pt-5">
+                                        <h2 class="title" style="font-size:20px"><i class="fa-solid fa-phone"></i>
+                                            Contact</h2>
+                                        <p>{{ settings.base.OrganisationSetting.email }}</p>
+                                        <p>{{ settings.base.OrganisationSetting.phone }}</p>
+                                    </div>
 
-                                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                                {% endif %}
+
+
+                                <div class="block pt-3" style="display: flex;">
+
+                                        {% for account in settings.base.OrganisationSetting.social_media_accounts %}
+                                            <a title="{{ account.value.name }}" href="{{ account.value.full_url }}" target="_blank"
+                                               rel="noopener"
+                                               class="footer-social"
+                                               style="color:black"
+                                            >
+                                                <span class="social-icon">{% svg_icon name=account.value.icon %}</span>
                                             </a>
-
-                                        </span>
-
-                                    {% endif %}
-
-                                    {% if settings.base.OrganisationSetting.twitter %}
-
-                                        <span class="icon">
-                                            <a href="{{ settings.base.OrganisationSetting.twitter }}"
-                                               style="color:black" target="_blank" rel="noopener noreferrer">
-
-                                                <i class="fa fa-twitter" aria-hidden="true"></i>
-                                            </a>
-                                        </span>
-                                    {% endif %}
-
-                                    {% if settings.base.OrganisationSetting.facebook %}
-                                        <span class="icon">
-                                            <a href="{{ settings.base.OrganisationSetting.facebook }}"
-                                               style="color:black" target="_blank" rel="noopener noreferrer">
-                                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                                            </a>
-
-                                        </span>
-                                    {% endif %}
-                                    {% if settings.base.OrganisationSetting.youtube %}
-                                        <span class="icon">
-                                            <a href="{{ settings.base.OrganisationSetting.youtube }}"
-                                               style="color:black" target="_blank" rel="noopener noreferrer">
-                                                <i class="fa fa-youtube" aria-hidden="true"></i>
-                                            </a>
-                                        </span>
-                                    {% endif %}
+                                        {% endfor %}
                                 </div>
                             </div>
                         </div>

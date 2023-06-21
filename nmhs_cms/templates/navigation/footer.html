@@ -7,10 +7,10 @@
             <div class="columns is-mobile is-multiline" style="margin: 0">
                 <div class="column is-half-mobile is-one-quarter-desktop" style="margin-bottom: 20px">
                     <div>
-                        <a class="footer-logo" href="/">
+                        <a class="footer-logo" href="{{HTTP_HOST}}">
                             <figure class="image">
                                 {% if settings.base.OrganisationSetting.footer_logo %}
-                                    {% image settings.base.OrganisationSetting.footer_logo width-1000 as footer_logo %}
+                                    {% image settings.base.OrganisationSetting.footer_logo width-200 as footer_logo %}
                                     <img src="{{ footer_logo.url }}" alt="Logo">
                                 {% endif %}
                             </figure>
