@@ -1,0 +1,157 @@
+
+.event-register-button {
+    font-weight: bold;
+    color: #009997;
+    border-color: #009997;
+    background-color: transparent;
+}
+
+.event-register-button:hover {
+    color: #006d6b;
+    border-color: #006d6b;
+}
+
+
+.event-detail-title {
+    padding-bottom: 40px;
+    padding-left: 10px;
+
+}
+
+.event-detail-body {
+    background-color: #F8F9FB;
+    padding: 40px;
+    border-radius: 20px;
+}
+
+
+.event-detail-meta {
+    padding-bottom: 20px;
+
+}
+
+.event-meta-item {
+    display: flex;
+    padding-bottom: 10px;
+}
+
+.event-meta-item-pre {
+    display: flex;
+}
+
+.event-meta-item-icon {
+    height: 20px;
+    width: 20px;
+}
+
+.event-meta-item-icon > * {
+    height: 100%;
+    width: 100%;
+}
+
+.event-meta-item-title {
+    padding-left: 8px;
+}
+
+.event-meta-item-title span {
+    font-weight: bold;
+}
+
+.event-detail-image {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.panelists-heading {
+    padding-bottom: 40px;
+}
+
+
+.event-detail-image figure {
+    height: 250px;
+    width: 100%;
+}
+
+.event-detail-image figure img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+
+.event-detail-description {
+    padding-left: 30px;
+}
+
+.event-detail-description .rich-text {
+    padding-bottom: 30px;
+}
+
+
+.event-detail-materials {
+    padding: 20px 0;
+
+}
+
+.event-detail-materials .event-detail-materials-header {
+    padding-bottom: 20px;
+}
+
+.event-additional-material {
+    color: #009997;
+    font-weight: bold;
+}
+
+.event-additional-material:hover {
+    color: #006d6b;
+    text-decoration: underline;
+}
+
+.event-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.event-actions > * {
+    margin-right: 20px;
+}
+
+.event-stream {
+    height: 350px;
+}
+
+
+.event-detail-description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*768px and lower*/
+@media screen and (max-width: 768px) {
+
+    .share-button-title {
+        display: none;
+    }
+
+    .event-actions > * {
+        margin-right: 0;
+    }
+
+    .event-detail-body {
+        padding: 20px;
+        border-radius: 0;
+    }
+
+    .event-detail-description {
+        padding-left: 20px;
+    }
+
+    .event-stream {
+        height: 300px;
+    }
+
+
+}
