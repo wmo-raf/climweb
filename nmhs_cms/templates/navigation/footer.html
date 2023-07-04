@@ -10,7 +10,7 @@
                         <a class="footer-logo" href="{{HTTP_HOST}}">
                             <figure class="image">
                                 {% if settings.base.OrganisationSetting.footer_logo %}
-                                    {% image settings.base.OrganisationSetting.footer_logo width-200 as footer_logo %}
+                                    {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}
                                     <img src="{{ footer_logo.url }}" alt="Logo">
                                 {% endif %}
                             </figure>
