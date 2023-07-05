@@ -88,7 +88,7 @@ $(document).ready(function () {
     function setForecastData(forecast_date) {
 
         // Make an HTTP GET request to the API endpoint
-        fetch(`/api/forecasts?forecast_date=${forecast_date}`)
+        fetch(`/cms/api/forecasts?forecast_date=${forecast_date}`)
             .then(response => response.json())  // Parse the response as JSON
             .then(data => {
                 // Process the retrieved data
@@ -103,7 +103,7 @@ $(document).ready(function () {
                         }
 
                     }
-                    img.src = `${icon.properties.condition_icon}`
+                    img.src = `/cms${icon.properties.condition_icon}`
                     return img.src
 
                 })
