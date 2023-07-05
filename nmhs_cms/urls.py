@@ -6,6 +6,7 @@ from django.urls import include, path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from forecastmanager import urls as forecastmanager_urls
 
 # from forecastmanager import urls as forecast_urls
 from pages.home.views import list_forecasts
@@ -25,6 +26,8 @@ urlpatterns = [
     path("", include("geomanager.urls")),
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
+    path("", include(forecastmanager_urls)),
+
 ]
 
 if settings.DEBUG:

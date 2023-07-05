@@ -7,8 +7,14 @@ $(document).ready(function () {
         center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
         zoom: 4.2, // starting zoom
         scrollZoom: false,
-
     });
+
+    // Create a popup object
+    var popup = new maplibregl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
 
     // Add zoom and rotation controls to the map.
     forecast_map.addControl(new maplibregl.NavigationControl());
@@ -19,13 +25,115 @@ $(document).ready(function () {
         })
         .get();
 
+    function populateMap(data) {
+        forecast_map.addSource("city-forecasts", {
+            type: "geojson",
+            data: data
+        })
+
+        forecast_map.addLayer({
+            "id": "city-forecasts",
+            "type": "symbol",
+            "layout": {
+                'icon-image': ['get', 'condition_icon'],
+                'icon-size': 0.3,
+                'icon-allow-overlap': true
+            },
+            source: "city-forecasts"
+        })
+
+        forecast_map.addLayer({
+            id: "city-forecasts-max_temp",
+            source: "city-forecasts",
+            type: "symbol",
+            'layout': {
+                'text-offset': [2, -0.5],
+                'text-field': ['concat', ['get', 'max_temp'], temp_units],
+                'text-allow-overlap': true,
+                'icon-allow-overlap': true
+
+            },
+            'paint': {
+                'text-halo-color': '#fff',
+                'text-halo-width': 2,
+
+
+            }
+
+        })
+        forecast_map.addLayer({
+            id: "city-forecasts-min_temp",
+            source: "city-forecasts",
+            type: "symbol",
+            'layout': {
+                'text-offset': [2.5, 0.5],
+                'text-field': ['concat', ['get', 'min_temp'], temp_units],
+                'text-size': 12,
+                'text-allow-overlap': true,
+                'icon-allow-overlap': true
+
+
+            },
+            'paint': {
+                'text-halo-color': '#fff',
+                'text-halo-width': 2,
+
+            }
+
+        })
+
+
+    }
+
+    function setForecastData(forecast_date) {
+
+        // Make an HTTP GET request to the API endpoint
+        fetch(`/api/forecasts?forecast_date=${forecast_date}`)
+            .then(response => response.json())  // Parse the response as JSON
+            .then(data => {
+                // Process the retrieved data
+                data.map(icon => {
+
+
+                    let img = new Image()
+
+                    img.onload = () => {
+                        if (!forecast_map.hasImage(icon.properties.condition_icon)) {
+                            return forecast_map.addImage(`${icon.properties.condition_icon}`, img)
+                        }
+
+                    }
+                    img.src = `${icon.properties.condition_icon}`
+                    return img.src
+
+                })
+                // Access and use the data as needed                
+                populateMap({
+                    type: "FeatureCollection",
+                    features: data
+                })
+
+
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the request
+                console.error('Error:', error);
+            });
+
+    }
+
+    var initDate = document.getElementById("daily_forecast");
+    setForecastData(initDate.value)
+
+
+
     forecast_map.on("load", () => {
 
         if (country_info && country_info.bbox) {
 
             const bbox = country_info.bbox
 
-            forecast_map.fitBounds(bbox, {padding: 20});
+            forecast_map.fitBounds(bbox, { padding: 20 });
         }
 
         if (allAreas.length > 0) {
@@ -118,244 +226,64 @@ $(document).ready(function () {
             });
         }
 
-        var cityForecasts = JSON.parse(daily_forecasts.replace(/'/g, '"'))
-        if (cityForecasts) {
-            // load svg icons as symbols
-            cityForecasts.map(forecast => {
-                return forecast.forecast_features.features.map(city => {
+
+        // When a click event occurs on a feature in the places layer, open a popup at the
+        // location of the feature, with description HTML from its properties.
+        forecast_map.on("mouseenter", "city-forecasts", (e) => {
+            // Get the feature that was hovered over
+            var feature = e.features[0];
+            forecast_map.getCanvas().style.cursor = "pointer";
+
+            // Copy coordinates array.
+            const city_name = feature.properties.city_name;
+            const condition_desc = feature.properties.condition;
+            const min_temp = feature.properties.min_temp;
+            const max_temp = feature.properties.max_temp;
 
 
-                    let img = new Image()
+            popup.setLngLat(feature.geometry.coordinates)
+                .setHTML(`
+                        <div class="block" style="margin:10px; width:200px">
+                            <h2 class="title" style="font-size:18px;">${city_name}</h2> 
+                            <h2 class="subtitle" style="font-size:14px;">${condition_desc}</h2> 
+                            <hr> 
+                            <p><b>Min Temperature: </b>${min_temp} °C</p> 
+                            <p><b>Max Temperature: </b>${max_temp} °C</p> 
+                        </div>`)
+                .addTo(forecast_map);
+        })
+        //  i am here    
 
-                    img.onload = () => {
-                        if (!forecast_map.hasImage(city.properties.condition_icon)) {
-                            return forecast_map.addImage(`${city.properties.condition_icon}`, img)
-                        }
+        // Change it back to a pointer when it leaves.
+        forecast_map.on("mouseleave", "city-forecasts", () => {
+            popup.remove()
+            forecast_map.getCanvas().style.cursor = "";
+        });
 
-                    }
-                    img.src = `${media_url}${city.properties.condition_icon}`
-                    return img.src
-
-                })
-            })
-            // initial loading of forecasts
-            forecast_map.addSource("city-forecasts", {
-                type: "geojson",
-                data: cityForecasts && !!cityForecasts.length && cityForecasts[0].forecast_features
-            })
-
-            forecast_map.addLayer({
-                id: "city-forecasts",
-                source: "city-forecasts",
-                type: "symbol",
-                'layout': {
-                    'icon-image': ['get', 'condition_icon'],
-                    'icon-size': 0.3,
-                    'icon-allow-overlap': true,
-                    'text-allow-overlap': true,
-
-                },
-                'paint': {
-                    // 'icon-halo-color': 'red',
-                    // 'icon-halo-width': 100,
-                    // 'icon-color': '#fff',
-                    // 'icon-halo-blur': 100,
-                }
-            })
-            forecast_map.addLayer({
-                id: "city-forecasts-max_temp",
-                source: "city-forecasts",
-                type: "symbol",
-                'layout': {
-                    'text-offset': [2, -0.5],
-                    'text-field': ['concat', ['get', 'max_temp'], '°C'],
-                    'text-allow-overlap': true,
-                    'icon-allow-overlap': true
-
-                },
-                'paint': {
-                    'text-halo-color': '#fff',
-                    'text-halo-width': 2,
-
-
-                }
-
-            })
-            forecast_map.addLayer({
-                id: "city-forecasts-min_temp",
-                source: "city-forecasts",
-                type: "symbol",
-                'layout': {
-                    'text-offset': [2.5, 0.5],
-                    'text-field': ['concat', ['get', 'min_temp'], '°C'],
-                    'text-size': 12,
-                    'text-allow-overlap': true,
-                    'icon-allow-overlap': true
-
-
-                },
-                'paint': {
-                    'text-halo-color': '#fff',
-                    'text-halo-width': 2,
-
-                }
-
-            })
-
-            // toggle forecasts by selected date 
-            $('#daily_forecast').on('change', function (e) {
-                var optionSelected = $("option:selected", this);
-                var valueSelected = this.value;
-                var selectedForecast = cityForecasts.find(forecast => forecast.forecast_date === valueSelected)
-
-                if (forecast_map.getLayer("city-forecasts")) {
-                    forecast_map.removeLayer("city-forecasts");
-                }
-                if (forecast_map.getLayer("city-forecasts-max_temp")) {
-                    forecast_map.removeLayer("city-forecasts-max_temp");
-                }
-
-                if (forecast_map.getLayer("city-forecasts-min_temp")) {
-                    forecast_map.removeLayer("city-forecasts-min_temp");
-                }
-                if (forecast_map.getSource("city-forecasts")) {
-                    forecast_map.removeSource("city-forecasts");
-                }
-
-
-                forecast_map.addSource("city-forecasts", {
-                    type: "geojson",
-                    data: selectedForecast.forecast_features
-                })
-
-                forecast_map.addLayer({
-                    id: "city-forecasts",
-                    source: "city-forecasts",
-                    type: "symbol",
-                    'layout': {
-                        'icon-image': ['get', 'condition_icon'],
-                        'icon-size': 0.3,
-                        'icon-allow-overlap': true,
-                        'text-allow-overlap': true,
-
-
-                    },
-                    // 'paint': {
-                    //     'icon-halo-color': 'red',
-                    //     'icon-halo-width': 10,
-                    //     'icon-color': '#fff',
-                    //     'icon-halo-blur': 10
-                    // }
-                })
-                // map.addLayer({
-                //   id: "city-forecasts-shadow",
-                //   source: "city-forecasts",
-                //   type: "circle",
-                //   'layout': {
-                //     // 'icon-image': ['get', 'condition_icon'],
-                //     // 'icon-size': 0.25,
-                //     // 'icon-allow-overlap': true
-
-                //   },
-                //   'paint': {
-                //     // 'icon-halo-color': 'red',
-                //     // 'icon-halo-width': 10,
-                //     // 'icon-color': '#fff',
-                //     // 'icon-halo-blur': 10
-                //   }
-                // })
-
-                forecast_map.addLayer({
-                    id: "city-forecasts-max_temp",
-                    source: "city-forecasts",
-                    type: "symbol",
-                    'layout': {
-                        'text-offset': [2, -0.5],
-                        'text-field': ['concat', ['get', 'max_temp'], '°C'],
-                        'text-allow-overlap': true,
-                        'icon-allow-overlap': true,
-
-                    },
-                    'paint': {
-                        'text-halo-color': '#fff',
-                        'text-halo-width': 2,
-
-                    }
-
-                })
-                forecast_map.addLayer({
-                    id: "city-forecasts-min_temp",
-                    source: "city-forecasts",
-                    type: "symbol",
-                    'layout': {
-                        'text-offset': [2.5, 0.5],
-                        'text-field': ['concat', ['get', 'min_temp'], '°C'],
-                        'text-size': 12,
-                        'text-allow-overlap': true,
-                        'icon-allow-overlap': true,
-
-
-                    },
-                    'paint': {
-                        'text-halo-color': '#fff',
-                        'text-halo-width': 2,
-
-                    }
-
-                })
-            });
-
-            // Create a popup object
-            var popup = new maplibregl.Popup({
-                closeButton: false,
-                closeOnClick: false
-            });
-
-
-            // When a click event occurs on a feature in the places layer, open a popup at the
-            // location of the feature, with description HTML from its properties.
-            forecast_map.on("mouseenter", "city-forecasts", (e) => {
-                // Get the feature that was hovered over
-                var feature = e.features[0];
-                forecast_map.getCanvas().style.cursor = "pointer";
-
-                // Copy coordinates array.
-                const city_name = feature.properties.city_name;
-                const condition_desc = feature.properties.condition_desc;
-                const min_temp = feature.properties.min_temp;
-                const max_temp = feature.properties.max_temp;
-                const wind_direction = feature.properties.wind_direction;
-                const wind_speed = feature.properties.wind_speed;
-
-
-                popup.setLngLat(feature.geometry.coordinates)
-                    .setHTML(`
-                <div class="block" style="margin:10px; width:200px">
-                    <h2 class="title" style="font-size:18px;">${city_name}</h2> 
-                    <h2 class="subtitle" style="font-size:14px;">${condition_desc}</h2> 
-                    <hr> 
-                    <p><b>Min Temperature: </b>${min_temp} °C</p> 
-                    <p><b>Max Temperature: </b>${max_temp} °C</p> 
-                    <p><b>Wind Direction: </b>${wind_direction} °</p> 
-                    <p><b>Wind Speed: </b>${wind_speed} km/hr</p>
-                </div>`)
-                    .addTo(forecast_map);
-            });
-
-            // // Change the cursor to a pointer when the mouse is over the places layer.
-            // forecast_map.on("mouseenter", "city-forecasts", () => {
-            //     forecast_map.getCanvas().style.cursor = "pointer";
-            // });
-
-            // Change it back to a pointer when it leaves.
-            forecast_map.on("mouseleave", "city-forecasts", () => {
-                popup.remove()
-                forecast_map.getCanvas().style.cursor = "";
-            });
-
-        }
 
     })
-// }
+
+    // toggle forecasts by selected date 
+    $('#daily_forecast').on('change', function (e) {
+        var valueSelected = this.value;
+
+        if (forecast_map.getLayer("city-forecasts")) {
+            forecast_map.removeLayer("city-forecasts");
+        }
+        if (forecast_map.getLayer("city-forecasts-max_temp")) {
+            forecast_map.removeLayer("city-forecasts-max_temp");
+        }
+
+        if (forecast_map.getLayer("city-forecasts-min_temp")) {
+            forecast_map.removeLayer("city-forecasts-min_temp");
+        }
+        if (forecast_map.getSource("city-forecasts")) {
+            forecast_map.removeSource("city-forecasts");
+        }
+
+        setForecastData(valueSelected)
+
+    });
+    // }
 
 });
