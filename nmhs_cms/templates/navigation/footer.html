@@ -7,7 +7,7 @@
             <div class="columns is-mobile is-multiline" style="margin: 0">
                 <div class="column is-half-mobile is-one-quarter-desktop" style="margin-bottom: 20px">
                     <div>
-                        <a class="footer-logo" href="{{HTTP_HOST}}">
+                        <a class="footer-logo" href="{{request.get_full_path}}">
                             <figure class="image">
                                 {% if settings.base.OrganisationSetting.footer_logo %}
                                     {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}
