@@ -37,7 +37,8 @@ class HomePage(MetadataPageMixin, Page):
         'events.EventIndexPage',
         'surveys.SurveyPage',
         'email_subscription.MailchimpMailingListSubscriptionPage',
-        'email_subscription.MauticMailingListSubscriptionPage'
+        'email_subscription.MauticMailingListSubscriptionPage',
+        'data_request.DataRequestPage'
     ]
     parent_page_type = [
         'wagtailcore.Page'

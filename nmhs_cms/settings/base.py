@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "pages.email_subscription",
     "pages.surveys",
     "pages.search",
+    "pages.data_request",
 
     "capeditor",
     "forecastmanager",
@@ -115,6 +116,7 @@ INSTALLED_APPS = [
     "bulma",
     "mailchimp3",
     "manifest_loader",
+    
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static wagtailcore_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -32,7 +32,8 @@
 
         const temp_units = "{{settings.forecastmanager.ForecastSetting.get_temp_units_display}}"
 
-        const BASE_PATH = "{{request.get_full_path}}"
+        const BASE_PATH = "{{ request.scheme }}://{{ request.get_host }}{{request.get_full_path}}"
+       
         console.log(BASE_PATH)
     </script>
 
