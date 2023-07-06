@@ -5,8 +5,9 @@
     <h2 class="section-subheader" style="text-align:center">
         {{ value.title }}
     </h2>
-    <div class="intro-description">
-        <table class="table is-striped">
+    <div class="card elevation-0">
+        <div class="card-content mx-6">
+        <table class="table is-striped" style="width:100%">
             {% for data in value.table.data %}
             
                 {% if forloop.first %}
@@ -19,7 +20,14 @@
                 {% else %}
                 <tr>
                     {% for val in data %}
+                        {% if forloop.first %}
+                        <th>{{val}}</th>
+
+                        {% else %}
                         <td>{{val}}</td>
+
+
+                        {% endif %}
                     {% endfor %}
                 </tr>
 
@@ -31,6 +39,7 @@
             {% endfor %}
             
         </table>
+    </div>
     </div>
     
 </div>
