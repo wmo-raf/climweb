@@ -118,6 +118,7 @@ INSTALLED_APPS = [
     "bulma",
     "mailchimp3",
     "manifest_loader",
+    "adminboundarymanager"
     
 ]
 
