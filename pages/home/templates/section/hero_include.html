@@ -25,7 +25,7 @@
 
 
                 <!-- forecasts section  -->
-                {% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
+                {% if self.enable_weather_forecasts %}
 
                     <div class="columns is-justify-content-center" style="position:inherit;z-index: 1 ">
                         <div class="column is-11">
@@ -33,7 +33,7 @@
                                 <!-- tabs  -->
                                 <div class="tabs is-boxed is-centered" style="background-color:transparent">
                                     <ul>
-                                        {% for forecasts in self.get_forecast_by_city.forecasts %}
+                                        {% for forecasts in self.get_forecast_by_city.forecasts  %}
                                             <li class="is-active box animate__animated" style="text-align: left;">
                                                 {% with forecasts.forecast_items|first as latest_forcast %}
                                                     <div class="city active">
@@ -46,7 +46,7 @@
                                                                     {{ first_object.propertyname }} {% endcomment %}
                                                                 <h2 class="subtitle"
                                                                     style="font-size: 11px;">
-                                                                    {{ latest_forcast.condition|wordwrap:10|linebreaksbr}}</h2>
+                                                                    {{ latest_forcast.condition_display|wordwrap:10|linebreaksbr}}</h2>
                                                             </div>
 
                                                             <div class="column"
@@ -62,10 +62,12 @@
 
                                                                         {% if latest_forcast.condition %}
                                                                             <figure class="image forecast-icon"
-                                                                                    style="width:50px;height:50px;display: inline-flex;">
+                                                                                    style="width:50px;height:50px;display: inline-flex;" 
+                                                                                    >
                                                                                 <img
                                                                                         src="{% static 'forecastmanager/img/'|add:latest_forcast.condition|add:'.png' %}"
                                                                                         alt="{{ latest_forcast.condition }}"
+                                                                                        title="{{latest_forcast.condition_display}}"
                                                                                 />
                                                                             </figure>
                                                                         {% endif %}
@@ -92,6 +94,7 @@
                                                                         <img
                                                                                 src="{% static 'forecastmanager/img/'|add:latest_forcast.condition|add:'.png' %}"
                                                                                 alt="{{ latest_forcast.condition }}"
+                                                                                title="{{latest_forcast.condition_display}}"
                                                                         />
                                                                     </figure>
                                                                 {% endif %}

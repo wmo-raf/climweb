@@ -8,6 +8,8 @@ from wagtailiconchooser.blocks import IconChooserBlock
 
 from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
+from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
 
 
 class AbstractFormBlock(blocks.StructBlock):
@@ -39,6 +41,31 @@ class AbstractFormBlock(blocks.StructBlock):
         handler = None
         method = 'POST'
         icon = 'form'
+
+
+class TitleTextImageBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
+                                          help_text=_("Section title"), )
+    text = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Section Text'),
+                                      help_text=_("Section description"))
+    image =  ImageChooserBlock(required=False)
+
+    class Meta:
+        template = "streams/title_text_image.html"
+        icon = "placeholder"
+        label = "Title, Text and Image"
+
+class TitleTextBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
+                                          help_text=_("Section title"), )
+    text = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Section Text'),
+                                      help_text=_("Section description"))
+
+    class Meta:
+        template = "streams/title_text.html"
+        icon = "placeholder"
+        label = "Title and Text"
+
 
 
 class FeatureBlock(blocks.StructBlock):
@@ -79,6 +106,37 @@ class CollapsibleBlock(blocks.StructBlock):
         icon = "placeholder"
         label = "Collapsible Block"
 
+
+
+class AccordionBlock(blocks.StructBlock):
+    title = blocks.CharBlock(required=True)
+    collapsibles = blocks.StreamBlock([
+        ('collapsibles', CollapsibleBlock())
+    ])
+
+    class Meta:
+        template = "streams/accordion.html"
+        icon = "placeholder"
+        label = "Accordion"
+
+
+class TableInfoBlock(blocks.StructBlock):
+    title = blocks.CharBlock(required=True)
+    table = TableBlock(table_options={
+        'colHeaders': False,
+        'rowHeaders': False,
+    })
+    
+
+    class Meta:
+        template = "streams/table_block.html"
+
+class TableType(blocks.StreamBlock):
+    type_table   = blocks.StreamBlock([
+        ('type_table',TypedTableBlock([
+            ('rich_text',blocks.RichTextBlock() )
+        ]))
+    ])
 
 class WhatWeDoBlock(blocks.StructBlock):
     icon = blocks.CharBlock(required=False)

@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "pages.surveys",
     "pages.search",
     "pages.data_request",
+    "pages.flex_page",
 
     "capeditor",
     "forecastmanager",
@@ -73,6 +74,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     "wagtail.contrib.routable_page",
     'wagtail.contrib.search_promotions',
+    "wagtail.contrib.table_block",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",

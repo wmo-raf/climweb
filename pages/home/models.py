@@ -38,7 +38,8 @@ class HomePage(MetadataPageMixin, Page):
         'surveys.SurveyPage',
         'email_subscription.MailchimpMailingListSubscriptionPage',
         'email_subscription.MauticMailingListSubscriptionPage',
-        'data_request.DataRequestPage'
+        'data_request.DataRequestPage',
+        'flex_page.FlexPage'
     ]
     parent_page_type = [
         'wagtailcore.Page'
@@ -129,7 +130,7 @@ class HomePage(MetadataPageMixin, Page):
             for item in city_data['forecast_items']:
                 # date_obj = datetime.strptime( item['forecast_date'], '%Y-%m-%d').date()
                 item['forecast_date'] = item['forecast_date'].strftime('%a %d, %b').replace(' 0', ' ')
-
+                item['condition_display'] = dict(Forecast.CONDITION_CHOICES).get(item['condition'])
             grouped_forecast.append(city_data)
 
         return {

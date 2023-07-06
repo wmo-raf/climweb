@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags wagtailsettings_tags %}
+{% get_settings use_default_site=True %}
+{% wagtail_site as current_site %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}"> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}flex-page{% endblock %}
+
+{% block content %}
+<main class="is-index">
+
+    {% include 'hero.html' with page=page %}
+
+    {% if page.content %}
+    {% for block in page.content %}
+
+        <section class="feature-block-section">
+                {% include_block block %}
+        </section>
+    {% endfor %}
+
+    {% endif %}
+
+</main>
+{% endblock %}
+
+{% block extra_js %}
+
+    <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
+    <script src="{% static 'js/jquery.event.move.js' %}"></script>
+    <script src="{% static 'js/jquery.twentytwenty.js' %}"></script>
+    <script>
+        // If on smaller screens, collapse all filter items
+        $(document).ready(function () {
+            const windowWidth = $(window).width();
+
+            if (windowWidth <= 768) {
+                //for  smaller devices
+                $('.js-accordion-item').removeClass('active');
+            }
+
+            accordion.init({oneOpen: true})
+        })
+    </script>
+
+{% endblock %}

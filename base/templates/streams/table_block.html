@@ -1,0 +1,38 @@
+{% load wagtailcore_tags %}
+
+<div class="work container">
+
+    <h2 class="section-subheader" style="text-align:center">
+        {{ value.title }}
+    </h2>
+    <div class="intro-description">
+        <table class="table is-striped">
+            {% for data in value.table.data %}
+            
+                {% if forloop.first %}
+                <tr>
+                    {% for val in data %}
+                        <th>{{val}}</th>
+                    {% endfor %}
+                </tr>
+                
+                {% else %}
+                <tr>
+                    {% for val in data %}
+                        <td>{{val}}</td>
+                    {% endfor %}
+                </tr>
+
+                {% endif %}
+                
+                
+        
+            
+            {% endfor %}
+            
+        </table>
+    </div>
+    
+</div>
+
+
