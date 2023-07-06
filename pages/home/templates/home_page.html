@@ -32,10 +32,8 @@
 
         const temp_units = "{{settings.forecastmanager.ForecastSetting.get_temp_units_display}}"
         const forecast_api = "{% url 'forecast-list'%}"
-
-        function getIconPath(icon_name){
-            return `{% static 'forecastmanager/img/${icon_name}' %}`
-        }
+        const static_path = '{% static "" %}'
+        console.log(static_path)
     </script>
 
     <script type="text/javascript" src="{% static 'js/basemap.js' %}"></script>
