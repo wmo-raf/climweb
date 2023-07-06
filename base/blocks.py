@@ -131,12 +131,6 @@ class TableInfoBlock(blocks.StructBlock):
     class Meta:
         template = "streams/table_block.html"
 
-class TableType(blocks.StreamBlock):
-    type_table   = blocks.StreamBlock([
-        ('type_table',TypedTableBlock([
-            ('rich_text',blocks.RichTextBlock() )
-        ]))
-    ])
 
 class WhatWeDoBlock(blocks.StructBlock):
     icon = blocks.CharBlock(required=False)

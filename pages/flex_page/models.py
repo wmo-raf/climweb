@@ -21,7 +21,6 @@ class FlexPage(AbstractBannerPage):
             ("title_text_image", blocks.TitleTextImageBlock()),
             ("accordion", blocks.AccordionBlock()),
             ("table", blocks.TableInfoBlock()),
-            # ("table_type", blocks.TableType())
 
         ],
         null=True,
