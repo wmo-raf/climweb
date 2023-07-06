@@ -32,9 +32,9 @@
 
         const temp_units = "{{settings.forecastmanager.ForecastSetting.get_temp_units_display}}"
         const forecast_api = "{% url 'forecast-list'%}"
-        const static_path = '{% static "" %}'
+        const static_path = '{% static "forecastmanager/img/" %}'
 
-        console.log(`${static_path}forecastmanager/img/`)
+        console.log(`${static_path}`)
     </script>
 
     <script type="text/javascript" src="{% static 'js/basemap.js' %}"></script>

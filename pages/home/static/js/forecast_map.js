@@ -102,7 +102,7 @@ $(document).ready(function () {
                         }
 
                     }
-                    img.src = `${static_path}forecastmanager/img/${icon.properties.condition_icon}`
+                    img.src = `${static_path}${icon.properties.condition_icon}`
                     return img.src
 
                 })
