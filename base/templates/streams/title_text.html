@@ -1,0 +1,27 @@
+{% block extra_css %}
+
+<style>
+
+    ul{
+        list-style:revert !important; 
+        padding-left:10px;
+    }
+</style>
+
+
+{% endblock extra_css %}
+
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+
+    <div class="work container">
+
+        <h2 class="section-subheader" style="text-align:center">
+            {{ value.title }}
+        </h2>
+        <div class="intro-description">
+            {{ value.text|richtext }}
+        </div>
+        
+    </div>
+
+

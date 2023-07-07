@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load i18n wagtailadmin_tags static wagtailimages_tags wagtailcore_tags %}
+
+
+{% block title %}{% trans "Daily Weather" %}{% endblock %}
+
+{% block extra_css %}
+
+<style>
+    .section-title {
+        color: #262c38;
+        font-weight: 700;
+        padding: 0 0 50px 0;
+    }
+    
+    .section-title.has-subtitle {
+        padding-bottom: 30px
+    }
+    
+    /* 1605px and lower*/
+    @media screen and (max-width: 1605px) {
+    h2,
+    h2.section-title {
+        font-size: 36px;
+    }
+    
+    }
+    
+    /*1440px and lower*/
+    @media screen and (max-width: 1440px) {
+    
+        h2,
+        h2.section-title {
+            font-size: 32px
+        }
+    }
+</style>
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<main class="is-index">
+
+    <div class="container mt-6" style="text-align:center">
+        <h2 class="section-title pb-2">Daily Weather Report</h2>
+        {% if report %}
+
+        <span class="tag is-medium is-dark" style="background-color: var(--primary-color) !important">
+            
+            <span class="icon is-small">
+                <i class="fa-regular  fa-calendar"></i>
+            </span>
+            <span class="has-text-weight-semibold">Issued on {{report.issued_on}}</span>
+            {{report.extremes.title}}
+
+        </span>
+
+        <div class="card m-6" style="background-image:url('{% static 'img/weather_banner.jpg' %}'); background-repeat:no-repeat; background-size:cover;">
+        
+            <div class="card-content">
+                
+                <div class="card m-6 has-text-white" style="background-color:#d4d8db50">
+                    <div class="card-content">
+
+                        <div class="block">
+                            <h2 class="has-text-centered has-text-white" style="font-size: 25px; font-weight:700">Stations with Extreme Measurements</h2>
+
+                            <p class=" has-text-white">
+                                July 4, 2023
+                            </p>
+                        </div>
+
+                        <div class="columns">
+
+                            {% for extreme in report.extremes %}
+                                <div class="column">
+                                    {% include_block extreme %}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+    {% if report %}
+
+    <section>
+        <div class="container" style="text-align:justify">
+
+            <h2 class=" mb-4 pb-4 has-text-centered" style="font-size: 25px; font-weight:700">Forecast Summary for {{report.forecast_date}}</h2>
+            
+            <div class="card elevation-0 mx-6">
+                <div class="card-content mx-6">
+                    <p>{{report.forecast_desc|richtext}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+
+        <div class="container" style="text-align:justify">
+
+            <h2 class="mb-4 pb-4 has-text-centered" style="font-size: 25px; font-weight:700">Past Weather Summary for {{report.summary_date}}</h2>
+            
+            <div class="card elevation-0  mx-6">
+                <div class="card-content mx-6">
+                    <p>{{report.summary_desc|richtext}}</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    {% else %}
+    <section>
+        <p style="text-align:center" class="py-4 my-6">No report at the moment</p>
+    </section>
+    {% endif %}
+{% endblock %}

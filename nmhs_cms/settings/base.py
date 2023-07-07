@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "pages.email_subscription",
     "pages.surveys",
     "pages.search",
+    "pages.data_request",
+    "pages.flex_page",
 
     "capeditor",
     "forecastmanager",
@@ -72,6 +74,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     "wagtail.contrib.routable_page",
     'wagtail.contrib.search_promotions',
+    "wagtail.contrib.table_block",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -115,6 +118,8 @@ INSTALLED_APPS = [
     "bulma",
     "mailchimp3",
     "manifest_loader",
+    "adminboundarymanager"
+    
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
@@ -265,8 +270,8 @@ MODELTRANSLATION_LANGUAGES = ('en', 'es')
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
 ]
 
 STATICFILES_DIRS = [
@@ -278,10 +283,10 @@ STATICFILES_DIRS = [
 # See https://docs.djangoproject.com/en/4.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
 # STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = "/static/"
+STATIC_URL = env.str("FORCE_SCRIPT_NAME", "") + "/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
+MEDIA_URL = env.str("FORCE_SCRIPT_NAME", "") + "/media/"
 
 # Wagtail settings
 # SITE_NAME="nmhs_cms"
@@ -310,8 +315,8 @@ GEO_WIDGET_ZOOM = 3
 SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript"]
 
 # RECAPTCHA Settings
-RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY', '')
-RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY', '')
+RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
 
 RECAPTCHA_TESTING = True
 
@@ -345,7 +350,8 @@ SOCIAL_MEDIA_SHARE_CONFIG = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 NEXTJS_SETTINGS = {
-    "nextjs_server_url": os.getenv("NEXTJS_SERVER_URL", "http://localhost:3000"),
+    "nextjs_server_url": env.str("NEXTJS_SERVER_URL"),
 }
+FORCE_SCRIPT_NAME=env.str("FORCE_SCRIPT_NAME")
 
 WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]

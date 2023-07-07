@@ -1,0 +1,33 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+
+    <div class="work container">
+        <div class="columns is-centered intro-section-wrapper">
+            <div class="column is-5 has-text-left">
+                <h2 class="section-subheader">
+                    {{ value.title }}
+                </h2>
+                <div class="intro-description format-text">
+                    {{ value.text|richtext }}
+                </div>
+        
+            </div>
+            <div class="column is-1 is-desktop">
+            </div>
+            <div class="column is-6 intro-image">
+                <figure class="image">
+                    {% if value.image %}
+                        {% if value.image.url %}
+                            {% svg value.image.file.name %}
+                        {% else %}
+                            {% image value.image original as intro_img %}
+                            <img class="progressive__img progressive--not-loaded"
+                                 data-progressive="{{ intro_img.url }}"
+                                 src="{% lazy_image_url intro_img %}" alt=""/>
+                        {% endif %}
+                    {% endif %}
+                </figure>
+            </div>
+        </div>
+    </div>
+
+

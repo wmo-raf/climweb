@@ -10,6 +10,11 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 import os
 import environ
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+)
+
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
@@ -20,6 +25,6 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"nmhs_cms.settings.{os.getenv('ENVIRONMENT', 'dev')}")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"nmhs_cms.settings.{env.str('ENVIRONMENT', 'production')}")
 
 application = get_wsgi_application()

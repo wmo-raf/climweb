@@ -37,7 +37,9 @@ class HomePage(MetadataPageMixin, Page):
         'events.EventIndexPage',
         'surveys.SurveyPage',
         'email_subscription.MailchimpMailingListSubscriptionPage',
-        'email_subscription.MauticMailingListSubscriptionPage'
+        'email_subscription.MauticMailingListSubscriptionPage',
+        'data_request.DataRequestPage',
+        'flex_page.FlexPage'
     ]
     parent_page_type = [
         'wagtailcore.Page'
@@ -54,7 +56,7 @@ class HomePage(MetadataPageMixin, Page):
     mapviewer_cta_title = models.CharField(max_length=100, blank=True, null=True, default='Explore MapViewer',
                                            verbose_name=_('MapViewer Call to Action Title'))
     mapviewer_cta_url = models.URLField(blank=True, null=True, verbose_name=_("Mapviewer URL"), )
-    enable_media = models.BooleanField(default=True, verbose_name=_("Enable media section"))
+    enable_media = models.BooleanField(default=False, verbose_name=_("Enable media section"))
     video_section_title = models.CharField(max_length=100, blank=True, null=True, default='Latest Media',
                                            verbose_name=_('Media Section Title'), )
     video_section_desc = models.TextField(max_length=500, blank=True, null=True,
@@ -109,8 +111,8 @@ class HomePage(MetadataPageMixin, Page):
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
                                                 forecast_date__lte=end_date_param.date()) \
             .order_by('forecast_date') \
-            .values('id', 'city__name', 'forecast_date', 'max_temp', 'min_temp', 'wind_speed', 'wind_direction',
-                    'condition__title', 'condition__icon_image', 'condition__icon_image__file')
+            .values('id', 'city__name', 'forecast_date', 'max_temp', 'min_temp',
+                    'condition')
         # .annotate(
         #     forecast_date_str = Cast(
         #         TruncDate('forecast_date', DateField()), CharField(),
@@ -128,7 +130,7 @@ class HomePage(MetadataPageMixin, Page):
             for item in city_data['forecast_items']:
                 # date_obj = datetime.strptime( item['forecast_date'], '%Y-%m-%d').date()
                 item['forecast_date'] = item['forecast_date'].strftime('%a %d, %b').replace(' 0', ' ')
-
+                item['condition_display'] = dict(Forecast.CONDITION_CHOICES).get(item['condition'])
             grouped_forecast.append(city_data)
 
         return {
@@ -168,59 +170,17 @@ class HomePage(MetadataPageMixin, Page):
     def get_forecast_by_daterange(request):
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
-        forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
+        
+
+        dates_ls = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
                                                 forecast_date__lte=end_date_param.date()) \
-            .values('id', 'city__name', 'city__location', 'forecast_date', 'max_temp', 'min_temp', 'wind_speed',
-                    'wind_direction', 'condition__title', 'condition__icon_image', 'condition__icon_image__file')
+                .order_by('forecast_date') \
+                .values_list('forecast_date', flat=True) \
+                .distinct()
 
-        # sort the data by date
-        data_sorted = sorted(forecast_data, key=lambda x: x['forecast_date'])
-
-        # group the data by date
-        grouped_forecast = []
-        for forecast_date, group in groupby(data_sorted, lambda x: x['forecast_date']):
-            city_data = {
-                'forecast_date': forecast_date.strftime('%a %d, %b').replace(' 0', ' '),
-                'forecast_features': {}
-            }
-
-            forecast_features = []
-            for forecast in list(group):
-                location = geosgeometry_str_to_struct(str(forecast['city__location']))
-                feature = {
-                    "type": "Feature",
-                    "properties": {
-                        'id': forecast['id'],
-                        'city_name': forecast['city__name'],
-                        'forecast_date': forecast['forecast_date'].strftime('%a %d, %b').replace(' 0', ' '),
-                        'max_temp': forecast['max_temp'],
-                        'min_temp': forecast['min_temp'],
-                        'wind_speed': forecast['wind_speed'],
-                        'wind_direction': forecast['wind_direction'],
-                        'media_path': f"{os.getenv('MEDIA_URL', '/media/')}",
-                        'condition_icon': forecast['condition__icon_image__file'],
-                        'condition_desc': forecast['condition__title'],
-                    },
-                    "geometry": {
-                        "coordinates": [
-                            location['x'],
-                            location['y'],
-                        ],
-                        "type": "Point"
-                    }
-                }
-
-                forecast_features.append(feature)
-
-            city_data['forecast_features'] = {
-                "type": "FeatureCollection",
-                "features": forecast_features
-            }
-
-            grouped_forecast.append(city_data)
 
         return {
-            'day_forecast': grouped_forecast
+            'forecast_dates': dates_ls
         }
 
     @cached_property

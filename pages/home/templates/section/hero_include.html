@@ -23,15 +23,17 @@
                     </div>
                 </div>
 
+
                 <!-- forecasts section  -->
-                {% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
+                {% if self.enable_weather_forecasts %}
+
                     <div class="columns is-justify-content-center" style="position:inherit;z-index: 1 ">
                         <div class="column is-11">
                             <div id="tabs-with-content">
                                 <!-- tabs  -->
                                 <div class="tabs is-boxed is-centered" style="background-color:transparent">
                                     <ul>
-                                        {% for forecasts in self.get_forecast_by_city.forecasts %}
+                                        {% for forecasts in self.get_forecast_by_city.forecasts  %}
                                             <li class="is-active box animate__animated" style="text-align: left;">
                                                 {% with forecasts.forecast_items|first as latest_forcast %}
                                                     <div class="city active">
@@ -44,7 +46,7 @@
                                                                     {{ first_object.propertyname }} {% endcomment %}
                                                                 <h2 class="subtitle"
                                                                     style="font-size: 11px;">
-                                                                    {{ latest_forcast.condition__title|wordwrap:10|linebreaksbr}}</h2>
+                                                                    {{ latest_forcast.condition_display|wordwrap:10|linebreaksbr}}</h2>
                                                             </div>
 
                                                             <div class="column"
@@ -58,20 +60,22 @@
                                                                 <div class="columns is-gapless is-mobile">
                                                                     <div class="column" style="align-self:end">
 
-                                                                        {% if latest_forcast.condition__icon_image__file %}
+                                                                        {% if latest_forcast.condition %}
                                                                             <figure class="image forecast-icon"
-                                                                                    style="width:50px;height:50px;display: inline-flex;">
+                                                                                    style="width:50px;height:50px;display: inline-flex;" 
+                                                                                    >
                                                                                 <img
-                                                                                        src="media/{{ latest_forcast.condition__icon_image__file }}"
-                                                                                        alt="{{ latest_forcast.condition__icon_image }}"
+                                                                                        src="{% static 'forecastmanager/img/'|add:latest_forcast.condition|add:'.png' %}"
+                                                                                        alt="{{ latest_forcast.condition }}"
+                                                                                        title="{{latest_forcast.condition_display}}"
                                                                                 />
                                                                             </figure>
                                                                         {% endif %}
 
                                                                     </div>
                                                                     <div class="column">
-                                                                        <h2 style="font-size:18px; font-weight:600">{{ latest_forcast.max_temp }} {{ settings.forecastmanager.Setting.get_temp_units_display }}</h2>
-                                                                        <h3 style="font-size:13px; font-weight:600">{{ latest_forcast.min_temp }} {{ settings.forecastmanager.Setting.get_temp_units_display }}</h3>
+                                                                        <h2 style="font-size:18px; font-weight:600">{{ latest_forcast.max_temp }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</h2>
+                                                                        <h3 style="font-size:13px; font-weight:600">{{ latest_forcast.min_temp }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</h3>
 
                                                                     </div>
                                                                 </div>
@@ -84,12 +88,13 @@
                                                             style="font-size: 13px; margin-bottom: 0.3rem;">{{ forecasts.city }}</h2>
                                                         <div class="columns is-gapless pb-1 is-mobile">
                                                             <div class="column" style="align-self:end;">
-                                                                {% if latest_forcast.condition__icon_image__file %}
+                                                                {% if latest_forcast.condition %}
                                                                     <figure class="image forecast-icon"
                                                                             style="width:40px;display: inline-flex;">
                                                                         <img
-                                                                                src="media/{{ latest_forcast.condition__icon_image__file }}"
-                                                                                alt="{{ latest_forcast.condition__icon_image }}"
+                                                                                src="{% static 'forecastmanager/img/'|add:latest_forcast.condition|add:'.png' %}"
+                                                                                alt="{{ latest_forcast.condition }}"
+                                                                                title="{{latest_forcast.condition_display}}"
                                                                         />
                                                                     </figure>
                                                                 {% endif %}
@@ -136,39 +141,26 @@
                                                         <div class="columns is-gapless pb-1 mb-0 is-align-items-center is-mobile">
                                                             <div class="column mr-1"
                                                                  style="align-self:end; text-align: end;">
-                                                                {% if item.condition__icon_image__file %}
+                                                                {% if item.condition %}
                                                                     <figure class="forecast-icon"
                                                                             style="width:40px;display: inline-flex;">
                                                                         <img
-                                                                                src="media/{{ item.condition__icon_image__file }}"
-                                                                                alt="{{ item.condition__icon_image }}"
+                                                                                src="{% static 'forecastmanager/img/'|add:item.condition|add:'.png' %}"
+                                                                                alt="{{ item.condition }}"
                                                                         />
                                                                     </figure>
                                                                 {% endif %}
 
                                                             </div>
                                                             <div class="column ml-1" style="text-align: start;">
-                                                                <h2 style="font-size:14px; font-weight:600">{{ item.max_temp }} {{ settings.forecastmanager.Setting.get_temp_units_display }}</h2>
-                                                                <h3 style="font-size:10px; font-weight:600">{{ item.min_temp }} {{ settings.forecastmanager.Setting.get_temp_units_display }}</h3>
+                                                                <h2 style="font-size:14px; font-weight:600">{{ item.max_temp }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</h2>
+                                                                <h3 style="font-size:10px; font-weight:600">{{ item.min_temp }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</h3>
 
                                                             </div>
 
                                                         </div>
 
-                                                        <span class="title"
-                                                              style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem; ">
-                                                            <img src="{% static 'img/wind_icon.png' %}" alt=""
-                                                                 width="15"
-                                                                 style="transform:rotate(calc({{ item.wind_direction }}deg + 90deg));opacity: 0.7;">
-                                                            {{ item.wind_direction }} °
-                                                            </h2>
-                                                        </span>
-
-
-                                                        <h2 class="title"
-                                                            style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;">
-                                                            {{ item.wind_speed }} {{ settings.forecastmanager.Setting.get_wind_units_display }}
-                                                        </h2>
+                                    
 
 
                                                     </div>
@@ -207,9 +199,19 @@
                                        href="{% url 'list_forecasts' %}"
                                        style="font-size: 14px;">
                                         <span class="icon">
+                                            <i class="fa-solid fa-list"></i> </span>
+                                        <span> All City Forecast</span>
+
+                                    </a>
+                                </div>
+                                <div class="column">
+                                    <a class="button is-small has-text-weight-bold is-dark has-text-white is-rounded"
+                                       href="{% url 'daily_weather' %}"
+                                       style="font-size: 14px;">
+                                        <span class="icon">
                                             <i class="fa fa-cloud-sun-rain"></i>
                                         </span>
-                                        <span> All Forecasts</span>
+                                        <span> Daily Weather</span>
 
                                     </a>
                                 </div>

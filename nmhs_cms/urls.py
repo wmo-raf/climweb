@@ -2,13 +2,14 @@ from capeditor import urls as cap_urls
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from forecastmanager import urls as forecastmanager_urls
 
 # from forecastmanager import urls as forecast_urls
-from pages.home.views import list_forecasts
+from pages.home.views import list_forecasts,daily_weather
 from pages.search import views as search_views
 
 handler500 = 'base.views.handler500'
@@ -19,12 +20,15 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     # path("", include(forecast_urls)),
     path("list_forecast/", list_forecasts, name="list_forecasts"),
+    path("daily_weather/", daily_weather, name="daily_weather"),
     path("cap/", include(cap_urls)),
     path("search/", search_views.search, name="search"),
 
-    path("", include("geomanager.urls")),
-    path("", include("django_nextjs.urls")),
+    path("", include("geomanager.urls"), name="geomanager"),
+    # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
+    re_path("", include(forecastmanager_urls), name="forecast_api"),
+
 ]
 
 if settings.DEBUG:

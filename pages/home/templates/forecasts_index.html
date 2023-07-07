@@ -104,6 +104,27 @@ h2.section-title {
 {% block content %}
 
 <main class="is-index">
+    {% comment %} <div class="container pt-6 pb-0 sections">
+
+        <div class="buttons is-justify-content-center">
+            <button class="button nav-section is-light"  data-target="#mission_vision_section">
+                <span class="icon is-small">
+                    <i class="fa-sharp fa-solid fa-eye"></i>
+                  </span>
+                  <span class="has-text-weight-semibold">Daily Weather Report</span>
+                
+            </button>
+            <button class="button nav-section is-light" data-target="#organisation_structure" >
+                <span class="icon is-small">
+                    <i class="fa-solid fa-sitemap"></i>
+                  </span>
+                  <span class="has-text-weight-semibold">City Forecast</span>  
+            </button>
+           
+            
+        </div>
+
+    </div> {% endcomment %}
     <section>
         <div class="container">
         <h2 class="section-title center pb-2">7 Day City Weather Forecast</h2>
@@ -119,7 +140,7 @@ h2.section-title {
         </span>
         </a>
 
-        <a class="button is-small is-rounded"
+        {% comment %} <a class="button is-small is-rounded"
         target="_blank" rel="noopener"
         id="forecast_pdf"
 
@@ -129,7 +150,7 @@ h2.section-title {
             <span class="icon">
                 <i class="fa fa-file-pdf" aria-hidden="true"></i>
             </span>
-        </a>
+        </a> {% endcomment %}
         
         </div>
 
@@ -163,39 +184,23 @@ h2.section-title {
                        
                         <div class="columns is-gapless pb-1 mb-0 is-align-items-center is-mobile is-jsutify-content-center">
                             <div class="column mr-1" style="align-self:end; text-align: end;">
-                                {% if item.condition__icon_image__file %}
+                                {% if item.condition %}
                                 <figure class="forecast-icon" style="width:40px;display: inline-flex;">
                                     <img 
-                                        src="{{ MEDIA_URL }}{{ item.condition__icon_image__file }}" 
-                                        alt="{{ item.condition__icon_image }}"
+                                        src="{% static 'forecastmanager/img/'|add:item.condition|add:'.png' %}" 
+                                        alt="{{ item.condition }}"
                                     />
                                 </figure>
                                 {% endif %}
 
                             </div>
                             <div class="column ml-1" style="text-align: start;">
-                                <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.forecastmanager.Setting.get_temp_units_display}}</h2>
-                                <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.forecastmanager.Setting.get_temp_units_display}}</h3>
+                                <h2 style="font-size:14px; font-weight:600">{{item.max_temp}} {{settings.forecastmanager.ForecastSetting.get_temp_units_display}}</h2>
+                                <h3 style="font-size:10px; font-weight:600">{{item.min_temp}} {{settings.forecastmanager.ForecastSetting.get_temp_units_display}}</h3>
 
                             </div>
 
                         </div>
-
-                        <span class="title"
-                            style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;display: flex;
-                            justify-content: center; ">
-                            <img src="{% static 'img/wind_icon.png'%}" alt="" width="15"
-                                style="transform:rotate(calc({{item.wind_direction}}deg + 90deg));opacity: 0.7;">
-                                {{item.wind_direction}} °
-                            </h2>
-                        </span>
-
-
-                        <h2 class="title"
-                            style="font-size: 13px; font-weight: 600;margin-bottom: 0.5rem;display: flex;
-                            justify-content: center;">
-                            {{item.wind_speed}} {{settings.forecastmanager.Setting.get_wind_units_display}}
-                        </h2>
                    
                     </td>
 

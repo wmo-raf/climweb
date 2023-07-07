@@ -7,10 +7,13 @@
         <div class="top-nav-wrapper is-hidden-touch">
             <div class="level top-nav">
                 <div class="level-left">
-                    <a class="level-item main-logo" href="/" style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
+                    <a class="level-item main-logo" href="{{request.get_full_path}}" style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
                         {% if settings.base.OrganisationSetting.logo %}
                             {% image settings.base.OrganisationSetting.logo original as logo %}
                             <img src="{{ logo.url }}" alt="Logo">
+                        {% else %}
+
+                            N.M.H.S
                         {% endif %}
                     </a>
                 </div>
@@ -98,7 +101,7 @@
         <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
              aria-label="main navigation">
             <div class="navbar-brand is-hidden-desktop">
-                <a class="mobile-logo" href="/">
+                <a class="mobile-logo" href="{{request.get_full_path}}">
                     {% if settings.base.OrganisationSetting.logo %}
                         {% image settings.base.OrganisationSetting.logo original as logo %}
                         <img src="{{ logo.url }}" alt="Logo">

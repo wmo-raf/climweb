@@ -1,4 +1,5 @@
 {% load static nmhs_cms_tags %}
+
 {% if self.enable_weather_forecasts == True %}
     {% for alert in self.get_alerts.active_alerts.all %}
         {% for info in alert.alert_info.all %}
@@ -11,7 +12,7 @@
         {% endfor %}
     {% endfor %}
 
-    <section style="padding-top: 4rem; padding-bottom: 4rem;">
+    <section class="{% if not self.enable_weather_forecasts or self.get_forecast_by_city.forecasts|length < 1 %} pt-8 {% else %} pt-0 {% endif %} pb-6">
         <div class="container">
             <div class="columns is-justify-content-center">
                 <div class="column is-11">
@@ -64,6 +65,7 @@
                             {% endif %}
 
                             <div>
+                                {% if settings.base.ImportantPages.all_alerts_page.url %}
                                 <a class="button is-dark has-text-white is-small p-4"
                                    style=" font-weight: 600;  border-radius: var(--border-radius);"
                                    href="{{ settings.base.ImportantPages.all_alerts_page.url }}">
@@ -73,6 +75,8 @@
                                         <i class="fa fa-rss"></i>
                                     </span>
                                 </a>
+                                {% endif %}
+                                {% if settings.base.ImportantPages.all_news_page.url %}
                                 <a class="button is-dark is-small p-4 has-text-white"
                                    style="font-weight: 600; border-radius: var(--border-radius);"
                                    href="{{ settings.base.ImportantPages.all_news_page.url }}">
@@ -82,6 +86,7 @@
                                         <i class="fa fa-newspaper"></i>
                                     </span>
                                 </a>
+                                {% endif %}
                             </div>
 
                         </div>
@@ -89,18 +94,18 @@
                             <div class="card {{ box_shadow }}" style="height:100%">
                                 <div id="home-map" style="border-radius: var(--border-radius); height:100%"></div>
                                 <div id="floating-div" style="position: absolute;
-                top: 0.5em;
-                left: 0;
-                z-index: 1;
-                background-color: transparent;
-                padding: 10px;
-                border-radius: var(--border-radius);
-                ">
+                                    top: 0.5em;
+                                    left: 0;
+                                    z-index: 1;
+                                    background-color: transparent;
+                                    padding: 10px;
+                                    border-radius: var(--border-radius);
+                                    ">
                                     <div class="control has-icons-left">
                                         <div class="select">
                                             <select id="daily_forecast">
-                                                {% for day in self.get_forecast_by_daterange.day_forecast %}
-                                                    <option value="{{ day.forecast_date }}">{{ day.forecast_date }}</option>
+                                                {% for day in self.get_forecast_by_daterange.forecast_dates %}
+                                                <option value="{{ day|date:'Y-m-d' }}" {% if forloop.first %}selected{% endif %}>{{ day }}</option>
 
                                                 {% endfor %}
                                             </select>
@@ -114,14 +119,14 @@
 
                                 {% if self.get_alerts.active_alerts %}
                                     <div id="floating-div {{ box_shadow }}" style="position: absolute;
-                              bottom: 1em;
-                              left: 0.5em;
-                              z-index: 1;
-                              background-color: white;
-                              padding: 10px;
-                              border-radius: var(--border-radius);
-                              
-                              ">
+                                        bottom: 1em;
+                                        left: 0.5em;
+                                        z-index: 1;
+                                        background-color: white;
+                                        padding: 10px;
+                                        border-radius: var(--border-radius);
+                                        
+                                        ">
                                         <h2 class="title" style="font-size:14px; margin-bottom:1em">CAP Alerts</h2>
 
                                         <div class="legend-item" style="display:flex; align-items: center;">

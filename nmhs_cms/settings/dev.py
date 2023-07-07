@@ -1,7 +1,13 @@
 from .base import *
 
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+)
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', True)
+DEBUG = env('DEBUG', True)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-5=&i=f&w$_2=ktbhw43anl(uxgue*-i23r!1uibrh9l7-$q-1#"
@@ -23,7 +29,7 @@ INSTALLED_APPS = INSTALLED_APPS + [
     'wagtail.contrib.styleguide'
 ]
 
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+STATICFILES_STORAGE = "base.storage.ManifestStaticFilesStorageNotStrict"
 
 SHOW_TOOLBAR_CALLBACK = False
 SHOW_COLLAPSED = False
