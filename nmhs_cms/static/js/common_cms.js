@@ -302,7 +302,6 @@ $(document).ready(function () {
         const $navbarBurger = $("nav.navbar .navbar-brand main-nav.navbar-burger.burger");
         const $navbarBurgerSpan = $("nav.navbar .navbar-brand .main-nav.navbar-burger span");
         
-
         
         // close navbar menu on clicking outside
         $(document).click(function (event) {
@@ -320,8 +319,7 @@ $(document).ready(function () {
         // Check for click events on the navbar burger icon
         $navbarBurger.click(function () {
             // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-            $(this).toggleClass("is-active");
-
+            $navbarBurger.toggleClass("is-active");
             $navbarMenu.toggleClass("is-active");
             $navbarBurgerSpan.toggleClass("is-active");
 
