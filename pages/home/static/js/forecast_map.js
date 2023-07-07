@@ -85,47 +85,6 @@ $(document).ready(function () {
 
     }
 
-    function setForecastData(forecast_date) {
-        // Make an HTTP GET request to the API endpoint
-        fetch(`${forecast_api}?forecast_date=${forecast_date}`)
-            .then(response => response.json())  // Parse the response as JSON
-            .then(data => {
-                // Process the retrieved data
-                data.map(icon => {
-
-
-                    let img = new Image()
-
-                    img.onload = () => {
-                        if (!forecast_map.hasImage(icon.properties.condition_icon)) {
-                            return forecast_map.addImage(`${icon.properties.condition_icon}`, img)
-                        }
-
-                    }
-                    img.src = `${static_path}${icon.properties.condition_icon}`
-                    return img.src
-
-                })
-                // Access and use the data as needed                
-                populateMap({
-                    type: "FeatureCollection",
-                    features: data
-                })
-
-
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the request
-                console.error('Error:', error);
-            });
-
-    }
-
-    var initDate = document.getElementById("daily_forecast");
-    setForecastData(initDate.value)
-
-
-
     forecast_map.on("load", () => {
 
         if (country_info && country_info.bbox) {
@@ -261,6 +220,49 @@ $(document).ready(function () {
 
 
     })
+    
+    function setForecastData(forecast_date) {
+        // Make an HTTP GET request to the API endpoint
+        fetch(`${forecast_api}?forecast_date=${forecast_date}`)
+            .then(response => response.json())  // Parse the response as JSON
+            .then(data => {
+                // Process the retrieved data
+                data.map(icon => {
+
+
+                    let img = new Image()
+
+                    img.onload = () => {
+                        if (!forecast_map.hasImage(icon.properties.condition_icon)) {
+                            return forecast_map.addImage(`${icon.properties.condition_icon}`, img)
+                        }
+
+                    }
+                    img.src = `${static_path}${icon.properties.condition_icon}`
+                    return img.src
+
+                })
+                // Access and use the data as needed                
+                populateMap({
+                    type: "FeatureCollection",
+                    features: data
+                })
+
+
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the request
+                console.error('Error:', error);
+            });
+
+    }
+
+    var initDate = document.getElementById("daily_forecast");
+    setForecastData(initDate.value)
+
+
+
+    
 
     // toggle forecasts by selected date 
     $('#daily_forecast').on('change', function (e) {

@@ -193,8 +193,8 @@
 
                         <div style="bottom: -0.8em;margin: auto; position: absolute;">
 
-                            <div class="columns is-justify-content-center">
-                                <div class="column">
+                            <div class="buttons is-justify-content-center forecast">
+                                
                                     <a class="button is-small has-text-weight-bold is-dark has-text-white is-rounded"
                                        href="{% url 'list_forecasts' %}"
                                        style="font-size: 14px;">
@@ -203,8 +203,6 @@
                                         <span> All City Forecast</span>
 
                                     </a>
-                                </div>
-                                <div class="column">
                                     <a class="button is-small has-text-weight-bold is-dark has-text-white is-rounded"
                                        href="{% url 'daily_weather' %}"
                                        style="font-size: 14px;">
@@ -214,31 +212,7 @@
                                         <span> Daily Weather</span>
 
                                     </a>
-                                </div>
-                                {% comment %}
-                                    <div class="column">
-                                        <a class="button is-small has-text-weight-bold is-dark is-rounded"
-                                           href="{% url 'list_forecasts' %}"
-                                           style="font-size: 14px;">
-                                            <span class="icon">
-                                                <i class="fa fa-image"></i>
-                                            </span>
-                                            <span> Image</span>
-
-                                        </a>
-                                    </div>
-                                    <div class="column">
-                                        <a class="button is-small has-text-weight-bold is-dark is-rounded"
-                                           href="{% url 'list_forecasts' %}"
-                                           style="font-size: 14px;">
-
-                                            <span class="icon">
-                                                <i class="fa fa-file-pdf"></i>
-                                            </span>
-                                            <span>PDF</span>
-
-                                        </a>
-                                    </div> {% endcomment %}
+                              
                             </div>
                         </div>
                     </div>
