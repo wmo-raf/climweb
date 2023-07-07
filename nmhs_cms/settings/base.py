@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.routable_page",
     'wagtail.contrib.search_promotions',
     "wagtail.contrib.table_block",
+    'wagtail.contrib.sitemaps',
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -92,6 +93,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.gis",
+    'django.contrib.sitemaps',
 
     "modelcluster",
     "rest_framework",

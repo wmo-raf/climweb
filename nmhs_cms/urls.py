@@ -11,7 +11,8 @@ from forecastmanager import urls as forecastmanager_urls
 # from forecastmanager import urls as forecast_urls
 from pages.home.views import list_forecasts,daily_weather
 from pages.search import views as search_views
-
+from wagtail.contrib.sitemaps.views import sitemap
+   
 handler500 = 'base.views.handler500'
 
 urlpatterns = [
@@ -28,7 +29,7 @@ urlpatterns = [
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     re_path("", include(forecastmanager_urls), name="forecast_api"),
-
+    path("sitemap.xml",sitemap),
 ]
 
 if settings.DEBUG:
