@@ -9,7 +9,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from forecastmanager import urls as forecastmanager_urls
 
 # from forecastmanager import urls as forecast_urls
-from pages.home.views import list_forecasts
+from pages.home.views import list_forecasts,daily_weather
 from pages.search import views as search_views
 
 handler500 = 'base.views.handler500'
@@ -20,6 +20,7 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     # path("", include(forecast_urls)),
     path("list_forecast/", list_forecasts, name="list_forecasts"),
+    path("daily_weather/", daily_weather, name="daily_weather"),
     path("cap/", include(cap_urls)),
     path("search/", search_views.search, name="search"),
 

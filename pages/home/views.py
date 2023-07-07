@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from django.shortcuts import render
 
 
-from forecastmanager.models import Forecast
+from forecastmanager.models import Forecast,DailyWeather
 
 def list_forecasts(request):
 
@@ -34,4 +34,12 @@ def list_forecasts(request):
         "forecasts":grouped_forecast,
         "cities":cities,
         "dates":sorted(dates)
+    })
+
+def daily_weather(request):
+     
+    report = DailyWeather.objects.all().order_by('issued_on').first()
+     
+    return render(request, "dailyweather_include.html", {
+        "report":report
     })
