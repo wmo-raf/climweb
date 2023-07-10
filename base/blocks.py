@@ -133,7 +133,7 @@ class TableInfoBlock(blocks.StructBlock):
 
 
 class WhatWeDoBlock(blocks.StructBlock):
-    icon = blocks.CharBlock(required=False)
+    icon = IconChooserBlock(required=False,label=_("Icon"))
     title = blocks.CharBlock(max_length=60, required=False)
     description = blocks.CharBlock()
 

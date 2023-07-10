@@ -46,9 +46,9 @@ class ServicePage(AbstractBannerWithIntroPage):
     service = models.OneToOneField(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
 
     # TODO: FIX THIS AND RETURN
-    # what_we_do_items = StreamField([
-    #     ('what_we_do', blocks.WhatWeDoBlock()),
-    # ], null=True, blank=True,  use_json_field=True)
+    what_we_do_items = StreamField([
+        ('what_we_do', blocks.WhatWeDoBlock()),
+    ], null=True, blank=True,  use_json_field=True)
     what_we_do_button_text = models.TextField(max_length=20, blank=True, null=True,
                                               verbose_name=_("What we do button text"))
     what_we_do_button_link = models.ForeignKey(
@@ -80,7 +80,7 @@ class ServicePage(AbstractBannerWithIntroPage):
         FieldPanel('service'),
         *AbstractBannerWithIntroPage.content_panels,
         MultiFieldPanel([
-            # FieldPanel('what_we_do_items'),
+            FieldPanel('what_we_do_items'),
             FieldPanel('what_we_do_button_text'),
             PageChooserPanel('what_we_do_button_link'),
         ],

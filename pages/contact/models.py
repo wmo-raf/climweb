@@ -16,7 +16,7 @@ from wagtailgeowidget.panels import LeafletPanel
 
 from base.mail import send_mail
 from base.mixins import MetadataPageMixin
-from base.models import OtherSettings
+# from base.models import OtherSettings
 from .utils import get_duplicates
 
 
@@ -82,11 +82,11 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                 dups = get_duplicates(form.cleaned_data)
 
                 # Check if the submitted key matches. This is a strategy to prevent automated submission with js
-                wagtail_form_submitted_key = form.cleaned_data.get('wagtailkey')
-                wagtail_form_key = OtherSettings.for_site(Site.find_for_request(request)).wagtail_form_key
+                # wagtail_form_submitted_key = form.cleaned_data.get('wagtailkey')
+                # wagtail_form_key = OtherSettings.for_site(Site.find_for_request(request)).wagtail_form_key
 
-                if not dups and (wagtail_form_submitted_key == wagtail_form_key):
-                    remove_wagtail_key_field(form)
+                if not dups:
+                    # remove_wagtail_key_field(form)
                     form_submission = self.process_form_submission(form)
 
                     # Send confirmation email

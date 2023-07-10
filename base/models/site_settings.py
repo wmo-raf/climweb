@@ -159,25 +159,7 @@ class IntegrationSettings(BaseSiteSetting):
             'Track   all pages internally. This will enable the internal analytics dashboard, '
             'alongside Google Analytics, if also enabled'), )
 
-    recaptcha_public_key = models.CharField(
-        blank=True,
-        max_length=255,
-        verbose_name=_('Recaptcha Public Key'),
-        help_text=_('Your Recaptcha Public Key'),
-    )
-
-    recaptcha_private_key = models.CharField(
-        blank=True,
-        max_length=255,
-        verbose_name=_('Recaptcha Private Key'),
-        help_text=_('Your Recaptcha Private Key'),
-    )
-
     edit_handler = TabbedInterface([
-        ObjectList([
-            FieldPanel('recaptcha_public_key'),
-            FieldPanel('recaptcha_private_key')
-        ], heading=_("Form Recaptcha Integration")),
         ObjectList([
             FieldPanel('youtube_api')
         ], heading=_("Youtube Integration")),
@@ -222,22 +204,22 @@ class LanguageSettings(BaseSiteSetting):
         return [lang["language"] for lang in self.google_languages]
 
 
-@register_setting()
-class OtherSettings(BaseSiteSetting):
-    wagtail_form_key = models.CharField(
-        blank=True,
-        max_length=255,
-        help_text=_('A Unique key for managing submitted forms'),
-    )
+# @register_setting()
+# class OtherSettings(BaseSiteSetting):
+#     wagtail_form_key = models.CharField(
+#         blank=True,
+#         max_length=255,
+#         help_text=_('A Unique key for managing submitted forms'),
+#     )
 
-    panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel('wagtail_form_key'),
-            ],
-            heading=_('Forms Security'),
-        )
-    ]
+#     panels = [
+#         MultiFieldPanel(
+#             [
+#                 FieldPanel('wagtail_form_key'),
+#             ],
+#             heading=_('Forms Security'),
+#         )
+#     ]
 
 
 class Theme(models.Model):

@@ -67,6 +67,7 @@
 
                             </div>
                         </div>
+                        
 
                         <div class="column ml-3">
                             <div class="block pt-6">
@@ -123,12 +124,11 @@
     <script type="text/javascript" src="{% static 'js/basemap.js' %}"></script>
 
     <script>
+
         $('#cf').click(function (e) {
 
             const data = $('#cfde').serializeArray()
-
-            $('input[name="wagtailkey"]').val("{{ settings.base.OtherSettings.wagtail_form_key }}");
-
+            
             $('#cfde').attr('action', "{% pageurl page %}").attr('method', "POST").submit()
         })
 
