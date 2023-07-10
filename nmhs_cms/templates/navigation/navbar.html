@@ -7,9 +7,20 @@
             <div class="level top-nav">
                 <div class="level-left">
                     <a class="level-item main-logo" href="{{request.get_full_path}}" style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
-                        {% if settings.base.OrganisationSetting.logo %}
-                            {% image settings.base.OrganisationSetting.logo original as logo %}
-                            <img src="{{ logo.url }}" alt="Logo">
+                        {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
+
+                            {% if settings.base.OrganisationSetting.country_flag %}
+                                {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+                                <img src="{{ country_flag.url }}" alt="Logo" class="pr-3">
+
+                            {% endif %}
+                            {% if settings.base.OrganisationSetting.logo %}
+                                {% image settings.base.OrganisationSetting.logo original as logo %}
+                                <img src="{{ logo.url }}" alt="Logo">
+
+                            {% endif %}
+
+                            
                         {% else %}
 
                             N.M.H.S
@@ -101,9 +112,22 @@
              aria-label="main navigation">
             <div class="navbar-brand is-hidden-desktop">
                 <a class="mobile-logo" href="{{request.get_full_path}}">
-                    {% if settings.base.OrganisationSetting.logo %}
-                        {% image settings.base.OrganisationSetting.logo original as logo %}
-                        <img src="{{ logo.url }}" alt="Logo">
+                    {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
+
+                            {% if settings.base.OrganisationSetting.country_flag %}
+                                {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+                                <img src="{{ country_flag.url }}" alt="Logo" class="px-2">
+
+                            {% endif %}
+                            {% if settings.base.OrganisationSetting.logo %}
+                                {% image settings.base.OrganisationSetting.logo original as logo %}
+                                <img src="{{ logo.url }}" alt="Logo">
+
+                            {% endif %}
+
+                            
+                    {% else %}
+                        N.M.H.S
                     {% endif %}
                 </a>
                 <div>

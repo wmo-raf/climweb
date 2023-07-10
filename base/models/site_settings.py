@@ -1,3 +1,4 @@
+from typing import Iterable, Optional
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.functional import cached_property
@@ -39,8 +40,10 @@ class OrganisationSetting(BaseSiteSetting):
 
     # logo
     logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
-                             verbose_name=_("Logo"))
-
+                             verbose_name=_("Organisation Logo"))
+    country_flag = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
+                             verbose_name=_("Country Flag"))
+    
     favicon = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -97,6 +100,7 @@ class OrganisationSetting(BaseSiteSetting):
         MultiFieldPanel(
             [
                 FieldPanel("logo"),
+                FieldPanel("country_flag"),
                 FieldPanel("favicon"),
                 FieldPanel("footer_logo"),
                 FieldPanel("cms_logo"),
