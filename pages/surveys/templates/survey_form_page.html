@@ -8,11 +8,20 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ page.title }}</h1>
 
-    <div>
-        <div id="survey-form-container"></div>
+<main>
+<section>
+    <div class="container">
+        <h3 class="section-title center">{{ page.title }}</h3>
+
+        <div class="card elevation-0">
+            <div id="survey-form-container"></div>
+
+        </div>
     </div>
+</section>
+</main>
+
 {% endblock content %}
 
 {% block extra_js %}
