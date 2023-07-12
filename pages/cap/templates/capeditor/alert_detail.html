@@ -1,0 +1,401 @@
+{% extends 'base.html' %}
+
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+
+{% block extra_css %}
+    <link href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'capeditor/css/cap_detail_page.css' %}">
+
+    <style>
+      .cap-share-wrapper .cap-share-item{
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+        background: white;
+        border-radius: 0.2em;
+        padding-top:0;
+        padding-bottom:0;
+        padding-right: 10px;
+      }
+
+      .cap-share-icon svg {
+        border-bottom-left-radius: 0.1em;
+        border-top-left-radius: 0.1em;
+    }
+
+    .cap-share-link a{
+      font-size:14px;
+      font-weight:600
+    }
+  </style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="main">
+
+<section class="cap-header-section pt-4">
+  <div class="container">
+    <div class="py-4" style="display: flex;
+    justify-content: space-between;align-items: flex-end">
+      <h2 class="title">
+           {{ page.title }}
+      </h2>
+
+
+      <div class="cap-share-wrapper">
+      {% if page.xml_link and not request.is_preview %}
+          <div class="cap-share-item">
+              <div class="cap-share-icon">
+                  {% svg_icon name="cap-alert" %}
+              </div>
+              <div class="cap-share-link">
+                  <a target="_blank" rel="noopener norefferrer" href="{{ page.xml_link }}">
+                      CAP XML
+                  </a>
+              </div>
+          </div>
+      {% endif %}
+        </div>
+  </div>
+    <div class="columns is-multiline " style="align-items: flex-start;">
+      <div class="column is-5-widescreen is-full-mobile mb-4">
+       
+
+        
+        {% for item in page.info %} 
+        {% for area in item.value.area %}
+          <span class="tag is-dark" style="margin:1em 0"> <i class="fa fa-location-pin pr-1"> </i>
+            {{area.value.areaDesc}}
+          </span>
+        {% endfor %}
+      {% endfor %}
+        <div class="cap-map-wrapper">
+          <div id="cap-map" style="height:500px;background-color:#e9e8e8; width:100%"></div>
+          <div class="map-legend">
+            <div>Alert Severity:</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(215, 47, 42);"></div>
+                    <div class="legend-label">Extreme</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(254, 153, 0);"></div>
+                    <div class="legend-label">Severe</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(255, 255, 0);"></div>
+                    <div class="legend-label">Moderate</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(3, 255, 255);"></div>
+                    <div class="legend-label">Minor</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color"
+                        style="background-color: rgb(51, 102, 255);"></div>
+                    <div class="legend-label">Unknown</div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+      <div class="column is-7-widescreen is-full-mobile featured-item-detail">
+        <div class="tabs">
+          <ul>
+            {% if page.info|length > 0 %}
+            {% for item in page.info %}
+
+            <li class="{% if forloop.first %}is-active {% endif %}" data-target="{{item.value.headline}}">
+              
+              <a>{{item.value.event|truncatechars:20}}</a>
+            </li>
+            {% endfor %}
+            {% endif %}
+           
+
+          </ul>
+        </div>
+
+        <div id="tab-content">
+          {% for item in page.info %} 
+          <div class="featured-item-body {%if not forloop.first %}is-hidden{% endif %}" id="{{item.value.headline}}">
+            <h3 class="featured-item-title">
+                {% if item.value.headline %}
+                    {{ item.value.headline }}
+                {% else %}
+                    {{ page.title }}
+                {% endif %}
+            </h3>
+            {% for area in item.value.area %}
+              <span class="tag is-dark"> <i class="fa fa-location-pin pr-1"> </i>
+                {{area.value.areaDesc}}
+              </span>
+            {% endfor %}
+
+            {% if item %}
+                <div class="cap-event">
+                    <div class="cap-event-header">Event:</div>
+                    <div class="cap-event-detail">
+                        {% if item.value.event_icon %}
+                            <div class="c-icon">{% svg_icon name=item.value.event_icon %}</div>
+                        {% endif %}
+                        <div class="cap-event-name">{{ item.value.event }}</div>
+                    </div>
+                </div>
+                <div class="cap-time-wrapper">
+                    <div class="cap-time-effective" style="display: none"></div>
+                    <div class="cap-time">
+                        <ul>
+                            <li>
+                                <div class="list-dot"></div>
+                                <div>
+                                    <span class="time-type">Issued: </span>
+                                    <span>{{ page.sent }}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-dot"></div>
+                                <div>
+                                    <span class="time-type">Effective: </span>
+                                    <span>
+                                        {% if  item.value.effective %}
+                                            {{ item.value.effective }}
+                                        {% else %}
+                                            {{ page.sent }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </li>
+                            {% if item.value.onset %}
+                                <li>
+                                    <div class="list-dot"></div>
+                                    <div>
+                                        <span class="time-type">Onset: </span>
+                                        <span>{{ item.value.onset }}</span></div>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <div class="list-dot"></div>
+                                <div>
+                                    <span class="time-type">Expires: </span>
+                                    <span>{{ item.value.expires }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cap-info-summary-wrapper">
+                    <div class="cap-info-summary-item">
+                        <div class="cap-info-summary-icon">
+                            {% svg_icon name="time" %}
+                        </div>
+                        <div class="cap-info-summary-type">Urgency:</div>
+                        <div class="cap-info-summary-value">{{ item.value.urgency }}</div>
+                    </div>
+                    <div class="cap-info-summary-item">
+                        <div class="cap-info-summary-icon">
+                            {% svg_icon name="warning" %}
+                        </div>
+                        <div class="cap-info-summary-type">Severity:</div>
+                        <div class="cap-info-summary-value">{{ item.value.severity }}</div>
+                    </div>
+                    <div class="cap-info-summary-item">
+                        <div class="cap-info-summary-icon">
+                            {% svg_icon name="crosshairs" %}
+                        </div>
+                        <div class="cap-info-summary-type">Certainty:</div>
+                        <div class="cap-info-summary-value">{{ item.value.certainty }}</div>
+                    </div>
+
+                </div>
+            {% endif %}
+
+            <div class="info-item">
+                <div class="info-header">
+                    Event Description
+                </div>
+                <div class="info-detail">
+                    <p>
+                        {{ item.value.description }}
+                    </p>
+                </div>
+            </div>
+            {% if  item.value.instruction %}
+                <div class="info-item">
+                    <div class="info-header">
+                        Instructions
+                    </div>
+                    <div class="info-detail">
+                        {{ item.value.instruction }}
+                    </div>
+                </div>
+            {% endif %}
+              
+            </div>
+            {% endfor %}
+          </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/db8ac3c257.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
+<script>
+
+  const tabs=document.querySelectorAll('.tabs li')
+  const tabContentBoxes = document.querySelectorAll('#tab-content > div')
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(item => item.classList.remove('is-active'))
+
+      tab.classList.add('is-active')
+
+      const target = tab.dataset.target;
+      tabContentBoxes.forEach(box => {
+        if(box.getAttribute('id') === target){
+          box.classList.remove('is-hidden')
+        } else {
+          box.classList.add('is-hidden')
+
+        }
+      })
+    })
+  })
+  // alert area as geojson
+  const geojson = {{ page.geojson|safe }};
+  // alert area bounds
+  const bounds = {{ page.bounds|safe }};
+
+  // default MapLibre style
+  const defaultStyle = {
+    'version': 8,
+    'sources': {
+        'carto-dark': {
+            'type': 'raster',
+            'tiles': [
+                "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
+            ]
+        },
+        'carto-light': {
+            'type': 'raster',
+            'tiles': [
+                "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
+            ]
+        },
+        'wikimedia': {
+            'type': 'raster',
+            'tiles': [
+                "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+            ]
+        }
+    },
+    'layers': [{
+        'id': 'carto-light-layer',
+        'source': 'carto-light',
+
+
+        'type': 'raster',
+        'minzoom': 0,
+        'maxzoom': 22
+    }]
+  }
+
+  const detail_map = new maplibregl.Map({
+    container: "cap-map", // container ID
+    style: defaultStyle,
+    center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
+    zoom: 4.2, // starting zoom
+    scrollZoom: false,
+  });
+
+  // add zoom control
+  detail_map.addControl(
+      new maplibregl.NavigationControl({
+          visualizePitch: true,
+          showZoom: true,
+          showCompass: true,
+      })
+  );
+
+  detail_map.on("load", () => {
+    detail_map.addSource("alert-areas", {
+      type: "geojson",
+      data: geojson,
+    });
+
+    detail_map.addLayer({
+      id: "alert-areas-layer",
+      type: "fill",
+      source: "alert-areas",
+      paint: {
+        "fill-color": [
+          "case",
+          ["==", ["get", "severity"], "Extreme"],
+          "#d72f2a",
+          ["==", ["get", "severity"], "Severe"],
+          "#f89904",
+          ["==", ["get", "severity"], "Moderate"],
+          "#e4e616",
+          ["==", ["get", "severity"], "Minor"],
+          "#53ffff",
+          ["==", ["get", "severity"], "Unknown"],
+          "#3366ff",
+          "black",
+        ],
+        "fill-opacity": 0.7,
+        "fill-outline-color": "#000",
+
+      },
+    });
+    // fit to bounds
+    if (bounds) {
+        const bbox = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
+        detail_map.fitBounds(bbox, {padding: 20})
+    }
+    // When a click event occurs on a feature in the places layer, open a popup at the
+    // location of the feature, with description HTML from its properties.
+    detail_map.on("click", "alert-areas-layer", (e) => {
+      // Copy coordinates array.
+      const description = e.features[0].properties.areaDesc;
+
+      new maplibregl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(`<h4>${description}</h4>`)
+        .addTo(detail_map);
+    });
+
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    detail_map.on("mouseenter", "alert-areas-layer", () => {
+      detail_map.getCanvas().style.cursor = "pointer";
+    });
+
+    // Change it back to a pointer when it leaves.
+    detail_map.on("mouseleave", "alert-areas-layer", () => {
+      detail_map.getCanvas().style.cursor = "";
+    });
+  });
+
+ 
+</script>
+
+
+{% endblock extra_js %}

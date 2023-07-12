@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "pages.search",
     "pages.data_request",
     "pages.flex_page",
+    "pages.cap",
 
     "capeditor",
     "forecastmanager",

@@ -1,6 +1,15 @@
 $(document).ready(function () {
     // code to be executed when the DOM is ready
 
+    // def feature_collection(self):
+    //     fc = {"type": "FeatureCollection", "features": []}
+    //     for info in self.info:
+    //         if info.value.features:
+    //             for feature in info.value.features:
+    //                 fc["features"].append(feature)
+    //     return fc
+
+
     const forecast_map = new maplibregl.Map({
         container: "home-map", // container ID
         style: basemap,
@@ -21,7 +30,8 @@ $(document).ready(function () {
 
     const allAreas = $(".alert-area")
         .map(function () {
-            return JSON.parse(this.value);
+            
+            return this.value;
         })
         .get();
 
@@ -94,45 +104,12 @@ $(document).ready(function () {
             forecast_map.fitBounds(bbox, { padding: 20 });
         }
 
-        if (allAreas.length > 0) {
-            var polyFeature = [];
-            allAreas.map((area) => {
-                // Remove the SRID prefix
-                const wktWithoutSrid = area.area.replace(/^SRID=\d+;/, "");
+        console.log(geojson)
 
-                // Extract the coordinates from the polygon string using a regex pattern
-                const match = /\((.*?)\)/.exec(wktWithoutSrid);
-
-                revCoords = [];
-
-                if (match) {
-                    const coordinatePairs = match[1].split(", ");
-                    const coordinates = coordinatePairs.map((pair) =>
-                        pair.replace("(", "").split(" ").map(parseFloat)
-                    );
-
-                    polyFeature.push({
-                        type: "Feature",
-                        geometry: {
-                            type: "Polygon",
-                            coordinates: [coordinates],
-                        },
-                        properties: {
-                            areaDesc: area.areaDesc,
-                            severity: area.severity,
-                            severityInfo: area.severityInfo,
-                            event: area.event
-                        },
-                    });
-                }
-            });
-
+        if(geojson){
             forecast_map.addSource("alert-areas", {
                 type: "geojson",
-                data: {
-                    type: "FeatureCollection",
-                    features: polyFeature,
-                },
+                data: geojson,
             });
 
             forecast_map.addLayer({
@@ -164,12 +141,12 @@ $(document).ready(function () {
             forecast_map.on("click", "alert-areas-layer", (e) => {
                 // Copy coordinates array.
                 const description = e.features[0].properties.areaDesc;
-                const severity = e.features[0].properties.severityInfo;
+                const severity = e.features[0].properties.severity;
                 const event = e.features[0].properties.event;
 
                 new maplibregl.Popup()
                     .setLngLat(e.lngLat)
-                    .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:18px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity}</p></div>`)
+                    .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p></div>`)
                     .addTo(forecast_map);
             });
 
@@ -183,7 +160,7 @@ $(document).ready(function () {
                 forecast_map.getCanvas().style.cursor = "";
             });
         }
-
+        
 
         // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.

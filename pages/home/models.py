@@ -1,8 +1,10 @@
 import os
 from datetime import datetime, timedelta
 from itertools import groupby
+import pytz
+import json
 
-from capeditor.models import Alert
+from pages.cap.models import CapAlertPage
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -25,7 +27,7 @@ class HomePage(MetadataPageMixin, Page):
     template = "home_page.html"
 
     subpage_types = [
-        'capeditor.AlertList',
+        'cap.CapAlertPage',
         'contact.ContactPage',
         'services.ServiceIndexPage',
         'products.ProductIndexPage',
@@ -185,12 +187,32 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def get_alerts(self):
-        alerts = Alert.objects.all()
-        active_alerts = alerts.filter(alert_info__expires__gte=datetime.today().date())[:3]
+        alerts = CapAlertPage.objects.all().order_by('sent')[:2]
+        active_alerts = []
+
+        active_alert_info = None
+
+        geojson = {"type": "FeatureCollection", "features": []}
+
+        for alert in alerts:
+            for info in alert.info:
+                if info.value.get('expires').date() >= datetime.today().date():
+
+                    active_alert_info = info
+
+                if info.value.features:
+                    for feature in info.value.features:
+                        geojson["features"].append(feature)
+
+            if active_alert_info:
+                active_alerts.append(alert)
+
+
         return {
             # 'alerts': serializers.serialize('json',list(alerts) ),
             'alerts': alerts,
-            'active_alerts': active_alerts
+            'active_alerts': active_alerts,
+            'geojson':json.dumps(geojson)
         }
 
     @cached_property
