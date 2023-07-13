@@ -1,5 +1,6 @@
 {% load static nmhs_cms_tags %}
 
+
 {% if self.enable_weather_forecasts == True %}
    
 
@@ -183,11 +184,4 @@
     </section>
 {% endif %}
 
-{% block extra_js %}
 
-<script>
-    const geojson = JSON.parse("{{self.get_alerts.geojson|escapejs}}")
-
-</script>
-
-{% endblock extra_js %}

@@ -33,6 +33,8 @@
         const temp_units = "{{settings.forecastmanager.ForecastSetting.get_temp_units_display}}"
         const forecast_api = "{% url 'forecast-list'%}"
         const static_path = '{% static "forecastmanager/img/" %}'
+        const geojson = JSON.parse("{{self.get_alerts.geojson|escapejs}}")
+
 
     </script>
 

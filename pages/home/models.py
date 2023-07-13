@@ -187,7 +187,7 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def get_alerts(self):
-        alerts = CapAlertPage.objects.all().order_by('sent')[:2]
+        alerts = CapAlertPage.objects.all().order_by('-sent')[:2]
         active_alerts = []
 
         active_alert_info = None
@@ -226,3 +226,11 @@ class HomePage(MetadataPageMixin, Page):
         return {
             'cities': cities
         }
+    
+    def get_children(self):
+        children = super().get_children()  # Get live and public child pages
+        
+        # Exclude CAP Alert pages by their specific criteria (e.g., page type or attribute)
+        children = children.not_type(CapAlertPage)
+
+        return children

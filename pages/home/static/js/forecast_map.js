@@ -104,8 +104,6 @@ $(document).ready(function () {
             forecast_map.fitBounds(bbox, { padding: 20 });
         }
 
-        console.log(geojson)
-
         if(geojson){
             forecast_map.addSource("alert-areas", {
                 type: "geojson",
@@ -117,7 +115,6 @@ $(document).ready(function () {
                 type: "fill",
                 source: "alert-areas",
                 paint: {
-                    "fill-color": "#088",
                     "fill-color": [
                         "case",
                         ["==", ["get", "severity"], "Extreme"],
@@ -133,6 +130,7 @@ $(document).ready(function () {
                         "black",
                     ],
                     "fill-opacity": 0.7,
+                    "fill-outline-color": "#000",
                 },
             });
 
@@ -195,6 +193,9 @@ $(document).ready(function () {
             forecast_map.getCanvas().style.cursor = "";
         });
 
+        var initDate = document.getElementById("daily_forecast");
+        setForecastData(initDate.value)
+
 
     })
     
@@ -234,8 +235,7 @@ $(document).ready(function () {
 
     }
 
-    var initDate = document.getElementById("daily_forecast");
-    setForecastData(initDate.value)
+   
 
 
 

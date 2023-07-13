@@ -60,13 +60,7 @@
        
 
         
-        {% for item in page.info %} 
-        {% for area in item.value.area %}
-          <span class="tag is-dark" style="margin:1em 0"> <i class="fa fa-location-pin pr-1"> </i>
-            {{area.value.areaDesc}}
-          </span>
-        {% endfor %}
-      {% endfor %}
+        
         <div class="cap-map-wrapper">
           <div id="cap-map" style="height:500px;background-color:#e9e8e8; width:100%"></div>
           <div class="map-legend">
@@ -96,6 +90,13 @@
             </div>
           </div>
         </div>
+        {% for item in page.info %} 
+        {% for area in item.value.area %}
+          <span class="tag is-dark" style="margin:1em 0"> <i class="fa fa-location-pin pr-1"> </i>
+            {{area.value.areaDesc}}
+          </span>
+        {% endfor %}
+      {% endfor %}
 
         
       </div>

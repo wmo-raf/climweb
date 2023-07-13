@@ -9,7 +9,7 @@ from capeditor.models import AbstractCapAlertPage
 class CapAlertPage(AbstractCapAlertPage):
     template = "capeditor/alert_detail.html"
 
-    parent_page_type = ["home.HomePage"]
+    parent_page_types = ["home.HomePage"]
     subpage_types = []
 
     content_panels = Page.content_panels + [
