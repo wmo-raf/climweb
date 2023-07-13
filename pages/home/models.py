@@ -227,10 +227,10 @@ class HomePage(MetadataPageMixin, Page):
             'cities': cities
         }
     
-    def get_children(self):
-        children = super().get_children()  # Get live and public child pages
+    # def get_children(self):
+    #     children = super().get_children().live().public()  # Get live and public child pages
         
-        # Exclude CAP Alert pages by their specific criteria (e.g., page type or attribute)
-        children = children.not_type(CapAlertPage)
+    #     # Exclude CAP Alert pages by their specific criteria (e.g., page type or attribute)
+    #     children = children.not_type(CapAlertPage)
 
-        return children
+    #     return children
