@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 13:01+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,87 +18,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:30
-msgid "Product Page"
-msgstr "Página del producto"
+#: pages/products/blocks.py:28 pages/products/blocks.py:32
+msgid "Name"
+msgstr "Nombre"
 
-#: models.py:31
-msgid "Product Pages"
-msgstr "Páginas de productos"
+#: pages/products/blocks.py:33
+msgid "Icon"
+msgstr "Icono"
 
-#: models.py:41
+#: pages/products/blocks.py:39 pages/products/blocks.py:48
+#, fuzzy
+#| msgid "Product Tag"
+msgid "Product Type"
+msgstr "tipo de producto"
+
+#: pages/products/blocks.py:40
+msgid "Image"
+msgstr "Imagen"
+
+#: pages/products/blocks.py:41
+msgid "Summary of the map/image information"
+msgstr "Resumen de la información del mapa/imagen"
+
+#: pages/products/blocks.py:49
+msgid "Thumbnail of the document"
+msgstr "Miniatura del documento"
+
+#: pages/products/blocks.py:50
+msgid "For example a screen grab of the cover page"
+msgstr "Por ejemplo, una captura de pantalla de la portada."
+
+#: pages/products/blocks.py:51
+msgid "Document"
+msgstr "Documento"
+
+#: pages/products/blocks.py:52
+#, fuzzy
+#| msgid "Summary of the product release"
+msgid "Summary of the document information"
+msgstr "Resumen de la información del documento"
+
+#: pages/products/models.py:31
+msgid "Products listing Heading"
+msgstr "Listado de productos Encabezado"
+
+#: pages/products/models.py:38
+#, fuzzy
+#| msgid "Product Page"
+msgid "Product Index Page"
+msgstr "Página de índice de productos"
+
+#: pages/products/models.py:39
+#, fuzzy
+#| msgid "Product Pages"
+msgid "Product Index Pages"
+msgstr "Páginas de índice de productos"
+
+#: pages/products/models.py:49
 msgid "Service"
 msgstr "Servicio"
 
-#: models.py:42
+#: pages/products/models.py:50
 msgid "Product"
 msgstr "Producto"
 
-#: models.py:46
-msgid "Banner Image"
-msgstr "Imagen de la pancarta"
-
-#: models.py:47 models.py:72
-msgid "A high quality image related to this Product"
-msgstr "Una imagen de alta calidad relacionada con este Producto"
-
-#: models.py:53
-msgid "Banner Title"
-msgstr "Título de la pancarta"
-
-#: models.py:54
-msgid "Banner Subtitle"
-msgstr "Subtítulo de pancarta"
-
-#: models.py:56
-msgid "Call to action button text"
-msgstr "Texto del botón de llamada a la acción"
-
-#: models.py:63 models.py:66
-msgid "Call to action related page"
-msgstr "Página relacionada con la llamada a la acción"
-
-#: models.py:66
-msgid "Introduction section title"
-msgstr "Título de la sección de introducción"
-
-#: models.py:67
-msgid "A description of what your organisation does under  this Product"
-msgstr "Una descripción de lo que hace su organización bajo este Producto"
-
-#: models.py:68
-msgid "Introduction text"
-msgstr "Texto de introducción"
-
-#: models.py:71
-msgid "Introduction Image"
-msgstr "Imagen de introducción"
-
-#: models.py:78
-msgid "Introduction button text"
-msgstr "Texto del botón de introducción"
-
-#: models.py:85
-msgid "Introduction button link"
-msgstr "Enlace del botón de introducción"
-
-#: models.py:90
-msgid "Feature block"
-msgstr "bloque de características"
-
-#: models.py:98
-msgid ""
-"The year for the earliest available bulletin. This is used to generate the "
-"years available for filtering "
-msgstr ""
-"El año del primer boletín disponible. Esto se utiliza para generar los años "
-"disponibles para filtrar"
-
-#: models.py:100
-msgid "Earliest bulletin year"
-msgstr "Primer año de boletín"
-
-#: models.py:104
+#: pages/products/models.py:55
 msgid ""
 "How many of this products should be visible on the landing page filter "
 "section ?"
@@ -106,50 +90,108 @@ msgstr ""
 "¿Cuántos de estos productos deberían estar visibles en la sección de filtro "
 "de la página de destino?"
 
-#: models.py:105
+#: pages/products/models.py:56
 msgid "Products per page"
 msgstr "Productos por pagina"
 
-#: models.py:119
-msgid "Banner Section"
-msgstr "Sección de banner"
-
-#: models.py:129
-msgid "Introduction Section"
-msgstr "Sección de introducción"
-
-#: models.py:137
+#: pages/products/models.py:66
 msgid "Other settings"
 msgstr "Otros ajustes"
 
-#: models.py:206
+#: pages/products/models.py:120
+msgid "Product Page"
+msgstr "Página del producto"
+
+#: pages/products/models.py:121
+msgid "Product Pages"
+msgstr "Páginas de productos"
+
+#: pages/products/models.py:126
 msgid "Product Tag"
 msgstr "Etiqueta del producto"
 
-#: models.py:214
-msgid "Year"
-msgstr "Año"
+#: pages/products/models.py:165
+msgid "Date"
+msgstr "Fecha"
 
-#: models.py:215
-msgid "Month"
-msgstr "Mes"
+#: pages/products/models.py:166
+msgid "Valid until"
+msgstr "Válido hasta"
 
-#: models.py:216
-msgid "Summary of the product release"
-msgstr "Resumen del lanzamiento del producto"
+#: pages/products/models.py:167
+msgid "Up to when is this product valid ? Leave blank if not applicable"
+msgstr ""
+"¿Hasta cuándo es válido este producto? Dejar en blanco si no es aplicable"
 
-#: models.py:216
-msgid "Summary"
-msgstr "Resumen"
+#: pages/products/models.py:216
+#, fuzzy
+#| msgid "Product Page"
+msgid "Product Item"
+msgstr "Artículo del producto"
 
-#: models.py:223
-msgid "Image that will appear as thumbnail"
-msgstr "Imagen que aparecerá como miniatura"
+#~ msgid "Banner Image"
+#~ msgstr "Imagen de la pancarta"
 
-#: models.py:224
-msgid "Image"
-msgstr "Imagen"
+#~ msgid "A high quality image related to this Product"
+#~ msgstr "Una imagen de alta calidad relacionada con este Producto"
 
-#: models.py:232
-msgid "Document"
-msgstr "Documento"
+#~ msgid "Banner Title"
+#~ msgstr "Título de la pancarta"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "Subtítulo de pancarta"
+
+#~ msgid "Call to action button text"
+#~ msgstr "Texto del botón de llamada a la acción"
+
+#~ msgid "Call to action related page"
+#~ msgstr "Página relacionada con la llamada a la acción"
+
+#~ msgid "Introduction section title"
+#~ msgstr "Título de la sección de introducción"
+
+#~ msgid "A description of what your organisation does under  this Product"
+#~ msgstr "Una descripción de lo que hace su organización bajo este Producto"
+
+#~ msgid "Introduction text"
+#~ msgstr "Texto de introducción"
+
+#~ msgid "Introduction Image"
+#~ msgstr "Imagen de introducción"
+
+#~ msgid "Introduction button text"
+#~ msgstr "Texto del botón de introducción"
+
+#~ msgid "Introduction button link"
+#~ msgstr "Enlace del botón de introducción"
+
+#~ msgid "Feature block"
+#~ msgstr "bloque de características"
+
+#~ msgid ""
+#~ "The year for the earliest available bulletin. This is used to generate the "
+#~ "years available for filtering "
+#~ msgstr ""
+#~ "El año del primer boletín disponible. Esto se utiliza para generar los años "
+#~ "disponibles para filtrar"
+
+#~ msgid "Earliest bulletin year"
+#~ msgstr "Primer año de boletín"
+
+#~ msgid "Banner Section"
+#~ msgstr "Sección de banner"
+
+#~ msgid "Introduction Section"
+#~ msgstr "Sección de Introducción"
+
+#~ msgid "Year"
+#~ msgstr "Año"
+
+#~ msgid "Month"
+#~ msgstr "Mes"
+
+#~ msgid "Summary"
+#~ msgstr "Resumen"
+
+#~ msgid "Image that will appear as thumbnail"
+#~ msgstr "Imagen que aparecerá como miniatura"

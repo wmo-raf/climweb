@@ -197,7 +197,7 @@ class LanguageSettings(BaseSiteSetting):
         return languages
 
     class Meta:
-        verbose_name = "Google Translate Languages"
+        verbose_name = _("Google Translate Languages")
 
     @cached_property
     def included_languages(self):
@@ -323,6 +323,10 @@ class NavigationSettings(BaseSiteSetting):
         FieldPanel("footer_menu"),
     ]
 
+    class Meta:
+        verbose_name = _("Navigation Setting")
+        verbose_name_plural = _("Navigation Settings")
+
 
 @register_setting
 class ImportantPages(BaseSiteSetting):
@@ -385,3 +389,7 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_events_page'),
         PageChooserPanel('all_partners_page'),
     ]
+
+    class Meta:
+        verbose_name = _("Important Pages")
+        verbose_name_plural = _("Important Pages")

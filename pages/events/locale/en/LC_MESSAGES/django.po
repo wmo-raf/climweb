@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 16:13+0300\n"
+"POT-Creation-Date: 2023-07-14 14:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,236 +18,216 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:60
-msgid "Banner Image"
-msgstr "Banner Image"
+#: pages/events/models.py:45
+#, fuzzy
+#| msgid "Event Type"
+msgid "Event type"
+msgstr "Event type"
 
-#: models.py:61
-msgid "A high quality image related to your organisation events/trainings"
-msgstr "A high quality image related to your organisation events/trainings"
+#: pages/events/models.py:53
+msgid "Thumbnail/image for this type of event."
+msgstr "Thumbnail/image for this type of event."
 
-#: models.py:67
-msgid "Banner Title"
-msgstr "Banner Title"
-
-#: models.py:68
-msgid "Banner Subtitle"
-msgstr "Banner Subtitle"
-
-#: models.py:70
-msgid "Call to action button text"
-msgstr "Call to action button text"
-
-#: models.py:77
-msgid "Call to action related page"
-msgstr "Call to action related page"
-
-#: models.py:83
-msgid "How many events should be visible on the all events section ?"
-msgstr "How many events should be visible on the all events section ?"
-
-#: models.py:84
-msgid "Events per page"
-msgstr "Events per page"
-
-#: models.py:95
-msgid "Banner Section"
-msgstr "Banner Section"
-
-#: models.py:101
-msgid "Other Settings"
-msgstr "Other Settings"
-
-#: models.py:105
-msgid "Event Index Page"
-msgstr "Event Index Page"
-
-#: models.py:195
+#: pages/events/models.py:66 pages/events/models.py:176
 msgid "Event Type"
 msgstr "Event Type"
 
-#: models.py:196
+#: pages/events/models.py:79
+msgid "How many events should be visible on the all events section ?"
+msgstr "How many events should be visible on the all events section ?"
+
+#: pages/events/models.py:80
+msgid "Events per page"
+msgstr "Events per page"
+
+#: pages/events/models.py:88
+msgid "Other Settings"
+msgstr "Other Settings"
+
+#: pages/events/models.py:92
+msgid "Event Index Page"
+msgstr "Event Index Page"
+
+#: pages/events/models.py:177
 msgid "Service Categories"
 msgstr "Service Categories"
 
-#: models.py:197
+#: pages/events/models.py:178
 msgid "Relevant Projects"
 msgstr "Relevant Projects"
 
-#: models.py:198
+#: pages/events/models.py:179
 msgid "Event begin date"
 msgstr "Event begin date"
 
-#: models.py:199
+#: pages/events/models.py:180
 msgid "Day of the event. If multi-day, then this should be the first day"
 msgstr "Day of the event. If multi-day, then this should be the first day"
 
-#: models.py:201
+#: pages/events/models.py:182
 msgid "End date - Note: Not Required if this is a one day Event"
 msgstr "End date - Note: Not Required if this is a one day Event"
 
-#: models.py:202
+#: pages/events/models.py:183
 msgid "Not required if this is a one day event"
 msgstr "Not required if this is a one day event"
 
-#: models.py:204 models.py:207
+#: pages/events/models.py:185 pages/events/models.py:188
 msgid "Timezone"
 msgstr "Timezone"
 
-#: models.py:209
+#: pages/events/models.py:190
 msgid "Where will the event take place ?"
 msgstr "Where will the event take place ?"
 
-#: models.py:209
+#: pages/events/models.py:191
 msgid "Location"
 msgstr "Location"
 
-#: models.py:211
+#: pages/events/models.py:193
 msgid "What is the cost for participating in this event ? Leave blank if free"
 msgstr ""
 "What is the cost for participating in this event ? Leave blank if free"
 
-#: models.py:212
+#: pages/events/models.py:194
 msgid "Cost"
 msgstr "Cost"
 
-#: models.py:214
+#: pages/events/models.py:196
 msgid "Description"
 msgstr "Description"
 
-#: models.py:217
+#: pages/events/models.py:199
 msgid "Downloadable agenda document"
 msgstr "Downloadable agenda document"
 
-#: models.py:218
-msgid "Agenda document, preferably in PDF format"
-msgstr "Agenda document, preferably in PDF format"
+#: pages/events/models.py:200
+#, fuzzy
+#| msgid "Agenda document, preferably in PDF format"
+msgid "Agenda document, if available, preferably in PDF format"
+msgstr "Agenda document, if available, preferably in PDF format"
 
-#: models.py:226
+#: pages/events/models.py:208
 msgid "Event Image"
 msgstr "Event Image"
 
-#: models.py:227
+#: pages/events/models.py:209
 msgid "An image for this event, can be a poster or any relevant image"
 msgstr "An image for this event, can be a poster or any relevant image"
 
-#: models.py:233
+#: pages/events/models.py:216
 msgid "Image Placement"
 msgstr "Image Placement"
 
-#: models.py:235
+#: pages/events/models.py:218
 msgid "Form template"
 msgstr "Form template"
 
-#: models.py:239
+#: pages/events/models.py:222
 msgid "Show this event in the events landing page as featured ?"
 msgstr "Show this event in the events landing page as featured ?"
 
-#: models.py:239
+#: pages/events/models.py:222
 msgid "Featured"
 msgstr "Featured"
 
-#: models.py:243
+#: pages/events/models.py:226
 msgid "Make this event hidden in events page or elsewhere"
 msgstr "Make this event hidden in events page or elsewhere"
 
-#: models.py:243
+#: pages/events/models.py:226
 msgid "Is hidden"
 msgstr "Is hidden"
 
-#: models.py:247
+#: pages/events/models.py:230
 msgid "Show this event on the homepage ?"
 msgstr "Show this event on the homepage ?"
 
-#: models.py:247
+#: pages/events/models.py:230
 msgid "Is visible on homepage"
 msgstr "Is visible on homepage"
 
-#: models.py:251
+#: pages/events/models.py:234
 msgid "Panelists"
 msgstr "Panelists"
 
-#: models.py:255
+#: pages/events/models.py:238
 msgid "Sessions"
 msgstr "Sessions"
 
-#: models.py:259
+#: pages/events/models.py:242
 msgid "Additional Materials"
 msgstr "Additional Materials"
 
-#: models.py:262
+#: pages/events/models.py:245
 msgid "Acknowledgement/sponsors"
 msgstr "Acknowledgement/sponsors"
 
-#: models.py:264
+#: pages/events/models.py:247
 msgid "Is archived"
 msgstr "Is archived"
 
-#: models.py:265
+#: pages/events/models.py:248
 msgid "Registration open"
 msgstr "Registration open"
 
-#: models.py:267
+#: pages/events/models.py:250
 msgid "Youtube Video ID if the event is being livestreamed"
 msgstr "Youtube Video ID if the event is being livestreamed"
 
-#: models.py:268
+#: pages/events/models.py:251
 msgid "Meeting Registration Integration Platform"
 msgstr "Meeting Registration Integration Platform"
 
-#: models.py:271
+#: pages/events/models.py:254
 msgid "Platform for Event"
 msgstr "Platform for Event"
 
-#: models.py:314 models.py:324
-msgid "Zoom Events Settings"
-msgstr "Zoom Events Settings"
-
-#: models.py:321 models.py:524
+#: pages/events/models.py:284 pages/events/models.py:482
 msgid "Content"
 msgstr "Content"
 
-#: models.py:322 models.py:525
+#: pages/events/models.py:285 pages/events/models.py:483
 msgid "SEO"
 msgstr "SEO"
 
-#: models.py:323 models.py:526
+#: pages/events/models.py:286 pages/events/models.py:484
 msgid "Settings"
 msgstr "Settings"
 
-#: models.py:330
+#: pages/events/models.py:292
 msgid "Event Page"
 msgstr "Event Page"
 
-#: models.py:460
+#: pages/events/models.py:422
 msgid "Optional Additional information/details"
 msgstr "Optional Additional information/details"
 
-#: models.py:461
+#: pages/events/models.py:423
 msgid "Additional Information - (Optional)"
 msgstr "Additional Information - (Optional)"
 
-#: models.py:463
+#: pages/events/models.py:425
 msgid "Number of available registrations"
 msgstr "Number of available registrations"
 
-#: models.py:464
+#: pages/events/models.py:426
 msgid "Registration Limit - (Leave blank if no limit)"
 msgstr "Registration Limit - (Leave blank if no limit)"
 
-#: models.py:468
+#: pages/events/models.py:430
 msgid "Text to display after successful submission"
 msgstr "Text to display after successful submission"
 
-#: models.py:468
+#: pages/events/models.py:431
 msgid "Thank you text"
 msgstr "Thank you text"
 
-#: models.py:469
+#: pages/events/models.py:432
 msgid "Validation Field"
 msgstr "Validation Field"
 
-#: models.py:470
+#: pages/events/models.py:433
 msgid ""
 "A field on the form to check if is already submitted so as to prevent "
 "multiple submissions by one person. This is usually the email address field "
@@ -257,15 +237,15 @@ msgstr ""
 "multiple submissions by one person. This is usually the email address field "
 "in snake casing format"
 
-#: models.py:475
+#: pages/events/models.py:439
 msgid "Should we send a confirmation/follow up email ?"
 msgstr "Should we send a confirmation/follow up email ?"
 
-#: models.py:476
+#: pages/events/models.py:440
 msgid "Send confirmation Email"
 msgstr "Send confirmation Email"
 
-#: models.py:478
+#: pages/events/models.py:442
 msgid ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
@@ -273,19 +253,19 @@ msgstr ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
 
-#: models.py:479
+#: pages/events/models.py:443
 msgid "Email Field"
 msgstr "Email Field"
 
-#: models.py:481
+#: pages/events/models.py:445
 msgid "Email Confirmation message"
 msgstr "Email Confirmation message"
 
-#: models.py:482
+#: pages/events/models.py:446
 msgid "Message to send to the user. For example zoom links"
 msgstr "Message to send to the user. For example zoom links"
 
-#: models.py:484
+#: pages/events/models.py:448
 msgid ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
@@ -293,14 +273,45 @@ msgstr ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
 
-#: models.py:486
+#: pages/events/models.py:451
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr "Enable batch option for adding registrants to zoom later"
 
-#: models.py:511
+#: pages/events/models.py:469
 msgid "Event Registration Page"
 msgstr "Event Registration Page"
 
-#: models.py:553
+#: pages/events/models.py:485
+msgid "Zoom Events Settings"
+msgstr "Zoom Events Settings"
+
+#: pages/events/models.py:486
+#, fuzzy
+#| msgid "Other Settings"
+msgid "MailChimp Settings"
+msgstr "MailChimp Settings"
+
+#: pages/events/models.py:513
 msgid "Added to Zoom"
 msgstr "Added to Zoom"
+
+#~ msgid "Banner Image"
+#~ msgstr "Banner Image"
+
+#~ msgid "A high quality image related to your organisation events/trainings"
+#~ msgstr "A high quality image related to your organisation events/trainings"
+
+#~ msgid "Banner Title"
+#~ msgstr "Banner Title"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "Banner Subtitle"
+
+#~ msgid "Call to action button text"
+#~ msgstr "Call to action button text"
+
+#~ msgid "Call to action related page"
+#~ msgstr "Call to action related page"
+
+#~ msgid "Banner Section"
+#~ msgstr "Banner Section"

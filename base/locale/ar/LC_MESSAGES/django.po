@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 18:09+0300\n"
+"POT-Creation-Date: 2023-07-14 15:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: blocks.py:55
+#: base/blocks.py:47 base/blocks.py:59
+msgid "Section Title"
+msgstr "عنوان القسم"
+
+#: base/blocks.py:48 base/blocks.py:60
+msgid "Section title"
+msgstr "عنوان القسم"
+
+#: base/blocks.py:49 base/blocks.py:61
+msgid "Section Text"
+msgstr "نص القسم"
+
+#: base/blocks.py:50 base/blocks.py:62
+#, fuzzy
+#| msgid "Description"
+msgid "Section description"
+msgstr "وصف القسم"
+
+#: base/blocks.py:56
+msgid "Title, Text and Image"
+msgstr "العنوان والنص والصورة"
+
+#: base/blocks.py:67
+msgid "Title and Text"
+msgstr "العنوان والنص"
+
+#: base/blocks.py:82
 msgid "A URL that returns Highcharts.js configuration, including the data"
 msgstr "عنوان URL يقوم بإرجاع تكوين Highcharts.js ، بما في ذلك البيانات"
 
-#: blocks.py:59
+#: base/blocks.py:86
 msgid "Description"
 msgstr "وصف"
 
-#: blocks.py:61
+#: base/blocks.py:88
 msgid "Action Link Internal"
 msgstr "ارتباط الإجراء داخلي"
 
-#: blocks.py:63
+#: base/blocks.py:90
 msgid ""
 "An external link to a detailed resource on the internet.If provided, the "
 "internal link will be ignored"
@@ -38,172 +64,560 @@ msgstr ""
 "رابط خارجي لمصدر تفصيلي على الإنترنت ، إذا تم توفيره ، فسيتم تجاهل الارتباط "
 "الداخلي"
 
-#: blocks.py:102
-msgid "The full url link that takes you to the page"
-msgstr "رابط URL الكامل الذي يأخذك إلى الصفحة"
+#: base/blocks.py:96
+msgid "Feature Block"
+msgstr "كتلة الميزات"
 
-#: blocks.py:104
-msgid ""
-"The user id if available, For example the user Id/name for twitter, "
-"Instagram or channel id for Youtube etc"
-msgstr ""
-"معرف المستخدم إذا كان متاحًا ، على سبيل المثال معرف / اسم المستخدم لتويتر أو"
-" Instagram أو معرف القناة لـ Youtube وما إلى ذلك"
+#: base/blocks.py:107
+msgid "Collapsible Block"
+msgstr "كتلة قابلة للطي"
 
-#: blocks.py:131
-msgid "Select document or file"
-msgstr "حدد المستند أو الملف"
+#: base/blocks.py:118
+msgid "Accordion"
+msgstr "الأكورديون"
 
-#: blocks.py:132
-msgid "Document/File"
-msgstr "ملف المستند"
-
-#: blocks.py:133
-msgid "Select/upload image"
-msgstr "حدد / تحميل الصورة"
-
-#: wagtailsnippets_models.py:25 wagtailsnippets_models.py:47
-#: wagtailsnippets_models.py:63 wagtailsnippets_models.py:83
-msgid "Name"
-msgstr "اسم"
-
-#: wagtailsnippets_models.py:26 wagtailsnippets_models.py:64
-#: wagtailsnippets_models.py:174
+#: base/blocks.py:134 base/blocks.py:146 base/models/snippets.py:36
+#: base/models/snippets.py:68
 msgid "Icon"
 msgstr "أيقونة"
 
-#: wagtailsnippets_models.py:41
-msgid "Service Category"
-msgstr "فئة الخدمة"
+#: base/blocks.py:141
+msgid "What we do"
+msgstr "الذي نفعله"
 
-#: wagtailsnippets_models.py:42
-msgid "Service Categories"
-msgstr "فئات الخدمة"
+#: base/blocks.py:147
+msgid "The full url link that takes you to the page"
+msgstr "رابط URL الكامل الذي يأخذك إلى الصفحة"
 
-#: wagtailsnippets_models.py:57
-msgid "Product Category"
-msgstr "فئة المنتج"
+#: base/blocks.py:151
+msgid "Social Media Account"
+msgstr "حساب وسائل التواصل الاجتماعي"
 
-#: wagtailsnippets_models.py:58
-msgid "Products Categories"
-msgstr "فئات المنتجات"
+#: base/blocks.py:163
+msgid "Collapsible Text Block"
+msgstr "كتلة نصية قابلة للطي"
 
-#: wagtailsnippets_models.py:79
-msgid "Publication Types"
-msgstr "أنواع المنشورات"
+#: base/blocks.py:173
+msgid "Select document or file"
+msgstr "حدد المستند أو الملف"
 
-#: wagtailsnippets_models.py:84
-msgid "Is alert"
-msgstr "في حالة تأهب"
+#: base/blocks.py:174
+msgid "Document/File"
+msgstr "ملف المستند"
 
-#: wagtailsnippets_models.py:85
-msgid "Is press release"
-msgstr "هو بيان صحفي"
+#: base/blocks.py:175
+msgid "Select/upload image"
+msgstr "حدد / تحميل الصورة"
 
-#: wagtailsnippets_models.py:103
-msgid "News Type"
-msgstr "نوع الخبر"
+#: base/blocks.py:179
+msgid "Additional Material"
+msgstr "مواد اضافية"
 
-#: wagtailsnippets_models.py:104
-msgid "News Types"
-msgstr "أنواع الأخبار"
+#: base/blocks.py:188
+msgid "Additional Materials"
+msgstr "مواد إضافية"
 
-#: wagtailsnippets_models.py:108
-msgid "Title"
-msgstr "عنوان"
+#: base/blocks.py:193 base/blocks.py:211
+msgid "Label"
+msgstr "ملصق"
 
-#: wagtailsnippets_models.py:115
-msgid "Thumbnail"
-msgstr "ظفري"
+#: base/blocks.py:194 base/blocks.py:212
+msgid "Page"
+msgstr "صفحة"
 
-#: wagtailsnippets_models.py:117
-msgid "URL"
-msgstr "URL"
+#: base/blocks.py:195 base/blocks.py:213
+msgid "External URL"
+msgstr "URL خارجي"
 
-#: wagtailsnippets_models.py:118
-msgid "Services"
-msgstr "خدمات"
+#: base/blocks.py:196
+msgid "Show as action button"
+msgstr "إظهار كزر إجراء"
 
-#: wagtailsnippets_models.py:119
-msgid "Order"
-msgstr "طلب"
+#: base/blocks.py:214
+msgid "Include Subpages"
+msgstr "تضمين الصفحات الفرعية"
 
-#: wagtailsnippets_models.py:123
-msgid "Application"
-msgstr "طلب"
+#: base/blocks.py:215
+msgid "Large Submenu Dropdown"
+msgstr "قائمة فرعية كبيرة منسدلة"
 
-#: wagtailsnippets_models.py:154
-msgid "GIS Application"
-msgstr "تطبيق نظم المعلومات الجغرافية"
+#: base/mixins.py:20
+msgid "For search engines"
+msgstr "لمحركات البحث"
 
-#: wagtailsnippets_models.py:155
-msgid "GIS Applications"
-msgstr "تطبيقات نظم المعلومات الجغرافية"
+#: base/mixins.py:26
+msgid "For site menus"
+msgstr "لقوائم الموقع"
 
-#: wagtailsnippets_models.py:173
-msgid "Event type"
-msgstr "نوع الحدث"
+#: base/models/abstracts.py:19
+msgid "Banner Image"
+msgstr "صورة بانر"
 
-#: wagtailsnippets_models.py:181
-msgid "Thumbnail/image for this type of event."
-msgstr "صورة مصغرة / صورة لهذا النوع من الأحداث."
+#: base/models/abstracts.py:20
+msgid "A high quality banner image"
+msgstr "صورة بانر عالية الجودة"
 
-#: wagtailsnippets_models.py:199
-msgid "Event Type"
-msgstr "نوع الحدث"
+#: base/models/abstracts.py:26
+msgid "Banner Title"
+msgstr "عنوان البانر"
 
-#: wagtailsnippets_models.py:205
+#: base/models/abstracts.py:27
+msgid "Banner Subtitle"
+msgstr "العنوان الفرعي للراية"
+
+#: base/models/abstracts.py:29
+msgid "Call to action button text"
+msgstr "نص زر الحث على اتخاذ إجراء"
+
+#: base/models/abstracts.py:36
+msgid "Call to action related page"
+msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
+
+#: base/models/abstracts.py:48
+msgid "Banner Section"
+msgstr "قسم البانر"
+
+#: base/models/abstracts.py:63
+msgid "Introduction Title"
+msgstr "عنوان المقدمة"
+
+#: base/models/abstracts.py:64
+msgid "Introduction section title"
+msgstr "عنوان قسم المقدمة"
+
+#: base/models/abstracts.py:65
+msgid "Introduction text"
+msgstr "مقدمة النص"
+
+#: base/models/abstracts.py:66
+msgid "Introduction section description"
+msgstr "مقدمة وصف القسم"
+
+#: base/models/abstracts.py:69
+msgid "Introduction Image"
+msgstr "صورة المقدمة"
+
+#: base/models/abstracts.py:70
+msgid "A high quality image"
+msgstr "صورة عالية الجودة"
+
+#: base/models/abstracts.py:78
+msgid "Introduction button text"
+msgstr "نص زر المقدمة"
+
+#: base/models/abstracts.py:85
+msgid "Introduction button link"
+msgstr "رابط زر المقدمة"
+
+#: base/models/abstracts.py:100
+msgid "Introduction Section"
+msgstr "قسم المقدمة"
+
+#: base/models/site_settings.py:28
+msgid "Country"
+msgstr "دولة"
+
+#: base/models/site_settings.py:29
+msgid "Organisation Name"
+msgstr "اسم المنظمة"
+
+#: base/models/site_settings.py:31
+msgid "Phone Number"
+msgstr "رقم التليفون"
+
+#: base/models/site_settings.py:31
+msgid "Phone number"
+msgstr "رقم التليفون"
+
+#: base/models/site_settings.py:32 base/models/site_settings.py:33
+msgid "Email address"
+msgstr "عنوان البريد الإلكتروني"
+
+#: base/models/site_settings.py:34
+msgid "Postal Address"
+msgstr "العنوان البريدي"
+
+#: base/models/site_settings.py:35
+msgid "Postal address"
+msgstr "العنوان البريدي"
+
+#: base/models/site_settings.py:43
+msgid "Organisation Logo"
+msgstr "شعار المنظمة"
+
+#: base/models/site_settings.py:45
+msgid "Country Flag"
+msgstr "علم الدولة"
+
+#: base/models/site_settings.py:63
+msgid "Footer Logo"
+msgstr "تذييل الشعار"
+
+#: base/models/site_settings.py:64
+msgid "Logo that appears on the footer"
+msgstr "الشعار الذي يظهر في التذييل"
+
+#: base/models/site_settings.py:73
+msgid "CMS Logo"
+msgstr "شعار CMS"
+
+#: base/models/site_settings.py:74
+msgid ""
+"Logo that appears on the CMS. Should be a whit transparent logo preferably"
+msgstr ""
+"الشعار الذي يظهر على نظام إدارة المحتوى. يفضل أن يكون شعارًا شفافًا ذو لون "
+"أبيض"
+
+#: base/models/site_settings.py:83
+msgid "Page not Found Image"
+msgstr "الصفحة غير موجودة الصورة"
+
+#: base/models/site_settings.py:84
+msgid "Image shown on error 404 page"
+msgstr "الصورة معروضة على خطأ 404 صفحة"
+
+#: base/models/site_settings.py:93
+msgid "Server Error Image"
+msgstr "صورة خطأ الخادم"
+
+#: base/models/site_settings.py:94
+msgid "Image shown on error 500 error page"
+msgstr "الصورة المعروضة على خطأ 500 صفحة خطأ"
+
+#: base/models/site_settings.py:108
+msgid "Logo"
+msgstr "شعار"
+
+#: base/models/site_settings.py:116
+msgid "Error Images"
+msgstr "صور الخطأ"
+
+#: base/models/site_settings.py:121
+msgid "Address Settings"
+msgstr "إعدادات العنوان"
+
+#: base/models/site_settings.py:125
+msgid "Contact Settings"
+msgstr "إعدادات الاتصال"
+
+#: base/models/site_settings.py:129
+msgid "Organisation Settings"
+msgstr "إعدادات المنظمة"
+
+#: base/models/site_settings.py:139
+msgid "Youtube API Key"
+msgstr "مفتاح واجهة برمجة تطبيقات يوتيوب"
+
+#: base/models/site_settings.py:140
+msgid ""
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
+msgstr ""
+"لإعداد مفتاح واجهة برمجة تطبيقات Youtube ، ارجع إلى "
+"https://developers.google.com/youtube/v3/getting-started"
+
+#: base/models/site_settings.py:145
+msgid "GA Tracking ID"
+msgstr "معرف تتبع GA"
+
+#: base/models/site_settings.py:146
+msgid "Your Google Analytics tracking ID (begins with \"UA-\")"
+msgstr "معرّف تتبع Google Analytics (يبدأ بـ \"UA-\")"
+
+#: base/models/site_settings.py:150
+msgid "Track button clicks"
+msgstr "نقرات زر التتبع"
+
+#: base/models/site_settings.py:152
+msgid ""
+"Track all button clicks using Google Analytics event tracking, Event "
+"tracking details can be specified in each button’s advanced settings "
+"options."
+msgstr ""
+"تتبع جميع نقرات الزر باستخدام تتبع أحداث Google Analytics ، ويمكن تحديد "
+"تفاصيل تتبع الأحداث في خيارات الإعدادات المتقدمة لكل زر."
+
+#: base/models/site_settings.py:157
+msgid "Track pages internally"
+msgstr "تتبع الصفحات داخليا"
+
+#: base/models/site_settings.py:159
+msgid ""
+"Track   all pages internally. This will enable the internal analytics "
+"dashboard, alongside Google Analytics, if also enabled"
+msgstr ""
+"تتبع كل الصفحات داخليا. سيؤدي ذلك إلى تمكين لوحة معلومات التحليلات الداخلية "
+"، إلى جانب Google Analytics ، إذا تم تمكينها أيضًا"
+
+#: base/models/site_settings.py:165
+msgid "Youtube Integration"
+msgstr "تكامل يوتيوب"
+
+#: base/models/site_settings.py:170
+msgid "Google Analytics"
+msgstr "تحليلات كوكل"
+
+#: base/models/site_settings.py:174
+msgid "Integration Settings"
+msgstr "إعدادات التكامل"
+
+#: base/models/site_settings.py:180
+msgid "Default Language"
+msgstr "اللغة الافتراضية"
+
+#: base/models/site_settings.py:183
+msgid "languages"
+msgstr "اللغات"
+
+#: base/models/site_settings.py:200
+#, fuzzy
+#| msgid "Default Language"
+msgid "Google Translate Languages"
+msgstr "لغات ترجمة جوجل"
+
+#: base/models/site_settings.py:226
+msgid "Is Default Theme"
+msgstr "هو موضوع افتراضي"
+
+#: base/models/site_settings.py:227
+msgid "Enable if this is the default theme"
+msgstr "تمكين إذا كان هذا هو الموضوع الافتراضي"
+
+#: base/models/site_settings.py:228
+msgid "Theme Name"
+msgstr "اسم الموضوع"
+
+#: base/models/site_settings.py:230
+msgid "Primary color (use color picker)"
+msgstr "اللون الأساسي (استخدم منتقي الألوان)"
+
+#: base/models/site_settings.py:232
+msgid "Primary Hover color (use color picker)"
+msgstr "لون التمرير الأساسي (استخدم منتقي الألوان)"
+
+#: base/models/site_settings.py:234
+msgid "Secondary color (use color picker)"
+msgstr "اللون الثانوي (استخدام منتقي الألوان)"
+
+#: base/models/site_settings.py:237
+msgid "Border radius (px)"
+msgstr "نصف قطر الحدود (بكسل)"
+
+#: base/models/site_settings.py:238
+msgid "Minimum 0 and Maximum 20 pixels"
+msgstr "0 كحد أدنى وحد أقصى 20 بكسل"
+
+#: base/models/site_settings.py:240
+msgid "Box shadow"
+msgstr "ظل الصندوق"
+
+#: base/models/site_settings.py:241
+msgid "Elevation value minimum 1 and maximum 24"
+msgstr "الحد الأدنى لقيمة الارتفاع 1 والحد الأقصى 24"
+
+#: base/models/site_settings.py:262
+msgid "Information"
+msgstr "معلومة"
+
+#: base/models/site_settings.py:271
+msgid "Theme Colors"
+msgstr "ألوان النسق"
+
+#: base/models/site_settings.py:275
+msgid "Borders and Box Shadow"
+msgstr "الحدود ومربع الظل"
+
+#: base/models/site_settings.py:295
+msgid "Theme"
+msgstr "سمة"
+
+#: base/models/site_settings.py:327
+#, fuzzy
+#| msgid "Organisation Settings"
+msgid "Navigation Setting"
+msgstr "إعداد الملاحة"
+
+#: base/models/site_settings.py:328
+#, fuzzy
+#| msgid "Organisation Settings"
+msgid "Navigation Settings"
+msgstr "إعدادات التنقل"
+
+#: base/models/site_settings.py:335
 msgid "Mailing list sign up page"
 msgstr "صفحة التسجيل في القائمة البريدية"
 
-#: wagtailsnippets_models.py:207
+#: base/models/site_settings.py:338
 msgid "Contact us page"
 msgstr "صفحة اتصل بنا"
 
-#: wagtailsnippets_models.py:209
+#: base/models/site_settings.py:341
 msgid "All products page"
 msgstr "صفحة جميع المنتجات"
 
-#: wagtailsnippets_models.py:211
+#: base/models/site_settings.py:344
 msgid "All projects page"
 msgstr "صفحة جميع المشاريع"
 
-#: wagtailsnippets_models.py:213
+#: base/models/site_settings.py:347
 msgid "All alerts page"
 msgstr "صفحة جميع التنبيهات"
 
-#: wagtailsnippets_models.py:215
+#: base/models/site_settings.py:350
 msgid "All news page"
 msgstr "كل صفحة الأخبار"
 
-#: wagtailsnippets_models.py:217
+#: base/models/site_settings.py:353
 msgid "All publications page"
 msgstr "صفحة جميع المنشورات"
 
-#: wagtailsnippets_models.py:219
+#: base/models/site_settings.py:356
 msgid "All videos page"
 msgstr "صفحة جميع مقاطع الفيديو"
 
-#: wagtailsnippets_models.py:221
+#: base/models/site_settings.py:359
 msgid "All applications page"
 msgstr "صفحة جميع التطبيقات"
 
-#: wagtailsnippets_models.py:223
+#: base/models/site_settings.py:362
 msgid "All events page"
 msgstr "صفحة كل الأحداث"
 
-#: wagtailsnippets_models.py:225
+#: base/models/site_settings.py:365
 msgid "All partners page"
 msgstr "صفحة جميع الشركاء"
 
-#: wagtailsnippets_models.py:227
+#: base/models/site_settings.py:368
 msgid "All tenders page"
 msgstr "صفحة جميع المناقصات"
 
-#: wagtailsnippets_models.py:229
+#: base/models/site_settings.py:371
 msgid "All vacancies page"
 msgstr "صفحة جميع الوظائف الشاغرة"
 
-#: wagtailsnippets_models.py:231
-msgid "All feedback page"
-msgstr "صفحة جميع التعليقات"
+#: base/models/site_settings.py:374
+#, fuzzy
+#| msgid "All feedback page"
+msgid "Feedback page"
+msgstr "صفحة التعليقات"
+
+#: base/models/site_settings.py:394 base/models/site_settings.py:395
+msgid "Important Pages"
+msgstr "صفحات مهمة"
+
+#: base/models/snippets.py:18
+#, fuzzy
+#| msgid "Product Category"
+msgid "Product Name"
+msgstr "اسم المنتج"
+
+#: base/models/snippets.py:22 base/models/snippets.py:46
+#, fuzzy
+#| msgid "Products Categories"
+msgid "Product Categories"
+msgstr "فئات المنتجات"
+
+#: base/models/snippets.py:22
+msgid "Product Category"
+msgstr "فئة المنتج"
+
+#: base/models/snippets.py:29 base/models/snippets.py:34
+#, fuzzy
+#| msgid "Product Category"
+msgid "Product"
+msgstr "منتج"
+
+#: base/models/snippets.py:30
+msgid "Products"
+msgstr "منتجات"
+
+#: base/models/snippets.py:35 base/models/snippets.py:53
+#: base/models/snippets.py:55 base/models/snippets.py:67
+msgid "Name"
+msgstr "اسم"
+
+#: base/models/snippets.py:42
+#, fuzzy
+#| msgid "Products Categories"
+msgid "Product Item Types"
+msgstr "أنواع عناصر المنتج"
+
+#: base/models/snippets.py:42
+#, fuzzy
+#| msgid "Product Category"
+msgid "Product Item Type"
+msgstr "نوع عنصر المنتج"
+
+#: base/models/snippets.py:83
+msgid "Service Category"
+msgstr "فئة الخدمة"
+
+#: base/models/snippets.py:84
+msgid "Service Categories"
+msgstr "فئات الخدمة"
+
+#: base/models/snippets.py:89
+msgid "Title"
+msgstr "عنوان"
+
+#: base/models/snippets.py:96
+msgid "Thumbnail"
+msgstr "ظفري"
+
+#: base/models/snippets.py:98
+msgid "URL"
+msgstr "URL"
+
+#: base/models/snippets.py:99
+msgid "Order"
+msgstr "طلب"
+
+#: base/models/snippets.py:103
+msgid "Application"
+msgstr "طلب"
+
+#: base/models/snippets.py:133
+msgid "GIS Application"
+msgstr "تطبيق نظم المعلومات الجغرافية"
+
+#: base/models/snippets.py:134
+msgid "GIS Applications"
+msgstr "تطبيقات نظم المعلومات الجغرافية"
+
+#: base/wagtail_hooks.py:19
+msgid "Themes"
+msgstr "ثيمات"
+
+#~ msgid ""
+#~ "The user id if available, For example the user Id/name for twitter, "
+#~ "Instagram or channel id for Youtube etc"
+#~ msgstr ""
+#~ "معرف المستخدم إذا كان متاحًا ، على سبيل المثال معرف / اسم المستخدم لتويتر أو"
+#~ " Instagram أو معرف القناة لـ Youtube وما إلى ذلك"
+
+#~ msgid "Publication Types"
+#~ msgstr "أنواع المنشورات"
+
+#~ msgid "Is alert"
+#~ msgstr "في حالة تأهب"
+
+#~ msgid "Is press release"
+#~ msgstr "هو بيان صحفي"
+
+#~ msgid "News Type"
+#~ msgstr "نوع الأخبار"
+
+#~ msgid "News Types"
+#~ msgstr "أنواع الأخبار"
+
+#~ msgid "Services"
+#~ msgstr "خدمات"
+
+#~ msgid "Event type"
+#~ msgstr "نوع الحدث"
+
+#~ msgid "Thumbnail/image for this type of event."
+#~ msgstr "صورة مصغرة / صورة لهذا النوع من الأحداث."
+
+#~ msgid "Event Type"
+#~ msgstr "نوع الحدث"

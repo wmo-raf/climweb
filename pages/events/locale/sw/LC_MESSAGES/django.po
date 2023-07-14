@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 21:45+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,245 +18,220 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: organisation_pages/events/models.py:60
-msgid "Banner Image"
-msgstr "Picha ya Bango"
+#: pages/events/models.py:45
+#, fuzzy
+#| msgid "Event Type"
+msgid "Event type"
+msgstr "Aina ya tukio"
 
-#: organisation_pages/events/models.py:61
-msgid "A high quality image related to your organisation events/trainings"
-msgstr "Picha ya ubora wa juu inayohusiana na matukio/mafunzo ya shirika lako"
+#: pages/events/models.py:53
+msgid "Thumbnail/image for this type of event."
+msgstr "Kijipicha/picha ya aina hii ya tukio."
 
-#: organisation_pages/events/models.py:67
-msgid "Banner Title"
-msgstr "Kichwa cha Bango"
-
-#: organisation_pages/events/models.py:68
-msgid "Banner Subtitle"
-msgstr "Manukuu ya Bango"
-
-#: organisation_pages/events/models.py:70
-msgid "Call to action button text"
-msgstr "Maandishi ya kitufe cha kupiga hatua"
-
-#: organisation_pages/events/models.py:77
-msgid "Call to action related page"
-msgstr "Wito kwa ukurasa unaohusiana na kitendo"
-
-#: organisation_pages/events/models.py:83
-msgid "How many events should be visible on the all events section ?"
-msgstr "Ni matukio mangapi yanapaswa kuonekana kwenye sehemu ya matukio yote?"
-
-#: organisation_pages/events/models.py:84
-msgid "Events per page"
-msgstr "Matukio kwa kila ukurasa"
-
-#: organisation_pages/events/models.py:95
-msgid "Banner Section"
-msgstr "Sehemu ya Bango"
-
-#: organisation_pages/events/models.py:101
-msgid "Other Settings"
-msgstr "Mipangilio Mingine"
-
-#: organisation_pages/events/models.py:105
-msgid "Event Index Page"
-msgstr "Ukurasa wa Kielezo cha Matukio"
-
-#: organisation_pages/events/models.py:195
+#: pages/events/models.py:66 pages/events/models.py:176
 msgid "Event Type"
 msgstr "Aina ya Tukio"
 
-#: organisation_pages/events/models.py:196
+#: pages/events/models.py:79
+msgid "How many events should be visible on the all events section ?"
+msgstr "Ni matukio mangapi yanapaswa kuonekana kwenye sehemu ya matukio yote?"
+
+#: pages/events/models.py:80
+msgid "Events per page"
+msgstr "Matukio kwa kila ukurasa"
+
+#: pages/events/models.py:88
+msgid "Other Settings"
+msgstr "Mipangilio Mingine"
+
+#: pages/events/models.py:92
+msgid "Event Index Page"
+msgstr "Ukurasa wa Kielezo cha Matukio"
+
+#: pages/events/models.py:177
 msgid "Service Categories"
 msgstr "Vitengo vya Huduma"
 
-#: organisation_pages/events/models.py:197
+#: pages/events/models.py:178
 msgid "Relevant Projects"
 msgstr "Miradi Husika"
 
-#: organisation_pages/events/models.py:198
+#: pages/events/models.py:179
 msgid "Event begin date"
 msgstr "Tarehe ya kuanza kwa tukio"
 
-#: organisation_pages/events/models.py:199
+#: pages/events/models.py:180
 msgid "Day of the event. If multi-day, then this should be the first day"
 msgstr ""
 "Siku ya tukio. Ikiwa siku nyingi, basi hii inapaswa kuwa siku ya kwanza"
 
-#: organisation_pages/events/models.py:201
+#: pages/events/models.py:182
 msgid "End date - Note: Not Required if this is a one day Event"
 msgstr ""
 "Tarehe ya mwisho - Kumbuka: Si Inahitajika ikiwa hili ni Tukio la siku moja"
 
-#: organisation_pages/events/models.py:202
+#: pages/events/models.py:183
 msgid "Not required if this is a one day event"
 msgstr "Haihitajiki ikiwa hili ni tukio la siku moja"
 
-#: organisation_pages/events/models.py:204
-#: organisation_pages/events/models.py:207
+#: pages/events/models.py:185 pages/events/models.py:188
 msgid "Timezone"
 msgstr "Saa za eneo"
 
-#: organisation_pages/events/models.py:209
+#: pages/events/models.py:190
 msgid "Where will the event take place ?"
 msgstr "Tukio hilo litafanyika wapi?"
 
-#: organisation_pages/events/models.py:209
+#: pages/events/models.py:191
 msgid "Location"
 msgstr "Mahali"
 
-#: organisation_pages/events/models.py:211
+#: pages/events/models.py:193
 msgid "What is the cost for participating in this event ? Leave blank if free"
 msgstr ""
 "Je, ni gharama gani ya kushiriki katika tukio hili? Acha wazi ikiwa ni bure"
 
-#: organisation_pages/events/models.py:212
+#: pages/events/models.py:194
 msgid "Cost"
 msgstr "Gharama"
 
-#: organisation_pages/events/models.py:214
+#: pages/events/models.py:196
 msgid "Description"
 msgstr "Maelezo"
 
-#: organisation_pages/events/models.py:217
+#: pages/events/models.py:199
 msgid "Downloadable agenda document"
 msgstr "Hati ya ajenda inayoweza kupakuliwa"
 
-#: organisation_pages/events/models.py:218
-msgid "Agenda document, preferably in PDF format"
-msgstr "Hati ya ajenda, ikiwezekana katika umbizo la PDF"
+#: pages/events/models.py:200
+#, fuzzy
+#| msgid "Agenda document, preferably in PDF format"
+msgid "Agenda document, if available, preferably in PDF format"
+msgstr "Hati ya ajenda, ikiwa inapatikana, ikiwezekana katika umbizo la PDF"
 
-#: organisation_pages/events/models.py:226
+#: pages/events/models.py:208
 msgid "Event Image"
 msgstr "Picha ya Tukio"
 
-#: organisation_pages/events/models.py:227
+#: pages/events/models.py:209
 msgid "An image for this event, can be a poster or any relevant image"
 msgstr "Picha ya tukio hili, inaweza kuwa bango au picha yoyote husika"
 
-#: organisation_pages/events/models.py:233
+#: pages/events/models.py:216
 msgid "Image Placement"
 msgstr "Uwekaji wa Picha"
 
-#: organisation_pages/events/models.py:235
+#: pages/events/models.py:218
 msgid "Form template"
 msgstr "Kiolezo cha fomu"
 
-#: organisation_pages/events/models.py:239
+#: pages/events/models.py:222
 msgid "Show this event in the events landing page as featured ?"
 msgstr ""
 "Onyesha tukio hili katika ukurasa wa kutua wa matukio kama ulivyoangaziwa ?"
 
-#: organisation_pages/events/models.py:239
+#: pages/events/models.py:222
 msgid "Featured"
 msgstr "Iliyoangaziwa"
 
-#: organisation_pages/events/models.py:243
+#: pages/events/models.py:226
 msgid "Make this event hidden in events page or elsewhere"
 msgstr "Fanya tukio hili lifiche katika ukurasa wa matukio au kwingineko"
 
-#: organisation_pages/events/models.py:243
+#: pages/events/models.py:226
 msgid "Is hidden"
 msgstr "Imefichwa"
 
-#: organisation_pages/events/models.py:247
+#: pages/events/models.py:230
 msgid "Show this event on the homepage ?"
 msgstr "Onyesha tukio hili kwenye ukurasa wa nyumbani?"
 
-#: organisation_pages/events/models.py:247
+#: pages/events/models.py:230
 msgid "Is visible on homepage"
 msgstr "Inaonekana kwenye ukurasa wa nyumbani"
 
-#: organisation_pages/events/models.py:251
+#: pages/events/models.py:234
 msgid "Panelists"
 msgstr "Wanajopo"
 
-#: organisation_pages/events/models.py:255
+#: pages/events/models.py:238
 msgid "Sessions"
 msgstr "Vikao"
 
-#: organisation_pages/events/models.py:259
+#: pages/events/models.py:242
 msgid "Additional Materials"
 msgstr "Nyenzo za Ziada"
 
-#: organisation_pages/events/models.py:262
+#: pages/events/models.py:245
 msgid "Acknowledgement/sponsors"
 msgstr "Shukrani/wafadhili"
 
-#: organisation_pages/events/models.py:264
+#: pages/events/models.py:247
 msgid "Is archived"
 msgstr "Imehifadhiwa kwenye kumbukumbu"
 
-#: organisation_pages/events/models.py:265
+#: pages/events/models.py:248
 msgid "Registration open"
 msgstr "Usajili umefunguliwa"
 
-#: organisation_pages/events/models.py:267
+#: pages/events/models.py:250
 msgid "Youtube Video ID if the event is being livestreamed"
 msgstr ""
 "Kitambulisho cha Video ya Youtube ikiwa tukio linatiririshwa moja kwa moja"
 
-#: organisation_pages/events/models.py:268
+#: pages/events/models.py:251
 msgid "Meeting Registration Integration Platform"
 msgstr "Jukwaa la Kujumuisha Usajili wa Mkutano"
 
-#: organisation_pages/events/models.py:271
+#: pages/events/models.py:254
 msgid "Platform for Event"
 msgstr "Jukwaa la Tukio"
 
-#: organisation_pages/events/models.py:314
-#: organisation_pages/events/models.py:324
-msgid "Zoom Events Settings"
-msgstr "Mipangilio ya Matukio ya Kuza"
-
-#: organisation_pages/events/models.py:321
-#: organisation_pages/events/models.py:524
+#: pages/events/models.py:284 pages/events/models.py:482
 msgid "Content"
 msgstr "Maudhui"
 
-#: organisation_pages/events/models.py:322
-#: organisation_pages/events/models.py:525
+#: pages/events/models.py:285 pages/events/models.py:483
 msgid "SEO"
 msgstr "SEO"
 
-#: organisation_pages/events/models.py:323
-#: organisation_pages/events/models.py:526
+#: pages/events/models.py:286 pages/events/models.py:484
 msgid "Settings"
 msgstr "Mipangilio"
 
-#: organisation_pages/events/models.py:330
+#: pages/events/models.py:292
 msgid "Event Page"
 msgstr "Ukurasa wa Tukio"
 
-#: organisation_pages/events/models.py:460
+#: pages/events/models.py:422
 msgid "Optional Additional information/details"
 msgstr "Hiari Maelezo ya ziada/maelezo"
 
-#: organisation_pages/events/models.py:461
+#: pages/events/models.py:423
 msgid "Additional Information - (Optional)"
 msgstr "Maelezo ya Ziada - (Si lazima)"
 
-#: organisation_pages/events/models.py:463
+#: pages/events/models.py:425
 msgid "Number of available registrations"
 msgstr "Idadi ya usajili unaopatikana"
 
-#: organisation_pages/events/models.py:464
+#: pages/events/models.py:426
 msgid "Registration Limit - (Leave blank if no limit)"
 msgstr "Kikomo cha Usajili - (Ondoka wazi ikiwa hakuna kikomo)"
 
-#: organisation_pages/events/models.py:468
+#: pages/events/models.py:430
 msgid "Text to display after successful submission"
 msgstr "Maandishi ya kuonyesha baada ya kuwasilisha kwa mafanikio"
 
-#: organisation_pages/events/models.py:468
+#: pages/events/models.py:431
 msgid "Thank you text"
 msgstr "Asante kwa maandishi"
 
-#: organisation_pages/events/models.py:469
+#: pages/events/models.py:432
 msgid "Validation Field"
 msgstr "Sehemu ya Uthibitishaji"
 
-#: organisation_pages/events/models.py:470
+#: pages/events/models.py:433
 msgid ""
 "A field on the form to check if is already submitted so as to prevent "
 "multiple submissions by one person. This is usually the email address field "
@@ -266,15 +241,15 @@ msgstr ""
 "mawasilisho mengi na mtu mmoja. Kawaida hii ni sehemu ya anwani ya barua "
 "pepe katika umbizo la ganda la nyoka"
 
-#: organisation_pages/events/models.py:475
+#: pages/events/models.py:439
 msgid "Should we send a confirmation/follow up email ?"
 msgstr "Je, tunapaswa kutuma barua pepe ya uthibitisho/kufuatilia?"
 
-#: organisation_pages/events/models.py:476
+#: pages/events/models.py:440
 msgid "Send confirmation Email"
 msgstr "Tuma barua pepe ya uthibitisho"
 
-#: organisation_pages/events/models.py:478
+#: pages/events/models.py:442
 msgid ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
@@ -282,19 +257,19 @@ msgstr ""
 "Sehemu katika fomu inayolingana na barua pepe ya kutumia. Inapaswa kuwa "
 "nyoka_cased"
 
-#: organisation_pages/events/models.py:479
+#: pages/events/models.py:443
 msgid "Email Field"
 msgstr "Sehemu ya Barua Pepe"
 
-#: organisation_pages/events/models.py:481
+#: pages/events/models.py:445
 msgid "Email Confirmation message"
 msgstr "Ujumbe wa Uthibitishaji wa Barua pepe"
 
-#: organisation_pages/events/models.py:482
+#: pages/events/models.py:446
 msgid "Message to send to the user. For example zoom links"
 msgstr "Ujumbe wa kutuma kwa mtumiaji. Kwa mfano viungo vya kukuza"
 
-#: organisation_pages/events/models.py:484
+#: pages/events/models.py:448
 msgid ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
@@ -302,15 +277,46 @@ msgstr ""
 "Usajili wa Kukuza Bechi Umewashwa - Ondoka bila kuchaguliwa kwa usajili wa "
 "kukuza moja kwa moja"
 
-#: organisation_pages/events/models.py:486
+#: pages/events/models.py:451
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr ""
 "Washa chaguo la bechi kwa ajili ya kuongeza waliojisajili ili kukuza baadaye"
 
-#: organisation_pages/events/models.py:511
+#: pages/events/models.py:469
 msgid "Event Registration Page"
 msgstr "Ukurasa wa Usajili wa Tukio"
 
-#: organisation_pages/events/models.py:553
+#: pages/events/models.py:485
+msgid "Zoom Events Settings"
+msgstr "Mipangilio ya Matukio ya Kuza"
+
+#: pages/events/models.py:486
+#, fuzzy
+#| msgid "Other Settings"
+msgid "MailChimp Settings"
+msgstr "Mipangilio ya MailChimp"
+
+#: pages/events/models.py:513
 msgid "Added to Zoom"
 msgstr "Imeongezwa kwa Zoom"
+
+#~ msgid "Banner Image"
+#~ msgstr "Picha ya Bango"
+
+#~ msgid "A high quality image related to your organisation events/trainings"
+#~ msgstr "Picha ya ubora wa juu inayohusiana na matukio/mafunzo ya shirika lako"
+
+#~ msgid "Banner Title"
+#~ msgstr "Kichwa cha Bango"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "Manukuu ya Bango"
+
+#~ msgid "Call to action button text"
+#~ msgstr "Maandishi ya kitufe cha kupiga hatua"
+
+#~ msgid "Call to action related page"
+#~ msgstr "Wito kwa ukurasa unaohusiana na kitendo"
+
+#~ msgid "Banner Section"
+#~ msgstr "Sehemu ya Bango"

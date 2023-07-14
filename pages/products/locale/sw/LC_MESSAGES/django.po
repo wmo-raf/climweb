@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 21:45+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,87 +18,67 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: products/models.py:30
+#: pages/products/blocks.py:28 pages/products/blocks.py:32
+msgid "Name"
+msgstr "Jina"
+
+#: pages/products/blocks.py:33
+msgid "Icon"
+msgstr "Aikoni"
+
+#: pages/products/blocks.py:39 pages/products/blocks.py:48
+#, fuzzy
+#| msgid "Product Tag"
+msgid "Product Type"
+msgstr "Aina ya Bidhaa"
+
+#: pages/products/blocks.py:40
+msgid "Image"
+msgstr "Picha"
+
+#: pages/products/blocks.py:41
+msgid "Summary of the map/image information"
+msgstr "Muhtasari wa maelezo ya ramani/picha"
+
+#: pages/products/blocks.py:49
+msgid "Thumbnail of the document"
+msgstr "Kijipicha cha hati"
+
+#: pages/products/blocks.py:50
+msgid "For example a screen grab of the cover page"
+msgstr "Kwa mfano kunyakua skrini ya ukurasa wa jalada"
+
+#: pages/products/blocks.py:51
+msgid "Document"
+msgstr "Hati"
+
+#: pages/products/blocks.py:52
+#, fuzzy
+#| msgid "Summary of the product release"
+msgid "Summary of the document information"
+msgstr "Muhtasari wa habari ya hati"
+
+#: pages/products/models.py:31
+msgid "Products listing Heading"
+msgstr "Kichwa cha orodha ya bidhaa"
+
+#: pages/products/models.py:38
 msgid "Product Index Page"
 msgstr "Ukurasa wa Kielezo cha Bidhaa"
 
-#: products/models.py:31
+#: pages/products/models.py:39
 msgid "Product Index Pages"
 msgstr "Kurasa za Fahirisi za Bidhaa"
 
-#: products/models.py:41
+#: pages/products/models.py:49
 msgid "Service"
 msgstr "Huduma"
 
-#: products/models.py:42
+#: pages/products/models.py:50
 msgid "Product"
 msgstr "Bidhaa"
 
-#: products/models.py:46
-msgid "Banner Image"
-msgstr "Picha ya Bango"
-
-#: products/models.py:47 products/models.py:72
-msgid "A high quality image related to this Product"
-msgstr "Picha ya ubora wa juu inayohusiana na Bidhaa hii"
-
-#: products/models.py:53
-msgid "Banner Title"
-msgstr "Kichwa cha Bango"
-
-#: products/models.py:54
-msgid "Banner Subtitle"
-msgstr "Manukuu ya Bango"
-
-#: products/models.py:56
-msgid "Call to action button text"
-msgstr "Maandishi ya kitufe cha kupiga hatua"
-
-#: products/models.py:63 products/models.py:66
-msgid "Call to action related page"
-msgstr "Wito kwa ukurasa unaohusiana na kitendo"
-
-#: products/models.py:66
-msgid "Introduction section title"
-msgstr "Kichwa cha sehemu ya utangulizi"
-
-#: products/models.py:67
-msgid "A description of what your organisation does under  this Product"
-msgstr "Maelezo ya kile ambacho shirika lako hufanya chini ya Bidhaa hii"
-
-#: products/models.py:68
-msgid "Introduction text"
-msgstr "Maandishi ya utangulizi"
-
-#: products/models.py:71
-msgid "Introduction Image"
-msgstr "Picha ya Utangulizi"
-
-#: products/models.py:78
-msgid "Introduction button text"
-msgstr "Maandishi ya kitufe cha utangulizi"
-
-#: products/models.py:85
-msgid "Introduction button link"
-msgstr "Kiungo cha kitufe cha utangulizi"
-
-#: products/models.py:90
-msgid "Feature block"
-msgstr "Kizuizi cha kipengele"
-
-#: products/models.py:98
-msgid ""
-"The year for the earliest available bulletin. This is used to generate the "
-"years available for filtering "
-msgstr ""
-"Mwaka wa taarifa ya mapema inayopatikana. Hii inatumika kutengeneza miaka "
-"inayopatikana ya kuchuja"
-
-#: products/models.py:100
-msgid "Earliest bulletin year"
-msgstr "Mwaka wa mapema wa taarifa"
-
-#: products/models.py:104
+#: pages/products/models.py:55
 msgid ""
 "How many of this products should be visible on the landing page filter "
 "section ?"
@@ -106,62 +86,105 @@ msgstr ""
 "Je, ni bidhaa ngapi kati ya hizi zinazopaswa kuonekana kwenye sehemu ya "
 "kichujio cha ukurasa wa kutua?"
 
-#: products/models.py:105
+#: pages/products/models.py:56
 msgid "Products per page"
 msgstr "Bidhaa kwa kila ukurasa"
 
-#: products/models.py:119
-msgid "Banner Section"
-msgstr "Sehemu ya Bango"
-
-#: products/models.py:129
-msgid "Introduction Section"
-msgstr "Sehemu ya Utangulizi"
-
-#: products/models.py:137
+#: pages/products/models.py:66
 msgid "Other settings"
 msgstr "Mipangilio mingine"
 
-#: products/models.py:204
+#: pages/products/models.py:120
 msgid "Product Page"
 msgstr "Ukurasa wa Bidhaa"
 
-#: products/models.py:205
+#: pages/products/models.py:121
 msgid "Product Pages"
 msgstr "Kurasa za Bidhaa"
 
-#: products/models.py:209
+#: pages/products/models.py:126
 msgid "Product Tag"
 msgstr "Lebo ya Bidhaa"
 
-#: products/models.py:217
-msgid "Year"
-msgstr "Mwaka"
+#: pages/products/models.py:165
+msgid "Date"
+msgstr "Tarehe"
 
-#: products/models.py:218
-msgid "Month"
-msgstr "Mwezi"
+#: pages/products/models.py:166
+msgid "Valid until"
+msgstr "Inatumika hadi"
 
-#: products/models.py:219
-msgid "Summary of the product release"
-msgstr "Muhtasari wa kutolewa kwa bidhaa"
+#: pages/products/models.py:167
+msgid "Up to when is this product valid ? Leave blank if not applicable"
+msgstr "Bidhaa hii ni halali hadi lini? Acha wazi ikiwa haitumiki"
 
-#: products/models.py:219
-msgid "Summary"
-msgstr "Muhtasari"
-
-#: products/models.py:226
-msgid "Image that will appear as thumbnail"
-msgstr "Picha ambayo itaonekana kama kijipicha"
-
-#: products/models.py:227
-msgid "Image"
-msgstr "Picha"
-
-#: products/models.py:235
-msgid "Document"
-msgstr "Hati"
-
-#: products/models.py:292
+#: pages/products/models.py:216
 msgid "Product Item"
 msgstr "Kipengee cha Bidhaa"
+
+#~ msgid "Banner Image"
+#~ msgstr "Picha ya Bango"
+
+#~ msgid "A high quality image related to this Product"
+#~ msgstr "Picha ya ubora wa juu inayohusiana na Bidhaa hii"
+
+#~ msgid "Banner Title"
+#~ msgstr "Kichwa cha Bango"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "Manukuu ya Bango"
+
+#~ msgid "Call to action button text"
+#~ msgstr "Maandishi ya kitufe cha kupiga hatua"
+
+#~ msgid "Call to action related page"
+#~ msgstr "Wito kwa ukurasa unaohusiana na kitendo"
+
+#~ msgid "Introduction section title"
+#~ msgstr "Kichwa cha sehemu ya utangulizi"
+
+#~ msgid "A description of what your organisation does under  this Product"
+#~ msgstr "Maelezo ya kile ambacho shirika lako hufanya chini ya Bidhaa hii"
+
+#~ msgid "Introduction text"
+#~ msgstr "Maandishi ya utangulizi"
+
+#~ msgid "Introduction Image"
+#~ msgstr "Picha ya Utangulizi"
+
+#~ msgid "Introduction button text"
+#~ msgstr "Maandishi ya kitufe cha utangulizi"
+
+#~ msgid "Introduction button link"
+#~ msgstr "Kiungo cha kitufe cha utangulizi"
+
+#~ msgid "Feature block"
+#~ msgstr "Kizuizi cha kipengele"
+
+#~ msgid ""
+#~ "The year for the earliest available bulletin. This is used to generate the "
+#~ "years available for filtering "
+#~ msgstr ""
+#~ "Mwaka wa taarifa ya mapema inayopatikana. Hii inatumika kutengeneza miaka "
+#~ "inayopatikana ya kuchuja"
+
+#~ msgid "Earliest bulletin year"
+#~ msgstr "Mwaka wa mapema wa taarifa"
+
+#~ msgid "Banner Section"
+#~ msgstr "Sehemu ya Bango"
+
+#~ msgid "Introduction Section"
+#~ msgstr "Sehemu ya Utangulizi"
+
+#~ msgid "Year"
+#~ msgstr "Mwaka"
+
+#~ msgid "Month"
+#~ msgstr "Mwezi"
+
+#~ msgid "Summary"
+#~ msgstr "Muhtasari"
+
+#~ msgid "Image that will appear as thumbnail"
+#~ msgstr "Picha ambayo itaonekana kama kijipicha"

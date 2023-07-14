@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 16:12+0300\n"
+"POT-Creation-Date: 2023-07-14 15:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,70 +17,132 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:54
-msgid "Text Color"
-msgstr "የጽሑፍ ቀለም"
-
-#: models.py:56
+#: pages/home/models.py:51
 msgid "Title"
 msgstr "ርዕስ"
 
-#: models.py:57
-msgid "Subtitle Title"
-msgstr "የትርጉም ርዕስ ርዕስ"
+#: pages/home/models.py:52
+#, fuzzy
+#| msgid "Subtitle Title"
+msgid "Subtitle"
+msgstr "ንዑስ ርዕስ"
 
-#: models.py:60
-msgid "Hero Banner"
-msgstr "ጀግና ባነር"
+#: pages/home/models.py:54
+msgid "Banner Image"
+msgstr "የባነር ምስል"
 
-#: models.py:62
+#: pages/home/models.py:55
+#, fuzzy
+#| msgid "Text Color"
+msgid "Banner Text Color"
+msgstr "ባነር ጽሑፍ ቀለም"
+
+#: pages/home/models.py:56
 msgid "Enable weather forecasts section"
 msgstr "የአየር ሁኔታ ትንበያ ክፍልን አንቃ"
 
-#: models.py:63
-msgid "Enable climate section"
-msgstr "የአየር ንብረት ክፍልን አንቃ"
+#: pages/home/models.py:57
+#, fuzzy
+#| msgid "Enable climate section"
+msgid "Enable mapviewer section"
+msgstr "የካርታ መመልከቻ ክፍልን አንቃ"
 
-#: models.py:64
-msgid "Climate Title"
-msgstr "የአየር ንብረት ርዕስ"
+#: pages/home/models.py:59
+#, fuzzy
+#| msgid "Media Section Title"
+msgid "MapViewer Call to Action Title"
+msgstr "MapViewer ጥሪ ወደ ተግባር ርዕስ"
 
-#: models.py:66
+#: pages/home/models.py:60
+msgid "Mapviewer URL"
+msgstr "የካርታ መመልከቻ ዩአርኤል"
+
+#: pages/home/models.py:61
 msgid "Enable media section"
 msgstr "የሚዲያ ክፍልን አንቃ"
 
-#: models.py:73
-msgid "Youtube Playlist"
-msgstr "የዩቲዩብ አጫዋች ዝርዝር"
-
-#: models.py:76
+#: pages/home/models.py:63
 msgid "Media Section Title"
 msgstr "የሚዲያ ክፍል ርዕስ"
 
-#: models.py:77
+#: pages/home/models.py:65
 msgid "Media Section Description"
 msgstr "የሚዲያ ክፍል መግለጫ"
 
-#: models.py:85
-msgid "Hero Section"
-msgstr "የጀግና ክፍል"
+#: pages/home/models.py:72
+msgid "Youtube Playlist"
+msgstr "የዩቲዩብ አጫዋች ዝርዝር"
 
-#: models.py:89
+#: pages/home/models.py:80
+#, fuzzy
+#| msgid "Hero Section"
+msgid "Banner Section"
+msgstr "ባነር ክፍል"
+
+#: pages/home/models.py:84
 msgid "Weather forecasts Section"
 msgstr "የአየር ሁኔታ ትንበያዎች ክፍል"
 
-#: models.py:93
+#: pages/home/models.py:89
 msgid "Climate Section Section"
 msgstr "የአየር ንብረት ክፍል"
 
-#: models.py:99
+#: pages/home/models.py:95
 msgid "Media Section"
 msgstr "የሚዲያ ክፍል"
 
-#: models.py:104
+#: pages/home/models.py:100
 msgid "Home Page"
 msgstr "መነሻ ገጽ"
 
-#: models.py:105
+#: pages/home/models.py:101
 msgid "Home Pages"
 msgstr "መነሻ ገጾች"
+
+#: pages/home/templates/dailyweather_include.html:5
+msgid "Daily Weather"
+msgstr "ዕለታዊ የአየር ሁኔታ"
+
+#: pages/home/templates/forecasts_index.html:3
+msgid "Forecasts"
+msgstr "ትንበያዎች"
+
+#~ msgid "Download XLSX"
+#~ msgstr "XLSX አውርድ"
+
+#~ msgid "Download CSV"
+#~ msgstr "CSV አውርድ"
+
+#~ msgid "Filter"
+#~ msgstr "አጣራ"
+
+#, python-format
+#~ msgid ""
+#~ "No %(name)s have been created yet. One of the following must be created "
+#~ "before you can add any %(name)s:"
+#~ msgstr ""
+#~ "እስካሁን ምንም %(ስም) አልተፈጠሩም። ማንኛውንም %(ስም) ከማከልዎ በፊት ከሚከተሉት ውስጥ አንዱ መፈጠር አለበት፡"
+
+#, python-format
+#~ msgid "No %(name)s have been created yet."
+#~ msgstr "እስካሁን ምንም %(ስም) አልተፈጠሩም።"
+
+#, python-format
+#~ msgid "Why not <a href=\"%(url)s\">add one</a>?"
+#~ msgstr "ለምን <a href=\"%(url)s\">አንድ አይጨምርም</a>?"
+
+#~ msgid "Pagination"
+#~ msgstr "ፔጅኒሽን"
+
+#, python-format
+#~ msgid "Page %(current_page)s of %(num_pages)s."
+#~ msgstr "ገጽ %(የአሁኑ_ገጽ) ከ%(ቁጥር_ገጾች) ዎች።"
+
+#~ msgid "Welcome to NMHS CMS"
+#~ msgstr "ወደ NMHS CMS እንኳን በደህና መጡ"
+
+#~ msgid "Hero Banner"
+#~ msgstr "ጀግና ባነር"
+
+#~ msgid "Climate Title"
+#~ msgstr "የአየር ንብረት ርዕስ"

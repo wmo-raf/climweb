@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 16:32+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,69 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:28
-msgid "Banner Image"
-msgstr "Imagen de la pancarta"
-
-#: models.py:29
-msgid "A high quality image related to Tenders"
-msgstr "Una imagen de alta calidad relacionada con Licitaciones"
-
-#: models.py:35
-msgid "Banner Title"
-msgstr "Título de la pancarta"
-
-#: models.py:36
-msgid "Banner Subtitle"
-msgstr "Subtítulo de pancarta"
-
-#: models.py:38
-msgid "Call to action button text"
-msgstr "Texto del botón de llamada a la acción"
-
-#: models.py:45
-msgid "Call to action related page"
-msgstr "Página relacionada con la llamada a la acción"
-
-#: models.py:48
-msgid "Introduction section title"
-msgstr "Título de la sección de introducción"
-
-#: models.py:48
-msgid "Introduction Title"
-msgstr "Título de la introducción"
-
-#: models.py:49
-msgid "A description of tenders at your organisation"
-msgstr "Una descripción de las licitaciones en su organización"
-
-#: models.py:49
-msgid "Introduction Text"
-msgstr "Texto de introducción"
-
-#: models.py:52
-msgid "Introduction Image"
-msgstr "Imagen de introducción"
-
-#: models.py:53
-msgid "A high quality image related to tenders at your organisation"
-msgstr ""
-"Una imagen de alta calidad relacionada con las licitaciones de su "
-"organización"
-
-#: models.py:60 models.py:67
-msgid "Introduction button text"
-msgstr "Texto del botón de introducción"
-
-#: models.py:71
+#: pages/organisation_pages/tenders/models.py:28
 msgid "Text to appear when there are no tenders"
 msgstr "Texto a aparecer cuando no hay ofertas"
 
-#: models.py:72
+#: pages/organisation_pages/tenders/models.py:29
 msgid "No tenders header text"
 msgstr "Sin texto de encabezado de ofertas"
 
-#: models.py:75
+#: pages/organisation_pages/tenders/models.py:32
 msgid ""
 "Additional text to appear when there are no tenders,below the no tenders "
 "header text"
@@ -88,64 +34,104 @@ msgstr ""
 "Texto adicional que aparecerá cuando no haya ofertas, debajo del texto del "
 "encabezado sin ofertas"
 
-#: models.py:77
+#: pages/organisation_pages/tenders/models.py:34
 msgid "No tenders description text"
 msgstr "Sin texto de descripción de ofertas"
 
-#: models.py:82
+#: pages/organisation_pages/tenders/models.py:39
 msgid "How many items should be visible on the landing page filter section ?"
 msgstr ""
 "¿Cuántos elementos deben estar visibles en la sección de filtro de la página"
 " de destino?"
 
-#: models.py:82
+#: pages/organisation_pages/tenders/models.py:40
 msgid "Items per page"
 msgstr "Artículos por página"
 
-#: models.py:93
-msgid "Banner Section"
-msgstr "Sección de banner"
-
-#: models.py:103
-msgid "Introduction Section"
-msgstr "Sección de introducción"
-
-#: models.py:111
+#: pages/organisation_pages/tenders/models.py:50
 msgid "Other Settings"
 msgstr "Otros ajustes"
 
-#: models.py:163
+#: pages/organisation_pages/tenders/models.py:91
 msgid "Tender Page"
 msgstr "Página de licitación"
 
-#: models.py:170
+#: pages/organisation_pages/tenders/models.py:107
 msgid "Date of Posting"
 msgstr "Fecha de Publicación"
 
-#: models.py:171
+#: pages/organisation_pages/tenders/models.py:108
 msgid "Reference Number"
 msgstr "Número de referencia"
 
-#: models.py:172
+#: pages/organisation_pages/tenders/models.py:109
 msgid "Any Reference number if available"
 msgstr "Cualquier número de referencia si está disponible"
 
-#: models.py:173
+#: pages/organisation_pages/tenders/models.py:110
 msgid "Submission Deadline"
 msgstr "Fecha límite de presentación"
 
-#: models.py:174
+#: pages/organisation_pages/tenders/models.py:112
 msgid "Description"
 msgstr "Descripción"
 
-#: models.py:177
+#: pages/organisation_pages/tenders/models.py:115
 msgid "Downloadable tender description document"
 msgstr "Documento de descripción de licitación descargable"
 
-#: models.py:183 models.py:191
+#: pages/organisation_pages/tenders/models.py:121
+#: pages/organisation_pages/tenders/models.py:129
 msgid "Additional Documents"
 msgstr "Documentos adicionales"
 
-#: models.py:241
+#: pages/organisation_pages/tenders/models.py:179
 msgid "Tender Detail Page"
 msgstr "Página de detalles de la licitación"
+
+#~ msgid "Banner Image"
+#~ msgstr "Imagen de la pancarta"
+
+#~ msgid "A high quality image related to Tenders"
+#~ msgstr "Una imagen de alta calidad relacionada con Licitaciones"
+
+#~ msgid "Banner Title"
+#~ msgstr "Título de la pancarta"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "Subtítulo de pancarta"
+
+#~ msgid "Call to action button text"
+#~ msgstr "Texto del botón de llamada a la acción"
+
+#~ msgid "Call to action related page"
+#~ msgstr "Página relacionada con la llamada a la acción"
+
+#~ msgid "Introduction section title"
+#~ msgstr "Título de la sección de introducción"
+
+#~ msgid "Introduction Title"
+#~ msgstr "Título de la introducción"
+
+#~ msgid "A description of tenders at your organisation"
+#~ msgstr "Una descripción de las licitaciones en su organización"
+
+#~ msgid "Introduction Text"
+#~ msgstr "Texto de introducción"
+
+#~ msgid "Introduction Image"
+#~ msgstr "Imagen de introducción"
+
+#~ msgid "A high quality image related to tenders at your organisation"
+#~ msgstr ""
+#~ "Una imagen de alta calidad relacionada con las licitaciones de su "
+#~ "organización"
+
+#~ msgid "Introduction button text"
+#~ msgstr "Texto del botón de introducción"
+
+#~ msgid "Banner Section"
+#~ msgstr "Sección de banner"
+
+#~ msgid "Introduction Section"
+#~ msgstr "Sección de Introducción"

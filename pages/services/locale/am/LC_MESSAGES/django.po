@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 13:48+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,118 +17,128 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:31
-msgid "Service Page"
-msgstr "የአገልግሎት ገጽ"
+#: pages/services/models.py:25
+msgid "Services listing Heading"
+msgstr "የአገልግሎቶች ዝርዝር ርዕስ"
 
-#: models.py:32
-msgid "Service Pages"
-msgstr "የአገልግሎት ገጾች"
+#: pages/services/models.py:36
+#, fuzzy
+#| msgid "Service Page"
+msgid "Service List Page"
+msgstr "የአገልግሎት ዝርዝር ገጽ"
 
-#: models.py:40
+#: pages/services/models.py:37
+#, fuzzy
+#| msgid "Service Pages"
+msgid "Service List Pages"
+msgstr "የአገልግሎት ዝርዝር ገጾች"
+
+#: pages/services/models.py:46
 msgid "Service"
 msgstr "አገልግሎት"
 
-#: models.py:44
-msgid "Banner Image"
-msgstr "የባነር ምስል"
-
-#: models.py:45 models.py:72
-msgid "A high quality image related to this Service"
-msgstr "ከዚህ አገልግሎት ጋር የተያያዘ ከፍተኛ ጥራት ያለው ምስል"
-
-#: models.py:51
-msgid "Banner Title"
-msgstr "የባነር ርዕስ"
-
-#: models.py:52
-msgid "Banner Subtitle"
-msgstr "የባነር ንዑስ ርዕስ"
-
-#: models.py:54
-msgid "Call to action button text"
-msgstr "ወደ የተግባር አዝራር ጽሑፍ ይደውሉ"
-
-#: models.py:61
-msgid "Call to action related page"
-msgstr "ወደ ተግባር ተዛማጅ ገጽ ይደውሉ"
-
-#: models.py:64
-msgid "External Link if applicable"
-msgstr "የሚተገበር ከሆነ ውጫዊ አገናኝ"
-
-#: models.py:64
-msgid "Call to action external link"
-msgstr "ወደ ተግባር ይደውሉ ውጫዊ አገናኝ"
-
-#: models.py:66
-msgid "Introduction section title"
-msgstr "የመግቢያ ክፍል ርዕስ"
-
-#: models.py:66
-msgid "Introduction title"
-msgstr "የመግቢያ ርዕስ"
-
-#: models.py:67
-msgid "A description of what ORG does under  this Service"
-msgstr "ORG በዚህ አገልግሎት ስር የሚያደርገውን መግለጫ"
-
-#: models.py:71
-msgid "Introduction Image"
-msgstr "የመግቢያ ምስል"
-
-#: models.py:78
-msgid "Introduction button text"
-msgstr "የመግቢያ አዝራር ጽሑፍ"
-
-#: models.py:85
-msgid "Introduction button link"
-msgstr "የመግቢያ አዝራር አገናኝ"
-
-#: models.py:88
-msgid "External Link if applicable. Ignored if internal page above is chosen"
-msgstr "የሚተገበር ከሆነ ውጫዊ አገናኝ። ከላይ የውስጥ ገጽ ከተመረጠ ችላ ይባላል"
-
-#: models.py:89
-msgid "Introduction button link external"
-msgstr "የመግቢያ አዝራር አገናኝ ውጫዊ"
-
-#: models.py:95
+#: pages/services/models.py:53
 msgid "What we do button text"
 msgstr "የምንሰራው የአዝራር ጽሑፍ"
 
-#: models.py:102
+#: pages/services/models.py:60
 msgid "What we do button link"
 msgstr "የምንሰራው የአዝራር አገናኝ"
 
-#: models.py:105
+#: pages/services/models.py:63
 msgid "Projects description text"
 msgstr "የፕሮጀክቶች መግለጫ ጽሑፍ"
 
-#: models.py:106
+#: pages/services/models.py:64
 msgid "Project Description"
 msgstr "የፕሮጀክት መግለጫ"
 
-#: models.py:110
+#: pages/services/models.py:68
 msgid "Feature block items"
 msgstr "የባህሪ እገዳ ንጥሎች"
 
-#: models.py:118
+#: pages/services/models.py:76
 msgid "Youtube playlist"
 msgstr "የዩቲዩብ አጫዋች ዝርዝር"
 
-#: models.py:133
-msgid "Banner Section"
-msgstr "ባነር ክፍል"
-
-#: models.py:144
-msgid "Introduction Section"
-msgstr "የመግቢያ ክፍል"
-
-#: models.py:151
+#: pages/services/models.py:87
 msgid "What we do in this Service section"
 msgstr "በዚህ የአገልግሎት ክፍል ውስጥ ምን እናደርጋለን"
 
-#: models.py:156
+#: pages/services/models.py:92
 msgid "Projects Section"
 msgstr "የፕሮጀክቶች ክፍል"
+
+#: pages/services/models.py:96
+msgid "Applications"
+msgstr "መተግበሪያዎች"
+
+#: pages/services/models.py:96
+msgid "Heading"
+msgstr "ርዕስ"
+
+#: pages/services/models.py:100
+msgid "Service Page"
+msgstr "የአገልግሎት ገጽ"
+
+#: pages/services/models.py:101
+msgid "Service Pages"
+msgstr "የአገልግሎት ገጾች"
+
+#: pages/services/models.py:167
+msgid "Application"
+msgstr "መተግበሪያ"
+
+#~ msgid "Banner Image"
+#~ msgstr "የባነር ምስል"
+
+#~ msgid "A high quality image related to this Service"
+#~ msgstr "ከዚህ አገልግሎት ጋር የተያያዘ ከፍተኛ ጥራት ያለው ምስል"
+
+#~ msgid "Banner Title"
+#~ msgstr "የባነር ርዕስ"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "የባነር ንዑስ ርዕስ"
+
+#~ msgid "Call to action button text"
+#~ msgstr "ወደ የተግባር አዝራር ጽሑፍ ይደውሉ"
+
+#~ msgid "Call to action related page"
+#~ msgstr "ወደ ተግባር ተዛማጅ ገጽ ይደውሉ"
+
+#~ msgid "External Link if applicable"
+#~ msgstr "የሚተገበር ከሆነ ውጫዊ አገናኝ"
+
+#~ msgid "Call to action external link"
+#~ msgstr "ወደ ተግባር ይደውሉ ውጫዊ አገናኝ"
+
+#~ msgid "Introduction section title"
+#~ msgstr "የመግቢያ ክፍል ርዕስ"
+
+#~ msgid "Introduction title"
+#~ msgstr "የመግቢያ ርዕስ"
+
+#~ msgid "A description of what ORG does under  this Service"
+#~ msgstr "ORG በዚህ አገልግሎት ስር የሚያደርገውን መግለጫ"
+
+#~ msgid "Introduction Image"
+#~ msgstr "የመግቢያ ምስል"
+
+#~ msgid "Introduction button text"
+#~ msgstr "የመግቢያ አዝራር ጽሑፍ"
+
+#~ msgid "Introduction button link"
+#~ msgstr "የመግቢያ አዝራር አገናኝ"
+
+#~ msgid "External Link if applicable. Ignored if internal page above is chosen"
+#~ msgstr "የሚተገበር ከሆነ ውጫዊ አገናኝ። ከላይ የውስጥ ገጽ ከተመረጠ ችላ ተብሏል"
+
+#~ msgid "Introduction button link external"
+#~ msgstr "የመግቢያ አዝራር አገናኝ ውጫዊ"
+
+#~ msgid "Banner Section"
+#~ msgstr "ባነር ክፍል"
+
+#~ msgid "Introduction Section"
+#~ msgstr "የመግቢያ ክፍል"

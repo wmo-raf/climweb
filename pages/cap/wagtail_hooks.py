@@ -15,7 +15,7 @@ modeladmin_register(AdminBoundaryManagerAdminGroup)
 
 class CAPAdmin(ModelAdmin):
     model = CapAlertPage
-    menu_label = 'Alerts'
+    menu_label = _('Alerts')
     menu_icon = 'list-ul'
     menu_order = 200 
     add_to_settings_menu = False
@@ -24,7 +24,7 @@ class CAPAdmin(ModelAdmin):
 
 
 class CAPMenuGroup(ModelAdminGroup):
-    menu_label = 'CAP Alerts'
+    menu_label = _('CAP Alerts')
     menu_icon = 'warning'  # change as required
     menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
     items = (CAPAdmin,)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 21:45+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,130 +18,139 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: media_pages/news/models.py:36
-msgid "Banner Image"
-msgstr "Picha ya Bango"
+#: pages/news/models.py:32
+msgid "Name"
+msgstr "Jina"
 
-#: media_pages/news/models.py:37
-msgid "A high quality image related to News"
-msgstr "Picha ya ubora wa juu inayohusiana na Habari"
+#: pages/news/models.py:44
+#, fuzzy
+#| msgid "News type"
+msgid "News Type"
+msgstr "Aina ya Habari"
 
-#: media_pages/news/models.py:43
-msgid "Banner Title"
-msgstr "Kichwa cha Bango"
+#: pages/news/models.py:45
+#, fuzzy
+#| msgid "News type"
+msgid "News Types"
+msgstr "Aina za Habari"
 
-#: media_pages/news/models.py:44
-msgid "Banner Subtitle"
-msgstr "Manukuu ya Bango"
+#: pages/news/models.py:56
+msgid "Items per page"
+msgstr "Vipengee kwa kila ukurasa"
 
-#: media_pages/news/models.py:46
-msgid "Call to action button text"
-msgstr "Maandishi ya kitufe cha kupiga hatua"
-
-#: media_pages/news/models.py:53
-msgid "Call to action related page"
-msgstr "Wito kwa ukurasa unaohusiana na kitendo"
-
-#: media_pages/news/models.py:58
+#: pages/news/models.py:57
 msgid ""
 "How many items should be visible on the news landing page filter section ?"
 msgstr ""
 "Ni vipengee vingapi vinapaswa kuonekana kwenye sehemu ya kichujio cha "
 "ukurasa wa kutua wa habari ?"
 
-#: media_pages/news/models.py:59
-msgid "Items per page"
-msgstr "Vipengee kwa kila ukurasa"
-
-#: media_pages/news/models.py:71
-msgid "Banner Section"
-msgstr "Sehemu ya Bango"
-
-#: media_pages/news/models.py:78
+#: pages/news/models.py:66
 msgid "Other settings"
 msgstr "Mipangilio mingine"
 
-#: media_pages/news/models.py:83
+#: pages/news/models.py:71
 msgid "News Index Page"
 msgstr "Ukurasa wa Fahirisi za Habari"
 
-#: media_pages/news/models.py:162
+#: pages/news/models.py:151
 msgid "News type"
 msgstr "Aina ya habari"
 
-#: media_pages/news/models.py:163
+#: pages/news/models.py:152
 msgid "Post date"
 msgstr "Tarehe ya kuchapishwa"
 
-#: media_pages/news/models.py:164
+#: pages/news/models.py:153
 msgid "Optional subtitle"
 msgstr "Manukuu ya hiari"
 
-#: media_pages/news/models.py:164
+#: pages/news/models.py:153
 msgid "Subtitle"
 msgstr "Manukuu"
 
-#: media_pages/news/models.py:165
+#: pages/news/models.py:154
 msgid "Body"
 msgstr "Mwili"
 
-#: media_pages/news/models.py:166
+#: pages/news/models.py:155
 msgid "Feature Image"
 msgstr "Picha ya Kipengele"
 
-#: media_pages/news/models.py:167
+#: pages/news/models.py:156
 msgid "Relevant Services"
 msgstr "Huduma Husika"
 
-#: media_pages/news/models.py:168
+#: pages/news/models.py:157
 msgid "Relevant Projects"
 msgstr "Miradi Husika"
 
-#: media_pages/news/models.py:169
+#: pages/news/models.py:158
 msgid ""
 "Should this news appear on the news landing paging as the featured one ?"
 msgstr ""
 "Je, habari hii inapaswa kuonekana kwenye ukurasa wa kutua kama ile "
 "iliyoangaziwa?"
 
-#: media_pages/news/models.py:170
+#: pages/news/models.py:160
 msgid "Is featured"
 msgstr "Imeangaziwa"
 
-#: media_pages/news/models.py:171
+#: pages/news/models.py:161
 msgid "Is this an alert ?"
 msgstr "Je, hii ni tahadhari?"
 
-#: media_pages/news/models.py:171
+#: pages/news/models.py:161
 msgid "Is alert"
 msgstr "Yuko macho"
 
-#: media_pages/news/models.py:173
+#: pages/news/models.py:163
 msgid "Should this appear in the homepage as an alert/latest update ?"
 msgstr ""
 "Je, hii inapaswa kuonekana katika ukurasa wa nyumbani kama arifa/sasisho la "
 "hivi punde ?"
 
-#: media_pages/news/models.py:174
+#: pages/news/models.py:165
 msgid "Is visible on homepage"
 msgstr "Inaonekana kwenye ukurasa wa nyumbani"
 
-#: media_pages/news/models.py:175
+#: pages/news/models.py:166
 msgid "Extra links heading"
 msgstr "Kichwa cha viungo vya ziada"
 
-#: media_pages/news/models.py:179
+#: pages/news/models.py:170
 msgid "Extra links"
 msgstr "Viungo vya ziada"
 
-#: media_pages/news/models.py:181
+#: pages/news/models.py:172
 msgid "Tags"
 msgstr "Lebo"
 
-#: media_pages/news/models.py:195
+#: pages/news/models.py:186
 msgid "Extra Links"
 msgstr "Viungo vya Ziada"
 
-#: media_pages/news/models.py:213
+#: pages/news/models.py:204
 msgid "News Page"
 msgstr "Ukurasa wa Habari"
+
+#~ msgid "Banner Image"
+#~ msgstr "Picha ya Bango"
+
+#~ msgid "A high quality image related to News"
+#~ msgstr "Picha ya ubora wa juu inayohusiana na Habari"
+
+#~ msgid "Banner Title"
+#~ msgstr "Kichwa cha Bango"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "Manukuu ya Bango"
+
+#~ msgid "Call to action button text"
+#~ msgstr "Maandishi ya kitufe cha kupiga hatua"
+
+#~ msgid "Call to action related page"
+#~ msgstr "Wito kwa ukurasa unaohusiana na kitendo"
+
+#~ msgid "Banner Section"
+#~ msgstr "Sehemu ya Bango"

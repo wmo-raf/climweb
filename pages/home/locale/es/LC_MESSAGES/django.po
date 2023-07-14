@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 16:12+0300\n"
+"POT-Creation-Date: 2023-07-14 15:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,70 +18,133 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:54
-msgid "Text Color"
-msgstr "Color de texto"
-
-#: models.py:56
+#: pages/home/models.py:51
 msgid "Title"
 msgstr "Título"
 
-#: models.py:57
-msgid "Subtitle Title"
-msgstr "Título del subtítulo"
+#: pages/home/models.py:52
+#, fuzzy
+#| msgid "Subtitle Title"
+msgid "Subtitle"
+msgstr "Subtitular"
 
-#: models.py:60
-msgid "Hero Banner"
-msgstr "Estandarte de héroe"
+#: pages/home/models.py:54
+msgid "Banner Image"
+msgstr "Imagen de la pancarta"
 
-#: models.py:62
+#: pages/home/models.py:55
+#, fuzzy
+#| msgid "Text Color"
+msgid "Banner Text Color"
+msgstr "Color del texto de la pancarta"
+
+#: pages/home/models.py:56
 msgid "Enable weather forecasts section"
 msgstr "Habilitar la sección de pronósticos del tiempo"
 
-#: models.py:63
-msgid "Enable climate section"
-msgstr "Habilitar sección de clima"
+#: pages/home/models.py:57
+#, fuzzy
+#| msgid "Enable climate section"
+msgid "Enable mapviewer section"
+msgstr "Habilitar la sección del visor de mapas"
 
-#: models.py:64
-msgid "Climate Title"
-msgstr "Título del clima"
+#: pages/home/models.py:59
+#, fuzzy
+#| msgid "Media Section Title"
+msgid "MapViewer Call to Action Title"
+msgstr "Título de la llamada a la acción de MapViewer"
 
-#: models.py:66
+#: pages/home/models.py:60
+msgid "Mapviewer URL"
+msgstr "URL del visor de mapas"
+
+#: pages/home/models.py:61
 msgid "Enable media section"
 msgstr "Habilitar sección de medios"
 
-#: models.py:73
-msgid "Youtube Playlist"
-msgstr "Lista de reproducción de Youtube"
-
-#: models.py:76
+#: pages/home/models.py:63
 msgid "Media Section Title"
 msgstr "Título de la sección de medios"
 
-#: models.py:77
+#: pages/home/models.py:65
 msgid "Media Section Description"
 msgstr "Descripción de la sección de medios"
 
-#: models.py:85
-msgid "Hero Section"
-msgstr "Sección de héroe"
+#: pages/home/models.py:72
+msgid "Youtube Playlist"
+msgstr "Lista de reproducción de Youtube"
 
-#: models.py:89
+#: pages/home/models.py:80
+#, fuzzy
+#| msgid "Hero Section"
+msgid "Banner Section"
+msgstr "Sección de banner"
+
+#: pages/home/models.py:84
 msgid "Weather forecasts Section"
 msgstr "Sección de pronósticos del tiempo"
 
-#: models.py:93
+#: pages/home/models.py:89
 msgid "Climate Section Section"
 msgstr "Sección Clima Sección"
 
-#: models.py:99
+#: pages/home/models.py:95
 msgid "Media Section"
 msgstr "Sección de medios"
 
-#: models.py:104
+#: pages/home/models.py:100
 msgid "Home Page"
 msgstr "Página de inicio"
 
-#: models.py:105
+#: pages/home/models.py:101
 msgid "Home Pages"
 msgstr "Páginas de inicio"
+
+#: pages/home/templates/dailyweather_include.html:5
+msgid "Daily Weather"
+msgstr "Clima diario"
+
+#: pages/home/templates/forecasts_index.html:3
+msgid "Forecasts"
+msgstr "Pronósticos"
+
+#~ msgid "Download XLSX"
+#~ msgstr "Descargar XLSX"
+
+#~ msgid "Download CSV"
+#~ msgstr "Descargar CSV"
+
+#~ msgid "Filter"
+#~ msgstr "Filtrar"
+
+#, python-format
+#~ msgid ""
+#~ "No %(name)s have been created yet. One of the following must be created "
+#~ "before you can add any %(name)s:"
+#~ msgstr ""
+#~ "Aún no se han creado %(name)s. Se debe crear uno de los siguientes antes "
+#~ "de poder agregar cualquier %(name)s:"
+
+#, python-format
+#~ msgid "No %(name)s have been created yet."
+#~ msgstr "Aún no se han creado %(name)s."
+
+#, python-format
+#~ msgid "Why not <a href=\"%(url)s\">add one</a>?"
+#~ msgstr "¿Por qué no <a href=\"%(url)s\">añadir uno</a>?"
+
+#~ msgid "Pagination"
+#~ msgstr "Paginación"
+
+#, python-format
+#~ msgid "Page %(current_page)s of %(num_pages)s."
+#~ msgstr "Página %(current_page)s de %(num_pages)s."
+
+#~ msgid "Welcome to NMHS CMS"
+#~ msgstr "Bienvenido a NMHS CMS"
+
+#~ msgid "Hero Banner"
+#~ msgstr "Estandarte de héroe"
+
+#~ msgid "Climate Title"
+#~ msgstr "Título del clima"

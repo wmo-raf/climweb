@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 17:11+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,124 +17,133 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:36
-msgid "Banner Image"
-msgstr "የባነር ምስል"
+#: pages/news/models.py:32
+msgid "Name"
+msgstr "ስም"
 
-#: models.py:37
-msgid "A high quality image related to News"
-msgstr "ከዜና ጋር የተያያዘ ከፍተኛ ጥራት ያለው ምስል"
+#: pages/news/models.py:44
+#, fuzzy
+#| msgid "News type"
+msgid "News Type"
+msgstr "የዜና ዓይነት"
 
-#: models.py:43
-msgid "Banner Title"
-msgstr "የባነር ርዕስ"
+#: pages/news/models.py:45
+#, fuzzy
+#| msgid "News type"
+msgid "News Types"
+msgstr "የዜና ዓይነቶች"
 
-#: models.py:44
-msgid "Banner Subtitle"
-msgstr "የባነር ንዑስ ርዕስ"
+#: pages/news/models.py:56
+msgid "Items per page"
+msgstr "እቃዎች በገጽ"
 
-#: models.py:46
-msgid "Call to action button text"
-msgstr "ወደ የተግባር አዝራር ጽሑፍ ይደውሉ"
-
-#: models.py:53
-msgid "Call to action related page"
-msgstr "ወደ ተግባር ተዛማጅ ገጽ ይደውሉ"
-
-#: models.py:58
+#: pages/news/models.py:57
 msgid ""
 "How many items should be visible on the news landing page filter section ?"
 msgstr "በዜና ማረፊያ ገጽ ማጣሪያ ክፍል ላይ ምን ያህል እቃዎች መታየት አለባቸው?"
 
-#: models.py:59
-msgid "Items per page"
-msgstr "እቃዎች በገጽ"
-
-#: models.py:71
-msgid "Banner Section"
-msgstr "ባነር ክፍል"
-
-#: models.py:78
+#: pages/news/models.py:66
 msgid "Other settings"
 msgstr "ሌሎች ቅንብሮች"
 
-#: models.py:83
+#: pages/news/models.py:71
 msgid "News Index Page"
 msgstr "የዜና ማውጫ ገጽ"
 
-#: models.py:162
+#: pages/news/models.py:151
 msgid "News type"
 msgstr "የዜና ዓይነት"
 
-#: models.py:163
+#: pages/news/models.py:152
 msgid "Post date"
 msgstr "የተለጠፈበት ቀን"
 
-#: models.py:164
+#: pages/news/models.py:153
 msgid "Optional subtitle"
 msgstr "አማራጭ ንዑስ ርዕስ"
 
-#: models.py:164
+#: pages/news/models.py:153
 msgid "Subtitle"
 msgstr "ንዑስ ርዕስ"
 
-#: models.py:165
+#: pages/news/models.py:154
 msgid "Body"
 msgstr "አካል"
 
-#: models.py:166
+#: pages/news/models.py:155
 msgid "Feature Image"
 msgstr "የባህሪ ምስል"
 
-#: models.py:167
+#: pages/news/models.py:156
 msgid "Relevant Services"
 msgstr "ተዛማጅ አገልግሎቶች"
 
-#: models.py:168
+#: pages/news/models.py:157
 msgid "Relevant Projects"
 msgstr "ተዛማጅ ፕሮጀክቶች"
 
-#: models.py:169
+#: pages/news/models.py:158
 msgid ""
 "Should this news appear on the news landing paging as the featured one ?"
 msgstr "ይህ ዜና በዜና ማረፊያ ገጽ ላይ እንደ ተለይቶ መታየት አለበት?"
 
-#: models.py:170
+#: pages/news/models.py:160
 msgid "Is featured"
 msgstr "ተለይቶ ቀርቧል"
 
-#: models.py:171
+#: pages/news/models.py:161
 msgid "Is this an alert ?"
 msgstr "ይህ ማንቂያ ነው?"
 
-#: models.py:171
+#: pages/news/models.py:161
 msgid "Is alert"
 msgstr "ንቁ ነው።"
 
-#: models.py:173
+#: pages/news/models.py:163
 msgid "Should this appear in the homepage as an alert/latest update ?"
 msgstr "ይህ በመነሻ ገጹ ላይ እንደ ማንቂያ/የቅርብ ጊዜ ዝማኔ መታየት አለበት?"
 
-#: models.py:174
+#: pages/news/models.py:165
 msgid "Is visible on homepage"
 msgstr "መነሻ ገጽ ላይ ይታያል"
 
-#: models.py:175
+#: pages/news/models.py:166
 msgid "Extra links heading"
 msgstr "ተጨማሪ አገናኞች ርዕስ"
 
-#: models.py:179
+#: pages/news/models.py:170
 msgid "Extra links"
 msgstr "ተጨማሪ ማገናኛዎች"
 
-#: models.py:181
+#: pages/news/models.py:172
 msgid "Tags"
 msgstr "መለያዎች"
 
-#: models.py:195
+#: pages/news/models.py:186
 msgid "Extra Links"
 msgstr "ተጨማሪ ማገናኛዎች"
 
-#: models.py:213
+#: pages/news/models.py:204
 msgid "News Page"
 msgstr "የዜና ገጽ"
+
+#~ msgid "Banner Image"
+#~ msgstr "የባነር ምስል"
+
+#~ msgid "A high quality image related to News"
+#~ msgstr "ከዜና ጋር የተያያዘ ከፍተኛ ጥራት ያለው ምስል"
+
+#~ msgid "Banner Title"
+#~ msgstr "የባነር ርዕስ"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "የባነር ንዑስ ርዕስ"
+
+#~ msgid "Call to action button text"
+#~ msgstr "ወደ የተግባር አዝራር ጽሑፍ ይደውሉ"
+
+#~ msgid "Call to action related page"
+#~ msgstr "ወደ ተግባር ተዛማጅ ገጽ ይደውሉ"
+
+#~ msgid "Banner Section"
+#~ msgstr "ባነር ክፍል"

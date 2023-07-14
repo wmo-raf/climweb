@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 16:13+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: blocks.py:14
+#: pages/organisation_pages/about/blocks.py:14
 msgid ""
 "This can be the month of the year or the exact date. Leave blank if not "
 "known"
@@ -26,246 +26,208 @@ msgstr ""
 "يمكن أن يكون هذا الشهر من السنة أو التاريخ المحدد. اتركه فارغا إذا لم يكن "
 "معروفا"
 
-#: blocks.py:16
+#: pages/organisation_pages/about/blocks.py:16
 msgid "Describe the milestone"
 msgstr "صف المعلم"
 
-#: models.py:29
-msgid "About Index Page"
-msgstr "حول صفحة الفهرس"
-
-#: models.py:38
-msgid "Introduction Title"
-msgstr "عنوان المقدمة"
-
-#: models.py:39
-msgid "Introduction Text"
-msgstr "مقدمة النص"
-
-#: models.py:42
-msgid "Introduction Image"
-msgstr "صورة المقدمة"
-
-#: models.py:43
-msgid "A high quality image related to your organisation as an organisation"
-msgstr "صورة عالية الجودة تتعلق بمؤسستك كمنظمة"
-
-#: models.py:50
-msgid "Introduction Button Text"
-msgstr "نص زر المقدمة"
-
-#: models.py:57
-msgid "Introduction Button Link"
-msgstr "رابط زر المقدمة"
-
-#: models.py:60
+#: pages/organisation_pages/about/models.py:22
+#: pages/organisation_pages/about/models.py:23
 msgid "Organisation's mission"
 msgstr "مهمة المنظمة"
 
-#: models.py:61
+#: pages/organisation_pages/about/models.py:24
+#: pages/organisation_pages/about/models.py:25
 msgid "Organisation's vision"
 msgstr "رؤية المنظمة"
 
-#: models.py:63
+#: pages/organisation_pages/about/models.py:27
 msgid "Timeline Heading"
 msgstr "عنوان المخطط الزمني"
 
-#: models.py:67
+#: pages/organisation_pages/about/models.py:31
 msgid "Timeline items"
 msgstr "عناصر المخطط الزمني"
 
-#: models.py:70
+#: pages/organisation_pages/about/models.py:33
 msgid "Organisation's Structure Section Heading"
 msgstr "عنوان قسم هيكل المنظمة"
 
-#: models.py:70
+#: pages/organisation_pages/about/models.py:34
 msgid "Organisation's Struture Heading"
 msgstr "عنوان دعامة المنظمة"
 
-#: models.py:71
+#: pages/organisation_pages/about/models.py:36
 msgid "Organisation's Structure Description"
 msgstr "وصف هيكل المنظمة"
 
-#: models.py:71
+#: pages/organisation_pages/about/models.py:37
 msgid "Organisation's Struture Description"
 msgstr "وصف دعامة المنظمة"
 
-#: models.py:74
+#: pages/organisation_pages/about/models.py:41
 msgid "Organisational Structure Image"
 msgstr "صورة الهيكل التنظيمي"
 
-#: models.py:75
+#: pages/organisation_pages/about/models.py:42
 msgid "A high quality image related to your organisation's structure"
 msgstr "صورة عالية الجودة تتعلق بهيكل مؤسستك"
 
-#: models.py:84
+#: pages/organisation_pages/about/models.py:51
 msgid "Feature Block"
 msgstr "كتلة الميزات"
 
-#: models.py:88
+#: pages/organisation_pages/about/models.py:55
 msgid "Additional Materials"
 msgstr "مواد إضافية"
 
-#: models.py:90
+#: pages/organisation_pages/about/models.py:58
 msgid "Bottom Call to action heading"
 msgstr "أسفل عنوان عبارة الحث على اتخاذ إجراء"
 
-#: models.py:91
+#: pages/organisation_pages/about/models.py:60
 msgid "Bottom call to action description"
 msgstr "وصف عبارة الحث على اتخاذ إجراء السفلي"
 
-#: models.py:92
+#: pages/organisation_pages/about/models.py:62
 msgid "Bottom call to action button text"
 msgstr "نص زر الحث على اتخاذ إجراء السفلي"
 
-#: models.py:99
+#: pages/organisation_pages/about/models.py:69
 msgid "Bottom call to action button link"
 msgstr "أسفل ارتباط زر الدعوة إلى العمل"
 
-#: models.py:111 models.py:288
-msgid "Introduction Section"
-msgstr "قسم المقدمة"
-
-#: models.py:118
+#: pages/organisation_pages/about/models.py:79
 msgid "Mission & Vision Section"
 msgstr "قسم الرؤية والرسالة"
 
-#: models.py:126
+#: pages/organisation_pages/about/models.py:87
 msgid "Organisation Structure Section"
 msgstr "قسم الهيكل التنظيمي"
 
-#: models.py:141
+#: pages/organisation_pages/about/models.py:102
 msgid "Bottom Call to action Section"
 msgstr "قسم الدعوة إلى العمل السفلي"
 
-#: models.py:150
+#: pages/organisation_pages/about/models.py:119
 msgid "About Page"
 msgstr "حول الصفحة"
 
-#: models.py:155
-msgid "Name"
-msgstr "اسم"
+#~ msgid "About Index Page"
+#~ msgstr "حول صفحة الفهرس"
 
-#: models.py:163
-msgid "Logo"
-msgstr "شعار"
+#~ msgid "Introduction Title"
+#~ msgstr "عنوان المقدمة"
 
-#: models.py:167
-msgid "Link to the partners website"
-msgstr "رابط إلى موقع الشركاء"
+#~ msgid "Introduction Text"
+#~ msgstr "مقدمة النص"
 
-#: models.py:168
-msgid "Link to partner's website"
-msgstr "رابط لموقع الشريك"
+#~ msgid "Introduction Image"
+#~ msgstr "صورة المقدمة"
 
-#: models.py:169
-msgid "Order"
-msgstr "طلب"
+#~ msgid "A high quality image related to your organisation as an organisation"
+#~ msgstr "صورة عالية الجودة تتعلق بمؤسستك كمنظمة"
 
-#: models.py:171
-msgid "Visible on Homepage"
-msgstr "مرئي على الصفحة الرئيسية"
+#~ msgid "Introduction Button Text"
+#~ msgstr "نص زر المقدمة"
 
-#: models.py:172
-msgid "Is Main"
-msgstr "رئيسي"
+#~ msgid "Introduction Button Link"
+#~ msgstr "رابط زر المقدمة"
 
-#: models.py:179
-msgid "Partner"
-msgstr "شريك"
+#~ msgid "Introduction Section"
+#~ msgstr "قسم المقدمة"
 
-#: models.py:201
-msgid "Banner Image"
-msgstr "صورة بانر"
+#~ msgid "Name"
+#~ msgstr "اسم"
 
-#: models.py:202
-msgid "A high quality image related to Partners"
-msgstr "صورة ذات جودة عالية تتعلق بالشركاء"
+#~ msgid "Logo"
+#~ msgstr "شعار"
 
-#: models.py:208
-msgid "Banner Title"
-msgstr "عنوان البانر"
+#~ msgid "Link to the partners website"
+#~ msgstr "رابط إلى موقع الشركاء"
 
-#: models.py:209
-msgid "Banner Subtitle"
-msgstr "العنوان الفرعي للراية"
+#~ msgid "Link to partner's website"
+#~ msgstr "رابط لموقع الشريك"
 
-#: models.py:211
-msgid "Call to action button text"
-msgstr "نص زر الحث على اتخاذ إجراء"
+#~ msgid "Order"
+#~ msgstr "طلب"
 
-#: models.py:218
-msgid "Call to action related page"
-msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
+#~ msgid "Visible on Homepage"
+#~ msgstr "مرئي على الصفحة الرئيسية"
 
-#: models.py:221
-msgid "Introduction title"
-msgstr "عنوان المقدمة"
+#~ msgid "Is Main"
+#~ msgstr "رئيسي"
 
-#: models.py:221
-msgid "Introduction section title"
-msgstr "عنوان قسم المقدمة"
+#~ msgid "Partner"
+#~ msgstr "شريك"
 
-#: models.py:223
-msgid "A summary of your organisation relations with partners"
-msgstr "ملخص لعلاقات مؤسستك مع الشركاء"
+#~ msgid "Banner Image"
+#~ msgstr "صورة بانر"
 
-#: models.py:224
-msgid "Introduction text"
-msgstr "مقدمة النص"
+#~ msgid "A high quality image related to Partners"
+#~ msgstr "صورة ذات جودة عالية تتعلق بالشركاء"
 
-#: models.py:228
-msgid "Partners SVG Illustration"
-msgstr "التوضيح الشركاء SVG"
+#~ msgid "Banner Title"
+#~ msgstr "عنوان البانر"
 
-#: models.py:234
-msgid "Introduction button text"
-msgstr "نص زر المقدمة"
+#~ msgid "Banner Subtitle"
+#~ msgstr "العنوان الفرعي للراية"
 
-#: models.py:241
-msgid "Introduction button link"
-msgstr "رابط زر المقدمة"
+#~ msgid "Call to action button text"
+#~ msgstr "نص زر الحث على اتخاذ إجراء"
 
-#: models.py:244
-msgid "Partners Call to Action title"
-msgstr "عنوان دعوة الشركاء للعمل"
+#~ msgid "Call to action related page"
+#~ msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
 
-#: models.py:245
-msgid "Partners call to action section title"
-msgstr "عنوان قسم دعوة الشركاء لاتخاذ إجراء"
+#~ msgid "Introduction title"
+#~ msgstr "عنوان المقدمة"
 
-#: models.py:247
-msgid "Call to action description text"
-msgstr "نص وصف عبارة الحث على اتخاذ إجراء"
+#~ msgid "Introduction section title"
+#~ msgstr "عنوان قسم المقدمة"
 
-#: models.py:248
-msgid "Partners call to action text"
-msgstr "نص دعوة الشركاء لاتخاذ إجراء"
+#~ msgid "A summary of your organisation relations with partners"
+#~ msgstr "ملخص لعلاقات مؤسستك مع الشركاء"
 
-#: models.py:252
-msgid "Partners call to action Image"
-msgstr "صورة دعوة الشركاء للعمل"
+#~ msgid "Introduction text"
+#~ msgstr "مقدمة النص"
 
-#: models.py:253
-msgid "A high quality image related to the Partners call to action message"
-msgstr "صورة عالية الجودة مرتبطة برسالة دعوة الشركاء لاتخاذ إجراء"
+#~ msgid "Partners SVG Illustration"
+#~ msgstr "توضيح الشركاء SVG"
 
-#: models.py:260
-msgid "Partners call to action button text"
-msgstr "نص زر دعوة الشركاء لاتخاذ إجراء"
+#~ msgid "Introduction button text"
+#~ msgstr "نص زر المقدمة"
 
-#: models.py:266
-msgid "Partners call to action page"
-msgstr "صفحة دعوة الشركاء للعمل"
+#~ msgid "Introduction button link"
+#~ msgstr "رابط زر المقدمة"
 
-#: models.py:278
-msgid "Banner Section"
-msgstr "قسم البانر"
+#~ msgid "Partners Call to Action title"
+#~ msgstr "عنوان دعوة الشركاء للعمل"
 
-#: models.py:298
-msgid "Partners Call to Action Section"
-msgstr "قسم دعوة الشركاء للعمل"
+#~ msgid "Partners call to action section title"
+#~ msgstr "عنوان قسم دعوة الشركاء لاتخاذ إجراء"
 
-#: models.py:308
-msgid "Partners Page"
-msgstr "صفحة الشركاء"
+#~ msgid "Call to action description text"
+#~ msgstr "نص وصف عبارة الحث على اتخاذ إجراء"
+
+#~ msgid "Partners call to action text"
+#~ msgstr "نص دعوة الشركاء لاتخاذ إجراء"
+
+#~ msgid "Partners call to action Image"
+#~ msgstr "صورة دعوة الشركاء للعمل"
+
+#~ msgid "A high quality image related to the Partners call to action message"
+#~ msgstr "صورة عالية الجودة مرتبطة برسالة دعوة الشركاء لاتخاذ إجراء"
+
+#~ msgid "Partners call to action button text"
+#~ msgstr "نص زر دعوة الشركاء لاتخاذ إجراء"
+
+#~ msgid "Partners call to action page"
+#~ msgstr "صفحة دعوة الشركاء للعمل"
+
+#~ msgid "Banner Section"
+#~ msgstr "قسم البانر"
+
+#~ msgid "Partners Call to Action Section"
+#~ msgstr "قسم دعوة الشركاء للعمل"
+
+#~ msgid "Partners Page"
+#~ msgstr "صفحة الشركاء"

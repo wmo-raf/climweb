@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 21:45+0300\n"
+"POT-Creation-Date: 2023-07-14 15:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,70 +18,133 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: home/models.py:54
-msgid "Text Color"
-msgstr "Rangi ya maandishi"
-
-#: home/models.py:56
+#: pages/home/models.py:51
 msgid "Title"
 msgstr "Kichwa"
 
-#: home/models.py:57
-msgid "Subtitle Title"
-msgstr "Kichwa kidogo"
+#: pages/home/models.py:52
+#, fuzzy
+#| msgid "Subtitle Title"
+msgid "Subtitle"
+msgstr "Manukuu"
 
-#: home/models.py:60
-msgid "Hero Banner"
-msgstr "Bango la shujaa"
+#: pages/home/models.py:54
+msgid "Banner Image"
+msgstr "Picha ya Bango"
 
-#: home/models.py:62
+#: pages/home/models.py:55
+#, fuzzy
+#| msgid "Text Color"
+msgid "Banner Text Color"
+msgstr "Rangi ya Maandishi ya Bango"
+
+#: pages/home/models.py:56
 msgid "Enable weather forecasts section"
 msgstr "Washa sehemu ya utabiri wa hali ya hewa"
 
-#: home/models.py:63
-msgid "Enable climate section"
-msgstr "Washa sehemu ya hali ya hewa"
+#: pages/home/models.py:57
+#, fuzzy
+#| msgid "Enable climate section"
+msgid "Enable mapviewer section"
+msgstr "Washa sehemu ya kitazama ramani"
 
-#: home/models.py:64
-msgid "Climate Title"
-msgstr "Kichwa cha Hali ya Hewa"
+#: pages/home/models.py:59
+#, fuzzy
+#| msgid "Media Section Title"
+msgid "MapViewer Call to Action Title"
+msgstr "Kichwa cha Kitendo cha Kitazamaji cha Ramani"
 
-#: home/models.py:66
+#: pages/home/models.py:60
+msgid "Mapviewer URL"
+msgstr "URL ya kitazama ramani"
+
+#: pages/home/models.py:61
 msgid "Enable media section"
 msgstr "Washa sehemu ya midia"
 
-#: home/models.py:73
-msgid "Youtube Playlist"
-msgstr "Orodha ya kucheza ya Youtube"
-
-#: home/models.py:76
+#: pages/home/models.py:63
 msgid "Media Section Title"
 msgstr "Kichwa cha Sehemu ya Vyombo vya Habari"
 
-#: home/models.py:77
+#: pages/home/models.py:65
 msgid "Media Section Description"
 msgstr "Maelezo ya Sehemu ya Vyombo vya Habari"
 
-#: home/models.py:85
-msgid "Hero Section"
-msgstr "Sehemu ya shujaa"
+#: pages/home/models.py:72
+msgid "Youtube Playlist"
+msgstr "Orodha ya kucheza ya Youtube"
 
-#: home/models.py:89
+#: pages/home/models.py:80
+#, fuzzy
+#| msgid "Hero Section"
+msgid "Banner Section"
+msgstr "Sehemu ya Bango"
+
+#: pages/home/models.py:84
 msgid "Weather forecasts Section"
 msgstr "Sehemu ya utabiri wa hali ya hewa"
 
-#: home/models.py:93
+#: pages/home/models.py:89
 msgid "Climate Section Section"
 msgstr "Sehemu ya Sehemu ya Hali ya Hewa"
 
-#: home/models.py:99
+#: pages/home/models.py:95
 msgid "Media Section"
 msgstr "Sehemu ya Vyombo vya Habari"
 
-#: home/models.py:104
+#: pages/home/models.py:100
 msgid "Home Page"
 msgstr "Ukurasa wa Nyumbani"
 
-#: home/models.py:105
+#: pages/home/models.py:101
 msgid "Home Pages"
 msgstr "Kurasa za Nyumbani"
+
+#: pages/home/templates/dailyweather_include.html:5
+msgid "Daily Weather"
+msgstr "Hali ya hewa ya kila siku"
+
+#: pages/home/templates/forecasts_index.html:3
+msgid "Forecasts"
+msgstr "Utabiri"
+
+#~ msgid "Download XLSX"
+#~ msgstr "Pakua XLSX"
+
+#~ msgid "Download CSV"
+#~ msgstr "Pakua CSV"
+
+#~ msgid "Filter"
+#~ msgstr "Chuja"
+
+#, python-format
+#~ msgid ""
+#~ "No %(name)s have been created yet. One of the following must be created "
+#~ "before you can add any %(name)s:"
+#~ msgstr ""
+#~ "Bado hakuna %(name)s zilizoundwa. Moja ya yafuatayo lazima iundwe kabla "
+#~ "ya kuongeza %(name)s yoyote:"
+
+#, python-format
+#~ msgid "No %(name)s have been created yet."
+#~ msgstr "Bado hakuna %(name)s zilizoundwa."
+
+#, python-format
+#~ msgid "Why not <a href=\"%(url)s\">add one</a>?"
+#~ msgstr "Kwa nini <a href=\"%(url)s\">usiongeze moja</a>?"
+
+#~ msgid "Pagination"
+#~ msgstr "Pagination"
+
+#, python-format
+#~ msgid "Page %(current_page)s of %(num_pages)s."
+#~ msgstr "Ukurasa %(current_page)s wa %(num_pages)s."
+
+#~ msgid "Welcome to NMHS CMS"
+#~ msgstr "Karibu kwenye NMHS CMS"
+
+#~ msgid "Hero Banner"
+#~ msgstr "Bango la shujaa"
+
+#~ msgid "Climate Title"
+#~ msgstr "Kichwa cha Hali ya Hewa"

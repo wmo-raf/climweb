@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 18:09+0300\n"
+"POT-Creation-Date: 2023-07-14 15:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,20 +18,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: blocks.py:55
+#: base/blocks.py:47 base/blocks.py:59
+msgid "Section Title"
+msgstr "Sección de título"
+
+#: base/blocks.py:48 base/blocks.py:60
+msgid "Section title"
+msgstr "Sección de título"
+
+#: base/blocks.py:49 base/blocks.py:61
+msgid "Section Text"
+msgstr "Texto de la sección"
+
+#: base/blocks.py:50 base/blocks.py:62
+#, fuzzy
+#| msgid "Description"
+msgid "Section description"
+msgstr "Descripción de la sección"
+
+#: base/blocks.py:56
+msgid "Title, Text and Image"
+msgstr "Título, Texto e Imagen"
+
+#: base/blocks.py:67
+msgid "Title and Text"
+msgstr "Título y Texto"
+
+#: base/blocks.py:82
 msgid "A URL that returns Highcharts.js configuration, including the data"
 msgstr ""
 "Una URL que devuelve la configuración de Highcharts.js, incluidos los datos"
 
-#: blocks.py:59
+#: base/blocks.py:86
 msgid "Description"
 msgstr "Descripción"
 
-#: blocks.py:61
+#: base/blocks.py:88
 msgid "Action Link Internal"
 msgstr "Enlace de acción interno"
 
-#: blocks.py:63
+#: base/blocks.py:90
 msgid ""
 "An external link to a detailed resource on the internet.If provided, the "
 "internal link will be ignored"
@@ -39,173 +65,562 @@ msgstr ""
 "Un enlace externo a un recurso detallado en Internet. Si se proporciona, se "
 "ignorará el enlace interno."
 
-#: blocks.py:102
-msgid "The full url link that takes you to the page"
-msgstr "El enlace URL completo que te lleva a la página."
+#: base/blocks.py:96
+msgid "Feature Block"
+msgstr "Bloque de características"
 
-#: blocks.py:104
-msgid ""
-"The user id if available, For example the user Id/name for twitter, "
-"Instagram or channel id for Youtube etc"
-msgstr ""
-"La identificación del usuario, si está disponible, por ejemplo, la "
-"identificación/nombre del usuario para Twitter, Instagram o la "
-"identificación del canal para Youtube, etc."
+#: base/blocks.py:107
+msgid "Collapsible Block"
+msgstr "Bloque plegable"
 
-#: blocks.py:131
-msgid "Select document or file"
-msgstr "Seleccionar documento o archivo"
+#: base/blocks.py:118
+msgid "Accordion"
+msgstr "Acordeón"
 
-#: blocks.py:132
-msgid "Document/File"
-msgstr "Documento/Archivo"
-
-#: blocks.py:133
-msgid "Select/upload image"
-msgstr "Seleccionar/subir imagen"
-
-#: wagtailsnippets_models.py:25 wagtailsnippets_models.py:47
-#: wagtailsnippets_models.py:63 wagtailsnippets_models.py:83
-msgid "Name"
-msgstr "Nombre"
-
-#: wagtailsnippets_models.py:26 wagtailsnippets_models.py:64
-#: wagtailsnippets_models.py:174
+#: base/blocks.py:134 base/blocks.py:146 base/models/snippets.py:36
+#: base/models/snippets.py:68
 msgid "Icon"
 msgstr "Icono"
 
-#: wagtailsnippets_models.py:41
-msgid "Service Category"
-msgstr "Categoría de servicio"
+#: base/blocks.py:141
+msgid "What we do"
+msgstr "lo que hacemos"
 
-#: wagtailsnippets_models.py:42
-msgid "Service Categories"
-msgstr "Categorías de servicio"
+#: base/blocks.py:147
+msgid "The full url link that takes you to the page"
+msgstr "El enlace URL completo que te lleva a la página."
 
-#: wagtailsnippets_models.py:57
-msgid "Product Category"
-msgstr "categoria de producto"
+#: base/blocks.py:151
+msgid "Social Media Account"
+msgstr "Cuenta de redes sociales"
 
-#: wagtailsnippets_models.py:58
-msgid "Products Categories"
-msgstr "Categorías de productos"
+#: base/blocks.py:163
+msgid "Collapsible Text Block"
+msgstr "Bloque de texto plegable"
 
-#: wagtailsnippets_models.py:79
-msgid "Publication Types"
-msgstr "Tipos de publicación"
+#: base/blocks.py:173
+msgid "Select document or file"
+msgstr "Seleccionar documento o archivo"
 
-#: wagtailsnippets_models.py:84
-msgid "Is alert"
-msgstr "esta alerta"
+#: base/blocks.py:174
+msgid "Document/File"
+msgstr "Documento/Archivo"
 
-#: wagtailsnippets_models.py:85
-msgid "Is press release"
-msgstr "es comunicado de prensa"
+#: base/blocks.py:175
+msgid "Select/upload image"
+msgstr "Seleccionar/subir imagen"
 
-#: wagtailsnippets_models.py:103
-msgid "News Type"
-msgstr "Tipo de noticia"
+#: base/blocks.py:179
+msgid "Additional Material"
+msgstr "Material adicional"
 
-#: wagtailsnippets_models.py:104
-msgid "News Types"
-msgstr "Tipos de noticias"
+#: base/blocks.py:188
+msgid "Additional Materials"
+msgstr "Materiales adicionales"
 
-#: wagtailsnippets_models.py:108
-msgid "Title"
-msgstr "Título"
+#: base/blocks.py:193 base/blocks.py:211
+msgid "Label"
+msgstr "Etiqueta"
 
-#: wagtailsnippets_models.py:115
-msgid "Thumbnail"
-msgstr "Miniatura"
+#: base/blocks.py:194 base/blocks.py:212
+msgid "Page"
+msgstr "Página"
 
-#: wagtailsnippets_models.py:117
-msgid "URL"
-msgstr "URL"
+#: base/blocks.py:195 base/blocks.py:213
+msgid "External URL"
+msgstr "URL externa"
 
-#: wagtailsnippets_models.py:118
-msgid "Services"
-msgstr "Servicios"
+#: base/blocks.py:196
+msgid "Show as action button"
+msgstr "Mostrar como botón de acción"
 
-#: wagtailsnippets_models.py:119
-msgid "Order"
-msgstr "Orden"
+#: base/blocks.py:214
+msgid "Include Subpages"
+msgstr "Incluir subpáginas"
 
-#: wagtailsnippets_models.py:123
-msgid "Application"
-msgstr "Solicitud"
+#: base/blocks.py:215
+msgid "Large Submenu Dropdown"
+msgstr "Desplegable de submenú grande"
 
-#: wagtailsnippets_models.py:154
-msgid "GIS Application"
-msgstr "Aplicación SIG"
+#: base/mixins.py:20
+msgid "For search engines"
+msgstr "para motores de búsqueda"
 
-#: wagtailsnippets_models.py:155
-msgid "GIS Applications"
-msgstr "Aplicaciones SIG"
+#: base/mixins.py:26
+msgid "For site menus"
+msgstr "Para los menús del sitio"
 
-#: wagtailsnippets_models.py:173
-msgid "Event type"
-msgstr "Tipo de evento"
+#: base/models/abstracts.py:19
+msgid "Banner Image"
+msgstr "Imagen de la pancarta"
 
-#: wagtailsnippets_models.py:181
-msgid "Thumbnail/image for this type of event."
-msgstr "Miniatura/imagen para este tipo de evento."
+#: base/models/abstracts.py:20
+msgid "A high quality banner image"
+msgstr "Una imagen de banner de alta calidad."
 
-#: wagtailsnippets_models.py:199
-msgid "Event Type"
-msgstr "Tipo de evento"
+#: base/models/abstracts.py:26
+msgid "Banner Title"
+msgstr "Título de la pancarta"
 
-#: wagtailsnippets_models.py:205
+#: base/models/abstracts.py:27
+msgid "Banner Subtitle"
+msgstr "Subtítulo de pancarta"
+
+#: base/models/abstracts.py:29
+msgid "Call to action button text"
+msgstr "Texto del botón de llamada a la acción"
+
+#: base/models/abstracts.py:36
+msgid "Call to action related page"
+msgstr "Página relacionada con la llamada a la acción"
+
+#: base/models/abstracts.py:48
+msgid "Banner Section"
+msgstr "Sección de banner"
+
+#: base/models/abstracts.py:63
+msgid "Introduction Title"
+msgstr "Título de la introducción"
+
+#: base/models/abstracts.py:64
+msgid "Introduction section title"
+msgstr "Título de la sección de introducción"
+
+#: base/models/abstracts.py:65
+msgid "Introduction text"
+msgstr "Texto de introducción"
+
+#: base/models/abstracts.py:66
+msgid "Introduction section description"
+msgstr "Introducción sección descripción"
+
+#: base/models/abstracts.py:69
+msgid "Introduction Image"
+msgstr "Imagen de introducción"
+
+#: base/models/abstracts.py:70
+msgid "A high quality image"
+msgstr "Una imagen de alta calidad"
+
+#: base/models/abstracts.py:78
+msgid "Introduction button text"
+msgstr "Texto del botón de introducción"
+
+#: base/models/abstracts.py:85
+msgid "Introduction button link"
+msgstr "Enlace del botón de introducción"
+
+#: base/models/abstracts.py:100
+msgid "Introduction Section"
+msgstr "Sección de Introducción"
+
+#: base/models/site_settings.py:28
+msgid "Country"
+msgstr "País"
+
+#: base/models/site_settings.py:29
+msgid "Organisation Name"
+msgstr "nombre de la organización"
+
+#: base/models/site_settings.py:31
+msgid "Phone Number"
+msgstr "Número de teléfono"
+
+#: base/models/site_settings.py:31
+msgid "Phone number"
+msgstr "Número de teléfono"
+
+#: base/models/site_settings.py:32 base/models/site_settings.py:33
+msgid "Email address"
+msgstr "Dirección de correo electrónico"
+
+#: base/models/site_settings.py:34
+msgid "Postal Address"
+msgstr "Direccion postal"
+
+#: base/models/site_settings.py:35
+msgid "Postal address"
+msgstr "direccion postal"
+
+#: base/models/site_settings.py:43
+msgid "Organisation Logo"
+msgstr "Logotipo de la organización"
+
+#: base/models/site_settings.py:45
+msgid "Country Flag"
+msgstr "Bandera del país"
+
+#: base/models/site_settings.py:63
+msgid "Footer Logo"
+msgstr "Logotipo de pie de página"
+
+#: base/models/site_settings.py:64
+msgid "Logo that appears on the footer"
+msgstr "Logotipo que aparece en el pie de página"
+
+#: base/models/site_settings.py:73
+msgid "CMS Logo"
+msgstr "Logotipo de CMS"
+
+#: base/models/site_settings.py:74
+msgid ""
+"Logo that appears on the CMS. Should be a whit transparent logo preferably"
+msgstr ""
+"Logo que aparece en el CMS. Debe ser un logo transparente de preferencia"
+
+#: base/models/site_settings.py:83
+msgid "Page not Found Image"
+msgstr "Imagen de página no encontrada"
+
+#: base/models/site_settings.py:84
+msgid "Image shown on error 404 page"
+msgstr "Imagen que se muestra en la página de error 404"
+
+#: base/models/site_settings.py:93
+msgid "Server Error Image"
+msgstr "Imagen de error del servidor"
+
+#: base/models/site_settings.py:94
+msgid "Image shown on error 500 error page"
+msgstr "Imagen que se muestra en la página de error 500"
+
+#: base/models/site_settings.py:108
+msgid "Logo"
+msgstr "Logo"
+
+#: base/models/site_settings.py:116
+msgid "Error Images"
+msgstr "Imágenes de error"
+
+#: base/models/site_settings.py:121
+msgid "Address Settings"
+msgstr "Configuración de dirección"
+
+#: base/models/site_settings.py:125
+msgid "Contact Settings"
+msgstr "Configuración de contacto"
+
+#: base/models/site_settings.py:129
+msgid "Organisation Settings"
+msgstr "Configuración de la organización"
+
+#: base/models/site_settings.py:139
+msgid "Youtube API Key"
+msgstr "Clave API de Youtube"
+
+#: base/models/site_settings.py:140
+msgid ""
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
+msgstr ""
+"Para configurar la clave API de Youtube, consulte "
+"https://developers.google.com/youtube/v3/getting-started"
+
+#: base/models/site_settings.py:145
+msgid "GA Tracking ID"
+msgstr "ID de seguimiento de Google Analytics"
+
+#: base/models/site_settings.py:146
+msgid "Your Google Analytics tracking ID (begins with \"UA-\")"
+msgstr "Su ID de seguimiento de Google Analytics (comienza con \"UA-\")"
+
+#: base/models/site_settings.py:150
+msgid "Track button clicks"
+msgstr "Hacer un seguimiento de los clics del botón"
+
+#: base/models/site_settings.py:152
+msgid ""
+"Track all button clicks using Google Analytics event tracking, Event "
+"tracking details can be specified in each button’s advanced settings "
+"options."
+msgstr ""
+"Realice un seguimiento de todos los clics en los botones mediante el "
+"seguimiento de eventos de Google Analytics. Los detalles del seguimiento de "
+"eventos se pueden especificar en las opciones de configuración avanzada de "
+"cada botón."
+
+#: base/models/site_settings.py:157
+msgid "Track pages internally"
+msgstr "Seguimiento de páginas internamente"
+
+#: base/models/site_settings.py:159
+msgid ""
+"Track   all pages internally. This will enable the internal analytics "
+"dashboard, alongside Google Analytics, if also enabled"
+msgstr ""
+"Seguimiento de todas las páginas internamente. Esto habilitará el panel de "
+"análisis interno, junto con Google Analytics, si también está habilitado"
+
+#: base/models/site_settings.py:165
+msgid "Youtube Integration"
+msgstr "Integración de Youtube"
+
+#: base/models/site_settings.py:170
+msgid "Google Analytics"
+msgstr "Google analitico"
+
+#: base/models/site_settings.py:174
+msgid "Integration Settings"
+msgstr "Configuración de integración"
+
+#: base/models/site_settings.py:180
+msgid "Default Language"
+msgstr "Idioma predeterminado"
+
+#: base/models/site_settings.py:183
+msgid "languages"
+msgstr "idiomas"
+
+#: base/models/site_settings.py:200
+#, fuzzy
+#| msgid "Default Language"
+msgid "Google Translate Languages"
+msgstr "Idiomas del Traductor de Google"
+
+#: base/models/site_settings.py:226
+msgid "Is Default Theme"
+msgstr "Es tema predeterminado"
+
+#: base/models/site_settings.py:227
+msgid "Enable if this is the default theme"
+msgstr "Habilitar si este es el tema predeterminado"
+
+#: base/models/site_settings.py:228
+msgid "Theme Name"
+msgstr "Nombre del tema"
+
+#: base/models/site_settings.py:230
+msgid "Primary color (use color picker)"
+msgstr "Color primario (usar selector de color)"
+
+#: base/models/site_settings.py:232
+msgid "Primary Hover color (use color picker)"
+msgstr "Color de desplazamiento principal (usar selector de color)"
+
+#: base/models/site_settings.py:234
+msgid "Secondary color (use color picker)"
+msgstr "Color secundario (usar selector de color)"
+
+#: base/models/site_settings.py:237
+msgid "Border radius (px)"
+msgstr "Radio del borde (px)"
+
+#: base/models/site_settings.py:238
+msgid "Minimum 0 and Maximum 20 pixels"
+msgstr "Mínimo 0 y Máximo 20 píxeles"
+
+#: base/models/site_settings.py:240
+msgid "Box shadow"
+msgstr "Sombra de la caja"
+
+#: base/models/site_settings.py:241
+msgid "Elevation value minimum 1 and maximum 24"
+msgstr "Valor de elevación mínimo 1 y máximo 24"
+
+#: base/models/site_settings.py:262
+msgid "Information"
+msgstr "Información"
+
+#: base/models/site_settings.py:271
+msgid "Theme Colors"
+msgstr "Colores del tema"
+
+#: base/models/site_settings.py:275
+msgid "Borders and Box Shadow"
+msgstr "Bordes y sombra de cuadro"
+
+#: base/models/site_settings.py:295
+msgid "Theme"
+msgstr "Tema"
+
+#: base/models/site_settings.py:327
+#, fuzzy
+#| msgid "Organisation Settings"
+msgid "Navigation Setting"
+msgstr "Configuración de navegación"
+
+#: base/models/site_settings.py:328
+#, fuzzy
+#| msgid "Organisation Settings"
+msgid "Navigation Settings"
+msgstr "Configuración de navegación"
+
+#: base/models/site_settings.py:335
 msgid "Mailing list sign up page"
 msgstr "Página de registro de la lista de correo"
 
-#: wagtailsnippets_models.py:207
+#: base/models/site_settings.py:338
 msgid "Contact us page"
 msgstr "Contáctenos página"
 
-#: wagtailsnippets_models.py:209
+#: base/models/site_settings.py:341
 msgid "All products page"
 msgstr "página de todos los productos"
 
-#: wagtailsnippets_models.py:211
+#: base/models/site_settings.py:344
 msgid "All projects page"
 msgstr "Página de todos los proyectos"
 
-#: wagtailsnippets_models.py:213
+#: base/models/site_settings.py:347
 msgid "All alerts page"
 msgstr "Página de todas las alertas"
 
-#: wagtailsnippets_models.py:215
+#: base/models/site_settings.py:350
 msgid "All news page"
 msgstr "página de todas las noticias"
 
-#: wagtailsnippets_models.py:217
+#: base/models/site_settings.py:353
 msgid "All publications page"
 msgstr "Página de todas las publicaciones"
 
-#: wagtailsnippets_models.py:219
+#: base/models/site_settings.py:356
 msgid "All videos page"
 msgstr "Página de todos los videos"
 
-#: wagtailsnippets_models.py:221
+#: base/models/site_settings.py:359
 msgid "All applications page"
 msgstr "Página de todas las aplicaciones"
 
-#: wagtailsnippets_models.py:223
+#: base/models/site_settings.py:362
 msgid "All events page"
 msgstr "Página de todos los eventos"
 
-#: wagtailsnippets_models.py:225
+#: base/models/site_settings.py:365
 msgid "All partners page"
 msgstr "Página de todos los socios"
 
-#: wagtailsnippets_models.py:227
+#: base/models/site_settings.py:368
 msgid "All tenders page"
 msgstr "Página de todas las ofertas"
 
-#: wagtailsnippets_models.py:229
+#: base/models/site_settings.py:371
 msgid "All vacancies page"
 msgstr "Página de todas las vacantes"
 
-#: wagtailsnippets_models.py:231
-msgid "All feedback page"
-msgstr "Toda la página de comentarios"
+#: base/models/site_settings.py:374
+#, fuzzy
+#| msgid "All feedback page"
+msgid "Feedback page"
+msgstr "Página de comentarios"
+
+#: base/models/site_settings.py:394 base/models/site_settings.py:395
+msgid "Important Pages"
+msgstr "Páginas importantes"
+
+#: base/models/snippets.py:18
+#, fuzzy
+#| msgid "Product Category"
+msgid "Product Name"
+msgstr "nombre del producto"
+
+#: base/models/snippets.py:22 base/models/snippets.py:46
+#, fuzzy
+#| msgid "Products Categories"
+msgid "Product Categories"
+msgstr "Categorías de Producto"
+
+#: base/models/snippets.py:22
+msgid "Product Category"
+msgstr "categoria de producto"
+
+#: base/models/snippets.py:29 base/models/snippets.py:34
+#, fuzzy
+#| msgid "Product Category"
+msgid "Product"
+msgstr "Producto"
+
+#: base/models/snippets.py:30
+msgid "Products"
+msgstr "Productos"
+
+#: base/models/snippets.py:35 base/models/snippets.py:53
+#: base/models/snippets.py:55 base/models/snippets.py:67
+msgid "Name"
+msgstr "Nombre"
+
+#: base/models/snippets.py:42
+#, fuzzy
+#| msgid "Products Categories"
+msgid "Product Item Types"
+msgstr "Tipos de artículos de productos"
+
+#: base/models/snippets.py:42
+#, fuzzy
+#| msgid "Product Category"
+msgid "Product Item Type"
+msgstr "Tipo de artículo del producto"
+
+#: base/models/snippets.py:83
+msgid "Service Category"
+msgstr "Categoría de servicio"
+
+#: base/models/snippets.py:84
+msgid "Service Categories"
+msgstr "Categorías de servicio"
+
+#: base/models/snippets.py:89
+msgid "Title"
+msgstr "Título"
+
+#: base/models/snippets.py:96
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: base/models/snippets.py:98
+msgid "URL"
+msgstr "URL"
+
+#: base/models/snippets.py:99
+msgid "Order"
+msgstr "Orden"
+
+#: base/models/snippets.py:103
+msgid "Application"
+msgstr "Solicitud"
+
+#: base/models/snippets.py:133
+msgid "GIS Application"
+msgstr "Aplicación SIG"
+
+#: base/models/snippets.py:134
+msgid "GIS Applications"
+msgstr "Aplicaciones SIG"
+
+#: base/wagtail_hooks.py:19
+msgid "Themes"
+msgstr "Temas"
+
+#~ msgid ""
+#~ "The user id if available, For example the user Id/name for twitter, "
+#~ "Instagram or channel id for Youtube etc"
+#~ msgstr ""
+#~ "La identificación del usuario, si está disponible, por ejemplo, la "
+#~ "identificación/nombre del usuario para Twitter, Instagram o la "
+#~ "identificación del canal para Youtube, etc."
+
+#~ msgid "Publication Types"
+#~ msgstr "Tipos de publicación"
+
+#~ msgid "Is alert"
+#~ msgstr "esta alerta"
+
+#~ msgid "Is press release"
+#~ msgstr "es comunicado de prensa"
+
+#~ msgid "News Type"
+#~ msgstr "Tipo de noticia"
+
+#~ msgid "News Types"
+#~ msgstr "Tipos de noticias"
+
+#~ msgid "Services"
+#~ msgstr "Servicios"
+
+#~ msgid "Event type"
+#~ msgstr "Tipo de evento"
+
+#~ msgid "Thumbnail/image for this type of event."
+#~ msgstr "Miniatura/imagen para este tipo de evento."
+
+#~ msgid "Event Type"
+#~ msgstr "Tipo de evento"

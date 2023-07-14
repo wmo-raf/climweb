@@ -128,6 +128,8 @@ INSTALLED_APPS = [
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
 DEEPL_TRANSLATE_KEY = "testkey"
 DEEPL_FREE_API = True
+
+
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -240,27 +242,40 @@ WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = (
-    'pages/home/locale',
-    'pages/products/locale',
-    'pages/services/locale',
-    'pages/events/locale',
-    'pages/feedback/locale',
-    'pages/media_pages/mediacenter/locale',
-    'pages/media_pages/videos/locale',
-    'pages/media_pages/publications/locale',
-    'pages/media_pages/news/locale',
-    'pages/organisation_pages/about/locale',
-    'pages/organisation_pages/contact/locale',
-    'pages/organisation_pages/projects/locale',
-    'pages/organisation_pages/tenders/locale',
-    'pages/organisation_pages/vacancies/locale',
-    'base/locale',
-    'forecast_manager/locale',
+    # 'pages/home/locale',
+    # 'pages/products/locale',
+    # 'pages/services/locale',
+    # 'pages/events/locale',
+    # 'pages/feedback/locale',
+    # 'pages/contact/locale',
+    # 'pages/publications/locale',
+    # 'pages/surveys/locale',
+    # 'pages/videos/locale',
+    # 'pages/cap/locale',
+    # 'pages/data_request/locale',
+    # 'pages/email_subscription/locale',
+    # 'pages/flex_page/locale',
+    # 'pages/mediacenter/locale',
+    # 'pages/videos/locale',
+    # 'pages/publications/locale',
+    # 'pages/news/locale',
+    # 'pages/organisation_pages/about/locale',
+    # 'pages/organisation_pages/organisation/locale',
+    # 'pages/organisation_pages/contact/locale',
+    # 'pages/organisation_pages/projects/locale',
+    # 'pages/organisation_pages/partners/locale',
+    # 'pages/organisation_pages/tenders/locale',
+    # 'pages/organisation_pages/vacancies/locale',
+    # 'base/locale',
+    # 'forecast_manager/locale',
+    'adminboundarymanager/locale',
+    'geomanager/locale'
 )
 
 TIME_ZONE = "UTC"
 
 USE_I18N = True
+WAGTAIL_I18N_ENABLED = True
 
 USE_L10N = True
 

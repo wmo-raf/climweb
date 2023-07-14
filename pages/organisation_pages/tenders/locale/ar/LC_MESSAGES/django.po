@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 16:32+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,128 +18,114 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: models.py:28
-msgid "Banner Image"
-msgstr "صورة بانر"
-
-#: models.py:29
-msgid "A high quality image related to Tenders"
-msgstr "صورة ذات جودة عالية تتعلق بالمناقصات"
-
-#: models.py:35
-msgid "Banner Title"
-msgstr "عنوان البانر"
-
-#: models.py:36
-msgid "Banner Subtitle"
-msgstr "العنوان الفرعي للراية"
-
-#: models.py:38
-msgid "Call to action button text"
-msgstr "نص زر الحث على اتخاذ إجراء"
-
-#: models.py:45
-msgid "Call to action related page"
-msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
-
-#: models.py:48
-msgid "Introduction section title"
-msgstr "عنوان قسم المقدمة"
-
-#: models.py:48
-msgid "Introduction Title"
-msgstr "عنوان المقدمة"
-
-#: models.py:49
-msgid "A description of tenders at your organisation"
-msgstr "وصف المناقصات في مؤسستك"
-
-#: models.py:49
-msgid "Introduction Text"
-msgstr "مقدمة النص"
-
-#: models.py:52
-msgid "Introduction Image"
-msgstr "صورة المقدمة"
-
-#: models.py:53
-msgid "A high quality image related to tenders at your organisation"
-msgstr "صورة ذات جودة عالية تتعلق بالمناقصات في مؤسستك"
-
-#: models.py:60 models.py:67
-msgid "Introduction button text"
-msgstr "نص زر المقدمة"
-
-#: models.py:71
+#: pages/organisation_pages/tenders/models.py:28
 msgid "Text to appear when there are no tenders"
 msgstr "النص الذي سيظهر في حالة عدم وجود عطاءات"
 
-#: models.py:72
+#: pages/organisation_pages/tenders/models.py:29
 msgid "No tenders header text"
 msgstr "لا يوجد نص رأس العطاءات"
 
-#: models.py:75
+#: pages/organisation_pages/tenders/models.py:32
 msgid ""
 "Additional text to appear when there are no tenders,below the no tenders "
 "header text"
 msgstr "يظهر نص إضافي في حالة عدم وجود عطاءات ، أسفل نص العنوان \"بلا عطاءات\""
 
-#: models.py:77
+#: pages/organisation_pages/tenders/models.py:34
 msgid "No tenders description text"
 msgstr "لا يوجد نص وصف المناقصات"
 
-#: models.py:82
+#: pages/organisation_pages/tenders/models.py:39
 msgid "How many items should be visible on the landing page filter section ?"
 msgstr "كم عدد العناصر التي يجب أن تكون مرئية في قسم مرشح الصفحة المقصودة؟"
 
-#: models.py:82
+#: pages/organisation_pages/tenders/models.py:40
 msgid "Items per page"
 msgstr "مواد لكل صفحة"
 
-#: models.py:93
-msgid "Banner Section"
-msgstr "قسم البانر"
-
-#: models.py:103
-msgid "Introduction Section"
-msgstr "قسم المقدمة"
-
-#: models.py:111
+#: pages/organisation_pages/tenders/models.py:50
 msgid "Other Settings"
 msgstr "اعدادات اخرى"
 
-#: models.py:163
+#: pages/organisation_pages/tenders/models.py:91
 msgid "Tender Page"
 msgstr "صفحة العطاء"
 
-#: models.py:170
+#: pages/organisation_pages/tenders/models.py:107
 msgid "Date of Posting"
 msgstr "تاريخ النشر"
 
-#: models.py:171
+#: pages/organisation_pages/tenders/models.py:108
 msgid "Reference Number"
 msgstr "رقم المرجع"
 
-#: models.py:172
+#: pages/organisation_pages/tenders/models.py:109
 msgid "Any Reference number if available"
 msgstr "أي رقم مرجعي إن وجد"
 
-#: models.py:173
+#: pages/organisation_pages/tenders/models.py:110
 msgid "Submission Deadline"
 msgstr "آخر موعد للتقديم"
 
-#: models.py:174
+#: pages/organisation_pages/tenders/models.py:112
 msgid "Description"
 msgstr "وصف"
 
-#: models.py:177
+#: pages/organisation_pages/tenders/models.py:115
 msgid "Downloadable tender description document"
 msgstr "وثيقة وصف المناقصة القابلة للتحميل"
 
-#: models.py:183 models.py:191
+#: pages/organisation_pages/tenders/models.py:121
+#: pages/organisation_pages/tenders/models.py:129
 msgid "Additional Documents"
 msgstr "وثائق إضافية"
 
-#: models.py:241
+#: pages/organisation_pages/tenders/models.py:179
 msgid "Tender Detail Page"
 msgstr "صفحة تفاصيل العطاء"
+
+#~ msgid "Banner Image"
+#~ msgstr "صورة بانر"
+
+#~ msgid "A high quality image related to Tenders"
+#~ msgstr "صورة ذات جودة عالية تتعلق بالمناقصات"
+
+#~ msgid "Banner Title"
+#~ msgstr "عنوان البانر"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "العنوان الفرعي للراية"
+
+#~ msgid "Call to action button text"
+#~ msgstr "نص زر الحث على اتخاذ إجراء"
+
+#~ msgid "Call to action related page"
+#~ msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
+
+#~ msgid "Introduction section title"
+#~ msgstr "عنوان قسم المقدمة"
+
+#~ msgid "Introduction Title"
+#~ msgstr "عنوان المقدمة"
+
+#~ msgid "A description of tenders at your organisation"
+#~ msgstr "وصف المناقصات في مؤسستك"
+
+#~ msgid "Introduction Text"
+#~ msgstr "مقدمة النص"
+
+#~ msgid "Introduction Image"
+#~ msgstr "صورة المقدمة"
+
+#~ msgid "A high quality image related to tenders at your organisation"
+#~ msgstr "صورة ذات جودة عالية تتعلق بالمناقصات في مؤسستك"
+
+#~ msgid "Introduction button text"
+#~ msgstr "نص زر المقدمة"
+
+#~ msgid "Banner Section"
+#~ msgstr "قسم البانر"
+
+#~ msgid "Introduction Section"
+#~ msgstr "قسم المقدمة"

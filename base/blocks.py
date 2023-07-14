@@ -53,7 +53,7 @@ class TitleTextImageBlock(blocks.StructBlock):
     class Meta:
         template = "streams/title_text_image.html"
         icon = "placeholder"
-        label = "Title, Text and Image"
+        label = _("Title, Text and Image")
 
 class TitleTextBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
@@ -64,7 +64,7 @@ class TitleTextBlock(blocks.StructBlock):
     class Meta:
         template = "streams/title_text.html"
         icon = "placeholder"
-        label = "Title and Text"
+        label = _("Title and Text")
 
 
 
@@ -93,7 +93,7 @@ class FeatureBlock(blocks.StructBlock):
     class Meta:
         template = "streams/feature_block.html"
         icon = "placeholder"
-        label = "Feature Block"
+        label = _("Feature Block")
 
 
 class CollapsibleBlock(blocks.StructBlock):
@@ -104,9 +104,7 @@ class CollapsibleBlock(blocks.StructBlock):
     class Meta:
         template = "streams/collapsible_block.html"
         icon = "placeholder"
-        label = "Collapsible Block"
-
-
+        label = _("Collapsible Block")
 
 class AccordionBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=True)
@@ -117,7 +115,7 @@ class AccordionBlock(blocks.StructBlock):
     class Meta:
         template = "streams/accordion.html"
         icon = "placeholder"
-        label = "Accordion"
+        label = _("Accordion")
 
 
 class TableInfoBlock(blocks.StructBlock):
@@ -140,7 +138,7 @@ class WhatWeDoBlock(blocks.StructBlock):
     class Meta:
         template = 'streams/what_we_do_block.html'
         icon = 'placeholder'
-        label = "What we do"
+        label = _("What we do")
 
 
 class SocialMediaBlock(blocks.StructBlock):
@@ -150,7 +148,7 @@ class SocialMediaBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'placeholder'
-        label = "Social Media Account"
+        label = _("Social Media Account")
 
 
 class CollapsibleTextBlock(blocks.StructBlock):
@@ -162,7 +160,7 @@ class CollapsibleTextBlock(blocks.StructBlock):
     class Meta:
         template = "streams/collapsible_text_block.html"
         icon = "placeholder"
-        label = "Collapsible Text Block"
+        label = _("Collapsible Text Block")
 
 
 class AdditionalMaterialBlock(blocks.StructBlock):
@@ -178,7 +176,7 @@ class AdditionalMaterialBlock(blocks.StructBlock):
 
     class Meta:
         icon = "placeholder"
-        label = "Additional Material"
+        label = _("Additional Material")
 
 
 class CategorizedAdditionalMaterialBlock(blocks.StructBlock):
@@ -187,7 +185,7 @@ class CategorizedAdditionalMaterialBlock(blocks.StructBlock):
 
     class Meta:
         icon = "placeholder"
-        label = "Additional Materials"
+        label = _("Additional Materials")
         template = 'streams/categorized_materials_block.html'
 
 

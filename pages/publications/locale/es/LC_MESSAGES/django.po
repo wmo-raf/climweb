@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 17:11+0300\n"
+"POT-Creation-Date: 2023-07-14 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:33
-msgid "Banner Image"
-msgstr "Imagen de la pancarta"
+#: pages/publications/models.py:27
+msgid "Name"
+msgstr "Nombre"
 
-#: models.py:34
-msgid "A high quality image related to Publications"
-msgstr "Una imagen de alta calidad relacionada con Publicaciones"
+#: pages/publications/models.py:43
+#, fuzzy
+#| msgid "Publication Type"
+msgid "Publication Types"
+msgstr "Tipos de publicación"
 
-#: models.py:40
-msgid "Banner Title"
-msgstr "Título de la pancarta"
-
-#: models.py:41
-msgid "Banner Subtitle"
-msgstr "Subtítulo de pancarta"
-
-#: models.py:43
-msgid "Call to action button text"
-msgstr "Texto del botón de llamada a la acción"
-
-#: models.py:50
-msgid "Call to action related page"
-msgstr "Página relacionada con la llamada a la acción"
-
-#: models.py:58
+#: pages/publications/models.py:59
 msgid ""
 "The year for the earliest available publication. This is used to generate "
 "the years available for filtering "
@@ -50,11 +36,11 @@ msgstr ""
 "El año de la primera publicación disponible. Esto se utiliza para generar "
 "los años disponibles para filtrar"
 
-#: models.py:59
+#: pages/publications/models.py:60
 msgid "Earliest Publication Year"
 msgstr "Primer año de publicación"
 
-#: models.py:63
+#: pages/publications/models.py:64
 msgid ""
 "How many publications per page should be visible on the all publications "
 "section ?"
@@ -62,74 +48,74 @@ msgstr ""
 "¿Cuántas publicaciones por página deben estar visibles en la sección de "
 "todas las publicaciones?"
 
-#: models.py:86
+#: pages/publications/models.py:78
 msgid "Publications Index Page"
 msgstr "Página de índice de publicaciones"
 
-#: models.py:168
+#: pages/publications/models.py:152
 msgid "Publication Type"
 msgstr "Tipo de publicación"
 
-#: models.py:169
+#: pages/publications/models.py:153
 msgid "Services related to this publication"
 msgstr "Servicios relacionados con esta publicación"
 
-#: models.py:170
+#: pages/publications/models.py:154
 msgid "Relevant Projects"
 msgstr "Proyectos Relevantes"
 
-#: models.py:171
+#: pages/publications/models.py:155
 msgid "Summary"
 msgstr "Resumen"
 
-#: models.py:172
+#: pages/publications/models.py:156
 msgid "Date of Publish"
 msgstr "Fecha de publicación"
 
-#: models.py:176
+#: pages/publications/models.py:160
 msgid "Is visible on homepage"
 msgstr "Es visible en la página de inicio"
 
-#: models.py:178
+#: pages/publications/models.py:162
 msgid "Mark as featured"
 msgstr "Marcar como destacado"
 
-#: models.py:178
+#: pages/publications/models.py:163
 msgid "Featured publications appear on the publications landing page"
 msgstr ""
 "Las publicaciones destacadas aparecen en la página de inicio de "
 "publicaciones."
 
-#: models.py:180
+#: pages/publications/models.py:165
 msgid "Optional start date for which this publication is relevant"
 msgstr "Fecha de inicio opcional para la cual esta publicación es relevante"
 
-#: models.py:181
+#: pages/publications/models.py:166
 msgid "Start date"
 msgstr "Fecha de inicio"
 
-#: models.py:184
+#: pages/publications/models.py:169
 msgid "End date"
 msgstr "Fecha final"
 
-#: models.py:185
+#: pages/publications/models.py:171
 msgid "Peer reviewed"
 msgstr "Revisado por pares"
 
-#: models.py:193
+#: pages/publications/models.py:179
 msgid "Publication image"
 msgstr "Imagen de publicación"
 
-#: models.py:194
+#: pages/publications/models.py:180
 msgid "This can be a screenshot of the front page of the publication"
 msgstr ""
 "Esta puede ser una captura de pantalla de la portada de la publicación."
 
-#: models.py:202
+#: pages/publications/models.py:188
 msgid "Document or File"
 msgstr "Documento o Archivo"
 
-#: models.py:203
+#: pages/publications/models.py:189
 msgid ""
 "Here you can upload pdfs, word documents, powerpoints, zip files or any "
 "other file"
@@ -137,18 +123,36 @@ msgstr ""
 "Aquí puede cargar archivos pdf, documentos de Word, PowerPoint, archivos zip"
 " o cualquier otro archivo"
 
-#: models.py:206
+#: pages/publications/models.py:193
 msgid "External Url - *Only If published/hosted somewhere else"
 msgstr "Url externa - *Solo si se publica/aloja en otro lugar"
 
-#: models.py:207
+#: pages/publications/models.py:194
 msgid "Link to published resource if external"
 msgstr "Enlace al recurso publicado si es externo"
 
-#: models.py:209
+#: pages/publications/models.py:196
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: models.py:226
+#: pages/publications/models.py:213
 msgid "Additional Details"
 msgstr "Detalles adicionales"
+
+#~ msgid "Banner Image"
+#~ msgstr "Imagen de la pancarta"
+
+#~ msgid "A high quality image related to Publications"
+#~ msgstr "Una imagen de alta calidad relacionada con Publicaciones"
+
+#~ msgid "Banner Title"
+#~ msgstr "Título de la pancarta"
+
+#~ msgid "Banner Subtitle"
+#~ msgstr "Subtítulo de pancarta"
+
+#~ msgid "Call to action button text"
+#~ msgstr "Texto del botón de llamada a la acción"
+
+#~ msgid "Call to action related page"
+#~ msgstr "Página relacionada con la llamada a la acción"

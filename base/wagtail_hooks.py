@@ -5,6 +5,7 @@ from wagtail.contrib.modeladmin.options import (
 )
 from django.templatetags.static import static
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 
 
 from base.models import Theme
@@ -15,7 +16,7 @@ def global_admin_css():
 
 class ThemeSettings(ModelAdmin):
     model = Theme
-    menu_label = 'Themes'
+    menu_label = _('Themes')
     menu_icon = 'cog'
     menu_order = 950
     add_to_settings_menu = True

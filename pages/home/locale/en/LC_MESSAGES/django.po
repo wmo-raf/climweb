@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 16:12+0300\n"
+"POT-Creation-Date: 2023-07-14 14:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,70 +18,142 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:54
-msgid "Text Color"
-msgstr "Text Color"
+#: nmhs_cms/templates/modeladmin/index.html:33
+msgid "Download XLSX"
+msgstr "Download XLSX"
 
-#: models.py:56
+#: nmhs_cms/templates/modeladmin/index.html:39
+msgid "Download CSV"
+msgstr "Download CSV"
+
+#: nmhs_cms/templates/modeladmin/index.html:62
+msgid "Filter"
+msgstr "Filter"
+
+#: nmhs_cms/templates/modeladmin/index.html:74
+#, python-format
+msgid ""
+"No %(name)s have been created yet. One of the following must be created "
+"before you can add any %(name)s:"
+msgstr ""
+"No %(name)s have been created yet. One of the following must be created "
+"before you can add any %(name)s:"
+
+#: nmhs_cms/templates/modeladmin/index.html:79
+#, python-format
+msgid "No %(name)s have been created yet."
+msgstr "No %(name)s have been created yet."
+
+#: nmhs_cms/templates/modeladmin/index.html:81
+#, python-format
+msgid "Why not <a href=\"%(url)s\">add one</a>?"
+msgstr "Why not <a href=\"%(url)s\">add one</a>?"
+
+#: nmhs_cms/templates/modeladmin/index.html:96
+msgid "Pagination"
+msgstr "Pagination"
+
+#: nmhs_cms/templates/modeladmin/index.html:97
+#, python-format
+msgid "Page %(current_page)s of %(num_pages)s."
+msgstr "Page %(current_page)s of %(num_pages)s."
+
+#: nmhs_cms/templates/wagtailadmin/home.html:4
+msgid "Welcome to NMHS CMS"
+msgstr "Welcome to NMHS CMS"
+
+#: pages/home/models.py:51
 msgid "Title"
 msgstr "Title"
 
-#: models.py:57
-msgid "Subtitle Title"
-msgstr "Subtitle Title"
+#: pages/home/models.py:52
+#, fuzzy
+#| msgid "Subtitle Title"
+msgid "Subtitle"
+msgstr "Subtitle"
 
-#: models.py:60
-msgid "Hero Banner"
-msgstr "Hero Banner"
+#: pages/home/models.py:54
+msgid "Banner Image"
+msgstr "Banner Image"
 
-#: models.py:62
+#: pages/home/models.py:55
+#, fuzzy
+#| msgid "Text Color"
+msgid "Banner Text Color"
+msgstr "Banner Text Color"
+
+#: pages/home/models.py:56
 msgid "Enable weather forecasts section"
 msgstr "Enable weather forecasts section"
 
-#: models.py:63
-msgid "Enable climate section"
-msgstr "Enable climate section"
+#: pages/home/models.py:57
+#, fuzzy
+#| msgid "Enable climate section"
+msgid "Enable mapviewer section"
+msgstr "Enable mapviewer section"
 
-#: models.py:64
-msgid "Climate Title"
-msgstr "Climate Title"
+#: pages/home/models.py:59
+#, fuzzy
+#| msgid "Media Section Title"
+msgid "MapViewer Call to Action Title"
+msgstr "MapViewer Call to Action Title"
 
-#: models.py:66
+#: pages/home/models.py:60
+msgid "Mapviewer URL"
+msgstr "Mapviewer URL"
+
+#: pages/home/models.py:61
 msgid "Enable media section"
 msgstr "Enable media section"
 
-#: models.py:73
-msgid "Youtube Playlist"
-msgstr "Youtube Playlist"
-
-#: models.py:76
+#: pages/home/models.py:63
 msgid "Media Section Title"
 msgstr "Media Section Title"
 
-#: models.py:77
+#: pages/home/models.py:65
 msgid "Media Section Description"
 msgstr "Media Section Description"
 
-#: models.py:85
-msgid "Hero Section"
-msgstr "Hero Section"
+#: pages/home/models.py:72
+msgid "Youtube Playlist"
+msgstr "Youtube Playlist"
 
-#: models.py:89
+#: pages/home/models.py:80
+#, fuzzy
+#| msgid "Hero Section"
+msgid "Banner Section"
+msgstr "Banner Section"
+
+#: pages/home/models.py:84
 msgid "Weather forecasts Section"
 msgstr "Weather forecasts Section"
 
-#: models.py:93
+#: pages/home/models.py:89
 msgid "Climate Section Section"
 msgstr "Climate Section Section"
 
-#: models.py:99
+#: pages/home/models.py:95
 msgid "Media Section"
 msgstr "Media Section"
 
-#: models.py:104
+#: pages/home/models.py:100
 msgid "Home Page"
 msgstr "Home Page"
 
-#: models.py:105
+#: pages/home/models.py:101
 msgid "Home Pages"
 msgstr "Home Pages"
+
+#: pages/home/templates/dailyweather_include.html:5
+msgid "Daily Weather"
+msgstr "Daily Weather"
+
+#: pages/home/templates/forecasts_index.html:3
+msgid "Forecasts"
+msgstr "Forecasts"
+
+#~ msgid "Hero Banner"
+#~ msgstr "Hero Banner"
+
+#~ msgid "Climate Title"
+#~ msgstr "Climate Title"

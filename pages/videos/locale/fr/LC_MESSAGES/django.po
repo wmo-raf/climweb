@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 17:11+0300\n"
+"POT-Creation-Date: 2023-07-14 14:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: models.py:23
+#: pages/videos/models.py:15
 msgid "Title"
 msgstr "Titre"
 
-#: models.py:25
+#: pages/videos/models.py:17
 msgid ""
 "This is the playlist ID as obtained from Youtube. If the playlist is not "
 "created on Youtube, please create it first"
@@ -30,15 +30,15 @@ msgstr ""
 "Il s'agit de l'identifiant de la liste de lecture obtenu sur Youtube. Si la "
 "liste de lecture n'est pas créée sur Youtube, veuillez d'abord la créer"
 
-#: models.py:27
+#: pages/videos/models.py:19
 msgid "Playlist ID"
 msgstr "ID de la liste de lecture"
 
-#: models.py:103
-msgid "Introduction"
-msgstr "Introduction"
-
-#: templates/playlist_items.html:4 templates/playlist_list.html:4
-#: templates/playlist_list.html:15
+#: pages/videos/templates/playlist_items.html:4
+#: pages/videos/templates/playlist_list.html:4
+#: pages/videos/templates/playlist_list.html:15
 msgid "Youtube Playlists"
 msgstr "Listes de lecture Youtube"
+
+#~ msgid "Introduction"
+#~ msgstr "Introduction"
