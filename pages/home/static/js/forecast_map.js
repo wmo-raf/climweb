@@ -1,18 +1,60 @@
 $(document).ready(function () {
     // code to be executed when the DOM is ready
 
-    // def feature_collection(self):
-    //     fc = {"type": "FeatureCollection", "features": []}
-    //     for info in self.info:
-    //         if info.value.features:
-    //             for feature in info.value.features:
-    //                 fc["features"].append(feature)
-    //     return fc
+    // default MapLibre style
+    const defaultStyle = {
+        'version': 8,
+        'sources': {
+            'carto-dark': {
+                'type': 'raster',
+                'tiles': [
+                    "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                    "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                    "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                    "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
+                ]
+            },
+            'carto-light': {
+                'type': 'raster',
+                'tiles': [
+                    "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                    "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                    "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                    "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
+                ]
+            },
+            'positron': {
+                'type': 'raster',
+                'tiles': [
+                    "https://a.basemaps.cartocdn.com/positron/{z}/{x}/{y}@2x.png",
+                    "https://b.basemaps.cartocdn.com/positron/{z}/{x}/{y}@2x.png",
+                    "https://c.basemaps.cartocdn.com/positron/{z}/{x}/{y}@2x.png",
+                    "https://d.basemaps.cartocdn.com/positron/{z}/{x}/{y}@2x.png",
+                    
+                ]
+            },
+            'wikimedia': {
+                'type': 'raster',
+                'tiles': [
+                    "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+                ]
+            }
+        },
+        'layers': [{
+            'id': 'carto-light-layer',
+            'source': 'carto-light',
+
+
+            'type': 'raster',
+            'minzoom': 0,
+            'maxzoom': 22
+        }]
+    }
 
 
     const forecast_map = new maplibregl.Map({
         container: "home-map", // container ID
-        style: basemap,
+        style: defaultStyle,
         center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
         zoom: 4.2, // starting zoom
         scrollZoom: false,
@@ -30,7 +72,7 @@ $(document).ready(function () {
 
     const allAreas = $(".alert-area")
         .map(function () {
-            
+
             return this.value;
         })
         .get();
@@ -104,7 +146,7 @@ $(document).ready(function () {
             forecast_map.fitBounds(bbox, { padding: 20 });
         }
 
-        if(geojson){
+        if (geojson) {
             forecast_map.addSource("alert-areas", {
                 type: "geojson",
                 data: geojson,
@@ -158,7 +200,7 @@ $(document).ready(function () {
                 forecast_map.getCanvas().style.cursor = "";
             });
         }
-        
+
 
         // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
@@ -198,7 +240,7 @@ $(document).ready(function () {
 
 
     })
-    
+
     function setForecastData(forecast_date) {
         // Make an HTTP GET request to the API endpoint
         fetch(`${forecast_api}?forecast_date=${forecast_date}`)
@@ -235,11 +277,11 @@ $(document).ready(function () {
 
     }
 
-   
 
 
 
-    
+
+
 
     // toggle forecasts by selected date 
     $('#daily_forecast').on('change', function (e) {

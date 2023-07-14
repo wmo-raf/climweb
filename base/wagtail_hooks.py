@@ -3,9 +3,15 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     modeladmin_register
 )
+from django.templatetags.static import static
+from django.utils.html import format_html
+
 
 from base.models import Theme
 
+@hooks.register('insert_global_admin_css')
+def global_admin_css():
+    return format_html('<link rel="stylesheet" href="{}">', static('css/admin.css'))
 
 class ThemeSettings(ModelAdmin):
     model = Theme
