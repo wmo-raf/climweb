@@ -77,7 +77,32 @@ $(document).ready(function () {
         })
         .get();
 
+    const getPopupHTML = (props) => {
+        const paramValues = dataParams.reduce((all, param) => {
+            if (props[param.parameter]) {
+                all[param.name] = props[param.parameter]
+            }
+            return all
+        }, {})
+
+        const cityName = props.city_name;
+        const condition = props.condition;
+
+        let values = Object.keys(paramValues).reduce((all, key) => {
+            all = all + `<p><b>${key}: </b>${paramValues[key]}</p>`
+            return all
+        }, "")
+
+        return `<div class="block" style="margin:10px; width:200px">
+            <h2 class="title" style="font-size:18px;">${cityName}</h2>
+            <h2 class="subtitle" style="font-size:14px;">${condition}</h2>
+            <hr>
+            ${values}
+        </div>`
+    }
+
     function populateMap(data) {
+        console.log(data)
         forecast_map.addSource("city-forecasts", {
             type: "geojson",
             data: data
@@ -100,7 +125,7 @@ $(document).ready(function () {
             type: "symbol",
             'layout': {
                 'text-offset': [2, -0.5],
-                'text-field': ['concat', ['get', 'max_temp'], temp_units],
+                'text-field': ['concat', ['get', 'air_temperature_max'], temp_units],
                 'text-allow-overlap': true,
                 'icon-allow-overlap': true
 
@@ -119,7 +144,7 @@ $(document).ready(function () {
             type: "symbol",
             'layout': {
                 'text-offset': [2.5, 0.5],
-                'text-field': ['concat', ['get', 'min_temp'], temp_units],
+                'text-field': ['concat', ['get', 'air_temperature_min'], temp_units],
                 'text-size': 12,
                 'text-allow-overlap': true,
                 'icon-allow-overlap': true
@@ -217,14 +242,7 @@ $(document).ready(function () {
 
 
             popup.setLngLat(feature.geometry.coordinates)
-                .setHTML(`
-                        <div class="block" style="margin:10px; width:200px">
-                            <h2 class="title" style="font-size:18px;">${city_name}</h2> 
-                            <h2 class="subtitle" style="font-size:14px;">${condition_desc}</h2> 
-                            <hr> 
-                            <p><b>Min Temperature: </b>${min_temp} °C</p> 
-                            <p><b>Max Temperature: </b>${max_temp} °C</p> 
-                        </div>`)
+                .setHTML(getPopupHTML(feature.properties))
                 .addTo(forecast_map);
         })
         //  i am here    
