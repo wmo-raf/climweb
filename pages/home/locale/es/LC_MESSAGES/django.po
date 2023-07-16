@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 15:26+0000\n"
+"POT-Creation-Date: 2023-07-16 18:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,50 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: nmhs_cms/templates/modeladmin/index.html:33
+msgid "Download XLSX"
+msgstr "Descargar XLSX"
+
+#: nmhs_cms/templates/modeladmin/index.html:39
+msgid "Download CSV"
+msgstr "Descargar CSV"
+
+#: nmhs_cms/templates/modeladmin/index.html:62
+msgid "Filter"
+msgstr "Filtrar"
+
+#: nmhs_cms/templates/modeladmin/index.html:74
+#, python-format
+msgid ""
+"No %(name)s have been created yet. One of the following must be created "
+"before you can add any %(name)s:"
+msgstr ""
+"Aún no se han creado %(name)s. Se debe crear uno de los siguientes antes de "
+"poder agregar cualquier %(name)s:"
+
+#: nmhs_cms/templates/modeladmin/index.html:79
+#, python-format
+msgid "No %(name)s have been created yet."
+msgstr "Aún no se han creado %(name)s."
+
+#: nmhs_cms/templates/modeladmin/index.html:81
+#, python-format
+msgid "Why not <a href=\"%(url)s\">add one</a>?"
+msgstr "¿Por qué no <a href=\"%(url)s\">añadir uno</a>?"
+
+#: nmhs_cms/templates/modeladmin/index.html:96
+msgid "Pagination"
+msgstr "Paginación"
+
+#: nmhs_cms/templates/modeladmin/index.html:97
+#, python-format
+msgid "Page %(current_page)s of %(num_pages)s."
+msgstr "Página %(current_page)s de %(num_pages)s."
+
+#: nmhs_cms/templates/wagtailadmin/home.html:4
+msgid "Welcome to NMHS CMS"
+msgstr "Bienvenido a NMHS CMS"
 
 #: pages/home/models.py:51
 msgid "Title"
@@ -107,41 +151,6 @@ msgstr "Clima diario"
 #: pages/home/templates/forecasts_index.html:3
 msgid "Forecasts"
 msgstr "Pronósticos"
-
-#~ msgid "Download XLSX"
-#~ msgstr "Descargar XLSX"
-
-#~ msgid "Download CSV"
-#~ msgstr "Descargar CSV"
-
-#~ msgid "Filter"
-#~ msgstr "Filtrar"
-
-#, python-format
-#~ msgid ""
-#~ "No %(name)s have been created yet. One of the following must be created "
-#~ "before you can add any %(name)s:"
-#~ msgstr ""
-#~ "Aún no se han creado %(name)s. Se debe crear uno de los siguientes antes "
-#~ "de poder agregar cualquier %(name)s:"
-
-#, python-format
-#~ msgid "No %(name)s have been created yet."
-#~ msgstr "Aún no se han creado %(name)s."
-
-#, python-format
-#~ msgid "Why not <a href=\"%(url)s\">add one</a>?"
-#~ msgstr "¿Por qué no <a href=\"%(url)s\">añadir uno</a>?"
-
-#~ msgid "Pagination"
-#~ msgstr "Paginación"
-
-#, python-format
-#~ msgid "Page %(current_page)s of %(num_pages)s."
-#~ msgstr "Página %(current_page)s de %(num_pages)s."
-
-#~ msgid "Welcome to NMHS CMS"
-#~ msgstr "Bienvenido a NMHS CMS"
 
 #~ msgid "Hero Banner"
 #~ msgstr "Estandarte de héroe"

@@ -54,7 +54,7 @@ $(document).ready(function () {
 
     const forecast_map = new maplibregl.Map({
         container: "home-map", // container ID
-        style: defaultStyle,
+        style: basemap,
         center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
         zoom: 4.2, // starting zoom
         scrollZoom: false,
