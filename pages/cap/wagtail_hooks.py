@@ -1,26 +1,23 @@
-from wagtail.contrib.modeladmin.options import modeladmin_register
-from .models import CapAlertPage
 from capeditor.models import CapSetting
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+from wagtail.admin.menu import MenuItem
 from wagtail.contrib.modeladmin.options import (
-    ModelAdmin, 
+    ModelAdmin,
     modeladmin_register,
     ModelAdminGroup
 )
-from adminboundarymanager.wagtail_hooks import AdminBoundaryManagerAdminGroup
-from django.urls import path, include, reverse
-from wagtail.admin.menu import MenuItem
-from django.utils.translation import gettext_lazy as _
 
-modeladmin_register(AdminBoundaryManagerAdminGroup)
+from .models import CapAlertPage
+
 
 class CAPAdmin(ModelAdmin):
     model = CapAlertPage
     menu_label = _('Alerts')
     menu_icon = 'list-ul'
-    menu_order = 200 
+    menu_order = 200
     add_to_settings_menu = False
     exclude_from_explorer = False
-
 
 
 class CAPMenuGroup(ModelAdminGroup):
@@ -32,11 +29,11 @@ class CAPMenuGroup(ModelAdminGroup):
     def get_submenu_items(self):
         menu_items = []
         item_order = 1
-        
+
         for modeladmin in self.modeladmin_instances:
             menu_items.append(modeladmin.get_menu_item(order=item_order))
             item_order += 1
-            
+
         try:
             settings_url = reverse(
                 "wagtailsettings:edit",

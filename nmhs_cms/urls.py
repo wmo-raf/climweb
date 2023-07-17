@@ -53,7 +53,7 @@ if settings.DEBUG:
                       path("test500/", TemplateView.as_view(template_name="500.html")),
                   ] + urlpatterns
 
-urlpatterns = urlpatterns + i18n_patterns(
+urlpatterns = urlpatterns + [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
@@ -73,8 +73,7 @@ urlpatterns = urlpatterns + i18n_patterns(
     # mechanism
     # Custom wagtail pages serving with cache implements from wagtail-cache page
     re_path(serve_pattern, cache_page(wagtail_views.serve), name="wagtail_serve"),
-    prefix_default_language=False,
     # Alternatively, if you want Wagtail pages to be served from a subpath
     # of your site, rather than the site root:
     #    path("pages/", include(wagtail_urls)),
-)
+]

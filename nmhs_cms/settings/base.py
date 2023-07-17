@@ -58,10 +58,12 @@ INSTALLED_APPS = [
     "pages.data_request",
     "pages.flex_page",
     "pages.cap",
+    "pages.stations",
 
+    "adminboundarymanager",
+    "geomanager",
     "capeditor",
     "forecastmanager",
-    "geomanager",
 
     "wagtailmautic",
     "wagtailzoom",
@@ -121,8 +123,8 @@ INSTALLED_APPS = [
     "bulma",
     "mailchimp3",
     "manifest_loader",
-    "adminboundarymanager"
-
+    "django_tables2",
+    "django_tables2_bulma_template",
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
@@ -370,3 +372,5 @@ NEXTJS_SETTINGS = {
 FORCE_SCRIPT_NAME = env.str("FORCE_SCRIPT_NAME", default="")
 
 WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
+
+DJANGO_TABLES2_TEMPLATE = "django-tables2/bulma.html"

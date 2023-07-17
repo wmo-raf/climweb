@@ -38,7 +38,8 @@ class HomePage(MetadataPageMixin, Page):
         'email_subscription.MailchimpMailingListSubscriptionPage',
         'email_subscription.MauticMailingListSubscriptionPage',
         'data_request.DataRequestPage',
-        'flex_page.FlexPage'
+        'flex_page.FlexPage',
+        'stations.StationsPage'
     ]
     parent_page_type = [
         'wagtailcore.Page'
