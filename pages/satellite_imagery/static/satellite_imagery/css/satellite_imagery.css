@@ -1,0 +1,205 @@
+
+.sat-map {
+    height: 600px;
+    width: 100%;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+}
+
+@media only screen and (max-width: 600px) {
+    .sat-map {
+        height: 400px;
+    }
+}
+
+
+.menu-control {
+    position: absolute;
+    z-index: 500;
+    top: 20px;
+    left: 20px;
+}
+
+
+.map-menu {
+    position: relative;
+}
+
+.map-menu::before {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    right: 0;
+    content: ' ';
+    left: 0;
+    width: 28px;
+    background-color: rgba(68, 65, 65, 0.84);
+    border-radius: 28px;
+    content: ' ';
+}
+
+.menu-category {
+    position: relative;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+}
+
+.category-icon {
+    cursor: pointer;
+    height: 28px;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.menu-category.active .category-icon {
+    background-color: #4e8ecb;
+    box-shadow: 0 0 4px 0 black;
+}
+
+.c-icon {
+    padding: 2px;
+    color: #fff;
+    fill: #fff;
+    width: 24px;
+    height: 24px;
+}
+
+.c-icon svg {
+    height: 100%;
+    width: 100%;
+}
+
+.layer-title {
+    position: absolute;
+    left: 34px;
+    cursor: pointer;
+    width: max-content;
+    padding: 0 11px;
+    font-size: 16px;
+    text-shadow: 0 0 3px #000;
+    font-weight: 500;
+    color: #fff;
+    border-radius: 20px;
+}
+
+.menu-category.active .layer-title, .menu-category:hover .layer-title {
+    background-color: rgba(78, 142, 203, 0.9);
+    text-shadow: none;
+}
+
+
+.auto-update-wrapper {
+    position: absolute;
+    bottom: 50px;
+    left: 12px;
+    z-index: 500;
+    max-height: 150px;
+    padding: 4px 8px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.auto-update-wrapper input {
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+}
+
+.auto-update-wrapper label {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.legend-control {
+    position: absolute;
+    bottom: 30px;
+    right: 12px;
+    z-index: 500;
+    width: 300px;
+    max-height: 150px;
+    padding: 16px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+}
+
+.legend-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.legend-layer-label {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.legend-layer-image {
+    margin-top: 5px;
+    max-height: 50px;
+}
+
+.legend-layer-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+@media only screen and (max-width: 600px) {
+    .legend-control {
+        bottom: 70px;
+        left: 12px;
+        padding: 8px;
+        width: 200px;
+    }
+}
+
+.leaflet-bar-timecontrol {
+    padding: 0 12px 0 8px;
+    border-radius: 16px;
+    display: flex;
+}
+
+
+.leaflet-bar-timecontrol .leaflet-control-timecontrol {
+    border: none;
+}
+
+.leaflet-bar-timecontrol .leaflet-control-timecontrol:last-child, .leaflet-bar-timecontrol .leaflet-control-timecontrol:first-child {
+    border-radius: 16px;
+}
+
+a.leaflet-control-timecontrol {
+    border-radius: 10px !important;
+    font-size: 12px !important;
+}
+
+
+.timecontrol-slider .slider {
+    border-radius: 10px;
+    height: 10px;
+}
+
+.timecontrol-slider .knob {
+    border-radius: 10px;
+    height: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .leaflet-bar-timecontrol {
+        bottom: 20px;
+    }
+
+
+    .timecontrol-dateslider {
+        display: none;
+    }
+}

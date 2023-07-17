@@ -21,11 +21,11 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls), name='admin'),
     path("documents/", include(wagtaildocs_urls)),
-    # path("", include(forecast_urls)),
     path("list_forecast/", list_forecasts, name="list_forecasts"),
     path("daily_weather/", daily_weather, name="daily_weather"),
     path('api/cap/feed.xml', AlertList.as_view(), name="cap_alert_feed"),
     path("api/cap/<uuid:identifier>.xml", AlertDetail.as_view(), name="cap_alert_detail"),
+    path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
 
     path("search/", search_views.search, name="search"),
 

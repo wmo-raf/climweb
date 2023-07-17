@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "pages.flex_page",
     "pages.cap",
     "pages.stations",
+    "pages.satellite_imagery",
 
     "adminboundarymanager",
     "geomanager",
