@@ -1,12 +1,10 @@
-from django.shortcuts import render
-from .models import CapAlertPage
-from rest_framework import generics
-
 from capeditor.renderers import CapXMLRenderer
 from capeditor.serializers import AlertSerializer
+from rest_framework import generics
+
+from .models import CapAlertPage
 
 
-# Create your views here.
 class AlertList(generics.ListAPIView):
     serializer_class = AlertSerializer
     serializer_class.Meta.model = CapAlertPage

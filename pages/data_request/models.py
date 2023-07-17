@@ -2,13 +2,13 @@ from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.template.response import TemplateResponse
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.admin.mail import send_mail
+from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
-from base.mixins import MetadataPageMixin
 
+from base.mixins import MetadataPageMixin
 from pages.contact.utils import get_duplicates
 
 
@@ -97,7 +97,7 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
             self.send_suspicious_form_to_admin(form)
 
     def send_suspicious_form_to_admin(self, form):
-        addresses = [''] # TODO: SET SUSPICIOUS EMAIL ADDRESS RECIPIENT
+        addresses = ['']  # TODO: SET SUSPICIOUS EMAIL ADDRESS RECIPIENT
         content = []
         for field in form:
             value = field.value()

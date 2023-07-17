@@ -8,7 +8,6 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.fields import RichTextField
-from wagtail.models import Site
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
@@ -16,7 +15,6 @@ from wagtailgeowidget.panels import LeafletPanel
 
 from base.mail import send_mail
 from base.mixins import MetadataPageMixin
-# from base.models import OtherSettings
 from .utils import get_duplicates
 
 
@@ -27,6 +25,9 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     max_count = 1
     show_in_menus_default = True
     landing_page_template = 'form_thank_you_landing.html'
+
+    # don't cache this page because it has a form
+    cache_control = 'no-cache'
 
     location = models.CharField(help_text=_("Location of organisation"), blank=False, null=True, max_length=250,
                                 verbose_name=_("Location of organisation"))
