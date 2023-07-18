@@ -17,49 +17,61 @@
     <main>
         {% include "breadcrumbs_include.html" %}
         <section class="container">
-            <div id="sat-map" class="sat-map" style="position: relative">
-                <div class="menu-control" style="position: absolute">
-                    <div class="map-menu">
-                        {% for msg_layer in page.msg_layers %}
-                            <div class="menu-category {% if forloop.first %}active{% endif %}">
-                                <div class="category-icon">
-                                    <div class="c-icon">
-                                        {% svg_icon name="layer-group" %}
+            {% if page.msg_layers %}
+                <div id="sat-map" class="sat-map" style="position: relative">
+                    <div class="menu-control" style="position: absolute">
+                        <div class="map-menu">
+                            {% for msg_layer in page.msg_layers %}
+                                <div class="menu-category {% if forloop.first %}active{% endif %}">
+                                    <div class="category-icon">
+                                        <div class="c-icon">
+                                            {% svg_icon name="layer-group" %}
+                                        </div>
+                                    </div>
+                                    <div class="layer-title" data-layer="{{ msg_layer.value.name }}">
+                                        <div class="layer-label">{{ msg_layer.value.label }}</div>
                                     </div>
                                 </div>
-                                <div class="layer-title" data-layer="{{ msg_layer.value.name }}">
-                                    <div class="layer-label">{{ msg_layer.value.label }}</div>
-                                </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-                <div class="auto-update-wrapper">
-                    <input type="checkbox" id="auto_update" name="auto_update" checked>
-                    <label for="auto_update"> Auto-update</label>
-                </div>
-                <div class="legend-control" style="display: none">
-                    <div class="legend-title">Legend</div>
-                    <div class="legend-layer-title"></div>
-                    <div class="legend-layer-image">
-                        <img src="" alt="Legend">
+                    <div class="auto-update-wrapper">
+                        <input type="checkbox" id="auto_update" name="auto_update" checked>
+                        <label for="auto_update"> Auto-update</label>
                     </div>
-                </div>
-            </div>
+                    <div class="legend-control" style="display: none">
+                        <div class="legend-title">Legend</div>
+                        <div class="legend-layer-title"></div>
+                        <div class="legend-layer-image">
+                            <img src="" alt="Legend">
+                        </div>
+                    </div>
+                    <div class="basemap-selector" id="basemapControl" style="display: none">
+                        <div class="basemap-control leaflet-bar leaflet-control">
+                            <svg viewBox="0 0 34 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                 class="icon-basemap">
+                                <path d="M29.995 17.712l4.29 2.859-17.143 11.429-17.136-11.429 4.286-2.857 12.855 8.571 12.85-8.574zM34.281 11.429l-17.136 11.429-17.145-11.429 17.143-11.429 17.138 11.429z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>{% else %}
+            {% endif %}
         </section>
     </main>
 {% endblock content %}
 
 {% block extra_js %}
     {{ block.super }}
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
-    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
 
-    <script>
+    {% if page.msg_layers %}
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script type="text/javascript"
+                src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
+        <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+        <script>
         const layerDatesUrl = "{{ layer_dates_url }}";
         const eumetViewWmsBaseUrl = "{{ eumetview_wms_base_url }}";
 
@@ -99,6 +111,7 @@
                 }
             })
 
+
             const map = L.map('sat-map', {
                 zoom: 5,
                 center: [8.92, 38.66],
@@ -114,7 +127,6 @@
                 }
             });
 
-
             // add zoom control
             new L.Control.Zoom({position: 'topright'}).addTo(map);
 
@@ -128,6 +140,7 @@
                 maxZoom: 20,
                 minZoom: 0
             }).addTo(map);
+
 
             if (countryBounds) {
                 const bounds = [[countryBounds[1], countryBounds[0]], [countryBounds[3], countryBounds[2]]]
@@ -156,7 +169,11 @@
                     transparent: true,
                     attribution: '&copy; <a href="https://view.eumetsat.int/">EUMETSAT</a>'
                 })
-                return L.timeDimension.layer.wms(wmsLayer, {requestTimeFromCapabilities: false,});
+                return L.timeDimension.layer.wms(wmsLayer, {
+                    requestTimeFromCapabilities: false,
+                    cache: 10,
+                    cacheBackward: 10
+                });
             }
 
             const getLayerAvailableTimes = (layerName) => {
@@ -238,7 +255,8 @@
             // set auto-updating by default
             setAutoUpdate()
         })
-    </script>
+    {% endif %}
+</script>
 {% endblock %}
 
 

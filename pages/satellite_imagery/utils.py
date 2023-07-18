@@ -19,7 +19,7 @@ def get_msg_layers():
     return layers
 
 
-def extract_domain_values(xml_text):
+def extract_domain_values(xml_text, as_string=False):
     # Parse the XML
     root = ET.fromstring(xml_text)
 
@@ -35,14 +35,16 @@ def extract_domain_values(xml_text):
     # Extract the domain values
     domain_values = domain_element.text.split(',')
 
-    # Parse the values as dates
-    date_format = "%Y-%m-%dT%H:%M:%S.%fZ"
-    dates = [datetime.strptime(value, date_format).timestamp() * 1000 for value in domain_values]
-
+    if as_string:
+        dates = [value for value in domain_values]
+    else:
+        # Parse the values as dates
+        date_format = "%Y-%m-%dT%H:%M:%S.%fZ"
+        dates = [datetime.strptime(value, date_format).timestamp() * 1000 for value in domain_values]
     return dates
 
 
-def get_layer_time(layer):
+def get_layer_time(layer, as_string=False):
     base_url = "https://view.eumetsat.int/geoserver/gwc/service/wmts"
     params = {
         "service": "WMTS",
@@ -58,12 +60,12 @@ def get_layer_time(layer):
     try:
         r = requests.get(base_url, params=params)
         r.raise_for_status()
-        values = extract_domain_values(r.text)
+        values = extract_domain_values(r.text, as_string=as_string)
         return values
     except requests.exceptions.HTTPError as e:
         res = e.response.text
 
-        return None
+    return None
 
 
 def get_msg_layer_choices():

@@ -107,6 +107,12 @@
     cursor: pointer;
 }
 
+@media only screen and (max-width: 600px) {
+    .auto-update-wrapper {
+        bottom: 70px;
+    }
+}
+
 .auto-update-wrapper input {
     cursor: pointer;
     width: 12px;
@@ -117,6 +123,7 @@
     margin-left: 8px;
     cursor: pointer;
 }
+
 
 .legend-control {
     position: absolute;
@@ -193,13 +200,35 @@ a.leaflet-control-timecontrol {
 }
 
 @media only screen and (max-width: 600px) {
-
     .leaflet-bar-timecontrol {
         bottom: 20px;
     }
 
-
     .timecontrol-dateslider {
         display: none;
     }
+}
+
+.basemap-selector {
+    position: absolute;
+    z-index: 500;
+    top: 130px;
+    right: 10px;
+    height: 34px;
+    width: 34px;
+}
+
+.basemap-control {
+    cursor: pointer;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.basemap-control .icon-basemap {
+    height: 20px;
+    width: 20px;
 }

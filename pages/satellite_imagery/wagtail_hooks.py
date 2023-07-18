@@ -9,4 +9,5 @@ def register_icons(icons):
         'wagtailfontawesomesvg/solid/layer-group.svg',
         'wagtailfontawesomesvg/solid/globe-africa.svg',
         'wagtailfontawesomesvg/solid/map.svg',
+        "satellite_imagery/icons/basemap.svg"
     ]
