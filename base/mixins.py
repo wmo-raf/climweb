@@ -1,10 +1,11 @@
 from django.utils.translation import gettext_lazy
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.admin.widgets.slug import SlugInput
+from wagtailcache.cache import WagtailCacheMixin
 from wagtailmetadata.models import MetadataPageMixin as BaseMetadataPageMixin
 
 
-class MetadataPageMixin(BaseMetadataPageMixin):
+class MetadataPageMixin(BaseMetadataPageMixin, WagtailCacheMixin):
     class Meta:
         abstract = True
 

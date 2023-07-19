@@ -1,15 +1,13 @@
-from django.db import models
-from base.mixins import MetadataPageMixin
-from wagtail.models import Page
-from wagtail.fields import StreamField
-from wagtail.admin.panels import FieldPanel,MultiFieldPanel
-from wagtail.contrib.table_block.blocks import TableBlock
-from base.models import AbstractBannerPage
 from django.utils.translation import gettext_lazy as _
-from base import  blocks
+from wagtail.admin.panels import FieldPanel
+from wagtail.fields import StreamField
+from wagtail.models import Page
 
-# model for flexible pages 
-# Create your models here.
+from base import blocks
+from base.models import AbstractBannerPage
+
+
+# model for flexible pages
 class FlexPage(AbstractBannerPage):
     template = "flex_page.html"
 
@@ -28,15 +26,11 @@ class FlexPage(AbstractBannerPage):
         use_json_field=True
     )
 
-    content_panels =  Page.content_panels + [
+    content_panels = Page.content_panels + [
         *AbstractBannerPage.content_panels,
         FieldPanel("content")
-        
+
     ]
 
     class Meta:
         verbose_name = _("Flex Page")
-
-    
-
-    

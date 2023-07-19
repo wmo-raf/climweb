@@ -1,26 +1,23 @@
-import os
+import json
 from datetime import datetime, timedelta
 from itertools import groupby
-import pytz
-import json
 
-from pages.cap.models import CapAlertPage
 from django.contrib.gis.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from forecastmanager.models import City, Forecast
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.models import Page
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
-from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 
 from base.mixins import MetadataPageMixin
-from forecastmanager.models import City, Forecast
+from pages.cap.models import CapAlertPage
 from pages.events.models import EventPage
 from pages.news.models import NewsPage
 from pages.publications.models import PublicationPage
-from pages.videos.models import YoutubePlaylist
 from pages.services.models import ServicePage
+from pages.videos.models import YoutubePlaylist
 
 
 class HomePage(MetadataPageMixin, Page):
@@ -41,7 +38,9 @@ class HomePage(MetadataPageMixin, Page):
         'email_subscription.MailchimpMailingListSubscriptionPage',
         'email_subscription.MauticMailingListSubscriptionPage',
         'data_request.DataRequestPage',
-        'flex_page.FlexPage'
+        'flex_page.FlexPage',
+        'stations.StationsPage',
+        'satellite_imagery.SatelliteImageryPage'
     ]
     parent_page_type = [
         'wagtailcore.Page'
@@ -111,7 +110,8 @@ class HomePage(MetadataPageMixin, Page):
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
-                                                forecast_date__lte=end_date_param.date(),effective_period__whole_day = True) \
+                                                forecast_date__lte=end_date_param.date(),
+                                                effective_period__whole_day=True) \
             .order_by('forecast_date') \
             .values('id', 'city__name', 'forecast_date', 'data_value',
                     'condition')
@@ -172,14 +172,12 @@ class HomePage(MetadataPageMixin, Page):
     def get_forecast_by_daterange(request):
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
-        
 
         dates_ls = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
-                                                forecast_date__lte=end_date_param.date()) \
-                .order_by('forecast_date') \
-                .values_list('forecast_date', flat=True) \
-                .distinct()
-
+                                           forecast_date__lte=end_date_param.date()) \
+            .order_by('forecast_date') \
+            .values_list('forecast_date', flat=True) \
+            .distinct()
 
         return {
             'forecast_dates': dates_ls
@@ -197,7 +195,6 @@ class HomePage(MetadataPageMixin, Page):
         for alert in alerts:
             for info in alert.info:
                 if info.value.get('expires').date() >= datetime.today().date():
-
                     active_alert_info = info
 
                 if info.value.features:
@@ -207,12 +204,11 @@ class HomePage(MetadataPageMixin, Page):
             if active_alert_info:
                 active_alerts.append(alert)
 
-
         return {
             # 'alerts': serializers.serialize('json',list(alerts) ),
             'alerts': alerts,
             'active_alerts': active_alerts,
-            'geojson':json.dumps(geojson)
+            'geojson': json.dumps(geojson)
         }
 
     @cached_property
@@ -226,10 +222,10 @@ class HomePage(MetadataPageMixin, Page):
         return {
             'cities': cities
         }
-    
+
     # def get_children(self):
     #     children = super().get_children().live().public()  # Get live and public child pages
-        
+
     #     # Exclude CAP Alert pages by their specific criteria (e.g., page type or attribute)
     #     children = children.not_type(CapAlertPage)
 

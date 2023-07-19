@@ -5,18 +5,19 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel)
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, Orderable
+from wagtailmetadata.models import MetadataPageMixin
 
 from base import blocks
 from base.models import ServiceCategory, AbstractBannerWithIntroPage
-from pages.news.models import NewsPage
-from pages.publications.models import PublicationPage
-from pages.videos.models import YoutubePlaylist
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from pages.events.models import EventPage
+from pages.news.models import NewsPage
 from pages.organisation_pages.projects.models import ServiceProject
+from pages.publications.models import PublicationPage
+from pages.videos.models import YoutubePlaylist
 
 
-class ServiceIndexPage(Page):
+class ServiceIndexPage(MetadataPageMixin, Page):
     parent_page_types = ['home.HomePage']
     subpage_types = ['services.ServicePage']
     template = "subpages_listing.html"
@@ -48,7 +49,8 @@ class ServicePage(AbstractBannerWithIntroPage):
     # TODO: FIX THIS AND RETURN
     what_we_do_items = StreamField([
         ('what_we_do', blocks.WhatWeDoBlock()),
-    ], null=True, blank=True,  use_json_field=True)
+    ], null=True, blank=True, use_json_field=True)
+
     what_we_do_button_text = models.TextField(max_length=20, blank=True, null=True,
                                               verbose_name=_("What we do button text"))
     what_we_do_button_link = models.ForeignKey(

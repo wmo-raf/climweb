@@ -418,6 +418,9 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
     subpage_types = []
     max_count_per_parent = 1
 
+    # don't cache this page because it has a form
+    cache_control = 'no-cache'
+
     additional_information = models.TextField(blank=True, null=True,
                                               help_text=_("Optional Additional information/details"),
                                               verbose_name=_("Additional Information - (Optional)"))

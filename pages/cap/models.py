@@ -1,12 +1,12 @@
-from django.db import models
+from capeditor.models import AbstractCapAlertPage
+from django.urls import reverse
 from django.utils.functional import cached_property
 from wagtail.models import Page
-from django.urls import reverse
 
-from capeditor.models import AbstractCapAlertPage
+from wagtailmetadata.models import MetadataPageMixin
 
-# Create your models here.
-class CapAlertPage(AbstractCapAlertPage):
+
+class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     template = "capeditor/alert_detail.html"
 
     parent_page_types = ["home.HomePage"]

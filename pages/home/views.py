@@ -1,10 +1,9 @@
+from datetime import datetime, timedelta
 from itertools import groupby
 
-from datetime import datetime, timedelta
 from django.shortcuts import render
+from forecastmanager.models import Forecast, DailyWeather
 
-
-from forecastmanager.models import Forecast,DailyWeather
 
 def list_forecasts(request):
 

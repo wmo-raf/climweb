@@ -58,10 +58,13 @@ INSTALLED_APPS = [
     "pages.data_request",
     "pages.flex_page",
     "pages.cap",
+    "pages.stations",
+    "pages.satellite_imagery",
 
+    "adminboundarymanager",
+    "geomanager",
     "capeditor",
     "forecastmanager",
-    "geomanager",
 
     "wagtailmautic",
     "wagtailzoom",
@@ -101,7 +104,7 @@ INSTALLED_APPS = [
     'rest_framework_xml',
     "taggit",
     "corsheaders",
-
+    "wagtailcache",
     "allauth",
     "allauth.account",
     "wagtail_adminsortable",
@@ -121,14 +124,13 @@ INSTALLED_APPS = [
     "bulma",
     "mailchimp3",
     "manifest_loader",
-    "adminboundarymanager"
-    
+    "django_tables2",
+    "django_tables2_bulma_template",
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
 DEEPL_TRANSLATE_KEY = "testkey"
 DEEPL_FREE_API = True
-
 
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -269,7 +271,7 @@ LOCALE_PATHS = (
     'base/locale',
 )
 
-TIME_ZONE = "UTC"
+TIME_ZONE = env.str("TIME_ZONE", "UTC")
 
 USE_I18N = True
 # WAGTAIL_I18N_ENABLED = True
@@ -365,8 +367,11 @@ SOCIAL_MEDIA_SHARE_CONFIG = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 NEXTJS_SETTINGS = {
-    "nextjs_server_url": env.str("NEXTJS_SERVER_URL"),
+    "nextjs_server_url": env.str("NEXTJS_SERVER_URL", default=""),
 }
-FORCE_SCRIPT_NAME=env.str("FORCE_SCRIPT_NAME")
+
+FORCE_SCRIPT_NAME = env.str("FORCE_SCRIPT_NAME", default="")
 
 WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
+
+DJANGO_TABLES2_TEMPLATE = "django-tables2/bulma.html"

@@ -23,6 +23,9 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     show_in_menus_default = True
     landing_page_template = 'form_thank_you_landing.html'
 
+    # don't cache this page because it has a form
+    cache_control = 'no-cache'
+
     introduction_title = models.TextField(verbose_name=_("Introduction Title"))
     introduction_subtitle = models.TextField(blank=True, null=True, verbose_name=_("Introduction Subtitle"))
     illustration = models.ForeignKey(

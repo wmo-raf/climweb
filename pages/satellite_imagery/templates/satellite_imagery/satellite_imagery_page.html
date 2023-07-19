@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+
+{% load static wagtailiconchooser_tags %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css'
+          rel='stylesheet'/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css"/>
+    <link rel="stylesheet" href="{% static 'satellite_imagery/css/satellite_imagery.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        <section class="container">
+            {% if page.msg_layers %}
+                <div id="sat-map" class="sat-map" style="position: relative">
+                    <div class="menu-control" style="position: absolute">
+                        <div class="map-menu">
+                            {% for msg_layer in page.msg_layers %}
+                                <div class="menu-category {% if forloop.first %}active{% endif %}">
+                                    <div class="category-icon">
+                                        <div class="c-icon">
+                                            {% svg_icon name="layer-group" %}
+                                        </div>
+                                    </div>
+                                    <div class="layer-title" data-layer="{{ msg_layer.value.name }}">
+                                        <div class="layer-label">{{ msg_layer.value.label }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="auto-update-wrapper">
+                        <input type="checkbox" id="auto_update" name="auto_update" checked>
+                        <label for="auto_update"> Auto-update</label>
+                    </div>
+                    <div class="legend-control" style="display: none">
+                        <div class="legend-title">Legend</div>
+                        <div class="legend-layer-title"></div>
+                        <div class="legend-layer-image">
+                            <img src="" alt="Legend">
+                        </div>
+                    </div>
+                    <div class="basemap-selector" id="basemapControl" style="display: none">
+                        <div class="basemap-control leaflet-bar leaflet-control">
+                            <svg viewBox="0 0 34 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                 class="icon-basemap">
+                                <path d="M29.995 17.712l4.29 2.859-17.143 11.429-17.136-11.429 4.286-2.857 12.855 8.571 12.85-8.574zM34.281 11.429l-17.136 11.429-17.145-11.429 17.143-11.429 17.138 11.429z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>{% else %}
+            {% endif %}
+        </section>
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+    {{ block.super }}
+
+    {% if page.msg_layers %}
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script type="text/javascript"
+                src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
+        <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+        <script>
+        const layerDatesUrl = "{{ layer_dates_url }}";
+        const eumetViewWmsBaseUrl = "{{ eumetview_wms_base_url }}";
+
+        const countryBounds = {{ bounds|safe|default_if_none:"" }};
+
+
+        let updateIntervalId
+
+        $(document).ready(() => {
+            const $layerInput = $(".menu-category")
+            const $legendControl = $(".legend-control")
+            const $autoUpdateInput = $("#auto_update")
+
+            const autoUpdateMilliseconds = 15 * 60000 // 15 minutes
+            // const autoUpdateMilliseconds = 10000
+
+            $autoUpdateInput.on("change", function () {
+                const checked = $(this).is(':checked')
+                if (checked) {
+                    setAutoUpdate()
+                } else {
+                    stopAutoUpdate()
+                }
+            })
+
+
+            $layerInput.on("click", function (e) {
+                const $this = $(this)
+                const $layer = $this.find(".layer-title")
+                const selectedLayerName = $layer.data("layer")
+
+                if (selectedLayerName) {
+                    $layerInput.removeClass("active")
+
+                    $this.addClass("active")
+                    updateLayer()
+                }
+            })
+
+
+            const map = L.map('sat-map', {
+                zoom: 5,
+                center: [8.92, 38.66],
+                zoomControl: false,
+                timeDimension: true,
+                timeDimensionControl: true,
+                timeDimensionControlOptions: {
+                    speedSlider: false,
+                    timeZones: ["Local"],
+                    playerOptions: {
+                        buffer: 10
+                    }
+                }
+            });
+
+            // add zoom control
+            new L.Control.Zoom({position: 'topright'}).addTo(map);
+
+            // add fullscreen control
+            map.addControl(new L.Control.Fullscreen({position: "topright"}));
+
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}' + (L.Browser.retina ? '@2x.png' : '.png'), {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 20,
+                minZoom: 0
+            }).addTo(map);
+
+
+            if (countryBounds) {
+                const bounds = [[countryBounds[1], countryBounds[0]], [countryBounds[3], countryBounds[2]]]
+                map.fitBounds(bounds)
+            }
+
+
+            // disable auto-updating on these events
+            map.timeDimensionControl._sliderTime.on("dragend", () => {
+                stopAutoUpdate()
+            })
+            map.timeDimensionControl._buttonPlayPause.addEventListener("click", function () {
+                stopAutoUpdate()
+            })
+            map.timeDimensionControl._buttonForward.addEventListener("click", function () {
+                stopAutoUpdate()
+            })
+            map.timeDimensionControl._buttonBackward.addEventListener("click", function () {
+                stopAutoUpdate()
+            })
+
+            const createLayer = (layerName) => {
+                const wmsLayer = L.tileLayer.wms(eumetViewWmsBaseUrl, {
+                    layers: layerName,
+                    format: 'image/png',
+                    transparent: true,
+                    attribution: '&copy; <a href="https://view.eumetsat.int/">EUMETSAT</a>'
+                })
+                return L.timeDimension.layer.wms(wmsLayer, {
+                    requestTimeFromCapabilities: false,
+                    cache: 10,
+                    cacheBackward: 10
+                });
+            }
+
+            const getLayerAvailableTimes = (layerName) => {
+                return fetch(`${layerDatesUrl}?layer=${layerName}`).then(res => res.json())
+            }
+
+            let tdWMSLayer = null
+
+            const updateLayer = () => {
+                const activeLayerName = $(".menu-category.active").find(".layer-title").data("layer")
+
+                if (activeLayerName) {
+                    console.log(`Updating layer ${activeLayerName}.....`)
+
+                    getLayerAvailableTimes(activeLayerName).then(dates => {
+                        // set available dates
+                        map.timeDimension.setAvailableTimes(dates, "replace")
+
+                        //set currentTime
+                        map.timeDimension.setCurrentTime(dates[dates.length - 1])
+
+                        if (!tdWMSLayer) {
+                            tdWMSLayer = createLayer(activeLayerName)
+                            tdWMSLayer.addTo(map)
+                        } else {
+                            // update layer name if changed
+                            tdWMSLayer.setParams({layers: activeLayerName})
+                        }
+
+
+                        updateLegend(activeLayerName)
+                    })
+                }
+            }
+
+            const updateLegend = (layerName) => {
+                $legendControl.hide()
+
+                const $layer = $(`.layer-title[data-layer="${layerName}"]`)
+                const legendUrl = $layer.data("legend")
+
+                if (legendUrl) {
+                    const layerLabel = $layer.find(".layer-label").text()
+                    const $legendLayerLabel = $legendControl.find(".legend-layer-title")
+                    const $legendImg = $legendControl.find(".legend-layer-image img")
+
+                    if (layerLabel) {
+                        console.log(layerLabel)
+                        $legendLayerLabel.html(layerLabel)
+                    } else {
+                        $legendLayerLabel.html("")
+                    }
+                    $legendImg.attr("src", legendUrl);
+
+                    $legendControl.show()
+                }
+            }
+
+
+            const setAutoUpdate = () => {
+                $autoUpdateInput.prop("checked", true)
+                if (updateIntervalId) {
+                    clearInterval(updateIntervalId)
+                }
+
+                updateIntervalId = setInterval(updateLayer, autoUpdateMilliseconds);
+            }
+
+            const stopAutoUpdate = () => {
+                $autoUpdateInput.prop("checked", false)
+
+                if (updateIntervalId) {
+                    clearInterval(updateIntervalId)
+                }
+            }
+
+            // initialize
+            updateLayer()
+            // set auto-updating by default
+            setAutoUpdate()
+        })
+    {% endif %}
+</script>
+{% endblock %}
+
+
+
+
+
