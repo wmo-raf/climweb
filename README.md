@@ -4,7 +4,7 @@ Content Management System for NMHSs in Africa
 
 ## User Guide
 
-Read more from the user guide - https://github.com/wmo-raf/nmhs-cms/wiki
+Read more from the user guide - https://nmhs-cms.readthedocs.io
 
 ---
 
