@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/cap/feed.xml', AlertList.as_view(), name="cap_alert_feed"),
     path("api/cap/<uuid:identifier>.xml", AlertDetail.as_view(), name="cap_alert_detail"),
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
+    path("api/cityclimate/", include("pages.cityclimate.urls")),
 
     path("search/", search_views.search, name="search"),
 

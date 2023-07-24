@@ -16,6 +16,7 @@
 
 {% block content %}
     <main>
+        {% include "breadcrumbs_include.html" %}
         {% if msg_layers %}
             <section class="container" style="margin-top: 50px">
                 <div id="sat-map" class="sat-map">

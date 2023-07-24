@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "pages.cap",
     "pages.stations",
     "pages.satellite_imagery",
+    "pages.cityclimate",
 
     "adminboundarymanager",
     "geomanager",
