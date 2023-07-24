@@ -6,13 +6,14 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from forecastmanager import urls as forecastmanager_urls
-from pages.cap.views import AlertList, AlertDetail
+from pages.cap.views import  AlertDetail, AlertListFeed
 
 # from forecastmanager import urls as forecast_urls
 from pages.home.views import list_forecasts,daily_weather
 from pages.search import views as search_views
 from wagtail.contrib.sitemaps.views import sitemap
-   
+
+
 handler500 = 'base.views.handler500'
 
 urlpatterns = [
@@ -22,7 +23,6 @@ urlpatterns = [
     # path("", include(forecast_urls)),
     path("list_forecast/", list_forecasts, name="list_forecasts"),
     path("daily_weather/", daily_weather, name="daily_weather"),
-     path('api/cap/feed.xml', AlertList.as_view(), name="cap_alert_feed"),
     path("api/cap/<uuid:identifier>.xml", AlertDetail.as_view(), name="cap_alert_detail"),
 
     path("search/", search_views.search, name="search"),
@@ -31,6 +31,7 @@ urlpatterns = [
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     re_path("", include(forecastmanager_urls), name="forecast_api"),
+    re_path("rss.xml", AlertListFeed(), name="alert_feed"),
     path("sitemap.xml",sitemap),
 ]
 
