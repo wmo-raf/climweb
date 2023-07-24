@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import SatAnimationImage, SatAnimation
+
+admin.site.register(SatAnimationImage)
+admin.site.register(SatAnimation)
