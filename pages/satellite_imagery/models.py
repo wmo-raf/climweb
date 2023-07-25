@@ -69,6 +69,9 @@ class SatelliteImagerySetting(BaseSiteSetting):
 
 class SatelliteImageryPage(MetadataPageMixin, Page):
     template = "satellite_imagery/satellite_imagery_page.html"
+    parent_page_types = ['home.HomePage']
+    max_count = 1
+
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

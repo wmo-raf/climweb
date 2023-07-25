@@ -2,6 +2,7 @@ import calendar
 import datetime
 import logging
 import os
+from datetime import date, datetime
 
 from django import template
 from django.conf import settings
@@ -15,6 +16,10 @@ from base.utils import get_first_non_empty_p_string
 logger = logging.getLogger(__name__)
 register = template.Library()
 
+@register.filter
+def is_future(self):
+    print(self.date())
+    return datetime.today().date() < self.date()
 
 @register.simple_tag
 def get_page_by_url(url):

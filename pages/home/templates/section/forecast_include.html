@@ -29,23 +29,29 @@
                                                        style="font-size: 16px;font-weight:700; color: var(--primary-color);">{{ alert.title }}</p>
 
                                                      {% for info in alert.info %}
-                                                     
+
+                                                     {% if info.value.expires|is_future %}
+                                                               
                                                      <p class="title  py-0 my-1"
                                                      style="font-size: 14px;font-weight:700; color: var(--primary-color);">{{ info.value.event }}</p>
 
-                                                     {% for alert_area in info.value.area %}
-                                                     <span class="tag is-info"> <i
-                                                             class="fa fa-location-pin pr-1"> </i> {{ alert_area.value.areaDesc }}
-                                                     </span>
+                                                            {% for alert_area in info.value.area %}
+                                                            <span class="tag is-info"> <i
+                                                                    class="fa fa-location-pin pr-1"> </i> {{ alert_area.value.areaDesc }}
+                                                            </span>
 
-                                                 {% endfor %}
+                                                        {% endfor %}
                                                         <p class="subtitle  py-0 my-1" style="font-size: 12px;"><b>Effective: {{ info.value.effective }}</b>
+                                                        </p>
+                                                        <p class="subtitle  py-0 my-1" style="font-size: 12px;"><b>Expires: {{ info.value.expires }}</b>
                                                         </p>
                                                         <p class="subtitle  py-0 my-1"
                                                            style="font-size: 12px;">{{ info.value.severity }}
                                                             severity</p>
                                                         
                                                         {% if not forloop.last %}<hr>{% endif %}
+
+                                                        {% endif %}
                                                     {% endfor %}
 
                                                 </div>
