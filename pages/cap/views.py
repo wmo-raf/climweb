@@ -14,6 +14,9 @@ from wagtail.models import Site
 
 from capeditor.renderers import CapXMLRenderer
 from capeditor.serializers import AlertSerializer
+from rest_framework import generics
+
+from .models import CapAlertPage
 
 class CustomFeed(Rss201rev2Feed):
 

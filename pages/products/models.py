@@ -20,7 +20,7 @@ from base.models import Product
 from pages.products.blocks import ProductItemImageContentBlock, ProductItemDocumentContentBlock
 
 
-class ProductIndexPage(Page):
+class ProductIndexPage(MetadataPageMixin, Page):
     parent_page_types = ['home.HomePage']
     subpage_types = ['products.ProductPage']
     template = "subpages_listing.html"

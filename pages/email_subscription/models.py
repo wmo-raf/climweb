@@ -14,6 +14,9 @@ class MauticMailingListSubscriptionPage(MetadataPageMixin, BaseMauticFormPage, P
     subpage_types = []
     max_count = 1
 
+    # don't cache this page because it has a form
+    cache_control = 'no-cache'
+
     heading = models.CharField(max_length=255, blank=True, null=True, help_text=_("Heading"), verbose_name=_("Heading"))
     introduction_text = models.TextField(blank=True, null=True, verbose_name=_("Introduction text"))
 
@@ -34,6 +37,9 @@ class MailchimpMailingListSubscriptionPage(MetadataPageMixin, AbstractMailChimpP
     parent_page_types = ['home.HomePage']
     subpage_types = []
     max_count = 1
+
+    # don't cache this page because it has a form
+    cache_control = 'no-cache'
 
     heading = models.CharField(max_length=255, blank=True, null=True, help_text=_("Heading"), verbose_name=_("Heading"))
     introduction_text = models.TextField(blank=True, null=True, verbose_name=_("Introduction text"))
