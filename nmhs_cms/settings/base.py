@@ -32,9 +32,6 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 
 # Application definition
 INSTALLED_APPS = [
-
-    "wagtailiconchooser",
-
     "base",
     "pages.home",
     "pages.services",
@@ -60,6 +57,7 @@ INSTALLED_APPS = [
     "pages.cap",
     "pages.stations",
     "pages.satellite_imagery",
+    "pages.cityclimate",
 
     "adminboundarymanager",
     "geomanager",
@@ -71,6 +69,7 @@ INSTALLED_APPS = [
     "wagtailsurveyjs",
     "wagtailmailchimp",
     "wagtailhumanitarianicons",
+    "wagtailiconchooser",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -126,6 +125,8 @@ INSTALLED_APPS = [
     "manifest_loader",
     "django_tables2",
     "django_tables2_bulma_template",
+    "background_task",
+    "django_cleanup",
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
@@ -240,7 +241,6 @@ WAGTAILADMIN_PERMITTED_LANGUAGES = [
     ('ar', 'Arabic'),
     ('sw', 'Swahili'),
     # ('am', 'Amharic'),
-
 ]
 
 LOCALE_PATHS = (
@@ -357,14 +357,12 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 
-CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', cast=None)
-
 SOCIAL_MEDIA_SHARE_CONFIG = {
     'facebook': {"base_url": "https://www.facebook.com/sharer/sharer.php", "link_param": "u"},
     'twitter': {"base_url": "http://twitter.com/share", "text_param": "text", "link_param": "url"}
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 NEXTJS_SETTINGS = {
     "nextjs_server_url": env.str("NEXTJS_SERVER_URL", default=""),

@@ -27,6 +27,7 @@ urlpatterns = [
     path("daily_weather/", daily_weather, name="daily_weather"),
     path("api/cap/<uuid:identifier>.xml", AlertDetail.as_view(), name="cap_alert_detail"),
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
+    path("api/cityclimate/", include("pages.cityclimate.urls")),
     path("search/", search_views.search, name="search"),
     path("", include("geomanager.urls"), name="geomanager"),
     # path("", include("django_nextjs.urls")),

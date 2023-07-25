@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block extra_css %}
+    {{ block.supper }}
+
+    <style>
+
+        .data-controls-container {
+            background-color: #f8f9fb;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .data-control {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .control {
+            margin-top: 10px;
+        }
+
+        .control-label {
+            font-weight: 500;
+        }
+
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        {% if cities %}
+            <section class="container">
+                <h2 class="section-title has-text-centered">{{ page.title }}</h2>
+                <div class="data-controls-container">
+                    <div class="data-control">
+                        <label for="city_select" class="control-label">Choose a city</label>
+                        <div class="control has-icons-left" style="margin-left: 20px">
+                            <div class="select">
+                                <select id="city_select">
+                                    {% for city in cities %}
+                                        <option value="{{ city.pk }}"
+                                                {% if forloop.first %} selected{% endif %}>{{ city.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="icon is-left">
+                                <i class="fas fa-globe"></i>
+                            </span>
+                        </div>
+                    </div>
+                    {% if page.filter_by_month %}
+                        <div class="data-control">
+                            <label for="month_select" class="control-label">
+                                Select Month
+                            </label>
+                            <div class="control" style="margin-left: 20px">
+                                <div class="select">
+                                    <select id="month_select">
+                                        {% for month in months %}
+                                            <option value="{{ month.num }}"
+                                                    {% if forloop.first %} selected{% endif %}>{{ month.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="data-control">
+                        <div>
+                            <label for="parameter_select" class="control-label" style="padding-bottom: 20px">
+                                Select Parameter
+                            </label>
+                            <div class="control" style="display: flex;flex-direction: column">
+                                {% for param in parameters %}
+                                    <div>
+                                        <label class="radio">
+                                            <input type="radio" name="parameter" value="{{ param.slug }}"
+                                                    {% if forloop.first %}
+                                                   checked{% endif %}>
+                                            {{ param.name }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart-container" class="elevation-1" style="width:100%; height:400px;margin-top: 20px"></div>
+            </section>
+            <section class="container" style="padding-top: 0">
+                {% if page.description %}
+                    <div>
+                        {{ page.description | richtext }}
+                    </div>
+                {% endif %}
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.supper }}
+
+    {% if cities %}
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script>
+            const options = {
+                pageId: {{ page.pk }},
+                city_data_url: "{{ city_data_url }}",
+                parameters:{{ parameters|safe }},
+                pageTitle: "{{ page.title }}",
+                months: "{{ months|safe }}",
+                filterByMonth:{{ page.filter_by_month|yesno:"true,false" }},
+                timeFormat: "{{ page.time_format|default_if_none:"" }}",
+            }
+
+            $(document).ready(function () {
+                const cityData = {}
+
+                const $citySelect = $("#city_select")
+                const $monthSelect = $("#month_select")
+
+                $citySelect.on("change", function () {
+                    updateChart()
+                })
+
+                $monthSelect.on("change", function () {
+                    updateChart()
+                })
+
+                $("input[name='parameter']").on("change", function () {
+                    updateChart()
+                })
+
+
+                const fetchCityData = () => {
+                    const selectedCity = $citySelect.val()
+                    return fetch(options.city_data_url + `?city_id=${selectedCity}`).then((res) => res.json())
+                }
+
+                const updateChart = () => {
+                    const selectedCity = $citySelect.val()
+
+                    if (cityData[selectedCity]) {
+                        setChart(cityData[selectedCity])
+                    } else {
+                        fetchCityData().then(data => {
+                            setChart(data)
+                            cityData[selectedCity] = data
+                        })
+                    }
+                }
+
+                const setChart = (data) => {
+                    const selectedCity = $citySelect.val()
+                    const selectedCityLabel = $citySelect.find(`option[value="${selectedCity}"]`).text();
+
+                    let apiData = data
+
+                    if (options.filterByMonth) {
+                        const selectedMonth = Number($monthSelect.val())
+
+                        apiData = data.filter(d => new Date(d.date).getMonth() === selectedMonth - 1)
+                    }
+
+                    let dates = apiData.map(entry => new Date(entry.date).getTime());
+
+
+                    let parameters = options.parameters
+                    const selectedParameter = $("input[name='parameter']:checked").val();
+
+                    if (selectedParameter) {
+                        parameters = parameters.filter(p => p.slug === selectedParameter)
+                    }
+
+                    const seriesConfig = parameters.reduce((all, param) => {
+                        const paramData = apiData.map(entry => entry[param.slug]);
+                        if (paramData && !!paramData.length) {
+                            all.push({
+                                name: param.name,
+                                data: paramData, ...param.chart_config,
+                                valueSuffix: param.units
+                            })
+                        }
+                        return all
+                    }, [])
+
+
+                    let dateFormat = "%Y-%m-%d";
+
+                    switch (options.timeFormat) {
+                        case "day":
+                            dateFormat = '%d'
+                            break;
+                        case "dayandmonth":
+                            dateFormat = '%d %b'
+                            break;
+                        case "month":
+                            dateFormat = '%b'
+                            break;
+                        case "monthandyear":
+                            dateFormat = '%b %Y'
+                            break;
+                        case "year":
+                            dateFormat = '%Y'
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                    const chartOptions = {
+                        title: {
+                            text: `${options.pageTitle} - ${selectedCityLabel}`
+                        },
+                        chart: {
+                            type: 'line',
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            categories: dates,
+                            labels: {
+                                formatter: function () {
+                                    return Highcharts.dateFormat(dateFormat, this.value);
+                                }
+                            },
+                        },
+                        tooltip: {
+                            formatter: function () {
+                                let tooltipContent = '<b>Date: ' + Highcharts.dateFormat(dateFormat, this.x) + '</b><br>';
+                                // Loop through each series and display Y-axis data
+                                this.points.forEach(function (point) {
+                                    const suffix = point.series.options.valueSuffix || ""
+                                    tooltipContent += '<span style="color:' + point.series.color + '">\u25CF </span>' + point.series.name + ': ' + point.y + suffix + '<br>';
+                                });
+
+                                return tooltipContent;
+                            },
+                            shared: true,
+                        },
+                        yAxis: {},
+                        series: seriesConfig
+                    }
+
+                    Highcharts.chart('chart-container', chartOptions);
+                }
+                updateChart()
+            })
+        </script>
+    {% endif %}
+{% endblock %}

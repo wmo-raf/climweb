@@ -10,34 +10,50 @@
           rel='stylesheet'/>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="{% static 'satellite_imagery/css/satellite_imagery.css' %}">
 {% endblock %}
 
 {% block content %}
     <main>
         {% include "breadcrumbs_include.html" %}
-        <section class="container">
-            {% if page.msg_layers %}
-                <div id="sat-map" class="sat-map" style="position: relative">
-                    <div class="menu-control" style="position: absolute">
+        {% if msg_layers %}
+            <section class="container" style="margin-top: 50px">
+                <div id="sat-map" class="sat-map">
+                    <div class="menu-control">
                         <div class="map-menu">
-                            {% for msg_layer in page.msg_layers %}
+                            {% for msg_layer in msg_layers %}
                                 <div class="menu-category {% if forloop.first %}active{% endif %}">
                                     <div class="category-icon">
                                         <div class="c-icon">
                                             {% svg_icon name="layer-group" %}
                                         </div>
                                     </div>
-                                    <div class="layer-title" data-layer="{{ msg_layer.value.name }}">
-                                        <div class="layer-label">{{ msg_layer.value.label }}</div>
+
+                                    <div class="layer-title" data-layer="{{ msg_layer.name }}">
+                                        <div class="layer-label">{{ msg_layer.label }}</div>
+                                        {% if msg_layer.abstract %}
+                                            <div class="layer-info-modal-trigger layer-info-icon"
+                                                 data-layer="{{ msg_layer.name }}">
+                                                {% svg_icon name="info-circle" %}
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="auto-update-wrapper">
-                        <input type="checkbox" id="auto_update" name="auto_update" checked>
-                        <label for="auto_update"> Auto-update</label>
+                    <div class="layer-controls-wrapper">
+                        <div class="layer-control">
+                            <input type="checkbox" id="auto_update" name="auto_update" checked>
+                            <label for="auto_update"> Auto-update</label>
+                        </div>
+                        <div class="layer-control anim-modal-trigger-control" style="display: none">
+                            <button class="anim-modal-trigger button is-small is-primary is-light"
+                                    data-target="modal-animation">
+                                View Today's animation
+                            </button>
+                        </div>
                     </div>
                     <div class="legend-control" style="display: none">
                         <div class="legend-title">Legend</div>
@@ -46,24 +62,56 @@
                             <img src="" alt="Legend">
                         </div>
                     </div>
-                    <div class="basemap-selector" id="basemapControl" style="display: none">
-                        <div class="basemap-control leaflet-bar leaflet-control">
-                            <svg viewBox="0 0 34 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                 class="icon-basemap">
-                                <path d="M29.995 17.712l4.29 2.859-17.143 11.429-17.136-11.429 4.286-2.857 12.855 8.571 12.85-8.574zM34.281 11.429l-17.136 11.429-17.145-11.429 17.143-11.429 17.138 11.429z"></path>
-                            </svg>
-                        </div>
+                </div>
+            </section>
+
+            {% for msg_layer in msg_layers %}
+                <div class="modal modal-layer-info" id="modal-{{ msg_layer.name }}"
+                     style="z-index: 10000000">
+                    <div class="modal-background"></div>
+                    <div class="modal-card">
+                        <header class="modal-card-head">
+                            <p class="modal-card-title">{{ msg_layer.label }}</p>
+                            <button class="delete" aria-label="close"></button>
+                        </header>
+                        <section class="modal-card-body">
+                            <div>
+                                {{ msg_layer.abstract }}
+                            </div>
+                            <div style="padding: 20px 0">
+                                <a href="https://view.eumetsat.int/productviewer/productDetails/{{ msg_layer.name }}?v=default"
+                                   target="_blank" rel="noopener noreferrer">Source: EUMETView</a>
+                            </div>
+                        </section>
+                        <footer class="modal-card-foot"
+                                style="display: flex;justify-content: flex-end">
+                            <button class="button is-danger is-light">Close</button>
+                        </footer>
                     </div>
-                </div>{% else %}
-            {% endif %}
-        </section>
+                </div>
+            {% endfor %}
+
+            <div class="modal" id="modal-animation" style="z-index: 9999999">
+                <div class="modal-background"></div>
+                <div class="modal-card modal-animation">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title" id="anim-modal-title"></p>
+                        <button class="delete" aria-label="close"></button>
+                    </header>
+                    <section class="modal-card-body" id="layer-animation-container">
+                    </section>
+                    <footer class="modal-card-foot" style="display: flex;justify-content: flex-end">
+                        <button class="button is-danger is-light">Close</button>
+                    </footer>
+                </div>
+            </div>
+        {% endif %}
     </main>
 {% endblock content %}
 
 {% block extra_js %}
     {{ block.super }}
-
-    {% if page.msg_layers %}
+    {% if msg_layers %}
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
                 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         <script type="text/javascript"
@@ -71,195 +119,297 @@
         <script type="text/javascript"
                 src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
         <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+        <script src='https://unpkg.com/@its2easy/animate-images'></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="{% static 'satellite_imagery/js/layer-animation.js' %}"></script>
         <script>
-        const layerDatesUrl = "{{ layer_dates_url }}";
-        const eumetViewWmsBaseUrl = "{{ eumetview_wms_base_url }}";
+            const layerDatesUrl = "{{ layer_dates_url }}";
+            const layerImagesUrl = "{{ layer_images_url }}";
+            const eumetViewWmsBaseUrl = "{{ eumetview_wms_base_url }}";
 
-        const countryBounds = {{ bounds|safe|default_if_none:"" }};
+            $(document).ready(() => {
+                const $layerInput = $(".menu-category")
+                const $legendControl = $(".legend-control")
+                const $autoUpdateInput = $("#auto_update")
+                const $layerInfoModalTrigger = $(".layer-info-modal-trigger")
+                const $animationControl = $(".anim-modal-trigger-control")
 
-
-        let updateIntervalId
-
-        $(document).ready(() => {
-            const $layerInput = $(".menu-category")
-            const $legendControl = $(".legend-control")
-            const $autoUpdateInput = $("#auto_update")
-
-            const autoUpdateMilliseconds = 15 * 60000 // 15 minutes
-            // const autoUpdateMilliseconds = 10000
-
-            $autoUpdateInput.on("change", function () {
-                const checked = $(this).is(':checked')
-                if (checked) {
-                    setAutoUpdate()
-                } else {
-                    stopAutoUpdate()
-                }
-            })
+                let updateIntervalId
+                const autoUpdateMilliseconds = 15 * 60000 // 15 minutes
+                // const autoUpdateMilliseconds = 10000
 
 
-            $layerInput.on("click", function (e) {
-                const $this = $(this)
-                const $layer = $this.find(".layer-title")
-                const selectedLayerName = $layer.data("layer")
-
-                if (selectedLayerName) {
-                    $layerInput.removeClass("active")
-
-                    $this.addClass("active")
-                    updateLayer()
-                }
-            })
-
-
-            const map = L.map('sat-map', {
-                zoom: 5,
-                center: [8.92, 38.66],
-                zoomControl: false,
-                timeDimension: true,
-                timeDimensionControl: true,
-                timeDimensionControlOptions: {
-                    speedSlider: false,
-                    timeZones: ["Local"],
-                    playerOptions: {
-                        buffer: 10
+                $autoUpdateInput.on("change", function () {
+                    const checked = $(this).is(':checked')
+                    if (checked) {
+                        setAutoUpdate()
+                    } else {
+                        stopAutoUpdate()
                     }
-                }
-            });
-
-            // add zoom control
-            new L.Control.Zoom({position: 'topright'}).addTo(map);
-
-            // add fullscreen control
-            map.addControl(new L.Control.Fullscreen({position: "topright"}));
-
-
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}' + (L.Browser.retina ? '@2x.png' : '.png'), {
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
-                maxZoom: 20,
-                minZoom: 0
-            }).addTo(map);
-
-
-            if (countryBounds) {
-                const bounds = [[countryBounds[1], countryBounds[0]], [countryBounds[3], countryBounds[2]]]
-                map.fitBounds(bounds)
-            }
-
-
-            // disable auto-updating on these events
-            map.timeDimensionControl._sliderTime.on("dragend", () => {
-                stopAutoUpdate()
-            })
-            map.timeDimensionControl._buttonPlayPause.addEventListener("click", function () {
-                stopAutoUpdate()
-            })
-            map.timeDimensionControl._buttonForward.addEventListener("click", function () {
-                stopAutoUpdate()
-            })
-            map.timeDimensionControl._buttonBackward.addEventListener("click", function () {
-                stopAutoUpdate()
-            })
-
-            const createLayer = (layerName) => {
-                const wmsLayer = L.tileLayer.wms(eumetViewWmsBaseUrl, {
-                    layers: layerName,
-                    format: 'image/png',
-                    transparent: true,
-                    attribution: '&copy; <a href="https://view.eumetsat.int/">EUMETSAT</a>'
                 })
-                return L.timeDimension.layer.wms(wmsLayer, {
-                    requestTimeFromCapabilities: false,
-                    cache: 10,
-                    cacheBackward: 10
+
+                $layerInput.on("click", function (e) {
+                    const $this = $(this)
+                    const $layer = $this.find(".layer-title")
+                    const selectedLayerName = $layer.data("layer")
+
+                    if (selectedLayerName) {
+                        $layerInput.removeClass("active")
+
+                        $this.addClass("active")
+                        updateLayer()
+                    }
+                })
+
+                $layerInfoModalTrigger.click(function (e) {
+                    e.stopPropagation()
+                    const $this = $(this)
+
+                    const layer = $this.data("layer")
+
+                    if (layer) {
+                        const selector = layer.replace(":", "\\:")
+                        $(`#modal-${selector}`).addClass("is-active")
+                    }
+                })
+
+
+                const map = L.map('sat-map', {
+                    zoom: 5,
+                    center: [8.92, 38.66],
+                    zoomControl: false,
+                    timeDimension: true,
+                    timeDimensionControl: true,
+                    timeDimensionControlOptions: {
+                        playButton: false,
+                        speedSlider: false,
+                        timeZones: ["Local"],
+                        playerOptions: {
+                            buffer: 10
+                        }
+                    }
                 });
-            }
 
-            const getLayerAvailableTimes = (layerName) => {
-                return fetch(`${layerDatesUrl}?layer=${layerName}`).then(res => res.json())
-            }
+                // add zoom control
+                new L.Control.Zoom({position: 'topright'}).addTo(map);
 
-            let tdWMSLayer = null
+                // add fullscreen control
+                map.addControl(new L.Control.Fullscreen({position: "topright"}));
 
-            const updateLayer = () => {
-                const activeLayerName = $(".menu-category.active").find(".layer-title").data("layer")
 
-                if (activeLayerName) {
-                    console.log(`Updating layer ${activeLayerName}.....`)
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}' + (L.Browser.retina ? '@2x.png' : '.png'), {
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 20,
+                    minZoom: 0
+                }).addTo(map);
 
-                    getLayerAvailableTimes(activeLayerName).then(dates => {
-                        // set available dates
-                        map.timeDimension.setAvailableTimes(dates, "replace")
+                // disable auto-updating on these events
+                map.timeDimensionControl._sliderTime.on("dragend", () => {
+                    stopAutoUpdate()
+                })
 
-                        //set currentTime
-                        map.timeDimension.setCurrentTime(dates[dates.length - 1])
+                map.timeDimensionControl._buttonForward.addEventListener("click", function () {
+                    stopAutoUpdate()
+                })
+                map.timeDimensionControl._buttonBackward.addEventListener("click", function () {
+                    stopAutoUpdate()
+                })
 
-                        if (!tdWMSLayer) {
+
+                const createLayer = (layerName) => {
+                    const wmsLayer = L.tileLayer.wms(eumetViewWmsBaseUrl, {
+                        layers: layerName,
+                        format: 'image/png',
+                        transparent: true,
+                        attribution: '&copy; <a href="https://view.eumetsat.int/">EUMETSAT</a>'
+                    })
+                    return L.timeDimension.layer.wms(wmsLayer, {
+                        requestTimeFromCapabilities: false,
+                        getCapabilitiesUrl: `https://view.eumetsat.int/geoserver/${layerName.replace(":", "/")}/ows`,
+                        getCapabilitiesParams: {"version": "1.3.0"}
+                    });
+                }
+
+                const getLayerAvailableTimes = (layerName) => {
+                    return fetch(`${layerDatesUrl}?layer=${layerName}`).then(res => res.json())
+                }
+
+                const getLayerAvailableAnimationFrames = (layerName) => {
+                    return fetch(`${layerImagesUrl}?layer=${layerName}`).then(res => res.json())
+                }
+
+                let tdWMSLayer = null
+
+                const updateLayer = () => {
+
+                    // hide animation control
+                    $animationControl.hide()
+
+
+                    const activeLayerName = $(".menu-category.active").find(".layer-title").data("layer")
+
+                    if (activeLayerName) {
+                        console.log(`Updating layer ${activeLayerName}.....`)
+
+                        getLayerAvailableTimes(activeLayerName).then(dates => {
+                            // set available dates
+                            map.timeDimension.setAvailableTimes(dates, "replace")
+
+                            //set currentTime
+                            map.timeDimension.setCurrentTime(dates[dates.length - 1])
+
+                            if (tdWMSLayer) {
+                                map.removeLayer(tdWMSLayer)
+                            }
+
                             tdWMSLayer = createLayer(activeLayerName)
                             tdWMSLayer.addTo(map)
-                        } else {
-                            // update layer name if changed
-                            tdWMSLayer.setParams({layers: activeLayerName})
-                        }
+
+                            updateLegend(activeLayerName)
+                        })
 
 
-                        updateLegend(activeLayerName)
-                    })
-                }
-            }
-
-            const updateLegend = (layerName) => {
-                $legendControl.hide()
-
-                const $layer = $(`.layer-title[data-layer="${layerName}"]`)
-                const legendUrl = $layer.data("legend")
-
-                if (legendUrl) {
-                    const layerLabel = $layer.find(".layer-label").text()
-                    const $legendLayerLabel = $legendControl.find(".legend-layer-title")
-                    const $legendImg = $legendControl.find(".legend-layer-image img")
-
-                    if (layerLabel) {
-                        console.log(layerLabel)
-                        $legendLayerLabel.html(layerLabel)
-                    } else {
-                        $legendLayerLabel.html("")
+                        getLayerAvailableAnimationFrames(activeLayerName).then(res => {
+                            const {dates} = res
+                            if (dates && !!dates.length && dates.length > 10) {
+                                $animationControl.show()
+                            }
+                        })
                     }
-                    $legendImg.attr("src", legendUrl);
-
-                    $legendControl.show()
-                }
-            }
-
-
-            const setAutoUpdate = () => {
-                $autoUpdateInput.prop("checked", true)
-                if (updateIntervalId) {
-                    clearInterval(updateIntervalId)
                 }
 
-                updateIntervalId = setInterval(updateLayer, autoUpdateMilliseconds);
-            }
+                const updateLegend = (layerName) => {
+                    $legendControl.hide()
 
-            const stopAutoUpdate = () => {
-                $autoUpdateInput.prop("checked", false)
+                    const $layer = $(`.layer-title[data-layer="${layerName}"]`)
+                    const legendUrl = $layer.data("legend")
 
-                if (updateIntervalId) {
-                    clearInterval(updateIntervalId)
+                    if (legendUrl) {
+                        const layerLabel = $layer.find(".layer-label").text()
+                        const $legendLayerLabel = $legendControl.find(".legend-layer-title")
+                        const $legendImg = $legendControl.find(".legend-layer-image img")
+
+                        if (layerLabel) {
+                            $legendLayerLabel.html(layerLabel)
+                        } else {
+                            $legendLayerLabel.html("")
+                        }
+                        $legendImg.attr("src", legendUrl);
+
+                        $legendControl.show()
+                    }
                 }
-            }
 
-            // initialize
-            updateLayer()
-            // set auto-updating by default
-            setAutoUpdate()
-        })
+
+                const setAutoUpdate = () => {
+                    $autoUpdateInput.prop("checked", true)
+                    if (updateIntervalId) {
+                        clearInterval(updateIntervalId)
+                    }
+
+                    updateIntervalId = setInterval(updateLayer, autoUpdateMilliseconds);
+                }
+
+                const stopAutoUpdate = () => {
+                    $autoUpdateInput.prop("checked", false)
+
+                    if (updateIntervalId) {
+                        clearInterval(updateIntervalId)
+                    }
+                }
+
+                // initialize
+                updateLayer()
+
+                // set auto-updating by default
+                setAutoUpdate()
+
+
+                let layerAnimation
+
+                // Functions to open and close a modal
+                function openModal($el) {
+                    $el.classList.add('is-active');
+
+
+                    const activeLayerName = $(".menu-category.active").find(".layer-title").data("layer")
+
+                    if (activeLayerName) {
+                        updateAnimation(activeLayerName)
+                    }
+                }
+
+                function closeModal($el) {
+                    $el.classList.remove('is-active');
+
+                    if (layerAnimation) {
+                        layerAnimation.destroy()
+                        layerAnimation = null
+                    }
+                }
+
+                function closeAllModals() {
+                    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+                        closeModal($modal);
+                    });
+                }
+
+                // Add a click event on buttons to open a specific modal
+                (document.querySelectorAll('.anim-modal-trigger') || []).forEach(($trigger) => {
+                    const modal = $trigger.dataset.target;
+                    const $target = document.getElementById(modal);
+
+                    $trigger.addEventListener('click', () => {
+                        openModal($target);
+                    });
+                });
+
+                // Add a click event on various child elements to close the parent modal
+                (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+                    const $target = $close.closest('.modal');
+
+                    $close.addEventListener('click', () => {
+                        closeModal($target);
+                    });
+                });
+
+                // Add a keyboard event to close all modals
+                document.addEventListener('keydown', (event) => {
+                    if (event.code === 'Escape') {
+                        closeAllModals();
+                    }
+                });
+
+
+                const updateAnimation = (layerName) => {
+                    if (layerAnimation) {
+                        layerAnimation.destroy()
+                    }
+
+                    const $modalTitle = $("#anim-modal-title")
+                    const activeLayerLabel = $(".menu-category.active").find(".layer-label").text()
+
+                    if (activeLayerLabel) {
+                        $modalTitle.text(activeLayerLabel)
+                    }
+
+                    getLayerAvailableAnimationFrames(layerName).then((res => {
+
+                        const {dates: layerDates, upload_path} = res
+
+                        const imagesArray = layerDates.map(d => {
+                            return `${upload_path}/${d.replace(/:/g, "")}.png`
+                        })
+
+                        layerAnimation = new LayerAnimation({
+                            layerDates: layerDates,
+                            containerId: "layer-animation-container",
+                            imagesArray: imagesArray,
+                        })
+                    }))
+                }
+            })
+        </script>
     {% endif %}
-</script>
 {% endblock %}
-
-
-
-
-

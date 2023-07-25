@@ -40,7 +40,8 @@ class HomePage(MetadataPageMixin, Page):
         'data_request.DataRequestPage',
         'flex_page.FlexPage',
         'stations.StationsPage',
-        'satellite_imagery.SatelliteImageryPage'
+        'satellite_imagery.SatelliteImageryPage',
+        'cityclimate.CityClimateDataPage'
     ]
     parent_page_type = [
         'wagtailcore.Page'
