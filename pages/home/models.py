@@ -186,30 +186,25 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def get_alerts(self):
-        alerts = CapAlertPage.objects.all().order_by('-sent')[:2]
-        active_alerts = []
+        alerts = CapAlertPage.objects.all().order_by('-sent')[:2]        
 
-        active_alert_info = None
+        active_alert_infos = []
 
         geojson = {"type": "FeatureCollection", "features": []}
 
         for alert in alerts:
             for info in alert.info:
                 if info.value.get('expires').date() >= datetime.today().date():
-                    active_alert_info = info
 
-                if info.value.features:
-                    for feature in info.value.features:
-                        geojson["features"].append(feature)
+                    active_alert_infos.append(alert.info)
 
-            if active_alert_info:
-                active_alerts.append(alert)
+                    if info.value.features:
+                        for feature in info.value.features:
+                            geojson["features"].append(feature)
 
         return {
-            # 'alerts': serializers.serialize('json',list(alerts) ),
-            'alerts': alerts,
-            'active_alerts': active_alerts,
-            'geojson': json.dumps(geojson)
+            'active_alerts': CapAlertPage.objects.filter(info__in =active_alert_infos ),
+            'geojson':json.dumps(geojson)
         }
 
     @cached_property

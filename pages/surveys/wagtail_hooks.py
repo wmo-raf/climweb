@@ -8,7 +8,7 @@ class SurveyModelAdmin(BaseSurveyModelAdmin):
     model = SurveyPage
     menu_label = _('Surveys')
     menu_icon = 'folder-inverse'
-    menu_order = 700
+    menu_order = 600
 
 
 modeladmin_register(SurveyModelAdmin)
