@@ -205,6 +205,7 @@ $(document).ready(function () {
             // location of the feature, with description HTML from its properties.
             forecast_map.on("click", "alert-areas-layer", (e) => {
                 // Copy coordinates array.
+
                 const description = e.features[0].properties.areaDesc;
                 const severity = e.features[0].properties.severity;
                 const event = e.features[0].properties.event;

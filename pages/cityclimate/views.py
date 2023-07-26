@@ -162,7 +162,7 @@ def climate_data(request, page_id):
         date_str = value.date.isoformat()
         if not values_dict.get(date_str):
             values_dict[date_str] = {}
-        values_dict[date_str].update({value.parameter.slug: value.value, "city": value.city.name})
+        values_dict[date_str].update({value.parameter.slug: value.value, "city": value.city.name, "coordinates": [ float(coordinate) for coordinate in value.city.coordinates if coordinate ]})
 
     values = [{"date": key, **values_dict[key]} for key in values_dict.keys()]
 

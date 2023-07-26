@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load l10n %}
 {% load wagtailadmin_tags wagtailimages_tags static %}
-{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}Hello{{ title }}
+{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}{{ title }}
 {% endblocktrans %}{% endblock %}
 
 
@@ -80,6 +80,7 @@
                     <th>City</th>
                     <th>Data Loaded</th>
                     <th></th>
+                    <th>Last Updated</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -112,6 +113,12 @@
                                         <use href="#icon-plus"></use>
                                     </svg>
                                 </span>Load data</a>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if city.has_data %}
+                                date
                             {% endif %}
                         </td>
                     </tr>
