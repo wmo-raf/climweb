@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailadmin_tags lazyimages_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailadmin_tags lazyimages_tags wagtailimages_tags nmhs_cms_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/product_detail.css' %}">
@@ -15,6 +15,7 @@
         {% include "breadcrumbs_include.html" %}
         <section class=product-detail>
             <div class="container">
+                <h2 class="section-title center">{{ page.title }}</h2>
                 <div class="product-items-container">
                     <div class="columns">
                         <div class="column is-one-third-desktop is-full-mobile">
@@ -28,13 +29,13 @@
                                             <span class="category-title">{{ category.name }}</span>
                                         </div>
                                         <div class="tabs" role="tablist" style="white-space:normal">
-                                            {% for slug, product_item  in products.items %}
-                                                {% if product_item.value.product_item_type.category.id == category_id %}
+                                            {% for slug, item in products.items %}
+                                                {% if item.item_type.category.id == category_id %}
                                                     <a class="tab" id="tab-label-content"
                                                        href="#tab-{{ slug }}"
-                                                       role="tab" aria-controls="tab-{{ slug }}" 
+                                                       role="tab" aria-controls="tab-{{ slug }}"
                                                        style="border-bottom-style:none !important">
-                                                        {{ product_item.value.product_item_type.name }}
+                                                        {{ item.item_type.name }}
                                                     </a>
                                                 {% endif %}
                                             {% endfor %}
@@ -45,87 +46,98 @@
                         </div>
                         <div class="column is-two-thirds-desktop is-full-mobile">
                             <div class="content-container">
-                                {% for slug, product_item  in products.items %}
+                                {% for slug, item_products_dict  in products.items %}
                                     <div class="content" id="tab-{{ slug }}">
-                                        <h3>{{ product_item.value.product_item_type.name }}</h3>
-                                        {% if product_item.block_type == "image_product" %}
-                                            <figure class="product-item-image box">
-                                                {% image product_item.value.image original as product_item_image %}
-                                                <img class="progressive__img progressive--not-loaded"
-                                                     data-progressive="{{ product_item_image.url }}"
-                                                     src="{% lazy_image_url product_item_image %}"
-                                                     alt="{{ product_item.value.product_item_type.name }}"
-                                                />
-                                            </figure>
-                                            <div class="share-buttons">
-                                                <a class="button is-rounded is-small"
-                                                   href="{{ product_item_image.url }}"
-                                                   target="_blank"
-                                                   rel="noopener noreferrer"
-                                                >
-                                                    <span class="icon">
-                                                        <i class="fas fa-eye"></i>
-                                                    </span>
-                                                    <span class="share-button-title">View</span>
-                                                </a>
-                                                <a class="button is-rounded is-small"
-                                                   href="{{ product_item_image.url }}"
-                                                   download="{{ product_item.value.product_item_type.name }}"
-                                                >
-                                                    <span class="icon">
-                                                        <i class="fas fa-download"></i>
-                                                    </span>
-                                                    <span class="share-button-title">Download</span>
-                                                </a>
-                                                {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
-                                            </div>
-                                        {% elif product_item.block_type == "document_product" %}
-                                            <div class="product-item-doc-container box {{box_shadow}}">
-                                                <figure class="product-item-doc">
-                                                    {% if  product_item.value.thumbnail %}
-                                                        {% image product_item.value.thumbnail original as product_item_thumbnail %}
+                                        {% setvar item_products_dict.products|length as products_len %}
+                                        <h2>{{ item_products_dict.products.0.value.product_item_type.name }}</h2>
+                                        {% for product_item in item_products_dict.products %}
+                                            <div class="product-item-wrapper">
+                                                {% if products_len > 1 %}
+                                                    <div style="display: flex;justify-content: center">
+                                                        <h3 style="padding: 20px 0">{{ product_item.value.date }}</h3>
+                                                    </div>
+                                                {% endif %}
+                                                {% if product_item.block_type == "image_product" %}
+                                                    <figure class="product-item-image box"
+                                                            style="margin-left: 0;margin-right: 0">
+                                                        {% image product_item.value.image original as product_item_image %}
                                                         <img class="progressive__img progressive--not-loaded"
-                                                             data-progressive="{{ product_item_thumbnail.url }}"
-                                                             src="{% lazy_image_url product_item_thumbnail %}"
+                                                             data-progressive="{{ product_item_image.url }}"
+                                                             src="{% lazy_image_url product_item_image %}"
                                                              alt="{{ product_item.value.product_item_type.name }}"
                                                         />
-                                                    {% else %}
-                                                        {% icon name="document" %}
-                                                    {% endif %}
-                                                </figure>
-                                                <div class="product-item-doc-meta">
-                                                    <span class="document-detail-file-download">
-                                                        <a href="{{ product_item.value.document.url }}"
-                                                           title="{{ product_item.product_item_type.name }}"
+                                                    </figure>
+                                                    <div class="share-buttons">
+                                                        <a class="button is-rounded is-small"
+                                                           href="{{ product_item_image.url }}"
+                                                           target="_blank"
+                                                           rel="noopener noreferrer"
+                                                        >
+                                                            <span class="icon">
+                                                                <i class="fas fa-eye"></i>
+                                                            </span>
+                                                            <span class="share-button-title">View</span>
+                                                        </a>
+                                                        <a class="button is-rounded is-small"
+                                                           href="{{ product_item_image.url }}"
+                                                           download="{{ product_item.value.product_item_type.name }}"
                                                         >
                                                             <span class="icon">
                                                                 <i class="fas fa-download"></i>
                                                             </span>
-                                                            <span>
-                                                                Download document
-                                                                - {{ product_item.value.document.file.size|filesizeformat }}
-                                                            </span>
+                                                            <span class="share-button-title">Download</span>
                                                         </a>
-                                                    </span>
-                                                </div>
+                                                        {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
+                                                    </div>
+                                                {% elif product_item.block_type == "document_product" %}
+                                                    <div class="product-item-doc-container box {{ box_shadow }}">
+                                                        <figure class="product-item-doc">
+                                                            {% if  product_item.value.thumbnail %}
+                                                                {% image product_item.value.thumbnail original as product_item_thumbnail %}
+                                                                <img class="progressive__img progressive--not-loaded"
+                                                                     data-progressive="{{ product_item_thumbnail.url }}"
+                                                                     src="{% lazy_image_url product_item_thumbnail %}"
+                                                                     alt="{{ product_item.value.product_item_type.name }}"
+                                                                />
+                                                            {% else %}
+                                                                {% icon name="document" %}
+                                                            {% endif %}
+                                                        </figure>
+                                                        <div class="product-item-doc-meta">
+                                                            <span class="document-detail-file-download">
+                                                                <a href="{{ product_item.value.document.url }}"
+                                                                   title="{{ product_item.product_item_type.name }}"
+                                                                >
+                                                                    <span class="icon">
+                                                                        <i class="fas fa-download"></i>
+                                                                    </span>
+                                                                    <span>
+                                                                        Download document
+                                                                        - {{ product_item.value.document.file.size|filesizeformat }}
+                                                                    </span>
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="share-buttons">
+                                                        <a class="button is-rounded is-small"
+                                                           href="{{ product_item.value.document.url }}"
+                                                           download="{{ product_item.product_item_type.name }}"
+                                                        >
+                                                            <span class="icon">
+                                                                <i class="fas fa-download"></i>
+                                                            </span>
+                                                            <span class="share-button-title">Download document</span>
+                                                        </a>
+                                                        {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
+                                                    </div>
+                                                {% endif %}
+                                                <p>{{ product_item.value.description|richtext }}</p>
                                             </div>
-
-                                            <div class="share-buttons">
-                                                <a class="button is-rounded is-small"
-                                                   href="{{ product_item.value.document.url }}"
-                                                   download="{{ product_item.product_item_type.name }}"
-                                                >
-                                                    <span class="icon">
-                                                        <i class="fas fa-download"></i>
-                                                    </span>
-                                                    <span class="share-button-title">Download document</span>
-                                                </a>
-                                                {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
-                                            </div>
-                                        {% endif %}
-                                        <p>{{ product_item.value.description|richtext }}</p>
+                                        {% endfor %}
                                     </div>
                                 {% endfor %}
+
                             </div>
                         </div>
                     </div>
