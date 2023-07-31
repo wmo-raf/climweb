@@ -110,7 +110,7 @@
 
             <li class="{% if forloop.first %}is-active {% endif %}" data-target="{{item.value.headline}}">
               
-              <a>{{item.value.event|truncatechars:20}}</a>
+              <a>{{item.value.headline|truncatechars:20}}</a>
             </li>
             {% endfor %}
             {% endif %}

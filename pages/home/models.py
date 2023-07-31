@@ -54,7 +54,7 @@ class HomePage(MetadataPageMixin, Page):
                                     related_name="+", verbose_name=_("Banner Image"))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
     enable_weather_forecasts = models.BooleanField(default=True, verbose_name=_("Enable weather forecasts section"))
-    enable_mapviewer_cta = models.BooleanField(default=True, verbose_name=_("Enable mapviewer section"))
+    enable_mapviewer_cta = models.BooleanField(default=False, verbose_name=_("Enable mapviewer section"))
     mapviewer_cta_title = models.CharField(max_length=100, blank=True, null=True, default='Explore MapViewer',
                                            verbose_name=_('MapViewer Call to Action Title'))
     mapviewer_cta_url = models.URLField(blank=True, null=True, verbose_name=_("Mapviewer URL"), )
