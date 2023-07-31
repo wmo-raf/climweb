@@ -191,10 +191,15 @@ class ProductItemPage(MetadataPageMixin, CustomIconPage, Page):
         products = self.products
         for product in products:
             item_type = product.value.product_item_type()
-            products_dict[item_type.slug] = product
+            if not products_dict.get(item_type.slug):
+                products_dict[item_type.slug] = {"item_type": item_type, "products": []}
+            products_dict[item_type.slug].get("products").append(product)
         context.update({"products": products_dict})
 
         for product_type in products_dict.keys():
+            # sort by date
+            products_dict[product_type]["products"].sort(key=lambda r: r.value.get("date"))
+
             for category in categories:
                 if product_categories.get(category.id):
                     continue

@@ -37,6 +37,7 @@ class ProductCategoryBlock(blocks.StructBlock):
 
 class ProductItemImageContentBlock(blocks.StructBlock):
     product_type = blocks.CharBlock(required=True, label=_("Product Type"))
+    date = blocks.DateBlock(required=True, label=_("Product date"))
     image = ImageChooserBlock(required=True, label=_("Image"))
     description = blocks.RichTextBlock(label=_("Summary of the map/image information"))
 
@@ -48,6 +49,7 @@ class ProductItemDocumentContentBlock(blocks.StructBlock):
     product_type = blocks.CharBlock(required=True, label=_("Product Type"))
     thumbnail = ImageChooserBlock(required=False, label=_("Thumbnail of the document"),
                                   help_text=_("For example a screen grab of the cover page"))
+    date = blocks.DateBlock(required=True, label=_("Product date"))
     document = DocumentChooserBlock(required=True, label=_("Document"))
     description = blocks.RichTextBlock(label=_("Summary of the document information"))
 

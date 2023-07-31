@@ -1,3 +1,11 @@
+.product-item-wrapper {
+    padding: 20px;
+}
+
+.product-item-wrapper:nth-child(odd) {
+    background-color: #f8f9fb;
+}
+
 
 .product-items-container {
     width: 100%;
@@ -59,7 +67,7 @@
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
     color: var(--primary-color);
-    font-weight:600;
+    font-weight: 600;
 }
 
 .content-container .content {
