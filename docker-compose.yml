@@ -30,7 +30,7 @@ services:
       context: .
       dockerfile: ./docker/cms/Dockerfile
     restart: ${RESTART_POLICY}
-    command: sh -c "/wait && gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 --workers=7"
+    command: sh -c "/wait && gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 --workers=${GUNICORN_NUM_OF_WORKERS}"
     expose:
       - 8000
     environment:
