@@ -109,6 +109,12 @@ LOGGING = {
             'filename': 'error.log',
             'formatter': 'timestamp',
         },
+        'debug_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+            'formatter': 'timestamp',
+        },
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'timestamp',
@@ -118,6 +124,11 @@ LOGGING = {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
+            'propagate': True,
+        },
+        'background_task': {
+            'handlers': ['debug_file'],
+            'level': 'DEBUG',
             'propagate': True,
         },
         'django': {
