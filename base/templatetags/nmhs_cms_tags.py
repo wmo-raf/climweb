@@ -1,5 +1,4 @@
 import calendar
-import datetime
 import logging
 import os
 from datetime import date, datetime
@@ -93,7 +92,7 @@ def parse_date(date_string, date_format):
 
     """
     try:
-        return datetime.datetime.strptime(date_string, date_format)
+        return datetime.strptime(date_string, date_format)
     except ValueError:
         return None
 
