@@ -5,22 +5,16 @@ from wagtail import hooks
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     modeladmin_register,
-    
-)
 
+)
 from wagtailcache.cache import clear_cache
 
 from base.models import Theme
-from adminboundarymanager.wagtail_hooks import AdminBoundaryManagerAdminGroup
 
 
 @hooks.register('insert_global_admin_css')
 def global_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static('css/admin.css'))
-
-
-    
-modeladmin_register(AdminBoundaryManagerAdminGroup)
 
 
 class ThemeSettings(ModelAdmin):

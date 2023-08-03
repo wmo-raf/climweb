@@ -3,7 +3,14 @@
 FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.0
 
 # install dependencies
-RUN apt-get update && apt-get -y install cron libgeos-dev imagemagick libmagic1 cairo libffi-dev  python3-pip --fix-missing
+RUN apt-get update && apt-get install -y \
+    cron \
+    libgeos-dev \
+    imagemagick \
+    libmagic1 \
+    libcairo2-dev \
+    libffi-dev \
+    python3-pip --fix-missing
 
 # set python env
 ENV PYTHONDONTWRITEBYTECODE 1
