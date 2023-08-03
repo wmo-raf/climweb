@@ -127,6 +127,7 @@ INSTALLED_APPS = [
     "django_tables2_bulma_template",
     "background_task",
     "django_cleanup",
+    "django_countries",
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
