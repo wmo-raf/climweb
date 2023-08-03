@@ -30,7 +30,7 @@ services:
       context: .
       dockerfile: ./docker/cms/Dockerfile
     restart: always
-    command: sh -c "/wait && gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 --workers=${GUNICORN_NUM_OF_WORKERS}"
+    command: sh -c "/wait && gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 --workers=${CMS_NUM_OF_WORKERS}"
     expose:
       - 8000
     environment:
@@ -55,8 +55,8 @@ services:
     ports:
       - "8000"
     volumes:
-      - ${DJANGO_STATIC_VOLUME}:/home/app/web/static
-      - ${DJANGO_MEDIA_VOLUME}:/home/app/web/media
+      - ${CMS_STATIC_VOLUME}:/home/app/web/static
+      - ${CMS_MEDIA_VOLUME}:/home/app/web/media
   cms_mapviewer:
     container_name: cms_mapviewer
     restart: always
@@ -81,8 +81,8 @@ services:
     image: nginx:1.20.2-alpine
     restart: always
     volumes:
-      - ${DJANGO_STATIC_VOLUME}:/wagtail_static
-      - ${DJANGO_MEDIA_VOLUME}:/wagtail_media
+      - ${CMS_STATIC_VOLUME}:/wagtail_static
+      - ${CMS_MEDIA_VOLUME}:/wagtail_media
       - ${MAPVIEWER_NEXT_STATIC_VOLUME}:/mapviewer/static
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
