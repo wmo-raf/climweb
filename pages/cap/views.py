@@ -11,12 +11,15 @@ from django.urls import reverse
 from django.utils.feedgenerator import Rss201rev2Feed
 from capeditor.models import CapSetting
 from wagtail.models import Site
+import pytz
 
 from capeditor.renderers import CapXMLRenderer
 from capeditor.serializers import AlertSerializer
 from rest_framework import generics
 
 from .models import CapAlertPage
+
+utc=pytz.UTC
 
 class CustomFeed(Rss201rev2Feed):
 
@@ -70,16 +73,16 @@ class AlertListFeed(Feed):
 
     def items(self):
         alerts = CapAlertPage.objects.all()
+
         active_alert_infos = []
 
         for alert in alerts:
             for info in alert.info:
-                if info.value.get('expires').date() >= datetime.today().date():
+                if info.value.get('expires') >= datetime.today().replace(tzinfo=utc):
                     
-                    active_alert_infos.append(alert.info)
+                    active_alert_infos.append(alert.id)
                                    
-        return CapAlertPage.objects.filter(info__in = active_alert_infos)
-    
+        return CapAlertPage.objects.filter(id__in = active_alert_infos)
     
     def item_title(self, item):
         return item.info[0].value.get('headline')
