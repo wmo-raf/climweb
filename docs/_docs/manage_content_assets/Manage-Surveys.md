@@ -42,7 +42,7 @@ By using the Designer tab, you have the ability to customize your survey. You ca
 
 | Type      | Illustration | <div style="width:590px">Image</div> |
 | -------- | ----- | ----------------------------------------------- |
-|~~~~~~~~~~~|~~~~~~~~~~~~~~~|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+|          |          |                         |
 | **Single Input**  | For open-ended questions that necessitate brief responses, employ the Single Input type where respondents can input their answers using a single-line text editor. |  ![Single Input](../../_static/images/surveys/question-types-single-input.png "Single Input")      |
 | **Checkbox**   | For questions that allow for multiple answers, utilize the Checkbox type where respondents can choose one or more options by clicking on the corresponding checkboxes. | ![Checkbox](../../_static/images/surveys/question-types-checkbox.png "Checkbox")       |
 | **Radiogroup**   | For questions that offer several options but allow only one response, use the Radiogroup type where respondents can select a single answer by clicking on one of the radio buttons.  | ![Radiogroup](../../_static/images/surveys/question-types-radiogroup.png "Radiogroup")       |
