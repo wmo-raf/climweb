@@ -25,6 +25,8 @@ class MSGLayerBlock(blocks.StructBlock):
     enabled = blocks.BooleanBlock(required=False, default=True, label=_("Enabled"))
     abstract = blocks.TextBlock(required=False, label=_("Layer Abstract"),
                                 help_text=_("Leave empty to set from EUMETVIEW Layer details"))
+    generate_animation_images = blocks.BooleanBlock(required=False, default=False,
+                                                    label=_("Automatically generate animation images"))
 
 
 @register_setting
@@ -72,7 +74,6 @@ class SatelliteImageryPage(MetadataPageMixin, Page):
     parent_page_types = ['home.HomePage']
     max_count = 1
     subpage_types = []
-
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

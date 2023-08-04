@@ -21,6 +21,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
+    EMAIL_USE_TLS=(bool, True)
 )
 
 if os.path.exists(os.path.join(BASE_DIR, '.env')):
