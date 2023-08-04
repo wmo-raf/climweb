@@ -5,7 +5,7 @@
 Generate ***.po** translation files
 
 ```sh
-sphinx-build -b gettext . docs/_build/gettext
+sphinx-build -b gettext . _build/gettext
 ```
 
 ```sh
@@ -13,7 +13,7 @@ pip install sphinx-intl
 ```
 
 ```sh
-sphinx-intl update -p docs/_build/gettext -l fr
+sphinx-intl update -p _build/gettext -l fr
 ```
 
 ---
