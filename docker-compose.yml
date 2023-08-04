@@ -4,11 +4,11 @@ services:
   cms_db:
     container_name: cms_db
     image: postgis/postgis:15-master
-    restart: ${RESTART_POLICY}
+    restart: always
     environment:
-      - POSTGRES_USER=${POSTGRES_USER_CMS}
-      - POSTGRES_DB=${POSTGRES_DB_CMS}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_CMS}
+      - POSTGRES_USER=${CMS_DB_USER}
+      - POSTGRES_DB=${CMS_DB_NAME}
+      - POSTGRES_PASSWORD=${CMS_DB_PASSWORD}
     ports:
       - "5432"
     volumes:
@@ -16,7 +16,7 @@ services:
   cms_memcached:
     image: memcached:1.6.12-alpine
     container_name: cms_memcached
-    restart: ${RESTART_POLICY}
+    restart: always
     ports:
       - "11211"
     entrypoint:
@@ -29,26 +29,37 @@ services:
     build:
       context: .
       dockerfile: ./docker/cms/Dockerfile
-    restart: ${RESTART_POLICY}
-    command: sh -c "/wait && gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 --workers=${GUNICORN_NUM_OF_WORKERS}"
+    restart: always
+    command: sh -c "/wait && gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 --workers=${CMS_NUM_OF_WORKERS}"
     expose:
       - 8000
     environment:
       - WAIT_HOSTS=cms_db:5432,cms_memcached:11211
       - WAIT_TIMEOUT=120
-      - DEBUG=${DJANGO_DEBUG}
+      - DEBUG=${CMS_DEBUG}
+      - TIME_ZONE=${TIME_ZONE}
       - SECRET_KEY=${SECRET_KEY}
-      - DATABASE_URL=postgis://${POSTGRES_USER_CMS}:${POSTGRES_PASSWORD_CMS}@cms_db:5432/${POSTGRES_DB_CMS}
+      - DATABASE_URL=postgis://${CMS_DB_USER}:${CMS_DB_PASSWORD}@cms_db:5432/${CMS_DB_NAME}
       - MEMCACHED_URI=cms_memcached:11211
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - EMAIL_HOST=${SMTP_EMAIL_HOST}
+      - EMAIL_PORT=${SMTP_EMAIL_PORT}
+      - EMAIL_USE_TLS=${SMTP_EMAIL_USE_TLS}
+      - EMAIL_HOST_USER=${SMTP_EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${SMTP_EMAIL_HOST_PASSWORD}
+      - DJANGO_ADMINS=${CMS_ADMINS}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
+      - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
       - NEXTJS_SERVER_URL=http://cms_mapviewer:3000
     ports:
       - "8000"
     volumes:
-      - ${DJANGO_STATIC_VOLUME}:/home/app/web/static
-      - ${DJANGO_MEDIA_VOLUME}:/home/app/web/media
+      - ${CMS_STATIC_VOLUME}:/home/app/web/static
+      - ${CMS_MEDIA_VOLUME}:/home/app/web/media
   cms_mapviewer:
     container_name: cms_mapviewer
+    restart: always
     platform: linux/x86_64
     build:
       context: ./docker/mapviewer
@@ -58,7 +69,6 @@ services:
         - ASSET_PREFIX=${MAPVIEWER_ASSET_PREFIX}
         - ANALYTICS_PROPERTY_ID=${ANALYTICS_PROPERTY_ID}
         - BITLY_TOKEN=${BITLY_TOKEN}
-        - DEBUG= ${DEBUG}
         - GOOGLE_CUSTOM_SEARCH_CX=${GOOGLE_CUSTOM_SEARCH_CX}
         - GOOGLE_SEARCH_API_KEY=${GOOGLE_SEARCH_API_KEY}
         - NEXT_TELEMETRY_DISABLED=1
@@ -69,12 +79,13 @@ services:
   cms_nginx:
     container_name: cms_nginx
     image: nginx:1.20.2-alpine
+    restart: always
     volumes:
-      - ${DJANGO_STATIC_VOLUME}:/wagtail_static
-      - ${DJANGO_MEDIA_VOLUME}:/wagtail_media
+      - ${CMS_STATIC_VOLUME}:/wagtail_static
+      - ${CMS_MEDIA_VOLUME}:/wagtail_media
       - ${MAPVIEWER_NEXT_STATIC_VOLUME}:/mapviewer/static
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - ${NGINX_PORT}:80
+      - "80:80"
     depends_on:
       - cms_web
