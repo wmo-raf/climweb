@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
-    EMAIL_USE_TLS=(bool, True)
+    EMAIL_USE_TLS=(bool, True),
 )
 
 if os.path.exists(os.path.join(BASE_DIR, '.env')):
@@ -309,7 +309,7 @@ MEDIA_URL = env.str("FORCE_SCRIPT_NAME", "") + "/media/"
 
 # Wagtail settings
 # SITE_NAME="nmhs_cms"
-WAGTAIL_SITE_NAME = "NMHS Content Management System"
+WAGTAIL_SITE_NAME = env.str("WAGTAIL_SITE_NAME", "NMHSs CMS")
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html

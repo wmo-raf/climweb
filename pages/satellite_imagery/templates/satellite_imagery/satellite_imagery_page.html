@@ -19,8 +19,8 @@
         {% include "breadcrumbs_include.html" %}
         {% if msg_layers %}
             <section class="container" style="margin-top: 50px">
-                <div id="sat-map" class="sat-map">
-                    <div class="menu-control">
+                <div id="sat-map" class="sat-map" style="position: relative">
+                    <div class="menu-control" style="position: absolute">
                         <div class="map-menu">
                             {% for msg_layer in msg_layers %}
                                 <div class="menu-category {% if forloop.first %}active{% endif %}">
@@ -45,7 +45,7 @@
                     </div>
                     <div class="layer-controls-wrapper">
                         <div class="layer-control">
-                            <input type="checkbox" id="auto_update" name="auto_update" checked>
+                            <input type="checkbox" id="auto_update" name="auto_update" checked style="height:12px;width: 12px">
                             <label for="auto_update"> Auto-update</label>
                         </div>
                         <div class="layer-control anim-modal-trigger-control" style="display: none">
