@@ -79,7 +79,12 @@ FILE_UPLOAD_TEMP_DIR = os.path.join(BASE_DIR, 'tmp')
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env.str('EMAIL_HOST', default="localhost")
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", False)
-EMAIL_PORT = env.int('EMAIL_PORT', default=25)
+EMAIL_PORT = os.getenv("EMAIL_PORT", "")
+if not EMAIL_PORT:
+    EMAIL_PORT = 25
+else:
+    EMAIL_PORT = env.int('EMAIL_PORT', default=25)
+
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', default="")
 

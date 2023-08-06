@@ -10,6 +10,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.forms import CheckboxSelectMultiple
 from django.template.defaultfilters import truncatechars, date
+from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -20,7 +21,7 @@ from wagtail.admin.mail import send_mail
 from wagtail.admin.panels import (FieldPanel, InlinePanel, MultiFieldPanel, )
 from wagtail.admin.panels import TabbedInterface, ObjectList
 from wagtail.contrib.forms.forms import WagtailAdminFormPageForm
-from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField, AbstractForm
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page
 from wagtail.snippets.models import register_snippet
@@ -264,7 +265,7 @@ class EventPage(MetadataPageMixin, Page):
         FieldPanel('description'),
         FieldPanel('location'),
         FieldPanel('agenda_document'),
-        # SnippetChooserPanel('form_template'), Do not allow editing because it is misused
+        FieldPanel('form_template'),
         FieldPanel('cost'),
         # FieldPanel('meeting_platform'), Hide this too for now since we dont use other integration platform but zoom
         FieldPanel('panelists'),
@@ -408,8 +409,7 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
         self.parent_page = parent_page
 
 
-class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, AbstractZoomIntegrationForm,
-                            AbstractMailchimpIntegrationForm):
+class EventRegistrationPage(MetadataPageMixin, AbstractMailchimpIntegrationForm, AbstractZoomIntegrationForm):
     base_form_class = EventPageCustomForm
 
     template = 'event_registration_page.html'
@@ -459,10 +459,10 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         InlinePanel('registration_form_fields', label="Form fields"),
         FieldPanel('validation_field'),
 
-        MultiFieldPanel([
-            FieldPanel('to_address', heading="Email addresses"),
-            FieldPanel('subject'),
-        ], "Staff Email Notification Settings - When someone registers"),
+        # MultiFieldPanel([
+        #     FieldPanel('to_address', heading="Email addresses"),
+        #     FieldPanel('subject'),
+        # ], "Staff Email Notification Settings - When someone registers"),
 
         FieldPanel('thank_you_text', heading="Message to show on website after successful submission"),
 
@@ -474,6 +474,23 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
     @cached_property
     def event(self):
         return self.get_parent().specific
+
+    def serve(self, request, *args, **kwargs):
+        if request.method == "POST":
+            form = self.get_form(
+                request.POST, request.FILES, page=self, user=request.user
+            )
+
+            if form.is_valid():
+                # check for email duplication
+                if self.should_process_form(request, form_data=form.data):
+                    return super(EventRegistrationPage, self).serve(request, *args, **kwargs)
+        else:
+            form = self.get_form(page=self, user=request.user)
+
+        context = self.get_context(request)
+        context["form"] = form
+        return TemplateResponse(request, self.get_template(request), context)
 
     @cached_classmethod
     def get_edit_handler(cls):
@@ -489,20 +506,6 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
             ObjectList(AbstractMailchimpIntegrationForm.integration_panels, heading=_('MailChimp Settings'))
         ]
 
-        # if cls.integration_panels:
-        #     panels.append(ObjectList(
-        #         cls.integration_panels,
-        #         heading='Mailchimp Integration',
-        #         classname='mailchimp-integration'
-        #     ))
-
-        # if cls.zoom_integration_panels:
-        #     panels.append(ObjectList(
-        #         cls.zoom_integration_panels,
-        #         heading='Zoom Integration',
-        #         classname='zoom-integration'
-        #     ))
-
         return TabbedInterface(panels).bind_to_model(model=cls)
 
     def get_form_fields(self):
@@ -512,7 +515,7 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         data_fields = super().get_data_fields()
         meeting_platform = self.event.meeting_platform
 
-        if meeting_platform == "zoom" and self.enable_adding_registrants:
+        if meeting_platform == "zoom" and self.zoom_event:
             data_fields.append(('added_to_zoom', _('Added to Zoom')), )
 
         return data_fields
@@ -528,11 +531,16 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
             validation_field = self.validation_field.replace('-', '_')
             submission_class = self.get_submission_class()
             form_validation_value = form_data.get(validation_field)
+
+            # try getting email using email or email_address
+            if not form_validation_value:
+                form_validation_value = form_data.get("email") or form_data.get("email_address")
+
             if form_validation_value:
                 queryset = submission_class.objects.filter(form_data__icontains=form_validation_value, page=self)
                 if queryset.exists():
                     message = "The registration with {} - {} had already been submitted. " \
-                              "This means you are already added to the list. " \
+                              "This means you are already registered. " \
                               "Contact us if you think this is a mistake.".format(
                         validation_field.replace('_', ' '),
                         form_validation_value)
@@ -549,32 +557,7 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                                                                                    self.title),
                               fail_silently=True)
 
-                # save the submission meanwhile
-                should_process = True
         return should_process
-
-    def post_process_submission(self, form, form_submission):
-        meeting_platform = self.event.meeting_platform
-
-        if meeting_platform is not None:
-            if meeting_platform == "zoom" and self.enable_adding_registrants:
-                success, response = self.zoom_integration_operation(self, form=form)
-                # Mark submission as success. Usefull for counting successful zoom registrations
-                if success:
-                    form_data = json.loads(form_submission.form_data)
-                    # add custom tracking field
-                    form_data['added_to_zoom'] = True
-                    form_data = json.dumps(form_data, cls=DjangoJSONEncoder)
-                    form_submission.form_data = form_data
-                    form_submission.save()
-
-        if self.send_confirmation_email and self.email_field and self.email_confirmation_message:
-            form_data = form.cleaned_data
-            email = form_data.get(self.email_field.replace('-', '_'))
-
-            if email:
-                send_mail("Registration Confirmation", '', [email], fail_silently=True,
-                          html_message=self.email_confirmation_message)
 
     def save(self, *args, **kwargs):
         parent = self.get_parent().specific

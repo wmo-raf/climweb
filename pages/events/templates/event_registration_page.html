@@ -17,6 +17,20 @@
                         {% if page.additional_information %}
                             <p style="padding-bottom: 20px">{{ page.additional_information }}</p>
                         {% endif %}
+                        {% if messages %}
+                            <ul class="messages" style="padding-bottom: 40px">
+                                {% for message in messages %}
+                                    <li class="message is-{% if message.tags == 'error' %}danger{% else %}info{% endif %}">
+                                        <div class="message-header">
+                                            <button class="delete" aria-label="delete"></button>
+                                        </div>
+                                        <div class="message-body">
+                                            {{ message }}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                         <div class="form-column">
                             {% if not page.event.is_ended and page.event.registration_open %}
                                 <form action="{% pageurl page %}" method="POST">
