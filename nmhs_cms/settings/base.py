@@ -74,7 +74,6 @@ INSTALLED_APPS = [
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
-    'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
     "wagtail.contrib.routable_page",
     'wagtail.contrib.search_promotions',
@@ -129,6 +128,7 @@ INSTALLED_APPS = [
     "background_task",
     "django_cleanup",
     "django_countries",
+    "wagtail_modeladmin"
 ]
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'

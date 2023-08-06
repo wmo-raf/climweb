@@ -4,7 +4,7 @@ from django.urls import reverse
 from forecastmanager.models import City
 from wagtail.admin import messages
 from wagtail.admin.auth import user_passes_test, user_has_any_page_permission
-from wagtail.contrib.modeladmin.helpers import AdminURLHelper
+from wagtail_modeladmin.helpers import AdminURLHelper
 
 from .forms import ClimateDataForm
 from .models import CityClimateDataPage, DataValue

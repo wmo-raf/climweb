@@ -1,4 +1,4 @@
-from wagtail.contrib.modeladmin.options import modeladmin_register
+from wagtail_modeladmin.options import modeladmin_register
 from .models import SurveyPage  # your survejs page model
 from wagtailsurveyjs.wagtail_hooks import BaseSurveyModelAdmin
 from django.utils.translation import gettext_lazy as _

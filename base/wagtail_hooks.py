@@ -2,11 +2,12 @@ from django.templatetags.static import static
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
-from wagtail.contrib.modeladmin.options import (
+from wagtail_modeladmin.options import (
     ModelAdmin,
     modeladmin_register,
 
 )
+
 from wagtailcache.cache import clear_cache
 
 from base.models import Theme
