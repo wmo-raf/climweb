@@ -23,6 +23,7 @@ html_theme = 'sphinx_wagtail_theme'
 html_theme_options = {
     "project_name": "CMS Documentation",
     "github_url": "https://github.com/wmo-raf/nmhs-cms/blob/main/docs/",
+    "header_links": "En|https://nmhs-cms.readthedocs.io/en, Fr|https://nmhs-cms.readthedocs.io/fr, Sw|https://nmhs-cms.readthedocs.io/sw",
     "footer_links":",".join([
         "Demo|http://20.56.94.119/cms/",
         "Packages|https://github.com/wmo-raf",
@@ -192,7 +193,7 @@ html_static_path = ["_static"]
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-# html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
