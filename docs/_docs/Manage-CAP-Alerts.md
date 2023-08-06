@@ -52,8 +52,9 @@ Dat/Time (sent), Message Status (status), Message Type (msgType), Scope
 (scope), Restriction (restriction), Addresses (addresses), Note (note),
 Reference IDs (references) and Incident ids (incidents)**.
 
-***NOTE:*** Some fields are visible based on selection of different
-parameters.
+```{note}
+Some fields are visible based on selection of different parameters.
+```
 
 ![Alert
 Identification](../_static/images/cap/alert_identification.png "Alert Identification section")
@@ -179,7 +180,9 @@ CAP Settings include sender name, sender identifier, contact details, hazard typ
 
 ![CAP Settings](../_static/images/cap/cap_settings.png "CAP Settings")
 
->Note: The creation of Hazard types will change the event input under alert information to a dropdown.
+```{note}
+The creation of Hazard types will change the event input under alert information to a dropdown.
+```
 
 ![CAP Settings](../_static/images/cap/alert_hazard_types.png "CAP Settings")
 
@@ -210,4 +213,6 @@ Load country boundaries at each of different levels (level 0 to 4) in zipped sha
 ![Boundary Loader](../_static/images/cap/boundary_loader.png "Boundary Loader")
 
 
->note: Zip shapefiles seperately by Admin level before upload. 
+```{note}
+Zip shapefiles seperately by Admin level before upload. 
+```

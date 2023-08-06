@@ -6,8 +6,10 @@ City forecasts displayed on the homepage, and forecasts page can be added throug
 1. Manually adding daily forecasts
 2. Fetching city forecasts from an external source i.e YR Meteo Norway's location forecast API https://developer.yr.no/featured-products/forecast/
 
-Note:
+```{note}
 The forecast manager comes with predefined weather conditions and icons. Please refer to YR Weather symbols documentation for guidance on icons and naming convention. https://api.met.no/weatherapi/weathericon/2.0/documentation
+```
+
 ## Manually Adding Forecasts
 
 The city forecast explorer menu can be accessed on the left sidebar. 

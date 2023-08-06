@@ -47,4 +47,6 @@ The Partners page contains the sections below:
 
 
 
->Note: All listed partners in step 1 will be displayed automatically on the partners page.
+```{note}
+All listed partners in step 1 will be displayed automatically on the partners page.
+```

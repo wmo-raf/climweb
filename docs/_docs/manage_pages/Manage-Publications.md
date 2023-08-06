@@ -36,7 +36,9 @@ A listing page is a page that holds a list of pages. For example, a Publication 
 
 To create this page navigate to the 'pages' item on the explorer menu as shown below and click on the pages item at the top.
 
-Note: This option will only appear if no publication listing page already exists as there can only be on instance/occurrrence of a publication listing page.
+```{note}
+This option will only appear if no publication listing page already exists as there can only be on instance/occurrrence of a publication listing page.
+```
 
 ![Pages Explorer](../../_static/images/pages/pages_explorer.png "Pages Explorer")
 
@@ -91,4 +93,6 @@ The sections of a service page include:
 - **Additional Details** - this include an optional start and end date for which the publication is considered relevant.
 
 
->Note: To create additional publications in the future you would need to begin from [Step 3: Create a publication page](./Manage-Publications#step-3-create-a-publication-page).
+```{note}
+To create additional publications in the future you would need to begin from [Step 3: Create a publication page](./Manage-Publications#step-3-create-a-publication-page).
+```

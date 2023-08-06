@@ -28,4 +28,6 @@ Populate the form with page title and listing heading as below:
 ![Organisation page](../../../_static/images/organisation/organisation_page.png "Organisation page")
 
 
->Note: This option will only appear if an 'Organisation Index Page' does not already exist as only one instance of this page is allowed. If it already exists proceed to prepare the other pages listed above.
+```{note}
+This option will only appear if an 'Organisation Index Page' does not already exist as only one instance of this page is allowed. If it already exists proceed to prepare the other pages listed above.
+```

@@ -36,7 +36,9 @@ A listing page is a page that holds a list of pages. For example, a Service List
 
 To create this page navigate to the 'pages' item on the explorer menu as shown below and click on the pages item at the top.
 
-Note: This option will only appear if no service listing page already exists as there can only be on instance/occurrrence of a service listing page.
+```{note}
+This option will only appear if no service listing page already exists as there can only be on instance/occurrrence of a service listing page.
+```
 
 ![Pages Explorer](../../_static/images/pages/pages_explorer.png "Pages Explorer")
 
@@ -93,4 +95,6 @@ The sections of a service page include:
 - **Applications** - this section enables selection of an existing system applications related to this service.
 
 
->note: Projects, Events, News and Publications are linked to the service in their respective pages.
+```{note}
+Projects, Events, News and Publications are linked to the service in their respective pages.
+```
