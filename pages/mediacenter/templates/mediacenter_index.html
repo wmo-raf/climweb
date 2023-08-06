@@ -89,7 +89,8 @@
             <section id="videoSection" class="videos">
                 <div class="container">
                     <h2 class="section-title center">Videos</h2>
-                    {% include 'videos_skeleton.html' %}
+                    {% comment %} {% include 'videos_skeleton.html' %} {% endcomment %}
+                    {% include 'videos_skeleton_home.html' %}
                     {% if  settings.base.ImportantPages.all_videos_page %}
                         <div class="more-container">
                             <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">

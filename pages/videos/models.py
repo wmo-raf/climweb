@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from googleapiclient.discovery import build
 from wagtail.admin.panels import (FieldPanel)
 from wagtail.models import Site
+from wagtail.snippets.models import register_snippet
 
 from base.models import IntegrationSettings
 
@@ -10,7 +11,7 @@ YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 youtube_service = None
 
-
+@register_snippet
 class YoutubePlaylist(models.Model):
     title = models.CharField(max_length=200, verbose_name=_("Title"))
     playlist_id = models.CharField(max_length=100,
