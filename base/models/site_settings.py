@@ -372,6 +372,7 @@ class ImportantPages(BaseSiteSetting):
     feedback_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
         verbose_name=_("Feedback page"))
+    cap_feed = models.URLField(blank=True, null=True, verbose_name=_("CAP Alerts RSS Feed"))
 
     panels = [
         PageChooserPanel('mailing_list_signup_page'),
@@ -388,6 +389,7 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_applications_page'),
         PageChooserPanel('all_events_page'),
         PageChooserPanel('all_partners_page'),
+        FieldPanel('cap_feed')
     ]
 
     class Meta:

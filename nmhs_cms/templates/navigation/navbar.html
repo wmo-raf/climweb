@@ -28,6 +28,14 @@
                     </a>
                 </div>
                 <div class="level-right is-hidden-mobile">
+                    {% if settings.base.ImportantPages.cap_feed %}
+                        <a href="{{ settings.base.ImportantPages.cap_feed }}"
+                           class="level-item top-nav-item"
+                        >
+                        <img src="{% static 'img/CAPLogo.jpeg' %}" alt="" width="20"
+                        style="border-radius:4px;">
+                        </a>
+                    {% endif %}
                     {% if settings.base.ImportantPages.mailing_list_signup_page %}
                         <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
                            class="level-item top-nav-item"
