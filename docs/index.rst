@@ -5,9 +5,12 @@ Welcome to NMHS CMS documentation
 
 Downloadable pdf versions can be found at:
 
-* `NMHS CMS Manual (English) <https://nmhs-cms.readthedocs.io/_/downloads/en/latest/pdf/>`_
-* `NMHS CMS Manual (French)  <https://nmhs-cms.readthedocs.io/_/downloads/fr/latest/pdf/>`_
-* `NMHS CMS Manual (Swahili)  <https://nmhs-cms.readthedocs.io/_/downloads/sw/latest/pdf/>`_
+.. admonition:: To download the PDF version of this guide use
+   
+   * :download:`NMHS CMS Manual (English) <https://nmhs-cms.readthedocs.io/_/downloads/en/latest/pdf/>`
+   * :download:`NMHS CMS Manual (French) <https://nmhs-cms.readthedocs.io/_/downloads/fr/latest/pdf/>`
+   * :download:`NMHS CMS Manual (Swahili) <https://nmhs-cms.readthedocs.io/_/downloads/sw/latest/pdf/>`
+
 
 NMHS CMS
 ---------
