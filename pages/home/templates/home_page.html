@@ -10,8 +10,8 @@
 {% endblock extra_css %}
 
 {% block content %}
+    {% include 'section/hero_include.html' %}
     <main class="is-index">
-        {% include 'section/hero_include.html' %}
         {% include 'section/forecast_include.html' %}
         {% include 'section/services_include.html' %}
         {% include 'section/updates_include.html' with page=page %}
@@ -36,7 +36,8 @@
         const forecast_api = "{% url 'forecast-list'%}"
         const static_path = '{% static "forecastmanager/img/" %}'
         const geojson = JSON.parse("{{self.get_alerts.geojson|escapejs}}")
-        const dataParams = {{ settings.forecastmanager.ForecastSetting.data_parameter_values|safe }}
+        const dataParams =
+        {{ settings.forecastmanager.ForecastSetting.data_parameter_values|safe }}
 
     </script>
 

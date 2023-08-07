@@ -1,160 +1,154 @@
 {% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
+{% wagtail_site as current_site %}
 
-<header>
-        <div id="google_language_translator"></div>
-        <div class="top-nav-wrapper is-hidden-touch container">
-            <div class="level top-nav">
-                <div class="level-left">
-                    <a class="level-item main-logo" href="{{request.get_full_path}}" style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
-                        {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
-
-                            {% if settings.base.OrganisationSetting.country_flag %}
-                                {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                                <img src="{{ country_flag.url }}" alt="Logo" class="pr-3">
-
-                            {% endif %}
-                            {% if settings.base.OrganisationSetting.logo %}
-                                {% image settings.base.OrganisationSetting.logo original as logo %}
-                                <img src="{{ logo.url }}" alt="Logo">
-
-                            {% endif %}
-
-                            
-                        {% else %}
-
-                            N.M.H.S
-                        {% endif %}
-                    </a>
-                </div>
-                <div class="level-right is-hidden-mobile">
-                    {% if settings.base.ImportantPages.cap_feed %}
-                        <a href="{{ settings.base.ImportantPages.cap_feed }}"
-                           class="level-item top-nav-item"
-                        >
-                        <img src="{% static 'img/CAPLogo.jpeg' %}" alt="" width="20"
-                        style="border-radius:4px;">
-                        </a>
-                    {% endif %}
-                    {% if settings.base.ImportantPages.mailing_list_signup_page %}
-                        <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
-                           class="level-item top-nav-item"
-                        >
-                            <span>Subscribe</span>
-                            <span class="nav-icon">
-                                {% svg_icon name="mail" %}
-                            </span>
-                        </a>
-                    {% endif %}
-                    {% if settings.base.LanguageSettings.google_languages %}
-                        <div class="level-item dropdown is-hoverable">
-                            <div class="dropdown-trigger">
-                                <div class="top-nav-item">
-                                    <span>Language</span>
-                                    <span class="nav-icon">
-                                        {% svg_icon name="site" %}
-                                    </span>
-
-                                </div>
-                            </div>
-                            <div class="dropdown-menu top-nav-dropdown" role="menu">
-                                <div class="dropdown-content languages">
-                                    {% for lang in settings.base.LanguageSettings.google_languages %}
-                                        <a class="dropdown-item" data-lang="{{ lang.name }}"
-                                           data-lang-prefix="{{ lang.language }}">
-                                            {{ lang.name }}
-                                        </a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                    <div class="level-item top-nav-item">
-                        <div id="search-input" class="field is-hidden search-input">
-                            <form action="{% url 'search' %}">
-                                <div class="control is-small has-icons-right">
-                                    <input id="input-el"
-                                           class="input is-small is-rounded" type="text" name="query"
-                                           value="{{ request.GET.query }}"
-                                           placeholder="Search">
-                                    <span class="icon is-small is-right">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                        <div id="search-trigger" class="search-trigger">
-                            <span>Search</span>
-                            <span class="nav-icon">
-                                {% svg_icon name="search" %}
-                            </span>
-                        </div>
-                    </div>
-                    {% if settings.base.ImportantPages.contact_us_page %}
-                        <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
-                           class="level-item top-nav-item button is-small nav-cta"
-                        >
-                            Contact us
-                        </a>
-                    {% endif %}
-                    {% if settings.base.ImportantPages.feedback_page %}
-                        <a href="{{ settings.base.ImportantPages.feedback_page.url }}"
-                           class="level-item top-nav-item button is-small nav-cta"
-                        >
-                            Feedback
-                        </a>
-                    {% endif %}
-                    <a href="{{ wagtail_admin_url }}"
-                       class="level-item top-nav-item button is-small nav-cta"
-                    >
-                        {% if user.is_authenticated %}
-                            {{ user.username }}, CMS
-                        {% else %}
-                            Login
-                        {% endif %}
-                    </a>
-                </div>
-            </div>
-        </div>
-        <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
-             aria-label="main navigation">
-            <div class="navbar-brand is-hidden-desktop">
-                <a class="mobile-logo" href="{{request.get_full_path}}">
+<header class="header-nav">
+    <div id="google_language_translator"></div>
+    <div class="top-nav-wrapper is-hidden-touch container">
+        <div class="level top-nav">
+            <div class="level-left">
+                <a class="level-item main-logo" href="{{ current_site.root_url }}"
+                   style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
                     {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
-
-                            {% if settings.base.OrganisationSetting.country_flag %}
-                                {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                                <img src="{{ country_flag.url }}" alt="Logo" class="px-2">
-
-                            {% endif %}
-                            {% if settings.base.OrganisationSetting.logo %}
-                                {% image settings.base.OrganisationSetting.logo original as logo %}
-                                <img src="{{ logo.url }}" alt="Logo">
-
-                            {% endif %}
-
-                            
+                        {% if settings.base.OrganisationSetting.country_flag %}
+                            {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+                            <img src="{{ country_flag.url }}" alt="Logo" class="pr-3">
+                        {% endif %}
+                        {% if settings.base.OrganisationSetting.logo %}
+                            {% image settings.base.OrganisationSetting.logo original as logo %}
+                            <img src="{{ logo.url }}" alt="Logo">
+                        {% endif %}
                     {% else %}
                         N.M.H.S
                     {% endif %}
                 </a>
-                <div>
+            </div>
+            <div class="level-right is-hidden-mobile">
+                {% if settings.base.ImportantPages.cap_feed %}
+                    <a href="{{ settings.base.ImportantPages.cap_feed }}"
+                       class="level-item top-nav-item"
+                    >
+                        <span style="margin-right: 4px"> Alerts</span>
+                        <img src="{% static 'img/CAPLogo.jpeg' %}" alt="CAP Alerts"
+                             style="height: 18px;width: 18px;border-radius:4px">
+                    </a>
+                {% endif %}
+                {% if settings.base.ImportantPages.mailing_list_signup_page %}
+                    <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
+                       class="level-item top-nav-item"
+                    >
+                        <span>Subscribe</span>
+                        <span class="nav-icon">
+                            {% svg_icon name="mail" %}
+                        </span>
+                    </a>
+                {% endif %}
+                {% if settings.base.LanguageSettings.google_languages %}
+                    <div class="level-item dropdown is-hoverable">
+                        <div class="dropdown-trigger">
+                            <div class="top-nav-item">
+                                <span>Language</span>
+                                <span class="nav-icon">
+                                    {% svg_icon name="site" %}
+                                </span>
 
-                        <div class="main-nav navbar-burger burger" data-target="mainNav">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                            </div>
                         </div>
+                        <div class="dropdown-menu top-nav-dropdown" role="menu">
+                            <div class="dropdown-content languages">
+                                {% for lang in settings.base.LanguageSettings.google_languages %}
+                                    <a class="dropdown-item" data-lang="{{ lang.name }}"
+                                       data-lang-prefix="{{ lang.language }}">
+                                        {{ lang.name }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="level-item top-nav-item">
+                    <div id="search-input" class="field is-hidden search-input">
+                        <form action="{% url 'search' %}">
+                            <div class="control is-small has-icons-right">
+                                <input id="input-el"
+                                       class="input is-small is-rounded" type="text" name="query"
+                                       value="{{ request.GET.query }}"
+                                       placeholder="Search">
+                                <span class="icon is-small is-right">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="search-trigger" class="search-trigger">
+                        <span>Search</span>
+                        <span class="nav-icon">
+                            {% svg_icon name="search" %}
+                        </span>
+                    </div>
+                </div>
+                {% if settings.base.ImportantPages.contact_us_page %}
+                    <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
+                       class="level-item top-nav-item button is-small nav-cta"
+                    >
+                        Contact us
+                    </a>
+                {% endif %}
+                {% if settings.base.ImportantPages.feedback_page %}
+                    <a href="{{ settings.base.ImportantPages.feedback_page.url }}"
+                       class="level-item top-nav-item button is-small nav-cta"
+                    >
+                        Feedback
+                    </a>
+                {% endif %}
+                <a href="{{ wagtail_admin_url }}"
+                   class="level-item top-nav-item button is-small nav-cta"
+                >
+                    {% if user.is_authenticated %}
+                        {{ user.username }}, CMS
+                    {% else %}
+                        Login
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
+         aria-label="main navigation">
+        <div class="navbar-brand is-hidden-desktop">
+            <a class="mobile-logo" href="{{ current_site.root_url }}">
+                {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
+
+                    {% if settings.base.OrganisationSetting.country_flag %}
+                        {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+                        <img src="{{ country_flag.url }}" alt="Logo" class="px-2">
+
+                    {% endif %}
+                    {% if settings.base.OrganisationSetting.logo %}
+                        {% image settings.base.OrganisationSetting.logo original as logo %}
+                        <img src="{{ logo.url }}" alt="Logo">
+                    {% endif %}
+                {% else %}
+                    N.M.H.S
+                {% endif %}
+            </a>
+            <div>
+
+                <div class="main-nav navbar-burger burger" data-target="mainNav">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
             </div>
-            <div id="mainNav" class="main-nav navbar-menu">
-                <div class="navbar-start">
-                    {% for block in settings.base.NavigationSettings.main_menu %}
-                        {% include_block block %}
-                    {% endfor %}
-                </div>
+        </div>
+        <div id="mainNav" class="main-nav navbar-menu">
+            <div class="navbar-start">
+                {% for block in settings.base.NavigationSettings.main_menu %}
+                    {% include_block block %}
+                {% endfor %}
             </div>
-        </nav>
+        </div>
+    </nav>
 </header>
 {% block extra_js %}
     <script>

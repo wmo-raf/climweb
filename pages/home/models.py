@@ -53,12 +53,12 @@ class HomePage(MetadataPageMixin, Page):
     hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=False,
                                     related_name="+", verbose_name=_("Banner Image"))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
-    enable_weather_forecasts = models.BooleanField(default=True, verbose_name=_("Enable weather forecasts section"))
-    enable_mapviewer_cta = models.BooleanField(default=False, verbose_name=_("Enable mapviewer section"))
+    enable_weather_forecasts = models.BooleanField(default=True, verbose_name=_("Show weather forecasts section"))
+    enable_mapviewer_cta = models.BooleanField(default=False, verbose_name=_("Show Mapviewer button"))
     mapviewer_cta_title = models.CharField(max_length=100, blank=True, null=True, default='Explore MapViewer',
                                            verbose_name=_('MapViewer Call to Action Title'))
     mapviewer_cta_url = models.URLField(blank=True, null=True, verbose_name=_("Mapviewer URL"), )
-    enable_media = models.BooleanField(default=False, verbose_name=_("Enable media section"))
+    enable_media = models.BooleanField(default=False, verbose_name=_("Show media section"))
     video_section_title = models.CharField(max_length=100, blank=True, null=True, default='Latest Media',
                                            verbose_name=_('Media Section Title'), )
     video_section_desc = models.TextField(max_length=500, blank=True, null=True,
@@ -81,12 +81,10 @@ class HomePage(MetadataPageMixin, Page):
         MultiFieldPanel([
             FieldPanel('enable_weather_forecasts'),
             # FieldPanel('hero_subtitle')
-        ], heading=_("Weather forecasts Section")),
-        MultiFieldPanel([
             FieldPanel('enable_mapviewer_cta'),
             FieldPanel('mapviewer_cta_title'),
             FieldPanel('mapviewer_cta_url')
-        ], heading=_("Climate Section Section")),
+        ], heading=_("Weather forecasts Section")),
         MultiFieldPanel([
             FieldPanel('enable_media'),
             FieldPanel('video_section_title'),
@@ -186,9 +184,9 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def get_alerts(self):
-        alerts = CapAlertPage.objects.all().order_by('-sent')[:2]  
+        alerts = CapAlertPage.objects.all().order_by('-sent')[:2]
 
-        active_alert_infos = []   
+        active_alert_infos = []
 
         geojson = {"type": "FeatureCollection", "features": []}
 
@@ -196,16 +194,15 @@ class HomePage(MetadataPageMixin, Page):
             for info in alert.info:
                 if info.value.get('expires').date() >= datetime.today().date():
 
-                    active_alert_infos.append(alert.id)  
+                    active_alert_infos.append(alert.id)
 
                     if info.value.features:
                         for feature in info.value.features:
                             geojson["features"].append(feature)
 
-
         return {
-            'active_alerts': CapAlertPage.objects.filter(id__in = active_alert_infos),
-            'geojson':json.dumps(geojson)
+            'active_alerts': CapAlertPage.objects.filter(id__in=active_alert_infos),
+            'geojson': json.dumps(geojson)
         }
 
     @cached_property
