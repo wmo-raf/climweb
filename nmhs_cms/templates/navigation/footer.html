@@ -1,5 +1,6 @@
 {% load static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags %}
 {% get_settings use_default_site=True %}
+{% wagtail_site as current_site %}
 
 <footer>
     <div id="footer" class="footer is-desktop">
@@ -7,7 +8,7 @@
             <div class="columns is-mobile is-multiline" style="margin: 0">
                 <div class="column is-half-mobile is-one-quarter-desktop" style="margin-bottom: 20px">
                     <div>
-                        <a class="footer-logo" href="{{request.get_full_path}}">
+                        <a class="footer-logo" href="{{ current_site.root_url }}">
                             <figure class="image">
                                 {% if settings.base.OrganisationSetting.footer_logo %}
                                     {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}

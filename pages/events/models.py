@@ -409,7 +409,8 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
         self.parent_page = parent_page
 
 
-class EventRegistrationPage(MetadataPageMixin, AbstractMailchimpIntegrationForm, AbstractZoomIntegrationForm):
+class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, AbstractMailchimpIntegrationForm,
+                            AbstractZoomIntegrationForm):
     base_form_class = EventPageCustomForm
 
     template = 'event_registration_page.html'
@@ -459,10 +460,10 @@ class EventRegistrationPage(MetadataPageMixin, AbstractMailchimpIntegrationForm,
         InlinePanel('registration_form_fields', label="Form fields"),
         FieldPanel('validation_field'),
 
-        # MultiFieldPanel([
-        #     FieldPanel('to_address', heading="Email addresses"),
-        #     FieldPanel('subject'),
-        # ], "Staff Email Notification Settings - When someone registers"),
+        MultiFieldPanel([
+            FieldPanel('to_address', heading="Email addresses"),
+            FieldPanel('subject'),
+        ], "Staff Email Notification Settings - When someone registers"),
 
         FieldPanel('thank_you_text', heading="Message to show on website after successful submission"),
 
