@@ -22,18 +22,8 @@
                         </p>
                     </div>
                 </div>
-
-                {% include 'section/cityforecast_include.html' %}
-
             </div>
         </div>
-
     </div>
-
-    {% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts %}
-        <div class="overlay overlay_1">
-        </div>
-    {% endif %}
-
+    {% include 'section/cityforecast_include.html' %}
 </div>
-
