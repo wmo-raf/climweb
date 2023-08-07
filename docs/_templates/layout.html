@@ -15,6 +15,7 @@
 {% block search %}
     <script async defer data-domain="docs.wagtail.org" src="https://plausible.io/js/plausible.js"></script>
     <script src="{{ docsearch_base }}docsearch.min.js"></script>
+
     <script>
         /**
          * Get version of the currently served docs.
@@ -57,12 +58,11 @@
         function docSearchReady() {
             /**
              * Configure Algolia DocSearch.
-             * See https://github.com/wagtail/wagtail/wiki/Documentation-search for index configuration.
              */
             const search = docsearch({
-                appId: 'XSYGEO7KMJ',
-                apiKey: 'd50a485660ed9280079aada4e09454b2',
-                indexName: 'wagtail',
+                appId: 'K25O9KA47F',
+                apiKey: '49245fa5978eb5a8b692f9cc825bdfd7',
+                indexName: 'nmhs-cms',
                 inputSelector: '#searchbox [name="q"]',
                 algoliaOptions: {
                     facetFilters: [getVersionFacetFilter()],
@@ -85,6 +85,8 @@
             });
             return search
         }
+
+        docSearchReady()
 
     </script>
 {% endblock %}
