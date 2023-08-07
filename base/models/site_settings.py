@@ -1,4 +1,3 @@
-from typing import Iterable, Optional
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.functional import cached_property
@@ -41,9 +40,10 @@ class OrganisationSetting(BaseSiteSetting):
     # logo
     logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
                              verbose_name=_("Organisation Logo"))
-    country_flag = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
-                             verbose_name=_("Country Flag"))
-    
+    country_flag = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL,
+                                     related_name="+",
+                                     verbose_name=_("Country Flag"))
+
     favicon = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -204,24 +204,6 @@ class LanguageSettings(BaseSiteSetting):
         return [lang["language"] for lang in self.google_languages]
 
 
-# @register_setting()
-# class OtherSettings(BaseSiteSetting):
-#     wagtail_form_key = models.CharField(
-#         blank=True,
-#         max_length=255,
-#         help_text=_('A Unique key for managing submitted forms'),
-#     )
-
-#     panels = [
-#         MultiFieldPanel(
-#             [
-#                 FieldPanel('wagtail_form_key'),
-#             ],
-#             heading=_('Forms Security'),
-#         )
-#     ]
-
-
 class Theme(models.Model):
     is_default = models.BooleanField(default=False, verbose_name=_("Is Default Theme"),
                                      help_text=_("Enable if this is the default theme"))
@@ -342,9 +324,6 @@ class ImportantPages(BaseSiteSetting):
     all_projects_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
         verbose_name=_("All projects page"))
-    all_alerts_page = models.ForeignKey(
-        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
-        verbose_name=_("All alerts page"))
     all_news_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
         verbose_name=_("All news page"))
@@ -382,7 +361,6 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_projects_page'),
         PageChooserPanel('all_tenders_page'),
         PageChooserPanel('all_vacancies_page'),
-        PageChooserPanel('all_alerts_page'),
         PageChooserPanel('all_news_page'),
         PageChooserPanel('all_publications_page'),
         PageChooserPanel('all_videos_page'),
