@@ -1,12 +1,13 @@
 {% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
+{% wagtail_site as current_site %}
 
 <header class="header-nav">
     <div id="google_language_translator"></div>
     <div class="top-nav-wrapper is-hidden-touch container">
         <div class="level top-nav">
             <div class="level-left">
-                <a class="level-item main-logo" href="{{ request.get_full_path }}"
+                <a class="level-item main-logo" href="{{ current_site.root_url }}"
                    style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
                     {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
                         {% if settings.base.OrganisationSetting.country_flag %}
@@ -115,7 +116,7 @@
     <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
          aria-label="main navigation">
         <div class="navbar-brand is-hidden-desktop">
-            <a class="mobile-logo" href="{{ request.get_full_path }}">
+            <a class="mobile-logo" href="{{ current_site.root_url }}">
                 {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
 
                     {% if settings.base.OrganisationSetting.country_flag %}
@@ -126,10 +127,7 @@
                     {% if settings.base.OrganisationSetting.logo %}
                         {% image settings.base.OrganisationSetting.logo original as logo %}
                         <img src="{{ logo.url }}" alt="Logo">
-
                     {% endif %}
-
-
                 {% else %}
                     N.M.H.S
                 {% endif %}
