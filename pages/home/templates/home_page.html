@@ -10,19 +10,21 @@
 {% endblock extra_css %}
 
 {% block content %}
-    {% include 'section/hero_include.html' %}
+    <div class="home-hero-wrapper {% if self.show_city_forecast and self.get_forecast_by_city.forecasts|length > 0 %} has-city-forecast{% endif %}">
+        {% include 'section/hero_include.html' %}
+        {% include 'section/city_forecast_include.html' %}
+    </div>
     <main class="is-index">
-        {% include 'section/forecast_include.html' %}
+        {% include 'section/weather_watch_include.html' %}
         {% include 'section/services_include.html' %}
         {% include 'section/updates_include.html' with page=page %}
         {% include 'section/media_include.html' %}
-
     </main>
 {% endblock content %}
 
 
 {% block extra_js %}
-    <script type="text/javascript" src="{% static 'js/hero.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/city_forecast.js' %}"></script>
     <script src='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.js'></script>
     <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
     <script>
@@ -35,13 +37,11 @@
         const temp_units = "{{settings.forecastmanager.ForecastSetting.get_temp_units_display}}"
         const forecast_api = "{% url 'forecast-list'%}"
         const static_path = '{% static "forecastmanager/img/" %}'
-        const geojson = JSON.parse("{{self.get_alerts.geojson|escapejs}}")
+        const alertsGeojson = {{self.cap_alerts.geojson|safe}};
         const dataParams =
-        {{ settings.forecastmanager.ForecastSetting.data_parameter_values|safe }}
+            {{ settings.forecastmanager.ForecastSetting.data_parameter_values|safe }};
 
     </script>
 
-    <script type="text/javascript" src="{% static 'js/basemap.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/forecast_map.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/weather_watch.js' %}"></script>
 {% endblock %}
-

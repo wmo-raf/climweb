@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from itertools import groupby
 
 from django.contrib.gis.db import models
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from forecastmanager.models import City, Forecast
@@ -12,6 +13,7 @@ from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
 from base.mixins import MetadataPageMixin
+from pages.cap.constants import SEVERITY_MAPPING
 from pages.cap.models import CapAlertPage
 from pages.events.models import EventPage
 from pages.news.models import NewsPage
@@ -53,12 +55,17 @@ class HomePage(MetadataPageMixin, Page):
     hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=False,
                                     related_name="+", verbose_name=_("Banner Image"))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
-    enable_weather_forecasts = models.BooleanField(default=True, verbose_name=_("Show weather forecasts section"))
-    enable_mapviewer_cta = models.BooleanField(default=False, verbose_name=_("Show Mapviewer button"))
-    mapviewer_cta_title = models.CharField(max_length=100, blank=True, null=True, default='Explore MapViewer',
+    show_city_forecast = models.BooleanField(default=True, verbose_name=_("Show city forecast section"))
+
+    show_weather_watch = models.BooleanField(default=True, verbose_name=_("Show weather watch section"))
+    weather_watch_header = models.TextField(max_length=100, default="Our Weather Watch",
+                                            verbose_name=_("Weather Watch Section header"))
+    show_mapviewer_cta = models.BooleanField(default=False, verbose_name=_("Show MapViewer button"))
+    mapviewer_cta_title = models.CharField(max_length=100, blank=True, null=True, default='Explore on MapViewer',
                                            verbose_name=_('MapViewer Call to Action Title'))
     mapviewer_cta_url = models.URLField(blank=True, null=True, verbose_name=_("Mapviewer URL"), )
-    enable_media = models.BooleanField(default=False, verbose_name=_("Show media section"))
+
+    show_media_section = models.BooleanField(default=False, verbose_name=_("Show media section"))
     video_section_title = models.CharField(max_length=100, blank=True, null=True, default='Latest Media',
                                            verbose_name=_('Media Section Title'), )
     video_section_desc = models.TextField(max_length=500, blank=True, null=True,
@@ -79,14 +86,16 @@ class HomePage(MetadataPageMixin, Page):
             NativeColorPanel('hero_text_color'),
         ], heading=_("Banner Section")),
         MultiFieldPanel([
-            FieldPanel('enable_weather_forecasts'),
-            # FieldPanel('hero_subtitle')
-            FieldPanel('enable_mapviewer_cta'),
+            FieldPanel('show_city_forecast'),
+        ], heading=_("City Forecast Section")),
+        MultiFieldPanel([
+            FieldPanel('show_weather_watch'),
+            FieldPanel('show_mapviewer_cta'),
             FieldPanel('mapviewer_cta_title'),
             FieldPanel('mapviewer_cta_url')
-        ], heading=_("Weather forecasts Section")),
+        ], heading=_("Weather Watch Section")),
         MultiFieldPanel([
-            FieldPanel('enable_media'),
+            FieldPanel('show_media_section'),
             FieldPanel('video_section_title'),
             FieldPanel('video_section_desc'),
             FieldPanel('youtube_playlist'),
@@ -104,8 +113,7 @@ class HomePage(MetadataPageMixin, Page):
         return {'cities': cities.values()}
 
     @cached_property
-    def get_forecast_by_city(request):
-
+    def get_forecast_by_city(self):
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
@@ -168,7 +176,7 @@ class HomePage(MetadataPageMixin, Page):
         return updates
 
     @cached_property
-    def get_forecast_by_daterange(request):
+    def get_forecast_by_daterange(self):
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
 
@@ -183,25 +191,39 @@ class HomePage(MetadataPageMixin, Page):
         }
 
     @cached_property
-    def get_alerts(self):
-        alerts = CapAlertPage.objects.all().order_by('-sent')[:2]
-
+    def cap_alerts(self):
+        alerts = CapAlertPage.objects.all().order_by('-sent')
         active_alert_infos = []
-
         geojson = {"type": "FeatureCollection", "features": []}
 
         for alert in alerts:
             for info in alert.info:
                 if info.value.get('expires').date() >= datetime.today().date():
+                    start_time = info.value.get("effective") or alert.sent
 
-                    active_alert_infos.append(alert.id)
+                    if timezone.now() > start_time:
+                        status = "Ongoing"
+                    else:
+                        status = "Expected"
+
+                    area_desc = [area.get("areaDesc") for area in info.value.area]
+                    area_desc = ",".join(area_desc)
+
+                    alert_info = {
+                        "status": status,
+                        "url": alert.url,
+                        "event": f"{info.value.get('event')} ({area_desc})",
+                        "event_icon": info.value.event_icon,
+                        "severity": SEVERITY_MAPPING[info.value.get("severity")]
+                    }
+
+                    active_alert_infos.append(alert_info)
 
                     if info.value.features:
                         for feature in info.value.features:
                             geojson["features"].append(feature)
-
         return {
-            'active_alerts': CapAlertPage.objects.filter(id__in=active_alert_infos),
+            'active_alert_info': active_alert_infos,
             'geojson': json.dumps(geojson)
         }
 
@@ -216,11 +238,3 @@ class HomePage(MetadataPageMixin, Page):
         return {
             'cities': cities
         }
-
-    # def get_children(self):
-    #     children = super().get_children().live().public()  # Get live and public child pages
-
-    #     # Exclude CAP Alert pages by their specific criteria (e.g., page type or attribute)
-    #     children = children.not_type(CapAlertPage)
-
-    #     return children

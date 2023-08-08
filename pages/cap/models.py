@@ -3,11 +3,11 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from wagtail.models import Page
 
-from wagtailmetadata.models import MetadataPageMixin
+from base.mixins import MetadataPageMixin
 
 
 class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
-    template = "capeditor/alert_detail.html"
+    template = "cap/alert_detail.html"
 
     parent_page_types = ["home.HomePage"]
     subpage_types = []

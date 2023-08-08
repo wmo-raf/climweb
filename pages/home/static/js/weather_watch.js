@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    // code to be executed when the DOM is ready
-
     // default MapLibre style
     const defaultStyle = {
         'version': 8,
@@ -23,14 +21,14 @@ $(document).ready(function () {
                     "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
                 ]
             },
-            'positron': {
+            'voyager': {
                 'type': 'raster',
                 'tiles': [
-                    "https://a.basemaps.cartocdn.com/positron/{z}/{x}/{y}@2x.png",
-                    "https://b.basemaps.cartocdn.com/positron/{z}/{x}/{y}@2x.png",
-                    "https://c.basemaps.cartocdn.com/positron/{z}/{x}/{y}@2x.png",
-                    "https://d.basemaps.cartocdn.com/positron/{z}/{x}/{y}@2x.png",
-                    
+                    "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                    "https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                    "https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                    "https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+
                 ]
             },
             'wikimedia': {
@@ -43,8 +41,6 @@ $(document).ready(function () {
         'layers': [{
             'id': 'carto-light-layer',
             'source': 'carto-light',
-
-
             'type': 'raster',
             'minzoom': 0,
             'maxzoom': 22
@@ -54,7 +50,7 @@ $(document).ready(function () {
 
     const forecast_map = new maplibregl.Map({
         container: "home-map", // container ID
-        style: basemap,
+        style: defaultStyle,
         center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
         zoom: 4.2, // starting zoom
         scrollZoom: false,
@@ -68,7 +64,13 @@ $(document).ready(function () {
 
 
     // Add zoom and rotation controls to the map.
-    forecast_map.addControl(new maplibregl.NavigationControl());
+    forecast_map.addControl(new maplibregl.NavigationControl({showCompass: false}));
+
+    forecast_map.addControl(new maplibregl.AttributionControl({
+        customAttribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        compact: false,
+
+    }));
 
     const allAreas = $(".alert-area")
         .map(function () {
@@ -102,7 +104,6 @@ $(document).ready(function () {
     }
 
     function populateMap(data) {
-        console.log(data)
         forecast_map.addSource("city-forecasts", {
             type: "geojson",
             data: data
@@ -168,13 +169,13 @@ $(document).ready(function () {
 
             const bbox = country_info.bbox
 
-            forecast_map.fitBounds(bbox, { padding: 20 });
+            forecast_map.fitBounds(bbox, {padding: 20});
         }
 
-        if (geojson) {
+        if (alertsGeojson) {
             forecast_map.addSource("alert-areas", {
                 type: "geojson",
-                data: geojson,
+                data: alertsGeojson,
             });
 
             forecast_map.addLayer({
@@ -297,12 +298,7 @@ $(document).ready(function () {
     }
 
 
-
-
-
-
-
-    // toggle forecasts by selected date 
+    // toggle forecasts by selected date
     $('#daily_forecast').on('change', function (e) {
         var valueSelected = this.value;
 

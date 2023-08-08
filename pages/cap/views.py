@@ -19,7 +19,8 @@ from rest_framework import generics
 
 from .models import CapAlertPage
 
-utc=pytz.UTC
+utc = pytz.UTC
+
 
 class CustomFeed(Rss201rev2Feed):
 
@@ -28,11 +29,11 @@ class CustomFeed(Rss201rev2Feed):
         if item['author_name']:
             handler.addQuickElement('author', item['author_name'])
 
-class AlertListFeed(Feed):
 
+class AlertListFeed(Feed):
     link = "/rss.xml"
-    feed_copyright="public domain"
-    language="en"
+    feed_copyright = "public domain"
+    language = "en"
 
     feed_type = CustomFeed
 
@@ -52,7 +53,6 @@ class AlertListFeed(Feed):
             return "Latest Official Public alerts"
 
         return None
-    
 
     def description(self):
 
@@ -79,30 +79,29 @@ class AlertListFeed(Feed):
         for alert in alerts:
             for info in alert.info:
                 if info.value.get('expires') >= datetime.today().replace(tzinfo=utc):
-                    
                     active_alert_infos.append(alert.id)
-                                   
-        return CapAlertPage.objects.filter(id__in = active_alert_infos)
-    
+
+        return CapAlertPage.objects.filter(id__in=active_alert_infos)
+
     def item_title(self, item):
         return item.info[0].value.get('headline')
-    
+
     def item_link(self, item):
         return reverse("cap_alert_detail", args=[item.identifier])
-    
+
     def item_description(self, item):
         return item.info[0].value.get('description')
-    
+
     def item_pubdate(self, item):
         return item.sent
-    
+
     def item_enclosures(self, item: Model) -> List[Enclosure]:
         return super().item_enclosures(item)
-    
+
     def item_guid(self, item):
 
         return item.identifier
-    
+
     def item_author_name(self, item):
 
         try:
@@ -119,16 +118,16 @@ class AlertListFeed(Feed):
             return item.sender
 
         return None
-    
+
     def item_extra_kwargs(self, item: Model) -> Dict[Any, Any]:
         return {
-            "category":item.info[0].value.get('category')
+            "category": item.info[0].value.get('category')
         }
-    
+
     def item_categories(self, item):
         return [item.info[0].value.get('category')]
 
-    
+
 # Create your views here.
 
 
