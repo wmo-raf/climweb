@@ -4,7 +4,7 @@
 
 {% block extra_css %}
     <link href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="{% static 'capeditor/css/cap_detail_page.css' %}">
+    <link rel="stylesheet" href="{% static 'cap/css/cap_detail_page.css' %}">
 
     <style>
         .cap-share-wrapper .cap-share-item {
@@ -29,221 +29,235 @@
 {% endblock extra_css %}
 
 {% block content %}
-    <div class="main">
-
-        <section class="cap-header-section pt-4">
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        <section>
             <div class="container">
-                <div class="py-4" style="display: flex;
-    justify-content: space-between;align-items: flex-end">
+                <div class="cap-header">
                     <h2 class="title">
                         {{ page.title }}
                     </h2>
-
-
                     <div class="cap-share-wrapper">
-                        {% if page.xml_link and not request.is_preview %}
-                            <div class="cap-share-item">
-                                <div class="cap-share-icon">
+                        <div class="share-buttons">
+                            <a class="button is-small is-rounded"
+                               href="{{ page.xml_link }}"
+                               target="_blank" rel="noreferrer noopener"
+                            >
+                                <span class="icon">
                                     {% svg_icon name="cap-alert" %}
-                                </div>
-                                <div class="cap-share-link">
-                                    <a target="_blank" rel="noopener norefferrer" href="{{ page.xml_link }}">
-                                        CAP XML
-                                    </a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="columns is-multiline " style="align-items: flex-start;">
-                    <div class="column is-5-widescreen is-full-mobile mb-4">
-
-
-                        <div class="cap-map-wrapper">
-                            <div id="cap-map" style="height:500px;background-color:#e9e8e8; width:100%"></div>
-                            <div class="map-legend">
-                                <div>Alert Severity:</div>
-                                <div class="legend-items">
-                                    <div class="legend-item">
-                                        <div class="legend-color" style="background-color: rgb(215, 47, 42);"></div>
-                                        <div class="legend-label">Extreme</div>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-color" style="background-color: rgb(254, 153, 0);"></div>
-                                        <div class="legend-label">Severe</div>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-color" style="background-color: rgb(255, 255, 0);"></div>
-                                        <div class="legend-label">Moderate</div>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-color" style="background-color: rgb(3, 255, 255);"></div>
-                                        <div class="legend-label">Minor</div>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-color"
-                                             style="background-color: rgb(51, 102, 255);"></div>
-                                        <div class="legend-label">Unknown</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% for item in page.info %}
-                            {% for area in item.value.area %}
-                                <span class="tag is-dark" style="margin:1em 0"> <i class="fa fa-location-pin pr-1"> </i>
-                                    {{ area.value.areaDesc }}
                                 </span>
-                            {% endfor %}
-                        {% endfor %}
-
-
-                    </div>
-
-
-                    <div class="column is-7-widescreen is-full-mobile featured-item-detail">
-                        <div class="tabs">
-                            <ul>
-                                {% if page.info|length > 0 %}
-                                    {% for item in page.info %}
-
-                                        <li class="{% if forloop.first %}is-active {% endif %}"
-                                            data-target="{{ item.value.headline }}">
-
-                                            <a>{{ item.value.headline|truncatechars:20}}</a>
-                                        </li>
-                                    {% endfor %}
-                                {% endif %}
-
-
-                            </ul>
+                                <span class="share-button-title">CAP XML </span>
+                            </a>
+                            {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}
                         </div>
-
-                        <div id="tab-content">
-                            {% for item in page.info %}
-                                <div class="featured-item-body {% if not forloop.first %}is-hidden{% endif %}"
-                                     id="{{ item.value.headline }}">
-                                    <h3 class="featured-item-title">
-                                        {% if item.value.headline %}
-                                            {{ item.value.headline }}
-                                        {% else %}
-                                            {{ page.title }}
-                                        {% endif %}
-                                    </h3>
-                                    {% for area in item.value.area %}
-                                        <span class="tag is-dark"> <i class="fa fa-location-pin pr-1"> </i>
-                                            {{ area.value.areaDesc }}
-                                        </span>
-                                    {% endfor %}
-
-                                    {% if item %}
-                                        <div class="cap-event">
-                                            <div class="cap-event-header">Event:</div>
-                                            <div class="cap-event-detail">
-                                                {% if item.value.event_icon %}
-                                                    <div class="c-icon">{% svg_icon name=item.value.event_icon %}</div>
-                                                {% endif %}
-                                                <div class="cap-event-name">{{ item.value.event }}</div>
+                    </div>
+                    <div class="cap-body">
+                        <div class="columns is-multiline " style="align-items: flex-start;">
+                            <div class="column is-two-fifths-widescreen is-full-touch">
+                                <div class="cap-map-wrapper">
+                                    <div id="cap-map"></div>
+                                    <div class="map-legend">
+                                        <div>Alert Severity:</div>
+                                        <div class="legend-items">
+                                            <div class="legend-item">
+                                                <div class="legend-color"
+                                                     style="background-color: rgb(215, 47, 42);"></div>
+                                                <div class="legend-label">Extreme</div>
                                             </div>
-                                        </div>
-                                        <div class="cap-time-wrapper">
-                                            <div class="cap-time-effective" style="display: none"></div>
-                                            <div class="cap-time">
-                                                <ul>
-                                                    <li>
-                                                        <div class="list-dot"></div>
-                                                        <div>
-                                                            <span class="time-type">Issued: </span>
-                                                            <span>{{ page.sent }}</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="list-dot"></div>
-                                                        <div>
-                                                            <span class="time-type">Effective: </span>
-                                                            <span>
-                                                                {% if  item.value.effective %}
-                                                                    {{ item.value.effective }}
-                                                                {% else %}
-                                                                    {{ page.sent }}
-                                                                {% endif %}
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                    {% if item.value.onset %}
-                                                        <li>
-                                                            <div class="list-dot"></div>
-                                                            <div>
-                                                                <span class="time-type">Onset: </span>
-                                                                <span>{{ item.value.onset }}</span></div>
-                                                        </li>
-                                                    {% endif %}
-                                                    <li>
-                                                        <div class="list-dot"></div>
-                                                        <div>
-                                                            <span class="time-type">Expires: </span>
-                                                            <span>{{ item.value.expires }}</span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                            <div class="legend-item">
+                                                <div class="legend-color"
+                                                     style="background-color: rgb(254, 153, 0);"></div>
+                                                <div class="legend-label">Severe</div>
                                             </div>
-                                        </div>
-                                        <div class="cap-info-summary-wrapper">
-                                            <div class="cap-info-summary-item">
-                                                <div class="cap-info-summary-icon">
-                                                    {% svg_icon name="time" %}
-                                                </div>
-                                                <div class="cap-info-summary-type">Urgency:</div>
-                                                <div class="cap-info-summary-value">{{ item.value.urgency }}</div>
+                                            <div class="legend-item">
+                                                <div class="legend-color"
+                                                     style="background-color: rgb(255, 255, 0);"></div>
+                                                <div class="legend-label">Moderate</div>
                                             </div>
-                                            <div class="cap-info-summary-item">
-                                                <div class="cap-info-summary-icon">
-                                                    {% svg_icon name="warning" %}
-                                                </div>
-                                                <div class="cap-info-summary-type">Severity:</div>
-                                                <div class="cap-info-summary-value">{{ item.value.severity }}</div>
+                                            <div class="legend-item">
+                                                <div class="legend-color"
+                                                     style="background-color: rgb(3, 255, 255);"></div>
+                                                <div class="legend-label">Minor</div>
                                             </div>
-                                            <div class="cap-info-summary-item">
-                                                <div class="cap-info-summary-icon">
-                                                    {% svg_icon name="crosshairs" %}
-                                                </div>
-                                                <div class="cap-info-summary-type">Certainty:</div>
-                                                <div class="cap-info-summary-value">{{ item.value.certainty }}</div>
+                                            <div class="legend-item">
+                                                <div class="legend-color"
+                                                     style="background-color: rgb(51, 102, 255);"></div>
+                                                <div class="legend-label">Unknown</div>
                                             </div>
-
-                                        </div>
-                                    {% endif %}
-
-                                    <div class="info-item">
-                                        <div class="info-header">
-                                            Event Description
-                                        </div>
-                                        <div class="info-detail">
-                                            <p>
-                                                {{ item.value.description }}
-                                            </p>
                                         </div>
                                     </div>
-                                    {% if  item.value.instruction %}
-                                        <div class="info-item">
-                                            <div class="info-header">
-                                                Instructions
-                                            </div>
-                                            <div class="info-detail">
-                                                {{ item.value.instruction }}
-                                            </div>
-                                        </div>
-                                    {% endif %}
-
                                 </div>
-                            {% endfor %}
+                            </div>
+                            <div class="column is-three-fifths-widescreen is-full-touch featured-item-detail">
+                                <div class="tabs">
+                                    <ul>
+                                        {% if page.infos|length > 0 %}
+                                            {% for item in page.infos %}
+                                                <li class="{% if forloop.first %}is-active {% endif %}"
+                                                    data-target="{{ item.info.value.event }}">
+                                                    <a>{{ item.info.value.event |truncatechars:20}}</a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div id="tab-content">
+                                    {% for alert_info in page.infos %}
+                                        <div class="featured-item-body {% if not forloop.first %}is-hidden{% endif %}"
+                                             id="{{ item.value.headline }}">
+                                            {% with item=alert_info.info %}
+                                                <h3 class="featured-item-title">
+                                                    {% if item.value.headline %}
+                                                        {{ item.value.headline }}
+                                                    {% else %}
+                                                        {{ page.title }}
+                                                    {% endif %}
+                                                </h3>
+                                                {% if item %}
+                                                    <div class="cap-event">
+                                                        <div class="alert-item"
+                                                             style="background-color: {{ alert_info.severity.background_color }};border: 1px solid {{ alert_info.severity.border_color }}">
+                                                            <div class="alert-item-icon">
+                                                                <div class="alert-icon-wrapper"
+                                                                     style="background-color: {{ alert_info.severity.color }};border-color: {{ alert_info.severity.border_color }};
+                                                                             {% if alert_info.severity.icon_color %}color:{{ alert_info.severity.icon_color }};{% endif %} ">
+                                                                    {% if alert_info.event_icon %}
+                                                                        {% svg_icon name=alert_info.event_icon %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="alert-item-info">
+                                                                <div class="alert-item-title">
+                                                                    {{ alert_info.status }}: {{ alert_info.event }}
+                                                                </div>
+                                                                <div class="alert-severity-label">
+                                                                    {{ alert_info.severity.label }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <div class="info-detail">
+                                                            <div class="cap-info-summary-item">
+                                                                <div class="cap-info-summary-icon">
+                                                                    {% svg_icon name="time" %}
+                                                                </div>
+                                                                <div class="cap-info-summary-type">Urgency:</div>
+                                                                <div class="cap-info-summary-value">{{ item.value.urgency }}</div>
+                                                            </div>
+                                                            <div class="cap-info-summary-item">
+                                                                <div class="cap-info-summary-icon">
+                                                                    {% svg_icon name="warning" %}
+                                                                </div>
+                                                                <div class="cap-info-summary-type">Severity:</div>
+                                                                <div class="cap-info-summary-value">{{ item.value.severity }}</div>
+                                                            </div>
+                                                            <div class="cap-info-summary-item">
+                                                                <div class="cap-info-summary-icon">
+                                                                    {% svg_icon name="crosshairs" %}
+                                                                </div>
+                                                                <div class="cap-info-summary-type">Certainty:</div>
+                                                                <div class="cap-info-summary-value">{{ item.value.certainty }}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+
+                                                <div class="info-item">
+                                                    <div class="info-header">
+                                                        Time period
+                                                    </div>
+                                                    <div class="info-detail">
+                                                        <div class="cap-time-wrapper">
+                                                            <ul class="warning-timeline">
+                                                                <li class="warning-timeline__item">
+                                                                    <div class="warning-timeline__circle"></div>
+                                                                    <div>
+                                                                        <span class="time-type">Issued: </span>
+                                                                        <span>{{ page.sent }}</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="warning-timeline__item">
+                                                                    <div class="warning-timeline__circle"></div>
+                                                                    <div>
+                                                                        <span class="time-type">Effective: </span>
+                                                                        <span>
+                                                                            {% if  item.value.effective %}
+                                                                                {{ item.value.effective }}
+                                                                            {% else %}
+                                                                                {{ page.sent }}
+                                                                            {% endif %}
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                                {% if item.value.onset %}
+                                                                    <li class="warning-timeline__item">
+                                                                        <div class="warning-timeline__circle"></div>
+                                                                        <div>
+                                                                            <span class="time-type">Onset: </span>
+                                                                            <span>{{ item.value.onset }}</span></div>
+                                                                    </li>
+                                                                {% endif %}
+                                                                <li class="warning-timeline__item">
+                                                                    <div class="warning-timeline__circle"></div>
+                                                                    <div>
+                                                                        <span class="time-type">Expires: </span>
+                                                                        <span>{{ item.value.expires }}</span>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="info-item">
+                                                    <div class="info-header">
+                                                        Area
+                                                    </div>
+                                                    <div class="info-detail">
+                                                        {% for area in item.value.area %}
+                                                            <p>
+                                                                {{ area.value.areaDesc }}
+                                                            </p>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+
+                                                <div class="info-item">
+                                                    <div class="info-header">
+                                                        Event Description
+                                                    </div>
+                                                    <div class="info-detail">
+                                                        <p>
+                                                            {{ item.value.description }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                {% if  item.value.instruction %}
+                                                    <div class="info-item">
+                                                        <div class="info-header">
+                                                            Instructions
+                                                        </div>
+                                                        <div class="info-detail">
+                                                            {{ item.value.instruction }}
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+
+
+                                            {% endwith %}
+
+
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
         </section>
-
-    </div>
+    </main>
 
 {% endblock %}
 

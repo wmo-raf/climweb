@@ -1,21 +1,17 @@
 from django.conf import settings
-from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path, re_path
 from forecastmanager import urls as forecastmanager_urls
-from pages.cap.views import  AlertDetail, AlertListFeed
-
-# from forecastmanager import urls as forecast_urls
 from wagtail import views as wagtail_views
-from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.admin import urls as wagtailadmin_urls
-
-from pages.home.views import list_forecasts,daily_weather
-from pages.search import views as search_views
+from wagtail.contrib.sitemaps.views import sitemap
+from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtailcache.cache import cache_page
-from wagtail.contrib.sitemaps.views import sitemap
+
+from pages.home.views import list_forecasts, daily_weather
+from pages.search import views as search_views
 
 handler500 = 'base.views.handler500'
 
@@ -23,18 +19,22 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls), name='admin'),
     path("documents/", include(wagtaildocs_urls)),
+
     path("list_forecast/", list_forecasts, name="list_forecasts"),
     path("daily_weather/", daily_weather, name="daily_weather"),
-    path("api/cap/<uuid:identifier>.xml", AlertDetail.as_view(), name="cap_alert_detail"),
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("pages.cityclimate.urls")),
-    path("search/", search_views.search, name="search"),
+
+    path("", include("pages.cap.urls")),
+
     path("", include("geomanager.urls"), name="geomanager"),
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
-    re_path("", include(forecastmanager_urls), name="forecast_api"),
-    re_path("cap/rss.xml", AlertListFeed(), name="alert_feed"),
-    path("sitemap.xml",sitemap),
+    path("", include(forecastmanager_urls), name="forecast_api"),
+
+    path("sitemap.xml", sitemap),
+
+    path("search/", search_views.search, name="search"),
 ]
 
 if settings.DEBUG:

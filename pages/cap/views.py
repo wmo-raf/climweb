@@ -1,25 +1,19 @@
 from datetime import datetime
 from typing import Any, Dict, List
-from django.db.models.base import Model
-from django.shortcuts import render
-from django.utils.feedgenerator import Enclosure
-from django.utils.safestring import SafeText
-from .models import CapAlertPage
-from rest_framework import generics
-from django.contrib.syndication.views import Feed
-from django.urls import reverse
-from django.utils.feedgenerator import Rss201rev2Feed
-from capeditor.models import CapSetting
-from wagtail.models import Site
-import pytz
 
+import pytz
+from capeditor.models import CapSetting
 from capeditor.renderers import CapXMLRenderer
 from capeditor.serializers import AlertSerializer
+from django.contrib.syndication.views import Feed
+from django.db.models.base import Model
+from django.urls import reverse
+from django.utils.feedgenerator import Enclosure
+from django.utils.feedgenerator import Rss201rev2Feed
 from rest_framework import generics
+from wagtail.models import Site
 
 from .models import CapAlertPage
-
-utc = pytz.UTC
 
 
 class CustomFeed(Rss201rev2Feed):
@@ -78,7 +72,7 @@ class AlertListFeed(Feed):
 
         for alert in alerts:
             for info in alert.info:
-                if info.value.get('expires') >= datetime.today().replace(tzinfo=utc):
+                if info.value.get('expires') >= datetime.today().replace(tzinfo=pytz.UTC):
                     active_alert_infos.append(alert.id)
 
         return CapAlertPage.objects.filter(id__in=active_alert_infos)
@@ -126,9 +120,6 @@ class AlertListFeed(Feed):
 
     def item_categories(self, item):
         return [item.info[0].value.get('category')]
-
-
-# Create your views here.
 
 
 class AlertDetail(generics.RetrieveAPIView):
