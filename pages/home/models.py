@@ -26,7 +26,6 @@ class HomePage(MetadataPageMixin, Page):
     template = "home_page.html"
 
     subpage_types = [
-        'cap.CapAlertPage',
         'contact.ContactPage',
         'services.ServiceIndexPage',
         'products.ProductIndexPage',
@@ -43,7 +42,8 @@ class HomePage(MetadataPageMixin, Page):
         'flex_page.FlexPage',
         'stations.StationsPage',
         'satellite_imagery.SatelliteImageryPage',
-        'cityclimate.CityClimateDataPage'
+        'cityclimate.CityClimateDataPage',
+        'cap.CapAlertListPage',
     ]
     parent_page_type = [
         'wagtailcore.Page'

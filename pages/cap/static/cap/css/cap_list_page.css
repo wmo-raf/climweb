@@ -1,0 +1,51 @@
+
+.alert-item {
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 8px 16px;
+    position: relative;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.alert-item-left {
+    display: flex;
+    align-items: center;
+}
+
+.alert-item-icon {
+    margin-right: 10px;
+}
+
+.alert-icon-wrapper {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.alert-icon-wrapper svg {
+    height: 80%;
+    width: 80%;
+    fill: currentColor;
+}
+
+.alert-item-title {
+    font-weight: 600;
+    font-size: 15px;
+
+}
+
+.alert-severity-label {
+    font-size: 13px;
+}
+
+.alert-category-filter {
+    padding-bottom: 40px;
+}
