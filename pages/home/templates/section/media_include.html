@@ -2,23 +2,15 @@
 {% block extra_css %}
     {% comment %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}"> {% endcomment %}
-
-
 {% endblock %}
 
 {% if page.enable_media %}
     <section style="" class="has-text-centered ">
-
         <div class="container is-align-content-center">
-
-            <h2 class="title py-6" style="font-weight:700">{{ page.video_section_title }}</h2>
-
+            <h2 class="section-title has-text-centered">{{ page.video_section_title }} </h2>
             {% if page.youtube_playlist %}
-
                 {% include 'videos_skeleton_home.html' %}
-
             {% endif %}
-
             <div class="columns is-centered py-6">
                 {% if  settings.base.OrganisationSetting.twitter %}
                     <div class="column is-6">
@@ -36,7 +28,6 @@
                     width: 100%;
                     overflow-y: scroll;
                     overflow-x: hidden;">
-
                             <a class="twitter-timeline"
                                data-tweet-limit="10"
                                data-dnt="true"
@@ -80,7 +71,6 @@
                 {% endif %}
             </div>
         </div>
-
     </section>
 {% endif %}
 
@@ -93,6 +83,4 @@
     {% if  settings.base.OrganisationSetting.twitter %}
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     {% endif %}
-
-
 {% endblock %}

@@ -2,8 +2,8 @@
 {% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
 <!-- forecasts section  -->
-{% if self.enable_weather_forecasts and self.get_forecast_by_city.forecasts|length > 0 %}
-    <div class="is-hidden-touch" style="position: absolute;width: 100%;bottom: -120px">
+{% if self.show_city_forecast and self.get_forecast_by_city.forecasts|length > 0 %}
+    <div class="city-forecast-wrapper is-hidden-mobile">
         <div class="container">
             <div class="columns is-justify-content-center" style="position:inherit;z-index: 1 ">
                 <div class="column is-11">
@@ -315,9 +315,7 @@
                                 <i class="fa fa-cloud-sun-rain"></i>
                             </span>
                             <span> Daily Weather</span>
-
                         </a>
-
                     </div>
                 </div>
             </div>

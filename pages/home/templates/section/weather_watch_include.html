@@ -1,0 +1,127 @@
+{% load static nmhs_cms_tags wagtailiconchooser_tags %}
+
+{% if self.show_weather_watch %}
+    {% if self.get_alerts.active_alerts|length > 0 or self.get_forecast_by_city.forecasts|length > 0 %}
+        <section class="weather-watch-section">
+            <div class="container">
+                <h2 class="section-title has-text-centered" style=" font-weight:700"> Our Weather Watch </h2>
+                <div class="columns is-justify-content-center is-mobile is-multiline weather-watch-container">
+                    <div class="column is-one-third-widescreen is-full-touch ">
+                        <div class="alerts-container">
+                            <div class="alerts-title">
+                                <img src="{% static 'img/CAPLogo.jpeg' %}" alt="" width="20"
+                                     style="border-radius:4px;">
+                                <h4>
+                                    Latest Weather Warnings
+                                </h4>
+                            </div>
+                            <div class="alerts-item-wrapper">
+                                {% if page.cap_alerts.active_alert_info|length > 0 %}
+                                    {% for alert_info in page.cap_alerts.active_alert_info %}
+                                        <a href="{{ alert_info.url }}" class="alert-link">
+                                            <div class="alert-item"
+                                                 style="background-color: {{ alert_info.severity.background_color }};border: 1px solid {{ alert_info.severity.border_color }}">
+                                                <div class="alert-item-left">
+                                                    <div class="alert-item-icon">
+                                                        <div class="alert-icon-wrapper"
+                                                             style="background-color: {{ alert_info.severity.color }};border-color: {{ alert_info.severity.border_color }};
+                                                                     {% if alert_info.severity.icon_color %}color:{{ alert_info.severity.icon_color }};{% endif %} ">
+                                                            {% if alert_info.event_icon %}
+                                                                {% svg_icon name=alert_info.event_icon %}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="alert-item-info">
+                                                        <div class="alert-item-title">
+                                                            {{ alert_info.status }}: {{ alert_info.event }}
+                                                        </div>
+                                                        <div class="alert-severity-label">
+                                                            {{ alert_info.severity.label }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span class="icon">
+                                                        <i class="fa fa-arrow-right"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="empty-alerts-state">
+                                        <div class="empty-alerts-icon">
+                                            {% svg_icon name="alert" %}
+                                        </div>
+                                        <div> No active alerts currently</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-two-thirds-widescreen is-full-touch">
+                        <div id="home-map" style="position: relative;">
+                            <div class="control has-icons-left"
+                                 style="position: absolute;top: 10px;left: 10px;z-index: 99">
+                                <div class="select">
+                                    <select id="daily_forecast">
+                                        {% for day in self.get_forecast_by_daterange.forecast_dates %}
+                                            <option value="{{ day|date:'Y-m-d' }}"
+                                                    {% if forloop.first %}selected{% endif %}>{{ day }}</option>
+
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <span class="icon is-left">
+                                    <i class="fas fa-calendar-days"></i>
+                                </span>
+                            </div>
+                            <div class="map-legend" style="position: absolute;bottom: 0">
+                                <div>Alert Severity:</div>
+                                <div class="legend-items">
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: rgb(215, 47, 42);"></div>
+                                        <div class="legend-label">Extreme</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: rgb(254, 153, 0);"></div>
+                                        <div class="legend-label">Severe</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: rgb(255, 255, 0);"></div>
+                                        <div class="legend-label">Moderate</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: rgb(3, 255, 255);"></div>
+                                        <div class="legend-label">Minor</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color"
+                                             style="background-color: rgb(51, 102, 255);"></div>
+                                        <div class="legend-label">Unknown</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if self.show_mapviewer_cta and self.mapviewer_cta_url %}
+                    <div class="container mapviewer-explore">
+                        <div class="desc">
+                            For more interactive data
+                        </div>
+                        <a class="button is-dark has-text-white"
+                           style=" font-weight: 600;  border-radius: var(--border-radius);"
+                           href="{{ self.mapviewer_cta_url }}">
+                            <span>{{ self.mapviewer_cta_title }}</span>
+                            <span class="icon">
+                                <i class="fa fa-arrow-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                {% endif %}
+        </section>
+    {% endif %}
+{% endif %}
+
+

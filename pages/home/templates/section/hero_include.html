@@ -1,29 +1,25 @@
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
-
 {% image page.hero_banner original as img %}
 
-<div style="position: relative;">
-    <div id="page-hero" class="hero progressive__bg progressive--not-loaded"
-         style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; max-height:fit-content"
-         data-progressive="{{ img.url }}">
-        <div class="hero-body has-text-centered pb-2">
-            <div class="container">
-                <div class="columns is-justify-content-center py-3">
-                    <div class="column is-6">
-                        <p class="title pb-4"
-                           style="font-weight:700; font-size: 34px; color: {{ self.hero_text_color }};">
-                            {{ self.hero_title|richtext }}
-                        </p>
-                        <p class="subtitle pb-5 mb-4"
-                           style="font-weight: 400; font-size: 18px; color: {{ self.hero_text_color }};">
-                            {{ self.hero_subtitle }}
-                        </p>
-                    </div>
+<div id="page-hero" class="hero progressive__bg progressive--not-loaded"
+     style="position: relative;background-position: center;background-repeat: no-repeat;background-image: url({% lazy_image_url img %}); background-size:cover; max-height:fit-content"
+     data-progressive="{{ img.url }}">
+    <div class="hero-body has-text-centered pb-2">
+        <div class="container">
+            <div class="columns is-justify-content-center py-3">
+                <div class="column is-6">
+                    <p class="title pb-4"
+                       style="font-weight:700; font-size: 34px; color: {{ self.hero_text_color }};">
+                        {{ self.hero_title|richtext }}
+                    </p>
+                    <p class="subtitle pb-5 mb-4"
+                       style="font-weight: 400; font-size: 18px; color: {{ self.hero_text_color }};">
+                        {{ self.hero_subtitle }}
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-    {% include 'section/cityforecast_include.html' %}
 </div>
