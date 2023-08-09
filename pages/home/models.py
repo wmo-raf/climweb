@@ -58,7 +58,7 @@ class HomePage(MetadataPageMixin, Page):
     show_city_forecast = models.BooleanField(default=True, verbose_name=_("Show city forecast section"))
 
     show_weather_watch = models.BooleanField(default=True, verbose_name=_("Show weather watch section"))
-    weather_watch_header = models.TextField(max_length=100, default="Our Weather Watch",
+    weather_watch_header = models.CharField(max_length=100, default="Our Weather Watch",
                                             verbose_name=_("Weather Watch Section header"))
     show_mapviewer_cta = models.BooleanField(default=False, verbose_name=_("Show MapViewer button"))
     mapviewer_cta_title = models.CharField(max_length=100, blank=True, null=True, default='Explore on MapViewer',
@@ -90,6 +90,7 @@ class HomePage(MetadataPageMixin, Page):
         ], heading=_("City Forecast Section")),
         MultiFieldPanel([
             FieldPanel('show_weather_watch'),
+            FieldPanel('weather_watch_header'),
             FieldPanel('show_mapviewer_cta'),
             FieldPanel('mapviewer_cta_title'),
             FieldPanel('mapviewer_cta_url')
