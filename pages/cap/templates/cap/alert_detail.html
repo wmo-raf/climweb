@@ -104,7 +104,7 @@
                                 <div id="tab-content">
                                     {% for alert_info in page.infos %}
                                         <div class="featured-item-body {% if not forloop.first %}is-hidden{% endif %}"
-                                             id="{{ item.value.headline }}">
+                                             id="{{ alert_info.info.value.event }}">
                                             {% with item=alert_info.info %}
                                                 <h3 class="featured-item-title">
                                                     {% if item.value.headline %}
