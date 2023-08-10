@@ -2,6 +2,7 @@ $(document).ready(function () {
     // default MapLibre style
     const defaultStyle = {
         'version': 8,
+        "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
         'sources': {
             'carto-dark': {
                 'type': 'raster',
@@ -120,45 +121,45 @@ $(document).ready(function () {
             source: "city-forecasts"
         })
 
-        forecast_map.addLayer({
-            id: "city-forecasts-max_temp",
-            source: "city-forecasts",
-            type: "symbol",
-            'layout': {
-                'text-offset': [2, -0.5],
-                'text-field': ['concat', ['get', 'air_temperature_max'], temp_units],
-                'text-allow-overlap': true,
-                'icon-allow-overlap': true
+        // forecast_map.addLayer({
+        //     id: "city-forecasts-max_temp",
+        //     source: "city-forecasts",
+        //     type: "symbol",
+        //     'layout': {
+        //         'text-offset': [2, -0.5],
+        //         'text-field': ['concat', ['get', 'air_temperature_max'], temp_units],
+        //         'text-allow-overlap': true,
+        //         'icon-allow-overlap': true
 
-            },
-            'paint': {
-                'text-halo-color': '#fff',
-                'text-halo-width': 2,
-
-
-            }
-
-        })
-        forecast_map.addLayer({
-            id: "city-forecasts-min_temp",
-            source: "city-forecasts",
-            type: "symbol",
-            'layout': {
-                'text-offset': [2.5, 0.5],
-                'text-field': ['concat', ['get', 'air_temperature_min'], temp_units],
-                'text-size': 12,
-                'text-allow-overlap': true,
-                'icon-allow-overlap': true
+        //     },
+        //     'paint': {
+        //         'text-halo-color': '#fff',
+        //         'text-halo-width': 2,
 
 
-            },
-            'paint': {
-                'text-halo-color': '#fff',
-                'text-halo-width': 2,
+        //     }
 
-            }
+        // })
+        // forecast_map.addLayer({
+        //     id: "city-forecasts-min_temp",
+        //     source: "city-forecasts",
+        //     type: "symbol",
+        //     'layout': {
+        //         'text-offset': [2.5, 0.5],
+        //         'text-field': ['concat', ['get', 'air_temperature_min'], temp_units],
+        //         'text-size': 12,
+        //         'text-allow-overlap': true,
+        //         'icon-allow-overlap': true
 
-        })
+
+        //     },
+        //     'paint': {
+        //         'text-halo-color': '#fff',
+        //         'text-halo-width': 2,
+
+        //     }
+
+        // })
 
 
     }
