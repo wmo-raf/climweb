@@ -17,6 +17,7 @@ from .models import CapAlertPage
 
 
 class CustomFeed(Rss201rev2Feed):
+    content_type = 'application/xml'
 
     def add_item_elements(self, handler, item):
         super().add_item_elements(handler, item)

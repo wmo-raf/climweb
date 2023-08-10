@@ -4,7 +4,8 @@
     {% if self.get_alerts.active_alerts|length > 0 or self.get_forecast_by_city.forecasts|length > 0 %}
         <section class="weather-watch-section">
             <div class="container">
-                <h2 class="section-title has-text-centered" style=" font-weight:700"> Our Weather Watch </h2>
+                <h2 class="section-title has-text-centered"
+                    style=" font-weight:700">{{ page.weather_watch_header }}</h2>
                 <div class="columns is-justify-content-center is-mobile is-multiline weather-watch-container">
                     <div class="column is-one-third-widescreen is-full-touch ">
                         <div class="alerts-container">
