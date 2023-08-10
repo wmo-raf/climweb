@@ -94,7 +94,7 @@
                                         {% if page.infos|length > 0 %}
                                             {% for item in page.infos %}
                                                 <li class="{% if forloop.first %}is-active {% endif %}"
-                                                    data-target="{{ item.info.value.event }}">
+                                                    data-target="{{ item.info.value.event }}-{{ forloop.counter }}">
                                                     <a>{{ item.info.value.event |truncatechars:20}}</a>
                                                 </li>
                                             {% endfor %}
@@ -104,7 +104,7 @@
                                 <div id="tab-content">
                                     {% for alert_info in page.infos %}
                                         <div class="featured-item-body {% if not forloop.first %}is-hidden{% endif %}"
-                                             id="{{ alert_info.info.value.event }}">
+                                             id="{{ alert_info.info.value.event }}-{{ forloop.counter }}">
                                             {% with item=alert_info.info %}
                                                 <h3 class="featured-item-title">
                                                     {% if item.value.headline %}
