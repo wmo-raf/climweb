@@ -1,3 +1,10 @@
 {% extends "wagtailadmin/admin_base.html" %}
+{% load nmhs_cms_tags %}
 
-{% block branding_title %}NMHS CMS{% endblock %}
+{% block branding_title %}
+    {% if 'WAGTAIL_SITE_NAME'|django_settings %}
+        {{ 'WAGTAIL_SITE_NAME'|django_settings }}
+    {% else %}
+        NMHS CMS
+    {% endif %}
+{% endblock %}

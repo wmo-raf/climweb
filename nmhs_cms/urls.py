@@ -15,9 +15,9 @@ from pages.search import views as search_views
 
 handler500 = 'base.views.handler500'
 
+ADMIN_URL_PATH = getattr(settings, "ADMIN_URL_PATH", None)
+
 urlpatterns = [
-    path("django-admin/", admin.site.urls),
-    path("admin/", include(wagtailadmin_urls), name='admin'),
     path("documents/", include(wagtaildocs_urls)),
 
     path("list_forecast/", list_forecasts, name="list_forecasts"),
@@ -37,6 +37,10 @@ urlpatterns = [
     path("search/", search_views.search, name="search"),
 ]
 
+if ADMIN_URL_PATH:
+    ADMIN_URL_PATH = ADMIN_URL_PATH.strip("/")
+    urlpatterns += path(f"{ADMIN_URL_PATH}/", include(wagtailadmin_urls), name='admin'),
+
 if settings.DEBUG:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -45,6 +49,7 @@ if settings.DEBUG:
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += path("django-admin/", admin.site.urls),
 
     import debug_toolbar
 

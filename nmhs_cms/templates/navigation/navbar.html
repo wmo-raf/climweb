@@ -101,15 +101,14 @@
                         Feedback
                     </a>
                 {% endif %}
-                <a href="{{ wagtail_admin_url }}"
-                   class="level-item top-nav-item button is-small nav-cta"
-                >
-                    {% if user.is_authenticated %}
+
+                {% if user.is_authenticated %}
+                    <a href="{{ wagtail_admin_url }}"
+                       class="level-item top-nav-item button is-small nav-cta"
+                    >
                         {{ user.username }}, CMS
-                    {% else %}
-                        Login
-                    {% endif %}
-                </a>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
