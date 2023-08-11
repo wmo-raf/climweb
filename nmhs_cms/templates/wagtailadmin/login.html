@@ -1,26 +1,29 @@
 {% extends "wagtailadmin/login.html" %}
-{% load nmhs_cms_tags %}
+{% load nmhs_cms_tags wagtailimages_tags wagtailsettings_tags %}
+{% get_settings use_default_site=True %}
 
 {% block branding_login %}
-
-{% if 'WAGTAIL_SITE_NAME'|django_settings %}
+    {% if 'WAGTAIL_SITE_NAME'|django_settings %}
         Sign in to {{ 'WAGTAIL_SITE_NAME'|django_settings }}
     {% else %}
         Sign in
     {% endif %}
-
 {% endblock %}
 
-
-
-{% block extra_css %}
-  {{ block.super }}
-  
-  <style>
-    .login-logo {
-        display: none
-    }
-
-  </style>
-
+{% block branding_logo %}
+    <div class="login-logo">
+        <figure style="max-height: 90px;max-width: 90px;">
+            {% if settings.base.OrganisationSetting.cms_logo %}
+                {% image settings.base.OrganisationSetting.cms_logo original as logo_image %}
+                <img src="{{ logo_image.url }}" alt="CMS Login Logo"
+                     style="height: 100%;width: 100%;object-fit: contain"/>
+            {% else %}
+                <style>
+                    .login-logo {
+                        display: none
+                    }
+                </style>
+            {% endif %}
+        </figure>
+    </div>
 {% endblock %}
