@@ -376,3 +376,5 @@ FORCE_SCRIPT_NAME = env.str("FORCE_SCRIPT_NAME", default="")
 WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
 
 DJANGO_TABLES2_TEMPLATE = "django-tables2/bulma.html"
+
+ADMIN_URL_PATH = env.str("ADMIN_URL_PATH")
