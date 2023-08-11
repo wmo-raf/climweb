@@ -50,8 +50,12 @@ class SatelliteImagerySetting(BaseSiteSetting):
         for layer in self.msg_layers:
             if layer.value.get("enabled"):
                 value = layer.value
-                layers.append(
-                    {"name": value.get("name"), "label": value.get("label"), "abstract": value.get("abstract")})
+                layers.append({
+                    "name": value.get("name"),
+                    "label": value.get("label"),
+                    "abstract": value.get("abstract"),
+                    "generate_animation_images": value.get("generate_animation_images")
+                })
         return layers
 
     def save(self, *args, **kwargs):
