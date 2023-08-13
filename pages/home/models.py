@@ -23,6 +23,12 @@ from pages.videos.models import YoutubePlaylist
 
 
 class HomePage(MetadataPageMixin, Page):
+    BANNER_TYPES = (
+        ('full', 'Full Banner'),
+        ('half', 'Half Banner'),
+        ('card', 'Card Banner')
+    )
+
     template = "home_page.html"
 
     subpage_types = [
@@ -51,10 +57,13 @@ class HomePage(MetadataPageMixin, Page):
     max_count = 1
 
     hero_title = models.CharField(max_length=100, verbose_name=_('Title'))
-    hero_subtitle = models.CharField(blank=False, null=True, max_length=100, verbose_name=_('Subtitle'))
+    hero_subtitle = models.CharField(blank=True, null=True, max_length=100, verbose_name=_('Subtitle'))
     hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=False,
                                     related_name="+", verbose_name=_("Banner Image"))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
+    hero_type = models.CharField(_("Banner Type"), max_length=50, choices=BANNER_TYPES, default='card')
+    
+
     show_city_forecast = models.BooleanField(default=True, verbose_name=_("Show city forecast section"))
 
     show_weather_watch = models.BooleanField(default=True, verbose_name=_("Show weather watch section"))
@@ -84,6 +93,7 @@ class HomePage(MetadataPageMixin, Page):
             FieldPanel('hero_subtitle'),
             FieldPanel("hero_banner"),
             NativeColorPanel('hero_text_color'),
+            FieldPanel('hero_type')
         ], heading=_("Banner Section")),
         MultiFieldPanel([
             FieldPanel('show_city_forecast'),
@@ -108,26 +118,27 @@ class HomePage(MetadataPageMixin, Page):
         verbose_name = _("Home Page")
         verbose_name_plural = _("Home Pages")
 
-    @cached_property
-    def city_item(self):
-        cities = City.objects.all()
-        return {'cities': cities.values()}
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
 
-    @cached_property
-    def get_forecast_by_city(self):
+        default_city = City.objects.all().first()
+        # Get the request parameter
+        city = request.GET.get('city_name', default_city.name)
+
+
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
                                                 forecast_date__lte=end_date_param.date(),
-                                                effective_period__whole_day=True) \
+                                                effective_period__whole_day=True, city__name=city) \
             .order_by('forecast_date') \
             .values('id', 'city__name', 'forecast_date', 'data_value',
                     'condition')
-        # .annotate(
-        #     forecast_date_str = Cast(
-        #         TruncDate('forecast_date', DateField()), CharField(),
-        #     ),
-        # )
+        # # .annotate(
+        # #     forecast_date_str = Cast(
+        # #         TruncDate('forecast_date', DateField()), CharField(),
+        # #     ),
+        # # )
 
         # sort the data by city
         data_sorted = sorted(forecast_data, key=lambda x: x['city__name'])
@@ -143,9 +154,14 @@ class HomePage(MetadataPageMixin, Page):
                 item['condition_display'] = dict(Forecast.CONDITION_CHOICES).get(item['condition'])
             grouped_forecast.append(city_data)
 
-        return {
-            'forecasts': grouped_forecast
-        }
+        context['grouped_forecast'] = grouped_forecast
+
+        return context
+
+    @cached_property
+    def city_item(self):
+        cities = City.objects.all().values('name')
+        return {'cities': sorted(cities, key=lambda x : x['name'])}
 
     @cached_property
     def latest_updates(self):

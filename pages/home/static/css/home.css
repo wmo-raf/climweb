@@ -255,17 +255,18 @@
 
 .home-hero-wrapper {
     position: relative;
+    /* margin:0 1em; */
 }
 
 .home-hero-wrapper.has-city-forecast {
-    padding-bottom: 200px;
-    background-color: #f8f9fb !important;
+    /* padding-bottom: 200px; */
+    /* background-color: #f8f9fb !important; */
 }
 
 .city-forecast-wrapper {
-    position: absolute;
+    /* position: absolute; */
     width: 100%;
-    bottom: 70px;
+    /* bottom: 70px; */
 }
 
 .weather-watch-section {
@@ -433,9 +434,6 @@
         padding-bottom: 0 !important;
     }
 
-    #home-map, .alerts-container {
-        height: 400px;
-    }
 
     .mapviewer-explore .desc {
         margin-right: 0;
@@ -447,3 +445,45 @@
     }
 }
 
+
+.widget-days .card-footer-item{
+    flex-direction: column;
+}
+
+.carousel{
+    overflow: hidden;
+}
+
+.card-footer.weather-days-carousel{
+    border-top: 1px solid #edededb9;
+}
+
+.slider-navigation-next, .slider-navigation-previous{
+    width: 20px !important;
+    height: 42px;
+}
+
+
+.widget-control .input, .select select, .textarea {
+    background-color: transparent;
+    border-color: #dbdbdb;
+    border-radius: 4px;
+    color: white;
+}
+
+.widget-control .input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(226, 226, 226, 0.848);
+    opacity: 1; /* Firefox */
+  }
+
+.widget-days .slider-navigation-next svg, .widget-days .slider-navigation-previous svg {
+    color: #363636;
+}
+
+.widget-days .card-footer-item{
+    border: 1px solid #ffffff26
+}
+
+.weather-temp p{
+    padding-bottom: 0;
+}

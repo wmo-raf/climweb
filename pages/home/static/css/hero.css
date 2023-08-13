@@ -86,9 +86,13 @@ body {
 
 }
 
-@media screen and (max-width: 1605px) {
+@media screen and (min-width: 768px) and (max-width: 1605px) {
     .container {
         max-width: 80vw !important;
+    }
+
+    .widget-control .control {
+        padding: 0 3rem !important
     }
 }
 
@@ -117,14 +121,44 @@ body {
     padding: 90px 0;
 }
 
+#page-hero.hero {
+    padding: 0 40px 0;
+}
+
 
 @media screen and (max-width: 768px) {
     .hero-body {
-        padding: 0;
+        padding: 2em 0 !important;
     }
 
     #page-hero {
-        padding: 20px 0;
+        padding: 0 1.5em !important;
+    }
+
+    .weather-widget{
+        padding: 0 !important;
+    }
+
+    .weather-widget .card-content {
+        padding-bottom: 1rem;
+        margin: 0 1em !important;
+    }
+
+    .widget-control .control {
+        padding: 0 1em !important;
+        
+    }
+
+    .weather-widget .buttons{
+        justify-content: center;
+    }
+
+    .title-subtitle{
+        width: 100% !important;
+    }
+
+    .widget-days.card-footer{
+        margin: 0 1em !important;
     }
 }
 
@@ -134,3 +168,4 @@ body {
         margin-bottom: -5em;
     }
 }
+

@@ -7,7 +7,7 @@ default_theme = {
     'primary_hover_color': '#67a9ce',
     'secondary_color': '#ffffff',
     'border_radius': '1.5em',
-    'box_shadow': 'elevation-1'
+    'box_shadow': 'elevation-1',
 }
 
 
