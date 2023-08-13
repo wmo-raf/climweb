@@ -1,3 +1,5 @@
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+
 {% image page.hero_banner original as else_img %}
 <div id="page-hero" class="hero progressive__bg progressive--not-loaded mx-3" 
 data-progressive="{{ else_img.url }}"
