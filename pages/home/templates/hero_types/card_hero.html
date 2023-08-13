@@ -52,7 +52,7 @@
 
                                 {% if forloop.first %}
                                 
-                                <div class="card-content" style="background-color: #ffffff20;margin: 1em 2em 0;backdrop-filter: blur(10px);font-weight:600">
+                                <div class="card-content" style="background-color: #ffffff20;margin: 1em 2em 0;backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);font-weight:600">
                                     
 
                                     {% with forecasts.forecast_items|first as latest_forecast %}
@@ -164,7 +164,7 @@
                                 
 
                                 <footer class="card-footer widget-days carousel weather-days-carousel" id="carousel" style="background-color: #ffffff60;
-                                margin: 0 2em 1em; backdrop-filter: blur(30px);">
+                                margin: 0 2em 1em; backdrop-filter: blur(30px);-webkit-backdrop-filter: blur(10px);">
                                 {% for item in forecasts.forecast_items %}
 
                                     {% if not forloop.first %}
