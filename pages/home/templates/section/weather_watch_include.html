@@ -1,7 +1,7 @@
 {% load static nmhs_cms_tags wagtailiconchooser_tags %}
 
 {% if self.show_weather_watch %}
-    {% if self.get_alerts.active_alerts|length > 0 or self.get_forecast_by_city.forecasts|length > 0 %}
+    {% if self.get_alerts.active_alerts|length > 0 or grouped_forecast|length > 0 %}
         <section class="weather-watch-section">
             <div class="container">
                 <h2 class="section-title has-text-centered"
@@ -65,7 +65,7 @@
                             <div class="control has-icons-left"
                                  style="position: absolute;top: 10px;left: 10px;z-index: 99">
                                 <div class="select">
-                                    <select id="daily_forecast">
+                                    <select id="daily_forecast" style="color:#292929">
                                         {% for day in self.get_forecast_by_daterange.forecast_dates %}
                                             <option value="{{ day|date:'Y-m-d' }}"
                                                     {% if forloop.first %}selected{% endif %}>{{ day }}</option>

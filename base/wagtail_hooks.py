@@ -37,6 +37,13 @@ def clear_wagtailcache(request, page):
         clear_cache()
 
 
+@hooks.register('after_edit_snippet')
+def clear_cache_after_snippet_edit(request, snippet):
+    print("cache cleareD")
+    clear_cache()
+
+
+
 @hooks.register("register_icons")
 def register_icons(icons):
     brands = [

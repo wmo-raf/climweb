@@ -1,0 +1,22 @@
+{% image page.hero_banner original as else_img %}
+<div id="page-hero" class="hero progressive__bg progressive--not-loaded mx-3" 
+data-progressive="{{ else_img.url }}"
+     style="position: relative;max-height:fit-content; min-height:600px; background-image: url({% lazy_image_url else_img %});background-position:center; background-repeat:no-repeat; background-size:cover">
+    <div class="hero-body has-text-centered pb-2" style="display: flex;
+    align-items: center">
+        <div class="container">
+            <div class="columns is-justify-content-center is-align-items-center py-3">
+                <div class="column is-6 p-6 m-6" style="backdrop-filter: blur(10px); border-radius:0.5em;background-color: #ffffff15">
+                    <p class="title pb-4"
+                       style="font-weight:700; font-size: 34px; color: {{ self.hero_text_color }};">
+                        {{ self.hero_title|richtext }}
+                    </p>
+                    <p class="subtitle pb-5 mb-4 px-4"
+                       style="font-weight: 400; font-size: 16px; color: {{ self.hero_text_color }};">
+                        {{ self.hero_subtitle }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

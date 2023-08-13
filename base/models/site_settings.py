@@ -205,6 +205,7 @@ class LanguageSettings(BaseSiteSetting):
 
 
 class Theme(models.Model):
+
     is_default = models.BooleanField(default=False, verbose_name=_("Is Default Theme"),
                                      help_text=_("Enable if this is the default theme"))
     name = models.CharField(blank=False, verbose_name=_("Theme Name"), max_length=250, null=True)
