@@ -122,7 +122,7 @@ class HomePage(MetadataPageMixin, Page):
         context = super(HomePage, self).get_context(
             request, *args, **kwargs)
 
-        default_city = City.objects.all().first()
+        default_city = City.objects.all().order_by('name').first()
         # Get the request parameter
         city = request.GET.get('city_name', default_city.name)
 
