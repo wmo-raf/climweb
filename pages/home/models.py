@@ -119,7 +119,8 @@ class HomePage(MetadataPageMixin, Page):
         verbose_name_plural = _("Home Pages")
 
     def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+        context = super(HomePage, self).get_context(
+            request, *args, **kwargs)
 
         default_city = City.objects.all().first()
         # Get the request parameter
