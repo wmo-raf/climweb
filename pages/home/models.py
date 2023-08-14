@@ -61,7 +61,7 @@ class HomePage(MetadataPageMixin, Page):
     hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=False,
                                     related_name="+", verbose_name=_("Banner Image"))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
-    hero_type = models.CharField(_("Banner Type"), max_length=50, choices=BANNER_TYPES, default='card')
+    hero_type = models.CharField(_("Banner Type"), max_length=50, choices=BANNER_TYPES, default='full')
     
 
     show_city_forecast = models.BooleanField(default=True, verbose_name=_("Show city forecast section"))

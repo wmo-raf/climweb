@@ -458,10 +458,6 @@
     border-top: 1px solid #edededb9;
 }
 
-.slider-navigation-next, .slider-navigation-previous{
-    width: 20px !important;
-    height: 42px;
-}
 
 
 .widget-control .input, .select select, .textarea {
@@ -477,11 +473,29 @@
   }
 
 .widget-days .slider-navigation-next svg, .widget-days .slider-navigation-previous svg {
-    color: #363636;
+    color: white !important;
+}
+
+.slider-navigation-next{
+
+    right:-10px !important
+}
+
+.slider-navigation-previous{
+    left:-10px !important
+}
+.slider-navigation-next svg, .slider-navigation-previous svg {
+    width: 35% !important;
+}
+
+.slider-navigation-next, .slider-navigation-previous {
+    background: transparent !important;
+    border: none !important;
 }
 
 .widget-days .card-footer-item{
-    border: 1px solid #ffffff26
+    border: 1px solid #ffffff26;
+    height: 100%;
 }
 
 .weather-temp p{

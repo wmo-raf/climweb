@@ -29,13 +29,12 @@
         loop: true
     })    
 
-    console.log(window.location.pathname)
     $(document).on('change', '#city-option', function() {
         
         var formData = $('#filter-form').serialize();
 
         $.ajax({
-            url: "/cms/",
+            url: window.location.pathname,
             method: "GET",
             data: formData,
             success: function(data) {
