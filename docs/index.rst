@@ -3,6 +3,8 @@
 Welcome to NMHS CMS documentation
 ==================================
 
+.. image:: _static/images/home/cms_responsive.png
+
 Downloadable pdf versions can be found at:
 
 .. admonition:: To download the PDF version of this guide use

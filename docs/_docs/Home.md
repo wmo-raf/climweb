@@ -42,6 +42,8 @@ For a smooth and efficient delivery of the CMS and customization of the website 
 
 ## Core Components and Integrations
 
+![CMS Support](../_static/images/home/cms_banner_types.png "CMS")
+
 -   **User friendly website Content Management System**
 
     -   Modern look and design, mobile friendly.
