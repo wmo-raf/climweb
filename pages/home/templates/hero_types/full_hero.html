@@ -19,7 +19,7 @@ data-progressive="{{ img.url }}"
                             </p>
                         </div>
 
-                        {% if self.show_city_forecast and grouped_forecast|length > 0 %}
+                        {% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0  %}
                         <div class="column is-7">
 
                             <div class="weather-widget px-6">

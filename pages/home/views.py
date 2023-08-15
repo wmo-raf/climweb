@@ -2,9 +2,7 @@ from datetime import datetime, timedelta
 from itertools import groupby
 
 from django.shortcuts import render
-from forecastmanager.models import Forecast, DailyWeather, City
-from django.http import JsonResponse
-
+from forecastmanager.models import Forecast, DailyWeather
 
 def list_forecasts(request):
 
@@ -34,20 +32,6 @@ def list_forecasts(request):
         "forecasts":grouped_forecast,
         "cities":cities,
         "dates":sorted(dates)
-    })
-
-def get_forecast(request):
-    city_name = request.GET.get('city_name')
-    start_date_param = datetime.today()
-    end_date_param = start_date_param + timedelta(days=6)
-    forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
-                                            forecast_date__lte=end_date_param.date(),
-                                            effective_period__whole_day=True, city__name=city_name) \
-        .order_by('forecast_date') \
-        .values('id', 'city__name', 'forecast_date', 'data_value',
-                'condition')
-    return render(request, "section/hero_include.html", context={
-        'grouped_forecast': forecast_data
     })
 
 def daily_weather(request):

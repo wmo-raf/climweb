@@ -21,8 +21,8 @@
                 </div>
                 </div>
 
-                    {% if self.show_city_forecast and grouped_forecast|length > 0 %}
-                    <div class="column is-7 progressive__bg progressive--not-loaded" 
+                {% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0  %}
+                <div class="column is-7 progressive__bg progressive--not-loaded" 
                     data-progressive="{{ img.url }}"
                     style="background-image: url({% lazy_image_url img %});background-position:center; background-repeat:no-repeat; background-size:cover">
 

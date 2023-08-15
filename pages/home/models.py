@@ -8,7 +8,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from forecastmanager.models import City, Forecast
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
-from wagtail.models import Page
+from wagtail.models import Page, Site
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
@@ -20,6 +20,7 @@ from pages.news.models import NewsPage
 from pages.publications.models import PublicationPage
 from pages.services.models import ServicePage
 from pages.videos.models import YoutubePlaylist
+from forecastmanager.site_settings import ForecastSetting
 
 
 class HomePage(MetadataPageMixin, Page):
@@ -121,12 +122,21 @@ class HomePage(MetadataPageMixin, Page):
     def get_context(self, request, *args, **kwargs):
         context = super(HomePage, self).get_context(
             request, *args, **kwargs)
+        
+        default_city = None
+        city_ls = City.objects.all()
 
-        default_city = City.objects.all().order_by('name').first()
-        # Get the request parameter
-        city = request.GET.get('city_name', default_city.name)
+        site = Site.objects.get(is_default_site=True)
+        forecast_setting = ForecastSetting.for_site(site)
 
+        if len(city_ls)>0:
+            if forecast_setting.default_city:
+                default_city = forecast_setting.default_city.name
+            else:
+                default_city = city_ls.order_by('name').first().name
 
+        city = request.GET.get('city_name', default_city)
+        
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
@@ -135,11 +145,6 @@ class HomePage(MetadataPageMixin, Page):
             .order_by('forecast_date') \
             .values('id', 'city__name', 'forecast_date', 'data_value',
                     'condition')
-        # # .annotate(
-        # #     forecast_date_str = Cast(
-        # #         TruncDate('forecast_date', DateField()), CharField(),
-        # #     ),
-        # # )
 
         # sort the data by city
         data_sorted = sorted(forecast_data, key=lambda x: x['city__name'])
@@ -161,8 +166,27 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def city_item(self):
+
+        reordered_cities = None
         cities = City.objects.all().values('name')
-        return {'cities': sorted(cities, key=lambda x : x['name'])}
+
+
+        site = Site.objects.get(is_default_site=True)
+        forecast_setting = ForecastSetting.for_site(site)
+
+        default_city = forecast_setting.default_city
+
+        if len(cities)>0:
+            if default_city:
+                # Get all items except the target item
+                other_cities = City.objects.exclude(name=default_city.name)
+
+                # Combine the target item with the other items
+                reordered_cities = [default_city] + list(other_cities)
+            else:
+                reordered_cities = sorted(cities, key=lambda x : x['name'])
+
+        return {'cities':reordered_cities }
 
     @cached_property
     def latest_updates(self):
@@ -249,10 +273,3 @@ class HomePage(MetadataPageMixin, Page):
     def services(self):
         services = ServicePage.objects.live()
         return services
-
-    @cached_property
-    def get_cities(self):
-        cities = City.objects.all()
-        return {
-            'cities': cities
-        }

@@ -1,7 +1,7 @@
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
-{% if self.show_city_forecast and grouped_forecast|length > 0 %}
+{% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0  %}
 
     {% if page.hero_type == 'card' %}
         {% include 'hero_types/card_hero.html' %}
@@ -13,7 +13,11 @@
         {% include 'hero_types/empty_hero.html' %}
     {% endif %}
 
+{% else %}
+        {% include 'hero_types/empty_hero.html' %}
 {% endif %}
+
+
 
 {% block extra_js %}
 
