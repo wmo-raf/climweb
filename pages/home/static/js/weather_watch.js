@@ -83,7 +83,7 @@ $(document).ready(function () {
     const getPopupHTML = (props) => {
         const paramValues = dataParams.reduce((all, param) => {
             if (props[param.parameter]) {
-                all[param.name] = props[param.parameter]
+                all[param.name] = `${props[param.parameter]} ${param.parameter_unit}`
             }
             return all
         }, {})
