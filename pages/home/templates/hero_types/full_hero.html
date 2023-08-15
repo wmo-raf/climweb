@@ -62,7 +62,7 @@ data-progressive="{{ img.url }}"
                                             {{ forecasts.city|wordwrap:7}}
                                         </p>
                                         <p class="latest-forecast-date"  style="font-size:14px">
-                                            {{ latest_forecast.forecast_date|wordwrap:15|linebreaksbr}}
+                                            {{ latest_forecast.forecast_date}}
                                         </p>
                                     </div>
                                     
@@ -86,7 +86,7 @@ data-progressive="{{ img.url }}"
                                                 src="{% static 'forecastmanager/img/'|add:latest_forecast.condition|add:'.png' %}"
                                                 alt="{{ latest_forecast.condition }}"
                                                 title="{{ latest_forecast.condition_display }}">
-                                                <p>{{ latest_forecast.condition_display|wordwrap:10|linebreaksbr}}</p>
+                                                <p>{{ latest_forecast.condition_display}}</p>
                                             </div>
                                             {% endif %}
 

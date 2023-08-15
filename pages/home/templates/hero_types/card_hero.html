@@ -14,7 +14,7 @@
                         style="font-weight:700; font-size: 34px;">
                             {{ self.hero_title|richtext }}
                         </p>
-                        
+
                         {% if self.hero_subtitle %}
                         <p class="subtitle pb-5 mb-4"
                         style="font-weight: 400; font-size: 16px;">
@@ -65,7 +65,7 @@
                                         {{ forecasts.city|wordwrap:7}}
                                     </p>
                                     <p class="latest-forecast-date"  style="font-size:14px">
-                                        {{ latest_forecast.forecast_date|wordwrap:15|linebreaksbr}}
+                                        {{ latest_forecast.forecast_date}}
                                     </p>
                                 </div>
                                 
@@ -88,77 +88,33 @@
                                             src="{% static 'forecastmanager/img/'|add:latest_forecast.condition|add:'.png' %}"
                                             alt="{{ latest_forecast.condition }}"
                                             title="{{ latest_forecast.condition_display }}">
-                                            <p>{{ latest_forecast.condition_display|wordwrap:10|linebreaksbr}}</p>
+                                            <p>{{ latest_forecast.condition_display}}</p>
                                         </div>
                                         {% endif %}
 
                                         <div class="column weather-others p-0" style="text-align:left">
-                                            {% if latest_forecast.data_value.relative_humidity %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/humidity_icon_white.png' %}" style="height:20px" class="px-2">
-                                                <span>{{ latest_forecast.data_value.relative_humidity}}% </span>
-                                            </p>
-                                            {% endif %}
-                                            
-                                            {% if latest_forecast.data_value.wind_from_direction %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/winddirection_icon_white.png' %}"  class="px-2" style="height:20px;transform:rotate(calc({{latest_forecast.data_value.wind_from_direction}}deg))">
-                                                <span>{{ latest_forecast.data_value.wind_from_direction}}° </span>
-                                            </p>
-                                            {% endif %}
+                                            {% for key, value in latest_forecast.data_value.items %}
 
+                                                    {% for param in settings.forecastmanager.ForecastSetting.data_parameter_values %}
 
-                                            {% if latest_forecast.data_value.wind_speed %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/windspeed_icon_white.png' %}"  class="px-2" style="height:20px;">
-                                                <span>{{ latest_forecast.data_value.wind_speed}}m/s </span>
-                                            </p>
-                                            {% endif %}
-
-                                            {% if latest_forecast.data_value.air_pressure_at_sea_level %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/pressure_icon_white.png' %}"  class="px-2" style="height:20px;">
-                                                <span>{{ latest_forecast.data_value.air_pressure_at_sea_level}}hPa </span>
-                                            </p>
-                                            {% endif %}
-
-                                            {% if latest_forecast.data_value.precipitation_amount %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/precipitation_icon_white.png' %}"  class="px-2" style="height:20px;">
-                                                <span>{{ latest_forecast.data_value.precipitation_amount}}mm </span>
-                                            </p>
-                                            {% endif %}
-
-                                            {% if latest_forecast.data_value.sunrise %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/sunrise_icon_white.png' %}"  class="px-2" style="height:20px;">
-                                                <span>{{ latest_forecast.data_value.sunrise}} sunrise</span>
-                                            </p>
-                                            {% endif %}
-
-                                            {% if latest_forecast.data_value.sunset %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/sunset_icon_white.png' %}"  class="px-2" style="height:20px;">
-                                                <span>{{ latest_forecast.data_value.sunset}} sunset</span>
-                                            </p>
-                                            {% endif %}
-
-                                            {% if latest_forecast.data_value.moonrise %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/moonrise_icon_white.png' %}"  class="px-2" style="height:20px;">
-                                                <span>{{ latest_forecast.data_value.moonrise}} sunrise</span>
-                                            </p>
-                                            {% endif %}
-
-                                            {% if latest_forecast.data_value.moonset %}
-                                            <p style="display:flex">
-                                                <img src="{% static 'img/moonset_icon_white.png' %}"  class="px-2" style="height:20px;">
-                                                <span>{{ latest_forecast.data_value.moonset}}</span>
-                                            </p>
-                                            {% endif %}
-
-                                            
-
+                                                        {% if key == param.parameter %}
+                                                            {% if param.parameter ==  'wind_from_direction' %}
+                                                                <p style="display:flex">
+                                                                    <img src="{% static 'img/'|add:param.parameter|add:'_white.png' %}" class="px-2" style="height:20px;transform:rotate(calc({{value}}deg))">
+                                                                    <span>{{value|floatformat:0}}{{param.parameter_unit}}  </span>
+                                                                </p>
+                                                            {% endif %}
+                                                            {% if param.parameter != 'air_temperature_max' and param.parameter != 'air_temperature_min' and param.parameter != 'wind_from_direction'  %}
+                                                                <p style="display:flex">
+                                                                    <img src="{% static 'img/'|add:param.parameter|add:'_white.png' %}" style="height:20px" class="px-2">
+                                                                    <span>{{ value|floatformat:0}}{{param.parameter_unit}} </span>
+                                                                </p>
+                                                            {% endif %}
+                                                            
+                                                        {% endif %}
+                                                        
+                                                    {% endfor %}
+                                                {% endfor %}  
                                         </div>
                                     </div>
                                 </div>

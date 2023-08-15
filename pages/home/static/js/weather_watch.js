@@ -73,13 +73,6 @@ $(document).ready(function () {
 
     }));
 
-    const allAreas = $(".alert-area")
-        .map(function () {
-
-            return this.value;
-        })
-        .get();
-
     const getPopupHTML = (props) => {
         const paramValues = dataParams.reduce((all, param) => {
             if (props[param.parameter]) {
@@ -89,6 +82,7 @@ $(document).ready(function () {
         }, {})
 
         const cityName = props.city_name;
+        console.log(props)
         const condition = props.condition;
 
         let values = Object.keys(paramValues).reduce((all, key) => {
