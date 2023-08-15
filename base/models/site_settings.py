@@ -215,28 +215,12 @@ class Theme(models.Model):
                                      help_text=_("Primary Hover color (use color picker)"))
     secondary_color = ColorField(blank=True, null=True, default="#ffffff",
                                  help_text=_("Secondary color (use color picker)"))
-    # secondary_hover_color = ColorField(blank=True, null=True, default="#ffffff", help_text=_("Secondary Hover color (use color picker)")
     border_radius = models.IntegerField(validators=[MinValueValidator(0),
                                                     MaxValueValidator(20)], verbose_name=_("Border radius (px)"),
                                         help_text=_("Minimum 0 and Maximum 20 pixels"), default=6)
     box_shadow = models.IntegerField(validators=[MinValueValidator(1),
                                                  MaxValueValidator(24)], verbose_name=_("Box shadow"),
                                      help_text=_("Elevation value minimum 1 and maximum 24"), default=6)
-
-    # bs_hr_off = models.IntegerField(validators=[MinValueValidator(-100),
-    #                                    MaxValueValidator(100)],verbose_name=_("Horizontal Offset (px)", help_text=_("Minimum -100 and Maximum 100 pixels", default=0)
-
-    # bs_vt_off = models.IntegerField(validators=[MinValueValidator(-100),
-    #                                    MaxValueValidator(100)],verbose_name=_("Vertical Offset (px)", help_text=_("Minimum -100 and Maximum 100 pixels", default=1)
-
-    # bs_blur_rad = models.IntegerField(validators=[MinValueValidator(-100),
-    #                                    MaxValueValidator(100)],verbose_name=_("Blur radius (px)", help_text=_("Minimum -100 and Maximum 100 pixels", default=1)
-
-    # bs_spread_rad = models.IntegerField(validators=[MinValueValidator(-100),
-    #                                    MaxValueValidator(100)],verbose_name=_("Spread radius (px)", help_text=_("Minimum -100 and Maximum 100 pixels", default=-1)
-    # bs_color = ColorField(blank=True, null=True, default="#363636", help_text=_("Box shadow color (use color picker)")
-    # bs_color_opacity = models.DecimalField(validators=[MinValueValidator(0),
-    #    MaxValueValidator(1)],decimal_places=3, max_digits=3, verbose_name=_("Color opacity", help_text=_("Minimum 0 and Maximum 1", default=0.125)
 
     edit_handler = TabbedInterface([
         ObjectList([
@@ -256,21 +240,6 @@ class Theme(models.Model):
             FieldPanel('border_radius'),
             FieldPanel('box_shadow')],
             heading=_("Borders and Box Shadow")),
-        # ObjectList([
-        #     FieldRowPanel([
-        #         FieldPanel('bs_hr_off'),
-        #         FieldPanel('bs_vt_off'),
-        #     ], heading=_("Offsets"),
-        #     FieldRowPanel([
-        #         FieldPanel('bs_blur_rad'),
-        #         FieldPanel('bs_spread_rad'),
-        #     ], heading=_("Radius"),
-        #     FieldRowPanel([
-        #         NativeColorPanel('bs_color'),
-        #         FieldPanel('bs_color_opacity'),
-        #     ], heading=_("Color and Opacity"),
-
-        # ], heading=_("Box Shadow"),
 
     ])
 
