@@ -11,7 +11,8 @@ from wagtail.fields import RichTextField
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
-from wagtailgeowidget.panels import LeafletPanel
+from wagtailgeowidget.panels import LeafletPanel,GeoAddressPanel
+from wagtailgeowidget import geocoders
 
 from base.mail import send_mail
 from base.mixins import MetadataPageMixin
@@ -29,8 +30,9 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     # don't cache this page because it has a form
     cache_control = 'no-cache'
 
-    location = models.CharField(help_text=_("Location of organisation"), blank=False, null=True, max_length=250,
-                                verbose_name=_("Location of organisation"))
+    name = models.CharField(verbose_name=_("Location"), max_length=255, null=True, blank=False, unique=True, help_text="Location of organisation")
+    location = models.CharField(help_text=_("Coordninates of organisation"), blank=False, null=True, max_length=250,
+                                verbose_name=_("Coordninates of organisation"))
     thank_you_text = RichTextField(blank=True, verbose_name=_("Thank you message"))
 
     @cached_property
@@ -46,7 +48,8 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
         return self.point['x']
 
     content_panels = AbstractEmailForm.content_panels + [
-        LeafletPanel('location'),
+        GeoAddressPanel("name", geocoder=geocoders.NOMINATIM),
+        LeafletPanel("location", address_field="name"),
         InlinePanel('contact_us_form_fields', label="Form fields"),
         FieldPanel('thank_you_text'),
         MultiFieldPanel([
