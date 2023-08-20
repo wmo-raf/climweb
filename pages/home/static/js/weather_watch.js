@@ -264,7 +264,6 @@ $(document).ready(function () {
                 // Process the retrieved data
                 data.map(icon => {
 
-
                     let img = new Image()
 
                     img.onload = () => {
@@ -273,7 +272,7 @@ $(document).ready(function () {
                         }
 
                     }
-                    img.src = `${static_path}${icon.properties.condition_icon}`
+                    img.src = `${static_path}${icon.properties.condition_icon}` ? icon.properties.condition_icon !== 'None.png' : ''
                     return img.src
 
                 })
