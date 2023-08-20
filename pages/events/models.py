@@ -81,7 +81,7 @@ class EventIndexPage(AbstractBannerPage):
                                                   verbose_name=_("Events per page"))
 
     content_panels = Page.content_panels + [
-        *AbstractBannerPage.content_panels,
+        # *AbstractBannerPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('events_per_page'),

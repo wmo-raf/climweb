@@ -43,7 +43,7 @@
             data: formData,
             success: function(data) {
                 // Replace filtered data in the page
-                $('#filtered-forecasts').html($(data).find('#filtered-forecasts').html());
+                $('#widget-forecasts').html($(data).find('#widget-forecasts').html());
 
                 bulmaCarousel.attach('#carousel',{
                     slidesToScroll:1,

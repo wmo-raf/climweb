@@ -6,13 +6,13 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 from base import blocks
-from base.models import AbstractBannerWithIntroPage
+from base.models import AbstractBannerWithIntroPage, AbstractIntroPage
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from pages.organisation_pages.partners.models import Partner
 from .blocks import TimelineBlock
 
 
-class AboutPage(AbstractBannerWithIntroPage):
+class AboutPage(AbstractIntroPage):
     template = 'about_page.html'
     parent_page_types = ['organisation.OrganisationIndexPage']
     subpage_types = []
@@ -70,7 +70,7 @@ class AboutPage(AbstractBannerWithIntroPage):
     )
 
     content_panels = Page.content_panels + [
-        *AbstractBannerWithIntroPage.content_panels,
+        *AbstractIntroPage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel('mission'),
@@ -105,8 +105,8 @@ class AboutPage(AbstractBannerWithIntroPage):
 
     @cached_property
     def listing_image(self):
-        if self.banner_image:
-            return self.banner_image
+        # if self.banner_image:
+        #     return self.banner_image
         if self.introduction_image:
             return self.introduction_image
         return None

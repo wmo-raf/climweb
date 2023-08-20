@@ -6,198 +6,198 @@
     <div class="pb-2">
         <div class="container-fluid">
             <div id="filtered-forecasts">
-            <div class="columns is-justify-content-center is-align-items-center py-2 px-4">
-                <div class="column is-5" style="display:flex; justify-content: center;">
-                    <div class="px-4 title-subtitle" style=" width:70%">
-                    <p class="title pb-4"
-                       style="font-weight:700; font-size: 34px;">
-                        {{ self.hero_title|richtext }}
-                    </p>
-                    {% if self.hero_subtitle %}
+                <div class="columns is-justify-content-center is-align-items-center py-2 px-4">
+                    <div class="column is-5" style="display:flex; justify-content: center;">
+                        <div class="px-4 title-subtitle" style=" width:70%">
+                        <p class="title pb-4"
+                        style="font-weight:700; font-size: 34px;">
+                            {{ self.hero_title|richtext }}
+                        </p>
+                        {% if self.hero_subtitle %}
 
-                    <p class="subtitle pb-5 mb-4"
-                       style="font-weight: 400; font-size: 16px;">
-                        {{ self.hero_subtitle }}
-                    </p>
-                    {% endif %}
-                    
-                </div>
-                </div>
+                        <p class="subtitle pb-5 mb-4"
+                        style="font-weight: 400; font-size: 16px;">
+                            {{ self.hero_subtitle }}
+                        </p>
+                        {% endif %}
+                        
+                    </div>
+                    </div>
 
-                {% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0  %}
-                <div class="column is-7 progressive__bg progressive--not-loaded" 
-                    data-progressive="{{ img.url }}"
-                    style="background-image: url({% lazy_image_url img %});background-position:center; background-repeat:no-repeat; background-size:cover">
+                    {% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0  %}
+                    <div class="column is-7 progressive__bg progressive--not-loaded" 
+                        data-progressive="{{ img.url }}"
+                        style="background-image: url({% lazy_image_url img %});background-position:center; background-repeat:no-repeat; background-size:cover">
 
-                        <div class="weather-widget px-6 py-4">
-                            
-                            <div class="card py-4 elevation-0" 
-                            style="text-align:center;color:white; background-color: #ffffff20;backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);">
-                            <div class="widget-control">
-                                <form id="filter-form">
-                                    <div class="field has-addons">
-                                        <div class="control is-expanded px-6 has-icons-left">
-                                            <div class="select is-fullwidth is-white">
-
-                                                <select style="border: none;
-                                                border-bottom: solid 1px #d5d5d5; box-shadow: none; font-weight:600;"
-                                                id="city-option"
-                                                name="city_name"
-                                                >
-                                                    {% for city in self.city_item.cities %}
-                                                    <option value="{{city.name}}" {% if request.GET.city_name == city.name %}selected{% endif %}>{{city.name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                <span class="icon is-small is-left is-white">
-                                                    <i class="fas fa-location-dot"></i>
-                                                </span>
-                                            </div>
-
-                                        
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            {% for forecasts in grouped_forecast %}
-
-                                {% if forloop.first %}
+                            <div class="weather-widget px-6 py-4" id="widget-forecasts">
                                 
-                                <div class="card-content" style="margin: 1em 2em 0;font-weight:600; border-top-right-radius:1.5em; border-top-left-radius:1.5em">
+                                <div class="card py-4 elevation-0" 
+                                style="text-align:center;color:white; background-color: #ffffff20;backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);">
+                                <div class="widget-control">
+                                    <form id="filter-form">
+                                        <div class="field has-addons">
+                                            <div class="control is-expanded px-6 has-icons-left">
+                                                <div class="select is-fullwidth is-white">
+
+                                                    <select style="border: none;
+                                                    border-bottom: solid 1px #d5d5d5; box-shadow: none; font-weight:600;"
+                                                    id="city-option"
+                                                    name="city_name"
+                                                    >
+                                                        {% for city in self.city_item.cities %}
+                                                        <option value="{{city.name}}" {% if request.GET.city_name == city.name %}selected{% endif %}>{{city.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <span class="icon is-small is-left is-white">
+                                                        <i class="fas fa-location-dot"></i>
+                                                    </span>
+                                                </div>
+
+                                            
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                {% for forecasts in grouped_forecast %}
+
+                                    {% if forloop.first %}
+                                    
+                                    <div class="card-content" style="margin: 1em 2em 0;font-weight:600; border-top-right-radius:1.5em; border-top-left-radius:1.5em">
+                                        
+
+                                        {% with forecasts.forecast_items|first as latest_forecast %}
+                                    <div class="widget-header">
+                                        <p class="city-name pb-0" id="city-name" style="font-weight:600; font-size:24px">
+                                            {{ forecasts.city|wordwrap:7}}
+                                        </p>
+                                        <p class="latest-forecast-date" id="latest-forecast-date"  style="font-size:14px">
+                                            {{ latest_forecast.forecast_date}}
+                                        </p>
+                                    </div>
                                     
 
-                                    {% with forecasts.forecast_items|first as latest_forecast %}
-                                <div class="widget-header">
-                                    <p class="city-name pb-0" id="city-name" style="font-weight:600; font-size:24px">
-                                        {{ forecasts.city|wordwrap:7}}
-                                    </p>
-                                    <p class="latest-forecast-date" id="latest-forecast-date"  style="font-size:14px">
-                                        {{ latest_forecast.forecast_date}}
-                                    </p>
-                                </div>
-                                
+                                    <div class="widget-weather">
+                                        <div class="columns is-mobile">
+                                            <div class="column weather-temp p-0 is-desktop" style="text-align:right">
+                                                {% if latest_forecast.data_value.air_temperature_max %}
+                                                <p style="font-size:40px; font-weight: 300" class="latest_max_temp"> {{ latest_forecast.data_value.air_temperature_max|floatformat:0 }}{{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</p>
+                                                {% endif %}
+                                                
+                                                {% if latest_forecast.data_value.air_temperature_min %}
+                                                <p style="font-size:20px; font-weight: 300" class="latest_min_temp"> {{ latest_forecast.data_value.air_temperature_min|floatformat:0 }}{{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</p>
+                                                {% endif %}
+                                            </div>
 
-                                <div class="widget-weather">
-                                    <div class="columns is-mobile">
-                                        <div class="column weather-temp p-0 is-desktop" style="text-align:right">
-                                            {% if latest_forecast.data_value.air_temperature_max %}
-                                            <p style="font-size:40px; font-weight: 300" class="latest_max_temp"> {{ latest_forecast.data_value.air_temperature_max|floatformat:0 }}{{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</p>
+                                            {% if latest_forecast.condition %}
+                                            <div class="column weather-condition p-0 is-desktop">
+                                                <img 
+                                                src="{% static 'forecastmanager/img/'|add:latest_forecast.condition|add:'.png' %}"
+                                                alt="{{ latest_forecast.condition }}">
+                                                <p>{{ latest_forecast.condition_display}}</p>
+                                            </div>
                                             {% endif %}
-                                            
-                                            {% if latest_forecast.data_value.air_temperature_min %}
-                                            <p style="font-size:20px; font-weight: 300" class="latest_min_temp"> {{ latest_forecast.data_value.air_temperature_min|floatformat:0 }}{{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</p>
-                                            {% endif %}
-                                        </div>
 
-                                        {% if latest_forecast.condition %}
-                                        <div class="column weather-condition p-0 is-desktop">
-                                            <img 
-                                            src="{% static 'forecastmanager/img/'|add:latest_forecast.condition|add:'.png' %}"
-                                            alt="{{ latest_forecast.condition }}">
-                                            <p>{{ latest_forecast.condition_display}}</p>
-                                        </div>
-                                        {% endif %}
+                                            <div class="column weather-others p-0" style="text-align:left">
+                                                {% for key, value in latest_forecast.data_value.items %}
 
-                                        <div class="column weather-others p-0" style="text-align:left">
-                                            {% for key, value in latest_forecast.data_value.items %}
+                                                        {% for param in settings.forecastmanager.ForecastSetting.data_parameter_values %}
 
-                                                    {% for param in settings.forecastmanager.ForecastSetting.data_parameter_values %}
-
-                                                        {% if key == param.parameter %}
-                                                            {% if param.parameter ==  'wind_from_direction' %}
-                                                                <p style="display:flex">
-                                                                    <img src="{% static 'img/'|add:param.parameter|add:'_white.png' %}" class="px-2" style="height:20px;transform:rotate(calc({{value}}deg))">
-                                                                    <span>{{value|floatformat:0}}{{param.parameter_unit}}  </span>
-                                                                </p>
-                                                            {% endif %}
-                                                            {% if param.parameter != 'air_temperature_max' and param.parameter != 'air_temperature_min' and param.parameter != 'wind_from_direction'  %}
-                                                                <p style="display:flex">
-                                                                    <img src="{% static 'img/'|add:param.parameter|add:'_white.png' %}" style="height:20px" class="px-2">
-                                                                    <span>{{ value|floatformat:0}}{{param.parameter_unit}} </span>
-                                                                </p>
+                                                            {% if key == param.parameter %}
+                                                                {% if param.parameter ==  'wind_from_direction' %}
+                                                                    <p style="display:flex">
+                                                                        <img src="{% static 'img/'|add:param.parameter|add:'_white.png' %}" class="px-2" style="height:20px;transform:rotate(calc({{value}}deg))">
+                                                                        <span>{{value|floatformat:0}}{{param.parameter_unit}}  </span>
+                                                                    </p>
+                                                                {% endif %}
+                                                                {% if param.parameter != 'air_temperature_max' and param.parameter != 'air_temperature_min' and param.parameter != 'wind_from_direction'  %}
+                                                                    <p style="display:flex">
+                                                                        <img src="{% static 'img/'|add:param.parameter|add:'_white.png' %}" style="height:20px" class="px-2">
+                                                                        <span>{{ value|floatformat:0}}{{param.parameter_unit}} </span>
+                                                                    </p>
+                                                                {% endif %}
+                                                                
                                                             {% endif %}
                                                             
-                                                        {% endif %}
-                                                        
-                                                    {% endfor %}
-                                                {% endfor %}  
+                                                        {% endfor %}
+                                                    {% endfor %}  
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                {% endwith %}
-                                
-                                </div>
-                                
+                                    {% endwith %}
+                                    
+                                    </div>
+                                    
 
-                                <footer class="card-footer widget-days carousel weather-days-carousel" id="carousel"
-                                style="margin: 0 2em 1em; border-top:none;  border-bottom-right-radius:1.5em; border-bottom-left-radius:1.5em">
-                                {% for item in forecasts.forecast_items %}
-                                    {% if not forloop.first %}
-                                        <div class="card-footer-item" style="border-radius:0.5em; backdrop-filter: blur(10px); background-color: #ffffff20;-webkit-backdrop-filter: blur(10px);">
-                                            <div>
-                                                {{ item.forecast_date }}
-                                            </div>
-                                            <div>
-                                                <img 
-                                                src="{% static 'forecastmanager/img/'|add:item.condition|add:'.png' %}"
-                                                alt="{{ item.condition_display }}"
-                                                title="{{ item.condition_display }}"
-                                                style="height:35px">
-                                            </div>
-                                            <div>
-                                                <p>
-                                                    {% if item.data_value.air_temperature_max %}
-                                                    <span style="font-size:18px; font-weight:600">{{ item.data_value.air_temperature_max|floatformat:0 }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</span>
-                                                    {% endif %}
+                                    <footer class="card-footer widget-days carousel weather-days-carousel" id="carousel"
+                                    style="margin: 0 2em 1em; border-top:none;  border-bottom-right-radius:1.5em; border-bottom-left-radius:1.5em">
+                                    {% for item in forecasts.forecast_items %}
+                                        {% if not forloop.first %}
+                                            <div class="card-footer-item" style="border-radius:0.5em; backdrop-filter: blur(10px); background-color: #ffffff20;-webkit-backdrop-filter: blur(10px);">
+                                                <div>
+                                                    {{ item.forecast_date }}
+                                                </div>
+                                                <div>
+                                                    <img 
+                                                    src="{% static 'forecastmanager/img/'|add:item.condition|add:'.png' %}"
+                                                    alt="{{ item.condition_display }}"
+                                                    title="{{ item.condition_display }}"
+                                                    style="height:35px">
+                                                </div>
+                                                <div>
+                                                    <p>
+                                                        {% if item.data_value.air_temperature_max %}
+                                                        <span style="font-size:18px; font-weight:600">{{ item.data_value.air_temperature_max|floatformat:0 }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</span>
+                                                        {% endif %}
 
-                                                    {% if item.data_value.air_temperature_min %}
-                                                    <span style="font-size:12px">{{ item.data_value.air_temperature_min|floatformat:0 }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</span>
-                                                    {% endif %}
-                                                    
-                                                </p>
+                                                        {% if item.data_value.air_temperature_min %}
+                                                        <span style="font-size:12px">{{ item.data_value.air_temperature_min|floatformat:0 }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</span>
+                                                        {% endif %}
+                                                        
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        {% endif %}
+                                    {% endfor %}         
+                                                
+                                    </footer>
+                                    
                                     {% endif %}
-                                {% endfor %}         
-                                            
-                                </footer>
-                                
-                                {% endif %}
-                                {% endfor %}
+                                    {% endfor %}
 
-                                <div class="buttons forecast ml-5">
+                                    <div class="buttons forecast ml-5">
 
-                                    <a class="button is-small has-text-weight-bold is-dark has-text-white is-rounded"
-                                    href="{% url 'list_forecasts' %}"
-                                    >
-                                        <span class="icon">
-                                            <i class="fa-solid fa-list"></i> </span>
-                                        <span> All City Forecast</span>
-            
-                                    </a>
-                                    <a class="button is-small has-text-weight-bold is-dark has-text-white is-rounded"
-                                    href="{% url 'daily_weather' %}">
-                                        <span class="icon">
-                                            <i class="fa fa-cloud-sun-rain"></i>
-                                        </span>
-                                        <span> Daily Weather</span>
-                                    </a>
+                                        <a class="button is-small has-text-weight-bold is-dark has-text-white is-rounded"
+                                        href="{% url 'list_forecasts' %}"
+                                        >
+                                            <span class="icon">
+                                                <i class="fa-solid fa-list"></i> </span>
+                                            <span> All City Forecast</span>
+                
+                                        </a>
+                                        <a class="button is-small has-text-weight-bold is-dark has-text-white is-rounded"
+                                        href="{% url 'daily_weather' %}">
+                                            <span class="icon">
+                                                <i class="fa fa-cloud-sun-rain"></i>
+                                            </span>
+                                            <span> Daily Weather</span>
+                                        </a>
+                                    </div>
                                 </div>
+
+                                
                             </div>
 
                             
+
+                            {% comment %} {% include 'section/city_forecast_include.html' %} {% endcomment %}
+
                         </div>
-
-                        
-
-                        {% comment %} {% include 'section/city_forecast_include.html' %} {% endcomment %}
+                        {% endif %}
 
                     </div>
-                    {% endif %}
-
                 </div>
             </div>
-            
         </div>
     </div>
 </div>

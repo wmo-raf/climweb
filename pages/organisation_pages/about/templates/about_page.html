@@ -17,6 +17,7 @@
         <div class="container pt-6 pb-0 sections">
 
             <div class="buttons is-justify-content-center">
+                {% if page.mission or page.vision %}
                 <button class="button nav-section is-light"  data-target="#mission_vision_section">
                     <span class="icon is-small">
                         <i class="fa-sharp fa-solid fa-eye"></i>
@@ -24,24 +25,35 @@
                       <span class="has-text-weight-semibold">Mission & Vision</span>
                     
                 </button>
+                {% endif %}
+
+                {% if page.mission or page.vision %}
                 <button class="button nav-section is-light" data-target="#organisation_structure" >
                     <span class="icon is-small">
                         <i class="fa-solid fa-sitemap"></i>
                       </span>
                       <span class="has-text-weight-semibold">Organisational Structure</span>  
                 </button>
+                {% endif %}
+
+                {% if page.timeline %}
                 <button class="button nav-section is-light" data-target="#timeline_section" >
                     <span class="icon is-small">
                         <i class="fa-solid fa-timeline"></i>
                     </span>
                   <span class="has-text-weight-semibold">History</span>
                 </button>
+                {% endif %}
+
+                {% if page.feature_block  %}
                 <button class="button nav-section is-light" data-target="#others_section" >
                     <span class="icon is-small">
                         <i class="fa-solid fa-circle-nodes"></i>
                       </span>
                       <span class="has-text-weight-semibold">Additional Information</span>
                 </button>
+                {% endif %}
+                
             </div>
 
         </div>
@@ -79,8 +91,9 @@
                         
                     </div>
                     {% endif %}
-                    <div class="column is-1 is-desktop" ></div>
                     {% if page.vision %}
+                    <div class="column is-1 is-desktop" ></div>
+
                     <div class="column is-3">
                         <div class="mission-logo pb-4">
                             <img src="{% static 'img/vision.png' %}" width="40"/>
