@@ -137,6 +137,7 @@
                                                 <div>
                                                     {{ item.forecast_date }}
                                                 </div>
+                                                {% if item.condition %}
                                                 <div>
                                                     <img 
                                                     src="{% static 'forecastmanager/img/'|add:item.condition|add:'.png' %}"
@@ -144,6 +145,9 @@
                                                     title="{{ item.condition_display }}"
                                                     style="height:35px">
                                                 </div>
+                                                {% endif %}
+
+                                                {% if item.data_value.air_temperature_max or item.data_value.air_temperature_min %}
                                                 <div>
                                                     <p>
                                                         {% if item.data_value.air_temperature_max %}
@@ -156,6 +160,7 @@
                                                         
                                                     </p>
                                                 </div>
+                                                {% endif %}
                                             </div>
                                         {% endif %}
                                     {% endfor %}         
@@ -196,7 +201,6 @@
                         {% endif %}
 
                     </div>
-                </div>
             </div>
         </div>
     </div>
