@@ -3,10 +3,9 @@
 {% image self.hero_banner original as img %}
 <div class=" " 
      style="position: relative;max-height:fit-content;  ">
-    <div class="pb-2">
         <div class="container-fluid">
             <div id="filtered-forecasts">
-                <div class="columns is-justify-content-center is-align-items-center py-2 px-4">
+                <div class="columns is-justify-content-center is-align-items-center px-4 mb-0 pt-2">
                     <div class="column is-5" style="display:flex; justify-content: center;">
                         <div class="px-4 title-subtitle" style=" width:70%">
                         <p class="title pb-4"
@@ -132,6 +131,7 @@
                                     <footer class="card-footer widget-days carousel weather-days-carousel" id="carousel"
                                     style="margin: 0 2em 1em; border-top:none;  border-bottom-right-radius:1.5em; border-bottom-left-radius:1.5em">
                                     {% for item in forecasts.forecast_items %}
+                                    {% if item.condition %}
                                         {% if not forloop.first %}
                                             <div class="card-footer-item" style="border-radius:0.5em; backdrop-filter: blur(10px); background-color: #ffffff20;-webkit-backdrop-filter: blur(10px);">
                                                 <div>
@@ -163,6 +163,7 @@
                                                 {% endif %}
                                             </div>
                                         {% endif %}
+                                    {% endif %}
                                     {% endfor %}         
                                                 
                                     </footer>
@@ -203,7 +204,6 @@
                     </div>
             </div>
         </div>
-    </div>
 </div>
 
 
