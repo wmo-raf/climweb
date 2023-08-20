@@ -74,11 +74,11 @@
                                     <div class="columns is-mobile">
                                         <div class="column weather-temp p-0 is-desktop" style="text-align:right">
                                             {% if latest_forecast.data_value.air_temperature_max %}
-                                            <p style="font-size:40px; font-weight: 300"> {{ latest_forecast.data_value.air_temperature_max|floatformat:0 }}{{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</p>
+                                            <p style="font-size:40px; font-weight: 300"> {{ latest_forecast.data_value.air_temperature_max|floatformat:0 }}°C</p>
                                             {% endif %}
                                             
                                             {% if latest_forecast.data_value.air_temperature_min %}
-                                            <p style="font-size:20px; font-weight: 300"> {{ latest_forecast.data_value.air_temperature_min|floatformat:0 }}{{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</p>
+                                            <p style="font-size:20px; font-weight: 300"> {{ latest_forecast.data_value.air_temperature_min|floatformat:0 }}°C</p>
                                             {% endif %}
                                         </div>
 
@@ -146,11 +146,11 @@
                                                 <div>
                                                     <p>
                                                         {% if item.data_value.air_temperature_max %}
-                                                        <span style="font-size:18px; font-weight:600">{{ item.data_value.air_temperature_max|floatformat:0 }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</span>
+                                                        <span style="font-size:18px; font-weight:600">{{ item.data_value.air_temperature_max|floatformat:0 }}°C</span>
                                                         {% endif %}
 
                                                         {% if item.data_value.air_temperature_min %}
-                                                        <span style="font-size:12px">{{ item.data_value.air_temperature_min|floatformat:0 }} {{ settings.forecastmanager.ForecastSetting.get_temp_units_display }}</span>
+                                                        <span style="font-size:12px">{{ item.data_value.air_temperature_min|floatformat:0 }}°C</span>
                                                         {% endif %}
                                                         
                                                     </p>

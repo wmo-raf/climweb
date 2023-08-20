@@ -272,7 +272,7 @@ $(document).ready(function () {
                         }
 
                     }
-                    img.src = `${static_path}${icon.properties.condition_icon}` ? icon.properties.condition_icon !== 'None.png' : ''
+                    img.src = `${static_path}${icon.properties.condition_icon}`
                     return img.src
 
                 })
