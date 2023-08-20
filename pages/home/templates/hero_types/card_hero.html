@@ -128,7 +128,7 @@
                                 {% for item in forecasts.forecast_items %}
                                     {% if item.condition %}
                                         {% if not forloop.first %}
-                                            <div class="card-footer-item" style="border-radius:0.5em; backdrop-filter: blur(10px); background-color: #ffffff20;-webkit-backdrop-filter: blur(10px);">
+                                            <div class="card-footer-item">
                                                 <div>
                                                     {{ item.forecast_date }}
                                                 </div>
