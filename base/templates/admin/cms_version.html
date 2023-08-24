@@ -59,7 +59,11 @@
                     {% else %}
                         {% if cms_upgrade_hook_url %}
                             <div class="upgrade-info">
-                                CMS upgrade available
+                                <span style="margin-right: 4px">CMS upgrade available! </span>
+                                <a href="https://github.com/wmo-raf/nmhs-cms/releases" target="_blank"
+                                   rel="noopener noreferrer" style="text-decoration: underline">
+                                    Release notes
+                                </a>
                             </div>
                             <div style="margin-top: 20px">
                                 <form method="POST"
@@ -85,17 +89,13 @@
                                                         <use href="#icon-rotate"></use>
                                                     </svg>
                                                 </span>
-                                                {% trans 'Initiate upgrade now' %}
+                                                {% trans 'Upgrade now' %}
                                             </button>
                                         </li>
                                     </ul>
                                 </form>
                             </div>
                         {% endif %}
-
-
-
-
                     {% endif %}
                 {% endif %}
             </div>
