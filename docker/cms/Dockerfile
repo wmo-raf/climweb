@@ -35,8 +35,8 @@ WORKDIR $APP_HOME
 COPY . .
 
 # Copy entrypoint script
-COPY docker/cms/docker-entrypoint.sh ./
-RUN chmod +x docker-entrypoint.sh
+COPY docker/cms/entrypoint.sh ./
+RUN chmod +x entrypoint.sh
 
 # add satellite.cron to crontab
 COPY ./satellite.cron /etc/cron.d/satellite.cron
@@ -48,5 +48,3 @@ RUN mkdir -p tmp
 
 # Port used by this container to serve HTTP.
 EXPOSE 8000
-
-ENTRYPOINT ["./docker-entrypoint.sh"]
