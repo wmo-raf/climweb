@@ -2,11 +2,15 @@ import datetime
 import xml.etree.cElementTree as et
 
 import pytz
+import requests
 from bs4 import BeautifulSoup
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from base.constants import COUNTRIES
+
+CMS_UPGRADE_HOOK_URL = getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
 
 
 def validate_svg(f):
@@ -132,3 +136,29 @@ def get_pytz_gmt_offset_str(tz):
 
 def get_country_info(country_iso):
     return COUNTRIES.get(country_iso)
+
+
+def get_latest_cms_release():
+    r = requests.get("https://api.github.com/repos/wmo-raf/nmhs-cms/releases/latest")
+    r.raise_for_status()
+    res = r.json()
+    version = res.get("name")
+    version = version.strip("v").strip("V")
+
+    return {
+        "version": version,
+        "html_url": res.get("html_url")
+    }
+
+
+def send_upgrade_command(latest_version):
+    if CMS_UPGRADE_HOOK_URL:
+        payload = {"latest_version": latest_version}
+        request = requests.Request('POST', CMS_UPGRADE_HOOK_URL, json=payload, headers={})
+
+        prepped = request.prepare()
+        # signature = hmac.new(codecs.encode(GSKY_WEBHOOK_SECRET), codecs.encode(prepped.body), digestmod=hashlib.sha256)
+        # prepped.headers['X-CMS-Signature'] = signature.hexdigest()
+
+        with requests.Session() as session:
+            response = session.send(prepped)

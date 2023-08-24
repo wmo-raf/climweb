@@ -24,19 +24,21 @@ services:
       - -m 1024
       - -I 10m
   cms_web:
+    image: cms_web
     container_name: cms_web
     platform: linux/x86_64
     build:
       context: .
       dockerfile: ./docker/cms/Dockerfile
     restart: always
-    command: sh -c "/wait && gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 --workers=${CMS_NUM_OF_WORKERS}"
+    command: sh -c "/wait && ./entrypoint.sh && gunicorn nmhs_cms.wsgi:application --bind 0.0.0.0:8000 --workers=${CMS_NUM_OF_WORKERS}"
     expose:
       - 8000
     environment:
       - WAIT_HOSTS=cms_db:5432,cms_memcached:11211
       - WAIT_TIMEOUT=120
       - DEBUG=${CMS_DEBUG}
+      - CMS_VERSION=${CMS_VERSION}
       - WAGTAIL_SITE_NAME=${CMS_SITE_NAME}
       - ADMIN_URL_PATH=${CMS_ADMIN_URL_PATH}
       - TIME_ZONE=${TIME_ZONE}
@@ -54,12 +56,14 @@ services:
       - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
       - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
       - NEXTJS_SERVER_URL=http://cms_mapviewer:3000
+      - CMS_UPGRADE_HOOK_URL=http://cms_webhook:9000/hooks/cms-upgrade
     ports:
       - "8000"
     volumes:
       - ${CMS_STATIC_VOLUME}:/home/app/web/static
       - ${CMS_MEDIA_VOLUME}:/home/app/web/media
   cms_mapviewer:
+    image: cms_mapviewer
     container_name: cms_mapviewer
     restart: always
     platform: linux/x86_64

@@ -376,3 +376,7 @@ WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
 DJANGO_TABLES2_TEMPLATE = "django-tables2/bulma.html"
 
 ADMIN_URL_PATH = env.str("ADMIN_URL_PATH")
+
+CMS_VERSION = env.str("CMS_VERSION", default="")
+
+CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
