@@ -128,8 +128,14 @@ INSTALLED_APPS = [
     "background_task",
     "django_cleanup",
     "django_countries",
-    "wagtail_modeladmin"
+    "wagtail_modeladmin",
+    "dbbackup"
 ]
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
+DBBACKUP_CLEANUP_KEEP_MEDIA=1
+DBBACKUP_CLEANUP_KEEP=1
 
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
 DEEPL_TRANSLATE_KEY = "testkey"
