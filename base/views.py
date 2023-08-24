@@ -40,6 +40,23 @@ def cms_version_view(request):
             "latest_release": latest_release
         })
 
+        initial = {
+            "latest_version": latest_release.get("version"),
+            "current_version": current_version
+        }
+        form = CMSUpgradeForm(initial=initial)
+
+        context.update({
+            "form": form,
+        })
+
+    initial = {
+        "latest_version": latest_release.get("version"),
+        "current_version": current_version
+    }
+
+    upgrade_form = CMSUpgradeForm(initial=initial)
+
     if request.POST:
         form = CMSUpgradeForm(request.POST)
 
@@ -55,18 +72,16 @@ def cms_version_view(request):
                         send_upgrade_command(latest_version)
                         cache.set("cms_upgrade_pending", True)
                         messages.success(request, "CMS upgrade initiated successfully")
-                    except Exception:
+                    except Exception as e:
                         cache.set("cms_upgrade_pending", False)
-                        messages.error(request, "Error initiating upgrade")
+                        messages.error(request, "Error initiating CMS upgrade¬. Please ensure the "
+                                                "'CMS_UPGRADE_HOOK_URL' env variable is working correctly")
+                        context.update({
+                            "form": upgrade_form
+                        })
     else:
-        initial = {
-            "latest_version": latest_release.get("version"),
-            "current_version": current_version
-        }
-        form = CMSUpgradeForm(initial=initial)
-
         context.update({
-            "form": form,
+            "form": upgrade_form
         })
 
     context.update({"cms_upgrade_pending": cms_upgrade_pending})
