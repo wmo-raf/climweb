@@ -193,10 +193,8 @@ DATABASES = {
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework_xml.renderers.XMLRenderer',  # add XMLRenderer
     ),
     'DEFAULT_PARSER_CLASSES': (
-        'rest_framework_xml.parsers.XMLParser',
         'rest_framework.parsers.JSONParser',
     ),
 }
@@ -384,3 +382,7 @@ WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
 DJANGO_TABLES2_TEMPLATE = "django-tables2/bulma.html"
 
 ADMIN_URL_PATH = env.str("ADMIN_URL_PATH")
+
+CMS_VERSION = env.str("CMS_VERSION", default="")
+
+CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
