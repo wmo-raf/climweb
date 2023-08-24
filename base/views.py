@@ -1,10 +1,10 @@
 from django.conf import settings
+from django.core.cache import cache
 from django.shortcuts import render
+from wagtail.admin import messages
 
 from base.forms import CMSUpgradeForm
 from base.utils import get_latest_cms_release, send_upgrade_command
-from wagtail.admin import messages
-from django.core.cache import cache
 
 
 def handler500(request):
