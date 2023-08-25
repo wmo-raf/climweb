@@ -74,7 +74,7 @@ def cms_version_view(request):
                         messages.success(request, "CMS upgrade initiated successfully")
                     except Exception as e:
                         cache.set("cms_upgrade_pending", False)
-                        messages.error(request, "Error initiating CMS upgrade¬. Please ensure the "
+                        messages.error(request, "Error initiating CMS upgrade. Please ensure the "
                                                 "'CMS_UPGRADE_HOOK_URL' env variable is working correctly")
                         context.update({
                             "form": upgrade_form
@@ -84,6 +84,6 @@ def cms_version_view(request):
             "form": upgrade_form
         })
 
-    context.update({"cms_upgrade_pending": cms_upgrade_pending})
+    context.update({"cms_upgrade_pending": cache.get("cms_upgrade_pending")})
 
     return render(request, template_name, context=context)

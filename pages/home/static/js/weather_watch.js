@@ -48,8 +48,7 @@ $(document).ready(function () {
         }]
     }
 
-
-    const forecast_map = new maplibregl.Map({
+    const map = new maplibregl.Map({
         container: "home-map", // container ID
         style: defaultStyle,
         center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
@@ -58,16 +57,16 @@ $(document).ready(function () {
     });
 
     // Create a popup object
-    var popup = new maplibregl.Popup({
+    const popup = new maplibregl.Popup({
         closeButton: false,
         closeOnClick: false
     });
 
 
     // Add zoom and rotation controls to the map.
-    forecast_map.addControl(new maplibregl.NavigationControl({showCompass: false}));
+    map.addControl(new maplibregl.NavigationControl({showCompass: false}));
 
-    forecast_map.addControl(new maplibregl.AttributionControl({
+    map.addControl(new maplibregl.AttributionControl({
         customAttribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
         compact: false,
 
@@ -82,7 +81,6 @@ $(document).ready(function () {
         }, {})
 
         const cityName = props.city_name;
-        console.log(props)
         const condition = props.condition;
 
         let values = Object.keys(paramValues).reduce((all, key) => {
@@ -98,82 +96,26 @@ $(document).ready(function () {
         </div>`
     }
 
-    function populateMap(data) {
-        forecast_map.addSource("city-forecasts", {
-            type: "geojson",
-            data: data
-        })
-
-        forecast_map.addLayer({
-            "id": "city-forecasts",
-            "type": "symbol",
-            "layout": {
-                'icon-image': ['get', 'condition_icon'],
-                'icon-size': 0.3,
-                'icon-allow-overlap': true
-            },
-            source: "city-forecasts"
-        })
-
-        // forecast_map.addLayer({
-        //     id: "city-forecasts-max_temp",
-        //     source: "city-forecasts",
-        //     type: "symbol",
-        //     'layout': {
-        //         'text-offset': [2, -0.5],
-        //         'text-field': ['concat', ['get', 'air_temperature_max'], temp_units],
-        //         'text-allow-overlap': true,
-        //         'icon-allow-overlap': true
-
-        //     },
-        //     'paint': {
-        //         'text-halo-color': '#fff',
-        //         'text-halo-width': 2,
-
-
-        //     }
-
-        // })
-        // forecast_map.addLayer({
-        //     id: "city-forecasts-min_temp",
-        //     source: "city-forecasts",
-        //     type: "symbol",
-        //     'layout': {
-        //         'text-offset': [2.5, 0.5],
-        //         'text-field': ['concat', ['get', 'air_temperature_min'], temp_units],
-        //         'text-size': 12,
-        //         'text-allow-overlap': true,
-        //         'icon-allow-overlap': true
-
-
-        //     },
-        //     'paint': {
-        //         'text-halo-color': '#fff',
-        //         'text-halo-width': 2,
-
-        //     }
-
-        // })
-
-
+    function updateSourceData(data) {
+        map.getSource('city-forecasts').setData(data);
     }
 
-    forecast_map.on("load", () => {
+    map.on("load", () => {
 
         if (country_info && country_info.bbox) {
 
             const bbox = country_info.bbox
 
-            forecast_map.fitBounds(bbox, {padding: 20});
+            map.fitBounds(bbox, {padding: 20});
         }
 
         if (alertsGeojson) {
-            forecast_map.addSource("alert-areas", {
+            map.addSource("alert-areas", {
                 type: "geojson",
                 data: alertsGeojson,
             });
 
-            forecast_map.addLayer({
+            map.addLayer({
                 id: "alert-areas-layer",
                 type: "fill",
                 source: "alert-areas",
@@ -199,7 +141,7 @@ $(document).ready(function () {
 
             // When a click event occurs on a feature in the places layer, open a popup at the
             // location of the feature, with description HTML from its properties.
-            forecast_map.on("click", "alert-areas-layer", (e) => {
+            map.on("click", "alert-areas-layer", (e) => {
                 // Copy coordinates array.
 
                 const description = e.features[0].properties.areaDesc;
@@ -209,54 +151,65 @@ $(document).ready(function () {
                 new maplibregl.Popup()
                     .setLngLat(e.lngLat)
                     .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p></div>`)
-                    .addTo(forecast_map);
+                    .addTo(map);
             });
 
             // Change the cursor to a pointer when the mouse is over the places layer.
-            forecast_map.on("mouseenter", "alert-areas-layer", () => {
-                forecast_map.getCanvas().style.cursor = "pointer";
+            map.on("mouseenter", "alert-areas-layer", () => {
+                map.getCanvas().style.cursor = "pointer";
             });
 
             // Change it back to a pointer when it leaves.
-            forecast_map.on("mouseleave", "alert-areas-layer", () => {
-                forecast_map.getCanvas().style.cursor = "";
+            map.on("mouseleave", "alert-areas-layer", () => {
+                map.getCanvas().style.cursor = "";
             });
         }
+
+        map.addSource("city-forecasts", {
+            type: "geojson",
+            data: {type: "FeatureCollection", features: []}
+        })
+
+        map.addLayer({
+            "id": "city-forecasts",
+            "type": "symbol",
+            "layout": {
+                'icon-image': ['get', 'condition_icon'],
+                'icon-size': 0.3,
+                'icon-allow-overlap': true
+            },
+            source: "city-forecasts"
+        })
 
 
         // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
-        forecast_map.on("mouseenter", "city-forecasts", (e) => {
+        map.on("mouseenter", "city-forecasts", (e) => {
             // Get the feature that was hovered over
-            var feature = e.features[0];
-            forecast_map.getCanvas().style.cursor = "pointer";
-
-            // Copy coordinates array.
-            const city_name = feature.properties.city_name;
-            const condition_desc = feature.properties.condition;
-            const min_temp = feature.properties.min_temp;
-            const max_temp = feature.properties.max_temp;
-
+            const feature = e.features[0];
+            map.getCanvas().style.cursor = "pointer";
 
             popup.setLngLat(feature.geometry.coordinates)
                 .setHTML(getPopupHTML(feature.properties))
-                .addTo(forecast_map);
+                .addTo(map);
         })
-        //  i am here    
 
         // Change it back to a pointer when it leaves.
-        forecast_map.on("mouseleave", "city-forecasts", () => {
+        map.on("mouseleave", "city-forecasts", () => {
             popup.remove()
-            forecast_map.getCanvas().style.cursor = "";
+            map.getCanvas().style.cursor = "";
         });
 
-        var initDate = document.getElementById("daily_forecast");
-        setForecastData(initDate.value)
+        const initDate = document.getElementById("daily_forecast");
 
-
+        if (initDate.value) {
+            setForecastData(initDate.value)
+        }
     })
 
+
     function setForecastData(forecast_date) {
+
         // Make an HTTP GET request to the API endpoint
         fetch(`${forecast_api}?forecast_date=${forecast_date}`)
             .then(response => response.json())  // Parse the response as JSON
@@ -267,8 +220,8 @@ $(document).ready(function () {
                     let img = new Image()
 
                     img.onload = () => {
-                        if (!forecast_map.hasImage(icon.properties.condition_icon)) {
-                            return forecast_map.addImage(`${icon.properties.condition_icon}`, img)
+                        if (!map.hasImage(icon.properties.condition_icon)) {
+                            return map.addImage(`${icon.properties.condition_icon}`, img)
                         }
 
                     }
@@ -277,42 +230,23 @@ $(document).ready(function () {
 
                 })
                 // Access and use the data as needed                
-                populateMap({
+                updateSourceData({
                     type: "FeatureCollection",
                     features: data
                 })
-
 
             })
             .catch(error => {
                 // Handle any errors that occurred during the request
                 console.error('Error:', error);
             });
-
     }
-
 
     // toggle forecasts by selected date
     $('#daily_forecast').on('change', function (e) {
-        var valueSelected = this.value;
-
-        if (forecast_map.getLayer("city-forecasts")) {
-            forecast_map.removeLayer("city-forecasts");
-        }
-        if (forecast_map.getLayer("city-forecasts-max_temp")) {
-            forecast_map.removeLayer("city-forecasts-max_temp");
-        }
-
-        if (forecast_map.getLayer("city-forecasts-min_temp")) {
-            forecast_map.removeLayer("city-forecasts-min_temp");
-        }
-        if (forecast_map.getSource("city-forecasts")) {
-            forecast_map.removeSource("city-forecasts");
-        }
+        const valueSelected = this.value;
 
         setForecastData(valueSelected)
-
     });
-    // }
 
 });
