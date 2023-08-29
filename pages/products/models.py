@@ -1,9 +1,14 @@
+import uuid
+
+from adminboundarymanager.models import AdminBoundarySettings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.dates import MONTHS
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from geomanager.models import FileImageLayer
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
 from wagtail import blocks
@@ -12,11 +17,13 @@ from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtailiconchooser.models import CustomIconPage
-from base.mixins import MetadataPageMixin
+from wagtailmodelchooser import register_model_chooser
+from wagtailmodelchooser.blocks import ModelChooserBlock
 
+from base.mixins import MetadataPageMixin
+from base.models import Product, ProductItemType
 from base.models import ServiceCategory, AbstractIntroPage
 from base.utils import paginate, query_param_to_list
-from base.models import Product
 from pages.products.blocks import ProductItemImageContentBlock, ProductItemDocumentContentBlock
 
 
@@ -39,6 +46,42 @@ class ProductIndexPage(MetadataPageMixin, Page):
         verbose_name_plural = _('Product Index Pages')
 
 
+class UUIDModelChooserBlock(ModelChooserBlock):
+    def get_form_state(self, value):
+        data = self.widget.get_value_data(value)
+        if data and data.get("id"):
+            data["id"] = str(data["id"])
+        return data
+
+    def get_prep_value(self, value):
+        # the native value (a model instance or None) should serialise to a PK or None
+        if value is None:
+            return None
+        else:
+            return str(value.pk)
+
+    def to_python(self, value):
+        # the incoming serialised value should be None or an ID
+        if value is None:
+            return value
+        else:
+            try:
+                return self.model_class.objects.get(pk=uuid.UUID(value))
+            except self.model_class.DoesNotExist:
+                return None
+
+    def bulk_to_python(self, values):
+        objects = self.model_class.objects.in_bulk(values)
+        return [
+            objects.get(uuid.UUID(id)) for id in values
+        ]
+
+
+class LayerBlock(blocks.StructBlock):
+    geomanager_layer = UUIDModelChooserBlock(FileImageLayer)
+    product_type = blocks.ChoiceBlock(required=False, choices=[])
+
+
 class ProductPage(AbstractIntroPage):
     template = 'products/product_index.html'
     ajax_template = 'product_list_include.html'
@@ -54,6 +97,10 @@ class ProductPage(AbstractIntroPage):
         MaxValueValidator(20),
     ], help_text=_("How many of this products should be visible on the landing page filter section ?"),
                                                     verbose_name=_("Products per page"))
+
+    map_layers = StreamField([
+        ('layers', LayerBlock(label="Layer"))
+    ], blank=True, null=True, use_json_field=True, verbose_name=_("Map Layers"))
 
     content_panels = Page.content_panels + [
         FieldPanel('service'),
@@ -114,11 +161,39 @@ class ProductPage(AbstractIntroPage):
 
         context['products'] = self.filter_and_paginate_products(request)
 
+        if self.map_layers:
+            abm_settings = AdminBoundarySettings.for_request(request)
+            context["bounds"] = abm_settings.combined_countries_bounds
+
+            try:
+                context["datasetsurl"] = request.build_absolute_uri(reverse("dataset-list"))
+                context["layertimestampsurl"] = request.build_absolute_uri(reverse("layerrasterfile-list"))
+            except Exception:
+                pass
+
         return context
+
+    @cached_property
+    def map_layers_list(self):
+        layers = []
+        for map_layer in self.map_layers:
+            layer = map_layer.value.get("geomanager_layer")
+            product_type = map_layer.value.get("product_type")
+
+            if product_type:
+                product_type = ProductItemType.objects.filter(pk=product_type).first()
+            layers.append({
+                "layer": layer,
+                "product_type": product_type
+            })
+        return layers
 
     class Meta:
         verbose_name = _('Product Page')
         verbose_name_plural = _('Product Pages')
+
+
+register_model_chooser(FileImageLayer)
 
 
 class ProductPageTag(TaggedItemBase):
@@ -131,16 +206,7 @@ class ProductItemPageForm(WagtailAdminPageForm):
         super().__init__(*args, **kwargs)
 
         parent_page = kwargs.get("parent_page")
-        products_item_types = []
-
-        product = parent_page.specific.product
-
-        if product and product.categories:
-            for category in product.categories.all():
-                item_types = category.product_item_types.all()
-
-                for item_type in item_types:
-                    products_item_types.append((item_type.pk, item_type.name))
+        products_item_types = parent_page.specific.product.product_item_types
 
         products_field = self.fields.get("products")
 

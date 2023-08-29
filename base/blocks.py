@@ -2,14 +2,13 @@ from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.blocks import StructValue
+from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
 
 from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
-from wagtail.contrib.table_block.blocks import TableBlock
-from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
 
 
 class AbstractFormBlock(blocks.StructBlock):
@@ -45,27 +44,27 @@ class AbstractFormBlock(blocks.StructBlock):
 
 class TitleTextImageBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
-                                          help_text=_("Section title"), )
+                             help_text=_("Section title"), )
     text = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Section Text'),
-                                      help_text=_("Section description"))
-    image =  ImageChooserBlock(required=False)
+                                help_text=_("Section description"))
+    image = ImageChooserBlock(required=False)
 
     class Meta:
         template = "streams/title_text_image.html"
         icon = "placeholder"
         label = _("Title, Text and Image")
 
+
 class TitleTextBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
-                                          help_text=_("Section title"), )
+                             help_text=_("Section title"), )
     text = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Section Text'),
-                                      help_text=_("Section description"))
+                                help_text=_("Section description"))
 
     class Meta:
         template = "streams/title_text.html"
         icon = "placeholder"
         label = _("Title and Text")
-
 
 
 class FeatureBlock(blocks.StructBlock):
@@ -106,6 +105,7 @@ class CollapsibleBlock(blocks.StructBlock):
         icon = "placeholder"
         label = _("Collapsible Block")
 
+
 class AccordionBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=True)
     collapsibles = blocks.StreamBlock([
@@ -124,14 +124,13 @@ class TableInfoBlock(blocks.StructBlock):
         'colHeaders': False,
         'rowHeaders': False,
     })
-    
 
     class Meta:
         template = "streams/table_block.html"
 
 
 class WhatWeDoBlock(blocks.StructBlock):
-    icon = IconChooserBlock(required=False,label=_("Icon"))
+    icon = IconChooserBlock(required=False, label=_("Icon"))
     title = blocks.CharBlock(max_length=60, required=False)
     description = blocks.CharBlock()
 
