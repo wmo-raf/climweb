@@ -1,6 +1,7 @@
 import json
 from datetime import datetime, timedelta
 from itertools import groupby
+from django.forms import CheckboxSelectMultiple
 
 from django.contrib.gis.db import models
 from django.utils import timezone
@@ -9,10 +10,15 @@ from django.utils.translation import gettext_lazy as _
 from forecastmanager.models import City, Forecast
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.models import Page, Site
+from wagtail.fields import StreamField
+from modelcluster.fields import ParentalManyToManyField
+
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
 from base.mixins import MetadataPageMixin
+from base import blocks
+
 from pages.cap.constants import SEVERITY_MAPPING
 from pages.cap.models import CapAlertPage
 from pages.events.models import EventPage
@@ -21,6 +27,7 @@ from pages.publications.models import PublicationPage
 from pages.services.models import ServicePage
 from pages.videos.models import YoutubePlaylist
 from forecastmanager.site_settings import ForecastSetting
+from pages.organisation_pages.partners.models import Partner
 
 
 class HomePage(MetadataPageMixin, Page):
@@ -88,6 +95,12 @@ class HomePage(MetadataPageMixin, Page):
         related_name='+',
         verbose_name=_("Youtube Playlist")
     )
+
+    feature_block = StreamField([
+        ('feature_item', blocks.FeatureBlock()),
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Feature block"))
+
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('hero_title'),
@@ -111,7 +124,11 @@ class HomePage(MetadataPageMixin, Page):
             FieldPanel('video_section_title'),
             FieldPanel('video_section_desc'),
             FieldPanel('youtube_playlist'),
-        ], heading=_("Media Section"))
+        ], heading=_("Media Section")),
+        MultiFieldPanel([
+            FieldPanel('feature_block'),
+
+        ], heading=_("Addditional Information")),
 
     ]
 
@@ -164,6 +181,12 @@ class HomePage(MetadataPageMixin, Page):
 
         return context
 
+    @cached_property
+    def partners(self):
+        # get partners that should appear on the homepage
+        partners = Partner.objects.filter(visible_on_homepage=True)[:7]
+        return partners
+    
     @cached_property
     def city_item(self):
 

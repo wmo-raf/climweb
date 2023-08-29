@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
+{% load static  %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -19,6 +20,47 @@
         {% include 'section/services_include.html' %}
         {% include 'section/updates_include.html' with page=page %}
         {% include 'section/media_include.html' %}
+        {% if page.feature_block %}
+            <section class="feature-block-section">
+                {% for block in page.feature_block %}
+                    {% include_block block with is_even=forloop.counter|divisibleby:2 %}
+                {% endfor %}
+            </section>
+        {% endif %}
+        {% if page.partners %}
+            <section id="partners" class="partners">
+                <div class="container">
+                    <h2 class="section-title center">Our Partners</h2>
+                    <div class="columns is-multiline is-mobile is-centered is-flex">
+                        {% for partner in page.partners %}
+                            {% if partner.visible_on_homepage %}
+                                <a href="{% if partner.link %}{{ partner.link }}{% else %}#{% endif %}"
+                                   target="_blank"
+                                   rel="noopener"
+                                   class="column is-one-fifth-desktop is-one-third-mobile"
+                                   style="display: flex;justify-content: center">
+                                    <figure class="image is-96x96">
+                                        {% image partner.logo original class="partner-logo" style="height:100%;width:100%;object-fit:contain" %}
+                                    </figure>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% if settings.base.ImportantPages.all_partners_page %}
+                        <div class="more-container" style="justify-content: center">
+                            <a class="center more" href="{{ settings.core.ImportantPages.all_partners_page.url }}" }>
+                                More Partners
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+
+        
     </main>
 {% endblock content %}
 
