@@ -106,7 +106,7 @@ class HomePage(MetadataPageMixin, Page):
             FieldPanel('hero_title'),
             FieldPanel('hero_subtitle'),
             FieldPanel("hero_banner"),
-            NativeColorPanel('hero_text_color'),
+            # NativeColorPanel('hero_text_color'),
             FieldPanel('hero_type')
         ], heading=_("Banner Section")),
         MultiFieldPanel([

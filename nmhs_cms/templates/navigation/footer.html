@@ -1,4 +1,4 @@
-{% load static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags %}
+{% load static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags nmhs_cms_tags %}
 {% get_settings use_default_site=True %}
 {% wagtail_site as current_site %}
 
@@ -28,6 +28,11 @@
                         <p class="has-text-white footer-text">
                             &copy; {{ settings.base.OrganisationSetting.name }} {% now 'Y' %}</p>
                     {% endif %}
+                    {% if 'CMS_VERSION'|django_settings %}
+                    <div style="color:#ababab; font-size: 12px;  font-weight:600">
+                        <span> v{{ 'CMS_VERSION'|django_settings }}</span>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="column is-half" style="display: flex;justify-content: flex-end;">
                     {% for account in settings.base.OrganisationSetting.social_media_accounts %}
@@ -41,6 +46,7 @@
                 </div>
 
             </div>
+
         </div>
     </div>
 </footer>
