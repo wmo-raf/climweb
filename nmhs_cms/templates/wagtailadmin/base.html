@@ -17,9 +17,9 @@
     </figure>
     
     {% if 'CMS_VERSION'|django_settings %}
-    <div style="color:#ababab; font-size: 12px; padding-top:1em; font-weight:600">
-        <span>v{{ 'CMS_VERSION'|django_settings }}</span>
-    </div>
+    <a href="{% url 'cms-version' %}" style="color:#ababab; font-size: 12px; padding-top:1em; font-weight:600">
+        <span> v{{ 'CMS_VERSION'|django_settings }}</span>
+    </a>
     {% endif %}
 
 {% endblock %}
