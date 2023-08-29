@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.text import slugify
@@ -22,12 +23,24 @@ class Product(ClusterableModel):
         InlinePanel("categories", heading=_("Product Categories"), label=_("Product Category")),
     ]
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
+
+    def __str__(self):
+        return self.name
+
+    @cached_property
+    def product_item_types(self):
+        products_item_types = []
+
+        if self.categories:
+            for category in self.categories.all():
+                item_types = category.product_item_types.all()
+                for item_type in item_types:
+                    products_item_types.append((item_type.pk, f"{category.name} - {item_type.name}"))
+
+        return products_item_types
 
 
 class ProductCategory(ClusterableModel):
@@ -53,6 +66,11 @@ class ProductItemType(Orderable):
     category = ParentalKey(ProductCategory, on_delete=models.PROTECT, verbose_name=_("Name"),
                            related_name="product_item_types")
     name = models.CharField(max_length=100, verbose_name=_("Name"))
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["category", "name"], name="unique_category_name")
+        ]
 
     def __str__(self):
         return self.name
