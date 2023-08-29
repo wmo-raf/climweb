@@ -12,8 +12,18 @@
             <img src="{% static 'img/logo.svg' %}" alt="CMS Dashboard Logo"
                  style="height: 100%;width: 100%;object-fit: contain"/>
         {% endif %}
+
+        
     </figure>
+    
+    {% if 'CMS_VERSION'|django_settings %}
+    <div style="color:#ababab; font-size: 12px; padding-top:1em; font-weight:600">
+            <span>v{{ 'CMS_VERSION'|django_settings }}</span>
+    </div>
+    {% endif %}
+
 {% endblock %}
+
 
 {% block branding_favicon %}
     {% if settings.base.OrganisationSetting.favicon %}
