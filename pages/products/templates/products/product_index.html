@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static wagtailiconchooser_tags %}
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/product.css' %}">
+    {% if page.map_layers %}
+        <link href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css" rel="stylesheet"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+    {% endif %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'products/css/product.css' %}">
 {% endblock %}
 
 {% block body_class %}product-page{% endblock %}
@@ -14,17 +20,44 @@
                 {% include 'service_introduction.html' with page=page what_we_do=False %}
             </div>
         </section>
-
         <section class="listing-section">
-            <h2 id="results" class="section-title has-text-centered">Browse Product Updates</h2>
-            <div class="container">
-                <div class="columns" style="width: 100%;margin: 0">
-                    <div class="column is-3 is-full-mobile">
-                        {% include 'products/product_filter_include.html' with filters=page.filters %}
+            {% if page.map_layers %}
+                <div class="tabs is-centered is-boxed is-medium">
+                    <ul>
+                        <li class="is-active" data-content="browse">
+                            <a>
+                                <span class="icon is-small"><i class="fas fa-list" aria-hidden="true"></i></span>
+                                <span>Browse</span>
+                            </a>
+                        </li>
+                        <li data-content="mapViewer">
+                            <a>
+                                <span class="icon is-small"><i class="fas fa-map" aria-hidden="true"></i></span>
+                                <span>MapViewer</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+            <div>
+                <div id="browse" class="content-tab">
+                    <h2 id="results" class="section-title has-text-centered">Browse Product Updates</h2>
+                    <div class="container">
+                        <div class="columns" style="width: 100%;margin: 0">
+                            <div class="column is-3 is-full-mobile">
+                                {% include 'products/product_filter_include.html' with filters=page.filters %}
+                            </div>
+                            <div class="column is-9 is-full-mobile">
+                                {% include 'products/product_list_include.html' with products=products %}
+                            </div>
+                        </div>
                     </div>
-                    <div class="column is-9 is-full-mobile">
-                        {% include 'products/product_list_include.html' with products=products %}
+                </div>
+                <div id="mapViewer" class="content-tab" style="display: none">
+                    <div class="container">
+                        {% include "products/products_map_include.html" with layers=page.map_layers_list %}
                     </div>
+
                 </div>
             </div>
         </section>
@@ -32,10 +65,56 @@
 {% endblock content %}
 
 {% block extra_js %}
+    {% if page.map_layers %}
+        <script src="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+                integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            const datasetsUrl = "{{ datasetsurl }}";
+            const layerTimestampsUrl = "{{ layertimestampsurl }}";
+            const bounds = {{ bounds|safe }};
+            let mapBounds
+            if (bounds && !!bounds.length) {
+                mapBounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
+            }
+        </script>
+
+        <script src="{% static "products/js/product_map.js" %}"></script>
+    {% endif %}
 
     <script>
 
         $(document).ready(function () {
+
+            const $tabs = $(".tabs li");
+
+            $tabs.click(function () {
+                const $this = $(this);
+                const contentTarget = $this.data("content");
+                // remove active class from all tabs
+                $tabs.removeClass("is-active");
+
+                // add active class to target tab
+                $this.addClass("is-active");
+
+                const $contentTabs = $(".content-tab")
+
+                // hide all content tabs
+                $contentTabs.each(function () {
+                    $(this).hide()
+                })
+
+                // find content target and show it
+                $("#" + contentTarget).show();
+
+
+                if (typeof (map) !== 'undefined') {
+                    map.resize()
+                    map.fitBounds(mapBounds, {padding: 20})
+                }
+            })
 
             // If on smaller screens, collapse all filter items
             const windowWidth = $(window).width();

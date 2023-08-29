@@ -1,0 +1,33 @@
+{% load static wagtailiconchooser_tags %}
+<div id="product-map" style="height: 600px;width: 100%">
+    <div class="menu-control" style="position: absolute">
+        <div class="map-menu">
+            {% for map_layer in layers %}
+                <div class="menu-category {% if forloop.first %}active{% endif %}"
+                     data-dataset="{{ map_layer.layer.dataset.id }}"
+                     data-layer="{{ map_layer.layer.id }}">
+                    <div class="category-icon">
+                        <div class="c-icon">
+                            {% if map_layer.product_type and map_layer.product_type.category.icon %}
+                                {% svg_icon name=map_layer.product_type.category.icon %}
+                            {% else %}
+                                {% svg_icon name="layer-group" %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="layer-title" data-layer="{{ map_layer.layer.id }}">
+                        <div class="layer-label">{{ map_layer.layer.title }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div style="position: absolute;bottom: 20px;left: 30px;width: 100%;z-index: 999">
+        <div style="max-width: 500px" id="sliderContainer">
+            <input type="text" class="layer-date-slider" style="display: none" name="my_range" value=""/>
+        </div>
+    </div>
+    <div class="c-legend-type-choropleth" style="position: absolute;bottom: 30px;right: 12px;width: 240px;z-index: 999"
+         id="legendContainer">
+    </div>
+</div>
