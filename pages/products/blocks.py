@@ -17,6 +17,9 @@ class ProductItemStructValue(StructValue):
             return None
         return p
 
+    def product_date_str(self):
+        return self.get("date").isoformat()
+
     def p_image(self):
         if self.get("image"):
             return self.get("image")
@@ -37,7 +40,10 @@ class ProductCategoryBlock(blocks.StructBlock):
 
 class ProductItemImageContentBlock(blocks.StructBlock):
     product_type = blocks.CharBlock(required=True, label=_("Product Type"))
-    date = blocks.DateBlock(required=True, label=_("Product date"))
+    date = blocks.DateBlock(required=True, label=_("Effective date"),
+                            help_text=_("First effective date of the product"))
+    valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
+                                   help_text=_("Last day when the product is effective"))
     image = ImageChooserBlock(required=True, label=_("Image"))
     description = blocks.RichTextBlock(label=_("Summary of the map/image information"))
 
