@@ -40,10 +40,11 @@ class ProductCategoryBlock(blocks.StructBlock):
 
 class ProductItemImageContentBlock(blocks.StructBlock):
     product_type = blocks.CharBlock(required=True, label=_("Product Type"))
-    date = blocks.DateBlock(required=True, label=_("Effective date"),
-                            help_text=_("First effective date of the product"))
+    date = blocks.DateBlock(required=True, label=_("Effective from"),
+                            help_text=_("The date when this product becomes effective"))
     valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
-                                   help_text=_("Last day when the product is effective"))
+                                   help_text=_("The last day this product remains effective. "
+                                               "Leave blank if not applicable"))
     image = ImageChooserBlock(required=True, label=_("Image"))
     description = blocks.RichTextBlock(label=_("Summary of the map/image information"))
 
@@ -55,7 +56,11 @@ class ProductItemDocumentContentBlock(blocks.StructBlock):
     product_type = blocks.CharBlock(required=True, label=_("Product Type"))
     thumbnail = ImageChooserBlock(required=False, label=_("Thumbnail of the document"),
                                   help_text=_("For example a screen grab of the cover page"))
-    date = blocks.DateBlock(required=True, label=_("Product date"))
+    date = blocks.DateBlock(required=True, label=_("Effective from"),
+                            help_text=_("The date when this product becomes effective"))
+    valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
+                                   help_text=_("The last day this product remains effective. "
+                                               "Leave blank if not applicable"))
     document = DocumentChooserBlock(required=True, label=_("Document"))
     description = blocks.RichTextBlock(label=_("Summary of the document information"))
 

@@ -227,10 +227,10 @@ class ProductItemPage(MetadataPageMixin, Page):
     subpage_types = []
     base_form_class = ProductItemPageForm
 
-    date = models.DateField(default=timezone.now, verbose_name=_("Effective date"),
-                            help_text=_("First date when products added below are effective"))
+    date = models.DateField(default=timezone.now, verbose_name=_("Effective from"),
+                            help_text=_("The first day when products added below become effective"))
     valid_until = models.DateField(blank=True, null=True, verbose_name=_("Effective until"),
-                                   help_text=_("Up to when are product added below effective ? "
+                                   help_text=_("The last day when products added below remain effective. "
                                                "Leave blank if not applicable"))
     products = StreamField([
         ("image_product", ProductItemImageContentBlock(label="Map/Image Product")),
