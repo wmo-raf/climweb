@@ -98,8 +98,6 @@ from nmhs_cms import VERSION, __version__
 # The short X.Y version.
 version = "{}.{}".format(VERSION[0], VERSION[1])
 
-# print("version", version)
-# print("__version__", __version__)
 # The full version, including alpha/beta/rc tags.
 release = __version__
 
