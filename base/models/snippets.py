@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.text import slugify
@@ -46,7 +45,7 @@ class Product(ClusterableModel):
 class ProductCategory(ClusterableModel):
     product = ParentalKey(Product, on_delete=models.PROTECT, verbose_name=_("Product"), related_name="categories")
     name = models.CharField(max_length=100, verbose_name=_("Name"))
-    icon = models.CharField(max_length=100, verbose_name=_("Icon"))
+    icon = models.CharField(max_length=100, verbose_name=_("Icon"), default="folder-inverse")
 
     panels = [
         FieldPanel("product"),

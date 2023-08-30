@@ -16,7 +16,6 @@ from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.fields import StreamField
 from wagtail.models import Page
-from wagtailiconchooser.models import CustomIconPage
 from wagtailmodelchooser import register_model_chooser
 from wagtailmodelchooser.blocks import ModelChooserBlock
 
@@ -222,15 +221,17 @@ class ProductItemPageForm(WagtailAdminPageForm):
         self.fields["products"] = products_field
 
 
-class ProductItemPage(MetadataPageMixin, CustomIconPage, Page):
+class ProductItemPage(MetadataPageMixin, Page):
     template = 'products/product_detail.html'
     parent_page_types = ['products.ProductPage', ]
     subpage_types = []
     base_form_class = ProductItemPageForm
 
-    date = models.DateField(default=timezone.now, verbose_name=_("Date"))
-    valid_until = models.DateField(blank=True, null=True, verbose_name=_("Valid until"),
-                                   help_text=_("Up to when is this product valid ? Leave blank if not applicable"))
+    date = models.DateField(default=timezone.now, verbose_name=_("Effective date"),
+                            help_text=_("First date when products added below are effective"))
+    valid_until = models.DateField(blank=True, null=True, verbose_name=_("Effective until"),
+                                   help_text=_("Up to when are product added below effective ? "
+                                               "Leave blank if not applicable"))
     products = StreamField([
         ("image_product", ProductItemImageContentBlock(label="Map/Image Product")),
         ("document_product", ProductItemDocumentContentBlock(label="Document/Bulletin Product"))

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailadmin_tags lazyimages_tags wagtailimages_tags nmhs_cms_tags %}
+{% load static wagtailcore_tags lazyimages_tags wagtailimages_tags nmhs_cms_tags wagtailiconchooser_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'products/css/product_detail.css' %}">
@@ -8,9 +8,6 @@
 {% block body_class %}product_detail{% endblock %}
 
 {% block content %}
-    {% if icons_svg_sprite %}
-        {{ icons_svg_sprite|safe }}
-    {% endif %}
     <main>
         {% include "breadcrumbs_include.html" %}
         <section class=product-detail>
@@ -24,7 +21,7 @@
                                     <div class="category">
                                         <div class="category-heading">
                                             <span class="category-icon">
-                                                {% icon name=category.icon %}
+                                                {% svg_icon name=category.icon %}
                                             </span>
                                             <span class="category-title">{{ category.name }}</span>
                                         </div>
@@ -49,16 +46,32 @@
                                 {% for slug, item_products_dict  in products.items %}
                                     <div class="content" id="tab-{{ slug }}">
                                         {% setvar item_products_dict.products|length as products_len %}
-                                        <h2>{{ item_products_dict.products.0.value.product_item_type.name }}</h2>
+                                        <div class="date-tabs" id="{{ slug }}-date-tab">
+                                            <div class="tabs is-toggle is-centered">
+                                                <ul>
+                                                    {% for product_item in item_products_dict.products %}
+                                                        <li class="product-item-date-tab {% if forloop.first %}is-active{% endif %}"
+                                                            data-target="{{ slug }}-{{ product_item.value.product_type }}-{{ product_item.value.product_date_str }}">
+                                                            <a>
+                                                                <span class="icon is-small">
+                                                                    <i class="far fa-calendar" aria-hidden="true"></i>
+                                                                </span>
+                                                                <span>{{ product_item.value.date }} </span>
+                                                                {% if product_item.value.valid_until %}
+                                                                    <span style="margin-left: 4px">- {{ product_item.value.valid_until }}</span>
+                                                                {% endif %}
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
                                         {% for product_item in item_products_dict.products %}
-                                            <div class="product-item-wrapper">
-                                                {% if products_len > 1 %}
-                                                    <div style="display: flex;justify-content: center">
-                                                        <h3 style="padding: 20px 0">{{ product_item.value.date }}</h3>
-                                                    </div>
-                                                {% endif %}
+                                            <div class="product-item-wrapper {% if forloop.first %}is-active{% endif %}"
+                                                 id="{{ slug }}-{{ product_item.value.product_type }}-{{ product_item.value.product_date_str }}"
+                                            >
                                                 {% if product_item.block_type == "image_product" %}
-                                                    <figure class="product-item-image box"
+                                                    <figure class="product-item-image"
                                                             style="margin-left: 0;margin-right: 0">
                                                         {% image product_item.value.image original as product_item_image %}
                                                         <img class="progressive__img progressive--not-loaded"
@@ -100,7 +113,7 @@
                                                                      alt="{{ product_item.value.product_item_type.name }}"
                                                                 />
                                                             {% else %}
-                                                                {% icon name="document" %}
+                                                                {% svg_icon name="document" %}
                                                             {% endif %}
                                                         </figure>
                                                         <div class="product-item-doc-meta">
@@ -153,30 +166,41 @@
             const tabs = $(".categories .tab")
             const contents = $(".content-container .content");
             const hash = window.location.hash;
+            const dateTabs = $(".product-item-date-tab")
+            const productItems = $(".product-item-wrapper")
 
             const setDefault = () => {
                 const firstTab = tabs.first()
                 const contentId = firstTab.attr("aria-controls")
                 if (contentId) {
-                    $(`#${contentId}`).addClass("active")
+                    $("#" + contentId).addClass("active")
                     firstTab.addClass("active")
                 }
             }
 
+
             if (hash) {
                 const hashId = hash.split("#")[1]
-                const $content = $(`#${hashId}`)
 
-                if ($content.length) {
-                    $content.addClass("active")
-                    const tab = $(`[aria-controls=${hashId}]`);
+                try {
+                    const $content = $("#" + hashId)
 
-                    if (tab) {
-                        tab.addClass("active")
+                    if ($content.length) {
+                        $content.addClass("active")
+                        const tab = $("[aria-controls=" + hashId + "]");
+
+                        if (tab) {
+                            tab.addClass("active")
+                        }
+                    } else {
+                        setDefault()
                     }
-                } else {
+
+                } catch (e) {
                     setDefault()
                 }
+
+
             } else {
                 setDefault()
             }
@@ -202,13 +226,43 @@
                     removeActiveClass();
                     tab.addClass("active");
                     if (contentId) {
-                        $(`#${contentId}`).addClass("active")
+                        const content = $("#" + contentId)
+                        // add active class to content container
+                        content.addClass("active")
+                        // get all date tabs
+                        const dateTabs = content.find(".date-tabs .tabs li")
+                        // remove is-active class from all
+                        dateTabs.removeClass("is-active")
+
+
+                        // get first date tab
+                        const firstDateTab = dateTabs.first()
+                        // add active class to the first date tab
+                        firstDateTab.addClass("is-active")
+                        // get target product item
+                        const dataTarget = firstDateTab.data("target")
+                        // remove active class from all product items
+                        productItems.removeClass("is-active")
+
+                        // make only targe active
+                        $("#" + dataTarget).addClass("is-active")
                     }
                 })
             });
+
+            dateTabs.click(function () {
+                const $this = $(this)
+                const dataTarget = $this.data("target")
+
+                // make only this date tab active
+                dateTabs.removeClass("is-active")
+                $this.addClass("is-active")
+
+                // make only target active
+                productItems.removeClass("is-active")
+                $("#" + dataTarget).addClass("is-active")
+            })
         });
-
-
     </script>
 
 {% endblock %}
