@@ -23,6 +23,85 @@
             font-weight: bold;
         }
 
+        .status-timeline {
+            position: relative;
+            z-index: 0;
+            list-style: none;
+            padding: 0 0 0 10px;
+        }
+
+        .status-timeline .status-timeline__item {
+            position: relative;
+            padding-left: 20px;
+            padding-bottom: 30px;
+        }
+
+        .status-timeline__item:not(:last-child):before {
+            background-image: -webkit-gradient(linear, left bottom, left top, color-stop(60%, #56616c), color-stop(25%, transparent));
+            background-image: -webkit-linear-gradient(bottom, #56616c 60%, transparent 25%);
+            background-image: linear-gradient(0deg, #56616c 60%, transparent 25%);
+            background-size: 1px 5px;
+            content: "";
+            display: block;
+            position: absolute;
+            width: 1px;
+            left: 5px;
+            top: 17px;
+            bottom: -6.5px;
+        }
+
+        .status-timeline__circle {
+            border-radius: 50%;
+            -webkit-box-shadow: rgb(86, 97, 108) 0px 0px 0px 1px inset;
+            box-shadow: rgb(86, 97, 108) 0px 0px 0px 1px inset;
+            height: 11px;
+            left: 0;
+            position: absolute;
+            width: 11px;
+            top: 6.5px;
+        }
+
+        .status-timeline__circle:after {
+            background-color: #56616c;
+            border-radius: 50%;
+            content: "";
+            display: block;
+            height: 7px;
+            width: 7px;
+            left: 2px;
+            position: absolute;
+            top: 2px;
+        }
+
+        .status-checkpoint {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .status-checkpoint .checkpoint-status {
+            display: flex;
+            font-size: 14px;
+        }
+
+        .status-checkpoint .status-checkpoint-label {
+            margin: 8px 0;
+        }
+
+        .status-icon svg {
+            height: 14px;
+            width: 14px;
+            margin-left: 4px;
+        }
+
+        .status-icon.success svg {
+            fill: green;
+        }
+
+        .status-icon.error svg {
+            fill: red;
+        }
+
+
     </style>
 
 {% endblock %}
@@ -31,17 +110,25 @@
 
     {% trans "CMS Version Check" as header_str %}
     {% include "wagtailadmin/shared/header.html" with title=header_str icon="cog" %}
-
     <div class="nice-padding">
-
         {% if current_version %}
             <div class="v-item">Current installed version: <strong>{{ current_version }}</strong></div>
         {% endif %}
-
         {% if latest_release %}
             <div class="v-item">Latest available version: <strong>{{ latest_release.version }}</strong></div>
-        {% endif %}
+        {% else %}
+            <div class="help-block help-warning">
+                <svg class="icon icon-warning icon" aria-hidden="true">
+                    <use href="#icon-warning"></use>
+                </svg>
+                <span>
+                    Unable to get the latest release version from
+                    <a href="https://api.github.com/repos/wmo-raf/nmhs-cms/releases/latest" target="_blank">Github</a>.
+                    Please check again after sometime.
+                </span>
+            </div>
 
+        {% endif %}
         {% if current_version and latest_release %}
             <div class="upgrade-section">
                 {% if current_version == latest_release.version %}
@@ -49,15 +136,57 @@
                         All good. You are running on the latest version!
                     </div>
                 {% else %}
-                    {% if cms_upgrade_pending %}
-                        <div class="help-block help-warning">
-                            <svg class="icon icon-warning icon" aria-hidden="true">
-                                <use href="#icon-warning"></use>
-                            </svg>
-                            A CMS upgrade was initiated. Please wait for the upgrade to complete
-                        </div>
-                    {% else %}
-                        {% if cms_upgrade_hook_url %}
+                    {% if status_dict %}
+                        <div style="font-size: 16px;font-weight: 600">Upgrade Status</div>
+                        <ul class="status-timeline">
+                            {% for key,state in status_dict.items %}
+                                <li class="status-timeline__item">
+                                    <div class="status-timeline__circle"></div>
+                                    <div class="status-checkpoint">
+                                        <div class="status-checkpoint-label">{{ state.label }}</div>
+
+                                        {% if state.pending %}
+                                            <div class="checkpoint-status">
+                                                <span>
+                                                    {% if state.prev_success %}
+                                                        Pending
+                                                    {% endif %}
+                                                </span>
+                                            </div>
+                                        {% else %}
+                                            {% if state.success %}
+                                                <div class="checkpoint-status">
+                                                    <span>
+                                                        Done
+                                                    </span>
+                                                    <span class="status-icon success">
+                                                        {% icon name="success" %}
+                                                    </span>
+                                                    <span style="margin-left: 4px"> - at {{ state.time }}</span>
+                                                </div>
+                                            {% else %}
+                                                <div class="error">
+                                                    <span>
+                                                        Failed
+                                                    </span>
+                                                    <span class="status-icon error">
+                                                        {% icon name="error" %}
+                                                    </span>
+                                                    {% if state.time %}
+                                                        <span style="margin-left: 4px"> - at {{ state.time }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}{% endif %}
+
+
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if cms_upgrade_hook_url %}
+                        {% if not status %}
                             <div class="upgrade-info">
                                 <span style="margin-right: 4px">CMS upgrade available! </span>
                                 <a href="https://github.com/wmo-raf/nmhs-cms/releases" target="_blank"
@@ -65,24 +194,26 @@
                                     Release notes
                                 </a>
                             </div>
-                            <div style="margin-top: 20px">
-                                <form method="POST"
-                                      enctype="multipart/form-data">
-                                    {% if form.non_field_errors %}
-                                        <div class="non-field_errors" style="margin-bottom: 20px">
-                                            {% include "wagtailadmin/shared/non_field_errors.html" with form=form %}
-                                        </div>
-                                    {% endif %}
-                                    <ul class="fields">
-                                        {% csrf_token %}
-                                        {% for field in form %}
-                                            {% if field.is_hidden %}
-                                                {{ field }}
-                                            {% else %}
-                                                {% include "wagtailadmin/shared/field_as_li.html" %}
-                                            {% endif %}
-                                        {% endfor %}
-                                        <li>
+                        {% endif %}
+                        <div style="margin-top: 20px">
+                            <form method="POST"
+                                  enctype="multipart/form-data">
+                                {% if form.non_field_errors %}
+                                    <div class="non-field_errors" style="margin-bottom: 20px">
+                                        {% include "wagtailadmin/shared/non_field_errors.html" with form=form %}
+                                    </div>
+                                {% endif %}
+                                <ul class="fields">
+                                    {% csrf_token %}
+                                    {% for field in form %}
+                                        {% if field.is_hidden %}
+                                            {{ field }}
+                                        {% else %}
+                                            {% include "wagtailadmin/shared/field_as_li.html" %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <li>
+                                        {% if not status %}
                                             <button class="button bicolor button--icon" type="submit">
                                                 <span class="icon-wrapper">
                                                     <svg class="icon icon-rotate icon" aria-hidden="true">
@@ -91,13 +222,23 @@
                                                 </span>
                                                 {% trans 'Upgrade now' %}
                                             </button>
-                                        </li>
-                                    </ul>
-                                </form>
-                            </div>
-                        {% endif %}
+                                        {% else %}
+                                            <button class="button bicolor button--icon" type="submit">
+                                                <span class="icon-wrapper">
+                                                    <svg class="icon icon-rotate icon" aria-hidden="true">
+                                                        <use href="#icon-rotate"></use>
+                                                    </svg>
+                                                </span>
+                                                {% trans 'Retry now' %}
+                                            </button>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
                     {% endif %}
                 {% endif %}
+
             </div>
         {% endif %}
     </div>

@@ -10,8 +10,6 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from base.constants import COUNTRIES
 
-CMS_UPGRADE_HOOK_URL = getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
-
 
 def validate_svg(f):
     # Find "start" word in file and get "tag" from there
@@ -151,14 +149,21 @@ def get_latest_cms_release():
     }
 
 
-def send_upgrade_command(latest_version):
-    if CMS_UPGRADE_HOOK_URL:
-        payload = {"latest_version": latest_version}
-        request = requests.Request('POST', CMS_UPGRADE_HOOK_URL, json=payload, headers={})
+def send_upgrade_command(upgrade_hook_url, latest_version):
+    payload = {"latest_version": latest_version}
+    r = requests.post(upgrade_hook_url, json=payload)
+    r.raise_for_status()
 
-        prepped = request.prepare()
-        # signature = hmac.new(codecs.encode(GSKY_WEBHOOK_SECRET), codecs.encode(prepped.body), digestmod=hashlib.sha256)
-        # prepped.headers['X-CMS-Signature'] = signature.hexdigest()
 
-        with requests.Session() as session:
-            response = session.send(prepped)
+def dict_to_choices(input_dict):
+    """
+    Convert a Python dictionary to Django field choices.
+
+    Args:
+        input_dict (dict): The input dictionary with key-value pairs.
+
+    Returns:
+        list of tuples: A list of tuples suitable for Django field choices.
+    """
+    choices = [(key, value) for key, value in input_dict.items()]
+    return choices

@@ -89,8 +89,7 @@ class CMSUpgradeNotificationPanel(Component):
     def has_required_variables(self):
         current_version = self.get_current_version()
         webhook_url = self.get_webhook_url()
-
-        return current_version and webhook_url
+        return all([current_version, webhook_url])
 
     def get_context_data(self, parent_context):
         current_version = self.get_current_version()
@@ -103,7 +102,6 @@ class CMSUpgradeNotificationPanel(Component):
         return {}
 
     def render_html(self, parent_context):
-        print(self.has_required_variables())
         if (
                 parent_context["request"].user.is_superuser
                 and self.has_required_variables()
