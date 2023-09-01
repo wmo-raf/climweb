@@ -4,7 +4,7 @@
     {% if page.banner_image %}
         {% image page.banner_image original as img %}
         <section id="page-hero" class="hero is-large progressive__bg progressive--not-loaded"
-                 data-progressive="{{ img.url }}" style="background-image: url({% lazy_image_url img %}) ;background-repeat:no-repeat; background-size:cover; height:700px; ">
+                 data-progressive="{{ img.url }}" style="background-image: url({% lazy_image_url img %}) ;background-repeat:no-repeat; background-size:cover; height:650px; ">
             {% if page.show_banner_video and page.banner_youtube_video_id %}
                 <div id="banner-video"></div>
             {% endif %}

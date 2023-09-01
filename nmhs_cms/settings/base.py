@@ -337,7 +337,7 @@ GEO_WIDGET_EMPTY_LOCATION = False
 
 GEO_WIDGET_ZOOM = 3
 
-SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript"]
+SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript", "h2", "h3", "h4"]
 
 # RECAPTCHA Settings
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')

@@ -82,7 +82,7 @@ class FeatureBlock(blocks.StructBlock):
                                                                    "including the data"))
 
     title = blocks.CharBlock()
-    text = blocks.RichTextBlock(label=_("Description"), features=SUMMARY_RICHTEXT_FEATURES,)
+    text = blocks.RichTextBlock(label=_("Description"), features=SUMMARY_RICHTEXT_FEATURES)
     action_link_text = blocks.CharBlock(max_length=15, required=False)
     action_link = blocks.PageChooserBlock(required=False, label=_("Action Link Internal"))
     action_link_external = blocks.URLBlock(required=False, max_length=400,
