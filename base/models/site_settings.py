@@ -1,3 +1,4 @@
+import logging
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.functional import cached_property
@@ -19,7 +20,11 @@ from wagtail_color_panel.fields import ColorField
 from base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock, SocialMediaBlock
 from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT, COUNTRY_CHOICES
 from base.utils import get_country_info
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from wagtailcache.cache import clear_cache
 
+logger = logging.getLogger(__name__)
 
 @register_setting
 class OrganisationSetting(BaseSiteSetting):
@@ -342,3 +347,16 @@ class ImportantPages(BaseSiteSetting):
     class Meta:
         verbose_name = _("Important Pages")
         verbose_name_plural = _("Important Pages")
+
+
+# clear wagtail cache on saving the following models
+@receiver(post_save, sender=OrganisationSetting)
+@receiver(post_save, sender=IntegrationSettings)
+@receiver(post_save, sender=LanguageSettings)
+@receiver(post_save, sender=Theme)
+@receiver(post_save, sender=NavigationSettings)
+@receiver(post_save, sender=ImportantPages)
+
+def handle_clear_wagtail_cache(sender, **kwargs):
+    logging.info("[WAGTAIL_CACHE]: Clearing cache")
+    clear_cache()
