@@ -7,14 +7,22 @@
 {% endblock extra_css %}
 
 {% block content %}
-    <section class="hero is-medium" id="contact-map" style="height:400px; background-color:#cad2d3">
-    </section>
+<main class="is-index">
+    <section>
 
-    <input type="hidden" value="{{ page.point }}" id="location"/>
-    <section class="py-4">
+        <div class="container" >
+            <h2 class="section-title center">{{ page.title }}</h2>
+
+            <div id="contact-map" class=" {{ box_shadow }}" style="height:400px; width:100%; background-color:#cad2d3"></div>
+            <input type="hidden" value="{{ page.point }}" id="location"/>
+
+        </div>
+
+    </section>
+    <section>
         <div class="container">
-            <div class="columns is-justify-content-center my-6">
-                <div class="column is-11">
+            <div class="columns is-justify-content-center mt-3 mb-6">
+                <div class="column is-12">
                     <div class="columns">
                         <div class="column is-7 mr-3">
                             <div class="card {{ box_shadow }}" style="background-color:#f8f9fb">
@@ -117,6 +125,7 @@
         </div>
     </section>
 
+</main>
 {% endblock content %}
 
 {% block extra_js %}
@@ -200,10 +209,12 @@
             container: "contact-map", // container ID
             style: defaultStyle,
             center: [locationStr.x, locationStr.y], // starting position [lng, lat]
-            zoom: 4.2, // starting zoom
+            zoom: 7, // starting zoom
             scrollZoom: false,
 
         });
+
+        map.addControl(new maplibregl.NavigationControl({showCompass: false}));
 
         map.on("load", function () {
 
