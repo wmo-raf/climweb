@@ -54,6 +54,16 @@ class AboutPage(AbstractIntroPage):
         ('material', blocks.CategorizedAdditionalMaterialBlock())
     ], null=True, blank=True, use_json_field=True, verbose_name=_("Additional Materials"))
 
+    accordion = StreamField(
+        [
+            ("accordion", blocks.AccordionBlock()),
+        ],
+        null=True,
+        blank=True,
+        use_json_field=True,
+        verbose_name=_("Accordion"),
+    )
+
     bottom_call_to_action_heading = models.CharField(max_length=100, blank=True, null=True,
                                                      verbose_name=_("Bottom Call to action heading"))
     bottom_call_to_action_description = models.TextField(blank=True, null=True,
@@ -92,6 +102,7 @@ class AboutPage(AbstractIntroPage):
         ], heading="Historical Timeline Section"),
         FieldPanel('additional_materials'),
         FieldPanel('feature_block'),
+        FieldPanel('accordion'),
         MultiFieldPanel(
             [
                 FieldPanel('bottom_call_to_action_heading'),
