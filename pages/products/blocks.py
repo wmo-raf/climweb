@@ -5,6 +5,7 @@ from wagtail.blocks import StructValue
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
+from django.utils import timezone
 
 
 class ProductItemStructValue(StructValue):
@@ -41,7 +42,7 @@ class ProductCategoryBlock(blocks.StructBlock):
 class ProductItemImageContentBlock(blocks.StructBlock):
     product_type = blocks.CharBlock(required=True, label=_("Product Type"))
     date = blocks.DateBlock(required=True, label=_("Effective from"),
-                            help_text=_("The date when this product becomes effective"))
+                            help_text=_("The date when this product becomes effective"), default=timezone.now())
     valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
                                    help_text=_("The last day this product remains effective. "
                                                "Leave blank if not applicable"))
