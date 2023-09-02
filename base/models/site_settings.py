@@ -20,7 +20,7 @@ from wagtail_color_panel.fields import ColorField
 from base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock, SocialMediaBlock
 from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT, COUNTRY_CHOICES
 from base.utils import get_country_info
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from wagtailcache.cache import clear_cache
 

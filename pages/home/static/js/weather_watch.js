@@ -106,7 +106,7 @@ $(document).ready(function () {
 
             const bbox = country_info.bbox
 
-            map.fitBounds(bbox, {padding: 20});
+            map.fitBounds(bbox, {padding: 50});
         }
 
         if (alertsGeojson) {
