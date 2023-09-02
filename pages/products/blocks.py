@@ -58,7 +58,7 @@ class ProductItemDocumentContentBlock(blocks.StructBlock):
     thumbnail = ImageChooserBlock(required=False, label=_("Thumbnail of the document"),
                                   help_text=_("For example a screen grab of the cover page"))
     date = blocks.DateBlock(required=True, label=_("Effective from"),
-                            help_text=_("The date when this product becomes effective"))
+                            help_text=_("The date when this product becomes effective"), default=timezone.now())
     valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
                                    help_text=_("The last day this product remains effective. "
                                                "Leave blank if not applicable"))
