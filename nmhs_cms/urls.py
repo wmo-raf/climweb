@@ -10,7 +10,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtailcache.cache import cache_page
 
-from pages.home.views import list_forecasts, daily_weather
+from pages.home.views import list_forecasts, daily_weather,city_analysis
 from pages.search import views as search_views
 
 handler500 = 'base.views.handler500'
@@ -31,6 +31,8 @@ urlpatterns = [
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     path("", include(forecastmanager_urls), name="forecast_api"),
+    path("city_analysis/<str:city_name>/", city_analysis, name="city_analysis"),
+
 
     path("sitemap.xml", sitemap),
 

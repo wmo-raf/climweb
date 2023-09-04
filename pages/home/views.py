@@ -41,3 +41,12 @@ def daily_weather(request):
     return render(request, "dailyweather_include.html", {
         "report":report
     })
+
+
+def city_analysis(request, city_name):
+     
+     context = {
+          'city_name':city_name
+     }
+     
+     return render(request, "city_analysis.html", context)

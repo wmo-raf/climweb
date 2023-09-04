@@ -80,6 +80,23 @@
                                             {% if latest_forecast.data_value.air_temperature_min %}
                                             <p style="font-size:20px; font-weight: 300"> {{ latest_forecast.data_value.air_temperature_min|floatformat:0 }}°C</p>
                                             {% endif %}
+
+                                            <div class="pt-2">
+                                                <a class="button is-small has-text-weight-bold is-rounded"
+                                                    href="{% url 'city_analysis' city_name=forecasts.city %}"
+                                                    style="background-color: transparent;
+                                                    border-color: #dbdbdb;
+                                                    border-width: 1px;
+                                                    color: white;"
+                                                    >
+                                                <span>Analysis </span>
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                                </span>
+                                                
+                    
+                                                </a>
+                                            </div>
                                         </div>
 
                                         {% if latest_forecast.condition %}
