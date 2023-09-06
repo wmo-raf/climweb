@@ -9,6 +9,10 @@
     <link href="{% static 'css/hero.css' %}" type="text/css" rel="stylesheet"/>
     <link href='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.css' rel='stylesheet'/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+
+
 {% endblock extra_css %}
 
 {% block content %}
@@ -19,6 +23,7 @@
         {% include 'section/weather_watch_include.html' %}
         {% include 'section/services_include.html' %}
         {% include 'section/updates_include.html' with page=page %}
+        
         {% include 'section/media_include.html' %}
         {% if page.feature_block %}
             <section class="feature-block-section">

@@ -1,8 +1,14 @@
 from datetime import datetime, timedelta
 from itertools import groupby
+from django.http import HttpResponseRedirect
 
 from django.shortcuts import render
 from forecastmanager.models import Forecast, DailyWeather
+from forecastmanager.models import City, Forecast
+from forecastmanager.site_settings import ForecastSetting
+from wagtail.models import Site
+from django.urls import reverse
+
 
 def list_forecasts(request):
 
@@ -45,8 +51,21 @@ def daily_weather(request):
 
 def city_analysis(request, city_name):
      
-     context = {
-          'city_name':city_name
-     }
+    reordered_cities = None
+    cities = City.objects.all().values('name')
+
+    if len(cities)>0:
+        # Get all items except the target item
+        other_cities = City.objects.exclude(name=city_name)
+        selected_city = City.objects.get(name=city_name)
+        # Combine the target item with the other items
+        reordered_cities = [selected_city] + list(other_cities)
      
-     return render(request, "city_analysis.html", context)
+    print(city_name) 
+    context = {
+        'city_name':city_name,
+        'city_item':reordered_cities,
+        'url':HttpResponseRedirect(reverse('city_analysis', kwargs={'city_name':city_name}))
+    }
+    
+    return render(request, "city_analysis.html", context)

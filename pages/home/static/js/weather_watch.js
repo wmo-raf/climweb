@@ -82,17 +82,27 @@ $(document).ready(function () {
 
         const cityName = props.city_name;
         const condition = props.condition;
+        const analysis_url = "{% url city_analysis %}"
+
+        console.log(analysis_url)
 
         let values = Object.keys(paramValues).reduce((all, key) => {
-            all = all + `<p><b>${key}: </b>${paramValues[key]}</p>`
+            all = all + `<p class="py-0" style="padding:0.5em 0"><b>${key}: </b>${paramValues[key]}</p>`
             return all
         }, "")
 
         return `<div class="block" style="margin:10px; width:200px">
             <h2 class="title" style="font-size:18px;">${cityName}</h2>
-            <h2 class="subtitle" style="font-size:14px;">${condition}</h2>
+            <h2 class="subtitle mb-0" style="font-size:14px;">${condition}</h2>
+
+            <a class="button is-small is-light mt-2" target="_blank" rel="noopender noreferrer" href="city_analysis/${cityName}"> <span>Analysis </span>
+            <span class="icon">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+            </span> </a>
             <hr>
             ${values}
+
+            
         </div>`
     }
 
@@ -144,14 +154,17 @@ $(document).ready(function () {
             map.on("click", "alert-areas-layer", (e) => {
                 // Copy coordinates array.
 
+                console.log(e.features[0].properties)
                 const description = e.features[0].properties.areaDesc;
                 const severity = e.features[0].properties.severity;
                 const event = e.features[0].properties.event;
 
                 new maplibregl.Popup()
                     .setLngLat(e.lngLat)
-                    .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p></div>`)
+                    .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p> </a></div>`)
                     .addTo(map);
+
+                 
             });
 
             // Change the cursor to a pointer when the mouse is over the places layer.
@@ -184,19 +197,31 @@ $(document).ready(function () {
 
         // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
-        map.on("mouseenter", "city-forecasts", (e) => {
+        
+
+        map.on("click", "city-forecasts", (e) => {
             // Get the feature that was hovered over
+            const coordinates = e.features[0].geometry.coordinates.slice()
             const feature = e.features[0];
             map.getCanvas().style.cursor = "pointer";
 
-            popup.setLngLat(feature.geometry.coordinates)
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+            new maplibregl.Popup().setLngLat(e.lngLat)
                 .setHTML(getPopupHTML(feature.properties))
                 .addTo(map);
+
+
         })
+
+        
 
         // Change it back to a pointer when it leaves.
         map.on("mouseleave", "city-forecasts", () => {
-            popup.remove()
             map.getCanvas().style.cursor = "";
         });
 

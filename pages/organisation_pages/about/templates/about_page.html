@@ -3,13 +3,14 @@
 
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-timeline.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
     {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}"> {% endcomment %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
+
 {% endblock %}
 
 {% block body_class %}about-page{% endblock %}
@@ -184,7 +185,6 @@
         {% endif %}
 
         
-
         {% if page.partners %}
             <section>
                 <div class="container">

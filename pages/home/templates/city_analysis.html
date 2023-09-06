@@ -62,14 +62,43 @@
 <section class="pt-6">
     <div class="container ">
 
-        <h2 class="section-title pb-2 has-text-centered" style="font-size:24px"> <span class="icon is-small is-left is-white">
-            <i class="fa-solid fa-location-crosshairs"></i>
-        </span>    {{city_name}} </h2>
-
-        <p class="section-subheader py-2 has-text-centered">
-            Expected Forecast from <b>{% now "D. j M" %}</b> (UTC) onwards
-        </p>
-
+        <div class="columns">
+            <div class="column is-half">
+                <h2 class="section-title pb-2" style="font-size:24px"> <span class="icon is-small is-left is-white">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                </span>    {{city_name}} </h2>
+        
+                <p class="section-subheader py-2">
+                    Expected Forecast from <b>{% now "D. j M" %}</b> (UTC) onwards
+                </p>
+        
+            </div>
+            <div class="column is-half" style="display: flex;justify-content: flex-end;">
+                <div class="widget-control">
+                    
+                    <form id="filter-form">
+                        <div class="field has-addons">
+                            <div class="control is-expanded has-icons-left has-icons-right">
+                                <div class="select is-fullwidth is-white">
+                                    <select id="city-option" style="border: none; 
+                                    border-bottom: solid 1px #d5d5d5; box-shadow: none; font-weight:600;"
+                                    
+                                    name="city_name">
+                                        {% for city in city_item %}
+                                        <option value="{{city.name}}" {% if request.GET.city_name == city.name %}selected{% endif %}>{{city.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="icon is-small is-left is-white">
+                                        <i class="fas fa-location-dot"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
         <hr>
 
         <div class="charts-container">
@@ -118,6 +147,28 @@
 
 
 <script>
+    // Make an AJAX request to fetch the URL
+   console.log(window.location)
+
+    $(document).on('change', '#city-option', function() {
+        
+        let formData = $('#filter-form').serialize();
+        
+        let city_name = formData.split("=")
+        if (city_name.length > 1){
+            
+            // window.location.href = `{% url 'city_analysis' city_name="${city_name[1]}" %}`;
+            window.location.pathname = `city_analysis/${city_name[1]}`
+        }
+
+        // Get the value of the input field
+        // const inputValue = inputField.value;
+            
+        // Navigate to the new URL when the input changes
+        // window.location.href = inputValue;
+        
+
+    });
 
     // Custom comparison function to sort by date
 function compareByDate(a, b) {
@@ -282,8 +333,7 @@ function compareByDate(a, b) {
                             vectorLength:12,
                             
                             // shared options for all windbarb series
-                        }  
-
+                        }
                   },
               
                   series: paramSeries
@@ -300,6 +350,115 @@ function compareByDate(a, b) {
         effective_period__whole_day:true
     }
 
+    let chartConfigs = [
+        {
+            container:'wind-chart',
+            params:[
+                {
+                    param_title:'Wind Speed',
+                    param_key:'wind_speed',
+                    param_color:'#8f6e18',
+                    units:'m/s',
+
+                },
+                {
+                    param_title:'Wind Direction',
+                    param_key:'wind_from_direction',
+                    param_color:'black',
+                    units:'°',
+                    
+                },
+                
+            ],
+            title: 'Wind'
+        },
+        {
+            container:'temperature-extremes-chart',
+            params:[
+                {
+                    param_title:'Minimum Air Temperature',
+                    param_key:'air_temperature_min',
+                    param_color:'#2b59ad',
+                    units:'°C',
+                    
+                },
+                {
+                    param_title:'Maximum Air Temperature',
+                    param_key:'air_temperature_max',
+                    param_color:'#a61749',
+                    units:'°C',
+
+                },
+                
+            ],
+            title: 'Temperature Extremes'
+        },
+        {
+            container:'temperature-chart',
+            params:[
+                {
+                    param_title:'Air Temperature',
+                    param_key:'air_temperature',
+                    param_color:'#de633e',
+                    units:'°C',
+                    
+                },
+                {
+                    param_title:'Dew Point Temperature',
+                    param_key:'dew_point_temperature',
+                    param_color:'#3ebede',
+                    units:'°C',
+
+                },
+                
+            ],
+            title: 'Temperature'
+        },
+        {
+            container:'humidity-chart',
+            params:[
+                {
+                    param_title:'Relative Humidity',
+                    param_key:'relative_humidity',
+                    param_color:'brown',
+                    units:'%',
+                }
+            ],
+            title: 'Relative Humidity'
+        },
+        {
+            container:'pressure-chart',
+            params:[
+                {
+                    param_title:'Atmospheric Pressure',
+                    param_key:'air_pressure_at_sea_level',
+                    param_color:'#4e17a6',
+                    units:'hPa',
+                    
+                },
+                
+                
+            ],
+            title: 'Atmospheric Pressure'
+        },
+        {
+            container:'precipitation-chart',
+            params:[
+                {
+                    param_title:'Precipitation',
+                    param_key:'precipitation_amount',
+                    param_color:'#2592db',
+                    units:'mm',
+                    
+                },
+                
+                
+            ],
+            title: 'Precipitation'
+        },
+        
+    ]
+
 
     $.ajax({
         url: "{% url 'forecast-list' %}",
@@ -307,115 +466,7 @@ function compareByDate(a, b) {
         data: query_params,
         success: function(data) {
 
-            let chartConfigs = [
-                {
-                    container:'wind-chart',
-                    params:[
-                        {
-                            param_title:'Wind Speed',
-                            param_key:'wind_speed',
-                            param_color:'#8f6e18',
-                            units:'m/s',
-
-                        },
-                        {
-                            param_title:'Wind Direction',
-                            param_key:'wind_from_direction',
-                            param_color:'black',
-                            units:'°',
-                            
-                        },
-                        
-                        
-                    ],
-                    title: 'Wind'
-                },
-                {
-                    container:'temperature-extremes-chart',
-                    params:[
-                        {
-                            param_title:'Minimum Air Temperature',
-                            param_key:'air_temperature_min',
-                            param_color:'#2b59ad',
-                            units:'°C',
-                            
-                        },
-                        {
-                            param_title:'Maximum Air Temperature',
-                            param_key:'air_temperature_max',
-                            param_color:'#a61749',
-                            units:'°C',
-
-                        },
-                        
-                    ],
-                    title: 'Temperature Extremes'
-                },
-                {
-                    container:'temperature-chart',
-                    params:[
-                        {
-                            param_title:'Air Temperature',
-                            param_key:'air_temperature',
-                            param_color:'#de633e',
-                            units:'°C',
-                            
-                        },
-                        {
-                            param_title:'Dew Point Temperature',
-                            param_key:'dew_point_temperature',
-                            param_color:'#3ebede',
-                            units:'°C',
-
-                        },
-                        
-                    ],
-                    title: 'Temperature'
-                },
-                {
-                    container:'humidity-chart',
-                    params:[
-                        {
-                            param_title:'Relative Humidity',
-                            param_key:'relative_humidity',
-                            param_color:'brown',
-                            units:'%',
-                        }
-                    ],
-                    title: 'Relative Humidity'
-                },
-                {
-                    container:'pressure-chart',
-                    params:[
-                        {
-                            param_title:'Atmospheric Pressure',
-                            param_key:'air_pressure_at_sea_level',
-                            param_color:'#4e17a6',
-                            units:'hPa',
-                            
-                        },
-                        
-                        
-                    ],
-                    title: 'Atmospheric Pressure'
-                },
-                {
-                    container:'precipitation-chart',
-                    params:[
-                        {
-                            param_title:'Precipitation',
-                            param_key:'precipitation_amount',
-                            param_color:'#2592db',
-                            units:'mm',
-                            
-                        },
-                        
-                        
-                    ],
-                    title: 'Precipitation'
-                },
-                
-            ]
+            
             
             if(data.length>0){
                 chartConfigs.map(chart =>{

@@ -1,5 +1,6 @@
 {% load static wagtailcore_tags wagtailimages_tags lazyimages_tags %}
 
+
 {% image page.hero_banner original as img %}
 <div id="page-hero" class="hero progressive__bg progressive--not-loaded mx-3" 
 data-progressive="{{ img.url }}"
@@ -29,6 +30,10 @@ data-progressive="{{ img.url }}"
                                 
                                 <div class="card py-4 elevation-0" style="text-align:center;color:white; background-color: #ffffff20;backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
                                 <div class="widget-control">
+                                    {% comment %} <div class="autocomplete">
+                                        <input type="text" id="autocomplete-input" class="input" placeholder="Search...">
+                                        <ul class="autocomplete-results" id="autocomplete-results"></ul>
+                                      </div> {% endcomment %}
                                         <form id="filter-form">
                                             <div class="field has-addons">
                                                 <div class="control is-expanded has-icons-left has-icons-right">
@@ -217,3 +222,4 @@ data-progressive="{{ img.url }}"
         </div>
     </div>
 </div>
+
