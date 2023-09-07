@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block extra_css %}
 
 <style>
     .chart {
-        height: 300px;
+        height: 270px;
     }
     
     #csv {
@@ -51,6 +52,10 @@
     
     .highcharts-data-table tr:hover {
         background: #f1f7ff;
+    }
+
+    .highcharts-credits {
+        display:none
     }
 </style>    
 
@@ -102,7 +107,10 @@
         <hr>
 
         <div class="charts-container">
-            
+            <figure class="highcharts-figure condition-chart-container" style="display:none">
+                <div id="condition-chart" class="chart" style="height:110px"></div>
+            </figure>
+
             <figure class="highcharts-figure wind-chart-container" style="display:none">
                 <div id="wind-chart" class="chart"></div>
             </figure>
@@ -148,8 +156,6 @@
 
 <script>
     // Make an AJAX request to fetch the URL
-   console.log(window.location)
-
     $(document).on('change', '#city-option', function() {
         
         let formData = $('#filter-form').serialize();
@@ -169,6 +175,8 @@
         
 
     });
+
+    
 
     // Custom comparison function to sort by date
 function compareByDate(a, b) {
@@ -211,15 +219,44 @@ function compareByDate(a, b) {
         // initialize param data array
         let paramData = []
         let paramDates = []
+        let paramCount =0
+        
 
         if(forecasts && params){
-            
+           
             params.map(param => {
                 let paramVal = []
-                forecasts.sort(compareByDate).map(forecast => {
+                forecasts.sort(compareByDate).map((forecast, i) => {
                     if(forecast.properties.city_name === '{{city_name}}'){
                         if(forecast.properties.hasOwnProperty(param.param_key)){
-                            paramVal.push([forecast.properties[param.param_key]])
+                            if(param.param_key === 'condition'){
+
+                                
+                                return paramVal.push({
+                                    tooltip:{ 
+                                        // pointFormat: `{point.custom.condition}`,
+                                        pointFormatter:function (){
+                                            return `${this.custom.condition}`
+                                        },
+                                     },
+                                    data: { 
+                                        x:paramCount++, 
+                                        y: 0, 
+                                        marker: { symbol: `url({% static "forecastmanager/img/${forecast.properties[param.param_key]}.png" %})`,width:40, height:40},
+                                        custom: {
+                                            condition: forecast.properties[param.param_key]
+                                        }
+                                    }
+                                }
+                                    
+                                )
+                                
+                            } else{
+                                return paramVal.push({data:[forecast.properties[param.param_key]],tooltip:{}})
+
+                            }
+                            
+
                         }
                     }
                 })
@@ -237,7 +274,7 @@ function compareByDate(a, b) {
 
         return {
             vals:paramData,
-            dates:paramDates
+            dates:paramDates,
         }
     }
 
@@ -254,23 +291,28 @@ function compareByDate(a, b) {
 
             params.map((param, i) => {
                 xAxis_offset = param.param_key === 'wind_from_direction' ? 40 : 0
-                
+                                            
                 return paramSeries.push(
                     {
-                        type:param.param_key === 'wind_from_direction' ? 'windbarb' : param.param_key === 'precipitation_amount' ? 'column' : 'spline',
-                        data: param.param_key === 'wind_from_direction' ? parsed_data[0].map((_, i) => parsed_data.flatMap(arr => arr[i])) : parsed_data[i],        
+                        type:param.param_key === 'wind_from_direction' ? 'windbarb' : param.param_key === 'precipitation_amount' ? 'column' : param.param_key === 'condition' ? null : 'spline',
+                        data: param.param_key === 'wind_from_direction' ? parsed_data[0].map((_, i) => parsed_data.flatMap(arr => {
+                            if(typeof arr[i] !== "undefined"){
+                                return arr[i].data
+                            }
+                        })) : parsed_data[i].map(arr => arr.data),    
                         name: parsed_data[i].length > 0 ? `${param.param_title} ${param.units}` : '',
-                        tooltip: {
-                            valueSuffix: ` ${param.units}`,
-                        },
-                        color:param.param_color,
-                        showInLegend: param.param_key === 'wind_from_direction' ||parsed_data[i].length == 0  ? false : true,
+                        tooltip: param.param_key === 'condition' ? parsed_data[i].map(arr => arr.tooltip)[0] : {},
+                        color:param.param_key === 'condition' ? 'transparent': param.param_color,
+                        showInLegend: param.param_key === 'wind_from_direction' || param.param_key === 'condition' || parsed_data[i].length == 0  ? false : true,
                     },
                 )
               })
 
+
             $(`.${container}-container`).show()
 
+            console.log(params[0])
+        
             Highcharts.chart(container, {
                 chart: {
                       
@@ -284,32 +326,44 @@ function compareByDate(a, b) {
                   },
               
                   subtitle: {
-                      text: title,
-                      align: 'left'
+                      text: params[0].param_key === 'condition' ? '' : title,
+                      align: 'left',
+
                   },
                   legend:{
                     align:'left',
+                    enabled: params[0].param_key === 'condition' ? false : true,
                   },
               
                   xAxis: {
                     type: 'datetime',
-                      offset:xAxis_offset,
-                      gridLineWidth:1,
-                      categories:parsed_dates,
-                      labels: {
+                    offset:xAxis_offset,
+                    gridLineWidth:1,
+                    categories:parsed_dates,
+                    labels: {
                         rotation:0,
                         formatter: function () {
                             return Highcharts.dateFormat('%a. %e %b ', this.value); // Format to show Month and Year
                         }
 
-                    }
+                    },
+                    opposite: params[0].param_key === 'condition' ? true : false,
+                    lineColor:params[0].param_key === 'condition' ? 'transparent' : '#333',
+                    gridLineColor:params[0].param_key === 'condition' ? 'transparent' : '#e6e6e6',
                       
                   },
               
                   yAxis: {
                       title: {
-                          text: `${title}`
+                          text: `${title}`,
+                    enabled: params[0].param_key === 'condition' ? false : true,
+
                       },
+                    gridLineColor:params[0].param_key === 'condition' ? 'transparent' : '#e6e6e6',
+                      labels:{
+                        enabled: params[0].param_key === 'condition' ? false : true,
+
+                      }
                      
                           
                   },
@@ -455,6 +509,19 @@ function compareByDate(a, b) {
                 
             ],
             title: 'Precipitation'
+        },
+        {
+            container:'condition-chart',
+            params:[
+                {
+                    param_title:'Condition',
+                    param_key:'condition',
+                    param_color:'#2592db',
+                    units:'',
+                    
+                },
+            ],
+            title: 'Weather Condition'
         },
         
     ]
