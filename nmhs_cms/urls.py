@@ -9,7 +9,7 @@ from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtailcache.cache import cache_page
-
+from wagtail import urls as wagtail_urls
 from pages.home.views import list_forecasts, daily_weather,city_analysis
 from pages.search import views as search_views
 
@@ -24,7 +24,6 @@ urlpatterns = [
     path("daily_weather/", daily_weather, name="daily_weather"),
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("pages.cityclimate.urls")),
-
     path("", include("pages.cap.urls")),
 
     path("", include("geomanager.urls"), name="geomanager"),

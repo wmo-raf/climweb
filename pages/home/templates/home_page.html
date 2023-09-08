@@ -22,6 +22,7 @@
     <main class="is-index">
         {% include 'section/weather_watch_include.html' %}
         {% include 'section/services_include.html' %}
+        {% comment %} {% include 'section/satellite_include.html' %} {% endcomment %}
         {% include 'section/updates_include.html' with page=page %}
         
         {% include 'section/media_include.html' %}
@@ -33,36 +34,44 @@
             </section>
         {% endif %}
         {% if page.partners %}
-            <section id="partners" class="partners">
+            <section>
                 <div class="container">
-                    <h2 class="section-title center">Our Partners</h2>
-                    <div class="columns is-multiline is-mobile is-centered is-flex">
+                    <h2 class="section-title has-text-centered">Our Partners</h2>
+                    <div class="columns is-multiline is-mobile is-centered partners-list">
                         {% for partner in page.partners %}
                             {% if partner.visible_on_homepage %}
-                                <a href="{% if partner.link %}{{ partner.link }}{% else %}#{% endif %}"
-                                   target="_blank"
-                                   rel="noopener"
-                                   class="column is-one-fifth-desktop is-one-third-mobile"
-                                   style="display: flex;justify-content: center">
-                                    <figure class="image is-96x96">
-                                        {% image partner.logo original class="partner-logo" style="height:100%;width:100%;object-fit:contain" %}
-                                    </figure>
-                                </a>
+                                <div class="column is-4-mobile is-4-tablet is-2-desktop  partner-item">
+                                    <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
+                                    target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                                    rel="noopener">
+                                        <div class="partner-img-wrapper" title="{{ partner.name }}">
+                                            <figure class="image">
+                                                {% image partner.logo original as p_logo %}
+                                                <img class="progressive__img progressive--not-loaded"
+                                                    data-progressive="{{ p_logo.url }}"
+                                                    src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"
+                                                    syle="width:100px;object-fit: cover;"/>
+                                            </figure>
+                                        </div>
+                                    </a>
+                                </div>
                             {% endif %}
                         {% endfor %}
                     </div>
+
                     {% if settings.base.ImportantPages.all_partners_page %}
-                        <div class="more-container" style="justify-content: center">
-                            <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}" }>
-                                More Partners
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right"></i>
-                                </span>
-                            </a>
-                        </div>
-                    {% endif %}
+                            <div class="more-container" style="justify-content: center">
+                                <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}" }>
+                                    More Partners
+                                    <span class="icon">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        {% endif %}
                 </div>
             </section>
+            
         {% endif %}
 
         
