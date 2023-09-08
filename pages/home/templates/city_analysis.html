@@ -4,6 +4,10 @@
 {% block extra_css %}
 
 <style>
+    .charts-container{
+        min-height: 600px
+    }
+
     .chart {
         height: 270px;
     }
@@ -107,6 +111,8 @@
         <hr>
 
         <div class="charts-container">
+            <h3 id="forecast-loading" class="section-subheader center py-6" style="display: none;color:#636363 !important">Loading...</h3>
+
             <figure class="highcharts-figure condition-chart-container" style="display:none">
                 <div id="condition-chart" class="chart" style="height:110px"></div>
             </figure>
@@ -155,6 +161,10 @@
 
 
 <script>
+
+    // Show the loading element
+    $('#forecast-loading').show();
+
     // Make an AJAX request to fetch the URL
     $(document).on('change', '#city-option', function() {
         
@@ -300,7 +310,7 @@ function compareByDate(a, b) {
                                 return arr[i].data
                             }
                         })) : parsed_data[i].map(arr => arr.data),    
-                        name: parsed_data[i].length > 0 ? `${param.param_title} ${param.units}` : '',
+                        name: parsed_data[i].length > 0 ? `${param.param_title} (${param.units})` : '',
                         tooltip: param.param_key === 'condition' ? parsed_data[i].map(arr => arr.tooltip)[0] : {},
                         color:param.param_key === 'condition' ? 'transparent': param.param_color,
                         showInLegend: param.param_key === 'wind_from_direction' || param.param_key === 'condition' || parsed_data[i].length == 0  ? false : true,
@@ -310,8 +320,6 @@ function compareByDate(a, b) {
 
 
             $(`.${container}-container`).show()
-
-            console.log(params[0])
         
             Highcharts.chart(container, {
                 chart: {
@@ -354,11 +362,9 @@ function compareByDate(a, b) {
                   },
               
                   yAxis: {
-                      title: {
-                          text: `${title}`,
-                    enabled: params[0].param_key === 'condition' ? false : true,
-
-                      },
+                    title: {
+                        enabled: false,
+                    },
                     gridLineColor:params[0].param_key === 'condition' ? 'transparent' : '#e6e6e6',
                       labels:{
                         enabled: params[0].param_key === 'condition' ? false : true,
@@ -536,12 +542,18 @@ function compareByDate(a, b) {
             
             
             if(data.length>0){
+                // Hide the loading element when data is available
+                $('#forecast-loading').hide();
                 chartConfigs.map(chart =>{
                     createChart(chart.container, data, chart.params, chart.title)
                 })
-            }
+            } 
             
-        }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // This function will be called if there's an error in the request
+            console.error('CITY ANALYSIS ERROR:', textStatus, errorThrown);
+          }
     })
     
     
