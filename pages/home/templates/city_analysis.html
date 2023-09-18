@@ -111,7 +111,7 @@
         <hr>
 
         <div class="charts-container">
-            <h3 id="forecast-loading" class="section-subheader center py-6" style="display: none;color:#636363 !important">Loading...</h3>
+            <h3 id="forecast-loading" class="section-subheader center py-6" style="display: none;color:#636363 !important">Loading forecasts...</h3>
 
             <figure class="highcharts-figure condition-chart-container" style="display:none">
                 <div id="condition-chart" class="chart" style="height:110px"></div>
@@ -161,6 +161,8 @@
 
 
 <script>
+
+    const static_path = '{% static "forecastmanager/img/" %}'
 
     // Show the loading element
     $('#forecast-loading').show();
@@ -241,7 +243,6 @@ function compareByDate(a, b) {
                         if(forecast.properties.hasOwnProperty(param.param_key)){
                             if(param.param_key === 'condition'){
 
-                                
                                 return paramVal.push({
                                     tooltip:{ 
                                         // pointFormat: `{point.custom.condition}`,
@@ -252,7 +253,7 @@ function compareByDate(a, b) {
                                     data: { 
                                         x:paramCount++, 
                                         y: 0, 
-                                        marker: { symbol: `url({% static "forecastmanager/img/${forecast.properties[param.param_key]}.png" %})`,width:40, height:40},
+                                        marker: { symbol: `url(${static_path}${forecast.properties[param.param_key]}.png)`,width:40, height:40},
                                         custom: {
                                             condition: forecast.properties[param.param_key]
                                         }
