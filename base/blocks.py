@@ -212,7 +212,9 @@ class NavigationItemBlock(blocks.StructBlock):
     external_url = blocks.URLBlock(required=False, label=_("External URL"))
     include_subpages = blocks.BooleanBlock(required=False, label=_("Include Subpages"))
     large_submenu = blocks.BooleanBlock(required=False, label=_("Large Submenu Dropdown"))
-    sub_items = blocks.ListBlock(NavigationSubItemBlock())
+    sub_items = blocks.StreamBlock([
+        ('sub_item', NavigationSubItemBlock())
+        ], required=False)
 
     class Meta:
         template = "blocks/main_menu.html"
