@@ -132,7 +132,7 @@ class TableInfoBlock(blocks.StructBlock):
 class WhatWeDoBlock(blocks.StructBlock):
     icon = IconChooserBlock(required=False, label=_("Icon"))
     title = blocks.CharBlock(max_length=60, required=False)
-    description = blocks.CharBlock()
+    description = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES)
 
     class Meta:
         template = 'streams/what_we_do_block.html'
