@@ -16,7 +16,6 @@
 {% block body_class %}about-page{% endblock %}
 
 {% block content %}
-    {% include 'hero.html' with page=page %}
     <main class="is-index">
         <div class="container pt-6 pb-0 sections">
 
@@ -61,7 +60,7 @@
             </div>
 
         </div>
-        <section class="nmhs-work introduction-section">
+        <section class="nmhs-work">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}
 
@@ -75,7 +74,6 @@
         
         <section class="mission-vision-section" id="mission_vision_section" style="background-color:white">
             <div class="container has-text-centered">
-
                 <h2 class="pb-4 mb-4 has-text-centered" style="font-size: 28px; font-weight:700">Mission & Vision</h2>
 
                 <div class="columns is-centered" style="padding-top:3em">
