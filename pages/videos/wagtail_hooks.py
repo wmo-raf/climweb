@@ -21,10 +21,10 @@ class VideoMenuItem(MenuItem):
 
 
 @hooks.register('register_admin_menu_item')
-def register_styleguide_menu_item():
+def register_menu_item():
     return VideoMenuItem(
         ('Videos'),
         reverse('playlist_view'),
-        icon_name= 'radio-empty',
+        icon_name='radio-empty',
         order=1000
     )
