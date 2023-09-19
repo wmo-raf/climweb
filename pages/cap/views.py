@@ -67,7 +67,7 @@ class AlertListFeed(Feed):
         return None
 
     def items(self):
-        alerts = CapAlertPage.objects.all()
+        alerts = CapAlertPage.objects.all().live()
 
         active_alert_infos = []
 
@@ -76,7 +76,7 @@ class AlertListFeed(Feed):
                 if info.value.get('expires') >= datetime.today().replace(tzinfo=pytz.UTC):
                     active_alert_infos.append(alert.id)
 
-        return CapAlertPage.objects.filter(id__in=active_alert_infos)
+        return CapAlertPage.objects.filter(id__in=active_alert_infos).live()
 
     def item_title(self, item):
         return item.info[0].value.get('headline')

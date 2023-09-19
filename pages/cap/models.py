@@ -27,7 +27,7 @@ class CapAlertListPage(MetadataPageMixin, Page):
 
     @cached_property
     def cap_alerts(self):
-        alerts = CapAlertPage.objects.all().order_by('-sent')
+        alerts = CapAlertPage.objects.all().live().order_by('-sent')
         active_alert_infos = []
 
         for alert in alerts:

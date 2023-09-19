@@ -70,7 +70,6 @@ class HomePage(MetadataPageMixin, Page):
                                     related_name="+", verbose_name=_("Banner Image"))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
     hero_type = models.CharField(_("Banner Type"), max_length=50, choices=BANNER_TYPES, default='full')
-    
 
     show_city_forecast = models.BooleanField(default=True, verbose_name=_("Show city forecast section"))
 
@@ -99,7 +98,6 @@ class HomePage(MetadataPageMixin, Page):
     feature_block = StreamField([
         ('feature_item', blocks.FeatureBlock()),
     ], null=True, blank=True, use_json_field=True, verbose_name=_("Feature block"))
-
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
@@ -139,21 +137,21 @@ class HomePage(MetadataPageMixin, Page):
     def get_context(self, request, *args, **kwargs):
         context = super(HomePage, self).get_context(
             request, *args, **kwargs)
-        
+
         default_city = None
         city_ls = City.objects.all()
 
         site = Site.objects.get(is_default_site=True)
         forecast_setting = ForecastSetting.for_site(site)
 
-        if len(city_ls)>0:
+        if len(city_ls) > 0:
             if forecast_setting.default_city:
                 default_city = forecast_setting.default_city.name
             else:
                 default_city = city_ls.order_by('name').first().name
 
         city = request.GET.get('city_name', default_city)
-        
+
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
@@ -186,20 +184,19 @@ class HomePage(MetadataPageMixin, Page):
         # get partners that should appear on the homepage
         partners = Partner.objects.filter(visible_on_homepage=True)[:7]
         return partners
-    
+
     @cached_property
     def city_item(self):
 
         reordered_cities = None
         cities = City.objects.all().values('name')
 
-
         site = Site.objects.get(is_default_site=True)
         forecast_setting = ForecastSetting.for_site(site)
 
         default_city = forecast_setting.default_city
 
-        if len(cities)>0:
+        if len(cities) > 0:
             if default_city:
                 # Get all items except the target item
                 other_cities = City.objects.exclude(name=default_city.name)
@@ -207,9 +204,9 @@ class HomePage(MetadataPageMixin, Page):
                 # Combine the target item with the other items
                 reordered_cities = [default_city] + list(other_cities)
             else:
-                reordered_cities = sorted(cities, key=lambda x : x['name'])
+                reordered_cities = sorted(cities, key=lambda x: x['name'])
 
-        return {'cities':reordered_cities }
+        return {'cities': reordered_cities}
 
     @cached_property
     def latest_updates(self):
@@ -257,7 +254,7 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def cap_alerts(self):
-        alerts = CapAlertPage.objects.all().order_by('-sent')
+        alerts = CapAlertPage.objects.all().live().order_by('-sent')
         active_alert_infos = []
         geojson = {"type": "FeatureCollection", "features": []}
 
