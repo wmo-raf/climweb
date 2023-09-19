@@ -34,14 +34,14 @@
                             {% for item in value.sub_items %}
                                 <div class="column is-half">
                                     <a class="navbar-item"
-                                       {% if item.page.url %}href="{{ item.page.url }}" {% else %}
-                                       href="{{ item.external_url }}"
+                                       {% if item.value.page.url %}href="{{ item.value.page.url }}" {% else %}
+                                       href="{{ item.value.external_url }}"
                                        target="_blank"
                                        rel="noopener norefferer" {% endif %}>
                                         <div class="menu-item-figure">
                                         </div>
                                         <div class="menu-item-label">
-                                            {{ item.label }}
+                                            {{ item.value.label }}
                                         </div>
                                     </a>
                                 </div>
@@ -65,10 +65,11 @@
                 {% if value.sub_items %}
                     {% for item in value.sub_items %}
                         <a class="navbar-item"
-                           {% if item.page.url %}href="{{ item.page.url }}" {% else %} href="{{ item.external_url }}"
+                           {% if item.value.page.url %}href="{{ item.value.page.url }}" {% else %}
+                           href="{{ item.value.external_url }}"
                            target="_blank"
                            rel="noopener norefferer" {% endif %}>
-                            {{ item.label }}
+                            {{ item.value.label }}
                         </a>
                     {% endfor %}
                 {% endif %}
