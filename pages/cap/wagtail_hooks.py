@@ -23,9 +23,6 @@ class CAPAdmin(ModelAdmin):
 
 class CAPMenuGroupAdminMenuItem(GroupMenuItem):
     def is_shown(self, request):
-        print(request.user.get_user_permissions())
-        # return True
-
         return request.user.has_perm("base.can_view_alerts_menu")
 
 
