@@ -1,7 +1,8 @@
 from capeditor.models import CapSetting
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.menu import MenuItem
+from wagtail.admin.menu import MenuItem, Menu
+from wagtail_modeladmin.menus import ModelAdminMenuItem, GroupMenuItem
 from wagtail_modeladmin.options import (
     ModelAdmin,
     modeladmin_register,
@@ -20,11 +21,24 @@ class CAPAdmin(ModelAdmin):
     exclude_from_explorer = False
 
 
+class CAPMenuGroupAdminMenuItem(GroupMenuItem):
+    def is_shown(self, request):
+        print(request.user.get_user_permissions())
+        # return True
+
+        return request.user.has_perm("base.can_view_alerts_menu")
+
+
 class CAPMenuGroup(ModelAdminGroup):
     menu_label = _('CAP Alerts')
     menu_icon = 'warning'  # change as required
     menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
     items = (CAPAdmin,)
+
+    def get_menu_item(self, order=None):
+        if self.modeladmin_instances:
+            submenu = Menu(items=self.get_submenu_items())
+            return CAPMenuGroupAdminMenuItem(self, self.get_menu_order(), submenu)
 
     def get_submenu_items(self):
         menu_items = []

@@ -11,6 +11,7 @@ YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 youtube_service = None
 
+
 @register_snippet
 class YoutubePlaylist(models.Model):
     title = models.CharField(max_length=200, verbose_name=_("Title"))
