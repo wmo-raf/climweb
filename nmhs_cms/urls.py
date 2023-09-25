@@ -30,7 +30,7 @@ urlpatterns = [
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     path("", include(forecastmanager_urls), name="forecast_api"),
-    path("city_analysis/<str:city_name>/", city_analysis, name="city_analysis"),
+    path("city_analysis/<uuid:city_id>/", city_analysis, name="city_analysis"),
     
 
 

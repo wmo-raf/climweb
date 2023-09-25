@@ -146,27 +146,28 @@ class HomePage(MetadataPageMixin, Page):
 
         if len(city_ls) > 0:
             if forecast_setting.default_city:
-                default_city = forecast_setting.default_city.name
+                default_city = forecast_setting.default_city.id
             else:
-                default_city = city_ls.order_by('name').first().name
+                default_city = city_ls.order_by('name').first().id
 
-        city = request.GET.get('city_name', default_city)
+        city = request.GET.get('city_id', default_city)
 
+        context['selected_city']= City.objects.get(pk=city).name
         start_date_param = datetime.today()
         end_date_param = start_date_param + timedelta(days=6)
         forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
                                                 forecast_date__lte=end_date_param.date(),
-                                                effective_period__whole_day=True, city__name=city) \
+                                                effective_period__whole_day=True, city__id=city) \
             .order_by('forecast_date') \
-            .values('id', 'city__name', 'forecast_date', 'data_value',
+            .values('id', 'city__name', 'city__id', 'forecast_date', 'data_value',
                     'condition')
 
         # sort the data by city
-        data_sorted = sorted(forecast_data, key=lambda x: x['city__name'])
+        data_sorted = sorted(forecast_data, key=lambda x: x['city__id'])
 
         # group the data by city
         grouped_forecast = []
-        for city, group in groupby(data_sorted, lambda x: x['city__name']):
+        for city, group in groupby(data_sorted, lambda x: x['city__id']):
             city_data = {'city': city, 'forecast_items': list(group)}
 
             for item in city_data['forecast_items']:
@@ -187,9 +188,8 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def city_item(self):
-
         reordered_cities = None
-        cities = City.objects.all().values('name')
+        cities = City.objects.all().values('id', 'name')
 
         site = Site.objects.get(is_default_site=True)
         forecast_setting = ForecastSetting.for_site(site)
@@ -199,13 +199,14 @@ class HomePage(MetadataPageMixin, Page):
         if len(cities) > 0:
             if default_city:
                 # Get all items except the target item
-                other_cities = City.objects.exclude(name=default_city.name)
+                other_cities = City.objects.exclude(id=default_city.id)
 
                 # Combine the target item with the other items
                 reordered_cities = [default_city] + list(other_cities)
             else:
                 reordered_cities = sorted(cities, key=lambda x: x['name'])
 
+        print(cities)
         return {'cities': reordered_cities}
 
     @cached_property

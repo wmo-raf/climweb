@@ -94,7 +94,7 @@
                                     
                                     name="city_name">
                                         {% for city in city_item %}
-                                        <option value="{{city.name}}" {% if request.GET.city_name == city.name %}selected{% endif %}>{{city.name}}</option>
+                                        <option value="{{city.pk}}" {% if request.GET.city_id == city.pk %}selected{% endif %}>{{city.name}}</option>
                                         {% endfor %}
                                     </select>
                                     <span class="icon is-small is-left is-white">
@@ -162,6 +162,11 @@
 
 <script>
 
+    let query_params = {
+        start_date:getCurrentDate(),
+        // end_date:getSevenDaysFromToday(),
+        effective_period__whole_day:true
+    }
     const static_path = '{% static "forecastmanager/img/" %}'
 
     // Show the loading element
@@ -171,11 +176,11 @@
     $(document).on('change', '#city-option', function() {
         
         let formData = $('#filter-form').serialize();
+        console.log("formData",formData)
         
         let city_name = formData.split("=")
         if (city_name.length > 1){
             
-            // window.location.href = `{% url 'city_analysis' city_name="${city_name[1]}" %}`;
             window.location.pathname = `city_analysis/${city_name[1]}`
         }
 
@@ -277,7 +282,14 @@ function compareByDate(a, b) {
             forecasts.map(forecast => {
                 if(forecast.properties.city_name === '{{city_name}}'){
                     let forecast_date = forecast.properties.forecast_date.split('-')
-                    paramDates.push(Date.UTC(forecast_date[0], forecast_date[1], forecast_date[2]))
+                    let effective_time = forecast.properties.effective_period.time.split(':')
+                    // paramDates.push(Date.UTC(forecast_date[0], forecast_date[1], forecast_date[2]))
+                    paramDates.push(Date.UTC(
+                        forecast_date[0], 
+                        forecast_date[1]-1, 
+                        forecast_date[2], 
+                        effective_time[0],
+                        effective_time[1]))
                 }
             })
                     
@@ -352,7 +364,8 @@ function compareByDate(a, b) {
                     labels: {
                         rotation:0,
                         formatter: function () {
-                            return Highcharts.dateFormat('%a. %e %b ', this.value); // Format to show Month and Year
+                            // return Highcharts.dateFormat('%a. %e %b ', this.value); // Format to show Month and Year
+                           return Highcharts.dateFormat( query_params.effective_period__whole_day ? `%a. %d %b` : `%a. %d %b (%I:%M%p)`, this.value); // Format to show day, day and month (time)
                         }
 
                     },
@@ -405,11 +418,7 @@ function compareByDate(a, b) {
     }
     
     
-    let query_params = {
-        start_date:getCurrentDate(),
-        end_date:getSevenDaysFromToday(),
-        effective_period__whole_day:true
-    }
+   
 
     let chartConfigs = [
         {

@@ -50,21 +50,25 @@ def daily_weather(request):
     })
 
 
-def city_analysis(request, city_name):
+def city_analysis(request, city_id):
     reordered_cities = None
-    cities = City.objects.all().values('name')
+    cities = City.objects.all()
+    curr_city = cities.get(pk=city_id)
+    city_names = cities.values('name')
+    print(city_names)
 
-    if len(cities) > 0:
+    if len(city_names) > 0:
         # Get all items except the target item
-        other_cities = City.objects.exclude(name=city_name)
-        selected_city = City.objects.get(name=city_name)
+        other_cities = City.objects.exclude(pk=city_id)
+        selected_city = City.objects.get(pk=city_id)
         # Combine the target item with the other items
         reordered_cities = [selected_city] + list(other_cities)
 
     context = {
-        'city_name': city_name,
+        'city_name': curr_city.name,
+        'city_id': city_id,
         'city_item': reordered_cities,
-        'url': HttpResponseRedirect(reverse('city_analysis', kwargs={'city_name': city_name}))
+        'url': HttpResponseRedirect(reverse('city_analysis', kwargs={'city_id': city_id}))
     }
 
     return render(request, "city_analysis.html", context)
