@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static wagtailiconchooser_tags %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block body_class %}glossary-index-page{% endblock %}
+
+{% block content %}
+    <main class="is-index">
+        <section class="nmhs-work is-desktop">
+            <div class="work container">
+                {% include 'service_introduction.html' with page=page what_we_do=False %}
+            </div>
+        </section>
+        <section id="glossary-items" class="listing-section">
+            <h2 id="results" class="section-title center">Browse Terms</h2>
+            <div class="container">
+                <div class="columns" style="width: 100%;margin: 0">
+                    <div class="column is-3 is-full-mobile">
+                        {% include 'glossary/terms_filter_include.html' with filters=page.filters %}
+                    </div>
+                    <div class="column is-9 is-full-mobile">
+                        {% include 'glossary/terms_list_include.html' with terms=page.terms %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
