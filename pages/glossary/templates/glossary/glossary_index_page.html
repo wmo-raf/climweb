@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static wagtailiconchooser_tags %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block body_class %}glossary-index-page{% endblock %}
+
+{% block content %}
+    <main class="is-index">
+        <section class="nmhs-work is-desktop">
+            <div class="work container">
+                {% include 'service_introduction.html' with page=page what_we_do=False %}
+            </div>
+        </section>
+        <section id="glossary-items" class="listing-section">
+            <h2 id="results" class="section-title center">Browse Terms</h2>
+            <div class="container">
+                <div class="columns" style="width: 100%;margin: 0">
+                    <div class="column is-3 is-full-mobile">
+                        {% include 'glossary/terms_filter_include.html' with filters=page.filters %}
+                    </div>
+                    <div class="column is-9 is-full-mobile">
+                        {% include 'glossary/terms_list_include.html' with terms=page.terms %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+
+    <script>
+
+        $(document).ready(function () {
+            const params = getParams(window.location.href);
+
+            // mark checkboxes from params url, on load
+            markCheckboxesFromUrlParams('glossary-filter', params)
+
+            const baseUrl = "{{ page.url }}";
+            const queryForm = $('#queryForm')
+            const queryInput = $('#queryInput')
+            const queryClearButton = $('#qClear')
+
+            // listen for input changes
+            filterChangeListener('glossary-filter', params, function (clickedEl, url_params) {
+                window.location.href = `${baseUrl}?${url_params}#results`;
+            });
+
+            queryForm.on('submit', function (e) {
+                e.preventDefault()
+                const inputValue = queryInput.val()
+
+                const url_params = urlParamsFromObject(params, ['q'])
+
+                if (inputValue) {
+                    window.location.href = `${baseUrl}?${url_params}&q=${inputValue}#results`;
+                } else {
+                    window.location.href = `${baseUrl}?${url_params}#results`;
+                }
+            })
+
+            queryClearButton.on('click', function () {
+                const url_params = urlParamsFromObject(params, ['q'])
+
+                window.location.href = `${baseUrl}?${url_params}#results`;
+            })
+        });
+    </script>
+
+{% endblock %}
+

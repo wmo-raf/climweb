@@ -1,0 +1,87 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+
+<style>
+    ul.alphabet-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .alphabet-container li {
+        padding: 0 8px;
+        font-size: 18px;
+    }
+
+    .alphabet-container li.is-active a {
+        color: var(--primary-color) !important;
+        font-weight: bolder;
+    }
+
+    .alphabet-container li a {
+        text-decoration: underline;
+    }
+</style>
+<div class="results-view">
+    <div class="columns">
+        <div class="column">
+            <ul class="alphabet-container">
+                {% for letter in page.alphabet_letters %}
+                    <li class="{% if request.GET.letter|upper == letter %}is-active{% endif %}"><a
+                            href="{{ page.url }}?letter={{ letter }}">{{ letter }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-half-tablet is-full-mobile">
+            <form class="results-search-form" action="{{ page.url }}" id="queryForm">
+                <div class="field is-fullwidth has-addons" style="align-items: center">
+                    <div class="control is-expanded">
+                        <input id="queryInput" class="input is-small is-fullwidth is-rounded" type="text"
+                               placeholder="Search by title"
+                               value="{{ request.GET.q }}" name="q">
+                    </div>
+                    <div class="control">
+                        <button class="button is-small submit-button is-rounded" type="submit">
+                            Search
+                        </button>
+                    </div>
+                    {% if request.GET.q %}
+                        <a class="delete" style="margin-left: 14px" id="qClear" title="Clear"></a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="results-list list-view">
+        {% for term_page in glossary_terms %}
+            <div class="result-list-item">
+                <div class="result-list-item-wrapper ">
+                    <div class="result-list-item-detail">
+                        <a href="{{ term_page.url }}" class="result-list-item-title">
+                            <h5>
+                                {{ term_page.title }}
+                            </h5>
+                        </a>
+                        <div class="result-list-item-snippet">
+                            {{ term_page.brief_definition|truncatewords:25 }}
+                        </div>
+                        <div class="result-list-item-meta">
+                            <span></span>
+                            <a class="result-list-item-more read" href="{{ term_page.url }}">
+                                More detail
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% include 'pagination_include.html' with items=glossary_terms %}
+</div>

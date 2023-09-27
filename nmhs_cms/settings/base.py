@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "pages.stations",
     "pages.satellite_imagery",
     "pages.cityclimate",
+    "pages.glossary",
 
     "adminboundarymanager",
     "geomanager",
@@ -347,6 +348,7 @@ RECAPTCHA_TESTING = True
 
 ORDERING_FIELD = 'position'
 WAGTAILDOCS_DOCUMENT_MODEL = 'base.CustomDocumentModel'
+WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
 # AUTH STUFF
 LOGIN_URL = '/login/'

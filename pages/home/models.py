@@ -58,6 +58,7 @@ class HomePage(MetadataPageMixin, Page):
         'satellite_imagery.SatelliteImageryPage',
         'cityclimate.CityClimateDataPage',
         'cap.CapAlertListPage',
+        'glossary.GlossaryIndexPage',
     ]
     parent_page_type = [
         'wagtailcore.Page'
