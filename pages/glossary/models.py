@@ -1,3 +1,4 @@
+import string
 from functools import cached_property
 
 from django import forms
@@ -12,7 +13,11 @@ from wagtail.models import Page, Orderable
 
 from base.mixins import MetadataPageMixin
 from base.models import AbstractIntroPage
+from base.utils import paginate
 from pages.glossary.blocks import LocalDefinitionBlock
+
+alphabet_list_lower = list(string.ascii_lowercase)
+alphabet_list_upper = list(string.ascii_uppercase)
 
 
 class GlossaryIndexPage(AbstractIntroPage):
@@ -30,6 +35,54 @@ class GlossaryIndexPage(AbstractIntroPage):
         InlinePanel("contributors", heading=_("Contributors"), label=_("Contributor"),
                     help_text=_("List of local terminology definition contributors"))
     ]
+
+    @cached_property
+    def all_terms(self):
+        terms = GlossaryItemDetailPage.objects.child_of(self).filter(live=True).order_by("title")
+        return terms
+
+    def filter_terms(self, request):
+        terms = self.all_terms
+
+        letter = request.GET.get("letter")
+        search = request.GET.get('q')
+        local = request.GET.get('local')
+
+        filters = models.Q()
+
+        if letter:
+            letter = str(letter).lower()
+            if letter and letter in alphabet_list_lower:
+                filters &= models.Q(title__istartswith=letter)
+
+        if search:
+            filters &= models.Q(title__icontains=search)
+
+        if local:
+            # exclude terms without local definition
+            terms = terms.exclude(local_definitions__exact=[])
+
+        return terms.filter(filters).distinct()
+
+    def filter_and_paginate_terms(self, request):
+        page = request.GET.get('page')
+
+        filtered_terms = self.filter_terms(request)
+
+        paginated_terms = paginate(filtered_terms, page, 10)
+
+        return paginated_terms
+
+    @cached_property
+    def alphabet_letters(self):
+        return alphabet_list_upper
+
+    def get_context(self, request, *args, **kwargs):
+        context = super(GlossaryIndexPage, self).get_context(request, *args, **kwargs)
+        context.update({
+            "glossary_terms": self.filter_and_paginate_terms(request)
+        })
+        return context
 
 
 class GlossaryLanguage(Orderable):
@@ -89,7 +142,9 @@ class GlossaryItemDetailPageForm(WagtailAdminPageForm):
                 if key == "contributors":
                     label = val.label or key
                     local_definitions_field.block.child_blocks[block_type].child_blocks[
-                        key] = blocks.ListBlock(blocks.ChoiceBlock(choices=contributor_choices, label=label))
+                        key] = blocks.StreamBlock(
+                        [("contributor", blocks.ChoiceBlock(choices=contributor_choices, label=_("Contributor")))],
+                        required=False)
                     local_definitions_field.block.child_blocks[block_type].child_blocks[
                         key].name = "contributors"
                     local_definitions_field.block.child_blocks[block_type].child_blocks[key].label = label

@@ -16,7 +16,8 @@ class LocalDefinitionStructValue(StructValue):
 
     def contributor_names(self):
         from .models import GlossaryContributor
-        contributor_list = self.get("contributors")
+        contributor_list = [contrib.value for contrib in self.get("contributors")]
+
         contributor_ids = [val for val in contributor_list]
         try:
             contributors = GlossaryContributor.objects.filter(pk__in=contributor_ids)
@@ -28,8 +29,8 @@ class LocalDefinitionStructValue(StructValue):
 class LocalDefinitionBlock(blocks.StructBlock):
     language = blocks.CharBlock(required=True, label=_("Language"))
     definition = blocks.RichTextBlock(help_text=_("Definition of the term in the local language"))
-    contributors = blocks.ListBlock(blocks.CharBlock(required=False, label=_("Contributor")), required=False,
-                                    label=_("Contributor"))
+    contributors = blocks.StreamBlock([("contributor", blocks.ChoiceBlock(choices=[], label=_("Contributor")))],
+                                      required=False)
 
     class Meta:
         value_class = LocalDefinitionStructValue

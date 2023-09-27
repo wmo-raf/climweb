@@ -28,3 +28,47 @@
         </section>
     </main>
 {% endblock content %}
+
+{% block extra_js %}
+
+    <script>
+
+        $(document).ready(function () {
+            const params = getParams(window.location.href);
+
+            // mark checkboxes from params url, on load
+            markCheckboxesFromUrlParams('glossary-filter', params)
+
+            const baseUrl = "{{ page.url }}";
+            const queryForm = $('#queryForm')
+            const queryInput = $('#queryInput')
+            const queryClearButton = $('#qClear')
+
+            // listen for input changes
+            filterChangeListener('glossary-filter', params, function (clickedEl, url_params) {
+                window.location.href = `${baseUrl}?${url_params}#results`;
+            });
+
+            queryForm.on('submit', function (e) {
+                e.preventDefault()
+                const inputValue = queryInput.val()
+
+                const url_params = urlParamsFromObject(params, ['q'])
+
+                if (inputValue) {
+                    window.location.href = `${baseUrl}?${url_params}&q=${inputValue}#results`;
+                } else {
+                    window.location.href = `${baseUrl}?${url_params}#results`;
+                }
+            })
+
+            queryClearButton.on('click', function () {
+                const url_params = urlParamsFromObject(params, ['q'])
+
+                window.location.href = `${baseUrl}?${url_params}#results`;
+            })
+        });
+    </script>
+
+{% endblock %}
+

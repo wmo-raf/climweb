@@ -11,6 +11,10 @@ a {
     color: var(--primary-color);
 }
 
+a:hover {
+    color: var(--primary-hover-color) !important;
+}
+
 h1,
 h1.page-title {
     font-size: 42px;
@@ -784,10 +788,20 @@ img#work-map {
     background-color: #006799
 }
 
+.results-search-form input {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.results-search-form .submit-button {
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+
 .results-search-form input:focus, .results-search-form .submit-button:focus {
     box-shadow: none;
     border-color: #aaa;
-
 }
 
 
@@ -819,7 +833,6 @@ img#work-map {
     margin-top: 17px;
     margin-bottom: 24px;
     padding-top: 0;
-
 }
 
 .results-view .results-list .result-list-item-snippet {
@@ -979,6 +992,10 @@ img#work-map {
     height: 18px;
     width: 18px;
     fill: currentColor !important;
+}
+
+.result-list-item-more:hover {
+    color: var(--primary-hover-color);
 }
 
 
@@ -2178,4 +2195,18 @@ p.footer-link {
 
 .tag {
     border-radius: var(--border-radius) !important
+}
+
+.responsive-object {
+    position: relative;
+}
+
+.responsive-object iframe,
+.responsive-object object,
+.responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
