@@ -205,8 +205,6 @@ class HomePage(MetadataPageMixin, Page):
                 reordered_cities = [default_city] + list(other_cities)
             else:
                 reordered_cities = sorted(cities, key=lambda x: x['name'])
-
-        print(cities)
         return {'cities': reordered_cities}
 
     @cached_property

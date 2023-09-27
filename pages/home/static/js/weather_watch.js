@@ -1,4 +1,11 @@
 $(document).ready(function () {
+
+    let query_params = {
+        start_date:null,
+        // end_date:getSevenDaysFromToday(),
+        effective_period__whole_day:true
+    }
+
     // default MapLibre style
     const defaultStyle = {
         'version': 8,
@@ -81,10 +88,8 @@ $(document).ready(function () {
         }, {})
 
         const cityName = props.city_name;
+        const cityID = props.city_id;
         const condition = props.condition;
-        const analysis_url = "{% url city_analysis %}"
-
-        console.log(analysis_url)
 
         let values = Object.keys(paramValues).reduce((all, key) => {
             all = all + `<p class="py-0" style="padding:0.5em 0"><b>${key}: </b>${paramValues[key]}</p>`
@@ -95,7 +100,7 @@ $(document).ready(function () {
             <h2 class="title" style="font-size:18px;">${cityName}</h2>
             <h2 class="subtitle mb-0" style="font-size:14px;">${condition}</h2>
 
-            <a class="button is-small is-light mt-2" target="_blank" rel="noopender noreferrer" href="city_analysis/${cityName}"> <span>Analysis </span>
+            <a class="button is-small is-light mt-2" target="_blank" rel="noopender noreferrer" href="city_analysis/${cityID}"> <span>Analysis </span>
             <span class="icon">
                 <i class="fa-solid fa-arrow-trend-up"></i>
             </span> </a>
@@ -154,7 +159,6 @@ $(document).ready(function () {
             map.on("click", "alert-areas-layer", (e) => {
                 // Copy coordinates array.
 
-                console.log(e.features[0].properties)
                 const description = e.features[0].properties.areaDesc;
                 const severity = e.features[0].properties.severity;
                 const event = e.features[0].properties.event;
@@ -226,19 +230,21 @@ $(document).ready(function () {
         });
 
         const initDate = document.getElementById("daily_forecast");
-
         if (initDate.value) {
-            setForecastData(initDate.value)
+            query_params.forecast_date = initDate.value
+
+            setForecastData(query_params)
         }
     })
 
 
-    function setForecastData(forecast_date) {
+    function setForecastData(params) {
 
-        // Make an HTTP GET request to the API endpoint
-        fetch(`${forecast_api}?forecast_date=${forecast_date}`)
-            .then(response => response.json())  // Parse the response as JSON
-            .then(data => {
+        $.ajax({
+            url: forecast_api,
+            method: "GET",
+            data: params,
+            success: function(data) {
                 // Process the retrieved data
                 data.map(icon => {
 
@@ -260,18 +266,21 @@ $(document).ready(function () {
                     features: data
                 })
 
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the request
-                console.error('Error:', error);
-            });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // This function will be called if there's an error in the request
+                console.error('CITY FORECAST ERROR:', textStatus, errorThrown);
+            }
+        })
+
+        
     }
 
     // toggle forecasts by selected date
     $('#daily_forecast').on('change', function (e) {
-        const valueSelected = this.value;
+        query_params.forecast_date = this.value;
 
-        setForecastData(valueSelected)
+        setForecastData(query_params)
     });
 
 });

@@ -55,7 +55,6 @@ def city_analysis(request, city_id):
     cities = City.objects.all()
     curr_city = cities.get(pk=city_id)
     city_names = cities.values('name')
-    print(city_names)
 
     if len(city_names) > 0:
         # Get all items except the target item

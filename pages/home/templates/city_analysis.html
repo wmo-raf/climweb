@@ -78,7 +78,7 @@
                 </span>    {{city_name}} </h2>
         
                 <p class="section-subheader py-2">
-                    Expected Forecast from <b>{% now "D. j M" %}</b> (UTC) onwards
+                    Expected Forecast from <b>{% now "D. j M" %}</b> onwards
                 </p>
         
             </div>
@@ -103,15 +103,31 @@
                                 </div>
                             </div>
                         </div>
+                       
                     </form>
                 </div>
             </div>
         </div>
         
-        <hr>
-
         <div class="charts-container">
+            <div class="tabs is-boxed is-warning">
+                <ul>
+                  <li class="is-active" data-id="daily">
+                    <a>
+                      <span class="icon is-small"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i></span>
+                      <span>Daily</span>
+                    </a>
+                  </li>
+                  <li data-id="hourly">
+                    <a>
+                      <span class="icon is-small"><i class="fa-solid fa-clock" aria-hidden="true"></i></span>
+                      <span>Hourly</span>
+                    </a>
+                  </li>
+                </ul>
+            </div>
             <h3 id="forecast-loading" class="section-subheader center py-6" style="display: none;color:#636363 !important">Loading forecasts...</h3>
+            <h3 id="forecast-availability" class="section-subheader center py-6" style="display: none;color:#636363 !important">No Data Found</h3>
 
             <figure class="highcharts-figure condition-chart-container" style="display:none">
                 <div id="condition-chart" class="chart" style="height:110px"></div>
@@ -167,6 +183,7 @@
         // end_date:getSevenDaysFromToday(),
         effective_period__whole_day:true
     }
+    
     const static_path = '{% static "forecastmanager/img/" %}'
 
     // Show the loading element
@@ -176,7 +193,6 @@
     $(document).on('change', '#city-option', function() {
         
         let formData = $('#filter-form').serialize();
-        console.log("formData",formData)
         
         let city_name = formData.split("=")
         if (city_name.length > 1){
@@ -413,7 +429,7 @@ function compareByDate(a, b) {
                   series: paramSeries
               
               });
-        }
+        } 
         
     }
     
@@ -543,27 +559,51 @@ function compareByDate(a, b) {
     ]
 
 
-    $.ajax({
-        url: "{% url 'forecast-list' %}",
-        method: "GET",
-        data: query_params,
-        success: function(data) {
+    function renderCharts(params) {
+        $.ajax({
+            url: "{% url 'forecast-list' %}",
+            method: "GET",
+            data: params,
+            success: function(data) {
+                
+                if(data.length>0){
+                    // Hide the loading element when data is available
+                    $('#forecast-availability').hide()
+                    $('#forecast-loading').hide();
+                    
+                    chartConfigs.map(chart =>{
+                        createChart(chart.container, data, chart.params, chart.title)
+                    })
+                } else{
+                    chartConfigs.map(chart =>{
+                        $(`.${chart.container}-container`).hide()
+                        $('#forecast-availability').show()
+                    })
 
-            
-            
-            if(data.length>0){
-                // Hide the loading element when data is available
-                $('#forecast-loading').hide();
-                chartConfigs.map(chart =>{
-                    createChart(chart.container, data, chart.params, chart.title)
-                })
-            } 
-            
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            // This function will be called if there's an error in the request
-            console.error('CITY ANALYSIS ERROR:', textStatus, errorThrown);
-          }
+                }
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // This function will be called if there's an error in the request
+                console.error('CITY ANALYSIS ERROR:', textStatus, errorThrown);
+            }
+        })
+    }
+
+    // initial chart loading daily 
+    renderCharts(query_params)
+
+    $('.tabs li').on('click', function(){
+        // reload based on switch between daily and hourly
+        const $activeTab = $('.tabs li.is-active');
+        const $this = $(this);
+        const dataId = $this.attr('data-id');        
+
+        query_params.effective_period__whole_day = dataId === 'daily' ? true : false
+        renderCharts(query_params)
+
+        $activeTab.removeClass('is-active');
+        $this.addClass('is-active');
     })
     
     
