@@ -1,16 +1,22 @@
 from datetime import datetime
 
+from adminboundarymanager.models import AdminBoundarySettings
 from capeditor.models import AbstractCapAlertPage
+from django.core.files.base import ContentFile
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
-from wagtail.models import Page
+from wagtail.images.models import Image
+from wagtail.models import Page, Site
+from wagtail.signals import page_published
 
 from base.mixins import MetadataPageMixin
+from base.models import OrganisationSetting
 from pages.cap.constants import SEVERITY_MAPPING, URGENCY_MAPPING, CERTAINTY_MAPPING
+from pages.cap.utils import cap_geojson_to_image
 
 
 class CapAlertListPage(MetadataPageMixin, Page):
@@ -139,6 +145,7 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                     "severity": info.value.get("severity"),
                     "urgency": info.value.get("urgency"),
                     "certainty": info.value.get("certainty"),
+                    "severity_color": info_item.get("severity", {}).get("color"),
                     "sent": self.sent,
                     "onset": info.value.get("onset"),
                     "expires": info.value.get("expires"),
@@ -146,14 +153,53 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                     "description": info.value.get("description"),
                     "instruction": info.value.get("instruction")
                 }
-                info_features = info.value.geojson
-                for feature_geom in info_features:
-                    feature = {
-                        "type": "Feature",
-                        "properties": properties,
-                        "geometry": feature_geom
-
-                    }
+                info_features = info.value.features
+                for feature in info_features:
+                    feature["properties"].update(**properties)
                     features.append(feature)
 
         return features
+
+    def generate_geojson_map_image(self):
+        site = Site.objects.get(is_default_site=True)
+
+        abm_settings = AdminBoundarySettings.for_site(site)
+        org_settings = OrganisationSetting.for_site(site)
+        abm_extents = abm_settings.combined_countries_bounds
+
+        features = self.get_geojson_features()
+        if features:
+            feature_coll = {
+                "type": "FeatureCollection",
+                "features": features,
+            }
+
+            options = {
+                "title": self.title,
+                "org_name": org_settings.name,
+                "org_logo": org_settings.logo,
+            }
+
+            if abm_extents:
+                # format to what matplotlib expects
+                abm_extents = [abm_extents[0], abm_extents[2], abm_extents[1], abm_extents[3]]
+
+            img_buffer = cap_geojson_to_image(feature_coll, options, abm_extents)
+            file = ContentFile(img_buffer.getvalue(), f"{self.identifier}.png")
+
+            if self.search_image:
+                self.search_image.delete()
+
+            self.search_image = Image(title=self.title)
+            self.search_image.file = file
+            self.search_image.save()
+
+            self.save()
+
+
+def on_publish_cap_alert(sender, **kwargs):
+    instance = kwargs['instance']
+    instance.generate_geojson_map_image()
+
+
+page_published.connect(on_publish_cap_alert, sender=CapAlertPage)
