@@ -114,17 +114,16 @@ def get_msg_layer_details(layer_name):
     return {"title": title, "abstract": abstract}
 
 
-def get_wms_map(layer_name, time):
-    ethiopia_bbox = [32.95418, 47.78942, 3.40239, 14.95943]
-
+def get_wms_map(layer_name, time, extent=None):
     height = 5.12
     width = 5.12
 
     fig = plt.figure(figsize=(width, height))
     ax = plt.axes([0, 0, 1, 1], projection=ccrs.PlateCarree())
 
-    # set extent
-    ax.set_extent(ethiopia_bbox, crs=ccrs.PlateCarree())
+    # set extentZ
+    if extent:
+        ax.set_extent(extent, crs=ccrs.PlateCarree())
 
     # add country borders
     ax.add_feature(cf.BORDERS, linestyle='-', alpha=1)
