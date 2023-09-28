@@ -1,4 +1,5 @@
 import pytz
+from adminboundarymanager.models import AdminBoundarySettings
 from background_task import background
 from django.core.files.base import ContentFile
 from django.utils import timezone
@@ -21,6 +22,13 @@ def download_imagery():
 
     site = Site.objects.get(is_default_site=True)
     sat_setting = SatelliteImagerySetting.for_site(site)
+
+    abm_settings = AdminBoundarySettings.for_site(site)
+    abm_extents = abm_settings.combined_countries_bounds
+
+    if abm_extents:
+        # format to what matplotlib expects
+        abm_extents = [abm_extents[0], abm_extents[2], abm_extents[1], abm_extents[3]]
 
     msg_layers = sat_setting.layers
 
@@ -51,7 +59,7 @@ def download_imagery():
                         print(f"Generating image for time  '{time_str}' and layer '{layer_name}'")
 
                         try:
-                            img_buffer = get_wms_map(layer_name, time_str)
+                            img_buffer = get_wms_map(layer_name, time_str, abm_extents)
 
                             img = SatAnimationImage(date=time_str, layer_slug=slugify(layer_name))
                             img.file = ContentFile(img_buffer.getvalue(), f"{time_str}.png")
