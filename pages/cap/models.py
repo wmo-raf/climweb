@@ -10,7 +10,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.models import Page
 
 from base.mixins import MetadataPageMixin
-from pages.cap.constants import SEVERITY_MAPPING
+from pages.cap.constants import SEVERITY_MAPPING, URGENCY_MAPPING, CERTAINTY_MAPPING
 
 
 class CapAlertListPage(MetadataPageMixin, Page):
@@ -110,9 +110,50 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                 "url": self.url,
                 "event": f"{info.value.get('event')} ({area_desc})",
                 "event_icon": info.value.event_icon,
-                "severity": SEVERITY_MAPPING[info.value.get("severity")]
+                "severity": SEVERITY_MAPPING[info.value.get("severity")],
+                "utc": start_time,
+                "urgency": URGENCY_MAPPING[info.value.get("urgency")],
+                "certainty": CERTAINTY_MAPPING[info.value.get("certainty")],
+                "effective": start_time,
+                "expires": info.value.get('expires'),
             }
 
             alert_infos.append(alert_info)
 
         return alert_infos
+
+    def get_geojson_features(self, request=None):
+        features = []
+
+        for info_item in self.infos:
+            info = info_item.get("info")
+            if info.value.geojson:
+                web = info_item.get("url")
+                if request:
+                    web = request.build_absolute_uri(web)
+
+                properties = {
+                    "id": self.identifier,
+                    "event": info_item.get("event"),
+                    "headline": info.value.get("headline"),
+                    "severity": info.value.get("severity"),
+                    "urgency": info.value.get("urgency"),
+                    "certainty": info.value.get("certainty"),
+                    "sent": self.sent,
+                    "onset": info.value.get("onset"),
+                    "expires": info.value.get("expires"),
+                    "web": web,
+                    "description": info.value.get("description"),
+                    "instruction": info.value.get("instruction")
+                }
+                info_features = info.value.geojson
+                for feature_geom in info_features:
+                    feature = {
+                        "type": "Feature",
+                        "properties": properties,
+                        "geometry": feature_geom
+
+                    }
+                    features.append(feature)
+
+        return features
