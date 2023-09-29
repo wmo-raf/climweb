@@ -243,7 +243,7 @@ class HomePage(MetadataPageMixin, Page):
         end_date_param = start_date_param + timedelta(days=6)
 
         dates_ls = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
-                                           forecast_date__lte=end_date_param.date()) \
+                                           forecast_date__lte=end_date_param.date(), condition__isnull=False) \
             .order_by('forecast_date') \
             .values_list('forecast_date', flat=True) \
             .distinct()

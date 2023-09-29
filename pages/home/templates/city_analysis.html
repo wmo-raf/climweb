@@ -94,7 +94,8 @@
                                     
                                     name="city_name">
                                         {% for city in city_item %}
-                                        <option value="{{city.pk}}" {% if request.GET.city_id == city.pk %}selected{% endif %}>{{city.name}}</option>
+                                        <option data-url="{%url 'city_analysis' city_id=city.pk %}" value="{{city.pk}}" {% if request.GET.city_id == city.pk %}selected{% endif %}>
+                                            {{city.name}}</option>
                                         {% endfor %}
                                     </select>
                                     <span class="icon is-small is-left is-white">
@@ -179,6 +180,7 @@
 <script>
 
     let query_params = {
+        city__id:'{{city_id}}',
         start_date:getCurrentDate(),
         // end_date:getSevenDaysFromToday(),
         effective_period__whole_day:true
@@ -186,25 +188,14 @@
     
     const static_path = '{% static "forecastmanager/img/" %}'
 
-    // Show the loading element
-    $('#forecast-loading').show();
+   
 
     // Make an AJAX request to fetch the URL
     $(document).on('change', '#city-option', function() {
-        
-        let formData = $('#filter-form').serialize();
-        
-        let city_name = formData.split("=")
-        if (city_name.length > 1){
-            
-            window.location.pathname = `city_analysis/${city_name[1]}`
-        }
 
-        // Get the value of the input field
-        // const inputValue = inputField.value;
-            
-        // Navigate to the new URL when the input changes
-        // window.location.href = inputValue;
+        var selectedOption = $(this).find(':selected');
+        var dataUrl = selectedOption.data('url');
+        window.location.pathname = dataUrl
         
 
     });
@@ -262,8 +253,8 @@ function compareByDate(a, b) {
                 forecasts.sort(compareByDate).map((forecast, i) => {
                     if(forecast.properties.city_name === '{{city_name}}'){
                         if(forecast.properties.hasOwnProperty(param.param_key)){
-                            if(param.param_key === 'condition'){
-
+                            if(param.param_key === 'condition' && forecast.properties[param.param_key]){
+                                console.log("condition",forecast.properties[param.param_key])
                                 return paramVal.push({
                                     tooltip:{ 
                                         // pointFormat: `{point.custom.condition}`,
@@ -560,6 +551,9 @@ function compareByDate(a, b) {
 
 
     function renderCharts(params) {
+        // Show the loading element
+        $('#forecast-loading').show();
+
         $.ajax({
             url: "{% url 'forecast-list' %}",
             method: "GET",
