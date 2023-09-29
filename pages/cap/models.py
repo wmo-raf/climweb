@@ -1,7 +1,9 @@
+import os.path
 from datetime import datetime
 
 from adminboundarymanager.models import AdminBoundarySettings
 from capeditor.models import AbstractCapAlertPage
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import models
 from django.urls import reverse
@@ -16,7 +18,7 @@ from wagtail.signals import page_published
 from base.mixins import MetadataPageMixin
 from base.models import OrganisationSetting
 from pages.cap.constants import SEVERITY_MAPPING, URGENCY_MAPPING, CERTAINTY_MAPPING
-from pages.cap.utils import cap_geojson_to_image
+from pages.cap.utils import cap_geojson_to_image, generate_cap_summary_image
 
 
 class CapAlertListPage(MetadataPageMixin, Page):
@@ -174,18 +176,23 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                 "features": features,
             }
 
-            options = {
-                "title": self.title,
-                "org_name": org_settings.name,
-                "org_logo": org_settings.logo,
-            }
-
             if abm_extents:
                 # format to what matplotlib expects
                 abm_extents = [abm_extents[0], abm_extents[2], abm_extents[1], abm_extents[3]]
 
-            img_buffer = cap_geojson_to_image(feature_coll, options, abm_extents)
-            file = ContentFile(img_buffer.getvalue(), f"{self.identifier}.png")
+            cap_detail = {
+                "title": self.title,
+                "org_name": org_settings.name,
+            }
+            org_logo = org_settings.logo
+            if org_logo:
+                cap_detail.update({
+                    "org_logo_file": os.path.join(settings.MEDIA_ROOT, org_logo.file.path)
+                })
+
+            img_buffer = cap_geojson_to_image(feature_coll, abm_extents)
+            file = generate_cap_summary_image(img_buffer, cap_detail, f"{self.identifier}.png")
+            # file = ContentFile(img_buffer.getvalue(), f"{self.identifier}.png")
 
             if self.search_image:
                 self.search_image.delete()

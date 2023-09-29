@@ -1,30 +1,27 @@
-import os
 from io import BytesIO
 
 import cartopy.feature as cf
 import geopandas as gpd
 import matplotlib
 import matplotlib.pyplot as plt
+from PIL import Image
 from cartopy import crs as ccrs
-from django.conf import settings
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import matplotlib.image as mpimg
+from django.core.files.base import ContentFile
 
 matplotlib.use('Agg')
 
 
-def cap_geojson_to_image(geojson_feature_collection, options, extents=None):
+def cap_geojson_to_image(geojson_feature_collection, extents=None):
     gdf = gpd.GeoDataFrame.from_features(geojson_feature_collection)
 
-    height = 3.6
-    width = 3.6
+    width = 3.5
+    height = 3.5
 
     fig = plt.figure(figsize=(width, height))
-    # ax = plt.axes([0, 0, 1, 1], projection=ccrs.PlateCarree())
-    ax = plt.subplot(1, 1, 1, projection=ccrs.PlateCarree())
+    ax = plt.axes([0, 0, 1, 1], projection=ccrs.PlateCarree())
 
     # set line width
-    [x.set_linewidth(0.2) for x in ax.spines.values()]
+    [x.set_linewidth(0) for x in ax.spines.values()]
 
     # set extent
     # if extents:
@@ -38,33 +35,44 @@ def cap_geojson_to_image(geojson_feature_collection, options, extents=None):
     # Plot the GeoDataFrame using the plot() method
     gdf.plot(ax=ax, color=gdf["severity_color"], edgecolor='#333', linewidth=0.3, legend=True)
     # label areas
-    gdf.apply(lambda x: ax.annotate(text=x["areaDesc"], xy=x.geometry.centroid.coords[0], ha='center', fontsize=7),
+    gdf.apply(lambda x: ax.annotate(text=x["areaDesc"], xy=x.geometry.centroid.coords[0], ha='center', fontsize=5, ),
               axis=1)
-
-    # add logo
-    if options.get("org_logo"):
-        logo_file = options.get("org_logo").file.path
-        logo_path = os.path.join(settings.MEDIA_ROOT, logo_file)
-        logo_img = mpimg.imread(logo_path)
-        logo = OffsetImage(logo_img, zoom=0.1)
-        logo_position = (0.5, 0.5)
-        logo_box = AnnotationBbox(logo,
-                                  logo_position,
-                                  xycoords='axes fraction',
-                                  box_alignment=(0, 0),
-                                  pad=0,
-                                  frameon=False)
-        ax.add_artist(logo_box)
-
-        # add title
-    if options.get("title"):
-        plt.title(options.get("title"), fontsize=8)
 
     # create plot
     buffer = BytesIO()
-    plt.savefig(buffer, format='png', bbox_inches="tight", pad_inches=0.2, dpi=200)
+    plt.savefig(buffer, format='png', bbox_inches="tight", pad_inches=0, dpi=200)
 
     # close plot
     plt.close()
 
     return buffer
+
+
+def generate_cap_summary_image(area_map_img_buffer, cap_detail, file_name):
+    width = 800
+    height = 800
+    out_img = Image.new(mode="RGBA", size=(width, height), color="WHITE")
+
+    map_image = Image.open(area_map_img_buffer)
+    map_w, map_h = map_image.size
+    offset = ((width - map_w) // 2, 200)
+    out_img.paste(map_image, offset)
+
+    org_logo_file = cap_detail.get("org_logo_file")
+    if org_logo_file:
+        logo_image = Image.open(org_logo_file)
+        logo_w, logo_h = logo_image.size
+        max_logo_height = 70
+        if logo_h > max_logo_height:
+            ratio = logo_w / logo_h
+            new_width = int(ratio * max_logo_height)
+            logo_image = logo_image.resize((new_width, max_logo_height))
+            logo_w, logo_h = logo_image.size
+
+        offset = ((width - logo_w) // 2, 10)
+        out_img.paste(logo_image, offset, logo_image)
+
+    buffer = BytesIO()
+    out_img.convert("RGB").save(fp=buffer, format='PNG')
+    buff_val = buffer.getvalue()
+    return ContentFile(buff_val, file_name)
