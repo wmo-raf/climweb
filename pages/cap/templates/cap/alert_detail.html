@@ -49,6 +49,19 @@
                                 <span class="share-button-title">CAP XML </span>
                             </a>
                             {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}
+
+                            {% if page.search_image %}
+                                {% image page.search_image original as cap_image %}
+                                <a class="button is-small is-rounded"
+                                   href="{{ cap_image.url }}"
+                                   target="_blank" rel="noreferrer noopener"
+                                >
+                                    <span class="icon">
+                                        {% svg_icon name="map" %}
+                                    </span>
+                                    <span class="share-button-title">PNG Map</span>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="cap-body">
