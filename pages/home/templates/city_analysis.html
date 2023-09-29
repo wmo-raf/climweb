@@ -254,7 +254,6 @@ function compareByDate(a, b) {
                     if(forecast.properties.city_name === '{{city_name}}'){
                         if(forecast.properties.hasOwnProperty(param.param_key)){
                             if(param.param_key === 'condition' && forecast.properties[param.param_key]){
-                                console.log("condition",forecast.properties[param.param_key])
                                 return paramVal.push({
                                     tooltip:{ 
                                         // pointFormat: `{point.custom.condition}`,
