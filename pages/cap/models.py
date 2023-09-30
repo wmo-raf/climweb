@@ -4,7 +4,6 @@ from datetime import datetime
 from adminboundarymanager.models import AdminBoundarySettings
 from capeditor.models import AbstractCapAlertPage
 from django.conf import settings
-from django.core.files.base import ContentFile
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -18,7 +17,7 @@ from wagtail.signals import page_published
 from base.mixins import MetadataPageMixin
 from base.models import OrganisationSetting
 from pages.cap.constants import SEVERITY_MAPPING, URGENCY_MAPPING, CERTAINTY_MAPPING
-from pages.cap.utils import cap_geojson_to_image, generate_cap_summary_image
+from pages.cap.utils import cap_geojson_to_image, generate_cap_alert_card_image
 
 
 class CapAlertListPage(MetadataPageMixin, Page):
@@ -112,18 +111,45 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
             area_desc = [area.get("areaDesc") for area in info.value.area]
             area_desc = ",".join(area_desc)
 
+            event = f"{info.value.get('event')} ({area_desc})"
+            severity = SEVERITY_MAPPING[info.value.get("severity")]
+            urgency = URGENCY_MAPPING[info.value.get("urgency")]
+            certainty = CERTAINTY_MAPPING[info.value.get("certainty")]
+
+            effective = start_time
+            expires = info.value.get('expires')
+            url = self.url
+            event_icon = info.value.event_icon
+
             alert_info = {
                 "info": info,
                 "status": status,
                 "url": self.url,
-                "event": f"{info.value.get('event')} ({area_desc})",
-                "event_icon": info.value.event_icon,
-                "severity": SEVERITY_MAPPING[info.value.get("severity")],
+                "event": event,
+                "event_icon": event_icon,
+                "severity": severity,
                 "utc": start_time,
-                "urgency": URGENCY_MAPPING[info.value.get("urgency")],
-                "certainty": CERTAINTY_MAPPING[info.value.get("certainty")],
-                "effective": start_time,
-                "expires": info.value.get('expires'),
+                "urgency": urgency,
+                "certainty": certainty,
+                "effective": effective,
+                "expires": expires,
+                "properties": {
+                    "id": self.identifier,
+                    "event": event,
+                    "event_type": info.value.get('event'),
+                    "headline": info.value.get("headline"),
+                    "severity": info.value.get("severity"),
+                    "urgency": info.value.get("urgency"),
+                    "certainty": info.value.get("certainty"),
+                    "severity_color": severity.get("color"),
+                    "sent": self.sent,
+                    "onset": info.value.get("onset"),
+                    "expires": expires,
+                    "web": url,
+                    "description": info.value.get("description"),
+                    "instruction": info.value.get("instruction"),
+                    "event_icon": event_icon
+                }
             }
 
             alert_infos.append(alert_info)
@@ -136,25 +162,13 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
         for info_item in self.infos:
             info = info_item.get("info")
             if info.value.geojson:
-                web = info_item.get("url")
+                properties = info_item.get("properties")
                 if request:
-                    web = request.build_absolute_uri(web)
+                    web = request.build_absolute_uri(properties.get("web"))
+                    properties.update({
+                        "web": web
+                    })
 
-                properties = {
-                    "id": self.identifier,
-                    "event": info_item.get("event"),
-                    "headline": info.value.get("headline"),
-                    "severity": info.value.get("severity"),
-                    "urgency": info.value.get("urgency"),
-                    "certainty": info.value.get("certainty"),
-                    "severity_color": info_item.get("severity", {}).get("color"),
-                    "sent": self.sent,
-                    "onset": info.value.get("onset"),
-                    "expires": info.value.get("expires"),
-                    "web": web,
-                    "description": info.value.get("description"),
-                    "instruction": info.value.get("instruction")
-                }
                 info_features = info.value.features
                 for feature in info_features:
                     feature["properties"].update(**properties)
@@ -169,6 +183,8 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
         org_settings = OrganisationSetting.for_site(site)
         abm_extents = abm_settings.combined_countries_bounds
 
+        info = self.infos[0]
+
         features = self.get_geojson_features()
         if features:
             feature_coll = {
@@ -182,7 +198,10 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
             cap_detail = {
                 "title": self.title,
+                "sent_on": self.sent,
                 "org_name": org_settings.name,
+                "severity": info.get("severity"),
+                "properties": info.get("properties"),
             }
             org_logo = org_settings.logo
             if org_logo:
@@ -190,8 +209,8 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                     "org_logo_file": os.path.join(settings.MEDIA_ROOT, org_logo.file.path)
                 })
 
-            img_buffer = cap_geojson_to_image(feature_coll, abm_extents)
-            file = generate_cap_summary_image(img_buffer, cap_detail, f"{self.identifier}.png")
+            map_img_buffer = cap_geojson_to_image(feature_coll, abm_extents)
+            file = generate_cap_alert_card_image(map_img_buffer, cap_detail, f"{self.identifier}.png")
             # file = ContentFile(img_buffer.getvalue(), f"{self.identifier}.png")
 
             if self.search_image:
