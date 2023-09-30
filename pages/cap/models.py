@@ -109,7 +109,7 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                 status = "Expected"
 
             area_desc = [area.get("areaDesc") for area in info.value.area]
-            area_desc = ",".join(area_desc)
+            area_desc = ", ".join(area_desc)
 
             event = f"{info.value.get('event')} ({area_desc})"
             severity = SEVERITY_MAPPING[info.value.get("severity")]
@@ -148,7 +148,8 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                     "web": url,
                     "description": info.value.get("description"),
                     "instruction": info.value.get("instruction"),
-                    "event_icon": event_icon
+                    "event_icon": event_icon,
+                    "area_desc": area_desc,
                 }
             }
 
