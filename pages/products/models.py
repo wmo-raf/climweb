@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.dates import MONTHS
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from geomanager.models import FileImageLayer
+from geomanager.models import RasterFileLayer
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
 from wagtail import blocks
@@ -77,7 +77,7 @@ class UUIDModelChooserBlock(ModelChooserBlock):
 
 
 class LayerBlock(blocks.StructBlock):
-    geomanager_layer = UUIDModelChooserBlock(FileImageLayer)
+    geomanager_layer = UUIDModelChooserBlock(RasterFileLayer)
     product_type = blocks.ChoiceBlock(required=False, choices=[])
 
 
@@ -192,7 +192,7 @@ class ProductPage(AbstractIntroPage):
         verbose_name_plural = _('Product Pages')
 
 
-register_model_chooser(FileImageLayer)
+register_model_chooser(RasterFileLayer)
 
 
 class ProductPageTag(TaggedItemBase):
