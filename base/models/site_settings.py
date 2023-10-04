@@ -26,6 +26,7 @@ from wagtailcache.cache import clear_cache
 
 logger = logging.getLogger(__name__)
 
+
 @register_setting
 class OrganisationSetting(BaseSiteSetting):
     country = models.CharField(max_length=100, blank=True, null=True, choices=COUNTRY_CHOICES,
@@ -356,7 +357,6 @@ class ImportantPages(BaseSiteSetting):
 @receiver(post_save, sender=Theme)
 @receiver(post_save, sender=NavigationSettings)
 @receiver(post_save, sender=ImportantPages)
-
 def handle_clear_wagtail_cache(sender, **kwargs):
     logging.info("[WAGTAIL_CACHE]: Clearing cache")
     clear_cache()
