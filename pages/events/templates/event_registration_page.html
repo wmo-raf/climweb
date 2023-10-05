@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags bulma_tags %}
+{% load wagtailcore_tags bulma_tags i18n %}
 
 {% block page_meta %}
     {{ block.super }}
@@ -37,7 +37,9 @@
                                     {% csrf_token %}
                                     {{ form|bulma }}
                                     <div class="field">
-                                        <button type="submit" class="submit-button button">Submit</button>
+                                        <button type="submit" class="submit-button button">
+                                            {% translate "Submit" %}
+                                        </button>
                                     </div>
                                 </form>
                             {% elif page.event.is_ended %}
@@ -45,13 +47,15 @@
                                     <span class="event-meta-item-icon">
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </span>
-                                    {{ page.event.event_type.event_type }} ended.</h5>
+                                    {{ page.event.event_type.event_type }} {% translate "ended" %}.
+                                </h5>
                             {% elif not page.event.registration_open %}
                                 <h5 style="color: red">
                                     <span class="event-meta-item-icon">
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </span>
-                                    Registration closed.</h5>
+                                    {% translate " Registration closed" %}.
+                                </h5>
                             {% endif %}
                         </div>
                     </div>

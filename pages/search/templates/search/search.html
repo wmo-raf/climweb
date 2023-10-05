@@ -1,8 +1,7 @@
-
 {% extends "base.html" %}
-{% load static wagtailcore_tags wagtailsearchpromotions_tags %}
+{% load static wagtailcore_tags wagtailsearchpromotions_tags i18n %}
 
-{% block title %}Search{% endblock %}
+{% block title %} Search {% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/search.css' %}">
@@ -21,11 +20,11 @@
                                     <input class="input is-fullwidth is-rounded" id="search-form-input" type="text"
                                            placeholder="Search"
                                            name="query"
-                                           {% if search_query %} value="{{ search_query }}"{% endif %}>
+                                            {% if search_query %} value="{{ search_query }}"{% endif %}>
                                 </div>
                                 <div class="control">
                                     <button class="button submit-button is-rounded" type="submit">
-                                        Search
+                                        {% translate "Search" %}
                                     </button>
                                 </div>
                             </div>
@@ -50,7 +49,9 @@
                                                 </p>
                                             {% endif %}
                                             <a class="button is-rounded is-small search-result-item-more"
-                                               href="{% pageurl search_promotion.page %}">More</a>
+                                               href="{% pageurl search_promotion.page %}">
+                                                {% translate "More" %}
+                                            </a>
                                         </li>
                                     {% endfor %}
 
@@ -70,18 +71,22 @@
                                             {% endif %}
                                             {% if result.search_result_url %}
                                                 <a class="button is-rounded is-small search-result-item-more"
-                                                   href="{{ result.search_result_url }}">More</a>
+                                                   href="{{ result.search_result_url }}">
+                                                    {% translate "More" %}
+                                                </a>
                                             {% else %}
                                                 <a class="button is-rounded is-small search-result-item-more"
-                                                   href="{% pageurl result %}">More</a>
+                                                   href="{% pageurl result %}">
+                                                    {% translate "More" %}
+                                                </a>
                                             {% endif %}
                                         </li>
                                     {% endfor %}
                                 </ul>
                             {% elif search_query %}
-                                No results found
+                                {% translate "No results found" %}
                             {% else %}
-                                Please type something into the search box
+                                {% translate "Please type something into the search box" %}
                             {% endif %}
                         </div>
                     </div>

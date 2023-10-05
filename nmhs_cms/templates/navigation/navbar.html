@@ -1,7 +1,6 @@
 {% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
 {% wagtail_site as current_site %}
-
 <header class="header-nav">
     <div id="google_language_translator"></div>
     <div class="top-nav-wrapper is-hidden-touch container">
@@ -28,7 +27,7 @@
                     <a href="{{ settings.base.ImportantPages.cap_feed }}"
                        class="level-item top-nav-item"
                     >
-                        <span style="margin-right: 4px"> Alerts</span>
+                        <span style="margin-right: 4px"> {% translate "Alerts" %} </span>
                         <img src="{% static 'img/CAPLogo.jpeg' %}" alt="CAP Alerts"
                              style="height: 18px;width: 18px;border-radius:4px">
                     </a>
@@ -37,7 +36,7 @@
                     <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
                        class="level-item top-nav-item"
                     >
-                        <span>Subscribe</span>
+                        <span>{% translate "Subscribe" %}</span>
                         <span class="nav-icon">
                             {% svg_icon name="mail" %}
                         </span>
@@ -47,7 +46,7 @@
                     <div class="level-item dropdown is-hoverable">
                         <div class="dropdown-trigger">
                             <div class="top-nav-item">
-                                <span>Language</span>
+                                <span>{% translate "Language" %}</span>
                                 <span class="nav-icon">
                                     {% svg_icon name="site" %}
                                 </span>
@@ -81,7 +80,7 @@
                         </form>
                     </div>
                     <div id="search-trigger" class="search-trigger">
-                        <span>Search</span>
+                        <span>{% translate "Search" %}</span>
                         <span class="nav-icon">
                             {% svg_icon name="search" %}
                         </span>
@@ -91,17 +90,16 @@
                     <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
                        class="level-item top-nav-item button is-small nav-cta"
                     >
-                        Contact us
+                        {% translate "Contact us" %}
                     </a>
                 {% endif %}
                 {% if settings.base.ImportantPages.feedback_page %}
                     <a href="{{ settings.base.ImportantPages.feedback_page.url }}"
                        class="level-item top-nav-item button is-small nav-cta"
                     >
-                        Feedback
+                        {% translate "Feedback" %}
                     </a>
                 {% endif %}
-
                 {% if user.is_authenticated %}
                     <a href="{{ wagtail_admin_url }}"
                        class="level-item top-nav-item button is-small nav-cta"
@@ -117,7 +115,6 @@
         <div class="navbar-brand is-hidden-desktop">
             <a class="mobile-logo" href="{{ current_site.root_url }}">
                 {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
-
                     {% if settings.base.OrganisationSetting.country_flag %}
                         {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
                         <img src="{{ country_flag.url }}" alt="Logo" class="px-2">

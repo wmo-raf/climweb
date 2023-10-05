@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% load static  %}
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
-
-
 {% endblock extra_css %}
 
 {% block content %}
@@ -24,7 +22,7 @@
         {% include 'section/services_include.html' %}
         {% comment %} {% include 'section/satellite_include.html' %} {% endcomment %}
         {% include 'section/updates_include.html' with page=page %}
-        
+
         {% include 'section/media_include.html' %}
         {% if page.feature_block %}
             <section class="feature-block-section">
@@ -36,21 +34,21 @@
         {% if page.partners %}
             <section>
                 <div class="container">
-                    <h2 class="section-title has-text-centered">Our Partners</h2>
+                    <h2 class="section-title has-text-centered"> {% translate "Our Partners" %}</h2>
                     <div class="columns is-multiline is-mobile is-centered partners-list">
                         {% for partner in page.partners %}
                             {% if partner.visible_on_homepage %}
                                 <div class="column is-4-mobile is-4-tablet is-2-desktop  partner-item">
                                     <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
-                                    target="{% if partner.link %}_blank{% else %}_self{% endif %}"
-                                    rel="noopener">
+                                       target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                                       rel="noopener">
                                         <div class="partner-img-wrapper" title="{{ partner.name }}">
                                             <figure class="image">
                                                 {% image partner.logo original as p_logo %}
                                                 <img class="progressive__img progressive--not-loaded"
-                                                    data-progressive="{{ p_logo.url }}"
-                                                    src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"
-                                                    syle="width:100px;object-fit: cover;"/>
+                                                     data-progressive="{{ p_logo.url }}"
+                                                     src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"
+                                                     syle="width:100px;object-fit: cover;"/>
                                             </figure>
                                         </div>
                                     </a>
@@ -60,21 +58,18 @@
                     </div>
 
                     {% if settings.base.ImportantPages.all_partners_page %}
-                            <div class="more-container" style="justify-content: center">
-                                <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}" }>
-                                    More Partners
-                                    <span class="icon">
-                                        <i class="fas fa-arrow-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        {% endif %}
+                        <div class="more-container" style="justify-content: center">
+                            <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}" }>
+                                {% translate "More Partners" %}
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </section>
-            
         {% endif %}
-
-        
     </main>
 {% endblock content %}
 

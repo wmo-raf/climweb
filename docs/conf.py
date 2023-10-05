@@ -13,27 +13,25 @@ import os
 import sys
 from datetime import datetime
 
-
 # on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
 on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 
 html_theme = 'sphinx_wagtail_theme'
 
-
 html_theme_options = {
     "project_name": "CMS Documentation",
     "github_url": "https://github.com/wmo-raf/nmhs-cms/blob/main/docs/",
     "header_links": "En|https://nmhs-cms.readthedocs.io/en, Fr|https://nmhs-cms.readthedocs.io/fr, Sw|https://nmhs-cms.readthedocs.io/sw",
-    "footer_links":",".join([
+    "footer_links": ",".join([
         "Demo|http://20.56.94.119/cms/",
         "Packages|https://github.com/wmo-raf",
         "Developers|https://github.com/wmo-raf/nmhs-cms-init"
     ]),
-    "logo":"images/logo.svg",
-    "logo_alt":"NMHS",
-    "logo_height":50,
-    "logo_url":"/",
-    "logo_width":110,
+    "logo": "images/logo.svg",
+    "logo_alt": "NMHS",
+    "logo_height": 50,
+    "logo_url": "/",
+    "logo_width": 110,
 
 }
 
@@ -94,6 +92,7 @@ copyright = f"{datetime.now().year}"
 # built documents.
 
 import re
+
 # The full version, including alpha/beta/rc tags.
 release = re.sub('^v', '', os.popen('git describe --tags').read().strip())
 # The short X.Y version.
@@ -113,7 +112,7 @@ version = release
 # language = 'en'
 # gettext_uuid = True
 # gettext_compact = False
-locales_dirs = ['locales']
+locales_dirs = ['locale']
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -246,25 +245,24 @@ htmlhelp_basename = "NMHSCMSdoc"
 # -- Options for LaTeX output ---------------------------------------------
 
 # latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    # 'papersize': 'a4paper',
-    # The font size ('10pt', '11pt' or '12pt').
-    # 'pointsize': '11pt',
-    # Additional stuff for the LaTeX preamble.
-    # 'preamble': '',
-    # 'preamble': r'''
-    #     \input{/Users/grace/Projects/WMO/nmhs-cms.wiki/cover.tex}
-    # ''',
-    # "maketitle": "\\input{_static/cover.tex}"
+# The paper size ('letterpaper' or 'a4paper').
+# 'papersize': 'a4paper',
+# The font size ('10pt', '11pt' or '12pt').
+# 'pointsize': '11pt',
+# Additional stuff for the LaTeX preamble.
+# 'preamble': '',
+# 'preamble': r'''
+#     \input{/Users/grace/Projects/WMO/nmhs-cms.wiki/cover.tex}
+# ''',
+# "maketitle": "\\input{_static/cover.tex}"
 # }
-    
 
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ("index", "NMHS_CMS.tex", "NMHS CMS Documentation","ORGANISATION", "manual"),
+    ("index", "NMHS_CMS.tex", "NMHS CMS Documentation", "ORGANISATION", "manual"),
 ]
 
 # with open('./cover.tex', 'r') as cover_page_file:
@@ -316,6 +314,7 @@ texinfo_documents = [
         "Miscellaneous",
     ),
 ]
+
 
 # Documents to append as an appendix to all manuals.
 # texinfo_appendices = []

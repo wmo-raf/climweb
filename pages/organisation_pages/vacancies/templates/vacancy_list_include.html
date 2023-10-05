@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags  %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
 
 <div class="results-view">
     <div class="results-list list-view">
@@ -6,7 +6,9 @@
             <div class="vacancy-item-wrapper">
                 <div class="vacancy-item-header">
                     {% if vacancy.is_new %}
-                        <button class="button is-small is-rounded vacancy-item-highlight">New</button>
+                        <button class="button is-small is-rounded vacancy-item-highlight">
+                            {% translate "New" %}
+                        </button>
                     {% endif %}
                     <h3 class="vacancy-item-title">
                         <a href="{{ vacancy.url }}">
@@ -19,30 +21,33 @@
                         <span class="icon">
                             <i class="fas fa-calendar-plus"></i>
                         </span>
-                        <span class="share-button-title">Posted On: <b>{{ vacancy.posting_date|date:"d M Y" }}</b>
+                        <span class="share-button-title">
+                            {% translate "Posted On" %}:
+                            <b>{{ vacancy.posting_date|date:"d M Y" }}</b>
                         </span>
                     </div>
-
                     <div style="padding: 5px 0">
                         <span class="icon">
                             <i class="fas fa-clock"></i>
                         </span>
-                        <span class="share-button-title">Closing On:
+                        <span class="share-button-title">
+                            {% translate "Closing On" %}:
                             <b>{{ vacancy.deadline|date:'d M Y , H:i' }}</b>
                         </span>
                     </div>
                 </div>
-
                 <div class="vacancy-item-detail">
                     <div class="vacancy-item-meta">
                         <div class="vacancy-item-station">
                             <figure class="image">
                                 <img src="{% static 'img/location.svg' %}" alt="location_icon">
                             </figure>
-                            <span> Duty Station: {{ vacancy.duty_station }}</span>
+                            <span>{% translate "Duty Station" %}: {{ vacancy.duty_station }}</span>
                         </div>
                         <span class="vacancy-item-view-more">
-                            <a class="more" href="{{ vacancy.url }}">View details</a>
+                            <a class="more" href="{{ vacancy.url }}">
+                                {% translate "View details" %}
+                            </a>
                         </span>
                     </div>
                 </div>

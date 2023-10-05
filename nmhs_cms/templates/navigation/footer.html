@@ -1,4 +1,4 @@
-{% load static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags nmhs_cms_tags %}
+{% load i18n static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags nmhs_cms_tags %}
 {% get_settings use_default_site=True %}
 {% wagtail_site as current_site %}
 
@@ -29,12 +29,12 @@
                             &copy; {{ settings.base.OrganisationSetting.name }} {% now 'Y' %}</p>
                     {% endif %}
                     {% if 'CMS_VERSION'|django_settings %}
-                    <a 
-                    href="https://github.com/wmo-raf/nmhs-cms/releases/tag/v{{ 'CMS_VERSION'|django_settings }}" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    style="color:#ababab; font-size: 12px;  font-weight:600">
-                        <span> v{{ 'CMS_VERSION'|django_settings }}</span>
+                        <a
+                                href="https://github.com/wmo-raf/nmhs-cms"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style="color:#ababab; font-size: 12px;  font-weight:600">
+                            <span> {% translate "Powered by NMHS CMS" %} v{{ 'CMS_VERSION'|django_settings }}</span>
                         </a>
                     {% endif %}
                 </div>
@@ -48,9 +48,7 @@
                         </a>
                     {% endfor %}
                 </div>
-
             </div>
-
         </div>
     </div>
 </footer>

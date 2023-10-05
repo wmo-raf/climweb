@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,79 +16,99 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pages/services/models.py:25
+#: pages/services/models.py:26
 msgid "Services listing Heading"
 msgstr "عنوان قائمة الخدمات"
 
-#: pages/services/models.py:36
+#: pages/services/models.py:37
 #, fuzzy
 #| msgid "Service Page"
 msgid "Service List Page"
 msgstr "صفحة قائمة الخدمات"
 
-#: pages/services/models.py:37
+#: pages/services/models.py:38
 #, fuzzy
 #| msgid "Service Pages"
 msgid "Service List Pages"
 msgstr "صفحات قائمة الخدمات"
 
-#: pages/services/models.py:46
+#: pages/services/models.py:47
 msgid "Service"
 msgstr "خدمة"
 
-#: pages/services/models.py:53
+#: pages/services/models.py:55
 msgid "What we do button text"
 msgstr "نص زر ما نفعله"
 
-#: pages/services/models.py:60
+#: pages/services/models.py:62
 msgid "What we do button link"
 msgstr "ما نفعله زر الارتباط"
 
-#: pages/services/models.py:63
+#: pages/services/models.py:65
 msgid "Projects description text"
 msgstr "نص وصف المشاريع"
 
-#: pages/services/models.py:64
+#: pages/services/models.py:66
 msgid "Project Description"
 msgstr "وصف المشروع"
 
-#: pages/services/models.py:68
+#: pages/services/models.py:70
 msgid "Feature block items"
 msgstr "عناصر حظر الميزات"
 
-#: pages/services/models.py:76
+#: pages/services/models.py:78
 msgid "Youtube playlist"
 msgstr "قائمة تشغيل يوتيوب"
 
-#: pages/services/models.py:87
+#: pages/services/models.py:89
 msgid "What we do in this Service section"
 msgstr "ماذا نفعل في قسم الخدمة هذا"
 
-#: pages/services/models.py:92
+#: pages/services/models.py:94
 msgid "Projects Section"
 msgstr "قسم المشاريع"
 
-#: pages/services/models.py:96
+#: pages/services/models.py:98
+#: pages/services/templates/services/service_page.html:118
 msgid "Applications"
 msgstr "التطبيقات"
 
-#: pages/services/models.py:96
+#: pages/services/models.py:98
 msgid "Heading"
 msgstr "عنوان"
 
-#: pages/services/models.py:100
+#: pages/services/models.py:102
 msgid "Service Page"
 msgstr "صفحة الخدمة"
 
-#: pages/services/models.py:101
+#: pages/services/models.py:103
 msgid "Service Pages"
 msgstr "صفحات الخدمة"
 
-#: pages/services/models.py:167
+#: pages/services/models.py:169
 msgid "Application"
 msgstr "طلب"
+
+#: pages/services/templates/services/service_page.html:41
+msgid "Events"
+msgstr ""
+
+#: pages/services/templates/services/service_page.html:52
+msgid "Latest Updates"
+msgstr ""
+
+#: pages/services/templates/services/service_page.html:64
+msgid "All News"
+msgstr ""
+
+#: pages/services/templates/services/service_page.html:72
+#, fuzzy
+#| msgid "Applications"
+msgid "All Publications"
+msgstr "التطبيقات"
 
 #~ msgid "Banner Image"
 #~ msgstr "صورة بانر"
@@ -132,7 +152,8 @@ msgstr "طلب"
 #~ msgid "Introduction button link"
 #~ msgstr "رابط زر المقدمة"
 
-#~ msgid "External Link if applicable. Ignored if internal page above is chosen"
+#~ msgid ""
+#~ "External Link if applicable. Ignored if internal page above is chosen"
 #~ msgstr "رابط خارجي إن أمكن. يتم التجاهل إذا تم اختيار الصفحة الداخلية أعلاه"
 
 #~ msgid "Introduction button link external"

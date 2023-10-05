@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:53+0000\n"
+"POT-Creation-Date: 2023-10-05 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,8 +89,8 @@ msgstr "Projets pertinents"
 msgid ""
 "Should this news appear on the news landing paging as the featured one ?"
 msgstr ""
-"Cette actualité doit-elle apparaître sur la page d'accueil des actualités en"
-" tant que vedette ?"
+"Cette actualité doit-elle apparaître sur la page d'accueil des actualités en "
+"tant que vedette ?"
 
 #: pages/news/models.py:160
 msgid "Is featured"
@@ -122,7 +122,7 @@ msgstr "En-tête de liens supplémentaires"
 msgid "Extra links"
 msgstr "Liens supplémentaires"
 
-#: pages/news/models.py:172
+#: pages/news/models.py:172 pages/news/templates/news_detail_page.html:55
 msgid "Tags"
 msgstr "Mots clés"
 
@@ -133,6 +133,47 @@ msgstr "Liens supplémentaires"
 #: pages/news/models.py:204
 msgid "News Page"
 msgstr "Actualités"
+
+#: pages/news/templates/news_detail_page.html:71
+msgid "Find out more"
+msgstr ""
+
+#: pages/news/templates/news_filter_include.html:9
+#, fuzzy
+#| msgid "News type"
+msgid "Filter by News Type"
+msgstr "Type de nouvelles"
+
+#: pages/news/templates/news_filter_include.html:34
+msgid "Filter by Service"
+msgstr ""
+
+#: pages/news/templates/news_filter_include.html:56
+msgid "Filter by Year"
+msgstr ""
+
+#: pages/news/templates/news_index_page.html:18
+#, fuzzy
+#| msgid "Feature Image"
+msgid "Featured News"
+msgstr "Image caractéristique"
+
+#: pages/news/templates/news_index_page.html:27
+#, fuzzy
+#| msgid "News type"
+msgid "All News Updates"
+msgstr "Types d'actualités"
+
+#: pages/news/templates/news_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/news/templates/news_list_include.html:65
+msgid "Read More"
+msgstr ""
 
 #~ msgid "Banner Image"
 #~ msgstr "Image de la bannière"

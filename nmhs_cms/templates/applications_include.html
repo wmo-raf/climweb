@@ -1,4 +1,4 @@
-{% load wagtailimages_tags lazyimages_tags %}
+{% load wagtailimages_tags lazyimages_tags i18n %}
 
 <div class="slider application-items">
     {% for app in applications %}
@@ -16,7 +16,7 @@
                 {% endif %}
                 <div class="application-item-detail">
                     <span class="application-item-title">{{ app.application.title }}</span>
-                    <span class="application-item-view">View</span>
+                    <span class="application-item-view">{% translate "View" %}</span>
                 </div>
             </figure>
         </a>

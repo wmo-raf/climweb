@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n %}
 
 {% block extra_css %}
     <link href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -57,32 +57,44 @@
                                 <div class="cap-map-wrapper">
                                     <div id="cap-map"></div>
                                     <div class="map-legend">
-                                        <div>Alert Severity:</div>
+                                        <div>
+                                            {% translate "Alert Severity" %}:
+                                        </div>
                                         <div class="legend-items">
                                             <div class="legend-item">
                                                 <div class="legend-color"
                                                      style="background-color: rgb(215, 47, 42);"></div>
-                                                <div class="legend-label">Extreme</div>
+                                                <div class="legend-label">
+                                                    {% translate "Extreme" %}
+                                                </div>
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color"
                                                      style="background-color: rgb(254, 153, 0);"></div>
-                                                <div class="legend-label">Severe</div>
+                                                <div class="legend-label">
+                                                    {% translate "Severe" %}
+                                                </div>
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color"
                                                      style="background-color: rgb(255, 255, 0);"></div>
-                                                <div class="legend-label">Moderate</div>
+                                                <div class="legend-label">
+                                                    {% translate "Moderate" %}
+                                                </div>
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color"
                                                      style="background-color: rgb(3, 255, 255);"></div>
-                                                <div class="legend-label">Minor</div>
+                                                <div class="legend-label">
+                                                    {% translate "Minor" %}
+                                                </div>
                                             </div>
                                             <div class="legend-item">
                                                 <div class="legend-color"
                                                      style="background-color: rgb(51, 102, 255);"></div>
-                                                <div class="legend-label">Unknown</div>
+                                                <div class="legend-label">
+                                                    {% translate "Unknown" %}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -142,21 +154,27 @@
                                                                 <div class="cap-info-summary-icon">
                                                                     {% svg_icon name="time" %}
                                                                 </div>
-                                                                <div class="cap-info-summary-type">Urgency:</div>
+                                                                <div class="cap-info-summary-type">
+                                                                    {% translate "Urgency" %}:
+                                                                </div>
                                                                 <div class="cap-info-summary-value">{{ item.value.urgency }}</div>
                                                             </div>
                                                             <div class="cap-info-summary-item">
                                                                 <div class="cap-info-summary-icon">
                                                                     {% svg_icon name="warning" %}
                                                                 </div>
-                                                                <div class="cap-info-summary-type">Severity:</div>
+                                                                <div class="cap-info-summary-type">
+                                                                    {% translate "Severity" %}:
+                                                                </div>
                                                                 <div class="cap-info-summary-value">{{ item.value.severity }}</div>
                                                             </div>
                                                             <div class="cap-info-summary-item">
                                                                 <div class="cap-info-summary-icon">
                                                                     {% svg_icon name="crosshairs" %}
                                                                 </div>
-                                                                <div class="cap-info-summary-type">Certainty:</div>
+                                                                <div class="cap-info-summary-type">
+                                                                    {% translate "Certainty" %}:
+                                                                </div>
                                                                 <div class="cap-info-summary-value">{{ item.value.certainty }}</div>
                                                             </div>
                                                         </div>
@@ -165,7 +183,7 @@
 
                                                 <div class="info-item">
                                                     <div class="info-header">
-                                                        Time period
+                                                        {% translate "Time period" %}
                                                     </div>
                                                     <div class="info-detail">
                                                         <div class="cap-time-wrapper">
@@ -173,19 +191,31 @@
                                                                 <li class="warning-timeline__item">
                                                                     <div class="warning-timeline__circle"></div>
                                                                     <div>
-                                                                        <span class="time-type">Issued: </span>
-                                                                        <span>{{ page.sent }}</span>
+                                                                        <span class="time-type">
+                                                                            {% translate "Issued" %}
+                                                                        </span>
+                                                                        <span>
+                                                                            {% blocktranslate with issue_date=page.sent trimmed %}
+                                                                                {{ issue_date }}
+                                                                            {% endblocktranslate %}
+                                                                        </span>
                                                                     </div>
                                                                 </li>
                                                                 <li class="warning-timeline__item">
                                                                     <div class="warning-timeline__circle"></div>
                                                                     <div>
-                                                                        <span class="time-type">Effective: </span>
+                                                                        <span class="time-type">
+                                                                            {% translate "Effective" %}:
+                                                                        </span>
                                                                         <span>
                                                                             {% if  item.value.effective %}
-                                                                                {{ item.value.effective }}
+                                                                                {% blocktranslate with effective_date=item.value.effective trimmed %}
+                                                                                    {{ effective_date }}
+                                                                                {% endblocktranslate %}
                                                                             {% else %}
-                                                                                {{ page.sent }}
+                                                                                {% blocktranslate with sent_date=page.sent trimmed %}
+                                                                                    {{ page.sent }}
+                                                                                {% endblocktranslate %}
                                                                             {% endif %}
                                                                         </span>
                                                                     </div>
@@ -194,14 +224,18 @@
                                                                     <li class="warning-timeline__item">
                                                                         <div class="warning-timeline__circle"></div>
                                                                         <div>
-                                                                            <span class="time-type">Onset: </span>
+                                                                            <span class="time-type">
+                                                                                {% translate "Onset" %}:
+                                                                            </span>
                                                                             <span>{{ item.value.onset }}</span></div>
                                                                     </li>
                                                                 {% endif %}
                                                                 <li class="warning-timeline__item">
                                                                     <div class="warning-timeline__circle"></div>
                                                                     <div>
-                                                                        <span class="time-type">Expires: </span>
+                                                                        <span class="time-type">
+                                                                            {% translate "Expires" %}:
+                                                                        </span>
                                                                         <span>{{ item.value.expires }}</span>
                                                                     </div>
                                                                 </li>
@@ -209,11 +243,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                                 <div class="info-item">
                                                     <div class="info-header">
-                                                        Area
+                                                        {% translate "Area" %}
                                                     </div>
                                                     <div class="info-detail">
                                                         {% for area in item.value.area %}
@@ -223,10 +255,9 @@
                                                         {% endfor %}
                                                     </div>
                                                 </div>
-
                                                 <div class="info-item">
                                                     <div class="info-header">
-                                                        Event Description
+                                                        {% translate "Event Description" %}
                                                     </div>
                                                     <div class="info-detail">
                                                         <p>
@@ -237,18 +268,14 @@
                                                 {% if  item.value.instruction %}
                                                     <div class="info-item">
                                                         <div class="info-header">
-                                                            Instructions
+                                                            {% translate "Instructions" %}
                                                         </div>
                                                         <div class="info-detail">
                                                             {{ item.value.instruction }}
                                                         </div>
                                                     </div>
                                                 {% endif %}
-
-
                                             {% endwith %}
-
-
                                         </div>
                                     {% endfor %}
                                 </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,12 +16,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: pages/organisation_pages/about/blocks.py:14
 msgid ""
-"This can be the month of the year or the exact date. Leave blank if not "
-"known"
+"This can be the month of the year or the exact date. Leave blank if not known"
 msgstr ""
 "يمكن أن يكون هذا الشهر من السنة أو التاريخ المحدد. اتركه فارغا إذا لم يكن "
 "معروفا"
@@ -80,37 +80,84 @@ msgstr "كتلة الميزات"
 msgid "Additional Materials"
 msgstr "مواد إضافية"
 
-#: pages/organisation_pages/about/models.py:58
+#: pages/organisation_pages/about/models.py:64
+msgid "Accordion"
+msgstr ""
+
+#: pages/organisation_pages/about/models.py:68
 msgid "Bottom Call to action heading"
 msgstr "أسفل عنوان عبارة الحث على اتخاذ إجراء"
 
-#: pages/organisation_pages/about/models.py:60
+#: pages/organisation_pages/about/models.py:70
 msgid "Bottom call to action description"
 msgstr "وصف عبارة الحث على اتخاذ إجراء السفلي"
 
-#: pages/organisation_pages/about/models.py:62
+#: pages/organisation_pages/about/models.py:72
 msgid "Bottom call to action button text"
 msgstr "نص زر الحث على اتخاذ إجراء السفلي"
 
-#: pages/organisation_pages/about/models.py:69
+#: pages/organisation_pages/about/models.py:79
 msgid "Bottom call to action button link"
 msgstr "أسفل ارتباط زر الدعوة إلى العمل"
 
-#: pages/organisation_pages/about/models.py:79
+#: pages/organisation_pages/about/models.py:89
 msgid "Mission & Vision Section"
 msgstr "قسم الرؤية والرسالة"
 
-#: pages/organisation_pages/about/models.py:87
+#: pages/organisation_pages/about/models.py:97
 msgid "Organisation Structure Section"
 msgstr "قسم الهيكل التنظيمي"
 
-#: pages/organisation_pages/about/models.py:102
+#: pages/organisation_pages/about/models.py:113
 msgid "Bottom Call to action Section"
 msgstr "قسم الدعوة إلى العمل السفلي"
 
-#: pages/organisation_pages/about/models.py:119
+#: pages/organisation_pages/about/models.py:130
 msgid "About Page"
 msgstr "حول الصفحة"
+
+#: pages/organisation_pages/about/templates/about_page.html:31
+#: pages/organisation_pages/about/templates/about_page.html:88
+#, fuzzy
+#| msgid "Mission & Vision Section"
+msgid "Mission & Vision"
+msgstr "قسم الرؤية والرسالة"
+
+#: pages/organisation_pages/about/templates/about_page.html:43
+#, fuzzy
+#| msgid "Organisational Structure Image"
+msgid " Organisational Structure"
+msgstr "صورة الهيكل التنظيمي"
+
+#: pages/organisation_pages/about/templates/about_page.html:54
+msgid "History"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:65
+#, fuzzy
+#| msgid "Additional Materials"
+msgid "Additional Information"
+msgstr "مواد إضافية"
+
+#: pages/organisation_pages/about/templates/about_page.html:98
+msgid "Our Mission"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:116
+msgid "Our Vision"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:206
+#, fuzzy
+#| msgid "Partner"
+msgid "Our Partners"
+msgstr "شريك"
+
+#: pages/organisation_pages/about/templates/about_page.html:230
+#, fuzzy
+#| msgid "Partner"
+msgid "More Partners"
+msgstr "شريك"
 
 #~ msgid "About Index Page"
 #~ msgstr "حول صفحة الفهرس"
@@ -156,9 +203,6 @@ msgstr "حول الصفحة"
 
 #~ msgid "Is Main"
 #~ msgstr "رئيسي"
-
-#~ msgid "Partner"
-#~ msgstr "شريك"
 
 #~ msgid "Banner Image"
 #~ msgstr "صورة بانر"

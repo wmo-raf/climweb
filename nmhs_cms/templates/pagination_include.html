@@ -4,7 +4,8 @@
     <div class="center">
         <div class="pagination" style="justify-content: center">
             {% if items.has_previous %}
-                <a href="?page={{ items.previous_page_number }}&{{ request.META.QUERY_STRING|remove_param:"page" }}#results"
+                <a href="?page={{ items.previous_page_number }}&
+                        {{ request.META.QUERY_STRING|remove_param:"page" }}#results"
                    style="margin: 0 10px"
                    title="Previous Page"
                    data-ga-event-category="Pagination Click"

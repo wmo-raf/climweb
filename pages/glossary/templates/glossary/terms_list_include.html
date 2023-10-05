@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
 
 <style>
     ul.alphabet-container {
@@ -43,7 +43,7 @@
                     </div>
                     <div class="control">
                         <button class="button is-small submit-button is-rounded" type="submit">
-                            Search
+                            {% translate "Search" %}
                         </button>
                     </div>
                     {% if request.GET.q %}
@@ -70,12 +70,11 @@
                         <div class="result-list-item-meta">
                             <span></span>
                             <a class="result-list-item-more read" href="{{ term_page.url }}">
-                                More detail
+                                {% translate "More detail" %}
                                 <span class="icon">
                                     <i class="fas fa-arrow-right" aria-hidden="true"></i>
                                 </span>
                             </a>
-
                         </div>
                     </div>
                 </div>

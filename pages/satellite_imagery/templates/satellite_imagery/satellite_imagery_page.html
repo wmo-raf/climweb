@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static wagtailiconchooser_tags %}
+{% load static wagtailiconchooser_tags i18n %}
 
 {% block extra_css %}
     {{ block.super }}
@@ -46,17 +46,21 @@
                     <div class="layer-controls-wrapper">
                         <div class="layer-control">
                             <input type="checkbox" id="auto_update" name="auto_update" checked style="height:12px;width: 12px">
-                            <label for="auto_update"> Auto-update</label>
+                            <label for="auto_update">
+                              {% translate "Auto-update" %}
+                             </label>
                         </div>
                         <div class="layer-control anim-modal-trigger-control" style="display: none">
                             <button class="anim-modal-trigger button is-small is-primary is-light"
                                     data-target="modal-animation">
-                                View Today's animation
+                                    {% translate "View Today's animation" %}
                             </button>
                         </div>
                     </div>
                     <div class="legend-control" style="display: none">
-                        <div class="legend-title">Legend</div>
+                        <div class="legend-title">
+                        {% translate "Legend" %}
+                        </div>
                         <div class="legend-layer-title"></div>
                         <div class="legend-layer-image">
                             <img src="" alt="Legend">
@@ -80,12 +84,14 @@
                             </div>
                             <div style="padding: 20px 0">
                                 <a href="https://view.eumetsat.int/productviewer/productDetails/{{ msg_layer.name }}?v=default"
-                                   target="_blank" rel="noopener noreferrer">Source: EUMETView</a>
+                                   target="_blank" rel="noopener noreferrer">{% translate "Source" %}: EUMETView</a>
                             </div>
                         </section>
                         <footer class="modal-card-foot"
                                 style="display: flex;justify-content: flex-end">
-                            <button class="button is-danger is-light">Close</button>
+                            <button class="button is-danger is-light">
+                            {% translate "Close" %}
+                            </button>
                         </footer>
                     </div>
                 </div>
@@ -101,7 +107,9 @@
                     <section class="modal-card-body" id="layer-animation-container">
                     </section>
                     <footer class="modal-card-foot" style="display: flex;justify-content: flex-end">
-                        <button class="button is-danger is-light">Close</button>
+                        <button class="button is-danger is-light">
+                        {% translate "Close" %}
+                        </button>
                     </footer>
                 </div>
             </div>

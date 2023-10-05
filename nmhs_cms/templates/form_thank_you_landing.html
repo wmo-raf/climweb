@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags i18n %}
+{% wagtail_site as current_site %}
 
 {% block body_class %}thank_you_page{% endblock %}
 
@@ -29,16 +30,18 @@
                     {% if not hide_thank_you_text %}
                         <h3 class="thank-you-text" style="text-align:center; padding:2em 0">
                             {% if page.thank_you_text %} {{ page.thank_you_text|richtext }} {% else %}
-                                We have received your submission. Thank you! {% endif %}
+                                {% translate "We have received your submission. Thank you!" %}
+                            {% endif %}
                         </h3>
                     {% endif %}
                     <div class="back-link-container" style="text-align:center">
-                        <a href="{{HTTP_HOST}}" class="button is-rounded is-uppercase has-text-weight-bold back-button">
+                        <a href="{{ current_site.root_url }}"
+                           class="button is-rounded is-uppercase has-text-weight-bold back-button">
                             <span class="icon">
                                 <i class="fas fa-arrow-left"></i>
                             </span>
                             <span>
-                                Back to Homepage
+                                {% translate "Back to Homepage" %}
                             </span>
                         </a>
                     </div>

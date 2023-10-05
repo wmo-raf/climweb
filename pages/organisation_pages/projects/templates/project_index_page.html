@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/projects.css' %}">
@@ -8,16 +8,18 @@
 {% block body_class %}projects-page"{% endblock %}
 
 {% block content %}
-<main>
+    <main>
 
-    {% include 'hero.html' with page=page %}
+        {% include 'hero.html' with page=page %}
         <section class="ORG-work is-desktop" style="background-color:#f8f9fb">
             <div class="work container">
                 {% include 'service_introduction.html' with page=page %}
             </div>
         </section>
         <section class="all-projects-section" style="background-color:#fff">
-            <h2 id="results" class="section-title center">All Projects</h2>
+            <h2 id="results" class="section-title center">
+                {% translate "All Projects" %}
+            </h2>
             <div class="container">
                 <div class="columns">
                     <div class="column is-3 is-full-mobile">

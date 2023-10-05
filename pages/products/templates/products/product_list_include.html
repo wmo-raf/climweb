@@ -1,9 +1,13 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags static %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags static i18n %}
 
 <div class="results-view">
     <div class="results-header">
         <h5 class="results-count results">
-            Showing {{ products.paginator.count }} result{{ products.paginator.count|pluralize }}
+            {% blocktranslate count counter=products.paginator.count trimmmed %}
+                Showing {{ counter }} result
+                {% plural %}
+                Showing {{ counter }} results
+            {% endblocktranslate %}
         </h5>
         <div>
             <button id="list-view-button" class="product-filter view active" name="view" value="list">
@@ -44,7 +48,7 @@
                         <div class="result-list-item-meta">
                             <span class=""> {{ product.date }}</span>
                             <a class="result-list-item-more read" href="{{ product.url }}">
-                                Read More
+                                {% translate "Read More" %}¬
                             </a>
                         </div>
                     </div>

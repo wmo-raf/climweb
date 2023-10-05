@@ -11,7 +11,7 @@ from wagtail.fields import RichTextField
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
-from wagtailgeowidget.panels import LeafletPanel,GeoAddressPanel
+from wagtailgeowidget.panels import LeafletPanel, GeoAddressPanel
 from wagtailgeowidget import geocoders
 
 from base.mail import send_mail
@@ -30,9 +30,10 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     # don't cache this page because it has a form
     cache_control = 'no-cache'
 
-    name = models.CharField(verbose_name=_("Location"), max_length=255, null=True, blank=False, unique=True, help_text="Location of organisation")
-    location = models.CharField(help_text=_("Coordninates of organisation"), blank=False, null=True, max_length=250,
-                                verbose_name=_("Coordninates of organisation"))
+    name = models.CharField(max_length=255, null=True, blank=False, unique=True, verbose_name=_("Location"),
+                            help_text=_("Location of organisation"))
+    location = models.CharField(max_length=250, blank=False, null=True, verbose_name=_("Coordinates of organisation"),
+                                help_text=_("Coordinates of organisation"))
     thank_you_text = RichTextField(blank=True, verbose_name=_("Thank you message"))
 
     @cached_property
@@ -119,10 +120,10 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
         subject = form.get('subject')
 
         if email and subject:
-            message = "Thank you for getting in touch!\nWe appreciate you contacting us about {}. Our team will be " \
-                      "getting back to you shortly.\nHave a great day!".format(subject)
+            message = "Thank you for getting in touch!\nWe appreciate you contacting us. Our team will" \
+                      "get back to you as soon as possible. Thanks!"
 
-            send_mail("Confirmation", message, [email], fail_silently=True, from_email="NMHS - Contact Us")
+            send_mail("Confirmation", message, [email], fail_silently=True, from_email="Contact Us")
 
     def process_suspicious_form(self, form):
         remove_captcha_field(form)
@@ -138,7 +139,7 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
         send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
 
     def send_suspicious_form_to_admin(self, form):
-        addresses = ['miswa.grace@gmail.com']
+        addresses = []
         content = []
         for field in form:
             value = field.value()
@@ -146,7 +147,10 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                 value = ', '.join(value)
             content.append('{}: {}'.format(field.label, value))
         content = '\n'.join(content)
-        send_mail("POSSIBLE SPAM - {}".format(self.subject), content, addresses, self.from_address, )
+
+        if addresses:
+            send_mail("POSSIBLE SPAM - {}".format(self.subject), content, addresses, self.from_address,
+                      fail_silently=True)
 
     class Meta:
         verbose_name = _("Contact Page")

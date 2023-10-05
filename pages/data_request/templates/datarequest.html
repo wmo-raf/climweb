@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags bulma_tags %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags bulma_tags i18n %}
 
 {% block body_class %}datarequest_page{% endblock %}
 
@@ -38,7 +38,8 @@
                                 {{ form|bulma }}
                                 <div class="field">
                                     <button type="submit"
-                                            class="button feedback-submit-button submit-button has-no-border">Submit
+                                            class="button feedback-submit-button submit-button has-no-border">
+                                        {% translate "Submit" %}
                                     </button>
                                 </div>
                             </form>

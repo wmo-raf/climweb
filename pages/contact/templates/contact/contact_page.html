@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static lazyimages_tags wagtailcore_tags widget_tweaks wagtailiconchooser_tags %}
+{% load i18n static lazyimages_tags wagtailcore_tags widget_tweaks wagtailiconchooser_tags %}
 {% block extra_css %}
     {{ block.super }}
     <link href='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.css' rel='stylesheet'/>
@@ -7,123 +7,112 @@
 {% endblock extra_css %}
 
 {% block content %}
-<main class="is-index">
-    <section>
+    <main class="is-index">
+        <section>
+            <div class="container">
+                <h2 class="section-title center">{{ page.title }}</h2>
+                <div id="contact-map" class=" {{ box_shadow }}"
+                     style="height:400px; width:100%; background-color:#cad2d3"></div>
+                <input type="hidden" value="{{ page.point }}" id="location"/>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="columns is-justify-content-center mt-3 mb-6">
+                    <div class="column is-12">
+                        <div class="columns">
+                            <div class="column is-7 mr-3">
+                                <div class="card {{ box_shadow }}" style="background-color:#f8f9fb">
+                                    <div class="card-content mx-6">
 
-        <div class="container" >
-            <h2 class="section-title center">{{ page.title }}</h2>
+                                        <form id="cfde" method="GET" class="my-6">
+                                            {% csrf_token %}
+                                            {{ form.non_field_errors }}
 
-            <div id="contact-map" class=" {{ box_shadow }}" style="height:400px; width:100%; background-color:#cad2d3"></div>
-            <input type="hidden" value="{{ page.point }}" id="location"/>
+                                            {% for hidden_field in form.hidden_fields %}
+                                                {{ hidden_field.errors }}
+                                                {{ hidden_field }}
+                                            {% endfor %}
 
-        </div>
+                                            {% for field in form.visible_fields %}
+                                                <div class="field pb-2">
+                                                    {{ field.errors }}
+                                                    <label class="label {% if field.field.required %} required {% endif %}">{{ field.label }}</label>
+                                                    {% comment %}
+                                                        <div class="control">
+                                                            <input class="input" type="text" required>
+                                                        </div> {% endcomment %}
+                                                    {% if field.widget_type|lower == "textarea" %}
+                                                        <div class="control">
+                                                            {% render_field field class="textarea" rows="10" %}
+                                                        </div>
+                                                        <p class="help">{{ field.help_text }}</p>
+                                                    {% else %}
+                                                        <div class="control">
+                                                            {% render_field field class="input" %}
+                                                        </div>
+                                                        <p class="help">{{ field.help_text }}</p>
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
 
-    </section>
-    <section>
-        <div class="container">
-            <div class="columns is-justify-content-center mt-3 mb-6">
-                <div class="column is-12">
-                    <div class="columns">
-                        <div class="column is-7 mr-3">
-                            <div class="card {{ box_shadow }}" style="background-color:#f8f9fb">
-                                <div class="card-content mx-6">
-
-                                    <form id="cfde" method="GET" class="my-6">
-                                        {% csrf_token %}
-                                        {{ form.non_field_errors }}
-
-                                        {% for hidden_field in form.hidden_fields %}
-                                            {{ hidden_field.errors }}
-                                            {{ hidden_field }}
-                                        {% endfor %}
-
-                                        {% for field in form.visible_fields %}
-
-                                            <div class="field pb-2">
-                                                {{ field.errors }}
-                                                <label class="label {% if field.field.required %} required {% endif %}">{{ field.label }}</label>
-                                                {% comment %}
-                                                    <div class="control">
-                                                        <input class="input" type="text" required>
-                                                    </div> {% endcomment %}
-                                                {% if field.widget_type|lower == "textarea" %}
-                                                    <div class="control">
-
-                                                        {% render_field field class="textarea" rows="10" %}
-                                                    </div>
-                                                    <p class="help">{{ field.help_text }}</p>
-
-                                                {% else %}
-
-
-                                                    <div class="control">
-                                                        {% render_field field class="input" %}
-                                                    </div>
-                                                    <p class="help">{{ field.help_text }}</p>
-                                                {% endif %}
+                                            <div class="field">
+                                                <div class="control">
+                                                    <button class="button is-dark" id="cf">
+                                                        {% translate "Submit" %}
+                                                    </button>
+                                                </div>
                                             </div>
+                                        </form>
+                                    </div>
 
-                                        {% endfor %}
-
-                                        <div class="field">
-                                            <div class="control">
-                                                <button class="button is-dark" id="cf">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
                                 </div>
-
                             </div>
-                        </div>
-                        
+                            <div class="column ml-3">
+                                <div class="block pt-2">
+                                    {% if settings.base.OrganisationSetting.address %}
+                                        <div class="block ">
+                                            <h2 class="title" style="font-size:20px">
+                                                <i class="fa fa-location-pin"></i>
+                                                {% translate "Address" %}
+                                            </h2>
+                                            {{ settings.base.OrganisationSetting.address|richtext }}
+                                        </div>
+                                    {% endif %}
 
-                        <div class="column ml-3">
-                            <div class="block pt-2">
-
-                                
-                                {% if settings.base.OrganisationSetting.address %}
-
-                                    <div class="block ">
-                                        <h2 class="title" style="font-size:20px"><i class="fa fa-location-pin"></i>
-                                            Address</h2>
-                                        {{ settings.base.OrganisationSetting.address|richtext }}
-                                    </div>
-
-                                {% endif %}
-
-                                {% if settings.base.OrganisationSetting.email or settings.base.OrganisationSetting.phone  %}
-
-                                    <div class="block pt-5">
-                                        <h2 class="title" style="font-size:20px"><i class="fa-solid fa-phone"></i>
-                                            Contact</h2>
-                                        <p>{{ settings.base.OrganisationSetting.email }}</p>
-                                        <p>{{ settings.base.OrganisationSetting.phone }}</p>
-                                    </div>
-
-                                {% endif %}
-
-
-                                <div class="block pt-3" style="display: flex;">
-
+                                    {% if settings.base.OrganisationSetting.email or settings.base.OrganisationSetting.phone %}
+                                        <div class="block pt-5">
+                                            <h2 class="title" style="font-size:20px">
+                                                <i class="fa-solid fa-phone"></i>
+                                                {% translate "Contact" %}
+                                            </h2>
+                                            <p>{{ settings.base.OrganisationSetting.email }}</p>
+                                            <p>{{ settings.base.OrganisationSetting.phone }}</p>
+                                        </div>
+                                    {% endif %}
+                                    <div class="block pt-3" style="display: flex;">
                                         {% for account in settings.base.OrganisationSetting.social_media_accounts %}
-                                            <a title="{{ account.value.name }}" href="{{ account.value.full_url }}" target="_blank"
+                                            <a title="{{ account.value.name }}" href="{{ account.value.full_url }}"
+                                               target="_blank"
                                                rel="noopener"
                                                class="footer-social"
                                                style="color:black"
                                             >
-                                                <span class="social-icon">{% svg_icon name=account.value.icon %}</span>
+                                                <span class="social-icon">
+                                                    {% svg_icon name=account.value.icon %}
+                                                </span>
                                             </a>
                                         {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-</main>
+    </main>
 {% endblock content %}
 
 {% block extra_js %}
@@ -134,13 +123,13 @@
         $('#cf').click(function (e) {
 
             const data = $('#cfde').serializeArray()
-            
+
             $('#cfde').attr('action', "{% pageurl page %}").attr('method', "POST").submit()
         })
 
-        var locationStr = JSON.parse($('#location').val())
+        const locationStr = JSON.parse($('#location').val())
 
-        var locationData = {
+        const locationData = {
             type: 'FeatureCollection',
             features: [
                 {
@@ -183,7 +172,7 @@
                         "https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
                         "https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
                         "https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
-    
+
                     ]
                 },
                 'wikimedia': {
@@ -201,7 +190,7 @@
                 'maxzoom': 22
             }]
         }
-    
+
 
         const map = new maplibregl.Map({
             container: "contact-map", // container ID
@@ -215,14 +204,10 @@
         map.addControl(new maplibregl.NavigationControl({showCompass: false}));
 
         map.on("load", function () {
-
-            var marker = new maplibregl.Marker({
+            const marker = new maplibregl.Marker({
                 color: '#007cbf'
             })
-
             marker.setLngLat([locationStr.x, locationStr.y]).addTo(map)
-
-
         })
 
     </script>

@@ -1,4 +1,4 @@
-{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags wagtailsettings_tags %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags wagtailsettings_tags i18n %}
 {% get_settings use_default_site=True %}
 
 {% for event in events.all %}
@@ -41,7 +41,7 @@
 {% if  settings.base.ImportantPages.all_events_page %}
     <div class="more-container" style="padding-left: 0">
         <a href="{{ settings.base.ImportantPages.all_events_page.url }}" class="more">
-            More Events
+            {% translate "More Events" %}
             <span class="icon">
                 <i class="fas fa-arrow-right"></i>
             </span>

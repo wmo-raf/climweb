@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,8 +20,7 @@ msgstr ""
 
 #: pages/organisation_pages/about/blocks.py:14
 msgid ""
-"This can be the month of the year or the exact date. Leave blank if not "
-"known"
+"This can be the month of the year or the exact date. Leave blank if not known"
 msgstr ""
 "Puede ser el mes del año o la fecha exacta. Dejar en blanco si no se sabe"
 
@@ -80,37 +79,84 @@ msgstr "Bloque de funciones"
 msgid "Additional Materials"
 msgstr "Materiales adicionales"
 
-#: pages/organisation_pages/about/models.py:58
+#: pages/organisation_pages/about/models.py:64
+msgid "Accordion"
+msgstr ""
+
+#: pages/organisation_pages/about/models.py:68
 msgid "Bottom Call to action heading"
 msgstr "Encabezado de llamada a la acción inferior"
 
-#: pages/organisation_pages/about/models.py:60
+#: pages/organisation_pages/about/models.py:70
 msgid "Bottom call to action description"
 msgstr "Descripción de la llamada a la acción inferior"
 
-#: pages/organisation_pages/about/models.py:62
+#: pages/organisation_pages/about/models.py:72
 msgid "Bottom call to action button text"
 msgstr "Texto del botón de llamada a la acción inferior"
 
-#: pages/organisation_pages/about/models.py:69
+#: pages/organisation_pages/about/models.py:79
 msgid "Bottom call to action button link"
 msgstr "Enlace del botón de llamada a la acción inferior"
 
-#: pages/organisation_pages/about/models.py:79
+#: pages/organisation_pages/about/models.py:89
 msgid "Mission & Vision Section"
 msgstr "Sección de Misión y Visión"
 
-#: pages/organisation_pages/about/models.py:87
+#: pages/organisation_pages/about/models.py:97
 msgid "Organisation Structure Section"
 msgstr "Sección de Estructura de la Organización"
 
-#: pages/organisation_pages/about/models.py:102
+#: pages/organisation_pages/about/models.py:113
 msgid "Bottom Call to action Section"
 msgstr "Sección de llamada a la acción inferior"
 
-#: pages/organisation_pages/about/models.py:119
+#: pages/organisation_pages/about/models.py:130
 msgid "About Page"
 msgstr "Acerca de la página"
+
+#: pages/organisation_pages/about/templates/about_page.html:31
+#: pages/organisation_pages/about/templates/about_page.html:88
+#, fuzzy
+#| msgid "Mission & Vision Section"
+msgid "Mission & Vision"
+msgstr "Sección de Misión y Visión"
+
+#: pages/organisation_pages/about/templates/about_page.html:43
+#, fuzzy
+#| msgid "Organisational Structure Image"
+msgid " Organisational Structure"
+msgstr "Imagen de estructura organizacional"
+
+#: pages/organisation_pages/about/templates/about_page.html:54
+msgid "History"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:65
+#, fuzzy
+#| msgid "Additional Materials"
+msgid "Additional Information"
+msgstr "Materiales adicionales"
+
+#: pages/organisation_pages/about/templates/about_page.html:98
+msgid "Our Mission"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:116
+msgid "Our Vision"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:206
+#, fuzzy
+#| msgid "Partner"
+msgid "Our Partners"
+msgstr "Pareja"
+
+#: pages/organisation_pages/about/templates/about_page.html:230
+#, fuzzy
+#| msgid "Partner"
+msgid "More Partners"
+msgstr "Pareja"
 
 #~ msgid "About Index Page"
 #~ msgstr "Acerca de la página de índice"
@@ -126,7 +172,8 @@ msgstr "Acerca de la página"
 
 #~ msgid "A high quality image related to your organisation as an organisation"
 #~ msgstr ""
-#~ "Una imagen de alta calidad relacionada con su organización como organización"
+#~ "Una imagen de alta calidad relacionada con su organización como "
+#~ "organización"
 
 #~ msgid "Introduction Button Text"
 #~ msgstr "Texto del botón de introducción"
@@ -157,9 +204,6 @@ msgstr "Acerca de la página"
 
 #~ msgid "Is Main"
 #~ msgstr "es principal"
-
-#~ msgid "Partner"
-#~ msgstr "Pareja"
 
 #~ msgid "Banner Image"
 #~ msgstr "Imagen de la pancarta"
@@ -217,8 +261,8 @@ msgstr "Acerca de la página"
 
 #~ msgid "A high quality image related to the Partners call to action message"
 #~ msgstr ""
-#~ "Una imagen de alta calidad relacionada con el mensaje de llamada a la acción"
-#~ " de Partners"
+#~ "Una imagen de alta calidad relacionada con el mensaje de llamada a la "
+#~ "acción de Partners"
 
 #~ msgid "Partners call to action button text"
 #~ msgstr "Texto del botón de llamada a la acción de socios"

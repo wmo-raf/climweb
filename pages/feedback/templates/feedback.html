@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags bulma_tags nmhs_cms_tags %}
+{% load static wagtailcore_tags bulma_tags nmhs_cms_tags i18n %}
 
 {% block body_class %}feedback_page{% endblock %}
 
@@ -13,7 +13,9 @@
             <div class="columns is-centered feedback-columns">
                 <div class="column is-5-desktop is-full-mobile">
                     <h1 class="title" style="font-weight:600; font-size:40px">{{ page.introduction_title }}</h1>
-                    <p>Get in touch with us and we will get back to you as soon as we can.</p>
+                    <p>
+                        {% translate "Get in touch with us and we will get back to you as soon as we can" %}.
+                    </p>
 
                     <figure class="image">
                         {% if page.illustration %}
@@ -28,7 +30,8 @@
                             {{ form|bulma }}
                             <div class="field">
                                 <button type="submit"
-                                        class="button feedback-submit-button submit-button has-no-border">Submit
+                                        class="button feedback-submit-button submit-button has-no-border">
+                                    {% translate "Submit" %}
                                 </button>
                             </div>
                         </form>

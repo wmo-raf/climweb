@@ -1,4 +1,4 @@
-{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags wagtailsettings_tags %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags wagtailsettings_tags i18n %}
 {% get_settings use_default_site=True %}
 
 {% for news_item in news %}
@@ -42,7 +42,7 @@
 {% if  settings.base.ImportantPages.all_news_page %}
     <div class="more-container">
         <a href="{{ settings.base.ImportantPages.all_news_page.url }}" class="more">
-            More News
+            {% translate "More News" %}
             <span class="icon">
                 <i class="fas fa-arrow-right"></i>
             </span>

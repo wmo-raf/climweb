@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags bulma_tags %}
+{% load wagtailcore_tags bulma_tags i18n  %}
 
 {% block content %}
     <main>
@@ -18,7 +18,9 @@
                                 {% csrf_token %}
                                 {{ form|bulma }}
                                 <div class="field">
-                                    <button type="submit" class="button submit-button has-no-border">Submit</button>
+                                    <button type="submit" class="button submit-button has-no-border">
+                                      {% translate "Submit" %}
+                                    </button>
                                 </div>
                             </form>
                         </div>

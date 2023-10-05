@@ -14,7 +14,8 @@
     {% endif %}
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
-    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}"> {% endcomment %}
+    {% comment %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}"> {% endcomment %}
 {% endblock %}
 
 
@@ -27,15 +28,15 @@
         <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     {% endif %}
 
-    {% comment %} <script src="{% static 'js/jquery.event.move.js' %}"></script> {% endcomment %}
-    {% comment %} <script src="{% static 'js/jquery.twentytwenty.js' %}"></script> {% endcomment %}
+    {% comment %}
+        <script src="{% static 'js/jquery.event.move.js' %}"></script> {% endcomment %}
+    {% comment %}
+        <script src="{% static 'js/jquery.twentytwenty.js' %}"></script> {% endcomment %}
     <script>
 
-        const has_applications =
-        {{ page.applications|yesno:'true,false' }}
+        const has_applications ={{ page.applications|yesno:'true,false' }};
 
-        const page_youtube_playlist =
-        {{ page.youtube_playlist|yesno:'true,false' }}
+        const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
 
         if (page_youtube_playlist) {
             $('#videoWrapper').scheletrone({

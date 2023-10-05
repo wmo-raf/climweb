@@ -1,13 +1,11 @@
 from datetime import datetime, timedelta
 from itertools import groupby
-from django.http import HttpResponseRedirect
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from forecastmanager.models import Forecast, DailyWeather
-from forecastmanager.models import City, Forecast
-from forecastmanager.site_settings import ForecastSetting
-from wagtail.models import Site
 from django.urls import reverse
+from forecastmanager.models import City, Forecast
+from forecastmanager.models import DailyWeather
 
 
 def list_forecasts(request):

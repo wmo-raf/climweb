@@ -26,12 +26,12 @@ function fetchPlaylistVideos(nextPageToken = '') {
             } else {
 
                 document.getElementById('youtube_playlist').innerHTML = ''
-                
+
                 data.items.slice(Math.max(data.items.length - 3, 1)).sort((a, b) => b.snippet.position - a.snippet.position).forEach(video => {
                     // const videoTitle = item.snippet.title;
                     // const videoId = item.snippet.resourceId.videoId;
                     // const position = item.snippet.position;
-                    
+
                     document.getElementById('youtube_playlist').innerHTML += ` <div class="column is-4 is-full-mobile video-item">
                     <div class="card m-2" style="border-radius: 1em">
                         <div class="card-image">

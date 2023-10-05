@@ -2,10 +2,10 @@
 <div id="w-cms-upgrade" class="w-panel-cms-upgrade panel w-hidden" data-cms-current-version="{{ current_version }}">
     <div class="help-block help-warning">
         {% icon name='warning' %}
-        {% blocktrans trimmed %}
+        {% blocktranslate trimmed %}
             CMS upgrade available. Your version: <strong>{{ current_version }}</strong>. Latest version:
             <strong id="w-cms-latest-version"></strong>.
-        {% endblocktrans %}
+        {% endblocktranslate %}
 
         {% if version_upgrade_url %}
             <a href="{{ version_upgrade_url }}">{% trans "Upgrade" %}</a>

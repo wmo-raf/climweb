@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/vacancy_detail.css' %}">
@@ -24,7 +24,8 @@
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </span>
                                             <span class="vacancy-header-item-title">
-                                                Note: This opening has been closed. </span>
+                                                {% translate "Note: This opening has been closed." %}
+                                            </span>
                                         </div>
                                     </div>
                                 {% endif %}
@@ -33,7 +34,9 @@
                                         <span class="vacancy-header-item-icon">
                                             <i class="fas fa-calendar-plus"></i>
                                         </span>
-                                        <span class="vacancy-header-item-title"> Posted On: </span>
+                                        <span class="vacancy-header-item-title">
+                                            {% translate "Posted On" %}:
+                                        </span>
                                     </div>
                                     <span>
                                         {{ page.posting_date|date:"d M Y" }}
@@ -44,7 +47,9 @@
                                         <span class="vacancy-header-item-icon">
                                             <i class="fas fa-clock"></i>
                                         </span>
-                                        <span class="vacancy-header-item-title"> Closing On: </span>
+                                        <span class="vacancy-header-item-title">
+                                            {% translate "Closing On" %}:
+                                        </span>
                                     </div>
                                     <span>
                                         {{ page.deadline|date:"d M Y, H:i" }}
@@ -55,7 +60,9 @@
                                         <span class="vacancy-header-item-icon">
                                             <i class="fas fa-map-marker-alt"></i>
                                         </span>
-                                        <span class="vacancy-header-item-title"> Duty Station: </span>
+                                        <span class="vacancy-header-item-title">
+                                            {% translate "Duty Station" %}:
+                                        </span>
                                     </div>
                                     <span>
                                         {{ page.duty_station }}
@@ -67,7 +74,9 @@
                                             <span class="vacancy-header-item-icon">
                                                 <i class="fas fa-calendar-alt"></i>
                                             </span>
-                                            <span class="vacancy-header-item-title"> Duration: </span>
+                                            <span class="vacancy-header-item-title">
+                                                {% translate "Duration" %}:
+                                            </span>
                                         </div>
                                         <span>
                                             {{ page.duration }}
@@ -87,7 +96,9 @@
                                         <span class="icon">
                                             <i class="fas fa-download"></i>
                                         </span>
-                                        <span class="share-button-title">Download pdf</span>
+                                        <span class="share-button-title">
+                                            {% translate "Download pdf" %}
+                                        </span>
                                     </a>
                                 {% endif %}
                                 {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}

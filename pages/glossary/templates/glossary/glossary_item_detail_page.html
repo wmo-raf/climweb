@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags i18n %}
 
 {% block extra_css %}
 {% endblock %}
@@ -80,30 +80,26 @@
         .contributor {
             margin-top: 20px;
         }
-
-
     </style>
-
     <main>
         {% include "breadcrumbs_include.html" %}
-
         <section class="glossary-item-detail">
             <div class="container">
                 <h2 class="term">{{ page.title }}</h2>
                 <div class="metadata">
-                    Updated on : {{ page.last_published_at|date:"M d, Y" }}
+                    {% blocktranslate with last_published=page.last_published_at|date:"M d, Y" trimmed %}
+                        Updated on : {{ last_published }}
+                    {% endblocktranslate %}
                 </div>
-
                 <div class="item-brief-definition">
                     {{ page.brief_definition }}
                 </div>
-
-
-
                 {% if page.detail_description %}
                     <div class="card">
                         <header class="card-header">
-                            <p class="card-header-title">More detail</p>
+                            <p class="card-header-title">
+                                {% translate "More detail" %}
+                            </p>
                             <a class="card-header-icon card-toggle">
                                 <i class="fa fa-angle-down"></i>
                             </a>
@@ -119,13 +115,15 @@
                 {% endif %}
 
                 {% if page.local_definitions %}
-
-                    <h4 class="local-definitions-header">Local description</h4>
-
+                    <h4 class="local-definitions-header">
+                        {% translate "Local description" %}
+                    </h4>
                     {% for local_def in page.local_definitions %}
                         <div class="card">
                             <header class="card-header">
-                                <p class="card-header-title">Language: {{ local_def.value.language_name }}</p>
+                                <p class="card-header-title">
+                                    {% translate "Language" %}: {{ local_def.value.language_name }}
+                                </p>
                                 <a class="card-header-icon card-toggle">
                                     <i class="fa fa-angle-down"></i>
                                 </a>
@@ -137,41 +135,37 @@
                                     </div>
                                     {% if local_def.value.contributor_names %}
                                         <div class="contributors-section">
-                                            <h6>Contributors: </h6>
+                                            <h6>
+                                                {% translate "Contributors" %}:
+                                            </h6>
                                             <div class="local-contributors">
                                                 {% for contributor in local_def.value.contributor_names %}
                                                     <div class="contributor">
                                                         <div>
-                                                            <b>Name:</b> {{ contributor.name }}
+                                                            <b>{% translate "Name" %}:</b> {{ contributor.name }}
                                                         </div>
 
                                                         {% if contributor.organisation %}
                                                             <div>
-                                                                <b>Organisation</b>: {{ contributor.organisation }}
+                                                                <b>{% translate "Organisation" %}</b>: {{ contributor.organisation }}
                                                             </div>
                                                         {% endif %}
 
                                                         {% if contributor.contact %}
                                                             <div>
-                                                                <b>Contact</b>: {{ contributor.contact }}
+                                                                <b>{% translate "Contact" %}</b>: {{ contributor.contact }}
                                                             </div>
                                                         {% endif %}
                                                     </div>
                                                 {% endfor %}
                                             </div>
                                         </div>
-
                                     {% endif %}
                                 </div>
                             </div>
                         </div>
-
                     {% endfor %}
-
-
                 {% endif %}
-
-
             </div>
         </section>
     </main>

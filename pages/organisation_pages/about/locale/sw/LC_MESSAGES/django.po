@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,9 @@ msgstr ""
 
 #: pages/organisation_pages/about/blocks.py:14
 msgid ""
-"This can be the month of the year or the exact date. Leave blank if not "
-"known"
+"This can be the month of the year or the exact date. Leave blank if not known"
 msgstr ""
-"Hii inaweza kuwa mwezi wa mwaka au tarehe kamili. Acha wazi ikiwa "
-"haijulikani"
+"Hii inaweza kuwa mwezi wa mwaka au tarehe kamili. Acha wazi ikiwa haijulikani"
 
 #: pages/organisation_pages/about/blocks.py:16
 msgid "Describe the milestone"
@@ -80,37 +78,84 @@ msgstr "Kizuizi cha Kipengele"
 msgid "Additional Materials"
 msgstr "Nyenzo za Ziada"
 
-#: pages/organisation_pages/about/models.py:58
+#: pages/organisation_pages/about/models.py:64
+msgid "Accordion"
+msgstr ""
+
+#: pages/organisation_pages/about/models.py:68
 msgid "Bottom Call to action heading"
 msgstr "Wito wa chini kwa kichwa cha kitendo"
 
-#: pages/organisation_pages/about/models.py:60
+#: pages/organisation_pages/about/models.py:70
 msgid "Bottom call to action description"
 msgstr "Maelezo ya mwito wa chini kwa hatua"
 
-#: pages/organisation_pages/about/models.py:62
+#: pages/organisation_pages/about/models.py:72
 msgid "Bottom call to action button text"
 msgstr "Maandishi ya kitufe cha mwito wa chini kwa kitendo"
 
-#: pages/organisation_pages/about/models.py:69
+#: pages/organisation_pages/about/models.py:79
 msgid "Bottom call to action button link"
 msgstr "Kiungo cha kitufe cha mwito cha chini cha kitendo"
 
-#: pages/organisation_pages/about/models.py:79
+#: pages/organisation_pages/about/models.py:89
 msgid "Mission & Vision Section"
 msgstr "Sehemu ya Dhamira na Maono"
 
-#: pages/organisation_pages/about/models.py:87
+#: pages/organisation_pages/about/models.py:97
 msgid "Organisation Structure Section"
 msgstr "Sehemu ya Muundo wa Shirika"
 
-#: pages/organisation_pages/about/models.py:102
+#: pages/organisation_pages/about/models.py:113
 msgid "Bottom Call to action Section"
 msgstr "Sehemu ya Chini ya Mwito wa Kitendo"
 
-#: pages/organisation_pages/about/models.py:119
+#: pages/organisation_pages/about/models.py:130
 msgid "About Page"
 msgstr "Kuhusu Ukurasa"
+
+#: pages/organisation_pages/about/templates/about_page.html:31
+#: pages/organisation_pages/about/templates/about_page.html:88
+#, fuzzy
+#| msgid "Mission & Vision Section"
+msgid "Mission & Vision"
+msgstr "Sehemu ya Dhamira na Maono"
+
+#: pages/organisation_pages/about/templates/about_page.html:43
+#, fuzzy
+#| msgid "Organisational Structure Image"
+msgid " Organisational Structure"
+msgstr "Picha ya Muundo wa Shirika"
+
+#: pages/organisation_pages/about/templates/about_page.html:54
+msgid "History"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:65
+#, fuzzy
+#| msgid "Additional Materials"
+msgid "Additional Information"
+msgstr "Nyenzo za Ziada"
+
+#: pages/organisation_pages/about/templates/about_page.html:98
+msgid "Our Mission"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:116
+msgid "Our Vision"
+msgstr ""
+
+#: pages/organisation_pages/about/templates/about_page.html:206
+#, fuzzy
+#| msgid "Partner"
+msgid "Our Partners"
+msgstr "Mshirika"
+
+#: pages/organisation_pages/about/templates/about_page.html:230
+#, fuzzy
+#| msgid "Partner"
+msgid "More Partners"
+msgstr "Mshirika"
 
 #~ msgid "About Index Page"
 #~ msgstr "Kuhusu Ukurasa wa Index"
@@ -156,9 +201,6 @@ msgstr "Kuhusu Ukurasa"
 
 #~ msgid "Is Main"
 #~ msgstr "Ni Kuu"
-
-#~ msgid "Partner"
-#~ msgstr "Mshirika"
 
 #~ msgid "Banner Image"
 #~ msgstr "Picha ya Bango"
@@ -215,7 +257,8 @@ msgstr "Kuhusu Ukurasa"
 #~ msgstr "Washirika wito kwa hatua Picha"
 
 #~ msgid "A high quality image related to the Partners call to action message"
-#~ msgstr "Picha ya ubora wa juu inayohusiana na ujumbe wa vitendo wa Washirika"
+#~ msgstr ""
+#~ "Picha ya ubora wa juu inayohusiana na ujumbe wa vitendo wa Washirika"
 
 #~ msgid "Partners call to action button text"
 #~ msgstr "Maandishi ya kitufe cha kupiga simu kwenye hatua ya washirika"

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/vacancies.css' %}">
@@ -8,26 +8,28 @@
 {% block body_class %}vacancies{% endblock %}
 
 {% block content %}
-<main class="is-index">
-    
-    {% include 'hero.html' with page=page %}
+    <main class="is-index">
+
+        {% include 'hero.html' with page=page %}
         <section class="ORG-work intro-section">
             <div class="work container">
-                {% include 'service_introduction.html' with page=page %} 
+                {% include 'service_introduction.html' with page=page %}
             </div>
         </section>
 
         <section class="all-vacancies-section">
             <div class="container">
                 {% if vacancies %}
-                    <h2 id="results" class="section-title has-text-centered">Open Vacancies</h2>
+                    <h2 id="results" class="section-title has-text-centered">
+                        {% translate "Open Vacancies" %}
+                    </h2>
                     <div class="columns is-centered">
                         <div class="column is-9 is-full-mobile">
                             {% include 'vacancy_list_include.html' with vacancies=vacancies %}
                         </div>
                     </div>
                 {% else %}
-                    {% include 'empty_items.html' with empty_header=page.no_vacancies_header_text  empty_description=page.no_vacancies_description_text %}
+                    {% include 'empty_items.html' with empty_header=page.no_vacancies_header_text empty_description=page.no_vacancies_description_text %}
                 {% endif %}
             </div>
         </section>

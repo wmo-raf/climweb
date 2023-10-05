@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
 
 <div class="columns is-multiline is-mobile document-item-detail-wrapper">
     <div class="column is-3-desktop is-offset-1-desktop is-10-mobile document-detail-left box">
@@ -29,14 +29,20 @@
                         <span class="icon">
                             <i class="fas fa-download"></i>
                         </span>
-                        <span> Download - {{ card.card_file.size|filesizeformat }}</span>
+                        <span>
+                            {% blocktranslate with file_size=card.card_file.size|filesizeformat trimmed %}
+                                Download - {{ file_size }}
+                            {% endblocktranslate %}
+                        </span>
                     </a>
                 {% elif card.card_external_publication_url %}
                     <a href="{{ card.card_external_publication_url }}" target="_blank" rel="nofollow">
                         <span class="icon">
                             <i class="fas fa-link"></i>
                         </span>
-                        <span> Go to publication </span>
+                        <span>
+                            {% translate "Go to publication" %}
+                        </span>
                     </a>
                 {% endif %}
             </span>
@@ -66,7 +72,9 @@
         </div>
         <div class="document-detail-description format-text">{{ card.card_text|richtext }}</div>
         {% if additional_materials %}
-            <h4 class="document-detail-additional-header">Additional Materials: </h4>
+            <h4 class="document-detail-additional-header">
+                {% translate "Additional Materials" %}:
+            </h4>
             <div class="columns is-mobile is-multiline document-detail-materials">
                 {% for material in additional_materials %}
                     {% if material.value.document and material.value.type == 'document' %}
@@ -105,7 +113,7 @@
 
         <div class="document-detail-tags">
             {% if card.card_tags %}
-                <span class="document-detail-tags-title">Tags: </span>
+                <span class="document-detail-tags-title">{% translate "Tags" %}: </span>
                 {% for tag in card.card_tags %}
                     <span class="document-detail-tag">
                         {{ tag }}
@@ -126,7 +134,9 @@
                     <span class="icon">
                         <i class="fas fa-download"></i>
                     </span>
-                    <span class="share-button-title">Download document</span>
+                    <span class="share-button-title">
+                        {% translate "Download document" %}
+                    </span>
                 </a>
             {% elif card.card_external_publication_url %}
                 <a class="button is-rounded is-small"
@@ -134,7 +144,9 @@
                     <span class="icon">
                         <i class="fas fa-link"></i>
                     </span>
-                    <span class="share-button-title">Go to publication</span>
+                    <span class="share-button-title">
+                        {% translate "Go to publication" %}
+                    </span>
                 </a>
             {% endif %}
             {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}

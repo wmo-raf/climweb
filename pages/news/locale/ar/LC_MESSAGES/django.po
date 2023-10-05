@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: pages/news/models.py:32
 msgid "Name"
@@ -117,7 +118,7 @@ msgstr "عنوان الروابط الإضافية"
 msgid "Extra links"
 msgstr "روابط اضافية"
 
-#: pages/news/models.py:172
+#: pages/news/models.py:172 pages/news/templates/news_detail_page.html:55
 msgid "Tags"
 msgstr "العلامات"
 
@@ -128,6 +129,51 @@ msgstr "روابط اضافية"
 #: pages/news/models.py:204
 msgid "News Page"
 msgstr "صفحة الأخبار"
+
+#: pages/news/templates/news_detail_page.html:71
+msgid "Find out more"
+msgstr ""
+
+#: pages/news/templates/news_filter_include.html:9
+#, fuzzy
+#| msgid "News type"
+msgid "Filter by News Type"
+msgstr "نوع الأخبار"
+
+#: pages/news/templates/news_filter_include.html:34
+msgid "Filter by Service"
+msgstr ""
+
+#: pages/news/templates/news_filter_include.html:56
+msgid "Filter by Year"
+msgstr ""
+
+#: pages/news/templates/news_index_page.html:18
+#, fuzzy
+#| msgid "Feature Image"
+msgid "Featured News"
+msgstr "الصورة المميزة"
+
+#: pages/news/templates/news_index_page.html:27
+#, fuzzy
+#| msgid "News type"
+msgid "All News Updates"
+msgstr "أنواع الأخبار"
+
+#: pages/news/templates/news_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#: pages/news/templates/news_list_include.html:65
+msgid "Read More"
+msgstr ""
 
 #~ msgid "Banner Image"
 #~ msgstr "صورة بانر"

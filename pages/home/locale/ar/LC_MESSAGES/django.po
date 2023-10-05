@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 15:26+0000\n"
+"POT-Creation-Date: 2023-10-05 17:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,101 +19,301 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pages/home/models.py:51
+#: pages/home/models.py:63
 msgid "Title"
 msgstr "عنوان"
 
-#: pages/home/models.py:52
+#: pages/home/models.py:64
 #, fuzzy
 #| msgid "Subtitle Title"
 msgid "Subtitle"
 msgstr "العنوان الفرعي"
 
-#: pages/home/models.py:54
+#: pages/home/models.py:66
 msgid "Banner Image"
 msgstr "صورة بانر"
 
-#: pages/home/models.py:55
+#: pages/home/models.py:67
 #, fuzzy
 #| msgid "Text Color"
 msgid "Banner Text Color"
 msgstr "لون نص الشعار"
 
-#: pages/home/models.py:56
-msgid "Enable weather forecasts section"
+#: pages/home/models.py:68
+#, fuzzy
+#| msgid "Banner Image"
+msgid "Banner Type"
+msgstr "صورة بانر"
+
+#: pages/home/models.py:70
+#, fuzzy
+#| msgid "Weather forecasts Section"
+msgid "Show city forecast section"
+msgstr "قسم التنبؤات الجوية"
+
+#: pages/home/models.py:72
+#, fuzzy
+#| msgid "Enable weather forecasts section"
+msgid "Show weather watch section"
 msgstr "تفعيل قسم توقعات الطقس"
 
-#: pages/home/models.py:57
+#: pages/home/models.py:74
 #, fuzzy
-#| msgid "Enable climate section"
-msgid "Enable mapviewer section"
-msgstr "تمكين قسم MapViewer"
+#| msgid "Weather forecasts Section"
+msgid "Weather Watch Section header"
+msgstr "قسم التنبؤات الجوية"
 
-#: pages/home/models.py:59
+#: pages/home/models.py:75
+msgid "Show MapViewer button"
+msgstr ""
+
+#: pages/home/models.py:77
 #, fuzzy
 #| msgid "Media Section Title"
 msgid "MapViewer Call to Action Title"
 msgstr "MapViewer عبارة الحث على اتخاذ إجراء"
 
-#: pages/home/models.py:60
+#: pages/home/models.py:78
 msgid "Mapviewer URL"
 msgstr "عنوان URL لبرنامج Mapviewer"
 
-#: pages/home/models.py:61
-msgid "Enable media section"
+#: pages/home/models.py:80
+#, fuzzy
+#| msgid "Enable media section"
+msgid "Show media section"
 msgstr "تمكين قسم الوسائط"
 
-#: pages/home/models.py:63
+#: pages/home/models.py:82
 msgid "Media Section Title"
 msgstr "عنوان قسم الإعلام"
 
-#: pages/home/models.py:65
+#: pages/home/models.py:84
 msgid "Media Section Description"
 msgstr "وصف قسم الوسائط"
 
-#: pages/home/models.py:72
+#: pages/home/models.py:91
 msgid "Youtube Playlist"
 msgstr "قائمة تشغيل يوتيوب"
 
-#: pages/home/models.py:80
+#: pages/home/models.py:96
+msgid "Feature block"
+msgstr ""
+
+#: pages/home/models.py:105
 #, fuzzy
 #| msgid "Hero Section"
 msgid "Banner Section"
 msgstr "قسم البانر"
 
-#: pages/home/models.py:84
-msgid "Weather forecasts Section"
+#: pages/home/models.py:108
+#, fuzzy
+#| msgid "Weather forecasts Section"
+msgid "City Forecast Section"
 msgstr "قسم التنبؤات الجوية"
 
-#: pages/home/models.py:89
-msgid "Climate Section Section"
-msgstr "قسم المناخ"
+#: pages/home/models.py:115
+#, fuzzy
+#| msgid "Weather forecasts Section"
+msgid "Weather Watch Section"
+msgstr "قسم التنبؤات الجوية"
 
-#: pages/home/models.py:95
+#: pages/home/models.py:121
 msgid "Media Section"
 msgstr "قسم الإعلام"
 
-#: pages/home/models.py:100
+#: pages/home/models.py:125
+msgid "Addditional Information"
+msgstr ""
+
+#: pages/home/models.py:130
 msgid "Home Page"
 msgstr "الصفحة الرئيسية"
 
-#: pages/home/models.py:101
+#: pages/home/models.py:131
 msgid "Home Pages"
 msgstr "الصفحات الرئيسية"
 
 #: pages/home/templates/dailyweather_include.html:5
+#: pages/home/templates/hero_types/card_hero.html:195
+#: pages/home/templates/hero_types/full_hero.html:226
+#: pages/home/templates/hero_types/half_hero.html:222
+#: pages/home/templates/section/city_forecast_include.html:211
 msgid "Daily Weather"
 msgstr "الطقس اليومي"
+
+#: pages/home/templates/dailyweather_include.html:44
+#, fuzzy
+#| msgid "Daily Weather"
+msgid "Daily Weather Report"
+msgstr "الطقس اليومي"
+
+#: pages/home/templates/dailyweather_include.html:51
+#, python-format
+msgid "Issued on %(issue_date)s"
+msgstr ""
+
+#: pages/home/templates/dailyweather_include.html:66
+msgid "Stations with Extreme Measurements"
+msgstr ""
+
+#: pages/home/templates/dailyweather_include.html:68
+#, python-format
+msgid "%(issue_date)s"
+msgstr ""
+
+#: pages/home/templates/dailyweather_include.html:90
+#, python-format
+msgid "Forecast Summary for %(forecast_date)s"
+msgstr ""
+
+#: pages/home/templates/dailyweather_include.html:106
+#, python-format
+msgid "Past Weather Summary for %(summary_date)s"
+msgstr ""
+
+#: pages/home/templates/dailyweather_include.html:122
+msgid "No report at the moment"
+msgstr ""
 
 #: pages/home/templates/forecasts_index.html:3
 msgid "Forecasts"
 msgstr "التنبؤ"
 
+#: pages/home/templates/forecasts_index.html:133
+#, fuzzy
+#| msgid "Weather forecasts Section"
+msgid "City Weather Forecast"
+msgstr "قسم التنبؤات الجوية"
+
+#: pages/home/templates/forecasts_index.html:140
+#, fuzzy
+#| msgid "Download CSV"
+msgid "Download Image"
+msgstr "تنزيل ملف CSV"
+
+#: pages/home/templates/forecasts_index.html:172
+msgid "City"
+msgstr ""
+
+#: pages/home/templates/forecasts_index.html:175
+#, fuzzy, python-format
+#| msgid "Forecasts"
+msgid "%(forecast_date)s"
+msgstr "التنبؤ"
+
+#: pages/home/templates/hero_types/card_hero.html:188
+msgid " All City Forecast"
+msgstr ""
+
+#: pages/home/templates/hero_types/full_hero.html:106
+#: pages/home/templates/hero_types/half_hero.html:107
+msgid "Analysis"
+msgstr ""
+
+#: pages/home/templates/hero_types/full_hero.html:218
+#: pages/home/templates/hero_types/half_hero.html:214
+#: pages/home/templates/section/city_forecast_include.html:203
+#, fuzzy
+#| msgid "Forecasts"
+msgid "All City Forecast"
+msgstr "التنبؤ"
+
+#: pages/home/templates/home_page.html:38
+msgid "Our Partners"
+msgstr ""
+
+#: pages/home/templates/home_page.html:64
+#, fuzzy
+#| msgid "Home Pages"
+msgid "More Partners"
+msgstr "الصفحات الرئيسية"
+
+#: pages/home/templates/section/city_forecast_include.html:121
+msgid "sunrise"
+msgstr ""
+
+#: pages/home/templates/section/city_forecast_include.html:130
+msgid "sunset"
+msgstr ""
+
+#: pages/home/templates/section/city_forecast_include.html:138
+msgid "moonrise"
+msgstr ""
+
+#: pages/home/templates/section/media_include.html:38
+msgid "Fecthing Tweets from"
+msgstr ""
+
+#: pages/home/templates/section/media_include.html:69
+msgid "Fetching Facebook Feed from"
+msgstr ""
+
+#: pages/home/templates/section/satellite_include.html:5
+msgid "Satellite Imagery"
+msgstr ""
+
+#: pages/home/templates/section/services_include.html:6
+msgid "Our Service Areas "
+msgstr ""
+
+#: pages/home/templates/section/updates_include.html:6
+msgid "Latest Updates"
+msgstr ""
+
+#: pages/home/templates/section/updates_include.html:17
+msgid "All News"
+msgstr ""
+
+#: pages/home/templates/section/updates_include.html:25
+msgid "All Publications"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:15
+msgid "Latest Weather Warnings"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:57
+msgid "No active alerts currently"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:106
+msgid "Alert Severity:"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:110
+msgid "Extreme"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:114
+msgid "Severe"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:118
+msgid "Moderate"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:122
+msgid "Minor"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:127
+msgid "Unknown"
+msgstr ""
+
+#: pages/home/templates/section/weather_watch_include.html:137
+msgid "For more interactive data"
+msgstr ""
+
+#, fuzzy
+#~| msgid "Enable climate section"
+#~ msgid "Enable mapviewer section"
+#~ msgstr "تمكين قسم MapViewer"
+
+#~ msgid "Climate Section Section"
+#~ msgstr "قسم المناخ"
+
 #~ msgid "Download XLSX"
 #~ msgstr "تنزيل XLSX"
-
-#~ msgid "Download CSV"
-#~ msgstr "تنزيل ملف CSV"
 
 #~ msgid "Filter"
 #~ msgstr "منقي"

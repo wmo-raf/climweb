@@ -1,7 +1,7 @@
 import calendar
 import logging
 import os
-from datetime import date, datetime
+from datetime import datetime
 
 from django import template
 from django.conf import settings
@@ -10,6 +10,7 @@ from django.template.defaultfilters import stringfilter, truncatewords_html
 from django.utils.safestring import mark_safe
 from wagtail.models import Site, Page
 
+from base.models import LanguageSettings
 from base.utils import get_first_non_empty_p_string
 
 logger = logging.getLogger(__name__)
@@ -201,3 +202,11 @@ def html_summary(html, words_count=100):
     if summary:
         summary = truncatewords_html(summary, words_count)
     return summary
+
+
+@register.simple_tag
+def get_default_site_lang():
+    site = Site.objects.filter(is_default_site=True).first()
+    lang_settings = LanguageSettings.for_site(site=site)
+    default_language = lang_settings.default_language
+    return default_language

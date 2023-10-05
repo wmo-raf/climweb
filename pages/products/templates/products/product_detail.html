@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags lazyimages_tags wagtailimages_tags nmhs_cms_tags wagtailiconchooser_tags %}
+{% load static wagtailcore_tags lazyimages_tags wagtailimages_tags nmhs_cms_tags wagtailiconchooser_tags i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'products/css/product_detail.css' %}">
@@ -89,7 +89,9 @@
                                                             <span class="icon">
                                                                 <i class="fas fa-eye"></i>
                                                             </span>
-                                                            <span class="share-button-title">View</span>
+                                                            <span class="share-button-title">
+                                                                {% translate "View" %}
+                                                            </span>
                                                         </a>
                                                         <a class="button is-rounded is-small"
                                                            href="{{ product_item_image.url }}"
@@ -98,7 +100,9 @@
                                                             <span class="icon">
                                                                 <i class="fas fa-download"></i>
                                                             </span>
-                                                            <span class="share-button-title">Download</span>
+                                                            <span class="share-button-title">
+                                                                {% translate "Download" %}
+                                                            </span>
                                                         </a>
                                                         {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
                                                     </div>
@@ -125,8 +129,9 @@
                                                                         <i class="fas fa-download"></i>
                                                                     </span>
                                                                     <span>
-                                                                        Download document
-                                                                        - {{ product_item.value.document.file.size|filesizeformat }}
+                                                                        {% blocktranslate with file_size=product_item.value.document.file.size|filesizeformat trimmed%}
+                                                                            Download document  - {{ file_size }}
+                                                                        {% endblocktranslate %}
                                                                     </span>
                                                                 </a>
                                                             </span>
@@ -140,7 +145,9 @@
                                                             <span class="icon">
                                                                 <i class="fas fa-download"></i>
                                                             </span>
-                                                            <span class="share-button-title">Download document</span>
+                                                            <span class="share-button-title">
+                                                                {% translate "Download document" %}
+                                                            </span>
                                                         </a>
                                                         {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
                                                     </div>
@@ -150,7 +157,6 @@
                                         {% endfor %}
                                     </div>
                                 {% endfor %}
-
                             </div>
                         </div>
                     </div>

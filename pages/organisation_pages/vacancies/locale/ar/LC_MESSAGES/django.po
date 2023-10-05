@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: pages/organisation_pages/vacancies/models.py:28
 msgid "Banner Image"
@@ -44,11 +45,11 @@ msgstr "لا يوجد نص عنوان الوظائف الشاغرة"
 
 #: pages/organisation_pages/vacancies/models.py:48
 msgid ""
-"Additional text to appear when there are no vacancies,below the no vacancies"
-" header text"
+"Additional text to appear when there are no vacancies,below the no vacancies "
+"header text"
 msgstr ""
-"يظهر نص إضافي في حالة عدم وجود وظائف شاغرة ، أسفل نص العنوان \"لا توجد وظائف"
-" شاغرة\""
+"يظهر نص إضافي في حالة عدم وجود وظائف شاغرة ، أسفل نص العنوان \"لا توجد وظائف "
+"شاغرة\""
 
 #: pages/organisation_pages/vacancies/models.py:50
 msgid "No vacancies description text"
@@ -67,6 +68,8 @@ msgid "Date of Posting"
 msgstr "تاريخ النشر"
 
 #: pages/organisation_pages/vacancies/models.py:118
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:64
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:45
 msgid "Duty Station"
 msgstr "الثكنة العسكرية"
 
@@ -79,6 +82,7 @@ msgid "Job Description"
 msgstr "المسمى الوظيفي"
 
 #: pages/organisation_pages/vacancies/models.py:122
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:78
 msgid "Duration"
 msgstr "مدة"
 
@@ -93,3 +97,41 @@ msgstr "وثيقة وصف وظيفية اختيارية قابلة للتنزي�
 #: pages/organisation_pages/vacancies/models.py:152
 msgid "Vacancy Detail Page"
 msgstr "صفحة تفاصيل الوظيفة الشاغرة"
+
+#: pages/organisation_pages/vacancies/templates/vacancies_index_page.html:24
+msgid "Open Vacancies"
+msgstr ""
+
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:27
+msgid "Note: This opening has been closed."
+msgstr ""
+
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:38
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:25
+msgid "Posted On"
+msgstr ""
+
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:51
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:34
+msgid "Closing On"
+msgstr ""
+
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:100
+msgid "Download pdf"
+msgstr ""
+
+#: pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:8
+msgid "Filter by Availability"
+msgstr ""
+
+#: pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:16
+msgid "Closed"
+msgstr ""
+
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:10
+msgid "New"
+msgstr ""
+
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:49
+msgid "View details"
+msgstr ""

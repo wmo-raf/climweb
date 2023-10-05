@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static geomanager_tags %}
+{% load static geomanager_tags i18n %}
 
 {% block body_class %}station-detail-page{% endblock %}
 
@@ -19,15 +19,18 @@
                         <span class="icon">
                             <i class="fas fa-arrow-left" aria-hidden="true"></i>
                         </span>
-                        Back to stations list
+                        {% translate "Back to stations list" %}
                     </a>
                 </div>
-                <h3 class="title">Station Detail</h3>
+                <h3 class="title">
+                    {% translate "Station Detail" %}
+                </h3>
                 {% if station_name_column %}
                     {% get_object_attr station station_name_column as attr_val %}
 
                     {% if attr_val %}
-                        <div style="margin-bottom: 20px;font-weight: 600">Station Name : {{ attr_val }}</div>
+                        <div style="margin-bottom: 20px;font-weight: 600">
+                            {% translate "Station Name" %}: {{ attr_val }}</div>
                     {% endif %}
                 {% endif %}
                 <div class="columns is-multiline is-mobile">
@@ -54,9 +57,10 @@
             {% else %}
                 <article class="message is-danger">
                     <div class="message-header">
-                        <p>Station Not Found</p>
+                        <p>{% translate "Station Not Found" %} </p>
                     </div>
-                    <div class="message-body">Station with provided ID can not be found
+                    <div class="message-body">
+                        {% translate "Station with provided ID can not be found" %}
                     </div>
                 </article>
             {% endif %}

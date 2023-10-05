@@ -1,9 +1,13 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags i18n %}
 
 <div class="results-view">
     <div class="results-header">
         <h5 class="results-count results">
-            Showing {{ events.paginator.count }} result{{ events.paginator.count|pluralize }}
+            {% blocktranslate count counter=events.paginator.count trimmed %}
+                Showing {{ counter }} result
+                {% plural %}
+                Showing {{ counter }} results
+            {% endblocktranslate %}
         </h5>
         <div>
             <button id="list-view-button" class="event-filter view active" name="view" value="list">
@@ -49,7 +53,7 @@
                         <div class="result-list-item-meta">
                             <span class="">{{ event.date_from|date:'d M Y' }}</span>
                             <a class="result-list-item-more read" href="{{ event.url }}">
-                                Read More
+                                {% translate " Read More" %}
                             </a>
                         </div>
                     </div>

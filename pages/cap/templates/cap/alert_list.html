@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'cap/css/cap_list_page.css' %}">
@@ -58,7 +58,7 @@
                                 <div class="w-field__wrapper " data-field-wrapper="">
                                     <label class="w-field__label" for="" id="-label"
                                            style="font-weight: 600;">
-                                        Severity
+                                        {% translate "Severity" %}
                                     </label>
                                     {% for key,value in page.filters.severity.items %}
                                         <div class="w-field w-field--multiple_choice_field w-field--checkbox_select_multiple"
@@ -86,7 +86,7 @@
                                 <div class="w-field__wrapper " data-field-wrapper="">
                                     <label class="w-field__label" for="" id="-label"
                                            style="font-weight: 600;">
-                                        Event type
+                                        {% translate "Event type" %}
                                     </label>
                                     {% for key,value in page.filters.event_types.items %}
                                         <div class="w-field w-field--multiple_choice_field w-field--checkbox_select_multiple"

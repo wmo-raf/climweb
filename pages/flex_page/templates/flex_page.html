@@ -6,28 +6,25 @@
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
-    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}"> {% endcomment %}
+    {% comment %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}"> {% endcomment %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
 {% endblock %}
 
 {% block body_class %}flex-page{% endblock %}
 
 {% block content %}
-<main class="is-index">
+    <main class="is-index">
+        {% include 'hero.html' with page=page %}
+        {% if page.content %}
+            {% for block in page.content %}
+                <section class="feature-block-section">
+                    {% include_block block %}
+                </section>
+            {% endfor %}
+        {% endif %}
 
-    {% include 'hero.html' with page=page %}
-
-    {% if page.content %}
-    {% for block in page.content %}
-
-        <section class="feature-block-section">
-                {% include_block block %}
-        </section>
-    {% endfor %}
-
-    {% endif %}
-
-</main>
+    </main>
 {% endblock %}
 
 {% block extra_js %}

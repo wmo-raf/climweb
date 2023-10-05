@@ -34,12 +34,10 @@ class AlertListFeed(Feed):
     feed_type = CustomFeed
 
     def title(self):
-
         try:
             site = Site.objects.get(is_default_site=True)
             if site:
                 cap_setting = CapSetting.for_site(site)
-
                 return f"Latest Official Public alerts from {cap_setting.sender_name}"
 
         except Exception:

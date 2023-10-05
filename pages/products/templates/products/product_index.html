@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailiconchooser_tags %}
+{% load static wagtailiconchooser_tags i18n %}
 
 {% block extra_css %}
     {% if page.map_layers %}
@@ -27,13 +27,17 @@
                         <li class="is-active" data-content="browse">
                             <a>
                                 <span class="icon is-small"><i class="fas fa-list" aria-hidden="true"></i></span>
-                                <span>Browse</span>
+                                <span>
+                                    {% translate "Browse" %}
+                                </span>
                             </a>
                         </li>
                         <li data-content="mapViewer">
                             <a>
                                 <span class="icon is-small"><i class="fas fa-map" aria-hidden="true"></i></span>
-                                <span>MapViewer</span>
+                                <span>
+                                    {% translate "MapViewer" %}
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -41,7 +45,10 @@
             {% endif %}
             <div>
                 <div id="browse" class="content-tab">
-                    <h2 id="results" class="section-title has-text-centered">Browse Product Updates</h2>
+                    <h2 id="results"
+                        class="section-title has-text-centered">
+                        {% translate "Browse Product Updates" %}
+                    </h2>
                     <div class="container">
                         <div class="columns" style="width: 100%;margin: 0">
                             <div class="column is-3 is-full-mobile">
