@@ -1,6 +1,6 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags i18n %}
 
-<div class="update-card-wrapper {{box_shadow}}">
+<div class="update-card-wrapper {{ box_shadow }}">
     <div class="update-card-header">
         <figure class="image">
             {% if top_tag %}
@@ -54,7 +54,9 @@
             <span class="update-card-meta">{{ card.card_meta }}</span>
         {% endif %}
         <a href="{{ card.card_more_link }}" class="update-card-more">
-            <span class="more-link">Read more</span>
+            <span class="more-link">
+                {% translate "Read more" %}
+            </span>
         </a>
     </div>
 </div>

@@ -1,9 +1,10 @@
 {% extends "wagtailadmin/base.html" %}
-{% load i18n %}
-{% load l10n %}
-{% load wagtailadmin_tags wagtailimages_tags static %}
-{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}{{ title }}
-{% endblocktrans %}{% endblock %}
+{% load i18n l10n wagtailadmin_tags wagtailimages_tags static %}
+{% block titletag %}
+    {% blocktranslate trimmed with title=page.get_admin_display_title %}
+        {{ title }}
+    {% endblocktranslate %}
+{% endblock %}
 
 
 {% block extra_css %}
@@ -39,7 +40,7 @@
 {% endblock %}
 
 {% block content %}
-    {% trans page.title|add:" - Cities Data" as header_str %}
+    {% translate page.title|add:" - Cities Data" as header_str %}
 
     {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" %}
 
@@ -50,7 +51,9 @@
                     <svg class="icon icon-help icon" aria-hidden="true">
                         <use href="#icon-help"></use>
                     </svg>
-                    <p>No city has been created. Please add a city first then return here to upload data</p>
+                    <p>
+                        {% translate "No city has been created. Please add a city first then return here to upload data" %}
+                    </p>
                 </div>
                 <a href="{{ cities_list_url }}" class="button bicolor button--icon">
                     <span class="icon-wrapper">
@@ -58,29 +61,42 @@
                             <use href="#icon-plus"></use>
                         </svg>
                     </span>
-                    Add City
+                    {% translate "Add City" %}
                 </a>
             </div>
         {% else %}
             <div class="info-container">
                 <div class="info-item">
                     {% icon name="info-circle" classname="city-icon no" %}
-                    <div class="info-text"> Total
-                        Cities: {{ cities_list|length }}</div>
+                    <div class="info-text">
+                        {% blocktranslate with counter=cities_list|length trimmed %}
+                            Total Cities: {{ counter }}
+                        {% endblocktranslate %}
+                    </div>
                 </div>
                 <div class="info-item">
                     {% icon name="info-circle" classname="city-icon no" %}
-                    <div class="info-text">Cities with data loaded: {{ cities_with_data_count }}</div>
+                    <div class="info-text">
+                        {% blocktranslate with counter=cities_with_data_count trimmed %}
+                            Cities with data loaded: {{ counter }}
+                        {% endblocktranslate %}
+                    </div>
                 </div>
             </div>
 
             <table class="listing">
                 <thead>
                 <tr>
-                    <th>City</th>
-                    <th>Data Loaded</th>
+                    <th>
+                        {% translate "City" %}
+                    </th>
+                    <th>
+                        {% translate "Data Loaded" %}
+                    </th>
                     <th></th>
-                    <th>Last Updated</th>
+                    <th>
+                        {% translate "Last Updated" %}
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -104,7 +120,9 @@
                                     <svg class="icon icon-edit icon" aria-hidden="true">
                                         <use href="#icon-edit"></use>
                                     </svg>
-                                </span>Update data</a>
+                                </span>
+                                    {% translate "Update data" %}
+                                </a>
                             {% else %}
                                 <a href="{{ city.load_data_url }}"
                                    class="button button-small bicolor button--icon"><span
@@ -112,7 +130,9 @@
                                     <svg class="icon icon-plus icon" aria-hidden="true">
                                         <use href="#icon-plus"></use>
                                     </svg>
-                                </span>Load data</a>
+                                </span>
+                                    {% translate "Load data" %}
+                                </a>
                             {% endif %}
                         </td>
 

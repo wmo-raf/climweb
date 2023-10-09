@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/document_detail.css' %}">
@@ -20,7 +20,9 @@
 
         {% if related_items %}
             <section class="publication-items-related">
-                <h2 class="section-title has-text-centered">Other Recent Publications</h2>
+                <h2 class="section-title has-text-centered">
+                    {% translate "Other Recent Publications" %}
+                </h2>
                 <div class="container">
                     <div class="columns is-multiline is-flex is-centered">
                         {% for item in related_items %}

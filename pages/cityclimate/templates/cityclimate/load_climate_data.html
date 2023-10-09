@@ -1,9 +1,10 @@
 {% extends "wagtailadmin/base.html" %}
-{% load i18n %}
-{% load l10n %}
-{% load wagtailadmin_tags wagtailimages_tags static %}
-{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}{{ title }}
-{% endblocktrans %}{% endblock %}
+{% load i18n l10n wagtailadmin_tags wagtailimages_tags static %}
+{% block titletag %}
+    {% blocktranslate trimmed with title=page.get_admin_display_title %}
+        {{ title }}
+    {% endblocktranslate %}
+{% endblock %}
 
 {% block extra_css %}
     {{ block.super }}
@@ -21,10 +22,9 @@
 
 {% block content %}
     {% if city %}
-        {% trans "Load Climate Data for "|add:city.name as header_str %}
+        {% translate "Load Climate Data for "|add:city.name as header_str %}
     {% else %}
-
-        {% trans "Load Climate Data" as header_str %}
+        {% translate "Load Climate Data" as header_str %}
     {% endif %}
 
     {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" %}
@@ -52,7 +52,7 @@
                         <li class="param-field" style="display: none;">
                             <div class="w-field__wrapper " data-field-wrapper="">
                                 <label class="w-field__label" for="date_select">
-                                    Date Field
+                                    {% translate "Date Field" %}
                                 </label>
                                 <div class="w-field w-field--choice_field w-field--select" data-field=""
                                      data-contentpath="select">
@@ -89,7 +89,9 @@
                 </form>
             </div>
             <div class="col8">
-                <h2>Data Preview</h2>
+                <h2>
+                    {% translate "Data Preview" %}
+                </h2>
                 <div id="table-container"></div>
             </div>
         </div>

@@ -1,19 +1,16 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags i18n %}
 
 {% block extra_css %}
-
     {{ block.supper }}
     <link href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css" rel="stylesheet"/>
-
-
     <style>
 
         .data-controls-container {
             background-color: #f8f9fb;
             padding: 20px;
             margin-bottom: 40px;
-            height:100%
+            height: 100%
         }
 
         .data-control {
@@ -25,10 +22,10 @@
             font-weight: 500;
         }
 
-        #climate-map{
-            height:400px;
-            width:100%;
-            margin:auto
+        #climate-map {
+            height: 400px;
+            width: 100%;
+            margin: auto
         }
 
     </style>
@@ -41,18 +38,20 @@
         {% if cities %}
             <section class="container">
                 <h2 class="section-title has-text-centered">{{ page.title }}</h2>
-                
                 <div class="columns">
                     <div class="column is-4">
                         <div class="data-controls-container">
                             <div class="data-control">
-                                <label for="city_select" class="control-label">Choose a city</label>
+                                <label for="city_select" class="control-label">
+                                    {% translate "Choose a city" %}
+                                </label>
                                 <div class="control has-icons-left">
                                     <div class="select">
                                         <select id="city_select">
                                             {% for city in cities %}
                                                 <option value="{{ city.pk }}"
-                                                        {% if forloop.first %} selected{% endif %}>{{ city.name }}</option>
+                                                        {% if forloop.first %}
+                                                        selected{% endif %}>{{ city.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -64,14 +63,15 @@
                             {% if page.filter_by_month %}
                                 <div class="data-control">
                                     <label for="month_select" class="control-label">
-                                        Select Month
+                                        {% translate "Select Month" %}
                                     </label>
                                     <div class="control">
                                         <div class="select">
                                             <select id="month_select">
                                                 {% for month in months %}
                                                     <option value="{{ month.num }}"
-                                                            {% if forloop.first %} selected{% endif %}>{{ month.name }}</option>
+                                                            {% if forloop.first %}
+                                                            selected{% endif %}>{{ month.name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -81,7 +81,7 @@
                             <div class="data-control">
                                 <div>
                                     <label for="parameter_select" class="control-label" style="padding-bottom: 20px">
-                                        Select Parameter
+                                        {% translate "Select Parameter" %}
                                     </label>
                                     <div class="control" style="display: flex;flex-direction: column">
                                         {% for param in parameters %}
@@ -101,14 +101,15 @@
                     </div>
 
                     <div class="column is-8">
-                        <div id="chart-container" class="elevation-1" style="width:100%; height:400px;margin-top: 20px"></div>
+                        <div id="chart-container" class="elevation-1"
+                             style="width:100%; height:400px;margin-top: 20px"></div>
 
                         <div id="climate-map"></div>
 
                     </div>
 
                 </div>
-                
+
             </section>
             <section class="container" style="padding-top: 0">
                 {% if page.description %}
@@ -164,7 +165,6 @@
                     return fetch(options.city_data_url + `?city_id=${selectedCity}`).then((res) => res.json())
                 }
 
-                
 
                 const updateChart = () => {
                     const selectedCity = $citySelect.val()
@@ -198,13 +198,13 @@
 
                     let selectedParams = []
 
-                    $("input[name='parameter']:checked").map(function (){
-                        
-                         if (this.value) {
+                    $("input[name='parameter']:checked").map(function () {
+
+                        if (this.value) {
                             selectedParams.push(parameters.find(p => p.slug === this.value))
                         }
                     })
-                   
+
 
                     const seriesConfig = selectedParams.reduce((all, param) => {
                         const paramData = apiData.map(entry => entry[param.slug]);
@@ -324,46 +324,45 @@
                     center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
                     zoom: 4.2, // starting zoom
                     scrollZoom: false,
-                  });
-                
-                  // add zoom control
-                  climate_map.addControl(
-                      new maplibregl.NavigationControl({
-                          visualizePitch: true,
-                          showZoom: true,
-                          showCompass: true,
-                      })
-                  );
+                });
+
+                // add zoom control
+                climate_map.addControl(
+                    new maplibregl.NavigationControl({
+                        visualizePitch: true,
+                        showZoom: true,
+                        showCompass: true,
+                    })
+                );
 
 
-                
-                  climate_map.on("load", () => {
+                climate_map.on("load", () => {
 
                     fetch("{% url 'cities-list' %}")
                         .then((res) => res.json())
                         .then((city_data) => {
 
                             let cities_geom = {
-                                type:"FeatureCollection",
-                                features:[]
+                                type: "FeatureCollection",
+                                features: []
                             }
 
                             city_data.map(city => {
                                 cities_geom.features.push({
-                                    type:"Feature",
-                                    properties:{
-                                        id:city.id,
-                                        name:city.name
+                                    type: "Feature",
+                                    properties: {
+                                        id: city.id,
+                                        name: city.name
                                     },
-                                    geometry:{
-                                        coordinates:city.coordinates,
+                                    geometry: {
+                                        coordinates: city.coordinates,
                                         type: "Point"
                                     }
                                 })
                             })
 
-                            if(cities_geom){
-                                climate_map.addSource("cities",{
+                            if (cities_geom) {
+                                climate_map.addSource("cities", {
                                     type: "geojson",
                                     data: cities_geom,
                                 })
@@ -397,7 +396,7 @@
                             // location of the feature, with description HTML from its properties.
                             climate_map.on("click", "cities", (e) => {
                                 // Copy coordinates array.
-                                
+
                                 let city_id = e.features[0].properties.id
 
                                 // $citySelect.find(`option[value="${city_id}"]`).attr('selected','selected')
@@ -408,7 +407,7 @@
                             climate_map.on("mouseenter", "cities", (e) => {
                                 // Get the feature that was hovered over
                                 climate_map.getCanvas().style.cursor = "pointer";
-                            })      
+                            })
 
                             // Change it back to a pointer when it leaves.
                             climate_map.on("mouseleave", "city-forecasts", () => {
@@ -417,9 +416,8 @@
 
                         })
 
-                  
 
-                  })
+                })
             })
         </script>
     {% endif %}

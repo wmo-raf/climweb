@@ -1,10 +1,9 @@
-{% load static %}
-{% load wagtailimages_tags lazyimages_tags wagtailcore_tags nmhs_cms_tags wagtailiconchooser_tags %}
+{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags nmhs_cms_tags wagtailiconchooser_tags i18n %}
 
 {% if page.services %}
     <section style="padding-top: 4rem; padding-bottom: 4rem;" class="has-text-centered">
         <div class="container is-justify-content-center ma-2">
-            <h2 class="section-title has-text-centered"> Our Service Areas </h2>
+            <h2 class="section-title has-text-centered">{% translate "Our Service Areas " %}</h2>
             <div class="columns is-multiline is-mobile intro-items">
                 {% for service in page.services %}
                     <a href="{{ service.url }}"

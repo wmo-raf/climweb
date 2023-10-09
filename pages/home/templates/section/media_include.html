@@ -1,4 +1,4 @@
-{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags %}
+{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags i18n %}
 {% block extra_css %}
     {% comment %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}"> {% endcomment %}
@@ -20,9 +20,10 @@
                                     <span class="icon">
                                         <i class="fab fa-twitter"></i>
                                     </span>
-                                    <span>Twitter Feed</span>
+                                    <span>{% translation "Twitter Feed" %} </span>
                                 </h3>
-                            </div> {% endcomment %}
+                            </div>
+                        {% endcomment %}
                         <div class="social-media-feed-item box"
                              style="height: 400px;
                     width: 100%;
@@ -32,7 +33,7 @@
                                data-tweet-limit="10"
                                data-dnt="true"
                                href="{{ settings.base.OrganisationSetting.twitter }}">
-                                Fecthing Tweets from {{ settings.base.OrganisationSetting.twitter }}
+                                {% translate "Fecthing Tweets from" %} {{ settings.base.OrganisationSetting.twitter }}
                             </a>
                         </div>
                     </div>
@@ -42,7 +43,8 @@
                         {% comment %} <h3 class="social-media-feed-item-title"><span class="icon">
                             <i class="fab fa-facebook-f"></i>
                         </span>
-                            <span>Facebook Feed</span></h3> {% endcomment %}
+                            <span>{% translate "Facebook Feed" %} </span></h3>
+                        {% endcomment %}
                         <div class="social-media-feed-item box"
                              style="height: 400px;
                     width: 100%;
@@ -61,8 +63,7 @@
                                         cite="{{ settings.base.OrganisationSetting.facebook }}"
                                         class="fb-xfbml-parse-ignore">
                                     <a href="{{ settings.base.OrganisationSetting.facebook }}">
-                                        Fetching Facebook Feed
-                                        from {{ settings.base.OrganisationSetting.facebook }}
+                                        {% translate "Fetching Facebook Feed from" %} {{ settings.base.OrganisationSetting.facebook }}
                                     </a>
                                 </blockquote>
                             </div>

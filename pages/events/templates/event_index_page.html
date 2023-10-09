@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags static %}
+{% load wagtailcore_tags static i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/events.css' %}">
@@ -13,14 +13,18 @@
         {% if featured_event %}
             <section class="featured-event-section">
                 <div class="container">
-                    <h2 class="section-title center">Featured Event</h2>
-                    {% include 'featured_item_include.html' with item_image=featured_event.image item_title=featured_event.title  item_text=featured_event.description item_url=featured_event.url item_meta=featured_event.date_from %}
+                    <h2 class="section-title center">
+                        {% translate "Featured Event" %}
+                    </h2>
+                    {% include 'featured_item_include.html' with item_image=featured_event.image item_title=featured_event.title item_text=featured_event.description item_url=featured_event.url item_meta=featured_event.date_from %}
                 </div>
             </section>
         {% endif %}
 
         <section class="all-events-section">
-            <h2 id="results" class="section-title center">All Events</h2>
+            <h2 id="results" class="section-title center">
+                {% translate "All Events" %}
+            </h2>
             <div class="container">
                 <div class="columns">
                     <div class="column is-3 is-full-mobile">

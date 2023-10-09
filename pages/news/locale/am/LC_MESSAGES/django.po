@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,7 +115,7 @@ msgstr "ተጨማሪ አገናኞች ርዕስ"
 msgid "Extra links"
 msgstr "ተጨማሪ ማገናኛዎች"
 
-#: pages/news/models.py:172
+#: pages/news/models.py:172 pages/news/templates/news_detail_page.html:55
 msgid "Tags"
 msgstr "መለያዎች"
 
@@ -127,23 +127,43 @@ msgstr "ተጨማሪ ማገናኛዎች"
 msgid "News Page"
 msgstr "የዜና ገጽ"
 
-#~ msgid "Banner Image"
-#~ msgstr "የባነር ምስል"
+#: pages/news/templates/news_detail_page.html:71
+msgid "Find out more"
+msgstr "ተጨማሪ ለማወቅ"
 
-#~ msgid "A high quality image related to News"
-#~ msgstr "ከዜና ጋር የተያያዘ ከፍተኛ ጥራት ያለው ምስል"
+#: pages/news/templates/news_filter_include.html:9
+#, fuzzy
+#| msgid "News type"
+msgid "Filter by News Type"
+msgstr "በዜና ዓይነት አጣራ"
 
-#~ msgid "Banner Title"
-#~ msgstr "የባነር ርዕስ"
+#: pages/news/templates/news_filter_include.html:34
+msgid "Filter by Service"
+msgstr "በአገልግሎት አጣራ"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "የባነር ንዑስ ርዕስ"
+#: pages/news/templates/news_filter_include.html:56
+msgid "Filter by Year"
+msgstr "በአመት አጣራ"
 
-#~ msgid "Call to action button text"
-#~ msgstr "ወደ የተግባር አዝራር ጽሑፍ ይደውሉ"
+#: pages/news/templates/news_index_page.html:18
+#, fuzzy
+#| msgid "Feature Image"
+msgid "Featured News"
+msgstr "ተለይተው የቀረቡ ዜናዎች"
 
-#~ msgid "Call to action related page"
-#~ msgstr "ወደ ተግባር ተዛማጅ ገጽ ይደውሉ"
+#: pages/news/templates/news_index_page.html:27
+#, fuzzy
+#| msgid "News type"
+msgid "All News Updates"
+msgstr "ሁሉም የዜና ማሻሻያዎች"
 
-#~ msgid "Banner Section"
-#~ msgstr "ባነር ክፍል"
+#: pages/news/templates/news_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/news/templates/news_list_include.html:65
+msgid "Read More"
+msgstr "ተጨማሪ ያንብቡ"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:53+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,28 +20,28 @@ msgstr ""
 
 #: pages/organisation_pages/tenders/models.py:28
 msgid "Text to appear when there are no tenders"
-msgstr "Texte à afficher lorsqu'il n'y a pas d'offres"
+msgstr "Texte à apparaître lorsqu'il n'y a pas d'offres"
 
 #: pages/organisation_pages/tenders/models.py:29
 msgid "No tenders header text"
-msgstr "Aucun texte d'en-tête d'appel d'offres"
+msgstr "Aucun texte d'en-tête d'offre"
 
 #: pages/organisation_pages/tenders/models.py:32
 msgid ""
 "Additional text to appear when there are no tenders,below the no tenders "
 "header text"
 msgstr ""
-"Texte supplémentaire à afficher lorsqu'il n'y a pas d'offres, sous le texte "
-"d'en-tête sans offres"
+"Texte supplémentaire à apparaître lorsqu'il n'y a pas d'offres, sous le "
+"texte d'en-tête \"Pas d'offres\"."
 
 #: pages/organisation_pages/tenders/models.py:34
 msgid "No tenders description text"
-msgstr "Aucun texte descriptif des appels d'offres"
+msgstr "Pas de texte de description des offres"
 
 #: pages/organisation_pages/tenders/models.py:39
 msgid "How many items should be visible on the landing page filter section ?"
 msgstr ""
-"Combien d'éléments doivent être visibles dans la section de filtrage de la "
+"Combien d'éléments doivent être visibles dans la section de filtre de la "
 "page de destination ?"
 
 #: pages/organisation_pages/tenders/models.py:40
@@ -78,7 +78,7 @@ msgstr "Description"
 
 #: pages/organisation_pages/tenders/models.py:115
 msgid "Downloadable tender description document"
-msgstr "Document de description d'appel d'offres téléchargeable"
+msgstr "Document descriptif d'appel d'offres téléchargeable"
 
 #: pages/organisation_pages/tenders/models.py:121
 #: pages/organisation_pages/tenders/models.py:129
@@ -87,50 +87,56 @@ msgstr "Documents supplémentaires"
 
 #: pages/organisation_pages/tenders/models.py:179
 msgid "Tender Detail Page"
-msgstr "Page détaillée de l'appel d'offres"
+msgstr "Page de détails de l'appel d'offres"
 
-#~ msgid "Banner Image"
-#~ msgstr "Image de la bannière"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:26
+msgid "Note: This tender has been closed"
+msgstr "Remarque : Cet appel d'offres a été clôturé"
 
-#~ msgid "A high quality image related to Tenders"
-#~ msgstr "Une image de haute qualité liée aux appels d'offres"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:37
+#: pages/organisation_pages/tenders/templates/tender_list_include.html:25
+msgid "Posted On"
+msgstr "Posté sur"
 
-#~ msgid "Banner Title"
-#~ msgstr "Titre de la bannière"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:48
+#: pages/organisation_pages/tenders/templates/tender_list_include.html:35
+msgid "Closing On"
+msgstr "Fermeture"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "Sous-titre de la bannière"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:62
+#, fuzzy
+#| msgid "Reference Number"
+msgid "Reference number"
+msgstr "Numéro de réference"
 
-#~ msgid "Call to action button text"
-#~ msgstr "Texte du bouton d'appel à l'action"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:75
+#, fuzzy
+#| msgid "Additional Documents"
+msgid "Documents"
+msgstr "Documents"
 
-#~ msgid "Call to action related page"
-#~ msgstr "Page relative à l'appel à l'action"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:90
+#, fuzzy
+#| msgid "Downloadable tender description document"
+msgid "Download Tender Notice"
+msgstr "Télécharger l'avis d'appel d'offres"
 
-#~ msgid "Introduction section title"
-#~ msgstr "Titre de la section d'introduction"
+#: pages/organisation_pages/tenders/templates/tender_filter_include.html:7
+msgid "Filter by Availability"
+msgstr "Filtrer par disponibilité"
 
-#~ msgid "Introduction Title"
-#~ msgstr "Titre d'introduction"
+#: pages/organisation_pages/tenders/templates/tender_filter_include.html:14
+msgid "Closed"
+msgstr "Fermé"
 
-#~ msgid "A description of tenders at your organisation"
-#~ msgstr "Une description des appels d'offres de votre organisation"
+#: pages/organisation_pages/tenders/templates/tender_list_include.html:10
+msgid "New"
+msgstr "Nouveau"
 
-#~ msgid "Introduction Text"
-#~ msgstr "Texte d'introduction"
+#: pages/organisation_pages/tenders/templates/tender_list_include.html:47
+msgid "View details"
+msgstr "Voir les détails"
 
-#~ msgid "Introduction Image"
-#~ msgstr "Image d'introduction"
-
-#~ msgid "A high quality image related to tenders at your organisation"
-#~ msgstr ""
-#~ "Une image de haute qualité liée aux appels d'offres de votre organisation"
-
-#~ msgid "Introduction button text"
-#~ msgstr "Texte du bouton d'introduction"
-
-#~ msgid "Banner Section"
-#~ msgstr "Section bannière"
-
-#~ msgid "Introduction Section"
-#~ msgstr "Section d'introduction"
+#: pages/organisation_pages/tenders/templates/tenders_index_page.html:24
+msgid "Open Tenders"
+msgstr "Appels d'offres ouverts"

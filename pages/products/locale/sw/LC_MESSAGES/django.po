@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-09 10:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,67 +18,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: pages/products/blocks.py:28 pages/products/blocks.py:32
+#: pages/products/blocks.py:32 pages/products/blocks.py:36
 msgid "Name"
 msgstr "Jina"
 
-#: pages/products/blocks.py:33
+#: pages/products/blocks.py:37
 msgid "Icon"
 msgstr "Aikoni"
 
-#: pages/products/blocks.py:39 pages/products/blocks.py:48
+#: pages/products/blocks.py:43 pages/products/blocks.py:57
 #, fuzzy
 #| msgid "Product Tag"
 msgid "Product Type"
 msgstr "Aina ya Bidhaa"
 
-#: pages/products/blocks.py:40
+#: pages/products/blocks.py:44 pages/products/blocks.py:60
+#: pages/products/models.py:230
+msgid "Effective from"
+msgstr "Kuanzia"
+
+#: pages/products/blocks.py:45 pages/products/blocks.py:61
+msgid "The date when this product becomes effective"
+msgstr "Tarehe ambayo bidhaa hii itaanza kutumika"
+
+#: pages/products/blocks.py:46 pages/products/blocks.py:62
+#: pages/products/models.py:232
+msgid "Effective until"
+msgstr "Inatumika hadi"
+
+#: pages/products/blocks.py:47 pages/products/blocks.py:63
+#, fuzzy
+#| msgid ""
+#| "Up to when is this product valid ? Leave blank if not applicable"
+msgid ""
+"The last day this product remains effective. Leave blank if not applicable"
+msgstr ""
+"Siku ya mwisho bidhaa hii inabakia kuwa na ufanisi. Acha wazi ikiwa "
+"haitumiki"
+
+#: pages/products/blocks.py:49
 msgid "Image"
 msgstr "Picha"
 
-#: pages/products/blocks.py:41
+#: pages/products/blocks.py:50
 msgid "Summary of the map/image information"
 msgstr "Muhtasari wa maelezo ya ramani/picha"
 
-#: pages/products/blocks.py:49
+#: pages/products/blocks.py:58
 msgid "Thumbnail of the document"
 msgstr "Kijipicha cha hati"
 
-#: pages/products/blocks.py:50
+#: pages/products/blocks.py:59
 msgid "For example a screen grab of the cover page"
 msgstr "Kwa mfano kunyakua skrini ya ukurasa wa jalada"
 
-#: pages/products/blocks.py:51
+#: pages/products/blocks.py:65
 msgid "Document"
 msgstr "Hati"
 
-#: pages/products/blocks.py:52
+#: pages/products/blocks.py:66
 #, fuzzy
 #| msgid "Summary of the product release"
 msgid "Summary of the document information"
 msgstr "Muhtasari wa habari ya hati"
 
-#: pages/products/models.py:31
+#: pages/products/models.py:37
 msgid "Products listing Heading"
-msgstr "Kichwa cha orodha ya bidhaa"
+msgstr "Kichwa cha kuorodhesha bidhaa"
 
-#: pages/products/models.py:38
+#: pages/products/models.py:44
 msgid "Product Index Page"
 msgstr "Ukurasa wa Kielezo cha Bidhaa"
 
-#: pages/products/models.py:39
+#: pages/products/models.py:45
 msgid "Product Index Pages"
 msgstr "Kurasa za Fahirisi za Bidhaa"
 
-#: pages/products/models.py:49
+#: pages/products/models.py:91
 msgid "Service"
 msgstr "Huduma"
 
-#: pages/products/models.py:50
+#: pages/products/models.py:92
 msgid "Product"
 msgstr "Bidhaa"
 
-#: pages/products/models.py:55
+#: pages/products/models.py:97
 msgid ""
 "How many of this products should be visible on the landing page filter "
 "section ?"
@@ -86,41 +110,128 @@ msgstr ""
 "Je, ni bidhaa ngapi kati ya hizi zinazopaswa kuonekana kwenye sehemu ya "
 "kichujio cha ukurasa wa kutua?"
 
-#: pages/products/models.py:56
+#: pages/products/models.py:98
 msgid "Products per page"
 msgstr "Bidhaa kwa kila ukurasa"
 
-#: pages/products/models.py:66
+#: pages/products/models.py:102
+msgid "Map Layers"
+msgstr "Tabaka za Ramani"
+
+#: pages/products/models.py:112
 msgid "Other settings"
 msgstr "Mipangilio mingine"
 
-#: pages/products/models.py:120
+#: pages/products/models.py:191
+#: pages/products/templates/products/product_layer_integration.html:16
 msgid "Product Page"
 msgstr "Ukurasa wa Bidhaa"
 
-#: pages/products/models.py:121
+#: pages/products/models.py:192
 msgid "Product Pages"
 msgstr "Kurasa za Bidhaa"
 
-#: pages/products/models.py:126
+#: pages/products/models.py:200
 msgid "Product Tag"
 msgstr "Lebo ya Bidhaa"
 
-#: pages/products/models.py:165
-msgid "Date"
-msgstr "Tarehe"
+#: pages/products/models.py:231
+msgid "The first day when products added below become effective"
+msgstr "Siku ya kwanza wakati bidhaa zinaongezwa hapa chini zinatumika"
 
-#: pages/products/models.py:166
-msgid "Valid until"
-msgstr "Inatumika hadi"
+#: pages/products/models.py:233
+#, fuzzy
+#| msgid ""
+#| "Up to when is this product valid ? Leave blank if not applicable"
+msgid ""
+"The last day when products added below remain effective. Leave blank if not "
+"applicable"
+msgstr ""
+"Siku ya mwisho wakati bidhaa zinaongezwa hapa chini zinaendelea kutumika. "
+"Acha wazi ikiwa haitumiki"
 
-#: pages/products/models.py:167
-msgid "Up to when is this product valid ? Leave blank if not applicable"
-msgstr "Bidhaa hii ni halali hadi lini? Acha wazi ikiwa haitumiki"
-
-#: pages/products/models.py:216
+#: pages/products/models.py:288
 msgid "Product Item"
 msgstr "Kipengee cha Bidhaa"
+
+#: pages/products/templates/products/product_detail.html:93
+msgid "View"
+msgstr "Tazama"
+
+#: pages/products/templates/products/product_detail.html:104
+msgid "Download"
+msgstr "Pakua"
+
+#: pages/products/templates/products/product_detail.html:132
+#, fuzzy, python-format
+#| msgid "Document"
+msgid "Download document  - %(file_size)s"
+msgstr "Pakua hati - %(file_size)s"
+
+#: pages/products/templates/products/product_detail.html:149
+#, fuzzy
+#| msgid "Document"
+msgid "Download document"
+msgstr "Pakua hati"
+
+#: pages/products/templates/products/product_filter_include.html:9
+msgid "Filter by Year"
+msgstr "Chuja kwa Mwaka"
+
+#: pages/products/templates/products/product_filter_include.html:31
+msgid "Filter by Month"
+msgstr "Chuja kwa Mwezi"
+
+#: pages/products/templates/products/product_index.html:31
+msgid "Browse"
+msgstr "Vinjari"
+
+#: pages/products/templates/products/product_index.html:39
+msgid "MapViewer"
+msgstr "Mtazamaji wa Ramani"
+
+#: pages/products/templates/products/product_index.html:50
+#, fuzzy
+#| msgid "Product Pages"
+msgid "Browse Product Updates"
+msgstr "Vinjari Masasisho ya Bidhaa"
+
+#: pages/products/templates/products/product_layer_integration.html:6
+#, python-format
+msgid "%(title)s"
+msgstr "%(title)s"
+
+#: pages/products/templates/products/product_layer_integration.html:15
+msgid "Product Layers Integration"
+msgstr "Ujumuishaji wa Tabaka za Bidhaa"
+
+#: pages/products/templates/products/product_layer_integration.html:37
+msgid "Save"
+msgstr "Hifadhi"
+
+#: pages/products/templates/products/product_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/products/templates/products/product_list_include.html:51
+msgid "Read More"
+msgstr "Soma zaidi"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "        %(title)s\n"
+#~ "    "
+#~ msgstr "%(kichwa)s"
+
+#~ msgid "Date"
+#~ msgstr "Tarehe"
+
+#~ msgid "Valid until"
+#~ msgstr "Inatumika hadi"
 
 #~ msgid "Banner Image"
 #~ msgstr "Picha ya Bango"

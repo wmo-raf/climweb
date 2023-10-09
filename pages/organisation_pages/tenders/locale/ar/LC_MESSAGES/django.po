@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,17 +20,17 @@ msgstr ""
 
 #: pages/organisation_pages/tenders/models.py:28
 msgid "Text to appear when there are no tenders"
-msgstr "النص الذي سيظهر في حالة عدم وجود عطاءات"
+msgstr "النص الذي سيظهر في حالة عدم وجود مناقصات"
 
 #: pages/organisation_pages/tenders/models.py:29
 msgid "No tenders header text"
-msgstr "لا يوجد نص رأس العطاءات"
+msgstr "لا يوجد نص رأس المناقصات"
 
 #: pages/organisation_pages/tenders/models.py:32
 msgid ""
 "Additional text to appear when there are no tenders,below the no tenders "
 "header text"
-msgstr "يظهر نص إضافي في حالة عدم وجود عطاءات ، أسفل نص العنوان \"بلا عطاءات\""
+msgstr "نص إضافي يظهر في حالة عدم وجود مناقصات، أسفل نص رأس عدم وجود مناقصات"
 
 #: pages/organisation_pages/tenders/models.py:34
 msgid "No tenders description text"
@@ -62,7 +62,7 @@ msgstr "رقم المرجع"
 
 #: pages/organisation_pages/tenders/models.py:109
 msgid "Any Reference number if available"
-msgstr "أي رقم مرجعي إن وجد"
+msgstr "أي رقم مرجعي إذا كان متاحا"
 
 #: pages/organisation_pages/tenders/models.py:110
 msgid "Submission Deadline"
@@ -74,7 +74,7 @@ msgstr "وصف"
 
 #: pages/organisation_pages/tenders/models.py:115
 msgid "Downloadable tender description document"
-msgstr "وثيقة وصف المناقصة القابلة للتحميل"
+msgstr "وثيقة وصف العطاء للتحميل"
 
 #: pages/organisation_pages/tenders/models.py:121
 #: pages/organisation_pages/tenders/models.py:129
@@ -83,49 +83,56 @@ msgstr "وثائق إضافية"
 
 #: pages/organisation_pages/tenders/models.py:179
 msgid "Tender Detail Page"
-msgstr "صفحة تفاصيل العطاء"
+msgstr "صفحة تفاصيل المناقصة"
 
-#~ msgid "Banner Image"
-#~ msgstr "صورة بانر"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:26
+msgid "Note: This tender has been closed"
+msgstr "ملاحظة: تم إغلاق هذه المناقصة"
 
-#~ msgid "A high quality image related to Tenders"
-#~ msgstr "صورة ذات جودة عالية تتعلق بالمناقصات"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:37
+#: pages/organisation_pages/tenders/templates/tender_list_include.html:25
+msgid "Posted On"
+msgstr "نشر على"
 
-#~ msgid "Banner Title"
-#~ msgstr "عنوان البانر"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:48
+#: pages/organisation_pages/tenders/templates/tender_list_include.html:35
+msgid "Closing On"
+msgstr "إغلاق على"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "العنوان الفرعي للراية"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:62
+#, fuzzy
+#| msgid "Reference Number"
+msgid "Reference number"
+msgstr "رقم المرجع"
 
-#~ msgid "Call to action button text"
-#~ msgstr "نص زر الحث على اتخاذ إجراء"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:75
+#, fuzzy
+#| msgid "Additional Documents"
+msgid "Documents"
+msgstr "وثائق"
 
-#~ msgid "Call to action related page"
-#~ msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
+#: pages/organisation_pages/tenders/templates/tender_detail_page.html:90
+#, fuzzy
+#| msgid "Downloadable tender description document"
+msgid "Download Tender Notice"
+msgstr "تحميل إشعار المناقصة"
 
-#~ msgid "Introduction section title"
-#~ msgstr "عنوان قسم المقدمة"
+#: pages/organisation_pages/tenders/templates/tender_filter_include.html:7
+msgid "Filter by Availability"
+msgstr "التصفية حسب التوفر"
 
-#~ msgid "Introduction Title"
-#~ msgstr "عنوان المقدمة"
+#: pages/organisation_pages/tenders/templates/tender_filter_include.html:14
+msgid "Closed"
+msgstr "مغلق"
 
-#~ msgid "A description of tenders at your organisation"
-#~ msgstr "وصف المناقصات في مؤسستك"
+#: pages/organisation_pages/tenders/templates/tender_list_include.html:10
+msgid "New"
+msgstr "جديد"
 
-#~ msgid "Introduction Text"
-#~ msgstr "مقدمة النص"
+#: pages/organisation_pages/tenders/templates/tender_list_include.html:47
+msgid "View details"
+msgstr "عرض التفاصيل"
 
-#~ msgid "Introduction Image"
-#~ msgstr "صورة المقدمة"
-
-#~ msgid "A high quality image related to tenders at your organisation"
-#~ msgstr "صورة ذات جودة عالية تتعلق بالمناقصات في مؤسستك"
-
-#~ msgid "Introduction button text"
-#~ msgstr "نص زر المقدمة"
-
-#~ msgid "Banner Section"
-#~ msgstr "قسم البانر"
-
-#~ msgid "Introduction Section"
-#~ msgstr "قسم المقدمة"
+#: pages/organisation_pages/tenders/templates/tenders_index_page.html:24
+msgid "Open Tenders"
+msgstr "المناقصات المفتوحة"

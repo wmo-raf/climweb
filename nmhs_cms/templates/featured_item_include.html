@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags get_share_url nmhs_cms_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags get_share_url nmhs_cms_tags i18n %}
 
 <div class="columns is-multiline featured-item-block">
     <div class="column is-5-widescreen is-full-mobile featured-item-image">
@@ -25,7 +25,7 @@
     <div class="column is-6-widescreen is-full-mobile featured-item-detail">
         <div class="featured-item-header">
             <span class="featured-item-header-tag">
-                Featured
+                {% translate "Featured" %}
             </span>
             <div class="share-buttons">
                 {% include 'social_media_share_buttons_include.html' with url=item_url text=item_title %}
@@ -44,7 +44,9 @@
         <div class="featured-item-meta">
             <div class="featured-item-tags">
                 {% if item_tags.all %}
-                    <span class="featured-item-tags-title">Tags: </span>
+                    <span class="featured-item-tags-title">
+                        {% translate "Tags" %}:
+                    </span>
                     {% for tag in item_tags.all %}
                         <span class="featured-item-tag">
                             {{ tag }}
@@ -57,7 +59,7 @@
                 <span class="meta-sub">{{ item_meta|date:"d M Y" }}</span>
                 <span class="featured-item-readmore">
                     <a href="{{ item_url }}">
-                        Read More
+                        {% translate "Read More" %}
                     </a>
                 </span>
             </div>

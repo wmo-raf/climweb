@@ -8,9 +8,8 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page, Orderable
-import json
+
 from .blocks import LineChartBlock, BarChartBlock, AreaChartBlock
-from django.core.serializers.json import DjangoJSONEncoder
 
 MONTHS = [
     {"name": "January", "num": 1},
@@ -61,7 +60,6 @@ class CityClimateDataPage(Page):
         context = super(CityClimateDataPage, self).get_context(request, *args, **kwargs)
 
         cities = City.objects.all()
-
 
         context.update({
             "cities": cities,

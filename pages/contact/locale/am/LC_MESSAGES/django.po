@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,38 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pages/contact/models.py:31 pages/contact/models.py:32
+#: pages/contact/models.py:33
+msgid "Location"
+msgstr "አካባቢ"
+
+#: pages/contact/models.py:34
 msgid "Location of organisation"
 msgstr "የድርጅት ቦታ"
 
-#: pages/contact/models.py:33
+#: pages/contact/models.py:35 pages/contact/models.py:36
+msgid "Coordinates of organisation"
+msgstr "የድርጅት መጋጠሚያዎች"
+
+#: pages/contact/models.py:37
 msgid "Thank you message"
 msgstr "አመሰግናለሁ መልእክት"
 
-#: pages/contact/models.py:57
+#: pages/contact/models.py:62
 msgid "Email"
 msgstr "ኢሜይል"
 
-#: pages/contact/models.py:148
+#: pages/contact/models.py:156
 msgid "Contact Page"
 msgstr "የእውቂያ ገጽ"
+
+#: pages/contact/templates/contact/contact_page.html:63
+msgid "Submit"
+msgstr "አስገባ"
+
+#: pages/contact/templates/contact/contact_page.html:78
+msgid "Address"
+msgstr "አድራሻ"
+
+#: pages/contact/templates/contact/contact_page.html:88
+msgid "Contact"
+msgstr "ተገናኝ"

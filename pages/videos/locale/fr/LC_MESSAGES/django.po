@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:53+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pages/videos/models.py:15
+#: pages/videos/models.py:17 pages/videos/templates/playlist_list.html:29
 msgid "Title"
 msgstr "Titre"
 
-#: pages/videos/models.py:17
+#: pages/videos/models.py:19
 msgid ""
 "This is the playlist ID as obtained from Youtube. If the playlist is not "
 "created on Youtube, please create it first"
 msgstr ""
-"Il s'agit de l'identifiant de la liste de lecture obtenu sur Youtube. Si la "
-"liste de lecture n'est pas créée sur Youtube, veuillez d'abord la créer"
+"Il s'agit de l'ID de playlist obtenu sur Youtube. Si la playlist n'est pas "
+"créée sur Youtube, veuillez d'abord la créer"
 
-#: pages/videos/models.py:19
+#: pages/videos/models.py:21 pages/videos/templates/playlist_list.html:30
 msgid "Playlist ID"
-msgstr "ID de la liste de lecture"
+msgstr "Identifiant de la liste de lecture"
 
 #: pages/videos/templates/playlist_items.html:4
 #: pages/videos/templates/playlist_list.html:4
 #: pages/videos/templates/playlist_list.html:15
 msgid "Youtube Playlists"
-msgstr "Listes de lecture Youtube"
+msgstr "Listes de lecture YouTube"
 
-#~ msgid "Introduction"
-#~ msgstr "Introduction"
+#: pages/videos/templates/playlist_items.html:30
+msgid "Video"
+msgstr "Vidéo"
+
+#: pages/videos/templates/playlist_items.html:31
+msgid "Published at"
+msgstr "Publié à"
+
+#: pages/videos/templates/playlist_list.html:31
+msgid "Videos Count"
+msgstr "Nombre de vidéos"

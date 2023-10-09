@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/publication.css' %}">
@@ -8,13 +8,15 @@
 {% block body_class %}research"{% endblock %}
 
 {% block content %}
-<main class="is-index">
+    <main class="is-index">
 
-    {% include 'hero.html' with page=page %}
+        {% include 'hero.html' with page=page %}
         {% if page.featured_publications %}
             <section class="featured-publications-section">
                 <div class="container">
-                    <h2 class="section-title has-text-centered ">Featured Publications</h2>
+                    <h2 class="section-title has-text-centered ">
+                        {% translate "Featured Publications" %}
+                    </h2>
                     <div class="columns is-multiline is-centered">
                         {% for publication in page.featured_publications %}
                             {% if publication.card_props %}
@@ -28,7 +30,9 @@
             </section>
         {% endif %}
         <section id="publication-items" class="listing-section">
-            <h2 id="results" class="section-title center">All Publications</h2>
+            <h2 id="results" class="section-title center">
+                {% translate "All Publications" %}
+            </h2>
             <div class="container">
                 <div class="columns" style="width: 100%;margin: 0">
                     <div class="column is-3 is-full-mobile">
@@ -45,7 +49,6 @@
 
 
 {% block extra_js %}
-
     <script>
 
         $(document).ready(function () {

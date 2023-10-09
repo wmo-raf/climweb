@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags i18n %}
 
 
 {% block extra_css %}
@@ -21,7 +21,9 @@
         {% if partners %}
             <section>
                 <div class="container">
-                    <h2 class="section-title has-text-centered">Our Partners</h2>
+                    <h2 class="section-title has-text-centered">
+                        {% translate "Our Partners" %}
+                    </h2>
                     <div class="columns is-multiline is-mobile is-centered partners-list">
                         {% for partner in partners %}
                             <div class="column is-4-mobile is-4-tablet is-2-desktop  partner-item">

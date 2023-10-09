@@ -1,4 +1,4 @@
-{% load static nmhs_cms_tags wagtailiconchooser_tags %}
+{% load static nmhs_cms_tags wagtailiconchooser_tags i18n nmhs_cms_tags %}
 
 {% if self.show_weather_watch %}
     <section class="weather-watch-section">
@@ -12,7 +12,7 @@
                             <img src="{% static 'img/CAPLogo.jpeg' %}" alt="" width="20"
                                  style="border-radius:4px;">
                             <h4>
-                                Latest Weather Warnings
+                                {% translate "Latest Weather Warnings" %}
                             </h4>
                         </div>
                         <div class="alerts-item-wrapper">
@@ -53,7 +53,9 @@
                                     <div class="empty-alerts-icon">
                                         {% svg_icon name="alert" %}
                                     </div>
-                                    <div> No active alerts currently</div>
+                                    <div>
+                                        {% translate "No active alerts currently" %}
+                                    </div>
                                 </div>
                             {% endif %}
                         </div>
@@ -61,70 +63,67 @@
                 </div>
                 <div class="column is-two-thirds-widescreen is-full-touch">
                     <div id="home-map" style="position: relative;">
-
                         {% if self.get_forecast_by_daterange.forecast_dates %}
-                        <div class="columns p-2" style="position: absolute;top: 10px;left: 10px;z-index: 99">
-                            <div class="column">
-                                <div class="control has-icons-left mr-2">
-                                    <div class="select">
-                                        <select id="daily_forecast" style="color:#292929">
-                                            {% for day in self.get_forecast_by_daterange.forecast_dates %}
-                                                <option value="{{ day|date:'Y-m-d' }}"
-                                                        {% if forloop.first %}selected{% endif %}>{{ day }}</option>
-    
-                                            {% endfor %}
-                                        </select>
+                            <div class="columns p-2" style="position: absolute;top: 10px;left: 10px;z-index: 99">
+                                <div class="column">
+                                    <div class="control has-icons-left mr-2">
+                                        <div class="select">
+                                            <select id="daily_forecast" style="color:#292929">
+                                                {% for day in self.get_forecast_by_daterange.forecast_dates %}
+                                                    <option value="{{ day|date:'Y-m-d' }}"
+                                                            {% if forloop.first %}selected{% endif %}>{{ day }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <span class="icon is-left">
+                                            <i class="fas fa-calendar-days"></i>
+                                        </span>
                                     </div>
-                                    <span class="icon is-left">
-                                        <i class="fas fa-calendar-days"></i>
-                                    </span>
-                                </div>
 
+                                </div>
+                                {% comment %}
+                                    <div class="column ">
+                                        <div class="control has-icons-left ">
+                                            <div class="select">
+                                                <select id="daily_forecast" style="color:#292929">
+                                                    {% for day in self.get_forecast_by_daterange.forecast_dates %}
+                                                        <option value="{{ day|date:'Y-m-d' }}"
+                                                                {% if forloop.first %}selected{% endif %}>{{ day }}</option>
+
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <span class="icon is-left">
+                                                <i class="fas fa-solid fa-clock"></i>
+                                            </span>
+                                        </div>
+
+                                    </div> {% endcomment %}
                             </div>
-                            {% comment %} <div class="column ">
-                                <div class="control has-icons-left ">
-                                    <div class="select">
-                                        <select id="daily_forecast" style="color:#292929">
-                                            {% for day in self.get_forecast_by_daterange.forecast_dates %}
-                                                <option value="{{ day|date:'Y-m-d' }}"
-                                                        {% if forloop.first %}selected{% endif %}>{{ day }}</option>
-    
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <span class="icon is-left">
-                                        <i class="fas fa-solid fa-clock"></i>
-                                    </span>
-                                </div>
-
-                            </div> {% endcomment %}
-                        </div>
-                          
-                            
                         {% endif %}
                         <div class="map-legend" style="position: absolute;bottom: 0">
-                            <div>Alert Severity:</div>
+                            <div> {% translate "Alert Severity:" %} </div>
                             <div class="legend-items">
                                 <div class="legend-item">
                                     <div class="legend-color" style="background-color: rgb(215, 47, 42);"></div>
-                                    <div class="legend-label">Extreme</div>
+                                    <div class="legend-label">{% translate "Extreme" %} </div>
                                 </div>
                                 <div class="legend-item">
                                     <div class="legend-color" style="background-color: rgb(254, 153, 0);"></div>
-                                    <div class="legend-label">Severe</div>
+                                    <div class="legend-label">{% translate "Severe" %} </div>
                                 </div>
                                 <div class="legend-item">
                                     <div class="legend-color" style="background-color: rgb(255, 255, 0);"></div>
-                                    <div class="legend-label">Moderate</div>
+                                    <div class="legend-label">{% translate "Moderate" %}</div>
                                 </div>
                                 <div class="legend-item">
                                     <div class="legend-color" style="background-color: rgb(3, 255, 255);"></div>
-                                    <div class="legend-label">Minor</div>
+                                    <div class="legend-label">{% translate "Minor" %}</div>
                                 </div>
                                 <div class="legend-item">
                                     <div class="legend-color"
                                          style="background-color: rgb(51, 102, 255);"></div>
-                                    <div class="legend-label">Unknown</div>
+                                    <div class="legend-label">{% translate "Unknown" %}</div>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +133,7 @@
             {% if self.show_mapviewer_cta and self.mapviewer_cta_url %}
                 <div class="container mapviewer-explore">
                     <div class="desc">
-                        For more interactive data
+                        {% translate "For more interactive data" %}
                     </div>
                     <a class="button is-dark has-text-white"
                        style=" font-weight: 600;  border-radius: var(--border-radius);"
@@ -147,6 +146,4 @@
                 </div>
             {% endif %}
     </section>
-
 {% endif %}
-

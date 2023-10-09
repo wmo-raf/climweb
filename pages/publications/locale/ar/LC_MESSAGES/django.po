@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,11 +32,12 @@ msgstr "أنواع المنشورات"
 msgid ""
 "The year for the earliest available publication. This is used to generate "
 "the years available for filtering "
-msgstr "سنة أول منشور متاح. يستخدم هذا لإنشاء السنوات المتاحة للتصفية"
+msgstr ""
+"السنة لأقدم منشور متاح. يتم استخدام هذا لإنشاء السنوات المتاحة للتصفية"
 
 #: pages/publications/models.py:60
 msgid "Earliest Publication Year"
-msgstr "أقدم سنة نشر"
+msgstr "أقدم سنة للنشر"
 
 #: pages/publications/models.py:64
 msgid ""
@@ -46,11 +47,11 @@ msgstr "كم عدد المنشورات في كل صفحة يجب أن تكون �
 
 #: pages/publications/models.py:78
 msgid "Publications Index Page"
-msgstr "صفحة فهرس المطبوعات"
+msgstr "صفحة فهرس المنشورات"
 
 #: pages/publications/models.py:152
 msgid "Publication Type"
-msgstr "نوع المنشور"
+msgstr "نوع النشر"
 
 #: pages/publications/models.py:153
 msgid "Services related to this publication"
@@ -74,15 +75,15 @@ msgstr "مرئي على الصفحة الرئيسية"
 
 #: pages/publications/models.py:162
 msgid "Mark as featured"
-msgstr "وضع علامة كميزة مميزة"
+msgstr "وضع علامة على أنها مميزة"
 
 #: pages/publications/models.py:163
 msgid "Featured publications appear on the publications landing page"
-msgstr "المنشورات المميزة تظهر على الصفحة المقصودة للمنشورات"
+msgstr "تظهر المنشورات المميزة على الصفحة المقصودة للمنشورات"
 
 #: pages/publications/models.py:165
 msgid "Optional start date for which this publication is relevant"
-msgstr "تاريخ بدء اختياري له صلة بهذا المنشور"
+msgstr "تاريخ البدء الاختياري الذي يكون هذا المنشور ذو صلة به"
 
 #: pages/publications/models.py:166
 msgid "Start date"
@@ -94,7 +95,7 @@ msgstr "تاريخ الانتهاء"
 
 #: pages/publications/models.py:171
 msgid "Peer reviewed"
-msgstr "مراجعة الأقران"
+msgstr "تمت مراجعة النظراء"
 
 #: pages/publications/models.py:179
 msgid "Publication image"
@@ -113,16 +114,16 @@ msgid ""
 "Here you can upload pdfs, word documents, powerpoints, zip files or any "
 "other file"
 msgstr ""
-"يمكنك هنا تحميل ملفات pdf أو مستندات Word أو powerpoints أو ملفات مضغوطة أو "
+"هنا يمكنك تحميل ملفات PDF أو مستندات Word أو PowerPoint أو ملفات مضغوطة أو "
 "أي ملف آخر"
 
 #: pages/publications/models.py:193
 msgid "External Url - *Only If published/hosted somewhere else"
-msgstr "عنوان Url الخارجي - * فقط إذا تم نشره / استضافته في مكان آخر"
+msgstr "عنوان URL الخارجي - *فقط إذا تم نشره/استضافته في مكان آخر"
 
 #: pages/publications/models.py:194
 msgid "Link to published resource if external"
-msgstr "ارتباط بالمورد المنشور إذا كان خارجيًا"
+msgstr "رابط إلى الموارد المنشورة إذا كانت خارجية"
 
 #: pages/publications/models.py:196
 msgid "Tags"
@@ -132,20 +133,48 @@ msgstr "العلامات"
 msgid "Additional Details"
 msgstr "تفاصيل اضافية"
 
-#~ msgid "Banner Image"
-#~ msgstr "صورة بانر"
+#: pages/publications/templates/publication_page.html:24
+#, fuzzy
+#| msgid "Earliest Publication Year"
+msgid "Other Recent Publications"
+msgstr "المنشورات الحديثة الأخرى"
 
-#~ msgid "A high quality image related to Publications"
-#~ msgstr "صورة ذات جودة عالية تتعلق بالمطبوعات"
+#: pages/publications/templates/publications_filter_include.html:9
+#, fuzzy
+#| msgid "Publication Type"
+msgid "Filter by Publication Type"
+msgstr "التصفية حسب نوع المنشور"
 
-#~ msgid "Banner Title"
-#~ msgstr "عنوان البانر"
+#: pages/publications/templates/publications_filter_include.html:35
+msgid "Filter by Service"
+msgstr "التصفية حسب الخدمة"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "العنوان الفرعي للراية"
+#: pages/publications/templates/publications_filter_include.html:57
+#, fuzzy
+#| msgid "Relevant Projects"
+msgid "Filter by Projects"
+msgstr "تصفية حسب المشاريع"
 
-#~ msgid "Call to action button text"
-#~ msgstr "نص زر الحث على اتخاذ إجراء"
+#: pages/publications/templates/publications_filter_include.html:82
+msgid "Filter by Year"
+msgstr "التصفية حسب السنة"
 
-#~ msgid "Call to action related page"
-#~ msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
+#: pages/publications/templates/publications_index_page.html:18
+#, fuzzy
+#| msgid "Earliest Publication Year"
+msgid "Featured Publications"
+msgstr "منشورات مميزة"
+
+#: pages/publications/templates/publications_index_page.html:34
+#, fuzzy
+#| msgid "Publication Type"
+msgid "All Publications"
+msgstr "جميع المنشورات"
+
+#: pages/publications/templates/publications_list_include.html:33
+msgid "Search"
+msgstr "يبحث"
+
+#: pages/publications/templates/publications_list_include.html:94
+msgid "Read More"
+msgstr "اقرأ أكثر"

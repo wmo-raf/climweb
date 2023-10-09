@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,7 +66,7 @@ msgstr "عنوان فرعي اختياري"
 
 #: pages/news/models.py:153
 msgid "Subtitle"
-msgstr "العنوان الفرعي"
+msgstr "الترجمة"
 
 #: pages/news/models.py:154
 msgid "Body"
@@ -74,7 +74,7 @@ msgstr "جسم"
 
 #: pages/news/models.py:155
 msgid "Feature Image"
-msgstr "الصورة المميزة"
+msgstr "صورة مميزة"
 
 #: pages/news/models.py:156
 msgid "Relevant Services"
@@ -87,7 +87,8 @@ msgstr "المشاريع ذات الصلة"
 #: pages/news/models.py:158
 msgid ""
 "Should this news appear on the news landing paging as the featured one ?"
-msgstr "هل يجب أن يظهر هذا الخبر في صفحة هبوط الأخبار على أنها مميزة؟"
+msgstr ""
+"هل يجب أن يظهر هذا الخبر على الصفحة المقصودة للأخبار على أنه الخبر المميز؟"
 
 #: pages/news/models.py:160
 msgid "Is featured"
@@ -99,11 +100,11 @@ msgstr "هل هذا تنبيه؟"
 
 #: pages/news/models.py:161
 msgid "Is alert"
-msgstr "في حالة تأهب"
+msgstr "هو في حالة تأهب"
 
 #: pages/news/models.py:163
 msgid "Should this appear in the homepage as an alert/latest update ?"
-msgstr "هل يجب أن يظهر هذا في الصفحة الرئيسية كتنبيه / آخر تحديث؟"
+msgstr "هل يجب أن يظهر هذا في الصفحة الرئيسية كتنبيه/آخر تحديث؟"
 
 #: pages/news/models.py:165
 msgid "Is visible on homepage"
@@ -117,7 +118,7 @@ msgstr "عنوان الروابط الإضافية"
 msgid "Extra links"
 msgstr "روابط اضافية"
 
-#: pages/news/models.py:172
+#: pages/news/models.py:172 pages/news/templates/news_detail_page.html:55
 msgid "Tags"
 msgstr "العلامات"
 
@@ -129,23 +130,47 @@ msgstr "روابط اضافية"
 msgid "News Page"
 msgstr "صفحة الأخبار"
 
-#~ msgid "Banner Image"
-#~ msgstr "صورة بانر"
+#: pages/news/templates/news_detail_page.html:71
+msgid "Find out more"
+msgstr "اكتشف المزيد"
 
-#~ msgid "A high quality image related to News"
-#~ msgstr "صورة ذات جودة عالية تتعلق بالأخبار"
+#: pages/news/templates/news_filter_include.html:9
+#, fuzzy
+#| msgid "News type"
+msgid "Filter by News Type"
+msgstr "تصفية حسب نوع الأخبار"
 
-#~ msgid "Banner Title"
-#~ msgstr "عنوان البانر"
+#: pages/news/templates/news_filter_include.html:34
+msgid "Filter by Service"
+msgstr "التصفية حسب الخدمة"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "العنوان الفرعي للراية"
+#: pages/news/templates/news_filter_include.html:56
+msgid "Filter by Year"
+msgstr "التصفية حسب السنة"
 
-#~ msgid "Call to action button text"
-#~ msgstr "نص زر الحث على اتخاذ إجراء"
+#: pages/news/templates/news_index_page.html:18
+#, fuzzy
+#| msgid "Feature Image"
+msgid "Featured News"
+msgstr "أخبار مميزة"
 
-#~ msgid "Call to action related page"
-#~ msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
+#: pages/news/templates/news_index_page.html:27
+#, fuzzy
+#| msgid "News type"
+msgid "All News Updates"
+msgstr "جميع تحديثات الأخبار"
 
-#~ msgid "Banner Section"
-#~ msgstr "قسم البانر"
+#: pages/news/templates/news_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#: pages/news/templates/news_list_include.html:65
+msgid "Read More"
+msgstr "اقرأ أكثر"

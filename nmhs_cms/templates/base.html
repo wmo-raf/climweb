@@ -61,7 +61,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/nmhs_cms.css' %}">
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     {% if request.user.is_authenticated or request.is_preview %} {% else %}
         {% if settings.base.IntegrationSettings.ga_tracking_id %}
             <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -97,7 +97,7 @@
 
 <!-- Global javascript -->
 
-        <script type="text/javascript" src="{% static 'js/common_cms.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common_cms.js' %}"></script>
 
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <script type="text/javascript" src="{% static 'js/progressively.js' %}"></script>

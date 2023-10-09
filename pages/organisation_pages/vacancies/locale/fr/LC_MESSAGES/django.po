@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:53+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,12 +24,12 @@ msgstr "Image de la bannière"
 
 #: pages/organisation_pages/vacancies/models.py:29
 msgid "A high quality image related to Vacancies"
-msgstr "Une image de haute qualité liée aux offres d'emploi"
+msgstr "Une image de haute qualité liée aux postes vacants"
 
 #: pages/organisation_pages/vacancies/models.py:39
 msgid "How many items should be visible on the landing page filter section ?"
 msgstr ""
-"Combien d'éléments doivent être visibles dans la section de filtrage de la "
+"Combien d'éléments doivent être visibles dans la section de filtre de la "
 "page de destination ?"
 
 #: pages/organisation_pages/vacancies/models.py:40
@@ -50,7 +50,7 @@ msgid ""
 " header text"
 msgstr ""
 "Texte supplémentaire à afficher lorsqu'il n'y a pas de postes vacants, sous "
-"le texte d'en-tête \"pas de postes vacants\""
+"le texte d'en-tête « Aucun poste vacant »"
 
 #: pages/organisation_pages/vacancies/models.py:50
 msgid "No vacancies description text"
@@ -69,6 +69,8 @@ msgid "Date of Posting"
 msgstr "Date de publication"
 
 #: pages/organisation_pages/vacancies/models.py:118
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:64
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:45
 msgid "Duty Station"
 msgstr "Lieu d'affectation"
 
@@ -81,6 +83,7 @@ msgid "Job Description"
 msgstr "Description de l'emploi"
 
 #: pages/organisation_pages/vacancies/models.py:122
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:78
 msgid "Duration"
 msgstr "Durée"
 
@@ -94,4 +97,42 @@ msgstr "Document de description de poste téléchargeable en option"
 
 #: pages/organisation_pages/vacancies/models.py:152
 msgid "Vacancy Detail Page"
-msgstr "Page de détail du poste vacant"
+msgstr "Page de détails du poste vacant"
+
+#: pages/organisation_pages/vacancies/templates/vacancies_index_page.html:24
+msgid "Open Vacancies"
+msgstr "Postes vacants"
+
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:27
+msgid "Note: This opening has been closed."
+msgstr "Remarque : Cette ouverture a été fermée."
+
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:38
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:25
+msgid "Posted On"
+msgstr "Posté sur"
+
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:51
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:34
+msgid "Closing On"
+msgstr "Fermeture"
+
+#: pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:100
+msgid "Download pdf"
+msgstr "Télécharger le PDF"
+
+#: pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:8
+msgid "Filter by Availability"
+msgstr "Filtrer par disponibilité"
+
+#: pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:16
+msgid "Closed"
+msgstr "Fermé"
+
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:10
+msgid "New"
+msgstr "Nouveau"
+
+#: pages/organisation_pages/vacancies/templates/vacancy_list_include.html:49
+msgid "View details"
+msgstr "Voir les détails"

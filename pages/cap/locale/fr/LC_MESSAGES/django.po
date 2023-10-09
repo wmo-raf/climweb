@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:53+0000\n"
+"POT-Creation-Date: 2023-10-09 09:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,14 +18,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: pages/cap/wagtail_hooks.py:18
+#: pages/cap/models.py:28
+msgid "CAP Alerts Heading"
+msgstr "Rubrique Alertes CAP"
+
+#: pages/cap/templates/cap/alert_detail.html:61
+msgid "Alert Severity"
+msgstr "Gravité de l'alerte"
+
+#: pages/cap/templates/cap/alert_detail.html:68
+msgid "Extreme"
+msgstr "Extrême"
+
+#: pages/cap/templates/cap/alert_detail.html:75
+msgid "Severe"
+msgstr "Grave"
+
+#: pages/cap/templates/cap/alert_detail.html:82
+msgid "Moderate"
+msgstr "Modéré"
+
+#: pages/cap/templates/cap/alert_detail.html:89
+msgid "Minor"
+msgstr "Mineure"
+
+#: pages/cap/templates/cap/alert_detail.html:96
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: pages/cap/templates/cap/alert_detail.html:158
+msgid "Urgency"
+msgstr "Urgence"
+
+#: pages/cap/templates/cap/alert_detail.html:167
+#: pages/cap/templates/cap/alert_list.html:61
+msgid "Severity"
+msgstr "Gravité"
+
+#: pages/cap/templates/cap/alert_detail.html:176
+msgid "Certainty"
+msgstr "Certitude"
+
+#: pages/cap/templates/cap/alert_detail.html:186
+msgid "Time period"
+msgstr "Période de temps"
+
+#: pages/cap/templates/cap/alert_detail.html:195
+msgid "Issued"
+msgstr "Émis"
+
+#: pages/cap/templates/cap/alert_detail.html:206
+msgid "Effective"
+msgstr "Efficace"
+
+#: pages/cap/templates/cap/alert_detail.html:222
+msgid "Onset"
+msgstr "Début"
+
+#: pages/cap/templates/cap/alert_detail.html:231
+msgid "Expires"
+msgstr "Expire"
+
+#: pages/cap/templates/cap/alert_detail.html:242
+msgid "Area"
+msgstr "Zone"
+
+#: pages/cap/templates/cap/alert_detail.html:254
+msgid "Event Description"
+msgstr "description de l'évenement"
+
+#: pages/cap/templates/cap/alert_detail.html:265
+msgid "Instructions"
+msgstr "Instructions"
+
+#: pages/cap/templates/cap/alert_list.html:89
+msgid "Event type"
+msgstr "Type d'événement"
+
+#: pages/cap/wagtail_hooks.py:17
 msgid "Alerts"
 msgstr "Alertes"
 
-#: pages/cap/wagtail_hooks.py:27
+#: pages/cap/wagtail_hooks.py:30
 msgid "CAP Alerts"
 msgstr "Alertes PAC"
 
-#: pages/cap/wagtail_hooks.py:45
+#: pages/cap/wagtail_hooks.py:53
 msgid "Settings"
 msgstr "Paramètres"

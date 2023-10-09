@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/news.css' %}">
@@ -8,20 +8,24 @@
 {% block body_class %}{% endblock %}
 
 {% block content %}
-<main class="is-index">
+    <main class="is-index">
 
-    {% include 'hero.html' with page=page %}
+        {% include 'hero.html' with page=page %}
         {% if featured_news %}
             <section class="featured-news-section">
                 <div class="container">
-                    <h2 class="section-title center">Featured News</h2>
-                    {% include 'featured_item_include.html' with item_image_src=featured_news.feature_img_src item_title=featured_news.title  item_text=featured_news.body item_url=featured_news.url item_meta=featured_news.date item_tags=featured_news.tags %}
+                    <h2 class="section-title center">
+                        {% translate "Featured News" %}
+                    </h2>
+                    {% include 'featured_item_include.html' with item_image_src=featured_news.feature_img_src item_title=featured_news.title item_text=featured_news.body item_url=featured_news.url item_meta=featured_news.date item_tags=featured_news.tags %}
                 </div>
             </section>
         {% endif %}
 
         <section class="all-news-section listing-section">
-            <h2 id="results" class="section-title center">All News Updates</h2>
+            <h2 id="results" class="section-title center">
+                {% translate "All News Updates" %}
+            </h2>
             <div class="container">
                 <div class="columns">
                     <div class="column is-3 is-full-mobile">
@@ -33,15 +37,11 @@
                 </div>
             </div>
         </section>
-
     </main>
 {% endblock %}
 
-
 {% block extra_js %}
-
     <script>
-
         $(document).ready(function () {
 
             // If on smaller screens, collapse all filter items

@@ -2,8 +2,10 @@
 {% load i18n %}
 {% load l10n %}
 {% load wagtailadmin_tags wagtailimages_tags static %}
-{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}{{ title }}
-{% endblocktrans %}
+{% block titletag %}
+    {% blocktranslate trimmed with title=page.get_admin_display_title %}
+        {{ title }}
+    {% endblocktranslate %}
 {% endblock %}
 
 {% block extra_css %}
@@ -35,18 +37,21 @@
     <div class="nice-padding">
 
         {% if current_version %}
-            <div class="v-item">Current installed version: <strong>{{ current_version }}</strong></div>
+            <div class="v-item">{% translate "Current installed version" %}: <strong>{{ current_version }}</strong>
+            </div>
         {% endif %}
 
         {% if latest_release %}
-            <div class="v-item">Latest available version: <strong>{{ latest_release.version }}</strong></div>
+            <div class="v-item">
+                {% translate "Latest available version" %}:
+                <strong>{{ latest_release.version }}</strong></div>
         {% endif %}
 
         {% if current_version and latest_release %}
             <div class="upgrade-section">
                 {% if current_version == latest_release.version %}
                     <div>
-                        All good. You are running on the latest version!
+                        {% translate "All good. You are running on the latest version" %}!
                     </div>
                 {% else %}
                     {% if cms_upgrade_pending %}
@@ -54,15 +59,17 @@
                             <svg class="icon icon-warning icon" aria-hidden="true">
                                 <use href="#icon-warning"></use>
                             </svg>
-                            A CMS upgrade was initiated. Please wait for the upgrade to complete
+                            {% translate "A CMS upgrade was initiated. Please wait for the upgrade to complete" %}¬
                         </div>
                     {% else %}
                         {% if cms_upgrade_hook_url %}
                             <div class="upgrade-info">
-                                <span style="margin-right: 4px">CMS upgrade available! </span>
+                                <span style="margin-right: 4px">
+                                    {% translate "CMS upgrade available" %}!
+                                </span>
                                 <a href="https://github.com/wmo-raf/nmhs-cms/releases" target="_blank"
                                    rel="noopener noreferrer" style="text-decoration: underline">
-                                    Release notes
+                                    {% translate "Release notes" %}
                                 </a>
                             </div>
                             <div style="margin-top: 20px">
@@ -89,7 +96,7 @@
                                                         <use href="#icon-rotate"></use>
                                                     </svg>
                                                 </span>
-                                                {% trans 'Upgrade now' %}
+                                                {% translate "Upgrade now" %}
                                             </button>
                                         </li>
                                     </ul>

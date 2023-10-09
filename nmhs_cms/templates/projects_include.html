@@ -1,17 +1,18 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailsettings_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailsettings_tags i18n %}
 {% get_settings use_default_site=True %}
-
 
 <div class="columns projects-inline-columns">
     <div class="column is-one-third-desktop is-full-mobile ">
-        <h2 class="projects-inline-header">Projects</h2>
+        <h2 class="projects-inline-header">
+            {% translate "Projects" %}
+        </h2>
         <div class="projects-inline-desc ">
             {{ page.projects_description|richtext }}
         </div>
         {% if settings.base.ImportantPages.all_projects_page %}
             <div class="more-container">
                 <a class="more" href="{{ settings.base.ImportantPages.all_projects_page.url }}">
-                    More Projects
+                    {% translate "More Projects" %}
                     <span class="icon">
                         <i class="fas fa-arrow-right"></i>
                     </span>

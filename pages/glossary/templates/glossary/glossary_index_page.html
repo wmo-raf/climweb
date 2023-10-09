@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailiconchooser_tags %}
+{% load static wagtailiconchooser_tags i18n %}
 
 {% block extra_css %}
 {% endblock %}
@@ -14,7 +14,9 @@
             </div>
         </section>
         <section id="glossary-items" class="listing-section">
-            <h2 id="results" class="section-title center">Browse Terms</h2>
+            <h2 id="results" class="section-title center">
+                {% translate "Browse Terms" %}
+            </h2>
             <div class="container">
                 <div class="columns" style="width: 100%;margin: 0">
                     <div class="column is-3 is-full-mobile">

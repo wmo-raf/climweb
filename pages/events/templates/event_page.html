@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags i18n %}
 
 
 {% block extra_css %}
@@ -27,7 +27,7 @@
                                 {% if page.panelists and not page.sessions_data %}
                                     <div style="padding-top: 20px">
                                         <div class="panelists-heading">
-                                            <h3>Panelists</h3>
+                                            <h3>{% translate "Panelists" %}  </h3>
                                         </div>
                                         {% include 'panelists_include.html' with panelists=page.panelists %}
                                     </div>
@@ -36,7 +36,11 @@
                                     {% include 'event_sessions_include.html' with sessions=page.sessions_data %}
                                 {% endif %}
                                 {% if page.sponsors %}
-                                    <h4 class="center" style="padding-top: 40px">Acknowledgements</h4>
+                                    <h4 class="center" style="padding-top: 40px">
+
+                                     {% translate "Acknowledgements" %}
+
+                                    </h4>
                                     {% include 'event_sponsors_include.html' with sponsors=page.sponsors %}
                                 {% endif %}
                             {% endif %}

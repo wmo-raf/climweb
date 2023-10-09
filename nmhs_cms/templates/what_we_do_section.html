@@ -1,11 +1,13 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags i18n %}
 <div class="intro-items-container">
     <div class="intro-items-header">
-        <span>{% if what_we_do_title %}
-            {{ what_we_do_title }}
-        {% else %}
-            What we do
-        {% endif %} </span>
+        <span>
+            {% if what_we_do_title %}
+                {{ what_we_do_title }}
+            {% else %}
+                {% translate "What we do" %}
+            {% endif %}
+        </span>
     </div>
     <div class="columns is-multiline is-mobile intro-items">
         {% with page.what_we_do_items|length|divisibleby:3 as is_by3 %}

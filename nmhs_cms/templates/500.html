@@ -1,8 +1,11 @@
 {% extends "base.html" %}
+{% load i18n wagtailcore_tags %}
 
 {% block title %}Internal server error{% endblock %}
 
 {% block body_class %}template-500{% endblock %}
+
+{% wagtail_site as current_site %}
 
 {% block content %}
 
@@ -14,13 +17,14 @@
                 display: flex;
                 flex-direction: column">
                         <h3 class="py-2">
-                            Internal server error
+                            {% translate "Internal server error" %}
                         </h3>
-                        <h5 class="py-4" style="color: grey">Sorry, there seems to be an error. Please try again
-                            soon.</h5>
-                        <a href="{{request.get_full_path}}"
+                        <h5 class="py-4" style="color: grey">
+                            {% translate "Sorry, there seems to be an error. Please try again soon" %}.
+                        </h5>
+                        <a href="{{ current_site.root_url }}"
                            class="button is-rounded center sec-btn cta-btn" style="text-align:center">
-                            <span>Back to Home Page</span>
+                            <span>{% translate "Back to Home Page" %}</span>
                             <span class="icon">
                                 <i class="fas fa-arrow-right"></i>
                             </span>

@@ -1,9 +1,13 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
 
 <div class="results-view">
     <div class="results-header">
         <h5 id="results" class="results-count results">
-            Showing {{ projects.paginator.count }} result{{ projects.paginator.count|pluralize }}
+            {% blocktranslate count counter=projects.paginator.count trimmed%}
+                Showing {{ counter }} result
+                {% plural %}
+                Showing {{ counter }} results
+            {% endblocktranslate %}
         </h5>
         <div>
             <button id="list-view-button" class="project-filter view active" name="view" value="list">
@@ -60,7 +64,7 @@
                         <div class="result-list-item-meta">
                             <span class="">{{ project.period }}</span>
                             <a class="result-list-item-more read" href="{{ project.url }}">
-                                Read More
+                                {% translate "Read More" %}
                             </a>
                         </div>
                     </div>

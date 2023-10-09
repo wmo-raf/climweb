@@ -1,10 +1,11 @@
+{% load i18n %}
+
 <div class="field" style="margin-bottom: 0">
     <div class="control ">
         <label class="checkbox" style="padding-bottom: 10px">
             <input type="checkbox" name="{{ widget.name }}" id="id_{{ widget.name }}">
             <b> {{ widget.label }}</b>
         </label>
-
     </div>
 </div>
 
@@ -17,7 +18,9 @@
 
 <div style="padding-left: 30px" id="interests_section" class="interests-section-hidden">
     <div class="field">
-        <label class="label" for="id_{{ widget.interests_field_name }}"> What updates do you want to receive ? </label>
+        <label class="label"
+               for="id_{{ widget.interests_field_name }}"> {% translate "What updates do you want to receive ?" %}
+        </label>
         <div class="control  multiple-checkbox">
             <ul id="id_{{ widget.interests_field_name }}">
                 {% for key, value in widget.interests_mapping.items %}

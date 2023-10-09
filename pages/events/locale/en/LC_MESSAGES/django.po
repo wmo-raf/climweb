@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:53+0000\n"
+"POT-Creation-Date: 2023-10-05 17:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,216 +18,219 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: pages/events/models.py:45
-#, fuzzy
-#| msgid "Event Type"
+#: pages/events/models.py:46
 msgid "Event type"
 msgstr "Event type"
 
-#: pages/events/models.py:53
+#: pages/events/models.py:54
 msgid "Thumbnail/image for this type of event."
 msgstr "Thumbnail/image for this type of event."
 
-#: pages/events/models.py:66 pages/events/models.py:176
+#: pages/events/models.py:67 pages/events/models.py:177
 msgid "Event Type"
 msgstr "Event Type"
 
-#: pages/events/models.py:79
+#: pages/events/models.py:80
 msgid "How many events should be visible on the all events section ?"
 msgstr "How many events should be visible on the all events section ?"
 
-#: pages/events/models.py:80
+#: pages/events/models.py:81
 msgid "Events per page"
 msgstr "Events per page"
 
-#: pages/events/models.py:88
+#: pages/events/models.py:89
 msgid "Other Settings"
 msgstr "Other Settings"
 
-#: pages/events/models.py:92
+#: pages/events/models.py:93
 msgid "Event Index Page"
 msgstr "Event Index Page"
 
-#: pages/events/models.py:177
+#: pages/events/models.py:178
 msgid "Service Categories"
 msgstr "Service Categories"
 
-#: pages/events/models.py:178
+#: pages/events/models.py:179
 msgid "Relevant Projects"
 msgstr "Relevant Projects"
 
-#: pages/events/models.py:179
+#: pages/events/models.py:180
 msgid "Event begin date"
 msgstr "Event begin date"
 
-#: pages/events/models.py:180
+#: pages/events/models.py:181
 msgid "Day of the event. If multi-day, then this should be the first day"
 msgstr "Day of the event. If multi-day, then this should be the first day"
 
-#: pages/events/models.py:182
+#: pages/events/models.py:183
 msgid "End date - Note: Not Required if this is a one day Event"
 msgstr "End date - Note: Not Required if this is a one day Event"
 
-#: pages/events/models.py:183
+#: pages/events/models.py:184
 msgid "Not required if this is a one day event"
 msgstr "Not required if this is a one day event"
 
-#: pages/events/models.py:185 pages/events/models.py:188
+#: pages/events/models.py:186 pages/events/models.py:189
+#: pages/events/templates/event_meta_include.html:88
 msgid "Timezone"
 msgstr "Timezone"
 
-#: pages/events/models.py:190
+#: pages/events/models.py:191
 msgid "Where will the event take place ?"
 msgstr "Where will the event take place ?"
 
-#: pages/events/models.py:191
+#: pages/events/models.py:192
+#: pages/events/templates/event_meta_include.html:41
 msgid "Location"
 msgstr "Location"
 
-#: pages/events/models.py:193
+#: pages/events/models.py:194
 msgid "What is the cost for participating in this event ? Leave blank if free"
 msgstr ""
 "What is the cost for participating in this event ? Leave blank if free"
 
-#: pages/events/models.py:194
+#: pages/events/models.py:195
+#: pages/events/templates/event_meta_include.html:102
 msgid "Cost"
 msgstr "Cost"
 
-#: pages/events/models.py:196
+#: pages/events/models.py:197
 msgid "Description"
 msgstr "Description"
 
-#: pages/events/models.py:199
+#: pages/events/models.py:200
 msgid "Downloadable agenda document"
 msgstr "Downloadable agenda document"
 
-#: pages/events/models.py:200
+#: pages/events/models.py:201
 #, fuzzy
 #| msgid "Agenda document, preferably in PDF format"
 msgid "Agenda document, if available, preferably in PDF format"
 msgstr "Agenda document, if available, preferably in PDF format"
 
-#: pages/events/models.py:208
+#: pages/events/models.py:209
 msgid "Event Image"
 msgstr "Event Image"
 
-#: pages/events/models.py:209
+#: pages/events/models.py:210
 msgid "An image for this event, can be a poster or any relevant image"
 msgstr "An image for this event, can be a poster or any relevant image"
 
-#: pages/events/models.py:216
+#: pages/events/models.py:217
 msgid "Image Placement"
 msgstr "Image Placement"
 
-#: pages/events/models.py:218
+#: pages/events/models.py:219
 msgid "Form template"
 msgstr "Form template"
 
-#: pages/events/models.py:222
+#: pages/events/models.py:223
 msgid "Show this event in the events landing page as featured ?"
 msgstr "Show this event in the events landing page as featured ?"
 
-#: pages/events/models.py:222
+#: pages/events/models.py:223
 msgid "Featured"
 msgstr "Featured"
 
-#: pages/events/models.py:226
+#: pages/events/models.py:227
 msgid "Make this event hidden in events page or elsewhere"
 msgstr "Make this event hidden in events page or elsewhere"
 
-#: pages/events/models.py:226
+#: pages/events/models.py:227
 msgid "Is hidden"
 msgstr "Is hidden"
 
-#: pages/events/models.py:230
+#: pages/events/models.py:231
 msgid "Show this event on the homepage ?"
 msgstr "Show this event on the homepage ?"
 
-#: pages/events/models.py:230
+#: pages/events/models.py:231
 msgid "Is visible on homepage"
 msgstr "Is visible on homepage"
 
-#: pages/events/models.py:234
+#: pages/events/models.py:235 pages/events/templates/event_page.html:30
 msgid "Panelists"
 msgstr "Panelists"
 
-#: pages/events/models.py:238
+#: pages/events/models.py:239
+#: pages/events/templates/zoom_events_details_include.html:302
 msgid "Sessions"
 msgstr "Sessions"
 
-#: pages/events/models.py:242
+#: pages/events/models.py:243
+#: pages/events/templates/new_events_header.html:160
 msgid "Additional Materials"
 msgstr "Additional Materials"
 
-#: pages/events/models.py:245
+#: pages/events/models.py:246
 msgid "Acknowledgement/sponsors"
 msgstr "Acknowledgement/sponsors"
 
-#: pages/events/models.py:247
+#: pages/events/models.py:248
 msgid "Is archived"
 msgstr "Is archived"
 
-#: pages/events/models.py:248
+#: pages/events/models.py:249
 msgid "Registration open"
 msgstr "Registration open"
 
-#: pages/events/models.py:250
+#: pages/events/models.py:251
 msgid "Youtube Video ID if the event is being livestreamed"
 msgstr "Youtube Video ID if the event is being livestreamed"
 
-#: pages/events/models.py:251
+#: pages/events/models.py:252
 msgid "Meeting Registration Integration Platform"
 msgstr "Meeting Registration Integration Platform"
 
-#: pages/events/models.py:254
+#: pages/events/models.py:255
 msgid "Platform for Event"
 msgstr "Platform for Event"
 
-#: pages/events/models.py:284 pages/events/models.py:482
+#: pages/events/models.py:285 pages/events/models.py:503
 msgid "Content"
 msgstr "Content"
 
-#: pages/events/models.py:285 pages/events/models.py:483
+#: pages/events/models.py:286 pages/events/models.py:504
 msgid "SEO"
 msgstr "SEO"
 
-#: pages/events/models.py:286 pages/events/models.py:484
+#: pages/events/models.py:287 pages/events/models.py:505
 msgid "Settings"
 msgstr "Settings"
 
-#: pages/events/models.py:292
+#: pages/events/models.py:293
 msgid "Event Page"
 msgstr "Event Page"
 
-#: pages/events/models.py:422
+#: pages/events/models.py:426
 msgid "Optional Additional information/details"
 msgstr "Optional Additional information/details"
 
-#: pages/events/models.py:423
+#: pages/events/models.py:427
 msgid "Additional Information - (Optional)"
 msgstr "Additional Information - (Optional)"
 
-#: pages/events/models.py:425
+#: pages/events/models.py:429
 msgid "Number of available registrations"
 msgstr "Number of available registrations"
 
-#: pages/events/models.py:426
+#: pages/events/models.py:430
 msgid "Registration Limit - (Leave blank if no limit)"
 msgstr "Registration Limit - (Leave blank if no limit)"
 
-#: pages/events/models.py:430
+#: pages/events/models.py:434
 msgid "Text to display after successful submission"
 msgstr "Text to display after successful submission"
 
-#: pages/events/models.py:431
+#: pages/events/models.py:435
 msgid "Thank you text"
 msgstr "Thank you text"
 
-#: pages/events/models.py:432
+#: pages/events/models.py:436
 msgid "Validation Field"
 msgstr "Validation Field"
 
-#: pages/events/models.py:433
+#: pages/events/models.py:437
 msgid ""
 "A field on the form to check if is already submitted so as to prevent "
 "multiple submissions by one person. This is usually the email address field "
@@ -237,15 +240,15 @@ msgstr ""
 "multiple submissions by one person. This is usually the email address field "
 "in snake casing format"
 
-#: pages/events/models.py:439
+#: pages/events/models.py:443
 msgid "Should we send a confirmation/follow up email ?"
 msgstr "Should we send a confirmation/follow up email ?"
 
-#: pages/events/models.py:440
+#: pages/events/models.py:444
 msgid "Send confirmation Email"
 msgstr "Send confirmation Email"
 
-#: pages/events/models.py:442
+#: pages/events/models.py:446
 msgid ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
@@ -253,19 +256,19 @@ msgstr ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
 
-#: pages/events/models.py:443
+#: pages/events/models.py:447
 msgid "Email Field"
 msgstr "Email Field"
 
-#: pages/events/models.py:445
+#: pages/events/models.py:449
 msgid "Email Confirmation message"
 msgstr "Email Confirmation message"
 
-#: pages/events/models.py:446
+#: pages/events/models.py:450
 msgid "Message to send to the user. For example zoom links"
 msgstr "Message to send to the user. For example zoom links"
 
-#: pages/events/models.py:448
+#: pages/events/models.py:452
 msgid ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
@@ -273,27 +276,159 @@ msgstr ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
 
-#: pages/events/models.py:451
+#: pages/events/models.py:455
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr "Enable batch option for adding registrants to zoom later"
 
-#: pages/events/models.py:469
+#: pages/events/models.py:473
 msgid "Event Registration Page"
 msgstr "Event Registration Page"
 
-#: pages/events/models.py:485
+#: pages/events/models.py:506
 msgid "Zoom Events Settings"
 msgstr "Zoom Events Settings"
 
-#: pages/events/models.py:486
+#: pages/events/models.py:507
 #, fuzzy
 #| msgid "Other Settings"
 msgid "MailChimp Settings"
 msgstr "MailChimp Settings"
 
-#: pages/events/models.py:513
+#: pages/events/models.py:520
 msgid "Added to Zoom"
 msgstr "Added to Zoom"
+
+#: pages/events/templates/event_index_page.html:17
+#, fuzzy
+#| msgid "Featured"
+msgid "Featured Event"
+msgstr "Featured Event"
+
+#: pages/events/templates/event_index_page.html:26
+msgid "All Events"
+msgstr "All Events"
+
+#: pages/events/templates/event_meta_include.html:12
+msgid "Ended"
+msgstr "Ended"
+
+#: pages/events/templates/event_meta_include.html:28
+msgid "Type"
+msgstr "Type"
+
+#: pages/events/templates/event_meta_include.html:55
+msgid "Start Date"
+msgstr "Start Date"
+
+#: pages/events/templates/event_meta_include.html:57
+#, python-format
+msgid "%(start_date)s"
+msgstr "%(start_date)s"
+
+#: pages/events/templates/event_meta_include.html:72
+msgid "End Date"
+msgstr "End Date"
+
+#: pages/events/templates/event_meta_include.html:74
+#, python-format
+msgid "%(end_date)s"
+msgstr "%(end_date)s"
+
+#: pages/events/templates/event_meta_include.html:116
+#, fuzzy
+#| msgid "Registration open"
+msgid "Registration closed"
+msgstr "Registration closed"
+
+#: pages/events/templates/event_meta_include.html:128
+#, fuzzy
+#| msgid "Registration open"
+msgid "Registration will be open soon"
+msgstr "Registration will be open soon"
+
+#: pages/events/templates/event_meta_include.html:143
+msgid "Register"
+msgstr "Register"
+
+#: pages/events/templates/event_meta_include.html:156
+#, fuzzy
+#| msgid "Registration open"
+msgid "Register on Zoom"
+msgstr "Register on Zoom"
+
+#: pages/events/templates/event_page.html:41
+#, fuzzy
+#| msgid "Acknowledgement/sponsors"
+msgid "Acknowledgements"
+msgstr "Acknowledgements"
+
+#: pages/events/templates/event_registration_page.html:41
+msgid "Submit"
+msgstr "Submit"
+
+#: pages/events/templates/event_registration_page.html:50
+msgid "ended"
+msgstr "ended"
+
+#: pages/events/templates/event_registration_page.html:57
+#, fuzzy
+#| msgid "Registration open"
+msgid " Registration closed"
+msgstr "Registration closed"
+
+#: pages/events/templates/events_filter_include.html:9
+#, fuzzy
+#| msgid "Event Type"
+msgid "Filter by Event Type"
+msgstr "Filter by Event Type"
+
+#: pages/events/templates/events_filter_include.html:35
+msgid "Filter by Year"
+msgstr "Filter by Year"
+
+#: pages/events/templates/events_filter_include.html:57
+msgid "Filter by Status"
+msgstr "Filter by Status"
+
+#: pages/events/templates/events_filter_include.html:65
+msgid "Past"
+msgstr "Past"
+
+#: pages/events/templates/events_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/events/templates/events_list_include.html:56
+msgid " Read More"
+msgstr "Read More"
+
+#: pages/events/templates/new_events_header.html:129
+#, python-format
+msgid "Starts in %(counter)s day"
+msgid_plural "Starts in %(counter)s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/events/templates/new_events_header.html:152
+#, fuzzy
+#| msgid "Downloadable agenda document"
+msgid "Download Agenda"
+msgstr "Download Agenda"
+
+#: pages/events/templates/panelists_include.html:90
+msgid "Topic"
+msgstr "Topic"
+
+#: pages/events/templates/zoom_events_details_include.html:309
+msgid "Speakers"
+msgstr "Speakers"
+
+#: pages/events/templates/zoom_events_details_include.html:316
+msgid "Sponsors"
+msgstr "Sponsors"
 
 #~ msgid "Banner Image"
 #~ msgstr "Banner Image"

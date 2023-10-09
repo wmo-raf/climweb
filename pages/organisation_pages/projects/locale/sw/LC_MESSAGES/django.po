@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgid ""
 " ?"
 msgstr ""
 "Je, ni vitu vingapi vinapaswa kuonekana kwenye sehemu ya kichujio cha "
-"ukurasa wa kutua wa miradi?"
+"ukurasa wa kutua wa miradi ?"
 
 #: pages/organisation_pages/projects/models.py:37
 msgid "Items per page"
@@ -67,6 +67,7 @@ msgid "End date"
 msgstr "Tarehe ya mwisho"
 
 #: pages/organisation_pages/projects/models.py:130
+#: pages/organisation_pages/projects/templates/project_page.html:137
 msgid "Partners"
 msgstr "Washirika"
 
@@ -79,6 +80,7 @@ msgid "Feature block"
 msgstr "Kizuizi cha kipengele"
 
 #: pages/organisation_pages/projects/models.py:142
+#: pages/organisation_pages/projects/templates/project_page.html:62
 msgid "Project Materials"
 msgstr "Nyenzo za Mradi"
 
@@ -89,3 +91,58 @@ msgstr "Orodha ya kucheza ya Youtube"
 #: pages/organisation_pages/projects/models.py:222
 msgid "Project"
 msgstr "Mradi"
+
+#: pages/organisation_pages/projects/templates/project_index_page.html:21
+#, fuzzy
+#| msgid "Project"
+msgid "All Projects"
+msgstr "Miradi Yote"
+
+#: pages/organisation_pages/projects/templates/project_page.html:30
+msgid "Our Areas of Work"
+msgstr "Maeneo Yetu ya Kazi"
+
+#: pages/organisation_pages/projects/templates/project_page.html:51
+msgid "Latest News"
+msgstr "Habari mpya kabisa"
+
+#: pages/organisation_pages/projects/templates/project_page.html:87
+msgid "Videos"
+msgstr "Video"
+
+#: pages/organisation_pages/projects/templates/project_page.html:93
+msgid "More Videos"
+msgstr "Video Zaidi"
+
+#: pages/organisation_pages/projects/templates/project_page.html:109
+msgid "Latest Events"
+msgstr "Matukio ya Hivi Punde"
+
+#: pages/organisation_pages/projects/templates/project_page.html:119
+msgid "Latest Updates"
+msgstr "Sasisho za Hivi Punde"
+
+#: pages/organisation_pages/projects/templates/project_page.html:155
+#, fuzzy
+#| msgid "Partners"
+msgid "More Partners"
+msgstr "Washirika Zaidi"
+
+#: pages/organisation_pages/projects/templates/projects_filter_include.html:9
+msgid "Filter by Service"
+msgstr "Chuja kwa Huduma"
+
+#: pages/organisation_pages/projects/templates/projects_filter_include.html:34
+msgid "Filter by Start Year"
+msgstr "Chuja kwa Mwaka wa Kuanza"
+
+#: pages/organisation_pages/projects/templates/projects_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/organisation_pages/projects/templates/projects_list_include.html:67
+msgid "Read More"
+msgstr "Soma zaidi"

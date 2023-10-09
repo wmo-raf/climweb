@@ -1,55 +1,55 @@
-{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags i18n %}
 
 {% block extra_css %}
-<style>
-    .panelist-figure {
-        height: 150px;
-        width: 150px;
-        border-radius: 50%;
-    }
-
-    .panelist-figure img {
-        object-fit: cover;
-        height: 100%;
-    }
-
-    .panelist-intro {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .panelist-el {
-        padding: 0 0 6px;
-    }
-
-    .panelist-badge {
-        background-color: #eff4f8;
-        color: #006799;
-        padding: 0 8px;
-        display: inline-block;
-        text-transform: capitalize;
-    }
-
-    .panelist-position {
-        font-style: italic;
-    }
-
-    .panelist-topic {
-        padding: 5px 0;
-    }
-
-    .panelist-bio {
-        padding-top: 20px;
-    }
-
-    /*1280px  and lower*/
-    @media screen and (max-width: 1280px) {
+    <style>
         .panelist-figure {
-            height: 100px;
-            width: 100px;
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
         }
-    }
-</style>
+
+        .panelist-figure img {
+            object-fit: cover;
+            height: 100%;
+        }
+
+        .panelist-intro {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panelist-el {
+            padding: 0 0 6px;
+        }
+
+        .panelist-badge {
+            background-color: #eff4f8;
+            color: #006799;
+            padding: 0 8px;
+            display: inline-block;
+            text-transform: capitalize;
+        }
+
+        .panelist-position {
+            font-style: italic;
+        }
+
+        .panelist-topic {
+            padding: 5px 0;
+        }
+
+        .panelist-bio {
+            padding-top: 20px;
+        }
+
+        /*1280px  and lower*/
+        @media screen and (max-width: 1280px) {
+            .panelist-figure {
+                height: 100px;
+                width: 100px;
+            }
+        }
+    </style>
 {% endblock extra_css %}
 
 
@@ -85,7 +85,12 @@
                             </div>
                         {% endif %}
                         {% if panelist.value.topic_title %}
-                            <h4 class="panelist-topic panelist-el"><b>Topic:</b> {{ panelist.value.topic_title }}</h4>
+                            <h4 class="panelist-topic panelist-el">
+                                <b>
+                                    {% translate "Topic" %}:
+                                </b>
+                                {{ panelist.value.topic_title }}
+                            </h4>
                         {% endif %}
                     </div>
                     <div class="panelist-bio format-text">

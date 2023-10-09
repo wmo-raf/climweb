@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailcore_tags %}
-{% load nmhs_cms_tags get_share_url %}
+{% load static wagtailcore_tags wagtailcore_tags nmhs_cms_tags get_share_url i18n %}
 {% wagtail_site as current_site %}
 
 {% block page_meta %}
     {% if page.feature_img_src %}
         {% setvar current_site.root_url|add:page.feature_img_src as meta_image %}
     {% endif %}
-    {% comment %} {% include 'wagtailmetadata/parts/tags.html' with object=page site_name=current_site.site_name meta_image=meta_image %} {% endcomment %}
+    {% comment %}
+        {% include 'wagtailmetadata/parts/tags.html' with object=page site_name=current_site.site_name meta_image=meta_image %}
+    {% endcomment %}
 {% endblock %}
 
 {% block extra_css %}
@@ -50,7 +51,7 @@
                         </div>
                         {% if page.tags.all %}
                             <div class="news-tags">
-                                <span class="news-tags-title">Tags: </span>
+                                <span class="news-tags-title">{% translate "Tags" %}: </span>
                                 {% for tag in page.tags.all %}
                                     <span class="news-tag">
                                         {{ tag }}
@@ -58,21 +59,23 @@
                                     </span>
                                 {% endfor %}
                             </div>
-                        {% endif %}
-
+                        {% endif %}¬
                         {% if page.external_links %}
                             <div style="padding-top: 60px">
                                 <hr/>
                                 <h4 style="padding-bottom: 20px">
-                                    {% if page.extra_links_heading %}{{ page.extra_links_heading }}{% else %}
-                                        Find out more {% endif %}</h4>
+                                    {% if page.extra_links_heading %}
+                                        {{ page.extra_links_heading }}
+                                    {% else %}
+                                        {% translate "Find out more" %}
+                                    {% endif %}
+                                </h4>
                                 <div class="columns is-multiline is-mobile" style="margin: 0">
                                     {% for link_block in page.external_links %}
                                         {% include_block link_block %}
                                     {% endfor %}
                                 </div>
                             </div>
-
                         {% endif %}
                     </div>
                 </div>

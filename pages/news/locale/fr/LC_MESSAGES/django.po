@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:53+0000\n"
+"POT-Creation-Date: 2023-10-05 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Nom"
 #, fuzzy
 #| msgid "News type"
 msgid "News Type"
-msgstr "Type de nouvelles"
+msgstr "Type d'actualité"
 
 #: pages/news/models.py:45
 #, fuzzy
@@ -42,7 +42,7 @@ msgstr "objets par page"
 msgid ""
 "How many items should be visible on the news landing page filter section ?"
 msgstr ""
-"Combien d'éléments doivent être visibles dans la section de filtrage de la "
+"Combien d'éléments doivent être visibles dans la section de filtre de la "
 "page de destination des actualités ?"
 
 #: pages/news/models.py:66
@@ -51,11 +51,11 @@ msgstr "Autres réglages"
 
 #: pages/news/models.py:71
 msgid "News Index Page"
-msgstr "Index des actualités"
+msgstr "Page d'index des actualités"
 
 #: pages/news/models.py:151
 msgid "News type"
-msgstr "Type de nouvelles"
+msgstr "Type d'actualité"
 
 #: pages/news/models.py:152
 msgid "Post date"
@@ -75,7 +75,7 @@ msgstr "Corps"
 
 #: pages/news/models.py:155
 msgid "Feature Image"
-msgstr "Image caractéristique"
+msgstr "Image vedette"
 
 #: pages/news/models.py:156
 msgid "Relevant Services"
@@ -89,8 +89,8 @@ msgstr "Projets pertinents"
 msgid ""
 "Should this news appear on the news landing paging as the featured one ?"
 msgstr ""
-"Cette actualité doit-elle apparaître sur la page d'accueil des actualités en"
-" tant que vedette ?"
+"Cette actualité doit-elle apparaître sur la page de destination des "
+"actualités en tant qu'actualité ?"
 
 #: pages/news/models.py:160
 msgid "Is featured"
@@ -107,7 +107,7 @@ msgstr "Est alerte"
 #: pages/news/models.py:163
 msgid "Should this appear in the homepage as an alert/latest update ?"
 msgstr ""
-"Cela devrait-il apparaître sur la page d'accueil en tant qu'alerte/dernière "
+"Cela doit-il apparaître sur la page d'accueil sous forme d'alerte/dernière "
 "mise à jour ?"
 
 #: pages/news/models.py:165
@@ -116,13 +116,13 @@ msgstr "Est visible sur la page d'accueil"
 
 #: pages/news/models.py:166
 msgid "Extra links heading"
-msgstr "En-tête de liens supplémentaires"
+msgstr "Rubrique Liens supplémentaires"
 
 #: pages/news/models.py:170
 msgid "Extra links"
 msgstr "Liens supplémentaires"
 
-#: pages/news/models.py:172
+#: pages/news/models.py:172 pages/news/templates/news_detail_page.html:55
 msgid "Tags"
 msgstr "Mots clés"
 
@@ -132,25 +132,45 @@ msgstr "Liens supplémentaires"
 
 #: pages/news/models.py:204
 msgid "News Page"
-msgstr "Actualités"
+msgstr "Page d'actualités"
 
-#~ msgid "Banner Image"
-#~ msgstr "Image de la bannière"
+#: pages/news/templates/news_detail_page.html:71
+msgid "Find out more"
+msgstr "En savoir plus"
 
-#~ msgid "A high quality image related to News"
-#~ msgstr "Une image de haute qualité liée à l'actualité"
+#: pages/news/templates/news_filter_include.html:9
+#, fuzzy
+#| msgid "News type"
+msgid "Filter by News Type"
+msgstr "Filtrer par type d'actualité"
 
-#~ msgid "Banner Title"
-#~ msgstr "Titre de la bannière"
+#: pages/news/templates/news_filter_include.html:34
+msgid "Filter by Service"
+msgstr "Filtrer par service"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "Sous-titre de la bannière"
+#: pages/news/templates/news_filter_include.html:56
+msgid "Filter by Year"
+msgstr "Filtrer par année"
 
-#~ msgid "Call to action button text"
-#~ msgstr "Texte du bouton d'appel à l'action"
+#: pages/news/templates/news_index_page.html:18
+#, fuzzy
+#| msgid "Feature Image"
+msgid "Featured News"
+msgstr "Nouvelles en vedette"
 
-#~ msgid "Call to action related page"
-#~ msgstr "Page relative à l'appel à l'action"
+#: pages/news/templates/news_index_page.html:27
+#, fuzzy
+#| msgid "News type"
+msgid "All News Updates"
+msgstr "Toutes les mises à jour"
 
-#~ msgid "Banner Section"
-#~ msgstr "Section bannière"
+#: pages/news/templates/news_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/news/templates/news_list_include.html:65
+msgid "Read More"
+msgstr "En savoir plus"

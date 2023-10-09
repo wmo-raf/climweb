@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -122,7 +122,7 @@ msgstr "Kichwa cha viungo vya ziada"
 msgid "Extra links"
 msgstr "Viungo vya ziada"
 
-#: pages/news/models.py:172
+#: pages/news/models.py:172 pages/news/templates/news_detail_page.html:55
 msgid "Tags"
 msgstr "Lebo"
 
@@ -134,23 +134,43 @@ msgstr "Viungo vya Ziada"
 msgid "News Page"
 msgstr "Ukurasa wa Habari"
 
-#~ msgid "Banner Image"
-#~ msgstr "Picha ya Bango"
+#: pages/news/templates/news_detail_page.html:71
+msgid "Find out more"
+msgstr "Pata maelezo zaidi"
 
-#~ msgid "A high quality image related to News"
-#~ msgstr "Picha ya ubora wa juu inayohusiana na Habari"
+#: pages/news/templates/news_filter_include.html:9
+#, fuzzy
+#| msgid "News type"
+msgid "Filter by News Type"
+msgstr "Chuja kwa Aina ya Habari"
 
-#~ msgid "Banner Title"
-#~ msgstr "Kichwa cha Bango"
+#: pages/news/templates/news_filter_include.html:34
+msgid "Filter by Service"
+msgstr "Chuja kwa Huduma"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "Manukuu ya Bango"
+#: pages/news/templates/news_filter_include.html:56
+msgid "Filter by Year"
+msgstr "Chuja kwa Mwaka"
 
-#~ msgid "Call to action button text"
-#~ msgstr "Maandishi ya kitufe cha kupiga hatua"
+#: pages/news/templates/news_index_page.html:18
+#, fuzzy
+#| msgid "Feature Image"
+msgid "Featured News"
+msgstr "Habari Zilizoangaziwa"
 
-#~ msgid "Call to action related page"
-#~ msgstr "Wito kwa ukurasa unaohusiana na kitendo"
+#: pages/news/templates/news_index_page.html:27
+#, fuzzy
+#| msgid "News type"
+msgid "All News Updates"
+msgstr "Taarifa Zote za Habari"
 
-#~ msgid "Banner Section"
-#~ msgstr "Sehemu ya Bango"
+#: pages/news/templates/news_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/news/templates/news_list_include.html:65
+msgid "Read More"
+msgstr "Soma zaidi"

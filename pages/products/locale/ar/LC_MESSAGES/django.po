@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-09 10:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,176 +18,212 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pages/products/blocks.py:28 pages/products/blocks.py:32
+#: pages/products/blocks.py:32 pages/products/blocks.py:36
 msgid "Name"
 msgstr "اسم"
 
-#: pages/products/blocks.py:33
+#: pages/products/blocks.py:37
 msgid "Icon"
 msgstr "أيقونة"
 
-#: pages/products/blocks.py:39 pages/products/blocks.py:48
+#: pages/products/blocks.py:43 pages/products/blocks.py:57
 #, fuzzy
 #| msgid "Product Tag"
 msgid "Product Type"
 msgstr "نوع المنتج"
 
-#: pages/products/blocks.py:40
+#: pages/products/blocks.py:44 pages/products/blocks.py:60
+#: pages/products/models.py:230
+msgid "Effective from"
+msgstr "فعال من"
+
+#: pages/products/blocks.py:45 pages/products/blocks.py:61
+msgid "The date when this product becomes effective"
+msgstr "التاريخ الذي يصبح فيه هذا المنتج ساري المفعول"
+
+#: pages/products/blocks.py:46 pages/products/blocks.py:62
+#: pages/products/models.py:232
+msgid "Effective until"
+msgstr "فعالة حتى"
+
+#: pages/products/blocks.py:47 pages/products/blocks.py:63
+#, fuzzy
+#| msgid ""
+#| "Up to when is this product valid ? Leave blank if not applicable"
+msgid ""
+"The last day this product remains effective. Leave blank if not applicable"
+msgstr ""
+"اليوم الأخير يبقى هذا المنتج فعالا. اتركه فارغا إن لم يكن قابلا للتطبيق"
+
+#: pages/products/blocks.py:49
 msgid "Image"
 msgstr "صورة"
 
-#: pages/products/blocks.py:41
+#: pages/products/blocks.py:50
 msgid "Summary of the map/image information"
-msgstr "ملخص الخريطة / معلومات الصورة"
+msgstr "ملخص معلومات الخريطة/الصورة"
 
-#: pages/products/blocks.py:49
+#: pages/products/blocks.py:58
 msgid "Thumbnail of the document"
 msgstr "صورة مصغرة للوثيقة"
 
-#: pages/products/blocks.py:50
+#: pages/products/blocks.py:59
 msgid "For example a screen grab of the cover page"
-msgstr "على سبيل المثال انتزاع الشاشة من صفحة الغلاف"
+msgstr "على سبيل المثال، لقطة شاشة لصفحة الغلاف"
 
-#: pages/products/blocks.py:51
+#: pages/products/blocks.py:65
 msgid "Document"
 msgstr "وثيقة"
 
-#: pages/products/blocks.py:52
+#: pages/products/blocks.py:66
 #, fuzzy
 #| msgid "Summary of the product release"
 msgid "Summary of the document information"
-msgstr "ملخص لمعلومات الوثيقة"
+msgstr "ملخص معلومات الوثيقة"
 
-#: pages/products/models.py:31
+#: pages/products/models.py:37
 msgid "Products listing Heading"
-msgstr "قائمة المنتجات العنوان"
+msgstr "عنوان قائمة المنتجات"
 
-#: pages/products/models.py:38
+#: pages/products/models.py:44
 #, fuzzy
 #| msgid "Product Page"
 msgid "Product Index Page"
 msgstr "صفحة فهرس المنتج"
 
-#: pages/products/models.py:39
+#: pages/products/models.py:45
 #, fuzzy
 #| msgid "Product Pages"
 msgid "Product Index Pages"
 msgstr "صفحات فهرس المنتج"
 
-#: pages/products/models.py:49
+#: pages/products/models.py:91
 msgid "Service"
 msgstr "خدمة"
 
-#: pages/products/models.py:50
+#: pages/products/models.py:92
 msgid "Product"
 msgstr "منتج"
 
-#: pages/products/models.py:55
+#: pages/products/models.py:97
 msgid ""
 "How many of this products should be visible on the landing page filter "
 "section ?"
 msgstr ""
 "كم عدد هذه المنتجات التي يجب أن تكون مرئية في قسم مرشح الصفحة المقصودة؟"
 
-#: pages/products/models.py:56
+#: pages/products/models.py:98
 msgid "Products per page"
-msgstr "المنتجات في كل صفحة"
+msgstr "المنتجات لكل صفحة"
 
-#: pages/products/models.py:66
+#: pages/products/models.py:102
+msgid "Map Layers"
+msgstr "طبقات الخريطة"
+
+#: pages/products/models.py:112
 msgid "Other settings"
 msgstr "اعدادات اخرى"
 
-#: pages/products/models.py:120
+#: pages/products/models.py:191
+#: pages/products/templates/products/product_layer_integration.html:16
 msgid "Product Page"
 msgstr "صفحة المنتج"
 
-#: pages/products/models.py:121
+#: pages/products/models.py:192
 msgid "Product Pages"
 msgstr "صفحات المنتج"
 
-#: pages/products/models.py:126
+#: pages/products/models.py:200
 msgid "Product Tag"
 msgstr "علامة المنتج"
 
-#: pages/products/models.py:165
-msgid "Date"
-msgstr "تاريخ"
+#: pages/products/models.py:231
+msgid "The first day when products added below become effective"
+msgstr "اليوم الأول الذي تصبح فيه المنتجات المضافة أدناه سارية المفعول"
 
-#: pages/products/models.py:166
-msgid "Valid until"
-msgstr "صالح حتى"
+#: pages/products/models.py:233
+#, fuzzy
+#| msgid ""
+#| "Up to when is this product valid ? Leave blank if not applicable"
+msgid ""
+"The last day when products added below remain effective. Leave blank if not "
+"applicable"
+msgstr ""
+"اليوم الأخير الذي تظل فيه المنتجات المضافة أدناه فعالة. اتركه فارغا إن لم "
+"يكن قابلا للتطبيق"
 
-#: pages/products/models.py:167
-msgid "Up to when is this product valid ? Leave blank if not applicable"
-msgstr "حتى متى يكون هذا المنتج صالحًا؟ اتركه فارغا إن لم يكن قابلا للتطبيق"
-
-#: pages/products/models.py:216
+#: pages/products/models.py:288
 #, fuzzy
 #| msgid "Product Page"
 msgid "Product Item"
 msgstr "البند المنتج"
 
-#~ msgid "Banner Image"
-#~ msgstr "صورة بانر"
+#: pages/products/templates/products/product_detail.html:93
+msgid "View"
+msgstr "منظر"
 
-#~ msgid "A high quality image related to this Product"
-#~ msgstr "صورة ذات جودة عالية تتعلق بهذا المنتج"
+#: pages/products/templates/products/product_detail.html:104
+msgid "Download"
+msgstr "تحميل"
 
-#~ msgid "Banner Title"
-#~ msgstr "عنوان البانر"
+#: pages/products/templates/products/product_detail.html:132
+#, fuzzy, python-format
+#| msgid "Document"
+msgid "Download document  - %(file_size)s"
+msgstr "تنزيل المستند - %(file_size)s"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "العنوان الفرعي للراية"
+#: pages/products/templates/products/product_detail.html:149
+#, fuzzy
+#| msgid "Document"
+msgid "Download document"
+msgstr "تنزيل المستند"
 
-#~ msgid "Call to action button text"
-#~ msgstr "نص زر الحث على اتخاذ إجراء"
+#: pages/products/templates/products/product_filter_include.html:9
+msgid "Filter by Year"
+msgstr "التصفية حسب السنة"
 
-#~ msgid "Call to action related page"
-#~ msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
+#: pages/products/templates/products/product_filter_include.html:31
+msgid "Filter by Month"
+msgstr "التصفية حسب الشهر"
 
-#~ msgid "Introduction section title"
-#~ msgstr "عنوان قسم المقدمة"
+#: pages/products/templates/products/product_index.html:31
+msgid "Browse"
+msgstr "تصفح"
 
-#~ msgid "A description of what your organisation does under  this Product"
-#~ msgstr "وصف لما تفعله مؤسستك بموجب هذا المنتج"
+#: pages/products/templates/products/product_index.html:39
+msgid "MapViewer"
+msgstr "عارض الخرائط"
 
-#~ msgid "Introduction text"
-#~ msgstr "مقدمة النص"
+#: pages/products/templates/products/product_index.html:50
+#, fuzzy
+#| msgid "Product Pages"
+msgid "Browse Product Updates"
+msgstr "تصفح تحديثات المنتج"
 
-#~ msgid "Introduction Image"
-#~ msgstr "صورة المقدمة"
+#: pages/products/templates/products/product_layer_integration.html:6
+#, python-format
+msgid "%(title)s"
+msgstr "%(title)s"
 
-#~ msgid "Introduction button text"
-#~ msgstr "نص زر المقدمة"
+#: pages/products/templates/products/product_layer_integration.html:15
+msgid "Product Layers Integration"
+msgstr "تكامل طبقات المنتج"
 
-#~ msgid "Introduction button link"
-#~ msgstr "رابط زر المقدمة"
+#: pages/products/templates/products/product_layer_integration.html:37
+msgid "Save"
+msgstr "يحفظ"
 
-#~ msgid "Feature block"
-#~ msgstr "كتلة الميزات"
+#: pages/products/templates/products/product_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
-#~ msgid ""
-#~ "The year for the earliest available bulletin. This is used to generate the "
-#~ "years available for filtering "
-#~ msgstr "سنة صدور أقدم نشرة متوفرة. يستخدم هذا لإنشاء السنوات المتاحة للتصفية"
-
-#~ msgid "Earliest bulletin year"
-#~ msgstr "أقدم نشرة عام"
-
-#~ msgid "Banner Section"
-#~ msgstr "قسم البانر"
-
-#~ msgid "Introduction Section"
-#~ msgstr "قسم المقدمة"
-
-#~ msgid "Year"
-#~ msgstr "سنة"
-
-#~ msgid "Month"
-#~ msgstr "شهر"
-
-#~ msgid "Summary"
-#~ msgstr "ملخص"
-
-#~ msgid "Image that will appear as thumbnail"
-#~ msgstr "الصورة التي ستظهر كصورة مصغرة"
+#: pages/products/templates/products/product_list_include.html:51
+msgid "Read More"
+msgstr "اقرأ أكثر"

@@ -1,9 +1,13 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags i18n %}
 
 <div class="results-view">
     <div class="results-header">
         <h5 class="results-count results">
-            Showing {{ news.paginator.count }} result{{ news.paginator.count|pluralize }}
+            {% blocktranslate count counter=news.paginator.count trimmed%}
+                Showing {{ counter }} result
+                {% plural %}
+                Showing {{ counter }} results
+            {% endblocktranslate %}
         </h5>
         <div>
             <button id="list-view-button" class="news-filter view active" name="view" value="list">
@@ -41,7 +45,8 @@
                             <div>
                                 <span class="icon item-tag" title="No of views">
                                     <i class="fas fa-eye"></i>
-                                    {% comment %} <span class="item-tag-content">{{ news_item.webhits.count }}</span> {% endcomment %}
+                                    {% comment %}
+                                        <span class="item-tag-content">{{ news_item.webhits.count }}</span> {% endcomment %}
                                 </span>
                             </div>
                         </div>
@@ -56,7 +61,7 @@
                         <div class="result-list-item-meta">
                             <span class="">{{ news_item.date|date:'d M Y' }}</span>
                             <a class="result-list-item-more read" href="{{ news_item.url }}">
-                                Read More
+                                {% translate "Read More" %}
                             </a>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pages/videos/models.py:15
+#: pages/videos/models.py:17 pages/videos/templates/playlist_list.html:29
 msgid "Title"
 msgstr "عنوان"
 
-#: pages/videos/models.py:17
+#: pages/videos/models.py:19
 msgid ""
 "This is the playlist ID as obtained from Youtube. If the playlist is not "
 "created on Youtube, please create it first"
 msgstr ""
-"هذا هو معرف قائمة التشغيل كما تم الحصول عليه من Youtube. إذا لم يتم إنشاء "
-"قائمة التشغيل على Youtube ، فيرجى إنشائها أولاً"
+"هذا هو معرف قائمة التشغيل الذي تم الحصول عليه من Youtube. إذا لم يتم إنشاء "
+"قائمة التشغيل على Youtube، فيرجى إنشاؤها أولاً"
 
-#: pages/videos/models.py:19
+#: pages/videos/models.py:21 pages/videos/templates/playlist_list.html:30
 msgid "Playlist ID"
 msgstr "معرف قائمة التشغيل"
 
@@ -38,7 +38,16 @@ msgstr "معرف قائمة التشغيل"
 #: pages/videos/templates/playlist_list.html:4
 #: pages/videos/templates/playlist_list.html:15
 msgid "Youtube Playlists"
-msgstr "قوائم تشغيل يوتيوب"
+msgstr "قوائم التشغيل يوتيوب"
 
-#~ msgid "Introduction"
-#~ msgstr "مقدمة"
+#: pages/videos/templates/playlist_items.html:30
+msgid "Video"
+msgstr "فيديو"
+
+#: pages/videos/templates/playlist_items.html:31
+msgid "Published at"
+msgstr "نشرت في"
+
+#: pages/videos/templates/playlist_list.html:31
+msgid "Videos Count"
+msgstr "عدد الفيديوهات"

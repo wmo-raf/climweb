@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+import django.conf.locale
 import environ
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -145,12 +146,12 @@ DEEPL_FREE_API = True
 
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -221,64 +222,66 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
-LANGUAGES = [
-    ('en', 'English'),
-    ('es', 'Español'),
-    ('fr', 'French'),
-    ('ar', 'Arabic'),
+LANGUAGE_CODE = env.str("LANGUAGE_CODE", default="en")
+
+print(LANGUAGE_CODE)
+
+# add amharic to supported locale
+EXTRA_LANG_INFO = {
+    'am': {
+        'bidi': False,
+        'code': 'am',
+        'name': 'Amharic',
+        'name_local': "Amharic"
+    },
+}
+# Add custom languages not provided by Django
+LANG_INFO = dict(django.conf.locale.LANG_INFO, **EXTRA_LANG_INFO)
+django.conf.locale.LANG_INFO = LANG_INFO
+
+LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
     ('am', 'Amharic'),
-    ('sw', 'Swahili'),
-]
-
-LANGUAGE_CODE = "en"
-
-WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('ar', 'Arabic'),
     ('en', 'English'),
     ('es', 'Español'),
     ('fr', 'French'),
-    ('ar', 'Arabic'),
-    ('am', 'Amharic'),
     ('sw', 'Swahili'),
 ]
 
-WAGTAIL_LANGUAGES_FALLBACK = False
-WAGTAILADMIN_PERMITTED_LANGUAGES = [
-    ('en', 'English'),
-    ('es', 'Español'),
-    ('fr', 'French'),
-    ('ar', 'Arabic'),
-    ('sw', 'Swahili'),
-    # ('am', 'Amharic'),
-]
+LOCALE_PATHS = [
+    'base/locale',
+    'docs/locale',
 
-LOCALE_PATHS = (
-    # 'pages/home/locale',
-    # 'pages/products/locale',
-    # 'pages/services/locale',
-    # 'pages/events/locale',
-    # 'pages/feedback/locale',
-    # 'pages/contact/locale',
-    # 'pages/publications/locale',
-    # 'pages/surveys/locale',
-    # 'pages/videos/locale',
-    # 'pages/cap/locale',
-    # 'pages/data_request/locale',
-    # 'pages/email_subscription/locale',
-    # 'pages/flex_page/locale',
-    # 'pages/mediacenter/locale',
-    # 'pages/videos/locale',
-    # 'pages/publications/locale',
-    # 'pages/news/locale',
-    # 'pages/organisation_pages/about/locale',
-    # 'pages/organisation_pages/organisation/locale',
-    # 'pages/organisation_pages/contact/locale',
-    # 'pages/organisation_pages/projects/locale',
-    # 'pages/organisation_pages/partners/locale',
-    # 'pages/organisation_pages/tenders/locale',
-    # 'pages/organisation_pages/vacancies/locale',
-    # 'base/locale',
-    'docs/locales',
-)
+    'nmhs_cms/locale',
+
+    'pages/cap/locale',
+    'pages/cityclimate/locale',
+    'pages/contact/locale',
+    'pages/data_request/locale',
+    'pages/email_subscription/locale',
+    'pages/events/locale',
+    'pages/feedback/locale',
+    'pages/flex_page/locale',
+    'pages/glossary/locale',
+    'pages/home/locale',
+    'pages/mediacenter/locale',
+    'pages/news/locale',
+    'pages/organisation_pages/about/locale',
+    'pages/organisation_pages/organisation/locale',
+    'pages/organisation_pages/partners/locale',
+    'pages/organisation_pages/projects/locale',
+    'pages/organisation_pages/tenders/locale',
+    'pages/organisation_pages/vacancies/locale',
+
+    'pages/products/locale',
+    'pages/publications/locale',
+    'pages/satellite_imagery/locale',
+    'pages/search/locale',
+    'pages/services/locale',
+    'pages/stations/locale',
+    'pages/surveys/locale',
+    'pages/videos/locale',
+]
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 
@@ -288,9 +291,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
-MODELTRANSLATION_LANGUAGES = ('en', 'es')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

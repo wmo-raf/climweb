@@ -1,5 +1,5 @@
 {% extends 'services_page_base.html' %}
-{% load static wagtailsettings_tags %}
+{% load static wagtailsettings_tags i18n %}
 {% get_settings use_default_site=True %}
 
 {% block extra_css %}
@@ -28,7 +28,7 @@
                                         <span class="icon">
                                             <i class="fab fa-twitter"></i>
                                         </span>
-                                        <span>Twitter Feed</span>
+                                        <span>Twitter {% translate "Feed" %}</span>
                                     </h3>
                                 </div>
                                 <div class="social-media-feed-item box">
@@ -36,7 +36,7 @@
                                        data-tweet-limit="10"
                                        data-dnt="true"
                                        href="{{ settings.base.OrganisationSetting.twitter }}">
-                                        Tweets by {{ settings.base.OrganisationSetting.twitter }}
+                                        Tweets {% translate "by" %} {{ settings.base.OrganisationSetting.twitter }}
                                     </a>
                                 </div>
                             </div>
@@ -46,7 +46,9 @@
                                 <h3 class="social-media-feed-item-title"><span class="icon">
                                     <i class="fab fa-facebook-f"></i>
                                 </span>
-                                    <span>Facebook Feed</span></h3>
+                                    <span>Facebook {% translate "Feed" %}
+                                    </span>
+                                </h3>
                                 <div class="social-media-feed-item box">
                                     <div class="fb-page"
                                          data-href="{{ settings.base.OrganisationSetting.facebook }} /"
@@ -61,8 +63,7 @@
                                                 cite="{{ settings.base.OrganisationSetting.facebook }}/"
                                                 class="fb-xfbml-parse-ignore">
                                             <a href="{{ settings.base.OrganisationSetting.facebook }}/">
-                                                Facebook Feed
-                                                from {{ settings.base.OrganisationSetting.facebook }}
+                                                Facebook {% translate "Feed from" %} {{ settings.base.OrganisationSetting.facebook }}
                                             </a>
                                         </blockquote>
                                     </div>
@@ -78,7 +79,7 @@
             <section class="news-inline">
                 <div class="container">
                     <h2 class="section-subheader">
-                        Latest News Updates
+                        {% translate "Latest News Updates" %}
                     </h2>
                     {% include 'news_include.html' with news=page.latest_news %}
                 </div>
@@ -88,13 +89,13 @@
         {% if page.youtube_playlist %}
             <section id="videoSection" class="videos">
                 <div class="container">
-                    <h2 class="section-title center">Videos</h2>
+                    <h2 class="section-title center">{% translate "Videos" %}</h2>
                     {% comment %} {% include 'videos_skeleton.html' %} {% endcomment %}
                     {% include 'videos_skeleton_home.html' %}
                     {% if  settings.base.ImportantPages.all_videos_page %}
                         <div class="more-container">
                             <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">
-                                More Videos
+                                {% translate "More Videos" %}
                                 <span class="icon">
                                     <i class="fas fa-arrow-right"></i>
                                 </span>

@@ -1,11 +1,13 @@
-{% load static %}
+{% load static i18n %}
 
 <div class="results-filter">
     <div class="accordion js-accordion">
         {% if filters.services %}
             <div class="accordion__item js-accordion-item active">
                 <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span> Filter by Service </span>
+                    <span>
+                        {% translate "Filter by Service" %}
+                    </span>
                     <i class="fas fa-sort-down" aria-hidden="true"></i>
                 </h6>
                 <div class="accordion-body js-accordion-body">
@@ -28,7 +30,9 @@
         {% if filters.year %}
             <div class="accordion__item js-accordion-item active">
                 <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span> Filter by Start Year </span>
+                    <span>
+                        {% translate "Filter by Start Year" %}
+                    </span>
                     <i class="fas fa-sort-down" aria-hidden="true"></i>
                 </h6>
                 <div class="accordion-body js-accordion-body">

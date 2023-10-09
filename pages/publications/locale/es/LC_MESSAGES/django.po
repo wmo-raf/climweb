@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,18 +34,18 @@ msgid ""
 "the years available for filtering "
 msgstr ""
 "El año de la primera publicación disponible. Esto se utiliza para generar "
-"los años disponibles para filtrar"
+"los años disponibles para filtrar."
 
 #: pages/publications/models.py:60
 msgid "Earliest Publication Year"
-msgstr "Primer año de publicación"
+msgstr "Año de publicación más temprano"
 
 #: pages/publications/models.py:64
 msgid ""
 "How many publications per page should be visible on the all publications "
 "section ?"
 msgstr ""
-"¿Cuántas publicaciones por página deben estar visibles en la sección de "
+"¿Cuántas publicaciones por página deberían estar visibles en la sección de "
 "todas las publicaciones?"
 
 #: pages/publications/models.py:78
@@ -74,7 +74,7 @@ msgstr "Fecha de publicación"
 
 #: pages/publications/models.py:160
 msgid "Is visible on homepage"
-msgstr "Es visible en la página de inicio"
+msgstr "Es visible en la página de inicio."
 
 #: pages/publications/models.py:162
 msgid "Mark as featured"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: pages/publications/models.py:165
 msgid "Optional start date for which this publication is relevant"
-msgstr "Fecha de inicio opcional para la cual esta publicación es relevante"
+msgstr "Fecha de inicio opcional para la que esta publicación es relevante"
 
 #: pages/publications/models.py:166
 msgid "Start date"
@@ -120,12 +120,12 @@ msgid ""
 "Here you can upload pdfs, word documents, powerpoints, zip files or any "
 "other file"
 msgstr ""
-"Aquí puede cargar archivos pdf, documentos de Word, PowerPoint, archivos zip"
-" o cualquier otro archivo"
+"Aquí puedes subir archivos pdf, documentos de word, powerpoints, archivos "
+"zip o cualquier otro archivo."
 
 #: pages/publications/models.py:193
 msgid "External Url - *Only If published/hosted somewhere else"
-msgstr "Url externa - *Solo si se publica/aloja en otro lugar"
+msgstr "URL externa: *Solo si está publicada/alojada en otro lugar"
 
 #: pages/publications/models.py:194
 msgid "Link to published resource if external"
@@ -139,20 +139,48 @@ msgstr "Etiquetas"
 msgid "Additional Details"
 msgstr "Detalles adicionales"
 
-#~ msgid "Banner Image"
-#~ msgstr "Imagen de la pancarta"
+#: pages/publications/templates/publication_page.html:24
+#, fuzzy
+#| msgid "Earliest Publication Year"
+msgid "Other Recent Publications"
+msgstr "Otras publicaciones recientes"
 
-#~ msgid "A high quality image related to Publications"
-#~ msgstr "Una imagen de alta calidad relacionada con Publicaciones"
+#: pages/publications/templates/publications_filter_include.html:9
+#, fuzzy
+#| msgid "Publication Type"
+msgid "Filter by Publication Type"
+msgstr "Filtrar por tipo de publicación"
 
-#~ msgid "Banner Title"
-#~ msgstr "Título de la pancarta"
+#: pages/publications/templates/publications_filter_include.html:35
+msgid "Filter by Service"
+msgstr "Filtrar por servicio"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "Subtítulo de pancarta"
+#: pages/publications/templates/publications_filter_include.html:57
+#, fuzzy
+#| msgid "Relevant Projects"
+msgid "Filter by Projects"
+msgstr "Filtrar por Proyectos"
 
-#~ msgid "Call to action button text"
-#~ msgstr "Texto del botón de llamada a la acción"
+#: pages/publications/templates/publications_filter_include.html:82
+msgid "Filter by Year"
+msgstr "Filtrar por año"
 
-#~ msgid "Call to action related page"
-#~ msgstr "Página relacionada con la llamada a la acción"
+#: pages/publications/templates/publications_index_page.html:18
+#, fuzzy
+#| msgid "Earliest Publication Year"
+msgid "Featured Publications"
+msgstr "Publicaciones destacadas"
+
+#: pages/publications/templates/publications_index_page.html:34
+#, fuzzy
+#| msgid "Publication Type"
+msgid "All Publications"
+msgstr "Todas las publicaciones"
+
+#: pages/publications/templates/publications_list_include.html:33
+msgid "Search"
+msgstr "Buscar"
+
+#: pages/publications/templates/publications_list_include.html:94
+msgid "Read More"
+msgstr "Leer más"

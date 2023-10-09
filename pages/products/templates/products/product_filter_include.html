@@ -1,11 +1,13 @@
-{% load static %}
+{% load static i18n %}
 
 <div class="results-filter">
     <div class="accordion js-accordion">
         {% if filters.year %}
             <div class="accordion__item js-accordion-item active">
                 <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span> Filter by Year </span>
+                    <span>
+                        {% translate "Filter by Year" %}
+                    </span>
                     <i class="fas fa-sort-down" aria-hidden="true"></i>
                 </h6>
                 <div class="accordion-body js-accordion-body">
@@ -25,12 +27,13 @@
         {% if filters.month %}
             <div class="accordion__item js-accordion-item active">
                 <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span> Filter by Month </span>
+                    <span>
+                        {% translate "Filter by Month" %}
+                    </span>
                     <i class="fas fa-sort-down" aria-hidden="true"></i>
                 </h6>
                 <div class="accordion-body js-accordion-body">
                     <div class="accordion-body__contents">
-
                         {% for month_num, month_name in filters.month.items %}
                             <label class="checkbox-container" for="{{ month_name }}">
                                 <span class="filter-sub-item">{{ month_name }}</span>
@@ -38,7 +41,6 @@
                                        class="product-filter month">
                                 <span class="checkmark"></span>
                             </label>
-
                         {% endfor %}
                     </div>
                 </div>

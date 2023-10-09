@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:53+0000\n"
+"POT-Creation-Date: 2023-10-05 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,7 +118,7 @@ msgstr "Extra links heading"
 msgid "Extra links"
 msgstr "Extra links"
 
-#: pages/news/models.py:172
+#: pages/news/models.py:172 pages/news/templates/news_detail_page.html:55
 msgid "Tags"
 msgstr "Tags"
 
@@ -130,23 +130,43 @@ msgstr "Extra Links"
 msgid "News Page"
 msgstr "News Page"
 
-#~ msgid "Banner Image"
-#~ msgstr "Banner Image"
+#: pages/news/templates/news_detail_page.html:71
+msgid "Find out more"
+msgstr "Find out more"
 
-#~ msgid "A high quality image related to News"
-#~ msgstr "A high quality image related to News"
+#: pages/news/templates/news_filter_include.html:9
+#, fuzzy
+#| msgid "News type"
+msgid "Filter by News Type"
+msgstr "Filter by News Type"
 
-#~ msgid "Banner Title"
-#~ msgstr "Banner Title"
+#: pages/news/templates/news_filter_include.html:34
+msgid "Filter by Service"
+msgstr "Filter by Service"
 
-#~ msgid "Banner Subtitle"
-#~ msgstr "Banner Subtitle"
+#: pages/news/templates/news_filter_include.html:56
+msgid "Filter by Year"
+msgstr "Filter by Year"
 
-#~ msgid "Call to action button text"
-#~ msgstr "Call to action button text"
+#: pages/news/templates/news_index_page.html:18
+#, fuzzy
+#| msgid "Feature Image"
+msgid "Featured News"
+msgstr "Featured News"
 
-#~ msgid "Call to action related page"
-#~ msgstr "Call to action related page"
+#: pages/news/templates/news_index_page.html:27
+#, fuzzy
+#| msgid "News type"
+msgid "All News Updates"
+msgstr "All News Updates"
 
-#~ msgid "Banner Section"
-#~ msgstr "Banner Section"
+#: pages/news/templates/news_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/news/templates/news_list_include.html:65
+msgid "Read More"
+msgstr "Read More"

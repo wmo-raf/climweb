@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-14 14:32+0000\n"
+"POT-Creation-Date: 2023-10-05 17:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,18 +18,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pages/contact/models.py:31 pages/contact/models.py:32
+#: pages/contact/models.py:33
+msgid "Location"
+msgstr "موقع"
+
+#: pages/contact/models.py:34
 msgid "Location of organisation"
 msgstr "موقع المنظمة"
 
-#: pages/contact/models.py:33
-msgid "Thank you message"
-msgstr "شكرا لك رسالة"
+#: pages/contact/models.py:35 pages/contact/models.py:36
+msgid "Coordinates of organisation"
+msgstr "إحداثيات التنظيم"
 
-#: pages/contact/models.py:57
+#: pages/contact/models.py:37
+msgid "Thank you message"
+msgstr "رسالة شكر"
+
+#: pages/contact/models.py:62
 msgid "Email"
 msgstr "بريد إلكتروني"
 
-#: pages/contact/models.py:148
+#: pages/contact/models.py:156
 msgid "Contact Page"
 msgstr "صفحة الاتصال"
+
+#: pages/contact/templates/contact/contact_page.html:63
+msgid "Submit"
+msgstr "يُقدِّم"
+
+#: pages/contact/templates/contact/contact_page.html:78
+msgid "Address"
+msgstr "عنوان"
+
+#: pages/contact/templates/contact/contact_page.html:88
+msgid "Contact"
+msgstr "اتصال"

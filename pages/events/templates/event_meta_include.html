@@ -1,3 +1,6 @@
+{% load i18n %}
+
+
 <div class="event-detail-meta" style="margin-top: 20px">
     {% if page.is_ended %}
         <div class="event-meta-item">
@@ -6,7 +9,7 @@
                     <i class="fas fa-archive" style="color: #de2828"></i>
                 </span>
                 <div class="event-meta-item-title" style="color: #de2828 ;font-weight: bold">
-                    Ended
+                    {% translate "Ended" %}
                 </div>
             </div>
         </div>
@@ -21,7 +24,9 @@
                 {% endif %}
             </span>
             <div class="event-meta-item-title">
-                <span class=""> Type: </span>
+                <span class="">
+                    {% translate "Type" %}:
+                </span>
                 {{ page.event_type.event_type }}
             </div>
         </div>
@@ -32,7 +37,9 @@
                 <i class="fas fa-map-marker-alt"></i>
             </span>
             <div class="event-meta-item-title">
-                <span> Location:</span>
+                <span>
+                    {% translate "Location" %}:
+                </span>
                 {{ page.location }}
             </div>
 
@@ -44,8 +51,12 @@
                 <i class="fas fa-clock"></i>
             </span>
             <div class="event-meta-item-title">
-                <span> Start Date:</span>
-                {{ page.date_from|date:"d M, Y h:i A" }}
+                <span>
+                    {% translate "Start Date" %}:
+                </span>
+                {% blocktranslate with start_date=page.date_from|date:"d M, Y h:i A" trimmed %}
+                    {{ start_date }}
+                {% endblocktranslate %}
             </div>
 
         </div>
@@ -57,8 +68,12 @@
                     <i class="fas fa-clock"></i>
                 </span>
                 <div class="event-meta-item-title">
-                    <span> End Date:</span>
-                    {{ page.date_to|date:"d M, Y h:i A" }}
+                    <span>
+                        {% translate "End Date" %}:
+                    </span>
+                    {% blocktranslate with end_date=page.date_to|date:"d M, Y h:i A" trimmed%}
+                        {{ end_date }}
+                    {% endblocktranslate %}
                 </div>
             </div>
         </div>
@@ -69,7 +84,9 @@
                 <i class="fas fa-clock"></i>
             </span>
             <div class="event-meta-item-title">
-                <span> Timezone:</span>
+                <span>
+                    {% translate "Timezone" %}:
+                </span>
                 {{ page.tz_gmt_offset }}
             </div>
         </div>
@@ -81,7 +98,9 @@
                     <i class="fas fa-wallet"></i>
                 </span>
                 <div class="event-meta-item-title">
-                    <span> Cost:</span>
+                    <span>
+                        {% translate "Cost" %}:
+                    </span>
                     {{ page.cost }}
                 </div>
             </div>
@@ -94,7 +113,7 @@
                     <i class="fas fa-times-circle"></i>
                 </span>
                 <div class="event-meta-item-title">
-                    Registration closed
+                    {% translate "Registration closed" %}
                 </div>
             </div>
         </div>
@@ -106,7 +125,7 @@
                     <i class="fas fa-hourglass-half"></i>
                 </span>
                 <div class="event-meta-item-title">
-                    Registration will be open soon
+                    {% translate "Registration will be open soon" %}
                 </div>
             </div>
         </div>
@@ -120,7 +139,9 @@
                    data-ga-event-category="Event Registration"
                    data-ga-event-label="{{ page.title }}"
                    data-ga-value="{{ page.registration_page.url }}"
-                   class="button is-medium is-fullwidth">Register</a>
+                   class="button is-medium is-fullwidth">
+                    {% translate "Register" %}
+                </a>
             </div>
         {% elif page.zoom_events_id and page.zoom_events_url %}
             <div class="registration-button">
@@ -131,7 +152,9 @@
                    data-ga-event-category="Zoom Event Registration"
                    data-ga-event-label="{{ page.title }}"
                    data-ga-value="{{ page.zoom_events_url }}"
-                   class="button is-medium is-fullwidth">Register on Zoom</a>
+                   class="button is-medium is-fullwidth">
+                    {% translate "Register on Zoom" %}
+                </a>
             </div>
         {% endif %}
     {% endif %}
