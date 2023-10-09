@@ -146,12 +146,12 @@ DEEPL_FREE_API = True
 
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -222,7 +222,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
-LANGUAGE_CODE = env.str("LANGUAGE_CODE", "en")
+LANGUAGE_CODE = env.str("LANGUAGE_CODE", default="en")
+
+print(LANGUAGE_CODE)
 
 # add amharic to supported locale
 EXTRA_LANG_INFO = {
