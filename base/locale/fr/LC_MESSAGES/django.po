@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:18+0300\n"
+"POT-Creation-Date: 2023-10-09 09:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,13 +28,11 @@ msgstr "Section titre"
 
 #: base/blocks.py:48 base/blocks.py:61
 msgid "Section Text"
-msgstr "Texte de section"
+msgstr "Texte de la section"
 
 #: base/blocks.py:49 base/blocks.py:62
-#, fuzzy
-#| msgid "Description"
 msgid "Section description"
-msgstr "Description de la section"
+msgstr "Description de la rubrique"
 
 #: base/blocks.py:55
 msgid "Title, Text and Image"
@@ -96,7 +94,7 @@ msgstr "Compte de médias sociaux"
 
 #: base/blocks.py:162
 msgid "Collapsible Text Block"
-msgstr "Bloc de texte réductible"
+msgstr "Bloc de texte pliable"
 
 #: base/blocks.py:172
 msgid "Select document or file"
@@ -108,7 +106,7 @@ msgstr "Document/Fichier"
 
 #: base/blocks.py:174
 msgid "Select/upload image"
-msgstr "Sélectionner/télécharger l'image"
+msgstr "Sélectionner/télécharger une image"
 
 #: base/blocks.py:178
 msgid "Additional Material"
@@ -120,7 +118,7 @@ msgstr "Matériaux additionnels"
 
 #: base/blocks.py:192 base/blocks.py:210
 msgid "Label"
-msgstr "Étiqueter"
+msgstr "Étiquette"
 
 #: base/blocks.py:193 base/blocks.py:211
 msgid "Page"
@@ -184,7 +182,7 @@ msgstr "Titre d'introduction"
 
 #: base/models/abstracts.py:64
 msgid "Introduction section title"
-msgstr "Titre de la section d'introduction"
+msgstr "Titre de la section Introduction"
 
 #: base/models/abstracts.py:65
 msgid "Introduction text"
@@ -192,7 +190,7 @@ msgstr "Texte d'introduction"
 
 #: base/models/abstracts.py:66
 msgid "Introduction section description"
-msgstr "Description de la section d'introduction"
+msgstr "Description de la section Introduction"
 
 #: base/models/abstracts.py:69
 msgid "Introduction Image"
@@ -212,7 +210,7 @@ msgstr "Lien du bouton d'introduction"
 
 #: base/models/abstracts.py:100
 msgid "Introduction Section"
-msgstr "Section d'introduction"
+msgstr "Section Introduction"
 
 #: base/models/site_settings.py:33
 msgid "Country"
@@ -256,7 +254,7 @@ msgstr "Logo de pied de page"
 
 #: base/models/site_settings.py:70
 msgid "Logo that appears on the footer"
-msgstr "Logo qui apparaît sur le pied de page"
+msgstr "Logo qui apparaît en pied de page"
 
 #: base/models/site_settings.py:79
 msgid "CMS Logo"
@@ -266,12 +264,12 @@ msgstr "Logo CMS"
 msgid ""
 "Logo that appears on the CMS. Should be a whit transparent logo preferably"
 msgstr ""
-"Logo qui apparaît sur le CMS. Doit être un petit logo transparent de "
+"Logo qui apparaît sur le CMS. Doit être un logo blanc transparent de "
 "préférence"
 
 #: base/models/site_settings.py:89
 msgid "Page not Found Image"
-msgstr "Page introuvable Image"
+msgstr "Page introuvable"
 
 #: base/models/site_settings.py:90
 msgid "Image shown on error 404 page"
@@ -283,7 +281,7 @@ msgstr "Image d'erreur du serveur"
 
 #: base/models/site_settings.py:100
 msgid "Image shown on error 500 error page"
-msgstr "Image affichée sur la page d'erreur de l'erreur 500"
+msgstr "Image affichée sur la page d'erreur 500"
 
 #: base/models/site_settings.py:114
 msgid "Logo"
@@ -307,36 +305,37 @@ msgstr "Paramètres de l'organisation"
 
 #: base/models/site_settings.py:145
 msgid "Youtube API Key"
-msgstr "Clé API YouTube"
+msgstr "Clé API Youtube"
 
 #: base/models/site_settings.py:146
 msgid ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 msgstr ""
-"Pour configurer la clé API Youtube, reportez-vous à https://developers."
-"google.com/youtube/v3/getting-started"
+"Pour configurer la clé API Youtube, reportez-vous à "
+"https://developers.google.com/youtube/v3/getting-started"
 
 #: base/models/site_settings.py:151
 msgid "GA Tracking ID"
-msgstr "ID de suivi GA"
+msgstr "Identifiant de suivi GA"
 
 #: base/models/site_settings.py:152
 msgid "Your Google Analytics tracking ID (begins with \"UA-\")"
-msgstr "Votre ID de suivi Google Analytics (commence par \"UA-\")"
+msgstr "Votre identifiant de suivi Google Analytics (commence par « UA- »)"
 
 #: base/models/site_settings.py:156
 msgid "Track button clicks"
-msgstr "Suivi des clics sur les boutons"
+msgstr "Suivre les clics sur les boutons"
 
 #: base/models/site_settings.py:158
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 msgstr ""
-"Suivez tous les clics sur les boutons à l'aide du suivi des événements de "
-"Google Analytics. Les détails du suivi des événements peuvent être spécifiés "
-"dans les options de paramètres avancés de chaque bouton."
+"Suivez tous les clics sur les boutons à l'aide du suivi des événements "
+"Google Analytics. Les détails du suivi des événements peuvent être spécifiés"
+" dans les options de paramètres avancés de chaque bouton."
 
 #: base/models/site_settings.py:163
 msgid "Track pages internally"
@@ -348,7 +347,7 @@ msgid ""
 "dashboard, alongside Google Analytics, if also enabled"
 msgstr ""
 "Suivez toutes les pages en interne. Cela activera le tableau de bord "
-"d'analyse interne, aux côtés de Google Analytics, s'il est également activé"
+"d'analyse interne, aux côtés de Google Analytics, s'il est également activé."
 
 #: base/models/site_settings.py:171
 msgid "Youtube Integration"
@@ -371,8 +370,6 @@ msgid "languages"
 msgstr "langues"
 
 #: base/models/site_settings.py:206
-#, fuzzy
-#| msgid "Default Language"
 msgid "Google Translate Languages"
 msgstr "Google Traduction Langues"
 
@@ -390,15 +387,15 @@ msgstr "Nom du thème"
 
 #: base/models/site_settings.py:218
 msgid "Primary color (use color picker)"
-msgstr "Couleur primaire (utiliser le sélecteur de couleurs)"
+msgstr "Couleur primaire (utilisez le sélecteur de couleurs)"
 
 #: base/models/site_settings.py:220
 msgid "Primary Hover color (use color picker)"
-msgstr "Couleur de survol primaire (utiliser le sélecteur de couleurs)"
+msgstr "Couleur de survol principale (utilisez le sélecteur de couleurs)"
 
 #: base/models/site_settings.py:222
 msgid "Secondary color (use color picker)"
-msgstr "Couleur secondaire (utiliser le sélecteur de couleurs)"
+msgstr "Couleur secondaire (utilisez le sélecteur de couleurs)"
 
 #: base/models/site_settings.py:224
 msgid "Border radius (px)"
@@ -414,7 +411,7 @@ msgstr "Boîte ombre"
 
 #: base/models/site_settings.py:228
 msgid "Elevation value minimum 1 and maximum 24"
-msgstr "Valeur d'altitude minimum 1 et maximum 24"
+msgstr "Valeur d'élévation minimum 1 et maximum 24"
 
 #: base/models/site_settings.py:234
 msgid "Information"
@@ -433,14 +430,10 @@ msgid "Theme"
 msgstr "Thème"
 
 #: base/models/site_settings.py:284
-#, fuzzy
-#| msgid "Organisation Settings"
 msgid "Navigation Setting"
 msgstr "Paramètres de navigation"
 
 #: base/models/site_settings.py:285
-#, fuzzy
-#| msgid "Organisation Settings"
 msgid "Navigation Settings"
 msgstr "Paramètres de navigation"
 
@@ -450,31 +443,31 @@ msgstr "Page d'inscription à la liste de diffusion"
 
 #: base/models/site_settings.py:295
 msgid "Contact us page"
-msgstr "Contactez-nous"
+msgstr "Page Contactez-nous"
 
 #: base/models/site_settings.py:298
 msgid "All products page"
-msgstr "Page de tous les produits"
+msgstr "Page Tous les produits"
 
 #: base/models/site_settings.py:301
 msgid "All projects page"
-msgstr "Page Tous les projets"
+msgstr "Page de tous les projets"
 
 #: base/models/site_settings.py:304
 msgid "All news page"
-msgstr "Toutes les pages d'actualités"
+msgstr "Toute la page des actualités"
 
 #: base/models/site_settings.py:307
 msgid "All publications page"
-msgstr "Toutes les pages des publications"
+msgstr "Page de toutes les publications"
 
 #: base/models/site_settings.py:310
 msgid "All videos page"
-msgstr "Toutes les pages de vidéos"
+msgstr "Page toutes les vidéos"
 
 #: base/models/site_settings.py:313
 msgid "All applications page"
-msgstr "Toutes les pages des candidatures"
+msgstr "Page de toutes les candidatures"
 
 #: base/models/site_settings.py:316
 msgid "All events page"
@@ -482,7 +475,7 @@ msgstr "Page de tous les événements"
 
 #: base/models/site_settings.py:319
 msgid "All partners page"
-msgstr "Page tous les partenaires"
+msgstr "Page Tous les partenaires"
 
 #: base/models/site_settings.py:322
 msgid "All tenders page"
@@ -490,31 +483,25 @@ msgstr "Page de tous les appels d'offres"
 
 #: base/models/site_settings.py:325
 msgid "All vacancies page"
-msgstr "Page de toutes les offres d'emploi"
+msgstr "Page de tous les postes vacants"
 
 #: base/models/site_settings.py:328
-#, fuzzy
-#| msgid "All feedback page"
 msgid "Feedback page"
 msgstr "Page de commentaires"
 
 #: base/models/site_settings.py:329
 msgid "CAP Alerts RSS Feed"
-msgstr ""
+msgstr "Flux RSS des alertes CAP"
 
 #: base/models/site_settings.py:349 base/models/site_settings.py:350
 msgid "Important Pages"
 msgstr "Pages importantes"
 
 #: base/models/snippets.py:18
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product Name"
 msgstr "Nom du produit"
 
 #: base/models/snippets.py:22 base/models/snippets.py:58
-#, fuzzy
-#| msgid "Products Categories"
 msgid "Product Categories"
 msgstr "catégories de produits"
 
@@ -523,8 +510,6 @@ msgid "Product Category"
 msgstr "catégorie de produit"
 
 #: base/models/snippets.py:26 base/models/snippets.py:46
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product"
 msgstr "Produit"
 
@@ -538,16 +523,12 @@ msgid "Name"
 msgstr "Nom"
 
 #: base/models/snippets.py:54
-#, fuzzy
-#| msgid "Products Categories"
 msgid "Product Item Types"
 msgstr "Types d'articles de produit"
 
 #: base/models/snippets.py:54
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product Item Type"
-msgstr "Type d'élément de produit"
+msgstr "Type d'article du produit"
 
 #: base/models/snippets.py:100
 msgid "Service Category"
@@ -586,93 +567,56 @@ msgid "GIS Applications"
 msgstr "Applications SIG"
 
 #: base/templates/admin/cms_upgrade_notification.html:5
-#, python-format
-msgid ""
-"CMS upgrade available. Your version: <strong>%(current_version)s</strong>. "
-"Latest version: <strong id=\"w-cms-latest-version\"></strong>."
-msgstr ""
+msgid "CMS upgrade available. Your version:"
+msgstr "Mise à niveau du CMS disponible. Ta version:"
 
-#: base/templates/admin/cms_upgrade_notification.html:11
+#: base/templates/admin/cms_upgrade_notification.html:6
+msgid "Latest version:"
+msgstr "Dernière version:"
+
+#: base/templates/admin/cms_upgrade_notification.html:8
 msgid "Upgrade"
-msgstr ""
+msgstr "Mise à niveau"
 
 #: base/templates/admin/cms_version.html:6
 #, python-format
-msgid ""
-"\n"
-"    %(title)s\n"
-msgstr ""
+msgid "%(title)s"
+msgstr "%(title)s"
 
 #: base/templates/admin/cms_version.html:34
 msgid "CMS Version Check"
-msgstr ""
+msgstr "Vérification de la version du CMS"
 
 #: base/templates/admin/cms_version.html:40
 msgid "Current installed version"
-msgstr ""
+msgstr "Version actuellement installée"
 
 #: base/templates/admin/cms_version.html:46
 msgid "Latest available version"
-msgstr ""
+msgstr "Dernière version disponible"
 
 #: base/templates/admin/cms_version.html:54
 msgid "All good. You are running on the latest version"
-msgstr ""
+msgstr "Tout bon. Vous utilisez la dernière version"
 
 #: base/templates/admin/cms_version.html:62
 msgid "A CMS upgrade was initiated. Please wait for the upgrade to complete"
 msgstr ""
+"Une mise à niveau du CMS a été lancée. Veuillez attendre la fin de la mise à"
+" niveau"
 
 #: base/templates/admin/cms_version.html:68
 msgid "CMS upgrade available"
-msgstr ""
+msgstr "Mise à jour du CMS disponible"
 
 #: base/templates/admin/cms_version.html:72
 msgid "Release notes"
-msgstr ""
+msgstr "Notes de version"
 
 #: base/templates/admin/cms_version.html:99
 msgid "Upgrade now"
-msgstr ""
+msgstr "Mettre à jour maintenant"
 
 #: base/wagtail_hooks.py:44
 msgid "Themes"
 msgstr "Thèmes"
-
-#~ msgid "All alerts page"
-#~ msgstr "Page de toutes les alertes"
-
-#~ msgid ""
-#~ "The user id if available, For example the user Id/name for twitter, "
-#~ "Instagram or channel id for Youtube etc"
-#~ msgstr ""
-#~ "L'identifiant de l'utilisateur s'il est disponible, par exemple "
-#~ "l'identifiant/nom de l'utilisateur pour Twitter, Instagram ou "
-#~ "l'identifiant de la chaîne pour Youtube, etc."
-
-#~ msgid "Publication Types"
-#~ msgstr "Types de publications"
-
-#~ msgid "Is alert"
-#~ msgstr "Est alerte"
-
-#~ msgid "Is press release"
-#~ msgstr "Est le communiqué de presse"
-
-#~ msgid "News Type"
-#~ msgstr "Type de nouvelles"
-
-#~ msgid "News Types"
-#~ msgstr "Types d'actualités"
-
-#~ msgid "Services"
-#~ msgstr "Prestations de service"
-
-#~ msgid "Event type"
-#~ msgstr "Type d'événement"
-
-#~ msgid "Thumbnail/image for this type of event."
-#~ msgstr "Vignette/image pour ce type d'événement."
-
-#~ msgid "Event Type"
-#~ msgstr "Type d'événement"

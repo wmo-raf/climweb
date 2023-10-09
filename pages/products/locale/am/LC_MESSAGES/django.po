@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:14+0300\n"
+"POT-Creation-Date: 2023-10-09 10:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,23 +34,24 @@ msgstr "የምርት አይነት"
 #: pages/products/blocks.py:44 pages/products/blocks.py:60
 #: pages/products/models.py:230
 msgid "Effective from"
-msgstr ""
+msgstr "ውጤታማ ከ"
 
 #: pages/products/blocks.py:45 pages/products/blocks.py:61
 msgid "The date when this product becomes effective"
-msgstr ""
+msgstr "ይህ ምርት ተግባራዊ የሚሆንበት ቀን"
 
 #: pages/products/blocks.py:46 pages/products/blocks.py:62
 #: pages/products/models.py:232
 msgid "Effective until"
-msgstr ""
+msgstr "ድረስ ውጤታማ"
 
 #: pages/products/blocks.py:47 pages/products/blocks.py:63
 #, fuzzy
-#| msgid "Up to when is this product valid ? Leave blank if not applicable"
+#| msgid ""
+#| "Up to when is this product valid ? Leave blank if not applicable"
 msgid ""
 "The last day this product remains effective. Leave blank if not applicable"
-msgstr "ይህ ምርት እስከ መቼ ነው የሚሰራው? የማይተገበር ከሆነ ባዶ ይተዉት።"
+msgstr "የመጨረሻው ቀን ይህ ምርት ውጤታማ ሆኖ ይቆያል. የማይተገበር ከሆነ ባዶ ይተዉት።"
 
 #: pages/products/blocks.py:49
 msgid "Image"
@@ -114,7 +115,7 @@ msgstr "ምርቶች በገጽ"
 
 #: pages/products/models.py:102
 msgid "Map Layers"
-msgstr ""
+msgstr "የካርታ ንብርብሮች"
 
 #: pages/products/models.py:112
 msgid "Other settings"
@@ -135,15 +136,16 @@ msgstr "የምርት መለያ"
 
 #: pages/products/models.py:231
 msgid "The first day when products added below become effective"
-msgstr ""
+msgstr "ከታች የተጨመሩ ምርቶች ውጤታማ ሲሆኑ የመጀመሪያው ቀን"
 
 #: pages/products/models.py:233
 #, fuzzy
-#| msgid "Up to when is this product valid ? Leave blank if not applicable"
+#| msgid ""
+#| "Up to when is this product valid ? Leave blank if not applicable"
 msgid ""
 "The last day when products added below remain effective. Leave blank if not "
 "applicable"
-msgstr "ይህ ምርት እስከ መቼ ነው የሚሰራው? የማይተገበር ከሆነ ባዶ ይተዉት።"
+msgstr "ከታች የተጨመሩ ምርቶች ውጤታማ ሆነው የሚቆዩበት የመጨረሻው ቀን። የማይተገበር ከሆነ ባዶ ይተዉት።"
 
 #: pages/products/models.py:288
 #, fuzzy
@@ -153,146 +155,66 @@ msgstr "የምርት ንጥል"
 
 #: pages/products/templates/products/product_detail.html:93
 msgid "View"
-msgstr ""
+msgstr "ይመልከቱ"
 
 #: pages/products/templates/products/product_detail.html:104
 msgid "Download"
-msgstr ""
+msgstr "አውርድ"
 
 #: pages/products/templates/products/product_detail.html:132
 #, fuzzy, python-format
 #| msgid "Document"
 msgid "Download document  - %(file_size)s"
-msgstr "ሰነድ"
+msgstr "ሰነድ አውርድ - %(ፋይል_መጠን) s"
 
 #: pages/products/templates/products/product_detail.html:149
 #, fuzzy
 #| msgid "Document"
 msgid "Download document"
-msgstr "ሰነድ"
+msgstr "ሰነድ አውርድ"
 
 #: pages/products/templates/products/product_filter_include.html:9
 msgid "Filter by Year"
-msgstr ""
+msgstr "በአመት አጣራ"
 
 #: pages/products/templates/products/product_filter_include.html:31
 msgid "Filter by Month"
-msgstr ""
+msgstr "በወር አጣራ"
 
 #: pages/products/templates/products/product_index.html:31
 msgid "Browse"
-msgstr ""
+msgstr "አስስ"
 
 #: pages/products/templates/products/product_index.html:39
 msgid "MapViewer"
-msgstr ""
+msgstr "ካርታ መመልከቻ"
 
 #: pages/products/templates/products/product_index.html:50
 #, fuzzy
 #| msgid "Product Pages"
 msgid "Browse Product Updates"
-msgstr "የምርት ገጾች"
+msgstr "የምርት ዝመናዎችን ያስሱ"
 
 #: pages/products/templates/products/product_layer_integration.html:6
 #, python-format
-msgid ""
-"\n"
-"        %(title)s\n"
-"    "
-msgstr ""
+msgid "%(title)s"
+msgstr "%(title)s"
 
 #: pages/products/templates/products/product_layer_integration.html:15
 msgid "Product Layers Integration"
-msgstr ""
+msgstr "የምርት ንብርብሮች ውህደት"
 
 #: pages/products/templates/products/product_layer_integration.html:37
 msgid "Save"
-msgstr ""
+msgstr "አስቀምጥ"
 
 #: pages/products/templates/products/product_list_include.html:6
 #, python-format
-msgid ""
-"\n"
-"                Showing %(counter)s result\n"
-"                "
-msgid_plural ""
-"\n"
-"                Showing %(counter)s results\n"
-"            "
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
 #: pages/products/templates/products/product_list_include.html:51
 msgid "Read More"
-msgstr ""
-
-#~ msgid "Date"
-#~ msgstr "ቀን"
-
-#~ msgid "Valid until"
-#~ msgstr "የሚያገለግለው እስከ"
-
-#~ msgid "Banner Image"
-#~ msgstr "የባነር ምስል"
-
-#~ msgid "A high quality image related to this Product"
-#~ msgstr "ከዚህ ምርት ጋር የተያያዘ ከፍተኛ ጥራት ያለው ምስል"
-
-#~ msgid "Banner Title"
-#~ msgstr "የባነር ርዕስ"
-
-#~ msgid "Banner Subtitle"
-#~ msgstr "የባነር ንዑስ ርዕስ"
-
-#~ msgid "Call to action button text"
-#~ msgstr "ወደ የተግባር አዝራር ጽሑፍ ይደውሉ"
-
-#~ msgid "Call to action related page"
-#~ msgstr "ወደ ተግባር ተዛማጅ ገጽ ይደውሉ"
-
-#~ msgid "Introduction section title"
-#~ msgstr "የመግቢያ ክፍል ርዕስ"
-
-#~ msgid "A description of what your organisation does under  this Product"
-#~ msgstr "ድርጅትዎ በዚህ ምርት ስር የሚያደርገውን መግለጫ"
-
-#~ msgid "Introduction text"
-#~ msgstr "የመግቢያ ጽሑፍ"
-
-#~ msgid "Introduction Image"
-#~ msgstr "የመግቢያ ምስል"
-
-#~ msgid "Introduction button text"
-#~ msgstr "የመግቢያ አዝራር ጽሑፍ"
-
-#~ msgid "Introduction button link"
-#~ msgstr "የመግቢያ አዝራር አገናኝ"
-
-#~ msgid "Feature block"
-#~ msgstr "የባህሪ እገዳ"
-
-#~ msgid ""
-#~ "The year for the earliest available bulletin. This is used to generate "
-#~ "the years available for filtering "
-#~ msgstr "ለመጀመሪያ ጊዜ የሚገኝ ማስታወቂያ ዓመት። ይህ ለማጣራት ያሉትን ዓመታት ለማመንጨት ጥቅም ላይ ይውላል"
-
-#~ msgid "Earliest bulletin year"
-#~ msgstr "የመጀመሪያው የማስታወቂያ ዓመት"
-
-#~ msgid "Banner Section"
-#~ msgstr "ባነር ክፍል"
-
-#~ msgid "Introduction Section"
-#~ msgstr "የመግቢያ ክፍል"
-
-#~ msgid "Year"
-#~ msgstr "አመት"
-
-#~ msgid "Month"
-#~ msgstr "ወር"
-
-#~ msgid "Summary"
-#~ msgstr "ማጠቃለያ"
-
-#~ msgid "Image that will appear as thumbnail"
-#~ msgstr "እንደ ድንክዬ የሚታየው ምስል"
+msgstr "ተጨማሪ ያንብቡ"

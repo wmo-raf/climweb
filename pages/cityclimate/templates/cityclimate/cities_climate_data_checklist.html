@@ -1,7 +1,7 @@
 {% extends "wagtailadmin/base.html" %}
 {% load i18n l10n wagtailadmin_tags wagtailimages_tags static %}
 {% block titletag %}
-    {% blocktranslate with title=page.get_admin_display_title %}
+    {% blocktranslate trimmed with title=page.get_admin_display_title %}
         {{ title }}
     {% endblocktranslate %}
 {% endblock %}
@@ -69,16 +69,16 @@
                 <div class="info-item">
                     {% icon name="info-circle" classname="city-icon no" %}
                     <div class="info-text">
-                        {% blocktranslate with cities_count=cities_list|length trimmed %}
-                            Total Cities: {{ count }}
+                        {% blocktranslate with counter=cities_list|length trimmed %}
+                            Total Cities: {{ counter }}
                         {% endblocktranslate %}
                     </div>
                 </div>
                 <div class="info-item">
                     {% icon name="info-circle" classname="city-icon no" %}
                     <div class="info-text">
-                        {% blocktranslate with count=cities_with_data_count trimmed %}
-                            Cities with data loaded: {{ count }}
+                        {% blocktranslate with counter=cities_with_data_count trimmed %}
+                            Cities with data loaded: {{ counter }}
                         {% endblocktranslate %}
                     </div>
                 </div>

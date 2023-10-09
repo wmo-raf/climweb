@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:18+0300\n"
+"POT-Creation-Date: 2023-10-09 09:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,8 +30,6 @@ msgid "Section Text"
 msgstr "ክፍል ጽሑፍ"
 
 #: base/blocks.py:49 base/blocks.py:62
-#, fuzzy
-#| msgid "Description"
 msgid "Section description"
 msgstr "ክፍል መግለጫ"
 
@@ -261,7 +259,7 @@ msgstr "የሲኤምኤስ አርማ"
 #: base/models/site_settings.py:80
 msgid ""
 "Logo that appears on the CMS. Should be a whit transparent logo preferably"
-msgstr "በሲኤምኤስ ላይ የሚታየው አርማ። ነጭ ግልጽ አርማ መሆን አለበት"
+msgstr "በሲኤምኤስ ላይ የሚታየው አርማ ነጭ ግልጽ አርማ መሆን ይሻላል"
 
 #: base/models/site_settings.py:89
 msgid "Page not Found Image"
@@ -305,8 +303,8 @@ msgstr "የዩቲዩብ ኤፒአይ ቁልፍ"
 
 #: base/models/site_settings.py:146
 msgid ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 msgstr ""
 "የዩቲዩብ ኤፒአይ ቁልፍን ለማዋቀር https://developers.google.com/youtube/v3/getting-"
 "started ይመልከቱ"
@@ -317,7 +315,7 @@ msgstr "GA የመከታተያ መታወቂያ"
 
 #: base/models/site_settings.py:152
 msgid "Your Google Analytics tracking ID (begins with \"UA-\")"
-msgstr "የጉግል አናሌቲክስ መከታተያ መታወቂያዎ (በ\"UA- ይጀምራል\")"
+msgstr "የእርስዎ Google Analytics መከታተያ መታወቂያ (በ\"UA- ይጀምራል\")"
 
 #: base/models/site_settings.py:156
 msgid "Track button clicks"
@@ -326,9 +324,10 @@ msgstr "የትራክ ቁልፍ ጠቅታዎች"
 #: base/models/site_settings.py:158
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 msgstr ""
-"ጉግል አናሌቲክስ የክስተት ክትትልን በመጠቀም ሁሉንም የአዝራር ጠቅታዎች ይከታተሉ፣ የክስተት መከታተያ ዝርዝሮች "
+"ጉግል አናሌቲክስ የክስተት ክትትልን በመጠቀም ሁሉንም የአዝራር ጠቅታዎች ይከታተሉ፣ የክስተት ክትትል ዝርዝሮች "
 "በእያንዳንዱ አዝራር የላቀ የቅንጅቶች አማራጮች ውስጥ ሊገለጹ ይችላሉ።"
 
 #: base/models/site_settings.py:163
@@ -339,7 +338,8 @@ msgstr "ገጾችን ከውስጥ ይከታተሉ"
 msgid ""
 "Track   all pages internally. This will enable the internal analytics "
 "dashboard, alongside Google Analytics, if also enabled"
-msgstr "ሁሉንም ገጾች ከውስጥ ይከታተሉ። ይህ ከነቃ ከ Google ትንታኔዎች ጋር የውስጣዊ ትንታኔ ዳሽቦርድን ያነቃል።"
+msgstr ""
+"ሁሉንም ገጾች ከውስጥ ይከታተሉ። ይህ ከነቃ ከ Google ትንታኔዎች ጋር የውስጣዊ ትንታኔ ዳሽቦርድን ያነቃል።"
 
 #: base/models/site_settings.py:171
 msgid "Youtube Integration"
@@ -362,8 +362,6 @@ msgid "languages"
 msgstr "ቋንቋዎች"
 
 #: base/models/site_settings.py:206
-#, fuzzy
-#| msgid "Default Language"
 msgid "Google Translate Languages"
 msgstr "ጎግል ተርጓሚ ቋንቋዎች"
 
@@ -413,7 +411,7 @@ msgstr "መረጃ"
 
 #: base/models/site_settings.py:243
 msgid "Theme Colors"
-msgstr "የገጽታ ቀለሞች"
+msgstr "ጭብጥ ቀለሞች"
 
 #: base/models/site_settings.py:247
 msgid "Borders and Box Shadow"
@@ -424,14 +422,10 @@ msgid "Theme"
 msgstr "ጭብጥ"
 
 #: base/models/site_settings.py:284
-#, fuzzy
-#| msgid "Organisation Settings"
 msgid "Navigation Setting"
 msgstr "የአሰሳ ቅንብር"
 
 #: base/models/site_settings.py:285
-#, fuzzy
-#| msgid "Organisation Settings"
 msgid "Navigation Settings"
 msgstr "የአሰሳ ቅንብሮች"
 
@@ -484,28 +478,22 @@ msgid "All vacancies page"
 msgstr "ሁሉም ክፍት የስራ ቦታዎች ገጽ"
 
 #: base/models/site_settings.py:328
-#, fuzzy
-#| msgid "All feedback page"
 msgid "Feedback page"
 msgstr "የግብረመልስ ገጽ"
 
 #: base/models/site_settings.py:329
 msgid "CAP Alerts RSS Feed"
-msgstr ""
+msgstr "የ CAP ማንቂያዎች RSS ምግብ"
 
 #: base/models/site_settings.py:349 base/models/site_settings.py:350
 msgid "Important Pages"
 msgstr "ጠቃሚ ገጾች"
 
 #: base/models/snippets.py:18
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product Name"
 msgstr "የምርት ስም"
 
 #: base/models/snippets.py:22 base/models/snippets.py:58
-#, fuzzy
-#| msgid "Products Categories"
 msgid "Product Categories"
 msgstr "የምርት ምድቦች"
 
@@ -514,8 +502,6 @@ msgid "Product Category"
 msgstr "የምርት ምድብ"
 
 #: base/models/snippets.py:26 base/models/snippets.py:46
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product"
 msgstr "ምርት"
 
@@ -529,14 +515,10 @@ msgid "Name"
 msgstr "ስም"
 
 #: base/models/snippets.py:54
-#, fuzzy
-#| msgid "Products Categories"
 msgid "Product Item Types"
 msgstr "የምርት እቃዎች ዓይነቶች"
 
 #: base/models/snippets.py:54
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product Item Type"
 msgstr "የምርት ንጥል ዓይነት"
 
@@ -562,7 +544,7 @@ msgstr "URL"
 
 #: base/models/snippets.py:116
 msgid "Order"
-msgstr "እዘዝ"
+msgstr "ማዘዝ"
 
 #: base/models/snippets.py:120
 msgid "Application"
@@ -577,92 +559,54 @@ msgid "GIS Applications"
 msgstr "የጂአይኤስ መተግበሪያዎች"
 
 #: base/templates/admin/cms_upgrade_notification.html:5
-#, python-format
-msgid ""
-"CMS upgrade available. Your version: <strong>%(current_version)s</strong>. "
-"Latest version: <strong id=\"w-cms-latest-version\"></strong>."
-msgstr ""
+msgid "CMS upgrade available. Your version:"
+msgstr "የሲኤምኤስ ማሻሻያ አለ። የእርስዎ ስሪት፡-"
 
-#: base/templates/admin/cms_upgrade_notification.html:11
+#: base/templates/admin/cms_upgrade_notification.html:6
+msgid "Latest version:"
+msgstr "የቅርብ ጊዜ ስሪት፡"
+
+#: base/templates/admin/cms_upgrade_notification.html:8
 msgid "Upgrade"
-msgstr ""
+msgstr "አሻሽል።"
 
 #: base/templates/admin/cms_version.html:6
 #, python-format
-msgid ""
-"\n"
-"    %(title)s\n"
-msgstr ""
+msgid "%(title)s"
+msgstr "%(title)s"
 
 #: base/templates/admin/cms_version.html:34
 msgid "CMS Version Check"
-msgstr ""
+msgstr "የሲኤምኤስ ስሪት ያረጋግጡ"
 
 #: base/templates/admin/cms_version.html:40
 msgid "Current installed version"
-msgstr ""
+msgstr "የአሁኑ የተጫነ ስሪት"
 
 #: base/templates/admin/cms_version.html:46
 msgid "Latest available version"
-msgstr ""
+msgstr "የቅርብ ጊዜ የሚገኝ ስሪት"
 
 #: base/templates/admin/cms_version.html:54
 msgid "All good. You are running on the latest version"
-msgstr ""
+msgstr "ሁሉም ጥሩ. በአዲሱ ስሪት ላይ እያሄዱ ነው።"
 
 #: base/templates/admin/cms_version.html:62
 msgid "A CMS upgrade was initiated. Please wait for the upgrade to complete"
-msgstr ""
+msgstr "የሲኤምኤስ ማሻሻያ ተጀመረ። እባክዎ ማሻሻያው እስኪጠናቀቅ ይጠብቁ"
 
 #: base/templates/admin/cms_version.html:68
 msgid "CMS upgrade available"
-msgstr ""
+msgstr "የሲኤምኤስ ማሻሻያ አለ።"
 
 #: base/templates/admin/cms_version.html:72
 msgid "Release notes"
-msgstr ""
+msgstr "የልቀት ማስታወሻዎች"
 
 #: base/templates/admin/cms_version.html:99
 msgid "Upgrade now"
-msgstr ""
+msgstr "አሁን አሻሽል።"
 
 #: base/wagtail_hooks.py:44
 msgid "Themes"
 msgstr "ገጽታዎች"
-
-#~ msgid "All alerts page"
-#~ msgstr "ሁሉም ማንቂያዎች ገጽ"
-
-#~ msgid ""
-#~ "The user id if available, For example the user Id/name for twitter, "
-#~ "Instagram or channel id for Youtube etc"
-#~ msgstr ""
-#~ "የተጠቃሚ መታወቂያው ካለ፣ ለምሳሌ የተጠቃሚ መታወቂያ/ስም ለትዊተር፣ ኢንስታግራም ወይም የቻናል መታወቂያ ለ "
-#~ "Youtube ወዘተ"
-
-#~ msgid "Publication Types"
-#~ msgstr "የህትመት ዓይነቶች"
-
-#~ msgid "Is alert"
-#~ msgstr "ንቁ ነው።"
-
-#~ msgid "Is press release"
-#~ msgstr "ጋዜጣዊ መግለጫ ነው።"
-
-#~ msgid "News Type"
-#~ msgstr "የዜና ዓይነት"
-
-#~ msgid "News Types"
-#~ msgstr "የዜና ዓይነቶች"
-
-#~ msgid "Services"
-#~ msgstr "አገልግሎቶች"
-
-#~ msgid "Event type"
-#~ msgstr "የክስተት አይነት"
-
-#~ msgid "Thumbnail/image for this type of event."
-#~ msgstr "የዚህ ዓይነቱ ክስተት ድንክዬ/ምስል።"
-
-#~ msgid "Event Type"
-#~ msgstr "የክስተት አይነት"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:18+0300\n"
+"POT-Creation-Date: 2023-10-06 12:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,11 +38,11 @@ msgstr "Section description"
 
 #: base/blocks.py:55
 msgid "Title, Text and Image"
-msgstr ""
+msgstr "Title, Text and Image"
 
 #: base/blocks.py:67
 msgid "Title and Text"
-msgstr ""
+msgstr "Title and Text"
 
 #: base/blocks.py:81
 msgid "A URL that returns Highcharts.js configuration, including the data"
@@ -66,15 +66,15 @@ msgstr ""
 
 #: base/blocks.py:95
 msgid "Feature Block"
-msgstr ""
+msgstr "Feature Block"
 
 #: base/blocks.py:106
 msgid "Collapsible Block"
-msgstr ""
+msgstr "Collapsible Block"
 
 #: base/blocks.py:118
 msgid "Accordion"
-msgstr ""
+msgstr "Accordion"
 
 #: base/blocks.py:133 base/blocks.py:145 base/models/snippets.py:48
 #: base/models/snippets.py:85
@@ -83,7 +83,7 @@ msgstr "Icon"
 
 #: base/blocks.py:140
 msgid "What we do"
-msgstr ""
+msgstr "What we do"
 
 #: base/blocks.py:146
 msgid "The full url link that takes you to the page"
@@ -91,11 +91,11 @@ msgstr "The full url link that takes you to the page"
 
 #: base/blocks.py:150
 msgid "Social Media Account"
-msgstr ""
+msgstr "Social Media Account"
 
 #: base/blocks.py:162
 msgid "Collapsible Text Block"
-msgstr ""
+msgstr "Collapsible Text Block"
 
 #: base/blocks.py:172
 msgid "Select document or file"
@@ -111,11 +111,11 @@ msgstr "Select/upload image"
 
 #: base/blocks.py:178
 msgid "Additional Material"
-msgstr ""
+msgstr "Additional Material"
 
 #: base/blocks.py:187
 msgid "Additional Materials"
-msgstr ""
+msgstr "Additional Materials"
 
 #: base/blocks.py:192 base/blocks.py:210
 msgid "Label"
@@ -309,11 +309,11 @@ msgstr "Youtube API Key"
 
 #: base/models/site_settings.py:146
 msgid ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 msgstr ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 
 #: base/models/site_settings.py:151
 msgid "GA Tracking ID"
@@ -330,10 +330,12 @@ msgstr "Track button clicks"
 #: base/models/site_settings.py:158
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 msgstr ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 
 #: base/models/site_settings.py:163
 msgid "Track pages internally"
@@ -371,7 +373,7 @@ msgstr "languages"
 #, fuzzy
 #| msgid "Default Language"
 msgid "Google Translate Languages"
-msgstr "Default Language"
+msgstr "Google Translate Languages"
 
 #: base/models/site_settings.py:214
 msgid "Is Default Theme"
@@ -433,13 +435,13 @@ msgstr "Theme"
 #, fuzzy
 #| msgid "Organisation Settings"
 msgid "Navigation Setting"
-msgstr "Organisation Settings"
+msgstr "Navigation Setting"
 
 #: base/models/site_settings.py:285
 #, fuzzy
 #| msgid "Organisation Settings"
 msgid "Navigation Settings"
-msgstr "Organisation Settings"
+msgstr "Navigation Settings"
 
 #: base/models/site_settings.py:292
 msgid "Mailing list sign up page"
@@ -497,11 +499,11 @@ msgstr "Feedback page"
 
 #: base/models/site_settings.py:329
 msgid "CAP Alerts RSS Feed"
-msgstr ""
+msgstr "CAP Alerts RSS Feed"
 
 #: base/models/site_settings.py:349 base/models/site_settings.py:350
 msgid "Important Pages"
-msgstr ""
+msgstr "Important Pages"
 
 #: base/models/snippets.py:18
 #, fuzzy
@@ -583,92 +585,61 @@ msgid "GIS Applications"
 msgstr "GIS Applications"
 
 #: base/templates/admin/cms_upgrade_notification.html:5
-#, python-format
-msgid ""
-"CMS upgrade available. Your version: <strong>%(current_version)s</strong>. "
-"Latest version: <strong id=\"w-cms-latest-version\"></strong>."
-msgstr ""
+#, fuzzy
+#| msgid "CMS upgrade available"
+msgid "CMS upgrade available. Your version:"
+msgstr "CMS upgrade available. Your version:"
 
-#: base/templates/admin/cms_upgrade_notification.html:11
+#: base/templates/admin/cms_upgrade_notification.html:6
+#, fuzzy
+#| msgid "Latest available version"
+msgid "Latest version:"
+msgstr "Latest version:"
+
+#: base/templates/admin/cms_upgrade_notification.html:8
 msgid "Upgrade"
-msgstr ""
+msgstr "Upgrade"
 
 #: base/templates/admin/cms_version.html:6
-#, python-format
-msgid ""
-"\n"
-"    %(title)s\n"
-msgstr ""
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    %(title)s\n"
+msgid "%(title)s"
+msgstr "%(title)s"
 
 #: base/templates/admin/cms_version.html:34
 msgid "CMS Version Check"
-msgstr ""
+msgstr "CMS Version Check"
 
 #: base/templates/admin/cms_version.html:40
 msgid "Current installed version"
-msgstr ""
+msgstr "Current installed version"
 
 #: base/templates/admin/cms_version.html:46
 msgid "Latest available version"
-msgstr ""
+msgstr "Latest available version"
 
 #: base/templates/admin/cms_version.html:54
 msgid "All good. You are running on the latest version"
-msgstr ""
+msgstr "All good. You are running on the latest version"
 
 #: base/templates/admin/cms_version.html:62
 msgid "A CMS upgrade was initiated. Please wait for the upgrade to complete"
-msgstr ""
+msgstr "A CMS upgrade was initiated. Please wait for the upgrade to complete"
 
 #: base/templates/admin/cms_version.html:68
 msgid "CMS upgrade available"
-msgstr ""
+msgstr "CMS upgrade available"
 
 #: base/templates/admin/cms_version.html:72
 msgid "Release notes"
-msgstr ""
+msgstr "Release notes"
 
 #: base/templates/admin/cms_version.html:99
 msgid "Upgrade now"
-msgstr ""
+msgstr "Upgrade now"
 
 #: base/wagtail_hooks.py:44
 msgid "Themes"
 msgstr "Themes"
-
-#~ msgid "All alerts page"
-#~ msgstr "All alerts page"
-
-#~ msgid ""
-#~ "The user id if available, For example the user Id/name for twitter, "
-#~ "Instagram or channel id for Youtube etc"
-#~ msgstr ""
-#~ "The user id if available, For example the user Id/name for twitter, "
-#~ "Instagram or channel id for Youtube etc"
-
-#~ msgid "Publication Types"
-#~ msgstr "Publication Types"
-
-#~ msgid "Is alert"
-#~ msgstr "Is alert"
-
-#~ msgid "Is press release"
-#~ msgstr "Is press release"
-
-#~ msgid "News Type"
-#~ msgstr "News Type"
-
-#~ msgid "News Types"
-#~ msgstr "News Types"
-
-#~ msgid "Services"
-#~ msgstr "Services"
-
-#~ msgid "Event type"
-#~ msgstr "Event type"
-
-#~ msgid "Thumbnail/image for this type of event."
-#~ msgstr "Thumbnail/image for this type of event."
-
-#~ msgid "Event Type"
-#~ msgstr "Event Type"

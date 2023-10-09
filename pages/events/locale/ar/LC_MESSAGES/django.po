@@ -16,18 +16,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: pages/events/models.py:46
-#, fuzzy
-#| msgid "Event Type"
 msgid "Event type"
 msgstr "نوع الحدث"
 
 #: pages/events/models.py:54
 msgid "Thumbnail/image for this type of event."
-msgstr "صورة مصغرة / صورة لهذا النوع من الأحداث."
+msgstr "صورة مصغرة/صورة لهذا النوع من الأحداث."
 
 #: pages/events/models.py:67 pages/events/models.py:177
 msgid "Event Type"
@@ -35,7 +32,7 @@ msgstr "نوع الحدث"
 
 #: pages/events/models.py:80
 msgid "How many events should be visible on the all events section ?"
-msgstr "كم عدد الأحداث التي يجب أن تكون مرئية في قسم جميع الأحداث؟"
+msgstr "كم عدد الأحداث التي يجب أن تكون مرئية في قسم كافة الأحداث؟"
 
 #: pages/events/models.py:81
 msgid "Events per page"
@@ -63,7 +60,7 @@ msgstr "تاريخ بدء الحدث"
 
 #: pages/events/models.py:181
 msgid "Day of the event. If multi-day, then this should be the first day"
-msgstr "يوم الحدث. إذا كان ذلك لعدة أيام ، فيجب أن يكون هذا هو اليوم الأول"
+msgstr "يوم الحدث. إذا كان متعدد الأيام، فيجب أن يكون هذا هو اليوم الأول"
 
 #: pages/events/models.py:183
 msgid "End date - Note: Not Required if this is a one day Event"
@@ -82,7 +79,8 @@ msgstr "وحدة زمنية"
 msgid "Where will the event take place ?"
 msgstr "أين سيقام الحدث؟"
 
-#: pages/events/models.py:192 pages/events/templates/event_meta_include.html:41
+#: pages/events/models.py:192
+#: pages/events/templates/event_meta_include.html:41
 msgid "Location"
 msgstr "موقع"
 
@@ -101,13 +99,11 @@ msgstr "وصف"
 
 #: pages/events/models.py:200
 msgid "Downloadable agenda document"
-msgstr "وثيقة أجندة قابلة للتحميل"
+msgstr "وثيقة جدول الأعمال للتحميل"
 
 #: pages/events/models.py:201
-#, fuzzy
-#| msgid "Agenda document, preferably in PDF format"
 msgid "Agenda document, if available, preferably in PDF format"
-msgstr "وثيقة جدول الأعمال ، إذا كانت متوفرة ، ويفضل أن تكون بتنسيق PDF"
+msgstr "وثيقة جدول الأعمال، إن وجدت، ويفضل أن تكون بصيغة PDF"
 
 #: pages/events/models.py:209
 msgid "Event Image"
@@ -115,7 +111,7 @@ msgstr "صورة الحدث"
 
 #: pages/events/models.py:210
 msgid "An image for this event, can be a poster or any relevant image"
-msgstr "صورة لهذا الحدث ، يمكن أن تكون ملصق أو أي صورة ذات صلة"
+msgstr "صورة لهذا الحدث، يمكن أن تكون ملصقًا أو أي صورة ذات صلة"
 
 #: pages/events/models.py:217
 msgid "Image Placement"
@@ -127,7 +123,7 @@ msgstr "قالب النموذج"
 
 #: pages/events/models.py:223
 msgid "Show this event in the events landing page as featured ?"
-msgstr "إظهار هذا الحدث في صفحة الأحداث المقصودة كما هو وارد؟"
+msgstr "إظهار هذا الحدث في الصفحة المقصودة للأحداث كما هو مميز؟"
 
 #: pages/events/models.py:223
 msgid "Featured"
@@ -143,7 +139,7 @@ msgstr "مخفيا"
 
 #: pages/events/models.py:231
 msgid "Show this event on the homepage ?"
-msgstr "إظهار هذا الحدث على الصفحة الرئيسية؟"
+msgstr "عرض هذا الحدث على الصفحة الرئيسية؟"
 
 #: pages/events/models.py:231
 msgid "Is visible on homepage"
@@ -151,14 +147,15 @@ msgstr "مرئي على الصفحة الرئيسية"
 
 #: pages/events/models.py:235 pages/events/templates/event_page.html:30
 msgid "Panelists"
-msgstr "المتحدثون"
+msgstr "أعضاء اللجنة"
 
 #: pages/events/models.py:239
 #: pages/events/templates/zoom_events_details_include.html:302
 msgid "Sessions"
 msgstr "الجلسات"
 
-#: pages/events/models.py:243 pages/events/templates/new_events_header.html:160
+#: pages/events/models.py:243
+#: pages/events/templates/new_events_header.html:160
 msgid "Additional Materials"
 msgstr "مواد إضافية"
 
@@ -168,7 +165,7 @@ msgstr "شكر وتقدير / الرعاة"
 
 #: pages/events/models.py:248
 msgid "Is archived"
-msgstr "مؤرشفة"
+msgstr "تمت أرشفته"
 
 #: pages/events/models.py:249
 msgid "Registration open"
@@ -176,11 +173,11 @@ msgstr "التسجيل مفتوح"
 
 #: pages/events/models.py:251
 msgid "Youtube Video ID if the event is being livestreamed"
-msgstr "معرّف فيديو Youtube في حالة بث الحدث مباشرةً"
+msgstr "معرف فيديو Youtube إذا كان يتم بث الحدث مباشرة"
 
 #: pages/events/models.py:252
 msgid "Meeting Registration Integration Platform"
-msgstr "منصة تكامل التسجيل في الاجتماع"
+msgstr "منصة تكامل تسجيل الاجتماعات"
 
 #: pages/events/models.py:255
 msgid "Platform for Event"
@@ -192,7 +189,7 @@ msgstr "محتوى"
 
 #: pages/events/models.py:286 pages/events/models.py:504
 msgid "SEO"
-msgstr "SEO"
+msgstr "تحسين محركات البحث"
 
 #: pages/events/models.py:287 pages/events/models.py:505
 msgid "Settings"
@@ -204,7 +201,7 @@ msgstr "صفحة الحدث"
 
 #: pages/events/models.py:426
 msgid "Optional Additional information/details"
-msgstr "معلومات / تفاصيل إضافية اختيارية"
+msgstr "معلومات/تفاصيل إضافية اختيارية"
 
 #: pages/events/models.py:427
 msgid "Additional Information - (Optional)"
@@ -216,11 +213,11 @@ msgstr "عدد التسجيلات المتاحة"
 
 #: pages/events/models.py:430
 msgid "Registration Limit - (Leave blank if no limit)"
-msgstr "حد التسجيل - (اتركه فارغا إذا لم يكن هناك حد)"
+msgstr "حد التسجيل - (اتركه فارغًا إذا لم يكن هناك حد)"
 
 #: pages/events/models.py:434
 msgid "Text to display after successful submission"
-msgstr "النص المراد عرضه بعد الإرسال الناجح"
+msgstr "النص الذي سيتم عرضه بعد التقديم الناجح"
 
 #: pages/events/models.py:435
 msgid "Thank you text"
@@ -236,25 +233,25 @@ msgid ""
 "multiple submissions by one person. This is usually the email address field "
 "in snake casing format"
 msgstr ""
-"حقل في النموذج للتحقق مما إذا كان قد تم تقديمه بالفعل وذلك لمنع عمليات "
-"الإرسال المتعددة بواسطة شخص واحد. عادة ما يكون هذا هو حقل عنوان البريد "
+"حقل في النموذج للتحقق مما إذا كان قد تم إرساله بالفعل وذلك لمنع عمليات "
+"الإرسال المتعددة من قبل شخص واحد. عادةً ما يكون هذا هو حقل عنوان البريد "
 "الإلكتروني بتنسيق غلاف الثعبان"
 
 #: pages/events/models.py:443
 msgid "Should we send a confirmation/follow up email ?"
-msgstr "هل يجب أن نرسل رسالة تأكيد / متابعة بالبريد الإلكتروني؟"
+msgstr "هل يجب أن نرسل رسالة تأكيد/متابعة بالبريد الإلكتروني؟"
 
 #: pages/events/models.py:444
 msgid "Send confirmation Email"
-msgstr "إرسال بريد إلكتروني للتأكيد"
+msgstr "إرسال تأكيد البريد الإلكتروني"
 
 #: pages/events/models.py:446
 msgid ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
 msgstr ""
-"الحقل في النموذج الذي يتوافق مع البريد الإلكتروني المراد استخدامه. يجب أن "
-"يكون snake_cased"
+"الحقل في النموذج الذي يتوافق مع البريد الإلكتروني المراد استخدامه. ينبغي أن "
+"يكون الثعبان"
 
 #: pages/events/models.py:447
 msgid "Email Field"
@@ -273,12 +270,12 @@ msgid ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
 msgstr ""
-"تم تمكين تسجيل التكبير / التصغير الدفعي - اتركه بدون تحديد لتسجيلات "
-"التكبير / التصغير المباشر"
+"تم تمكين تسجيل دفعة التكبير/التصغير - اتركه بدون تحديد لتسجيلات "
+"التكبير/التصغير المباشرة"
 
 #: pages/events/models.py:455
 msgid "Enable batch option for adding registrants to zoom later"
-msgstr "قم بتمكين خيار الدفعة لإضافة المسجلين للتكبير لاحقًا"
+msgstr "تمكين خيار الدفعة لإضافة المسجلين للتكبير لاحقًا"
 
 #: pages/events/models.py:473
 msgid "Event Registration Page"
@@ -286,113 +283,99 @@ msgstr "صفحة تسجيل الحدث"
 
 #: pages/events/models.py:506
 msgid "Zoom Events Settings"
-msgstr "تكبير إعدادات الأحداث"
+msgstr "إعدادات تكبير الأحداث"
 
 #: pages/events/models.py:507
-#, fuzzy
-#| msgid "Other Settings"
 msgid "MailChimp Settings"
-msgstr "إعدادات MailChimp"
+msgstr "إعدادات ميل تشيمب"
 
 #: pages/events/models.py:520
 msgid "Added to Zoom"
-msgstr "تمت الإضافة إلى Zoom"
+msgstr "تمت إضافته إلى التكبير"
 
 #: pages/events/templates/event_index_page.html:17
-#, fuzzy
-#| msgid "Featured"
 msgid "Featured Event"
-msgstr "متميز"
+msgstr "حدث مميز"
 
 #: pages/events/templates/event_index_page.html:26
 msgid "All Events"
-msgstr ""
+msgstr "كل الأحداث"
 
 #: pages/events/templates/event_meta_include.html:12
 msgid "Ended"
-msgstr ""
+msgstr "انتهى"
 
 #: pages/events/templates/event_meta_include.html:28
 msgid "Type"
-msgstr ""
+msgstr "يكتب"
 
 #: pages/events/templates/event_meta_include.html:55
 msgid "Start Date"
-msgstr ""
+msgstr "تاريخ البدء"
 
 #: pages/events/templates/event_meta_include.html:57
 #, python-format
 msgid "%(start_date)s"
-msgstr ""
+msgstr "%(start_date)s"
 
 #: pages/events/templates/event_meta_include.html:72
 msgid "End Date"
-msgstr ""
+msgstr "تاريخ الانتهاء"
 
 #: pages/events/templates/event_meta_include.html:74
 #, python-format
 msgid "%(end_date)s"
-msgstr ""
+msgstr "%(end_date)s"
 
 #: pages/events/templates/event_meta_include.html:116
 #, fuzzy
 #| msgid "Registration open"
 msgid "Registration closed"
-msgstr "التسجيل مفتوح"
+msgstr "التسجيل مغلق"
 
 #: pages/events/templates/event_meta_include.html:128
-#, fuzzy
-#| msgid "Registration open"
 msgid "Registration will be open soon"
-msgstr "التسجيل مفتوح"
+msgstr "سيتم فتح التسجيل قريبا"
 
 #: pages/events/templates/event_meta_include.html:143
 msgid "Register"
-msgstr ""
+msgstr "يسجل"
 
 #: pages/events/templates/event_meta_include.html:156
-#, fuzzy
-#| msgid "Registration open"
 msgid "Register on Zoom"
-msgstr "التسجيل مفتوح"
+msgstr "التسجيل على زووم"
 
 #: pages/events/templates/event_page.html:41
-#, fuzzy
-#| msgid "Acknowledgement/sponsors"
 msgid "Acknowledgements"
-msgstr "شكر وتقدير / الرعاة"
+msgstr "شكر وتقدير"
 
 #: pages/events/templates/event_registration_page.html:41
 msgid "Submit"
-msgstr ""
+msgstr "يُقدِّم"
 
 #: pages/events/templates/event_registration_page.html:50
 msgid "ended"
-msgstr ""
+msgstr "انتهى"
 
 #: pages/events/templates/event_registration_page.html:57
-#, fuzzy
-#| msgid "Registration open"
 msgid " Registration closed"
-msgstr "التسجيل مفتوح"
+msgstr "التسجيل مغلق"
 
 #: pages/events/templates/events_filter_include.html:9
-#, fuzzy
-#| msgid "Event Type"
 msgid "Filter by Event Type"
-msgstr "نوع الحدث"
+msgstr "التصفية حسب نوع الحدث"
 
 #: pages/events/templates/events_filter_include.html:35
 msgid "Filter by Year"
-msgstr ""
+msgstr "التصفية حسب السنة"
 
 #: pages/events/templates/events_filter_include.html:57
 msgid "Filter by Status"
-msgstr ""
+msgstr "التصفية حسب الحالة"
 
 #: pages/events/templates/events_filter_include.html:65
 msgid "Past"
-msgstr ""
+msgstr "ماضي"
 
 #: pages/events/templates/events_list_include.html:6
 #, python-format
@@ -407,7 +390,7 @@ msgstr[5] ""
 
 #: pages/events/templates/events_list_include.html:56
 msgid " Read More"
-msgstr ""
+msgstr "اقرأ أكثر"
 
 #: pages/events/templates/new_events_header.html:129
 #, python-format
@@ -424,37 +407,16 @@ msgstr[5] ""
 #, fuzzy
 #| msgid "Downloadable agenda document"
 msgid "Download Agenda"
-msgstr "وثيقة أجندة قابلة للتحميل"
+msgstr "تحميل جدول الأعمال"
 
 #: pages/events/templates/panelists_include.html:90
 msgid "Topic"
-msgstr ""
+msgstr "عنوان"
 
 #: pages/events/templates/zoom_events_details_include.html:309
 msgid "Speakers"
-msgstr ""
+msgstr "مكبرات الصوت"
 
 #: pages/events/templates/zoom_events_details_include.html:316
 msgid "Sponsors"
-msgstr ""
-
-#~ msgid "Banner Image"
-#~ msgstr "صورة بانر"
-
-#~ msgid "A high quality image related to your organisation events/trainings"
-#~ msgstr "صورة عالية الجودة تتعلق بالفعاليات / التدريبات الخاصة بمؤسستك"
-
-#~ msgid "Banner Title"
-#~ msgstr "عنوان البانر"
-
-#~ msgid "Banner Subtitle"
-#~ msgstr "العنوان الفرعي للراية"
-
-#~ msgid "Call to action button text"
-#~ msgstr "نص زر الحث على اتخاذ إجراء"
-
-#~ msgid "Call to action related page"
-#~ msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
-
-#~ msgid "Banner Section"
-#~ msgstr "قسم البانر"
+msgstr "الرعاة"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:14+0300\n"
+"POT-Creation-Date: 2023-10-09 10:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,24 +35,26 @@ msgstr "tipo de producto"
 #: pages/products/blocks.py:44 pages/products/blocks.py:60
 #: pages/products/models.py:230
 msgid "Effective from"
-msgstr ""
+msgstr "Válido desde"
 
 #: pages/products/blocks.py:45 pages/products/blocks.py:61
 msgid "The date when this product becomes effective"
-msgstr ""
+msgstr "La fecha en la que este producto entra en vigor."
 
 #: pages/products/blocks.py:46 pages/products/blocks.py:62
 #: pages/products/models.py:232
 msgid "Effective until"
-msgstr ""
+msgstr "Efectivo hasta"
 
 #: pages/products/blocks.py:47 pages/products/blocks.py:63
 #, fuzzy
-#| msgid "Up to when is this product valid ? Leave blank if not applicable"
+#| msgid ""
+#| "Up to when is this product valid ? Leave blank if not applicable"
 msgid ""
 "The last day this product remains effective. Leave blank if not applicable"
 msgstr ""
-"¿Hasta cuándo es válido este producto? Dejar en blanco si no es aplicable"
+"El último día este producto sigue siendo eficaz. Dejar en blanco si no es "
+"aplicable"
 
 #: pages/products/blocks.py:49
 msgid "Image"
@@ -60,7 +62,7 @@ msgstr "Imagen"
 
 #: pages/products/blocks.py:50
 msgid "Summary of the map/image information"
-msgstr "Resumen de la información del mapa/imagen"
+msgstr "Resumen de la información del mapa/imagen."
 
 #: pages/products/blocks.py:58
 msgid "Thumbnail of the document"
@@ -78,11 +80,11 @@ msgstr "Documento"
 #, fuzzy
 #| msgid "Summary of the product release"
 msgid "Summary of the document information"
-msgstr "Resumen de la información del documento"
+msgstr "Resumen de la información del documento."
 
 #: pages/products/models.py:37
 msgid "Products listing Heading"
-msgstr "Listado de productos Encabezado"
+msgstr "Listado de productos Título"
 
 #: pages/products/models.py:44
 #, fuzzy
@@ -118,7 +120,7 @@ msgstr "Productos por pagina"
 
 #: pages/products/models.py:102
 msgid "Map Layers"
-msgstr ""
+msgstr "Capas de mapa"
 
 #: pages/products/models.py:112
 msgid "Other settings"
@@ -135,20 +137,23 @@ msgstr "Páginas de productos"
 
 #: pages/products/models.py:200
 msgid "Product Tag"
-msgstr "Etiqueta del producto"
+msgstr "Etiqueta de producto"
 
 #: pages/products/models.py:231
 msgid "The first day when products added below become effective"
 msgstr ""
+"El primer día en que los productos añadidos a continuación entren en vigor"
 
 #: pages/products/models.py:233
 #, fuzzy
-#| msgid "Up to when is this product valid ? Leave blank if not applicable"
+#| msgid ""
+#| "Up to when is this product valid ? Leave blank if not applicable"
 msgid ""
 "The last day when products added below remain effective. Leave blank if not "
 "applicable"
 msgstr ""
-"¿Hasta cuándo es válido este producto? Dejar en blanco si no es aplicable"
+"El último día en el que los productos añadidos a continuación siguen siendo "
+"efectivos. Dejar en blanco si no es aplicable"
 
 #: pages/products/models.py:288
 #, fuzzy
@@ -158,78 +163,76 @@ msgstr "Artículo del producto"
 
 #: pages/products/templates/products/product_detail.html:93
 msgid "View"
-msgstr ""
+msgstr "Vista"
 
 #: pages/products/templates/products/product_detail.html:104
 msgid "Download"
-msgstr ""
+msgstr "Descargar"
 
 #: pages/products/templates/products/product_detail.html:132
 #, fuzzy, python-format
 #| msgid "Document"
 msgid "Download document  - %(file_size)s"
-msgstr "Documento"
+msgstr "Descargar documento - %(file_size)s"
 
 #: pages/products/templates/products/product_detail.html:149
 #, fuzzy
 #| msgid "Document"
 msgid "Download document"
-msgstr "Documento"
+msgstr "Descargar documento"
 
 #: pages/products/templates/products/product_filter_include.html:9
 msgid "Filter by Year"
-msgstr ""
+msgstr "Filtrar por año"
 
 #: pages/products/templates/products/product_filter_include.html:31
 msgid "Filter by Month"
-msgstr ""
+msgstr "Filtrar por mes"
 
 #: pages/products/templates/products/product_index.html:31
 msgid "Browse"
-msgstr ""
+msgstr "Navegar"
 
 #: pages/products/templates/products/product_index.html:39
 msgid "MapViewer"
-msgstr ""
+msgstr "Visor de mapas"
 
 #: pages/products/templates/products/product_index.html:50
 #, fuzzy
 #| msgid "Product Pages"
 msgid "Browse Product Updates"
-msgstr "Páginas de productos"
+msgstr "Explorar actualizaciones de productos"
 
 #: pages/products/templates/products/product_layer_integration.html:6
 #, python-format
-msgid ""
-"\n"
-"        %(title)s\n"
-"    "
-msgstr ""
+msgid "%(title)s"
+msgstr "%(title)s"
 
 #: pages/products/templates/products/product_layer_integration.html:15
 msgid "Product Layers Integration"
-msgstr ""
+msgstr "Integración de capas de productos"
 
 #: pages/products/templates/products/product_layer_integration.html:37
 msgid "Save"
-msgstr ""
+msgstr "Ahorrar"
 
 #: pages/products/templates/products/product_list_include.html:6
 #, python-format
-msgid ""
-"\n"
-"                Showing %(counter)s result\n"
-"                "
-msgid_plural ""
-"\n"
-"                Showing %(counter)s results\n"
-"            "
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
 #: pages/products/templates/products/product_list_include.html:51
 msgid "Read More"
-msgstr ""
+msgstr "Leer más"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "        %(title)s\n"
+#~ "    "
+#~ msgstr "%(título)s"
 
 #~ msgid "Date"
 #~ msgstr "Fecha"
@@ -238,28 +241,28 @@ msgstr ""
 #~ msgstr "Válido hasta"
 
 #~ msgid "Banner Image"
-#~ msgstr "Imagen de la pancarta"
+#~ msgstr "Imagen de banner"
 
 #~ msgid "A high quality image related to this Product"
-#~ msgstr "Una imagen de alta calidad relacionada con este Producto"
+#~ msgstr "Una imagen de alta calidad relacionada con este Producto."
 
 #~ msgid "Banner Title"
-#~ msgstr "Título de la pancarta"
+#~ msgstr "Título del banner"
 
 #~ msgid "Banner Subtitle"
-#~ msgstr "Subtítulo de pancarta"
+#~ msgstr "Subtítulo del banner"
 
 #~ msgid "Call to action button text"
 #~ msgstr "Texto del botón de llamada a la acción"
 
 #~ msgid "Call to action related page"
-#~ msgstr "Página relacionada con la llamada a la acción"
+#~ msgstr "Página relacionada con el llamado a la acción"
 
 #~ msgid "Introduction section title"
 #~ msgstr "Título de la sección de introducción"
 
 #~ msgid "A description of what your organisation does under  this Product"
-#~ msgstr "Una descripción de lo que hace su organización bajo este Producto"
+#~ msgstr "Una descripción de lo que hace su organización en este Producto"
 
 #~ msgid "Introduction text"
 #~ msgstr "Texto de introducción"
@@ -277,20 +280,20 @@ msgstr ""
 #~ msgstr "bloque de características"
 
 #~ msgid ""
-#~ "The year for the earliest available bulletin. This is used to generate "
-#~ "the years available for filtering "
+#~ "The year for the earliest available bulletin. This is used to generate the "
+#~ "years available for filtering "
 #~ msgstr ""
-#~ "El año del primer boletín disponible. Esto se utiliza para generar los "
-#~ "años disponibles para filtrar"
+#~ "El año del primer boletín disponible. Esto se utiliza para generar los años "
+#~ "disponibles para filtrar."
 
 #~ msgid "Earliest bulletin year"
-#~ msgstr "Primer año de boletín"
+#~ msgstr "Año del boletín más antiguo"
 
 #~ msgid "Banner Section"
-#~ msgstr "Sección de banner"
+#~ msgstr "Sección de pancartas"
 
 #~ msgid "Introduction Section"
-#~ msgstr "Sección de Introducción"
+#~ msgstr "Sección de introducción"
 
 #~ msgid "Year"
 #~ msgstr "Año"
@@ -302,4 +305,4 @@ msgstr ""
 #~ msgstr "Resumen"
 
 #~ msgid "Image that will appear as thumbnail"
-#~ msgstr "Imagen que aparecerá como miniatura"
+#~ msgstr "Imagen que aparecerá como miniatura."

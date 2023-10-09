@@ -3,7 +3,7 @@
 {% load l10n %}
 {% load wagtailadmin_tags wagtailimages_tags static %}
 {% block titletag %}
-    {% blocktranslate with title=page.get_admin_display_title %}
+    {% blocktranslate trimmed with title=page.get_admin_display_title %}
         {{ title }}
     {% endblocktranslate %}
 {% endblock %}

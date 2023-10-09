@@ -3,7 +3,7 @@
 <div class="results-view">
     <div class="results-header">
         <h5 class="results-count results">
-            {% blocktranslate count counter=products.paginator.count trimmmed %}
+            {% blocktranslate trimmed count counter=products.paginator.count %}
                 Showing {{ counter }} result
                 {% plural %}
                 Showing {{ counter }} results

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:18+0300\n"
+"POT-Creation-Date: 2023-10-09 09:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,8 +31,6 @@ msgid "Section Text"
 msgstr "Maandishi ya Sehemu"
 
 #: base/blocks.py:49 base/blocks.py:62
-#, fuzzy
-#| msgid "Description"
 msgid "Section description"
 msgstr "Maelezo ya sehemu"
 
@@ -219,7 +217,7 @@ msgstr "Nchi"
 
 #: base/models/site_settings.py:34
 msgid "Organisation Name"
-msgstr "Jina la Shirika"
+msgstr "Jina la shirika"
 
 #: base/models/site_settings.py:36
 msgid "Phone Number"
@@ -274,7 +272,7 @@ msgstr "Ukurasa haujapatikana Picha"
 
 #: base/models/site_settings.py:90
 msgid "Image shown on error 404 page"
-msgstr "Picha iliyoonyeshwa kwenye ukurasa wa 404 wa hitilafu"
+msgstr "Picha iliyoonyeshwa kwenye ukurasa wa makosa 404"
 
 #: base/models/site_settings.py:99
 msgid "Server Error Image"
@@ -310,11 +308,11 @@ msgstr "Ufunguo wa API ya Youtube"
 
 #: base/models/site_settings.py:146
 msgid ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 msgstr ""
-"Ili kusanidi Ufunguo wa API ya Youtube rejelea https://developers.google.com/"
-"youtube/v3/getting-started"
+"Ili kusanidi Ufunguo wa API ya Youtube rejelea "
+"https://developers.google.com/youtube/v3/getting-started"
 
 #: base/models/site_settings.py:151
 msgid "GA Tracking ID"
@@ -332,10 +330,11 @@ msgstr "Mibofyo ya vitufe vya kufuatilia"
 #: base/models/site_settings.py:158
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 msgstr ""
-"Fuatilia mibofyo yote ya vitufe kwa kutumia ufuatiliaji wa matukio ya Google "
-"Analytics, maelezo ya ufuatiliaji wa matukio yanaweza kubainishwa katika "
+"Fuatilia mibofyo yote ya vitufe kwa kutumia ufuatiliaji wa matukio ya Google"
+" Analytics, maelezo ya ufuatiliaji wa matukio yanaweza kubainishwa katika "
 "chaguo za mipangilio ya kina ya kila kitufe."
 
 #: base/models/site_settings.py:163
@@ -371,8 +370,6 @@ msgid "languages"
 msgstr "lugha"
 
 #: base/models/site_settings.py:206
-#, fuzzy
-#| msgid "Default Language"
 msgid "Google Translate Languages"
 msgstr "Lugha za Tafsiri za Google"
 
@@ -433,14 +430,10 @@ msgid "Theme"
 msgstr "Mandhari"
 
 #: base/models/site_settings.py:284
-#, fuzzy
-#| msgid "Organisation Settings"
 msgid "Navigation Setting"
 msgstr "Mipangilio ya Urambazaji"
 
 #: base/models/site_settings.py:285
-#, fuzzy
-#| msgid "Organisation Settings"
 msgid "Navigation Settings"
 msgstr "Mipangilio ya Urambazaji"
 
@@ -493,28 +486,22 @@ msgid "All vacancies page"
 msgstr "Ukurasa wa nafasi zote za kazi"
 
 #: base/models/site_settings.py:328
-#, fuzzy
-#| msgid "All feedback page"
 msgid "Feedback page"
 msgstr "Ukurasa wa maoni"
 
 #: base/models/site_settings.py:329
 msgid "CAP Alerts RSS Feed"
-msgstr ""
+msgstr "Arifa za CAP Mlisho wa RSS"
 
 #: base/models/site_settings.py:349 base/models/site_settings.py:350
 msgid "Important Pages"
 msgstr "Kurasa Muhimu"
 
 #: base/models/snippets.py:18
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product Name"
 msgstr "Jina la bidhaa"
 
 #: base/models/snippets.py:22 base/models/snippets.py:58
-#, fuzzy
-#| msgid "Products Categories"
 msgid "Product Categories"
 msgstr "Aina za Bidhaa"
 
@@ -523,8 +510,6 @@ msgid "Product Category"
 msgstr "Aina ya Bidhaa"
 
 #: base/models/snippets.py:26 base/models/snippets.py:46
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product"
 msgstr "Bidhaa"
 
@@ -538,14 +523,10 @@ msgid "Name"
 msgstr "Jina"
 
 #: base/models/snippets.py:54
-#, fuzzy
-#| msgid "Products Categories"
 msgid "Product Item Types"
 msgstr "Aina za Bidhaa"
 
 #: base/models/snippets.py:54
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product Item Type"
 msgstr "Aina ya Bidhaa"
 
@@ -586,93 +567,54 @@ msgid "GIS Applications"
 msgstr "Maombi ya GIS"
 
 #: base/templates/admin/cms_upgrade_notification.html:5
-#, python-format
-msgid ""
-"CMS upgrade available. Your version: <strong>%(current_version)s</strong>. "
-"Latest version: <strong id=\"w-cms-latest-version\"></strong>."
-msgstr ""
+msgid "CMS upgrade available. Your version:"
+msgstr "Uboreshaji wa CMS unapatikana. Toleo lako:"
 
-#: base/templates/admin/cms_upgrade_notification.html:11
+#: base/templates/admin/cms_upgrade_notification.html:6
+msgid "Latest version:"
+msgstr "Toleo la hivi punde:"
+
+#: base/templates/admin/cms_upgrade_notification.html:8
 msgid "Upgrade"
-msgstr ""
+msgstr "Boresha"
 
 #: base/templates/admin/cms_version.html:6
 #, python-format
-msgid ""
-"\n"
-"    %(title)s\n"
-msgstr ""
+msgid "%(title)s"
+msgstr "%(title)s"
 
 #: base/templates/admin/cms_version.html:34
 msgid "CMS Version Check"
-msgstr ""
+msgstr "Ukaguzi wa Toleo la CMS"
 
 #: base/templates/admin/cms_version.html:40
 msgid "Current installed version"
-msgstr ""
+msgstr "Toleo la sasa lililosakinishwa"
 
 #: base/templates/admin/cms_version.html:46
 msgid "Latest available version"
-msgstr ""
+msgstr "Toleo la hivi karibuni linalopatikana"
 
 #: base/templates/admin/cms_version.html:54
 msgid "All good. You are running on the latest version"
-msgstr ""
+msgstr "Zote nzuri. Unatumia toleo jipya zaidi"
 
 #: base/templates/admin/cms_version.html:62
 msgid "A CMS upgrade was initiated. Please wait for the upgrade to complete"
-msgstr ""
+msgstr "Uboreshaji wa CMS ulianzishwa. Tafadhali subiri uboreshaji ukamilike"
 
 #: base/templates/admin/cms_version.html:68
 msgid "CMS upgrade available"
-msgstr ""
+msgstr "Uboreshaji wa CMS unapatikana"
 
 #: base/templates/admin/cms_version.html:72
 msgid "Release notes"
-msgstr ""
+msgstr "Toa maelezo"
 
 #: base/templates/admin/cms_version.html:99
 msgid "Upgrade now"
-msgstr ""
+msgstr "Kuboresha sasa"
 
 #: base/wagtail_hooks.py:44
 msgid "Themes"
 msgstr "Mandhari"
-
-#~ msgid "All alerts page"
-#~ msgstr "Ukurasa wa arifa zote"
-
-#~ msgid ""
-#~ "The user id if available, For example the user Id/name for twitter, "
-#~ "Instagram or channel id for Youtube etc"
-#~ msgstr ""
-#~ "Kitambulisho cha mtumiaji kama kinapatikana, Kwa mfano kitambulisho cha "
-#~ "mtumiaji/jina la twitter, Instagram au kitambulisho cha kituo cha Youtube "
-#~ "n.k."
-
-#~ msgid "Publication Types"
-#~ msgstr "Aina za Uchapishaji"
-
-#~ msgid "Is alert"
-#~ msgstr "Yuko macho"
-
-#~ msgid "Is press release"
-#~ msgstr "Ni taarifa kwa vyombo vya habari"
-
-#~ msgid "News Type"
-#~ msgstr "Aina ya Habari"
-
-#~ msgid "News Types"
-#~ msgstr "Aina za Habari"
-
-#~ msgid "Services"
-#~ msgstr "Huduma"
-
-#~ msgid "Event type"
-#~ msgstr "Aina ya tukio"
-
-#~ msgid "Thumbnail/image for this type of event."
-#~ msgstr "Kijipicha/picha ya aina hii ya tukio."
-
-#~ msgid "Event Type"
-#~ msgstr "Aina ya Tukio"

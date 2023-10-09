@@ -87,7 +87,7 @@
             <div class="container">
                 <h2 class="term">{{ page.title }}</h2>
                 <div class="metadata">
-                    {% blocktranslate with last_published=page.last_published_at|date:"M d, Y" trimmed %}
+                    {% blocktranslate trimmed with last_published=page.last_published_at|date:"M d, Y" %}
                         Updated on : {{ last_published }}
                     {% endblocktranslate %}
                 </div>

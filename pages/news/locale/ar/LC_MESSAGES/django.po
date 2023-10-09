@@ -16,8 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: pages/news/models.py:32
 msgid "Name"
@@ -67,7 +66,7 @@ msgstr "عنوان فرعي اختياري"
 
 #: pages/news/models.py:153
 msgid "Subtitle"
-msgstr "العنوان الفرعي"
+msgstr "الترجمة"
 
 #: pages/news/models.py:154
 msgid "Body"
@@ -75,7 +74,7 @@ msgstr "جسم"
 
 #: pages/news/models.py:155
 msgid "Feature Image"
-msgstr "الصورة المميزة"
+msgstr "صورة مميزة"
 
 #: pages/news/models.py:156
 msgid "Relevant Services"
@@ -88,7 +87,8 @@ msgstr "المشاريع ذات الصلة"
 #: pages/news/models.py:158
 msgid ""
 "Should this news appear on the news landing paging as the featured one ?"
-msgstr "هل يجب أن يظهر هذا الخبر في صفحة هبوط الأخبار على أنها مميزة؟"
+msgstr ""
+"هل يجب أن يظهر هذا الخبر على الصفحة المقصودة للأخبار على أنه الخبر المميز؟"
 
 #: pages/news/models.py:160
 msgid "Is featured"
@@ -100,11 +100,11 @@ msgstr "هل هذا تنبيه؟"
 
 #: pages/news/models.py:161
 msgid "Is alert"
-msgstr "في حالة تأهب"
+msgstr "هو في حالة تأهب"
 
 #: pages/news/models.py:163
 msgid "Should this appear in the homepage as an alert/latest update ?"
-msgstr "هل يجب أن يظهر هذا في الصفحة الرئيسية كتنبيه / آخر تحديث؟"
+msgstr "هل يجب أن يظهر هذا في الصفحة الرئيسية كتنبيه/آخر تحديث؟"
 
 #: pages/news/models.py:165
 msgid "Is visible on homepage"
@@ -132,33 +132,33 @@ msgstr "صفحة الأخبار"
 
 #: pages/news/templates/news_detail_page.html:71
 msgid "Find out more"
-msgstr ""
+msgstr "اكتشف المزيد"
 
 #: pages/news/templates/news_filter_include.html:9
 #, fuzzy
 #| msgid "News type"
 msgid "Filter by News Type"
-msgstr "نوع الأخبار"
+msgstr "تصفية حسب نوع الأخبار"
 
 #: pages/news/templates/news_filter_include.html:34
 msgid "Filter by Service"
-msgstr ""
+msgstr "التصفية حسب الخدمة"
 
 #: pages/news/templates/news_filter_include.html:56
 msgid "Filter by Year"
-msgstr ""
+msgstr "التصفية حسب السنة"
 
 #: pages/news/templates/news_index_page.html:18
 #, fuzzy
 #| msgid "Feature Image"
 msgid "Featured News"
-msgstr "الصورة المميزة"
+msgstr "أخبار مميزة"
 
 #: pages/news/templates/news_index_page.html:27
 #, fuzzy
 #| msgid "News type"
 msgid "All News Updates"
-msgstr "أنواع الأخبار"
+msgstr "جميع تحديثات الأخبار"
 
 #: pages/news/templates/news_list_include.html:6
 #, python-format
@@ -173,25 +173,4 @@ msgstr[5] ""
 
 #: pages/news/templates/news_list_include.html:65
 msgid "Read More"
-msgstr ""
-
-#~ msgid "Banner Image"
-#~ msgstr "صورة بانر"
-
-#~ msgid "A high quality image related to News"
-#~ msgstr "صورة ذات جودة عالية تتعلق بالأخبار"
-
-#~ msgid "Banner Title"
-#~ msgstr "عنوان البانر"
-
-#~ msgid "Banner Subtitle"
-#~ msgstr "العنوان الفرعي للراية"
-
-#~ msgid "Call to action button text"
-#~ msgstr "نص زر الحث على اتخاذ إجراء"
-
-#~ msgid "Call to action related page"
-#~ msgstr "صفحة ذات صلة بالحث على اتخاذ إجراء"
-
-#~ msgid "Banner Section"
-#~ msgstr "قسم البانر"
+msgstr "اقرأ أكثر"

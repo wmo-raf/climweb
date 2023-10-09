@@ -195,9 +195,7 @@
                                                                             {% translate "Issued" %}
                                                                         </span>
                                                                         <span>
-                                                                            {% blocktranslate with issue_date=page.sent trimmed %}
-                                                                                {{ issue_date }}
-                                                                            {% endblocktranslate %}
+                                                                            {{ page.sent }}
                                                                         </span>
                                                                     </div>
                                                                 </li>
@@ -209,13 +207,9 @@
                                                                         </span>
                                                                         <span>
                                                                             {% if  item.value.effective %}
-                                                                                {% blocktranslate with effective_date=item.value.effective trimmed %}
-                                                                                    {{ effective_date }}
-                                                                                {% endblocktranslate %}
+                                                                                {{ item.value.effective }}
                                                                             {% else %}
-                                                                                {% blocktranslate with sent_date=page.sent trimmed %}
-                                                                                    {{ page.sent }}
-                                                                                {% endblocktranslate %}
+                                                                                {{ page.sent }}
                                                                             {% endif %}
                                                                         </span>
                                                                     </div>
