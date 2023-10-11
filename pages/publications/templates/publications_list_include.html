@@ -3,11 +3,11 @@
 <div class="results-view">
     <div class="results-header">
         <h5 class="results-count results">
-            {% blocktranslation count counter=publications.paginator.count %}
+            {% blocktranslate trimmed count counter=publications.paginator.count %}
                 Showing {{ counter }} result
                 {% plural %}
                 Showing {{ counter }} result
-            {% endblocktranslation %}
+            {% endblocktranslate %}
         </h5>
         <div>
             <button id="list-view-button" class="publication-filter view active" name="view" value="list">
@@ -29,7 +29,7 @@
                                value="{{ request.GET.q }}" name="q">
                     </div>
                     <div class="control">
-                        <button class="button is-small submit-button is-rounded" type="submit">]
+                        <button class="button is-small submit-button is-rounded" type="submit">
                             {% translate "Search" %}
                         </button>
                     </div>
@@ -68,12 +68,12 @@
                                 <span class="item-tag">{{ publication.publication_type }}</span>
                             </div>
                             <div>
-                                {% translation "Number of views" as no_of_views_title %}
+                                {% translate "Number of views" as no_of_views_title %}
                                 <span class="icon item-tag" title="{{ no_of_views_title }}">
                                     <i class="fas fa-eye"></i>
                                     <span class="item-tag-content">{{ publication.webhits.count }}</span>
                                 </span>
-                                {% translation "Number of downloads" as no_of_down_title %}
+                                {% translate "Number of downloads" as no_of_down_title %}
                                 <span class="icon item-tag" style="padding-left: 10px" title="{{ no_of_down_title }}">
                                     <i class="fas fa-file-download"></i>
                                     <span class="item-tag-content">{{ publication.document.download_count }}</span>
