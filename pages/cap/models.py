@@ -2,6 +2,7 @@ from datetime import datetime
 
 from adminboundarymanager.models import AdminBoundarySettings
 from capeditor.models import AbstractCapAlertPage
+from capeditor.pubsub.publish import publish_cap_mqtt_message
 from django.core.files.base import ContentFile
 from django.db import models
 from django.urls import reverse
@@ -199,7 +200,10 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
 def on_publish_cap_alert(sender, **kwargs):
     instance = kwargs['instance']
-    instance.generate_geojson_map_image()
+    # instance.generate_geojson_map_image()
+
+    topic = "cap/alerts/all"
+    publish_cap_mqtt_message(instance, topic)
 
 
 page_published.connect(on_publish_cap_alert, sender=CapAlertPage)

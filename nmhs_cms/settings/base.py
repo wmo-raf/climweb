@@ -387,3 +387,6 @@ ADMIN_URL_PATH = env.str("ADMIN_URL_PATH")
 CMS_VERSION = env.str("CMS_VERSION", default="")
 
 CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
+
+# mqtt broker
+CMS_BROKER_URI = CAP_BROKER_URI = env.str("CMS_BROKER_URI", default="")
