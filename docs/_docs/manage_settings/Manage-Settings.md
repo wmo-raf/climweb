@@ -33,12 +33,20 @@ The CMS supports integrations with 3rd party softwares including Recaptcha, YouT
 
 ![Integrations](../../_static/images/settings/integrations.png "Integrations")
 
-## Managing Languages
+## Managing Website Languages
 
 Multiple languages can be configured inorder to allow translation of the website by users to their prefered language. A language prefix and name is required and default state to specify the primary language the website is published in.
 
 ![Languages](../../_static/images/settings/manage_languages_explorer.png "Languages")
 
 ![Languages](../../_static/images/settings/manage_languages.png "Languages")
+
+## Managing CMS Languages
+
+To change the language of the CMS UI, this setting can be configured from the user account settings.
+
+![Languages](../../_static/images/settings/user_settings.png "Languages")
+
+![Languages](../../_static/images/settings/cms_language.png "Languages")
 
 
