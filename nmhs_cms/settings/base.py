@@ -248,7 +248,7 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 
 LOCALE_PATHS = [
     # 'base/locale',
-    # 'docs/locale',
+    'docs/locale',
     #
     # 'nmhs_cms/locale',
     #
@@ -272,7 +272,7 @@ LOCALE_PATHS = [
     # 'pages/organisation_pages/vacancies/locale',
     #
     # 'pages/products/locale',
-    'pages/publications/locale',
+    # 'pages/publications/locale',
     # 'pages/satellite_imagery/locale',
     # 'pages/search/locale',
     # 'pages/services/locale',
