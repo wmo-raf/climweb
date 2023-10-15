@@ -148,31 +148,34 @@ class HomePage(MetadataPageMixin, Page):
 
         city = request.GET.get('city_id', default_city)
 
-        context['selected_city']= City.objects.get(pk=city).name
-        start_date_param = datetime.today()
-        end_date_param = start_date_param + timedelta(days=6)
-        forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
-                                                forecast_date__lte=end_date_param.date(),
-                                                effective_period__whole_day=True, city__id=city) \
-            .order_by('forecast_date') \
-            .values('id', 'city__name', 'city__id', 'forecast_date', 'data_value',
-                    'condition')
+        print("CITY ID",city)
 
-        # sort the data by city
-        data_sorted = sorted(forecast_data, key=lambda x: x['city__id'])
+        if city:
+            context['selected_city']= City.objects.get(pk=city).name
+            start_date_param = datetime.today()
+            end_date_param = start_date_param + timedelta(days=6)
+            forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
+                                                    forecast_date__lte=end_date_param.date(),
+                                                    effective_period__whole_day=True, city__id=city) \
+                .order_by('forecast_date') \
+                .values('id', 'city__name', 'city__id', 'forecast_date', 'data_value',
+                        'condition')
 
-        # group the data by city
-        grouped_forecast = []
-        for city, group in groupby(data_sorted, lambda x: x['city__id']):
-            city_data = {'city': city, 'forecast_items': list(group)}
+            # sort the data by city
+            data_sorted = sorted(forecast_data, key=lambda x: x['city__id'])
 
-            for item in city_data['forecast_items']:
-                # date_obj = datetime.strptime( item['forecast_date'], '%Y-%m-%d').date()
-                item['forecast_date'] = item['forecast_date'].strftime('%a %d, %b').replace(' 0', ' ')
-                item['condition_display'] = dict(Forecast.CONDITION_CHOICES).get(item['condition'])
-            grouped_forecast.append(city_data)
+            # group the data by city
+            grouped_forecast = []
+            for city, group in groupby(data_sorted, lambda x: x['city__id']):
+                city_data = {'city': city, 'forecast_items': list(group)}
 
-        context['grouped_forecast'] = grouped_forecast
+                for item in city_data['forecast_items']:
+                    # date_obj = datetime.strptime( item['forecast_date'], '%Y-%m-%d').date()
+                    item['forecast_date'] = item['forecast_date'].strftime('%a %d, %b').replace(' 0', ' ')
+                    item['condition_display'] = dict(Forecast.CONDITION_CHOICES).get(item['condition'])
+                grouped_forecast.append(city_data)
+
+            context['grouped_forecast'] = grouped_forecast
 
         return context
 

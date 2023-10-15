@@ -188,8 +188,6 @@
     
     const static_path = '{% static "forecastmanager/img/" %}'
 
-   
-
     // Make an AJAX request to fetch the URL
     $(document).on('change', '#city-option', function() {
 
@@ -200,7 +198,6 @@
 
     });
 
-    
 
     // Custom comparison function to sort by date
 function compareByDate(a, b) {
@@ -282,7 +279,10 @@ function compareByDate(a, b) {
                         }
                     }
                 })
+
                 paramData.push(paramVal)
+
+
             })
 
             forecasts.map(forecast => {
@@ -300,6 +300,7 @@ function compareByDate(a, b) {
             })
                     
         }
+
 
         return {
             vals:paramData,
@@ -320,7 +321,13 @@ function compareByDate(a, b) {
 
             params.map((param, i) => {
                 xAxis_offset = param.param_key === 'wind_from_direction' ? 40 : 0
-                                            
+                             
+                if(parsed_data[i].length==0){
+                    $(`.${container}-container`).hide()
+
+                }else{
+                    $(`.${container}-container`).show()
+                }
                 return paramSeries.push(
                     {
                         type:param.param_key === 'wind_from_direction' ? 'windbarb' : param.param_key === 'precipitation_amount' ? 'column' : param.param_key === 'condition' ? null : 'spline',
@@ -337,8 +344,6 @@ function compareByDate(a, b) {
                 )
               })
 
-
-            $(`.${container}-container`).show()
         
             Highcharts.chart(container, {
                 chart: {
@@ -558,11 +563,10 @@ function compareByDate(a, b) {
             method: "GET",
             data: params,
             success: function(data) {
-                
+                console.log(data)
                 if(data.length>0){
                     // Hide the loading element when data is available
                     $('#forecast-availability').hide()
-                    $('#forecast-loading').hide();
                     
                     chartConfigs.map(chart =>{
                         createChart(chart.container, data, chart.params, chart.title)
@@ -574,6 +578,9 @@ function compareByDate(a, b) {
                     })
 
                 }
+
+                $('#forecast-loading').hide();
+
                 
             },
             error: function(jqXHR, textStatus, errorThrown) {
