@@ -85,6 +85,9 @@ class AbstractIntroPage(MetadataPageMixin, Page):
         verbose_name=_("Introduction button link"),
     )
 
+    introduction_button_link_external = models.URLField(max_length=200, blank=True, null=True,
+                                                        help_text="External Link if applicable. Ignored if internal "
+                                                                  "page above is chosen")
     class Meta:
         abstract = True
 
@@ -96,6 +99,7 @@ class AbstractIntroPage(MetadataPageMixin, Page):
                 FieldPanel('introduction_text'),
                 FieldPanel('introduction_button_text'),
                 PageChooserPanel('introduction_button_link'),
+                PageChooserPanel('introduction_button_link_external'),
             ],
             heading=_("Introduction Section"),
         ),
