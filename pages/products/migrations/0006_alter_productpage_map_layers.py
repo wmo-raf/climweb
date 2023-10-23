@@ -7,7 +7,6 @@ import wagtail.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('products', '0005_productpage_map_layers'),
     ]
@@ -16,6 +15,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='productpage',
             name='map_layers',
-            field=wagtail.fields.StreamField([('layers', wagtail.blocks.StructBlock([('geomanager_layer', pages.products.models.UUIDModelChooserBlock(target_model='geomanager.fileimagelayer')), ('product_type', wagtail.blocks.ChoiceBlock(choices=[], required=False))], label='Layer'))], blank=True, null=True, use_json_field=True, verbose_name='Map Layers'),
+            field=wagtail.fields.StreamField([('layers', wagtail.blocks.StructBlock([('geomanager_layer',
+                                                                                      pages.products.models.UUIDModelChooserBlock(
+                                                                                          target_model='geomanager.rasterfilelayer')),
+                                                                                     ('product_type',
+                                                                                      wagtail.blocks.ChoiceBlock(
+                                                                                          choices=[], required=False))],
+                                                                                    label='Layer'))], blank=True,
+                                             null=True, use_json_field=True, verbose_name='Map Layers'),
         ),
     ]
