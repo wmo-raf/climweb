@@ -563,7 +563,6 @@ function compareByDate(a, b) {
             method: "GET",
             data: params,
             success: function(data) {
-                console.log(data)
                 if(data.length>0){
                     // Hide the loading element when data is available
                     $('#forecast-availability').hide()

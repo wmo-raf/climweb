@@ -86,8 +86,8 @@
                                                 <i class="fa-solid fa-phone"></i>
                                                 {% translate "Contact" %}
                                             </h2>
-                                            <p>{{ settings.base.OrganisationSetting.email }}</p>
-                                            <p>{{ settings.base.OrganisationSetting.phone }}</p>
+                                            {% if settings.base.OrganisationSetting.email %}<p>{{ settings.base.OrganisationSetting.email }}</p>{% endif %}
+                                            {% if settings.base.OrganisationSetting.phone %}<p>{{ settings.base.OrganisationSetting.phone }}</p>{% endif %}
                                         </div>
                                     {% endif %}
                                     <div class="block pt-3" style="display: flex;">

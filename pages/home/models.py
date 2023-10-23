@@ -148,8 +148,6 @@ class HomePage(MetadataPageMixin, Page):
 
         city = request.GET.get('city_id', default_city)
 
-        print("CITY ID",city)
-
         if city:
             context['selected_city']= City.objects.get(pk=city).name
             start_date_param = datetime.today()

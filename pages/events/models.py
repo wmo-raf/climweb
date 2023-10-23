@@ -67,7 +67,7 @@ class EventType(models.Model):
         verbose_name = _("Event Type")
 
 
-class EventIndexPage(AbstractBannerPage):
+class EventIndexPage(MetadataPageMixin, Page):
     template = 'event_index_page.html'
     subpage_types = ['events.EventPage']
     parent_page_types = ['home.HomePage']

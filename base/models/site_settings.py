@@ -33,7 +33,7 @@ class OrganisationSetting(BaseSiteSetting):
                                verbose_name=_("Country"))
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Organisation Name"))
 
-    phone = models.IntegerField(blank=True, null=True, help_text=_("Phone Number"), verbose_name=_("Phone number"))
+    phone = models.CharField(max_length=255, blank=True, null=True, help_text=_("Phone Number"), verbose_name=_("Phone number"))
     email = models.EmailField(blank=True, null=True, max_length=254, help_text=_("Email address"),
                               verbose_name=_("Email address"))
     address = RichTextField(max_length=250, blank=True, null=True, help_text=_("Postal Address"),

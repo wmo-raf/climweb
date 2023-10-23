@@ -8,7 +8,10 @@
     <section class="has-text-centered ">
         <div class="container is-align-content-center">
             <h2 class="section-title has-text-centered">{{ page.video_section_title }} </h2>
+            <p class="section-subheader" style="text-align:center">{{ page.video_section_desc }} </p>
             {% if page.youtube_playlist %}
+             
+
                 {% include 'videos_skeleton_home.html' %}
             {% endif %}
             <div class="columns is-centered py-6">
