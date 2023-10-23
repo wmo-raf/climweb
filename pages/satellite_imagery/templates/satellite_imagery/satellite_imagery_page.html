@@ -134,7 +134,8 @@
             const layerDatesUrl = "{{ layer_dates_url }}";
             const layerImagesUrl = "{{ layer_images_url }}";
             const eumetViewWmsBaseUrl = "{{ eumetview_wms_base_url }}";
-
+            const country_info = {{settings.base.OrganisationSetting.country_info|safe}}
+           
             $(document).ready(() => {
                 const $layerInput = $(".menu-category")
                 const $legendControl = $(".legend-control")
@@ -183,7 +184,6 @@
 
 
                 const map = L.map('sat-map', {
-                    zoom: 5,
                     center: [8.92, 38.66],
                     zoomControl: false,
                     timeDimension: true,
@@ -223,6 +223,18 @@
                 map.timeDimensionControl._buttonBackward.addEventListener("click", function () {
                     stopAutoUpdate()
                 })
+
+                if (country_info && country_info.bbox) {
+
+                    const bbox = country_info.bbox
+
+                    var bounds = L.latLngBounds(
+                        [bbox[1], bbox[0]],
+                        [bbox[3], bbox[2]]
+                    );
+        
+                    map.fitBounds(bounds);
+                }
 
 
                 const createLayer = (layerName) => {
