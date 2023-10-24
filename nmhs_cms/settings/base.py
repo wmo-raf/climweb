@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "pages.satellite_imagery",
     "pages.cityclimate",
     "pages.glossary",
+    "pages.webstories",
 
     "adminboundarymanager",
     "geomanager",
@@ -73,6 +74,8 @@ INSTALLED_APPS = [
     "wagtailmailchimp",
     "wagtailhumanitarianicons",
     "wagtailiconchooser",
+    "wagtail_webstories_editor",
+    "wagtailmedia",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -90,6 +93,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
+    "wagtail.api.v2",
 
     "django.contrib.admin",
     "django.contrib.auth",
