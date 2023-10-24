@@ -54,6 +54,7 @@ class HomePage(MetadataPageMixin, Page):
         'cityclimate.CityClimateDataPage',
         'cap.CapAlertListPage',
         'glossary.GlossaryIndexPage',
+        'webstories.WebStoryListPage',
     ]
     parent_page_type = [
         'wagtailcore.Page'
@@ -149,7 +150,7 @@ class HomePage(MetadataPageMixin, Page):
         city = request.GET.get('city_id', default_city)
 
         if city:
-            context['selected_city']= City.objects.get(pk=city).name
+            context['selected_city'] = City.objects.get(pk=city).name
             start_date_param = datetime.today()
             end_date_param = start_date_param + timedelta(days=6)
             forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
