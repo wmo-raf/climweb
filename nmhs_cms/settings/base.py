@@ -103,6 +103,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     'django.contrib.sitemaps',
+    'django.contrib.humanize',
 
     "modelcluster",
     "rest_framework",
@@ -394,3 +395,5 @@ CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
 
 # mqtt broker
 CMS_BROKER_URI = CAP_BROKER_URI = env.str("CMS_BROKER_URI", default="")
+
+WAGTAIL_WEBSTORIES_EDITOR_LISTING_PAGE_MODEL = "webstories.WebStoryListPage"
