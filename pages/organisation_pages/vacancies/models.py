@@ -22,6 +22,8 @@ class VacanciesPage(AbstractBannerWithIntroPage):
     subpage_types = ['vacancies.VacancyDetailPage']
     max_count = 1
     show_in_menus = True
+    show_in_menus_default = True
+
 
     banner_image = models.ForeignKey(
         'wagtailimages.Image',

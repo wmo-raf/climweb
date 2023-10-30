@@ -6,7 +6,7 @@ default_theme = {
     'primary_color': '#363636',
     'primary_hover_color': '#67a9ce',
     'secondary_color': '#ffffff',
-    'border_radius': '1.5em',
+    'border_radius': '0',
     'box_shadow': 'elevation-1',
 }
 

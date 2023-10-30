@@ -47,12 +47,13 @@
             </section>
         {% endif %}
 
-
+        {% if page.partners_cta_title or page.partners_cta_image or page.partners_cta_text %}
         <section class="nmhs-work partners-cta-section ">
             <div class="container work">
                 {% include 'partners/partners_cta.html' with page=page %}
             </div>
         </section>
+        {% endif %}
 
 
     </main>
