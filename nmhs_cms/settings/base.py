@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "pages.satellite_imagery",
     "pages.cityclimate",
     "pages.glossary",
+    "pages.webstories",
 
     "adminboundarymanager",
     "geomanager",
@@ -73,6 +74,8 @@ INSTALLED_APPS = [
     "wagtailmailchimp",
     "wagtailhumanitarianicons",
     "wagtailiconchooser",
+    "wagtail_webstories_editor",
+    "wagtailmedia",
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -90,6 +93,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
+    "wagtail.api.v2",
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -99,6 +103,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     'django.contrib.sitemaps',
+    'django.contrib.humanize',
 
     "modelcluster",
     "rest_framework",
@@ -390,3 +395,5 @@ CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
 
 # mqtt broker
 CMS_BROKER_URI = CAP_BROKER_URI = env.str("CMS_BROKER_URI", default="")
+
+WAGTAIL_WEBSTORIES_EDITOR_LISTING_PAGE_MODEL = "webstories.WebStoryListPage"
