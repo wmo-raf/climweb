@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags i18n %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags i18n nmhs_cms_tags wagtailiconchooser_tags %}
 
 <div class="results-view">
     <div class="results-header">
@@ -36,9 +36,9 @@
                         <div class="result-list-item-tag">
                             <div>
                                 {% if  news_item.news_type.icon %}
-                                    <span class="icon">
-                                        <img src="{{ news_item.news_type.icon.url }}" alt=""/>
-                                    </span>
+                                    {% comment %} <span class="icon"> {% endcomment %}
+                                        {% comment %} {% svg_icon name=news_item.news_type.icon %} {% endcomment %}
+                                    {% comment %} </span> {% endcomment %}
                                 {% endif %}
                                 <span class="item-tag">{{ news_item.news_type }}</span>
                             </div>
@@ -56,7 +56,7 @@
                             </h5>
                         </a>
                         <div class="result-list-item-snippet">
-                            {{ news_item.body|truncatewords_html:35|richtext }}
+                            {{ news_item.body|exclude_images|truncatewords_html:35|richtext }}
                         </div>
                         <div class="result-list-item-meta">
                             <span class="">{{ news_item.date|date:'d M Y' }}</span>

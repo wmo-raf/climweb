@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import stringfilter, truncatewords_html
 from django.utils.safestring import mark_safe
 from wagtail.models import Site, Page
+from html.parser import HTMLParser
 
 from base.models import LanguageSettings
 from base.utils import get_first_non_empty_p_string
@@ -210,3 +211,33 @@ def get_default_site_lang():
     lang_settings = LanguageSettings.for_site(site=site)
     default_language = lang_settings.default_language
     return default_language
+
+
+class ExcludeImagesParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.result = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() == 'img':
+            return
+        
+        attr_repl = [f"{attr[0]}=\"{attr[1]}\"" for attr in attrs]
+        self.result.append(f'<{tag} {" ".join(attr_repl)}>')
+
+        
+
+    def handle_endtag(self, tag):
+        if tag.lower() == 'img':
+            return
+        self.result.append(f'</{tag}>')
+
+    def handle_data(self, data):
+        self.result.append(data)
+
+def exclude_images(value):
+    parser = ExcludeImagesParser()
+    parser.feed(value)
+    return ''.join(parser.result)
+
+register.filter('exclude_images', exclude_images)
