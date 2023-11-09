@@ -20,44 +20,48 @@
                             </p>
                         {% endif %}
 
+                        {% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0 %}
+                        <div class="widget-control">
+                            <form id="filter-form">
+                                <div class="field has-addons">
+                                    <div class="control is-expanded has-icons-left" style="padding:0 !important">
+                                        <div class="select is-fullwidth is-dark">
+
+                                            <select style="border: none;
+                                            border-bottom: solid 1px #d5d5d5; box-shadow: none; font-weight:600;"
+                                                    id="city-option"
+                                                    name="city_id"
+                                            >
+                                            {% for city in self.city_item.cities %}
+                                            <option value="{{ city.id }}"
+                                                    {% if request.GET.city_id == city.id|stringformat:'s' %}selected{% endif %}>{{ city.name }}</option>
+                                        {% endfor %}
+                                            </select>
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-location-dot" style="color:black"></i>
+                                            </span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        {% endif %}
                     </div>
                 </div>
 
                 {% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0 %}
-                    <div class="column is-7 progressive__bg progressive--not-loaded"
+                    <div class="column is-7 progressive__bg progressive--not-loaded "
                          data-progressive="{{ img.url }}"
-                         style="background-image: url({% lazy_image_url img %});background-position:center; background-repeat:no-repeat; background-size:cover">
+                         style="background-image: url({% lazy_image_url img %});background-position:center; background-repeat:no-repeat; background-size:cover;display: flex;justify-content: center;">
 
-                        <div class="weather-widget px-6 py-4" id="widget-forecasts">
+                        <div class="weather-widget" id="widget-forecasts" style="padding: 5em 3em; width:80%">
 
                             <div class="card py-4 elevation-0"
                                  style="text-align:center;color:white; background-color: #ffffff20;backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);">
-                                <div class="widget-control">
-                                    <form id="filter-form">
-                                        <div class="field has-addons">
-                                            <div class="control is-expanded px-6 has-icons-left">
-                                                <div class="select is-fullwidth is-white">
-
-                                                    <select style="border: none;
-                                                    border-bottom: solid 1px #d5d5d5; box-shadow: none; font-weight:600;"
-                                                            id="city-option"
-                                                            name="city_name"
-                                                    >
-                                                        {% for city in self.city_item.cities %}
-                                                            <option value="{{ city.name }}"
-                                                                    {% if request.GET.city_name == city.name %}selected{% endif %}>{{ city.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                    <span class="icon is-small is-left is-white">
-                                                        <i class="fas fa-location-dot"></i>
-                                                    </span>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                
 
                                 {% for forecasts in grouped_forecast %}
 
@@ -71,7 +75,7 @@
                                                 <div class="widget-header">
                                                     <p class="city-name pb-0" id="city-name"
                                                        style="font-weight:600; font-size:24px">
-                                                        {{ forecasts.city|wordwrap:7}}
+                                                        {{ selected_city|wordwrap:7}}
                                                     </p>
                                                     <p class="latest-forecast-date" id="latest-forecast-date"
                                                        style="font-size:14px">
@@ -98,7 +102,7 @@
 
                                                             <div class="pt-2">
                                                                 <a class="button is-small has-text-weight-bold is-rounded"
-                                                                   href="{% url 'city_analysis' city_name=forecasts.city %}"
+                                                                   href="{% url 'city_analysis' city_id=forecasts.city %}"
                                                                    style="background-color: transparent;
                                                         border-color: #dbdbdb;
                                                         border-width: 1px;
