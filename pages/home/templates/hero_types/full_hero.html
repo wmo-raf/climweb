@@ -1,5 +1,10 @@
 {% load static wagtailcore_tags wagtailimages_tags lazyimages_tags i18n %}
 
+<style>
+    .selected-option {
+        color: red !important; /* Set the background color of the selected option */
+      }
+    </style>
 
 {% image page.hero_banner original as img %}
 <div id="page-hero" class="hero progressive__bg progressive--not-loaded mx-3"
@@ -45,7 +50,8 @@
                                                     <div class="select is-fullwidth is-white">
                                                         <select id="city-option" style="border: none; 
                                                         border-bottom: solid 1px #d5d5d5; box-shadow: none; font-weight:600;"
-                                                                name="city_id">
+                                                                name="city_id"
+                                                                >
                                                             {% for city in self.city_item.cities %}
                                                                 <option value="{{ city.id }}"
                                                                         {% if request.GET.city_id == city.id|stringformat:'s' %}selected{% endif %}>{{ city.name }}</option>
@@ -235,4 +241,5 @@
         </div>
     </div>
 </div>
+
 

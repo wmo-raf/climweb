@@ -13,6 +13,7 @@ from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from pages.events.models import EventPage
 from pages.news.models import NewsPage
 from pages.organisation_pages.projects.models import ServiceProject
+from pages.products.models import ProductPage
 from pages.publications.models import PublicationPage
 from pages.videos.models import YoutubePlaylist
 
@@ -101,6 +102,21 @@ class ServicePage(AbstractBannerWithIntroPage):
     class Meta:
         verbose_name = _('Service Page')
         verbose_name_plural = _('Service Pages')
+
+
+    @cached_property
+    def products(self):
+        """
+        Get list of products related to this service
+        :return: products list
+        """
+        # Get all products related to this service
+
+        products = ProductPage.objects.filter(service = self.service)
+
+        return products
+        
+
 
     @cached_property
     def listing_image(self):
