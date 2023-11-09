@@ -1380,11 +1380,15 @@ p.footer-link {
 }
 
 .format-text .rich-text ul {
-    list-style: disc !important
+    list-style: disc !important;
+    list-style-position: inside !important;
+
 }
 
 .format-text .rich-text li, .format-text .rich-text p {
     line-height: 1.5;
+    list-style: disc !important;
+    list-style-position: inside;
 }
 
 .format-text .rich-text a {
@@ -2214,9 +2218,14 @@ p.footer-link {
 
 li{
     list-style: disc !important;
+    list-style-position: inside !important;
 }
 
 li a, p a {
     color: var(--primary-hover-color) !important;
 }
 
+ul.warning-timeline li{
+    list-style: none !important;
+    list-style-position: outside !important;
+}
