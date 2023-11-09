@@ -20,7 +20,9 @@
             <h2 class="title">
                 {% translate "Stations List" %}
             </h2>
-            {% render_table stations_table %}
+            {% if stations_table %}
+                {% render_table stations_table %}
+            {% endif %}
         </section>
     </main>
 {% endblock content %}
@@ -34,8 +36,12 @@
         const mapConfigObj = {{ mapConfig | safe }};
         const popupFields = {{ popup_fields | safe }};
         const {stationBounds, stationsVectorTilesUrl} = mapConfigObj
+        let bounds = null;
 
-        const bounds = [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]]
+        if (stationBounds && !!stationBounds.length) {
+            bounds = [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]]
+        }
+
 
         const defaultStyle = {
             'version': 8,
