@@ -154,28 +154,17 @@
             </section>
         {% endif %}
 
-        {##}
-        {#            {% if page.youtube_playlist %}#}
-        {#                <section id="videoSection" class="videos">#}
-        {#                    <div class="container">#}
-        {#                        <h2 class="section-title has-text-centered">#}
-        {#                            {% translate "Videos" %}#}
-        {#                        </h2>#}
-        {#                        {% include 'videos_skeleton.html' with playlist_items=page.youtube_playlist.playlist_items %}#}
-        {##}
-        {#                        {% if  settings.base.ImportantPages.all_videos_page %}#}
-        {#                            <div class="more-container">#}
-        {#                                <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">#}
-        {#                                    {% translate "More Videos" %}#}
-        {#                                    <span class="icon">#}
-        {#                                        <i class="fas fa-arrow-right"></i>#}
-        {#                                    </span>#}
-        {#                                </a>#}
-        {#                            </div>#}
-        {#                        {% endif %}#}
-        {#                    </div>#}
-        {#                </section>#}
-        {#            {% endif %}#}
+        {% if page.youtube_playlist %}
+            <section id="videoSection" class="videos">
+                <div class="container">
+                    <h2 class="section-title has-text-centered">
+                        {% translate "Videos" %}
+                    </h2>
+
+                    {% include 'videos_skeleton_home.html' with playlist_items=page.youtube_playlist.playlist_items %}
+                </div>
+            </section>
+        {% endif %}
 
 
         {% if page.applications.all %}

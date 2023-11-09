@@ -78,11 +78,6 @@ class HomePage(MetadataPageMixin, Page):
                                            verbose_name=_('MapViewer Call to Action Title'))
     mapviewer_cta_url = models.URLField(blank=True, null=True, verbose_name=_("Mapviewer URL"), )
 
-    show_media_section = models.BooleanField(default=False, verbose_name=_("Show media section"))
-    video_section_title = models.CharField(max_length=100, blank=True, null=True, default='Latest Media',
-                                           verbose_name=_('Media Section Title'), )
-    video_section_desc = models.TextField(max_length=500, blank=True, null=True,
-                                          verbose_name=_('Media Section Description'))
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
         null=True,
@@ -115,9 +110,6 @@ class HomePage(MetadataPageMixin, Page):
             FieldPanel('mapviewer_cta_url')
         ], heading=_("Weather Watch Section")),
         MultiFieldPanel([
-            FieldPanel('show_media_section'),
-            FieldPanel('video_section_title'),
-            FieldPanel('video_section_desc'),
             FieldPanel('youtube_playlist'),
         ], heading=_("Media Section")),
         MultiFieldPanel([
