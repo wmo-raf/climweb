@@ -28,6 +28,7 @@ urlpatterns = [
     path("", include("pages.cap.urls")),
 
     path("", include("geomanager.urls"), name="geomanager"),
+    path("", include("pages.stations.urls"), name="stations"),
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     path("", include(forecastmanager_urls), name="forecast_api"),
