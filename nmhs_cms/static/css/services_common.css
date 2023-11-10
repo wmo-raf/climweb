@@ -110,8 +110,10 @@
 }
 
 .video-item .card {
-    border-radius: 18px;
+    border-radius: var(--border-radius) !important;
+    height: 100%;
 }
+
 
 .video-item .card-image {
     background-color: #f8f9fb;
@@ -121,8 +123,8 @@
     /* height: 220px; */
     width: 100%;
     overflow: hidden;
-    border-top-left-radius: 18px;
-    border-top-right-radius: 18px;
+    border-top-left-radius: calc(var(--border-radius) / 2);;
+    border-top-right-radius: calc(var(--border-radius) / 2);;
 }
 
 .video-item .card-content {
@@ -145,7 +147,7 @@
     position: absolute;
     padding: 8px;
     top: -18px;
-    background-color: #efefef;
+    background-color: var(--primary-hover-color) ;
     color: #fff;
 }
 
@@ -161,7 +163,6 @@
 }
 
 .video-item .card-video-meta {
-    padding: 50px 0 20px;
     display: flex;
     justify-content: space-between;
 }

@@ -2,8 +2,8 @@
 
 {% image page.hero_banner original as img %}
 <div id="page-hero" class="hero"
-     style="position: relative;max-height:fit-content; min-height:600px">
-    <div class="hero-body pb-2">
+     style="position: relative;max-height:fit-content; min-height:600px; background:white; padding:0 !important">
+    <div class="hero-body pb-2" style="background:white;">
         <div class="container">
             <div id="filtered-forecasts">
                 <div class="columns is-justify-content-center is-align-items-center py-3">
@@ -18,6 +18,35 @@
                                 {{ self.hero_subtitle }}
                             </p>
                         {% endif %}
+
+                        {% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0 %}
+                        <div class="widget-control">
+                            <form id="filter-form">
+                                <div class="field has-addons">
+                                    <div class="control is-expanded has-icons-left" style="padding:0 !important">
+                                        <div class="select is-fullwidth is-dark">
+
+                                            <select style="border: none;
+                                            border-bottom: solid 1px #d5d5d5; box-shadow: none; font-weight:600;"
+                                                    id="city-option"
+                                                    name="city_id"
+                                            >
+                                            {% for city in self.city_item.cities %}
+                                            <option value="{{ city.id }}"
+                                                    {% if request.GET.city_id == city.id|stringformat:'s' %}selected{% endif %}>{{ city.name }}</option>
+                                        {% endfor %}
+                                            </select>
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-location-dot" style="color:black"></i>
+                                            </span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
                     </div>
                     {% if self.show_city_forecast and grouped_forecast|length > 0 and self.city_item.cities|length > 0 %}
                         <div class="column is-7" style="border-left:solid 1px #aeaeae4f">
@@ -25,27 +54,7 @@
                                 <div class="card py-4 progressive__bg progressive--not-loaded"
                                      style="text-align:center;color:white; background-image: url({% lazy_image_url img %});background-position:center; background-repeat:no-repeat; background-size:cover; border-radius:1em"
                                      data-progressive="{{ img.url }}">
-                                    <div class="widget-control">
-                                        <form id="filter-form">
-                                            <div class="field has-addons">
-                                                <div class="control is-expanded px-6 has-icons-left">
-                                                    <div class="select is-fullwidth is-white">
-                                                        <select id="city-option" style="border: none;
-                                                border-bottom: solid 1px #d5d5d5; box-shadow: none; font-weight:500"
-                                                                name="city_name">
-                                                            {% for city in self.city_item.cities %}
-                                                                <option value="{{ city.name }}"
-                                                                        {% if request.GET.city_name == city.name %}selected{% endif %}>{{ city.name }}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                        <span class="icon is-small is-left is-white">
-                                                            <i class="fas fa-location-dot"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    
                                     {% for forecasts in grouped_forecast %}
                                         {% if forloop.first %}
                                             <div class="card-content" id="widget-forecasts"
@@ -54,7 +63,7 @@
                                                     <div class="widget-header">
                                                         <p class="city-name pb-0"
                                                            style="font-weight:600; font-size:24px">
-                                                            {{ forecasts.city|wordwrap:7}}
+                                                            {{ selected_city|wordwrap:7}}
                                                         </p>
                                                         <p class="latest-forecast-date" style="font-size:14px">
                                                             {{ latest_forecast.forecast_date }}
@@ -76,7 +85,7 @@
 
                                                                 <div class="pt-2">
                                                                     <a class="button is-small has-text-weight-bold is-rounded"
-                                                                       href="{% url 'city_analysis' city_name=forecasts.city %}"
+                                                                       href="{% url 'city_analysis' city_id=forecasts.city %}"
                                                                        style="background-color: transparent;
                                                     border-color: #dbdbdb;
                                                     border-width: 1px;

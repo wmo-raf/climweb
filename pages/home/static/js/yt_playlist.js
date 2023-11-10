@@ -52,7 +52,21 @@ function fetchPlaylistVideos(nextPageToken = '') {
                                     ${video.snippet.title}
                                 </p>
                             </a>
+
+
+                            <div class="card-video-meta">
+                                <a href="https://www.youtube.com/channel/${ video.snippet.channelId }?sub_confirmation=1"
+                                target="_blank"
+                                rel="noopener">
+                                    SUBSCRIBE
+                                </a>
+                                <a href="https://www.youtube.com/channel/${ video.snippet.channelId }?sub_confirmation=1"
+                                target="_blank"
+                                rel="noopener"><i class="fas fa-arrow-right"></i></a>
+                            </div>
                         </div>
+
+                        
                     </div>
                 </div>`
                 });

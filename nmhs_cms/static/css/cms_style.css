@@ -100,7 +100,7 @@ hr {
 }
 
 .card {
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius) !important;
     display: flex;
     flex-direction: column;
     /* height: unset !important; */
@@ -172,7 +172,7 @@ img.services-feature-img {
 }
 
 .more {
-    color: #4a4a4a;
+    color: var(--primary-hover-color);
     font-weight: bold;
     font-size: 18px
 }
@@ -1380,11 +1380,15 @@ p.footer-link {
 }
 
 .format-text .rich-text ul {
-    list-style: disc !important
+    list-style: disc !important;
+    list-style-position: inside !important;
+
 }
 
 .format-text .rich-text li, .format-text .rich-text p {
     line-height: 1.5;
+    list-style: disc !important;
+    list-style-position: inside;
 }
 
 .format-text .rich-text a {
@@ -1460,6 +1464,10 @@ p.footer-link {
     p {
         font-size: 14px;
         line-height: 1.7em
+    }
+
+    li {
+        font-size: 14px;
     }
 
     .section-title {
@@ -1587,7 +1595,11 @@ p.footer-link {
 
     p {
         font-size: 14px;
-        line-height: 1.5
+        line-height: 1.5em
+    }
+
+    li {
+        font-size: 14px;
     }
 
     .section-title {
@@ -1857,9 +1869,11 @@ p.footer-link {
         font-weight: bold
     }
 
-    p {
+    p, li {
         font-size: 14px
     }
+
+    
 
     .section-title {
         font-size: 28px;
@@ -2016,7 +2030,7 @@ p.footer-link {
         font-size: 16px
     }
 
-    p {
+    p,li{
         font-size: 14px
     }
 
@@ -2064,7 +2078,7 @@ p.footer-link {
     }
 
 
-    .accordion-body p {
+    .accordion-body p,.accordion-body li {
         font-size: 14px
     }
 
@@ -2214,9 +2228,14 @@ p.footer-link {
 
 li{
     list-style: disc !important;
+    list-style-position: inside !important;
 }
 
 li a, p a {
     color: var(--primary-hover-color) !important;
 }
 
+ul.warning-timeline li{
+    list-style: none !important;
+    list-style-position: outside !important;
+}

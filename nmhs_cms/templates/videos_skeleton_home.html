@@ -1,4 +1,4 @@
-{% load nmhs_cms_tags static %}
+{% load nmhs_cms_tags static i18n %}
 
 <div class="columns is-multiline  is-justify-content-center" id="youtube_playlist">
 
@@ -69,6 +69,17 @@
                         
                     </p>
                 </a>
+
+                <div class="card-video-meta">
+                    <a href="https://www.youtube.com/channel/{{ video.snippet.channelId }}?sub_confirmation=1"
+                       target="_blank"
+                       rel="noopener">
+                        {% translate "SUBSCRIBE" %}
+                    </a>
+                    <a href="https://www.youtube.com/channel/{{ video.snippet.channelId }}?sub_confirmation=1"
+                       target="_blank"
+                       rel="noopener"><i class="fas fa-arrow-right"></i></a>
+                </div>
             </div>
         </div>
     </div>

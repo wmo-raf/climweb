@@ -20,7 +20,11 @@
                                                 {% elif sub_page.specific.banner_image %}
                                                     {% image sub_page.specific.banner_image original as subpage_image %}
                                                     <img src="{{ subpage_image.url }}" alt="">
+                                                    {% elif sub_page.specific.introduction_image %}
+                                                    {% image sub_page.specific.introduction_image original as subpage_image %}
+                                                    <img src="{{ subpage_image.url }}" alt="">
                                                 {% endif %}
+
                                             </div>
                                             <div class="menu-item-label">
                                                 {{ sub_page.title }}

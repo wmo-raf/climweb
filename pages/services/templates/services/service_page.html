@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
-{% load static wagtailsettings_tags i18n %}
+{% load static wagtailsettings_tags i18n wagtailcore_tags wagtailimages_tags lazyimages_tags %}
 {% get_settings use_default_site=True %}
 
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_page.css' %}">
+
+    <style>
+        .offers {
+            margin-top: -10px
+        }
+        
+        .offers .accordion-body {
+            background-color: transparent !important;
+        }
+    </style>
 
 {% endblock %}
 
@@ -18,6 +28,60 @@
                 {% include 'service_introduction.html' with page=page %}
             </div>
         </section>
+
+
+        {% if page.products.all %}
+        <section id="offers" class="offers" style="background-image: url('{% static 'img/bg_products.png' %}'); background-repeat:no-repeat; background-size:cover">
+            <div class="container">
+
+                <h2 class="section-title has-text-centered">{% translate 'Our Products' %}</h2>
+                <div class="columns">
+                    <div class="column is-one-half" style="display: flex; align-items: center">
+                        <figure class="image home-products-image">
+                            
+                            {% image page.banner_image original as ft_img %}
+                            <img class="progressive__img progressive--not-loaded"
+                                 data-progressive="{{ ft_img.url }}"
+                                 src="{% if ft_img %}{% lazy_image_url ft_img %}{% endif %}" alt=""/>
+                        </figure>
+                    </div>
+                    <div class="column is-one-half forecast has-text-left"
+                         style="display: flex;align-items: center">
+                        <div class="accordion js-accordion">
+                            {% for product in page.products.all  %}
+
+                            <div class="accordion__item js-accordion-item {% if forloop.first %}active{% endif %}">
+                                <h3 class="accordion-header js-accordion-header" style="font-weight: 600;color: #333;">
+                                    {{product.introduction_title}}
+                                </h3>
+                                <div class="accordion-body js-accordion-body" style="{% if not forloop.first %}display:none{% endif %}">
+                                    <div class="accordion-body__contents">
+                                        <hr/>
+                                        <p class="dark-grey">
+                                            {{product.introduction_text|richtext}}
+                                        </p>
+                                        <div>
+                                            <a class="more" href="{{product.url}}">
+                                                Explore More
+                                                <span class="icon">
+                                                    <i class="fas fa-arrow-right"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </section>
+
+    {% endif %}
+
         {% if page.what_we_do_items %}
             <section class="nmhs-work is-desktop">
                 <div class="work container">
@@ -33,6 +97,9 @@
                 </div>
             </section>
         {% endif %}
+
+
+       
 
         {% if page.events.all %}
             <section class="events-inline">
@@ -87,28 +154,17 @@
             </section>
         {% endif %}
 
-        {##}
-        {#            {% if page.youtube_playlist %}#}
-        {#                <section id="videoSection" class="videos">#}
-        {#                    <div class="container">#}
-        {#                        <h2 class="section-title has-text-centered">#}
-        {#                            {% translate "Videos" %}#}
-        {#                        </h2>#}
-        {#                        {% include 'videos_skeleton.html' with playlist_items=page.youtube_playlist.playlist_items %}#}
-        {##}
-        {#                        {% if  settings.base.ImportantPages.all_videos_page %}#}
-        {#                            <div class="more-container">#}
-        {#                                <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">#}
-        {#                                    {% translate "More Videos" %}#}
-        {#                                    <span class="icon">#}
-        {#                                        <i class="fas fa-arrow-right"></i>#}
-        {#                                    </span>#}
-        {#                                </a>#}
-        {#                            </div>#}
-        {#                        {% endif %}#}
-        {#                    </div>#}
-        {#                </section>#}
-        {#            {% endif %}#}
+        {% if page.youtube_playlist %}
+            <section id="videoSection" class="videos">
+                <div class="container">
+                    <h2 class="section-title has-text-centered">
+                        {% translate "Videos" %}
+                    </h2>
+
+                    {% include 'videos_skeleton_home.html' with playlist_items=page.youtube_playlist.playlist_items %}
+                </div>
+            </section>
+        {% endif %}
 
 
         {% if page.applications.all %}
@@ -126,5 +182,15 @@
 {% endblock content %}
 
 
+{% block extra_js %}
+<script>
+
+    $(document).ready(function () {
+        accordion.init({speed: 300, oneOpen: true})
+    })
+
+</script>
+
+{% endblock extra_js %}
 
 
