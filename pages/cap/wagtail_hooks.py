@@ -1,6 +1,7 @@
 from capeditor.models import CapSetting
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from wagtail import hooks
 from wagtail.admin.menu import MenuItem, Menu
 from wagtail_modeladmin.menus import GroupMenuItem
 from wagtail_modeladmin.options import (
@@ -9,7 +10,8 @@ from wagtail_modeladmin.options import (
     ModelAdminGroup
 )
 
-from .models import CapAlertPage
+from .models import CapAlertPage, CAPGeomanagerSettings
+from .utils import create_cap_geomanager_dataset
 
 
 class CAPAdmin(ModelAdmin):
@@ -46,12 +48,25 @@ class CAPMenuGroup(ModelAdminGroup):
             item_order += 1
 
         try:
+
+            # add settings menu
             settings_url = reverse(
                 "wagtailsettings:edit",
                 args=[CapSetting._meta.app_label, CapSetting._meta.model_name, ],
             )
             gm_settings_menu = MenuItem(label=_("Settings"), url=settings_url, icon_name="cog")
             menu_items.append(gm_settings_menu)
+
+            # add geomanager settings menu
+
+            settings_url = reverse("wagtailsettings:edit",
+                                   args=[CAPGeomanagerSettings._meta.app_label,
+                                         CAPGeomanagerSettings._meta.model_name, ], )
+
+            cap_geomanager_settings_menu = MenuItem(label=_("Geomanager Settings"), url=settings_url, icon_name="cog")
+
+            menu_items.append(cap_geomanager_settings_menu)
+
         except Exception:
             pass
 
@@ -59,3 +74,28 @@ class CAPMenuGroup(ModelAdminGroup):
 
 
 modeladmin_register(CAPMenuGroup)
+
+
+@hooks.register('construct_settings_menu')
+def hide_settings_menu_item(request, menu_items):
+    hidden_settings = ["cap-geomanager-settings"]
+    menu_items[:] = [item for item in menu_items if item.name not in hidden_settings]
+
+
+@hooks.register('register_geomanager_datasets')
+def add_geomanager_datasets(request):
+    datasets = []
+    cap_geomanager_settings = CAPGeomanagerSettings.for_request(request)
+    if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
+
+        # check if we have any live alerts
+        has_live_alerts = CapAlertPage.objects.live().exists()
+
+        # create dataset
+        dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)
+
+        # add dataset to list
+        if dataset:
+            datasets.append(dataset)
+
+    return datasets
