@@ -21,12 +21,6 @@ DATABASES = {
     'default': env.db()
 }
 
-MIDDLEWARE = [
-    'wagtailcache.cache.UpdateCacheMiddleware',
-    *MIDDLEWARE,
-    'wagtailcache.cache.FetchFromCacheMiddleware'
-]
-
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
