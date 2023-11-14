@@ -54,7 +54,7 @@ class CAPMenuGroup(ModelAdminGroup):
                 "wagtailsettings:edit",
                 args=[CapSetting._meta.app_label, CapSetting._meta.model_name, ],
             )
-            gm_settings_menu = MenuItem(label=_("Settings"), url=settings_url, icon_name="cog")
+            gm_settings_menu = MenuItem(label=_("CAP Base Settings"), url=settings_url, icon_name="cog")
             menu_items.append(gm_settings_menu)
 
             # add geomanager settings menu
@@ -63,7 +63,7 @@ class CAPMenuGroup(ModelAdminGroup):
                                    args=[CAPGeomanagerSettings._meta.app_label,
                                          CAPGeomanagerSettings._meta.model_name, ], )
 
-            cap_geomanager_settings_menu = MenuItem(label=_("Geomanager Settings"), url=settings_url, icon_name="cog")
+            cap_geomanager_settings_menu = MenuItem(label=_("CAP Mapviewer Settings"), url=settings_url, icon_name="cog")
 
             menu_items.append(cap_geomanager_settings_menu)
 
