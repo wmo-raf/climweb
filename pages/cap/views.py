@@ -72,8 +72,8 @@ class AlertListFeed(Feed):
 
         for alert in alerts:
             for info in alert.info:
-                if info.value.get('expires') >= datetime.today().replace(tzinfo=pytz.UTC):
-                    active_alert_infos.append(alert.id)
+                # if info.value.get('expires') >= datetime.today().replace(tzinfo=pytz.UTC):
+                active_alert_infos.append(alert.id)
 
         return CapAlertPage.objects.filter(id__in=active_alert_infos).live()
 

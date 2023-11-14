@@ -39,9 +39,9 @@ class CapAlertListPage(MetadataPageMixin, Page):
 
         for alert in alerts:
             for alert_info in alert.infos:
-                info = alert_info.get("info")
-                if info.value.get('expires').date() >= datetime.today().date():
-                    active_alert_infos.append(alert_info)
+                # info = alert_info.get("info")
+                # if info.value.get('expires').date() >= datetime.today().date():
+                active_alert_infos.append(alert_info)
 
         return active_alert_infos
 
