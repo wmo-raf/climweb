@@ -2,16 +2,21 @@ from django.contrib.gis.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 from django_tables2 import tables, LazyPaginator, TemplateColumn
 from geomanager.fields import ListField
+from geomanager.models import SubCategory, Metadata
 from geomanager.utils.vector_utils import get_model_field
+from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.routable_page.models import path, RoutablePageMixin
 from wagtail.contrib.settings.models import BaseSiteSetting
+from wagtail.contrib.settings.registry import register_setting
 from wagtail.models import Page
 
 from base.mixins import MetadataPageMixin
 
 
+@register_setting(name="station-settings")
 class StationSettings(BaseSiteSetting):
     stations_table_name = "stations_station"
     db_schema = "public"
@@ -21,9 +26,30 @@ class StationSettings(BaseSiteSetting):
     bounds = ListField(max_length=256, blank=True, null=True)
     name_column = models.CharField(max_length=100, blank=True, null=True)
 
+    show_on_mapviewer = models.BooleanField(default=False, verbose_name=_("Show on Mapviewer"),
+                                            help_text=_("Check to show stations data on Mapviewer"))
+    layer_title = models.CharField(max_length=100, blank=True, null=True, default="Stations",
+                                   verbose_name=_("Stations Layer Title"))
+    geomanager_subcategory = models.ForeignKey(SubCategory, null=True, blank=True,
+                                               verbose_name=_("Stations Layer SubCategory"),
+                                               on_delete=models.SET_NULL)
+    geomanager_layer_metadata = models.ForeignKey(Metadata, on_delete=models.SET_NULL, blank=True, null=True,
+                                                  verbose_name=_("Stations Layer Metadata"))
+
+    panels = [
+        FieldPanel("show_on_mapviewer"),
+        FieldPanel("layer_title"),
+        FieldPanel("geomanager_subcategory"),
+        FieldPanel("geomanager_layer_metadata"),
+    ]
+
     @cached_property
     def full_table_name(self):
         return f"{self.db_schema}.{self.stations_table_name}"
+
+    @property
+    def admin_url(self):
+        return reverse("wagtailsettings:edit", args=[self._meta.app_label, self._meta.model_name, ])
 
     @cached_property
     def stations_vector_tiles_url(self):
