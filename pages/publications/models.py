@@ -245,11 +245,13 @@ class PublicationPage(MetadataPageMixin, Page):
 
         card_tags = self.tags.all()
 
+        card_text = self.search_description or self.summary
+
         props = {
             "card_image": self.thumbnail,
             "card_title": self.publication_title,
             "card_tag_category": self.publication_type.name,
-            "card_text": self.summary,
+            "card_text": card_text,
             "card_meta": self.publication_date,
             "card_more_link": self.url,
             "card_tag": "Publication",

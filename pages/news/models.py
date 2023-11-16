@@ -207,11 +207,13 @@ class NewsPage(MetadataPageMixin, Page):
     def card_props(self):
         card_tags = self.tags.all()
 
+        card_text = self.search_description or self.body
+
         return {
             "card_image_type": "url",
             "card_image": self.feature_img_src,
             "card_title": self.title,
-            "card_text": self.body,
+            "card_text": card_text,
             "card_meta": date(self.date, 'd M Y'),
             "card_more_link": self.url,
             "card_tag": self.news_type,

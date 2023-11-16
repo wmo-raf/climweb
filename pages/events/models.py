@@ -305,10 +305,12 @@ class EventPage(MetadataPageMixin, Page):
     @cached_property
     def card_props(self):
 
+        card_text = self.search_description or self.description
+
         return {
             "card_image": self.image,
             "card_title": self.title,
-            "card_text": self.description,
+            "card_text": card_text,
             "card_meta": date(self.date_from, 'd M Y'),
             "card_more_link": self.url,
             "card_tag": self.event_type,
