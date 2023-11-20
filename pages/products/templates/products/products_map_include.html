@@ -3,22 +3,24 @@
     <div class="menu-control" style="position: absolute">
         <div class="map-menu">
             {% for map_layer in layers %}
-                <div class="menu-category {% if forloop.first %}active{% endif %}"
-                     data-dataset="{{ map_layer.layer.dataset.id }}"
-                     data-layer="{{ map_layer.layer.id }}">
-                    <div class="category-icon">
-                        <div class="c-icon">
-                            {% if map_layer.product_type and map_layer.product_type.category.icon %}
-                                {% svg_icon name=map_layer.product_type.category.icon %}
-                            {% else %}
-                                {% svg_icon name="layer-group" %}
-                            {% endif %}
+                {% if map_layer.layer %}
+                    <div class="menu-category {% if forloop.first %}active{% endif %}"
+                         data-dataset="{{ map_layer.layer.dataset.id }}"
+                         data-layer="{{ map_layer.layer.id }}">
+                        <div class="category-icon">
+                            <div class="c-icon">
+                                {% if map_layer.product_type and map_layer.product_type.category.icon %}
+                                    {% svg_icon name=map_layer.product_type.category.icon %}
+                                {% else %}
+                                    {% svg_icon name="layer-group" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="layer-title" data-layer="{{ map_layer.layer.id }}">
+                            <div class="layer-label">{{ map_layer.layer.title }}</div>
                         </div>
                     </div>
-                    <div class="layer-title" data-layer="{{ map_layer.layer.id }}">
-                        <div class="layer-label">{{ map_layer.layer.title }}</div>
-                    </div>
-                </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

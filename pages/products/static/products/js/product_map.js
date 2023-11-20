@@ -160,8 +160,8 @@ const updateSourceTileUrl = (map, sourceId, params) => {
     map.triggerRepaint();
 }
 
-const getLayerDates = (layerId) => {
-    return fetch(layerTimestampsUrl + "?layer=" + layerId).then(res => res.json()).then(res => res.map(t => t.time))
+const getLayerDates = (url) => {
+    return fetch(url).then(res => res.json()).then(res => res.timestamps)
 }
 
 
@@ -446,11 +446,15 @@ const updateLegend = (layer) => {
 
 const updateLayer = () => {
     getActiveLayerDataset().then(activeLayerDataset => {
+
         if (activeLayerDataset) {
             const layer = activeLayerDataset.layers && activeLayerDataset.layers[0]
 
-            if (layerTimestampsUrl && layer.id) {
-                getLayerDates(layer.id).then(layerDates => {
+            const {tileJsonUrl} = layer
+
+            if (tileJsonUrl) {
+                getLayerDates(tileJsonUrl).then(layerDates => {
+
                     const layerConfig = getLayerConfig(layer)
 
                     const defaultDate = layerDates && !!layerDates.length && layerDates[0]
