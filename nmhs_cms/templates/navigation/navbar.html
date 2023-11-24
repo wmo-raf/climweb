@@ -6,16 +6,23 @@
     <div class="top-nav-wrapper is-hidden-touch container">
         <div class="level top-nav">
             <div class="level-left">
+                {% if settings.base.OrganisationSetting.country_flag %}
+                <a class="level-item main-logo" href="{{ current_site.root_url }}">
+                    {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+                    <img src="{{ country_flag.url }}" alt="Logo">
+                </a>
+                {% endif %}
                 <a class="level-item main-logo" href="{{ current_site.root_url }}"
                    style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
-                        
                     {% if settings.base.OrganisationSetting.logo %}
                         {% image settings.base.OrganisationSetting.logo original as logo %}
                         <img src="{{ logo.url }}" alt="Logo">
                     {% else %}
                         N.M.H.S
                     {% endif %}
+
                 </a>
+                
             </div>
             <div class="level-right is-hidden-mobile">
                 {% if settings.base.ImportantPages.cap_feed %}
@@ -103,12 +110,7 @@
                     </a>
                 {% endif %}
 
-                {% if settings.base.OrganisationSetting.country_flag %}
-                <a class="level-item main-logo" href="{{ current_site.root_url }}">
-                    {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                    <img src="{{ country_flag.url }}" alt="Logo">
-                </a>
-                {% endif %}
+               
             </div>
         </div>
     </div>
