@@ -3,7 +3,6 @@ const accordion = (function () {
     const $accordion_header = $accordion.find(".js-accordion-header");
     const $accordion_item = $(".js-accordion-item");
 
-    console.log("hello")
     // default settings
     const settings = {
         // animation speed

@@ -40,6 +40,15 @@ class ProductIndexPage(MetadataPageMixin, Page):
         FieldPanel("listing_heading")
     ]
 
+    @cached_property
+    def service_categories(self):
+        product_service = set(ProductPage.objects.all().live().values_list('service', flat=True))
+
+        unique_services = ServiceCategory.objects.filter(id__in=list(product_service))
+
+        return unique_services
+    
+
     class Meta:
         verbose_name = _('Product Index Page')
         verbose_name_plural = _('Product Index Pages')
@@ -186,6 +195,8 @@ class ProductPage(AbstractIntroPage):
                 "product_type": product_type
             })
         return layers
+    
+    
 
     class Meta:
         verbose_name = _('Product Page')

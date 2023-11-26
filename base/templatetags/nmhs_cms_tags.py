@@ -168,7 +168,7 @@ def svg(filename, is_static=False):
             filename=filename))
 
         if not path:
-            message = "SVG hello '{filename}' not found".format(filename=filename)
+            message = "SVG '{filename}' not found".format(filename=filename)
 
             # Raise exception if DEBUG is True, else just log a warning.
             if settings.DEBUG:

@@ -37,12 +37,17 @@
                 <h2 class="section-title has-text-centered">{% translate 'Our Products' %}</h2>
                 <div class="columns">
                     <div class="column is-one-half" style="display: flex; align-items: center">
-                        <figure class="image home-products-image">
+                        <figure class="image home-products-image" style="width: 100%;
+                        height: 400px;
+                        overflow: hidden;">
+                            {% if page.banner_image %}
                             
                             {% image page.banner_image original as ft_img %}
                             <img class="progressive__img progressive--not-loaded"
                                  data-progressive="{{ ft_img.url }}"
-                                 src="{% if ft_img %}{% lazy_image_url ft_img %}{% endif %}" alt=""/>
+                                 style="height: 100%;width: 100%;object-fit: cover"
+                                 src="{% lazy_image_url ft_img %}" alt="products"/>
+                            {% endif %}
                         </figure>
                     </div>
                     <div class="column is-one-half forecast has-text-left"
@@ -80,13 +85,19 @@
             </div>
         </section>
 
-    {% endif %}
+        {% endif %}
 
         {% if page.what_we_do_items %}
             <section class="nmhs-work is-desktop">
                 <div class="work container">
                     {% include 'what_we_do_section.html' with page=page %}
                 </div>
+            </section>
+        {% endif %}
+
+        {% if page.feature_block_items %}
+            <section class="climate-change-feature-blocks-section">
+                {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}
             </section>
         {% endif %}
 
@@ -98,8 +109,6 @@
             </section>
         {% endif %}
 
-
-       
 
         {% if page.events.all %}
             <section class="events-inline">
@@ -148,11 +157,7 @@
             </section>
         {% endif %}
 
-        {% if page.feature_block_items %}
-            <section class="climate-change-feature-blocks-section">
-                {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}
-            </section>
-        {% endif %}
+        
 
         {% if page.youtube_playlist %}
             <section id="videoSection" class="videos">
