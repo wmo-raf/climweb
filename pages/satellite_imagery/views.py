@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone
+from wagtail.api.v2.utils import get_full_url
 
 from .models import SatAnimation
 from .utils import get_layer_time, get_anim_upload_path
@@ -30,7 +31,7 @@ def get_today_layer_animation_images(request):
 
         upload_path = get_anim_upload_path(sat_anim)
 
-        upload_path = request.build_absolute_uri(media_url + upload_path)
+        upload_path = get_full_url(request, (media_url + upload_path))
 
         response.update({"upload_path": upload_path})
 

@@ -8,6 +8,7 @@ from geomanager.fields import ListField
 from geomanager.models import SubCategory, Metadata
 from geomanager.utils.vector_utils import get_model_field
 from wagtail.admin.panels import FieldPanel
+from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.routable_page.models import path, RoutablePageMixin
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
@@ -154,7 +155,7 @@ class StationsPage(MetadataPageMixin, RoutablePageMixin, Page):
 
         table_fields = [field.get("name") for field in station_table_columns_list]
 
-        page_url = request.build_absolute_uri(self.url)
+        page_url = get_full_url(request, self.url)
 
         class StationTable(tables.Table):
             detail_url = TemplateColumn('<a href="" target="_blank"></a>')

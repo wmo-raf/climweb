@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from forecastmanager.models import City
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page, Orderable
 
@@ -63,7 +64,7 @@ class CityClimateDataPage(Page):
 
         context.update({
             "cities": cities,
-            "city_data_url": request.build_absolute_uri(reverse("climate_data", args=(self.pk,))),
+            "city_data_url": get_full_url(request, reverse("climate_data", args=(self.pk,))),
             "parameters": self.parameters,
             "months": MONTHS
         })

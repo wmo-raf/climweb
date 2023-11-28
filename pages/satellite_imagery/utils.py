@@ -77,7 +77,6 @@ def get_layer_time(layer, as_timestamp=True):
         return values
     except requests.exceptions.HTTPError as e:
         res = e.response.text
-        print(res)
         return None
 
 
