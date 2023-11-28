@@ -1,3 +1,4 @@
+from adminboundarymanager.models import AdminBoundarySettings
 from django.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -6,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from forecastmanager.models import City
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page, Orderable
 
@@ -58,14 +60,19 @@ class CityClimateDataPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(CityClimateDataPage, self).get_context(request, *args, **kwargs)
-
         cities = City.objects.all()
+
+        abm_settings = AdminBoundarySettings.for_request(request)
+        abm_extents = abm_settings.combined_countries_bounds
+        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
 
         context.update({
             "cities": cities,
-            "city_data_url": request.build_absolute_uri(reverse("climate_data", args=(self.pk,))),
+            "city_data_url": get_full_url(request, reverse("climate_data", args=(self.pk,))),
             "parameters": self.parameters,
-            "months": MONTHS
+            "months": MONTHS,
+            "bounds": abm_extents,
+            "boundary_tiles_url": boundary_tiles_url,
         })
 
         return context

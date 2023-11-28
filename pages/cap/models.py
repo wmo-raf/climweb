@@ -11,6 +11,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
 from wagtail.admin.panels import FieldPanel
+from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.images.models import Image
@@ -140,7 +141,7 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
             if info.value.geojson:
                 web = info_item.get("url")
                 if request:
-                    web = request.build_absolute_uri(web)
+                    web = get_full_url(request, web)
 
                 properties = {
                     "id": self.identifier,
@@ -231,7 +232,7 @@ class CAPGeomanagerSettings(BaseSiteSetting):
         geojson_url = reverse("cap_alerts_geojson")
 
         if request:
-            geojson_url = request.build_absolute_uri(geojson_url)
+            geojson_url = get_full_url(request, geojson_url)
 
         return geojson_url
 

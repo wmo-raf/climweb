@@ -489,10 +489,58 @@ $layerInput.on("click", function (e) {
 })
 
 map.on("load", () => {
-    if (typeof (mapBounds) !== 'undefined') {
-        const mapBounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
-        map.fitBounds(mapBounds, {padding: 20})
+    // fit to country bounds
+    if (typeof (countryBounds) !== 'undefined' && countryBounds) {
+        const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
+        map.fitBounds(bounds, {padding: 50});
     }
+
+    // add country layer
+    if (typeof (boundaryTilesUrl) !== 'undefined' && boundaryTilesUrl) {
+        // add source
+        map.addSource("admin-boundary-source", {
+                type: "vector",
+                tiles: [boundaryTilesUrl],
+            }
+        )
+        // add layer
+        map.addLayer({
+            'id': 'admin-boundary-fill',
+            'type': 'fill',
+            'source': 'admin-boundary-source',
+            "source-layer": "default",
+            "filter": ["==", "level", 0],
+            'paint': {
+                'fill-color': "#fff",
+                'fill-opacity': 0,
+            }
+        });
+
+        map.addLayer({
+            'id': 'admin-boundary-line',
+            'type': 'line',
+            'source': 'admin-boundary-source',
+            "source-layer": "default",
+            "filter": ["==", "level", 0],
+            'paint': {
+                "line-color": "#C0FF24",
+                "line-width": 1,
+                "line-offset": 1,
+            }
+        });
+        map.addLayer({
+            'id': 'admin-boundary-line-2',
+            'type': 'line',
+            'source': 'admin-boundary-source',
+            "source-layer": "default",
+            "filter": ["==", "level", 0],
+            'paint': {
+                "line-color": "#000",
+                "line-width": 1.5,
+            }
+        });
+    }
+
 
     updateLayer()
 })

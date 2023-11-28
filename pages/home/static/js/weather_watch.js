@@ -1,9 +1,9 @@
 $(document).ready(function () {
 
     let query_params = {
-        start_date:null,
+        start_date: null,
         // end_date:getSevenDaysFromToday(),
-        effective_period__whole_day:true
+        effective_period__whole_day: true
     }
 
     // default MapLibre style
@@ -116,13 +116,65 @@ $(document).ready(function () {
     }
 
     map.on("load", () => {
+        // fit to country bounds
+        if (countryBounds) {
+            const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
+            map.fitBounds(bounds, {padding: 50});
+        } else {
+            if (country_info && country_info.bbox) {
 
-        if (country_info && country_info.bbox) {
+                const bbox = country_info.bbox
 
-            const bbox = country_info.bbox
-
-            map.fitBounds(bbox, {padding: 50});
+                map.fitBounds(bbox, {padding: 50});
+            }
         }
+
+        // add country layer
+        if (boundaryTilesUrl) {
+            // add source
+            map.addSource("admin-boundary-source", {
+                    type: "vector",
+                    tiles: [boundaryTilesUrl],
+                }
+            )
+            // add layer
+            map.addLayer({
+                'id': 'admin-boundary-fill',
+                'type': 'fill',
+                'source': 'admin-boundary-source',
+                "source-layer": "default",
+                "filter": ["==", "level", 0],
+                'paint': {
+                    'fill-color': "#fff",
+                    'fill-opacity': 0,
+                }
+            });
+
+            map.addLayer({
+                'id': 'admin-boundary-line',
+                'type': 'line',
+                'source': 'admin-boundary-source',
+                "source-layer": "default",
+                "filter": ["==", "level", 0],
+                'paint': {
+                    "line-color": "#C0FF24",
+                    "line-width": 1,
+                    "line-offset": 1,
+                }
+            });
+            map.addLayer({
+                'id': 'admin-boundary-line-2',
+                'type': 'line',
+                'source': 'admin-boundary-source',
+                "source-layer": "default",
+                "filter": ["==", "level", 0],
+                'paint': {
+                    "line-color": "#000",
+                    "line-width": 1.5,
+                }
+            });
+        }
+
 
         if (alertsGeojson) {
             map.addSource("alert-areas", {
@@ -168,7 +220,7 @@ $(document).ready(function () {
                     .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p> </a></div>`)
                     .addTo(map);
 
-                 
+
             });
 
             // Change the cursor to a pointer when the mouse is over the places layer.
@@ -201,7 +253,7 @@ $(document).ready(function () {
 
         // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
-        
+
 
         map.on("click", "city-forecasts", (e) => {
             // Get the feature that was hovered over
@@ -214,15 +266,11 @@ $(document).ready(function () {
             // over the copy being pointed to.
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
+            }
             new maplibregl.Popup().setLngLat(e.lngLat)
                 .setHTML(getPopupHTML(feature.properties))
                 .addTo(map);
-
-
         })
-
-        
 
         // Change it back to a pointer when it leaves.
         map.on("mouseleave", "city-forecasts", () => {
@@ -230,7 +278,7 @@ $(document).ready(function () {
         });
 
         const initDate = document.getElementById("daily_forecast");
-        if (initDate.value) {
+        if (initDate && initDate.value) {
             query_params.forecast_date = initDate.value
 
             setForecastData(query_params)
@@ -244,7 +292,7 @@ $(document).ready(function () {
             url: forecast_api,
             method: "GET",
             data: params,
-            success: function(data) {
+            success: function (data) {
                 // Process the retrieved data
                 data.map(icon => {
 
@@ -267,13 +315,13 @@ $(document).ready(function () {
                 })
 
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 // This function will be called if there's an error in the request
                 console.error('CITY FORECAST ERROR:', textStatus, errorThrown);
             }
         })
 
-        
+
     }
 
     // toggle forecasts by selected date

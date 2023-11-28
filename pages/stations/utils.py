@@ -1,3 +1,6 @@
+from wagtail.api.v2.utils import get_full_url
+
+
 def create_stations_geomanager_dataset(station_settings, request=None):
     sub_category = station_settings.geomanager_subcategory
 
@@ -26,9 +29,7 @@ def create_stations_geomanager_dataset(station_settings, request=None):
         dataset.update({"metadata": metadata.pk})
 
     station_tiles_url = station_settings.stations_vector_tiles_url
-
-    if request:
-        station_tiles_url = request.scheme + '://' + request.get_host() + station_tiles_url
+    station_tiles_url = get_full_url(request, station_tiles_url)
 
     layer = {
         "id": dataset_id,

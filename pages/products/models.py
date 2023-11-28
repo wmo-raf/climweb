@@ -14,6 +14,7 @@ from taggit.models import TaggedItemBase
 from wagtail import blocks
 from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
+from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtailmodelchooser import register_model_chooser
@@ -47,7 +48,6 @@ class ProductIndexPage(MetadataPageMixin, Page):
         unique_services = ServiceCategory.objects.filter(id__in=list(product_service))
 
         return unique_services
-    
 
     class Meta:
         verbose_name = _('Product Index Page')
@@ -169,13 +169,20 @@ class ProductPage(AbstractIntroPage):
 
         context['products'] = self.filter_and_paginate_products(request)
 
+        abm_settings = AdminBoundarySettings.for_request(request)
+        abm_extents = abm_settings.combined_countries_bounds
+        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
+
+        context.update({
+            "bounds": abm_extents,
+            "boundary_tiles_url": boundary_tiles_url
+        })
+
         if self.map_layers:
-            abm_settings = AdminBoundarySettings.for_request(request)
-            context["bounds"] = abm_settings.combined_countries_bounds
 
             try:
-                context["datasetsurl"] = request.build_absolute_uri(reverse("dataset-list"))
-                context["layertimestampsurl"] = request.build_absolute_uri(reverse("layerrasterfile-list"))
+                context["datasetsurl"] = get_full_url(request, (reverse("dataset-list")))
+                context["layertimestampsurl"] = get_full_url(request, reverse("layerrasterfile-list"))
             except Exception:
                 pass
 
@@ -195,8 +202,6 @@ class ProductPage(AbstractIntroPage):
                 "product_type": product_type
             })
         return layers
-    
-    
 
     class Meta:
         verbose_name = _('Product Page')

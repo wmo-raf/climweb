@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from adminboundarymanager.models import AdminBoundarySettings
 from django.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -9,6 +10,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
+from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.fields import StreamField
@@ -85,16 +87,22 @@ class SatelliteImageryPage(MetadataPageMixin, Page):
         sat_setting = SatelliteImagerySetting.for_request(request)
 
         layer_dates_url = reverse("sat_get_layer_time")
-        layer_dates_url = request.build_absolute_uri(layer_dates_url)
+        layer_dates_url = get_full_url(request, layer_dates_url)
 
         layer_images_url = reverse("sat_get_animation_images")
-        layer_images_url = request.build_absolute_uri(layer_images_url)
+        layer_images_url = get_full_url(request, layer_images_url)
+
+        abm_settings = AdminBoundarySettings.for_request(request)
+        abm_extents = abm_settings.combined_countries_bounds
+        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
 
         context.update({
             "layer_dates_url": layer_dates_url,
             "layer_images_url": layer_images_url,
             "eumetview_wms_base_url": "https://view.eumetsat.int/geoserver/wms",
-            "msg_layers": sat_setting.layers
+            "msg_layers": sat_setting.layers,
+            "bounds": abm_extents,
+            "boundary_tiles_url": boundary_tiles_url
         })
 
         return context

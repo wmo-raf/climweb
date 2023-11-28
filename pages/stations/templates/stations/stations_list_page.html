@@ -36,9 +36,14 @@
         const mapConfigObj = {{ mapConfig | safe }};
         const popupFields = {{ popup_fields | safe }};
         const {stationBounds, stationsVectorTilesUrl} = mapConfigObj
+        const countryBounds = {{ bounds|safe|default_if_none:""}};
+        const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+
         let bounds = null;
 
-        if (stationBounds && !!stationBounds.length) {
+        if (countryBounds && !!countryBounds.length) {
+            bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
+        } else if (stationBounds && !!stationBounds.length) {
             bounds = [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]]
         }
 
@@ -103,7 +108,53 @@
 
 
             if (bounds) {
-                map.fitBounds(bounds, {padding: 20})
+                map.fitBounds(bounds, {padding: 50})
+            }
+
+            // add country boundary layer
+            if (boundaryTilesUrl) {
+                // add source
+                map.addSource("admin-boundary-source", {
+                        type: "vector",
+                        tiles: [boundaryTilesUrl],
+                    }
+                )
+                // add layer
+                map.addLayer({
+                    'id': 'admin-boundary-fill',
+                    'type': 'fill',
+                    'source': 'admin-boundary-source',
+                    "source-layer": "default",
+                    "filter": ["==", "level", 0],
+                    'paint': {
+                        'fill-color': "#fff",
+                        'fill-opacity': 0,
+                    }
+                });
+
+                map.addLayer({
+                    'id': 'admin-boundary-line',
+                    'type': 'line',
+                    'source': 'admin-boundary-source',
+                    "source-layer": "default",
+                    "filter": ["==", "level", 0],
+                    'paint': {
+                        "line-color": "#C0FF24",
+                        "line-width": 1,
+                        "line-offset": 1,
+                    }
+                });
+                map.addLayer({
+                    'id': 'admin-boundary-line-2',
+                    'type': 'line',
+                    'source': 'admin-boundary-source',
+                    "source-layer": "default",
+                    "filter": ["==", "level", 0],
+                    'paint': {
+                        "line-color": "#000",
+                        "line-width": 1.5,
+                    }
+                });
             }
 
             // add source

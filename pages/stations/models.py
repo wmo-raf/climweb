@@ -1,3 +1,4 @@
+from adminboundarymanager.models import AdminBoundarySettings
 from django.contrib.gis.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -8,6 +9,7 @@ from geomanager.fields import ListField
 from geomanager.models import SubCategory, Metadata
 from geomanager.utils.vector_utils import get_model_field
 from wagtail.admin.panels import FieldPanel
+from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.routable_page.models import path, RoutablePageMixin
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
@@ -137,9 +139,15 @@ class StationsPage(MetadataPageMixin, RoutablePageMixin, Page):
         context = {}
         station_settings = StationSettings.for_request(request)
 
-        stations_vector_tiles_url = request.scheme + '://' + request.get_host() + station_settings.stations_vector_tiles_url
+        stations_vector_tiles_url = get_full_url(request, station_settings.stations_vector_tiles_url)
+
+        abm_settings = AdminBoundarySettings.for_request(request)
+        abm_extents = abm_settings.combined_countries_bounds
+        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
 
         context.update({
+            "bounds": abm_extents,
+            "boundary_tiles_url": boundary_tiles_url,
             "mapConfig": {
                 "stationBounds": station_settings.bounds or [],
                 "stationsVectorTilesUrl": stations_vector_tiles_url,
@@ -154,7 +162,7 @@ class StationsPage(MetadataPageMixin, RoutablePageMixin, Page):
 
         table_fields = [field.get("name") for field in station_table_columns_list]
 
-        page_url = request.build_absolute_uri(self.url)
+        page_url = get_full_url(request, self.url)
 
         class StationTable(tables.Table):
             detail_url = TemplateColumn('<a href="" target="_blank"></a>')
@@ -201,11 +209,15 @@ class StationsPage(MetadataPageMixin, RoutablePageMixin, Page):
         else:
             station = None
 
+        abm_settings = AdminBoundarySettings.for_request(request)
+        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
+
         context = {
             "station": station,
             "columns": station_settings.columns,
             "bounds": station_settings.bounds,
-            "station_name_column": station_settings.name_column
+            "station_name_column": station_settings.name_column,
+            "boundary_tiles_url": boundary_tiles_url,
         }
 
         return self.render(request, template="stations/station_detail_page.html", context_overrides=context)

@@ -84,6 +84,13 @@
             const country_info = null
         {% endif %}
 
+        let countryBounds = {{ bounds|default_if_none:"[]"|safe }};
+        const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+
+        if (countryBounds.length === 0) {
+            countryBounds = null;
+        }
+
         const temp_units = "{{settings.forecastmanager.ForecastSetting.get_temp_units_display}}"
         const forecast_api = "{% url 'forecast-list'%}"
         const static_path = '{% static "forecastmanager/img/" %}'

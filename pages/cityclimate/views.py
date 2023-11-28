@@ -4,6 +4,7 @@ from django.urls import reverse
 from forecastmanager.models import City
 from wagtail.admin import messages
 from wagtail.admin.auth import user_passes_test, user_has_any_page_permission
+from wagtail.api.v2.utils import get_full_url
 from wagtail_modeladmin.helpers import AdminURLHelper
 
 from .forms import ClimateDataForm
@@ -32,7 +33,7 @@ def pre_load_climate_data(request, page_id):
         city_info = {
             "city": city,
             "has_data": False,
-            "load_data_url": request.build_absolute_uri(load_data_url)
+            "load_data_url": get_full_url(request, load_data_url)
         }
 
         test_value = DataValue.objects.filter(city=city, parameter__page_id=page.pk).first()
@@ -162,7 +163,9 @@ def climate_data(request, page_id):
         date_str = value.date.isoformat()
         if not values_dict.get(date_str):
             values_dict[date_str] = {}
-        values_dict[date_str].update({value.parameter.slug: value.value, "city": value.city.name, "coordinates": [ float(coordinate) for coordinate in value.city.coordinates if coordinate ]})
+        values_dict[date_str].update({value.parameter.slug: value.value, "city": value.city.name,
+                                      "coordinates": [float(coordinate) for coordinate in value.city.coordinates if
+                                                      coordinate]})
 
     values = [{"date": key, **values_dict[key]} for key in values_dict.keys()]
 
