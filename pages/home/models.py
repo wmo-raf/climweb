@@ -2,6 +2,7 @@ import json
 from datetime import datetime, timedelta
 from itertools import groupby
 
+from adminboundarymanager.models import AdminBoundarySettings
 from django.contrib.gis.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -9,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from forecastmanager.models import City, Forecast
 from forecastmanager.site_settings import ForecastSetting
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
+from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField
 from wagtail.models import Page, Site
 from wagtail_color_panel.fields import ColorField
@@ -126,6 +128,15 @@ class HomePage(MetadataPageMixin, Page):
     def get_context(self, request, *args, **kwargs):
         context = super(HomePage, self).get_context(
             request, *args, **kwargs)
+
+        abm_settings = AdminBoundarySettings.for_request(request)
+        abm_extents = abm_settings.combined_countries_bounds
+        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
+
+        context.update({
+            "bounds": abm_extents,
+            "boundary_tiles_url": boundary_tiles_url
+        })
 
         default_city = None
         city_ls = City.objects.all()

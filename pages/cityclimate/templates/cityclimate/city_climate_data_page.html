@@ -131,6 +131,14 @@
         <script src="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js"></script>
 
         <script>
+
+            let countryBounds = {{ bounds|default_if_none:"[]"|safe }};
+            const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+
+            if (countryBounds.length === 0) {
+                countryBounds = null;
+            }
+
             const options = {
                 pageId: {{ page.pk }},
                 city_data_url: "{{ city_data_url }}",
@@ -321,8 +329,8 @@
                 const climate_map = new maplibregl.Map({
                     container: "climate-map", // container ID
                     style: defaultStyle,
-                    center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
-                    zoom: 4.2, // starting zoom
+                    center: [0, 0], // starting position [lng, lat]
+                    zoom: 2, // starting zoom
                     scrollZoom: false,
                 });
 
@@ -337,6 +345,59 @@
 
 
                 climate_map.on("load", () => {
+
+                    // fit to country bounds
+                    if (countryBounds) {
+                        const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
+                        climate_map.fitBounds(bounds, {padding: 50});
+                    }
+
+                    // add country layer
+                    if (boundaryTilesUrl) {
+                        // add source
+                        climate_map.addSource("admin-boundary-source", {
+                                type: "vector",
+                                tiles: [boundaryTilesUrl],
+                            }
+                        )
+                        // add layer
+                        climate_map.addLayer({
+                            'id': 'admin-boundary-fill',
+                            'type': 'fill',
+                            'source': 'admin-boundary-source',
+                            "source-layer": "default",
+                            "filter": ["==", "level", 0],
+                            'paint': {
+                                'fill-color': "#fff",
+                                'fill-opacity': 0,
+                            }
+                        });
+
+                        climate_map.addLayer({
+                            'id': 'admin-boundary-line',
+                            'type': 'line',
+                            'source': 'admin-boundary-source',
+                            "source-layer": "default",
+                            "filter": ["==", "level", 0],
+                            'paint': {
+                                "line-color": "#C0FF24",
+                                "line-width": 1,
+                                "line-offset": 1,
+                            }
+                        });
+                        climate_map.addLayer({
+                            'id': 'admin-boundary-line-2',
+                            'type': 'line',
+                            'source': 'admin-boundary-source',
+                            "source-layer": "default",
+                            "filter": ["==", "level", 0],
+                            'paint': {
+                                "line-color": "#000",
+                                "line-width": 1.5,
+                            }
+                        });
+                    }
+
 
                     fetch("{% url 'cities-list' %}")
                         .then((res) => res.json())
@@ -379,16 +440,6 @@
                                     }
                                 })
 
-                                // Calculate the bounds of the GeoJSON data
-                                var bounds = new maplibregl.LngLatBounds();
-                                cities_geom.features.forEach(function (feature) {
-                                    bounds.extend(feature.geometry.coordinates);
-                                });
-
-                                // Set the map's viewport to fit the bounds
-                                climate_map.fitBounds(bounds, {
-                                    padding: 50, // Adjust the padding around the bounds (optional)
-                                });
 
                             }
 

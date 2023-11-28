@@ -80,6 +80,8 @@
             const stationBounds = {{ bounds|safe|default_if_none:""}};
             const centroid = {{ station.geom.centroid.json|safe }};
 
+            const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+
             const defaultStyle = {
                 'version': 8,
                 'sources': {
@@ -141,6 +143,52 @@
                     const bounds = [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]]
 
                     map.fitBounds(bounds, {padding: 20})
+                }
+
+                // add country boundary layer
+                if (boundaryTilesUrl) {
+                    // add source
+                    map.addSource("admin-boundary-source", {
+                            type: "vector",
+                            tiles: [boundaryTilesUrl],
+                        }
+                    )
+                    // add layer
+                    map.addLayer({
+                        'id': 'admin-boundary-fill',
+                        'type': 'fill',
+                        'source': 'admin-boundary-source',
+                        "source-layer": "default",
+                        "filter": ["==", "level", 0],
+                        'paint': {
+                            'fill-color': "#fff",
+                            'fill-opacity': 0,
+                        }
+                    });
+
+                    map.addLayer({
+                        'id': 'admin-boundary-line',
+                        'type': 'line',
+                        'source': 'admin-boundary-source',
+                        "source-layer": "default",
+                        "filter": ["==", "level", 0],
+                        'paint': {
+                            "line-color": "#C0FF24",
+                            "line-width": 1,
+                            "line-offset": 1,
+                        }
+                    });
+                    map.addLayer({
+                        'id': 'admin-boundary-line-2',
+                        'type': 'line',
+                        'source': 'admin-boundary-source',
+                        "source-layer": "default",
+                        "filter": ["==", "level", 0],
+                        'paint': {
+                            "line-color": "#000",
+                            "line-width": 1.5,
+                        }
+                    });
                 }
 
 

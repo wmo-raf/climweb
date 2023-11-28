@@ -81,11 +81,15 @@
         <script>
             const datasetsUrl = "{{ datasetsurl }}";
             const layerTimestampsUrl = "{{ layertimestampsurl }}";
-            const bounds = {{ bounds|safe }};
-            let mapBounds
-            if (bounds && !!bounds.length) {
-                mapBounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
+
+            let countryBounds = {{ bounds|default_if_none:"[]"|safe }};
+            const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+
+            if (countryBounds.length === 0) {
+                countryBounds = null;
             }
+
+
         </script>
 
         <script src="{% static "products/js/product_map.js" %}"></script>
@@ -119,7 +123,12 @@
 
                 if (typeof (map) !== 'undefined') {
                     map.resize()
-                    map.fitBounds(mapBounds, {padding: 20})
+
+                    if (countryBounds) {
+                        map.fitBounds(countryBounds, {padding: 20})
+                    }
+
+
                 }
             })
 

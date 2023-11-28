@@ -129,12 +129,22 @@
         <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
         <script src='https://unpkg.com/@its2easy/animate-images'></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
         <script src="{% static 'satellite_imagery/js/layer-animation.js' %}"></script>
         <script>
             const layerDatesUrl = "{{ layer_dates_url }}";
             const layerImagesUrl = "{{ layer_images_url }}";
             const eumetViewWmsBaseUrl = "{{ eumetview_wms_base_url }}";
             const country_info = {{settings.base.OrganisationSetting.country_info|safe}}
+
+            let countryBounds = {{ bounds|default_if_none:"[]"|safe }};
+            const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+
+            if (countryBounds.length  === 0) {
+               countryBounds = null;
+            }
+
+
            
             $(document).ready(() => {
                 const $layerInput = $(".menu-category")
@@ -184,7 +194,8 @@
 
 
                 const map = L.map('sat-map', {
-                    center: [8.92, 38.66],
+                    center: [0,0],
+                    zoom:1,
                     zoomControl: false,
                     timeDimension: true,
                     timeDimensionControl: true,
@@ -224,18 +235,49 @@
                     stopAutoUpdate()
                 })
 
-                if (country_info && country_info.bbox) {
-
-                    const bbox = country_info.bbox
-
-                    var bounds = L.latLngBounds(
-                        [bbox[1], bbox[0]],
-                        [bbox[3], bbox[2]]
-                    );
-        
-                    map.fitBounds(bounds);
+              if (countryBounds) {
+                    const corner1 = L.latLng(countryBounds[1], countryBounds[0]),
+                    corner2 = L.latLng(countryBounds[3], countryBounds[2]),
+                    bounds = L.latLngBounds(corner1, corner2);
+                    map.fitBounds(bounds,{padding:[10,10]})
                 }
 
+             let boundaryLayer = null
+
+              if(boundaryTilesUrl){
+                const boundaryTilesUrl = "http://127.0.0.1:8200/api/admin-boundary/tiles/{z}/{x}/{y}"
+                const boundaryStylingOptions = {
+                    vectorTileLayerStyles:{
+                        default: function(properties, zoom) {
+                                const level = properties.level;
+
+                                switch (level) {
+                                    case 0:
+                                        return {
+                                        weight: 4,
+                                        color: '#C0FF24',
+                                        fillOpacity: 0
+                                    }   
+                                    case 1:
+                                        return {
+                                        weight: 2,
+                                        color: "#808080",
+                                        fillOpacity: 0,
+                                        dashArray: [4, 4]
+                                    }       
+                                    default:
+                                        return []
+                                }
+                        }
+                    }
+                }
+
+                
+                boundaryLayer = L.vectorGrid.protobuf(boundaryTilesUrl, boundaryStylingOptions);
+                boundaryLayer.addTo(map);
+              }
+                
+            
 
                 const createLayer = (layerName) => {
                     const wmsLayer = L.tileLayer.wms(eumetViewWmsBaseUrl, {
@@ -285,6 +327,10 @@
 
                             tdWMSLayer = createLayer(activeLayerName)
                             tdWMSLayer.addTo(map)
+
+                            if (boundaryLayer){
+                                boundaryLayer.bringToFront()
+                            }
 
                             updateLegend(activeLayerName)
                         })

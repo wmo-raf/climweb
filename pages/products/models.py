@@ -169,9 +169,16 @@ class ProductPage(AbstractIntroPage):
 
         context['products'] = self.filter_and_paginate_products(request)
 
+        abm_settings = AdminBoundarySettings.for_request(request)
+        abm_extents = abm_settings.combined_countries_bounds
+        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
+
+        context.update({
+            "bounds": abm_extents,
+            "boundary_tiles_url": boundary_tiles_url
+        })
+
         if self.map_layers:
-            abm_settings = AdminBoundarySettings.for_request(request)
-            context["bounds"] = abm_settings.combined_countries_bounds
 
             try:
                 context["datasetsurl"] = get_full_url(request, (reverse("dataset-list")))

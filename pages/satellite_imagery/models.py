@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from adminboundarymanager.models import AdminBoundarySettings
 from django.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -91,11 +92,17 @@ class SatelliteImageryPage(MetadataPageMixin, Page):
         layer_images_url = reverse("sat_get_animation_images")
         layer_images_url = get_full_url(request, layer_images_url)
 
+        abm_settings = AdminBoundarySettings.for_request(request)
+        abm_extents = abm_settings.combined_countries_bounds
+        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
+
         context.update({
             "layer_dates_url": layer_dates_url,
             "layer_images_url": layer_images_url,
             "eumetview_wms_base_url": "https://view.eumetsat.int/geoserver/wms",
-            "msg_layers": sat_setting.layers
+            "msg_layers": sat_setting.layers,
+            "bounds": abm_extents,
+            "boundary_tiles_url": boundary_tiles_url
         })
 
         return context
