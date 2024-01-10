@@ -1,3 +1,4 @@
+from django.core.mail import mail_admins
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.template.response import TemplateResponse
@@ -73,11 +74,13 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
 
             if form.is_valid():
                 form_submission = None
+                try:
+                    # see if we have any duplicated field values. Notorious with spammers !
+                    duplicate_fields = get_duplicates(form.cleaned_data)
+                except Exception:
+                    duplicate_fields = []
 
-                # see if we have any duplicated field values. Notorius with spammers !
-                dups = get_duplicates(form.cleaned_data)
-
-                if not dups:
+                if not duplicate_fields:
                     form_submission = self.process_form_submission(form)
                 else:
                     self.process_suspicious_form(form)
@@ -96,9 +99,13 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
 
     def process_suspicious_form(self, form):
         remove_captcha_field(form)
-        if self.to_address:
+        try:
             self.send_suspicious_form_to_admin(form)
+        except Exception:
+            pass
 
+    # override send_mail to extract sender email from form, to use in 'reply_to'
+    # This will allow replying to the sender directly from the email client
     def send_mail(self, form):
         addresses = [x.strip() for x in self.to_address.split(',')]
         email = form.cleaned_data.get("email", None)
@@ -108,7 +115,6 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
         send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
 
     def send_suspicious_form_to_admin(self, form):
-        addresses = ['email@email.net']
         content = []
         for field in form:
             value = field.value()
@@ -116,7 +122,8 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                 value = ', '.join(value)
             content.append('{}: {}'.format(field.label, value))
         content = '\n'.join(content)
-        send_mail("POSSIBLE SPAM - {}".format(self.subject), content, addresses, self.from_address, )
+
+        mail_admins("POSSIBLE SPAM (FEEDBACK PAGE) - {}".format(self.subject), content, fail_silently=True)
 
 
 class FeedbackFormField(AbstractFormField):

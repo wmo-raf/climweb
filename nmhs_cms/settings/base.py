@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from email.utils import getaddresses
 
 import django.conf.locale
 import environ
@@ -348,6 +349,22 @@ RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
 
 RECAPTCHA_TESTING = True
+
+# EMAIL SETTINGS
+# Default email address used to send messages from the website.
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="")
+
+# A list of people who get error notifications.
+ADMINS = getaddresses([env('DJANGO_ADMINS', default="")])
+
+# A list in the same format as ADMINS that specifies who should get some content management errors
+MANAGERS = ADMINS + getaddresses([env('DJANGO_MANAGERS', default="")])
+
+# A list in the same format as DEVELOPERS for receiving developer aimed messages
+DEVELOPERS = getaddresses([env('DJANGO_APP_DEVELOPERS', default="")])
+
+# Email address used to send error messages to ADMINS.
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 WAGTAILDOCS_DOCUMENT_MODEL = 'base.CustomDocumentModel'
 WAGTAILEMBEDS_RESPONSIVE_HTML = True

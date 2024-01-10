@@ -4,7 +4,7 @@ from itertools import chain
 from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
-from django.core.mail import mail_managers
+from django.core.mail import mail_managers, mail_admins
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -371,6 +371,8 @@ class EventPage(MetadataPageMixin, Page):
         return get_pytz_gmt_offset_str(self.timezone)
 
     def save(self, *args, **kwargs):
+        if not self.search_image and self.image:
+            self.search_image = self.image
         if not self.search_description and self.description:
             p = get_first_non_empty_p_string(self.description)
             if p:
@@ -552,13 +554,18 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                     # We have a duplicate. Do not continue to process form
                     should_process = False
             else:
-                # send managers an email so that they check that a correct field is set
-                mail_managers(subject="Incorrect form validation field found !",
-                              message="We found an incorrect validation field  - {} - set for the form page {}. Please "
-                                      "make sure the correct field is set to avoid duplicate submissions and "
-                                      "stop these messages from being sent".format(self.validation_field,
-                                                                                   self.title),
-                              fail_silently=True)
+                try:
+                    # send admins an email so that they check that a correct field is set
+                    mail_admins(subject="Incorrect form validation field found !",
+                                message="Incorrect validation field  - {} - set for the form page {}. Please "
+                                        "make sure the correct field is set to avoid duplicate submissions and "
+                                        "stop these messages from being sent".format(self.validation_field, self.title),
+                                fail_silently=True)
+                except Exception:
+                    pass
+
+                # meanwhile, mark the form for saving
+                should_process = True
 
         return should_process
 
@@ -568,8 +575,8 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         # Get meta items from parent
         if parent.search_description:
             self.search_description = parent.search_description
-        # if parent.search_image:
-        #     self.search_image = parent.search_image
+        if parent.search_image:
+            self.search_image = parent.search_image
 
         return super().save(*args, **kwargs)
 
