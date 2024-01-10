@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n wagtailiconchooser_tags %}
 
 
 <div class="event-detail-meta" style="margin-top: 20px">
@@ -18,7 +18,7 @@
         <div class="event-meta-item-pre">
             <span class="event-meta-item-icon">
                 {% if page.event_type.icon %}
-                    <img src="{{ page.event_type.icon.url }}" alt="location_icon"/>
+                    {% svg_icon page.event_type.icon %}
                 {% else %}
                     <i class="fas fa-user-tag"></i>
                 {% endif %}
@@ -71,7 +71,7 @@
                     <span>
                         {% translate "End Date" %}:
                     </span>
-                    {% blocktranslate with end_date=page.date_to|date:"d M, Y h:i A" trimmed%}
+                    {% blocktranslate with end_date=page.date_to|date:"d M, Y h:i A" trimmed %}
                         {{ end_date }}
                     {% endblocktranslate %}
                 </div>
