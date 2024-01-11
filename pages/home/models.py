@@ -179,6 +179,9 @@ class HomePage(MetadataPageMixin, Page):
 
             context['grouped_forecast'] = grouped_forecast
 
+        if self.youtube_playlist:
+            context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
+
         return context
 
     @cached_property

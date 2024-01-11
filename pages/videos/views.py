@@ -30,6 +30,9 @@ class VideoView(RetrieveModelMixin, GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         result = get_object_or_404(self.queryset, pk=kwargs['pk'])
-        serializer = self.get_serializer(result)
+        data = self.get_serializer(result).data
 
-        return Response({'result': serializer.data}, template_name='videos_include.html')
+        if not data.get("videos"):
+            return Response(data=None, template_name='videos_include.html', status=404)
+
+        return Response({'result': data}, template_name='videos_include.html')

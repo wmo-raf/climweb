@@ -5,12 +5,16 @@
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_page.css' %}">
+    {% if page.youtube_playlist %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
+    {% endif %}
 
     <style>
         .offers {
             margin-top: -10px
         }
-        
+
         .offers .accordion-body {
             background-color: transparent !important;
         }
@@ -31,59 +35,62 @@
 
 
         {% if page.products.all %}
-        <section id="offers" class="offers" style="background-image: url('{% static 'img/bg_products.png' %}'); background-repeat:no-repeat; background-size:cover">
-            <div class="container">
+            <section id="offers" class="offers"
+                     style="background-image: url('{% static 'img/bg_products.png' %}'); background-repeat:no-repeat; background-size:cover">
+                <div class="container">
 
-                <h2 class="section-title has-text-centered">{% translate 'Our Products' %}</h2>
-                <div class="columns">
-                    <div class="column is-one-half" style="display: flex; align-items: center">
-                        <figure class="image home-products-image" style="width: 100%;
+                    <h2 class="section-title has-text-centered">{% translate 'Our Products' %}</h2>
+                    <div class="columns">
+                        <div class="column is-one-half" style="display: flex; align-items: center">
+                            <figure class="image home-products-image" style="width: 100%;
                         height: 400px;
                         overflow: hidden;">
-                            {% if page.banner_image %}
-                            
-                            {% image page.banner_image original as ft_img %}
-                            <img class="progressive__img progressive--not-loaded"
-                                 data-progressive="{{ ft_img.url }}"
-                                 style="height: 100%;width: 100%;object-fit: cover"
-                                 src="{% lazy_image_url ft_img %}" alt="products"/>
-                            {% endif %}
-                        </figure>
-                    </div>
-                    <div class="column is-one-half forecast has-text-left"
-                         style="display: flex;align-items: center">
-                        <div class="accordion js-accordion">
-                            {% for product in page.products.all  %}
+                                {% if page.banner_image %}
 
-                            <div class="accordion__item js-accordion-item {% if forloop.first %}active{% endif %}">
-                                <h3 class="accordion-header js-accordion-header" style="font-weight: 600;color: #333;">
-                                    {{product.introduction_title}}
-                                </h3>
-                                <div class="accordion-body js-accordion-body" style="{% if not forloop.first %}display:none{% endif %}">
-                                    <div class="accordion-body__contents">
-                                        <hr/>
-                                        <p class="dark-grey">
-                                            {{product.introduction_text|richtext}}
-                                        </p>
-                                        <div>
-                                            <a class="more" href="{{product.url}}">
-                                                Explore More
-                                                <span class="icon">
-                                                    <i class="fas fa-arrow-right"></i>
-                                                </span>
-                                            </a>
+                                    {% image page.banner_image original as ft_img %}
+                                    <img class="progressive__img progressive--not-loaded"
+                                         data-progressive="{{ ft_img.url }}"
+                                         style="height: 100%;width: 100%;object-fit: cover"
+                                         src="{% lazy_image_url ft_img %}" alt="products"/>
+                                {% endif %}
+                            </figure>
+                        </div>
+                        <div class="column is-one-half forecast has-text-left"
+                             style="display: flex;align-items: center">
+                            <div class="accordion js-accordion">
+                                {% for product in page.products.all %}
+
+                                    <div class="accordion__item js-accordion-item {% if forloop.first %}active{% endif %}">
+                                        <h3 class="accordion-header js-accordion-header"
+                                            style="font-weight: 600;color: #333;">
+                                            {{ product.introduction_title }}
+                                        </h3>
+                                        <div class="accordion-body js-accordion-body"
+                                             style="{% if not forloop.first %}display:none{% endif %}">
+                                            <div class="accordion-body__contents">
+                                                <hr/>
+                                                <p class="dark-grey">
+                                                    {{ product.introduction_text|richtext }}
+                                                </p>
+                                                <div>
+                                                    <a class="more" href="{{ product.url }}">
+                                                        Explore More
+                                                        <span class="icon">
+                                                            <i class="fas fa-arrow-right"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
                         </div>
                     </div>
-                </div>
 
-                
-            </div>
-        </section>
+
+                </div>
+            </section>
 
         {% endif %}
 
@@ -157,16 +164,13 @@
             </section>
         {% endif %}
 
-        
+
 
         {% if page.youtube_playlist %}
-            <section id="videoSection" class="videos">
-                <div class="container">
-                    <h2 class="section-title has-text-centered">
-                        {% translate "Videos" %}
-                    </h2>
-
-                    {% include 'videos_skeleton_home.html' with playlist_items=page.youtube_playlist.playlist_items %}
+            <section class="has-text-centered videos" id="videoSection">
+                <div class="container is-align-content-center">
+                    <h2 class="section-title has-text-centered">{% translate 'Latest Media' %}  </h2>
+                    {% include 'videos_skeleton.html' %}
                 </div>
             </section>
         {% endif %}
@@ -188,13 +192,41 @@
 
 
 {% block extra_js %}
-<script>
+    {% if page.youtube_playlist %}
+        <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
+    {% endif %}
+    <script>
 
-    $(document).ready(function () {
-        accordion.init({speed: 300, oneOpen: true})
-    })
+        const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
 
-</script>
+        $(document).ready(function () {
+            accordion.init({speed: 300, oneOpen: true})
+
+            if (page_youtube_playlist) {
+                const url = "{{ youtube_playlist_url }}";
+                $('#videoWrapper').scheletrone({
+                    onComplete: function () {
+                        $.ajax({
+                            url: url,
+                            dataType: "html",
+                            success: function (data) {
+                                // if we have videos append them, else hide whole section
+                                if (data) {
+                                    $('#videoWrapper').html('').append(data).ready();
+                                } else {
+                                    $('#videoSection').remove()
+                                }
+                            },
+                            error: function () {
+                                $('#videoSection').remove()
+                            }
+                        });
+                    }
+                });
+            }
+        })
+
+    </script>
 
 {% endblock extra_js %}
 

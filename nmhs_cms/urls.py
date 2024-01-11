@@ -13,6 +13,7 @@ from wagtailcache.cache import cache_page
 from nmhs_cms.api import api_router
 from pages.home.views import list_forecasts, daily_weather, city_analysis
 from pages.search import views as search_views
+from pages.videos.views import VideoView
 
 handler500 = 'base.views.handler500'
 
@@ -25,6 +26,7 @@ urlpatterns = [
     path("daily_weather/", daily_weather, name="daily_weather"),
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("pages.cityclimate.urls")),
+    path("api/videos/<int:pk>", VideoView.as_view(), name="youtube_playlist_items"),
     path("", include("pages.cap.urls")),
 
     path("", include("geomanager.urls"), name="geomanager"),

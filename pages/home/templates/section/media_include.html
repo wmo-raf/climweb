@@ -4,19 +4,11 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}"> {% endcomment %}
 {% endblock %}
 
-{% if page.youtube_playlist  %}
-{% if page.youtube_playlist.playlist_items|length > 0 %}
-    <section class="has-text-centered videos" id="videoSection">
-        <div class="container is-align-content-center">
-            <h2 class="section-title has-text-centered">{% translate 'Latest Media' %}  </h2>
-            
-                {% include 'videos_skeleton_home.html' with playlist_items=page.youtube_playlist.playlist_items %}
-            
-        </div>
-    </section>
+{% if page.youtube_playlist %}
+    {% if page.youtube_playlist.playlist_items|length > 0 %}
+
     {% endif %}
 {% endif %}
-
 
 
 {% block extra_js %}

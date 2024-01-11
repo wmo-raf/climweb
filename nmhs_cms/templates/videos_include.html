@@ -1,8 +1,8 @@
-{% load nmhs_cms_tags i18n %}
+{% load nmhs_cms_tags %}
 
 {% for item in result.videos %}
-    <div class="column is-one-third-desktop is-half-tablet is-full-mobile video-item">
-        <div class="card {{ box_shadow }}">
+    <div class="column is-one-third-desktop is-half-tablet is-full-mobile video-item" style="display: flex;">
+        <div class="card" style="width: 100%">
             <div class="card-image">
                 <figure class="image">
                     <iframe width="100%" height="100%"
@@ -11,27 +11,26 @@
                 </figure>
             </div>
             <div class="card-content">
-                <span class="card-tag-float">{{ result.title| }}</span>
+                <span class="card-tag-float">{{ result.title|truncatechars:35 }}</span>
                 <a class="card-title">
                     <h4>{{ item.snippet.title }}</h4>
                 </a>
                 <div class="card-video-stats">
-                    <span>
-                        {% blocktranslate with publish_date=item.contentDetails.videoPublishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" trimmed %}
-                            Published on: {{ publish_date }}
-                        {% endblocktranslate %}
-                    </span>
+                    <span>Published on:
+                        {{ item.contentDetails.videoPublishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" }}</span>
                 </div>
 
                 <div class="card-video-meta">
-                    <a href="https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
+                    <a href=https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
                        target="_blank"
-                       rel="noopener">
-                        {% translate "SUBSCRIBE" %}
+                       rel="noopener"
+                    >
+                        SUBSCRIBE
                     </a>
-                    <a href="https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
+                    <a href=https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
                        target="_blank"
-                       rel="noopener">
+                       rel="noopener"
+                    >
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
