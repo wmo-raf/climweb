@@ -1,4 +1,4 @@
-{% load nmhs_cms_tags %}
+{% load nmhs_cms_tags i18n %}
 
 {% for item in result.videos %}
     <div class="column is-one-third-desktop is-half-tablet is-full-mobile video-item" style="display: flex;">
@@ -16,8 +16,11 @@
                     <h4>{{ item.snippet.title }}</h4>
                 </a>
                 <div class="card-video-stats">
-                    <span>Published on:
-                        {{ item.contentDetails.videoPublishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" }}</span>
+                    <span>
+                        {% blocktranslate trimmed with updated_on=item.contentDetails.videoPublishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" %}
+                            Published on : {{ updated_on }}
+                        {% endblocktranslate %}
+                    </span>
                 </div>
 
                 <div class="card-video-meta">
@@ -25,7 +28,8 @@
                        target="_blank"
                        rel="noopener"
                     >
-                        SUBSCRIBE
+
+                        {% translate "SUBSCRIBE" %}
                     </a>
                     <a href=https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
                        target="_blank"

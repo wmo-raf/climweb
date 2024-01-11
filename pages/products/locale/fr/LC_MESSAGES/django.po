@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 10:20+0300\n"
+"POT-Creation-Date: 2024-01-11 15:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,13 +27,11 @@ msgid "Icon"
 msgstr "Icône"
 
 #: pages/products/blocks.py:43 pages/products/blocks.py:57
-#, fuzzy
-#| msgid "Product Tag"
 msgid "Product Type"
 msgstr "type de produit"
 
 #: pages/products/blocks.py:44 pages/products/blocks.py:60
-#: pages/products/models.py:230
+#: pages/products/models.py:246
 msgid "Effective from"
 msgstr "À compter de"
 
@@ -42,14 +40,11 @@ msgid "The date when this product becomes effective"
 msgstr "La date à laquelle ce produit entre en vigueur"
 
 #: pages/products/blocks.py:46 pages/products/blocks.py:62
-#: pages/products/models.py:232
+#: pages/products/models.py:248
 msgid "Effective until"
 msgstr "En vigueur jusqu'à"
 
 #: pages/products/blocks.py:47 pages/products/blocks.py:63
-#, fuzzy
-#| msgid ""
-#| "Up to when is this product valid ? Leave blank if not applicable"
 msgid ""
 "The last day this product remains effective. Leave blank if not applicable"
 msgstr ""
@@ -76,36 +71,30 @@ msgid "Document"
 msgstr "Document"
 
 #: pages/products/blocks.py:66
-#, fuzzy
-#| msgid "Summary of the product release"
 msgid "Summary of the document information"
 msgstr "Résumé des informations du document"
 
-#: pages/products/models.py:37
+#: pages/products/models.py:38
 msgid "Products listing Heading"
 msgstr "Liste des produits Rubrique"
 
-#: pages/products/models.py:44
-#, fuzzy
-#| msgid "Product Page"
+#: pages/products/models.py:53
 msgid "Product Index Page"
 msgstr "Page d'index des produits"
 
-#: pages/products/models.py:45
-#, fuzzy
-#| msgid "Product Pages"
+#: pages/products/models.py:54
 msgid "Product Index Pages"
 msgstr "Pages d'index des produits"
 
-#: pages/products/models.py:91
+#: pages/products/models.py:100
 msgid "Service"
 msgstr "Service"
 
-#: pages/products/models.py:92
+#: pages/products/models.py:101
 msgid "Product"
 msgstr "Produit"
 
-#: pages/products/models.py:97
+#: pages/products/models.py:106
 msgid ""
 "How many of this products should be visible on the landing page filter "
 "section ?"
@@ -113,39 +102,36 @@ msgstr ""
 "Combien de ces produits doivent être visibles dans la section de filtre de "
 "la page de destination ?"
 
-#: pages/products/models.py:98
+#: pages/products/models.py:107
 msgid "Products per page"
 msgstr "Produits par page"
 
-#: pages/products/models.py:102
+#: pages/products/models.py:111
 msgid "Map Layers"
 msgstr "Couches de carte"
 
-#: pages/products/models.py:112
+#: pages/products/models.py:121
 msgid "Other settings"
 msgstr "Autres réglages"
 
-#: pages/products/models.py:191
+#: pages/products/models.py:207
 #: pages/products/templates/products/product_layer_integration.html:16
 msgid "Product Page"
 msgstr "Page produit"
 
-#: pages/products/models.py:192
+#: pages/products/models.py:208
 msgid "Product Pages"
 msgstr "Pages produits"
 
-#: pages/products/models.py:200
+#: pages/products/models.py:216
 msgid "Product Tag"
 msgstr "Étiquette du produit"
 
-#: pages/products/models.py:231
+#: pages/products/models.py:247
 msgid "The first day when products added below become effective"
 msgstr "Le premier jour où les produits ajoutés ci-dessous entrent en vigueur"
 
-#: pages/products/models.py:233
-#, fuzzy
-#| msgid ""
-#| "Up to when is this product valid ? Leave blank if not applicable"
+#: pages/products/models.py:249
 msgid ""
 "The last day when products added below remain effective. Leave blank if not "
 "applicable"
@@ -153,9 +139,7 @@ msgstr ""
 "Dernier jour où les produits ajoutés ci-dessous restent efficaces. Laissez "
 "un vide si non applicable"
 
-#: pages/products/models.py:288
-#, fuzzy
-#| msgid "Product Page"
+#: pages/products/models.py:304
 msgid "Product Item"
 msgstr "Article du produit"
 
@@ -168,14 +152,11 @@ msgid "Download"
 msgstr "Télécharger"
 
 #: pages/products/templates/products/product_detail.html:132
-#, fuzzy, python-format
-#| msgid "Document"
+#, python-format
 msgid "Download document  - %(file_size)s"
 msgstr "Télécharger le document - %(file_size)s"
 
 #: pages/products/templates/products/product_detail.html:149
-#, fuzzy
-#| msgid "Document"
 msgid "Download document"
 msgstr "Télécharger le document"
 
@@ -196,8 +177,6 @@ msgid "MapViewer"
 msgstr "Visionneuse de cartes"
 
 #: pages/products/templates/products/product_index.html:50
-#, fuzzy
-#| msgid "Product Pages"
 msgid "Browse Product Updates"
 msgstr "Parcourir les mises à jour du produit"
 

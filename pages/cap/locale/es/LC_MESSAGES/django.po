@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 09:55+0300\n"
+"POT-Creation-Date: 2024-01-11 14:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: pages/cap/models.py:28
+#: pages/cap/models.py:33
 msgid "CAP Alerts Heading"
 msgstr "Título de alertas de la PAC"
+
+#: pages/cap/models.py:207
+msgid "Show on MapViewer"
+msgstr "Mostrar en MapViewer"
+
+#: pages/cap/models.py:208
+msgid "Check to show cap alerts on MapViewer"
+msgstr "Marque para mostrar alertas de límite en MapViewer"
+
+#: pages/cap/models.py:210
+msgid "CAP Alerts Layer Title"
+msgstr "Título de la capa de alertas CAP"
+
+#: pages/cap/models.py:212
+msgid "Stations Layer SubCategory"
+msgstr "Subcategoría de capa de estaciones"
+
+#: pages/cap/models.py:215
+msgid "CAP Layer Metadata"
+msgstr "Metadatos de la capa CAP"
+
+#: pages/cap/models.py:217
+msgid "Auto Refresh interval in minutes"
+msgstr "Intervalo de actualización automática en minutos"
+
+#: pages/cap/models.py:219
+msgid ""
+"Refresh cap alerts on the map after this minutes. Leave blank to disable "
+"auto refreshing"
+msgstr ""
+"Actualizar las alertas de límite en el mapa después de estos minutos. Déjelo"
+" en blanco para desactivar la actualización automática."
 
 #: pages/cap/templates/cap/alert_detail.html:61
 msgid "Alert Severity"
@@ -95,14 +127,18 @@ msgstr "Instrucciones"
 msgid "Event type"
 msgstr "Tipo de evento"
 
-#: pages/cap/wagtail_hooks.py:17
+#: pages/cap/wagtail_hooks.py:19
 msgid "Alerts"
 msgstr "Alertas"
 
-#: pages/cap/wagtail_hooks.py:30
+#: pages/cap/wagtail_hooks.py:32
 msgid "CAP Alerts"
 msgstr "Alertas de la PAC"
 
-#: pages/cap/wagtail_hooks.py:53
-msgid "Settings"
-msgstr "Ajustes"
+#: pages/cap/wagtail_hooks.py:57
+msgid "CAP Base Settings"
+msgstr "Configuración básica de la PAC"
+
+#: pages/cap/wagtail_hooks.py:66
+msgid "CAP Mapviewer Settings"
+msgstr "Configuración del visor de mapas CAP"

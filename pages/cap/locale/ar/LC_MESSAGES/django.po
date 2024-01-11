@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 09:55+0300\n"
+"POT-Creation-Date: 2024-01-11 14:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pages/cap/models.py:28
+#: pages/cap/models.py:33
 msgid "CAP Alerts Heading"
 msgstr "عنوان تنبيهات CAP"
+
+#: pages/cap/models.py:207
+msgid "Show on MapViewer"
+msgstr "عرض على MapViewer"
+
+#: pages/cap/models.py:208
+msgid "Check to show cap alerts on MapViewer"
+msgstr "تحقق لإظهار تنبيهات الحد الأقصى على MapViewer"
+
+#: pages/cap/models.py:210
+msgid "CAP Alerts Layer Title"
+msgstr "عنوان طبقة تنبيهات CAP"
+
+#: pages/cap/models.py:212
+msgid "Stations Layer SubCategory"
+msgstr "الفئة الفرعية لطبقة المحطات"
+
+#: pages/cap/models.py:215
+msgid "CAP Layer Metadata"
+msgstr "البيانات التعريفية لطبقة CAP"
+
+#: pages/cap/models.py:217
+msgid "Auto Refresh interval in minutes"
+msgstr "الفاصل الزمني للتحديث التلقائي في دقائق"
+
+#: pages/cap/models.py:219
+msgid ""
+"Refresh cap alerts on the map after this minutes. Leave blank to disable "
+"auto refreshing"
+msgstr ""
+"قم بتحديث تنبيهات الحد الأقصى على الخريطة بعد هذه الدقائق. اتركه فارغًا "
+"لتعطيل التحديث التلقائي"
 
 #: pages/cap/templates/cap/alert_detail.html:61
 msgid "Alert Severity"
@@ -95,14 +127,18 @@ msgstr "تعليمات"
 msgid "Event type"
 msgstr "نوع الحدث"
 
-#: pages/cap/wagtail_hooks.py:17
+#: pages/cap/wagtail_hooks.py:19
 msgid "Alerts"
 msgstr "التنبيهات"
 
-#: pages/cap/wagtail_hooks.py:30
+#: pages/cap/wagtail_hooks.py:32
 msgid "CAP Alerts"
 msgstr "تنبيهات CAP"
 
-#: pages/cap/wagtail_hooks.py:53
-msgid "Settings"
-msgstr "إعدادات"
+#: pages/cap/wagtail_hooks.py:57
+msgid "CAP Base Settings"
+msgstr "إعدادات قاعدة CAP"
+
+#: pages/cap/wagtail_hooks.py:66
+msgid "CAP Mapviewer Settings"
+msgstr "إعدادات عارض الخرائط CAP"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:13+0300\n"
+"POT-Creation-Date: 2024-01-11 15:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,8 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pages/events/models.py:46
-#, fuzzy
-#| msgid "Event Type"
 msgid "Event type"
 msgstr "Aina ya tukio"
 
@@ -107,8 +105,6 @@ msgid "Downloadable agenda document"
 msgstr "Hati ya ajenda inayoweza kupakuliwa"
 
 #: pages/events/models.py:201
-#, fuzzy
-#| msgid "Agenda document, preferably in PDF format"
 msgid "Agenda document, if available, preferably in PDF format"
 msgstr "Hati ya ajenda, ikiwa inapatikana, ikiwezekana katika umbizo la PDF"
 
@@ -192,15 +188,15 @@ msgstr "Jukwaa la Kujumuisha Usajili wa Mkutano"
 msgid "Platform for Event"
 msgstr "Jukwaa la Tukio"
 
-#: pages/events/models.py:285 pages/events/models.py:503
+#: pages/events/models.py:285 pages/events/models.py:507
 msgid "Content"
 msgstr "Maudhui"
 
-#: pages/events/models.py:286 pages/events/models.py:504
+#: pages/events/models.py:286 pages/events/models.py:508
 msgid "SEO"
 msgstr "SEO"
 
-#: pages/events/models.py:287 pages/events/models.py:505
+#: pages/events/models.py:287 pages/events/models.py:509
 msgid "Settings"
 msgstr "Mipangilio"
 
@@ -208,35 +204,35 @@ msgstr "Mipangilio"
 msgid "Event Page"
 msgstr "Ukurasa wa Tukio"
 
-#: pages/events/models.py:426
+#: pages/events/models.py:430
 msgid "Optional Additional information/details"
 msgstr "Hiari Maelezo ya ziada/maelezo"
 
-#: pages/events/models.py:427
+#: pages/events/models.py:431
 msgid "Additional Information - (Optional)"
 msgstr "Maelezo ya Ziada - (Si lazima)"
 
-#: pages/events/models.py:429
+#: pages/events/models.py:433
 msgid "Number of available registrations"
 msgstr "Idadi ya usajili unaopatikana"
 
-#: pages/events/models.py:430
+#: pages/events/models.py:434
 msgid "Registration Limit - (Leave blank if no limit)"
 msgstr "Kikomo cha Usajili - (Ondoka wazi ikiwa hakuna kikomo)"
 
-#: pages/events/models.py:434
+#: pages/events/models.py:438
 msgid "Text to display after successful submission"
 msgstr "Maandishi ya kuonyesha baada ya kuwasilisha kwa mafanikio"
 
-#: pages/events/models.py:435
+#: pages/events/models.py:439
 msgid "Thank you text"
 msgstr "Asante kwa maandishi"
 
-#: pages/events/models.py:436
+#: pages/events/models.py:440
 msgid "Validation Field"
 msgstr "Sehemu ya Uthibitishaji"
 
-#: pages/events/models.py:437
+#: pages/events/models.py:441
 msgid ""
 "A field on the form to check if is already submitted so as to prevent "
 "multiple submissions by one person. This is usually the email address field "
@@ -246,15 +242,15 @@ msgstr ""
 "mawasilisho mengi na mtu mmoja. Kawaida hii ni sehemu ya anwani ya barua "
 "pepe katika umbizo la ganda la nyoka"
 
-#: pages/events/models.py:443
+#: pages/events/models.py:447
 msgid "Should we send a confirmation/follow up email ?"
 msgstr "Je, tunapaswa kutuma barua pepe ya uthibitisho/kufuatilia?"
 
-#: pages/events/models.py:444
+#: pages/events/models.py:448
 msgid "Send confirmation Email"
 msgstr "Tuma barua pepe ya uthibitisho"
 
-#: pages/events/models.py:446
+#: pages/events/models.py:450
 msgid ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
@@ -262,19 +258,19 @@ msgstr ""
 "Sehemu katika fomu inayolingana na barua pepe ya kutumia. Inapaswa kuwa "
 "nyoka_cased"
 
-#: pages/events/models.py:447
+#: pages/events/models.py:451
 msgid "Email Field"
 msgstr "Sehemu ya Barua Pepe"
 
-#: pages/events/models.py:449
+#: pages/events/models.py:453
 msgid "Email Confirmation message"
 msgstr "Ujumbe wa Uthibitishaji wa Barua pepe"
 
-#: pages/events/models.py:450
+#: pages/events/models.py:454
 msgid "Message to send to the user. For example zoom links"
 msgstr "Ujumbe wa kutuma kwa mtumiaji. Kwa mfano viungo vya kukuza"
 
-#: pages/events/models.py:452
+#: pages/events/models.py:456
 msgid ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
@@ -282,32 +278,28 @@ msgstr ""
 "Usajili wa Kukuza Bechi Umewashwa - Ondoka bila kuchaguliwa kwa usajili wa "
 "kukuza moja kwa moja"
 
-#: pages/events/models.py:455
+#: pages/events/models.py:459
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr ""
 "Washa chaguo la bechi kwa ajili ya kuongeza waliojisajili ili kukuza baadaye"
 
-#: pages/events/models.py:473
+#: pages/events/models.py:477
 msgid "Event Registration Page"
 msgstr "Ukurasa wa Usajili wa Tukio"
 
-#: pages/events/models.py:506
+#: pages/events/models.py:510
 msgid "Zoom Events Settings"
 msgstr "Mipangilio ya Matukio ya Kuza"
 
-#: pages/events/models.py:507
-#, fuzzy
-#| msgid "Other Settings"
+#: pages/events/models.py:511
 msgid "MailChimp Settings"
 msgstr "Mipangilio ya MailChimp"
 
-#: pages/events/models.py:520
+#: pages/events/models.py:524
 msgid "Added to Zoom"
 msgstr "Imeongezwa kwa Zoom"
 
 #: pages/events/templates/event_index_page.html:17
-#, fuzzy
-#| msgid "Featured"
 msgid "Featured Event"
 msgstr "Tukio Lililoangaziwa"
 
@@ -342,14 +334,10 @@ msgid "%(end_date)s"
 msgstr "%(end_date)s"
 
 #: pages/events/templates/event_meta_include.html:116
-#, fuzzy
-#| msgid "Registration open"
 msgid "Registration closed"
 msgstr "Usajili umefungwa"
 
 #: pages/events/templates/event_meta_include.html:128
-#, fuzzy
-#| msgid "Registration open"
 msgid "Registration will be open soon"
 msgstr "Usajili utafunguliwa hivi karibuni"
 
@@ -358,14 +346,10 @@ msgid "Register"
 msgstr "Sajili"
 
 #: pages/events/templates/event_meta_include.html:156
-#, fuzzy
-#| msgid "Registration open"
 msgid "Register on Zoom"
 msgstr "Jisajili kwenye Zoom"
 
 #: pages/events/templates/event_page.html:41
-#, fuzzy
-#| msgid "Acknowledgement/sponsors"
 msgid "Acknowledgements"
 msgstr "Shukrani"
 
@@ -378,14 +362,10 @@ msgid "ended"
 msgstr "kumalizika"
 
 #: pages/events/templates/event_registration_page.html:57
-#, fuzzy
-#| msgid "Registration open"
 msgid " Registration closed"
 msgstr "Usajili umefungwa"
 
 #: pages/events/templates/events_filter_include.html:9
-#, fuzzy
-#| msgid "Event Type"
 msgid "Filter by Event Type"
 msgstr "Chuja kwa Aina ya Tukio"
 
@@ -420,8 +400,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: pages/events/templates/new_events_header.html:152
-#, fuzzy
-#| msgid "Downloadable agenda document"
 msgid "Download Agenda"
 msgstr "Pakua Agenda"
 

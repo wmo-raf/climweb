@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:05+0300\n"
+"POT-Creation-Date: 2024-01-11 15:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,34 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: pages/stations/forms.py:6
+msgid "Stations Shapefile ZIP"
+msgstr ""
+
+#: pages/stations/forms.py:12
+msgid "Station name field"
+msgstr ""
+
+#: pages/stations/models.py:31
+msgid "Show on Mapviewer"
+msgstr ""
+
+#: pages/stations/models.py:32
+msgid "Check to show stations data on Mapviewer"
+msgstr ""
+
+#: pages/stations/models.py:34
+msgid "Stations Layer Title"
+msgstr ""
+
+#: pages/stations/models.py:36
+msgid "Stations Layer SubCategory"
+msgstr ""
+
+#: pages/stations/models.py:39
+msgid "Stations Layer Metadata"
+msgstr ""
 
 #: pages/stations/templates/stations/station_detail_page.html:22
 msgid "Back to stations list"
@@ -41,3 +69,82 @@ msgstr "Station with provided ID can not be found"
 #: pages/stations/templates/stations/stations_list_page.html:21
 msgid "Stations List"
 msgstr "Stations List"
+
+#: pages/stations/templates/stations/stations_preview.html:6
+#, python-format
+msgid "Stations Data %(title)s"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:17
+#: pages/stations/wagtail_hooks.py:27
+msgid "Stations Data"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:18
+msgid "Load Stations"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:29
+msgid "Data Fields"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:35
+msgid "Field"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:38
+msgid "Label"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:41
+msgid "Show in Table"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:44
+msgid "Show in Map Popup"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:95
+msgid "Save"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:109
+msgid "No station data loaded."
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:110
+msgid "Please "
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:112
+msgid "load station data"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_preview.html:114
+msgid "to preview"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_upload.html:6
+#, python-format
+msgid "Stations Loader %(title)s"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_upload.html:18
+msgid "Stations Loader"
+msgstr ""
+
+#: pages/stations/templates/stations/stations_upload.html:43
+msgid "Upload"
+msgstr ""
+
+#: pages/stations/views.py:80
+msgid "Stations data loaded successfully"
+msgstr ""
+
+#: pages/stations/views.py:132
+msgid "Stations columns updated successfully"
+msgstr ""
+
+#: pages/stations/wagtail_hooks.py:35
+msgid "Station Settings"
+msgstr ""
