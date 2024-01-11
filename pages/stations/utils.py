@@ -33,6 +33,7 @@ def create_stations_geomanager_dataset(station_settings, request=None):
 
     layer = {
         "id": dataset_id,
+        "dataset": dataset_id,
         "name": title,
         "layerConfig": {
             "type": "vector",
