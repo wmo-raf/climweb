@@ -19,47 +19,52 @@
         </div>
     </div>
     <div class="results-list list-view">
-        {% for event in events %}
-            <div class="result-list-item">
-                <div class="result-list-item-wrapper">
-                    <a href="{{ event.url }}" class="result-list-item-image">
-                        <figure class="image">
-                            {% if event.image %}
-                                {% image event.image original as evt_img %}
-                                <img class="progressive__img progressive--not-loaded"
-                                     style="object-fit: cover"
-                                     data-progressive="{{ evt_img.url }}"
-                                     src="{% lazy_image_url evt_img %}" alt="{{ event.event_type }}"/>
-                            {% endif %}
-                        </figure>
-                    </a>
-                    <div class="result-list-item-detail">
-                        <div class="result-list-item-tag">
-                            {% if  event.event_type.icon %}
-                                <span class="icon">
-                                    <img src="{{ event.event_type.icon.url }}" alt=""/>
-                                </span>
-                            {% endif %}
-                            <span class="item-tag">{{ event.event_type }}</span>
-                        </div>
-                        <a href="{{ event.url }}" class="result-list-item-title">
-                            <h5>
-                                {{ event.event_title }}
-                            </h5>
+        {% if events %}
+            {% for event in events %}
+                <div class="result-list-item">
+                    <div class="result-list-item-wrapper">
+                        <a href="{{ event.url }}" class="result-list-item-image">
+                            <figure class="image">
+                                {% if event.image %}
+                                    {% image event.image original as evt_img %}
+                                    <img class="progressive__img progressive--not-loaded"
+                                         style="object-fit: cover"
+                                         data-progressive="{{ evt_img.url }}"
+                                         src="{% lazy_image_url evt_img %}" alt="{{ event.event_type }}"/>
+                                {% endif %}
+                            </figure>
                         </a>
-                        <div class="result-list-item-snippet">
-                            {{ event.description|truncatewords_html:35|richtext }}
-                        </div>
-                        <div class="result-list-item-meta">
-                            <span class="">{{ event.date_from|date:'d M Y' }}</span>
-                            <a class="result-list-item-more read" href="{{ event.url }}">
-                                {% translate " Read More" %}
+                        <div class="result-list-item-detail">
+                            <div class="result-list-item-tag">
+                                {% if  event.event_type.icon %}
+                                    <span class="icon">
+                                        <img src="{{ event.event_type.icon.url }}" alt=""/>
+                                    </span>
+                                {% endif %}
+                                <span class="item-tag">{{ event.event_type }}</span>
+                            </div>
+                            <a href="{{ event.url }}" class="result-list-item-title">
+                                <h5>
+                                    {{ event.event_title }}
+                                </h5>
                             </a>
+                            <div class="result-list-item-snippet">
+                                {{ event.description|truncatewords_html:35|richtext }}
+                            </div>
+                            <div class="result-list-item-meta">
+                                <span class="">{{ event.date_from|date:'d M Y' }}</span>
+                                <a class="result-list-item-more read" href="{{ event.url }}">
+                                    {% translate " Read More" %}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            {% include "empty_state_include.html" %}
+        {% endif %}
+
     </div>
     {% include 'pagination_include.html' with items=events %}
 </div>
