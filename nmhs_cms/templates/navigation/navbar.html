@@ -7,10 +7,10 @@
         <div class="level top-nav">
             <div class="level-left">
                 {% if settings.base.OrganisationSetting.country_flag %}
-                <a class="level-item main-logo" href="{{ current_site.root_url }}">
-                    {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                    <img src="{{ country_flag.url }}" alt="Logo">
-                </a>
+                    <a class="level-item main-logo" href="{{ current_site.root_url }}">
+                        {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+                        <img src="{{ country_flag.url }}" alt="Logo">
+                    </a>
                 {% endif %}
                 <a class="level-item main-logo" href="{{ current_site.root_url }}"
                    style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
@@ -22,7 +22,7 @@
                     {% endif %}
 
                 </a>
-                
+
             </div>
             <div class="level-right is-hidden-mobile">
                 {% if settings.base.ImportantPages.cap_feed %}
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="dropdown-menu top-nav-dropdown" role="menu">
-                            <div class="dropdown-content languages">
+                            <div class="dropdown-content languages" translate="no">
                                 {% for lang in settings.base.LanguageSettings.google_languages %}
                                     <a class="dropdown-item" data-lang="{{ lang.name }}"
                                        data-lang-prefix="{{ lang.language }}">
@@ -110,7 +110,7 @@
                     </a>
                 {% endif %}
 
-               
+
             </div>
         </div>
     </div>
