@@ -52,7 +52,7 @@
                                                     {% for product_item in item_products_dict.products %}
                                                         <li class="product-item-date-tab {% if forloop.first %}is-active{% endif %}"
                                                             data-target="{{ slug }}-{{ product_item.value.product_type }}-{{ product_item.value.product_date_str }}">
-                                                            <a style="color:white !important">
+                                                            <a>
                                                                 <span class="icon is-small">
                                                                     <i class="far fa-calendar" aria-hidden="true"></i>
                                                                 </span>
@@ -73,7 +73,7 @@
                                                 {% if product_item.block_type == "image_product" %}
                                                     <figure class="product-item-image"
                                                             style="margin-left: 0;margin-right: 0">
-                                                        {% image product_item.value.image original as product_item_image %}
+                                                        {% image product_item.value.image height-600 width-600 as product_item_image %}
                                                         <img class="progressive__img progressive--not-loaded"
                                                              data-progressive="{{ product_item_image.url }}"
                                                              src="{% lazy_image_url product_item_image %}"
@@ -110,7 +110,7 @@
                                                     <div class="product-item-doc-container box {{ box_shadow }}">
                                                         <figure class="product-item-doc">
                                                             {% if  product_item.value.thumbnail %}
-                                                                {% image product_item.value.thumbnail original as product_item_thumbnail %}
+                                                                {% image product_item.value.thumbnail height-600 width-600 as product_item_thumbnail %}
                                                                 <img class="progressive__img progressive--not-loaded"
                                                                      data-progressive="{{ product_item_thumbnail.url }}"
                                                                      src="{% lazy_image_url product_item_thumbnail %}"
@@ -129,7 +129,7 @@
                                                                         <i class="fas fa-download"></i>
                                                                     </span>
                                                                     <span>
-                                                                        {% blocktranslate with file_size=product_item.value.document.file.size|filesizeformat trimmed%}
+                                                                        {% blocktranslate with file_size=product_item.value.document.file.size|filesizeformat trimmed %}
                                                                             Download document  - {{ file_size }}
                                                                         {% endblocktranslate %}
                                                                     </span>
@@ -152,7 +152,7 @@
                                                         {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
                                                     </div>
                                                 {% endif %}
-                                                <p>{{ product_item.value.description|richtext }}</p>
+                                                <div class="content-description">{{ product_item.value.description|richtext }}</div>
                                             </div>
                                         {% endfor %}
                                     </div>
