@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:13+0300\n"
+"POT-Creation-Date: 2024-01-11 15:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,8 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pages/events/models.py:46
-#, fuzzy
-#| msgid "Event Type"
 msgid "Event type"
 msgstr "Tipo de evento"
 
@@ -108,8 +106,6 @@ msgid "Downloadable agenda document"
 msgstr "Documento de agenda descargable"
 
 #: pages/events/models.py:201
-#, fuzzy
-#| msgid "Agenda document, preferably in PDF format"
 msgid "Agenda document, if available, preferably in PDF format"
 msgstr ""
 "Documento de agenda, si está disponible, preferiblemente en formato PDF"
@@ -195,15 +191,15 @@ msgstr "Plataforma de integración de registro de reuniones"
 msgid "Platform for Event"
 msgstr "Plataforma para evento"
 
-#: pages/events/models.py:285 pages/events/models.py:503
+#: pages/events/models.py:285 pages/events/models.py:507
 msgid "Content"
 msgstr "Contenido"
 
-#: pages/events/models.py:286 pages/events/models.py:504
+#: pages/events/models.py:286 pages/events/models.py:508
 msgid "SEO"
 msgstr "SEO"
 
-#: pages/events/models.py:287 pages/events/models.py:505
+#: pages/events/models.py:287 pages/events/models.py:509
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -211,35 +207,35 @@ msgstr "Ajustes"
 msgid "Event Page"
 msgstr "Página del evento"
 
-#: pages/events/models.py:426
+#: pages/events/models.py:430
 msgid "Optional Additional information/details"
 msgstr "Opcional Información/detalles adicionales"
 
-#: pages/events/models.py:427
+#: pages/events/models.py:431
 msgid "Additional Information - (Optional)"
 msgstr "Información adicional: (Opcional)"
 
-#: pages/events/models.py:429
+#: pages/events/models.py:433
 msgid "Number of available registrations"
 msgstr "Número de inscripciones disponibles"
 
-#: pages/events/models.py:430
+#: pages/events/models.py:434
 msgid "Registration Limit - (Leave blank if no limit)"
 msgstr "Límite de registro - (Dejar en blanco si no hay límite)"
 
-#: pages/events/models.py:434
+#: pages/events/models.py:438
 msgid "Text to display after successful submission"
 msgstr "Texto que se mostrará después del envío exitoso"
 
-#: pages/events/models.py:435
+#: pages/events/models.py:439
 msgid "Thank you text"
 msgstr "gracias texto"
 
-#: pages/events/models.py:436
+#: pages/events/models.py:440
 msgid "Validation Field"
 msgstr "Campo de validación"
 
-#: pages/events/models.py:437
+#: pages/events/models.py:441
 msgid ""
 "A field on the form to check if is already submitted so as to prevent "
 "multiple submissions by one person. This is usually the email address field "
@@ -249,15 +245,15 @@ msgstr ""
 "múltiples por parte de una persona. Este suele ser el campo de dirección de "
 "correo electrónico en formato de carcasa de serpiente."
 
-#: pages/events/models.py:443
+#: pages/events/models.py:447
 msgid "Should we send a confirmation/follow up email ?"
 msgstr "¿Deberíamos enviar un correo electrónico de confirmación/seguimiento?"
 
-#: pages/events/models.py:444
+#: pages/events/models.py:448
 msgid "Send confirmation Email"
 msgstr "Enviar correo electrónico de confirmación"
 
-#: pages/events/models.py:446
+#: pages/events/models.py:450
 msgid ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
@@ -265,19 +261,19 @@ msgstr ""
 "El campo del formulario que corresponde al correo electrónico a utilizar. "
 "Debería estar cubierto de serpiente"
 
-#: pages/events/models.py:447
+#: pages/events/models.py:451
 msgid "Email Field"
 msgstr "Campo de correo electrónico"
 
-#: pages/events/models.py:449
+#: pages/events/models.py:453
 msgid "Email Confirmation message"
 msgstr "Mensaje de confirmación por correo electrónico"
 
-#: pages/events/models.py:450
+#: pages/events/models.py:454
 msgid "Message to send to the user. For example zoom links"
 msgstr "Mensaje a enviar al usuario. Por ejemplo, enlaces de zoom."
 
-#: pages/events/models.py:452
+#: pages/events/models.py:456
 msgid ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
@@ -285,33 +281,29 @@ msgstr ""
 "Registro de zoom por lotes habilitado: déjelo sin marcar para registros de "
 "zoom directos"
 
-#: pages/events/models.py:455
+#: pages/events/models.py:459
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr ""
 "Habilite la opción por lotes para agregar solicitantes de registro para "
 "hacer zoom más tarde"
 
-#: pages/events/models.py:473
+#: pages/events/models.py:477
 msgid "Event Registration Page"
 msgstr "Página de registro de eventos"
 
-#: pages/events/models.py:506
+#: pages/events/models.py:510
 msgid "Zoom Events Settings"
 msgstr "Configuración de eventos de Zoom"
 
-#: pages/events/models.py:507
-#, fuzzy
-#| msgid "Other Settings"
+#: pages/events/models.py:511
 msgid "MailChimp Settings"
 msgstr "Configuración de MailChimp"
 
-#: pages/events/models.py:520
+#: pages/events/models.py:524
 msgid "Added to Zoom"
 msgstr "Agregado a Zoom"
 
 #: pages/events/templates/event_index_page.html:17
-#, fuzzy
-#| msgid "Featured"
 msgid "Featured Event"
 msgstr "Evento destacado"
 
@@ -346,14 +338,10 @@ msgid "%(end_date)s"
 msgstr "%(end_date)s"
 
 #: pages/events/templates/event_meta_include.html:116
-#, fuzzy
-#| msgid "Registration open"
 msgid "Registration closed"
 msgstr "Inscripciones cerradas"
 
 #: pages/events/templates/event_meta_include.html:128
-#, fuzzy
-#| msgid "Registration open"
 msgid "Registration will be open soon"
 msgstr "La inscripción estará abierta pronto."
 
@@ -362,14 +350,10 @@ msgid "Register"
 msgstr "Registro"
 
 #: pages/events/templates/event_meta_include.html:156
-#, fuzzy
-#| msgid "Registration open"
 msgid "Register on Zoom"
 msgstr "Regístrate en Zoom"
 
 #: pages/events/templates/event_page.html:41
-#, fuzzy
-#| msgid "Acknowledgement/sponsors"
 msgid "Acknowledgements"
 msgstr "Agradecimientos"
 
@@ -382,14 +366,10 @@ msgid "ended"
 msgstr "terminó"
 
 #: pages/events/templates/event_registration_page.html:57
-#, fuzzy
-#| msgid "Registration open"
 msgid " Registration closed"
 msgstr "Inscripciones cerradas"
 
 #: pages/events/templates/events_filter_include.html:9
-#, fuzzy
-#| msgid "Event Type"
 msgid "Filter by Event Type"
 msgstr "Filtrar por tipo de evento"
 
@@ -424,8 +404,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: pages/events/templates/new_events_header.html:152
-#, fuzzy
-#| msgid "Downloadable agenda document"
 msgid "Download Agenda"
 msgstr "Descargar Agenda"
 

@@ -1,7 +1,9 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from googleapiclient.discovery import build
 from wagtail.admin.panels import (FieldPanel)
+from wagtail.api.v2.utils import get_full_url
 from wagtail.models import Site
 from wagtail.snippets.models import register_snippet
 
@@ -35,12 +37,16 @@ class YoutubePlaylist(models.Model):
 
             return self.youtube_service
 
-        except Exception as e:
-            print("Error: ", e)
+        except Exception:
             pass
 
     def __str__(self):
         return self.title
+
+    def get_playlist_items_api_url(self, request=None):
+        api_url = reverse("youtube_playlist_items", args=[self.pk])
+        api_url = get_full_url(request, api_url)
+        return api_url
 
     @property
     def videos_count(self):
@@ -68,15 +74,16 @@ class YoutubePlaylist(models.Model):
             try:
                 videos = youtube_service.playlistItems().list(part="snippet,contentDetails",
                                                               playlistId=self.playlist_id,
-                                                              maxResults=50).execute()
+                                                              maxResults=limit).execute()
 
                 if "items" in videos:
                     info = videos['items']
             except:
                 pass
 
-            # sort by video position in playlist
-            info.sort(key=lambda info_item: info_item['snippet']['position'], reverse=True)
+            if info:
+                # sort by video position in playlist
+                info.sort(key=lambda info_item: info_item['snippet']['position'], reverse=True)
             return info
         return None
 

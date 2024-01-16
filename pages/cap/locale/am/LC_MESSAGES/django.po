@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 09:55+0300\n"
+"POT-Creation-Date: 2024-01-11 14:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pages/cap/models.py:28
+#: pages/cap/models.py:33
 msgid "CAP Alerts Heading"
 msgstr "የ CAP ማንቂያዎች ርዕስ"
+
+#: pages/cap/models.py:207
+msgid "Show on MapViewer"
+msgstr "በ MapViewer ላይ አሳይ"
+
+#: pages/cap/models.py:208
+msgid "Check to show cap alerts on MapViewer"
+msgstr "የካፒታል ማንቂያዎችን በ MapViewer ላይ ለማሳየት ያረጋግጡ"
+
+#: pages/cap/models.py:210
+msgid "CAP Alerts Layer Title"
+msgstr "የ CAP ማንቂያዎች የንብርብር ርዕስ"
+
+#: pages/cap/models.py:212
+msgid "Stations Layer SubCategory"
+msgstr "ጣቢያዎች ንብርብር ንዑስ ምድብ"
+
+#: pages/cap/models.py:215
+msgid "CAP Layer Metadata"
+msgstr "CAP ንብርብር ሜታዳታ"
+
+#: pages/cap/models.py:217
+msgid "Auto Refresh interval in minutes"
+msgstr "በደቂቃዎች ውስጥ በራስ-አድስ ክፍተት"
+
+#: pages/cap/models.py:219
+msgid ""
+"Refresh cap alerts on the map after this minutes. Leave blank to disable "
+"auto refreshing"
+msgstr "ከዚህ ደቂቃዎች በኋላ በካርታው ላይ የካፕ ማንቂያዎችን ያድሱ። ራስ-አድስን ለማሰናከል ባዶ ይተውት።"
 
 #: pages/cap/templates/cap/alert_detail.html:61
 msgid "Alert Severity"
@@ -94,14 +124,18 @@ msgstr "መመሪያዎች"
 msgid "Event type"
 msgstr "የክስተት አይነት"
 
-#: pages/cap/wagtail_hooks.py:17
+#: pages/cap/wagtail_hooks.py:19
 msgid "Alerts"
 msgstr "ማንቂያዎች"
 
-#: pages/cap/wagtail_hooks.py:30
+#: pages/cap/wagtail_hooks.py:32
 msgid "CAP Alerts"
 msgstr "የ CAP ማንቂያዎች"
 
-#: pages/cap/wagtail_hooks.py:53
-msgid "Settings"
-msgstr "ቅንብሮች"
+#: pages/cap/wagtail_hooks.py:57
+msgid "CAP Base Settings"
+msgstr "CAP ቤዝ ቅንብሮች"
+
+#: pages/cap/wagtail_hooks.py:66
+msgid "CAP Mapviewer Settings"
+msgstr "የ CAP ካርታ መመልከቻ ቅንጅቶች"

@@ -1,8 +1,8 @@
+from django.core.mail import mail_admins
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.template.response import TemplateResponse
 from modelcluster.fields import ParentalKey
-from wagtail.admin.mail import send_mail
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtailcaptcha.forms import remove_captcha_field
@@ -70,11 +70,13 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
 
             if form.is_valid():
                 form_submission = None
+                try:
+                    # see if we have any duplicated field values. Notorious with spammers !
+                    duplicate_fields = get_duplicates(form.cleaned_data)
+                except Exception:
+                    duplicate_fields = []
 
-                # see if we have any duplicated field values. Notorius with spammers !
-                dups = get_duplicates(form.cleaned_data)
-
-                if not dups:
+                if not duplicate_fields:
                     form_submission = self.process_form_submission(form)
                 else:
                     self.process_suspicious_form(form)
@@ -93,11 +95,12 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
 
     def process_suspicious_form(self, form):
         remove_captcha_field(form)
-        if self.to_address:
+        try:
             self.send_suspicious_form_to_admin(form)
+        except Exception:
+            pass
 
     def send_suspicious_form_to_admin(self, form):
-        addresses = ['']  # TODO: SET SUSPICIOUS EMAIL ADDRESS RECIPIENT
         content = []
         for field in form:
             value = field.value()
@@ -105,7 +108,7 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                 value = ', '.join(value)
             content.append('{}: {}'.format(field.label, value))
         content = '\n'.join(content)
-        send_mail("POSSIBLE SPAM - {}".format(self.subject), content, addresses, self.from_address, )
+        mail_admins("POSSIBLE SPAM (DATA REQUEST PAGE)- {}".format(self.subject), content, fail_silently=True)
 
 
 class DataRequestFormField(AbstractFormField):

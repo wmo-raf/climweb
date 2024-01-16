@@ -1,5 +1,3 @@
-from email.utils import getaddresses
-
 from .base import *
 
 try:
@@ -47,26 +45,6 @@ WAGTAIL_CACHE_BACKEND = env.str('WAGTAIL_CACHE_BACKEND', default='pagecache')
 
 # Enable caching in production
 WAGTAIL_CACHE = True
-
-# To send email from the server, we recommend django_sendmail_backend
-# Or specify your own email backend such as an SMTP server.
-# https://docs.djangoproject.com/en/3.0/ref/settings/#email-backend
-# EMAIL_BACKEND = 'django_sendmail_backend.backends.EmailBackend'
-
-# Default email address used to send messages from the website.
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="")
-
-# A list of people who get error notifications.
-ADMINS = getaddresses([env('DJANGO_ADMINS', default="")])
-
-# A list in the same format as ADMINS that specifies who should get some content management errors
-MANAGERS = ADMINS + getaddresses([env('DJANGO_MANAGERS', default="")])
-
-# A list in the same format as DEVELOPERS for receiving developer aimed messages
-DEVELOPERS = getaddresses([env('DJANGO_APP_DEVELOPERS', default="")])
-
-# Email address used to send error messages to ADMINS.
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_TEMP_DIR = os.path.join(BASE_DIR, 'tmp')
 

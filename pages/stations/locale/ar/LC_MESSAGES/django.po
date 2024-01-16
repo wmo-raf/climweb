@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:05+0300\n"
+"POT-Creation-Date: 2024-01-11 15:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,34 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: pages/stations/forms.py:6
+msgid "Stations Shapefile ZIP"
+msgstr "محطات Shapefile ZIP"
+
+#: pages/stations/forms.py:12
+msgid "Station name field"
+msgstr "حقل اسم المحطة"
+
+#: pages/stations/models.py:31
+msgid "Show on Mapviewer"
+msgstr "عرض على Mapviewer"
+
+#: pages/stations/models.py:32
+msgid "Check to show stations data on Mapviewer"
+msgstr "تحقق لإظهار بيانات المحطات على Mapviewer"
+
+#: pages/stations/models.py:34
+msgid "Stations Layer Title"
+msgstr "عنوان طبقة المحطات"
+
+#: pages/stations/models.py:36
+msgid "Stations Layer SubCategory"
+msgstr "الفئة الفرعية لطبقة المحطات"
+
+#: pages/stations/models.py:39
+msgid "Stations Layer Metadata"
+msgstr "بيانات تعريف طبقة المحطات"
 
 #: pages/stations/templates/stations/station_detail_page.html:22
 msgid "Back to stations list"
@@ -41,3 +69,82 @@ msgstr "لا يمكن العثور على المحطة ذات المعرف ال�
 #: pages/stations/templates/stations/stations_list_page.html:21
 msgid "Stations List"
 msgstr "قائمة المحطات"
+
+#: pages/stations/templates/stations/stations_preview.html:6
+#, python-format
+msgid "Stations Data %(title)s"
+msgstr "بيانات المحطات %(title)s"
+
+#: pages/stations/templates/stations/stations_preview.html:17
+#: pages/stations/wagtail_hooks.py:27
+msgid "Stations Data"
+msgstr "بيانات المحطات"
+
+#: pages/stations/templates/stations/stations_preview.html:18
+msgid "Load Stations"
+msgstr "محطات التحميل"
+
+#: pages/stations/templates/stations/stations_preview.html:29
+msgid "Data Fields"
+msgstr "حقول البيانات"
+
+#: pages/stations/templates/stations/stations_preview.html:35
+msgid "Field"
+msgstr "مجال"
+
+#: pages/stations/templates/stations/stations_preview.html:38
+msgid "Label"
+msgstr "ملصق"
+
+#: pages/stations/templates/stations/stations_preview.html:41
+msgid "Show in Table"
+msgstr "عرض في الجدول"
+
+#: pages/stations/templates/stations/stations_preview.html:44
+msgid "Show in Map Popup"
+msgstr "عرض في الخريطة المنبثقة"
+
+#: pages/stations/templates/stations/stations_preview.html:95
+msgid "Save"
+msgstr "يحفظ"
+
+#: pages/stations/templates/stations/stations_preview.html:109
+msgid "No station data loaded."
+msgstr "لم يتم تحميل بيانات المحطة."
+
+#: pages/stations/templates/stations/stations_preview.html:110
+msgid "Please "
+msgstr "لو سمحت"
+
+#: pages/stations/templates/stations/stations_preview.html:112
+msgid "load station data"
+msgstr "بيانات محطة التحميل"
+
+#: pages/stations/templates/stations/stations_preview.html:114
+msgid "to preview"
+msgstr "للمعاينة"
+
+#: pages/stations/templates/stations/stations_upload.html:6
+#, python-format
+msgid "Stations Loader %(title)s"
+msgstr "محمل المحطات %(title)s"
+
+#: pages/stations/templates/stations/stations_upload.html:18
+msgid "Stations Loader"
+msgstr "محمل المحطات"
+
+#: pages/stations/templates/stations/stations_upload.html:43
+msgid "Upload"
+msgstr "رفع"
+
+#: pages/stations/views.py:80
+msgid "Stations data loaded successfully"
+msgstr "تم تحميل بيانات المحطات بنجاح"
+
+#: pages/stations/views.py:132
+msgid "Stations columns updated successfully"
+msgstr "تم تحديث أعمدة المحطات بنجاح"
+
+#: pages/stations/wagtail_hooks.py:35
+msgid "Station Settings"
+msgstr "إعدادات المحطة"

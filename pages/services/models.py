@@ -47,7 +47,6 @@ class ServicePage(AbstractBannerWithIntroPage):
 
     service = models.OneToOneField(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
 
-    # TODO: FIX THIS AND RETURN
     what_we_do_items = StreamField([
         ('what_we_do', blocks.WhatWeDoBlock()),
     ], null=True, blank=True, use_json_field=True)
@@ -103,7 +102,6 @@ class ServicePage(AbstractBannerWithIntroPage):
         verbose_name = _('Service Page')
         verbose_name_plural = _('Service Pages')
 
-
     @cached_property
     def products(self):
         """
@@ -112,11 +110,9 @@ class ServicePage(AbstractBannerWithIntroPage):
         """
         # Get all products related to this service
 
-        products = ProductPage.objects.filter(service = self.service)
+        products = ProductPage.objects.filter(service=self.service)
 
         return products
-        
-
 
     @cached_property
     def listing_image(self):
@@ -178,6 +174,14 @@ class ServicePage(AbstractBannerWithIntroPage):
     @cached_property
     def nav_menu_icon(self):
         return self.service.icon
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        if self.youtube_playlist:
+            context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
+
+        return context
 
 
 class ServiceApplication(Orderable):

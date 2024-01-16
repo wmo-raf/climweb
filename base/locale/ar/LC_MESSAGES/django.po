@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-06 12:09+0300\n"
+"POT-Creation-Date: 2024-01-11 15:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: base/blocks.py:46 base/blocks.py:59
+#: base/blocks.py:46 base/blocks.py:47 base/blocks.py:59 base/blocks.py:60
 msgid "Section Title"
-msgstr "عنوان القسم"
-
-#: base/blocks.py:47 base/blocks.py:60
-msgid "Section title"
 msgstr "عنوان القسم"
 
 #: base/blocks.py:48 base/blocks.py:61
@@ -31,8 +27,6 @@ msgid "Section Text"
 msgstr "نص القسم"
 
 #: base/blocks.py:49 base/blocks.py:62
-#, fuzzy
-#| msgid "Description"
 msgid "Section description"
 msgstr "وصف القسم"
 
@@ -209,7 +203,7 @@ msgstr "نص زر المقدمة"
 msgid "Introduction button link"
 msgstr "رابط زر المقدمة"
 
-#: base/models/abstracts.py:100
+#: base/models/abstracts.py:104
 msgid "Introduction Section"
 msgstr "قسم المقدمة"
 
@@ -369,8 +363,6 @@ msgid "languages"
 msgstr "اللغات"
 
 #: base/models/site_settings.py:206
-#, fuzzy
-#| msgid "Default Language"
 msgid "Google Translate Languages"
 msgstr "جوجل ترجمة اللغات"
 
@@ -431,14 +423,10 @@ msgid "Theme"
 msgstr "سمة"
 
 #: base/models/site_settings.py:284
-#, fuzzy
-#| msgid "Organisation Settings"
 msgid "Navigation Setting"
 msgstr "إعداد الملاحة"
 
 #: base/models/site_settings.py:285
-#, fuzzy
-#| msgid "Organisation Settings"
 msgid "Navigation Settings"
 msgstr "إعدادات التنقل"
 
@@ -491,8 +479,6 @@ msgid "All vacancies page"
 msgstr "صفحة جميع الوظائف الشاغرة"
 
 #: base/models/site_settings.py:328
-#, fuzzy
-#| msgid "All feedback page"
 msgid "Feedback page"
 msgstr "صفحة ردود الفعل"
 
@@ -505,14 +491,10 @@ msgid "Important Pages"
 msgstr "صفحات مهمة"
 
 #: base/models/snippets.py:18
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product Name"
 msgstr "اسم المنتج"
 
 #: base/models/snippets.py:22 base/models/snippets.py:58
-#, fuzzy
-#| msgid "Products Categories"
 msgid "Product Categories"
 msgstr "فئات المنتجات"
 
@@ -521,8 +503,6 @@ msgid "Product Category"
 msgstr "فئة المنتج"
 
 #: base/models/snippets.py:26 base/models/snippets.py:46
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product"
 msgstr "منتج"
 
@@ -536,14 +516,10 @@ msgid "Name"
 msgstr "اسم"
 
 #: base/models/snippets.py:54
-#, fuzzy
-#| msgid "Products Categories"
 msgid "Product Item Types"
 msgstr "أنواع عناصر المنتج"
 
 #: base/models/snippets.py:54
-#, fuzzy
-#| msgid "Product Category"
 msgid "Product Item Type"
 msgstr "نوع السلعة المنتج"
 
@@ -584,14 +560,10 @@ msgid "GIS Applications"
 msgstr "تطبيقات نظم المعلومات الجغرافية"
 
 #: base/templates/admin/cms_upgrade_notification.html:5
-#, fuzzy
-#| msgid "CMS upgrade available"
 msgid "CMS upgrade available. Your version:"
 msgstr "ترقية CMS متاحة. الإصدار الخاص بك:"
 
 #: base/templates/admin/cms_upgrade_notification.html:6
-#, fuzzy
-#| msgid "Latest available version"
 msgid "Latest version:"
 msgstr "احدث اصدار:"
 
@@ -600,10 +572,7 @@ msgid "Upgrade"
 msgstr "يرقي"
 
 #: base/templates/admin/cms_version.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "    %(title)s\n"
+#, python-format
 msgid "%(title)s"
 msgstr "%(title)s"
 

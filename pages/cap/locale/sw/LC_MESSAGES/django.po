@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 09:55+0300\n"
+"POT-Creation-Date: 2024-01-11 14:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: pages/cap/models.py:28
+#: pages/cap/models.py:33
 msgid "CAP Alerts Heading"
 msgstr "Kichwa cha Arifa za CAP"
+
+#: pages/cap/models.py:207
+msgid "Show on MapViewer"
+msgstr "Onyesha kwenye MapViewer"
+
+#: pages/cap/models.py:208
+msgid "Check to show cap alerts on MapViewer"
+msgstr "Angalia ili kuonyesha arifa za kiwango cha juu kwenye MapViewer"
+
+#: pages/cap/models.py:210
+msgid "CAP Alerts Layer Title"
+msgstr "Kichwa cha Tabaka la Tahadhari za CAP"
+
+#: pages/cap/models.py:212
+msgid "Stations Layer SubCategory"
+msgstr "Kitengo Kidogo cha Tabaka la Vituo"
+
+#: pages/cap/models.py:215
+msgid "CAP Layer Metadata"
+msgstr "Metadata ya Tabaka la CAP"
+
+#: pages/cap/models.py:217
+msgid "Auto Refresh interval in minutes"
+msgstr "Muda wa Kuonyesha Kiotomatiki kwa dakika"
+
+#: pages/cap/models.py:219
+msgid ""
+"Refresh cap alerts on the map after this minutes. Leave blank to disable "
+"auto refreshing"
+msgstr ""
+"Onyesha upya arifa za upeo kwenye ramani baada ya dakika hizi. Acha wazi ili"
+" kuzima uonyeshaji upya kiotomatiki"
 
 #: pages/cap/templates/cap/alert_detail.html:61
 msgid "Alert Severity"
@@ -95,14 +127,18 @@ msgstr "Maagizo"
 msgid "Event type"
 msgstr "Aina ya tukio"
 
-#: pages/cap/wagtail_hooks.py:17
+#: pages/cap/wagtail_hooks.py:19
 msgid "Alerts"
 msgstr "Tahadhari"
 
-#: pages/cap/wagtail_hooks.py:30
+#: pages/cap/wagtail_hooks.py:32
 msgid "CAP Alerts"
 msgstr "Tahadhari za CAP"
 
-#: pages/cap/wagtail_hooks.py:53
-msgid "Settings"
-msgstr "Mipangilio"
+#: pages/cap/wagtail_hooks.py:57
+msgid "CAP Base Settings"
+msgstr "Mipangilio ya Msingi ya CAP"
+
+#: pages/cap/wagtail_hooks.py:66
+msgid "CAP Mapviewer Settings"
+msgstr "Mipangilio ya Kitazamaji ramani cha CAP"

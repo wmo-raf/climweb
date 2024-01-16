@@ -44,3 +44,11 @@ class MediaIndexPage(AbstractBannerWithIntroPage):
     @cached_property
     def latest_news(self):
         return NewsPage.objects.live().order_by('-is_featured', '-date')[:4]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        if self.youtube_playlist:
+            context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
+
+        return context

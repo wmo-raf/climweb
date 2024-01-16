@@ -12,7 +12,19 @@
         <section>
             <div class="container">
                 {% if page.heading %}
-                    <h2 class="section-title">{{ page.heading }}</h2>
+                    <div style="margin-bottom: 50px">
+                        <h2 class="section-title" style="padding-bottom: 0">{{ page.heading }}</h2>
+                        {% if  cap_rss_feed_url %}
+                            <div class="rss-feed" style="">
+                                <a href="{{ cap_rss_feed_url }}">
+                                    <span style="margin-right: 4px">CAP RSS</span>
+                                    <img src="{% static 'img/CAPLogo.jpeg' %}" alt="CAP Alerts"
+                                         style="height: 18px;width: 18px;border-radius:4px">
+                                </a>
+                            </div>
+                        {% endif %}
+
+                    </div>
                 {% endif %}
 
                 <div class="columns is-multiline is-mobile">

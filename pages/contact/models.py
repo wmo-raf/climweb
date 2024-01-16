@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.gis.db import models
+from django.core.mail import mail_admins
 from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -10,9 +11,9 @@ from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.fields import RichTextField
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
+from wagtailgeowidget import geocoders
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.panels import LeafletPanel, GeoAddressPanel
-from wagtailgeowidget import geocoders
 
 from base.mail import send_mail
 from base.mixins import MetadataPageMixin
@@ -83,21 +84,20 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
             if form.is_valid():
                 form_submission = None
 
-                # see if we have any duplicated field values. Notorius with spammers !
-                dups = get_duplicates(form.cleaned_data)
+                try:
+                    # see if we have any duplicated field values. Notorious with spammers !
+                    duplicate_fields = get_duplicates(form.cleaned_data)
+                except Exception:
+                    duplicate_fields = []
 
-                # Check if the submitted key matches. This is a strategy to prevent automated submission with js
-                # wagtail_form_submitted_key = form.cleaned_data.get('wagtailkey')
-                # wagtail_form_key = OtherSettings.for_site(Site.find_for_request(request)).wagtail_form_key
-
-                if not dups:
+                if not duplicate_fields:
                     # remove_wagtail_key_field(form)
                     form_submission = self.process_form_submission(form)
 
                     # Send confirmation email
                     try:
                         self.send_confirmation_email(form.cleaned_data)
-                    except:
+                    except Exception:
                         pass
                 else:
                     self.process_suspicious_form(form)
@@ -127,19 +127,25 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
 
     def process_suspicious_form(self, form):
         remove_captcha_field(form)
-        if self.to_address:
+        try:
             self.send_suspicious_form_to_admin(form)
+        except Exception as e:
+            pass
+
+            # override send_mail to extract sender email from form, to use in 'reply_to'
+            # This will allow replying to the sender directly from the email client
 
     def send_mail(self, form):
         addresses = [x.strip() for x in self.to_address.split(',')]
         email = form.cleaned_data.get("email", None)
-        options = {}
+        options = {
+            "fail_silently": True,
+        }
         if email:
             options["reply_to"] = [email]
         send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
 
     def send_suspicious_form_to_admin(self, form):
-        addresses = []
         content = []
         for field in form:
             value = field.value()
@@ -148,9 +154,7 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
             content.append('{}: {}'.format(field.label, value))
         content = '\n'.join(content)
 
-        if addresses:
-            send_mail("POSSIBLE SPAM - {}".format(self.subject), content, addresses, self.from_address,
-                      fail_silently=True)
+        mail_admins("POSSIBLE SPAM (CONTACT US PAGE) - {}".format(self.subject), content, fail_silently=True)
 
     class Meta:
         verbose_name = _("Contact Page")

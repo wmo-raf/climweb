@@ -90,6 +90,7 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
 
     layer = {
         "id": dataset_id,
+        "dataset": dataset_id,
         "name": title,
         "layerConfig": {
             "type": "vector",

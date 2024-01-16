@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from email.utils import getaddresses
 
 import django.conf.locale
 import environ
@@ -252,38 +253,38 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    # 'base/locale',
-    'docs/locale',
-    #
-    # 'nmhs_cms/locale',
-    #
-    # 'pages/cap/locale',
-    # 'pages/cityclimate/locale',
-    # 'pages/contact/locale',
-    # 'pages/data_request/locale',
-    # 'pages/email_subscription/locale',
-    # 'pages/events/locale',
-    # 'pages/feedback/locale',
-    # 'pages/flex_page/locale',
-    # 'pages/glossary/locale',
-    # 'pages/home/locale',
-    # 'pages/mediacenter/locale',
-    # 'pages/news/locale',
-    # 'pages/organisation_pages/about/locale',
-    # 'pages/organisation_pages/organisation/locale',
-    # 'pages/organisation_pages/partners/locale',
-    # 'pages/organisation_pages/projects/locale',
-    # 'pages/organisation_pages/tenders/locale',
-    # 'pages/organisation_pages/vacancies/locale',
-    #
-    # 'pages/products/locale',
-    # 'pages/publications/locale',
-    # 'pages/satellite_imagery/locale',
-    # 'pages/search/locale',
-    # 'pages/services/locale',
-    # 'pages/stations/locale',
-    # 'pages/surveys/locale',
-    # 'pages/videos/locale',
+    # 'docs/locale',
+
+    'base/locale',
+    'nmhs_cms/locale',
+
+    'pages/cap/locale',
+    'pages/cityclimate/locale',
+    'pages/contact/locale',
+    'pages/data_request/locale',
+    'pages/email_subscription/locale',
+    'pages/events/locale',
+    'pages/feedback/locale',
+    'pages/flex_page/locale',
+    'pages/glossary/locale',
+    'pages/home/locale',
+    'pages/mediacenter/locale',
+    'pages/news/locale',
+    'pages/organisation_pages/about/locale',
+    'pages/organisation_pages/organisation/locale',
+    'pages/organisation_pages/partners/locale',
+    'pages/organisation_pages/projects/locale',
+    'pages/organisation_pages/tenders/locale',
+    'pages/organisation_pages/vacancies/locale',
+
+    'pages/products/locale',
+    'pages/publications/locale',
+    'pages/satellite_imagery/locale',
+    'pages/search/locale',
+    'pages/services/locale',
+    'pages/stations/locale',
+    'pages/surveys/locale',
+    'pages/videos/locale',
 ]
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
@@ -348,6 +349,22 @@ RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
 
 RECAPTCHA_TESTING = True
+
+# EMAIL SETTINGS
+# Default email address used to send messages from the website.
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="")
+
+# A list of people who get error notifications.
+ADMINS = getaddresses([env('DJANGO_ADMINS', default="")])
+
+# A list in the same format as ADMINS that specifies who should get some content management errors
+MANAGERS = ADMINS + getaddresses([env('DJANGO_MANAGERS', default="")])
+
+# A list in the same format as DEVELOPERS for receiving developer aimed messages
+DEVELOPERS = getaddresses([env('DJANGO_APP_DEVELOPERS', default="")])
+
+# Email address used to send error messages to ADMINS.
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 WAGTAILDOCS_DOCUMENT_MODEL = 'base.CustomDocumentModel'
 WAGTAILEMBEDS_RESPONSIVE_HTML = True

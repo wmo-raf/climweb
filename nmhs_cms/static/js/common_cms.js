@@ -299,32 +299,19 @@ function ga_reg_event_from_el(el) {
 $(document).ready(function () {
 
         const $navbarMenu = $("nav.navbar .main-nav.navbar-menu");
-        const $navbarBurger = $("nav.navbar .navbar-brand main-nav.navbar-burger.burger");
-        const $navbarBurgerSpan = $("nav.navbar .navbar-brand .main-nav.navbar-burger span");
-        
-        
+        const $navbarBurger = $("#navBurger");
+
         // close navbar menu on clicking outside
         $(document).click(function (event) {
-            const clickover = $(event.target);
+            const clickOver = $(event.target);
 
             const isMenuActive = $navbarMenu.hasClass("is-active");
 
-            if (isMenuActive === true && !clickover.hasClass("is-active")) {
+            if (isMenuActive === true && !clickOver.hasClass("is-active")) {
                 $navbarMenu.removeClass('is-active');
                 $navbarBurger.removeClass('is-active');
-                $navbarBurgerSpan.removeClass('is-active');
             }
         });
-
-        // Check for click events on the navbar burger icon
-        $navbarBurger.click(function () {
-            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-            $navbarBurger.toggleClass("is-active");
-            $navbarMenu.toggleClass("is-active");
-            $navbarBurgerSpan.toggleClass("is-active");
-
-        });
-
 
         // Header search
         const inputContainer = $('#search-input')

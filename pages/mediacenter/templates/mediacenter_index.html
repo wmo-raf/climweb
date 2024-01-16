@@ -5,6 +5,10 @@
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}">
+    {% if page.youtube_playlist %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
+    {% endif %}
 {% endblock %}
 
 {% block body_class %}media-page{% endblock %}
@@ -86,22 +90,12 @@
             </section>
         {% endif %}
 
+
         {% if page.youtube_playlist %}
-            <section id="videoSection" class="videos">
-                <div class="container">
-                    <h2 class="section-title center">{% translate "Videos" %}</h2>
-                    {% comment %} {% include 'videos_skeleton.html' %} {% endcomment %}
-                    {% include 'videos_skeleton_home.html' %}
-                    {% if  settings.base.ImportantPages.all_videos_page %}
-                        <div class="more-container">
-                            <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">
-                                {% translate "More Videos" %}
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right"></i>
-                                </span>
-                            </a>
-                        </div>
-                    {% endif %}
+            <section class="has-text-centered videos" id="videoSection">
+                <div class="container is-align-content-center">
+                    <h2 class="section-title has-text-centered">{% translate 'Latest Media' %}  </h2>
+                    {% include 'videos_skeleton.html' %}
                 </div>
             </section>
         {% endif %}
@@ -116,6 +110,49 @@
 
 {% block extra_js %}
     {{ block.super }}
+
+
+    {% if page.youtube_playlist %}
+        <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
+
+        <script>
+            const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
+
+            $(document).ready(function () {
+                if (page_youtube_playlist) {
+                    const url = "{{ youtube_playlist_url }}";
+                    $('#videoWrapper').scheletrone({
+                        onComplete: function () {
+                            $.ajax({
+                                url: url,
+                                dataType: "html",
+                                success: function (data) {
+                                    // if we have videos append them, else hide whole section
+                                    if (data) {
+                                        $('#videoWrapper').html('').append(data).ready();
+                                    } else {
+                                        $('#videoSection').remove()
+                                    }
+                                },
+                                error: function () {
+                                    $('#videoSection').remove()
+                                }
+                            });
+                        }
+                    });
+                }
+            })
+
+        </script>
+
+
+    {% endif %}
+
+
+
+
+
+
     {% if settings.base.OrganisationSetting.facebook %}
         <script async src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0"></script>
     {% endif %}

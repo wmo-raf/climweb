@@ -1,4 +1,4 @@
-{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
+{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags cap_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
 {% wagtail_site as current_site %}
 <header class="header-nav">
@@ -7,10 +7,10 @@
         <div class="level top-nav">
             <div class="level-left">
                 {% if settings.base.OrganisationSetting.country_flag %}
-                <a class="level-item main-logo" href="{{ current_site.root_url }}">
-                    {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                    <img src="{{ country_flag.url }}" alt="Logo">
-                </a>
+                    <a class="level-item main-logo" href="{{ current_site.root_url }}">
+                        {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+                        <img src="{{ country_flag.url }}" alt="Logo">
+                    </a>
                 {% endif %}
                 <a class="level-item main-logo" href="{{ current_site.root_url }}"
                    style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
@@ -22,11 +22,11 @@
                     {% endif %}
 
                 </a>
-                
+
             </div>
             <div class="level-right is-hidden-mobile">
-                {% if settings.base.ImportantPages.cap_feed %}
-                    <a href="{{ settings.base.ImportantPages.cap_feed }}"
+                {% if settings.base.ImportantPages.cap_warnings_list_page %}
+                    <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
                        class="level-item top-nav-item"
                     >
                         <span style="margin-right: 4px"> {% translate "Alerts" %} </span>
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="dropdown-menu top-nav-dropdown" role="menu">
-                            <div class="dropdown-content languages">
+                            <div class="dropdown-content languages" translate="no">
                                 {% for lang in settings.base.LanguageSettings.google_languages %}
                                     <a class="dropdown-item" data-lang="{{ lang.name }}"
                                        data-lang-prefix="{{ lang.language }}">
@@ -109,8 +109,7 @@
                         {{ user.username }}, CMS
                     </a>
                 {% endif %}
-
-               
+                {% get_latest_active_cap_alert %}
             </div>
         </div>
     </div>
@@ -132,13 +131,10 @@
                     N.M.H.S
                 {% endif %}
             </a>
-            <div>
-
-                <div class="main-nav navbar-burger burger" data-target="mainNav">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+            <div id="navBurger" class="main-nav navbar-burger burger" data-target="mainNav">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
         <div id="mainNav" class="main-nav navbar-menu">
@@ -149,27 +145,32 @@
             </div>
         </div>
     </nav>
+    <div class="is-hidden-desktop">
+        {% get_latest_active_cap_alert %}
+    </div>
+
 </header>
 {% block extra_js %}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Get all "navbar-burger" elements
-            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            const $navbarBurger = document.getElementById('navBurger')
 
-            // Add a click event on each of them
-            $navbarBurgers.forEach(el => {
-                el.addEventListener('click', () => {
+            // Add a click event
+            $navbarBurger.addEventListener('click', (e) => {
 
-                    // Get the target from the "data-target" attribute
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
+                e.stopImmediatePropagation()
 
-                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                    el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-                });
+                // Get the target from the "data-target" attribute
+                const target = $navbarBurger.dataset.target;
+                const $target = document.getElementById(target);
+
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                $navbarBurger.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
             });
         });
+
+
     </script>
 
 {% endblock extra_js %}

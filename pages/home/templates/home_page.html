@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+    {% if page.youtube_playlist %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
+    {% endif %}
 {% endblock extra_css %}
 
 {% block content %}
@@ -23,7 +27,15 @@
         {% comment %} {% include 'section/satellite_include.html' %} {% endcomment %}
         {% include 'section/updates_include.html' with page=page %}
 
-        {% include 'section/media_include.html' %}
+        {% if page.youtube_playlist %}
+            <section class="has-text-centered videos" id="videoSection">
+                <div class="container is-align-content-center">
+                    <h2 class="section-title has-text-centered">{% translate 'Latest Media' %}  </h2>
+                    {% include 'videos_skeleton.html' %}
+                </div>
+            </section>
+        {% endif %}
+
         {% if page.feature_block %}
             <section class="feature-block-section">
                 {% for block in page.feature_block %}
@@ -47,8 +59,7 @@
                                                 {% image partner.logo original as p_logo %}
                                                 <img class="progressive__img progressive--not-loaded"
                                                      data-progressive="{{ p_logo.url }}"
-                                                     src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"
-                                                     syle="width:100px;object-fit: cover;"/>
+                                                     src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"/>
                                             </figure>
                                         </div>
                                     </a>
@@ -77,6 +88,9 @@
 {% block extra_js %}
     <script src='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.js'></script>
     <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
+    {% if page.youtube_playlist %}
+        <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
+    {% endif %}
     <script>
         {% if settings.base.OrganisationSetting.country_info %}
             const country_info = {{settings.base.OrganisationSetting.country_info|safe}}
@@ -98,7 +112,41 @@
         const dataParams =
             {{ settings.forecastmanager.ForecastSetting.data_parameter_values|safe }};
 
+        const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
+
+        $(document).ready(function () {
+            if (page_youtube_playlist) {
+                const url = "{{ youtube_playlist_url }}";
+                $('#videoWrapper').scheletrone({
+                    onComplete: function () {
+                        $.ajax({
+                            url: url,
+                            dataType: "html",
+                            success: function (data) {
+                                // if we have videos append them, else hide whole section
+                                if (data) {
+                                    $('#videoWrapper').html('').append(data).ready();
+                                } else {
+                                    $('#videoSection').remove()
+                                }
+                            },
+                            error: function () {
+                                $('#videoSection').remove()
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
     </script>
+
+
+
+
+
+
+
 
     <script type="text/javascript" src="{% static 'js/weather_watch.js' %}"></script>
 {% endblock %}

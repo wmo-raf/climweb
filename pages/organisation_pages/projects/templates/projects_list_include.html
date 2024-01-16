@@ -3,7 +3,7 @@
 <div class="results-view">
     <div class="results-header">
         <h5 id="results" class="results-count results">
-            {% blocktranslate count counter=projects.paginator.count trimmed%}
+            {% blocktranslate count counter=projects.paginator.count trimmed %}
                 Showing {{ counter }} result
                 {% plural %}
                 Showing {{ counter }} results
@@ -19,58 +19,65 @@
         </div>
     </div>
     <div class="results-list list-view">
-        {% for project in projects %}
-            <div class="result-list-item">
-                <div class="result-list-item-wrapper">
-                    <a href="{{ project.url }}" class="result-list-item-image">
-                        <figure class="image">
-                            {% if project.banner_image %}
-                                {% image project.banner_image original as proj_img %}
-                                <img class="progressive__img progressive--not-loaded"
-                                     style="object-fit: cover"
-                                     data-progressive="{{ proj_img.url }}"
-                                     src="{% lazy_image_url proj_img %}" alt="{{ project.short_name }}"/>
-                            {% endif %}
-                        </figure>
-                    </a>
-                    <div class="result-list-item-detail" style="position: relative">
-                        <div class="result-list-item-tag" style="justify-content: space-between">
-                            {% if project.short_name %}
-                                <span class="result-list-item-tag-float">
-                                    {{ project.short_name }}
-                                </span>
-                            {% else %}
-                                <span class="result-list-item-tag-float">
-                                </span>
-                            {% endif %}
-                            <span class="project-progress">
-                                <span class="project-progress-status">{{ project.status }}</span>
-                                <span
-                                        class="project-progress-bar"
-                                        style="width: {{ project.progress }}%;
-                                                {% if project.status == "Complete" %}border-radius:20px;{% endif %} ">
-                                </span>
-                            </span>
 
-                        </div>
-                        <a href="{{ project.url }}" class="result-list-item-title">
-                            <h5>
-                                {{ project.full_name }}
-                            </h5>
+        {% if projects %}
+            {% for project in projects %}
+                <div class="result-list-item">
+                    <div class="result-list-item-wrapper">
+                        <a href="{{ project.url }}" class="result-list-item-image">
+                            <figure class="image">
+                                {% if project.banner_image %}
+                                    {% image project.banner_image original as proj_img %}
+                                    <img class="progressive__img progressive--not-loaded"
+                                         style="object-fit: cover"
+                                         data-progressive="{{ proj_img.url }}"
+                                         src="{% lazy_image_url proj_img %}" alt="{{ project.short_name }}"/>
+                                {% endif %}
+                            </figure>
                         </a>
-                        <div class="result-list-item-snippet">
-                            {{ project.introduction_text|truncatewords_html:35|richtext }}
-                        </div>
-                        <div class="result-list-item-meta">
-                            <span class="">{{ project.period }}</span>
-                            <a class="result-list-item-more read" href="{{ project.url }}">
-                                {% translate "Read More" %}
+                        <div class="result-list-item-detail" style="position: relative">
+                            <div class="result-list-item-tag" style="justify-content: space-between">
+                                {% if project.short_name %}
+                                    <span class="result-list-item-tag-float">
+                                        {{ project.short_name }}
+                                    </span>
+                                {% else %}
+                                    <span class="result-list-item-tag-float">
+                                    </span>
+                                {% endif %}
+                                <span class="project-progress">
+                                    <span class="project-progress-status">{{ project.status }}</span>
+                                    <span
+                                            class="project-progress-bar"
+                                            style="width: {{ project.progress }}%;
+                                                    {% if project.status == "Complete" %}border-radius:20px;{% endif %} ">
+                                    </span>
+                                </span>
+
+                            </div>
+                            <a href="{{ project.url }}" class="result-list-item-title">
+                                <h5>
+                                    {{ project.full_name }}
+                                </h5>
                             </a>
+                            <div class="result-list-item-snippet">
+                                {{ project.introduction_text|truncatewords_html:35|richtext }}
+                            </div>
+                            <div class="result-list-item-meta">
+                                <span class="">{{ project.period }}</span>
+                                <a class="result-list-item-more read" href="{{ project.url }}">
+                                    {% translate "Read More" %}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+
+        {% else %}
+            {% include "empty_state_include.html" %}
+        {% endif %}
+
     </div>
     {% include 'pagination_include.html' with items=projects %}
 </div>

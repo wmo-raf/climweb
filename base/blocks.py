@@ -44,7 +44,7 @@ class AbstractFormBlock(blocks.StructBlock):
 
 class TitleTextImageBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
-                             help_text=_("Section title"), )
+                             help_text=_("Section Title"), )
     text = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Section Text'),
                                 help_text=_("Section description"))
     image = ImageChooserBlock(required=False)
@@ -57,7 +57,7 @@ class TitleTextImageBlock(blocks.StructBlock):
 
 class TitleTextBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
-                             help_text=_("Section title"), )
+                             help_text=_("Section Title"), )
     text = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Section Text'),
                                 help_text=_("Section description"))
 
@@ -214,7 +214,7 @@ class NavigationItemBlock(blocks.StructBlock):
     large_submenu = blocks.BooleanBlock(required=False, label=_("Large Submenu Dropdown"))
     sub_items = blocks.StreamBlock([
         ('sub_item', NavigationSubItemBlock())
-        ], required=False)
+    ], required=False)
 
     class Meta:
         template = "blocks/main_menu.html"

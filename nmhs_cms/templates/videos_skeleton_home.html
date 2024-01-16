@@ -1,100 +1,79 @@
-{% load nmhs_cms_tags static i18n %}
-
-<div class="columns is-multiline  is-justify-content-center" id="youtube_playlist">
-
-
-    <div class="column is-4 is-full-mobile video-item">
-        <div class="card m-2" style="border-radius: 1em">
+<div class="columns is-multiline video-items" id="videoWrapper">
+    <div class="column is-one-third-desktop is-full-mobile video-item">
+        <div class="card">
             <div class="card-image">
-                <figure class="image" style="display:flex">
-                    <iframe style="flex-grow: 1;" height="200"
-                            src="https://www.youtube.com/embed/${video.snippet.resourceId.videoId}" allowfullscreen>
-                    </iframe>
+                <figure class="image">
                 </figure>
             </div>
             <div class="card-content">
-                <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:var(--border-radius)">
-                    <p style="font-size:14px">
-                        <span></span>
-                    </p>
+                <a class="card-tag-float">
+                    <h6></h6>
                 </a>
-                <a class="card-title pt-5 pb-0">
-                    <p style="font-size:15px; font-weight:700;">
-                        
-                    </p>
+                <a class="card-title">
+                    <h4></h4>
                 </a>
-            </div>
-        </div>
-    </div>
-    <div class="column is-4 is-full-mobile video-item">
-        <div class="card m-2" style="border-radius: 1em">
-            <div class="card-image">
-                <figure class="image" style="display:flex">
-                    <iframe style="flex-grow: 1;" height="200"
-                            src="https://www.youtube.com/embed/${video.snippet.resourceId.videoId}" allowfullscreen>
-                    </iframe>
-                </figure>
-            </div>
-            <div class="card-content">
-                <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:var(--border-radius)">
-                    <p style="font-size:14px">
-                        <span></span>
-                    </p>
-                </a>
-                <a class="card-title pt-5 pb-0">
-                    <p style="font-size:15px; font-weight:700;">
-                        
-                    </p>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="column is-4 is-full-mobile video-item">
-        <div class="card m-2" style="border-radius: 1em">
-            <div class="card-image">
-                <figure class="image" style="display:flex">
-                    <iframe style="flex-grow: 1;" height="200"
-                            src="https://www.youtube.com/embed/${video.snippet.resourceId.videoId}" allowfullscreen>
-                    </iframe>
-                </figure>
-            </div>
-            <div class="card-content">
-                <a class="card-tag-float pb-0" style="background-color:rgb(62,142,208); border-radius:var(--border-radius)">
-                    <p style="font-size:14px">
-                        <span></span>
-                    </p>
-                </a>
-                <a class="card-title pt-5 pb-0">
-                    <p style="font-size:15px; font-weight:700;">
-                        
-                    </p>
-                </a>
-
+                <div class="card-video-stats">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
                 <div class="card-video-meta">
-                    <a href="https://www.youtube.com/channel/{{ video.snippet.channelId }}?sub_confirmation=1"
-                       target="_blank"
-                       rel="noopener">
-                        {% translate "SUBSCRIBE" %}
-                    </a>
-                    <a href="https://www.youtube.com/channel/{{ video.snippet.channelId }}?sub_confirmation=1"
-                       target="_blank"
-                       rel="noopener"><i class="fas fa-arrow-right"></i></a>
+                    <a></a>
+                    <a><i class="fas"></i></a>
                 </div>
             </div>
         </div>
     </div>
-   
-</div>    
+    <div class="column is-one-third-desktop is-full-mobile video-item">
+        <div class="card">
+            <div class="card-image">
+                <figure class="image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <a class="card-tag-float">
+                    <h6></h6>
+                </a>
+                <a class="card-title">
+                    <h4></h4>
+                </a>
 
+                <div class="card-video-stats">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="card-video-meta">
+                    <a></a>
+                    <a><i class="fas"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column is-one-third-desktop is-full-mobile video-item">
+        <div class="card">
+            <div class="card-image">
+                <figure class="image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <a class="card-tag-float">
+                    <h6></h6>
+                </a>
+                <a class="card-title">
+                    <h4></h4>
+                </a>
 
-{% comment %} {% block extra_js %} {% endcomment %}
-{% if settings.base.IntegrationSettings.youtube_api %}
-
-<script>
-    const YT_API_KEY = "{{settings.base.IntegrationSettings.youtube_api}}"
-    const PLAYLIST_ID = "{{page.youtube_playlist.playlist_id}}"
-</script>
-<script type="text/javascript" src="{% static 'js/yt_playlist.js' %}"></script>
-
-{% endif %}
-{% comment %} {% endblock extra_js %} {% endcomment %}
+                <div class="card-video-stats">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="card-video-meta">
+                    <a></a>
+                    <a><i class="fas"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
