@@ -37,8 +37,7 @@ class YoutubePlaylist(models.Model):
 
             return self.youtube_service
 
-        except Exception as e:
-            print("Error: ", e)
+        except Exception:
             pass
 
     def __str__(self):

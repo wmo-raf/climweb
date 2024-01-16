@@ -130,7 +130,6 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
         try:
             self.send_suspicious_form_to_admin(form)
         except Exception as e:
-            print("ERROR: {}".format(e))
             pass
 
             # override send_mail to extract sender email from form, to use in 'reply_to'

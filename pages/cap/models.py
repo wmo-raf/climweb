@@ -36,16 +36,39 @@ class CapAlertListPage(MetadataPageMixin, Page):
         FieldPanel("heading"),
     ]
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        cap_rss_feed_url = get_full_url(request, reverse("cap_alert_feed"))
+
+        context.update({
+            "cap_rss_feed_url": cap_rss_feed_url,
+        })
+
+        return context
+
     @cached_property
     def cap_alerts(self):
         alerts = CapAlertPage.objects.all().live().order_by('-sent')
-        active_alert_infos = []
+        alert_infos = []
 
         for alert in alerts:
             for alert_info in alert.infos:
                 # info = alert_info.get("info")
                 # if info.value.get('expires').date() >= datetime.today().date():
-                active_alert_infos.append(alert_info)
+                alert_infos.append(alert_info)
+
+        return alert_infos
+
+    @cached_property
+    def active_alerts(self):
+        alerts = CapAlertPage.objects.all().live().order_by('-sent')
+        active_alert_infos = []
+
+        for alert in alerts:
+            for alert_info in alert.infos:
+                info = alert_info.get("info")
+                if info.value.get('expires').date() >= datetime.today().date():
+                    active_alert_infos.append(alert_info)
 
         return active_alert_infos
 

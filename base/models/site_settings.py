@@ -33,7 +33,8 @@ class OrganisationSetting(BaseSiteSetting):
                                verbose_name=_("Country"))
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Organisation Name"))
 
-    phone = models.CharField(max_length=255, blank=True, null=True, help_text=_("Phone Number"), verbose_name=_("Phone number"))
+    phone = models.CharField(max_length=255, blank=True, null=True, help_text=_("Phone Number"),
+                             verbose_name=_("Phone number"))
     email = models.EmailField(blank=True, null=True, max_length=254, help_text=_("Email address"),
                               verbose_name=_("Email address"))
     address = RichTextField(max_length=250, blank=True, null=True, help_text=_("Postal Address"),
@@ -326,7 +327,9 @@ class ImportantPages(BaseSiteSetting):
     feedback_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
         verbose_name=_("Feedback page"))
-    cap_feed = models.URLField(blank=True, null=True, verbose_name=_("CAP Alerts RSS Feed"))
+    cap_warnings_list_page = models.ForeignKey(
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
+        verbose_name=_("CAP Warnings List page"))
 
     panels = [
         PageChooserPanel('mailing_list_signup_page'),
@@ -342,7 +345,7 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_applications_page'),
         PageChooserPanel('all_events_page'),
         PageChooserPanel('all_partners_page'),
-        FieldPanel('cap_feed')
+        PageChooserPanel('cap_warnings_list_page'),
     ]
 
     class Meta:

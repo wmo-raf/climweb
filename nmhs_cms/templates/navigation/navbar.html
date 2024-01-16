@@ -1,4 +1,4 @@
-{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
+{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags cap_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
 {% wagtail_site as current_site %}
 <header class="header-nav">
@@ -25,8 +25,8 @@
 
             </div>
             <div class="level-right is-hidden-mobile">
-                {% if settings.base.ImportantPages.cap_feed %}
-                    <a href="{{ settings.base.ImportantPages.cap_feed }}"
+                {% if settings.base.ImportantPages.cap_warnings_list_page %}
+                    <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
                        class="level-item top-nav-item"
                     >
                         <span style="margin-right: 4px"> {% translate "Alerts" %} </span>
@@ -109,8 +109,7 @@
                         {{ user.username }}, CMS
                     </a>
                 {% endif %}
-
-
+                {% get_latest_active_cap_alert %}
             </div>
         </div>
     </div>
@@ -146,6 +145,10 @@
             </div>
         </div>
     </nav>
+    <div class="is-hidden-desktop">
+        {% get_latest_active_cap_alert %}
+    </div>
+
 </header>
 {% block extra_js %}
     <script>
