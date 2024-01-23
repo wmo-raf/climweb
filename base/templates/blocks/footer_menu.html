@@ -5,7 +5,7 @@
         </p>
         {% if value.page %}
             {% for sub_page in value.page.get_children %}
-                {% if sub_page.show_in_menus %}
+                {% if sub_page.show_in_menus and sub_page.live %}
                     <a href="{{ sub_page.url }}" class="footer-link has-text-white">{{ sub_page.title }}</a>
                 {% endif %}
             {% endfor %}
