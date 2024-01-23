@@ -38,9 +38,11 @@
                             </figure>
                         </div>
                         <a href="{{ service_project.project.url }}" class="project-inline-detail">
-                            <h4 class="project-inline-title">
-                                {{ service_project.project.short_name }}
-                            </h4>
+                            {% if service_project.project.short_name %}
+                                <h4 class="project-inline-title">
+                                    {{ service_project.project.short_name }}
+                                </h4>
+                            {% endif %}
                             <p class="grey project-inline-subtitle">
                                 {{ service_project.project.full_name }}
                             </p>
