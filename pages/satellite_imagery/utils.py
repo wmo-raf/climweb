@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import requests
 from PIL import Image
 from dateutil.parser import parse as parsedate
+from django.utils import timezone
 from owslib.wms import WebMapService
 
 matplotlib.use('Agg')
@@ -57,7 +58,7 @@ def extract_domain_values(xml_text, as_timestamp=True):
     return sorted(values)
 
 
-def get_layer_time(layer, as_timestamp=True):
+def get_layer_time(layer, as_timestamp=True, from_date=None):
     base_url = "https://view.eumetsat.int/geoserver/gwc/service/wmts"
     params = {
         "service": "WMTS",
@@ -65,10 +66,21 @@ def get_layer_time(layer, as_timestamp=True):
         "request": "GetDomainValues",
         "tileMatrix": "EPSG:4326",
         "domain": "time",
-        "limit": 200,
+        "limit": 2000,
         "layer": layer,
-        "sort": "desc"
     }
+
+    if from_date:
+        params["FromValue"] = from_date
+    else:
+        # subtract 10 days from today
+        today = timezone.datetime.today()
+        ten_days_ago = today - timezone.timedelta(days=3)
+
+        # get the day in format YYYY-MM-DD
+        ten_days_ago_day = ten_days_ago.strftime("%Y-%m-%d")
+
+        params["FromValue"] = ten_days_ago_day
 
     try:
         r = requests.get(base_url, params=params)

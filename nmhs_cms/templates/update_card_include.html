@@ -40,7 +40,7 @@
     <div class="update-card-content">
         <p class="update-card-title has-text-weight-bold">
             <a href="{{ card.card_more_link }}">
-                {{ card.card_title }}
+                {{ card.card_title|truncatechars:60 }}
             </a>
         </p>
         {% if card.card_text  and not show_card_text == False %}
