@@ -119,6 +119,16 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     ]
 
     @cached_property
+    def feature_collection(self):
+        fc = {"type": "FeatureCollection", "features": []}
+        for info in self.info:
+            if info.value.features:
+                for feature in info.value.features:
+                    feature.get("properties", {}).update({"info-id": info.id})
+                    fc["features"].append(feature)
+        return fc
+
+    @cached_property
     def xml_link(self):
         return reverse("cap_alert_detail", args=(self.identifier,))
 

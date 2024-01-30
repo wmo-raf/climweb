@@ -13,6 +13,7 @@ SEVERITY_MAPPING = {
         "color": "#fe9900",
         "background_color": "#fff9f2",
         "border_color": "#9a6100",
+        "icon_color": "#0a0a0a",
         "severity": "Severe",
         "id": 3
     },
@@ -21,6 +22,7 @@ SEVERITY_MAPPING = {
         "color": "#ffff00",
         "background_color": "#fffdf1",
         "border_color": "#938616",
+        "icon_color": "#0a0a0a",
         "severity": "Moderate",
         "id": 2
     },
@@ -29,6 +31,7 @@ SEVERITY_MAPPING = {
         "color": "#03ffff",
         "background_color": "#fffdf1",
         "border_color": "#938616",
+        "icon_color": "#0a0a0a",
         "severity": "Minor",
         "id": 1
     }
