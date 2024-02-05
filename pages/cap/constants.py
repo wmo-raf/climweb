@@ -34,6 +34,15 @@ SEVERITY_MAPPING = {
         "icon_color": "#0a0a0a",
         "severity": "Minor",
         "id": 1
+    },
+    "Unknown": {
+        "label": "Unknown severity",
+        "color": "#3366ff",
+        "background_color": "#fffdf1",
+        "border_color": "#122663",
+        "icon_color": "#fff",
+        "severity": "Unknown",
+        "id": 0
     }
 }
 
@@ -58,6 +67,11 @@ URGENCY_MAPPING = {
         "certainty": "Past",
         "id": 1
     },
+    "Unknown": {
+        "label": "Unknown",
+        "certainty": "Unknown",
+        "id": 0
+    },
 }
 
 CERTAINTY_MAPPING = {
@@ -80,5 +94,10 @@ CERTAINTY_MAPPING = {
         "label": "Unlikely",
         "certainty": "Unlikely",
         "id": 1
+    },
+    "Unknown": {
+        "label": "Unknown",
+        "certainty": "Unknown",
+        "id": 0
     },
 }
