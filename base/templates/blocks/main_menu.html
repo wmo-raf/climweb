@@ -8,50 +8,55 @@
         {% if value.large_submenu %}
             <div class="navbar-dropdown megamenu">
                 <div>
-                    <div class="columns is-multiline">
-                        {% if value.page %}
-                            {% for sub_page in value.page.get_children %}
-                                {% if sub_page.show_in_menus and sub_page.live %}
+                    {% if value.page %}
+                        {% if value.page.specific.is_products_index and value.page.specific.group_menu_items_by_service %}
+                            {% include "blocks/products_by_service_menu.html" %}
+                        {% else %}
+                            <div class="columns is-multiline">
+                                {% for sub_page in value.page.get_children %}
+                                    {% if sub_page.show_in_menus and sub_page.live %}
+                                        <div class="column is-half">
+                                            <a class="navbar-item" href="{{ sub_page.url }}">
+                                                <div class="menu-item-figure">
+                                                    {% if sub_page.specific.nav_menu_icon %}
+                                                        {% svg_icon sub_page.specific.nav_menu_icon %}
+                                                    {% elif sub_page.specific.banner_image %}
+                                                        {% image sub_page.specific.banner_image original as subpage_image %}
+                                                        <img src="{{ subpage_image.url }}" alt="">
+                                                    {% elif sub_page.specific.introduction_image %}
+                                                        {% image sub_page.specific.introduction_image original as subpage_image %}
+                                                        <img src="{{ subpage_image.url }}" alt="">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="menu-item-label">
+                                                    {{ sub_page.title }}
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if value.sub_items %}
+                            <div class="columns is-multiline sub-items-list">
+                                {% for item in value.sub_items %}
                                     <div class="column is-half">
-                                        <a class="navbar-item" href="{{ sub_page.url }}">
+                                        <a class="navbar-item"
+                                           {% if item.value.page.url %}href="{{ item.value.page.url }}" {% else %}
+                                           href="{{ item.value.external_url }}"
+                                           target="_blank"
+                                           rel="noopener norefferer" {% endif %}>
                                             <div class="menu-item-figure">
-                                                {% if sub_page.specific.nav_menu_icon %}
-                                                    {% svg_icon sub_page.specific.nav_menu_icon %}
-                                                {% elif sub_page.specific.banner_image %}
-                                                    {% image sub_page.specific.banner_image original as subpage_image %}
-                                                    <img src="{{ subpage_image.url }}" alt="">
-                                                {% elif sub_page.specific.introduction_image %}
-                                                    {% image sub_page.specific.introduction_image original as subpage_image %}
-                                                    <img src="{{ subpage_image.url }}" alt="">
-                                                {% endif %}
-
                                             </div>
                                             <div class="menu-item-label">
-                                                {{ sub_page.title }}
+                                                {{ item.value.label }}
                                             </div>
                                         </a>
                                     </div>
-                                {% endif %}
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                         {% endif %}
-                        {% if value.sub_items %}
-                            {% for item in value.sub_items %}
-                                <div class="column is-half">
-                                    <a class="navbar-item"
-                                       {% if item.value.page.url %}href="{{ item.value.page.url }}" {% else %}
-                                       href="{{ item.value.external_url }}"
-                                       target="_blank"
-                                       rel="noopener norefferer" {% endif %}>
-                                        <div class="menu-item-figure">
-                                        </div>
-                                        <div class="menu-item-label">
-                                            {{ item.value.label }}
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
+                    {% endif %}
                 </div>
             </div>
 

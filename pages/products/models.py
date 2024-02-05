@@ -33,12 +33,15 @@ class ProductIndexPage(MetadataPageMixin, Page):
     template = "subpages_listing.html"
 
     max_count = 1
+    is_products_index = True
 
     listing_heading = models.CharField(max_length=255, default="Explore our Products",
                                        verbose_name=_("Products listing Heading"))
+    group_menu_items_by_service = models.BooleanField(default=True, verbose_name=_("Group menu items by service"))
 
     content_panels = Page.content_panels + [
-        FieldPanel("listing_heading")
+        FieldPanel("listing_heading"),
+        FieldPanel("group_menu_items_by_service")
     ]
 
     @cached_property
@@ -48,6 +51,16 @@ class ProductIndexPage(MetadataPageMixin, Page):
         unique_services = ServiceCategory.objects.filter(id__in=list(product_service))
 
         return unique_services
+
+    @cached_property
+    def products_by_service(self):
+        services = self.service_categories
+
+        products_by_service = {}
+        for service in services:
+            products_by_service[service] = ProductPage.objects.filter(service=service).live()
+
+        return products_by_service
 
     class Meta:
         verbose_name = _('Product Index Page')
