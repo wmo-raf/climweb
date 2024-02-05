@@ -1,0 +1,43 @@
+{% load wagtailimages_tags wagtailiconchooser_tags %}
+
+{% for service, products in value.page.specific.products_by_service.items %}
+    <div>
+        <div class="service-group-title">
+            {% if service.icon %}
+                <div class="service-group-icon">
+                    {% svg_icon service.icon %}
+                </div>
+            {% endif %}
+            <div>
+                {{ service.name }}
+            </div>
+
+        </div>
+        <div class="columns is-multiline service-group-items">
+            {% for sub_page in products %}
+                {% if sub_page.show_in_menus and sub_page.live %}
+                    <div class="column is-half">
+                        <a class="navbar-item" href="{{ sub_page.url }}">
+                            <div class="menu-item-figure">
+                                {% if sub_page.specific.nav_menu_icon %}
+                                    {% svg_icon sub_page.specific.nav_menu_icon %}
+                                {% elif sub_page.specific.banner_image %}
+                                    {% image sub_page.specific.banner_image original as subpage_image %}
+                                    <img src="{{ subpage_image.url }}" alt="">
+                                {% elif sub_page.specific.introduction_image %}
+                                    {% image sub_page.specific.introduction_image original as subpage_image %}
+                                    <img src="{{ subpage_image.url }}" alt="">
+                                {% endif %}
+
+                            </div>
+                            <div class="menu-item-label">
+                                {{ sub_page.title }}
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+

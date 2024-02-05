@@ -209,6 +209,7 @@ header {
 
 .megamenu .navbar-item .menu-item-label {
     margin-left: 10px;
+    flex: 1;
 }
 
 .megamenu .navbar-item .menu-item-figure {
@@ -231,8 +232,38 @@ header {
 }
 
 .megamenu .navbar-item .menu-item-figure svg {
-    height: 60%;
-    width: 60%;
+    height: 24px;
+    width: 24px;
+}
+
+.megamenu .service-group-title {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.megamenu .service-group-icon {
+    height: 28px;
+    width: 28px;
+    margin-right: 10px;
+}
+
+.megamenu .service-group-icon svg {
+    height: 100%;
+    width: 100%;
+    color: var(--primary-color);
+}
+
+.megamenu .service-group-items {
+    margin-left: 8px;
+    padding: 4px 0 0;
+}
+
+.megamenu .sub-items-list {
+    margin-top: 10px;
+    border-top: 1px solid #f0f0f0;
 }
 
 
@@ -295,12 +326,10 @@ header {
 
 .navbar-item svg path {
     fill: currentColor !important
-
 }
 
 .navbar-item svg rect {
     fill: currentColor !important
-
 }
 
 .navbar-dropdown {
