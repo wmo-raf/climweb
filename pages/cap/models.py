@@ -21,6 +21,7 @@ from wagtail.signals import page_published
 from base.mixins import MetadataPageMixin
 from base.models import OrganisationSetting
 from pages.cap.constants import SEVERITY_MAPPING, URGENCY_MAPPING, CERTAINTY_MAPPING
+from pages.cap.tasks import generate_cap_alert_card
 from pages.cap.utils import cap_geojson_to_image
 
 
@@ -119,52 +120,17 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     ]
 
     @cached_property
-    def feature_collection(self):
-        fc = {"type": "FeatureCollection", "features": []}
-        for info in self.info:
-            if info.value.features:
-                for feature in info.value.features:
-                    feature.get("properties", {}).update({"info-id": info.id})
-                    fc["features"].append(feature)
-        return fc
-
-    @cached_property
     def xml_link(self):
         return reverse("cap_alert_detail", args=(self.identifier,))
 
     @cached_property
     def infos(self):
-        alert_infos = []
-        for info in self.info:
-            start_time = info.value.get("effective") or self.sent
+        infos = super().infos
 
-            if info.value.get('expires').date() < datetime.today().date():
-                status = "Expired"
-            elif timezone.now() > start_time:
-                status = "Ongoing"
-            else:
-                status = "Expected"
+        # order by severity
+        infos = sorted(infos, key=lambda x: x.get("severity", {}).get("id"), reverse=True)
 
-            area_desc = [area.get("areaDesc") for area in info.value.area]
-            area_desc = ",".join(area_desc)
-
-            alert_info = {
-                "info": info,
-                "status": status,
-                "url": self.url,
-                "event": f"{info.value.get('event')} ({area_desc})",
-                "event_icon": info.value.event_icon,
-                "severity": SEVERITY_MAPPING[info.value.get("severity")],
-                "utc": start_time,
-                "urgency": URGENCY_MAPPING[info.value.get("urgency")],
-                "certainty": CERTAINTY_MAPPING[info.value.get("certainty")],
-                "effective": start_time,
-                "expires": info.value.get('expires'),
-            }
-
-            alert_infos.append(alert_info)
-
-        return alert_infos
+        return infos
 
     def get_geojson_features(self, request=None):
         features = []
@@ -191,48 +157,13 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                     "description": info.value.get("description"),
                     "instruction": info.value.get("instruction")
                 }
+
                 info_features = info.value.features
                 for feature in info_features:
                     feature["properties"].update(**properties)
                     features.append(feature)
 
         return features
-
-    def generate_geojson_map_image(self):
-        site = Site.objects.get(is_default_site=True)
-
-        abm_settings = AdminBoundarySettings.for_site(site)
-        org_settings = OrganisationSetting.for_site(site)
-        abm_extents = abm_settings.combined_countries_bounds
-
-        features = self.get_geojson_features()
-        if features:
-            feature_coll = {
-                "type": "FeatureCollection",
-                "features": features,
-            }
-
-            options = {
-                "title": self.title,
-                "org_name": org_settings.name,
-                "org_logo": org_settings.logo,
-            }
-
-            if abm_extents:
-                # format to what matplotlib expects
-                abm_extents = [abm_extents[0], abm_extents[2], abm_extents[1], abm_extents[3]]
-
-            img_buffer = cap_geojson_to_image(feature_coll, options, abm_extents)
-            file = ContentFile(img_buffer.getvalue(), f"{self.identifier}.png")
-
-            if self.search_image:
-                self.search_image.delete()
-
-            self.search_image = Image(title=self.title)
-            self.search_image.file = file
-            self.search_image.save()
-
-            self.save()
 
 
 @register_setting(name="cap-geomanager-settings")
@@ -272,14 +203,14 @@ class CAPGeomanagerSettings(BaseSiteSetting):
 
 def on_publish_cap_alert(sender, **kwargs):
     instance = kwargs['instance']
-    # instance.generate_geojson_map_image()
-
-    topic = "cap/alerts/all"
-
     try:
+        # publish cap alert to mqtt
+        topic = "cap/alerts/all"
         publish_cap_mqtt_message(instance, topic)
-    except Exception:
+    except Exception as e:
         pass
+
+    generate_cap_alert_card(instance.id)
 
 
 page_published.connect(on_publish_cap_alert, sender=CapAlertPage)
