@@ -1,12 +1,9 @@
 from datetime import datetime
 
-from adminboundarymanager.models import AdminBoundarySettings
 from capeditor.models import AbstractCapAlertPage
 from capeditor.pubsub.publish import publish_cap_mqtt_message
-from django.core.files.base import ContentFile
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
@@ -14,15 +11,11 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
-from wagtail.images.models import Image
-from wagtail.models import Page, Site
+from wagtail.models import Page
 from wagtail.signals import page_published
 
 from base.mixins import MetadataPageMixin
-from base.models import OrganisationSetting
-from pages.cap.constants import SEVERITY_MAPPING, URGENCY_MAPPING, CERTAINTY_MAPPING
 from pages.cap.tasks import generate_cap_alert_card
-from pages.cap.utils import cap_geojson_to_image
 
 
 class CapAlertListPage(MetadataPageMixin, Page):
@@ -161,8 +154,10 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
                 info_features = info.value.features
                 for feature in info_features:
                     feature["properties"].update(**properties)
+                    feature["order"] = info_item.get("severity", {}).get("id", 0)
                     features.append(feature)
 
+        features = sorted(features, key=lambda x: x.get("order"))
         return features
 
 

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from itertools import groupby
 
 from adminboundarymanager.models import AdminBoundarySettings
+from capeditor.constants import SEVERITY_MAPPING
 from django.contrib.gis.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -17,7 +18,6 @@ from wagtail_color_panel.fields import ColorField
 
 from base import blocks
 from base.mixins import MetadataPageMixin
-from pages.cap.constants import SEVERITY_MAPPING
 from pages.cap.models import CapAlertPage
 from pages.events.models import EventPage
 from pages.news.models import NewsPage
