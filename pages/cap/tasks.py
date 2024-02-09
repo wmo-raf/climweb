@@ -10,6 +10,7 @@ def generate_cap_alert_card(cap_alert_page_id):
 
     cap_alert_page = get_object_or_none(CapAlertPage, id=cap_alert_page_id)
     if cap_alert_page:
+        print("[CAP] Generating CAP Alert Card for: ", cap_alert_page.title)
         try:
             # create summary image
             image_content_file = cap_alert_page.generate_alert_card_image()
@@ -25,5 +26,9 @@ def generate_cap_alert_card(cap_alert_page_id):
                 # save the instance
                 cap_alert_page.save()
 
+                print("[CAP] CAP Alert Card generated for: ", cap_alert_page.title)
+
         except Exception as e:
+            print("[CAP] Error generating CAP Alert Card for: ", cap_alert_page.title)
+            print(e)
             pass
