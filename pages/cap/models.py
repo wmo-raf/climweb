@@ -4,6 +4,7 @@ from capeditor.models import AbstractCapAlertPage
 from capeditor.pubsub.publish import publish_cap_mqtt_message
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
@@ -61,7 +62,7 @@ class CapAlertListPage(MetadataPageMixin, Page):
         for alert in alerts:
             for alert_info in alert.infos:
                 info = alert_info.get("info")
-                if info.value.get('expires') > datetime.today():
+                if info.value.get('expires') > timezone.localtime():
                     active_alert_infos.append(alert_info)
 
         return active_alert_infos
