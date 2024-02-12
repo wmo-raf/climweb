@@ -1,8 +1,15 @@
 from capeditor.models import CapSetting
+from django.shortcuts import redirect
+from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
+from wagtail.actions.copy_page import CopyPageAction
+from wagtail.admin import messages
+from wagtail.admin.forms.pages import CopyForm
 from wagtail.admin.menu import MenuItem, Menu
+from wagtail.models import Page
 from wagtail_modeladmin.menus import GroupMenuItem
 from wagtail_modeladmin.options import (
     ModelAdmin,
@@ -58,12 +65,12 @@ class CAPMenuGroup(ModelAdminGroup):
             menu_items.append(gm_settings_menu)
 
             # add geomanager settings menu
-
             settings_url = reverse("wagtailsettings:edit",
                                    args=[CAPGeomanagerSettings._meta.app_label,
                                          CAPGeomanagerSettings._meta.model_name, ], )
 
-            cap_geomanager_settings_menu = MenuItem(label=_("CAP Mapviewer Settings"), url=settings_url, icon_name="cog")
+            cap_geomanager_settings_menu = MenuItem(label=_("CAP Mapviewer Settings"), url=settings_url,
+                                                    icon_name="cog")
 
             menu_items.append(cap_geomanager_settings_menu)
 
@@ -99,3 +106,80 @@ def add_geomanager_datasets(request):
             datasets.append(dataset)
 
     return datasets
+
+
+@hooks.register("before_copy_page")
+def copy_cap_alert_page(request, page):
+    if page.specific.__class__.__name__ == "CapAlertPage":
+        # Parent page defaults to parent of source page
+        parent_page = page.get_parent()
+
+        # Check if the user has permission to publish subpages on the parent
+        can_publish = parent_page.permissions_for_user(request.user).can_publish_subpage()
+
+        # Create the form
+        form = CopyForm(
+            request.POST or None, user=request.user, page=page, can_publish=can_publish
+        )
+
+        # Remove the publish_copies and alias fields from the form
+        form.fields.pop("publish_copies")
+        form.fields.pop("alias")
+
+        # Check if user is submitting
+        if request.method == "POST":
+            # Prefill parent_page in case the form is invalid (as prepopulated value for the form field,
+            # because ModelChoiceField seems to not fall back to the user given value)
+            parent_page = Page.objects.get(id=request.POST["new_parent_page"])
+
+            if form.is_valid():
+                # Receive the parent page (this should never be empty)
+                if form.cleaned_data["new_parent_page"]:
+                    parent_page = form.cleaned_data["new_parent_page"]
+
+                action = CopyPageAction(
+                    page=page,
+                    recursive=form.cleaned_data.get("copy_subpages"),
+                    to=parent_page,
+                    update_attrs={
+                        "title": form.cleaned_data["new_title"],
+                        "slug": form.cleaned_data["new_slug"],
+                        "sent": timezone.localtime(),
+                    },
+                    keep_live=False,
+                    copy_revisions=False,
+                    user=request.user,
+                )
+                new_page = action.execute()
+
+                # Add edit button to success message
+                buttons = [messages.button(
+                    reverse("wagtailadmin_pages:edit", args=(new_page.id,)),
+                    _("Edit Copied Alert"),
+                )]
+
+                messages.success(
+                    request,
+                    _("Alert '%(page_title)s' copied.")
+                    % {"page_title": page.specific_deferred.get_admin_display_title()},
+                    buttons=buttons
+                )
+
+                for fn in hooks.get_hooks("after_copy_page"):
+                    result = fn(request, page, new_page)
+                    if hasattr(result, "status_code"):
+                        return result
+
+                # Redirect to the parent page
+                return redirect("wagtailadmin_explore", parent_page.id)
+
+        return TemplateResponse(
+            request,
+            "wagtailadmin/pages/copy.html",
+            {
+                "page": page,
+                "form": form,
+            },
+        )
+
+    return
