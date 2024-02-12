@@ -23,7 +23,7 @@ the tool include:
 - Interoperable XML API of Alert List and Detail for integration with CAP Aggregators - Live CAP creation and editing
   preview
 - Draw / Upload Polygon Functionality for Alert Area/Areas
-- Simple user friendly and mobile friendly CAP alert creation and management
+- User-friendly and mobile friendly CAP alert creation and management
 - Alert to Alert/Alerts Reference Linkage
 - Published python package with version management and changelogs https://github.com/wmo-raf/cap-editor
 - Related Setup/Installation and Usage instructions
@@ -44,12 +44,20 @@ The overall Document Object Model of an alert is as below:
 
 ### Alert Identification
 
-This is the root section of CAP corresponds to:
+It contains the following entities required for a valid CAP message:
 
-It contains the **Message ID (identifier), Sender ID(sender), Sent Dat/Time (sent), Message Status (status), Message
-Type (msgType), Scope
-(scope), Restriction (restriction), Addresses (addresses), Note (note), Reference IDs (references) and Incident ids (
-incidents)**.
+- Sender ID(sender),
+- Sent Dat/Time (sent),
+- Message Status (status),
+- Message Type (msgType),
+- Scope(scope),
+- Restriction (restriction),
+- Addresses (addresses),
+- Note (note),
+- Reference IDs (references) and
+- Incident ids (incidents).
+
+The alert identifier is generated automatically and is not editable.
 
 ```{note}
 Some fields are visible based on selection of different parameters.
