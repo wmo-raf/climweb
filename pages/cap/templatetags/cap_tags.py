@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django import template
+from django.utils import timezone
 
 from pages.cap.models import CapAlertPage
 
@@ -15,7 +16,7 @@ def get_latest_active_cap_alert():
     for alert in alerts:
         for alert_info in alert.infos:
             info = alert_info.get("info")
-            if info.value.get('expires') > datetime.today():
+            if info.value.get('expires') > timezone.localtime():
                 active_alert_infos.append(alert_info)
 
     if len(active_alert_infos) == 0:
