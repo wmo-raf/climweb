@@ -1,7 +1,5 @@
-from datetime import datetime
 from typing import Any, Dict, List
 
-import pytz
 from capeditor.models import CapSetting
 from capeditor.renderers import CapXMLRenderer
 from capeditor.serializers import AlertSerializer
@@ -9,6 +7,7 @@ from django.contrib.syndication.views import Feed
 from django.db.models.base import Model
 from django.http import JsonResponse
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.feedgenerator import Enclosure
 from django.utils.feedgenerator import Rss201rev2Feed
 from rest_framework import generics
@@ -72,7 +71,6 @@ class AlertListFeed(Feed):
 
         for alert in alerts:
             for info in alert.info:
-                # if info.value.get('expires') >= datetime.today().replace(tzinfo=pytz.UTC):
                 active_alert_infos.append(alert.id)
 
         return CapAlertPage.objects.filter(id__in=active_alert_infos).live()
@@ -138,7 +136,7 @@ def cap_geojson(request):
 
     for alert in alerts:
         for info in alert.info:
-            if info.value.get('expires') >= datetime.today().replace(tzinfo=pytz.UTC):
+            if info.value.get('expires') > timezone.localtime():
                 active_alert_infos.append(alert.id)
 
     active_alerts = CapAlertPage.objects.filter(id__in=active_alert_infos).live()
