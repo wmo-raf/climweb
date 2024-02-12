@@ -47,10 +47,15 @@
                                         </div>
                                         <div class="alert-item-info">
                                             <div class="alert-item-title">
-                                                {{ alert_info.status }}: {{ alert_info.event }}
+                                                {{ alert_info.status }}: {{ alert_info.event|truncatechars:60 }}
                                             </div>
                                             <div class="alert-severity-label">
                                                 {{ alert_info.severity.label }}
+                                            </div>
+                                            <div class="alert-effective">
+                                                {% blocktranslate trimmed with effective_on=alert_info.effective|date:"d M Y h:i a" %}
+                                                    Effective on : {{ effective_on }}
+                                                {% endblocktranslate %}
                                             </div>
                                         </div>
                                     </div>

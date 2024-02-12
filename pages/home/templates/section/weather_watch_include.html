@@ -33,7 +33,7 @@
                                                 </div>
                                                 <div class="alert-item-info">
                                                     <div class="alert-item-title">
-                                                        {{ alert_info.status }}: {{ alert_info.event }}
+                                                        {{ alert_info.status }}: {{ alert_info.event|truncatechars:30 }}
                                                     </div>
                                                     <div class="alert-severity-label">
                                                         {{ alert_info.severity.label }}
