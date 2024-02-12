@@ -15,7 +15,7 @@ def get_latest_active_cap_alert():
     for alert in alerts:
         for alert_info in alert.infos:
             info = alert_info.get("info")
-            if info.value.get('expires').date() >= datetime.today().date():
+            if info.value.get('expires') > datetime.today():
                 active_alert_infos.append(alert_info)
 
     if len(active_alert_infos) == 0:

@@ -1,33 +1,38 @@
-# CAP Editor  
+# CAP Composer
 
-The **Common Alerting Protocol (CAP)** provides an open, non-proprietary digital message format for all types of alerts and notifications. It does not address any particular application or telecommunications method. The CAP format is compatible with emerging techniques, such as Web services, as well as existing formats including the Specific Area Message Encoding (SAME) used for the United States' National Oceanic and Atmospheric Administration (NOAA) Weather Radio and the Emergency Alert System (EAS)
+The **Common Alerting Protocol (CAP)** provides an open, non-proprietary digital message format for all types of alerts
+and notifications. It does not address any particular application or telecommunications method. The CAP format is
+compatible with emerging techniques, such as Web services, as well as existing formats including the Specific Area
+Message Encoding (SAME) used for the United States' National Oceanic and Atmospheric Administration (NOAA) Weather Radio
+and the Emergency Alert System (EAS)
 
 The CAP xml response follows the structure of the schema provided at
 http://docs.oasis-open.org/emergency/cap/v1.2/CAP-v1.2-os.html
 
-## CAP Editor Features
+## CAP Warning Composer Features
 
 ![CAP Preview](../_static/images/cap/cap_preview.png "CAP Preview")
 
-The CAP editor tool is a solution that provides a range of functionalities to support the NMHS in seamlessly issuing CAP. It has been developed with an aim of increasing the adoption of CAP by NMHS in Africa. Some of the key features of the tool include: 
+The CAP composer tool is a solution that provides a range of functionalities to support the NMHS in seamlessly issuing
+CAP. It has been developed with an aim of increasing the adoption of CAP by NMHS in Africa. Some of the key features of
+the tool include:
 
-- Possibility to run as standalone editor or integrate into Wagtail-CMS-based website
-- Search Engine Optimization support to increase visibility and attract targeted traffic to an alert 
-- Support for Approval Workflow from composer to approver, including commenting and email notification support 
-- Interoperable XML API of Alert List and Detail for integration with CAP Aggregators - Live CAP creation and editing preview 
-- Draw / Upload Polygon Functionality for Alert Area/Areas 
-- Simple user friendly and mobile friendly CAP alert creation and management 
-- Alert to Alert/Alerts Reference Linkage 
+- Possibility to run as standalone composer or integrate into Wagtail-CMS-based website
+- Search Engine Optimization support to increase visibility and attract targeted traffic to an alert
+- Support for Approval Workflow from composer to approver, including commenting and email notification support
+- Interoperable XML API of Alert List and Detail for integration with CAP Aggregators - Live CAP creation and editing
+  preview
+- Draw / Upload Polygon Functionality for Alert Area/Areas
+- User-friendly and mobile friendly CAP alert creation and management
+- Alert to Alert/Alerts Reference Linkage
 - Published python package with version management and changelogs https://github.com/wmo-raf/cap-editor
-- Related Setup/Installation and Usage instructions 
+- Related Setup/Installation and Usage instructions
 
-## Creating a CAP Alert 
+## Creating a CAP Alert
 
-
-To create a CAP Alert access the editor from the explorer menu as below and add a new cap alert page:
+To create a CAP Alert access the CAP composing interface from the explorer menu as below and add a new cap alert page:
 
 ![CAP Explorer](../_static/images/cap/cap_explorer.png "CAP Explorer")
-
 
 ------------------------------------------------------------------------
 
@@ -37,81 +42,80 @@ The overall Document Object Model of an alert is as below:
 
 ![Alert DOM](../_static/images/cap/dom.jpg "CAP Document Object Model")
 
-### A. Alert Identification
+### Alert Identification
 
-This is the root section of CAP corresponds to:
+It contains the following entities required for a valid CAP message:
 
-``` xml
-<alert>
-    <!-- ... -->
-</alert>
-```
+- Sender ID(sender),
+- Sent Dat/Time (sent),
+- Message Status (status),
+- Message Type (msgType),
+- Scope(scope),
+- Restriction (restriction),
+- Addresses (addresses),
+- Note (note),
+- Reference IDs (references) and
+- Incident ids (incidents).
 
-It contains the **Message ID (identifier), Sender ID(sender), Sent
-Dat/Time (sent), Message Status (status), Message Type (msgType), Scope
-(scope), Restriction (restriction), Addresses (addresses), Note (note),
-Reference IDs (references) and Incident ids (incidents)**.
+The alert identifier is generated automatically and is not editable.
 
 ```{note}
 Some fields are visible based on selection of different parameters.
 ```
 
-![Alert
-Identification](../_static/images/cap/alert_identification.png "Alert Identification section")
+![Alert Identification](../_static/images/cap/alert_identification.png "Alert Identification section")
 
-### B. Alert Information
+### Alert Information
 
-This is an optional child section of the Alert Identification Section
-i.e
+Corresponds to the `<info>` element in the CAP message. The <info> entity specifies the alert's details. At least
+one <info> block is required for an alert. If you support multiple languages, it is recommended that you use one <info>
+block for each language for the same <alert> entity.:
 
-``` xml
-<alert>
-    <!-- ... -->
-    <info></info>
-    <info></info>
-</alert>
-```
+A CAP message expects at least one `<info>` element to be present. Multiple `<info>` blocks should all have the
+same `<category>` and `<event>` element values.
 
-Multiple instances of this section are allowed. It contains the
-**Langauge (langauge), Event Category/Categories (category), Event Type
-(event), Response Type/Types (responseType), Urgency (urgency), Severity
-(severity), Certainty (certainty), Audience (audience), Event Code/Codes
-(eventCode), Effective Date/Time (effective), Onset Date/Time (onset),
-Expiration Date/Time (expires), Sender Name (senderName), Headline
-(headline), Event description (description), Instructions (instruction),
-Information URL (web), Contact Info (contact) and Parameter/Parameters
-(parameter)**.
+Each `Information` block contains the following elements:
 
-![Alert
-Info](../_static/images/cap/alert_info.png "Alert Info")
+- Langauge (langauge
+- Event Category/Categories (category)
+- Event Type (event)
+- Response Type/Types (responseType)
+- Urgency (urgency)
+- Severity (severity)
+- Certainty (certainty)
+- Audience (audience)
+- Event Code/Codes (eventCode)
+- Effective Date/Time (effective)
+- Onset Date/Time (onset)
+- Expiration Date/Time (expires)
+- Sender Name (senderName)
+- Headline(headline)
+- Event description (description)
+- Instructions (instruction)
+- Information URL (web),
+- Contact Info (contact) and
+- Parameter/Parameters(parameter)
 
-### C. Alert Area
+![Alert Info](../_static/images/cap/alert_info.png "Alert Info")
 
-This is an optional child section of the Alert Info Section i.e
+#### Alert Area
 
-``` xml
-<alert>
-    <!-- ... -->
-    <info>
-        <area></area>
-        <area></area>
-    </info>
-    <info>
-        <area></area>
-    </info>
-</alert>
-```
+Information Entity that defines the geographic area to be notified. Multiple areas can be defined in the alert. Each
+area contains the following elements:
 
-Multiple instances of this section are allowed. It contains the **Area
-Description (areaDesc), Area Polygon/Polygons (polygon), Area
-Circle/Circles (circle), Area Geocode/Geocodes (geocode), Altitude
-(altitude), Ceiling (ceiling)**.
+- Area Description (areaDesc),
+- Area Polygon/Polygons (polygon),
+- Area Circle/Circles (circle),
+- Area Geocode/Geocodes (geocode),
+- Altitude (altitude),
+- Ceiling (ceiling)
 
 ![Alert Area](../_static/images/cap/alert_area_options.png "Alert Area section")
 
+The Alert area input has 4 selector options:
 
-The Alert area input accepts 4 options:
-- Admin Boundary (area is picked from predefined boundaries). To use this option, ensure that admin boundaries are initially loaded. Refer to [Setting up boundaries](#setting-up-boundaries) section. 
+- Admin Boundary (area is picked from predefined boundaries). To use this option, ensure that admin boundaries are
+  initially loaded. Refer to [Setting up boundaries](#setting-up-boundaries) section.
 
 ![Alert Area boundary](../_static/images/cap/alert_area_boundary.png "Alert Area section")
 
@@ -127,31 +131,16 @@ The Alert area input accepts 4 options:
 
 ![Alert Area geocode](../_static/images/cap/alert_area_geocode.png "Alert Area section")
 
-### D. Alert Resource
+#### Alert Resource
 
-This is an optional child section of the Alert Info Section i.e
+Entity that defines supplemental information related to an <info> object Multiple instances of this section are allowed.
+It contains:
 
-``` xml
-<alert>
-    <!-- ... -->
-    <info>
-        <resource><resource>
-        <resource><resource>
-        <area></area>
-        <area></area>
-    </info>
-    <info>
-        <resource><resource>
-        <area></area>
-    </info>
-</alert>
-```
+- Description (resourceDesc), MIME Type (mimeType), File Size (size), URI (uri), Dereferenced URI (derefUri) and
+  Digest (digest)**
 
-Multiple instances of this section are allowed. It contains the
-**Description (resourceDesc), MIME Type (mimeType), File Size (size),
-URI (uri), Dereferenced URI (derefUri) and Digest (digest)**
+The Alert resource input has 2 selector options:
 
-The Alert area input accepts 4 options:
 - File resource (takes in a file and description)
 
 ![Alert Resource](../_static/images/cap/alert_resource_file.png "Alert Resource section")
@@ -160,13 +149,11 @@ The Alert area input accepts 4 options:
 
 ![Alert Resource](../_static/images/cap/alert_resource_external.png "Alert Resource section")
 
-
-### E. Additional CAP Inputs
+#### Additional CAP Inputs
 
 Addition alert information elements include parameters and event codes
 
-
-### F. Incidents
+### Incidents
 
 This defines the reference incident to the current alert, if any.
 
@@ -188,12 +175,14 @@ The creation of Hazard types will change the event input under alert information
 
 ![CAP Settings](../_static/images/cap/alert_hazard_input.png "CAP Settings")
 
-
 ## Setting up boundaries
 
-The boundary manager allows for the addition of boundaries to be used in the creation of an alert area using the admin boundary option.
+The boundary manager allows for the addition of boundaries to be used in the creation of an alert area using the admin
+boundary option.
 
-To access it, click on the boundary manager in the explorer menu as below and select Admin boundary settings to select the boundary data source and country/countries of interest. You will then need to add boundary data for the countries selected:
+To access it, click on the boundary manager in the explorer menu as below and select Admin boundary settings to select
+the boundary data source and country/countries of interest. You will then need to add boundary data for the countries
+selected:
 
 ![Boundary Settings](../_static/images/cap/boundary_settings_menu.png "Boundary Settings")
 
@@ -211,7 +200,6 @@ To add boundary data, access the menu as below and click on 'Add Boundary' butto
 Load country boundaries at each of different levels (level 0 to 4) in zipped shapefile format
 
 ![Boundary Loader](../_static/images/cap/boundary_loader.png "Boundary Loader")
-
 
 ```{note}
 Zip shapefiles seperately by Admin level before upload. 
