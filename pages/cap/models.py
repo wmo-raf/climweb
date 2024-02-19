@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from capeditor.models import AbstractCapAlertPage
 from capeditor.pubsub.publish import publish_cap_mqtt_message
 from django.db import models
