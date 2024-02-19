@@ -125,6 +125,11 @@ class HomePage(MetadataPageMixin, Page):
         verbose_name = _("Home Page")
         verbose_name_plural = _("Home Pages")
 
+    def get_meta_image(self):
+        if self.search_image:
+            return self.search_image
+        return self.hero_banner
+
     def get_context(self, request, *args, **kwargs):
         context = super(HomePage, self).get_context(
             request, *args, **kwargs)
