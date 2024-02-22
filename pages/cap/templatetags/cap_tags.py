@@ -10,7 +10,7 @@ register = template.Library()
 
 @register.inclusion_tag(filename="cap/active_alert.html")
 def get_latest_active_cap_alert():
-    alerts = CapAlertPage.objects.all().live().order_by('-sent')
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
     active_alert_infos = []
 
     for alert in alerts:

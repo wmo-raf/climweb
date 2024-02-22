@@ -65,18 +65,11 @@ class AlertListFeed(Feed):
         return None
 
     def items(self):
-        alerts = CapAlertPage.objects.all().live()
-
-        active_alert_infos = []
-
-        for alert in alerts:
-            for info in alert.info:
-                active_alert_infos.append(alert.id)
-
-        return CapAlertPage.objects.filter(id__in=active_alert_infos).live()
+        alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+        return alerts
 
     def item_title(self, item):
-        return item.info[0].value.get('headline')
+        return item.title
 
     def item_link(self, item):
         return reverse("cap_alert_detail", args=[item.identifier])
@@ -91,16 +84,13 @@ class AlertListFeed(Feed):
         return super().item_enclosures(item)
 
     def item_guid(self, item):
-
         return item.identifier
 
     def item_author_name(self, item):
-
         try:
             site = Site.objects.get(is_default_site=True)
             if site:
                 cap_setting = CapSetting.for_site(site)
-
                 return cap_setting.sender
 
         except Exception:
@@ -125,13 +115,13 @@ class AlertDetail(generics.RetrieveAPIView):
     serializer_class.Meta.model = CapAlertPage
 
     renderer_classes = (CapXMLRenderer,)
-    queryset = CapAlertPage.objects.live()
+    queryset = CapAlertPage.objects.live().filter(status="Actual")
 
     lookup_field = "identifier"
 
 
 def cap_geojson(request):
-    alerts = CapAlertPage.objects.all().live()
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
     active_alert_infos = []
 
     for alert in alerts:

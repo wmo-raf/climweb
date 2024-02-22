@@ -262,13 +262,13 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def cap_alerts(self):
-        alerts = CapAlertPage.objects.all().live().order_by('-sent')
+        alerts = CapAlertPage.objects.all().live().filter(status="Actual")
         active_alert_infos = []
         geojson = {"type": "FeatureCollection", "features": []}
 
         for alert in alerts:
             for info in alert.info:
-                if info.value.get('expires').date() >= datetime.today().date():
+                if info.value.get('expires') > timezone.localtime():
                     start_time = info.value.get("effective") or alert.sent
 
                     if timezone.now() > start_time:

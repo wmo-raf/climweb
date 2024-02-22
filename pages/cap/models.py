@@ -2,7 +2,6 @@ from capeditor.models import AbstractCapAlertPage
 from capeditor.pubsub.publish import publish_cap_mqtt_message
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
@@ -41,29 +40,33 @@ class CapAlertListPage(MetadataPageMixin, Page):
 
     @cached_property
     def cap_alerts(self):
-        alerts = CapAlertPage.objects.all().live().order_by('-sent')
+        alerts = CapAlertPage.objects.all().live().filter(status="Actual").order_by('-sent')
         alert_infos = []
 
         for alert in alerts:
             for alert_info in alert.infos:
-                # info = alert_info.get("info")
-                # if info.value.get('expires').date() >= datetime.today().date():
                 alert_infos.append(alert_info)
+
+        alert_infos = sorted(alert_infos, key=lambda x: x.get("sent", {}), reverse=True)
 
         return alert_infos
 
     @cached_property
-    def active_alerts(self):
-        alerts = CapAlertPage.objects.all().live().order_by('-sent')
-        active_alert_infos = []
+    def alerts_by_expiry(self):
+        all_alerts = self.cap_alerts
+        active_alerts = []
+        past_alerts = []
 
-        for alert in alerts:
-            for alert_info in alert.infos:
-                info = alert_info.get("info")
-                if info.value.get('expires') > timezone.localtime():
-                    active_alert_infos.append(alert_info)
+        for alert in all_alerts:
+            if alert.get("expired"):
+                past_alerts.append(alert)
+            else:
+                active_alerts.append(alert)
 
-        return active_alert_infos
+        return {
+            "active_alerts": active_alerts,
+            "past_alerts": past_alerts
+        }
 
     @cached_property
     def filters(self):
@@ -110,6 +113,9 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     content_panels = Page.content_panels + [
         *AbstractCapAlertPage.content_panels
     ]
+
+    class Meta:
+        ordering = ["-sent"]
 
     @cached_property
     def xml_link(self):
