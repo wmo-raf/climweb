@@ -238,32 +238,42 @@ header {
 
 .megamenu .service-group-title {
     font-size: 14px;
-    font-weight: 500;
-    padding: 10px 0;
+    font-weight: 600;
+    padding: 5px 0;
     display: flex;
     align-items: center;
 }
 
 .megamenu .service-group-icon {
-    height: 28px;
-    width: 28px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
     margin-right: 10px;
+    background-color: rgba(0, 153, 151, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .megamenu .service-group-icon svg {
-    height: 100%;
-    width: 100%;
+    height: 24px;
+    width: 24px;
     color: var(--primary-color);
 }
 
 .megamenu .service-group-items {
-    margin-left: 8px;
-    padding: 4px 0 0;
+    margin-left: 10px;
+    margin-bottom: 4px;
+    padding: 4px 0;
 }
 
 .megamenu .sub-items-list {
     margin-top: 10px;
     border-top: 1px solid #f0f0f0;
+}
+
+.megamenu .product-nav-item {
+    padding: 5px !important;
 }
 
 
@@ -282,6 +292,11 @@ header {
 
 
 @media screen and (max-width: 768px) {
+    .megamenu {
+        padding: 6px;
+    }
+
+
     .navbar-brand img {
         max-width: 200px;
     }
