@@ -96,7 +96,7 @@ def add_geomanager_datasets(request):
     if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
 
         # check if we have any live alerts
-        has_live_alerts = CapAlertPage.objects.live().exists()
+        has_live_alerts = CapAlertPage.objects.live().filter(status="Actual").exists()
 
         # create dataset
         dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)

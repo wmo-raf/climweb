@@ -23,51 +23,42 @@
                                 </a>
                             </div>
                         {% endif %}
-
                     </div>
                 {% endif %}
 
                 <div class="columns is-multiline is-mobile">
                     <div class="column is-three-fifths-desktop is-full-touch alerts-list">
-                        {% for alert_info in page.cap_alerts %}
-                            <a href="{{ alert_info.url }}" class="alert-link">
-                                <div class="alert-item"
-                                     data-severity="{{ alert_info.severity.severity }}"
-                                     data-event="{{ alert_info.info.value.event }}"
-                                     style="background-color: {{ alert_info.severity.background_color }};border: 1px solid {{ alert_info.severity.border_color }}">
-                                    <div class="alert-item-left">
-                                        <div class="alert-item-icon">
-                                            <div class="alert-icon-wrapper"
-                                                 style="background-color: {{ alert_info.severity.color }};border-color: {{ alert_info.severity.border_color }};
-                                                         {% if alert_info.severity.icon_color %}color:{{ alert_info.severity.icon_color }};{% endif %} ">
-                                                {% if alert_info.event_icon %}
-                                                    {% svg_icon name=alert_info.event_icon %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="alert-item-info">
-                                            <div class="alert-item-title">
-                                                {{ alert_info.status }}: {{ alert_info.event|truncatechars:60 }}
-                                            </div>
-                                            <div class="alert-severity-label">
-                                                {{ alert_info.severity.label }}
-                                            </div>
-                                            <div class="alert-effective">
-                                                {% blocktranslate trimmed with effective_on=alert_info.effective|date:"d M Y h:i a" %}
-                                                    Effective on : {{ effective_on }}
-                                                {% endblocktranslate %}
-                                            </div>
-                                        </div>
+                        <div class="alerts-group">
+                            <div class="group-title">
+                                {% translate "Active Alerts" %}
+                            </div>
+
+                            {% if page.alerts_by_expiry.active_alerts %}
+                                {% for alert_info in page.alerts_by_expiry.active_alerts %}
+                                    {% include "cap/include_alert_list_item.html" with alert_info=alert_info %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="empty-alerts-state">
+                                    <div class="empty-alerts-icon">
+                                        {% svg_icon name="alert" %}
                                     </div>
                                     <div>
-                                        <span class="icon">
-                                            <i class="fa fa-arrow-right"></i>
-                                        </span>
+                                        {% translate "No active alerts currently" %}
                                     </div>
                                 </div>
+                            {% endif %}
+                        </div>
 
-                            </a>
-                        {% endfor %}
+                        {% if  page.alerts_by_expiry.past_alerts %}
+                            <div class="alerts-group">
+                                <div class="group-title">
+                                    {% translate "Past Alerts" %}
+                                </div>
+                                {% for alert_info in page.alerts_by_expiry.past_alerts %}
+                                    {% include "cap/include_alert_list_item.html" with alert_info=alert_info %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="column is-offset-1-desktop is-one-fifth-widescreen is-full-touch is-hidden-touch">
                         {% if page.filters.severity %}
