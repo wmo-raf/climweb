@@ -47,7 +47,7 @@ class ProductItemImageContentBlock(blocks.StructBlock):
                                    help_text=_("The last day this product remains effective. "
                                                "Leave blank if not applicable"))
     image = ImageChooserBlock(required=True, label=_("Image"))
-    description = blocks.RichTextBlock(label=_("Summary of the map/image information"))
+    description = blocks.RichTextBlock(required=False, label=_("Summary of the map/image information"))
 
     class Meta:
         value_class = ProductItemStructValue
@@ -63,7 +63,7 @@ class ProductItemDocumentContentBlock(blocks.StructBlock):
                                    help_text=_("The last day this product remains effective. "
                                                "Leave blank if not applicable"))
     document = DocumentChooserBlock(required=True, label=_("Document"))
-    description = blocks.RichTextBlock(label=_("Summary of the document information"))
+    description = blocks.RichTextBlock(required=False, label=_("Summary of the document information"))
 
     class Meta:
         value_class = ProductItemStructValue
