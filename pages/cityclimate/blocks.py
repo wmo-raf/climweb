@@ -23,14 +23,23 @@ class LineChartBlock(blocks.StructBlock):
 class BarChartStructValue(StructValue):
     @property
     def config(self):
+        orientation = self.get("orientation")
+        if orientation == "vertical":
+            chart_type = "column"
+        else:
+            chart_type = "bar"
         return {
-            "type": "bar",
+            "type": chart_type,
             "color": self.get("fill_color")
         }
 
 
 class BarChartBlock(blocks.StructBlock):
-    fill_color = NativeColorBlock(default="#2caffe", label=_("Bar Fill Color"))
+    orientation = blocks.ChoiceBlock(choices=(
+        ('vertical', 'Vertical'),
+        ('horizontal', 'Horizontal'),
+    ), default="vertical")
+    fill_color = NativeColorBlock(default="#2caffe", label=_("Fill Color"))
 
     class Meta:
         value_class = BarChartStructValue
