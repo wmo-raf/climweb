@@ -219,14 +219,13 @@
                         if (paramData && !!paramData.length) {
                             all.push({
                                 name: param.name,
-                                data: paramData, ...param.chart_config,
-                                valueSuffix: param.units
+                                data: paramData,
+                                valueSuffix: param.units,
+                                ...param.chart_config,
                             })
                         }
                         return all
                     }, [])
-
-
                     let dateFormat = "%Y-%m-%d";
 
                     switch (options.timeFormat) {
@@ -253,10 +252,8 @@
                         title: {
                             text: `${options.pageTitle} - ${selectedCityLabel}`
                         },
-                        chart: {
-                            type: 'line',
-                        },
-                        xAxis: {
+                        chart: {},
+                        xAxis: [{
                             type: 'datetime',
                             categories: dates,
                             labels: {
@@ -264,7 +261,7 @@
                                     return Highcharts.dateFormat(dateFormat, this.value);
                                 }
                             },
-                        },
+                        }],
                         tooltip: {
                             formatter: function () {
                                 let tooltipContent = '<b>Date: ' + Highcharts.dateFormat(dateFormat, this.x) + '</b><br>';
@@ -282,8 +279,13 @@
                         series: seriesConfig
                     }
 
+                    console.log(seriesConfig)
+
+
                     Highcharts.chart('chart-container', chartOptions);
                 }
+
+
                 updateChart()
 
                 // default MapLibre style

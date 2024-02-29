@@ -93,6 +93,8 @@ class CityClimateDataPage(Page):
                     "chart_config": chart_config,
                 }
 
+                print(chart_config)
+
                 if param.units:
                     param_data.update({"units": param.units})
 

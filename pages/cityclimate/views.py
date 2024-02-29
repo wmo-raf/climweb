@@ -1,3 +1,6 @@
+from datetime import datetime
+from dateutil import parser
+
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -6,6 +9,7 @@ from wagtail.admin import messages
 from wagtail.admin.auth import user_passes_test, user_has_any_page_permission
 from wagtail.api.v2.utils import get_full_url
 from wagtail_modeladmin.helpers import AdminURLHelper
+from .constants import DATE_FORMAT_CHOICES_PARSE_PARAMS
 
 from .forms import ClimateDataForm
 from .models import CityClimateDataPage, DataValue
@@ -88,11 +92,20 @@ def load_climate_data(request, page_id):
             records_to_create = []
 
             for value in data:
-                date = value.get("date")
+                date_str = value.get("date")
+                parse_params = DATE_FORMAT_CHOICES_PARSE_PARAMS.get(date_format)
+
+                if parse_params:
+                    date_obj = parser.parse(date_str, **parse_params)
+                else:
+                    date_obj = parser.parse(date_str)
+
+                date_val = date_obj.strftime("%Y-%m-%d")
+
                 for parameter in parameters:
                     if value.get(parameter.slug):
                         val = value.get(parameter.slug)
-                        unique_data = {"date": date, "city": city, "parameter": parameter}
+                        unique_data = {"date": date_val, "city": city, "parameter": parameter}
                         existing_record = DataValue.objects.filter(**unique_data)
 
                         if existing_record.exists():
