@@ -124,14 +124,16 @@ class ProjectPage(AbstractBannerWithIntroPage):
                                   help_text=_("Short name of the project"))
 
     begin_date = models.DateField(verbose_name=_("Begin date"))
-    end_date = models.DateField(verbose_name=_("End date"))
+    end_date = models.DateField(verbose_name=_("End date"), blank=True, null=True)
 
     partners = ParentalManyToManyField('partners.Partner', blank=True, related_name='projects',
                                        verbose_name=_("Partners"))
 
+    goals_title = models.CharField(max_length=200, blank=True, null=True, default="Our Areas of Work",
+                                   verbose_name=_("Goals/Activities section title"))
     goals_block = StreamField([
-        ('goal', blocks.CollapsibleBlock()),
-    ], null=True, blank=True, verbose_name=_("Goals"), use_json_field=True)
+        ('goal', blocks.CollapsibleBlock(label=_("Goal/Activity")))
+    ], null=True, blank=True, verbose_name=_("Goals/Activities List"), use_json_field=True)
 
     feature_block = StreamField([
         ('feature_item', blocks.FeatureBlock()),
@@ -149,10 +151,32 @@ class ProjectPage(AbstractBannerWithIntroPage):
         verbose_name=_("Youtube playlist")
     )
 
+    content_panels = Page.content_panels + [
+        FieldPanel('services', widget=CheckboxSelectMultiple),
+        *AbstractBannerWithIntroPage.content_panels,
+        FieldPanel('full_name'),
+        FieldPanel('short_name'),
+        FieldPanel('begin_date'),
+        FieldPanel('end_date'),
+        MultiFieldPanel(
+            [
+                FieldPanel('goals_title'),
+                FieldPanel('goals_block'),
+            ],
+            heading=_("Project Goals/Activities Section")
+        ),
+        FieldPanel('feature_block'),
+        FieldPanel('project_materials'),
+        FieldPanel('youtube_playlist'),
+        FieldPanel('partners', widget=CheckboxSelectMultiple),
+    ]
+
     @cached_property
     def period(self):
-        return "{} {} - {} {}".format(calendar.month_name[self.begin_date.month], self.begin_date.year,
-                                      calendar.month_name[self.end_date.month], self.end_date.year)
+        if not self.end_date:
+            return self.begin_date.strftime("%B %Y")
+
+        return f"{self.begin_date.strftime('%B %Y')} - {self.end_date.strftime('%B %Y')}"
 
     @cached_property
     def label(self):
@@ -163,6 +187,9 @@ class ProjectPage(AbstractBannerWithIntroPage):
 
     @cached_property
     def progress(self):
+        if not self.end_date:
+            return None
+
         today = datetime.today()
 
         project_total_duration = relativedelta.relativedelta(self.end_date, self.begin_date)
@@ -180,13 +207,15 @@ class ProjectPage(AbstractBannerWithIntroPage):
 
     @cached_property
     def status(self):
-        progress = self.progress
-        if progress < 0:
-            return "Planned"
-        if progress < 100:
-            return "In Progress"
+        if not self.progress:
+            return None
+
+        if self.progress < 0:
+            return _("Planned")
+        if self.progress < 100:
+            return _("Ongoing")
         else:
-            return "Complete"
+            return _("Complete")
 
     @cached_property
     def complete(self):
@@ -203,20 +232,6 @@ class ProjectPage(AbstractBannerWithIntroPage):
     @cached_property
     def events(self):
         return EventPage.objects.live().filter(projects=self.pk, is_hidden=False).order_by('-date_from')[:4]
-
-    content_panels = Page.content_panels + [
-        FieldPanel('services', widget=CheckboxSelectMultiple),
-        *AbstractBannerWithIntroPage.content_panels,
-        FieldPanel('full_name'),
-        FieldPanel('short_name'),
-        FieldPanel('begin_date'),
-        FieldPanel('end_date'),
-        FieldPanel('goals_block'),
-        FieldPanel('feature_block'),
-        FieldPanel('project_materials'),
-        FieldPanel('youtube_playlist'),
-        FieldPanel('partners', widget=CheckboxSelectMultiple),
-    ]
 
     class Meta:
         verbose_name = _("Project")

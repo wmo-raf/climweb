@@ -19,7 +19,6 @@
         </div>
     </div>
     <div class="results-list list-view">
-
         {% if projects %}
             {% for project in projects %}
                 <div class="result-list-item">
@@ -45,15 +44,16 @@
                                     <span class="result-list-item-tag-float">
                                     </span>
                                 {% endif %}
-                                <span class="project-progress">
-                                    <span class="project-progress-status">{{ project.status }}</span>
-                                    <span
-                                            class="project-progress-bar"
-                                            style="width: {{ project.progress }}%;
-                                                    {% if project.status == "Complete" %}border-radius:20px;{% endif %} ">
+                                {% if project.status %}
+                                    <span class="project-progress">
+                                        <span class="project-progress-status">{{ project.status }}</span>
+                                        <span
+                                                class="project-progress-bar"
+                                                style="width: {{ project.progress }}%;
+                                                        {% if project.status == "Complete" %}border-radius:20px;{% endif %} ">
+                                        </span>
                                     </span>
-                                </span>
-
+                                {% endif %}
                             </div>
                             <a href="{{ project.url }}" class="result-list-item-title">
                                 <h5>
