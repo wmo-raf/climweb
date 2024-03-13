@@ -1,15 +1,14 @@
 import json
-from datetime import datetime, timedelta
-from itertools import groupby
 
 from adminboundarymanager.models import AdminBoundarySettings
 from capeditor.constants import SEVERITY_MAPPING
 from django.contrib.gis.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from forecastmanager.models import City, Forecast
-from forecastmanager.site_settings import ForecastSetting
+from forecastmanager.forecast_settings import ForecastSetting
+from forecastmanager.models import City, CityForecast
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField
@@ -34,9 +33,10 @@ class HomePage(MetadataPageMixin, Page):
         ('card', 'Card Banner')
     )
 
-    template = "home_page.html"
+    template = "home/home_page.html"
 
     subpage_types = [
+        'weather.WeatherDetailPage',
         'contact.ContactPage',
         'services.ServiceIndexPage',
         'products.ProductIndexPage',
@@ -143,46 +143,39 @@ class HomePage(MetadataPageMixin, Page):
             "boundary_tiles_url": boundary_tiles_url
         })
 
-        default_city = None
-        city_ls = City.objects.all()
-
         site = Site.objects.get(is_default_site=True)
         forecast_setting = ForecastSetting.for_site(site)
 
-        if len(city_ls) > 0:
-            if forecast_setting.default_city:
-                default_city = forecast_setting.default_city.id
-            else:
-                default_city = city_ls.order_by('name').first().id
+        city_detail_page = forecast_setting.weather_detail_page
+        city_detail_page_url = None
 
-        city = request.GET.get('city_id', default_city)
+        if city_detail_page:
+            city_detail_page = city_detail_page.specific
+            city_detail_page_url = city_detail_page.get_full_url(request)
+            city_detail_page_url = city_detail_page_url + city_detail_page.reverse_subpage("forecast_for_city")
+            context.update({
+                "city_detail_page_url": city_detail_page_url,
+            })
 
-        if city:
-            context['selected_city'] = City.objects.get(pk=city).name
-            start_date_param = datetime.today()
-            end_date_param = start_date_param + timedelta(days=6)
-            forecast_data = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
-                                                    forecast_date__lte=end_date_param.date(),
-                                                    effective_period__whole_day=True, city__id=city) \
-                .order_by('forecast_date') \
-                .values('id', 'city__name', 'city__id', 'forecast_date', 'data_value',
-                        'condition')
+        city_search_url = get_full_url(request, reverse("cities-list"))
+        context.update({
+            "city_search_url": city_search_url,
+            "city_detail_page_url": city_detail_page_url
+        })
 
-            # sort the data by city
-            data_sorted = sorted(forecast_data, key=lambda x: x['city__id'])
+        default_city = forecast_setting.default_city
+        if not default_city:
+            default_city = City.objects.first()
 
-            # group the data by city
-            grouped_forecast = []
-            for city, group in groupby(data_sorted, lambda x: x['city__id']):
-                city_data = {'city': city, 'forecast_items': list(group)}
+        if default_city:
+            default_city_forecasts = CityForecast.objects.filter(
+                city=default_city,
+                parent__forecast_date__gte=timezone.localtime()
+            ).order_by("parent__forecast_date")
 
-                for item in city_data['forecast_items']:
-                    # date_obj = datetime.strptime( item['forecast_date'], '%Y-%m-%d').date()
-                    item['forecast_date'] = item['forecast_date'].strftime('%a %d, %b').replace(' 0', ' ')
-                    item['condition_display'] = dict(Forecast.CONDITION_CHOICES).get(item['condition'])
-                grouped_forecast.append(city_data)
-
-            context['grouped_forecast'] = grouped_forecast
+            context.update({
+                "default_city_forecasts": default_city_forecasts
+            })
 
         if self.youtube_playlist:
             context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
@@ -194,27 +187,6 @@ class HomePage(MetadataPageMixin, Page):
         # get partners that should appear on the homepage
         partners = Partner.objects.filter(visible_on_homepage=True)[:7]
         return partners
-
-    @cached_property
-    def city_item(self):
-        reordered_cities = None
-        cities = City.objects.all().values('id', 'name')
-
-        site = Site.objects.get(is_default_site=True)
-        forecast_setting = ForecastSetting.for_site(site)
-
-        default_city = forecast_setting.default_city
-
-        if len(cities) > 0:
-            if default_city:
-                # Get all items except the target item
-                other_cities = City.objects.exclude(id=default_city.id)
-
-                # Combine the target item with the other items
-                reordered_cities = [default_city] + list(other_cities)
-            else:
-                reordered_cities = sorted(cities, key=lambda x: x['name'])
-        return {'cities': reordered_cities}
 
     @cached_property
     def latest_updates(self):
@@ -244,21 +216,6 @@ class HomePage(MetadataPageMixin, Page):
             updates.append(publications)
 
         return updates
-
-    @cached_property
-    def get_forecast_by_daterange(self):
-        start_date_param = datetime.today()
-        end_date_param = start_date_param + timedelta(days=6)
-
-        dates_ls = Forecast.objects.filter(forecast_date__gte=start_date_param.date(),
-                                           forecast_date__lte=end_date_param.date(), condition__isnull=False) \
-            .order_by('forecast_date') \
-            .values_list('forecast_date', flat=True) \
-            .distinct()
-
-        return {
-            'forecast_dates': dates_ls
-        }
 
     @cached_property
     def cap_alerts(self):

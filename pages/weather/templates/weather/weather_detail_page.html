@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static wagtailimages_tags i18n %}
+
+{% block body_class %}weather{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'weather/css/weather_detail_page.css' %}">
+{% endblock extra_css %}
+{% block content %}
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        <div class="container weather-detail">
+            <div class="header">
+                <div class="city-search">
+                    <label for="city-search" class="search-label">
+                        {% trans "Search Location" %}:
+                    </label>
+                    <div class="dropdown">
+                        <div class="dropdown-trigger">
+                            <div class="control has-icons-left">
+                                <input id="city-search" class="input" type="text"
+                                       placeholder="Search"
+                                       aria-haspopup="true"
+                                       aria-controls="city-search-menu"
+                                       autocomplete="off"
+                                >
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu" id="city-search-menu" role="menu">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {% if error %}
+                <div class="error-message">
+                    <div class="icon is-left">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        {{ error_message }}
+                    </div>
+                </div>
+            {% else %}
+                {% if city %}
+                    <h2 class="title is-3 city-name">
+                        <span class="icon is-left">
+                            <i class="fas fa-location-dot"></i>
+                        </span>
+                        <span>
+                            {{ city.name }}
+                        </span>
+                    </h2>
+                {% endif %}
+                <div class="forecast-items">
+                    {% for day, forecast in city_forecasts_by_date.items %}
+                        <div class="forecast-day-item">
+                            <h5 class="title is-6 forecast-date">
+                                {{ day|date:"l j F" }}
+                            </h5>
+                            <div class="table-wrapper">
+                                <table class="table is-fullwidth">
+                                    <thead>
+                                    <tr>
+                                        <th>{% trans "Time" %} </th>
+                                        <th>{% trans "Weather" %} </th>
+                                        {% for param in weather_parameters %}
+                                            <th>{{ param.name }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for forecast in forecast %}
+                                        <tr>
+                                            <td>{{ forecast.effective_period }}</td>
+                                            <td class="weather-condition">
+                                                <img src="{{ forecast.condition.icon_url }}" alt="">
+                                            </td>
+                                            {% for param in weather_parameters %}
+                                                {% for data in forecast.data_values.all %}
+                                                    {% if data.parameter == param %}
+                                                        <td>{{ data.value_with_units }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>{% endif %}
+
+
+        </div>
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'js/bulmahead.js' %}"></script>
+    <script>
+        const citySearchUrl = "{{ city_search_url }}"
+        const cityDetailUrl = "{{ city_detail_page_url|default_if_none:"" }}"
+
+        $(document).ready(function () {
+
+            const onSelectCity = ({label, value}) => {
+                if (cityDetailUrl) {
+                    let url
+                    // Check if the URL ends with a slash
+                    if (cityDetailUrl.charAt(cityDetailUrl.length - 1) === '/') {
+                        // If it does, append the path without an extra slash
+                        url = cityDetailUrl + value;
+                    } else {
+                        // If it doesn't, append the path with a leading slash
+                        url = cityDetailUrl + '/' + value;
+                    }
+
+                    window.location.href = url;
+                }
+            }
+
+            const getMatchingCity = (name) => {
+                return fetch(`${citySearchUrl}?name=${name}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        return data.map(city => {
+                            return {
+                                label: city.name,
+                                value: city.clean_name
+                            }
+                        })
+                    })
+            }
+            const citySearch = $('#city-search')
+            if (citySearch) {
+                bulmaHead('city-search', 'city-search-menu', getMatchingCity, onSelectCity, 200, 0);
+            }
+        });
+    </script>
+{% endblock %}
+

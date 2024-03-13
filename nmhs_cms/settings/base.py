@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "pages.home",
     "pages.services",
     "pages.products",
+    "pages.weather",
     "pages.mediacenter",
     "pages.news",
     "pages.videos",
