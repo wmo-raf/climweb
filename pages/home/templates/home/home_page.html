@@ -109,10 +109,12 @@
             countryBounds = null;
         }
 
-
         const forecast_api = "{% url 'forecast-list'%}"
         const static_path = '{% static "forecastmanager/img/" %}'
         const alertsGeojson = {{self.cap_alerts.geojson|safe}};
+
+        const weatherIconsUrl = "{{ weather_icons_url|default_if_none:"" }}"
+        const forecastSettingsUrl = "{{ forecast_settings_url|default_if_none:"" }}"
 
         const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
 
@@ -142,15 +144,13 @@
                     return data.map(city => {
                         return {
                             label: city.name,
-                            value: city.clean_name
+                            value: city.slug
                         }
                     })
                 })
         }
 
         $(document).ready(function () {
-
-
             const cityForecastCarousel = $("#forecast-widget-carousel")
             if (cityForecastCarousel) {
                 bulmaCarousel.attach("#forecast-widget-carousel", {

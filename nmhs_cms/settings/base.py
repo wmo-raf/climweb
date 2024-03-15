@@ -140,6 +140,7 @@ INSTALLED_APPS = [
     "wagtail_modeladmin",
     "dbbackup",
     "wagtailmodelchooser",
+    "django_extensions",
 ]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'

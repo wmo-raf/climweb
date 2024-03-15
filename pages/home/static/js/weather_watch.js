@@ -1,10 +1,6 @@
 $(document).ready(function () {
 
-    let query_params = {
-        start_date: null,
-        // end_date:getSevenDaysFromToday(),
-        effective_period__whole_day: true
-    }
+    let forecastSettings;
 
     // default MapLibre style
     const defaultStyle = {
@@ -80,6 +76,11 @@ $(document).ready(function () {
     }));
 
     const getPopupHTML = (props) => {
+        const dataParams = forecastSettings?.parameters || []
+        if (dataParams && dataParams.length === 0) {
+            return null
+        }
+
         const paramValues = dataParams.reduce((all, param) => {
             if (props[param.parameter]) {
                 all[param.name] = `${props[param.parameter]} ${param.parameter_unit}`
@@ -87,23 +88,31 @@ $(document).ready(function () {
             return all
         }, {})
 
-        const cityName = props.city_name;
-        const cityID = props.city_id;
-        const condition = props.condition;
+        const cityName = props.city;
+        const cityID = props.city;
+        const condition = props.condition_label;
 
         let values = Object.keys(paramValues).reduce((all, key) => {
             all = all + `<p class="py-0" style="padding:0.5em 0"><b>${key}: </b>${paramValues[key]}</p>`
             return all
         }, "")
 
+        let detailLink
+        if (cityDetailUrl) {
+            const detailUrl = cityDetailUrl + cityID
+            detailLink = `<a class="button is-small is-light mt-2" target="_blank" rel="noopender noreferrer" href="${detailUrl}"> 
+                            <span>Details</span>
+                            <span class="icon">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </span> 
+                        </a>`
+        }
+
+
         return `<div class="block" style="margin:10px; width:200px">
             <h2 class="title" style="font-size:18px;">${cityName}</h2>
             <h2 class="subtitle mb-0" style="font-size:14px;">${condition}</h2>
-
-            <a class="button is-small is-light mt-2" target="_blank" rel="noopender noreferrer" href="city_analysis/${cityID}"> <span>Analysis </span>
-            <span class="icon">
-                <i class="fa-solid fa-arrow-trend-up"></i>
-            </span> </a>
+            ${detailLink ? detailLink : ""}
             <hr>
             ${values}
 
@@ -111,11 +120,25 @@ $(document).ready(function () {
         </div>`
     }
 
-    function updateSourceData(data) {
-        map.getSource('city-forecasts').setData(data);
-    }
-
     map.on("load", () => {
+        if (weatherIconsUrl) {
+            fetch(weatherIconsUrl).then(response => response.json()).then(icons => {
+                icons.forEach(icon => {
+                    map.loadImage(icon.url, (error, image) => {
+                        if (error) throw error;
+                        map.addImage(icon.id, image);
+                    });
+                });
+            });
+        }
+
+        if (forecastSettingsUrl) {
+            fetch(forecastSettingsUrl).then(response => response.json()).then(settings => {
+                forecastSettings = settings
+            });
+        }
+
+
         // fit to country bounds
         if (countryBounds) {
             const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
@@ -175,7 +198,7 @@ $(document).ready(function () {
             });
         }
 
-
+        // add cap alerts layer
         if (alertsGeojson) {
             map.addSource("alert-areas", {
                 type: "geojson",
@@ -206,8 +229,7 @@ $(document).ready(function () {
                 },
             });
 
-            // When a click event occurs on a feature in the places layer, open a popup at the
-            // location of the feature, with description HTML from its properties.
+            // CAP alerts layer on click
             map.on("click", "alert-areas-layer", (e) => {
                 // Copy coordinates array.
 
@@ -223,7 +245,7 @@ $(document).ready(function () {
 
             });
 
-            // Change the cursor to a pointer when the mouse is over the places layer.
+            // Change the cursor to a pointer when the mouse is over the alerts layer.
             map.on("mouseenter", "alert-areas-layer", () => {
                 map.getCanvas().style.cursor = "pointer";
             });
@@ -234,27 +256,28 @@ $(document).ready(function () {
             });
         }
 
+        // add city forecast source
         map.addSource("city-forecasts", {
             type: "geojson",
+            cluster: true,
+            clusterMinPoints: 2,
+            clusterRadius: 25,
             data: {type: "FeatureCollection", features: []}
         })
 
+        // add city forecast layer
         map.addLayer({
             "id": "city-forecasts",
             "type": "symbol",
             "layout": {
-                'icon-image': ['get', 'condition_icon'],
+                'icon-image': ['get', 'condition'],
                 'icon-size': 0.3,
                 'icon-allow-overlap': true
             },
             source: "city-forecasts"
         })
 
-
-        // When a click event occurs on a feature in the places layer, open a popup at the
-        // location of the feature, with description HTML from its properties.
-
-
+        // city forecast on click
         map.on("click", "city-forecasts", (e) => {
             // Get the feature that was hovered over
             const coordinates = e.features[0].geometry.coordinates.slice()
@@ -267,10 +290,17 @@ $(document).ready(function () {
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
-            new maplibregl.Popup().setLngLat(e.lngLat)
-                .setHTML(getPopupHTML(feature.properties))
-                .addTo(map);
-        })
+
+            const popupHTML = getPopupHTML(feature.properties)
+
+            if (popupHTML) {
+                new maplibregl.Popup().setLngLat(e.lngLat)
+                    .setHTML(popupHTML)
+                    .addTo(map);
+            }
+
+
+        });
 
         // Change it back to a pointer when it leaves.
         map.on("mouseleave", "city-forecasts", () => {
@@ -279,56 +309,25 @@ $(document).ready(function () {
 
         const initDate = document.getElementById("daily_forecast");
         if (initDate && initDate.value) {
-            query_params.forecast_date = initDate.value
-
-            setForecastData(query_params)
+            setForecastData({forecast_date: initDate.value})
         }
     })
 
 
     function setForecastData(params) {
+        const {forecast_date} = params
+        fetch(forecast_api).then(res => res.json()).then(data => {
 
-        $.ajax({
-            url: forecast_api,
-            method: "GET",
-            data: params,
-            success: function (data) {
-                // Process the retrieved data
-                data.map(icon => {
-
-                    let img = new Image()
-
-                    img.onload = () => {
-                        if (!map.hasImage(icon.properties.condition_icon)) {
-                            return map.addImage(`${icon.properties.condition_icon}`, img)
-                        }
-
-                    }
-                    img.src = `${static_path}${icon.properties.condition_icon}`
-                    return img.src
-
-                })
-                // Access and use the data as needed                
-                updateSourceData({
-                    type: "FeatureCollection",
-                    features: data
-                })
-
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // This function will be called if there's an error in the request
-                console.error('CITY FORECAST ERROR:', textStatus, errorThrown);
+            const selectedDateData = data.find(d => d.date === forecast_date)
+            if (selectedDateData) {
+                map.getSource("city-forecasts").setData(selectedDateData)
             }
         })
-
-
     }
 
     // toggle forecasts by selected date
     $('#daily_forecast').on('change', function (e) {
-        query_params.forecast_date = this.value;
-
-        setForecastData(query_params)
+        setForecastData({forecast_date: e.target.value})
     });
 
 });

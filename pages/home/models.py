@@ -140,7 +140,9 @@ class HomePage(MetadataPageMixin, Page):
 
         context.update({
             "bounds": abm_extents,
-            "boundary_tiles_url": boundary_tiles_url
+            "boundary_tiles_url": boundary_tiles_url,
+            "weather_icons_url": get_full_url(request, reverse("weather-icons")),
+            "forecast_settings_url": get_full_url(request, reverse("forecast-settings")),
         })
 
         site = Site.objects.get(is_default_site=True)
@@ -152,7 +154,7 @@ class HomePage(MetadataPageMixin, Page):
         if city_detail_page:
             city_detail_page = city_detail_page.specific
             city_detail_page_url = city_detail_page.get_full_url(request)
-            city_detail_page_url = city_detail_page_url + city_detail_page.reverse_subpage("forecast_for_city")
+            city_detail_page_url = city_detail_page_url + city_detail_page.detail_page_base_url
             context.update({
                 "city_detail_page_url": city_detail_page_url,
             })
@@ -170,11 +172,16 @@ class HomePage(MetadataPageMixin, Page):
         if default_city:
             default_city_forecasts = CityForecast.objects.filter(
                 city=default_city,
-                parent__forecast_date__gte=timezone.localtime()
+                parent__forecast_date__gte=timezone.localtime(),
+                parent__effective_period__default=True
             ).order_by("parent__forecast_date")
 
+            # get unique forecast dates
+            forecast_dates = default_city_forecasts.values_list("parent__forecast_date", flat=True).distinct()
+
             context.update({
-                "default_city_forecasts": default_city_forecasts
+                "default_city_forecasts": default_city_forecasts,
+                "forecast_dates": forecast_dates,
             })
 
         if self.youtube_playlist:
