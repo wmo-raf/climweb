@@ -26,7 +26,11 @@
         {% if page.goals_block %}
             <section class="project-goals-">
                 <h2 class="section-title has-text-centered">
-                    {% translate "Our Areas of Work" %}
+                    {% if page.goals_title %}
+                        {{ page.goals_title }}
+                    {% else %}
+                        {% translate "Our Areas of Work" %}
+                    {% endif %}
                 </h2>
                 <div class="container">
                     <div class="columns is-mobile is-centered project-goals">

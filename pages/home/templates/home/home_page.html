@@ -7,25 +7,26 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link href="{% static 'css/hero.css' %}" type="text/css" rel="stylesheet"/>
-    <link href='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.css' rel='stylesheet'/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+    <link href='{% static "css/maplibre-gl.css" %}' rel='stylesheet'/>
+    <link href='{% static "css/bulma-carousel.min.css" %}' rel='stylesheet'/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
     {% if page.youtube_playlist %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
     {% endif %}
+
+    <link rel="stylesheet" href="{% static 'css/forecast_widget.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
-    <div class="home-hero-wrapper {% if self.show_city_forecast and grouped_forecast|length > 0 %} has-city-forecast{% endif %}">
-        {% include 'section/hero_include.html' %}
+    <div class="home-hero-wrapper">
+        {% include 'home/section/hero_include.html' %}
     </div>
     <main class="is-index">
-        {% include 'section/weather_watch_include.html' %}
-        {% include 'section/services_include.html' %}
-        {% comment %} {% include 'section/satellite_include.html' %} {% endcomment %}
-        {% include 'section/updates_include.html' with page=page %}
+        {% include 'home/section/weather_watch_include.html' %}
+        {% include 'home/section/services_include.html' %}
+        {% include 'home/section/updates_include.html' %}
 
         {% if page.youtube_playlist %}
             <section class="has-text-centered videos" id="videoSection">
@@ -86,8 +87,11 @@
 
 
 {% block extra_js %}
-    <script src='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.js'></script>
-    <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
+    <script src="{% static 'js/maplibre-gl.js' %}"></script>
+    <script src="{% static 'js/turf.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bulma-carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bulmahead.js' %}"></script>
+
     {% if page.youtube_playlist %}
         <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
     {% endif %}
@@ -105,16 +109,71 @@
             countryBounds = null;
         }
 
-        const temp_units = "{{settings.forecastmanager.ForecastSetting.get_temp_units_display}}"
         const forecast_api = "{% url 'forecast-list'%}"
         const static_path = '{% static "forecastmanager/img/" %}'
         const alertsGeojson = {{self.cap_alerts.geojson|safe}};
-        const dataParams =
-            {{ settings.forecastmanager.ForecastSetting.data_parameter_values|safe }};
+
+        const weatherIconsUrl = "{{ weather_icons_url|default_if_none:"" }}"
+        const forecastSettingsUrl = "{{ forecast_settings_url|default_if_none:"" }}"
 
         const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
 
+        const citySearchUrl = "{{ city_search_url }}"
+        const cityDetailUrl = "{{ city_detail_page_url|default_if_none:"" }}"
+
+        const onSelectCity = ({label, value}) => {
+            if (cityDetailUrl) {
+                let url
+                // Check if the URL ends with a slash
+                if (cityDetailUrl.charAt(cityDetailUrl.length - 1) === '/') {
+                    // If it does, append the path without an extra slash
+                    url = cityDetailUrl + value;
+                } else {
+                    // If it doesn't, append the path with a leading slash
+                    url = cityDetailUrl + '/' + value;
+                }
+
+                window.location.href = url;
+            }
+        }
+
+        const getMatchingCity = (name) => {
+            return fetch(`${citySearchUrl}?name=${name}`)
+                .then(response => response.json())
+                .then(data => {
+                    return data.map(city => {
+                        return {
+                            label: city.name,
+                            value: city.slug
+                        }
+                    })
+                })
+        }
+
         $(document).ready(function () {
+            const cityForecastCarousel = $("#forecast-widget-carousel")
+            if (cityForecastCarousel) {
+                bulmaCarousel.attach("#forecast-widget-carousel", {
+                    slidesToScroll: 2,
+                    slidesToShow: 3,
+                    navigation: true,
+                    loop: true,
+                    breakpoints: [
+                        {changePoint: 480, slidesToShow: 1, slidesToScroll: 1},
+                        {changePoint: 640, slidesToShow: 2, slidesToScroll: 1},
+                        {changePoint: 768, slidesToShow: 3, slidesToScroll: 1},
+                        {changePoint: 1200, slidesToShow: 2, slidesToScroll: 1}
+                    ]
+                });
+
+                cityForecastCarousel.css('visibility', 'visible');
+            }
+
+            const citySearch = $('#city-search')
+            if (citySearch) {
+                bulmaHead('city-search', 'city-search-menu', getMatchingCity, onSelectCity, 200, 0);
+            }
+
             if (page_youtube_playlist) {
                 const url = "{{ youtube_playlist_url }}";
                 $('#videoWrapper').scheletrone({
@@ -140,13 +199,6 @@
         });
 
     </script>
-
-
-
-
-
-
-
 
     <script type="text/javascript" src="{% static 'js/weather_watch.js' %}"></script>
 {% endblock %}

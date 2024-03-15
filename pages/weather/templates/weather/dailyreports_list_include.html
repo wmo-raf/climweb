@@ -1,0 +1,64 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags static i18n %}
+
+<div class="results-view">
+    <div class="results-header">
+        <h5 class="results-count results">
+            {% blocktranslate trimmed count counter=items.paginator.count %}
+                Showing {{ counter }} result
+                {% plural %}
+                Showing {{ counter }} results
+            {% endblocktranslate %}
+        </h5>
+        <div>
+            <button id="list-view-button" class="report-filter view active" name="view" value="list">
+                <i class="fas fa-th-list"></i>
+            </button>
+            <button id="grid-view-button" class="report-filter view" name="view" value="grid">
+                <i class="fas fa-grip-horizontal"></i>
+            </button>
+        </div>
+    </div>
+    <div class="results-list list-view">
+        {% if items %}
+            {% for report in items %}
+                <div class="result-list-item">
+                    <div class="result-list-item-wrapper">
+                        <a href="{{ report.url }}" class="result-list-item-image">
+                            <figure class="image" style="display: flex;align-items: center">
+                                <img style="object-fit: contain;height: 90%"
+                                     src="{% static 'products/img/doc_placeholder.png' %}" alt=""/>
+                            </figure>
+                        </a>
+                        <div class="result-list-item-detail">
+                            <a href="{{ report.url }}" class="result-list-item-title">
+                                <h5>
+                                    {{ report.title }}
+                                </h5>
+                            </a>
+                            {% if report.summary_description %}
+                                <div class="result-list-item-snippet">
+                                    {{ report.summary_description|truncatewords_html:35|richtext }}
+                                </div>
+                            {% endif %}
+
+                            <div class="result-list-item-meta">
+                                <span class=""> {% trans "Issued on" %}: {{ report.issued_on }}</span>
+                                <a class="result-list-item-more read" href="{{ report.url }}">
+                                    {% translate "Read More" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            {% include "empty_state_include.html" %}
+        {% endif %}
+
+
+    </div>
+    {% include 'pagination_include.html' with items=items %}
+</div>
+
+

@@ -11,7 +11,6 @@ from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtailcache.cache import cache_page
 
 from nmhs_cms.api import api_router
-from pages.home.views import list_forecasts, daily_weather, city_analysis
 from pages.search import views as search_views
 from pages.videos.views import VideoView
 
@@ -22,8 +21,6 @@ ADMIN_URL_PATH = getattr(settings, "ADMIN_URL_PATH", None)
 urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
 
-    path("list_forecast/", list_forecasts, name="list_forecasts"),
-    path("daily_weather/", daily_weather, name="daily_weather"),
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("pages.cityclimate.urls")),
     path("api/videos/<int:pk>", VideoView.as_view(), name="youtube_playlist_items"),
@@ -34,7 +31,6 @@ urlpatterns = [
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     path("", include(forecastmanager_urls), name="forecast_api"),
-    path("city_analysis/<uuid:city_id>/", city_analysis, name="city_analysis"),
 
     path("sitemap.xml", sitemap),
 
@@ -42,7 +38,6 @@ urlpatterns = [
     path('auth/', include('allauth.urls')),
 
     path('api/v2/', api_router.urls, name="wagtailapi"),
-
 ]
 
 if ADMIN_URL_PATH:

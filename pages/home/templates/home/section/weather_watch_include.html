@@ -63,13 +63,13 @@
                 </div>
                 <div class="column is-two-thirds-widescreen is-full-touch">
                     <div id="home-map" style="position: relative;">
-                        {% if self.get_forecast_by_daterange.forecast_dates %}
+                        {% if forecast_dates %}
                             <div class="columns p-2" style="position: absolute;top: 10px;left: 10px;z-index: 99">
                                 <div class="column">
                                     <div class="control has-icons-left mr-2">
                                         <div class="select">
                                             <select id="daily_forecast" style="color:#292929">
-                                                {% for day in self.get_forecast_by_daterange.forecast_dates %}
+                                                {% for day in forecast_dates %}
                                                     <option value="{{ day|date:'Y-m-d' }}"
                                                             {% if forloop.first %}selected{% endif %}>{{ day }}</option>
                                                 {% endfor %}
@@ -79,28 +79,11 @@
                                             <i class="fas fa-calendar-days"></i>
                                         </span>
                                     </div>
-
                                 </div>
-                                {% comment %}
-                                    <div class="column ">
-                                        <div class="control has-icons-left ">
-                                            <div class="select">
-                                                <select id="daily_forecast" style="color:#292929">
-                                                    {% for day in self.get_forecast_by_daterange.forecast_dates %}
-                                                        <option value="{{ day|date:'Y-m-d' }}"
-                                                                {% if forloop.first %}selected{% endif %}>{{ day }}</option>
-
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                            <span class="icon is-left">
-                                                <i class="fas fa-solid fa-clock"></i>
-                                            </span>
-                                        </div>
-
-                                    </div> {% endcomment %}
                             </div>
                         {% endif %}
+
+
                         <div class="map-legend" style="position: absolute;bottom: 0">
                             <div> {% translate "Alert Severity:" %} </div>
                             <div class="legend-items">

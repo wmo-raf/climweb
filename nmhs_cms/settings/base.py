@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "pages.home",
     "pages.services",
     "pages.products",
+    "pages.weather",
     "pages.mediacenter",
     "pages.news",
     "pages.videos",
@@ -139,6 +140,7 @@ INSTALLED_APPS = [
     "wagtail_modeladmin",
     "dbbackup",
     "wagtailmodelchooser",
+    "django_extensions",
 ]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
