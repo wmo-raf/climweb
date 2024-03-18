@@ -469,9 +469,10 @@ const updateLayer = () => {
                 })
             }
         }
+    }).catch(e => {
+        console.log(e)
     })
 }
-
 
 const $layerInput = $(".menu-category")
 

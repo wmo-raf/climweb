@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags i18n %}
+{% load static wagtailcore_tags i18n %}
 
 {% block extra_css %}
     {{ block.supper }}
-    <link href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/maplibre-gl.css' %}">
     <style>
 
         .data-controls-container {
@@ -126,9 +126,10 @@
     {{ block.supper }}
 
     {% if cities %}
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/modules/exporting.js"></script>
-        <script src="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js"></script>
+        <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/highcharts-exporting.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/highcharts-exporting.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
 
         <script>
 
@@ -278,10 +279,6 @@
                         yAxis: {},
                         series: seriesConfig
                     }
-
-                    console.log(seriesConfig)
-
-
                     Highcharts.chart('chart-container', chartOptions);
                 }
 

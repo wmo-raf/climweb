@@ -192,9 +192,8 @@ class ProductPage(AbstractIntroPage):
         })
 
         if self.map_layers:
-
             try:
-                context["datasetsurl"] = get_full_url(request, (reverse("dataset-list")))
+                context["datasetsurl"] = get_full_url(request, (reverse("datasets-list")))
                 context["layertimestampsurl"] = get_full_url(request, reverse("layerrasterfile-list"))
             except Exception:
                 pass

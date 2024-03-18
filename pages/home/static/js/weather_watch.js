@@ -54,8 +54,8 @@ $(document).ready(function () {
     const map = new maplibregl.Map({
         container: "home-map", // container ID
         style: defaultStyle,
-        center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
-        zoom: 4.2, // starting zoom
+        center: [0, 0], // starting position [lng, lat]
+        zoom: 4, // starting zoom
         scrollZoom: false,
     });
 
@@ -89,7 +89,7 @@ $(document).ready(function () {
         }, {})
 
         const cityName = props.city;
-        const cityID = props.city;
+        const citySlug = props.city_slug;
         const condition = props.condition_label;
 
         let values = Object.keys(paramValues).reduce((all, key) => {
@@ -99,7 +99,7 @@ $(document).ready(function () {
 
         let detailLink
         if (cityDetailUrl) {
-            const detailUrl = cityDetailUrl + cityID
+            const detailUrl = cityDetailUrl + citySlug
             detailLink = `<a class="button is-small is-light mt-2" target="_blank" rel="noopender noreferrer" href="${detailUrl}"> 
                             <span>Details</span>
                             <span class="icon">
@@ -124,9 +124,8 @@ $(document).ready(function () {
         if (weatherIconsUrl) {
             fetch(weatherIconsUrl).then(response => response.json()).then(icons => {
                 icons.forEach(icon => {
-                    map.loadImage(icon.url, (error, image) => {
-                        if (error) throw error;
-                        map.addImage(icon.id, image);
+                    map.loadImage(icon.url).then(image => {
+                        map.addImage(icon.id, image.data);
                     });
                 });
             });
@@ -317,7 +316,6 @@ $(document).ready(function () {
     function setForecastData(params) {
         const {forecast_date} = params
         fetch(forecast_api).then(res => res.json()).then(data => {
-
             const selectedDateData = data.find(d => d.date === forecast_date)
             if (selectedDateData) {
                 map.getSource("city-forecasts").setData(selectedDateData)
