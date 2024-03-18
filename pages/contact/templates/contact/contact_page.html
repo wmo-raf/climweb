@@ -2,8 +2,8 @@
 {% load i18n static lazyimages_tags wagtailcore_tags widget_tweaks wagtailiconchooser_tags %}
 {% block extra_css %}
     {{ block.super }}
-    <link href='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.css' rel='stylesheet'/>
-    <link href="{% static 'contact/css/contact.css' %}" type="text/css" rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'contact/css/contact.css' %}"/>
 {% endblock extra_css %}
 
 {% block content %}
@@ -86,8 +86,10 @@
                                                 <i class="fa-solid fa-phone"></i>
                                                 {% translate "Contact" %}
                                             </h2>
-                                            {% if settings.base.OrganisationSetting.email %}<p>{{ settings.base.OrganisationSetting.email }}</p>{% endif %}
-                                            {% if settings.base.OrganisationSetting.phone %}<p>{{ settings.base.OrganisationSetting.phone }}</p>{% endif %}
+                                            {% if settings.base.OrganisationSetting.email %}
+                                                <p>{{ settings.base.OrganisationSetting.email }}</p>{% endif %}
+                                            {% if settings.base.OrganisationSetting.phone %}
+                                                <p>{{ settings.base.OrganisationSetting.phone }}</p>{% endif %}
                                         </div>
                                     {% endif %}
                                     <div class="block pt-3" style="display: flex;">
@@ -116,7 +118,7 @@
 {% endblock content %}
 
 {% block extra_js %}
-    <script src='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.js'></script>
+    <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
 
     <script>
 
