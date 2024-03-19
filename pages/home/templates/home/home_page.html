@@ -11,6 +11,7 @@
     <link href='{% static "css/bulma-carousel.min.css" %}' rel='stylesheet'/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/zoom-to-location-control.css' %}">
     {% if page.youtube_playlist %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
@@ -91,6 +92,7 @@
     <script src="{% static 'js/turf.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bulma-carousel.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bulmahead.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/zoom-to-location-control.js' %}"></script>
 
     {% if page.youtube_playlist %}
         <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
@@ -115,6 +117,7 @@
 
         const weatherIconsUrl = "{{ weather_icons_url|default_if_none:"" }}"
         const forecastSettingsUrl = "{{ forecast_settings_url|default_if_none:"" }}"
+        const homeMapSettingsUrl = "{{ home_map_settings_url|default_if_none:"" }}"
 
         const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
 
