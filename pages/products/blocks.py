@@ -5,7 +5,7 @@ from wagtail.blocks import StructValue
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
-from django.utils import timezone
+from wagtail.contrib.table_block.blocks import TableBlock
 
 
 class ProductItemStructValue(StructValue):
@@ -64,6 +64,22 @@ class ProductItemDocumentContentBlock(blocks.StructBlock):
                                                "Leave blank if not applicable"))
     document = DocumentChooserBlock(required=True, label=_("Document"))
     description = blocks.RichTextBlock(required=False, label=_("Summary of the document information"))
+
+    class Meta:
+        value_class = ProductItemStructValue
+
+
+class ProductItemStreamContentBlock(blocks.StructBlock):
+    product_type = blocks.CharBlock(required=True, label=_("Product Type"))
+    date = blocks.DateBlock(required=True, label=_("Effective from"),
+                            help_text=_("The date when this product becomes effective"))
+    valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
+                                   help_text=_("The last day this product remains effective. "
+                                               "Leave blank if not applicable"))
+    content = blocks.StreamBlock([
+        ('table', TableBlock(label=_("Table"))),
+        ('text', blocks.RichTextBlock(label=_("Text")))
+    ], label=_("Content"))
 
     class Meta:
         value_class = ProductItemStructValue

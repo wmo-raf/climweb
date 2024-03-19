@@ -24,7 +24,8 @@ from base.mixins import MetadataPageMixin
 from base.models import Product, ProductItemType
 from base.models import ServiceCategory, AbstractIntroPage
 from base.utils import paginate, query_param_to_list
-from pages.products.blocks import ProductItemImageContentBlock, ProductItemDocumentContentBlock
+from pages.products.blocks import ProductItemImageContentBlock, ProductItemDocumentContentBlock, \
+    ProductItemStreamContentBlock
 
 
 class ProductIndexPage(MetadataPageMixin, Page):
@@ -262,7 +263,8 @@ class ProductItemPage(MetadataPageMixin, Page):
                                                "Leave blank if not applicable"))
     products = StreamField([
         ("image_product", ProductItemImageContentBlock(label="Map/Image Product")),
-        ("document_product", ProductItemDocumentContentBlock(label="Document/Bulletin Product"))
+        ("document_product", ProductItemDocumentContentBlock(label="Document/Bulletin Product")),
+        ("content_block", ProductItemStreamContentBlock(label="Text/Tabular Product"))
     ], use_json_field=True)
 
     content_panels = Page.content_panels + [
