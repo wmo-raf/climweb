@@ -151,8 +151,23 @@
                                                         </a>
                                                         {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
                                                     </div>
+                                                {% elif product_item.block_type == "content_block" %}
+                                                    <div class="product-item-text-container">
+
+                                                        {% for block in product_item.value.content %}
+                                                            {% if block.block_type == 'table' %}
+                                                                {% include_block block %}
+                                                            {% elif block.block_type == 'text' %}
+                                                                {{ block.value }}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+
                                                 {% endif %}
-                                                <div class="content-description">{{ product_item.value.description|richtext }}</div>
+
+                                                {% if product_item.value.description %}
+                                                    <div class="content-description">{{ product_item.value.description|richtext }}</div>
+                                                {% endif %}
                                             </div>
                                         {% endfor %}
                                     </div>
