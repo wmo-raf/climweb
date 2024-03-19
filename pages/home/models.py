@@ -11,6 +11,8 @@ from forecastmanager.forecast_settings import ForecastSetting
 from forecastmanager.models import City, CityForecast
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.api.v2.utils import get_full_url
+from wagtail.contrib.settings.models import BaseSiteSetting
+from wagtail.contrib.settings.registry import register_setting
 from wagtail.fields import StreamField
 from wagtail.models import Page, Site
 from wagtail_color_panel.fields import ColorField
@@ -19,6 +21,7 @@ from base import blocks
 from base.mixins import MetadataPageMixin
 from pages.cap.models import CapAlertPage
 from pages.events.models import EventPage
+from pages.home.blocks import AreaBoundaryBlock, AreaPolygonBlock
 from pages.news.models import NewsPage
 from pages.organisation_pages.partners.models import Partner
 from pages.publications.models import PublicationPage
@@ -137,12 +140,14 @@ class HomePage(MetadataPageMixin, Page):
         abm_settings = AdminBoundarySettings.for_request(request)
         abm_extents = abm_settings.combined_countries_bounds
         boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
+        map_settings_url = get_full_url(request, reverse("home-map-settings"))
 
         context.update({
             "bounds": abm_extents,
             "boundary_tiles_url": boundary_tiles_url,
             "weather_icons_url": get_full_url(request, reverse("weather-icons")),
             "forecast_settings_url": get_full_url(request, reverse("forecast-settings")),
+            "home_map_settings_url": map_settings_url
         })
 
         site = Site.objects.get(is_default_site=True)
@@ -265,3 +270,11 @@ class HomePage(MetadataPageMixin, Page):
     def services(self):
         services = ServicePage.objects.live()
         return services
+
+
+@register_setting(icon="map")
+class HomeMapSettings(BaseSiteSetting):
+    zoom_locations = StreamField([
+        ("boundary_block", AreaBoundaryBlock(label=_("Admin Boundary"))),
+        ("polygon_block", AreaPolygonBlock(label=_("Draw Polygon"))),
+    ], use_json_field=True, blank=True)

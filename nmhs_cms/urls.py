@@ -24,6 +24,7 @@ urlpatterns = [
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("pages.cityclimate.urls")),
     path("api/videos/<int:pk>", VideoView.as_view(), name="youtube_playlist_items"),
+    path("", include("pages.home.urls")),
     path("", include("pages.cap.urls")),
 
     path("", include("geomanager.urls"), name="geomanager"),
