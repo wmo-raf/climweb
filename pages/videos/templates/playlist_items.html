@@ -40,9 +40,8 @@
                                 </iframe>
                                 <h2>{{ video.snippet.title }}</h2>
                             </td>
-                            {#                            2019-09-27T08:57:37.000Z#}
                             <td class="title">
-                                <h2>{{ video.snippet.publishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" }}</h2>
+                                <h2>{{ video.snippet.publishedAt }}</h2>
                             </td>
                         </tr>
                     {% endfor %}

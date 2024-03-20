@@ -1,3 +1,4 @@
+from dateutil.parser import parse
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -82,9 +83,16 @@ class YoutubePlaylist(models.Model):
                 pass
 
             if info:
-                # sort by video position in playlist
-                info.sort(key=lambda info_item: info_item['snippet']['position'], reverse=True)
+                # parse the date published
+                for item in info:
+                    published_at = parse(item['contentDetails']['videoPublishedAt'])
+                    item['contentDetails']['videoPublishedAt'] = published_at
+
+                # sort the videos by date published
+                info = sorted(info, key=lambda x: x['contentDetails']['videoPublishedAt'], reverse=True)
+
             return info
+
         return None
 
     panels = [

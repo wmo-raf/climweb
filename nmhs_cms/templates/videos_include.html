@@ -17,7 +17,7 @@
                 </a>
                 <div class="card-video-stats">
                     <span>
-                        {% blocktranslate trimmed with updated_on=item.contentDetails.videoPublishedAt|slice:"0:10"|parse_date:"%Y-%m-%d"|date:"d M Y" %}
+                        {% blocktranslate trimmed with updated_on=item.contentDetails.videoPublishedAt|date:'d M Y' %}
                             Published on : {{ updated_on }}
                         {% endblocktranslate %}
                     </span>
