@@ -66,6 +66,9 @@ class HomePage(MetadataPageMixin, Page):
     ]
     max_count = 1
 
+    # don't cache home page
+    cache_control = 'no-cache'
+
     hero_title = models.CharField(max_length=100, verbose_name=_('Title'))
     hero_subtitle = models.CharField(blank=True, null=True, max_length=100, verbose_name=_('Subtitle'))
     hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=False,
