@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags bulma_tags nmhs_cms_tags i18n %}
+{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags bulma_tags nmhs_cms_tags i18n %}
 
 {% block body_class %}feedback_page{% endblock %}
 
@@ -18,8 +18,13 @@
                     </p>
 
                     <figure class="image">
-                        {% if page.illustration %}
+                        {% if page.illustration.url %}
                             {% svg page.illustration.file.name %}
+                        {% else %}
+                            {% image page.illustration original as img %}
+                            <img class="progressive__img progressive--not-loaded"
+                                 data-progressive="{{ img.url }}"
+                                 src="{% lazy_image_url img %}" alt=""/>
                         {% endif %}
                     </figure>
                 </div>
