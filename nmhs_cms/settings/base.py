@@ -325,7 +325,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = env.str("FORCE_SCRIPT_NAME", "") + "/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = env.str("FORCE_SCRIPT_NAME", "") + "/cms-media/"
+MEDIA_URL = env.str("FORCE_SCRIPT_NAME", "") + "/media/"
 
 # Wagtail settings
 # SITE_NAME="nmhs_cms"
