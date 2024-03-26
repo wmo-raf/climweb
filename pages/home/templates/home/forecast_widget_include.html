@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n wagtailiconchooser_tags %}
 
 <div class="weather-widget">
     <div class="card elevation-0">
@@ -35,6 +35,18 @@
                     <div class="forecast-date">
                         {{ earliest.forecast_date|date:"l, j M Y" }}
                     </div>
+                    {% if city_detail_page_url %}
+                        <a class="button is-small is-outlined"
+                           style="background-color: transparent;color: #fff;border-radius: 0 !important;margin-top: 10px"
+                           href="{{ city_detail_page_url }}{{ earliest.city.slug }}">
+                            <span>
+                                Detail
+                            </span>
+                            <span class="icon is-small">
+                                <i class="fas fa-arrow-trend-up"></i>
+                            </span>
+                        </a>
+                    {% endif %}
                 </div>
                 <div class="columns is-multiline is-mobile">
                     <div class="column weather-temperature is-one-third-desktop is-half-mobile">
@@ -60,6 +72,20 @@
                     <div class="column weather-condition is-one-third-desktop is-half-mobile">
                         <img src="{{ earliest.condition.icon_url }}" alt="{{ earliest.condition.label }}">
                         <div class="condition-label">{{ earliest.condition.label }}</div>
+                    </div>
+                    <div class="column other-parameters is-one-third-desktop is-half-mobile">
+                        {% for key, data_value in earliest.data_values_dict.items %}
+                            {% if key != "temperature" %}
+                                <div class="parameter-item" title="{{ data_value.label }}">
+                                    <div class="parameter-icon">
+                                        {% svg_icon data_value.icon %}
+                                    </div>
+                                    <div>
+                                        {{ data_value.value_with_units }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -98,6 +124,28 @@
                 {% endfor %}
             </footer>
         {% endif %}
+        <div class="more-links">
+            {% if all_city_detail_page_url %}
+                <a class="button is-small" href="{{ all_city_detail_page_url }}">
+                    <span class="icon">
+                        <i class="fas fa-list"></i>
+                    </span>
+                    <span>
+                        {% trans "All Locations" %}
+                    </span>
+                </a>
+            {% endif %}
+            {% if weather_reports_page_url %}
+                <a class="button is-small" href="{{ weather_reports_page_url }}">
+                    <span class="icon">
+                        <i class="fas fa-cloud-sun-rain"></i>
+                    </span>
+                    <span>
+                        {% trans "Daily Weather Reports" %}
+                    </span>
+                </a>
+            {% endif %}
+        </div>
     </div>
 </div>
 

@@ -74,6 +74,7 @@
     padding-bottom: 4px;
 }
 
+
 .weather-widget .widget-header .city-name .icon {
     padding-right: 10px;
     font-size: 20px;
@@ -130,6 +131,29 @@
 }
 
 
+.weather-widget .other-parameters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.weather-widget .other-parameters .parameter-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.weather-widget .other-parameters .parameter-item .parameter-icon {
+    margin-right: 10px;
+}
+
+.weather-widget .other-parameters .parameter-item .parameter-icon svg {
+    height: 24px;
+    width: 24px;
+    fill: #fff;
+}
+
+
 .weather-widget .card-footer {
     padding: 20px 20px 40px;
     border: none;
@@ -153,9 +177,25 @@
     width: 50px
 }
 
+.weather-widget .more-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.weather-widget .more-links .button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin: 10px;
+}
+
 
 @media screen and (max-width: 768px) {
-
     .weather-widget {
         padding: 0;
     }
