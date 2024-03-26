@@ -161,10 +161,12 @@ class HomePage(MetadataPageMixin, Page):
 
         if city_detail_page:
             city_detail_page = city_detail_page.specific
-            city_detail_page_url = city_detail_page.get_full_url(request)
-            city_detail_page_url = city_detail_page_url + city_detail_page.detail_page_base_url
+            all_city_detail_page_url = city_detail_page.get_full_url(request)
+            city_detail_page_url = all_city_detail_page_url + city_detail_page.detail_page_base_url
             context.update({
+                "all_city_detail_page_url": all_city_detail_page_url,
                 "city_detail_page_url": city_detail_page_url,
+
             })
 
         city_search_url = get_full_url(request, reverse("cities-list"))
@@ -172,6 +174,11 @@ class HomePage(MetadataPageMixin, Page):
             "city_search_url": city_search_url,
             "city_detail_page_url": city_detail_page_url
         })
+
+        if forecast_setting.weather_reports_page:
+            context.update({
+                "weather_reports_page_url": forecast_setting.weather_reports_page.get_full_url(request)
+            })
 
         default_city = forecast_setting.default_city
         if not default_city:
