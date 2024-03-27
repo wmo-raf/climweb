@@ -18,6 +18,10 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    {% if settings.base.IntegrationSettings.google_site_verification_key %}
+        <meta name="google-site-verification"
+              content="{{ settings.base.IntegrationSettings.google_site_verification_key }}"/>
+    {% endif %}
     {% block page_meta %}
         {% if page.get_meta_title %}
             {% meta_tags %}
