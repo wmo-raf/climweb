@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags lazyimages_tags wagtailimages_tags nmhs_cms_tags wagtailiconchooser_tags i18n %}
+{% load static wagtailcore_tags lazyimages_tags wagtailimages_tags nmhs_cms_tags wagtailiconchooser_tags i18n get_share_url %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'products/css/product_detail.css' %}">
@@ -104,7 +104,7 @@
                                                                 {% translate "Download" %}
                                                             </span>
                                                         </a>
-                                                        {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
+                                                        {% share_buttons url=page.get_full_url text=product_item.value.product_item_type.name %}
                                                     </div>
                                                 {% elif product_item.block_type == "document_product" %}
                                                     <div class="product-item-doc-container box {{ box_shadow }}">
@@ -149,7 +149,7 @@
                                                                 {% translate "Download document" %}
                                                             </span>
                                                         </a>
-                                                        {% include 'social_media_share_buttons_include.html' with url=page.url text=product_item.value.product_item_type.name %}
+                                                        {% share_buttons url=page.get_full_url text=product_item.value.product_item_type.name %}
                                                     </div>
                                                 {% elif product_item.block_type == "content_block" %}
                                                     <div class="product-item-text-container">

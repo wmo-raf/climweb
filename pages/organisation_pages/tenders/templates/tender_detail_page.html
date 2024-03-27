@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags i18n %}
+{% load static wagtailcore_tags i18n get_share_url %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/tender_detail.css' %}">
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="tender-detail-actions share-buttons">
-                                {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}
+                                {% share_buttons url=page.get_full_url text=page.title %}
                             </div>
                         </div>
 

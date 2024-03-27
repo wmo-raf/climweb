@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n get_share_url %}
 
 <div class="columns is-multiline is-mobile document-item-detail-wrapper">
     <div class="column is-3-desktop is-offset-1-desktop is-10-mobile document-detail-left box">
@@ -149,7 +149,7 @@
                     </span>
                 </a>
             {% endif %}
-            {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}
+            {% share_buttons url=page.get_full_url text=page.title %}
         </div>
     </div>
 </div>

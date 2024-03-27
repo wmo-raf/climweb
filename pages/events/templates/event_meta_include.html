@@ -1,4 +1,4 @@
-{% load i18n wagtailiconchooser_tags %}
+{% load i18n wagtailiconchooser_tags get_share_url %}
 
 
 <div class="event-detail-meta" style="margin-top: 20px">
@@ -160,7 +160,7 @@
     {% endif %}
 
     <div class="share-buttons" style="margin-top: 20px">
-        {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}
+        {% share_buttons url=page.get_full_url text=page.title %}
     </div>
 
 

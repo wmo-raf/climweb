@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n get_share_url %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
@@ -48,7 +48,7 @@
                                 </span>
                                 <span class="share-button-title">CAP XML </span>
                             </a>
-                            {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}
+                            {% share_buttons url=page.get_full_url text=page.title %}
                         </div>
                     </div>
                     <div class="cap-body">

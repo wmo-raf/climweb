@@ -1,39 +1,58 @@
+import urllib.parse
+
 from django import template
 from django.conf import settings
 
 register = template.Library()
 
-SOCIAL_MEDIA_SHARE_CONFIG = getattr(settings, 'SOCIAL_MEDIA_SHARE_CONFIG', {})
+ONLINE_SHARE_CONFIG = getattr(settings, 'ONLINE_SHARE_CONFIG', {})
 
 
-@register.simple_tag
-def get_social_media_share(platform, url, text=None):
-    share_url = None
+@register.inclusion_tag("social_media_share_buttons_include.html")
+def share_buttons(url, text=None):
+    share_urls = []
+    for config in ONLINE_SHARE_CONFIG:
+        enabled = config.get('enabled', False)
+        name = config.get('name', None)
+        base_url = config.get('base_url', None)
+        link_param = config.get('link_param', None)
+        text_in_url = config.get('text_in_url', False)
+        text_param = config.get('text_param', None)
+        encode = config.get('encode', False)
+        fa_icon = config.get('fa_icon', False)
 
-    try:
-        config = SOCIAL_MEDIA_SHARE_CONFIG[platform]
+        link_query = None
+        text_query = None
 
-        base_config = config.get('base_url', None)
-        url_config = config.get('link_param', None)
-        text_config = config.get('text_param', None)
+        item_url = url
+        item_text = text
 
-        if base_config and url_config:
-            text_param = None
-            url_param = None
+        if not enabled or not name or not base_url or not link_param:
+            continue
 
-            if url_config and url:
-                url_param = '{}={}'.format(url_config, url)
+        if encode:
+            item_url = urllib.parse.quote(item_url)
+            if item_text:
+                item_text = urllib.parse.quote(item_text)
 
-            if text_config and text:
-                text_param = '{}={}'.format(text_config, text)
+        if item_text:
+            if text_in_url:
+                item_url = f"{item_text}%20{item_url}"
+            elif text_param:
+                text_query = f"{text_param}={item_text}"
 
-            if url_param:
-                share_url = '{}?{}'.format(base_config, url_param)
-                if text_param:
-                    share_url = '{}&{}'.format(share_url, text_param)
+        if link_param and item_url:
+            link_query = f"{link_param}={item_url}"
 
-            return share_url
-    except KeyError:
-        return None
+        share_url = f"{base_url}?{link_query}"
 
-    return share_url
+        if text_query:
+            share_url = f"{share_url}&{text_query}"
+
+        share_urls.append({
+            'name': name,
+            'url': share_url,
+            'fa_icon': fa_icon
+        })
+
+    return {"share_urls": share_urls}
