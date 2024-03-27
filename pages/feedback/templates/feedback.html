@@ -16,17 +16,18 @@
                     <p>
                         {{ page.introduction_subtitle }}
                     </p>
-
-                    <figure class="image">
-                        {% if page.illustration.url %}
-                            {% svg page.illustration.file.name %}
-                        {% else %}
-                            {% image page.illustration original as img %}
-                            <img class="progressive__img progressive--not-loaded"
-                                 data-progressive="{{ img.url }}"
-                                 src="{% lazy_image_url img %}" alt=""/>
-                        {% endif %}
-                    </figure>
+                    {% if page.illustration %}
+                        <figure class="image">
+                            {% if page.illustration.url %}
+                                {% svg page.illustration.file.name %}
+                            {% else %}
+                                {% image page.illustration original as img %}
+                                <img class="progressive__img progressive--not-loaded"
+                                     data-progressive="{{ img.url }}"
+                                     src="{% lazy_image_url img %}" alt=""/>
+                            {% endif %}
+                        </figure>
+                    {% endif %}
                 </div>
                 <div class="column is-half-desktop is-offset-1-desktop is-full-mobile feedback-form box">
                     {% if form.fields %}
