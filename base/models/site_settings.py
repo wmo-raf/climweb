@@ -166,6 +166,9 @@ class IntegrationSettings(BaseSiteSetting):
             'Track   all pages internally. This will enable the internal analytics dashboard, '
             'alongside Google Analytics, if also enabled'), )
 
+    google_site_verification_key = models.CharField(max_length=255, blank=True, null=True,
+                                                    verbose_name=_("Google Site Verification Key"), )
+
     edit_handler = TabbedInterface([
         ObjectList([
             FieldPanel('youtube_api')
@@ -175,6 +178,9 @@ class IntegrationSettings(BaseSiteSetting):
             FieldPanel('ga_track_button_clicks'),
             FieldPanel('track_internally'),
         ], heading=_("Google Analytics")),
+        ObjectList([
+            FieldPanel('google_site_verification_key'),
+        ], heading=_("Google Search")),
     ])
 
     class Meta:

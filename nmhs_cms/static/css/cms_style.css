@@ -1048,10 +1048,11 @@ img#work-map {
 
 .share-buttons {
     display: flex;
-    overflow: hidden;
+    flex-wrap: wrap;
 }
 
 .share-buttons > a {
+    margin-bottom: 10px;
     margin-right: 20px;
     display: flex;
     justify-content: center;

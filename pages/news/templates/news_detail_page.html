@@ -40,10 +40,11 @@
                                         <span class="item-tag-content">{{ page.webhits.count }}</span>
                                     </span>
                                 </div>
-                                <div class="share-buttons">
-                                    {% include 'social_media_share_buttons_include.html' with url=page.url text=page.title %}
-                                </div>
                             </div>
+                        </div>
+
+                        <div class="share-buttons">
+                            {% share_buttons url=page.get_full_url text=page.title %}
                         </div>
 
                         <div class="news-body format-text">
@@ -77,6 +78,7 @@
                                 </div>
                             </div>
                         {% endif %}
+
                     </div>
                 </div>
             </div>

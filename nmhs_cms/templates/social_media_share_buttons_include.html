@@ -1,26 +1,17 @@
-{% load get_share_url %}
+{% for share_url in share_urls %}
 
-<a class="button is-small is-rounded"
-   href="{% get_social_media_share 'facebook' page.get_site.root_url|add:url text %}"
-   target="_blank" rel="noopener"
-   data-ga-event-category="Social Media Share"
-   data-ga-event-label="Facebook"
-   data-ga-value="{{ text }}"
->
-    <span class="icon">
-        <i class="fab fa-facebook-f" aria-hidden="true"></i>
-    </span>
-    <span class="share-button-title">Facebook</span>
-</a>
-<a class="button is-small is-rounded"
-   href="{% get_social_media_share 'twitter' page.get_site.root_url|add:url text %}"
-   target="_blank" rel="noopener"
-   data-ga-event-category="Social Media Share"
-   data-ga-event-label="Twitter"
-   data-ga-value="{{ text }}"
->
-    <span class="icon">
-        <i class="fab fa-twitter" aria-hidden="true"></i>
-    </span>
-    <span class="share-button-title">Twitter</span>
-</a>
+    <a class="button is-small is-rounded"
+       href="{{ share_url.url }}"
+       target="_blank" rel="noopener"
+       data-ga-event-category="Social Media Share"
+       data-ga-event-label="{{ share_url.name }}"
+       data-ga-value="{{ share_url.url }}"
+    >
+        <span class="icon">
+            <i class="fab fa-{{ share_url.fa_icon }}" aria-hidden="true"></i>
+        </span>
+        <span class="share-button-title">{{ share_url.name }}</span>
+    </a>
+
+
+{% endfor %}

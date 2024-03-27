@@ -395,10 +395,49 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 
-SOCIAL_MEDIA_SHARE_CONFIG = {
-    'facebook': {"base_url": "https://www.facebook.com/sharer/sharer.php", "link_param": "u"},
-    'twitter': {"base_url": "http://twitter.com/share", "text_param": "text", "link_param": "url"}
-}
+ONLINE_SHARE_CONFIG = [
+    {
+        "name": "Facebook",
+        "base_url": "https://www.facebook.com/sharer/sharer.php",
+        "link_param": "u",
+        "text_param": "quote",
+        "fa_icon": "facebook-f",
+        "enabled": True
+    },
+    {
+        "name": "X",
+        "base_url": "https://twitter.com/intent/post",
+        "link_param": "url",
+        "text_param": "text",
+        "fa_icon": "x-twitter",
+        "enabled": True,
+    },
+    {
+        "name": "LinkedIn",
+        "base_url": "https://www.linkedin.com/sharing/share-offsite",
+        "link_param": "url",
+        "fa_icon": "linkedin-in",
+        "enabled": True,
+    },
+    {
+        "name": "WhatsApp",
+        "base_url": "https://api.whatsapp.com/send",
+        "link_param": "text",
+        "encode": True,
+        "text_in_url": True,
+        "fa_icon": "whatsapp",
+        "enabled": True,
+    },
+    {
+        "name": "Telegram",
+        "base_url": "https://t.me/share/url",
+        "link_param": "url",
+        "text_param": "text",
+        "fa_icon": "telegram",
+        "enabled": True,
+    },
+
+]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
