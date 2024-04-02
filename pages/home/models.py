@@ -1,25 +1,18 @@
-import json
-
-from adminboundarymanager.models import AdminBoundarySettings
-from capeditor.constants import SEVERITY_MAPPING
 from django.contrib.gis.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from forecastmanager.forecast_settings import ForecastSetting
-from forecastmanager.models import City, CityForecast
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.fields import StreamField
-from wagtail.models import Page, Site
+from wagtail.models import Page
 from wagtail_color_panel.fields import ColorField
 
 from base import blocks
 from base.mixins import MetadataPageMixin
-from pages.cap.models import CapAlertPage
 from pages.events.models import EventPage
 from pages.home.blocks import AreaBoundaryBlock, AreaPolygonBlock
 from pages.news.models import NewsPage
@@ -137,67 +130,29 @@ class HomePage(MetadataPageMixin, Page):
         return self.hero_banner
 
     def get_context(self, request, *args, **kwargs):
-        context = super(HomePage, self).get_context(
-            request, *args, **kwargs)
+        context = super(HomePage, self).get_context(request, *args, **kwargs)
 
-        abm_settings = AdminBoundarySettings.for_request(request)
-        abm_extents = abm_settings.combined_countries_bounds
-        boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
-        map_settings_url = get_full_url(request, reverse("home-map-settings"))
-
-        context.update({
-            "bounds": abm_extents,
-            "boundary_tiles_url": boundary_tiles_url,
-            "weather_icons_url": get_full_url(request, reverse("weather-icons")),
-            "forecast_settings_url": get_full_url(request, reverse("forecast-settings")),
-            "home_map_settings_url": map_settings_url
-        })
-
-        site = Site.objects.get(is_default_site=True)
-        forecast_setting = ForecastSetting.for_site(site)
-
+        forecast_setting = ForecastSetting.for_request(request)
         city_detail_page = forecast_setting.weather_detail_page
-        city_detail_page_url = None
 
         if city_detail_page:
             city_detail_page = city_detail_page.specific
             all_city_detail_page_url = city_detail_page.get_full_url(request)
             city_detail_page_url = all_city_detail_page_url + city_detail_page.detail_page_base_url
             context.update({
-                "all_city_detail_page_url": all_city_detail_page_url,
                 "city_detail_page_url": city_detail_page_url,
-
             })
 
         city_search_url = get_full_url(request, reverse("cities-list"))
         context.update({
             "city_search_url": city_search_url,
-            "city_detail_page_url": city_detail_page_url
         })
 
-        if forecast_setting.weather_reports_page:
-            context.update({
-                "weather_reports_page_url": forecast_setting.weather_reports_page.get_full_url(request)
-            })
-
-        default_city = forecast_setting.default_city
-        if not default_city:
-            default_city = City.objects.first()
-
-        if default_city:
-            default_city_forecasts = CityForecast.objects.filter(
-                city=default_city,
-                parent__forecast_date__gte=timezone.localtime(),
-                parent__effective_period__default=True
-            ).order_by("parent__forecast_date")
-
-            # get unique forecast dates
-            forecast_dates = default_city_forecasts.values_list("parent__forecast_date", flat=True).distinct()
-
-            context.update({
-                "default_city_forecasts": default_city_forecasts,
-                "forecast_dates": forecast_dates,
-            })
+        map_settings_url = get_full_url(request, reverse("home-map-settings"))
+        context.update({
+            "home_map_settings_url": map_settings_url,
+            "home_weather_widget_url": get_full_url(request, reverse("home-weather-widget")),
+        })
 
         if self.youtube_playlist:
             context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
@@ -238,43 +193,6 @@ class HomePage(MetadataPageMixin, Page):
             updates.append(publications)
 
         return updates
-
-    @cached_property
-    def cap_alerts(self):
-        alerts = CapAlertPage.objects.all().live().filter(status="Actual")
-        active_alert_infos = []
-        geojson = {"type": "FeatureCollection", "features": []}
-
-        for alert in alerts:
-            for info in alert.info:
-                if info.value.get('expires') > timezone.localtime():
-                    start_time = info.value.get("effective") or alert.sent
-
-                    if timezone.now() > start_time:
-                        status = "Ongoing"
-                    else:
-                        status = "Expected"
-
-                    area_desc = [area.get("areaDesc") for area in info.value.area]
-                    area_desc = ",".join(area_desc)
-
-                    alert_info = {
-                        "status": status,
-                        "url": alert.url,
-                        "event": f"{info.value.get('event')} ({area_desc})",
-                        "event_icon": info.value.event_icon,
-                        "severity": SEVERITY_MAPPING[info.value.get("severity")]
-                    }
-
-                    active_alert_infos.append(alert_info)
-
-                    if info.value.features:
-                        for feature in info.value.features:
-                            geojson["features"].append(feature)
-        return {
-            'active_alert_info': active_alert_infos,
-            'geojson': json.dumps(geojson)
-        }
 
     @cached_property
     def services(self):

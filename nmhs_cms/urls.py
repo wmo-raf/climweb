@@ -21,11 +21,9 @@ ADMIN_URL_PATH = getattr(settings, "ADMIN_URL_PATH", None)
 urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
 
-    path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
-    path("api/cityclimate/", include("pages.cityclimate.urls")),
-    path("api/videos/<int:pk>", VideoView.as_view(), name="youtube_playlist_items"),
     path("", include("pages.home.urls")),
     path("", include("pages.cap.urls")),
+    path("", include("pages.weather.urls")),
 
     path("", include("geomanager.urls"), name="geomanager"),
     path("", include("pages.stations.urls"), name="stations"),
@@ -39,6 +37,10 @@ urlpatterns = [
     path('auth/', include('allauth.urls')),
 
     path('api/v2/', api_router.urls, name="wagtailapi"),
+
+    path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
+    path("api/cityclimate/", include("pages.cityclimate.urls")),
+    path("api/videos/<int:pk>", VideoView.as_view(), name="youtube_playlist_items"),
 ]
 
 if ADMIN_URL_PATH:

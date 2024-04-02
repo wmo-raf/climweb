@@ -98,26 +98,8 @@
         <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
     {% endif %}
     <script>
-        {% if settings.base.OrganisationSetting.country_info %}
-            const country_info = {{settings.base.OrganisationSetting.country_info|safe}}
-        {% else %}
-            const country_info = null
-        {% endif %}
-
-        let countryBounds = {{ bounds|default_if_none:"[]"|safe }};
-        const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
-
-        if (countryBounds.length === 0) {
-            countryBounds = null;
-        }
-
-        const forecast_api = "{% url 'forecast-list'%}"
-        const static_path = '{% static "forecastmanager/img/" %}'
-        const alertsGeojson = {{self.cap_alerts.geojson|safe}};
-
-        const weatherIconsUrl = "{{ weather_icons_url|default_if_none:"" }}"
-        const forecastSettingsUrl = "{{ forecast_settings_url|default_if_none:"" }}"
         const homeMapSettingsUrl = "{{ home_map_settings_url|default_if_none:"" }}"
+        const homeWeatherWidgetUrl = "{{ home_weather_widget_url|default_if_none:"" }}"
 
         const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
 
@@ -154,28 +136,43 @@
         }
 
         $(document).ready(function () {
-            const cityForecastCarousel = $("#forecast-widget-carousel")
-            if (cityForecastCarousel) {
-                bulmaCarousel.attach("#forecast-widget-carousel", {
-                    slidesToScroll: 2,
-                    slidesToShow: 3,
-                    navigation: true,
-                    loop: true,
-                    breakpoints: [
-                        {changePoint: 480, slidesToShow: 1, slidesToScroll: 1},
-                        {changePoint: 640, slidesToShow: 2, slidesToScroll: 1},
-                        {changePoint: 768, slidesToShow: 3, slidesToScroll: 1},
-                        {changePoint: 1200, slidesToShow: 2, slidesToScroll: 1}
-                    ]
-                });
+            const weatherWidgetWrapper = $("#weather-widget-wrapper")
 
-                cityForecastCarousel.css('visibility', 'visible');
+            if (weatherWidgetWrapper && homeWeatherWidgetUrl) {
+                fetch(homeWeatherWidgetUrl)
+                    .then(response => response.text())
+                    .then(data => {
+                        weatherWidgetWrapper.html(data)
+
+                        const citySearch = $('#city-search')
+                        if (citySearch) {
+                            bulmaHead('city-search', 'city-search-menu', getMatchingCity, onSelectCity, 200, 0);
+                        }
+
+                        const cityForecastCarousel = $("#forecast-widget-carousel")
+                        if (cityForecastCarousel) {
+                            bulmaCarousel.attach("#forecast-widget-carousel", {
+                                slidesToScroll: 2,
+                                slidesToShow: 3,
+                                navigation: true,
+                                loop: true,
+                                breakpoints: [
+                                    {changePoint: 480, slidesToShow: 1, slidesToScroll: 1},
+                                    {changePoint: 640, slidesToShow: 2, slidesToScroll: 1},
+                                    {changePoint: 768, slidesToShow: 3, slidesToScroll: 1},
+                                    {changePoint: 1200, slidesToShow: 2, slidesToScroll: 1}
+                                ]
+                            });
+
+                            cityForecastCarousel.css('visibility', 'visible');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
             }
 
-            const citySearch = $('#city-search')
-            if (citySearch) {
-                bulmaHead('city-search', 'city-search-menu', getMatchingCity, onSelectCity, 200, 0);
-            }
 
             if (page_youtube_playlist) {
                 const url = "{{ youtube_playlist_url }}";
