@@ -1,4 +1,4 @@
-{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags cap_tags %}
+{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
 {% wagtail_site as current_site %}
 <header class="header-nav">
@@ -20,7 +20,6 @@
                     {% else %}
                         N.M.H.S
                     {% endif %}
-
                 </a>
 
             </div>
@@ -109,7 +108,7 @@
                         {{ user.username }}, CMS
                     </a>
                 {% endif %}
-                {% get_latest_active_cap_alert %}
+                <div class="latest-active-alert"></div>
             </div>
         </div>
     </div>
@@ -145,29 +144,44 @@
             </div>
         </div>
     </nav>
-    <div class="is-hidden-desktop">
-        {% get_latest_active_cap_alert %}
+    <div class="is-hidden-desktop latest-active-alert">
     </div>
 
 </header>
 {% block extra_js %}
     <script>
+        const latestActiveAlertUrl = {% url 'latest_active_alert' %};
+
         document.addEventListener('DOMContentLoaded', () => {
-            const $navbarBurger = document.getElementById('navBurger')
+            const navbarBurgerEl = document.getElementById('navBurger')
 
             // Add a click event
-            $navbarBurger.addEventListener('click', (e) => {
+            navbarBurgerEl.addEventListener('click', (e) => {
 
                 e.stopImmediatePropagation()
 
                 // Get the target from the "data-target" attribute
-                const target = $navbarBurger.dataset.target;
-                const $target = document.getElementById(target);
+                const target = navbarBurgerEl.dataset.target;
+                const targetEl = document.getElementById(target);
 
                 // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                $navbarBurger.classList.toggle('is-active');
-                $target.classList.toggle('is-active');
+                navbarBurgerEl.classList.toggle('is-active');
+                targetEl.classList.toggle('is-active');
             });
+
+            if (latestActiveAlertUrl) {
+                fetch(latestActiveAlertUrl)
+                    .then(response => response.text())
+                    .then(data => {
+                        const latestActiveAlert = document.querySelectorAll('.latest-active-alert')
+                        if (data) {
+                            latestActiveAlert.forEach((alertContainer) => {
+                                alertContainer.innerHTML = data;
+                            });
+                        }
+                    })
+            }
+
         });
 
 

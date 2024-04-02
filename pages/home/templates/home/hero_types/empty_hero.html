@@ -19,11 +19,9 @@
                         </p>
                     {% endif %}
                 </div>
-                {% if default_city_forecasts %}
-                    <div class="column is-half-desktop is-full-tablet is-full-mobile weather-widget-column">
-                        {% include "home/forecast_widget_include.html" %}
-                    </div>
-                {% endif %}
+                <div class="column is-half-desktop is-full-tablet is-full-mobile weather-widget-column"
+                     id="weather-widget-wrapper">
+                </div>
             </div>
         </div>
     </div>

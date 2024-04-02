@@ -1,11 +1,14 @@
+import json
 from typing import Any, Dict, List
 
+from capeditor.constants import SEVERITY_MAPPING
 from capeditor.models import CapSetting
 from capeditor.renderers import CapXMLRenderer
 from capeditor.serializers import AlertSerializer
 from django.contrib.syndication.views import Feed
 from django.db.models.base import Model
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.feedgenerator import Enclosure
@@ -142,3 +145,64 @@ def cap_geojson(request):
             geojson["features"].extend(features)
 
     return JsonResponse(geojson)
+
+
+def get_home_map_alerts(request):
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+    active_alert_infos = []
+    geojson = {"type": "FeatureCollection", "features": []}
+
+    for alert in alerts:
+        for info in alert.info:
+            if info.value.get('expires') > timezone.localtime():
+                start_time = info.value.get("effective") or alert.sent
+
+                if timezone.now() > start_time:
+                    status = "Ongoing"
+                else:
+                    status = "Expected"
+
+                area_desc = [area.get("areaDesc") for area in info.value.area]
+                area_desc = ",".join(area_desc)
+
+                alert_info = {
+                    "status": status,
+                    "url": alert.url,
+                    "event": f"{info.value.get('event')} ({area_desc})",
+                    "event_icon": info.value.event_icon,
+                    "severity": SEVERITY_MAPPING[info.value.get("severity")]
+                }
+
+                active_alert_infos.append(alert_info)
+
+                if info.value.features:
+                    for feature in info.value.features:
+                        geojson["features"].append(feature)
+    context = {
+        'active_alert_info': active_alert_infos,
+        'geojson': json.dumps(geojson)
+    }
+
+    return render(request, "home/section/home_map_alerts_include.html", context)
+
+
+def get_latest_active_alert(request):
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+    active_alert_infos = []
+
+    for alert in alerts:
+        for alert_info in alert.infos:
+            info = alert_info.get("info")
+            if info.value.get('expires') > timezone.localtime():
+                active_alert_infos.append(alert_info)
+
+    if len(active_alert_infos) == 0:
+        return {
+            'latest_active_alert': None
+        }
+
+    context = {
+        'latest_active_alert': active_alert_infos[0]
+    }
+
+    return render(request, "cap/active_alert.html", context)

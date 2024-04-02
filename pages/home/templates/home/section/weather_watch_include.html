@@ -7,7 +7,7 @@
                 style=" font-weight:700">{{ page.weather_watch_header }}</h2>
             <div class="columns is-justify-content-center is-mobile is-multiline weather-watch-container">
                 <div class="column is-one-third-widescreen is-full-touch ">
-                    <div class="alerts-container">
+                    <div class="alerts-container" id="alerts-container">
                         <div class="alerts-title">
                             <img src="{% static 'img/CAPLogo.jpeg' %}" alt="" width="20"
                                  style="border-radius:4px;">
@@ -15,76 +15,24 @@
                                 {% translate "Latest Weather Warnings" %}
                             </h4>
                         </div>
-                        <div class="alerts-item-wrapper">
-                            {% if page.cap_alerts.active_alert_info|length > 0 %}
-                                {% for alert_info in page.cap_alerts.active_alert_info %}
-                                    <a href="{{ alert_info.url }}" class="alert-link">
-                                        <div class="alert-item"
-                                             style="background-color: {{ alert_info.severity.background_color }};border: 1px solid {{ alert_info.severity.border_color }}">
-                                            <div class="alert-item-left">
-                                                <div class="alert-item-icon">
-                                                    <div class="alert-icon-wrapper"
-                                                         style="background-color: {{ alert_info.severity.color }};border-color: {{ alert_info.severity.border_color }};
-                                                                 {% if alert_info.severity.icon_color %}color:{{ alert_info.severity.icon_color }};{% endif %} ">
-                                                        {% if alert_info.event_icon %}
-                                                            {% svg_icon name=alert_info.event_icon %}
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                                <div class="alert-item-info">
-                                                    <div class="alert-item-title">
-                                                        {{ alert_info.status }}: {{ alert_info.event|truncatechars:30 }}
-                                                    </div>
-                                                    <div class="alert-severity-label">
-                                                        {{ alert_info.severity.label }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <span class="icon">
-                                                    <i class="fa fa-arrow-right"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                {% endfor %}
-                            {% else %}
-                                <div class="empty-alerts-state">
-                                    <div class="empty-alerts-icon">
-                                        {% svg_icon name="alert" %}
-                                    </div>
-                                    <div>
-                                        {% translate "No active alerts currently" %}
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </div>
                     </div>
                 </div>
                 <div class="column is-two-thirds-widescreen is-full-touch">
                     <div id="home-map" style="position: relative;">
-                        {% if forecast_dates %}
-                            <div class="columns p-2" style="position: absolute;top: 10px;left: 10px;z-index: 99">
-                                <div class="column">
-                                    <div class="control has-icons-left mr-2">
-                                        <div class="select">
-                                            <select id="daily_forecast" style="color:#292929">
-                                                {% for day in forecast_dates %}
-                                                    <option value="{{ day|date:'Y-m-d' }}"
-                                                            {% if forloop.first %}selected{% endif %}>{{ day }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <span class="icon is-left">
-                                            <i class="fas fa-calendar-days"></i>
-                                        </span>
+                        <div class="columns p-2" style="position: absolute;top: 10px;left: 10px;z-index: 99">
+                            <div class="column">
+                                <div class="control has-icons-left mr-2">
+                                    <div class="select">
+                                        <select id="forecast-dates" style="color:#292929;display: none">
+                                        </select>
                                     </div>
+                                    <span class="icon is-left">
+                                        <i class="fas fa-calendar-days"></i>
+                                    </span>
                                 </div>
                             </div>
-                        {% endif %}
-
-
-                        <div class="map-legend" style="position: absolute;bottom: 0">
+                        </div>
+                        <div id="alerts-legend" class="map-legend" style="position: absolute;bottom: 0;display: none">
                             <div> {% translate "Alert Severity:" %} </div>
                             <div class="legend-items">
                                 <div class="legend-item">
