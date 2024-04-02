@@ -101,71 +101,81 @@ $((async function () {
         }
 
 
-        fetch(homeMapAlertsUrl).then(response => response.text()).then(alertsHTML => {
-            const $alerts = $(alertsHTML)
+        fetch(homeMapAlertsUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error fetching alerts');
+                }
+                return response.text();
+            })
+            .then(alertsHTML => {
+                const $alerts = $(alertsHTML)
 
-            if ($alerts.length) {
-                $alerts.appendTo("#alerts-container")
-                $("#alerts-legend").show()
-
-
-                // add cap alerts layer
-                map.addSource("alert-areas", {
-                    type: "geojson",
-                    data: capGeojsonUrl,
-                });
-
-                map.addLayer({
-                    id: "alert-areas-layer",
-                    type: "fill",
-                    source: "alert-areas",
-                    paint: {
-                        "fill-color": [
-                            "case",
-                            ["==", ["get", "severity"], "Extreme"],
-                            "#d72f2a",
-                            ["==", ["get", "severity"], "Severe"],
-                            "#f89904",
-                            ["==", ["get", "severity"], "Moderate"],
-                            "#e4e616",
-                            ["==", ["get", "severity"], "Minor"],
-                            "#53ffff",
-                            ["==", ["get", "severity"], "Unknown"],
-                            "#3366ff",
-                            "black",
-                        ],
-                        "fill-opacity": 0.7,
-                        "fill-outline-color": "#000",
-                    },
-                });
-
-                // CAP alerts layer on click
-                map.on("click", "alert-areas-layer", (e) => {
-                    // Copy coordinates array.
-
-                    const description = e.features[0].properties.areaDesc;
-                    const severity = e.features[0].properties.severity;
-                    const event = e.features[0].properties.event;
-
-                    new maplibregl.Popup()
-                        .setLngLat(e.lngLat)
-                        .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p> </a></div>`)
-                        .addTo(map);
+                if ($alerts.length) {
+                    $alerts.appendTo("#alerts-container")
+                    $("#alerts-legend").show()
 
 
-                });
+                    // add cap alerts layer
+                    map.addSource("alert-areas", {
+                        type: "geojson",
+                        data: capGeojsonUrl,
+                    });
 
-                // Change the cursor to a pointer when the mouse is over the alerts layer.
-                map.on("mouseenter", "alert-areas-layer", () => {
-                    map.getCanvas().style.cursor = "pointer";
-                });
+                    map.addLayer({
+                        id: "alert-areas-layer",
+                        type: "fill",
+                        source: "alert-areas",
+                        paint: {
+                            "fill-color": [
+                                "case",
+                                ["==", ["get", "severity"], "Extreme"],
+                                "#d72f2a",
+                                ["==", ["get", "severity"], "Severe"],
+                                "#f89904",
+                                ["==", ["get", "severity"], "Moderate"],
+                                "#e4e616",
+                                ["==", ["get", "severity"], "Minor"],
+                                "#53ffff",
+                                ["==", ["get", "severity"], "Unknown"],
+                                "#3366ff",
+                                "black",
+                            ],
+                            "fill-opacity": 0.7,
+                            "fill-outline-color": "#000",
+                        },
+                    });
 
-                // Change it back to a pointer when it leaves.
-                map.on("mouseleave", "alert-areas-layer", () => {
-                    map.getCanvas().style.cursor = "";
-                });
-            }
-        })
+                    // CAP alerts layer on click
+                    map.on("click", "alert-areas-layer", (e) => {
+                        // Copy coordinates array.
+
+                        const description = e.features[0].properties.areaDesc;
+                        const severity = e.features[0].properties.severity;
+                        const event = e.features[0].properties.event;
+
+                        new maplibregl.Popup()
+                            .setLngLat(e.lngLat)
+                            .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p> </a></div>`)
+                            .addTo(map);
+
+
+                    });
+
+                    // Change the cursor to a pointer when the mouse is over the alerts layer.
+                    map.on("mouseenter", "alert-areas-layer", () => {
+                        map.getCanvas().style.cursor = "pointer";
+                    });
+
+                    // Change it back to a pointer when it leaves.
+                    map.on("mouseleave", "alert-areas-layer", () => {
+                        map.getCanvas().style.cursor = "";
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("HOME_MAP_ALERTS_ERROR:", error)
+            })
 
 
         // Create a popup object
