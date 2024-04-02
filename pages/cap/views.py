@@ -190,6 +190,8 @@ def get_latest_active_alert(request):
     alerts = CapAlertPage.objects.all().live().filter(status="Actual")
     active_alert_infos = []
 
+    context = {}
+
     for alert in alerts:
         for alert_info in alert.infos:
             info = alert_info.get("info")
@@ -197,12 +199,12 @@ def get_latest_active_alert(request):
                 active_alert_infos.append(alert_info)
 
     if len(active_alert_infos) == 0:
-        return {
+        context.update({
             'latest_active_alert': None
-        }
-
-    context = {
-        'latest_active_alert': active_alert_infos[0]
-    }
+        })
+    else:
+        context.update({
+            'latest_active_alert': active_alert_infos[0]
+        })
 
     return render(request, "cap/active_alert.html", context)

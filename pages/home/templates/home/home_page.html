@@ -140,7 +140,12 @@
 
             if (weatherWidgetWrapper && homeWeatherWidgetUrl) {
                 fetch(homeWeatherWidgetUrl)
-                    .then(response => response.text())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error fetching weather widget data');
+                        }
+                        return response.text();
+                    })
                     .then(data => {
                         weatherWidgetWrapper.html(data)
 
@@ -168,9 +173,8 @@
                         }
                     })
                     .catch(error => {
-                        console.error('Error:', error);
+                        console.error('HOME_WEATHER_WIDGET_ERROR:', error);
                     });
-
             }
 
 
