@@ -85,7 +85,7 @@ modeladmin_register(CAPMenuGroup)
 
 @hooks.register('construct_settings_menu')
 def hide_settings_menu_item(request, menu_items):
-    hidden_settings = ["cap-geomanager-settings"]
+    hidden_settings = ["cap-settings", "cap-geomanager-settings"]
     menu_items[:] = [item for item in menu_items if item.name not in hidden_settings]
 
 
