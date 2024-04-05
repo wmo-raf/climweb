@@ -1,154 +1,155 @@
 {% load i18n wagtailiconchooser_tags %}
 
-<div class="weather-widget">
-    <div class="card elevation-0">
-        {% with default_city_forecasts|first as earliest %}
-            {% if city_detail_page_url %}
-                <div class="dropdown city-search">
-                    <div class="dropdown-trigger">
-                        <div class="control has-icons-left">
-                            <input id="city-search" class="input is-small" type="text"
-                                   placeholder="Search City"
-                                   aria-haspopup="true"
-                                   aria-controls="prova-menu"
-                                   autocomplete="off"
-                            >
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="dropdown-menu" id="city-search-menu" role="menu">
-                    </div>
-                </div>
-            {% endif %}
-            <div class="card-content">
-                <div class="widget-header">
-                    <div class="city-name">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-location-dot"></i>
-                        </span>
-                        <div>
-                            {{ earliest.city.name }}
-                        </div>
-                    </div>
-                    <div class="forecast-date">
-                        {{ earliest.forecast_date|date:"l, j M Y" }}
-                    </div>
-                    {% if city_detail_page_url %}
-                        <a class="button is-small is-outlined"
-                           style="background-color: transparent;color: #fff;border-radius: 0 !important;margin-top: 10px"
-                           href="{{ city_detail_page_url }}{{ earliest.city.slug }}">
-                            <span>
-                                Detail
-                            </span>
-                            <span class="icon is-small">
-                                <i class="fas fa-arrow-trend-up"></i>
-                            </span>
-                        </a>
-                    {% endif %}
-                </div>
-                <div class="columns is-multiline is-mobile">
-                    <div class="column weather-temperature is-one-third-desktop is-half-mobile">
-                        {% if earliest.data_values_dict.temperature %}
-                            <div class="focused-temp">
-                                {% if earliest.data_values_dict.temperature.temp %}
-                                    {{ earliest.data_values_dict.temperature.temp.value_with_units }}
-                                {% else %}
-                                    {% if earliest.data_values_dict.temperature.max_temp %}
-                                        <div class="max-temp">
-                                            {{ earliest.data_values_dict.temperature.max_temp.value_with_units }}
-                                        </div>
-                                    {% endif %}
-                                    {% if earliest.data_values_dict.temperature.min_temp %}
-                                        <div class="min-temp">
-                                            {{ earliest.data_values_dict.temperature.min_temp.value_with_units }}
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
+{% if default_city_forecasts %}
+    <div class="weather-widget">
+        <div class="card elevation-0">
+            {% with default_city_forecasts|first as earliest %}
+                {% if city_detail_page_url %}
+                    <div class="dropdown city-search">
+                        <div class="dropdown-trigger">
+                            <div class="control has-icons-left">
+                                <input id="city-search" class="input is-small" type="text"
+                                       placeholder="Search City"
+                                       aria-haspopup="true"
+                                       aria-controls="prova-menu"
+                                       autocomplete="off"
+                                >
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
                             </div>
+                        </div>
+                        <div class="dropdown-menu" id="city-search-menu" role="menu">
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="card-content">
+                    <div class="widget-header">
+                        <div class="city-name">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-location-dot"></i>
+                            </span>
+                            <div>
+                                {{ earliest.city.name }}
+                            </div>
+                        </div>
+                        <div class="forecast-date">
+                            {{ earliest.forecast_date|date:"l, j M Y" }}
+                        </div>
+                        {% if city_detail_page_url %}
+                            <a class="button is-small is-outlined"
+                               style="background-color: transparent;color: #fff;border-radius: 0 !important;margin-top: 10px"
+                               href="{{ city_detail_page_url }}{{ earliest.city.slug }}">
+                                <span>
+                                    Detail
+                                </span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-arrow-trend-up"></i>
+                                </span>
+                            </a>
                         {% endif %}
                     </div>
-                    <div class="column weather-condition is-one-third-desktop is-half-mobile">
-                        <img src="{{ earliest.condition.icon_url }}" alt="{{ earliest.condition.label }}">
-                        <div class="condition-label">{{ earliest.condition.label }}</div>
-                    </div>
-                    <div class="column other-parameters is-one-third-desktop is-half-mobile">
-                        {% for key, data_value in earliest.data_values_dict.items %}
-                            {% if key != "temperature" %}
-                                <div class="parameter-item" title="{{ data_value.label }}">
-                                    <div class="parameter-icon">
-                                        {% svg_icon data_value.icon %}
-                                    </div>
-                                    <div>
-                                        {{ data_value.value_with_units }}
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endwith %}
-        {% if default_city_forecasts|length > 2 %}
-            <footer class="card-footer" id="forecast-widget-carousel" style="visibility: hidden">
-                {% for forecast in default_city_forecasts %}
-                    {% if not forloop.first %}
-                        <div class="card-footer-item">
-                            <div>
-                                {{ forecast.forecast_date|date:"D, j M" }}
-                            </div>
-                            <img src="{{ forecast.condition.icon_url }}"
-                                 alt="{{ forecast.condition.label }}"
-                                 title="{{ item.condition.label }}">
-                            <div>
-                                {% if forecast.data_values_dict.temperature %}
-                                    {% if forecast.data_values_dict.temperature.temp %}
-                                        {{ forecast.data_values_dict.temperature.temp.value_with_units }}
+                    <div class="columns is-multiline is-mobile">
+                        <div class="column weather-temperature is-one-third-desktop is-half-mobile">
+                            {% if earliest.data_values_dict.temperature %}
+                                <div class="focused-temp">
+                                    {% if earliest.data_values_dict.temperature.temp %}
+                                        {{ earliest.data_values_dict.temperature.temp.value_with_units }}
                                     {% else %}
-                                        {% if forecast.data_values_dict.temperature.max_temp %}
-                                            <span class="max-temp">
-                                                {{ forecast.data_values_dict.temperature.max_temp.value_with_units }}
-                                            </span>
+                                        {% if earliest.data_values_dict.temperature.max_temp %}
+                                            <div class="max-temp">
+                                                {{ earliest.data_values_dict.temperature.max_temp.value_with_units }}
+                                            </div>
                                         {% endif %}
-                                        {% if forecast.data_values_dict.temperature.min_temp %}
-                                            <span class="min-temp">
-                                                {{ forecast.data_values_dict.temperature.min_temp.value_with_units }}
-                                            </span>
+                                        {% if earliest.data_values_dict.temperature.min_temp %}
+                                            <div class="min-temp">
+                                                {{ earliest.data_values_dict.temperature.min_temp.value_with_units }}
+                                            </div>
                                         {% endif %}
                                     {% endif %}
-                                {% endif %}
-                            </div>
+                                </div>
+                            {% endif %}
                         </div>
-                    {% endif %}
-                {% endfor %}
-            </footer>
-        {% endif %}
-        <div class="more-links">
-            {% if all_city_detail_page_url %}
-                <a class="button is-small" href="{{ all_city_detail_page_url }}">
-                    <span class="icon">
-                        <i class="fas fa-list"></i>
-                    </span>
-                    <span>
-                        {% trans "All Locations" %}
-                    </span>
-                </a>
+                        <div class="column weather-condition is-one-third-desktop is-half-mobile">
+                            <img src="{{ earliest.condition.icon_url }}" alt="{{ earliest.condition.label }}">
+                            <div class="condition-label">{{ earliest.condition.label }}</div>
+                        </div>
+                        <div class="column other-parameters is-one-third-desktop is-half-mobile">
+                            {% for key, data_value in earliest.data_values_dict.items %}
+                                {% if key != "temperature" %}
+                                    <div class="parameter-item" title="{{ data_value.label }}">
+                                        <div class="parameter-icon">
+                                            {% svg_icon data_value.icon %}
+                                        </div>
+                                        <div>
+                                            {{ data_value.value_with_units }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endwith %}
+            {% if default_city_forecasts|length > 2 %}
+                <footer class="card-footer" id="forecast-widget-carousel" style="visibility: hidden">
+                    {% for forecast in default_city_forecasts %}
+                        {% if not forloop.first %}
+                            <div class="card-footer-item">
+                                <div>
+                                    {{ forecast.forecast_date|date:"D, j M" }}
+                                </div>
+                                <img src="{{ forecast.condition.icon_url }}"
+                                     alt="{{ forecast.condition.label }}"
+                                     title="{{ item.condition.label }}">
+                                <div>
+                                    {% if forecast.data_values_dict.temperature %}
+                                        {% if forecast.data_values_dict.temperature.temp %}
+                                            {{ forecast.data_values_dict.temperature.temp.value_with_units }}
+                                        {% else %}
+                                            {% if forecast.data_values_dict.temperature.max_temp %}
+                                                <span class="max-temp">
+                                                    {{ forecast.data_values_dict.temperature.max_temp.value_with_units }}
+                                                </span>
+                                            {% endif %}
+                                            {% if forecast.data_values_dict.temperature.min_temp %}
+                                                <span class="min-temp">
+                                                    {{ forecast.data_values_dict.temperature.min_temp.value_with_units }}
+                                                </span>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </footer>
             {% endif %}
-            {% if weather_reports_page_url %}
-                <a class="button is-small" href="{{ weather_reports_page_url }}">
-                    <span class="icon">
-                        <i class="fas fa-cloud-sun-rain"></i>
-                    </span>
-                    <span>
-                        {% trans "Daily Weather Reports" %}
-                    </span>
-                </a>
-            {% endif %}
+            <div class="more-links">
+                {% if all_city_detail_page_url %}
+                    <a class="button is-small" href="{{ all_city_detail_page_url }}">
+                        <span class="icon">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span>
+                            {% trans "All Locations" %}
+                        </span>
+                    </a>
+                {% endif %}
+                {% if weather_reports_page_url %}
+                    <a class="button is-small" href="{{ weather_reports_page_url }}">
+                        <span class="icon">
+                            <i class="fas fa-cloud-sun-rain"></i>
+                        </span>
+                        <span>
+                            {% trans "Daily Weather Reports" %}
+                        </span>
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
-
+{% endif %}
 
 
 
