@@ -1,17 +1,18 @@
 import json
-from typing import Any, Dict, List
+from typing import List
 
 from capeditor.constants import SEVERITY_MAPPING
 from capeditor.models import CapSetting
 from capeditor.renderers import CapXMLRenderer
 from capeditor.serializers import AlertSerializer
 from django.contrib.syndication.views import Feed
+from django.core.validators import validate_email
 from django.db.models.base import Model
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.feedgenerator import Enclosure
+from django.utils.feedgenerator import Enclosure, rfc2822_date
 from django.utils.feedgenerator import Rss201rev2Feed
 from rest_framework import generics
 from wagtail.models import Site
@@ -22,18 +23,21 @@ from .models import CapAlertPage
 class CustomFeed(Rss201rev2Feed):
     content_type = 'application/xml'
 
-    def add_item_elements(self, handler, item):
-        super().add_item_elements(handler, item)
-        if item['author_name']:
-            handler.addQuickElement('author', item['author_name'])
+    def add_root_elements(self, handler):
+        super().add_root_elements(handler)
+        pubDate = rfc2822_date(self.latest_post_date())
+        handler.addQuickElement('pubDate', pubDate)
 
 
 class AlertListFeed(Feed):
-    link = "/rss.xml"
     feed_copyright = "public domain"
     language = "en"
 
     feed_type = CustomFeed
+
+    @staticmethod
+    def link():
+        return reverse("cap_alert_feed")
 
     def title(self):
         try:
@@ -56,7 +60,6 @@ class AlertListFeed(Feed):
             site = Site.objects.get(is_default_site=True)
             if site:
                 cap_setting = CapSetting.for_site(site)
-
                 return f"This feed lists the most recent Official Public alerts from {cap_setting.sender_name}"
 
         except Exception:
@@ -94,20 +97,26 @@ class AlertListFeed(Feed):
             site = Site.objects.get(is_default_site=True)
             if site:
                 cap_setting = CapSetting.for_site(site)
-                return cap_setting.sender
-
+                if cap_setting.sender_name:
+                    return cap_setting.sender_name
         except Exception:
             pass
 
-        else:
-            return item.sender
-
         return None
 
-    def item_extra_kwargs(self, item: Model) -> Dict[Any, Any]:
-        return {
-            "category": item.info[0].value.get('category')
-        }
+    def item_author_email(self, item):
+        try:
+            site = Site.objects.get(is_default_site=True)
+            if site:
+                cap_setting = CapSetting.for_site(site)
+                if cap_setting.sender:
+                    # validate if sender is email address
+                    validate_email(cap_setting.sender)
+                    return cap_setting.sender
+        except Exception:
+            pass
+
+        return None
 
     def item_categories(self, item):
         return [item.info[0].value.get('category')]
