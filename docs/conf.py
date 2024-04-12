@@ -85,7 +85,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "NMHS CMS Documentation"
-copyright = f"{datetime.now().year}"
+copyright = f"{datetime.now().year}, WMO Regional Office For Africa"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
