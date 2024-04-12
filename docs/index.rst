@@ -22,6 +22,9 @@ NMHS CMS
    :titlesonly:
 
    _docs/Home
+   _docs/Rationale
+   _docs/Technology
+   _docs/Piloting
    _docs/Find-Your-Way-Around
    _docs/manage_pages/index
    _docs/manage_settings/index
