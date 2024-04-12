@@ -1,21 +1,45 @@
-# Introduction
-
 ![CMS Kit](../_static/images/home/cms_package_kit.jpg "CMS Kit")
 
-The **template Content Management System** is available for any NMHS wishing to upgrade its website. This initiative was
-developed as part of targeted support for African NMHSs in their digital transformation journey. The template was
-presented to technical experts from NMHSs during
-a [training in early warning communications](https://public.wmo.int/en/resources/meteoworld/building-capacity-africa-achieve-early-warnings-all)
-.
+# Introduction
+
+Amidst escalating and urgent impacts of climate change, Africa exhibits major challenges in coping with its
+consequences, particularly in terms of controlling extreme weather events, and delivering accurate and timely
+information to the public.
+
+In response to these challenges, the World Meteorological Organization's (WMO) Regional Office for Africa launched a
+Content Management System (CMS) which is a website template, specifically designed to aid the digital transformation of
+National Meteorological and Hydrological Services (NMHSs) in Africa
+
+This innovative template, built on **free and open-source standards**, features a modern design, seamless marketing
+integrations, a user-friendly weather warnings publisher (in CAP Format) and advanced weather and climate data
+visualization tools.
+
+The technical development of the system has been supported by experts seconded
+by [NORCAP](https://www.nrc.no/expert-deployment/norcap-who-we-are/) a part of
+the [Norwegian Refugee Council](https://www.nrc.no/), with guidance of the WMO Regional Office for Africa.
+
+The technical support provided to NMHSs at the WMO Regional Office for Africa include:
+
+- Focal Points verification and updates for different WMO Programmes including OSCAR Surface, WIGOS, WDQMS and CAP
+- [OSCAR Surface](https://oscar.wmo.int/surface/#/about) verification and updates Station Metadata Update
+- Data transmission challenges identification, troubleshooting and resolution
+- WMO Country Profile Database updates
+- Website and Content Management System (CMS) development and support
+- CAP Activation and Dissemination
+- Social Media Management and communication, Email Marketing and User Data Management
 
 ![Stepwise Approach](../_static/images/home/stepwise_approach.jpg "Stepwise Approach")
 
-This new template offers:
+---
+This document provides an overview of the Content Management System (CMS) and its features, the delivery and support.
 
-- a customisable and modern design
-- seamless marketing integrations
-- a user-friendly CAP Warnings Composer
-- advanced climate data visualization tools for any NMHS seeking to upgrade its website.
+This new CMS template offers:
+
+- Customisable and modern design
+- Seamless marketing integrations
+- User-friendly CAP Warnings Composer
+- Interactive georeferenced data visualisation for NMHSs weather and climate products, as well as data from external
+  sources.
 
 It adopts **best practices in data visualization and hydro meteorological department and climate communications**. All
 components of the website are built on free and open-source standards allowing for collaboration and contribution.
@@ -41,14 +65,21 @@ It factored in:
 - Great **user experience and ease** in locating content
 - A **decentralized CMS architecture** was adopted to allow management of departmental sections by different user roles
   and allow for content moderation and publishing **workflows**
-  . ![centralization](../_static/images/home/centralization.jpg "centralization")
+
+Currently, most of the NMHSs website's management is not decentralized. This means that the website is managed by one
+staff, usually from the IT department. This is not very efficient as every department has its own content, but the
+content management systems are not user-friendly to allow for easy management of content by different departments. The
+new CMS template allows for the management of different sections of the website by different staff, thus removing the
+load from the IT department and allowing for more efficient management of the website.
+
+. ![centralization](../_static/images/home/centralization.jpg "centralization")
 
 ---
 
 ## Delivery and support
 
 For a smooth and efficient delivery of the CMS and customization of the website template to the NMHS, a step by step
-process will be adopted. The quality and interactivity of the website is first assessed followed by approaching and
+process is adopted. The quality and interactivity of the website is first assessed followed by approaching and
 presenting the CMS and integrating feedback. Thereafter, willing/potential members for support are identified together
 with a focal point for coordination. The CMS is then installed and training on the configuration of CMS and
 customization of the website conducted. Additionally, learning materials, documentations and guides are provided
