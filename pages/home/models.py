@@ -59,8 +59,14 @@ class HomePage(MetadataPageMixin, Page):
     ]
     max_count = 1
 
-    hero_title = models.CharField(max_length=100, verbose_name=_('Title'))
-    hero_subtitle = models.CharField(blank=True, null=True, max_length=100, verbose_name=_('Subtitle'))
+    pre_title = models.CharField(max_length=100, blank=True, null=True, verbose_name=_('Pre Title'),
+                                 help_text=_("Text to show before the name of the institution. "
+                                             "For example, if the institution is under a ministry, the ministry name "
+                                             "can added here"))
+    hero_title = models.CharField(max_length=100, verbose_name=_('Institution Name'),
+                                  help_text=_("Full name of the institution"))
+    hero_subtitle = models.CharField(blank=True, null=True, max_length=100, verbose_name=_('Tagline'),
+                                     help_text=_("Can be the tagline or slogan of the institution"))
     hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=False,
                                     related_name="+", verbose_name=_("Banner Image"))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
@@ -91,6 +97,7 @@ class HomePage(MetadataPageMixin, Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
+            FieldPanel('pre_title'),
             FieldPanel('hero_title'),
             FieldPanel('hero_subtitle'),
             FieldPanel("hero_banner"),
@@ -125,6 +132,11 @@ class HomePage(MetadataPageMixin, Page):
         if self.search_image:
             return self.search_image
         return self.hero_banner
+
+    def get_meta_description(self):
+        if self.search_description:
+            return self.search_description
+        return self.hero_subtitle
 
     def get_context(self, request, *args, **kwargs):
         context = super(HomePage, self).get_context(request, *args, **kwargs)
