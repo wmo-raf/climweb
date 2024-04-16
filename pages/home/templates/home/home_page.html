@@ -138,7 +138,7 @@
         $(document).ready(function () {
             const weatherWidgetWrapper = $("#weather-widget-wrapper")
 
-            if (weatherWidgetWrapper && homeWeatherWidgetUrl) {
+            if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
                 fetch(homeWeatherWidgetUrl)
                     .then(response => {
                         if (!response.ok) {
@@ -150,12 +150,12 @@
                         weatherWidgetWrapper.html(data)
 
                         const citySearch = $('#city-search')
-                        if (citySearch) {
+                        if (citySearch.length) {
                             bulmaHead('city-search', 'city-search-menu', getMatchingCity, onSelectCity, 200, 0);
                         }
 
                         const cityForecastCarousel = $("#forecast-widget-carousel")
-                        if (cityForecastCarousel) {
+                        if (cityForecastCarousel.length) {
                             bulmaCarousel.attach("#forecast-widget-carousel", {
                                 slidesToScroll: 2,
                                 slidesToShow: 3,
@@ -180,25 +180,31 @@
 
             if (page_youtube_playlist) {
                 const url = "{{ youtube_playlist_url }}";
-                $('#videoWrapper').scheletrone({
-                    onComplete: function () {
-                        $.ajax({
-                            url: url,
-                            dataType: "html",
-                            success: function (data) {
-                                // if we have videos append them, else hide whole section
-                                if (data) {
-                                    $('#videoWrapper').html('').append(data).ready();
-                                } else {
+                const $videoWrapper = $('#videoWrapper');
+
+                if ($videoWrapper.length) {
+                    $videoWrapper.scheletrone({
+                        onComplete: function () {
+                            $.ajax({
+                                url: url,
+                                dataType: "html",
+                                success: function (data) {
+                                    // if we have videos append them, else hide whole section
+                                    if (data) {
+                                        $('#videoWrapper').html('').append(data).ready();
+                                    } else {
+                                        $('#videoSection').remove()
+                                    }
+                                },
+                                error: function () {
                                     $('#videoSection').remove()
                                 }
-                            },
-                            error: function () {
-                                $('#videoSection').remove()
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
+                }
+
+
             }
         });
 
