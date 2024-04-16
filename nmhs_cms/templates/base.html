@@ -1,10 +1,14 @@
 {% load static i18n wagtailsettings_tags nmhs_cms_tags wagtailmetadata_tags %}
 {% load wagtailuserbar wagtailadmin_tags wagtailcore_tags %}
+{% load i18n %}
 {% get_settings use_default_site=True %}
 {% wagtail_site as current_site %}
 
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="utf-8"/>
     <title>
