@@ -5,7 +5,7 @@ from wagtail.blocks import StructValue, StructBlockValidationError
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
-from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.contrib.table_block.blocks import TableBlock, DEFAULT_TABLE_OPTIONS
 
 
 class ProductItemStructValue(StructValue):
@@ -91,6 +91,12 @@ class ProductItemDocumentContentBlock(blocks.StructBlock):
         return result
 
 
+TABLE_OPTIONS = {
+    "mergeCells": True,
+    "contextMenu": DEFAULT_TABLE_OPTIONS["contextMenu"] + ["mergeCells"]
+}
+
+
 class ProductItemStreamContentBlock(blocks.StructBlock):
     product_type = blocks.CharBlock(required=True, label=_("Product Type"))
     date = blocks.DateBlock(required=True, label=_("Effective from"),
@@ -99,7 +105,7 @@ class ProductItemStreamContentBlock(blocks.StructBlock):
                                    help_text=_("The last day this product remains effective. "
                                                "Leave blank if not applicable"))
     content = blocks.StreamBlock([
-        ('table', TableBlock(label=_("Table"))),
+        ('table', TableBlock(table_options=TABLE_OPTIONS, label=_("Table"))),
         ('text', blocks.RichTextBlock(label=_("Text")))
     ], label=_("Content"))
 
