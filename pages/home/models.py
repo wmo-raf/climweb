@@ -170,8 +170,8 @@ class HomePage(MetadataPageMixin, Page):
 
     @cached_property
     def partners(self):
-        # get partners that should appear on the homepage
-        partners = Partner.objects.filter(visible_on_homepage=True)[:7]
+        # get the first 6 partners that should be visible on the homepage
+        partners = Partner.objects.filter(visible_on_homepage=True)[:6]
         return partners
 
     @cached_property
