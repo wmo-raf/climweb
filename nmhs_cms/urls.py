@@ -12,7 +12,6 @@ from wagtailcache.cache import cache_page
 
 from nmhs_cms.api import api_router
 from pages.search import views as search_views
-from pages.videos.views import VideoView
 
 handler500 = 'base.views.handler500'
 
@@ -30,6 +29,7 @@ urlpatterns = [
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     path("", include(forecastmanager_urls), name="forecast_api"),
+    path("", include("pages.videos.urls")),
 
     path("sitemap.xml", sitemap),
 
@@ -40,7 +40,6 @@ urlpatterns = [
 
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("pages.cityclimate.urls")),
-    path("api/videos/<int:pk>", VideoView.as_view(), name="youtube_playlist_items"),
 ]
 
 if ADMIN_URL_PATH:
