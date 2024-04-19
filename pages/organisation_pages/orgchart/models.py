@@ -34,7 +34,7 @@ class Department(models.Model):
 
 class OrganisationChartPage(AbstractBannerPage):
     template = 'orgchart/orgchart_page.html'
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['organisation.OrganisationIndexPage']
     subpage_types = []
     show_in_menus_default = True
 
@@ -65,6 +65,9 @@ class OrganisationChartPage(AbstractBannerPage):
         departments_with_employees = departments_with_employee_count.filter(employee_count__gt=0)
 
         return departments_with_employees
+    
+    class Meta:
+        verbose_name = _("Staff/Management Page")
     
 
 class Employee(Orderable):

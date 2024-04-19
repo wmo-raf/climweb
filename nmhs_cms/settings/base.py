@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "pages.organisation_pages.projects",
     "pages.organisation_pages.tenders",
     "pages.organisation_pages.vacancies",
+    "pages.organisation_pages.orgchart",
     "pages.email_subscription",
     "pages.surveys",
     "pages.search",
@@ -141,7 +142,7 @@ INSTALLED_APPS = [
     "dbbackup",
     "wagtailmodelchooser",
     "django_extensions",
-    "orgchart"
+
 ]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
