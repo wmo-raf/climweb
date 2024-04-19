@@ -1,0 +1,125 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n %}
+{% load l10n %}
+{% load wagtailadmin_tags wagtailimages_tags static %}
+{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}Organizational Chart Creator{{ title }}
+{% endblocktrans %}{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+
+{% endblock %}
+
+
+{% block content %}
+  <div id="organizationalChart" style="width: 100%; height: 500px;"></div>
+  <button onclick="addEmployee()">Add Employee</button>
+  <button onclick="removeEmployee()">Remove Employee</button>
+  <button onclick="saveOrganizationalStructure()">Save</button>
+
+
+  <!-- Include GoJS library -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/gojs/release/go-debug.js"></script>
+
+  <script>
+    var $ = go.GraphObject.make;
+    var myDiagram =
+        $(go.Diagram, "organizationalChart", {
+            "undoManager.isEnabled": true,
+            "clickCreatingTool.archetypeNodeData": { name: "New Employee", position: "Position" }
+        });
+
+    // Define a template for each node in the diagram
+    myDiagram.nodeTemplate =
+        $(go.Node, "Auto",
+            $(go.Shape, "RoundedRectangle", { fill: "lightblue", stroke: "black" }),
+            $(go.TextBlock,
+                { margin: 5 },
+                new go.Binding("text", "name"))
+        );
+
+    // Define a model to hold the organizational structure data
+    var nodeData = "{{ employee_data_json|safe }}";
+    console.log(nodeData)
+     myDiagram.model = new go.GraphLinksModel(nodeData);
+
+    // Function to add a new employee node
+    function addEmployee() {
+        myDiagram.startTransaction("addEmployee");
+        myDiagram.model.addNodeData({ name: "New Employee", position: "Position" });
+        myDiagram.commitTransaction("addEmployee");
+    }
+
+    // Function to remove a selected employee node
+    function removeEmployee() {
+        myDiagram.startTransaction("removeEmployee");
+        myDiagram.selection.each(function(node) {
+            if (node instanceof go.Node) {
+                myDiagram.model.removeNodeData(node.data);
+            }
+        });
+        myDiagram.commitTransaction("removeEmployee");
+    }
+
+    // Example function to update an employee's details
+    function updateEmployeeDetails(name, position) {
+        myDiagram.startTransaction("updateEmployeeDetails");
+        myDiagram.selection.each(function(node) {
+            if (node instanceof go.Node) {
+                myDiagram.model.setDataProperty(node.data, "name", name);
+                myDiagram.model.setDataProperty(node.data, "position", position);
+            }
+        });
+        myDiagram.commitTransaction("updateEmployeeDetails");
+    }
+
+    // Function to retrieve CSRF token from cookies
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
+    // Function to serialize and save organizational structure data
+    function saveOrganizationalStructure() {
+      var jsonData = JSON.parse(myDiagram.model.toJson())
+      console.log(JSON.parse(myDiagram.model.toJson()))
+    
+// Get CSRF token from cookies
+var csrfToken = getCookie("csrftoken");
+      // Send jsonData to the server using fetch
+    fetch("{% url 'save_organizational_structure' %}", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": csrfToken  // Include CSRF token in headers
+
+          },
+          body: JSON.stringify({ json_data: jsonData.nodeDataArray })
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error("Network response was not ok");
+          }
+          console.log("Organizational structure data saved successfully.");
+      })
+      .catch(error => {
+          console.error("Error saving organizational structure data:", error);
+      });
+    }
+
+    
+  </script>
+{% endblock %}
+

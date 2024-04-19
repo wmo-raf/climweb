@@ -24,6 +24,7 @@ urlpatterns = [
     path("", include("pages.home.urls")),
     path("", include("pages.cap.urls")),
     path("", include("pages.weather.urls")),
+    path("", include("orgchart.urls")),
 
     path("", include("geomanager.urls"), name="geomanager"),
     path("", include("pages.stations.urls"), name="stations"),
