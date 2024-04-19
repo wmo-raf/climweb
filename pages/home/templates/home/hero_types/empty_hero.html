@@ -9,12 +9,14 @@
             <div class="columns is-multiline is-mobile is-align-items-center py-3">
                 <div class="column is-half-desktop is-full-tablet is-full-mobile">
                     <p class="title pb-4"
-                       style="font-weight:700; font-size: 34px; color: #ffffff; text-shadow: 0px 1px 10px #333">
+                    style="font-weight: 400; font-size: 20px;color: #ffffff; text-shadow: 0px 1px 10px #000; font-weight:450">
+
                         {{ self.hero_title|richtext }}
                     </p>
                     {% if self.hero_subtitle %}
                         <p class="subtitle pb-5 mb-4"
-                           style="font-weight: 400; font-size: 16px;color: #ffffff; text-shadow: 0px 1px 10px #000; font-weight:450">
+                        style="font-weight:700; font-size: 34px; color: #ffffff; text-shadow: 0px 1px 10px #333">
+
                             {{ self.hero_subtitle }}
                         </p>
                     {% endif %}
