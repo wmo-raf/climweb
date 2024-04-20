@@ -55,7 +55,7 @@ class HomePage(MetadataPageMixin, Page):
         'cap.CapAlertListPage',
         'glossary.GlossaryIndexPage',
         'webstories.WebStoryListPage',
-        'orgchart.OrganisationChartPage'
+        
     ]
     parent_page_type = [
         'wagtailcore.Page'
