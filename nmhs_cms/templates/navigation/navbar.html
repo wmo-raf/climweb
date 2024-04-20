@@ -6,12 +6,7 @@
     <div class="top-nav-wrapper is-hidden-touch container">
         <div class="level top-nav">
             <div class="level-left">
-                {% if settings.base.OrganisationSetting.country_flag %}
-                    <a class="level-item main-logo" href="{{ current_site.root_url }}">
-                        {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                        <img src="{{ country_flag.url }}" alt="Logo">
-                    </a>
-                {% endif %}
+               
                 <a class="level-item main-logo" href="{{ current_site.root_url }}"
                    style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
                     {% if settings.base.OrganisationSetting.logo %}
@@ -108,8 +103,17 @@
                         {{ user.username }}, CMS
                     </a>
                 {% endif %}
+                {% if settings.base.OrganisationSetting.country_flag %}
+                    <a class="level-item main-logo" href="{{ current_site.root_url }}">
+                        {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+                        <img src="{{ country_flag.url }}" alt="Logo">
+                    </a>
+                {% endif %}
+
                 <div class="latest-active-alert"></div>
+
             </div>
+            
         </div>
     </div>
     <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
