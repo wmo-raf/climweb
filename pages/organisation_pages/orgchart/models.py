@@ -18,10 +18,12 @@ from django.db.models import Count
 class Department(models.Model):
     name = models.CharField(max_length=100)
     desc = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, null=True, blank=True)
+    order = models.PositiveIntegerField(default=0, verbose_name=_("Order"))
 
     panels = [
         FieldPanel('name'),
         FieldPanel('desc'),
+        FieldPanel('order')
     ]
 
     api_fields = [
@@ -29,7 +31,10 @@ class Department(models.Model):
     ]
 
     def __str__(self):
-        return self.name
+        return f"{self.order}. {self.name}"
+    
+    class Meta:
+        ordering = ['order']
     
 
 class OrganisationChartPage(AbstractBannerPage):
@@ -59,7 +64,7 @@ class OrganisationChartPage(AbstractBannerPage):
     @cached_property
     def all_departments(self):
         # Annotate the queryset with the count of employees per department
-        departments_with_employee_count = Employee.objects.values('department__name').annotate(employee_count=Count('department'))
+        departments_with_employee_count = Employee.objects.values('department__name').annotate(employee_count=Count('department')).order_by('department__order')
 
         # Filter departments with at least one employee
         departments_with_employees = departments_with_employee_count.filter(employee_count__gt=0)
@@ -101,6 +106,8 @@ class Employee(Orderable):
     class Meta:
         verbose_name = "{name} ({role})"
         verbose_name_plural = "{name} ({role})"
+        ordering = ['sort_order']
+
 
     def __str__(self):
         return self.name
