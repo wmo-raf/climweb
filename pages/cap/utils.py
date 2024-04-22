@@ -49,6 +49,10 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
             "render": {
                 "layers": [
                     {
+                        "type": "fill",
+                        "metadata": {
+                            "position": "top",
+                        },
                         "paint": {
                             "fill-color": [
                                 "match",
@@ -65,7 +69,6 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                             ],
                             "fill-opacity": 1,
                         },
-                        "type": "fill",
                         "filter": [
                             "in",
                             ["get", "severity"],
@@ -73,6 +76,10 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                         ],
                     },
                     {
+                        "type": "line",
+                        "metadata": {
+                            "position": "top",
+                        },
                         "paint": {
                             "line-color": [
                                 "match",
@@ -89,7 +96,6 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                             ],
                             "line-width": 0.1,
                         },
-                        "type": "line",
                         "filter": [
                             "in",
                             ["get", "severity"],
