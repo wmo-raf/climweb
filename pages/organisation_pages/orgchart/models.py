@@ -77,17 +77,17 @@ class OrganisationChartPage(AbstractBannerPage):
 
 class Employee(Orderable):
     page = ParentalKey(OrganisationChartPage, on_delete=models.CASCADE, related_name="employees")
-    name = models.CharField(max_length=100,verbose_name=_("Employee's name"),
-                                            help_text=_("First and Last names of employee"))
-    role = models.CharField(max_length=100, verbose_name=_("Employee's role"),
-                                            help_text=_("The role/position of the employee"))
-    bio = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, null=True, blank=True,verbose_name=_("Employee Biography"),
-                                            help_text=_("Optional Summary biography of the employe"))
-    department = models.ForeignKey(Department, on_delete=models.PROTECT, blank=True, null=True,
-                                                  verbose_name=_("Employee's Department"))
+    name = models.CharField(max_length=100,verbose_name=_("Staff's name"),
+                                            help_text=_("First and Last names of staff"))
+    role = models.CharField(max_length=100, verbose_name=_("Staff's role"),
+                                            help_text=_("The role/position of the staff"))
+    bio = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, null=True, blank=True,verbose_name=_("Staff Biography"),
+                                            help_text=_("Optional Summary biography of the staff"))
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, blank=False, null=True,
+                                                  verbose_name=_("Staff's Department"))
     photo = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name=_("Employee Image"),
+        verbose_name=_("Staff Profile Image"),
         help_text=_("A high quality square image"),
         null=True,
         blank=True,
