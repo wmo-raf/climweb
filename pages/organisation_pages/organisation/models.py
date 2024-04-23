@@ -17,6 +17,7 @@ class OrganisationIndexPage(MetadataPageMixin, Page):
         'projects.ProjectIndexPage',
         'tenders.TendersPage',
         'staff.StaffPage'
+        'flex_page.FlexPage',
     ]
     show_in_menus_default = True
 

@@ -354,7 +354,10 @@ GEO_WIDGET_EMPTY_LOCATION = False
 GEO_WIDGET_ZOOM = 3
 
 SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript", "h2", "h3", "h4"]
-
+FULL_RICHTEXT_FRATURES = ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'code', 'ol', 'ul', 'link', 'document-link',
+        'image', 'embed', 'hr', 'anchor', 'table', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull',
+        'indent', 'outdent', 'html']
 # RECAPTCHA Settings
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
