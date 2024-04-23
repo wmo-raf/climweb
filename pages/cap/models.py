@@ -117,6 +117,10 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     class Meta:
         ordering = ["-sent"]
 
+    def get_admin_display_title(self):
+        title = self.draft_title or self.title
+        return f"{self.status} - {title}"
+
     @cached_property
     def xml_link(self):
         return reverse("cap_alert_detail", args=(self.identifier,))
@@ -203,14 +207,16 @@ class CAPGeomanagerSettings(BaseSiteSetting):
 
 def on_publish_cap_alert(sender, **kwargs):
     instance = kwargs['instance']
-    try:
-        # publish cap alert to mqtt
-        topic = "cap/alerts/all"
-        publish_cap_mqtt_message(instance, topic)
-    except Exception as e:
-        pass
 
-    generate_cap_alert_card(instance.id)
+    if instance.status == "Actual":
+        try:
+            # publish cap alert to mqtt
+            topic = "cap/alerts/all"
+            publish_cap_mqtt_message(instance, topic)
+        except Exception as e:
+            pass
+
+        generate_cap_alert_card(instance.id)
 
 
 page_published.connect(on_publish_cap_alert, sender=CapAlertPage)
