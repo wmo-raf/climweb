@@ -3,6 +3,21 @@
 {% get_settings use_default_site=True %}
 
 {% block extra_css %}
+<style>
+
+  /* Styles for desktop screens and wider */
+@media (min-width: 769px) {
+  .staff-modal-content{
+    min-width:60rem
+  }
+}
+
+.staff-role{
+    text-transform: uppercase;
+}
+
+</style>
+
 
 {% endblock extra_css %}
 
@@ -49,38 +64,41 @@
                 <div class="pb-6 mb-6">
                     <h3 class="has-text-centered pb-6">{{department.department__name}}</h3>
 
-                    <div class="columns is-mobile is-multiline is-centered">
-                    {% for employee in page.employees.all %}
-                        {% if department.department__name == employee.department.name %}
+                    <div class="columns is-mobile is-tablet is-multiline is-centered">
+                    {% for staffmember in page.staffmembers.all %}
+                        {% if department.department__name == staffmember.department.name %}
 
-                        <div id="{{employee.name}}-{{employee.role}}" class="modal">
+                        <div id="{{staffmember.name}}-{{staffmember.role}}" class="modal">
                             <div class="modal-background"></div>
                           
-                            <div class="modal-content" style="min-width:60rem; ">
+                            <div class="modal-content staff-modal-content">
                               <div class="box">
 
                                 <div class="columns">
-                                    <div class="column is-one-third">
+                                    <div class="column is-one-third-desktop is-full-tablet is-full-mobile">
                                         <div class="card elevation-0" >
                                             <div class="card-image">
                                               <figure class="image is-5by4">
-                                                {% if employee.photo %}
+                                                {% if staffmember.photo %}
             
-                                                {% image employee.photo original as emp_img_modal %}
+                                                {% image staffmember.photo original as staffmember_img_modal %}
                                                 <img class="progressive__img progressive--not-loaded lazy_load"
-                                                     data-progressive="{{ emp_img_modal.url }}"
+                                                     data-progressive="{{ staffmember_img_modal.url }}"
                                                      style="height: 100%;width: 100%;object-fit: cover; "
-                                                     src="{% lazy_image_url emp_img_modal %}" alt="products"/>
+                                                     src="{% lazy_image_url staffmember_img_modal %}" alt="products"/>
                                                 {% endif %}
                                               </figure>
                                             </div>
                                           </div>
                                     </div>
                                     <div class="column">
-                                        <h4>{{employee.name}}</h4>
-                                        <p class="subtitle" style="font-size:14px">{{employee.role}}</p>
-                                        {% if employee.bio %}
-                                        <div style="max-height:20rem"><p>{{employee.bio|richtext}}</p></div>
+                                        <h3>{{staffmember.name}}</h3>
+                                        <p class="subtitle staff-role" style="font-size:12px">{{staffmember.role}}</p>
+
+                                        <hr>
+                                        
+                                        {% if staffmember.bio %}
+                                        <div style="max-height:20rem"><p>{{staffmember.bio|richtext}}</p></div>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -91,30 +109,31 @@
                           
                             <button class="modal-close is-large" aria-label="close"></button>
                           </div>
-                        <div data-target="{{employee.name}}-{{employee.role}}" class="js-modal-trigger column is-one-quarter-desktop is-one-third-tablet is-one-quarter-fullhd is-half-mobile">
+                        <div data-target="{{staffmember.name}}-{{staffmember.role}}" class="js-modal-trigger column is-one-quarter-desktop is-one-third-tablet is-one-quarter-fullhd is-half-mobile">
                             <div class="card elevation-1" >
                                 <div class="card-image">
                                   <figure class="image is-4by3">
-                                    {% if employee.photo %}
+                                    {% if staffmember.photo %}
 
-                                    {% image employee.photo original as emp_img %}
+                                    {% image staffmember.photo original as staffmember_img %}
                                     <img class="progressive__img progressive--not-loaded"
-                                         data-progressive="{{ emp_img.url }}"
+                                         data-progressive="{{ staffmember_img.url }}"
                                          style="height: 100%;width: 100%;object-fit: cover; "
-                                         src="{% lazy_image_url emp_img %}" alt="products"/>
+                                         src="{% lazy_image_url staffmember_img %}" alt="products"/>
                                     {% endif %}
                                   </figure>
                                 </div>
                               </div>
 
                               <div class="block pt-4">
-                                <h4> {{employee.name}} </h4>
+                                <h4> {{staffmember.name}} </h4>
                                 <p style="margin-bottom: 0px;
                                 margin-top: 5px;
                                 line-height: 1.5;
-                                font-size: 16px;
+                                font-size: 14px;
                                 color: #4a5255;
-                                font-weight: 400;"> {{employee.role}} </p>
+                                font-weight: 400;"
+                                class="staff-role"> {{staffmember.role}} </p>
 
                               </div>
                             {% comment %} <p> {{employee.bio|richtext}} </p> {% endcomment %}

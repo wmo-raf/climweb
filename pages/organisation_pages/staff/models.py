@@ -37,8 +37,8 @@ class Department(models.Model):
         ordering = ['order']
     
 
-class OrganisationChartPage(AbstractBannerPage):
-    template = 'orgchart/orgchart_page.html'
+class StaffPage(AbstractBannerPage):
+    template = 'staff/staff_page.html'
     parent_page_types = ['organisation.OrganisationIndexPage']
     subpage_types = []
     show_in_menus_default = True
@@ -46,9 +46,9 @@ class OrganisationChartPage(AbstractBannerPage):
     max_count = 1
 
     introduction_heading = models.CharField(max_length=100, verbose_name=_('Introduction Heading'),
-                                          help_text=_("Introduction section heading"), null=True, blank=True, default='MEET OUR TEAM')
+                                          help_text=_("Introduction section heading"), null=True, blank=True, default='MEET OUR MEMBERS')
     introduction_title = models.CharField(max_length=100, verbose_name=_('Introduction Title'),
-                                          help_text=_("Introduction section title"), null=True, blank=True, default='Weather and Climate through Us')
+                                          help_text=_("Introduction section title"), null=True, blank=True, default="Forecasting the Future: Weather & Climate at the Frontline")
     introduction_text = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Introduction text'),
                                       help_text=_("Introduction section description"), null=True, blank=True, default="We're a team of scientists, meteroologist, analysists, software engineers and researchers.We are invigorated by challenging weather phenomena, thrive on surpassing previous records, and are dedicated to improving the world's conditions with each passing day. ")
     
@@ -58,36 +58,35 @@ class OrganisationChartPage(AbstractBannerPage):
             FieldPanel('introduction_title'),
             FieldPanel('introduction_text'),
         ], heading=_('Introduction Section')),
-        InlinePanel('employees', heading=_("Employee"), label=_("Employee")),
+        InlinePanel('staffmembers', heading=_("Staff"), label=_("Staff")),
     ]
 
     @cached_property
     def all_departments(self):
         # Annotate the queryset with the count of employees per department
-        departments_with_employee_count = Employee.objects.values('department__name').annotate(employee_count=Count('department')).order_by('department__order')
-
+        departments_with_staff_count = StaffMember.objects.values('department__name').annotate(staffmembers_count=Count('department')).order_by('department__order')
         # Filter departments with at least one employee
-        departments_with_employees = departments_with_employee_count.filter(employee_count__gt=0)
+        departments_with_staff = departments_with_staff_count.filter(staffmembers_count__gt=0)
 
-        return departments_with_employees
+        return departments_with_staff
     
     class Meta:
-        verbose_name = _("Staff/Management Page")
+        verbose_name = _("Staff Page")
     
 
-class Employee(Orderable):
-    page = ParentalKey(OrganisationChartPage, on_delete=models.CASCADE, related_name="employees")
-    name = models.CharField(max_length=100,verbose_name=_("Staff's name"),
-                                            help_text=_("First and Last names of staff"))
-    role = models.CharField(max_length=100, verbose_name=_("Staff's role"),
-                                            help_text=_("The role/position of the staff"))
-    bio = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, null=True, blank=True,verbose_name=_("Staff Biography"),
-                                            help_text=_("Optional Summary biography of the staff"))
+class StaffMember(Orderable):
+    page = ParentalKey(StaffPage, on_delete=models.CASCADE, related_name="staffmembers")
+    name = models.CharField(max_length=100,verbose_name=_("Staff member's name"),
+                                            help_text=_("First and Last names of Staff member"))
+    role = models.CharField(max_length=100, verbose_name=_("Staff member's role"),
+                                            help_text=_("The role/position of the Staff member"))
+    bio = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, null=True, blank=True,verbose_name=_("Staff member Biography"),
+                                            help_text=_("Optional Summary biography of the Staff member"))
     department = models.ForeignKey(Department, on_delete=models.PROTECT, blank=False, null=True,
-                                                  verbose_name=_("Staff's Department"))
+                                                  verbose_name=_("Staff member's Department"))
     photo = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name=_("Staff Profile Image"),
+        verbose_name=_("Staff member's Profile Image"),
         help_text=_("A high quality square image"),
         null=True,
         blank=True,
@@ -104,8 +103,8 @@ class Employee(Orderable):
     ]
 
     class Meta:
-        verbose_name = "{name} ({role})"
-        verbose_name_plural = "{name} ({role})"
+        verbose_name = _("Staff Member")
+        verbose_name_plural = _("Staff Members")
         ordering = ['sort_order']
 
 
