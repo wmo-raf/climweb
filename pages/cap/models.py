@@ -117,6 +117,9 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     class Meta:
         ordering = ["-sent"]
 
+    def __str__(self):
+        return f"{self.status} - {self.title}"
+
     def get_admin_display_title(self):
         title = self.draft_title or self.title
         return f"{self.status} - {title}"
