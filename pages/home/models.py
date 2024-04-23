@@ -55,7 +55,7 @@ class HomePage(MetadataPageMixin, Page):
         'cap.CapAlertListPage',
         'glossary.GlossaryIndexPage',
         'webstories.WebStoryListPage',
-        
+
     ]
     parent_page_type = [
         'wagtailcore.Page'
@@ -135,18 +135,16 @@ class HomePage(MetadataPageMixin, Page):
         if self.search_image:
             return self.search_image
         return self.hero_banner
-    
+
     def save(self, *args, **kwargs):
         if not self.search_image and self.hero_banner:
             self.search_image = self.hero_banner
-            
-        if not self.seo_title and  self.hero_title:
+
+        if not self.seo_title and self.hero_title:
             self.seo_title = self.hero_title
-            print("SEO_TITLE", self.seo_title)
 
         if not self.search_description and self.hero_subtitle:
             self.search_description = truncatechars(self.hero_subtitle, 160)
-            print("SEO_subtitle", self.search_description)
 
         return super().save(*args, **kwargs)
 
@@ -154,6 +152,11 @@ class HomePage(MetadataPageMixin, Page):
         if self.search_description:
             return self.search_description
         return self.hero_subtitle
+
+    def get_meta_title(self):
+        if self.seo_title:
+            return self.seo_title
+        return self.hero_title
 
     def get_context(self, request, *args, **kwargs):
         context = super(HomePage, self).get_context(request, *args, **kwargs)
