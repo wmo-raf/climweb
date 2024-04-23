@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "pages.organisation_pages.projects",
     "pages.organisation_pages.tenders",
     "pages.organisation_pages.vacancies",
-    "pages.organisation_pages.orgchart",
+    "pages.organisation_pages.staff",
     "pages.email_subscription",
     "pages.surveys",
     "pages.search",
