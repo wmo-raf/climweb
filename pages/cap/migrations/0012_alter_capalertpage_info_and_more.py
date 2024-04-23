@@ -12,7 +12,6 @@ import wagtailmodelchooser.blocks
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('geomanager', '0046_colorvalue_show_on_legend_rasterstyle_legend_type'),
         ('cap', '0011_alter_capalertpage_info'),
     ]
 
