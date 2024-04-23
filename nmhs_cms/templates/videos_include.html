@@ -1,6 +1,6 @@
 {% load nmhs_cms_tags i18n %}
 
-{% for item in result.videos %}
+{% for item in videos %}
     <div class="column is-one-third-desktop is-half-tablet is-full-mobile video-item" style="display: flex;">
         <div class="card" style="width: 100%">
             <div class="card-image">
@@ -11,8 +11,9 @@
                 </figure>
             </div>
             <div class="card-content">
-                <span class="card-tag-float">{{ result.title|truncatechars:35 }}</span>
-                <a class="card-title">
+                <span class="card-tag-float">{{ playlist.title|truncatechars:35 }}</span>
+                <a class="card-title" href="https://youtu.be/{{ item.contentDetails.videoId }}" target="_blank"
+                   rel="noreferrer noreferrer">
                     <h4>{{ item.snippet.title }}</h4>
                 </a>
                 <div class="card-video-stats">
@@ -24,17 +25,15 @@
                 </div>
 
                 <div class="card-video-meta">
-                    <a href=https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
+                    <a href="https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
                        target="_blank"
                        rel="noopener"
                     >
 
                         {% translate "SUBSCRIBE" %}
                     </a>
-                    <a href=https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
-                       target="_blank"
-                       rel="noopener"
-                    >
+                    <a href="https://youtu.be/{{ item.contentDetails.videoId }}" target="_blank"
+                       rel="noreferrer noreferrer">
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>

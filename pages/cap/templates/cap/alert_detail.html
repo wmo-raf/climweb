@@ -51,6 +51,20 @@
                             {% share_buttons url=page.get_full_url text=page.title %}
                         </div>
                     </div>
+
+                    {% if page.status != "Actual" %}
+                        <article class="message is-warning">
+                            <div class="message-header">
+                                {% trans "Warning: This is not an Actual alert" %}
+                            </div>
+                            <div class="message-body">
+                                {% trans "The alert below is marked as" %}
+                                <strong>{{ page.status }}.</strong>
+                                {% trans "This means it is not an Actual alert and therefore not actionable to the general public" %}
+                            </div>
+                        </article>
+                    {% endif %}
+
                     <div class="cap-body">
                         <div class="columns is-multiline " style="align-items: flex-start;">
                             <div class="column is-two-fifths-widescreen is-full-touch">

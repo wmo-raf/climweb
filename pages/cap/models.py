@@ -117,6 +117,10 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     class Meta:
         ordering = ["-sent"]
 
+    def get_admin_display_title(self):
+        title = self.draft_title or self.title
+        return f"{self.status} - {title}"
+
     @cached_property
     def xml_link(self):
         return reverse("cap_alert_detail", args=(self.identifier,))
@@ -173,7 +177,7 @@ class CAPGeomanagerSettings(BaseSiteSetting):
     layer_title = models.CharField(max_length=100, blank=True, null=True, default="Weather Alerts",
                                    verbose_name=_("CAP Alerts Layer Title"))
     geomanager_subcategory = models.ForeignKey(SubCategory, null=True, blank=True,
-                                               verbose_name=_("Stations Layer SubCategory"),
+                                               verbose_name=_("CAP Alerts Layer SubCategory"),
                                                on_delete=models.SET_NULL)
     geomanager_layer_metadata = models.ForeignKey(Metadata, on_delete=models.SET_NULL, blank=True, null=True,
                                                   verbose_name=_("CAP Layer Metadata"))
@@ -203,14 +207,16 @@ class CAPGeomanagerSettings(BaseSiteSetting):
 
 def on_publish_cap_alert(sender, **kwargs):
     instance = kwargs['instance']
-    try:
-        # publish cap alert to mqtt
-        topic = "cap/alerts/all"
-        publish_cap_mqtt_message(instance, topic)
-    except Exception as e:
-        pass
 
-    generate_cap_alert_card(instance.id)
+    if instance.status == "Actual":
+        try:
+            # publish cap alert to mqtt
+            topic = "cap/alerts/all"
+            publish_cap_mqtt_message(instance, topic)
+        except Exception as e:
+            pass
+
+        generate_cap_alert_card(instance.id)
 
 
 page_published.connect(on_publish_cap_alert, sender=CapAlertPage)

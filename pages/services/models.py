@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
@@ -109,8 +110,7 @@ class ServicePage(AbstractBannerWithIntroPage):
         :return: products list
         """
         # Get all products related to this service
-
-        products = ProductPage.objects.filter(service=self.service)
+        products = ProductPage.objects.filter(Q(service=self.service) | Q(other_services__in=[self.service]))
 
         return products
 

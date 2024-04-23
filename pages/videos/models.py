@@ -1,4 +1,4 @@
-from dateutil.parser import parse
+from dateutil.parser import parse as parse_date
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -7,6 +7,7 @@ from wagtail.admin.panels import (FieldPanel)
 from wagtail.api.v2.utils import get_full_url
 from wagtail.models import Site
 from wagtail.snippets.models import register_snippet
+from wagtail.snippets.views.snippets import SnippetViewSet, EditView
 
 from base.models import IntegrationSettings
 
@@ -15,7 +16,6 @@ YOUTUBE_API_VERSION = "v3"
 youtube_service = None
 
 
-@register_snippet
 class YoutubePlaylist(models.Model):
     title = models.CharField(max_length=200, verbose_name=_("Title"))
     playlist_id = models.CharField(max_length=100,
@@ -69,6 +69,7 @@ class YoutubePlaylist(models.Model):
 
     def playlist_items(self, limit=None):
         youtube_service = self.set_api()
+        items = []
 
         if youtube_service:
             info = None
@@ -85,13 +86,15 @@ class YoutubePlaylist(models.Model):
             if info:
                 # parse the date published
                 for item in info:
-                    published_at = parse(item['contentDetails']['videoPublishedAt'])
-                    item['contentDetails']['videoPublishedAt'] = published_at
-
+                    published_at = item['contentDetails'].get('videoPublishedAt', None)
+                    if published_at:
+                        published_at = parse_date(published_at)
+                        item['contentDetails']['videoPublishedAt'] = published_at
+                        items.append(item)
                 # sort the videos by date published
-                info = sorted(info, key=lambda x: x['contentDetails']['videoPublishedAt'], reverse=True)
+                items = sorted(items, key=lambda x: x['contentDetails']['videoPublishedAt'], reverse=True)
 
-            return info
+            return items
 
         return None
 
@@ -99,3 +102,28 @@ class YoutubePlaylist(models.Model):
         FieldPanel('title'),
         FieldPanel('playlist_id'),
     ]
+
+
+class YoutubeVideoEditView(EditView):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        playlist = context.get('object')
+
+        count = playlist.videos_count
+        videos = playlist.playlist_items(limit=10)
+
+        context['videos'] = videos
+        context['count'] = count
+
+        return context
+
+
+class YoutubePlaylistViewSet(SnippetViewSet):
+    model = YoutubePlaylist
+    icon = "youtube"
+    edit_view_class = YoutubeVideoEditView
+    edit_template_name = "videos/playlist_edit.html"
+
+
+register_snippet(YoutubePlaylistViewSet)

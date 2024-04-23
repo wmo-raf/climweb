@@ -19,9 +19,9 @@ except ImportError:
 # Disable caching in dev
 WAGTAIL_CACHE = False
 
-INSTALLED_APPS = INSTALLED_APPS + [
-    'wagtail.contrib.styleguide'
-]
+INSTALLED_APPS = ["daphne"] + INSTALLED_APPS + ["wagtail.contrib.styleguide"]
+
+ASGI_APPLICATION = "nmhs_cms.asgi.application"
 
 STATICFILES_STORAGE = "base.storage.ManifestStaticFilesStorageNotStrict"
 

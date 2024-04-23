@@ -78,9 +78,15 @@
                             {% for key, data_value in earliest.data_values_dict.items %}
                                 {% if key != "temperature" %}
                                     <div class="parameter-item" title="{{ data_value.label }}">
-                                        <div class="parameter-icon">
-                                            {% svg_icon data_value.icon %}
-                                        </div>
+                                        {% if data_value.icon %}
+                                            <div class="parameter-icon">
+                                                {% svg_icon data_value.icon %}
+                                            </div>
+                                        {% else %}
+                                            <span style="margin-right: 10px">
+                                                {{ data_value.label }}:
+                                            </span>
+                                        {% endif %}
                                         <div>
                                             {{ data_value.value_with_units }}
                                         </div>

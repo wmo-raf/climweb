@@ -1,5 +1,22 @@
+from django.utils.translation import gettext as _
+
+from base.models import ImportantPages
+
+
 def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request=None):
     sub_category = cap_geomanager_settings.geomanager_subcategory
+
+    more_info = None
+
+    if request:
+        important_pages = ImportantPages.for_request(request)
+        if important_pages.cap_warnings_list_page:
+            more_info = {
+                "linkText": _("Go to warnings list"),
+                "linkUrl": important_pages.cap_warnings_list_page.get_full_url(request),
+                "isButton": True,
+                "showArrow": True
+            }
 
     if not sub_category:
         return None
@@ -49,6 +66,10 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
             "render": {
                 "layers": [
                     {
+                        "type": "fill",
+                        "metadata": {
+                            "position": "top",
+                        },
                         "paint": {
                             "fill-color": [
                                 "match",
@@ -65,7 +86,6 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                             ],
                             "fill-opacity": 1,
                         },
-                        "type": "fill",
                         "filter": [
                             "in",
                             ["get", "severity"],
@@ -73,6 +93,10 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                         ],
                     },
                     {
+                        "type": "line",
+                        "metadata": {
+                            "position": "top",
+                        },
                         "paint": {
                             "line-color": [
                                 "match",
@@ -89,7 +113,6 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                             ],
                             "line-width": 0.1,
                         },
-                        "type": "line",
                         "filter": [
                             "in",
                             ["get", "severity"],
@@ -158,6 +181,9 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
             "type": "intersection",
         },
     }
+
+    if more_info:
+        layer["moreInfo"] = more_info
 
     dataset["layers"].append(layer)
 
