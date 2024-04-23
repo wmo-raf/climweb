@@ -8,7 +8,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
 
 from base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT
-from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
+from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES, FULL_RICHTEXT_FRATURES
 
 
 class AbstractFormBlock(blocks.StructBlock):
@@ -45,7 +45,7 @@ class AbstractFormBlock(blocks.StructBlock):
 class TitleTextImageBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
                              help_text=_("Section Title"), )
-    text = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Section Text'),
+    text = blocks.RichTextBlock(features=FULL_RICHTEXT_FRATURES, verbose_name=_('Section Text'),
                                 help_text=_("Section description"))
     image = ImageChooserBlock(required=False)
 
@@ -58,7 +58,7 @@ class TitleTextImageBlock(blocks.StructBlock):
 class TitleTextBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
                              help_text=_("Section Title"), )
-    text = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Section Text'),
+    text = blocks.RichTextBlock(features=FULL_RICHTEXT_FRATURES, verbose_name=_('Section Text'),
                                 help_text=_("Section description"))
 
     class Meta:
