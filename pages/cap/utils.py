@@ -67,9 +67,6 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                 "layers": [
                     {
                         "type": "fill",
-                        "metadata": {
-                            "position": "top",
-                        },
                         "paint": {
                             "fill-color": [
                                 "match",
@@ -94,9 +91,6 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                     },
                     {
                         "type": "line",
-                        "metadata": {
-                            "position": "top",
-                        },
                         "paint": {
                             "line-color": [
                                 "match",
