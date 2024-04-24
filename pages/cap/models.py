@@ -2,6 +2,7 @@ from capeditor.models import AbstractCapAlertPage
 from capeditor.pubsub.publish import publish_cap_mqtt_message
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
@@ -220,6 +221,22 @@ def on_publish_cap_alert(sender, **kwargs):
             pass
 
         generate_cap_alert_card(instance.id)
+
+
+def get_active_alerts():
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+    active_alert_ids = []
+
+    for alert in alerts:
+        for info in alert.info:
+            if info.value.get('expires') > timezone.localtime():
+                alert_id = alert.id
+                if alert_id not in active_alert_ids:
+                    active_alert_ids.append(alert.id)
+
+    active_alerts = CapAlertPage.objects.filter(id__in=active_alert_ids).live().order_by('-sent')
+
+    return active_alerts
 
 
 page_published.connect(on_publish_cap_alert, sender=CapAlertPage)
