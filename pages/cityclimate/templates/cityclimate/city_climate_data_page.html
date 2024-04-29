@@ -23,9 +23,9 @@
         }
 
         #climate-map {
-            height: 400px;
+            height: 300px;
             width: 100%;
-            margin: auto
+            margin-top: 20px
         }
 
     </style>
@@ -97,17 +97,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="climate-map" class="is-hidden-mobile"></div>
                         </div>
                     </div>
 
                     <div class="column is-8">
                         <div id="chart-container" class="elevation-1"
                              style="width:100%; height:400px;margin-top: 20px"></div>
-
-                        <div id="climate-map"></div>
-
                     </div>
-
                 </div>
 
             </section>
@@ -135,6 +132,8 @@
 
             let countryBounds = {{ bounds|default_if_none:"[]"|safe }};
             const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+
+            const citiesWithDataIds = {{ cities_with_data_ids|default_if_none:"[]"|safe }};
 
             if (countryBounds.length === 0) {
                 countryBounds = null;
@@ -168,15 +167,76 @@
                     updateChart()
                 })
 
+                let mapReady = false
+
+                // default MapLibre style
+                const defaultStyle = {
+                    'version': 8,
+                    'sources': {
+                        'carto-dark': {
+                            'type': 'raster',
+                            'tiles': [
+                                "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                                "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                                "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                                "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
+                            ]
+                        },
+                        'carto-light': {
+                            'type': 'raster',
+                            'tiles': [
+                                "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                                "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                                "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                                "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
+                            ]
+                        },
+                        'wikimedia': {
+                            'type': 'raster',
+                            'tiles': [
+                                "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+                            ]
+                        }
+                    },
+                    'layers': [{
+                        'id': 'carto-light-layer',
+                        'source': 'carto-light',
+
+
+                        'type': 'raster',
+                        'minzoom': 0,
+                        'maxzoom': 22
+                    }]
+                }
+
+                const climate_map = new maplibregl.Map({
+                    container: "climate-map", // container ID
+                    style: defaultStyle,
+                    center: [0, 0], // starting position [lng, lat]
+                    zoom: 2, // starting zoom
+                    scrollZoom: false,
+                    dragRotate: false,
+                });
+
+                // add zoom control
+                climate_map.addControl(new maplibregl.NavigationControl({showCompass: false}));
 
                 const fetchCityData = () => {
                     const selectedCity = $citySelect.val()
                     return fetch(options.city_data_url + `?city_id=${selectedCity}`).then((res) => res.json())
                 }
 
-
                 const updateChart = () => {
                     const selectedCity = $citySelect.val()
+
+                    if (mapReady) {
+                        try {
+                            climate_map.setFilter("cities_outline", ["==", "id", selectedCity])
+                        } catch (e) {
+                            console.error(e)
+                        }
+                    }
+
 
                     if (cityData[selectedCity]) {
                         setChart(cityData[selectedCity])
@@ -285,66 +345,8 @@
 
                 updateChart()
 
-                // default MapLibre style
-                const defaultStyle = {
-                    'version': 8,
-                    'sources': {
-                        'carto-dark': {
-                            'type': 'raster',
-                            'tiles': [
-                                "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                                "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                                "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                                "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
-                            ]
-                        },
-                        'carto-light': {
-                            'type': 'raster',
-                            'tiles': [
-                                "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                                "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                                "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                                "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
-                            ]
-                        },
-                        'wikimedia': {
-                            'type': 'raster',
-                            'tiles': [
-                                "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
-                            ]
-                        }
-                    },
-                    'layers': [{
-                        'id': 'carto-light-layer',
-                        'source': 'carto-light',
-
-
-                        'type': 'raster',
-                        'minzoom': 0,
-                        'maxzoom': 22
-                    }]
-                }
-
-                const climate_map = new maplibregl.Map({
-                    container: "climate-map", // container ID
-                    style: defaultStyle,
-                    center: [0, 0], // starting position [lng, lat]
-                    zoom: 2, // starting zoom
-                    scrollZoom: false,
-                });
-
-                // add zoom control
-                climate_map.addControl(
-                    new maplibregl.NavigationControl({
-                        visualizePitch: true,
-                        showZoom: true,
-                        showCompass: true,
-                    })
-                );
-
 
                 climate_map.on("load", () => {
-
                     // fit to country bounds
                     if (countryBounds) {
                         const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
@@ -395,19 +397,24 @@
                                 "line-width": 1.5,
                             }
                         });
+
+
                     }
 
 
                     fetch("{% url 'cities-list' %}")
                         .then((res) => res.json())
                         .then((city_data) => {
+                            const citiesWithData = city_data.filter(city => citiesWithDataIds.includes(city.id))
+
+                            const selectedCity = $citySelect.val()
 
                             let cities_geom = {
                                 type: "FeatureCollection",
                                 features: []
                             }
 
-                            city_data.map(city => {
+                            citiesWithData.map(city => {
                                 cities_geom.features.push({
                                     type: "Feature",
                                     properties: {
@@ -438,6 +445,23 @@
                                         "circle-stroke-color": "#00203FFF",
                                     }
                                 })
+
+
+                                climate_map.addLayer({
+                                    'id': 'cities_outline',
+                                    'type': 'circle',
+                                    'source': 'cities',
+                                    'paint': {
+                                        'circle-color': "#ADEFD1FF",
+                                        'circle-radius': 8,
+                                        "circle-stroke-width": 4,
+                                        "circle-stroke-color": "red",
+                                    },
+                                    filter: ["==", "id", selectedCity]
+                                })
+
+
+                                mapReady = true
 
 
                             }

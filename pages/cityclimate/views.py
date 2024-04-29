@@ -132,7 +132,9 @@ def load_climate_data(request, page_id):
                     )
 
             except Exception as e:
-                print(e)
+                form.add_error(None, f"An error occurred while saving data. {str(e)}")
+                context.update({"form": form})
+                return render(request, template_name=template, context=context)
 
             messages.success(request, "Data loaded successfully")
             return redirect(reverse("cityclimate_data_checklist", args=(page.pk,)))
