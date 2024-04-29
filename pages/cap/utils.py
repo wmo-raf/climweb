@@ -220,6 +220,7 @@ def create_cap_area_map_image(cap_alert):
     MBGL_RENDERER_URL = getattr(settings, "MBGL_RENDERER_URL", None)
 
     if not MBGL_RENDERER_URL:
+        print("MBGL_RENDERER_URL is not set in settings")
         return None
 
     mbgl_payload = cap_alert.mbgl_renderer_payload

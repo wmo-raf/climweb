@@ -21,10 +21,13 @@ def create_cap_alert_multi_media(cap_alert_page_id):
             cap_alert_area_map_image = create_cap_area_map_image(cap_alert)
 
             if cap_alert_area_map_image:
+                print("[CAP] 1. CAP Alert Area Map Image created for: ", cap_alert.title)
                 cap_alert.alert_area_map_image = cap_alert_area_map_image
 
                 # create_cap_pdf_document
                 cap_preview_document = create_cap_pdf_document(cap_alert, template_name="cap/alert_detail_pdf.html")
+
+                print("[CAP] 2. CAP Alert PDF Document created for: ", cap_alert.title)
 
                 file_id = cap_alert.last_published_at.strftime("%s")
                 preview_image_filename = f"{cap_alert.identifier}_{file_id}_preview.jpg"
@@ -36,11 +39,16 @@ def create_cap_alert_multi_media(cap_alert_page_id):
                 cap_preview_image = get_first_page_of_pdf_as_image(file_path=cap_preview_document.file.path,
                                                                    title=preview_image_title,
                                                                    file_name=preview_image_filename)
+
+                print("[CAP] 3. CAP Alert Preview Image created for: ", cap_alert.title)
+
                 cap_alert.alert_pdf_preview = cap_preview_document
                 if cap_preview_image:
                     cap_alert.search_image = cap_preview_image
 
                 cap_alert.save()
+
+                print("[CAP] CAP Alert MultiMedia content saved for: ", cap_alert.title)
         else:
             print("[CAP] CAP Alert not found for ID: ", cap_alert_page_id)
     except Exception as e:
