@@ -23,9 +23,12 @@ def create_cap_alert_multi_media(cap_alert_page_id):
             if cap_alert_area_map_image:
                 print("[CAP] 1. CAP Alert Area Map Image created for: ", cap_alert.title)
                 cap_alert.alert_area_map_image = cap_alert_area_map_image
+                cap_alert.save()
 
                 # create_cap_pdf_document
                 cap_preview_document = create_cap_pdf_document(cap_alert, template_name="cap/alert_detail_pdf.html")
+                cap_alert.alert_pdf_preview = cap_preview_document
+                cap_alert.save()
 
                 print("[CAP] 2. CAP Alert PDF Document created for: ", cap_alert.title)
 
@@ -42,11 +45,9 @@ def create_cap_alert_multi_media(cap_alert_page_id):
 
                 print("[CAP] 3. CAP Alert Preview Image created for: ", cap_alert.title)
 
-                cap_alert.alert_pdf_preview = cap_preview_document
                 if cap_preview_image:
                     cap_alert.search_image = cap_preview_image
-
-                cap_alert.save()
+                    cap_alert.save()
 
                 print("[CAP] CAP Alert MultiMedia content saved for: ", cap_alert.title)
         else:
