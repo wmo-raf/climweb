@@ -292,10 +292,7 @@ def on_publish_cap_alert(sender, **kwargs):
     if instance.alert_area_map_image:
         instance.alert_area_map_image.delete()
 
-    try:
-        create_cap_alert_multi_media(instance.pk)
-    except Exception as e:
-        print(e)
+    create_cap_alert_multi_media(instance.pk)
 
 
 def get_active_alerts():
