@@ -1,11 +1,17 @@
+import json
+
+from capeditor.cap_settings import CapSetting
 from capeditor.models import AbstractCapAlertPage
 from capeditor.pubsub.publish import publish_cap_mqtt_message
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
+from shapely.geometry import shape
+from shapely.ops import unary_union
 from wagtail.admin.panels import FieldPanel
 from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.settings.models import BaseSiteSetting
@@ -14,7 +20,10 @@ from wagtail.models import Page
 from wagtail.signals import page_published
 
 from base.mixins import MetadataPageMixin
-from pages.cap.tasks import generate_cap_alert_card
+from pages.cap.tasks import create_cap_alert_multi_media
+from pages.cap.utils import (
+    get_cap_map_style,
+)
 
 
 class CapAlertListPage(MetadataPageMixin, Page):
@@ -115,6 +124,21 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
         *AbstractCapAlertPage.content_panels
     ]
 
+    alert_area_map_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    alert_pdf_preview = models.ForeignKey(
+        'base.CustomDocumentModel',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='+',
+    )
+
     class Meta:
         ordering = ["-sent"]
 
@@ -137,6 +161,30 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
         infos = sorted(infos, key=lambda x: x.get("severity", {}).get("id"), reverse=True)
 
         return infos
+
+    @property
+    def mbgl_renderer_payload(self):
+        features = self.get_geojson_features()
+        shapely_polygons = [shape(feature["geometry"]) for feature in features]
+        combined = unary_union(shapely_polygons)
+        bounding_box = list(combined.bounds)
+
+        geojson = {
+            "type": "FeatureCollection",
+            "features": features
+        }
+
+        style = get_cap_map_style(geojson)
+
+        payload = {
+            "width": 400,
+            "height": 400,
+            "padding": 6,
+            "style": style,
+            "bounds": bounding_box,
+        }
+
+        return json.dumps(payload, cls=DjangoJSONEncoder)
 
     def get_geojson_features(self, request=None):
         features = []
@@ -172,6 +220,20 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
         features = sorted(features, key=lambda x: x.get("order"))
         return features
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        cap_setting = CapSetting.for_request(request)
+
+        context.update({
+            "org_logo": cap_setting.logo,
+            "sender_name": cap_setting.sender_name,
+            "sender_contact": cap_setting.sender,
+            "alerts_url": self.get_parent().get_full_url(),
+        })
+
+        return context
 
 
 @register_setting(name="cap-geomanager-settings")
@@ -220,7 +282,20 @@ def on_publish_cap_alert(sender, **kwargs):
         except Exception as e:
             pass
 
-        generate_cap_alert_card(instance.id)
+    # delete previous pdf preview if exists
+    if instance.alert_pdf_preview:
+        instance.alert_pdf_preview.delete()
+
+    if instance.search_image:
+        instance.search_image.delete()
+
+    if instance.alert_area_map_image:
+        instance.alert_area_map_image.delete()
+
+    try:
+        create_cap_alert_multi_media(instance.pk)
+    except Exception as e:
+        print(e)
 
 
 def get_active_alerts():

@@ -1,34 +1,42 @@
 from background_task import background
-from wagtail.images.models import Image
 
 from base.utils import get_object_or_none
+from pages.cap.utils import (
+    create_cap_area_map_image,
+    create_cap_pdf_document,
+    get_first_page_of_pdf_as_image
+)
 
 
 @background(schedule=5)
-def generate_cap_alert_card(cap_alert_page_id):
+def create_cap_alert_multi_media(cap_alert_page_id):
     from .models import (CapAlertPage)
 
-    cap_alert_page = get_object_or_none(CapAlertPage, id=cap_alert_page_id)
-    if cap_alert_page:
-        print("[CAP] Generating CAP Alert Card for: ", cap_alert_page.title)
-        try:
-            # create summary image
-            image_content_file = cap_alert_page.generate_alert_card_image()
-            if image_content_file:
-                # delete old image
-                if cap_alert_page.search_image:
-                    cap_alert_page.search_image.delete()
+    cap_alert = get_object_or_none(CapAlertPage, id=cap_alert_page_id)
 
-                # create new image
-                cap_alert_page.search_image = Image(title=cap_alert_page.title, file=image_content_file)
-                cap_alert_page.search_image.save()
+    if cap_alert:
+        print("[CAP] Generating CAP Alert MultiMedia content for: ", cap_alert.title)
+        # create alert area map image
+        cap_alert_area_map_image = create_cap_area_map_image(cap_alert)
 
-                # save the instance
-                cap_alert_page.save()
+        if cap_alert_area_map_image:
+            cap_alert.alert_area_map_image = cap_alert_area_map_image
 
-                print("[CAP] CAP Alert Card generated for: ", cap_alert_page.title)
+            # create_cap_pdf_document
+            cap_preview_document = create_cap_pdf_document(cap_alert, template_name="cap/alert_detail_pdf.html")
 
-        except Exception as e:
-            print("[CAP] Error generating CAP Alert Card for: ", cap_alert_page.title)
-            print(e)
-            pass
+            file_id = cap_alert.last_published_at.strftime("%s")
+            preview_image_filename = f"{cap_alert.identifier}_{file_id}_preview.jpg"
+
+            sent = cap_alert.sent.strftime("%Y-%m-%d-%H-%M")
+            preview_image_title = f"{sent} - Alert Preview"
+
+            # get first page of pdf as image
+            cap_preview_image = get_first_page_of_pdf_as_image(file_path=cap_preview_document.file.path,
+                                                               title=preview_image_title,
+                                                               file_name=preview_image_filename)
+            cap_alert.alert_pdf_preview = cap_preview_document
+            if cap_preview_image:
+                cap_alert.search_image = cap_preview_image
+
+            cap_alert.save()

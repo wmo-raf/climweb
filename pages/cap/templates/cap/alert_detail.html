@@ -48,6 +48,32 @@
                                 </span>
                                 <span class="share-button-title">CAP XML </span>
                             </a>
+                            {% if page.search_image %}
+                                {% image page.search_image original as alert_png_preview %}
+                                <a class="button is-rounded is-small" href="{{ alert_png_preview.url }}">
+                                    <span class="icon">
+                                        <i class="fas fa-image"></i>
+                                    </span>
+                                    <span class="share-button-title">
+                                        {% translate "View PNG" %}
+                                    </span>
+                                </a>
+                            {% endif %}
+                            {% if page.alert_pdf_preview %}
+                                <a class="button is-rounded is-small" href="{{ page.alert_pdf_preview.url }}"
+                                   data-ga-action="download"
+                                   data-ga-event-category="CAP Alert Document Download"
+                                   data-ga-event-label="{{ page.title }}"
+                                   data-ga-value="{{ page.alert_pdf_preview.url }}"
+                                >
+                                    <span class="icon">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </span>
+                                    <span class="share-button-title">
+                                        {% translate "View PDF" %}
+                                    </span>
+                                </a>
+                            {% endif %}
                             {% share_buttons url=page.get_full_url text=page.title %}
                         </div>
                     </div>

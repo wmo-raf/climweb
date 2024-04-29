@@ -427,3 +427,10 @@ def import_cap_alert(request, alert_data):
             return redirect(reverse("wagtailadmin_pages:edit", args=[new_cap_alert_page.id]))
 
     return None
+
+
+@hooks.register("register_icons")
+def register_icons(icons):
+    return icons + [
+        'cap/icons/warning-outline.svg',
+    ]
