@@ -1,7 +1,7 @@
 import json
 
 from capeditor.cap_settings import CapSetting
-from capeditor.models import AbstractCapAlertPage
+from capeditor.models import AbstractCapAlertPage, CapAlertPageForm
 from capeditor.pubsub.publish import publish_cap_mqtt_message
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -12,6 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
 from shapely.geometry import shape
 from shapely.ops import unary_union
+from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.settings.models import BaseSiteSetting
@@ -114,7 +115,33 @@ class CapAlertListPage(MetadataPageMixin, Page):
         return filters
 
 
+class CapPageForm(CapAlertPageForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        references_field = self.fields.get("references")
+
+        if references_field:
+            for block_type, block in references_field.block.child_blocks.items():
+                if block_type == "reference":
+                    field_name = "ref_alert"
+                    ref_alert_block = references_field.block.child_blocks[block_type].child_blocks[field_name]
+
+                    label = ref_alert_block.label or field_name
+                    name = ref_alert_block.name
+                    help_text = ref_alert_block._help_text
+
+                    references_field.block.child_blocks[block_type].child_blocks[field_name] = blocks.PageChooserBlock(
+                        page_type="cap.CapAlertPage",
+                        help_text=help_text,
+                    )
+                    references_field.block.child_blocks[block_type].child_blocks[field_name].name = name
+                    references_field.block.child_blocks[block_type].child_blocks[field_name].label = label
+
+
 class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
+    base_form_class = CapPageForm
+
     template = "cap/alert_detail.html"
 
     parent_page_types = ["cap.CapAlertListPage"]
