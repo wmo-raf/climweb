@@ -169,16 +169,38 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     class Meta:
         ordering = ["-sent"]
 
+    @property
+    def display_title(self):
+        title = self.draft_title or self.title
+        sent = self.sent.strftime("%Y-%m-%d %H:%M")
+        return f"{self.status} - {sent} - {title}"
+
     def __str__(self):
-        return f"{self.status} - {self.title}"
+        return self.display_title
 
     def get_admin_display_title(self):
-        title = self.draft_title or self.title
-        return f"{self.status} - {title}"
+        return self.display_title
 
     @cached_property
     def xml_link(self):
         return reverse("cap_alert_detail", args=(self.identifier,))
+
+    @property
+    def reference_alerts(self):
+        alerts = []
+
+        if self.msgType == "Alert":
+            return alerts
+
+        for ref in self.references:
+            alert_page = ref.value.get("ref_alert")
+            if alert_page:
+                alerts.append(alert_page.specific)
+
+        # sort by date sent
+        alerts = sorted(alerts, key=lambda x: x.sent)
+
+        return alerts
 
     @cached_property
     def infos(self):
