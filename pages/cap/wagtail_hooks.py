@@ -27,7 +27,7 @@ from wagtail_modeladmin.options import (
 from .models import (
     CapAlertPage,
     CAPGeomanagerSettings,
-    CapAlertListPage
+    CapAlertListPage, get_active_alerts
 )
 from .utils import create_cap_geomanager_dataset
 
@@ -111,8 +111,8 @@ def add_geomanager_datasets(request):
     cap_geomanager_settings = CAPGeomanagerSettings.for_request(request)
     if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
 
-        # check if we have any live alerts
-        has_live_alerts = CapAlertPage.objects.live().filter(status="Actual").exists()
+        # check if we have any active alerts
+        has_live_alerts = get_active_alerts().exists()
 
         # create dataset
         dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)
@@ -427,3 +427,10 @@ def import_cap_alert(request, alert_data):
             return redirect(reverse("wagtailadmin_pages:edit", args=[new_cap_alert_page.id]))
 
     return None
+
+
+@hooks.register("register_icons")
+def register_icons(icons):
+    return icons + [
+        'cap/icons/warning-outline.svg',
+    ]

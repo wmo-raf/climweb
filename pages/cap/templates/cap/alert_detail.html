@@ -3,6 +3,7 @@
 {% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n get_share_url %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'cap/css/bulma-timeline.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
     <link rel="stylesheet" href="{% static 'cap/css/cap_detail_page.css' %}">
 
@@ -48,6 +49,32 @@
                                 </span>
                                 <span class="share-button-title">CAP XML </span>
                             </a>
+                            {% if page.search_image %}
+                                {% image page.search_image original as alert_png_preview %}
+                                <a class="button is-rounded is-small" href="{{ alert_png_preview.url }}">
+                                    <span class="icon">
+                                        <i class="fas fa-image"></i>
+                                    </span>
+                                    <span class="share-button-title">
+                                        {% translate "View PNG" %}
+                                    </span>
+                                </a>
+                            {% endif %}
+                            {% if page.alert_pdf_preview %}
+                                <a class="button is-rounded is-small" href="{{ page.alert_pdf_preview.url }}"
+                                   data-ga-action="download"
+                                   data-ga-event-category="CAP Alert Document Download"
+                                   data-ga-event-label="{{ page.title }}"
+                                   data-ga-value="{{ page.alert_pdf_preview.url }}"
+                                >
+                                    <span class="icon">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </span>
+                                    <span class="share-button-title">
+                                        {% translate "View PDF" %}
+                                    </span>
+                                </a>
+                            {% endif %}
                             {% share_buttons url=page.get_full_url text=page.title %}
                         </div>
                     </div>
@@ -64,7 +91,40 @@
                             </div>
                         </article>
                     {% endif %}
+                    {% if page.reference_alerts %}
+                        <div class="reference-alerts">
+                            {% if page.msgType == "Update" %}
+                                <div class="ref-header">
+                                    {% translate "This alert is an update to the previously published alerts below:" %}
+                                </div>
+                            {% endif %}
+                            {% if page.msgType == "Cancel" %}
+                                <div class="ref-header">
+                                    {% translate "This alert cancels the previously published alerts below:" %}
+                                </div>
+                            {% endif %}
 
+                            <div class="timeline no-headers">
+                                {% for ref_alert in page.reference_alerts %}
+                                    {% with ref_alert.infos.0 as alert_info %}
+                                        <div class="timeline-item">
+                                            <div class="timeline-marker is-danger is-icon"
+                                                 style="background-color: {{ alert_info.severity.color }};border-color: {{ alert_info.severity.border_color }};">
+                                                <span class="marker-icon"
+                                                      style="{% if alert_info.severity.icon_color %}color:{{ alert_info.severity.icon_color }};{% endif %} ">
+                                                    {% svg_icon name="warning" %}
+                                                </span>
+                                            </div>
+                                            <div class="timeline-content">
+                                                <p class="heading">{{ ref_alert.sent }}</p>
+                                                <a href="{{ ref_alert.url }}">{{ ref_alert.title }}</a>
+                                            </div>
+                                        </div>
+                                    {% endwith %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
                     <div class="cap-body">
                         <div class="columns is-multiline " style="align-items: flex-start;">
                             <div class="column is-two-fifths-widescreen is-full-touch">
@@ -302,6 +362,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
     </main>
 
