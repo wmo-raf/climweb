@@ -15,7 +15,6 @@ class MetadataPageMixin(BaseMetadataPageMixin, WagtailCacheMixin):
             [
                 FieldPanel("slug", widget=SlugInput),
                 FieldPanel("seo_title"),
-                FieldPanel('show_in_menus'),
                 FieldPanel("search_description"),
                 FieldPanel('search_image'),
             ],
