@@ -5,6 +5,7 @@ from capeditor.models import AbstractCapAlertPage, CapAlertPageForm
 from capeditor.pubsub.publish import publish_cap_mqtt_message
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -180,6 +181,15 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
     def get_admin_display_title(self):
         return self.display_title
+
+    def get_meta_description(self):
+        info = self.info[0]
+        description = info.value.get("description")
+
+        if description:
+            description = truncatechars(description, 160)
+
+        return description
 
     @cached_property
     def xml_link(self):
