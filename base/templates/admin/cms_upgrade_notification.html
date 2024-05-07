@@ -1,32 +1,20 @@
 {% load i18n wagtailadmin_tags %}
-<div id="w-cms-upgrade" class="w-panel-cms-upgrade panel w-hidden" data-cms-current-version="{{ current_version }}">
-    <div class="help-block help-warning">
-        {% icon name='warning' %}
-        {% translate "CMS upgrade available. Your version:" %} <strong>{{ current_version }}</strong>
-        {% translate "Latest version:" %} <strong id="w-cms-latest-version"></strong>.
-        {% if version_upgrade_url %}
-            <a href="{{ version_upgrade_url }}">{% translate "Upgrade" %}</a>
-        {% endif %}
-    </div>
-</div>
 
-<script>
-    const latestReleaseUrl = "{{ latest_release_url }}";
-    $(document).ready(function () {
-        const $cmsUpgrade = $("#w-cms-upgrade")
-        const $cmsLatestVersion = $("#w-cms-latest-version")
-        const currentVersion = $cmsUpgrade.data("cmsCurrentVersion")
-        if (currentVersion && latestReleaseUrl) {
-            fetch(latestReleaseUrl).then(res => res.json()).then(releaseData => {
-                const latestVersion = releaseData.name && releaseData.name.replace(/^v+|v+$/gi, '')
-                if (latestVersion && currentVersion !== latestVersion) {
-                    $cmsLatestVersion.text(latestVersion)
-                    $cmsUpgrade.show()
-                }
-            }).catch(err => {
-                console.log(err)
-            })
-        }
-    })
-</script>
+{% if cms_upgrade_hook_url and has_new_version %}
+    <div class="w-panel-cms-upgrade panel" data-cms-current-version="{{ current_version }}">
+        <div class="help-block help-warning">
+            {% icon name='warning' %}
+            {% translate "CMS upgrade available. Your version:" %} <strong>{{ current_version }}. </strong>
+            {% translate "Latest version:" %} <strong id="w-cms-latest-version">{{ latest_release.version }}</strong>.
+            {% if version_upgrade_url %}
+                <a href="{{ version_upgrade_url }}">{% translate "Upgrade" %}.</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+{% endif %}
+
+
+
 

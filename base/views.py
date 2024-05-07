@@ -1,10 +1,12 @@
 from django.conf import settings
 from django.core.cache import cache
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.utils.translation import gettext as _
 from wagtail.admin import messages
 
 from base.forms import CMSUpgradeForm
 from base.utils import get_latest_cms_release, send_upgrade_command
+from nmhs_cms.utils.version import check_version_greater_than_current, get_main_version
 
 
 def handler500(request):
@@ -22,38 +24,51 @@ def cms_version_view(request):
     cms_upgrade_pending = cache.get("cms_upgrade_pending")
 
     template_name = "admin/cms_version.html"
-    current_version = getattr(settings, "CMS_VERSION", None)
     cms_upgrade_hook_url = getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
 
     try:
         latest_release = get_latest_cms_release()
-    except Exception:
-        latest_release = None
+        latest_version = latest_release.get("version")
+    except Exception as e:
+        return render(request, template_name,
+                      context={
+                          "error": True,
+                          "error_message": _("Error fetching latest version. Please try again later."),
+                          "error_traceback": str(e)
+                      })
+
+    current_version = get_main_version()
 
     context = {
+        "latest_release": latest_release,
         "current_version": current_version,
-        "cms_upgrade_hook_url": cms_upgrade_hook_url
+        "cms_upgrade_hook_url": cms_upgrade_hook_url,
     }
 
-    if latest_release and current_version:
-        context.update({
-            "latest_release": latest_release
-        })
+    try:
+        latest_release_greater_than_current = check_version_greater_than_current(latest_version)
+    except Exception as e:
+        return render(request, template_name,
+                      context={
+                          "error": True,
+                          "error_message": _("Error in extracting latest version number from the release"),
+                          "error_traceback": str(e)
+                      })
 
-        initial = {
-            "latest_version": latest_release.get("version"),
-            "current_version": current_version
-        }
-        form = CMSUpgradeForm(initial=initial)
-
-        context.update({
-            "form": form,
-        })
+    context.update({
+        "has_new_version": latest_release_greater_than_current,
+    })
 
     initial = {
-        "latest_version": latest_release.get("version"),
+        "latest_version": latest_version,
         "current_version": current_version
     }
+
+    form = CMSUpgradeForm(initial=initial)
+
+    context.update({
+        "form": form,
+    })
 
     upgrade_form = CMSUpgradeForm(initial=initial)
 
@@ -72,6 +87,7 @@ def cms_version_view(request):
                         send_upgrade_command(latest_version)
                         cache.set("cms_upgrade_pending", True)
                         messages.success(request, "CMS upgrade initiated successfully")
+                        return redirect("wagtailadmin_home")
                     except Exception as e:
                         cache.set("cms_upgrade_pending", False)
                         messages.error(request, "Error initiating CMS upgrade. Please ensure the "
