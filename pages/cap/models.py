@@ -212,7 +212,7 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
     @cached_property
     def xml_link(self):
-        return reverse("cap_alert_detail", args=(self.identifier,))
+        return reverse("cap_alert_xml", args=(self.identifier,))
 
     @property
     def reference_alerts(self):

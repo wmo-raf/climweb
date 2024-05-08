@@ -78,7 +78,7 @@ class AlertListFeed(Feed):
         return item.title
 
     def item_link(self, item):
-        return reverse("cap_alert_detail", args=[item.identifier])
+        return reverse("cap_alert_xml", args=[item.identifier])
 
     def item_description(self, item):
         return item.info[0].value.get('description')
