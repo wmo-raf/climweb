@@ -139,6 +139,25 @@ class CapPageForm(CapAlertPageForm):
                     references_field.block.child_blocks[block_type].child_blocks[field_name].name = name
                     references_field.block.child_blocks[block_type].child_blocks[field_name].label = label
 
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # validate dates
+        sent = cleaned_data.get("sent")
+        alert_infos = cleaned_data.get("info")
+        if alert_infos:
+            for info in alert_infos:
+                effective = info.value.get("effective")
+                expires = info.value.get("expires")
+
+                if effective and sent and effective < sent:
+                    self.add_error('info', _("Effective date cannot be earlier than the alert sent date."))
+
+                if expires and sent and expires < sent:
+                    self.add_error('info', _("Expires date cannot be earlier than the alert sent date."))
+
+        return cleaned_data
+
 
 class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     base_form_class = CapPageForm
