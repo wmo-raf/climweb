@@ -16,6 +16,7 @@ from email.utils import getaddresses
 
 import django.conf.locale
 import environ
+from signxml import SignatureMethod
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -476,3 +477,10 @@ MBGL_RENDERER_URL = env.str("MBGL_RENDERER_URL", default="")
 
 CAP_CERT_PATH = env.str("CAP_CERT_PATH", default="")
 CAP_PRIVATE_KEY_PATH = env.str("CAP_PRIVATE_KEY_PATH", default="")
+CAP_SIGNATURE_METHOD = env.str("CAP_SIGNATURE_METHOD", default="RSA_SHA256")
+
+if CAP_SIGNATURE_METHOD:
+    assert hasattr(SignatureMethod, CAP_SIGNATURE_METHOD), f"Invalid signature method '{CAP_SIGNATURE_METHOD}'. " \
+                                                           f"Must be one of " \
+                                                           f"{list(SignatureMethod.__members__.keys())}"
+    CAP_SIGNATURE_METHOD = SignatureMethod[CAP_SIGNATURE_METHOD]
