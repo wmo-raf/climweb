@@ -4,20 +4,27 @@ from typing import List
 from capeditor.constants import SEVERITY_MAPPING
 from capeditor.models import CapSetting
 from capeditor.renderers import CapXMLRenderer
-from capeditor.serializers import AlertSerializer
+from capeditor.serializers import AlertSerializer as BaseAlertSerializer
 from django.contrib.syndication.views import Feed
+from django.core.cache import cache
 from django.core.validators import validate_email
 from django.db.models.base import Model
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.feedgenerator import Enclosure, rfc2822_date
 from django.utils.feedgenerator import Rss201rev2Feed
-from rest_framework import generics
+from rest_framework.generics import get_object_or_404
 from wagtail.models import Site
 
 from .models import CapAlertPage
+from .sign import sign_xml
+
+
+class AlertSerializer(BaseAlertSerializer):
+    class Meta(BaseAlertSerializer.Meta):
+        model = CapAlertPage
 
 
 class CustomFeed(Rss201rev2Feed):
@@ -122,14 +129,25 @@ class AlertListFeed(Feed):
         return [item.info[0].value.get('category')]
 
 
-class AlertDetail(generics.RetrieveAPIView):
-    serializer_class = AlertSerializer
-    serializer_class.Meta.model = CapAlertPage
+def get_cap_xml(request, identifier):
+    alert = get_object_or_404(CapAlertPage, identifier=identifier, status="Actual", live=True)
+    xml = cache.get(f"cap_xml_{identifier}")
 
-    renderer_classes = (CapXMLRenderer,)
-    queryset = CapAlertPage.objects.live().filter(status="Actual")
+    if not xml:
+        data = AlertSerializer(alert).data
+        xml = CapXMLRenderer().render(data)
 
-    lookup_field = "identifier"
+        try:
+            signed_xml = sign_xml(bytes(xml, encoding='utf-8'))
+            if signed_xml:
+                xml = signed_xml
+        except Exception as e:
+            pass
+
+        # cache for a day
+        cache.set(f"cap_xml_{identifier}", xml, 60 * 60 * 24)
+
+    return HttpResponse(xml, content_type="application/xml")
 
 
 def cap_geojson(request):

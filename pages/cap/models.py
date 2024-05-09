@@ -370,7 +370,7 @@ def on_publish_cap_alert(sender, **kwargs):
     if instance.alert_area_map_image:
         instance.alert_area_map_image.delete()
 
-    create_cap_alert_multi_media(instance.pk)
+    create_cap_alert_multi_media(instance.pk, clear_cache_on_success=True)
 
 
 def get_active_alerts():

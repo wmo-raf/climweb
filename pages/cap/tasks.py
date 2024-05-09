@@ -1,4 +1,5 @@
 from background_task import background
+from wagtailcache.cache import clear_cache
 
 from base.utils import get_object_or_none
 from pages.cap.utils import (
@@ -9,7 +10,7 @@ from pages.cap.utils import (
 
 
 @background(schedule=5)
-def create_cap_alert_multi_media(cap_alert_page_id):
+def create_cap_alert_multi_media(cap_alert_page_id, clear_cache_on_success=False):
     from .models import CapAlertPage
 
     try:
@@ -50,6 +51,9 @@ def create_cap_alert_multi_media(cap_alert_page_id):
                     cap_alert.save()
 
                 print("[CAP] CAP Alert MultiMedia content saved for: ", cap_alert.title)
+
+                if clear_cache_on_success:
+                    clear_cache()
         else:
             print("[CAP] CAP Alert not found for ID: ", cap_alert_page_id)
     except Exception as e:
