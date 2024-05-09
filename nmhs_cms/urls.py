@@ -10,6 +10,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtailcache.cache import cache_page
 
+from base.views import humans
 from nmhs_cms.api import api_router
 from pages.search import views as search_views
 
@@ -32,6 +33,7 @@ urlpatterns = [
     path("", include("pages.videos.urls")),
 
     path("sitemap.xml", sitemap),
+    path("humans.txt", humans),
 
     path("search/", search_views.search, name="search"),
     path('auth/', include('allauth.urls')),

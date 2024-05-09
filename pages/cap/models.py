@@ -139,6 +139,25 @@ class CapPageForm(CapAlertPageForm):
                     references_field.block.child_blocks[block_type].child_blocks[field_name].name = name
                     references_field.block.child_blocks[block_type].child_blocks[field_name].label = label
 
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # validate dates
+        sent = cleaned_data.get("sent")
+        alert_infos = cleaned_data.get("info")
+        if alert_infos:
+            for info in alert_infos:
+                effective = info.value.get("effective")
+                expires = info.value.get("expires")
+
+                if effective and sent and effective < sent:
+                    self.add_error('info', _("Effective date cannot be earlier than the alert sent date."))
+
+                if expires and sent and expires < sent:
+                    self.add_error('info', _("Expires date cannot be earlier than the alert sent date."))
+
+        return cleaned_data
+
 
 class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     base_form_class = CapPageForm
@@ -193,7 +212,7 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
     @cached_property
     def xml_link(self):
-        return reverse("cap_alert_detail", args=(self.identifier,))
+        return reverse("cap_alert_xml", args=(self.identifier,))
 
     @property
     def reference_alerts(self):
@@ -351,7 +370,7 @@ def on_publish_cap_alert(sender, **kwargs):
     if instance.alert_area_map_image:
         instance.alert_area_map_image.delete()
 
-    create_cap_alert_multi_media(instance.pk)
+    create_cap_alert_multi_media(instance.pk, clear_cache_on_success=True)
 
 
 def get_active_alerts():

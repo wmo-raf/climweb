@@ -16,6 +16,10 @@ def handler500(request):
     return response
 
 
+def humans(request):
+    return render(request, "humans.txt", context={}, content_type="text/plain; charset=utf-8", )
+
+
 def cms_version_view(request):
     # set upgrade status
     if cache.get("cms_upgrade_pending") is None:

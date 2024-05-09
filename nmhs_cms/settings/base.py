@@ -473,3 +473,6 @@ USE_X_FORWARDED_HOST = env.bool("USE_X_FORWARDED_HOST", default=True)
 DATA_UPLOAD_MAX_MEMORY_SIZE = env.int("DATA_UPLOAD_MAX_MEMORY_SIZE", default=26214400)  # 25MB
 
 MBGL_RENDERER_URL = env.str("MBGL_RENDERER_URL", default="")
+
+CAP_CERT_PATH = env.str("CAP_CERT_PATH", default="")
+CAP_PRIVATE_KEY_PATH = env.str("CAP_PRIVATE_KEY_PATH", default="")
