@@ -432,5 +432,11 @@ def import_cap_alert(request, alert_data):
 @hooks.register("register_icons")
 def register_icons(icons):
     return icons + [
+        'cap/icons/category.svg',
+        'cap/icons/certainty.svg',
+        'cap/icons/clock.svg',
+        'cap/icons/language.svg',
+        'cap/icons/response.svg',
+        'cap/icons/warning.svg',
         'cap/icons/warning-outline.svg',
     ]
