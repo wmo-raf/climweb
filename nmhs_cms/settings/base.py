@@ -363,8 +363,8 @@ FULL_RICHTEXT_FRATURES = ['bold', 'italic', 'underline', 'strikethrough', 'super
 # RECAPTCHA Settings
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
-
-RECAPTCHA_TESTING = True
+RECAPTCHA_DOMAIN = env.str('RECAPTCHA_DOMAIN', 'www.google.com')
+RECAPTCHA_VERIFY_REQUEST_TIMEOUT = env.int('RECAPTCHA_VERIFY_REQUEST_TIMEOUT', 60)
 
 # EMAIL SETTINGS
 # Default email address used to send messages from the website.
