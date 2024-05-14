@@ -90,7 +90,7 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.c
                     <h2>Availability of Surface Land observations</h2>
                     <h2>(National NWP)</h2>
 
-                    <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-report">Download Report</a>
+                    {% comment %} <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-report">Download Report</a> {% endcomment %}
                 
                     <div class="report-base-selectors">
                         <div class="control has-icons-left is-expanded my-3">
@@ -137,10 +137,6 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.c
         </div>
 
     </section>
-
-    <div id="report-content">
-        <p>hello</p>
-    </div>
 
     <section class="report-synoptic">
         {% include "home/wdqms_report/report_hourly_include.html" %}
