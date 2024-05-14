@@ -1,38 +1,12 @@
-from django.views.generic import ListView, DetailView
-from django_filters.rest_framework.backends import DjangoFilterBackend
-from rest_framework.generics import GenericAPIView, get_object_or_404
-from rest_framework.mixins import RetrieveModelMixin
-from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework.response import Response
+from django.shortcuts import render, get_object_or_404
 
 from .models import YoutubePlaylist
-from .serializers import VideoPlaylistSerializer
 
 
-class YoutubePlaylistView(ListView):
-    model = YoutubePlaylist
-    template_name = "playlist_list.html"
-    context_object_name = "playlists"
+def get_playlist_videos_include(request, pk):
+    playlist = get_object_or_404(YoutubePlaylist, pk=pk)
+    videos = playlist.playlist_items()
+    if videos:
+        videos = videos[:3]
 
-
-class YoutubePlaylistItemsView(DetailView):
-    model = YoutubePlaylist
-    template_name = 'playlist_items.html'
-    context_object_name = 'playlist'
-
-
-class VideoView(RetrieveModelMixin, GenericAPIView):
-    queryset = YoutubePlaylist.objects.all()
-    serializer_class = VideoPlaylistSerializer
-    filter_backends = [DjangoFilterBackend, ]
-    filterset_fields = ['service', ]
-    renderer_classes = [TemplateHTMLRenderer]
-
-    def get(self, request, *args, **kwargs):
-        result = get_object_or_404(self.queryset, pk=kwargs['pk'])
-        data = self.get_serializer(result).data
-
-        if not data.get("videos"):
-            return Response(data=None, template_name='videos_include.html', status=404)
-
-        return Response({'result': data}, template_name='videos_include.html')
+    return render(request, context={'videos': videos, "playlist": playlist}, template_name='videos_include.html')

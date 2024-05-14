@@ -28,15 +28,15 @@
                         <p class="has-text-white footer-text">
                             &copy; {{ settings.base.OrganisationSetting.name }} {% now 'Y' %}</p>
                     {% endif %}
-                    {% if 'CMS_VERSION'|django_settings %}
-                        <a
-                                href="https://github.com/wmo-raf/nmhs-cms"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style="color:#ababab; font-size: 12px;  font-weight:600">
-                            <span> {% translate "Powered by NMHS CMS" %} v{{ 'CMS_VERSION'|django_settings }}</span>
-                        </a>
-                    {% endif %}
+                    <a
+                            href="https://github.com/wmo-raf/nmhs-cms"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style="color:#ababab; font-size: 12px;  font-weight:600">
+                        <span>
+                            {% translate "Powered by Climweb" %} v{% cms_version %}
+                        </span>
+                    </a>
                 </div>
                 <div class="column is-half" style="display: flex;justify-content: flex-end;">
                     {% for account in settings.base.OrganisationSetting.social_media_accounts %}

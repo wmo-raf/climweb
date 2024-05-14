@@ -2,6 +2,7 @@ import calendar
 import logging
 import os
 from datetime import datetime
+from html.parser import HTMLParser
 
 from django import template
 from django.conf import settings
@@ -9,13 +10,18 @@ from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import stringfilter, truncatewords_html
 from django.utils.safestring import mark_safe
 from wagtail.models import Site, Page
-from html.parser import HTMLParser
 
 from base.models import LanguageSettings
 from base.utils import get_first_non_empty_p_string
+from nmhs_cms import __version__
 
 logger = logging.getLogger(__name__)
 register = template.Library()
+
+
+@register.simple_tag
+def cms_version():
+    return __version__
 
 
 @register.filter
@@ -221,11 +227,9 @@ class ExcludeImagesParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag.lower() == 'img':
             return
-        
+
         attr_repl = [f"{attr[0]}=\"{attr[1]}\"" for attr in attrs]
         self.result.append(f'<{tag} {" ".join(attr_repl)}>')
-
-        
 
     def handle_endtag(self, tag):
         if tag.lower() == 'img':
@@ -235,9 +239,11 @@ class ExcludeImagesParser(HTMLParser):
     def handle_data(self, data):
         self.result.append(data)
 
+
 def exclude_images(value):
     parser = ExcludeImagesParser()
     parser.feed(value)
     return ''.join(parser.result)
+
 
 register.filter('exclude_images', exclude_images)

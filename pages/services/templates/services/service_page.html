@@ -10,16 +10,6 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
     {% endif %}
 
-    <style>
-        .offers {
-            margin-top: -10px
-        }
-
-        .offers .accordion-body {
-            background-color: transparent !important;
-        }
-    </style>
-
 {% endblock %}
 
 {% block body_class %}service_page{% endblock %}
@@ -33,62 +23,51 @@
             </div>
         </section>
 
-
-        {% if page.products.all %}
+        {% if page.products %}
             <section id="offers" class="offers"
                      style="background-image: url('{% static 'img/bg_products.png' %}'); background-repeat:no-repeat; background-size:cover">
                 <div class="container">
-
-                    <h2 class="section-title has-text-centered">{% translate 'Our Products' %}</h2>
-                    <div class="columns">
-                        <div class="column is-one-half" style="display: flex; align-items: center">
-                            <figure class="image home-products-image" style="width: 100%;
-                        height: 400px;
-                        overflow: hidden;">
-                                {% if page.banner_image %}
-
-                                    {% image page.banner_image original as ft_img %}
-                                    <img class="progressive__img progressive--not-loaded"
-                                         data-progressive="{{ ft_img.url }}"
-                                         style="height: 100%;width: 100%;object-fit: cover"
-                                         src="{% lazy_image_url ft_img %}" alt="products"/>
-                                {% endif %}
-                            </figure>
-                        </div>
-                        <div class="column is-one-half forecast has-text-left"
-                             style="display: flex;align-items: center">
-                            <div class="accordion js-accordion">
-                                {% for product in page.products.all %}
-
-                                    <div class="accordion__item js-accordion-item {% if forloop.first %}active{% endif %}">
-                                        <h3 class="accordion-header js-accordion-header"
-                                            style="font-weight: 600;color: #333;">
-                                            {{ product.introduction_title }}
-                                        </h3>
-                                        <div class="accordion-body js-accordion-body"
-                                             style="{% if not forloop.first %}display:none{% endif %}">
-                                            <div class="accordion-body__contents">
-                                                <hr/>
-                                                <p class="dark-grey">
-                                                    {{ product.introduction_text|richtext }}
-                                                </p>
-                                                <div>
-                                                    <a class="more" href="{{ product.url }}">
-                                                        {% translate "Explore More" %}
+                    <h2 class="section-title has-text-centered">
+                        {% translate 'Our Products' %}
+                    </h2>
+                    <div class="columns is-multiline is-mobile is-centered">
+                        {% for product in page.products %}
+                            <div class="column is-one-quarter-desktop is-full-mobile">
+                                <a href="{{ product.url }}">
+                                    <div class="product-card">
+                                        {% if product.introduction_image %}
+                                            {% image product.introduction_image original as product_img %}
+                                            <div class="progressive__bg progressive--not-loaded product-image"
+                                                 data-progressive="{{ product_img.url }}"
+                                                 style="background-image: url({% lazy_image_url product_img %});">
+                                                <div class="p-6 product-content">
+                                                    <div class="product-title">
+                                                        {{ product.title|truncatechars:40 }}
+                                                    </div>
+                                                    <div>
                                                         <span class="icon">
-                                                            <i class="fas fa-arrow-right"></i>
+                                                            <i class="fas fa-arrow-circle-right"></i>
                                                         </span>
-                                                    </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        {% else %}
+                                            <div class="p-6 product-content">
+                                                <div class="product-title">
+                                                    {{ product.title|truncatechars:40 }}
+                                                </div>
+                                                <div>
+                                                    <span class="icon">
+                                                        <i class="fas fa-arrow-circle-right"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        {% endif %}
                                     </div>
-                                {% endfor %}
+                                </a>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
-
-
                 </div>
             </section>
 

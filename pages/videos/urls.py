@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import YoutubePlaylistView, YoutubePlaylistItemsView, VideoView
+
+from .views import get_playlist_videos_include
 
 urlpatterns = [
-    path('playlists/', YoutubePlaylistView.as_view(), name="playlist_view"),
-    path('playlists/<pk>', YoutubePlaylistItemsView.as_view(), name="playlist_items"),
+    path("api/videos/<int:pk>", get_playlist_videos_include, name="youtube_playlist_items"),
 ]

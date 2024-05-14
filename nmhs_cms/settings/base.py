@@ -16,6 +16,7 @@ from email.utils import getaddresses
 
 import django.conf.locale
 import environ
+from signxml import SignatureMethod
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -356,14 +357,22 @@ GEO_WIDGET_ZOOM = 3
 
 SUMMARY_RICHTEXT_FEATURES = ["bold", "ul", "ol", "link", "superscript", "subscript", "h2", "h3", "h4"]
 FULL_RICHTEXT_FRATURES = ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript',
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'code', 'ol', 'ul', 'link', 'document-link',
-        'image', 'embed', 'hr', 'anchor', 'table', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull',
-        'indent', 'outdent', 'html']
+                          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'code', 'ol', 'ul', 'link', 'document-link',
+                          'image', 'embed', 'hr', 'anchor', 'table', 'justifyLeft', 'justifyCenter', 'justifyRight',
+                          'justifyFull',
+                          'indent', 'outdent', 'html']
 # RECAPTCHA Settings
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
+RECAPTCHA_DOMAIN = env.str('RECAPTCHA_DOMAIN', 'www.google.com')
+RECAPTCHA_VERIFY_REQUEST_TIMEOUT = env.str('RECAPTCHA_VERIFY_REQUEST_TIMEOUT', "60")
 
-RECAPTCHA_TESTING = True
+# try to convert RECAPTCHA_VERIFY_REQUEST_TIMEOUT to an integer
+if RECAPTCHA_VERIFY_REQUEST_TIMEOUT:
+    try:
+        RECAPTCHA_VERIFY_REQUEST_TIMEOUT = int(RECAPTCHA_VERIFY_REQUEST_TIMEOUT)
+    except ValueError:
+        RECAPTCHA_VERIFY_REQUEST_TIMEOUT = 60
 
 # EMAIL SETTINGS
 # Default email address used to send messages from the website.
@@ -459,8 +468,6 @@ DJANGO_TABLES2_TEMPLATE = "django-tables2/bulma.html"
 
 ADMIN_URL_PATH = env.str("ADMIN_URL_PATH")
 
-CMS_VERSION = env.str("CMS_VERSION", default="")
-
 CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
 
 # mqtt broker
@@ -473,3 +480,15 @@ GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR = env.str("GEOMANAGER_AUTO_INGEST_RASTER_
 USE_X_FORWARDED_HOST = env.bool("USE_X_FORWARDED_HOST", default=True)
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = env.int("DATA_UPLOAD_MAX_MEMORY_SIZE", default=26214400)  # 25MB
+
+MBGL_RENDERER_URL = env.str("MBGL_RENDERER_URL", default="")
+
+CAP_CERT_PATH = env.str("CAP_CERT_PATH", default="")
+CAP_PRIVATE_KEY_PATH = env.str("CAP_PRIVATE_KEY_PATH", default="")
+CAP_SIGNATURE_METHOD = env.str("CAP_SIGNATURE_METHOD", default="RSA_SHA256")
+
+if CAP_SIGNATURE_METHOD:
+    assert hasattr(SignatureMethod, CAP_SIGNATURE_METHOD), f"Invalid signature method '{CAP_SIGNATURE_METHOD}'. " \
+                                                           f"Must be one of " \
+                                                           f"{list(SignatureMethod.__members__.keys())}"
+    CAP_SIGNATURE_METHOD = SignatureMethod[CAP_SIGNATURE_METHOD]
