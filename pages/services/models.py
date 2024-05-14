@@ -12,6 +12,7 @@ from base import blocks
 from base.models import ServiceCategory, AbstractBannerWithIntroPage
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from pages.events.models import EventPage
+from pages.flex_page.models import FlexPage
 from pages.news.models import NewsPage
 from pages.organisation_pages.projects.models import ServiceProject
 from pages.products.models import ProductPage
@@ -27,23 +28,26 @@ class ServiceIndexPage(MetadataPageMixin, Page):
     listing_heading = models.CharField(max_length=255, default="Explore our Services",
                                        verbose_name=_("Services listing Heading"))
     max_count = 1
+    is_services_index = True
 
     content_panels = Page.content_panels + [
         FieldPanel("listing_heading")
     ]
 
-    def get_children_pages(self):
-        return self.get_children().live()
-
     class Meta:
         verbose_name = _('Service List Page')
         verbose_name_plural = _('Service List Pages')
+
+    @cached_property
+    def service_pages(self):
+        service_pages = ServicePage.objects.live().descendant_of(self).order_by('service__order')
+        return service_pages
 
 
 class ServicePage(AbstractBannerWithIntroPage):
     template = 'services/service_page.html'
     parent_page_types = ['services.ServiceIndexPage']
-    subpage_types = ['flex_page.FlexPage',]
+    subpage_types = ['flex_page.FlexPage', ]
     show_in_menus_default = True
 
     service = models.OneToOneField(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
@@ -102,6 +106,7 @@ class ServicePage(AbstractBannerWithIntroPage):
     class Meta:
         verbose_name = _('Service Page')
         verbose_name_plural = _('Service Pages')
+        ordering = ['service__order']
 
     @cached_property
     def products(self):
@@ -113,6 +118,26 @@ class ServicePage(AbstractBannerWithIntroPage):
         products = ProductPage.objects.filter(Q(service=self.service) | Q(other_services__in=[self.service]))
 
         return products
+
+    @cached_property
+    def core_products(self):
+        """
+        Get list of core products related to this service
+        :return: core products list
+        """
+        # Get all products related to this service
+        core_products = ProductPage.objects.filter(service=self.service)
+
+        return core_products
+
+    @cached_property
+    def flex_pages(self):
+        """
+        Get list of flex pages related to this service
+        """
+        flex_pages = FlexPage.objects.live().descendant_of(self)
+
+        return flex_pages
 
     @cached_property
     def listing_image(self):
