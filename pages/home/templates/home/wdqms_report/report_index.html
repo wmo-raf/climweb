@@ -445,10 +445,10 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
         // Function to initialize chart rendering
         function initializeChartRendering() {
             // Fetch initial data and render charts
-            renderMonthlyMap();
 
             $('#year-select').val({{latest_date|date:"Y"}});
             $('#month-select-option').val({{latest_date|date:"m"}});
+            renderMonthlyMap();
             fetchSynopData('daily-graph', 'column', 'Daily Transmissions', 'daily_synop');
             fetchSynopData('monthly-graph', 'column', 'Monthly Transmissions', 'monthly_synop');
             fetchSynopData('yearly-graph', 'column', 'Yearly Transmissions', 'yearly_synop');
