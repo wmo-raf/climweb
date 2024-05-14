@@ -6,13 +6,15 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
 from wagtail.admin.ui.components import Component
+from wagtail.snippets.models import register_snippet
+from wagtail.snippets.views.snippets import SnippetViewSet
 from wagtail_modeladmin.options import (
     ModelAdmin,
     modeladmin_register, ModelAdminGroup,
 )
 from wagtailcache.cache import clear_cache
 
-from base.models import Theme
+from base.models import Theme, ServiceCategory
 from base.utils import get_latest_cms_release
 from base.views import cms_version_view
 from nmhs_cms.utils.version import get_main_version, check_version_greater_than_current
@@ -39,6 +41,13 @@ def urlconf_base():
     return [
         path('cms-version', cms_version_view, name='cms-version'),
     ]
+
+
+class ServiceViewSet(SnippetViewSet):
+    model = ServiceCategory
+
+
+register_snippet(ServiceViewSet)
 
 
 class ThemeSettings(ModelAdmin):

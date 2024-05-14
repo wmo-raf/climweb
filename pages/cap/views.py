@@ -129,7 +129,8 @@ class AlertListFeed(Feed):
         return None
 
     def item_categories(self, item):
-        return [item.info[0].value.get('category')]
+        categories = item.info[0].value.get('category')
+        return categories
 
 
 def get_cap_xml(request, identifier):
