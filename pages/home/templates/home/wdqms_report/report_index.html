@@ -113,7 +113,7 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.c
                                 <div class="select is-fullwidth is-dark">
                                     <select id="variable-select" style="text-transform:capitalize">
                                         {% for variable in variables %}
-                                        <option value={{variable}}>{{variable}}</option>
+                                        <option value={{variable}} {% if variable == 'pressure' %}selected{% endif %}>{{variable}}</option>
                                         {% endfor %}
                                         
                                     </select>
@@ -269,7 +269,7 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
                 return firstLetter.toUpperCase();
             });
         }
-        
+
         // Function to fetch station data
         function fetchStationData(url, map) {
             fetch(url)

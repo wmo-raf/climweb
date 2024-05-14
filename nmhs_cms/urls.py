@@ -13,7 +13,6 @@ from wagtailcache.cache import cache_page
 from base.views import humans
 from nmhs_cms.api import api_router
 from pages.search import views as search_views
-from pages.videos.views import VideoView
 from climweb_wdqms import urls as climweb_wdqms_urls
 
 
