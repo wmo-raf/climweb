@@ -1,23 +1,33 @@
 import json
 from typing import List
+from lxml import etree
 
 from capeditor.constants import SEVERITY_MAPPING
 from capeditor.models import CapSetting
 from capeditor.renderers import CapXMLRenderer
-from capeditor.serializers import AlertSerializer
+from capeditor.serializers import AlertSerializer as BaseAlertSerializer
 from django.contrib.syndication.views import Feed
+from base.cache import wagcache
 from django.core.validators import validate_email
 from django.db.models.base import Model
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.feedgenerator import Enclosure, rfc2822_date
 from django.utils.feedgenerator import Rss201rev2Feed
-from rest_framework import generics
+from rest_framework.generics import get_object_or_404
+from wagtail.api.v2.utils import get_full_url
 from wagtail.models import Site
 
 from .models import CapAlertPage
+from .sign import sign_xml
+
+
+class AlertSerializer(BaseAlertSerializer):
+    class Meta(BaseAlertSerializer.Meta):
+        model = CapAlertPage
 
 
 class CustomFeed(Rss201rev2Feed):
@@ -78,7 +88,7 @@ class AlertListFeed(Feed):
         return item.title
 
     def item_link(self, item):
-        return reverse("cap_alert_detail", args=[item.identifier])
+        return reverse("cap_alert_xml", args=[item.identifier])
 
     def item_description(self, item):
         return item.info[0].value.get('description')
@@ -119,17 +129,48 @@ class AlertListFeed(Feed):
         return None
 
     def item_categories(self, item):
-        return [item.info[0].value.get('category')]
+        categories = item.info[0].value.get('category')
+        return categories
 
 
-class AlertDetail(generics.RetrieveAPIView):
-    serializer_class = AlertSerializer
-    serializer_class.Meta.model = CapAlertPage
+def get_cap_xml(request, identifier):
+    alert = get_object_or_404(CapAlertPage, identifier=identifier, status="Actual", live=True)
+    xml = wagcache.get(f"cap_xml_{identifier}")
 
-    renderer_classes = (CapXMLRenderer,)
-    queryset = CapAlertPage.objects.live().filter(status="Actual")
+    if not xml:
+        data = AlertSerializer(alert).data
+        xml = CapXMLRenderer().render(data)
+        xml_bytes = bytes(xml, encoding='utf-8')
 
-    lookup_field = "identifier"
+        try:
+            signed_xml = sign_xml(xml_bytes)
+            if signed_xml:
+                xml = signed_xml
+        except Exception as e:
+            pass
+
+        root = etree.fromstring(xml)
+        tree = etree.ElementTree(root)
+        style_url = get_full_url(request, reverse("cap_stylesheet"))
+        pi = etree.ProcessingInstruction('xml-stylesheet', f'type="text/xsl" href="{style_url}"')
+        tree.getroot().addprevious(pi)
+        xml = etree.tostring(tree, encoding='utf-8')
+
+        # cache for a day
+        wagcache.set(f"cap_xml_{identifier}", xml, 60 * 60 * 24)
+
+    return HttpResponse(xml, content_type="application/xml")
+
+
+def get_cap_stylesheet(request):
+    stylesheet = wagcache.get("cap_stylesheet")
+
+    if not stylesheet:
+        stylesheet = render_to_string("cap/cap-stylesheet.html").strip()
+        # cache for 5 days
+        wagcache.set("cap_stylesheet", stylesheet, 60 * 60 * 24 * 5)
+
+    return HttpResponse(stylesheet, content_type="application/xml")
 
 
 def cap_geojson(request):

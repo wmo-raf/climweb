@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, gettext
 from wagtail import hooks
 from wagtail.actions.copy_page import CopyPageAction
 from wagtail.admin import messages
@@ -16,6 +16,7 @@ from wagtail.admin.forms.pages import CopyForm
 from wagtail.admin.menu import MenuItem, Menu
 from wagtail.blocks import StreamValue
 from wagtail.models import Page
+from wagtail_modeladmin.helpers import AdminURLHelper
 from wagtail_modeladmin.menus import GroupMenuItem
 from wagtail_modeladmin.options import (
     ModelAdmin,
@@ -26,7 +27,7 @@ from wagtail_modeladmin.options import (
 from .models import (
     CapAlertPage,
     CAPGeomanagerSettings,
-    CapAlertListPage
+    CapAlertListPage, get_active_alerts
 )
 from .utils import create_cap_geomanager_dataset
 
@@ -110,8 +111,8 @@ def add_geomanager_datasets(request):
     cap_geomanager_settings = CAPGeomanagerSettings.for_request(request)
     if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
 
-        # check if we have any live alerts
-        has_live_alerts = CapAlertPage.objects.live().filter(status="Actual").exists()
+        # check if we have any active alerts
+        has_live_alerts = get_active_alerts().exists()
 
         # create dataset
         dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)
@@ -167,17 +168,10 @@ def copy_cap_alert_page(request, page):
                 )
                 new_page = action.execute()
 
-                # Add edit button to success message
-                buttons = [messages.button(
-                    reverse("wagtailadmin_pages:edit", args=(new_page.id,)),
-                    _("Edit Copied Alert"),
-                )]
-
                 messages.success(
                     request,
-                    _("Alert '%(page_title)s' copied.")
+                    _("Alert '%(page_title)s' copied. You can edit the new alert below.")
                     % {"page_title": page.specific_deferred.get_admin_display_title()},
-                    buttons=buttons
                 )
 
                 for fn in hooks.get_hooks("after_copy_page"):
@@ -185,8 +179,8 @@ def copy_cap_alert_page(request, page):
                     if hasattr(result, "status_code"):
                         return result
 
-                # Redirect to the parent page
-                return redirect("wagtailadmin_explore", parent_page.id)
+                # redirect to the edit copied page
+                return redirect(reverse("wagtailadmin_pages:edit", args=(new_page.id,)))
 
         return TemplateResponse(
             request,
@@ -198,6 +192,40 @@ def copy_cap_alert_page(request, page):
         )
 
     return
+
+
+@hooks.register("before_edit_page")
+def before_edit_cap_alert_page(request, page):
+    page = page.specific
+    if page.__class__.__name__ == "CapAlertPage":
+        if page.live and page.status == "Actual":
+            url = AdminURLHelper(page).get_action_url("index")
+            messages.warning(request, gettext(
+                "Actual Alerts cannot be edited after they have been published. To publish an update to this alert, "
+                "create a new alert of Message Type 'Update' and reference this alert"))
+            return redirect(url)
+
+
+@hooks.register("before_unpublish_page")
+def before_unpublish_cap_alert_page(request, page):
+    page = page.specific
+    if page.__class__.__name__ == "CapAlertPage":
+        if page.live and page.status == "Actual":
+            url = AdminURLHelper(page).get_action_url("index")
+            messages.warning(request, gettext("Actual Alerts cannot be Unpublished after they have been published"))
+            return redirect(url)
+
+
+@hooks.register("before_delete_page")
+def before_delete_cap_alert_page(request, page):
+    page = page.specific
+    if page.__class__.__name__ == "CapAlertPage":
+        if page.live and page.status == "Actual":
+            url = AdminURLHelper(page).get_action_url("index")
+            messages.warning(request, gettext(
+                "Actual Alerts cannot be deleted after they have been published. To cancel or publish an update "
+                "to this alert, create a new alert of Message Type 'Cancel' or 'Update' and reference this alert"))
+            return redirect(url)
 
 
 @hooks.register("before_import_cap_alert")
@@ -394,8 +422,21 @@ def import_cap_alert(request, alert_data):
             cap_list_page.add_child(instance=new_cap_alert_page)
             cap_list_page.save_revision()
 
-            messages.success(request, _("CAP Alert draft created. You can now edit the alert."))
+            messages.success(request, gettext("CAP Alert draft created. You can now edit the alert."))
 
             return redirect(reverse("wagtailadmin_pages:edit", args=[new_cap_alert_page.id]))
 
     return None
+
+
+@hooks.register("register_icons")
+def register_icons(icons):
+    return icons + [
+        'cap/icons/category.svg',
+        'cap/icons/certainty.svg',
+        'cap/icons/clock.svg',
+        'cap/icons/language.svg',
+        'cap/icons/response.svg',
+        'cap/icons/warning.svg',
+        'cap/icons/warning-outline.svg',
+    ]

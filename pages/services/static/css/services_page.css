@@ -1,62 +1,7 @@
-.climate_change a:hover:not(.navbar-item):not(.top-nav-item):not(.footer-link-title):not(.footer-link):not(.navbar-burger),
-.climate_change a.more:hover,
 .project-inline-detail:hover * {
     color: rgb(99, 110, 134);
 
 }
-
-.climate_change .hero .sign-up {
-    background-color: rgb(132, 148, 178);
-    border: 0;
-}
-
-.climate_change .intro-items-header {
-    color: rgb(132, 148, 178);
-    background-color: #e7ecf7;
-}
-
-
-.climate_change .hero .sign-up:hover {
-    background-color: rgb(99, 110, 134);
-}
-
-.climate_change .update-card-tag {
-    color: rgb(132, 148, 178);
-}
-
-.climate_change .card-more-link {
-    color: rgb(132, 148, 178);
-}
-
-.climate_change .primary-btn {
-    background-color: #e7f5f0;
-    color: rgb(132, 148, 178);
-    border: none
-}
-
-.climate_change .cta-btn {
-
-}
-
-.climate_change .more {
-    color: rgb(132, 148, 178);
-}
-
-.climate_change .sec-btn {
-    color: rgb(132, 148, 178);
-    border: 1px solid rgb(132, 148, 178);
-}
-
-
-.climate_change .update-item .card-tag {
-    color: rgb(132, 148, 178);
-}
-
-
-.climate_change .video-item .card-tag-float {
-    background-color: rgb(132, 148, 178);
-}
-
 
 .more-container {
     display: flex;;
@@ -72,4 +17,33 @@
 
 .application-item-title {
     background-color: rgba(99, 110, 134, .7);
+}
+
+.product-card {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+    height: 250px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.product-image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%
+}
+
+.product-content {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+    height: 100%;
+    color: #fff;
+}
+
+.product-content .icon {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+
+.product-title {
+    font-size: 20px;
 }

@@ -60,7 +60,7 @@ class CityClimateDataPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(CityClimateDataPage, self).get_context(request, *args, **kwargs)
-        cities = City.objects.all()
+        cities = City.objects.all().filter(datavalue__isnull=False).distinct()
 
         abm_settings = AdminBoundarySettings.for_request(request)
         abm_extents = abm_settings.combined_countries_bounds
@@ -68,6 +68,7 @@ class CityClimateDataPage(Page):
 
         context.update({
             "cities": cities,
+            "cities_with_data_ids": [str(city.pk) for city in cities],
             "city_data_url": get_full_url(request, reverse("climate_data", args=(self.pk,))),
             "parameters": self.parameters,
             "months": MONTHS,
@@ -92,8 +93,6 @@ class CityClimateDataPage(Page):
                     "name": param.name,
                     "chart_config": chart_config,
                 }
-
-                print(chart_config)
 
                 if param.units:
                     param_data.update({"units": param.units})

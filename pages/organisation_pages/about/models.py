@@ -15,7 +15,7 @@ from .blocks import TimelineBlock
 class AboutPage(AbstractIntroPage):
     template = 'about_page.html'
     parent_page_types = ['organisation.OrganisationIndexPage']
-    subpage_types = ['flex_page.FlexPage',]
+    subpage_types = ['flex_page.FlexPage', ]
     max_count = 1
     show_in_menus_default = True
 

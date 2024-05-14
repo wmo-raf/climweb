@@ -12,15 +12,11 @@
             <img src="{% static 'img/logo.svg' %}" alt="CMS Dashboard Logo"
                  style="height: 100%;width: 100%;object-fit: contain"/>
         {% endif %}
-
-        
     </figure>
-    
-    {% if 'CMS_VERSION'|django_settings %}
+
     <a href="{% url 'cms-version' %}" style="color:#ababab; font-size: 12px; padding-top:1em; font-weight:600">
-        <span> v{{ 'CMS_VERSION'|django_settings }}</span>
+        <span> v{% cms_version %}</span>
     </a>
-    {% endif %}
 
 {% endblock %}
 

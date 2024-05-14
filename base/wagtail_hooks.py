@@ -6,14 +6,18 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
 from wagtail.admin.ui.components import Component
+from wagtail.snippets.models import register_snippet
+from wagtail.snippets.views.snippets import SnippetViewSet
 from wagtail_modeladmin.options import (
     ModelAdmin,
     modeladmin_register, ModelAdminGroup,
 )
 from wagtailcache.cache import clear_cache
 
-from base.models import Theme
+from base.models import Theme, ServiceCategory
+from base.utils import get_latest_cms_release
 from base.views import cms_version_view
+from nmhs_cms.utils.version import get_main_version, check_version_greater_than_current
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
@@ -37,6 +41,13 @@ def urlconf_base():
     return [
         path('cms-version', cms_version_view, name='cms-version'),
     ]
+
+
+class ServiceViewSet(SnippetViewSet):
+    model = ServiceCategory
+
+
+register_snippet(ServiceViewSet)
 
 
 class ThemeSettings(ModelAdmin):
@@ -93,26 +104,32 @@ class CMSUpgradeNotificationPanel(Component):
     template_name = "admin/cms_upgrade_notification.html"
     order = 100
 
-    def get_current_version(self):
-        return getattr(settings, "CMS_VERSION", None)
-
     def get_webhook_url(self):
         return getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
 
     def has_required_variables(self):
-        current_version = self.get_current_version()
+        current_version = get_main_version()
         webhook_url = self.get_webhook_url()
 
         return current_version and webhook_url
 
     def get_context_data(self, parent_context):
-        current_version = self.get_current_version()
-        if current_version:
+        current_version = get_main_version()
+        try:
+            latest_release = get_latest_cms_release()
+            latest_version = latest_release.get("version")
+            latest_release_greater_than_current = check_version_greater_than_current(latest_version)
+
             return {
+                "has_new_version": latest_release_greater_than_current,
+                "latest_release": latest_release,
                 "current_version": current_version,
-                "latest_release_url": "https://api.github.com/repos/wmo-raf/nmhs-cms/releases/latest",
+                "cms_upgrade_hook_url": self.get_webhook_url(),
                 "version_upgrade_url": reverse("cms-version")
             }
+        except Exception as e:
+            pass
+
         return {}
 
     def render_html(self, parent_context):

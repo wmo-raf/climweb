@@ -81,11 +81,13 @@
                                                 <img src="{{ forecast.condition.icon_url }}" alt="">
                                             </td>
                                             {% for param in weather_parameters %}
-                                                {% for data in forecast.data_values.all %}
-                                                    {% if data.parameter == param %}
-                                                        <td>{{ data.value_with_units }}</td>
-                                                    {% endif %}
-                                                {% endfor %}
+                                                <td>
+                                                    {% for data in forecast.data_values.all %}
+                                                        {% if data.parameter.parameter == param.parameter %}
+                                                            {{ data.value_with_units }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </td>
                                             {% endfor %}
                                         </tr>
                                     {% endfor %}
@@ -94,9 +96,8 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div>{% endif %}
-
-
+                </div>
+            {% endif %}
         </div>
     </main>
 {% endblock content %}

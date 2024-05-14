@@ -6,6 +6,11 @@ header {
     border-bottom: 1px solid rgba(195, 192, 192, 0.37);
 }
 
+.navbar-item.is-mega {
+    position: static;
+}
+
+
 /* .header-nav {
     padding: 10px 10px 0;
 } */
@@ -190,22 +195,31 @@ header {
 
 .navbar-burger:hover {
     background-color: transparent !important;
-
 }
 
-
-.megamenu {
-    min-width: 600px;
-    padding: 30px;
+.navbar-dropdown.megamenu {
+    background-color: unset;
+    box-shadow: none;
+    padding-top: 0;
 }
 
-
-.megamenu .navbar-item {
-    padding: 5px 0 !important;
-    white-space: normal;
-    display: flex;
-    align-items: center;
+.megamenu-container {
+    background-color: #fff;
+    box-shadow: 0 8px 8px rgba(10, 10, 10, .1);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    padding-bottom: 40px;
 }
+
+.megamenu-container .megamenu-columns {
+    margin: 0;
+}
+
+.megamenu-container .megamenu-columns .navbar-item {
+    text-wrap: wrap;
+    word-break: normal;
+}
+
 
 .megamenu .navbar-item .menu-item-label {
     margin-left: 10px;

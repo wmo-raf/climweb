@@ -7,11 +7,15 @@ from base import blocks
 from base.models import AbstractBannerPage
 
 
-# model for flexible pages
 class FlexPage(AbstractBannerPage):
     template = "flex_page.html"
 
-    parent_page_types = ['home.HomePage']
+    parent_page_types = [
+        'home.HomePage',
+        'services.ServicePage',
+        'organisation.OrganisationIndexPage',
+        'about.AboutPage',
+    ]
 
     content = StreamField(
         [

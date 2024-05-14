@@ -1,6 +1,7 @@
 import uuid
 
 from adminboundarymanager.models import AdminBoundarySettings
+from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
@@ -9,7 +10,7 @@ from django.utils.dates import MONTHS
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import RasterFileLayer
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
 from wagtail import blocks
 from wagtail.admin.forms import WagtailAdminPageForm
@@ -104,14 +105,23 @@ class LayerBlock(blocks.StructBlock):
     product_type = blocks.ChoiceBlock(required=False, choices=[])
 
 
+class ProductPageForm(WagtailAdminPageForm):
+    class Media:
+        js = ("products/js/product_page_conditional.js",)
+
+
 class ProductPage(AbstractIntroPage):
+    base_form_class = ProductPageForm
+
     template = 'products/product_index.html'
     ajax_template = 'product_list_include.html'
     parent_page_types = ['products.ProductIndexPage']
     subpage_types = ['products.ProductItemPage']
     show_in_menus_default = True
 
-    service = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
+    service = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Primary Service"))
+    other_services = ParentalManyToManyField(ServiceCategory, blank=True, verbose_name=_("Other relevant Services"),
+                                             related_name="other_services")
     product = models.OneToOneField(Product, on_delete=models.PROTECT, verbose_name=_("Product"))
 
     products_per_page = models.PositiveIntegerField(default=6, validators=[
@@ -126,6 +136,7 @@ class ProductPage(AbstractIntroPage):
 
     content_panels = Page.content_panels + [
         FieldPanel('service'),
+        FieldPanel('other_services', widget=forms.CheckboxSelectMultiple),
         FieldPanel('product'),
         *AbstractIntroPage.content_panels,
         MultiFieldPanel(

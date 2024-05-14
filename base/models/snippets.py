@@ -79,14 +79,15 @@ class ProductItemType(Orderable):
         return slugify(self.name)
 
 
-@register_snippet
 class ServiceCategory(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     icon = models.CharField(max_length=100, verbose_name=_("Icon"))
+    order = models.IntegerField(null=True, blank=True)
 
     panels = [
         FieldPanel('name'),
         FieldPanel('icon', widget=IconChooserWidget),
+        FieldPanel('order'),
     ]
 
     api_fields = [
@@ -97,6 +98,7 @@ class ServiceCategory(models.Model):
         return self.name
 
     class Meta:
+        ordering = ['order']
         verbose_name = _("Service Category")
         verbose_name_plural = _("Service Categories")
 
