@@ -75,92 +75,101 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.c
         z-index: 1; }
 
 
+
 </style>
 
 {% endblock extra_css %}
 
 {% block content %}
 
-<main class="is-index">
-    <section>
+<main class="is-index" id="wdqms-report-page">    
+    {% if stations|length > 0 %}
+        <section class="report">
+            <div class="container">
+                <div class="columns pb-3 mb-3">
+                    <div class="column is-two-thirds-desktop is-full-mobile">
+                        <h2>Availability of Surface Land observations</h2>
+                        <h2>(National NWP)</h2>
 
-        <div class="container">
-            <div class="columns pb-3 mb-3">
-                <div class="column is-two-thirds-desktop is-full-mobile">
-                    <h2>Availability of Surface Land observations</h2>
-                    <h2>(National NWP)</h2>
+                        {% comment %} <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-report">Download Report</a> {% endcomment %}
+                    
+                        <div class="report-base-selectors">
+                            <div class="control has-icons-left is-expanded my-3">
+                                <div class="select is-fullwidth is-dark">
+                                    <select id="station-select" style="text-transform:capitalize">
+                                        <option>All Stations</option>
 
-                    {% comment %} <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-report">Download Report</a> {% endcomment %}
+                                        {% for station in stations %}
+                                        <option value={{station.wigos_id}}>{{station.name|lower}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <span class="icon is-left">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                            </div>
+
+                            <div class="control has-icons-left is-expanded my-3">
+                                <div class="select is-fullwidth is-dark">
+                                    <select id="variable-select" style="text-transform:capitalize">
+                                        {% for variable in variables %}
+                                        <option value={{variable}}>{{variable}}</option>
+                                        {% endfor %}
+                                        
+                                    </select>
+                                </div>
+                                <span class="icon is-left">
+                                    <i class="fa-solid fa-gear"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="card map-card elevation-1">
+                            <div class="card-content p-1">
+                                <div id="overall-map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 
-                    <div class="report-base-selectors">
-                        <div class="control has-icons-left is-expanded my-3">
-                            <div class="select is-fullwidth is-dark">
-                                <select id="station-select" style="text-transform:capitalize">
-                                    <option>All Stations</option>
-
-                                    {% for station in stations %}
-                                    <option value={{station.wigos_id}}>{{station.name|lower}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <span class="icon is-left">
-                                <i class="fa-solid fa-location-dot"></i>
-                            </span>
-                        </div>
-
-                        <div class="control has-icons-left is-expanded my-3">
-                            <div class="select is-fullwidth is-dark">
-                                <select id="variable-select" style="text-transform:capitalize">
-                                    {% for variable in variables %}
-                                    <option value={{variable}}>{{variable}}</option>
-                                    {% endfor %}
-                                    
-                                </select>
-                            </div>
-                            <span class="icon is-left">
-                                <i class="fa-solid fa-gear"></i>
-                            </span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="card map-card elevation-1">
-                        <div class="card-content p-1">
-                            <div id="overall-map"></div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            
-        </div>
+        </section>
 
-    </section>
+        <section class="report report-synoptic">
+            {% include "home/wdqms_report/report_hourly_include.html" %}
+        </section>
 
-    <section class="report-synoptic">
-        {% include "home/wdqms_report/report_hourly_include.html" %}
-    </section>
+        <section class="report report-monthly">
+            {% include "home/wdqms_report/report_monthly_include.html" %}
 
-    <section class="report-monthly">
-        {% include "home/wdqms_report/report_monthly_include.html" %}
+        </section>
 
-    </section>
+        <section class="report report-yearly">
+            {% include "home/wdqms_report/report_yearly_include.html" %}
 
-    <section class="report-yearly">
-        {% include "home/wdqms_report/report_yearly_include.html" %}
+        </section>
 
-    </section>
-
-    <section>
-        <div class="container">
-            <div class="report-footer has-text-centered"> 
-                <p><b>Data Source:</b> wdqms.wmo.int</p>
+        <section>
+            <div class="container">
+                <div class="report-footer has-text-centered"> 
+                    <p><b>Data Source:</b> wdqms.wmo.int</p>
+                </div>
             </div>
+        </section>
+
+    {% else %}
+    <section class="station-status">
+        <div class='container has-text-centered'> 
+           <p>No stations at the moment</p>
         </div>
-    </section>
-
-
+       </section>
+        
+    {% endif %}
+    
 </main>
 
 
@@ -184,8 +193,9 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
     $(document).ready(function () {
 
         window.jsPDF = window.jspdf.jsPDF;
-    
+
         let country_bounds = {{bounds|safe}}
+        
         // Default MapLibre style
         const defaultStyle = {
             'version': 8,
@@ -254,6 +264,12 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
         addZoomControl(overall_map);
         addZoomControl(monthly_map);
     
+        function capitalizeText(text) {
+            return text.toLowerCase().replace(/(^|\s)\S/g, function(firstLetter) {
+                return firstLetter.toUpperCase();
+            });
+        }
+        
         // Function to fetch station data
         function fetchStationData(url, map) {
             fetch(url)

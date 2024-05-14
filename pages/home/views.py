@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from wagtail.api.v2.utils import get_full_url
 from django.shortcuts import render
-
+import json
 from base.models import OrganisationSetting
 from pages.home.models import HomeMapSettings
 from climweb_wdqms.models import Station,Transmission
@@ -50,16 +50,21 @@ def wdqms_reports(request):
 
     stations = Station.objects.all()
     transmissions = Transmission.objects.all()
-    variables = transmissions.values_list('variable', flat=True).distinct()
-    years = transmissions.values_list('received_date__year', flat=True).distinct()
-    latest_date = transmissions.filter(variable=variables[0]).order_by('received_date').values_list('received_date__date',  flat=True).last()
+    variables = []
+    latest_date = None
+    years = []
+
+    if transmissions:
+        variables = transmissions.values_list('variable', flat=True).distinct()
+        years = transmissions.values_list('received_date__year', flat=True).distinct()
+        latest_date = transmissions.filter(variable=variables[0]).order_by('received_date').values_list('received_date__date',  flat=True).last()
 
     abm_settings = AdminBoundarySettings.for_request(request)
 
     abm_extents = abm_settings.combined_countries_bounds
 
     return render(request, "home/wdqms_report/report_index.html", {
-        'stations':stations,
+        'stations': stations,
         'variables':variables,
         'latest_date':latest_date,
         'years':years,
