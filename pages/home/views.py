@@ -7,7 +7,8 @@ from django.shortcuts import render
 from base.models import OrganisationSetting
 from pages.home.models import HomeMapSettings
 from climweb_wdqms.models import Station,Transmission
-
+from django.db.models.functions import TruncMonth
+from django.db.models import Max
 
 def home_map_settings(request):
     config = {
@@ -51,7 +52,7 @@ def wdqms_reports(request):
     transmissions = Transmission.objects.all()
     variables = transmissions.values_list('variable', flat=True).distinct()
     years = transmissions.values_list('received_date__year', flat=True).distinct()
-    latest_date = transmissions.order_by('received_date').values_list('received_date__date',  flat=True).last()
+    latest_date = transmissions.filter(variable=variables[0]).order_by('received_date').values_list('received_date__date',  flat=True).last()
 
     abm_settings = AdminBoundarySettings.for_request(request)
     org_settings = OrganisationSetting.for_request(request)
