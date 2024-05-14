@@ -24,6 +24,7 @@ from pages.services.models import ServicePage
 from pages.videos.models import YoutubePlaylist
 
 
+
 class HomePage(MetadataPageMixin, Page):
     BANNER_TYPES = (
         ('full', 'Full Banner'),
@@ -178,6 +179,7 @@ class HomePage(MetadataPageMixin, Page):
         # get partners that should appear on the homepage
         partners = Partner.objects.filter(visible_on_homepage=True)[:7]
         return partners
+    
 
     @cached_property
     def latest_updates(self):

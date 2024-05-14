@@ -142,6 +142,7 @@ INSTALLED_APPS = [
     "dbbackup",
     "wagtailmodelchooser",
     "django_extensions",
+    "climweb_wdqms"
 
 ]
 

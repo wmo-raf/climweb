@@ -1,0 +1,83 @@
+<div class="container">
+
+    <div class="report-header has-text-centered"> 
+        <h2 class="title">Monthly Average of observations</h2>
+        <p id="monthly-summary-text"></p>
+    </div>
+
+   
+    <div class="columns report-charts my-4">
+        <div class="column is-one-half">
+            <div class="select is-fullwidth is-dark mb-6">
+                <select id="year-select" style="text-transform:capitalize">
+                    {% comment %} <option value="all_stations">All Stations</option> {% endcomment %}
+
+                    {% for year in years %}
+                    <option value={{year}} {% if forloop.first %}selected{% endif %}>{{year}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <figure class="transmissions-figure" style="">
+                <div id="monthly-average-graph">
+                </div>
+            </figure>
+        </div>
+        <div class="column is-one-half">
+            <div class="card map-card elevation-1">
+                <div class="card-content p-1">
+                    <div id="month-select">
+                        <div class="select">
+                          <select id="month-select-option">
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04" selected>April</option>
+                            <option value="05">May</option>
+                            <!-- Add more options as needed -->
+                          </select>
+                        </div>
+                      </div>
+                     <div id="monthly-report-map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns is-justify-content-center">
+        <div class="column is-10">
+            <div class="columns is-hidden-mobile legend mt-4 is-justify-content-center mx-6 has-text-centered">
+
+                <div class="column color-item">
+                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#000000"></div>
+                    <div class="color-interpretation"><p>Not received in period</p></div>
+                </div>
+
+                <div class="column color-item">
+                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#fa4827"></div>
+                    <div class="color-interpretation"><p>Availability issues (< 30%)</p></div>
+                </div>
+
+                <div class="column color-item">
+                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#f8a02e"></div>
+                    <div class="color-interpretation"><p>Availability issues (≥ 30%)</p></div>
+                </div>
+
+                <div class="column color-item">
+                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#289f28"></div>
+                    <div class="color-interpretation"><p>Normal (≥ 80%)</p></div>
+                </div>
+
+                <div class="column color-item">
+                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#fa48ce"></div>
+                    <div class="color-interpretation"><p>More than 100%</p></div>
+                </div>
+
+            </div>
+        </div>
+    <div>
+
+</div>
+
+
+

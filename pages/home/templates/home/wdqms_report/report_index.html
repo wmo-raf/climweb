@@ -1,0 +1,793 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link href="
+https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.css
+" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css">
+
+<style>
+
+    .column.color-item{
+        display: flex;
+        flex-direction: column;
+        align-items:center
+    }
+    .report-base-selectors{
+        width:60%
+    }
+    .report-base-selectors select, .report-element-selectors select, .report-element-selectors .date-selector,  .report-charts select {
+        border-top: none;
+        border-right: none;
+        border-left: none;    
+        background:transparent
+
+    }
+
+    .report-element-selectors .date-selector{
+        width: 100%;
+        color:#363636;
+        font-size:1em
+    }
+
+    .report-base-selectors select:active, 
+    .report-base-selectors select:focus,
+    .report-element-selectors select:active,
+    .report-element-selectors select:focus,
+    .report-element-selectors .date-selector,
+    .report-charts select:focus,
+    .report-charts select:active {
+        box-shadow:none !important
+    }
+
+    .transmissions-figure li {
+        list-style: none !important;
+        list-style-position: none !important;
+    }
+
+    .transmissions-figure{
+        background:transparent;
+        min-height:400px
+    }
+
+    #monthly-report-map, #overall-map,.map-card, .map-card .card-content{
+        height:100%;
+        min-height:250px
+    }
+
+    #station-select::first-letter{
+        text-transform:lowercase 
+    }
+
+    #monthtly-report-map{
+        position: absolute; 
+        top: 0; 
+        bottom: 0;
+        z-index:0
+    }
+
+    #month-select { 
+        position: absolute; 
+        top: 10px; 
+        left: 10px;
+        z-index: 1; }
+
+
+</style>
+
+{% endblock extra_css %}
+{% block extra_js %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
+"></script>
+<script src="https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/js/bulma-slider.min.js"></script>
+<script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+
+        // default MapLibre style
+        const defaultStyle = {
+            'version': 8,
+            'sources': {
+                'carto-dark': {
+                    'type': 'raster',
+                    'tiles': [
+                        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
+                    ]
+                },
+                'carto-light': {
+                    'type': 'raster',
+                    'tiles': [
+                        "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                        "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                        "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                        "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
+                    ]
+                },
+                'wikimedia': {
+                    'type': 'raster',
+                    'tiles': [
+                        "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+                    ]
+                }
+            },
+            'layers': [{
+                'id': 'carto-light-layer',
+                'source': 'carto-light',
+
+
+                'type': 'raster',
+                'minzoom': 0,
+                'maxzoom': 22
+            }]
+        }
+
+        const overall_map = new maplibregl.Map({
+            container: "overall-map", // container ID
+            style: defaultStyle,
+            center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
+            zoom: 4.2, // starting zoom
+            scrollZoom: false,
+        });
+
+        const monthly_map = new maplibregl.Map({
+            container: "monthly-report-map", // container ID
+            style: defaultStyle,
+            center: [30.019531249998607, 16.130262012034265], // starting position [lng, lat]
+            zoom: 4.2, // starting zoom
+            scrollZoom: false,
+        });
+
+
+        // add zoom control
+        overall_map.addControl(
+            new maplibregl.NavigationControl({
+                visualizePitch: true,
+                showZoom: true,
+                showCompass: true,
+            })
+        );
+
+        monthly_map.addControl(
+            new maplibregl.NavigationControl({
+                visualizePitch: true,
+                showZoom: true,
+                showCompass: true,
+            })
+        );
+
+        function capitalizeText(text) {
+            return text.toLowerCase().replace(/(^|\s)\S/g, function(firstLetter) {
+                return firstLetter.toUpperCase();
+            });
+        }
+
+
+        let country_bounds = {{bounds|safe}}
+
+
+        fetch("/api/stations/")
+            .then((res) => res.json())
+            .then((station_data) => {
+
+                let stations_geom = {
+                    type: "FeatureCollection",
+                    features: station_data
+                }
+
+
+                // Add GeoJSON as a source
+                overall_map.on('load', function() {
+                    overall_map.addSource('points', {
+                        type: 'geojson',
+                        data: stations_geom
+                    });
+            
+                    // Add layer to style points as small grey circles
+                    overall_map.addLayer({
+                        id: 'points',
+                        type: 'circle',
+                        source: 'points',
+                        paint: {
+                            'circle-color': '#333', // Grey color
+                            'circle-radius': 5 // Size of circles
+                        }
+                    });
+
+                    overall_map.fitBounds(country_bounds, {padding:10 })
+
+                    var popup = new maplibregl.Popup({
+                        closeButton: false,
+                        closeOnClick: false
+                      });
+                
+                    
+                    // Change cursor on hover
+                    overall_map.on('mouseenter', 'points', function(e) {
+                        var coordinates = e.features[0].geometry.coordinates.slice();
+                        var name = e.features[0].properties.name;
+
+
+                        overall_map.getCanvas().style.cursor = 'pointer';
+                        popup.setLngLat(coordinates)
+                            .setHTML('<b>' + capitalizeText(name) + '</b>')
+                            .addTo(overall_map);
+                    });
+
+                    overall_map.on('mouseleave', 'points', function() {
+                        overall_map.getCanvas().style.cursor = '';
+                    });
+                    // Handle click event on the map
+                    overall_map.on('click', function(e) {
+                        var features = overall_map.queryRenderedFeatures(e.point, { layers: ['points'] });
+                        if (!features.length) {
+                            return;
+                        }
+
+                        // Get the title property of the clicked feature
+                        var wigos_id = features[0].properties.wigos_id;
+
+                        // Set the corresponding select option as selected using jQuery
+                        $('#station-select').val(wigos_id);
+
+                        $('#synop-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b> readings, `)
+
+                        fetchSynopData('daily-graph', 'column', 'Daily Transmissions','daily_synop' )
+                        fetchSynopData('monthly-graph', 'column', 'Monthly Transmissions', 'monthly_synop' )
+                        fetchSynopData('yearly-graph', 'column', 'Yearly Transmissions', 'yearly_synop' )
+                        fetchMonthlyAverages()
+                        fetchYearlyAverages()
+                    });
+                });
+
+            })
+            
+        function renderMonthlyMap(){
+            var selectedVariable = $('#variable-select').val();
+            var selectedYear = $('#year-select').val();
+            var selectedMonth = $('#month-select-option').val();
+
+            $.ajax({
+                url: `/api/monthly-geom-transmission-rate`,
+                method: "GET",
+                data: {
+                    month:selectedMonth,
+                    year:selectedYear,
+                    variable:selectedVariable
+                },
+                success: function(data) {
+                     // Add GeoJSON as a source
+                monthly_map.on('load', function() {
+                    console.log(data)
+
+                    if (monthly_map.getSource('monthly-rate')) {
+                        monthly_map.removeSource('monthly-rate');
+                    }
+                    if (monthly_map.getLayer('monthly-rate')) {
+                        monthly_map.removeLayer('monthly-rate');
+                    }
+
+                    monthly_map.addSource('monthly-rate', {
+                        type: 'geojson',
+                        data: data
+                    });
+            
+                    // Add layer to style points as small grey circles
+                    monthly_map.addLayer({
+                        id: 'monthly-rate',
+                        type: 'circle',
+                        source: 'monthly-rate',
+                        paint: {
+                            'circle-color': '#333', // Grey color
+                            'circle-radius': 5 // Size of circles
+                        }
+                    });
+
+                    monthly_map.fitBounds(country_bounds, {padding:10 })
+
+                    var popup = new maplibregl.Popup({
+                        closeButton: false,
+                        closeOnClick: false
+                      });
+                
+                    
+                    // Change cursor on hover
+                    monthly_map.on('mouseenter', 'points', function(e) {
+                        var coordinates = e.features[0].geometry.coordinates.slice();
+                        var name = e.features[0].properties.name;
+
+
+                        monthly_map.getCanvas().style.cursor = 'pointer';
+                        popup.setLngLat(coordinates)
+                            .setHTML(`<p> Name:<b>${capitalizeText(name)}</b></p> <p>
+                                <p> Rate:<b>${capitalizeText(name)}</b></p> <p>`)
+                            .addTo(monthly_map);
+                    });
+
+                    monthly_map.on('mouseleave', 'points', function() {
+                        monthly_map.getCanvas().style.cursor = '';
+                    });
+                    // Handle click event on the map
+                    
+                });
+
+                 }
+            })
+
+        }
+        
+        
+        function renderChart(id, chart_type,title, categories,data){
+            Highcharts.chart(id, {
+                credits:{
+                    enabled:false
+                },
+                exporting:{
+                    accessibility:{
+                            enabled:false
+                        },
+                    },
+                chart: {
+                    backgroundColor: 'transparent',
+                    type:chart_type
+
+                },
+                title: {
+                    text: title,
+                    align: 'center',
+                    style:{
+                        fontSize:'14px',
+                        color:'#333333',
+                        fontWeight:'500'
+                    },
+                    margin:50
+                },
+            
+                yAxis: {
+                    title: {
+                        text: '% Transmission rate'
+                    },
+                },
+            
+                xAxis: {
+                    title: {
+                        text: 'Synoptic hours'
+                    },
+                    
+                    categories: categories,
+                    crosshair: true,
+                    accessibility: {
+                        description: 'Countries'
+                    }
+                    
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 00,
+                    },
+                   
+                },
+                series: [{
+                    name: '% Transmission rate',
+                    data: data.map(count => ({
+                        y: count,
+                        color: function(){
+                            if(count <= 0){
+                                return '#000000'
+                            }
+                            else if(count > 0 && count < 30){
+                                return '#fc8672'
+                            }
+                            else if(count >= 30 && count < 80){
+                                return '#f8a02e'
+                            }
+                            else if(count >= 80 && count <= 100){
+                                return '#289f28'    
+                            }
+                            else if(count > 100){
+                                return '#fa48ce'    
+                            }else {
+                                return 'red'
+                            }
+                        }()
+                    }))
+                    
+                }],
+                legend: {
+                    enabled:false
+                },
+            
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                enabled:false
+                            }
+                        }
+                    }]
+                }
+            
+            });
+        }
+
+        function fetchSynopData(chart_id, chart_type, chart_title, frequency){
+
+            // Get the value of the selected option
+            var selectedStation = $('#station-select').val() !== 'All Stations' ? $('#station-select').val() : undefined;
+            var selectedStationName = $('#station-select').find(':selected').text() ;
+            var selectedVariable = $('#variable-select').val();
+            var selectedDate = $('#synop-date').val()
+
+            $(`#${chart_id}`).html(`<p><em>Fetching <b>${chart_title}</b> ${selectedVariable} transmission rate data for ${selectedDate} for ${selectedStationName}...</em></p>`)
+
+            const params = {
+                frequency:frequency,
+                station: selectedStation,
+                variable:selectedVariable,
+                received_date:selectedDate
+            }
+    
+            $.ajax({
+                url: `/api/synop-transmission-rate`,
+                method: "GET",
+                data: params,
+                success: function(data) {    
+
+                    if(data.length>0){
+                        var transmissions = data.map(d => d.avg_received_rate)
+                        var periods = data.map(d => d.synop_hour)
+
+                        var maxReceivedRate = -Infinity;
+                        var minReceivedRate = Infinity;
+
+                        var synopHoursWithMaxRate = [];
+                        var synopHoursWithMinRate = [];
+
+                        // Find the highest avg_received_rate value
+                        data.forEach(function(item) {
+                            if (item.avg_received_rate > maxReceivedRate) {
+                                maxReceivedRate = item.avg_received_rate;
+                            }
+
+                            if (item.avg_received_rate < minReceivedRate) {
+                                minReceivedRate = item.avg_received_rate;
+                            }
+                        });
+
+
+                        // Find all hours with the highest avg_received_rate value
+                        data.forEach(function(item) {
+                            if (item.avg_received_rate === maxReceivedRate) {
+                                synopHoursWithMaxRate.push(`${item.synop_hour}00hrs`);
+                            }
+                            if (item.avg_received_rate === minReceivedRate) {
+                                synopHoursWithMinRate.push(`${item.synop_hour}00hrs`);
+                            }
+                        });
+
+
+                        // set summary text
+
+                        if(synopHoursWithMinRate.length >0 ){
+
+                            $('#synop-summary-text').html(function(index, text) {
+                                return text + `Based on a synoptic hours on a <b>${chart_title}</b> basis for <b>${selectedDate}</b>, the <b>highest 
+                                readings of ${maxReceivedRate}% ${maxReceivedRate>100 ? '<b>(more than expected)</b>': ''} </b> transmission rate were <b>recorded at ${synopHoursWithMaxRate.join(", ")}</b> while the <b>lowest transmission rate was ${minReceivedRate}%</b> recorded at <b>${synopHoursWithMinRate.join(", ")}.</b> `;
+                            });
+                        }
+
+                        renderChart(chart_id,chart_type,chart_title,  periods,transmissions)
+
+                    }else{
+                        $(`#${chart_id}`).html(`<p> <em>No ${chart_title} ${selectedVariable} data found for ${selectedDate} for ${selectedStationName}. Try choosing another date.</em></p>`)
+                    }
+                
+
+                    
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // This function will be called if there's an error in the request
+                    console.error('ERROR:', textStatus, errorThrown);
+
+                }
+            })
+        }
+
+        function fetchMonthlyAverages(){
+
+            // Get the value of the selected option
+            var selectedStation = $('#station-select').val() !== 'All Stations' ? $('#station-select').val() : undefined;
+            var selectedVariable = $('#variable-select').val();
+            var selectedYear = $('#year-select').val()
+
+            $("#monthly-average-graph").html(`<p><em>Fetching ${selectedVariable} transmission rate data for ${selectedYear} for ${selectedStation}...</em></p>`)
+
+            const params = {
+                station: selectedStation,
+                variable:selectedVariable,
+                year:selectedYear,
+            }
+    
+            $.ajax({
+                url: `/api/monthly-transmission-rate`,
+                method: "GET",
+                data: params,
+                success: function(data) {  
+
+                    if(data.length>0){
+                        var transmissions = data.map(d => d.avg_received_rate)
+                        var periods = data.map(d => d.month)
+    
+                        var maxReceivedRate = -Infinity;
+                        var minReceivedRate = Infinity;
+    
+                        var synopMonthsWithMaxRate = [];
+                        var synopMonthsWithMinRate = [];
+    
+                        // Find the highest avg_received_rate value
+                        data.forEach(function(item) {
+                            if (item.avg_received_rate > maxReceivedRate) {
+                                maxReceivedRate = item.avg_received_rate;
+                            }
+    
+                            if (item.avg_received_rate < minReceivedRate) {
+                                minReceivedRate = item.avg_received_rate;
+                            }
+                        });
+    
+                        // Find all  Months with the highest avg_received_rate value
+                        data.forEach(function(item) {
+                            if (item.avg_received_rate === maxReceivedRate) {
+                                synopMonthsWithMaxRate.push(`${item.month}`);
+                            }
+                            if (item.avg_received_rate === minReceivedRate) {
+                                synopMonthsWithMinRate.push(`${item.month}`);
+                            }
+                        });
+    
+                        // set summary text
+    
+                        if(synopMonthsWithMinRate.length >0 ){
+    
+                            $('#monthly-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s' ${$('#variable-select').find(':selected').text()}</b> readings, Based on a monthly trenf on a <b>Monthly Average Transmissions</b> basis for <b>${selectedYear}</b>, the <b>highest 
+                                readings of ${maxReceivedRate}%  ${maxReceivedRate>100 ? '<b>(more than expected)</b>': ''}</b> transmission rate were <b>recorded at ${synopMonthsWithMaxRate.join(", ")}</b> while the <b>lowest transmission rate was ${minReceivedRate}%</b> recorded in <b>${synopMonthsWithMinRate.join(", ")}.</b> `);
+                        }
+    
+    
+                        renderChart('monthly-average-graph','line','Monthly Average Transmissions',  periods,transmissions)
+                        
+                    } else{
+                        $("#monthly-average-graph").html(`<p> <em>No data found for ${selectedYear}. Try choosing another year.</em></p>`)
+                    }
+                    
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // This function will be called if there's an error in the request
+                    console.error('ERROR:', textStatus, errorThrown);
+                    
+                }
+            })
+            
+        }
+
+        function fetchYearlyAverages(){
+
+            // Get the value of the selected option
+            var selectedStation = $('#station-select').val() !== 'All Stations' ? $('#station-select').val() : undefined;
+            var selectedVariable = $('#variable-select').val();
+
+            const params = {
+                station: selectedStation,
+                variable:selectedVariable,
+            }
+    
+            $.ajax({
+                url: `/api/yearly-transmission-rate`,
+                method: "GET",
+                data: params,
+                success: function(data) {  
+                    if(data.length >0){
+
+                        var transmissions = data.map(d => d.avg_received_rate)
+                        var periods = data.map(d => d.year)
+
+                        var maxReceivedRate = -Infinity;
+                        var minReceivedRate = Infinity;
+
+                        var synopYearsWithMaxRate = [];
+                        var synopYearsWithMinRate = [];
+
+                        // Find the highest avg_received_rate value
+                        data.forEach(function(item) {
+                            if (item.avg_received_rate > maxReceivedRate) {
+                                maxReceivedRate = item.avg_received_rate;
+                            }
+
+                            if (item.avg_received_rate < minReceivedRate) {
+                                minReceivedRate = item.avg_received_rate;
+                            }
+                        });
+
+                        // Find all  Months with the highest avg_received_rate value
+                        data.forEach(function(item) {
+                            if (item.avg_received_rate === maxReceivedRate) {
+                                synopYearsWithMaxRate.push(`${item.year}`);
+                            }
+                            if (item.avg_received_rate === minReceivedRate) {
+                                synopYearsWithMinRate.push(`${item.year}`);
+                            }
+                        });
+
+                        // Find the lowest and highest year
+                        var minYear = data.reduce(function(prev, curr) {
+                            return prev.year < curr.year ? prev : curr;
+                        }).year;
+
+                        var maxYear = data.reduce(function(prev, curr) {
+                            return prev.year > curr.year ? prev : curr;
+                        }).year;
+
+
+                        // set summary text
+
+                        if(synopYearsWithMinRate.length > 0 || synopYearsWithMaxRate.length > 0 ){
+
+                            $('#yearly-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b> reading, Based on the analysis from ${minYear} to ${maxYear}, on average, the <b>highest 
+                                readings of ${maxReceivedRate}%  ${maxReceivedRate>100 ? '<b>(more than expected)</b>': ''}</b> transmission rate were <b>recorded in ${synopYearsWithMaxRate.join(", ")}</b> while the <b>lowest transmission rate was ${minReceivedRate}%</b> recorded in <b>${synopYearsWithMinRate.join(", ")}.</b> `);
+                        }
+
+
+                        renderChart('yearly-average-graph','column','Yearly Average Transmissions',  periods,transmissions)
+
+                    }
+                    
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // This function will be called if there's an error in the request
+                    console.error('ERROR:', textStatus, errorThrown);
+                    
+                }
+            })
+
+            
+        }
+        
+        fetchSynopData('daily-graph', 'column', 'Daily Transmissions', 'daily_synop' )
+        fetchSynopData('monthly-graph', 'column', 'Monthly Transmissions', 'monthly_synop' )
+        fetchSynopData('yearly-graph', 'column', 'Yearly Transmissions', 'yearly_synop' )
+        fetchMonthlyAverages()
+        fetchYearlyAverages()
+        renderMonthlyMap()
+
+        $('#station-select, #variable-select, #synop-date').change(function() {
+            // Run your function here
+            // clear synop summary text
+            $('#synop-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b> readings, `)
+
+            fetchSynopData('daily-graph', 'column', 'Daily Transmissions','daily_synop' )
+            fetchSynopData('monthly-graph', 'column', 'Monthly Transmissions', 'monthly_synop' )
+            fetchSynopData('yearly-graph', 'column', 'Yearly Transmissions', 'yearly_synop' )
+           
+    
+        });
+
+        $('#station-select, #variable-select, #year-select').change(function (){
+            fetchMonthlyAverages()
+            fetchYearlyAverages()
+        })
+
+        $('#year-select, #variable-select, #month-select-option',).change(function (){
+            renderMonthlyMap()
+
+        })
+
+        
+        $('#synop-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b> readings, `)
+
+
+
+})
+</script>    
+
+{% endblock extra_js %}
+{% block content %}
+
+<main class="is-index">
+    <section>
+
+        <div class="container">
+            <div class="columns pb-3 mb-3">
+                <div class="column is-two-thirds-desktop is-full-mobile">
+                    <h2>Availability of Surface Land observations</h2>
+                    <h2>(National NWP)</h2>
+
+                    <a class="button is-dark is-small p-4 my-5 has-text-weight-bold">Download Report</a>
+                
+                    <div class="report-base-selectors">
+                        <div class="control has-icons-left is-expanded my-3">
+                            <div class="select is-fullwidth is-dark">
+                                <select id="station-select" style="text-transform:capitalize">
+                                    <option>All Stations</option>
+
+                                    {% for station in stations %}
+                                    <option value={{station.wigos_id}}>{{station.name|lower}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="icon is-left">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </span>
+                        </div>
+
+                        <div class="control has-icons-left is-expanded my-3">
+                            <div class="select is-fullwidth is-dark">
+                                <select id="variable-select" style="text-transform:capitalize">
+                                    {% for variable in variables %}
+                                    <option value={{variable}}>{{variable}}</option>
+                                    {% endfor %}
+                                    
+                                </select>
+                            </div>
+                            <span class="icon is-left">
+                                <i class="fa-solid fa-gear"></i>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card map-card elevation-1">
+                        <div class="card-content p-1">
+                            <div id="overall-map"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+
+    </section>
+
+    <section class="report-synoptic">
+        {% include "home/wdqms_report/report_hourly_include.html" %}
+    </section>
+
+    <section class="report-monthly">
+        {% include "home/wdqms_report/report_monthly_include.html" %}
+
+    </section>
+
+    <section class="report-yearly">
+        {% include "home/wdqms_report/report_yearly_include.html" %}
+
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="report-footer has-text-centered"> 
+                <p><b>Data Source:</b> wdqms.wmo.int</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+{% endblock content %}
+

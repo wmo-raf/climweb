@@ -13,6 +13,7 @@ from wagtailcache.cache import cache_page
 from nmhs_cms.api import api_router
 from pages.search import views as search_views
 from pages.videos.views import VideoView
+from climweb_wdqms import urls as climweb_wdqms_urls
 
 handler500 = 'base.views.handler500'
 
@@ -30,6 +31,8 @@ urlpatterns = [
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     path("", include(forecastmanager_urls), name="forecast_api"),
+    path("", include(climweb_wdqms_urls), name="climweb_wdqms_api"),
+
 
     path("sitemap.xml", sitemap),
 
