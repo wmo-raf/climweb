@@ -55,11 +55,8 @@ def wdqms_reports(request):
     latest_date = transmissions.filter(variable=variables[0]).order_by('received_date').values_list('received_date__date',  flat=True).last()
 
     abm_settings = AdminBoundarySettings.for_request(request)
-    org_settings = OrganisationSetting.for_request(request)
 
     abm_extents = abm_settings.combined_countries_bounds
-    boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
-  
 
     return render(request, "home/wdqms_report/report_index.html", {
         'stations':stations,
@@ -67,5 +64,4 @@ def wdqms_reports(request):
         'latest_date':latest_date,
         'years':years,
         'bounds':abm_extents,
-        'boundary_tiles_url':boundary_tiles_url
     })
