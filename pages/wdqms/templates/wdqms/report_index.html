@@ -3,9 +3,6 @@
 {% load static %}
 
 {% block extra_css %}
-<link href="
-https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.css
-" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
 
 <style>
@@ -164,13 +161,13 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.c
 
 
 {% block extra_js %}
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/series-label.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/series-label.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/html2canvas.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jspdf.umd.min.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script type="text/javascript" src="{% static 'js/turf.min.js' %}"></script>
 
 
