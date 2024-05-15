@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "pages.cityclimate",
     "pages.glossary",
     "pages.webstories",
+    "pages.wdqms",
 
     "adminboundarymanager",
     "geomanager",

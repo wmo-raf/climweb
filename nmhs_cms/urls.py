@@ -24,6 +24,7 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
 
     path("", include("pages.home.urls")),
+    path("", include("pages.wdqms.urls")),
     path("", include("pages.cap.urls")),
     path("", include("pages.weather.urls")),
 
