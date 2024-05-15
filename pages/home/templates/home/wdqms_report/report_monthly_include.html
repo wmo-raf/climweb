@@ -2,32 +2,28 @@
 
     <div class="report-header has-text-centered"> 
         <h2 class="title">Monthly Average of observations</h2>
-        <p id="monthly-summary-text"></p>
+
+        
+
+
     </div>
 
+    
    
     <div class="columns report-charts my-4">
-        <div class="column is-one-half">
-            <div class="select is-fullwidth is-dark mb-6">
-                <select id="year-select" style="text-transform:capitalize">
-                    {% comment %} <option value="all_stations">All Stations</option> {% endcomment %}
-
-                    {% for year in years %}
-                    <option value={{year}} {% if year == latest_date|date:"Y" %} selected {% endif %}>{{year}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <figure class="transmissions-figure" style="">
-                <div id="monthly-average-graph">
-                </div>
-            </figure>
-        </div>
-        <div class="column is-one-half">
+        <div class="column is-half">
             <div class="card map-card elevation-1">
                 <div class="card-content p-1">
+                     <div id="monthly-report-heat-map"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="column">
+            <div class="columns report-charts">
+                <div class="column is-half">
                     <div id="month-select">
-                        <div class="select">
+                        <div class="select is-fullwidth">
                           <select id="month-select-option">
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -44,15 +40,48 @@
                             <!-- Add more options as needed -->
                           </select>
                         </div>
-                      </div>
-                     <div id="monthly-report-map"></div>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="select is-fullwidth is-dark mb-6">
+                        <select id="year-select" style="text-transform:capitalize">
+                            {% comment %} <option value="all_stations">All Stations</option> {% endcomment %}
+        
+                            {% for year in years %}
+                            <option value={{year}} {% if year == latest_date|date:"Y" %} selected {% endif %}>{{year}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <p id="monthly-summary-text"></p>
+        </div>
+    </div>
+    
+
+    <div class="columns pb-4">
+        
+        <div class="column is-half">
+            
+
+            <div class="card map-card elevation-1">
+                <div class="card-content p-1">
+                     <div id="monthly-report-rate-map"></div>
                 </div>
             </div>
         </div>
+        <div class="column is-half">
+            <figure class="transmissions-figure" style="">
+                <div id="monthly-average-graph">
+                </div>
+            </figure>
+        </div>
+
+       
     </div>
 
     <div class="columns is-justify-content-center">
-        <div class="column is-10">
+        <div class="column is-10 ">
             <div class="columns is-hidden-mobile legend mt-4 is-justify-content-center mx-6 has-text-centered">
 
                 <div class="column color-item">
@@ -82,7 +111,10 @@
 
             </div>
         </div>
+
     <div>
+
+        
 
 </div>
 

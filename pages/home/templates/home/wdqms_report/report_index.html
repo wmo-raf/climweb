@@ -52,7 +52,7 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.c
         min-height:400px
     }
 
-    #monthly-report-map, #overall-map,.map-card, .map-card .card-content{
+    #monthly-report-rate-map, #monthly-report-heat-map, #overall-map,.map-card, .map-card .card-content{
         height:100%;
         min-height:250px
     }
@@ -60,19 +60,6 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.c
     #station-select::first-letter{
         text-transform:lowercase 
     }
-
-    #monthtly-report-map{
-        position: absolute; 
-        top: 0; 
-        bottom: 0;
-        z-index:0
-    }
-
-    #month-select { 
-        position: absolute; 
-        top: 10px; 
-        left: 10px;
-        z-index: 1; }
 
 
 
@@ -247,7 +234,8 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
     
         // Initialize maps
         const overall_map = initializeMap("overall-map");
-        const monthly_map = initializeMap("monthly-report-map");
+        const monthly_rate_map = initializeMap("monthly-report-rate-map");
+        const monthly_heat_map = initializeMap("monthly-report-heat-map");
     
         // Function to add zoom control
         function addZoomControl(map) {
@@ -262,7 +250,8 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
     
         // Add zoom control to maps
         addZoomControl(overall_map);
-        addZoomControl(monthly_map);
+        addZoomControl(monthly_rate_map);
+        addZoomControl(monthly_heat_map);
     
         function capitalizeText(text) {
             return text.toLowerCase().replace(/(^|\s)\S/g, function(firstLetter) {
@@ -448,7 +437,11 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
 
             $('#year-select').val({{latest_date|date:"Y"}});
             $('#month-select-option').val({{latest_date|date:"m"}});
-            renderMonthlyMap();
+
+            monthly_heat_map.on('load', function () {
+                renderMonthlyMap();
+            })
+
             fetchSynopData('daily-graph', 'column', 'Daily Transmissions', 'daily_synop');
             fetchSynopData('monthly-graph', 'column', 'Monthly Transmissions', 'monthly_synop');
             fetchSynopData('yearly-graph', 'column', 'Yearly Transmissions', 'yearly_synop');
@@ -550,60 +543,97 @@ https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js
                 },
                 success: function(data) {
                     // Add GeoJSON as a source
+                    
 
-                    if (monthly_map.getLayer('monthly-rate')) {
-                        monthly_map.removeLayer('monthly-rate');
-                    }
-                    if (monthly_map.getSource('monthly-rate')) {
-                        monthly_map.removeSource('monthly-rate');
-                    }
-
-                    monthly_map.addSource('monthly-rate', {
-                        type: 'geojson',
-                        data: data
-                    });
-
-                    // Add layer to style points as small grey circles
-                    monthly_map.addLayer({
-                        id: 'monthly-rate',
-                        type: 'circle',
-                        source: 'monthly-rate',
-                        paint: {
-                            'circle-color': [
-                                'case',
-                                ['<=', ['get', 'average_received_rate'], 0], '#000000',
-                                ['<=', ['get', 'average_received_rate'], 30], '#fc8672',
-                                ['<=', ['get', 'average_received_rate'], 80], '#f8a02e',
-                                ['<=', ['get', 'average_received_rate'], 100], '#289f28',
-                                '#fa48ce'
-                            ],
-                            'circle-radius': 5 // Size of circles
+                        if (monthly_rate_map.getLayer('monthly-rate')) {
+                            monthly_rate_map.removeLayer('monthly-rate');
                         }
-                    });
+                        if (monthly_rate_map.getSource('monthly-rate')) {
+                            monthly_rate_map.removeSource('monthly-rate');
+                        }
+                        if (monthly_heat_map.getLayer('heat-map-layer')) {
+                            monthly_heat_map.removeLayer('heat-map-layer');
+                        }
+                        if (monthly_heat_map.getSource('heat_map')) {
+                            monthly_heat_map.removeSource('heat_map');
+                        }
 
-                    monthly_map.fitBounds(country_bounds, { padding: 10 });
+                        monthly_rate_map.addSource('monthly-rate', {
+                            type: 'geojson',
+                            data: data
+                        });
 
-                    var popup = new maplibregl.Popup({
-                        closeButton: false,
-                        closeOnClick: false
-                    });
+                        // Add layer to style points as small grey circles
+                        monthly_rate_map.addLayer({
+                            id: 'monthly-rate',
+                            type: 'circle',
+                            source: 'monthly-rate',
+                            paint: {
+                                'circle-color': [
+                                    'case',
+                                    ['<=', ['get', 'average_received_rate'], 0], '#000000',
+                                    ['<=', ['get', 'average_received_rate'], 30], '#fc8672',
+                                    ['<=', ['get', 'average_received_rate'], 80], '#f8a02e',
+                                    ['<=', ['get', 'average_received_rate'], 100], '#289f28',
+                                    '#fa48ce'
+                                ],
+                                'circle-radius': 5 // Size of circles
+                            }
+                        });
 
-                    // Change cursor on hover
-                    monthly_map.on('mouseenter', 'monthly-rate', function(e) {
-                        var coordinates = e.features[0].geometry.coordinates.slice();
-                        var name = e.features[0].properties.station_name;
-                        var average_received_rate = e.features[0].properties.average_received_rate;
+                        monthly_rate_map.fitBounds(country_bounds, { padding: 10 });
+                        monthly_heat_map.fitBounds(country_bounds, { padding: 10 });
 
-                        monthly_map.getCanvas().style.cursor = 'pointer';
-                        popup.setLngLat(coordinates)
-                            .setHTML(`<p> Name:<b>${capitalizeText(name)}</b></p> <p>
-                                <p> Rate:<b>${average_received_rate}%</b></p> <p>`)
-                            .addTo(monthly_map);
-                    });
 
-                    monthly_map.on('mouseleave', 'monthly-rate', function() {
-                        monthly_map.getCanvas().style.cursor = '';
-                    });
+                        var popup = new maplibregl.Popup({
+                            closeButton: false,
+                            closeOnClick: false
+                        });
+
+                        // Change cursor on hover
+                        monthly_rate_map.on('mouseenter', 'monthly-rate', function(e) {
+                            var coordinates = e.features[0].geometry.coordinates.slice();
+                            var name = e.features[0].properties.station_name;
+                            var average_received_rate = e.features[0].properties.average_received_rate;
+
+                            monthly_rate_map.getCanvas().style.cursor = 'pointer';
+                            popup.setLngLat(coordinates)
+                                .setHTML(`<p> Name:<b>${capitalizeText(name)}</b></p> <p>
+                                    <p> Rate:<b>${average_received_rate}%</b></p> <p>`)
+                                .addTo(monthly_rate_map);
+                        });
+
+                        monthly_rate_map.on('mouseleave', 'monthly-rate', function() {
+                            monthly_rate_map.getCanvas().style.cursor = '';
+                        });
+
+                    
+
+                        monthly_heat_map.addSource('heat_map', {
+                          'type': 'geojson',
+                          'data': data
+                        });
+                    
+                        monthly_heat_map.addLayer({
+                          'id': 'heat-map-layer',
+                          'type': 'circle',
+                          'source': 'heat_map',
+                          'paint': {
+                            'circle-radius': [
+                                'interpolate',
+                                ['linear'],
+                                ['get', 'average_received_rate'], // Replace 'yourProperty' with the actual property name
+                                // Property value and corresponding circle radius
+                                0, 2, // Example: If the property value is 0, circle radius is 5 pixels
+                                30, 4, // Example: If the property value is 10, circle radius is 20 pixels
+                                60, 7, // Example: If the property value is 20, circle radius is 30 pixels
+                                90, 9, // Example: If the property value is 20, circle radius is 30 pixels
+                                100, 13 // Example: If the property value is 20, circle radius is 30 pixels
+                                ],
+                            'circle-color': 'rgba(255, 0, 0, 0.5)', // Adjust circle color as needed
+                            'circle-opacity': 0.8 // Adjust circle opacity as needed
+                          }
+                        });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error('ERROR:', textStatus, errorThrown);
