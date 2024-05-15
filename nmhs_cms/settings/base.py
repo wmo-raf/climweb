@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "pages.cityclimate",
     "pages.glossary",
     "pages.webstories",
+    "pages.wdqms",
 
     "adminboundarymanager",
     "geomanager",
@@ -143,6 +144,7 @@ INSTALLED_APPS = [
     "dbbackup",
     "wagtailmodelchooser",
     "django_extensions",
+    "climweb_wdqms"
 
 ]
 
