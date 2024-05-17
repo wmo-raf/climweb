@@ -63,14 +63,29 @@ $((async function () {
         } = await fetch(homeMapSettingsUrl).then(response => response.json())
 
 
+        // create map
         const map = new maplibregl.Map({
             container: "home-map", // container ID
             style: defaultStyle,
-            center: [0, 0], // starting position [lng, lat]
-            zoom: 4, // starting zoom
+            center: [0, 0],
+            zoom: 4,
             scrollZoom: false,
         });
 
+
+        // Add zoom control to the map.
+        map.addControl(new maplibregl.NavigationControl({showCompass: false}));
+
+        // add fullscreen control
+        map.addControl(new maplibregl.FullscreenControl());
+
+        // add attribution
+        map.addControl(new maplibregl.AttributionControl({
+            customAttribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            compact: false,
+        }));
+
+        // fetch all weather icons and load to map
         if (weatherIconsUrl) {
             fetch(weatherIconsUrl).then(response => response.json()).then(icons => {
                 icons.forEach(icon => {
@@ -81,6 +96,7 @@ $((async function () {
             });
         }
 
+        // fetch forecast settings
         if (forecastSettingsUrl) {
             fetch(forecastSettingsUrl).then(response => response.json()).then(settings => {
                 forecastSettings = settings
@@ -90,111 +106,197 @@ $((async function () {
         // wait for map to load
         await new Promise((resolve) => map.on("load", resolve));
 
-        if (bounds) {
-            const mapBounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
-            map.fitBounds(mapBounds, {padding: 20});
-        } else {
-            if (countryInfo && countryInfo.bbox) {
-                const bbox = countryInfo.bbox
-                map.fitBounds(bbox, {padding: 20});
+        // add boundary layer
+        if (boundaryTilesUrl) {
+            // add source
+            map.addSource("admin-boundary-source", {
+                    type: "vector",
+                    tiles: [boundaryTilesUrl],
+                }
+            )
+            // add layer
+            map.addLayer({
+                'id': 'admin-boundary-fill',
+                'type': 'fill',
+                'source': 'admin-boundary-source',
+                "source-layer": "default",
+                "filter": ["==", "level", 0],
+                'paint': {
+                    'fill-color': "#fff",
+                    'fill-opacity': 0,
+                }
+            });
+
+            map.addLayer({
+                'id': 'admin-boundary-line',
+                'type': 'line',
+                'source': 'admin-boundary-source',
+                "source-layer": "default",
+                "filter": ["==", "level", 0],
+                'paint': {
+                    "line-color": "#C0FF24",
+                    "line-width": 1,
+                    "line-offset": 1,
+                }
+            });
+            map.addLayer({
+                'id': 'admin-boundary-line-2',
+                'type': 'line',
+                'source': 'admin-boundary-source',
+                "source-layer": "default",
+                "filter": ["==", "level", 0],
+                'paint': {
+                    "line-color": "#000",
+                    "line-width": 1.5,
+                }
+            });
+        }
+
+        // add city forecast source
+        map.addSource("city-forecasts", {
+            type: "geojson",
+            cluster: true,
+            clusterMinPoints: 2,
+            clusterRadius: 25,
+            data: {type: "FeatureCollection", features: []}
+        })
+
+        // add city forecast layer
+        map.addLayer({
+            "id": "city-forecasts",
+            "type": "symbol",
+            "layout": {
+                'icon-image': ['get', 'condition'],
+                'icon-size': 0.3,
+                'icon-allow-overlap': true
+            },
+            source: "city-forecasts"
+        })
+
+        let zoomLocationsInit = false
+        const updateMapBounds = () => {
+            if (bounds) {
+                const mapBounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
+                map.fitBounds(mapBounds, {padding: 50});
+            } else {
+                if (countryInfo && countryInfo.bbox) {
+                    const bbox = countryInfo.bbox
+                    map.fitBounds(bbox, {padding: 50});
+                }
+            }
+
+            if (!zoomLocationsInit) {
+                initZoomLocations()
+                zoomLocationsInit = true
             }
         }
 
+        const initZoomLocations = () => {
+            // Zoom Locations
+            if (zoomLocations && !!zoomLocations.length) {
+                map.addControl(new ZoomToLocationsControl(zoomLocations), 'top-right');
+            }
 
-        fetch(homeMapAlertsUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error fetching alerts');
-                }
-                return response.text();
-            })
-            .then(alertsHTML => {
-                const $alerts = $(alertsHTML)
+            const defaultZoomLocation = zoomLocations.find(loc => loc.default)
 
-                if ($alerts.length) {
-                    $alerts.appendTo("#alerts-container")
-                    $("#alerts-legend").show()
+            if (defaultZoomLocation && defaultZoomLocation.bounds) {
+                map.fitBounds(defaultZoomLocation.bounds, {
+                    padding: 50
+                });
+            }
+        }
 
+        if (homeMapAlertsUrl) {
+            // CAP Alerts
+            fetch(homeMapAlertsUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error fetching alerts');
+                    }
+                    return response.text();
+                })
+                .then(alertsHTML => {
+                    const $alerts = $(alertsHTML)
 
-                    // add cap alerts layer
-                    map.addSource("alert-areas", {
-                        type: "geojson",
-                        data: capGeojsonUrl,
-                    });
+                    if ($alerts.length) {
+                        $alerts.appendTo("#alerts-container")
+                        $("#alerts-legend").show()
+                        fetch(capGeojsonUrl).then(response => response.json()).then(geojsonAlertsData => {
+                            if (geojsonAlertsData.features.length > 0) {
+                                const bounds = turf.bbox(geojsonAlertsData);
 
-                    map.addLayer({
-                        id: "alert-areas-layer",
-                        type: "fill",
-                        source: "alert-areas",
-                        paint: {
-                            "fill-color": [
-                                "case",
-                                ["==", ["get", "severity"], "Extreme"],
-                                "#d72f2a",
-                                ["==", ["get", "severity"], "Severe"],
-                                "#f89904",
-                                ["==", ["get", "severity"], "Moderate"],
-                                "#e4e616",
-                                ["==", ["get", "severity"], "Minor"],
-                                "#53ffff",
-                                ["==", ["get", "severity"], "Unknown"],
-                                "#3366ff",
-                                "black",
-                            ],
-                            "fill-opacity": 0.7,
-                            "fill-outline-color": "#000",
-                        },
-                    });
+                                // fit map to alert bounds
+                                map.fitBounds(bounds, {padding: 50});
 
-                    // CAP alerts layer on click
-                    map.on("click", "alert-areas-layer", (e) => {
-                        // Copy coordinates array.
+                                // add cap alerts layer
+                                map.addSource("alert-areas", {
+                                    type: "geojson",
+                                    data: geojsonAlertsData,
+                                });
 
-                        const description = e.features[0].properties.areaDesc;
-                        const severity = e.features[0].properties.severity;
-                        const event = e.features[0].properties.event;
+                                map.addLayer({
+                                    id: "alert-areas-layer",
+                                    type: "fill",
+                                    source: "alert-areas",
+                                    paint: {
+                                        "fill-color": [
+                                            "case",
+                                            ["==", ["get", "severity"], "Extreme"],
+                                            "#d72f2a",
+                                            ["==", ["get", "severity"], "Severe"],
+                                            "#f89904",
+                                            ["==", ["get", "severity"], "Moderate"],
+                                            "#e4e616",
+                                            ["==", ["get", "severity"], "Minor"],
+                                            "#53ffff",
+                                            ["==", ["get", "severity"], "Unknown"],
+                                            "#3366ff",
+                                            "black",
+                                        ],
+                                        "fill-opacity": 0.7,
+                                        "fill-outline-color": "#000",
+                                    },
+                                }, "city-forecasts");
 
-                        new maplibregl.Popup()
-                            .setLngLat(e.lngLat)
-                            .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p> </a></div>`)
-                            .addTo(map);
+                                // CAP alerts layer on click
+                                map.on("click", "alert-areas-layer", (e) => {
+                                    // Copy coordinates array.
+                                    const description = e.features[0].properties.areaDesc;
+                                    const severity = e.features[0].properties.severity;
+                                    const event = e.features[0].properties.event;
 
+                                    new maplibregl.Popup()
+                                        .setLngLat(e.lngLat)
+                                        .setHTML(`<div class="block" style="margin:10px"><h2 class="title" style="font-size:15px;">${description}</h2> <h2 class="subtitle" style="font-size:14px;">${event}</h2> <hr> <p>${severity} severity</p> </a></div>`)
+                                        .addTo(map);
+                                });
 
-                    });
+                                // Change the cursor to a pointer when the mouse is over the alerts layer.
+                                map.on("mouseenter", "alert-areas-layer", () => {
+                                    map.getCanvas().style.cursor = "pointer";
+                                });
 
-                    // Change the cursor to a pointer when the mouse is over the alerts layer.
-                    map.on("mouseenter", "alert-areas-layer", () => {
-                        map.getCanvas().style.cursor = "pointer";
-                    });
+                                // Change it back to a pointer when it leaves.
+                                map.on("mouseleave", "alert-areas-layer", () => {
+                                    map.getCanvas().style.cursor = "";
+                                });
+                            } else {
+                                updateMapBounds()
+                            }
+                        }).catch(error => {
+                            console.error("HOME_MAP_ALERTS_GEOJSON_ERROR:", error)
+                            updateMapBounds()
+                        })
+                    }
+                })
+                .catch(error => {
+                    console.error("HOME_MAP_ALERTS_ERROR:", error)
+                    updateMapBounds()
+                })
+        } else {
+            updateMapBounds()
+        }
 
-                    // Change it back to a pointer when it leaves.
-                    map.on("mouseleave", "alert-areas-layer", () => {
-                        map.getCanvas().style.cursor = "";
-                    });
-                }
-            })
-            .catch(error => {
-                console.error("HOME_MAP_ALERTS_ERROR:", error)
-            })
-
-
-        // Create a popup object
-        const popup = new maplibregl.Popup({
-            closeButton: false,
-            closeOnClick: false
-        });
-
-
-        // Add zoom and rotation controls to the map.
-        map.addControl(new maplibregl.NavigationControl({showCompass: false}));
-
-        // add fullscreen control
-        map.addControl(new maplibregl.FullscreenControl());
-
-        map.addControl(new maplibregl.AttributionControl({
-            customAttribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            compact: false,
-        }));
 
         const getPopupHTML = (props) => {
             const dataParams = forecastSettings?.parameters || []
@@ -242,87 +344,6 @@ $((async function () {
         }
 
 
-        if (zoomLocations && !!zoomLocations.length) {
-            map.addControl(new ZoomToLocationsControl(zoomLocations), 'top-right');
-        }
-
-        const defaultZoomLocation = zoomLocations.find(loc => loc.default)
-
-        if (defaultZoomLocation && defaultZoomLocation.bounds) {
-            map.fitBounds(defaultZoomLocation.bounds, {
-                padding: 20
-            });
-        }
-
-
-        // add country layer
-        if (boundaryTilesUrl) {
-            // add source
-            map.addSource("admin-boundary-source", {
-                    type: "vector",
-                    tiles: [boundaryTilesUrl],
-                }
-            )
-            // add layer
-            map.addLayer({
-                'id': 'admin-boundary-fill',
-                'type': 'fill',
-                'source': 'admin-boundary-source',
-                "source-layer": "default",
-                "filter": ["==", "level", 0],
-                'paint': {
-                    'fill-color': "#fff",
-                    'fill-opacity': 0,
-                }
-            });
-
-            map.addLayer({
-                'id': 'admin-boundary-line',
-                'type': 'line',
-                'source': 'admin-boundary-source',
-                "source-layer": "default",
-                "filter": ["==", "level", 0],
-                'paint': {
-                    "line-color": "#C0FF24",
-                    "line-width": 1,
-                    "line-offset": 1,
-                }
-            });
-            map.addLayer({
-                'id': 'admin-boundary-line-2',
-                'type': 'line',
-                'source': 'admin-boundary-source',
-                "source-layer": "default",
-                "filter": ["==", "level", 0],
-                'paint': {
-                    "line-color": "#000",
-                    "line-width": 1.5,
-                }
-            });
-        }
-
-
-        // add city forecast source
-        map.addSource("city-forecasts", {
-            type: "geojson",
-            cluster: true,
-            clusterMinPoints: 2,
-            clusterRadius: 25,
-            data: {type: "FeatureCollection", features: []}
-        })
-
-        // add city forecast layer
-        map.addLayer({
-            "id": "city-forecasts",
-            "type": "symbol",
-            "layout": {
-                'icon-image': ['get', 'condition'],
-                'icon-size': 0.3,
-                'icon-allow-overlap': true
-            },
-            source: "city-forecasts"
-        })
-
         // city forecast on click
         map.on("click", "city-forecasts", (e) => {
             // Get the feature that was hovered over
@@ -344,8 +365,6 @@ $((async function () {
                     .setHTML(popupHTML)
                     .addTo(map);
             }
-
-
         });
 
         // Change it back to a pointer when it leaves.
