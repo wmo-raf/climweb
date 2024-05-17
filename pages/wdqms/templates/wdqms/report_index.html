@@ -74,8 +74,9 @@
                         <h2>Availability of Surface Land observations</h2>
                         <h2>(National NWP)</h2>
 
-                        <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-pdf">Download Report</a>
 
+                        {% comment %} <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-report">Download Report</a> {% endcomment %}
+                    
                         <div class="report-base-selectors">
                             <div class="control has-icons-left is-expanded my-3">
                                 <div class="select is-fullwidth is-dark">
@@ -149,7 +150,7 @@
            <p>No stations at the moment</p>
         </div>
        </section>
-        di
+        
     {% endif %}
     
 </main>
@@ -267,6 +268,7 @@
                             essential: true // animation is essential
                         });
                     }else{
+
                         const data_bounds = turf.bbox(data);
                         map.fitBounds(data_bounds,{
                             padding: 10
@@ -292,7 +294,6 @@
                         features: station_data
                     };
 
-                   
                     // Add GeoJSON as a source
                         map.addSource('points', {
                             type: 'geojson',
@@ -351,7 +352,6 @@
                             fetchSynopData('daily-graph', 'column', `Daily ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'daily_synop');
                             fetchSynopData('monthly-graph', 'column', `Monthly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
                             fetchSynopData('yearly-graph', 'column', `Yearly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
-            
                             fetchMonthlyAverages()
                             fetchYearlyAverages()
 
@@ -362,6 +362,7 @@
                         $("#station-select").on('change', function(){
                             mapFitBounds(map, stations_geom)
                         })
+
                 })
                 .catch((error) => {
                     console.error('Error fetching station data:', error);
@@ -476,7 +477,7 @@
             fetchSynopData('daily-graph', 'column', `Daily ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'daily_synop');
             fetchSynopData('monthly-graph', 'column', `Monthly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
             fetchSynopData('yearly-graph', 'column', `Yearly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
-            
+           
             fetchMonthlyAverages();
             fetchYearlyAverages();
             
@@ -565,6 +566,7 @@
             var selectedYear = $('#year-select').val();
             var selectedMonth = $('#month-select').val() < 10 ? `0${$('#month-select').val()}` : `${$('#month-select').val()}`;
 
+
             $.ajax({
                 url: `/api/monthly-geom-transmission-rate`,
                 method: "GET",
@@ -574,8 +576,7 @@
                     variable: selectedVariable
                 },
                 success: function(data) {
-                    // Add GeoJSON as a source
-                    
+                    // Add GeoJSON as a source                    
 
                     if (data.features){
                         console.log("data found", data)
@@ -689,6 +690,7 @@
                             monthly_heat_map.removeSource('heat_map');
                         }
                     }
+
                         
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -762,7 +764,6 @@
                     } else {
                         $('#yearly-summary-text').html('')
                         $(`#yearly-average-graph`).html(`<p> <em>No yearly ${selectedVariable} data found for ${selectedStation}. Try choosing another variable.</em></p>`);
-
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -831,6 +832,7 @@
                     } else {
                         $('#monthly-summary-text').html('')
                         $("#monthly-average-graph").html(`<p><em>No data found for ${selectedYear}. Try choosing another month or year.</em></p>`);
+
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -867,15 +869,13 @@
                 renderMonthlyMap();
                 fetchMonthlyAverages();
                 fetchYearlyAverages();
+
             });
         }
 
         // Bind change events
         bindChangeEvents();
-        
-    
-        
-       
+
     });
     
 </script>    

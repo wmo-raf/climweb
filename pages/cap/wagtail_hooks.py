@@ -15,6 +15,7 @@ from wagtail.admin import messages
 from wagtail.admin.forms.pages import CopyForm
 from wagtail.admin.menu import MenuItem, Menu
 from wagtail.blocks import StreamValue
+from wagtail_modeladmin.helpers import PagePermissionHelper
 from wagtail.models import Page
 from wagtail_modeladmin.helpers import AdminURLHelper
 from wagtail_modeladmin.menus import GroupMenuItem
@@ -32,6 +33,32 @@ from .models import (
 from .utils import create_cap_geomanager_dataset
 
 
+class CAPPagePermissionHelper(PagePermissionHelper):
+    def user_can_edit_obj(self, user, obj):
+        can_edit = super().user_can_edit_obj(user, obj)
+
+        if obj.live and obj.status == "Actual":
+            return False
+
+        return can_edit
+
+    def user_can_delete_obj(self, user, obj):
+        can_delete = super().user_can_delete_obj(user, obj)
+
+        if obj.live and obj.status == "Actual":
+            return False
+
+        return can_delete
+
+    def user_can_unpublish_obj(self, user, obj):
+        can_unpublish = super().user_can_unpublish_obj(user, obj)
+
+        if obj.live and obj.status == "Actual":
+            return False
+
+        return can_unpublish
+
+
 class CAPAdmin(ModelAdmin):
     model = CapAlertPage
     menu_label = _('Alerts')
@@ -39,6 +66,7 @@ class CAPAdmin(ModelAdmin):
     menu_order = 200
     add_to_settings_menu = False
     exclude_from_explorer = False
+    permission_helper_class = CAPPagePermissionHelper
 
 
 class CAPMenuGroupAdminMenuItem(GroupMenuItem):
