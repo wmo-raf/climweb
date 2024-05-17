@@ -161,6 +161,7 @@
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/series-label.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/variable-pie.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/html2canvas.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jspdf.umd.min.js' %}"></script>
@@ -346,7 +347,7 @@
                             // Set the corresponding select option as selected using jQuery
                             $('#station-select').val(wigos_id);
 
-                            $('#synop-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b> readings, `)
+                            $('#synop-summary-text').html(`For <b>${capitalizeText($('#station-select').find(':selected').text())}'s ${$('#variable-select').find(':selected').text()}</b> readings, `)
 
                             fetchSynopData('daily-graph', 'column', `Daily ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'daily_synop');
                             fetchSynopData('monthly-graph', 'column', `Monthly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
@@ -393,9 +394,9 @@
                     text: title,
                     align: 'center',
                     style: {
-                        fontSize: '14px',
+                        fontSize: '15px',
                         color: '#333333',
-                        fontWeight: '500'
+                        fontWeight: '600'
                     },
                     margin: 50
                 },
@@ -421,6 +422,10 @@
                         },
                         pointStart: 0,
                     },
+                    line:{
+                        dashStyle:'ShortDash',
+                        color:'#333'
+                    }
                 },
                 series: [{
                     name: '% Transmission rate',
@@ -459,6 +464,89 @@
                     }]
                 }
             });
+        }
+
+        function renderPieChart(chart_title,data){
+            // Data retrieved from https://worldpopulationreview.com/country-rankings/countries-by-density
+            Highcharts.chart('monthly-average-pie', {
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    type: 'variablepie',
+                    backgroundColor: 'transparent',
+
+                },
+                title: {
+                    text: chart_title,
+                    align: 'center',
+                    style: {
+                        fontSize: '16px',
+                        color: '#333333',
+                        fontWeight: '700'
+                    },
+                },
+                tooltip: {
+                    headerFormat: '',
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> ' +
+                        '{point.name}</b><br/>' +
+                        '<b>{point.y}</b> stations'
+                },
+                series: [{
+                    minPointSize: 100,
+                    innerSize: '20%',
+                    zMin: 0,
+                    name: 'transmissions',
+                    borderRadius: 5,
+                    data: data,
+                    colors: [
+                        '#000000',
+                        '#fc8672',
+                        '#f8a02e',
+                        '#289f28',
+                        '#fa48ce',
+                    ]
+                }]
+            });
+
+        }
+
+        function transmissionCategoryCounter(data){
+            // Initialize counters for each category
+            const counters = {
+                'Not received in period': 0,
+                'Availability issues (< 30%)': 0,
+                'Availability issues (≥ 30%)': 0,
+                'Normal (≥ 80%)': 0,
+                'More than 100%': 0,
+            };
+
+            // Categorize each feature based on average_received_rate
+            data.forEach(feature => {
+                const rate = feature.properties.average_received_rate;
+                if (rate === 0) {
+                    counters['Not received in period']++;
+                } else if (rate < 30) {
+                    counters['Availability issues (< 30%)']++;
+                } else if (rate < 80) {
+                    counters['Availability issues (≥ 30%)']++;
+                } else if (rate >= 80 && rate <= 100) {
+                    counters['Normal (≥ 80%)']++;
+                } else if (rate > 100) {
+                    counters['More than 100%']++;
+                }
+            });
+
+            // Prepare the final output list
+            const pie_data = [
+                { name: 'Not received in period', y: counters['Not received in period'] },
+                { name: 'Availability issues (< 30%)', y: counters['Availability issues (< 30%)'] },
+                { name: 'Availability issues (≥ 30%)', y: counters['Availability issues (≥ 30%)'] },
+                { name: 'Normal (≥ 80%)', y: counters['Normal (≥ 80%)'] },
+                { name: 'More than 100%', y: counters['More than 100%'] }
+            ];
+
+            return pie_data
         }
 
     
@@ -578,7 +666,6 @@
                     
 
                     if (data.features){
-                        console.log("data found", data)
 
                         mapFitBounds(monthly_heat_map, data)
                         mapFitBounds(monthly_rate_map, data)
@@ -674,8 +761,13 @@
                             mapFitBounds(monthly_heat_map, data)
                             mapFitBounds(monthly_rate_map, data)
                         })
+
+
+                        var pie_data = transmissionCategoryCounter(data.features)
+                        renderPieChart(`Distribution of Station ${capitalizeText(selectedVariable)} Data Transmission Based on Average Received Rate on ${$('#month-select').find(':selected').text()} ${selectedYear}`, pie_data)
+
+
                     } else {
-                        console.log("no data", data)
                         if (monthly_rate_map.getLayer('monthly-rate')) {
                             monthly_rate_map.removeLayer('monthly-rate');
                         }
@@ -689,6 +781,7 @@
                             monthly_heat_map.removeSource('heat_map');
                         }
                     }
+                    
                         
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -758,7 +851,7 @@
                                     readings of ${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b>(more than expected)</b>' : ''}</b> transmission rate were <b>recorded in ${synopYearsWithMaxRate.join(", ")}</b> while the <b>lowest transmission rate was ${minReceivedRate}%</b> recorded in <b>${synopYearsWithMinRate.join(", ")}</b>. `);
                         }
 
-                        renderChart('yearly-average-graph', 'column', `Yearly Average ${$('#variable-select').find(':selected').text()} for  ${$('#station-select').find(':selected').text()} transmissions`, periods, transmissions);
+                        renderChart('yearly-average-graph', 'column', `Yearly Average ${$('#variable-select').find(':selected').text()} for  ${capitalizeText($('#station-select').find(':selected').text())} transmissions`, periods, transmissions);
                     } else {
                         $('#yearly-summary-text').html('')
                         $(`#yearly-average-graph`).html(`<p> <em>No yearly ${selectedVariable} data found for ${selectedStation}. Try choosing another variable.</em></p>`);
@@ -827,7 +920,7 @@
                                         readings of ${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b>(more than expected)</b>' : ''}</b> transmission rate were <b>recorded at ${synopMonthsWithMaxRate.join(", ")}</b> while the <b>lowest transmission rate was ${minReceivedRate}%</b> recorded in <b>${synopMonthsWithMinRate.join(", ")}</b>.`);
                         }
 
-                        renderChart('monthly-average-graph', 'line', `Monthly Average ${$('#variable-select').find(':selected').text()} Transmissions for ${$('#station-select').find(':selected').text()}`, periods, transmissions);
+                        renderChart('monthly-average-graph', 'line', `Monthly Average ${capitalizeText($('#variable-select').find(':selected').text())} Transmissions for ${capitalizeText($('#station-select').find(':selected').text())}`, periods, transmissions);
                     } else {
                         $('#monthly-summary-text').html('')
                         $("#monthly-average-graph").html(`<p><em>No data found for ${selectedYear}. Try choosing another month or year.</em></p>`);

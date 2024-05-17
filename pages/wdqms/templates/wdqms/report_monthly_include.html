@@ -7,14 +7,12 @@
 
 
     </div>
-
-    
    
     <div class="columns report-charts my-4">
         <div class="column is-half">
             <div class="card map-card elevation-1">
                 <div class="card-content p-1">
-                     <div id="monthly-report-heat-map"></div>
+                    <div id="monthly-report-rate-map"></div>
                 </div>
             </div>
         </div>
@@ -23,7 +21,7 @@
             <div class="columns report-charts">
                 <div class="column is-half">
                     <div id="month-select">
-                        <div class="select is-fullwidth">
+                        <div class="select is-dark is-fullwidth">
                           <select id="month-select">
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -43,7 +41,7 @@
                     </div>
                 </div>
                 <div class="column is-half">
-                    <div class="select is-fullwidth is-dark mb-6">
+                    <div class="select is-fullwidth is-dark mb-3">
                         <select id="year-select" style="text-transform:capitalize">
                             {% comment %} <option value="all_stations">All Stations</option> {% endcomment %}
         
@@ -52,9 +50,15 @@
                             {% endfor %}
                         </select>
                     </div>
+
+                    
                 </div>
             </div>
-            <p id="monthly-summary-text"></p>
+
+            <figure class="transmissions-figure" style="">
+                <div id="monthly-average-pie">
+                </div>
+            </figure>
         </div>
     </div>
     
@@ -66,11 +70,13 @@
 
             <div class="card map-card elevation-1">
                 <div class="card-content p-1">
-                     <div id="monthly-report-rate-map"></div>
+                     <div id="monthly-report-heat-map"></div>
                 </div>
             </div>
         </div>
         <div class="column is-half">
+            <p id="monthly-summary-text"></p>
+
             <figure class="transmissions-figure" style="">
                 <div id="monthly-average-graph">
                 </div>
