@@ -11,7 +11,7 @@ from django.db.models import Max
 def wdqms_reports(request):
 
     stations = Station.objects.all()
-    transmissions = Transmission.objects.all()
+    transmissions = Transmission.objects.filter(received_date__year__gte = 2023)
     variables = []
     latest_date = None
     years = []

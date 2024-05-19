@@ -65,7 +65,6 @@
 {% endblock extra_css %}
 
 {% block content %}
-
 <main class="is-index" id="wdqms-report-page">    
     {% if stations|length > 0 %}
         <section class="report">
@@ -74,6 +73,7 @@
                     <div class="column is-two-thirds-desktop is-full-mobile">
                         <h2>Availability of Surface Land observations</h2>
                         <h2>(National NWP)</h2>
+
 
                         {% comment %} <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-report">Download Report</a> {% endcomment %}
                     
@@ -117,7 +117,6 @@
                         </div>
                     </div>
                 </div>
-
                 
             </div>
 
@@ -147,7 +146,7 @@
 
     {% else %}
     <section class="station-status">
-        <div class='container has-text-centered'> 
+        <div class="container has-text-centered"> 
            <p>No stations at the moment</p>
         </div>
        </section>
@@ -163,6 +162,7 @@
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/series-label.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/variable-pie.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/html2canvas.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jspdf.umd.min.js' %}"></script>
@@ -256,47 +256,37 @@
         }
 
         function mapFitBounds(map, data){
-            if(data){
-                const station_bounds = turf.bbox(data);
-                map.fitBounds(station_bounds,{
-                    padding: 10
-                })
-            } else {
-                // Fit map bounds
-                map.fitBounds(country_bounds, { padding: 10 });
+           
+                
+                if (data.features.length>0){
+                    var selected_station = $('#station-select').find(':selected').val()
+                    var selected_station_feature = data.features.find(station => station.properties.wigos_id === selected_station)
+                    if (selected_station_feature && selected_station !== 'all_stations' ){
 
-            }    
+                        map.flyTo({
+                            center: selected_station_feature.geometry.coordinates, // new center coordinates
+                            zoom: 9, // new zoom level
+                            essential: true // animation is essential
+                        });
+                    }else{
 
-            $('#station-select').change(function(){
-                var selected_station = $('#station-select').find(':selected').val()
-                var selected_station_feature = data.features.find(station => station.properties.wigos_id === selected_station)
-
-                if (selected_station_feature && selected_station !== 'all_stations' ){
-
-                    map.flyTo({
-                        center: selected_station_feature.geometry.coordinates, // new center coordinates
-                        zoom: 9, // new zoom level
-                        essential: true // animation is essential
-                    });
-                }else{
-                    if(data){
                         const data_bounds = turf.bbox(data);
                         map.fitBounds(data_bounds,{
                             padding: 10
                         })
-                    } else {
-        
+                    }
+                } else {
                         // Fit map bounds
                         map.fitBounds(country_bounds, { padding: 10 });
         
-                    }                
                 }
-            })
-            
+        
         }
+
 
         // Function to fetch station data
         function fetchStationData(url, map) {
+
             fetch(url)
                 .then((res) => res.json())
                 .then((station_data) => {
@@ -358,17 +348,22 @@
                             // Set the corresponding select option as selected using jQuery
                             $('#station-select').val(wigos_id);
 
-                            $('#synop-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b> readings, `)
+                            $('#synop-summary-text').html(`For <b>${capitalizeText($('#station-select').find(':selected').text())}'s ${$('#variable-select').find(':selected').text()}</b> readings, `)
 
-                            fetchSynopData('daily-graph', 'column', 'Daily Transmissions','daily_synop' )
-                            fetchSynopData('monthly-graph', 'column', 'Monthly Transmissions', 'monthly_synop' )
-                            fetchSynopData('yearly-graph', 'column', 'Yearly Transmissions', 'yearly_synop' )
+                            fetchSynopData('daily-graph', 'column', `Daily ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'daily_synop');
+                            fetchSynopData('monthly-graph', 'column', `Monthly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
+                            fetchSynopData('yearly-graph', 'column', `Yearly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
                             fetchMonthlyAverages()
                             fetchYearlyAverages()
 
         
                         });
                         mapFitBounds(map,stations_geom)
+
+                        $("#station-select").on('change', function(){
+                            mapFitBounds(map, stations_geom)
+                        })
+
                 })
                 .catch((error) => {
                     console.error('Error fetching station data:', error);
@@ -378,7 +373,6 @@
     
         // Fetch station data
         overall_map.on('load', function() {
-
             fetchStationData("/api/stations/", overall_map);
         })
 
@@ -401,9 +395,9 @@
                     text: title,
                     align: 'center',
                     style: {
-                        fontSize: '14px',
+                        fontSize: '15px',
                         color: '#333333',
-                        fontWeight: '500'
+                        fontWeight: '600'
                     },
                     margin: 50
                 },
@@ -429,6 +423,10 @@
                         },
                         pointStart: 0,
                     },
+                    line:{
+                        dashStyle:'ShortDash',
+                        color:'#333'
+                    }
                 },
                 series: [{
                     name: '% Transmission rate',
@@ -469,21 +467,105 @@
             });
         }
 
+        function renderPieChart(chart_title,data){
+            // Data retrieved from https://worldpopulationreview.com/country-rankings/countries-by-density
+            Highcharts.chart('monthly-average-pie', {
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    type: 'variablepie',
+                    backgroundColor: 'transparent',
+
+                },
+                title: {
+                    text: chart_title,
+                    align: 'center',
+                    style: {
+                        fontSize: '16px',
+                        color: '#333333',
+                        fontWeight: '700'
+                    },
+                },
+                tooltip: {
+                    headerFormat: '',
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> ' +
+                        '{point.name}</b><br/>' +
+                        '<b>{point.y}</b> stations'
+                },
+                series: [{
+                    minPointSize: 100,
+                    innerSize: '20%',
+                    zMin: 0,
+                    name: 'transmissions',
+                    borderRadius: 5,
+                    data: data,
+                    colors: [
+                        '#000000',
+                        '#fc8672',
+                        '#f8a02e',
+                        '#289f28',
+                        '#fa48ce',
+                    ]
+                }]
+            });
+
+        }
+
+        function transmissionCategoryCounter(data){
+            // Initialize counters for each category
+            const counters = {
+                'Not received in period': 0,
+                'Availability issues (< 30%)': 0,
+                'Availability issues (≥ 30%)': 0,
+                'Normal (≥ 80%)': 0,
+                'More than 100%': 0,
+            };
+
+            // Categorize each feature based on average_received_rate
+            data.forEach(feature => {
+                const rate = feature.properties.average_received_rate;
+                if (rate === 0) {
+                    counters['Not received in period']++;
+                } else if (rate < 30) {
+                    counters['Availability issues (< 30%)']++;
+                } else if (rate < 80) {
+                    counters['Availability issues (≥ 30%)']++;
+                } else if (rate >= 80 && rate <= 100) {
+                    counters['Normal (≥ 80%)']++;
+                } else if (rate > 100) {
+                    counters['More than 100%']++;
+                }
+            });
+
+            // Prepare the final output list
+            const pie_data = [
+                { name: 'Not received in period', y: counters['Not received in period'] },
+                { name: 'Availability issues (< 30%)', y: counters['Availability issues (< 30%)'] },
+                { name: 'Availability issues (≥ 30%)', y: counters['Availability issues (≥ 30%)'] },
+                { name: 'Normal (≥ 80%)', y: counters['Normal (≥ 80%)'] },
+                { name: 'More than 100%', y: counters['More than 100%'] }
+            ];
+
+            return pie_data
+        }
+
     
         // Function to initialize chart rendering
         function initializeChartRendering() {
             // Fetch initial data and render charts
 
             $('#year-select').val({{latest_date|date:"Y"}});
-            $('#month-select-option').val({{latest_date|date:"m"}});
+            $('#month-select').val({{latest_date|date:"m"}});
 
             monthly_heat_map.on('load', function () {
                 renderMonthlyMap();
             })
 
-            fetchSynopData('daily-graph', 'column', 'Daily Transmissions', 'daily_synop');
-            fetchSynopData('monthly-graph', 'column', 'Monthly Transmissions', 'monthly_synop');
-            fetchSynopData('yearly-graph', 'column', 'Yearly Transmissions', 'yearly_synop');
+            fetchSynopData('daily-graph', 'column', `Daily ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'daily_synop');
+            fetchSynopData('monthly-graph', 'column', `Monthly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
+            fetchSynopData('yearly-graph', 'column', `Yearly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
+           
             fetchMonthlyAverages();
             fetchYearlyAverages();
             
@@ -568,9 +650,10 @@
 
         // Function to render monthly map
         function renderMonthlyMap() {
-            var selectedVariable = $('#variable-select').val();
-            var selectedYear = $('#year-select').val();
-            var selectedMonth = $('#month-select-option').val() < 10 ? `0${$('#month-select-option').val()}` : `${$('#month-select-option').val()}`;
+            var selectedVariable = $('#variable-select').find(':selected').val();
+            var selectedYear = $('#year-select').find(':selected').val();
+            var selectedMonth = $('#month-select').find(':selected').val() < 10 ? `0${$('#month-select').find(':selected').val()}` : `${$('#month-select').find(':selected').val()}`;
+            console.log("selectedMonth: ", selectedMonth)
 
             $.ajax({
                 url: `/api/monthly-geom-transmission-rate`,
@@ -581,100 +664,125 @@
                     variable: selectedVariable
                 },
                 success: function(data) {
-                    // Add GeoJSON as a source
+                    // Add GeoJSON as a source                    
 
-                    mapFitBounds(monthly_heat_map, data)
-                    mapFitBounds(monthly_rate_map, data)
-                    
-                    if (monthly_rate_map.getLayer('monthly-rate')) {
-                        monthly_rate_map.removeLayer('monthly-rate');
-                    }
-                    if (monthly_rate_map.getSource('monthly-rate')) {
-                        monthly_rate_map.removeSource('monthly-rate');
-                    }
-                    if (monthly_heat_map.getLayer('heat-map-layer')) {
-                        monthly_heat_map.removeLayer('heat-map-layer');
-                    }
-                    if (monthly_heat_map.getSource('heat_map')) {
-                        monthly_heat_map.removeSource('heat_map');
-                    }
+                    if (data.features){
 
-                    monthly_rate_map.addSource('monthly-rate', {
-                        type: 'geojson',
-                        data: data
-                    });
-
-                    // Add layer to style points as small grey circles
-                    monthly_rate_map.addLayer({
-                        id: 'monthly-rate',
-                        type: 'circle',
-                        source: 'monthly-rate',
-                        paint: {
-                            'circle-color': [
-                                'case',
-                                ['<=', ['get', 'average_received_rate'], 0], '#000000',
-                                ['<=', ['get', 'average_received_rate'], 30], '#fc8672',
-                                ['<=', ['get', 'average_received_rate'], 80], '#f8a02e',
-                                ['<=', ['get', 'average_received_rate'], 100], '#289f28',
-                                '#fa48ce'
-                            ],
-                            'circle-radius': 5 // Size of circles
+                        mapFitBounds(monthly_heat_map, data)
+                        mapFitBounds(monthly_rate_map, data)
+                        
+                        if (monthly_rate_map.getLayer('monthly-rate')) {
+                            monthly_rate_map.removeLayer('monthly-rate');
                         }
-                    });
-
-                    
-
-                    var popup = new maplibregl.Popup({
-                        closeButton: false,
-                        closeOnClick: false
-                    });
-
-                    // Change cursor on hover
-                    monthly_rate_map.on('mouseenter', 'monthly-rate', function(e) {
-                        var coordinates = e.features[0].geometry.coordinates.slice();
-                        var name = e.features[0].properties.name;
-                        var average_received_rate = e.features[0].properties.average_received_rate;
-
-                        monthly_rate_map.getCanvas().style.cursor = 'pointer';
-                        popup.setLngLat(coordinates)
-                            .setHTML(`<p> Name:<b>${capitalizeText(name)}</b></p> <p>
-                                <p> Rate:<b>${average_received_rate}%</b></p> <p>`)
-                            .addTo(monthly_rate_map);
-                    });
-
-                    monthly_rate_map.on('mouseleave', 'monthly-rate', function() {
-                        monthly_rate_map.getCanvas().style.cursor = '';
-                    });
-
-                    monthly_heat_map.addSource('heat_map', {
-                        'type': 'geojson',
-                        'data': data
-                    });
-                
-                    monthly_heat_map.addLayer({
-                        'id': 'heat-map-layer',
-                        'type': 'circle',
-                        'source': 'heat_map',
-                        'paint': {
-                        'circle-radius': [
-                            'interpolate',
-                            ['linear'],
-                            ['get', 'average_received_rate'], // Replace 'yourProperty' with the actual property name
-                            // Property value and corresponding circle radius
-                            0, 2, // Example: If the property value is 0, circle radius is 5 pixels
-                            30, 4, // Example: If the property value is 10, circle radius is 20 pixels
-                            60, 7, // Example: If the property value is 20, circle radius is 30 pixels
-                            90, 9, // Example: If the property value is 20, circle radius is 30 pixels
-                            100, 13 // Example: If the property value is 20, circle radius is 30 pixels
-                            ],
-                        'circle-color': 'rgb(255,0,0,0.5)', // Adjust circle color as needed
-                        'circle-opacity': 0.8 // Adjust circle opacity as needed
+                        if (monthly_rate_map.getSource('monthly-rate')) {
+                            monthly_rate_map.removeSource('monthly-rate');
                         }
-                    });
+                        if (monthly_heat_map.getLayer('heat-map-layer')) {
+                            monthly_heat_map.removeLayer('heat-map-layer');
+                        }
+                        if (monthly_heat_map.getSource('heat_map')) {
+                            monthly_heat_map.removeSource('heat_map');
+                        }
+
+                        monthly_rate_map.addSource('monthly-rate', {
+                            type: 'geojson',
+                            data: data
+                        });
+
+                        // Add layer to style points as small grey circles
+                        monthly_rate_map.addLayer({
+                            id: 'monthly-rate',
+                            type: 'circle',
+                            source: 'monthly-rate',
+                            paint: {
+                                'circle-color': [
+                                    'case',
+                                    ['<=', ['get', 'average_received_rate'], 0], '#000000',
+                                    ['<=', ['get', 'average_received_rate'], 30], '#fc8672',
+                                    ['<=', ['get', 'average_received_rate'], 80], '#f8a02e',
+                                    ['<=', ['get', 'average_received_rate'], 100], '#289f28',
+                                    '#fa48ce'
+                                ],
+                                'circle-radius': 5 // Size of circles
+                            }
+                        });
 
                         
+
+                        var popup = new maplibregl.Popup({
+                            closeButton: false,
+                            closeOnClick: false
+                        });
+
+                        // Change cursor on hover
+                        monthly_rate_map.on('mouseenter', 'monthly-rate', function(e) {
+                            var coordinates = e.features[0].geometry.coordinates.slice();
+                            var name = e.features[0].properties.name;
+                            var average_received_rate = e.features[0].properties.average_received_rate;
+
+                            monthly_rate_map.getCanvas().style.cursor = 'pointer';
+                            popup.setLngLat(coordinates)
+                                .setHTML(`<p> Name:<b>${capitalizeText(name)}</b></p> <p>
+                                    <p> Rate:<b>${average_received_rate}%</b></p> <p>`)
+                                .addTo(monthly_rate_map);
+                        });
+
+                        monthly_rate_map.on('mouseleave', 'monthly-rate', function() {
+                            monthly_rate_map.getCanvas().style.cursor = '';
+                        });
+
+                        monthly_heat_map.addSource('heat_map', {
+                            'type': 'geojson',
+                            'data': data
+                        });
+                    
+                        monthly_heat_map.addLayer({
+                            'id': 'heat-map-layer',
+                            'type': 'circle',
+                            'source': 'heat_map',
+                            'paint': {
+                            'circle-radius': [
+                                'interpolate',
+                                ['linear'],
+                                ['get', 'average_received_rate'], // Replace 'yourProperty' with the actual property name
+                                // Property value and corresponding circle radius
+                                0, 2, // Example: If the property value is 0, circle radius is 5 pixels
+                                30, 4, // Example: If the property value is 10, circle radius is 20 pixels
+                                60, 7, // Example: If the property value is 20, circle radius is 30 pixels
+                                90, 9, // Example: If the property value is 20, circle radius is 30 pixels
+                                100, 13 // Example: If the property value is 20, circle radius is 30 pixels
+                                ],
+                            'circle-color': 'rgb(255,0,0,0.5)', // Adjust circle color as needed
+                            'circle-opacity': 0.8 // Adjust circle opacity as needed
+                            }
+                        });
                         
-                
+
+                        $("#station-select").on('change', function(){
+                            mapFitBounds(monthly_heat_map, data)
+                            mapFitBounds(monthly_rate_map, data)
+                        })
+
+
+                        var pie_data = transmissionCategoryCounter(data.features)
+                        renderPieChart(`Distribution of Station ${capitalizeText(selectedVariable)} Data Transmission Based on Average Received Rate on ${$('#month-select').find(':selected').text()} ${selectedYear}`, pie_data)
+
+
+                    } else {
+                        if (monthly_rate_map.getLayer('monthly-rate')) {
+                            monthly_rate_map.removeLayer('monthly-rate');
+                        }
+                        if (monthly_rate_map.getSource('monthly-rate')) {
+                            monthly_rate_map.removeSource('monthly-rate');
+                        }
+                        if (monthly_heat_map.getLayer('heat-map-layer')) {
+                            monthly_heat_map.removeLayer('heat-map-layer');
+                        }
+                        if (monthly_heat_map.getSource('heat_map')) {
+                            monthly_heat_map.removeSource('heat_map');
+                        }
+                    }
+                    
                         
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -744,7 +852,10 @@
                                     readings of ${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b>(more than expected)</b>' : ''}</b> transmission rate were <b>recorded in ${synopYearsWithMaxRate.join(", ")}</b> while the <b>lowest transmission rate was ${minReceivedRate}%</b> recorded in <b>${synopYearsWithMinRate.join(", ")}</b>. `);
                         }
 
-                        renderChart('yearly-average-graph', 'column', 'Yearly Average Transmissions', periods, transmissions);
+                        renderChart('yearly-average-graph', 'column', `Yearly Average ${$('#variable-select').find(':selected').text()} for  ${capitalizeText($('#station-select').find(':selected').text())} transmissions`, periods, transmissions);
+                    } else {
+                        $('#yearly-summary-text').html('')
+                        $(`#yearly-average-graph`).html(`<p> <em>No yearly ${selectedVariable} data found for ${selectedStation}. Try choosing another variable.</em></p>`);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -809,9 +920,11 @@
                                         readings of ${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b>(more than expected)</b>' : ''}</b> transmission rate were <b>recorded at ${synopMonthsWithMaxRate.join(", ")}</b> while the <b>lowest transmission rate was ${minReceivedRate}%</b> recorded in <b>${synopMonthsWithMinRate.join(", ")}</b>.`);
                         }
 
-                        renderChart('monthly-average-graph', 'line', 'Monthly Average Transmissions', periods, transmissions);
+                        renderChart('monthly-average-graph', 'line', `Monthly Average ${capitalizeText($('#variable-select').find(':selected').text())} Transmissions for ${capitalizeText($('#station-select').find(':selected').text())}`, periods, transmissions);
                     } else {
-                        $("#monthly-average-graph").html(`<p><em>No data found for ${selectedYear}. Try choosing another year.</em></p>`);
+                        $('#monthly-summary-text').html('')
+                        $("#monthly-average-graph").html(`<p><em>No data found for ${selectedYear}. Try choosing another month or year.</em></p>`);
+
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -829,56 +942,37 @@
             $('#station-select, #variable-select, #synop-date').change(function() {
                 // Clear synop summary text
                 $('#synop-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b> readings, `);
-
-                fetchSynopData('daily-graph', 'column', 'Daily Transmissions', 'daily_synop');
-                fetchSynopData('monthly-graph', 'column', 'Monthly Transmissions', 'monthly_synop');
-                fetchSynopData('yearly-graph', 'column', 'Yearly Transmissions', 'yearly_synop');
+                fetchSynopData('daily-graph', 'column', `Daily ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'daily_synop');
+                fetchSynopData('monthly-graph', 'column', `Monthly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
+                fetchSynopData('yearly-graph', 'column', `Yearly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
             });
 
-            $('#variable-select, #year-select').change(function () {
+            $('#year-select').change(function () {
+                renderMonthlyMap();
+            });
+
+            $('#year-select, #month-select').change(function () {
+                renderMonthlyMap();
+                fetchMonthlyAverages();
+            });
+
+
+            $('#station-select').change(function(){
                 fetchMonthlyAverages();
                 fetchYearlyAverages();
-                renderMonthlyMap();
-            });
-
-            $('#year-select, #variable-select, #month-select-option').change(function () {
-                renderMonthlyMap();
-            });
+            })
 
             $('#variable-select').change(function () {
-                $('#year-select').val({{ latest_date|date:"Y" }});
-                $('#month-select-option').val({{ latest_date|date:"m" }});
+                renderMonthlyMap();
+                fetchMonthlyAverages();
+                fetchYearlyAverages();
+
             });
         }
 
         // Bind change events
         bindChangeEvents();
 
-
-    
-        // Function to initialize PDF export
-        function initializePDFExport() {
-            // const doc = new jsPDF();
-            const doc = new jsPDF('p', 'pt', 'a4');
-
-            $('#export-report').click(function() {
-                const htmlContent = $('#report-content');
-
-                html2canvas(htmlContent).then(function (canvas) {
-                    // Add the canvas to PDF
-                    var imgData = canvas.toDataURL('image/png');
-                    var imgWidth = pdf.internal.pageSize.getWidth();
-                    var imgHeight = canvas.height * imgWidth / canvas.width;
-                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        
-                    // Download the PDF
-                    pdf.save('html-to-pdf.pdf');
-                });
-            });
-        }
-    
-        // Initialize PDF export
-        initializePDFExport();
     });
     
 </script>    
