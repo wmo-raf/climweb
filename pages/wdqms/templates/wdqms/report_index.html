@@ -650,10 +650,10 @@
 
         // Function to render monthly map
         function renderMonthlyMap() {
-            var selectedVariable = $('#variable-select').val();
-            var selectedYear = $('#year-select').val();
-            var selectedMonth = $('#month-select').val() < 10 ? `0${$('#month-select').val()}` : `${$('#month-select').val()}`;
-
+            var selectedVariable = $('#variable-select').find(':selected').val();
+            var selectedYear = $('#year-select').find(':selected').val();
+            var selectedMonth = $('#month-select').find(':selected').val() < 10 ? `0${$('#month-select').find(':selected').val()}` : `${$('#month-select').find(':selected').val()}`;
+            console.log("selectedMonth: ", selectedMonth)
 
             $.ajax({
                 url: `/api/monthly-geom-transmission-rate`,
@@ -947,10 +947,15 @@
                 fetchSynopData('yearly-graph', 'column', `Yearly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
             });
 
+            $('#year-select').change(function () {
+                renderMonthlyMap();
+            });
+
             $('#year-select, #month-select').change(function () {
                 renderMonthlyMap();
                 fetchMonthlyAverages();
             });
+
 
             $('#station-select').change(function(){
                 fetchMonthlyAverages();
