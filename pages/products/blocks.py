@@ -1,4 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.blocks import StructValue, StructBlockValidationError
@@ -6,6 +8,8 @@ from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
 from wagtail.contrib.table_block.blocks import TableBlock, DEFAULT_TABLE_OPTIONS
+
+from base.utils import get_first_page_of_pdf_as_image
 
 
 class ProductItemStructValue(StructValue):
@@ -88,6 +92,25 @@ class ProductItemDocumentContentBlock(blocks.StructBlock):
                 "valid_until": ValidationError(
                     _("The effective until date cannot be earlier than the effective from date"))
             })
+
+        # generate thumbnail from document if not provided
+        thumbnail = result.get('thumbnail')
+        if not thumbnail:
+            document = result.get('document')
+            # check if document extension is .pdf
+            if document and document.file.name.endswith('.pdf'):
+                document_title = document.title
+                try:
+                    current_time = timezone.localtime(timezone.now()).strftime("%Y-%m-%d-%H-%M-%S")
+                    file_name = f"f{slugify(document_title)}-{current_time}-thumbnail.jpg"
+                    thumbnail = get_first_page_of_pdf_as_image(document.file.path, title=document_title,
+                                                               file_name=file_name)
+                    if thumbnail:
+                        result["thumbnail"] = thumbnail
+                except:
+                    # do nothing if thumbnail generation fails
+                    pass
+
         return result
 
 
