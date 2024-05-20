@@ -24,7 +24,7 @@ from wagtailmodelchooser.blocks import ModelChooserBlock
 from base.mixins import MetadataPageMixin
 from base.models import Product, ProductItemType
 from base.models import ServiceCategory, AbstractIntroPage
-from base.utils import paginate, query_param_to_list
+from base.utils import paginate, query_param_to_list, get_first_page_of_pdf_as_image
 from pages.products.blocks import ProductItemImageContentBlock, ProductItemDocumentContentBlock, \
     ProductItemStreamContentBlock
 
@@ -284,6 +284,9 @@ class ProductItemPage(MetadataPageMixin, Page):
         FieldPanel("products")
     ]
 
+    class Meta:
+        verbose_name = _("Product Item")
+
     def __str__(self):
         parent_page = self.get_parent().specific
         return f"{parent_page.title} - {self.title}"
@@ -324,6 +327,3 @@ class ProductItemPage(MetadataPageMixin, Page):
     def product_category(self):
         parent = self.get_parent().specific
         return parent.product.name
-
-    class Meta:
-        verbose_name = _("Product Item")
