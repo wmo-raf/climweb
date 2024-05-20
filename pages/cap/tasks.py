@@ -1,11 +1,10 @@
 from background_task import background
 from wagtailcache.cache import clear_cache
 
-from base.utils import get_object_or_none
+from base.utils import get_object_or_none, get_first_page_of_pdf_as_image
 from pages.cap.utils import (
     create_cap_area_map_image,
-    create_cap_pdf_document,
-    get_first_page_of_pdf_as_image
+    create_cap_pdf_document
 )
 
 
