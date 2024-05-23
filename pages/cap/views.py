@@ -81,7 +81,7 @@ class AlertListFeed(Feed):
         return None
 
     def items(self):
-        alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+        alerts = CapAlertPage.objects.all().live().filter(status="Actual").order_by("-sent")
         return alerts
 
     def item_title(self, item):
