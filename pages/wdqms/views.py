@@ -19,7 +19,7 @@ def wdqms_reports(request):
     if transmissions:
         variables = transmissions.values_list('variable', flat=True).distinct()
         years = transmissions.values_list('received_date__year', flat=True).distinct()
-        latest_date = transmissions.filter(variable=variables[0]).order_by('received_date').values_list('received_date__date',  flat=True).last()
+        latest_date = transmissions.filter(variable='pressure').order_by('received_date').values_list('received_date__date',  flat=True).last()
 
     abm_settings = AdminBoundarySettings.for_request(request)
 
