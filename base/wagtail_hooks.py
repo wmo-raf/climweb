@@ -13,6 +13,7 @@ from wagtail_modeladmin.options import (
     modeladmin_register, ModelAdminGroup,
 )
 from wagtailcache.cache import clear_cache
+from django.core.cache import cache
 
 from base.models import Theme, ServiceCategory
 from base.utils import get_latest_cms_release
@@ -64,14 +65,19 @@ modeladmin_register(ThemeSettings)
 
 @hooks.register('after_create_page')
 @hooks.register('after_edit_page')
+@hooks.register('after_delete_page')
 def clear_wagtailcache(request, page):
     if page.live:
         clear_cache()
+        cache.clear()
 
 
-@hooks.register('after_edit_snippet')
+@hooks.register('after_create_snippet')
+@hooks.register('after_create_snippet')
+@hooks.register('after_delete_snippet')
 def clear_cache_after_snippet_edit(request, snippet):
     clear_cache()
+    cache.clear()
 
 
 @hooks.register("register_icons")
