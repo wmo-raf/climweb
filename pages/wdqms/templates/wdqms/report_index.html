@@ -78,6 +78,7 @@
                         <h2>(Global NWP)</h2>
 
 
+
                         {% comment %} <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-report">Download Report</a> {% endcomment %}
                     
                         <div class="report-base-selectors">
@@ -668,6 +669,7 @@
             var selectedYear = $('#year-select').find(':selected').val();
             var selectedMonth = $('#month-select').find(':selected').val() < 10 ? `0${$('#month-select').find(':selected').val()}` : `${$('#month-select').find(':selected').val()}`;
 
+
             $.ajax({
                 url: `/api/monthly-geom-transmission-rate`,
                 method: "GET",
@@ -695,6 +697,7 @@
                         }
                         if (monthly_heat_map.getSource('monthly-rate-interpolate')) {
                             monthly_heat_map.removeSource('monthly-rate-interpolate');
+
                         }
 
                         monthly_rate_map.addSource('monthly-rate', {
@@ -787,6 +790,7 @@
                         monthly_heat_map.on('mouseleave', 'monthly-rate', function() {
                             monthly_heat_map.getCanvas().style.cursor = '';
                         });
+
                         
 
                         $("#station-select").on('change', function(){
@@ -979,6 +983,7 @@
 
                         
                         renderChart('monthly-average-graph', 'line', `Monthly Average ${capitalizeText($('#variable-select').find(':selected').text())} Transmissions for ${capitalizeText($('#station-select').find(':selected').text())}, ${selectedYear}.`, periods, transmissions);
+
                     } else {
                         $('#monthly-summary-text').html('')
                         $("#monthly-average-graph").html(`<p><em>No data found for ${selectedYear}. Try choosing another month or year.</em></p>`);
@@ -1005,13 +1010,13 @@
                 fetchSynopData('yearly-graph', 'column', `Yearly ${$('#variable-select').find(':selected').text()} transmissions for  ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
             });
 
-
             $('#year-select').change(function () {
                 fetchMonthlyAverages();
             });
 
             $('#month-select').change(function () {
                 renderMonthlyMap();
+                fetchMonthlyAverages();
             });
 
             $('#station-select, #variable-select').change(function(){
@@ -1023,7 +1028,6 @@
 
         // Bind change events
         bindChangeEvents();
-
 
         $('#export-report').on('click', function() {
             const element = document.getElementById('wdqms-report-page');
