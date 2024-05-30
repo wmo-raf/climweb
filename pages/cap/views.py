@@ -15,6 +15,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.feedgenerator import Enclosure, rfc2822_date
 from django.utils.feedgenerator import Rss201rev2Feed
+from django.utils.translation import gettext as _
+from django.utils.xmlutils import SimplerXMLGenerator
 from lxml import etree
 from rest_framework.generics import get_object_or_404
 from wagtail.api.v2.utils import get_full_url
@@ -30,55 +32,93 @@ class AlertSerializer(BaseAlertSerializer):
         model = CapAlertPage
 
 
-class CustomFeed(Rss201rev2Feed):
+class CustomCAPFeed(Rss201rev2Feed):
     content_type = 'application/xml'
+
+    def write(self, outfile, encoding):
+        handler = SimplerXMLGenerator(outfile, encoding, short_empty_elements=True)
+        handler.startDocument()
+
+        # add stylesheet
+        handler.processingInstruction('xml-stylesheet', f'type="text/xsl" href="{reverse("cap_feed_stylesheet")}"')
+
+        handler.startElement("rss", self.rss_attributes())
+        handler.startElement("channel", self.root_attributes())
+        self.add_root_elements(handler)
+        self.write_items(handler)
+        self.endChannelElement(handler)
+        handler.endElement("rss")
 
     def add_root_elements(self, handler):
         super().add_root_elements(handler)
         pubDate = rfc2822_date(self.latest_post_date())
         handler.addQuickElement('pubDate', pubDate)
 
+        try:
+            site = Site.objects.get(is_default_site=True)
+            if site:
+                cap_setting = CapSetting.for_site(site)
+                logo = cap_setting.logo
+                sender_name = cap_setting.sender_name
+
+                if logo:
+                    url = logo.get_rendition('original').url
+                    url = site.root_url + url
+
+                    if url:
+                        # add logo image
+                        handler.startElement('image', {})
+                        handler.addQuickElement('url', url)
+
+                        if sender_name:
+                            handler.addQuickElement('title', sender_name)
+
+                        if self.feed.get('link'):
+                            handler.addQuickElement('link', site.root_url)
+
+                        handler.endElement('image')
+
+        except Exception as e:
+            pass
+
 
 class AlertListFeed(Feed):
     feed_copyright = "public domain"
     language = "en"
 
-    feed_type = CustomFeed
+    feed_type = CustomCAPFeed
 
     @staticmethod
     def link():
         return reverse("cap_alert_feed")
 
     def title(self):
+        title = _("Latest alerts")
+
         try:
             site = Site.objects.get(is_default_site=True)
             if site:
                 cap_setting = CapSetting.for_site(site)
-                return f"Latest Official Public alerts from {cap_setting.sender_name}"
-
+                if cap_setting.sender_name:
+                    title = _("Latest alerts from %(sender_name)s") % {"sender_name": cap_setting.sender_name}
         except Exception:
             pass
 
-        else:
-            return "Latest Official Public alerts"
-
-        return None
+        return title
 
     def description(self):
+        description = _("Latest alerts")
 
         try:
             site = Site.objects.get(is_default_site=True)
             if site:
                 cap_setting = CapSetting.for_site(site)
-                return f"This feed lists the most recent Official Public alerts from {cap_setting.sender_name}"
-
+                if cap_setting.sender_name:
+                    description = _("Latest alerts from %(sender_name)s") % {"sender_name": cap_setting.sender_name}
         except Exception:
             pass
 
-        else:
-            return "This feed lists the most recent Official Public alerts"
-
-        return None
+        return description
 
     def items(self):
         alerts = CapAlertPage.objects.all().live().filter(status="Actual").order_by("-sent")
@@ -156,7 +196,6 @@ def get_cap_xml(request, identifier):
                 xml = signed_xml
                 signed = True
         except Exception as e:
-            print(e)
             pass
 
         if signed:
@@ -164,11 +203,12 @@ def get_cap_xml(request, identifier):
         else:
             root = etree.fromstring(xml_bytes)
 
+        style_url = get_full_url(request, reverse("cap_alert_stylesheet"))
+
         tree = etree.ElementTree(root)
-        style_url = get_full_url(request, reverse("cap_stylesheet"))
         pi = etree.ProcessingInstruction('xml-stylesheet', f'type="text/xsl" href="{style_url}"')
         tree.getroot().addprevious(pi)
-        xml = etree.tostring(tree, encoding='utf-8')
+        xml = etree.tostring(tree, xml_declaration=True, encoding='utf-8')
 
         # cache for a day
         wagcache.set(f"cap_xml_{identifier}", xml, 60 * 60 * 24)
@@ -176,13 +216,24 @@ def get_cap_xml(request, identifier):
     return HttpResponse(xml, content_type="application/xml")
 
 
-def get_cap_stylesheet(request):
-    stylesheet = wagcache.get("cap_stylesheet")
+def get_cap_feed_stylesheet(request):
+    stylesheet = wagcache.get("cap_feed_stylesheet")
 
     if not stylesheet:
-        stylesheet = render_to_string("cap/cap-stylesheet.html").strip()
+        stylesheet = render_to_string("cap/cap-feed-stylesheet.html").strip()
         # cache for 5 days
-        wagcache.set("cap_stylesheet", stylesheet, 60 * 60 * 24 * 5)
+        wagcache.set("cap_feed_stylesheet", stylesheet, 60 * 60 * 24 * 5)
+
+    return HttpResponse(stylesheet, content_type="application/xml")
+
+
+def get_cap_alert_stylesheet(request):
+    stylesheet = wagcache.get("cap_alert_stylesheet")
+
+    if not stylesheet:
+        stylesheet = render_to_string("cap/cap-alert-stylesheet.html").strip()
+        # cache for 5 days
+        wagcache.set("cap_alert_stylesheet", stylesheet, 60 * 60 * 24 * 5)
 
     return HttpResponse(stylesheet, content_type="application/xml")
 

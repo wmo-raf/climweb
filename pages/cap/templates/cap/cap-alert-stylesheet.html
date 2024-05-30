@@ -201,8 +201,8 @@
             </style>
         </head>
         <body class="container">
-        {% if settings.base.OrganisationSetting.logo %}
-            {% image settings.base.OrganisationSetting.logo original as logo %}
+        {% if settings.capeditor.CapSetting.logo %}
+            {% image settings.capeditor.CapSetting.logo original as logo %}
             <div style="display: flex;justify-content: center;margin-bottom: 20px">
                 <img style="height: 70px" src="{{ logo.url }}" alt="Logo"/>
             </div>
