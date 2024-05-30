@@ -130,6 +130,10 @@ class AlertListFeed(Feed):
 
     def item_categories(self, item):
         categories = item.info[0].value.get('category')
+
+        if isinstance(categories, str):
+            categories = [categories]
+
         return categories
 
 
