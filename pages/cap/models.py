@@ -18,13 +18,13 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
-from wagtail.models import Page
+from wagtail.models import Page, Site
 from wagtail.signals import page_published
 
 from base.mixins import MetadataPageMixin
 from pages.cap.tasks import create_cap_alert_multi_media
 from pages.cap.utils import (
-    get_cap_map_style,
+    get_cap_map_style, get_cap_settings, format_date_to_oid,
 )
 
 
@@ -188,6 +188,23 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
     class Meta:
         ordering = ["-sent"]
+        verbose_name = _("CAP Alert")
+
+    @property
+    def identifier(self):
+        identifier = self.guid
+        try:
+            cap_settings = get_cap_settings()
+            wmo_oid = cap_settings.wmo_oid
+
+            if wmo_oid:
+                date_oid = format_date_to_oid(self.sent)
+                identifier = f"urn:oid:{wmo_oid}.{date_oid}"
+
+        except Exception as e:
+            pass
+
+        return identifier
 
     @property
     def display_title(self):
@@ -212,7 +229,7 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
     @cached_property
     def xml_link(self):
-        return reverse("cap_alert_xml", args=(self.identifier,))
+        return reverse("cap_alert_xml", args=(self.guid,))
 
     @property
     def reference_alerts(self):

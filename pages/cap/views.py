@@ -128,7 +128,7 @@ class AlertListFeed(Feed):
         return item.title
 
     def item_link(self, item):
-        return reverse("cap_alert_xml", args=[item.identifier])
+        return reverse("cap_alert_xml", args=[item.guid])
 
     def item_description(self, item):
         return item.info[0].value.get('description')
@@ -177,9 +177,9 @@ class AlertListFeed(Feed):
         return categories
 
 
-def get_cap_xml(request, identifier):
-    alert = get_object_or_404(CapAlertPage, identifier=identifier, status="Actual", live=True)
-    xml = wagcache.get(f"cap_xml_{identifier}")
+def get_cap_xml(request, guid):
+    alert = get_object_or_404(CapAlertPage, guid=guid, status="Actual", live=True)
+    xml = wagcache.get(f"cap_xml_{guid}")
 
     if not xml:
         data = AlertSerializer(alert, context={
@@ -211,7 +211,7 @@ def get_cap_xml(request, identifier):
         xml = etree.tostring(tree, xml_declaration=True, encoding='utf-8')
 
         # cache for a day
-        wagcache.set(f"cap_xml_{identifier}", xml, 60 * 60 * 24)
+        wagcache.set(f"cap_xml_{guid}", xml, 60 * 60 * 24)
 
     return HttpResponse(xml, content_type="application/xml")
 

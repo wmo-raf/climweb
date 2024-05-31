@@ -177,9 +177,6 @@ def create_cap_pdf_document(cap_alert, template_name):
     return document
 
 
-
-
-
 def get_cap_map_style(geojson):
     style = DEFAULT_STYLE
     style["sources"].update({"cap_alert": {"type": "geojson", "data": geojson}})
@@ -227,3 +224,24 @@ def create_cap_area_map_image(cap_alert):
     area_image = get_image_model().objects.create(title=image_title, file=content_file)
 
     return area_image
+
+
+def get_cap_settings():
+    site = Site.objects.get(is_default_site=True)
+    cap_settings = CapSetting.for_site(site)
+    return cap_settings
+
+
+def format_date_to_oid(date):
+    # Extract date components
+    year = date.year
+    month = date.month
+    day = date.day
+    hour = date.hour
+    minute = date.minute
+    second = date.second
+
+    # Format components into OID
+    oid_date = f"{year}.{month}.{day}.{hour}.{minute}.{second}"
+
+    return oid_date
