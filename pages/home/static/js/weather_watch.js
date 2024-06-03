@@ -39,7 +39,7 @@ $((async function () {
                     'tiles': [
                         "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
                     ]
-                }
+                },
             },
             'layers': [{
                 'id': 'carto-light-layer',
@@ -71,6 +71,46 @@ $((async function () {
             zoom: 4,
             scrollZoom: false,
         });
+
+        const basemaps = {
+            'carto-light': 'carto-light-layer',
+            'carto-dark': 'carto-dark-layer',
+            'voyager': 'voyager-layer',
+            'wikimedia': 'wikimedia-layer'
+        };
+
+        Object.keys(basemaps).forEach(basemap => {
+
+            document.getElementById(basemap).addEventListener('click', () => {
+                setBasemap(map,basemap);
+            });
+        })
+        
+        function setBasemap(map,style) {
+            Object.keys(basemaps).forEach(layer => {
+                if (map.getLayer(basemaps[layer])) {
+                    map.removeLayer(basemaps[layer]);
+                    map.removeSource(layer);
+                }
+            });
+        
+            if(map.getSource(style)){
+                map.removeSource(style)
+            }
+
+            if(map.getLayer(basemaps[style])){
+                map.removeLayer(basemaps[style])
+            }
+            map.addSource(style, defaultStyle.sources[style]);
+        
+            map.addLayer({
+                'id': basemaps[style],
+                'source': style,
+                'type': 'raster',
+                'minzoom': 0,
+                'maxzoom': 22
+            },map.getStyle().layers[0].id);
+        }
 
 
         // Add zoom control to the map.
@@ -152,27 +192,7 @@ $((async function () {
             });
         }
 
-        // add city forecast source
-        map.addSource("city-forecasts", {
-            type: "geojson",
-            cluster: true,
-            clusterMinPoints: 2,
-            clusterRadius: 25,
-            data: {type: "FeatureCollection", features: []}
-        })
-
-        // add city forecast layer
-        map.addLayer({
-            "id": "city-forecasts",
-            "type": "symbol",
-            "layout": {
-                'icon-image': ['get', 'condition'],
-                'icon-size': 0.3,
-                'icon-allow-overlap': true
-            },
-            source: "city-forecasts"
-        })
-
+        
         let zoomLocationsInit = false
         const updateMapBounds = () => {
             if (bounds) {
@@ -296,6 +316,28 @@ $((async function () {
         } else {
             updateMapBounds()
         }
+
+        // add city forecast source
+        map.addSource("city-forecasts", {
+            type: "geojson",
+            cluster: true,
+            clusterMinPoints: 2,
+            clusterRadius: 25,
+            data: {type: "FeatureCollection", features: []}
+        })
+
+        // add city forecast layer
+        map.addLayer({
+            "id": "city-forecasts",
+            "type": "symbol",
+            "layout": {
+                'icon-image': ['get', 'condition'],
+                'icon-size': 0.3,
+                'icon-allow-overlap': true
+            },
+            source: "city-forecasts"
+        })
+
 
 
         const getPopupHTML = (props) => {
