@@ -1,4 +1,6 @@
 import datetime
+import io
+import tempfile
 import xml.etree.cElementTree as et
 
 import pytz
@@ -6,7 +8,10 @@ import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from pdf2image import convert_from_path
+from wagtail.images import get_image_model
 
 from base.constants import COUNTRIES
 
@@ -162,3 +167,18 @@ def send_upgrade_command(latest_version):
 
         with requests.Session() as session:
             response = session.send(prepped)
+
+
+def get_first_page_of_pdf_as_image(file_path, title, file_name):
+    with tempfile.TemporaryDirectory() as path:
+        images = convert_from_path(file_path, output_folder=path, single_file=True)
+        if images:
+            buffer = io.BytesIO()
+            images[0].save(buffer, format='JPEG')
+            buff_val = buffer.getvalue()
+
+            content_file = ContentFile(buff_val, f"{file_name}")
+            image = get_image_model().objects.create(title=title, file=content_file)
+            return image
+
+    return None
