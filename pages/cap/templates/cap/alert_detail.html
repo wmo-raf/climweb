@@ -26,6 +26,24 @@
             font-size: 14px;
             font-weight: 600
         }
+
+        .event-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border: 4px solid #fff;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        }
+
+        .event-marker svg {
+            width: 30px;
+            height: 30px;
+        }
+
     </style>
 {% endblock extra_css %}
 
@@ -216,6 +234,7 @@
                                                          style="background-color: {{ alert_info.severity.background_color }};border: 1px solid {{ alert_info.severity.border_color }}">
                                                         <div class="alert-item-icon">
                                                             <div class="alert-icon-wrapper"
+                                                                 data-infoid="{{ alert_info.info.id }}"
                                                                  style="background-color: {{ alert_info.severity.color }};border-color: {{ alert_info.severity.border_color }};
                                                                          {% if alert_info.severity.icon_color %}color:{{ alert_info.severity.icon_color }};{% endif %} ">
                                                                 {% if alert_info.event_icon %}
@@ -430,7 +449,7 @@
                     const target = tab.dataset.target;
 
                     // filter map layer
-                    detail_map.setFilter('alert-areas-layer', ['==', 'info-id', target]);
+                    map.setFilter('alert-areas-layer', ['==', 'info-id', target]);
 
 
                     tabContentBoxes.forEach(box => {
@@ -459,6 +478,7 @@
             const geojson = {{ page.geojson|safe }};
             // alert area bounds
             const bounds = {{ page.bounds|safe }};
+
 
             // default MapLibre style
             const defaultStyle = {
@@ -498,7 +518,7 @@
                 }]
             }
 
-            const detail_map = new maplibregl.Map({
+            const map = new maplibregl.Map({
                 container: "cap-map", // container ID
                 style: defaultStyle,
                 center: [0, 0], // starting position [lng, lat]
@@ -507,7 +527,7 @@
             });
 
             // add zoom control
-            detail_map.addControl(
+            map.addControl(
                 new maplibregl.NavigationControl({
                     visualizePitch: true,
                     showZoom: true,
@@ -515,9 +535,9 @@
                 })
             );
 
-            detail_map.on("load", () => {
+            map.on("load", () => {
 
-                detail_map.addSource("alert-areas", {
+                map.addSource("alert-areas", {
                     type: "geojson",
                     data: geojson,
                 });
@@ -527,7 +547,7 @@
                     filterConfig['filter'] = initialFilter;
                 }
 
-                detail_map.addLayer({
+                map.addLayer({
                     id: "alert-areas-layer",
                     type: "fill",
                     source: "alert-areas",
@@ -555,28 +575,42 @@
                 // fit to bounds
                 if (bounds) {
                     const bbox = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
-                    detail_map.fitBounds(bbox, {padding: 100})
+                    map.fitBounds(bbox, {padding: 100})
                 }
-                // When a click event occurs on a feature in the places layer, open a popup at the
-                // location of the feature, with description HTML from its properties.
-                detail_map.on("click", "alert-areas-layer", (e) => {
-                    // Copy coordinates array.
-                    const description = e.features[0].properties.areaDesc;
 
-                    new maplibregl.Popup()
-                        .setLngLat(e.lngLat)
-                        .setHTML(`<h4>${description}</h4>`)
-                        .addTo(detail_map);
+                // add markers to map
+                geojson.features.forEach(function (feature) {
+                    const centroid = turf.centroid(feature);
+
+                    const infoId = feature.properties['info-id'];
+
+                    // get svg
+                    const iconWrapper = document.querySelector(`.alert-icon-wrapper[data-infoid="${infoId}"]`);
+
+                    if (!iconWrapper) return;
+
+                    const bgColor = iconWrapper.style.backgroundColor;
+                    const svg = iconWrapper.querySelector('svg');
+
+                    const el = document.createElement('div');
+                    el.className = 'event-marker';
+                    el.innerHTML = svg.outerHTML;
+                    el.style.backgroundColor = bgColor;
+
+                    // add marker to map
+                    new maplibregl.Marker({element: el})
+                        .setLngLat(centroid.geometry.coordinates)
+                        .addTo(map);
                 });
 
                 // Change the cursor to a pointer when the mouse is over the places layer.
-                detail_map.on("mouseenter", "alert-areas-layer", () => {
-                    detail_map.getCanvas().style.cursor = "pointer";
+                map.on("mouseenter", "alert-areas-layer", () => {
+                    map.getCanvas().style.cursor = "pointer";
                 });
 
                 // Change it back to a pointer when it leaves.
-                detail_map.on("mouseleave", "alert-areas-layer", () => {
-                    detail_map.getCanvas().style.cursor = "";
+                map.on("mouseleave", "alert-areas-layer", () => {
+                    map.getCanvas().style.cursor = "";
                 });
             });
         });

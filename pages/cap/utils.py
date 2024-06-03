@@ -1,5 +1,4 @@
 import io
-import tempfile
 
 import requests
 import weasyprint
@@ -8,7 +7,6 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
-from pdf2image import convert_from_path
 from wagtail.documents import get_document_model
 from wagtail.images import get_image_model
 from wagtail.models import Site
@@ -179,19 +177,7 @@ def create_cap_pdf_document(cap_alert, template_name):
     return document
 
 
-def get_first_page_of_pdf_as_image(file_path, title, file_name):
-    with tempfile.TemporaryDirectory() as path:
-        images = convert_from_path(file_path, output_folder=path, single_file=True)
-        if images:
-            buffer = io.BytesIO()
-            images[0].save(buffer, format='JPEG')
-            buff_val = buffer.getvalue()
 
-            content_file = ContentFile(buff_val, f"{file_name}")
-            image = get_image_model().objects.create(title=title, file=content_file)
-            return image
-
-    return None
 
 
 def get_cap_map_style(geojson):
