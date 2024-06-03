@@ -7,6 +7,22 @@
 
 <style>
 
+    .mapboxgl-ctrl-group {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: white;
+        border-radius: 3px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+    .mapboxgl-ctrl-icon {
+        display: block;
+        width: 24px;
+        height: 24px;
+        margin: 5px;
+        background-size: cover;
+    }
+
     .column.color-item{
         display: flex;
         flex-direction: column;
@@ -240,12 +256,55 @@
                 scrollZoom: false,
             });
         }
+
     
         // Initialize maps
         const overall_map = initializeMap("overall-map");
         const monthly_rate_map = initializeMap("monthly-report-rate-map");
         const monthly_heat_map = initializeMap("monthly-report-heat-map");
     
+        const basemaps = {
+            'carto-light': 'carto-light-layer',
+            'carto-dark': 'carto-dark-layer',
+            'wikimedia': 'wikimedia-layer'
+        };
+        document.getElementById('carto-light').addEventListener('click', () => {
+            setBasemap(monthly_rate_map,'carto-light');
+        });
+        
+        document.getElementById('carto-dark').addEventListener('click', () => {
+            setBasemap(monthly_rate_map,'carto-dark');
+        });
+        
+        document.getElementById('wikimedia').addEventListener('click', () => {
+            setBasemap(monthly_rate_map,'wikimedia');
+        });
+        
+        function setBasemap(map,style) {
+            Object.keys(basemaps).forEach(layer => {
+                if (map.getLayer(basemaps[layer])) {
+                    map.removeLayer(basemaps[layer]);
+                    map.removeSource(layer);
+                }
+            });
+        
+            if(map.getSource(style)){
+                map.removeSource(style)
+            }
+
+            if(map.getLayer(basemaps[style])){
+                map.removeLayer(basemaps[style])
+            }
+            map.addSource(style, defaultStyle.sources[style]);
+        
+            map.addLayer({
+                'id': basemaps[style],
+                'source': style,
+                'type': 'raster',
+                'minzoom': 0,
+                'maxzoom': 22
+            },map.getStyle().layers[0].id);
+        }
         // Function to add zoom control
         function addZoomControl(map) {
             map.addControl(

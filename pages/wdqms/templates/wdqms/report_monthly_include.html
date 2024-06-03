@@ -1,4 +1,4 @@
-{% load  i18n%}
+{% load  i18n %}
 
 <div class="container">
 
@@ -12,6 +12,11 @@
             <div class="card map-card elevation-1">
                 <div class="card-content p-1">
                     <div id="monthly-report-rate-map"></div>
+                    <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+                        <button id="carto-light" class="mapboxgl-ctrl-icon" title="Carto Light" style="background-image: url('light-icon.png');"></button>
+                        <button id="carto-dark" class="mapboxgl-ctrl-icon" title="Carto Dark" style="background-image: url('dark-icon.png');"></button>
+                        <button id="wikimedia" class="mapboxgl-ctrl-icon" title="Wikimedia" style="background-image: url('wikimedia-icon.png');"></button>
+                    </div>
                 </div>
             </div>
         </div>
