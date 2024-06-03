@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 14:35+0300\n"
+"POT-Creation-Date: 2024-06-03 11:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,125 +17,326 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pages/cap/models.py:33
+#: pages/cap/models.py:37
 msgid "CAP Alerts Heading"
 msgstr "የ CAP ማንቂያዎች ርዕስ"
 
-#: pages/cap/models.py:207
+#: pages/cap/models.py:154
+msgid "Effective date cannot be earlier than the alert sent date."
+msgstr "የሚፀናበት ቀን ከማንቂያው ቀን በፊት መሆን አይችልም።"
+
+#: pages/cap/models.py:157
+msgid "Expires date cannot be earlier than the alert sent date."
+msgstr "ጊዜው የሚያበቃበት ቀን ማንቂያ ከተላከው ቀን ቀደም ብሎ መሆን አይችልም።"
+
+#: pages/cap/models.py:319
 msgid "Show on MapViewer"
 msgstr "በ MapViewer ላይ አሳይ"
 
-#: pages/cap/models.py:208
+#: pages/cap/models.py:320
 msgid "Check to show cap alerts on MapViewer"
 msgstr "የካፒታል ማንቂያዎችን በ MapViewer ላይ ለማሳየት ያረጋግጡ"
 
-#: pages/cap/models.py:210
+#: pages/cap/models.py:322
 msgid "CAP Alerts Layer Title"
 msgstr "የ CAP ማንቂያዎች የንብርብር ርዕስ"
 
-#: pages/cap/models.py:212
-msgid "Stations Layer SubCategory"
-msgstr "ጣቢያዎች ንብርብር ንዑስ ምድብ"
+#: pages/cap/models.py:324
+#, fuzzy
+#| msgid "CAP Alerts Layer Title"
+msgid "CAP Alerts Layer SubCategory"
+msgstr "የ CAP ማንቂያዎች ንብርብር ንዑስ ምድብ"
 
-#: pages/cap/models.py:215
+#: pages/cap/models.py:327
 msgid "CAP Layer Metadata"
 msgstr "CAP ንብርብር ሜታዳታ"
 
-#: pages/cap/models.py:217
+#: pages/cap/models.py:329
 msgid "Auto Refresh interval in minutes"
 msgstr "በደቂቃዎች ውስጥ በራስ-አድስ ክፍተት"
 
-#: pages/cap/models.py:219
+#: pages/cap/models.py:331
 msgid ""
 "Refresh cap alerts on the map after this minutes. Leave blank to disable "
 "auto refreshing"
 msgstr "ከዚህ ደቂቃዎች በኋላ በካርታው ላይ የካፕ ማንቂያዎችን ያድሱ። ራስ-አድስን ለማሰናከል ባዶ ይተውት።"
 
-#: pages/cap/templates/cap/alert_detail.html:61
+#: pages/cap/templates/cap/alert_detail.html:59
+msgid "View PNG"
+msgstr "PNG ይመልከቱ"
+
+#: pages/cap/templates/cap/alert_detail.html:74
+msgid "View PDF"
+msgstr "ፒዲኤፍ ይመልከቱ"
+
+#: pages/cap/templates/cap/alert_detail.html:85
+msgid "Warning: This is not an Actual alert"
+msgstr "ማስጠንቀቂያ፡ ይህ ትክክለኛ ማንቂያ አይደለም።"
+
+#: pages/cap/templates/cap/alert_detail.html:88
+msgid "The alert below is marked as"
+msgstr "ከታች ያለው ማንቂያ እንደ ምልክት ተደርጎበታል።"
+
+#: pages/cap/templates/cap/alert_detail.html:90
+msgid ""
+"This means it is not an Actual alert and therefore not actionable to the "
+"general public"
+msgstr "ይህ ማለት ትክክለኛ ማንቂያ አይደለም እና ስለዚህ ለሰፊው ህዝብ የማይተገበር ነው።"
+
+#: pages/cap/templates/cap/alert_detail.html:98
+msgid "This alert is an update to the previously published alerts below:"
+msgstr "ይህ ማንቂያ ከዚህ ቀደም ለታተሙት ማንቂያዎች ማሻሻያ ነው፡-"
+
+#: pages/cap/templates/cap/alert_detail.html:103
+msgid "This alert cancels the previously published alerts below:"
+msgstr "ይህ ማንቂያ ከዚህ ቀደም የታተሙትን ማንቂያዎችን ይሰርዛል፡-"
+
+#: pages/cap/templates/cap/alert_detail.html:136
+#: pages/cap/templates/cap/cap-stylesheet.html:434
 msgid "Alert Severity"
 msgstr "የማንቂያ ጥብቅነት"
 
-#: pages/cap/templates/cap/alert_detail.html:68
+#: pages/cap/templates/cap/alert_detail.html:143
+#: pages/cap/templates/cap/cap-stylesheet.html:441
 msgid "Extreme"
 msgstr "ጽንፍ"
 
-#: pages/cap/templates/cap/alert_detail.html:75
+#: pages/cap/templates/cap/alert_detail.html:150
+#: pages/cap/templates/cap/cap-stylesheet.html:448
 msgid "Severe"
 msgstr "ከባድ"
 
-#: pages/cap/templates/cap/alert_detail.html:82
+#: pages/cap/templates/cap/alert_detail.html:157
+#: pages/cap/templates/cap/cap-stylesheet.html:455
 msgid "Moderate"
 msgstr "መጠነኛ"
 
-#: pages/cap/templates/cap/alert_detail.html:89
+#: pages/cap/templates/cap/alert_detail.html:164
+#: pages/cap/templates/cap/cap-stylesheet.html:462
 msgid "Minor"
 msgstr "አናሳ"
 
-#: pages/cap/templates/cap/alert_detail.html:96
+#: pages/cap/templates/cap/alert_detail.html:171
+#: pages/cap/templates/cap/cap-stylesheet.html:469
 msgid "Unknown"
 msgstr "ያልታወቀ"
 
-#: pages/cap/templates/cap/alert_detail.html:158
+#: pages/cap/templates/cap/alert_detail.html:243
+#: pages/cap/templates/cap/cap-stylesheet.html:515
+msgid "Language"
+msgstr "ቋንቋ"
+
+#: pages/cap/templates/cap/alert_detail.html:252
+#: pages/cap/templates/cap/cap-stylesheet.html:526
+msgid "Category"
+msgstr "ምድብ"
+
+#: pages/cap/templates/cap/alert_detail.html:268
+#: pages/cap/templates/cap/alert_detail_pdf.html:46
+#: pages/cap/templates/cap/cap-stylesheet.html:560
 msgid "Urgency"
 msgstr "አስቸኳይ"
 
-#: pages/cap/templates/cap/alert_detail.html:167
-#: pages/cap/templates/cap/alert_list.html:61
+#: pages/cap/templates/cap/alert_detail.html:277
+#: pages/cap/templates/cap/alert_detail_pdf.html:55
+#: pages/cap/templates/cap/alert_list.html:69
+#: pages/cap/templates/cap/cap-stylesheet.html:571
 msgid "Severity"
 msgstr "ከባድነት"
 
-#: pages/cap/templates/cap/alert_detail.html:176
+#: pages/cap/templates/cap/alert_detail.html:286
+#: pages/cap/templates/cap/alert_detail_pdf.html:64
+#: pages/cap/templates/cap/cap-stylesheet.html:582
 msgid "Certainty"
 msgstr "እርግጠኝነት"
 
-#: pages/cap/templates/cap/alert_detail.html:186
+#: pages/cap/templates/cap/alert_detail.html:300
+#: pages/cap/templates/cap/cap-stylesheet.html:542
+msgid "Response Types"
+msgstr "የምላሽ ዓይነቶች"
+
+#: pages/cap/templates/cap/alert_detail.html:313
 msgid "Time period"
 msgstr "ጊዜ"
 
-#: pages/cap/templates/cap/alert_detail.html:195
+#: pages/cap/templates/cap/alert_detail.html:322
+#: pages/cap/templates/cap/alert_detail_pdf.html:74
 msgid "Issued"
 msgstr "የተሰጠበት"
 
-#: pages/cap/templates/cap/alert_detail.html:206
+#: pages/cap/templates/cap/alert_detail.html:333
+#: pages/cap/templates/cap/alert_detail_pdf.html:89
+#: pages/cap/templates/cap/cap-stylesheet.html:601
 msgid "Effective"
 msgstr "ውጤታማ"
 
-#: pages/cap/templates/cap/alert_detail.html:222
+#: pages/cap/templates/cap/alert_detail.html:349
+#: pages/cap/templates/cap/alert_detail_pdf.html:114
+#: pages/cap/templates/cap/cap-stylesheet.html:614
 msgid "Onset"
 msgstr "ጅምር"
 
-#: pages/cap/templates/cap/alert_detail.html:231
+#: pages/cap/templates/cap/alert_detail.html:358
+#: pages/cap/templates/cap/alert_detail_pdf.html:130
+#: pages/cap/templates/cap/cap-stylesheet.html:626
 msgid "Expires"
 msgstr "ጊዜው ያበቃል"
 
-#: pages/cap/templates/cap/alert_detail.html:242
+#: pages/cap/templates/cap/alert_detail.html:369
+#: pages/cap/templates/cap/alert_detail_pdf.html:153
+#: pages/cap/templates/cap/cap-stylesheet.html:661
 msgid "Area"
 msgstr "አካባቢ"
 
-#: pages/cap/templates/cap/alert_detail.html:254
+#: pages/cap/templates/cap/alert_detail.html:381
 msgid "Event Description"
 msgstr "የክስተት መግለጫ"
 
-#: pages/cap/templates/cap/alert_detail.html:265
+#: pages/cap/templates/cap/alert_detail.html:392
 msgid "Instructions"
 msgstr "መመሪያዎች"
 
-#: pages/cap/templates/cap/alert_list.html:89
+#: pages/cap/templates/cap/alert_detail_pdf.html:166
+#: pages/cap/templates/cap/cap-stylesheet.html:645
+#, fuzzy
+#| msgid "Event Description"
+msgid "Description"
+msgstr "መግለጫ"
+
+#: pages/cap/templates/cap/alert_detail_pdf.html:179
+#: pages/cap/templates/cap/cap-stylesheet.html:653
+#, fuzzy
+#| msgid "Instructions"
+msgid "Instruction"
+msgstr "መመሪያ"
+
+#: pages/cap/templates/cap/alert_list.html:33
+#, fuzzy
+#| msgid "CAP Alerts"
+msgid "Active Alerts"
+msgstr "ንቁ ማንቂያዎች"
+
+#: pages/cap/templates/cap/alert_list.html:46
+msgid "No active alerts currently"
+msgstr "በአሁኑ ጊዜ ምንም ንቁ ማንቂያዎች የሉም"
+
+#: pages/cap/templates/cap/alert_list.html:55
+#, fuzzy
+#| msgid "CAP Alerts"
+msgid "Past Alerts"
+msgstr "ያለፉ ማንቂያዎች"
+
+#: pages/cap/templates/cap/alert_list.html:97
 msgid "Event type"
 msgstr "የክስተት አይነት"
 
-#: pages/cap/wagtail_hooks.py:19
+#: pages/cap/templates/cap/cap-stylesheet.html:224
+msgid "Identifier"
+msgstr "መለያ"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:232
+msgid "Sender"
+msgstr "ላኪ"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:239
+msgid "Sent"
+msgstr "ተልኳል።"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:245
+msgid "Status"
+msgstr "ሁኔታ"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:251
+msgid "Message Type"
+msgstr "የመልእክት አይነት"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:257
+msgid "Scope"
+msgstr "ወሰን"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:267
+msgid "Reference Alerts"
+msgstr "የማጣቀሻ ማንቂያዎች"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:591
+msgid "Time"
+msgstr "ጊዜ"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:637
+msgid "Headline"
+msgstr "ርዕስ"
+
+#: pages/cap/templates/cap/cap-stylesheet.html:689
+msgid "Contact"
+msgstr "ተገናኝ"
+
+#: pages/cap/templates/cap/include_alert_list_item.html:32
+#, fuzzy
+#| msgid "Issued"
+msgid "Issued on:"
+msgstr "የተሰጠው በ፡"
+
+#: pages/cap/templates/cap/include_alert_list_item.html:35
+#, python-format
+msgid "%(issued_on)s"
+msgstr "%(የተሰጠ) s"
+
+#: pages/cap/utils.py:30
+msgid "Go to warnings list"
+msgstr "ወደ ማስጠንቀቂያዎች ዝርዝር ይሂዱ"
+
+#: pages/cap/wagtail_hooks.py:64
 msgid "Alerts"
 msgstr "ማንቂያዎች"
 
-#: pages/cap/wagtail_hooks.py:32
+#: pages/cap/wagtail_hooks.py:78
 msgid "CAP Alerts"
 msgstr "የ CAP ማንቂያዎች"
 
-#: pages/cap/wagtail_hooks.py:57
+#: pages/cap/wagtail_hooks.py:100
+#, fuzzy
+#| msgid "CAP Alerts"
+msgid "Import CAP Alert"
+msgstr "የ CAP ማንቂያ አስመጣ"
+
+#: pages/cap/wagtail_hooks.py:108
 msgid "CAP Base Settings"
 msgstr "CAP ቤዝ ቅንብሮች"
 
-#: pages/cap/wagtail_hooks.py:66
+#: pages/cap/wagtail_hooks.py:116
 msgid "CAP Mapviewer Settings"
 msgstr "የ CAP ካርታ መመልከቻ ቅንጅቶች"
+
+#: pages/cap/wagtail_hooks.py:201
+#, python-format
+msgid "Alert '%(page_title)s' copied. You can edit the new alert below."
+msgstr "ማንቂያ '%(page_title)s' ተቀድቷል። አዲሱን ማንቂያ ከዚህ በታች ማርትዕ ይችላሉ።"
+
+#: pages/cap/wagtail_hooks.py:232
+msgid ""
+"Actual Alerts cannot be edited after they have been published. To publish an"
+" update to this alert, create a new alert of Message Type 'Update' and "
+"reference this alert"
+msgstr ""
+"ትክክለኛ ማንቂያዎች ከታተሙ በኋላ ማርትዕ አይችሉም። የዚህን ማንቂያ ዝማኔ ለማተም አዲስ የመልእክት አይነት 'አዘምን' "
+"ማንቂያ ይፍጠሩ እና ይህን ማንቂያ ያጣቅሱ"
+
+#: pages/cap/wagtail_hooks.py:243
+msgid "Actual Alerts cannot be Unpublished after they have been published"
+msgstr "ትክክለኛ ማንቂያዎች ከታተሙ በኋላ ሊታተሙ አይችሉም"
+
+#: pages/cap/wagtail_hooks.py:254
+msgid ""
+"Actual Alerts cannot be deleted after they have been published. To cancel or"
+" publish an update to this alert, create a new alert of Message Type "
+"'Cancel' or 'Update' and reference this alert"
+msgstr ""
+"ትክክለኛ ማንቂያዎች ከታተሙ በኋላ ሊሰረዙ አይችሉም። የዚህን ማንቂያ ዝማኔ ለመሰረዝ ወይም ለማተም አዲስ የመልእክት "
+"አይነት 'ሰርዝ' ወይም 'አዘምን' የሚል ማንቂያ ይፍጠሩ እና ይህን ማንቂያ ያጣቅሱ።"
+
+#: pages/cap/wagtail_hooks.py:453
+msgid "CAP Alert draft created. You can now edit the alert."
+msgstr "CAP ማንቂያ ረቂቅ ተፈጥሯል። አሁን ማንቂያውን ማርትዕ ይችላሉ።"
+
+#~ msgid "Stations Layer SubCategory"
+#~ msgstr "ጣቢያዎች ንብርብር ንዑስ ምድብ"

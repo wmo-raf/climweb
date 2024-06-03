@@ -1,0 +1,30 @@
+{% load  i18n%}
+
+<div class="columns is-hidden-mobile legend mt-4 is-justify-content-center mx-6 has-text-centered">
+
+    <div class="column color-item">
+        <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#000000"></div>
+        <div class="color-interpretation"><p>{% trans 'Not received in period<' %}/p></div>
+    </div>
+
+    <div class="column color-item">
+        <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#fa4827"></div>
+        <div class="color-interpretation"><p>{% trans 'Availability issues ' %}(< 30%)</p></div>
+    </div>
+
+    <div class="column color-item">
+        <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#f8a02e"></div>
+        <div class="color-interpretation"><p>{% trans 'Availability issues ' %}(≥ 30%)</p></div>
+    </div>
+
+    <div class="column color-item">
+        <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#289f28"></div>
+        <div class="color-interpretation"><p>{% trans 'Normal ' %}(≥ 80%)</p></div>
+    </div>
+
+    <div class="column color-item">
+        <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#fa48ce"></div>
+        <div class="color-interpretation"><p>{% trans 'More than 100%' %}</p></div>
+    </div>
+
+</div>

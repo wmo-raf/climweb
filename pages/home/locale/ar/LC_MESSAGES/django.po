@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 15:01+0300\n"
+"POT-Creation-Date: 2024-06-03 11:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,241 +18,305 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
+#: pages/home/blocks.py:59
+msgid "Level 0"
+msgstr "المستوى 0"
+
+#: pages/home/blocks.py:60
+msgid "Level 1"
+msgstr "المستوى 1"
+
+#: pages/home/blocks.py:61
+msgid "Level 2"
+msgstr "المستوي 2"
+
+#: pages/home/blocks.py:62
+msgid "Level 3"
+msgstr "مستوى 3"
+
+#: pages/home/blocks.py:65 pages/home/blocks.py:75
+msgid "Area/Region Name"
+msgstr "اسم المنطقة/المنطقة"
+
+#: pages/home/blocks.py:66 pages/home/blocks.py:76
+msgid "Default"
+msgstr "تقصير"
+
+#: pages/home/blocks.py:67
+msgid "Administrative Level"
+msgstr "المستوى الإداري"
+
+#: pages/home/blocks.py:68
+msgid "Boundary"
+msgstr "الحدود"
+
+#: pages/home/blocks.py:68
+msgid "Click to select boundary on the map"
+msgstr "انقر لتحديد الحدود على الخريطة"
+
+#: pages/home/blocks.py:77
+msgid "Polygon"
+msgstr "مضلع"
+
+#: pages/home/blocks.py:77
+msgid "Draw custom area on the map"
+msgstr "ارسم منطقة مخصصة على الخريطة"
+
 #: pages/home/models.py:66
-msgid "Title"
-msgstr "عنوان"
+#, fuzzy
+#| msgid "Title"
+msgid "Pre Title"
+msgstr "عنوان ما قبل"
 
 #: pages/home/models.py:67
-msgid "Subtitle"
-msgstr "الترجمة"
+msgid ""
+"Text to show before the name of the institution. For example, if the "
+"institution is under a ministry, the ministry name can added here"
+msgstr ""
+"نص يظهر قبل اسم المؤسسة، على سبيل المثال، إذا كانت المؤسسة تابعة لوزارة، "
+"يمكن إضافة اسم الوزارة هنا"
 
-#: pages/home/models.py:69
+#: pages/home/models.py:70
+msgid "Institution Name"
+msgstr "اسم المعهد"
+
+#: pages/home/models.py:71
+msgid "Full name of the institution"
+msgstr "الاسم الكامل للمؤسسة"
+
+#: pages/home/models.py:72
+msgid "Tagline"
+msgstr "سطر الوصف"
+
+#: pages/home/models.py:73
+msgid "Can be the tagline or slogan of the institution"
+msgstr "يمكن أن يكون الشعار أو شعار المؤسسة"
+
+#: pages/home/models.py:75
 msgid "Banner Image"
 msgstr "صورة بانر"
 
-#: pages/home/models.py:70
+#: pages/home/models.py:76
 msgid "Banner Text Color"
 msgstr "لون نص البانر"
 
-#: pages/home/models.py:71
+#: pages/home/models.py:77
 msgid "Banner Type"
 msgstr "نوع البانر"
 
-#: pages/home/models.py:73
+#: pages/home/models.py:79
 msgid "Show city forecast section"
 msgstr "عرض قسم توقعات المدينة"
 
-#: pages/home/models.py:75
+#: pages/home/models.py:81
 msgid "Show weather watch section"
 msgstr "إظهار قسم مراقبة الطقس"
 
-#: pages/home/models.py:77
+#: pages/home/models.py:83
 msgid "Weather Watch Section header"
 msgstr "رأس قسم مراقبة الطقس"
 
-#: pages/home/models.py:78
+#: pages/home/models.py:84
 msgid "Show MapViewer button"
 msgstr "إظهار زر MapViewer"
 
-#: pages/home/models.py:80
+#: pages/home/models.py:86
 msgid "MapViewer Call to Action Title"
 msgstr "عنوان العبارة التي تحث المستخدم على اتخاذ إجراء في MapViewer"
 
-#: pages/home/models.py:81
+#: pages/home/models.py:87
 msgid "Mapviewer URL"
 msgstr "عنوان URL لعارض الخرائط"
 
-#: pages/home/models.py:89
+#: pages/home/models.py:95
 msgid "Youtube Playlist"
 msgstr "قائمة تشغيل يوتيوب"
 
-#: pages/home/models.py:94
+#: pages/home/models.py:100
 msgid "Feature block"
 msgstr "كتلة الميزة"
 
-#: pages/home/models.py:103
+#: pages/home/models.py:110
 msgid "Banner Section"
 msgstr "قسم البانر"
 
-#: pages/home/models.py:106
+#: pages/home/models.py:113
 msgid "City Forecast Section"
 msgstr "قسم توقعات المدينة"
 
-#: pages/home/models.py:113
+#: pages/home/models.py:120
 msgid "Weather Watch Section"
 msgstr "قسم مراقبة الطقس"
 
-#: pages/home/models.py:116
+#: pages/home/models.py:123
 msgid "Media Section"
 msgstr "قسم الإعلام"
 
-#: pages/home/models.py:120
+#: pages/home/models.py:127
 msgid "Addditional Information"
 msgstr "معلومات إضافية"
 
-#: pages/home/models.py:125
+#: pages/home/models.py:132
 msgid "Home Page"
 msgstr "الصفحة الرئيسية"
 
-#: pages/home/models.py:126
+#: pages/home/models.py:133
 msgid "Home Pages"
 msgstr "الصفحات الرئيسية"
 
-#: pages/home/templates/dailyweather_include.html:5
-#: pages/home/templates/hero_types/card_hero.html:204
-#: pages/home/templates/hero_types/full_hero.html:232
-#: pages/home/templates/hero_types/half_hero.html:226
-#: pages/home/templates/section/city_forecast_include.html:211
-msgid "Daily Weather"
-msgstr "الطقس اليومي"
+#: pages/home/models.py:237
+msgid "Admin Boundary"
+msgstr "حدود المشرف"
 
-#: pages/home/templates/dailyweather_include.html:44
-msgid "Daily Weather Report"
-msgstr "تقرير الطقس اليومي"
+#: pages/home/models.py:238
+msgid "Draw Polygon"
+msgstr "رسم المضلع"
 
-#: pages/home/templates/dailyweather_include.html:51
-#, python-format
-msgid "Issued on %(issue_date)s"
-msgstr "صدرت في %(issue_date)s"
+#: pages/home/templates/home/forecast_widget_include.html:141
+#, fuzzy
+#| msgid "All Publications"
+msgid "All Locations"
+msgstr "جميع المواقع"
 
-#: pages/home/templates/dailyweather_include.html:66
-msgid "Stations with Extreme Measurements"
-msgstr "محطات ذات قياسات متطرفة"
+#: pages/home/templates/home/forecast_widget_include.html:151
+#, fuzzy
+#| msgid "Daily Weather Report"
+msgid "Daily Weather Reports"
+msgstr "تقارير الطقس اليومية"
 
-#: pages/home/templates/dailyweather_include.html:68
-#, python-format
-msgid "%(issue_date)s"
-msgstr "%(issue_date)s"
-
-#: pages/home/templates/dailyweather_include.html:90
-#, python-format
-msgid "Forecast Summary for %(forecast_date)s"
-msgstr "ملخص التوقعات لـ %(forecast_date)s"
-
-#: pages/home/templates/dailyweather_include.html:106
-#, python-format
-msgid "Past Weather Summary for %(summary_date)s"
-msgstr "ملخص الطقس الماضي لـ %(summary_date)s"
-
-#: pages/home/templates/dailyweather_include.html:122
-msgid "No report at the moment"
-msgstr "لا يوجد تقرير في الوقت الراهن"
-
-#: pages/home/templates/forecasts_index.html:3
+#: pages/home/templates/home/forecasts_index.html:3
 msgid "Forecasts"
 msgstr "التنبؤ"
 
-#: pages/home/templates/forecasts_index.html:133
+#: pages/home/templates/home/forecasts_index.html:133
 msgid "City Weather Forecast"
 msgstr "توقعات الطقس للمدينة"
 
-#: pages/home/templates/forecasts_index.html:140
+#: pages/home/templates/home/forecasts_index.html:140
 msgid "Download Image"
 msgstr "تحميل الصورة"
 
-#: pages/home/templates/forecasts_index.html:172
+#: pages/home/templates/home/forecasts_index.html:172
 msgid "City"
 msgstr "مدينة"
 
-#: pages/home/templates/forecasts_index.html:175
+#: pages/home/templates/home/forecasts_index.html:175
 #, python-format
 msgid "%(forecast_date)s"
 msgstr "%(forecast_date)s"
 
-#: pages/home/templates/hero_types/card_hero.html:197
-msgid " All City Forecast"
-msgstr "جميع توقعات المدينة"
-
-#: pages/home/templates/hero_types/full_hero.html:112
-#: pages/home/templates/hero_types/half_hero.html:111
-msgid "Analysis"
-msgstr "تحليل"
-
-#: pages/home/templates/hero_types/full_hero.html:224
-#: pages/home/templates/hero_types/half_hero.html:218
-#: pages/home/templates/section/city_forecast_include.html:203
-msgid "All City Forecast"
-msgstr "جميع توقعات المدينة"
-
-#: pages/home/templates/home_page.html:34
+#: pages/home/templates/home/home_page.html:35
 msgid "Latest Media"
 msgstr "أحدث الوسائط"
 
-#: pages/home/templates/home_page.html:50
+#: pages/home/templates/home/home_page.html:51
 msgid "Our Partners"
 msgstr "شركاؤنا"
 
-#: pages/home/templates/home_page.html:75
+#: pages/home/templates/home/home_page.html:76
 msgid "More Partners"
 msgstr "المزيد من الشركاء"
 
-#: pages/home/templates/section/city_forecast_include.html:121
-msgid "sunrise"
-msgstr "شروق الشمس"
-
-#: pages/home/templates/section/city_forecast_include.html:130
-msgid "sunset"
-msgstr "غروب"
-
-#: pages/home/templates/section/city_forecast_include.html:138
-msgid "moonrise"
-msgstr "طلوع القمر"
-
-#: pages/home/templates/section/satellite_include.html:5
-msgid "Satellite Imagery"
-msgstr "صور الأقمار الصناعية"
-
-#: pages/home/templates/section/services_include.html:6
-msgid "Our Service Areas "
-msgstr "مجالات الخدمة لدينا"
-
-#: pages/home/templates/section/updates_include.html:6
-msgid "Latest Updates"
-msgstr "آخر التحديثات"
-
-#: pages/home/templates/section/updates_include.html:17
-msgid "All News"
-msgstr "جميع الأخبار"
-
-#: pages/home/templates/section/updates_include.html:25
-msgid "All Publications"
-msgstr "جميع المنشورات"
-
-#: pages/home/templates/section/weather_watch_include.html:15
-msgid "Latest Weather Warnings"
-msgstr "أحدث التحذيرات الجوية"
-
-#: pages/home/templates/section/weather_watch_include.html:57
+#: pages/home/templates/home/section/home_map_alerts_include.html:42
 msgid "No active alerts currently"
 msgstr "لا توجد تنبيهات نشطة حاليا"
 
-#: pages/home/templates/section/weather_watch_include.html:106
+#: pages/home/templates/home/section/services_include.html:6
+msgid "Our Service Areas "
+msgstr "مجالات الخدمة لدينا"
+
+#: pages/home/templates/home/section/updates_include.html:6
+msgid "Latest Updates"
+msgstr "آخر التحديثات"
+
+#: pages/home/templates/home/section/updates_include.html:17
+msgid "All News"
+msgstr "جميع الأخبار"
+
+#: pages/home/templates/home/section/updates_include.html:25
+msgid "All Publications"
+msgstr "جميع المنشورات"
+
+#: pages/home/templates/home/section/weather_watch_include.html:15
+msgid "Latest Weather Warnings"
+msgstr "أحدث التحذيرات الجوية"
+
+#: pages/home/templates/home/section/weather_watch_include.html:36
 msgid "Alert Severity:"
 msgstr "خطورة التنبيه:"
 
-#: pages/home/templates/section/weather_watch_include.html:110
+#: pages/home/templates/home/section/weather_watch_include.html:40
 msgid "Extreme"
 msgstr "أقصى"
 
-#: pages/home/templates/section/weather_watch_include.html:114
+#: pages/home/templates/home/section/weather_watch_include.html:44
 msgid "Severe"
 msgstr "شديد"
 
-#: pages/home/templates/section/weather_watch_include.html:118
+#: pages/home/templates/home/section/weather_watch_include.html:48
 msgid "Moderate"
 msgstr "معتدل"
 
-#: pages/home/templates/section/weather_watch_include.html:122
+#: pages/home/templates/home/section/weather_watch_include.html:52
 msgid "Minor"
 msgstr "صغير"
 
-#: pages/home/templates/section/weather_watch_include.html:127
+#: pages/home/templates/home/section/weather_watch_include.html:57
 msgid "Unknown"
 msgstr "مجهول"
 
-#: pages/home/templates/section/weather_watch_include.html:137
+#: pages/home/templates/home/section/weather_watch_include.html:67
 msgid "For more interactive data"
 msgstr "لمزيد من البيانات التفاعلية"
+
+#~ msgid "Subtitle"
+#~ msgstr "الترجمة"
+
+#~ msgid "Daily Weather"
+#~ msgstr "الطقس اليومي"
+
+#, python-format
+#~ msgid "Issued on %(issue_date)s"
+#~ msgstr "صدرت في %(issue_date)s"
+
+#~ msgid "Stations with Extreme Measurements"
+#~ msgstr "محطات ذات قياسات متطرفة"
+
+#, python-format
+#~ msgid "%(issue_date)s"
+#~ msgstr "%(issue_date)s"
+
+#, python-format
+#~ msgid "Forecast Summary for %(forecast_date)s"
+#~ msgstr "ملخص التوقعات لـ %(forecast_date)s"
+
+#, python-format
+#~ msgid "Past Weather Summary for %(summary_date)s"
+#~ msgstr "ملخص الطقس الماضي لـ %(summary_date)s"
+
+#~ msgid "No report at the moment"
+#~ msgstr "لا يوجد تقرير في الوقت الراهن"
+
+#~ msgid " All City Forecast"
+#~ msgstr "جميع توقعات المدينة"
+
+#~ msgid "Analysis"
+#~ msgstr "تحليل"
+
+#~ msgid "All City Forecast"
+#~ msgstr "جميع توقعات المدينة"
+
+#~ msgid "sunrise"
+#~ msgstr "شروق الشمس"
+
+#~ msgid "sunset"
+#~ msgstr "غروب"
+
+#~ msgid "moonrise"
+#~ msgstr "طلوع القمر"
+
+#~ msgid "Satellite Imagery"
+#~ msgstr "صور الأقمار الصناعية"
 
 #, fuzzy
 #~ msgid "Show media section"
