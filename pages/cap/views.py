@@ -121,7 +121,7 @@ class AlertListFeed(Feed):
         return description
 
     def items(self):
-        alerts = CapAlertPage.objects.all().live().filter(status="Actual").order_by("-sent")
+        alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public").order_by("-sent")
         return alerts
 
     def item_title(self, item):
@@ -178,7 +178,7 @@ class AlertListFeed(Feed):
 
 
 def get_cap_xml(request, guid):
-    alert = get_object_or_404(CapAlertPage, guid=guid, status="Actual", live=True)
+    alert = get_object_or_404(CapAlertPage, guid=guid, status="Actual", live=True, scope="Public")
     xml = wagcache.get(f"cap_xml_{guid}")
 
     if not xml:
@@ -239,7 +239,7 @@ def get_cap_alert_stylesheet(request):
 
 
 def cap_geojson(request):
-    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public")
     active_alert_infos = []
 
     for alert in alerts:
@@ -263,7 +263,7 @@ def cap_geojson(request):
 
 
 def get_home_map_alerts(request):
-    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public")
     active_alert_infos = []
     geojson = {"type": "FeatureCollection", "features": []}
 
@@ -302,7 +302,7 @@ def get_home_map_alerts(request):
 
 
 def get_latest_active_alert(request):
-    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public")
     active_alert_infos = []
 
     context = {}

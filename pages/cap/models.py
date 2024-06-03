@@ -52,7 +52,7 @@ class CapAlertListPage(MetadataPageMixin, Page):
 
     @cached_property
     def cap_alerts(self):
-        alerts = CapAlertPage.objects.all().live().filter(status="Actual").order_by('-sent')
+        alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public").order_by('-sent')
         alert_infos = []
 
         for alert in alerts:
@@ -391,7 +391,7 @@ def on_publish_cap_alert(sender, **kwargs):
 
 
 def get_active_alerts():
-    alerts = CapAlertPage.objects.all().live().filter(status="Actual")
+    alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public")
     active_alert_ids = []
 
     for alert in alerts:
