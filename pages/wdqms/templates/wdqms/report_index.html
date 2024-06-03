@@ -363,9 +363,9 @@
 
                             $('#synop-summary-text').html(`For <b>${capitalizeText($('#station-select').find(':selected').text())}'s ${$('#variable-select').find(':selected').text()}</b> readings, `)
 
-                            fetchSynopData('daily-graph', 'column', `{% trans 'Daily ' %}${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'daily_synop');
-                            fetchSynopData('monthly-graph', 'column', `{% trans 'Monthly ' %}${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
-                            fetchSynopData('yearly-graph', 'column', `{% trans 'Yearly ' %}${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
+                            fetchSynopData('daily-graph', 'column', `{% trans 'Daily ' %} ${$('#variable-select').find(':selected').text()} {% trans ' transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'daily_synop');
+                            fetchSynopData('monthly-graph', 'column', `{% trans 'Monthly ' %} ${$('#variable-select').find(':selected').text()} {% trans ' transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
+                            fetchSynopData('yearly-graph', 'column', `{% trans 'Yearly ' %} ${$('#variable-select').find(':selected').text()} {% trans ' transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
                             fetchMonthlyAverages()
                             fetchYearlyAverages()
 
@@ -426,7 +426,7 @@
                     categories: categories,
                     crosshair: true,
                     accessibility: {
-                        description: 'Countries'
+                        description: '{% trans 'Countries' %}'
                     }
                 },
                 plotOptions: {
@@ -442,7 +442,7 @@
                     }
                 },
                 series: [{
-                    name: '% Transmission rate',
+                    name: '% {% trans 'Transmission rate' %}',
                     data: data.map(count => ({
                         y: count,
                         color: function() {
@@ -553,11 +553,11 @@
 
             // Prepare the final output list
             const pie_data = [
-                { name: 'Not received in period', y: counters['Not received in period'] },
-                { name: 'Availability issues (< 30%)', y: counters['Availability issues (< 30%)'] },
-                { name: 'Availability issues (≥ 30%)', y: counters['Availability issues (≥ 30%)'] },
-                { name: 'Normal (≥ 80%)', y: counters['Normal (≥ 80%)'] },
-                { name: 'More than 100%', y: counters['More than 100%'] }
+                { name: '{% trans 'Not received in period' %}', y: counters['Not received in period'] },
+                { name: '{% trans 'Availability issues' %} (< 30%)', y: counters['Availability issues (< 30%)'] },
+                { name: '{% trans 'Availability issues' %} (≥ 30%)', y: counters['Availability issues (≥ 30%)'] },
+                { name: '{% trans 'Normal' %} (≥ 80%)', y: counters['Normal (≥ 80%)'] },
+                { name: '{% trans 'More than 100' %}%', y: counters['More than 100%'] }
             ];
 
             return pie_data
@@ -576,9 +576,9 @@
                 renderMonthlyMap(selectedMonth);
             })
 
-            fetchSynopData('daily-graph', 'column', `{% trans 'Daily ' %} ${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'daily_synop');
-            fetchSynopData('monthly-graph', 'column', `{% trans 'Monthly ' %}${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
-            fetchSynopData('yearly-graph', 'column', `{% trans 'Yearly ' %} ${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
+            fetchSynopData('daily-graph', 'column', `{% trans 'Daily ' %} ${$('#variable-select').find(':selected').text()} {% trans ' transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'daily_synop');
+            fetchSynopData('monthly-graph', 'column', `{% trans 'Monthly ' %} ${$('#variable-select').find(':selected').text()} {% trans ' transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
+            fetchSynopData('yearly-graph', 'column', `{% trans 'Yearly ' %} ${$('#variable-select').find(':selected').text()} {% trans ' transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
            
             fetchMonthlyAverages();
             fetchYearlyAverages();
@@ -597,7 +597,7 @@
             var selectedVariable = $('#variable-select').val();
             var selectedDate = $('#synop-date').val();
 
-            $(`#${chart_id}`).html(`<p><em>Fetching <b>${chart_title}</b> ${selectedVariable} transmission rate data for ${selectedDate} for ${selectedStationName}...</em></p>`);
+            $(`#${chart_id}`).html(`<p><em>{% trans 'Fetching' %} <b> ${chart_title} </b> ${selectedVariable} {% trans 'transmission rate data for' %} ${selectedDate} {% trans 'for' %} ${selectedStationName}...</em></p>`);
 
             const params = {
                 frequency: frequency,
@@ -645,15 +645,14 @@
                         // Set summary text
                         if (synopHoursWithMinRate.length > 0) {
                             $('#synop-summary-text').html(function(index, text) {
-                                return text + `{% trans 'Based on synoptic hours on a ' %}<b>${chart_title}</b>{% trans ' basis for ' %}<b>${selectedDate}</b>,{% trans ' the ' %}<b>{% trans 'highest 
-                                    readings of ' %}${maxReceivedRate}% ${maxReceivedRate > 100 ? '<b>({% trans "more than expected" %})</b>' : ''}</b> {% trans 'transmission rate were ' %}<b>{% trans 'recorded at ' %}${synopHoursWithMaxRate.join(", ")}</b>{% trans ' while the ' %}<b>{% trans 'lowest transmission rate was ' %}${minReceivedRate}%</b>{% trans ' recorded at ' %}<b>${synopHoursWithMinRate.join(", ")}</b>. `;
+                                return text + `{% trans 'Based on synoptic hours on a ' %}<b> ${chart_title} </b>{% trans ' basis for ' %}<b>${selectedDate}</b>, {% trans ' the ' %} <b>{% trans 'highest readings of ' %}${maxReceivedRate}% ${maxReceivedRate > 100 ? '<b> ({% trans "more than expected" %})</b>' : ''} </b> {% trans 'transmission rate were ' %}<b> {% trans 'recorded at ' %} ${synopHoursWithMaxRate.join(", ")} </b> {% trans ' while the ' %} <b> {% trans 'lowest transmission rate was ' %}${minReceivedRate}% </b>{% trans ' recorded at ' %}<b> ${synopHoursWithMinRate.join(", ")} </b>. `;
                             });
                         }
 
                         renderChart(chart_id, chart_type, chart_title, periods, transmissions);
 
                     } else {
-                        $(`#${chart_id}`).html(`<p> <em>No ${chart_title} ${selectedVariable} data found for ${selectedDate} for ${selectedStationName}. Try choosing another date.</em></p>`);
+                        $(`#${chart_id}`).html(`<p> <em>{% trans 'No' %} ${chart_title} ${selectedVariable} {% trans 'data found for' %} ${selectedDate} {% trans 'for' %} ${selectedStationName}. {% trans 'Try choosing another date.' %}</em></p>`);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -796,7 +795,7 @@
 
 
                         var pie_data = transmissionCategoryCounter(data.features)
-                        renderPieChart(`{% trans 'Distribution of All Stations ' %}${capitalizeText(selectedVariable)}{% trans ' Data Transmission Based on Average Received Rate on ' %}${$('#month-select').find(':selected').text()} ${selectedYear}`, pie_data)
+                        renderPieChart(`{% trans 'Distribution of All Stations ' %} ${capitalizeText(selectedVariable)} {% trans ' Data Transmission Based on Average Received Rate on ' %} ${$('#month-select').find(':selected').text()} ${selectedYear}`, pie_data)
 
 
                     } else {
@@ -879,14 +878,13 @@
 
                         // Set summary text
                         if (synopYearsWithMinRate.length > 0 || synopYearsWithMaxRate.length > 0) {
-                            $('#yearly-summary-text').html(`{% trans 'For ' %}<b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b>{% trans ' reading, Based on the analysis from ' %}${minYear}{% trans ' to ' %}${maxYear},{% trans ' on average, the ' %}<b>{% trans 'highest 
-                                    readings of ' %}${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b>({% trans "more than expected" %})</b>' : ''}</b>{% trans ' transmission rate were ' %}<b>{% trans 'recorded in ' %}${synopYearsWithMaxRate.join(", ")}</b>{% trans ' while the ' %}<b>{% trans 'lowest transmission rate was ' %}${minReceivedRate}%</b>{% trans ' recorded in ' %}<b>${synopYearsWithMinRate.join(", ")}</b>. `);
+                            $('#yearly-summary-text').html(`{% trans 'For ' %}<b> ${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()} </b>{% trans ' reading, Based on the analysis from ' %} ${minYear} {% trans ' to ' %} ${maxYear}, {% trans ' on average, the ' %}<b> {% trans 'highest readings of ' %} ${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b> ({% trans "more than expected" %}) </b>' : ''}</b> {% trans ' transmission rate were ' %} <b> {% trans 'recorded in ' %} ${synopYearsWithMaxRate.join(", ")} </b> {% trans ' while the ' %} <b> {% trans 'lowest transmission rate was ' %} ${minReceivedRate}% </b> {% trans ' recorded in ' %}<b> ${synopYearsWithMinRate.join(", ")} </b>. `);
                         }
 
                         renderChart('yearly-average-graph', 'column', `{% trans 'Yearly Average ' %}${$('#variable-select').find(':selected').text()} for  ${capitalizeText($('#station-select').find(':selected').text())}{% trans ' transmissions' %}`, periods, transmissions);
                     } else {
                         $('#yearly-summary-text').html('')
-                        $(`#yearly-average-graph`).html(`<p> <em>{% trans 'No yearly ' %}${selectedVariable}{% trans ' data found for ' %}${selectedStation}.{% trans ' Try choosing another variable.' %}</em></p>`);
+                        $(`#yearly-average-graph`).html(`<p> <em>{% trans 'No yearly ' %}${selectedVariable}{% trans ' data found for ' %} ${selectedStation}. {% trans ' Try choosing another variable.' %}</em></p>`);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -920,7 +918,7 @@
             var selectedVariable = $('#variable-select').val();
             var selectedYear = $('#year-select').val();
 
-            $("#monthly-average-graph").html(`<p><em>{% trans 'Fetching ' %}${selectedVariable}{% trans ' transmission rate data for ' %}${selectedYear}{% trans ' for ' %}${selectedStation}...</em></p>`);
+            $("#monthly-average-graph").html(`<p><em>{% trans 'Fetching ' %} ${selectedVariable} {% trans ' transmission rate data for ' %} ${selectedYear} {% trans ' for ' %} ${selectedStation} ...</em></p>`);
 
             const params = {
                 station: selectedStation,
@@ -973,15 +971,14 @@
 
                         // Set summary text
                         if (synopMonthsWithMinRate.length > 0) {
-                            $('#monthly-summary-text').html(`{% trans 'For ' %}<b>${$('#station-select').find(':selected').text()}'s' ${$('#variable-select').find(':selected').text()}</b>{% trans ' readings, Based on a monthly trend on a ' %}<b>{% trans 'Monthly Average Transmissions' %}</b>{% trans ' basis for ' %}<b>${selectedYear}</b>,{% trans ' the ' %}<b>{% trans 'highest 
-                                        readings of ' %}${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b>({% trans "more than expected" %})</b>' : ''}</b>{% trans ' transmission rate were ' %}<b>{% trans 'recorded at ' %}${synopMonthsWithMaxRate.join(", ")}</b>{% trans ' while the <b>lowest transmission rate was ' %}${minReceivedRate}%</b>{% trans ' recorded in ' %}<b>${synopMonthsWithMinRate.join(", ")}</b>.`);
+                            $('#monthly-summary-text').html(`{% trans 'For ' %}<b> ${$('#station-select').find(':selected').text()}'s' ${$('#variable-select').find(':selected').text()} </b>{% trans ' readings, Based on a monthly trend on a ' %} <b> {% trans 'Monthly Average Transmissions' %} </b> {% trans ' basis for ' %} <b> ${selectedYear}</b>, {% trans ' the ' %}<b> {% trans 'highest readings of ' %} ${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b> ({% trans "more than expected" %})</b>' : ''}</b> {% trans ' transmission rate were ' %}<b> {% trans 'recorded at ' %} ${synopMonthsWithMaxRate.join(", ")} </b> {% trans ' while the <b> lowest transmission rate was ' %} ${minReceivedRate}% </b> {% trans ' recorded in ' %}<b> ${synopMonthsWithMinRate.join(", ")}</b>.`);
                         }
 
                         
-                        renderChart('monthly-average-graph', 'line', `{% trans 'Monthly Average ' %}${capitalizeText($('#variable-select').find(':selected').text())} {% trans 'transmissions for ' %}${capitalizeText($('#station-select').find(':selected').text())}, ${selectedYear}.`, periods, transmissions);
+                        renderChart('monthly-average-graph', 'line', `{% trans 'Monthly Average ' %} ${capitalizeText($('#variable-select').find(':selected').text())} {% trans 'transmissions for ' %} ${capitalizeText($('#station-select').find(':selected').text())}, ${selectedYear}.`, periods, transmissions);
                     } else {
                         $('#monthly-summary-text').html('')
-                        $("#monthly-average-graph").html(`<p><em>{% trans 'No data found for ' %}${selectedYear}.{% trans ' Try choosing another month or year. ' %}</em></p>`);
+                        $("#monthly-average-graph").html(`<p><em>{% trans 'No data found for ' %} ${selectedYear}. {% trans ' Try choosing another month or year. ' %}</em></p>`);
 
                     }
                 },
@@ -999,10 +996,10 @@
             
             $('#station-select, #variable-select, #synop-date').change(function() {
                 // Clear synop summary text
-                $('#synop-summary-text').html(`For <b>${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b>{% trans ' readings,' %}' `);
-                fetchSynopData('daily-graph', 'column', `{% trans 'Daily ' %}${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'daily_synop');
-                fetchSynopData('monthly-graph', 'column', `{% trans 'Monthly ' %}${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
-                fetchSynopData('yearly-graph', 'column', `{% trans 'Yearly ' %}${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
+                $('#synop-summary-text').html(`For <b> ${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()}</b>{% trans ' readings,' %}' `);
+                fetchSynopData('daily-graph', 'column', `{% trans 'Daily ' %} ${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'daily_synop');
+                fetchSynopData('monthly-graph', 'column', `{% trans 'Monthly ' %} ${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'monthly_synop');
+                fetchSynopData('yearly-graph', 'column', `{% trans 'Yearly ' %} ${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
             });
 
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-03 13:25+0300\n"
+"POT-Creation-Date: 2024-06-03 22:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,7 +151,7 @@ msgstr "No hay estaciones por el momento."
 
 #: pages/wdqms/templates/wdqms/report_index.html:367
 #: pages/wdqms/templates/wdqms/report_index.html:580
-#: pages/wdqms/templates/wdqms/report_index.html:1004
+#: pages/wdqms/templates/wdqms/report_index.html:1001
 msgid "Daily "
 msgstr "A diario"
 
@@ -161,22 +161,20 @@ msgstr "A diario"
 #: pages/wdqms/templates/wdqms/report_index.html:580
 #: pages/wdqms/templates/wdqms/report_index.html:581
 #: pages/wdqms/templates/wdqms/report_index.html:582
-#: pages/wdqms/templates/wdqms/report_index.html:982
-#: pages/wdqms/templates/wdqms/report_index.html:1004
-#: pages/wdqms/templates/wdqms/report_index.html:1005
-#: pages/wdqms/templates/wdqms/report_index.html:1006
-msgid "transmissions for "
+#, fuzzy
+#| msgid "transmissions for "
+msgid " transmissions for "
 msgstr "transmisiones para"
 
 #: pages/wdqms/templates/wdqms/report_index.html:368
 #: pages/wdqms/templates/wdqms/report_index.html:581
-#: pages/wdqms/templates/wdqms/report_index.html:1005
+#: pages/wdqms/templates/wdqms/report_index.html:1002
 msgid "Monthly "
 msgstr "Mensual"
 
 #: pages/wdqms/templates/wdqms/report_index.html:369
 #: pages/wdqms/templates/wdqms/report_index.html:582
-#: pages/wdqms/templates/wdqms/report_index.html:1006
+#: pages/wdqms/templates/wdqms/report_index.html:1003
 msgid "Yearly "
 msgstr "Anual"
 
@@ -185,6 +183,60 @@ msgstr "Anual"
 msgid "%% Transmission rate"
 msgstr "%% Velocidad de transmision"
 
+#: pages/wdqms/templates/wdqms/report_index.html:430
+msgid "Countries"
+msgstr "Países"
+
+#: pages/wdqms/templates/wdqms/report_index.html:446
+#, fuzzy
+#| msgid "%% Transmission rate"
+msgid "Transmission rate"
+msgstr "Velocidad de transmision"
+
+#: pages/wdqms/templates/wdqms/report_index.html:557
+#, fuzzy
+#| msgid "Not received in period<"
+msgid "Not received in period"
+msgstr "No recibido en el periodo"
+
+#: pages/wdqms/templates/wdqms/report_index.html:558
+#: pages/wdqms/templates/wdqms/report_index.html:559
+#, fuzzy
+#| msgid "Availability issues "
+msgid "Availability issues"
+msgstr "Problemas de disponibilidad"
+
+#: pages/wdqms/templates/wdqms/report_index.html:560
+#, fuzzy
+#| msgid "Normal "
+msgid "Normal"
+msgstr "Normal"
+
+#: pages/wdqms/templates/wdqms/report_index.html:561
+#, fuzzy
+#| msgid "More than 100%%"
+msgid "More than 100"
+msgstr "Mas que 100"
+
+#: pages/wdqms/templates/wdqms/report_index.html:601
+#, fuzzy
+#| msgid "Fetching "
+msgid "Fetching"
+msgstr "Atractivo"
+
+#: pages/wdqms/templates/wdqms/report_index.html:601
+#, fuzzy
+#| msgid "%% Transmission rate"
+msgid "transmission rate data for"
+msgstr "datos de velocidad de transmisión para"
+
+#: pages/wdqms/templates/wdqms/report_index.html:601
+#: pages/wdqms/templates/wdqms/report_index.html:656
+#, fuzzy
+#| msgid "transmissions for "
+msgid "for"
+msgstr "para"
+
 #: pages/wdqms/templates/wdqms/report_index.html:649
 #, fuzzy
 #| msgid "Synoptic hours"
@@ -192,169 +244,200 @@ msgid "Based on synoptic hours on a "
 msgstr "Basado en horas sinópticas en un"
 
 #: pages/wdqms/templates/wdqms/report_index.html:649
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:975
 #, fuzzy
 #| msgid "transmissions for "
 msgid " basis for "
 msgstr "base para"
 
 #: pages/wdqms/templates/wdqms/report_index.html:649
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid " the "
 msgstr "el"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
-#: pages/wdqms/templates/wdqms/report_index.html:884
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
+#, fuzzy
+#| msgid " readings,"
+msgid "highest readings of "
+msgstr "lecturas más altas de"
+
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid "more than expected"
 msgstr "más de lo esperado"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
+#: pages/wdqms/templates/wdqms/report_index.html:649
 #, fuzzy
 #| msgid "%% Transmission rate"
 msgid "transmission rate were "
 msgstr "tasa de transmisión fueron"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid "recorded at "
 msgstr "grabado en"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
-#: pages/wdqms/templates/wdqms/report_index.html:884
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid " while the "
 msgstr "mientras que la"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
-#: pages/wdqms/templates/wdqms/report_index.html:884
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:882
 #, fuzzy
 #| msgid "%% Transmission rate"
 msgid "lowest transmission rate was "
 msgstr "la tasa de transmisión más baja fue"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
+#: pages/wdqms/templates/wdqms/report_index.html:649
 msgid " recorded at "
 msgstr "grabado en"
 
-#: pages/wdqms/templates/wdqms/report_index.html:739
-#: pages/wdqms/templates/wdqms/report_index.html:784
+#: pages/wdqms/templates/wdqms/report_index.html:656
+msgid "No"
+msgstr "No"
+
+#: pages/wdqms/templates/wdqms/report_index.html:656
+#, fuzzy
+#| msgid " data found for "
+msgid "data found for"
+msgstr "datos encontrados para"
+
+#: pages/wdqms/templates/wdqms/report_index.html:656
+#, fuzzy
+#| msgid " Try choosing another variable."
+msgid "Try choosing another date."
+msgstr "Intente elegir otra fecha."
+
+#: pages/wdqms/templates/wdqms/report_index.html:738
+#: pages/wdqms/templates/wdqms/report_index.html:783
 msgid "Station Metadata"
 msgstr "Metadatos de la estación"
 
-#: pages/wdqms/templates/wdqms/report_index.html:800
+#: pages/wdqms/templates/wdqms/report_index.html:799
 msgid "Distribution of All Stations "
 msgstr "Distribución de todas las estaciones"
 
-#: pages/wdqms/templates/wdqms/report_index.html:800
+#: pages/wdqms/templates/wdqms/report_index.html:799
 msgid " Data Transmission Based on Average Received Rate on "
 msgstr "Transmisión de datos basada en la tasa promedio recibida en"
 
-#: pages/wdqms/templates/wdqms/report_index.html:883
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid "For "
 msgstr "Para"
 
-#: pages/wdqms/templates/wdqms/report_index.html:883
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid " reading, Based on the analysis from "
 msgstr "lectura, basado en el análisis de"
 
-#: pages/wdqms/templates/wdqms/report_index.html:883
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid " to "
 msgstr "a"
 
-#: pages/wdqms/templates/wdqms/report_index.html:883
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid " on average, the "
 msgstr "en promedio, el"
 
-#: pages/wdqms/templates/wdqms/report_index.html:884
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
 #, fuzzy
 #| msgid "%% Transmission rate"
 msgid " transmission rate were "
 msgstr "tasa de transmisión fueron"
 
-#: pages/wdqms/templates/wdqms/report_index.html:884
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid "recorded in "
 msgstr "grabado en"
 
-#: pages/wdqms/templates/wdqms/report_index.html:884
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid " recorded in "
 msgstr "grabado en"
 
-#: pages/wdqms/templates/wdqms/report_index.html:887
+#: pages/wdqms/templates/wdqms/report_index.html:885
 #, fuzzy
 #| msgid "Yearly Average of observations"
 msgid "Yearly Average "
 msgstr "Promedio anual"
 
-#: pages/wdqms/templates/wdqms/report_index.html:887
+#: pages/wdqms/templates/wdqms/report_index.html:885
 #, fuzzy
 #| msgid "transmissions for "
 msgid " transmissions"
 msgstr "transmisiones"
 
-#: pages/wdqms/templates/wdqms/report_index.html:890
+#: pages/wdqms/templates/wdqms/report_index.html:888
 #, fuzzy
 #| msgid "Yearly "
 msgid "No yearly "
 msgstr "No anual"
 
-#: pages/wdqms/templates/wdqms/report_index.html:890
+#: pages/wdqms/templates/wdqms/report_index.html:888
 msgid " data found for "
 msgstr "datos encontrados para"
 
-#: pages/wdqms/templates/wdqms/report_index.html:890
+#: pages/wdqms/templates/wdqms/report_index.html:888
 msgid " Try choosing another variable."
 msgstr "Intente elegir otra variable."
 
-#: pages/wdqms/templates/wdqms/report_index.html:924
+#: pages/wdqms/templates/wdqms/report_index.html:922
 msgid "Fetching "
 msgstr "Atractivo"
 
-#: pages/wdqms/templates/wdqms/report_index.html:924
+#: pages/wdqms/templates/wdqms/report_index.html:922
 #, fuzzy
 #| msgid "%% Transmission rate"
 msgid " transmission rate data for "
 msgstr "datos de velocidad de transmisión para"
 
-#: pages/wdqms/templates/wdqms/report_index.html:924
+#: pages/wdqms/templates/wdqms/report_index.html:922
 #, fuzzy
 #| msgid "transmissions for "
 msgid " for "
 msgstr "para"
 
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid " readings, Based on a monthly trend on a "
 msgstr "lecturas, basadas en una tendencia mensual en un"
 
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:975
 #, fuzzy
 #| msgid "Monthly Average of observations"
 msgid "Monthly Average Transmissions"
 msgstr "Transmisiones promedio mensuales"
 
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:975
 #, fuzzy
 #| msgid "%% Transmission rate"
-msgid " while the <b>lowest transmission rate was "
-msgstr "mientras que la <b>tasa de transmisión más baja fue"
+msgid " while the <b> lowest transmission rate was "
+msgstr "mientras que la <b> tasa de transmisión más baja fue"
 
-#: pages/wdqms/templates/wdqms/report_index.html:982
+#: pages/wdqms/templates/wdqms/report_index.html:979
 #, fuzzy
 #| msgid "Monthly Average of observations"
 msgid "Monthly Average "
 msgstr "Promedio mensual"
 
-#: pages/wdqms/templates/wdqms/report_index.html:985
+#: pages/wdqms/templates/wdqms/report_index.html:979
+#: pages/wdqms/templates/wdqms/report_index.html:1001
+#: pages/wdqms/templates/wdqms/report_index.html:1002
+#: pages/wdqms/templates/wdqms/report_index.html:1003
+msgid "transmissions for "
+msgstr "transmisiones para"
+
+#: pages/wdqms/templates/wdqms/report_index.html:982
 msgid "No data found for "
 msgstr "No se encontraron datos para"
 
-#: pages/wdqms/templates/wdqms/report_index.html:985
+#: pages/wdqms/templates/wdqms/report_index.html:982
 msgid " Try choosing another month or year. "
 msgstr "Intente elegir otro mes o año."
 
-#: pages/wdqms/templates/wdqms/report_index.html:1003
+#: pages/wdqms/templates/wdqms/report_index.html:1000
 msgid " readings,"
 msgstr "lecturas,"
 

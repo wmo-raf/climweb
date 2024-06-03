@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-03 13:25+0300\n"
+"POT-Creation-Date: 2024-06-03 22:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,7 +151,7 @@ msgstr "لا توجد محطات في الوقت الحالي"
 
 #: pages/wdqms/templates/wdqms/report_index.html:367
 #: pages/wdqms/templates/wdqms/report_index.html:580
-#: pages/wdqms/templates/wdqms/report_index.html:1004
+#: pages/wdqms/templates/wdqms/report_index.html:1001
 msgid "Daily "
 msgstr "يوميًا"
 
@@ -161,22 +161,20 @@ msgstr "يوميًا"
 #: pages/wdqms/templates/wdqms/report_index.html:580
 #: pages/wdqms/templates/wdqms/report_index.html:581
 #: pages/wdqms/templates/wdqms/report_index.html:582
-#: pages/wdqms/templates/wdqms/report_index.html:982
-#: pages/wdqms/templates/wdqms/report_index.html:1004
-#: pages/wdqms/templates/wdqms/report_index.html:1005
-#: pages/wdqms/templates/wdqms/report_index.html:1006
-msgid "transmissions for "
+#, fuzzy
+#| msgid "transmissions for "
+msgid " transmissions for "
 msgstr "الإرسال ل"
 
 #: pages/wdqms/templates/wdqms/report_index.html:368
 #: pages/wdqms/templates/wdqms/report_index.html:581
-#: pages/wdqms/templates/wdqms/report_index.html:1005
+#: pages/wdqms/templates/wdqms/report_index.html:1002
 msgid "Monthly "
 msgstr "شهريا"
 
 #: pages/wdqms/templates/wdqms/report_index.html:369
 #: pages/wdqms/templates/wdqms/report_index.html:582
-#: pages/wdqms/templates/wdqms/report_index.html:1006
+#: pages/wdqms/templates/wdqms/report_index.html:1003
 msgid "Yearly "
 msgstr "سنوي"
 
@@ -185,6 +183,60 @@ msgstr "سنوي"
 msgid "%% Transmission rate"
 msgstr "معدل الإرسال %%"
 
+#: pages/wdqms/templates/wdqms/report_index.html:430
+msgid "Countries"
+msgstr "بلدان"
+
+#: pages/wdqms/templates/wdqms/report_index.html:446
+#, fuzzy
+#| msgid "%% Transmission rate"
+msgid "Transmission rate"
+msgstr "معدل الإرسال"
+
+#: pages/wdqms/templates/wdqms/report_index.html:557
+#, fuzzy
+#| msgid "Not received in period<"
+msgid "Not received in period"
+msgstr "لم يتم استلامها في الفترة"
+
+#: pages/wdqms/templates/wdqms/report_index.html:558
+#: pages/wdqms/templates/wdqms/report_index.html:559
+#, fuzzy
+#| msgid "Availability issues "
+msgid "Availability issues"
+msgstr "قضايا التوفر"
+
+#: pages/wdqms/templates/wdqms/report_index.html:560
+#, fuzzy
+#| msgid "Normal "
+msgid "Normal"
+msgstr "طبيعي"
+
+#: pages/wdqms/templates/wdqms/report_index.html:561
+#, fuzzy
+#| msgid "More than 100%%"
+msgid "More than 100"
+msgstr "اكثر من 100"
+
+#: pages/wdqms/templates/wdqms/report_index.html:601
+#, fuzzy
+#| msgid "Fetching "
+msgid "Fetching"
+msgstr "جلب"
+
+#: pages/wdqms/templates/wdqms/report_index.html:601
+#, fuzzy
+#| msgid "%% Transmission rate"
+msgid "transmission rate data for"
+msgstr "بيانات معدل النقل ل"
+
+#: pages/wdqms/templates/wdqms/report_index.html:601
+#: pages/wdqms/templates/wdqms/report_index.html:656
+#, fuzzy
+#| msgid "transmissions for "
+msgid "for"
+msgstr "ل"
+
 #: pages/wdqms/templates/wdqms/report_index.html:649
 #, fuzzy
 #| msgid "Synoptic hours"
@@ -192,169 +244,200 @@ msgid "Based on synoptic hours on a "
 msgstr "بناءً على الساعات السينوبتيكية على أ"
 
 #: pages/wdqms/templates/wdqms/report_index.html:649
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:975
 #, fuzzy
 #| msgid "transmissions for "
 msgid " basis for "
 msgstr "أساس ل"
 
 #: pages/wdqms/templates/wdqms/report_index.html:649
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid " the "
 msgstr "ال"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
-#: pages/wdqms/templates/wdqms/report_index.html:884
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
+#, fuzzy
+#| msgid " readings,"
+msgid "highest readings of "
+msgstr "أعلى القراءات"
+
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid "more than expected"
 msgstr "أكثر مما كان متوقعا"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
+#: pages/wdqms/templates/wdqms/report_index.html:649
 #, fuzzy
 #| msgid "%% Transmission rate"
 msgid "transmission rate were "
 msgstr "وكان معدل انتقال"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid "recorded at "
 msgstr "مسجلة في"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
-#: pages/wdqms/templates/wdqms/report_index.html:884
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid " while the "
 msgstr "بينما ال"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
-#: pages/wdqms/templates/wdqms/report_index.html:884
+#: pages/wdqms/templates/wdqms/report_index.html:649
+#: pages/wdqms/templates/wdqms/report_index.html:882
 #, fuzzy
 #| msgid "%% Transmission rate"
 msgid "lowest transmission rate was "
 msgstr "وكان أدنى معدل انتقال"
 
-#: pages/wdqms/templates/wdqms/report_index.html:650
+#: pages/wdqms/templates/wdqms/report_index.html:649
 msgid " recorded at "
 msgstr "مسجلة في"
 
-#: pages/wdqms/templates/wdqms/report_index.html:739
-#: pages/wdqms/templates/wdqms/report_index.html:784
+#: pages/wdqms/templates/wdqms/report_index.html:656
+msgid "No"
+msgstr "لا"
+
+#: pages/wdqms/templates/wdqms/report_index.html:656
+#, fuzzy
+#| msgid " data found for "
+msgid "data found for"
+msgstr "البيانات التي تم العثور عليها ل"
+
+#: pages/wdqms/templates/wdqms/report_index.html:656
+#, fuzzy
+#| msgid " Try choosing another variable."
+msgid "Try choosing another date."
+msgstr "حاول اختيار تاريخ آخر."
+
+#: pages/wdqms/templates/wdqms/report_index.html:738
+#: pages/wdqms/templates/wdqms/report_index.html:783
 msgid "Station Metadata"
 msgstr "البيانات الوصفية للمحطة"
 
-#: pages/wdqms/templates/wdqms/report_index.html:800
+#: pages/wdqms/templates/wdqms/report_index.html:799
 msgid "Distribution of All Stations "
 msgstr "توزيع جميع المحطات"
 
-#: pages/wdqms/templates/wdqms/report_index.html:800
+#: pages/wdqms/templates/wdqms/report_index.html:799
 msgid " Data Transmission Based on Average Received Rate on "
 msgstr "نقل البيانات على أساس متوسط ​​معدل الاستقبال"
 
-#: pages/wdqms/templates/wdqms/report_index.html:883
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid "For "
 msgstr "ل"
 
-#: pages/wdqms/templates/wdqms/report_index.html:883
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid " reading, Based on the analysis from "
 msgstr "القراءة، بناء على التحليل من"
 
-#: pages/wdqms/templates/wdqms/report_index.html:883
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid " to "
 msgstr "ل"
 
-#: pages/wdqms/templates/wdqms/report_index.html:883
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid " on average, the "
 msgstr "في المتوسط،"
 
-#: pages/wdqms/templates/wdqms/report_index.html:884
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
 #, fuzzy
 #| msgid "%% Transmission rate"
 msgid " transmission rate were "
-msgstr "وكان معدل انتقال"
+msgstr "معدل النقل كان"
 
-#: pages/wdqms/templates/wdqms/report_index.html:884
+#: pages/wdqms/templates/wdqms/report_index.html:882
 msgid "recorded in "
 msgstr "سجلت في"
 
-#: pages/wdqms/templates/wdqms/report_index.html:884
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:882
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid " recorded in "
 msgstr "سجلت في"
 
-#: pages/wdqms/templates/wdqms/report_index.html:887
+#: pages/wdqms/templates/wdqms/report_index.html:885
 #, fuzzy
 #| msgid "Yearly Average of observations"
 msgid "Yearly Average "
 msgstr "المتوسط ​​السنوي"
 
-#: pages/wdqms/templates/wdqms/report_index.html:887
+#: pages/wdqms/templates/wdqms/report_index.html:885
 #, fuzzy
 #| msgid "transmissions for "
 msgid " transmissions"
 msgstr "الإرسال"
 
-#: pages/wdqms/templates/wdqms/report_index.html:890
+#: pages/wdqms/templates/wdqms/report_index.html:888
 #, fuzzy
 #| msgid "Yearly "
 msgid "No yearly "
 msgstr "لا سنويا"
 
-#: pages/wdqms/templates/wdqms/report_index.html:890
+#: pages/wdqms/templates/wdqms/report_index.html:888
 msgid " data found for "
 msgstr "البيانات التي تم العثور عليها ل"
 
-#: pages/wdqms/templates/wdqms/report_index.html:890
+#: pages/wdqms/templates/wdqms/report_index.html:888
 msgid " Try choosing another variable."
 msgstr "حاول اختيار متغير آخر."
 
-#: pages/wdqms/templates/wdqms/report_index.html:924
+#: pages/wdqms/templates/wdqms/report_index.html:922
 msgid "Fetching "
 msgstr "جلب"
 
-#: pages/wdqms/templates/wdqms/report_index.html:924
+#: pages/wdqms/templates/wdqms/report_index.html:922
 #, fuzzy
 #| msgid "%% Transmission rate"
 msgid " transmission rate data for "
 msgstr "بيانات معدل النقل ل"
 
-#: pages/wdqms/templates/wdqms/report_index.html:924
+#: pages/wdqms/templates/wdqms/report_index.html:922
 #, fuzzy
 #| msgid "transmissions for "
 msgid " for "
 msgstr "ل"
 
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:975
 msgid " readings, Based on a monthly trend on a "
 msgstr "القراءات، بناءً على الاتجاه الشهري على أ"
 
-#: pages/wdqms/templates/wdqms/report_index.html:977
+#: pages/wdqms/templates/wdqms/report_index.html:975
 #, fuzzy
 #| msgid "Monthly Average of observations"
 msgid "Monthly Average Transmissions"
 msgstr "متوسط ​​الإرسال الشهري"
 
-#: pages/wdqms/templates/wdqms/report_index.html:978
+#: pages/wdqms/templates/wdqms/report_index.html:975
 #, fuzzy
 #| msgid "%% Transmission rate"
-msgid " while the <b>lowest transmission rate was "
-msgstr "بينما <b>كان أقل معدل انتقال"
+msgid " while the <b> lowest transmission rate was "
+msgstr "بينما كان <b> أقل معدل انتقال"
 
-#: pages/wdqms/templates/wdqms/report_index.html:982
+#: pages/wdqms/templates/wdqms/report_index.html:979
 #, fuzzy
 #| msgid "Monthly Average of observations"
 msgid "Monthly Average "
 msgstr "المتوسط ​​الشهري"
 
-#: pages/wdqms/templates/wdqms/report_index.html:985
+#: pages/wdqms/templates/wdqms/report_index.html:979
+#: pages/wdqms/templates/wdqms/report_index.html:1001
+#: pages/wdqms/templates/wdqms/report_index.html:1002
+#: pages/wdqms/templates/wdqms/report_index.html:1003
+msgid "transmissions for "
+msgstr "الإرسال ل"
+
+#: pages/wdqms/templates/wdqms/report_index.html:982
 msgid "No data found for "
 msgstr "لم يتم العثور على بيانات ل"
 
-#: pages/wdqms/templates/wdqms/report_index.html:985
+#: pages/wdqms/templates/wdqms/report_index.html:982
 msgid " Try choosing another month or year. "
 msgstr "حاول اختيار شهر أو سنة أخرى."
 
-#: pages/wdqms/templates/wdqms/report_index.html:1003
+#: pages/wdqms/templates/wdqms/report_index.html:1000
 msgid " readings,"
 msgstr "قراءة٪ s،"
 
