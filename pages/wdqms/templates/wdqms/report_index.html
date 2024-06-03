@@ -160,7 +160,6 @@
     <section class="station-status">
         <div class="container has-text-centered"> 
            <p>{% trans 'No stations at the moment' %}</p>
-
         </div>
        </section>
         
@@ -241,7 +240,6 @@
                 scrollZoom: false,
             });
         }
-        
     
         // Initialize maps
         const overall_map = initializeMap("overall-map");
@@ -560,7 +558,6 @@
                 { name: '{% trans 'Availability issues' %} (≥ 30%)', y: counters['Availability issues (≥ 30%)'] },
                 { name: '{% trans 'Normal' %} (≥ 80%)', y: counters['Normal (≥ 80%)'] },
                 { name: '{% trans 'More than 100' %}%', y: counters['More than 100%'] }
-
             ];
 
             return pie_data
@@ -883,11 +880,11 @@
                         if (synopYearsWithMinRate.length > 0 || synopYearsWithMaxRate.length > 0) {
                             $('#yearly-summary-text').html(`{% trans 'For ' %}<b> ${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()} </b>{% trans ' reading, Based on the analysis from ' %} ${minYear} {% trans ' to ' %} ${maxYear}, {% trans ' on average, the ' %}<b> {% trans 'highest readings of ' %} ${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b> ({% trans "more than expected" %}) </b>' : ''}</b> {% trans ' transmission rate were ' %} <b> {% trans 'recorded in ' %} ${synopYearsWithMaxRate.join(", ")} </b> {% trans ' while the ' %} <b> {% trans 'lowest transmission rate was ' %} ${minReceivedRate}% </b> {% trans ' recorded in ' %}<b> ${synopYearsWithMinRate.join(", ")} </b>. `);
                         }
+
                         renderChart('yearly-average-graph', 'column', `{% trans 'Yearly Average ' %} ${$('#variable-select').find(':selected').text()} for  ${capitalizeText($('#station-select').find(':selected').text())}{% trans ' transmissions' %}`, periods, transmissions);
                     } else {
                         $('#yearly-summary-text').html('')
                         $(`#yearly-average-graph`).html(`<p> <em>{% trans 'No yearly ' %}${selectedVariable}{% trans ' data found for ' %} ${selectedStation}. {% trans ' Try choosing another variable.' %}</em></p>`);
-
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -1005,13 +1002,13 @@
                 fetchSynopData('yearly-graph', 'column', `{% trans 'Yearly ' %} ${$('#variable-select').find(':selected').text()} {% trans 'transmissions for ' %} ${$('#station-select').find(':selected').text()}`, 'yearly_synop');
             });
 
+
             $('#year-select').change(function () {
                 fetchMonthlyAverages();
             });
 
             $('#month-select').change(function () {
                 renderMonthlyMap();
-                fetchMonthlyAverages();
             });
 
             $('#station-select, #variable-select').change(function(){
@@ -1024,18 +1021,6 @@
         // Bind change events
         bindChangeEvents();
 
-        $('#export-report').on('click', function() {
-            const element = document.getElementById('wdqms-report-page');
-            const opt = {
-                margin:       0.5,
-                filename:     'myfile.pdf',
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
-            };
-            html2pdf().from(element).set(opt).save();
-        });
-    });
 
         $('#export-report').on('click', function() {
             const element = document.getElementById('wdqms-report-page');
