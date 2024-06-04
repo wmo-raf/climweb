@@ -392,32 +392,47 @@
 .map-legend {
     display: flex;
     padding: 4px 8px;
-    align-items: center;
+    align-items: flex-start;
     background-color: #fff;
     font-size: 14px;
     flex-wrap: wrap;
     position: absolute;
     bottom: 0;
     z-index: 99;
+    flex-direction: column;
 }
 
 .legend-items {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
+    flex-direction: column;
 }
+
 
 .legend-item {
     display: flex;
     align-items: center;
-    margin-left: 10px;
 }
 
 .map-legend .legend-items .legend-item .legend-color {
     margin-right: 4px;
     height: 12px;
     width: 12px;
+    border:#d4dadc solid 1px;
+
 }
+
+.map-ctrl-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 5px;
+    background-size: cover;
+    border:1px solid #646464;
+
+}
+
 
 
 .mapviewer-explore {

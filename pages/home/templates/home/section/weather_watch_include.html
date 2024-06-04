@@ -32,8 +32,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="alerts-legend" class="map-legend" style="position: absolute;bottom: 0;display: none">
-                            <div> {% translate "Alert Severity:" %} </div>
+                        <div id="alerts-legend" class="map-legend elevation-1 py-3 px-4" style="position: absolute;bottom: 5px;left:5px;display: none">
+                            <div> <p class="has-text-weight-medium">{% translate "Alert Severity" %} </p></div>
                             <div class="legend-items">
                                 <div class="legend-item">
                                     <div class="legend-color" style="background-color: rgb(215, 47, 42);"></div>
@@ -57,6 +57,15 @@
                                     <div class="legend-label">{% translate "Unknown" %}</div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="map-ctrl map-ctrl-group" style="position: absolute;top: 10em; right:0.5em; background: white; z-index:1;
+                        border-radius: 3px;
+                        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);">
+                            <button id="carto-light" class="map-ctrl-icon" title="Carto Light" style="background-image: url({% static '/img/light-basemap.png' %});"></button>
+                            <button id="carto-dark" class="map-ctrl-icon" title="Carto Dark" style="background-image: url({% static '/img/dark-basemap.png' %});"></button>
+                            <button id="voyager" class="map-ctrl-icon" title="Voyager" style="background-image: url({% static '/img/voyager-basemap.png' %});"></button>
+                            <button id="wikimedia" class="map-ctrl-icon" title="Wikimedia" style="background-image: url({% static '/img/wikimedia-basemap.png' %});"></button>
                         </div>
                     </div>
                 </div>
