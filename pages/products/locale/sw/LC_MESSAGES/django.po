@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 15:01+0300\n"
+"POT-Creation-Date: 2024-06-03 11:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,25 +26,28 @@ msgstr "Jina"
 msgid "Icon"
 msgstr "Aikoni"
 
-#: pages/products/blocks.py:43 pages/products/blocks.py:57
+#: pages/products/blocks.py:43 pages/products/blocks.py:68
+#: pages/products/blocks.py:101
 msgid "Product Type"
 msgstr "Aina ya Bidhaa"
 
-#: pages/products/blocks.py:44 pages/products/blocks.py:60
-#: pages/products/models.py:246
+#: pages/products/blocks.py:44 pages/products/blocks.py:71
+#: pages/products/blocks.py:102 pages/products/models.py:270
 msgid "Effective from"
 msgstr "Kuanzia"
 
-#: pages/products/blocks.py:45 pages/products/blocks.py:61
+#: pages/products/blocks.py:45 pages/products/blocks.py:72
+#: pages/products/blocks.py:103
 msgid "The date when this product becomes effective"
 msgstr "Tarehe ambayo bidhaa hii itaanza kutumika"
 
-#: pages/products/blocks.py:46 pages/products/blocks.py:62
-#: pages/products/models.py:248
+#: pages/products/blocks.py:46 pages/products/blocks.py:73
+#: pages/products/blocks.py:104 pages/products/models.py:272
 msgid "Effective until"
 msgstr "Inatumika hadi"
 
-#: pages/products/blocks.py:47 pages/products/blocks.py:63
+#: pages/products/blocks.py:47 pages/products/blocks.py:74
+#: pages/products/blocks.py:105
 msgid ""
 "The last day this product remains effective. Leave blank if not applicable"
 msgstr ""
@@ -59,43 +62,73 @@ msgstr "Picha"
 msgid "Summary of the map/image information"
 msgstr "Muhtasari wa maelezo ya ramani/picha"
 
-#: pages/products/blocks.py:58
+#: pages/products/blocks.py:62 pages/products/blocks.py:89
+#: pages/products/blocks.py:122
+msgid ""
+"The effective until date cannot be earlier than the effective from date"
+msgstr ""
+"Kutumika hadi tarehe haiwezi kuwa mapema kuliko kuanza kutumika kuanzia "
+"tarehe"
+
+#: pages/products/blocks.py:69
 msgid "Thumbnail of the document"
 msgstr "Kijipicha cha hati"
 
-#: pages/products/blocks.py:59
+#: pages/products/blocks.py:70
 msgid "For example a screen grab of the cover page"
 msgstr "Kwa mfano kunyakua skrini ya ukurasa wa jalada"
 
-#: pages/products/blocks.py:65
+#: pages/products/blocks.py:76
 msgid "Document"
 msgstr "Hati"
 
-#: pages/products/blocks.py:66
+#: pages/products/blocks.py:77
 msgid "Summary of the document information"
 msgstr "Muhtasari wa habari ya hati"
 
-#: pages/products/models.py:38
+#: pages/products/blocks.py:108
+msgid "Table"
+msgstr "Jedwali"
+
+#: pages/products/blocks.py:109
+msgid "Text"
+msgstr "Maandishi"
+
+#: pages/products/blocks.py:110
+msgid "Content"
+msgstr "Maudhui"
+
+#: pages/products/models.py:41
 msgid "Products listing Heading"
 msgstr "Kichwa cha kuorodhesha bidhaa"
 
-#: pages/products/models.py:53
+#: pages/products/models.py:42
+msgid "Group menu items by service"
+msgstr "Vipengee vya menyu ya kikundi kulingana na huduma"
+
+#: pages/products/models.py:68
 msgid "Product Index Page"
 msgstr "Ukurasa wa Kielezo cha Bidhaa"
 
-#: pages/products/models.py:54
+#: pages/products/models.py:69
 msgid "Product Index Pages"
 msgstr "Kurasa za Fahirisi za Bidhaa"
 
-#: pages/products/models.py:100
-msgid "Service"
-msgstr "Huduma"
+#: pages/products/models.py:122
+#, fuzzy
+#| msgid "Service"
+msgid "Primary Service"
+msgstr "Huduma ya Msingi"
 
-#: pages/products/models.py:101
+#: pages/products/models.py:123
+msgid "Other relevant Services"
+msgstr "Huduma Nyingine zinazohusika"
+
+#: pages/products/models.py:125
 msgid "Product"
 msgstr "Bidhaa"
 
-#: pages/products/models.py:106
+#: pages/products/models.py:130
 msgid ""
 "How many of this products should be visible on the landing page filter "
 "section ?"
@@ -103,36 +136,36 @@ msgstr ""
 "Je, ni bidhaa ngapi kati ya hizi zinazopaswa kuonekana kwenye sehemu ya "
 "kichujio cha ukurasa wa kutua?"
 
-#: pages/products/models.py:107
+#: pages/products/models.py:131
 msgid "Products per page"
 msgstr "Bidhaa kwa kila ukurasa"
 
-#: pages/products/models.py:111
+#: pages/products/models.py:135
 msgid "Map Layers"
 msgstr "Tabaka za Ramani"
 
-#: pages/products/models.py:121
+#: pages/products/models.py:146
 msgid "Other settings"
 msgstr "Mipangilio mingine"
 
-#: pages/products/models.py:207
+#: pages/products/models.py:231
 #: pages/products/templates/products/product_layer_integration.html:16
 msgid "Product Page"
 msgstr "Ukurasa wa Bidhaa"
 
-#: pages/products/models.py:208
+#: pages/products/models.py:232
 msgid "Product Pages"
 msgstr "Kurasa za Bidhaa"
 
-#: pages/products/models.py:216
+#: pages/products/models.py:240
 msgid "Product Tag"
 msgstr "Lebo ya Bidhaa"
 
-#: pages/products/models.py:247
+#: pages/products/models.py:271
 msgid "The first day when products added below become effective"
 msgstr "Siku ya kwanza wakati bidhaa zinaongezwa hapa chini zinatumika"
 
-#: pages/products/models.py:249
+#: pages/products/models.py:273
 msgid ""
 "The last day when products added below remain effective. Leave blank if not "
 "applicable"
@@ -140,7 +173,7 @@ msgstr ""
 "Siku ya mwisho wakati bidhaa zinaongezwa hapa chini zinaendelea kutumika. "
 "Acha wazi ikiwa haitumiki"
 
-#: pages/products/models.py:304
+#: pages/products/models.py:329
 msgid "Product Item"
 msgstr "Kipengee cha Bidhaa"
 
@@ -169,15 +202,15 @@ msgstr "Chuja kwa Mwaka"
 msgid "Filter by Month"
 msgstr "Chuja kwa Mwezi"
 
-#: pages/products/templates/products/product_index.html:31
+#: pages/products/templates/products/product_index.html:30
 msgid "Browse"
 msgstr "Vinjari"
 
-#: pages/products/templates/products/product_index.html:39
+#: pages/products/templates/products/product_index.html:38
 msgid "MapViewer"
 msgstr "Mtazamaji wa Ramani"
 
-#: pages/products/templates/products/product_index.html:50
+#: pages/products/templates/products/product_index.html:49
 msgid "Browse Product Updates"
 msgstr "Vinjari Masasisho ya Bidhaa"
 
@@ -201,7 +234,7 @@ msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pages/products/templates/products/product_list_include.html:51
+#: pages/products/templates/products/product_list_include.html:53
 msgid "Read More"
 msgstr "Soma zaidi"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 14:35+0300\n"
+"POT-Creation-Date: 2024-06-03 11:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pages/videos/models.py:19 pages/videos/templates/playlist_list.html:29
+#: pages/videos/models.py:20 pages/videos/templates/playlist_list.html:29
 msgid "Title"
 msgstr "ርዕስ"
 
-#: pages/videos/models.py:21
+#: pages/videos/models.py:22
 msgid ""
 "This is the playlist ID as obtained from Youtube. If the playlist is not "
 "created on Youtube, please create it first"
@@ -29,7 +29,7 @@ msgstr ""
 "ይህ ከዩቲዩብ የተገኘ የአጫዋች ዝርዝር መታወቂያ ነው። አጫዋች ዝርዝሩ በዩቲዩብ ላይ ካልተፈጠረ፣ እባክዎ መጀመሪያ "
 "ይፍጠሩት።"
 
-#: pages/videos/models.py:23 pages/videos/templates/playlist_list.html:30
+#: pages/videos/models.py:24 pages/videos/templates/playlist_list.html:30
 msgid "Playlist ID"
 msgstr "የአጫዋች ዝርዝር መታወቂያ"
 
@@ -50,3 +50,28 @@ msgstr "የታተመው በ"
 #: pages/videos/templates/playlist_list.html:31
 msgid "Videos Count"
 msgstr "የቪዲዮዎች ብዛት"
+
+#: pages/videos/templates/videos/playlist_edit.html:3
+#, python-format
+msgid "Editing %(snippet_type_name)s - %(object)s"
+msgstr "%(snippet_type_name)s - %(object)s በማርትዕ ላይ"
+
+#: pages/videos/templates/videos/playlist_edit.html:20
+msgid "Actions"
+msgstr "ድርጊቶች"
+
+#: pages/videos/templates/videos/playlist_edit.html:43
+msgid "View Playlist on Youtube"
+msgstr "አጫዋች ዝርዝር በ Youtube ላይ ይመልከቱ"
+
+#: pages/videos/templates/videos/playlist_edit.html:47
+#, fuzzy
+#| msgid "Youtube Playlists"
+msgid "Latest Playlist Videos"
+msgstr "የቅርብ ጊዜ የአጫዋች ዝርዝር ቪዲዮዎች"
+
+#: pages/videos/templates/videos/playlist_edit.html:65
+#, fuzzy
+#| msgid "Published at"
+msgid "Published On:"
+msgstr "የታተመው በ፡"

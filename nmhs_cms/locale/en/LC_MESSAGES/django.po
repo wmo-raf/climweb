@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 15:01+0300\n"
+"POT-Creation-Date: 2024-06-03 11:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,7 +57,7 @@ msgid "Additional Materials"
 msgstr "Additional Materials"
 
 #: nmhs_cms/templates/document_detail_include.html:116
-#: nmhs_cms/templates/featured_item_include.html:48
+#: nmhs_cms/templates/featured_item_include.html:45
 msgid "Tags"
 msgstr "Tags"
 
@@ -69,6 +69,10 @@ msgstr "Download document"
 msgid "Nothing listed at the moment"
 msgstr "Nothing listed at the moment"
 
+#: nmhs_cms/templates/empty_state_include.html:24
+msgid "No data found"
+msgstr "No data found"
+
 #: nmhs_cms/templates/events_include.html:44
 msgid "More Events"
 msgstr "More Events"
@@ -77,7 +81,7 @@ msgstr "More Events"
 msgid "Featured"
 msgstr "Featured"
 
-#: nmhs_cms/templates/featured_item_include.html:62
+#: nmhs_cms/templates/featured_item_include.html:59
 msgid "Read More"
 msgstr "Read More"
 
@@ -130,30 +134,32 @@ msgid "Page %(current_page)s of %(num_pages)s."
 msgstr "Page %(current_page)s of %(num_pages)s."
 
 #: nmhs_cms/templates/navigation/footer.html:37
-msgid "Powered by NMHS CMS"
-msgstr "Powered by NMHS CMS"
+#, fuzzy
+#| msgid "Powered by NMHS CMS"
+msgid "Powered by Climweb"
+msgstr "Powered by Climweb"
 
-#: nmhs_cms/templates/navigation/navbar.html:32
+#: nmhs_cms/templates/navigation/navbar.html:26
 msgid "Alerts"
 msgstr "Alerts"
 
-#: nmhs_cms/templates/navigation/navbar.html:41
+#: nmhs_cms/templates/navigation/navbar.html:35
 msgid "Subscribe"
 msgstr "Subscribe"
 
-#: nmhs_cms/templates/navigation/navbar.html:51
+#: nmhs_cms/templates/navigation/navbar.html:45
 msgid "Language"
 msgstr "Language"
 
-#: nmhs_cms/templates/navigation/navbar.html:85
+#: nmhs_cms/templates/navigation/navbar.html:79
 msgid "Search"
 msgstr "Search"
 
-#: nmhs_cms/templates/navigation/navbar.html:95
+#: nmhs_cms/templates/navigation/navbar.html:89
 msgid "Contact us"
 msgstr "Contact us"
 
-#: nmhs_cms/templates/navigation/navbar.html:102
+#: nmhs_cms/templates/navigation/navbar.html:96
 msgid "Feedback"
 msgstr "Feedback"
 
@@ -169,12 +175,12 @@ msgstr "More Projects"
 msgid "Read more"
 msgstr "Read more"
 
-#: nmhs_cms/templates/videos_include.html:20
+#: nmhs_cms/templates/videos_include.html:21
 #, python-format
 msgid "Published on : %(updated_on)s"
-msgstr ""
+msgstr "Published on : %(updated_on)s"
 
-#: nmhs_cms/templates/videos_include.html:32
+#: nmhs_cms/templates/videos_include.html:33
 msgid "SUBSCRIBE"
 msgstr "SUBSCRIBE"
 

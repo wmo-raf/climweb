@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 15:01+0300\n"
+"POT-Creation-Date: 2024-06-03 10:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,241 +18,306 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: pages/home/blocks.py:59
+msgid "Level 0"
+msgstr "Niveau 0"
+
+#: pages/home/blocks.py:60
+msgid "Level 1"
+msgstr "Niveau 1"
+
+#: pages/home/blocks.py:61
+msgid "Level 2"
+msgstr "Niveau 2"
+
+#: pages/home/blocks.py:62
+msgid "Level 3"
+msgstr "Niveau 3"
+
+#: pages/home/blocks.py:65 pages/home/blocks.py:75
+msgid "Area/Region Name"
+msgstr "Nom de la zone/région"
+
+#: pages/home/blocks.py:66 pages/home/blocks.py:76
+msgid "Default"
+msgstr "Défaut"
+
+#: pages/home/blocks.py:67
+msgid "Administrative Level"
+msgstr "Niveau administratif"
+
+#: pages/home/blocks.py:68
+msgid "Boundary"
+msgstr "Frontière"
+
+#: pages/home/blocks.py:68
+msgid "Click to select boundary on the map"
+msgstr "Cliquez pour sélectionner une limite sur la carte"
+
+#: pages/home/blocks.py:77
+msgid "Polygon"
+msgstr "Polygone"
+
+#: pages/home/blocks.py:77
+msgid "Draw custom area on the map"
+msgstr "Dessiner une zone personnalisée sur la carte"
+
 #: pages/home/models.py:66
-msgid "Title"
-msgstr "Titre"
+#, fuzzy
+#| msgid "Title"
+msgid "Pre Title"
+msgstr "Pré-titre"
 
 #: pages/home/models.py:67
-msgid "Subtitle"
-msgstr "Sous-titre"
+msgid ""
+"Text to show before the name of the institution. For example, if the "
+"institution is under a ministry, the ministry name can added here"
+msgstr ""
+"Texte à afficher avant le nom de l'établissement. Par exemple, si "
+"l'institution relève d'un ministère, le nom du ministère peut être ajouté "
+"ici."
 
-#: pages/home/models.py:69
+#: pages/home/models.py:70
+msgid "Institution Name"
+msgstr "nom de l'institution"
+
+#: pages/home/models.py:71
+msgid "Full name of the institution"
+msgstr "Nom complet de l'établissement"
+
+#: pages/home/models.py:72
+msgid "Tagline"
+msgstr "Slogan"
+
+#: pages/home/models.py:73
+msgid "Can be the tagline or slogan of the institution"
+msgstr "Peut être le slogan ou le slogan de l’institution"
+
+#: pages/home/models.py:75
 msgid "Banner Image"
 msgstr "Image de la bannière"
 
-#: pages/home/models.py:70
+#: pages/home/models.py:76
 msgid "Banner Text Color"
 msgstr "Couleur du texte de la bannière"
 
-#: pages/home/models.py:71
+#: pages/home/models.py:77
 msgid "Banner Type"
 msgstr "Type de bannière"
 
-#: pages/home/models.py:73
+#: pages/home/models.py:79
 msgid "Show city forecast section"
 msgstr "Afficher la section des prévisions de la ville"
 
-#: pages/home/models.py:75
+#: pages/home/models.py:81
 msgid "Show weather watch section"
 msgstr "Afficher la section de veille météo"
 
-#: pages/home/models.py:77
+#: pages/home/models.py:83
 msgid "Weather Watch Section header"
 msgstr "En-tête de la section Veille météorologique"
 
-#: pages/home/models.py:78
+#: pages/home/models.py:84
 msgid "Show MapViewer button"
 msgstr "Afficher le bouton MapViewer"
 
-#: pages/home/models.py:80
+#: pages/home/models.py:86
 msgid "MapViewer Call to Action Title"
 msgstr "Titre de l’appel à l’action de MapViewer"
 
-#: pages/home/models.py:81
+#: pages/home/models.py:87
 msgid "Mapviewer URL"
 msgstr "URL de la visionneuse de cartes"
 
-#: pages/home/models.py:89
+#: pages/home/models.py:95
 msgid "Youtube Playlist"
 msgstr "Liste de lecture YouTube"
 
-#: pages/home/models.py:94
+#: pages/home/models.py:100
 msgid "Feature block"
 msgstr "Bloc de fonctionnalités"
 
-#: pages/home/models.py:103
+#: pages/home/models.py:110
 msgid "Banner Section"
 msgstr "Section bannière"
 
-#: pages/home/models.py:106
+#: pages/home/models.py:113
 msgid "City Forecast Section"
 msgstr "Section des prévisions de la ville"
 
-#: pages/home/models.py:113
+#: pages/home/models.py:120
 msgid "Weather Watch Section"
 msgstr "Section de veille météorologique"
 
-#: pages/home/models.py:116
+#: pages/home/models.py:123
 msgid "Media Section"
 msgstr "Section Médias"
 
-#: pages/home/models.py:120
+#: pages/home/models.py:127
 msgid "Addditional Information"
 msgstr "Informations supplémentaires"
 
-#: pages/home/models.py:125
+#: pages/home/models.py:132
 msgid "Home Page"
 msgstr "Page d'accueil"
 
-#: pages/home/models.py:126
+#: pages/home/models.py:133
 msgid "Home Pages"
 msgstr "Page d'accueil"
 
-#: pages/home/templates/dailyweather_include.html:5
-#: pages/home/templates/hero_types/card_hero.html:204
-#: pages/home/templates/hero_types/full_hero.html:232
-#: pages/home/templates/hero_types/half_hero.html:226
-#: pages/home/templates/section/city_forecast_include.html:211
-msgid "Daily Weather"
-msgstr "Météo quotidienne"
+#: pages/home/models.py:237
+msgid "Admin Boundary"
+msgstr "Limite d'administration"
 
-#: pages/home/templates/dailyweather_include.html:44
-msgid "Daily Weather Report"
-msgstr "Bulletin météo quotidien"
+#: pages/home/models.py:238
+msgid "Draw Polygon"
+msgstr "Dessiner un polygone"
 
-#: pages/home/templates/dailyweather_include.html:51
-#, python-format
-msgid "Issued on %(issue_date)s"
-msgstr "Publié le %(issue_date)s"
+#: pages/home/templates/home/forecast_widget_include.html:141
+#, fuzzy
+#| msgid "All Publications"
+msgid "All Locations"
+msgstr "Tous les emplacements"
 
-#: pages/home/templates/dailyweather_include.html:66
-msgid "Stations with Extreme Measurements"
-msgstr "Stations avec mesures extrêmes"
+#: pages/home/templates/home/forecast_widget_include.html:151
+#, fuzzy
+#| msgid "Daily Weather Report"
+msgid "Daily Weather Reports"
+msgstr "Rapports météorologiques quotidiens"
 
-#: pages/home/templates/dailyweather_include.html:68
-#, python-format
-msgid "%(issue_date)s"
-msgstr "%(issue_date)s"
-
-#: pages/home/templates/dailyweather_include.html:90
-#, python-format
-msgid "Forecast Summary for %(forecast_date)s"
-msgstr "Résumé des prévisions pour %(forecast_date)s"
-
-#: pages/home/templates/dailyweather_include.html:106
-#, python-format
-msgid "Past Weather Summary for %(summary_date)s"
-msgstr "Résumé météo passé pour %(summary_date)s"
-
-#: pages/home/templates/dailyweather_include.html:122
-msgid "No report at the moment"
-msgstr "Aucun rapport pour le moment"
-
-#: pages/home/templates/forecasts_index.html:3
+#: pages/home/templates/home/forecasts_index.html:3
 msgid "Forecasts"
 msgstr "Prévisions"
 
-#: pages/home/templates/forecasts_index.html:133
+#: pages/home/templates/home/forecasts_index.html:133
 msgid "City Weather Forecast"
 msgstr "Prévisions météorologiques pour la ville"
 
-#: pages/home/templates/forecasts_index.html:140
+#: pages/home/templates/home/forecasts_index.html:140
 msgid "Download Image"
 msgstr "Télécharger l'image"
 
-#: pages/home/templates/forecasts_index.html:172
+#: pages/home/templates/home/forecasts_index.html:172
 msgid "City"
 msgstr "Ville"
 
-#: pages/home/templates/forecasts_index.html:175
+#: pages/home/templates/home/forecasts_index.html:175
 #, python-format
 msgid "%(forecast_date)s"
 msgstr "%(forecast_date)s"
 
-#: pages/home/templates/hero_types/card_hero.html:197
-msgid " All City Forecast"
-msgstr "Prévisions pour toutes les villes"
-
-#: pages/home/templates/hero_types/full_hero.html:112
-#: pages/home/templates/hero_types/half_hero.html:111
-msgid "Analysis"
-msgstr "Analyse"
-
-#: pages/home/templates/hero_types/full_hero.html:224
-#: pages/home/templates/hero_types/half_hero.html:218
-#: pages/home/templates/section/city_forecast_include.html:203
-msgid "All City Forecast"
-msgstr "Prévisions pour toutes les villes"
-
-#: pages/home/templates/home_page.html:34
+#: pages/home/templates/home/home_page.html:35
 msgid "Latest Media"
 msgstr "Derniers médias"
 
-#: pages/home/templates/home_page.html:50
+#: pages/home/templates/home/home_page.html:51
 msgid "Our Partners"
 msgstr "Nos partenaires"
 
-#: pages/home/templates/home_page.html:75
+#: pages/home/templates/home/home_page.html:76
 msgid "More Partners"
 msgstr "Plus de partenaires"
 
-#: pages/home/templates/section/city_forecast_include.html:121
-msgid "sunrise"
-msgstr "lever du soleil"
-
-#: pages/home/templates/section/city_forecast_include.html:130
-msgid "sunset"
-msgstr "coucher de soleil"
-
-#: pages/home/templates/section/city_forecast_include.html:138
-msgid "moonrise"
-msgstr "lever de lune"
-
-#: pages/home/templates/section/satellite_include.html:5
-msgid "Satellite Imagery"
-msgstr "Imagerie par satellite"
-
-#: pages/home/templates/section/services_include.html:6
-msgid "Our Service Areas "
-msgstr "Nos domaines de services"
-
-#: pages/home/templates/section/updates_include.html:6
-msgid "Latest Updates"
-msgstr "Dernières mises à jour"
-
-#: pages/home/templates/section/updates_include.html:17
-msgid "All News"
-msgstr "Toutes les nouvelles"
-
-#: pages/home/templates/section/updates_include.html:25
-msgid "All Publications"
-msgstr "Toutes les publications"
-
-#: pages/home/templates/section/weather_watch_include.html:15
-msgid "Latest Weather Warnings"
-msgstr "Dernières alertes météorologiques"
-
-#: pages/home/templates/section/weather_watch_include.html:57
+#: pages/home/templates/home/section/home_map_alerts_include.html:42
 msgid "No active alerts currently"
 msgstr "Aucune alerte active actuellement"
 
-#: pages/home/templates/section/weather_watch_include.html:106
+#: pages/home/templates/home/section/services_include.html:6
+msgid "Our Service Areas "
+msgstr "Nos domaines de services"
+
+#: pages/home/templates/home/section/updates_include.html:6
+msgid "Latest Updates"
+msgstr "Dernières mises à jour"
+
+#: pages/home/templates/home/section/updates_include.html:17
+msgid "All News"
+msgstr "Toutes les nouvelles"
+
+#: pages/home/templates/home/section/updates_include.html:25
+msgid "All Publications"
+msgstr "Toutes les publications"
+
+#: pages/home/templates/home/section/weather_watch_include.html:15
+msgid "Latest Weather Warnings"
+msgstr "Dernières alertes météorologiques"
+
+#: pages/home/templates/home/section/weather_watch_include.html:36
 msgid "Alert Severity:"
 msgstr "Gravité de l'alerte :"
 
-#: pages/home/templates/section/weather_watch_include.html:110
+#: pages/home/templates/home/section/weather_watch_include.html:40
 msgid "Extreme"
 msgstr "Extrême"
 
-#: pages/home/templates/section/weather_watch_include.html:114
+#: pages/home/templates/home/section/weather_watch_include.html:44
 msgid "Severe"
 msgstr "Grave"
 
-#: pages/home/templates/section/weather_watch_include.html:118
+#: pages/home/templates/home/section/weather_watch_include.html:48
 msgid "Moderate"
 msgstr "Modéré"
 
-#: pages/home/templates/section/weather_watch_include.html:122
+#: pages/home/templates/home/section/weather_watch_include.html:52
 msgid "Minor"
 msgstr "Mineure"
 
-#: pages/home/templates/section/weather_watch_include.html:127
+#: pages/home/templates/home/section/weather_watch_include.html:57
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: pages/home/templates/section/weather_watch_include.html:137
+#: pages/home/templates/home/section/weather_watch_include.html:67
 msgid "For more interactive data"
 msgstr "Pour des données plus interactives"
+
+#~ msgid "Subtitle"
+#~ msgstr "Sous-titre"
+
+#~ msgid "Daily Weather"
+#~ msgstr "Météo quotidienne"
+
+#, python-format
+#~ msgid "Issued on %(issue_date)s"
+#~ msgstr "Publié le %(issue_date)s"
+
+#~ msgid "Stations with Extreme Measurements"
+#~ msgstr "Stations avec mesures extrêmes"
+
+#, python-format
+#~ msgid "%(issue_date)s"
+#~ msgstr "%(issue_date)s"
+
+#, python-format
+#~ msgid "Forecast Summary for %(forecast_date)s"
+#~ msgstr "Résumé des prévisions pour %(forecast_date)s"
+
+#, python-format
+#~ msgid "Past Weather Summary for %(summary_date)s"
+#~ msgstr "Résumé des conditions météorologiques passées pour %(summary_date)s"
+
+#~ msgid "No report at the moment"
+#~ msgstr "Aucun rapport pour le moment"
+
+#~ msgid " All City Forecast"
+#~ msgstr "Prévisions pour toutes les villes"
+
+#~ msgid "Analysis"
+#~ msgstr "Analyse"
+
+#~ msgid "All City Forecast"
+#~ msgstr "Prévisions pour toutes les villes"
+
+#~ msgid "sunrise"
+#~ msgstr "lever du soleil"
+
+#~ msgid "sunset"
+#~ msgstr "coucher de soleil"
+
+#~ msgid "moonrise"
+#~ msgstr "lever de lune"
+
+#~ msgid "Satellite Imagery"
+#~ msgstr "Imagerie par satellite"
 
 #, fuzzy
 #~ msgid "Show media section"

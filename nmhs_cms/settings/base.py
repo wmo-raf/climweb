@@ -267,7 +267,7 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    # 'docs/locale',
+    'docs/locale',
 
     'base/locale',
     'nmhs_cms/locale',
@@ -290,6 +290,7 @@ LOCALE_PATHS = [
     'pages/organisation_pages/projects/locale',
     'pages/organisation_pages/tenders/locale',
     'pages/organisation_pages/vacancies/locale',
+    'pages/organisation_pages/staff/locale',
 
     'pages/products/locale',
     'pages/publications/locale',
@@ -299,6 +300,9 @@ LOCALE_PATHS = [
     'pages/stations/locale',
     'pages/surveys/locale',
     'pages/videos/locale',
+    'pages/wdqms/locale',
+    'pages/weather/locale',
+    'pages/webstories/locale',
 ]
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")

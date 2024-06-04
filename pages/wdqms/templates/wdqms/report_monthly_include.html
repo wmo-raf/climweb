@@ -1,7 +1,9 @@
+{% load  i18n %}
+
 <div class="container">
 
     <div class="report-header has-text-centered"> 
-        <h2 class="title">Monthly Average of observations</h2>
+        <h2 class="title">{% trans 'Monthly Average of observations' %}</h2>
 
     </div>
    
@@ -19,26 +21,25 @@
                 <div class="column is-half">
                     <div class="select is-dark is-fullwidth">
                         <select id="month-select">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                        <!-- Add more options as needed -->
+                        <option value="1">'January' %}</option>
+                        <option value="2">{% trans 'February' %}</option>
+                        <option value="3">{% trans 'March' %}</option>
+                        <option value="4">{% trans 'Apri' %}l</option>
+                        <option value="5">{% trans 'May' %}</option>
+                        <option value="6">{% trans 'June' %}</option>
+                        <option value="7">{% trans 'July' %}</option>
+                        <option value="8">{% trans 'August' %}</option>
+                        <option value="9">{% trans 'September' %}</option>
+                        <option value="10">{% trans 'October' %}</option>
+                        <option value="11">{% trans 'November' %}</option>
+                        <option value="12">{% trans 'December' %}</option>
                         </select>
                     </div>
                 </div>
                 <div class="column is-half">
                     <div class="select is-fullwidth is-dark mb-3">
                         <select id="year-select" style="text-transform:capitalize">
-                            {% comment %} <option value="all_stations">All Stations</option> {% endcomment %}
+                            {% comment %} <option value="all_stations">{% trans 'All Stations' %}</option> {% endcomment %}
         
                             {% for year in years %}
                             <option value={{year}} {% if year == latest_date|date:"Y" %} selected {% endif %}>{{year}}</option>
@@ -84,34 +85,8 @@
 
     <div class="columns is-justify-content-center">
         <div class="column is-10 ">
-            <div class="columns is-hidden-mobile legend mt-4 is-justify-content-center mx-6 has-text-centered">
+            {% include "wdqms/color_scale_include.html" %}
 
-                <div class="column color-item">
-                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#000000"></div>
-                    <div class="color-interpretation"><p>Not received in period</p></div>
-                </div>
-
-                <div class="column color-item">
-                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#fa4827"></div>
-                    <div class="color-interpretation"><p>Availability issues (< 30%)</p></div>
-                </div>
-
-                <div class="column color-item">
-                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#f8a02e"></div>
-                    <div class="color-interpretation"><p>Availability issues (≥ 30%)</p></div>
-                </div>
-
-                <div class="column color-item">
-                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#289f28"></div>
-                    <div class="color-interpretation"><p>Normal (≥ 80%)</p></div>
-                </div>
-
-                <div class="column color-item">
-                    <div class="color-code" style="border:1px solid #bebebe; height:0.8em; width:0.8em; border-radius:100%; background-color:#fa48ce"></div>
-                    <div class="color-interpretation"><p>More than 100%</p></div>
-                </div>
-
-            </div>
         </div>
 
     <div>
