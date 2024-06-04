@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
+from modelcluster.models import ClusterableModel
 from shapely.geometry import shape
 from shapely.ops import unary_union
 from wagtail import blocks
@@ -22,7 +23,7 @@ from wagtail.models import Page, Site
 from wagtail.signals import page_published
 
 from base.mixins import MetadataPageMixin
-from pages.cap.tasks import create_cap_alert_multi_media
+from pages.cap.tasks import create_cap_alert_multi_media, fire_alert_webhooks
 from pages.cap.utils import (
     get_cap_map_style, get_cap_settings, format_date_to_oid,
 )
@@ -52,7 +53,7 @@ class CapAlertListPage(MetadataPageMixin, Page):
 
     @cached_property
     def cap_alerts(self):
-        alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public").order_by('-sent')
+        alerts = get_all_published_alerts()
         alert_infos = []
 
         for alert in alerts:
@@ -145,7 +146,7 @@ class CapPageForm(CapAlertPageForm):
         # validate dates
         sent = cleaned_data.get("sent")
         alert_infos = cleaned_data.get("info")
-        if alert_infos:
+        if sent and alert_infos:
             for info in alert_infos:
                 effective = info.value.get("effective")
                 expires = info.value.get("expires")
@@ -158,6 +159,15 @@ class CapPageForm(CapAlertPageForm):
 
         return cleaned_data
 
+    def save(self, commit=True):
+        if self.instance.info:
+            info = self.instance.info[0]
+            expires = info.value.get("expires")
+            if expires:
+                self.instance.expires = expires
+
+        return super().save(commit=commit)
+
 
 class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     base_form_class = CapPageForm
@@ -167,9 +177,7 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     parent_page_types = ["cap.CapAlertListPage"]
     subpage_types = []
 
-    content_panels = Page.content_panels + [
-        *AbstractCapAlertPage.content_panels
-    ]
+    expires = models.DateTimeField(blank=True, null=True)
 
     alert_area_map_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -185,6 +193,10 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
         blank=True,
         related_name='+',
     )
+
+    content_panels = Page.content_panels + [
+        *AbstractCapAlertPage.content_panels,
+    ]
 
     class Meta:
         ordering = ["-sent"]
@@ -366,16 +378,66 @@ class CAPGeomanagerSettings(BaseSiteSetting):
         return geojson_url
 
 
+class CAPAlertWebhook(ClusterableModel):
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+    url = models.URLField(max_length=255, unique=True, verbose_name=_("Webhook URL"))
+    active = models.BooleanField(default=True, verbose_name=_("Active"))
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    retry_on_failure = models.BooleanField(default=True, verbose_name=_("Retry on failure"))
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("url"),
+        FieldPanel("active"),
+    ]
+
+    class Meta:
+        verbose_name = _("CAP Alert Webhook")
+        verbose_name_plural = _("CAP Alert Webhooks")
+
+    def __str__(self):
+        return f"{self.name} - {self.url}"
+
+
+WEBHOOK_STATES = [
+    ("PENDING", _("Pending")),
+    ("FAILURE", _("Failure")),
+    ("SUCCESS", _("Success")),
+]
+
+
+class CAPAlertWebhookEvent(models.Model):
+    webhook = models.ForeignKey(CAPAlertWebhook, on_delete=models.CASCADE, related_name="events")
+    alert = models.ForeignKey(CapAlertPage, on_delete=models.CASCADE, related_name="webhook_events")
+    status = models.CharField(max_length=40, choices=WEBHOOK_STATES, default="PENDING", verbose_name=_("Status"),
+                              editable=False, )
+    retries = models.IntegerField(default=0, verbose_name=_("Retries"))
+    error = models.TextField(blank=True, null=True, verbose_name=_("Last Error Message"), )
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("CAP Alert Webhook Event")
+        verbose_name_plural = _("CAP Alert Webhook Events")
+
+    def __str__(self):
+        return f"{self.webhook.name} - {self.alert.title}"
+
+
 def on_publish_cap_alert(sender, **kwargs):
     instance = kwargs['instance']
 
-    if instance.status == "Actual":
+    if instance.status == "Actual" and instance.scope == "Public":
         try:
             # publish cap alert to mqtt
             topic = "cap/alerts/all"
             publish_cap_mqtt_message(instance, topic)
         except Exception as e:
             pass
+
+        # publish cap alert to webhook
+        fire_alert_webhooks(instance.id)
 
     # delete previous pdf preview if exists
     if instance.alert_pdf_preview:
@@ -390,20 +452,13 @@ def on_publish_cap_alert(sender, **kwargs):
     create_cap_alert_multi_media(instance.pk, clear_cache_on_success=True)
 
 
-def get_active_alerts():
-    alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public")
-    active_alert_ids = []
+def get_all_published_alerts():
+    return CapAlertPage.objects.all().live().filter(status="Actual", scope="Public").order_by('-sent')
 
-    for alert in alerts:
-        for info in alert.info:
-            if info.value.get('expires') > timezone.localtime():
-                alert_id = alert.id
-                if alert_id not in active_alert_ids:
-                    active_alert_ids.append(alert.id)
 
-    active_alerts = CapAlertPage.objects.filter(id__in=active_alert_ids).live().order_by('-sent')
-
-    return active_alerts
+def get_currently_active_alerts():
+    current_time = timezone.localtime()
+    return get_all_published_alerts().filter(expires__gte=current_time)
 
 
 page_published.connect(on_publish_cap_alert, sender=CapAlertPage)

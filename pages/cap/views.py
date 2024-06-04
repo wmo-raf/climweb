@@ -3,13 +3,11 @@ from typing import List
 
 from capeditor.constants import SEVERITY_MAPPING
 from capeditor.models import CapSetting
-from capeditor.renderers import CapXMLRenderer
-from capeditor.serializers import AlertSerializer as BaseAlertSerializer
 from django.contrib.syndication.views import Feed
 from django.core.validators import validate_email
 from django.db.models.base import Model
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
@@ -17,19 +15,15 @@ from django.utils.feedgenerator import Enclosure, rfc2822_date
 from django.utils.feedgenerator import Rss201rev2Feed
 from django.utils.translation import gettext as _
 from django.utils.xmlutils import SimplerXMLGenerator
-from lxml import etree
-from rest_framework.generics import get_object_or_404
-from wagtail.api.v2.utils import get_full_url
 from wagtail.models import Site
 
 from base.cache import wagcache
-from .models import CapAlertPage
-from .sign import sign_xml
-
-
-class AlertSerializer(BaseAlertSerializer):
-    class Meta(BaseAlertSerializer.Meta):
-        model = CapAlertPage
+from .models import (
+    CapAlertPage,
+    get_currently_active_alerts,
+    get_all_published_alerts,
+)
+from .utils import serialize_and_sign_cap_alert
 
 
 class CustomCAPFeed(Rss201rev2Feed):
@@ -121,7 +115,7 @@ class AlertListFeed(Feed):
         return description
 
     def items(self):
-        alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public").order_by("-sent")
+        alerts = get_all_published_alerts()
         return alerts
 
     def item_title(self, item):
@@ -178,40 +172,15 @@ class AlertListFeed(Feed):
 
 
 def get_cap_xml(request, guid):
-    alert = get_object_or_404(CapAlertPage, guid=guid, status="Actual", live=True, scope="Public")
-    xml = wagcache.get(f"cap_xml_{guid}")
+    alert = get_object_or_404(CapAlertPage, guid=guid)
+    xml = wagcache.get(f"cap_alert_xml_{guid}")
 
     if not xml:
-        data = AlertSerializer(alert, context={
-            "request": request,
-        }).data
-
-        xml = CapXMLRenderer().render(data)
-        xml_bytes = bytes(xml, encoding='utf-8')
-        signed = False
-
-        try:
-            signed_xml = sign_xml(xml_bytes)
-            if signed_xml:
-                xml = signed_xml
-                signed = True
-        except Exception as e:
-            pass
+        xml, signed = serialize_and_sign_cap_alert(alert, request)
 
         if signed:
-            root = etree.fromstring(xml)
-        else:
-            root = etree.fromstring(xml_bytes)
-
-        style_url = get_full_url(request, reverse("cap_alert_stylesheet"))
-
-        tree = etree.ElementTree(root)
-        pi = etree.ProcessingInstruction('xml-stylesheet', f'type="text/xsl" href="{style_url}"')
-        tree.getroot().addprevious(pi)
-        xml = etree.tostring(tree, xml_declaration=True, encoding='utf-8')
-
-        # cache for a day
-        wagcache.set(f"cap_xml_{guid}", xml, 60 * 60 * 24)
+            # cache signed alerts for 5 days
+            wagcache.set(f"cap_alert_xml_{guid}", xml, 60 * 60 * 24 * 5)
 
     return HttpResponse(xml, content_type="application/xml")
 
@@ -239,15 +208,7 @@ def get_cap_alert_stylesheet(request):
 
 
 def cap_geojson(request):
-    alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public")
-    active_alert_infos = []
-
-    for alert in alerts:
-        for info in alert.info:
-            if info.value.get('expires') > timezone.localtime():
-                active_alert_infos.append(alert.id)
-
-    active_alerts = CapAlertPage.objects.filter(id__in=active_alert_infos).live()
+    active_alerts = get_currently_active_alerts()
 
     geojson = {
         "type": "FeatureCollection",
@@ -263,36 +224,35 @@ def cap_geojson(request):
 
 
 def get_home_map_alerts(request):
-    alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public")
+    alerts = get_currently_active_alerts()
     active_alert_infos = []
     geojson = {"type": "FeatureCollection", "features": []}
 
     for alert in alerts:
         for info in alert.info:
-            if info.value.get('expires') > timezone.localtime():
-                start_time = info.value.get("effective") or alert.sent
+            start_time = info.value.get("effective") or alert.sent
 
-                if timezone.now() > start_time:
-                    status = "Ongoing"
-                else:
-                    status = "Expected"
+            if timezone.localtime() > start_time:
+                status = "Ongoing"
+            else:
+                status = "Expected"
 
-                area_desc = [area.get("areaDesc") for area in info.value.area]
-                area_desc = ",".join(area_desc)
+            area_desc = [area.get("areaDesc") for area in info.value.area]
+            area_desc = ",".join(area_desc)
 
-                alert_info = {
-                    "status": status,
-                    "url": alert.url,
-                    "event": f"{info.value.get('event')} ({area_desc})",
-                    "event_icon": info.value.event_icon,
-                    "severity": SEVERITY_MAPPING[info.value.get("severity")]
-                }
+            alert_info = {
+                "status": status,
+                "url": alert.url,
+                "event": f"{info.value.get('event')} ({area_desc})",
+                "event_icon": info.value.event_icon,
+                "severity": SEVERITY_MAPPING[info.value.get("severity")]
+            }
 
-                active_alert_infos.append(alert_info)
+            active_alert_infos.append(alert_info)
 
-                if info.value.features:
-                    for feature in info.value.features:
-                        geojson["features"].append(feature)
+            if info.value.features:
+                for feature in info.value.features:
+                    geojson["features"].append(feature)
     context = {
         'active_alert_info': active_alert_infos,
         'geojson': json.dumps(geojson)
@@ -302,16 +262,14 @@ def get_home_map_alerts(request):
 
 
 def get_latest_active_alert(request):
-    alerts = CapAlertPage.objects.all().live().filter(status="Actual", scope="Public")
+    alerts = get_currently_active_alerts()
     active_alert_infos = []
 
     context = {}
 
     for alert in alerts:
         for alert_info in alert.infos:
-            info = alert_info.get("info")
-            if info.value.get('expires') > timezone.localtime():
-                active_alert_infos.append(alert_info)
+            active_alert_infos.append(alert_info)
 
     if len(active_alert_infos) == 0:
         context.update({
