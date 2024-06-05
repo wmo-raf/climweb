@@ -1,4 +1,4 @@
-![CMS Kit](../_static/images/home/cms_package_kit.jpg "CMS Kit")
+![ClimWeb Kit](../_static/images/home/cms_package_kit.jpg "ClimWeb Kit")
 
 # Introduction
 
@@ -7,7 +7,7 @@ consequences, particularly in terms of controlling extreme weather events, and d
 information to the public.
 
 In response to these challenges, the World Meteorological Organization's (WMO) Regional Office for Africa launched a
-Content Management System (CMS) which is a website template, specifically designed to aid the digital transformation of
+Content Management System (ClimWeb) which is a website template, specifically designed to aid the digital transformation of
 National Meteorological and Hydrological Services (NMHSs) in Africa
 
 This innovative template, built on **free and open-source standards**, features a modern design, seamless marketing
@@ -24,16 +24,16 @@ The technical support provided to NMHSs at the WMO Regional Office for Africa in
 - [OSCAR Surface](https://oscar.wmo.int/surface/#/about) verification and updates Station Metadata Update
 - Data transmission challenges identification, troubleshooting and resolution
 - WMO Country Profile Database updates
-- Website and Content Management System (CMS) development and support
+- Website and Content Management System (ClimWeb) development and support
 - CAP Activation and Dissemination
 - Social Media Management and communication, Email Marketing and User Data Management
 
 ![Stepwise Approach](../_static/images/home/stepwise_approach.jpg "Stepwise Approach")
 
 ---
-This document provides an overview of the Content Management System (CMS) and its features, the delivery and support.
+This document provides an overview of the Content Management System (ClimWeb) and its features, the delivery and support.
 
-This new CMS template offers:
+This new ClimWeb template offers:
 
 - Customisable and modern design
 - Seamless marketing integrations
@@ -56,20 +56,20 @@ through improved climate and early warning communications is crucial.
 During the design and development phase, fundamental factors were taken into consideration to ensure the delivery of a
 Content Management System that would improve the efficiency of management.
 
-![CMS Features](../_static/images/home/features.jpg "CMS Features")
+![ClimWeb Features](../_static/images/home/features.jpg "ClimWeb Features")
 
 It factored in:
 
 - Well **defined content structure** and pages management,
 - **User-friendly interface** with a modern look and feel
 - Great **user experience and ease** in locating content
-- A **decentralized CMS architecture** was adopted to allow management of departmental sections by different user roles
+- A **decentralized ClimWeb architecture** was adopted to allow management of departmental sections by different user roles
   and allow for content moderation and publishing **workflows**
 
 Currently, most of the NMHSs website's management is not decentralized. This means that the website is managed by one
 staff, usually from the IT department. This is not very efficient as every department has its own content, but the
 content management systems are not user-friendly to allow for easy management of content by different departments. The
-new CMS template allows for the management of different sections of the website by different staff, thus removing the
+new ClimWeb template allows for the management of different sections of the website by different staff, thus removing the
 load from the IT department and allowing for more efficient management of the website.
 
 . ![centralization](../_static/images/home/centralization.jpg "centralization")
@@ -78,20 +78,20 @@ load from the IT department and allowing for more efficient management of the we
 
 ## Delivery and support
 
-For a smooth and efficient delivery of the CMS and customization of the website template to the NMHS, a step by step
+For a smooth and efficient delivery of the ClimWeb and customization of the website template to the NMHS, a step by step
 process is adopted. The quality and interactivity of the website is first assessed followed by approaching and
-presenting the CMS and integrating feedback. Thereafter, willing/potential members for support are identified together
-with a focal point for coordination. The CMS is then installed and training on the configuration of CMS and
+presenting the ClimWeb and integrating feedback. Thereafter, willing/potential members for support are identified together
+with a focal point for coordination. The ClimWeb is then installed and training on the configuration of ClimWeb and
 customization of the website conducted. Additionally, learning materials, documentations and guides are provided
 alongside follow-up support in troubleshooting
 
-![CMS Support](../_static/images/home/support.jpg "CMS Support")
+![ClimWeb Support](../_static/images/home/support.jpg "ClimWeb Support")
 
 ---
 
 ## Core Components and Integrations
 
-![CMS Support](../_static/images/home/cms_banner_types.png "CMS")
+![ClimWeb Support](../_static/images/home/cms_banner_types.png "ClimWeb")
 
 - **User friendly website Content Management System**
 

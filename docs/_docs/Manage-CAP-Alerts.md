@@ -17,7 +17,7 @@ The CAP composer tool is a solution that provides a range of functionalities to 
 CAP. It has been developed with an aim of increasing the adoption of CAP by NMHS in Africa. Some of the key features of
 the tool include:
 
-- Possibility to run as standalone composer or integrate into Wagtail-CMS-based website
+- Possibility to run as standalone composer or integrate into Wagtail-ClimWeb-based website
 - Search Engine Optimization support to increase visibility and attract targeted traffic to an alert
 - Support for Approval Workflow from composer to approver, including commenting and email notification support
 - Interoperable XML API of Alert List and Detail for integration with CAP Aggregators - Live CAP creation and editing

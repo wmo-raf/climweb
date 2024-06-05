@@ -4,7 +4,7 @@
 
 ![Top Navbar](../../_static/images/menus/top_nav_preview.png "Top Navbar")
 
-The menu items of the top navigation of the website can be added/edited or removed. to access the menu configurations in the CMS, click on the settings and main menu on the left sidebar.
+The menu items of the top navigation of the website can be added/edited or removed. to access the menu configurations in the ClimWeb, click on the settings and main menu on the left sidebar.
 
 ![Top Navbar](../../_static/images/menus/top_nav_explorer.png "Top Navbar")
 

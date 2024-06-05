@@ -2,7 +2,7 @@
 
 ![Preview Home](../_static/images/city_forecasts/preview_home.png "Preview Home")
 
-City forecasts displayed on the homepage, and forecasts page can be added through the CMS in two ways:
+City forecasts displayed on the homepage, and forecasts page can be added through the ClimWeb in two ways:
 1. Manually adding daily forecasts
 2. Fetching city forecasts from an external source i.e YR Meteo Norway's location forecast API https://developer.yr.no/featured-products/forecast/
 

@@ -4,7 +4,7 @@
     <div class="w-panel-cms-upgrade panel" data-cms-current-version="{{ current_version }}">
         <div class="help-block help-warning">
             {% icon name='warning' %}
-            {% translate "CMS upgrade available. Your version:" %} <strong>{{ current_version }}. </strong>
+            {% translate "ClimWeb upgrade available. Your version:" %} <strong>{{ current_version }}. </strong>
             {% translate "Latest version:" %} <strong id="w-cms-latest-version">{{ latest_release.version }}</strong>.
             {% if version_upgrade_url %}
                 <a href="{{ version_upgrade_url }}">{% translate "Upgrade" %}.</a>

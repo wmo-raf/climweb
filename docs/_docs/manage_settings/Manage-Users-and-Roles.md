@@ -1,10 +1,10 @@
 # Users & Roles
 
 ## Manage Users
-The CMS allows several users to manage content in the admin interface. These users have roles, which determine the access rights they can exercise.
+The ClimWeb allows several users to manage content in the admin interface. These users have roles, which determine the access rights they can exercise.
 
 By default, there are 5 roles:
-- **Administrator** - This role has complete control over the CMS and can perform tasks such as managing user accounts, creating and deleting pages, and modifying site settings.
+- **Administrator** - This role has complete control over the ClimWeb and can perform tasks such as managing user accounts, creating and deleting pages, and modifying site settings.
 - **Moderator** - A moderator has the next level of access after an administrator. A moderator has access to creating drafts and publishing them.
 - **Editor** -  This role has the ability to create and edit content on the website. They can add and remove pages, modify existing content, and publish new content.
 - **Forecaster** - This role provides accurate and timely weather forecasts for the region or area that the website serves.
@@ -20,7 +20,7 @@ In the Users interface, you can see all of your users, their usernames, roles, a
 
 ![Manage Users](../../_static/images/users_and_roles/manage_users.png "Manage Users")
 
-You can add a new user, using the 'add a user' button at the top right and assign them an email, username, first name, last name, password and role. Once the CMS user logs in to their account they will be able to edit this information to their preference.
+You can add a new user, using the 'add a user' button at the top right and assign them an email, username, first name, last name, password and role. Once the ClimWeb user logs in to their account they will be able to edit this information to their preference.
 
 ![Add Users](../../_static/images/users_and_roles/add_user.png "Add Users")
 

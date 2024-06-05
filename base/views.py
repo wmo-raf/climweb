@@ -85,16 +85,16 @@ def cms_version_view(request):
 
             if cms_upgrade_hook_url:
                 if cms_upgrade_pending:
-                    messages.warning(request, "CMS upgrade already initiated")
+                    messages.warning(request, "ClimWeb upgrade already initiated")
                 else:
                     try:
                         send_upgrade_command(latest_version)
                         cache.set("cms_upgrade_pending", True)
-                        messages.success(request, "CMS upgrade initiated successfully")
+                        messages.success(request, "ClimWeb upgrade initiated successfully")
                         return redirect("wagtailadmin_home")
                     except Exception as e:
                         cache.set("cms_upgrade_pending", False)
-                        messages.error(request, "Error initiating CMS upgrade. Please ensure the "
+                        messages.error(request, "Error initiating ClimWeb upgrade. Please ensure the "
                                                 "'CMS_UPGRADE_HOOK_URL' env variable is working correctly")
                         context.update({
                             "form": upgrade_form

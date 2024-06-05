@@ -19,7 +19,7 @@ on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 html_theme = 'sphinx_wagtail_theme'
 
 html_theme_options = {
-    "project_name": "CMS Documentation",
+    "project_name": "ClimWeb Documentation",
     "github_url": "https://github.com/wmo-raf/nmhs-cms/blob/main/docs/",
     "header_links": "En|https://nmhs-cms.readthedocs.io/en, Fr|https://nmhs-cms.readthedocs.io/fr, Sw|https://nmhs-cms.readthedocs.io/sw",
     "footer_links": ",".join([
@@ -84,7 +84,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "NMHS CMS Documentation"
+project = "NMHS ClimWeb Documentation"
 copyright = f"{datetime.now().year}, WMO Regional Office For Africa"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -262,7 +262,7 @@ htmlhelp_basename = "NMHSCMSdoc"
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ("index", "NMHS_CMS.tex", "NMHS CMS Documentation", "ORGANISATION", "manual"),
+    ("index", "NMHS_CMS.tex", "NMHS ClimWeb Documentation", "ORGANISATION", "manual"),
 ]
 
 # with open('./cover.tex', 'r') as cover_page_file:
@@ -294,7 +294,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", "NMHS CMS", "NMHS CMS Documentation", ["ORGANISATION"], 1)]
+man_pages = [("index", "NMHS ClimWeb", "NMHS ClimWeb Documentation", ["ORGANISATION"], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -307,9 +307,9 @@ man_pages = [("index", "NMHS CMS", "NMHS CMS Documentation", ["ORGANISATION"], 1
 texinfo_documents = [
     (
         "index",
-        "NMHS CMS",
-        "NMHS CMS Documentation",
-        "NMHS CMS",
+        "NMHS ClimWeb",
+        "NMHS ClimWeb Documentation",
+        "NMHS ClimWeb",
         "One line description of project.",
         "Miscellaneous",
     ),
