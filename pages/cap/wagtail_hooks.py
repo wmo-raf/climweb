@@ -15,9 +15,9 @@ from wagtail.admin import messages
 from wagtail.admin.forms.pages import CopyForm
 from wagtail.admin.menu import MenuItem, Menu
 from wagtail.blocks import StreamValue
-from wagtail_modeladmin.helpers import PagePermissionHelper, PermissionHelper
 from wagtail.models import Page
 from wagtail_modeladmin.helpers import AdminURLHelper
+from wagtail_modeladmin.helpers import PagePermissionHelper, PermissionHelper, PageButtonHelper
 from wagtail_modeladmin.menus import GroupMenuItem
 from wagtail_modeladmin.options import (
     ModelAdmin,
@@ -59,6 +59,26 @@ class CAPPagePermissionHelper(PagePermissionHelper):
         return can_unpublish
 
 
+class CAPAlertPageButtonHelper(PageButtonHelper):
+    def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
+        buttons = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
+
+        classnames = self.edit_button_classnames + classnames_add
+        cn = self.finalise_classname(classnames, classnames_exclude)
+
+        if obj.is_published_publicly:
+            live_button = {
+                "url": obj.get_full_url(),
+                "label": _("LIVE"),
+                "classname": cn,
+                "title": _("Visit the live page")
+            }
+
+            buttons = [live_button] + buttons
+
+        return buttons
+
+
 class CAPAdmin(ModelAdmin):
     model = CapAlertPage
     menu_label = _('Alerts')
@@ -67,6 +87,7 @@ class CAPAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     permission_helper_class = CAPPagePermissionHelper
+    button_helper_class = CAPAlertPageButtonHelper
 
 
 class CAPAlertWebhookAdmin(ModelAdmin):

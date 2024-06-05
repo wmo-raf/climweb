@@ -227,6 +227,10 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
     def __str__(self):
         return self.display_title
 
+    @property
+    def is_published_publicly(self):
+        return self.live and self.status == "Actual" and self.scope == "Public"
+
     def get_admin_display_title(self):
         return self.display_title
 
