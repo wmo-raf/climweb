@@ -51,7 +51,7 @@
                     <h2 class="section-title has-text-centered"> {% translate "Our Partners" %}</h2>
                     <div class="columns is-multiline is-mobile is-centered partners-list">
                         {% for partner in page.partners %}
-                            {% if partner.visible_on_homepage %}
+                            {% if partner.visible_on_homepage and partner.logo %}
                                 <div class="column is-4-mobile is-4-tablet is-2-desktop  partner-item">
                                     <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
                                        target="{% if partner.link %}_blank{% else %}_self{% endif %}"

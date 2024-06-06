@@ -1,11 +1,9 @@
-import json
 from itertools import chain
 
 from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
-from django.core.mail import mail_managers, mail_admins
-from django.core.serializers.json import DjangoJSONEncoder
+from django.core.mail import mail_admins
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.forms import CheckboxSelectMultiple
@@ -13,11 +11,11 @@ from django.template.defaultfilters import truncatechars, date
 from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _, gettext
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.models import ClusterableModel
 from timezone_field import TimeZoneField
-from wagtail.admin.mail import send_mail
 from wagtail.admin.panels import (FieldPanel, InlinePanel, MultiFieldPanel, )
 from wagtail.admin.panels import TabbedInterface, ObjectList
 from wagtail.contrib.forms.forms import WagtailAdminFormPageForm
@@ -254,6 +252,11 @@ class EventPage(MetadataPageMixin, Page):
                                         blank=True, choices=MEETING_PLATFORM_CHOICES,
                                         help_text=_("Platform for Event"), default="zoom")
 
+    enable_zoom_integration = models.BooleanField(default=False,
+                                                  verbose_name=_("Enable Zoom Integration in registration form"))
+    enable_mailchimp_integration = models.BooleanField(default=False, verbose_name=_(
+        "Enable Mailchimp Integration in registration form"))
+
     content_panels = Page.content_panels + [
         FieldPanel('event_type'),
         FieldPanel('category', widget=CheckboxSelectMultiple),
@@ -265,13 +268,12 @@ class EventPage(MetadataPageMixin, Page):
         FieldPanel('description'),
         FieldPanel('location'),
         FieldPanel('agenda_document'),
-        FieldPanel('form_template'),
         FieldPanel('cost'),
         # FieldPanel('meeting_platform'), Hide this too for now since we dont use other integration platform but zoom
         FieldPanel('panelists'),
         FieldPanel('sessions'),
         FieldPanel('additional_materials'),
-        FieldPanel('registration_open'),
+
         FieldPanel('featured'),
         FieldPanel('is_hidden'),
         FieldPanel('is_visible_on_homepage'),
@@ -279,12 +281,19 @@ class EventPage(MetadataPageMixin, Page):
         # FieldPanel('youtube_video_id'),
     ]
 
+    settings_panels = [
+        FieldPanel('registration_open'),
+        FieldPanel('form_template'),
+        FieldPanel('enable_zoom_integration'),
+        FieldPanel('enable_mailchimp_integration'),
+    ]
+
     # This is where all the tabs are created
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading=_('Content')),
             ObjectList(Page.promote_panels, heading=_('SEO'), classname="seo"),
-            ObjectList(Page.settings_panels, heading=_('Settings'), classname="settings"),
+            ObjectList(settings_panels, heading=_('Registration and Integrations'), classname="settings"),
         ]
     )
 
@@ -390,6 +399,13 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
 
         # only update the initial value when creating a new page
         if not instance.id:
+            # get parent title
+            event_title = parent_page.title
+            new_title = gettext("Register for %(event_title)s") % {'event_title': event_title}
+            slug = slugify(new_title)
+            instance.title = new_title
+            instance.slug = slug
+
             # check if we have parent page and parent page has form template selected
             if parent_page and parent_page.form_template:
 
@@ -408,9 +424,19 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
                 instance.registration_form_fields = registration_form_fields
                 instance.validation_field = form_template.validation_field
 
-            # Ensure you call the super class __init__
+        # Ensure you call the super class __init__
         super(EventPageCustomForm, self).__init__(data, files, *args, **kwargs)
         self.parent_page = parent_page
+
+        latest_parent_revision = parent_page.get_latest_revision_as_object()
+        zoom_integration_enabled = latest_parent_revision.enable_zoom_integration
+        mailchimp_integration_enabled = latest_parent_revision.enable_mailchimp_integration
+
+        if not zoom_integration_enabled:
+            self.fields.pop('zoom_event', None)
+
+        if not mailchimp_integration_enabled:
+            self.fields.pop('audience_list_id', None)
 
 
 class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, AbstractMailchimpIntegrationForm,
@@ -470,7 +496,6 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         ], "Staff Email Notification Settings - When someone registers"),
 
         FieldPanel('thank_you_text', heading="Message to show on website after successful submission"),
-
     ]
 
     class Meta:
@@ -529,6 +554,18 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         form_class = super(EventRegistrationPage, self).get_form_class()
         form_class.required_css_class = 'required'
         return form_class
+
+    def should_perform_zoom_integration_operation(self, request, form):
+        return self.event.enable_zoom_integration
+
+    def should_perform_mailchimp_integration_operation(self, request, form):
+        return self.event.enable_mailchimp_integration
+
+    def show_page_listing_mailchimp_integration_button(self):
+        return self.event.enable_mailchimp_integration
+
+    def show_page_listing_zoom_integration_button(self):
+        return self.event.enable_zoom_integration
 
     def should_process_form(self, request, form_data):
         should_process = True

@@ -182,13 +182,6 @@
                                                     {% translate "Minor" %}
                                                 </div>
                                             </div>
-                                            <div class="legend-item">
-                                                <div class="legend-color"
-                                                     style="background-color: rgb(51, 102, 255);"></div>
-                                                <div class="legend-label">
-                                                    {% translate "Unknown" %}
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -270,10 +263,7 @@
                                                             <div class="cap-info-summary-type">
                                                                 {% translate "Category" %}:
                                                             </div>
-                                                            {% for category in item.value.category %}
-                                                                <span class="cap-info-summary-value"> {{ category }}</span>
-                                                                {% if not forloop.last %}, {% endif %}
-                                                            {% endfor %}
+                                                            <span class="cap-info-summary-value"> {{ item.value.category }}</span>
                                                         </div>
                                                     </div>
                                                 </div>

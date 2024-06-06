@@ -497,3 +497,7 @@ if CAP_SIGNATURE_METHOD:
                                                            f"Must be one of " \
                                                            f"{list(SignatureMethod.__members__.keys())}"
     CAP_SIGNATURE_METHOD = SignatureMethod[CAP_SIGNATURE_METHOD]
+
+# Django Background Tasks
+# https://django-background-tasks.readthedocs.io/en/latest/#settings
+MAX_ATTEMPTS = env.int("MAX_ATTEMPTS", default=5)

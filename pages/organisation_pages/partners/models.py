@@ -105,7 +105,7 @@ class PartnersPage(AbstractBannerWithIntroPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super(PartnersPage, self).get_context(request, *args, **kwargs)
-        context['partners'] = Partner.objects.all()
+        context['partners'] = Partner.objects.filter(logo__isnull=False)
         return context
 
     class Meta:

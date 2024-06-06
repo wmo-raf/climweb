@@ -15,9 +15,9 @@ from wagtail.admin import messages
 from wagtail.admin.forms.pages import CopyForm
 from wagtail.admin.menu import MenuItem, Menu
 from wagtail.blocks import StreamValue
-from wagtail_modeladmin.helpers import PagePermissionHelper
 from wagtail.models import Page
 from wagtail_modeladmin.helpers import AdminURLHelper
+from wagtail_modeladmin.helpers import PagePermissionHelper, PermissionHelper, PageButtonHelper
 from wagtail_modeladmin.menus import GroupMenuItem
 from wagtail_modeladmin.options import (
     ModelAdmin,
@@ -28,7 +28,7 @@ from wagtail_modeladmin.options import (
 from .models import (
     CapAlertPage,
     CAPGeomanagerSettings,
-    CapAlertListPage, get_active_alerts
+    CapAlertListPage, get_currently_active_alerts, CAPAlertWebhook, CAPAlertWebhookEvent
 )
 from .utils import create_cap_geomanager_dataset
 
@@ -59,6 +59,26 @@ class CAPPagePermissionHelper(PagePermissionHelper):
         return can_unpublish
 
 
+class CAPAlertPageButtonHelper(PageButtonHelper):
+    def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
+        buttons = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
+
+        classnames = self.edit_button_classnames + classnames_add
+        cn = self.finalise_classname(classnames, classnames_exclude)
+
+        if obj.is_published_publicly:
+            live_button = {
+                "url": obj.get_full_url(),
+                "label": _("LIVE"),
+                "classname": cn,
+                "title": _("Visit the live page")
+            }
+
+            buttons = [live_button] + buttons
+
+        return buttons
+
+
 class CAPAdmin(ModelAdmin):
     model = CapAlertPage
     menu_label = _('Alerts')
@@ -67,6 +87,38 @@ class CAPAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     permission_helper_class = CAPPagePermissionHelper
+    button_helper_class = CAPAlertPageButtonHelper
+
+
+class CAPAlertWebhookAdmin(ModelAdmin):
+    model = CAPAlertWebhook
+    menu_label = _('Webhooks')
+    menu_icon = 'multi-cluster-sector'
+
+
+class CAPAlertWebhookEventPermissionHelper(PermissionHelper):
+    def user_can_create(self, user):
+        return False
+
+    def user_can_edit_obj(self, user, obj):
+        return False
+
+    def user_can_delete_obj(self, user, obj):
+        return False
+
+    def user_can_copy_obj(self, user, obj):
+        return False
+
+
+class CAPAlertWebhookEventAdmin(ModelAdmin):
+    model = CAPAlertWebhookEvent
+    menu_label = _('Webhook Events')
+    menu_icon = 'notification'
+    list_display = ('webhook', 'alert', 'created', 'status',)
+    list_filter = ('status', 'webhook',)
+    inspect_view_enabled = True
+
+    permission_helper_class = CAPAlertWebhookEventPermissionHelper
 
 
 class CAPMenuGroupAdminMenuItem(GroupMenuItem):
@@ -78,7 +130,7 @@ class CAPMenuGroup(ModelAdminGroup):
     menu_label = _('CAP Alerts')
     menu_icon = 'warning'  # change as required
     menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    items = (CAPAdmin,)
+    items = (CAPAdmin, CAPAlertWebhookAdmin, CAPAlertWebhookEventAdmin,)
 
     def get_menu_item(self, order=None):
         if self.modeladmin_instances:
@@ -140,7 +192,7 @@ def add_geomanager_datasets(request):
     if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
 
         # check if we have any active alerts
-        has_live_alerts = get_active_alerts().exists()
+        has_live_alerts = get_currently_active_alerts().exists()
 
         # create dataset
         dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)

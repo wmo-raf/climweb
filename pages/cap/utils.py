@@ -3,10 +3,14 @@ import io
 import requests
 import weasyprint
 from capeditor.cap_settings import CapSetting
+from capeditor.renderers import CapXMLRenderer
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.translation import gettext as _
+from lxml import etree
+from wagtail.api.v2.utils import get_full_url
 from wagtail.documents import get_document_model
 from wagtail.images import get_image_model
 from wagtail.models import Site
@@ -14,6 +18,7 @@ from wagtail.models import Site
 from base.models import ImportantPages
 from base.weasyprint_utils import django_url_fetcher
 from pages.cap.constants import DEFAULT_STYLE, CAP_LAYERS
+from .sign import sign_xml
 
 
 def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request=None):
@@ -177,9 +182,6 @@ def create_cap_pdf_document(cap_alert, template_name):
     return document
 
 
-
-
-
 def get_cap_map_style(geojson):
     style = DEFAULT_STYLE
     style["sources"].update({"cap_alert": {"type": "geojson", "data": geojson}})
@@ -227,3 +229,58 @@ def create_cap_area_map_image(cap_alert):
     area_image = get_image_model().objects.create(title=image_title, file=content_file)
 
     return area_image
+
+
+def get_cap_settings():
+    site = Site.objects.get(is_default_site=True)
+    cap_settings = CapSetting.for_site(site)
+    return cap_settings
+
+
+def format_date_to_oid(date):
+    # Extract date components
+    year = date.year
+    month = date.month
+    day = date.day
+    hour = date.hour
+    minute = date.minute
+    second = date.second
+
+    # Format components into OID
+    oid_date = f"{year}.{month}.{day}.{hour}.{minute}.{second}"
+
+    return oid_date
+
+
+def serialize_and_sign_cap_alert(alert, request=None):
+    from pages.cap.serializers import AlertSerializer
+
+    data = AlertSerializer(alert, context={
+        "request": request,
+    }).data
+
+    xml = CapXMLRenderer().render(data)
+    xml_bytes = bytes(xml, encoding='utf-8')
+    signed = False
+
+    try:
+        signed_xml = sign_xml(xml_bytes)
+        if signed_xml:
+            xml = signed_xml
+            signed = True
+    except Exception as e:
+        pass
+
+    if signed:
+        root = etree.fromstring(xml)
+    else:
+        root = etree.fromstring(xml_bytes)
+
+    style_url = get_full_url(request, reverse("cap_alert_stylesheet"))
+
+    tree = etree.ElementTree(root)
+    pi = etree.ProcessingInstruction('xml-stylesheet', f'type="text/xsl" href="{style_url}"')
+    tree.getroot().addprevious(pi)
+    xml = etree.tostring(tree, xml_declaration=True, encoding='utf-8')
+
+    return xml, signed
