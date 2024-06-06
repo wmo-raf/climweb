@@ -369,7 +369,7 @@ FULL_RICHTEXT_FRATURES = ['bold', 'italic', 'underline', 'strikethrough', 'super
 # RECAPTCHA Settings
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
-RECAPTCHA_DOMAIN = env.str('RECAPTCHA_DOMAIN', 'www.google.com')
+# RECAPTCHA_DOMAIN = env.str('RECAPTCHA_DOMAIN', 'www.google.com')
 RECAPTCHA_VERIFY_REQUEST_TIMEOUT = env.str('RECAPTCHA_VERIFY_REQUEST_TIMEOUT', "60")
 
 # try to convert RECAPTCHA_VERIFY_REQUEST_TIMEOUT to an integer
