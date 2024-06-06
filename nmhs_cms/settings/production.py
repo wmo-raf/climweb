@@ -98,6 +98,11 @@ LOGGING = {
         }
     },
     'loggers': {
+        '': {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
@@ -109,7 +114,7 @@ LOGGING = {
             'propagate': True,
         },
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'ERROR',
             'propagate': True,
         },

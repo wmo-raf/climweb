@@ -1,3 +1,5 @@
+from collections import Counter
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
@@ -83,10 +85,62 @@ class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
 
         weather_parameters = ForecastSetting.for_request(request).data_parameters.all()
 
+        header = {
+            "morning": "Morning",
+            "afternoon": "Afternoon",
+            "evening": "Evening"
+        }
+
+        def compute_aggregates(data):
+            if data['count'] == 0:
+                return None
+            return {
+                'condition': data['weather_conditions'].most_common(1)[0][0]
+            }
+
+        for forecasts_day, forecasts in city_forecasts_by_date.items():
+            morning_data = {
+                'weather_conditions': Counter(),
+                'count': 0
+            }
+
+            afternoon_data = {
+                'weather_conditions': Counter(),
+                'count': 0
+
+            }
+
+            evening_data = {
+                'weather_conditions': Counter(),
+                'count': 0
+            }
+
+            for city_forecast in forecasts:
+                hour = city_forecast.parent.effective_period.forecast_effective_time.hour
+
+                if 6 <= hour < 12:
+                    period_data = morning_data
+                elif 12 <= hour < 18:
+                    period_data = afternoon_data
+                elif 18 <= hour < 24:
+                    period_data = evening_data
+                else:
+                    continue  # Skip times outside the defined periods
+
+                period_data['weather_conditions'][city_forecast.condition] += 1
+                period_data['count'] += 1
+
+            city_forecasts_by_date[forecasts_day] = {
+                'morning': compute_aggregates(morning_data),
+                'afternoon': compute_aggregates(afternoon_data),
+                'evening': compute_aggregates(evening_data)
+            }
+
         context_overrides.update({
             "city_forecasts_by_date": city_forecasts_by_date,
             "weather_parameters": weather_parameters,
-            "city": city
+            "city": city,
+            "header": header
         })
 
         return self.render(request, context_overrides=context_overrides)
