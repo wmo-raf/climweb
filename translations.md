@@ -34,7 +34,7 @@ sphinx-build -b html -D language=fr . _build/html/fr
 
 ---
 
-## CMS Translations
+## ClimWeb Translations
 
 1. Generate ***.po** translation files for locale folders listed in LOCALE_PATHS
 

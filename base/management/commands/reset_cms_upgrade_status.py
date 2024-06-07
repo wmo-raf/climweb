@@ -3,11 +3,11 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Resets CMS Upgrade Status"
+    help = "Resets ClimWeb Upgrade Status"
 
     def handle(self, *args, **options):
         cache.set("cms_upgrade_pending", False)
 
         self.stdout.write(
-            self.style.SUCCESS('Successfully reset CMS Upgrade status')
+            self.style.SUCCESS('Successfully reset ClimWeb Upgrade status')
         )

@@ -163,7 +163,7 @@ def send_upgrade_command(latest_version):
 
         prepped = request.prepare()
         # signature = hmac.new(codecs.encode(GSKY_WEBHOOK_SECRET), codecs.encode(prepped.body), digestmod=hashlib.sha256)
-        # prepped.headers['X-CMS-Signature'] = signature.hexdigest()
+        # prepped.headers['X-ClimWeb-Signature'] = signature.hexdigest()
 
         with requests.Session() as session:
             response = session.send(prepped)

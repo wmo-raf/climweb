@@ -4,7 +4,7 @@ This is a type of content page that offers a high degree of customization and fl
 
 With a Flex Page, you have the flexibility to add, rearrange, and customize these content blocks within the page editor. This enables you to build complex and unique page layouts without the need for technical expertise or assistance from developers.
 
-The ability to create Flex Pages is one of the features that make Wagtail a powerful and user-friendly CMS. It allows website administrators and editors to have greater control over the presentation of content, making it easier to maintain a consistent design while accommodating diverse content needs across different pages of the website.
+The ability to create Flex Pages is one of the features that make Wagtail a powerful and user-friendly ClimWeb. It allows website administrators and editors to have greater control over the presentation of content, making it easier to maintain a consistent design while accommodating diverse content needs across different pages of the website.
 
 ---
 

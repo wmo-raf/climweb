@@ -4,16 +4,16 @@ This section describes the different pages that you are going to see as you navi
 
 ## How to reach the Dashboard
 
-The CMS login button can be found at the top left corner of the website.
+The ClimWeb login button can be found at the top left corner of the website.
 
 ![Access Dashboard](../_static/images/navigating/access_dashboard.png "Access Dashboard")
 
-Logging into the CMS automatically takes you to the Dashboard. If you navigate away from the dashboard, you can return to it at any time by clicking on the NMHS logo in the top-left section of your screen.
+Logging into the ClimWeb automatically takes you to the Dashboard. If you navigate away from the dashboard, you can return to it at any time by clicking on the NMHS logo in the top-left section of your screen.
 
 ---
 ## The Dashboard
 
-The Dashboard is the main hub of the website. From the dashboard, you can access all of the content you create in the CMS as well as reports, settings, and other content management features.
+The Dashboard is the main hub of the website. From the dashboard, you can access all of the content you create in the ClimWeb as well as reports, settings, and other content management features.
 
 ![Dashboard](../_static/images/navigating/dashboard.png "Dashboard")
 
@@ -54,9 +54,9 @@ The Your locked pages panel shows all of the pages you've locked so that only yo
 
 ### The Sidebar
 
-On the left-hand side of the dashboard and throughout the CMS is a menu called the Sidebar. You can use the Sidebar to navigate to different parts of the CMS.
+On the left-hand side of the dashboard and throughout the ClimWeb is a menu called the Sidebar. You can use the Sidebar to navigate to different parts of the ClimWeb.
 
-The Sidebar helps you quickly access your content as well as CMS features and settings. The items on the Sidebar can vary depending on what you have access to. These features include Search, Documents, Snippets, Forms, Reports, Settings, and Help.
+The Sidebar helps you quickly access your content as well as ClimWeb features and settings. The items on the Sidebar can vary depending on what you have access to. These features include Search, Documents, Snippets, Forms, Reports, Settings, and Help.
 
 > If you want the Sidebar to take up less space, you can click the white arrow near the top of the Sidebar to switch it into slim mode and give yourself more space for writing.
 
@@ -84,8 +84,8 @@ Clicking on the … Actions dropdown shows a list of actions for the parent page
 ![Actions](../_static/images/navigating/actions_page.png "Actions")
 
 ---
-## Search the CMS
+## Search the ClimWeb
 
-The search feature is the topmost feature in the Sidebar. You can use the search feature to quickly search for content in the CMS.
+The search feature is the topmost feature in the Sidebar. You can use the search feature to quickly search for content in the ClimWeb.
 
 ![Search](../_static/images/navigating/search.png "Search")

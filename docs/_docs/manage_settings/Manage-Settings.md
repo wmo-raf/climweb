@@ -19,7 +19,7 @@ Organisation settings include the logo, country, address, contact information an
 
 ## Managing Themes
 
-The CMS allows you to create/edit/delete a theme. You can also set a default theme which will be applied to all pages of the website. 
+The ClimWeb allows you to create/edit/delete a theme. You can also set a default theme which will be applied to all pages of the website. 
 
 ![Themes](../../_static/images/settings/themes.png "Themes")
 
@@ -29,7 +29,7 @@ The theme configurations include theme name, theme colors, borders and shadows.
 
 ## Managing Integrations
 
-The CMS supports integrations with 3rd party softwares including Recaptcha, YouTube API, Mailchimp, Mautic, Zoom and Google analytics.
+The ClimWeb supports integrations with 3rd party softwares including Recaptcha, YouTube API, Mailchimp, Mautic, Zoom and Google analytics.
 
 ![Integrations](../../_static/images/settings/integrations.png "Integrations")
 
@@ -41,9 +41,9 @@ Multiple languages can be configured inorder to allow translation of the website
 
 ![Languages](../../_static/images/settings/manage_languages.png "Languages")
 
-## Managing CMS Languages
+## Managing ClimWeb Languages
 
-To change the language of the CMS UI, this setting can be configured from the user account settings.
+To change the language of the ClimWeb UI, this setting can be configured from the user account settings.
 
 ![Languages](../../_static/images/settings/user_settings.png "Languages")
 

@@ -6,10 +6,10 @@
     <figure style="max-height: 130px;max-width: 130px;">
         {% if settings.base.OrganisationSetting.cms_logo %}
             {% image settings.base.OrganisationSetting.cms_logo original as logo_image %}
-            <img src="{{ logo_image.url }}" alt="CMS Dashboard Logo"
+            <img src="{{ logo_image.url }}" alt="ClimWeb Dashboard Logo"
                  style="height: 100%;width: 100%;object-fit: contain"/>
         {% else %}
-            <img src="{% static 'img/logo.svg' %}" alt="CMS Dashboard Logo"
+            <img src="{% static 'img/logo.svg' %}" alt="ClimWeb Dashboard Logo"
                  style="height: 100%;width: 100%;object-fit: contain"/>
         {% endif %}
     </figure>
@@ -34,6 +34,6 @@
     {% if 'WAGTAIL_SITE_NAME'|django_settings %}
         {{ 'WAGTAIL_SITE_NAME'|django_settings }}
     {% else %}
-        CMS
+        ClimWeb
     {% endif %}
 {% endblock %}

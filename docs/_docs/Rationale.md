@@ -11,7 +11,7 @@ Regional Conference on the emerging needs of NMHSs in Africa on digital transfor
 in [Decision 13 (RA I-18)](https://library.wmo.int/viewer/57803/?offset=1#page=56&viewer=picture&o=bookmark&n=0&q=) the
 Secretary-General and Technical Commissions to support regional activities to close the gaps in the region. In this
 context, thereafter, **the World Meteorological Organization (WMO) Regional Office for Africa developed a Content
-Management System (CMS) as a website template specifically designed to aid the digital transformation of National
+Management System (ClimWeb) as a website template specifically designed to aid the digital transformation of National
 Meteorological and Hydrological Services (NMHSs) in Africa.**
 
 ### Supporting key United Nations conventions and initiatives

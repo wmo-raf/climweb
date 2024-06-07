@@ -11,7 +11,7 @@ It is possible to select multiple images from the Images interface at once. To d
 ![Select Images](../../_static/images/icons_and_images/select_images.png "Select Images")
 
 
-Also, the CMS allows you to edit the data associated with an image by clicking on the image to access its edit screen. Image data includes the title, the file, the collection associated with it, the associated tags, and the focal area.
+Also, the ClimWeb allows you to edit the data associated with an image by clicking on the image to access its edit screen. Image data includes the title, the file, the collection associated with it, the associated tags, and the focal area.
 
 Changing the image file when editing an image updates the image without updating the pages on which it appears.
 

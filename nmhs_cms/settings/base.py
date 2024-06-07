@@ -338,7 +338,7 @@ MEDIA_URL = env.str("FORCE_SCRIPT_NAME", "") + "/media/"
 
 # Wagtail settings
 # SITE_NAME="nmhs_cms"
-WAGTAIL_SITE_NAME = env.str("WAGTAIL_SITE_NAME", "NMHSs CMS")
+WAGTAIL_SITE_NAME = env.str("WAGTAIL_SITE_NAME", "NMHSs ClimWeb")
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
