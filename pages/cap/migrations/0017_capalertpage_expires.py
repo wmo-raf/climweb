@@ -27,7 +27,7 @@ def backwards(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('cap', '0017_alter_capalertpage_options_alter_capalertpage_guid_and_more'),
+        ('cap', '0016_auto_20240530_1637'),
     ]
 
     operations = [
