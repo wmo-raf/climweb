@@ -34,8 +34,6 @@
                     </div>
                 </div>
             </div>
-
-
             {% if error %}
                 <div class="error-message">
                     <div class="icon is-left">
@@ -76,14 +74,14 @@
                                     <tbody>
                                     {% for forecast in forecast %}
                                         <tr>
-                                            <td>{{ forecast.effective_period }}</td>
+                                            <td>{{ forecast.effective_period.label }}</td>
                                             <td class="weather-condition">
                                                 <img src="{{ forecast.condition.icon_url }}" alt="">
                                             </td>
                                             {% for param in weather_parameters %}
                                                 <td>
                                                     {% for data in forecast.data_values.all %}
-                                                        {% if data.parameter.parameter == param.parameter %}
+                                                        {% if data.parameter.parameter == param.parameter and data.value_with_units %}
                                                             {{ data.value_with_units }}
                                                         {% endif %}
                                                     {% endfor %}
@@ -116,12 +114,11 @@
                     // Check if the URL ends with a slash
                     if (cityDetailUrl.charAt(cityDetailUrl.length - 1) === '/') {
                         // If it does, append the path without an extra slash
-                        url = cityDetailUrl + value;
+                        url = cityDetailUrl + value
                     } else {
                         // If it doesn't, append the path with a leading slash
                         url = cityDetailUrl + '/' + value;
                     }
-
                     window.location.href = url;
                 }
             }
@@ -145,4 +142,3 @@
         });
     </script>
 {% endblock %}
-

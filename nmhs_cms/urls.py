@@ -15,7 +15,6 @@ from nmhs_cms.api import api_router
 from pages.search import views as search_views
 from climweb_wdqms import urls as climweb_wdqms_urls
 
-
 handler500 = 'base.views.handler500'
 
 ADMIN_URL_PATH = getattr(settings, "ADMIN_URL_PATH", None)
@@ -26,7 +25,6 @@ urlpatterns = [
     path("", include("pages.home.urls")),
     path("", include("pages.wdqms.urls")),
     path("", include("pages.cap.urls")),
-    path("", include("pages.weather.urls")),
 
     path("", include("geomanager.urls"), name="geomanager"),
     path("", include("pages.stations.urls"), name="stations"),
@@ -35,6 +33,7 @@ urlpatterns = [
     path("", include(forecastmanager_urls), name="forecast_api"),
     path("", include(climweb_wdqms_urls), name="climweb_wdqms_api"),
     path("", include("pages.videos.urls")),
+    path("weather/", include("pages.weather.urls")),
 
     path("sitemap.xml", sitemap),
     path("humans.txt", humans),

@@ -58,7 +58,7 @@ $((async function () {
             forecastSettingsUrl,
             countryInfo,
             homeMapAlertsUrl,
-            forecastDataApiUrl,
+            homeForecastDataUrl,
             capGeojsonUrl,
         } = await fetch(homeMapSettingsUrl).then(response => response.json())
 
@@ -82,34 +82,34 @@ $((async function () {
         Object.keys(basemaps).forEach(basemap => {
 
             document.getElementById(basemap).addEventListener('click', () => {
-                setBasemap(map,basemap);
+                setBasemap(map, basemap);
             });
         })
-        
-        function setBasemap(map,style) {
+
+        function setBasemap(map, style) {
             Object.keys(basemaps).forEach(layer => {
                 if (map.getLayer(basemaps[layer])) {
                     map.removeLayer(basemaps[layer]);
                     map.removeSource(layer);
                 }
             });
-        
-            if(map.getSource(style)){
+
+            if (map.getSource(style)) {
                 map.removeSource(style)
             }
 
-            if(map.getLayer(basemaps[style])){
+            if (map.getLayer(basemaps[style])) {
                 map.removeLayer(basemaps[style])
             }
             map.addSource(style, defaultStyle.sources[style]);
-        
+
             map.addLayer({
                 'id': basemaps[style],
                 'source': style,
                 'type': 'raster',
                 'minzoom': 0,
                 'maxzoom': 22
-            },map.getStyle().layers[0].id);
+            }, map.getStyle().layers[0].id);
         }
 
 
@@ -192,7 +192,7 @@ $((async function () {
             });
         }
 
-        
+
         let zoomLocationsInit = false
         const updateMapBounds = () => {
             if (bounds) {
@@ -339,7 +339,6 @@ $((async function () {
         })
 
 
-
         const getPopupHTML = (props) => {
             const dataParams = forecastSettings?.parameters || []
             if (dataParams && dataParams.length === 0) {
@@ -415,17 +414,34 @@ $((async function () {
         });
 
         const getForecastData = async () => {
-            return fetch(forecastDataApiUrl).then(res => res.json())
+            return fetch(homeForecastDataUrl).then(res => res.json())
         }
-        const forecastData = await getForecastData()
 
-        const dates = forecastData.map(d => d.date)
+        const {multi_period: isMultiPeriod, data: forecastData} = await getForecastData()
+
+        const dates = forecastData.map(d => d.datetime)
+
         const dateSelector = $("#forecast-dates")
 
+
         dates.forEach((date, i) => {
+            const dObj = new Date(date)
+            const now = new Date()
+
+            if (isMultiPeriod && dObj.toDateString() === now.toDateString() && dObj.getHours() < now.getHours()) {
+                return
+            }
+
             const option = document.createElement("option")
             option.value = date
-            option.text = new Date(date).toDateString()
+
+
+            if (isMultiPeriod) {
+                option.text = dObj.toDateString() + " - " + dObj.getHours() + ":00"
+            } else {
+                option.text = dObj.toDateString()
+            }
+
             if (i === 0) {
                 option.selected = true
             }
@@ -436,9 +452,8 @@ $((async function () {
             dateSelector.show()
         }
 
-
         const setForecastData = (date) => {
-            const selectedDateData = forecastData.find(d => d.date === date)
+            const selectedDateData = forecastData.find(d => d.datetime === date)
             if (selectedDateData) {
                 map.getSource("city-forecasts").setData(selectedDateData)
             }

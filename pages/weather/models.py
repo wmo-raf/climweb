@@ -6,10 +6,10 @@ from django.utils.dates import MONTHS
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from forecastmanager.forecast_settings import ForecastSetting
-from forecastmanager.models import City, CityForecast
+from forecastmanager.models import City
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.api.v2.utils import get_full_url
-from wagtail.contrib.routable_page.models import RoutablePageMixin, route, path
+from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
@@ -17,36 +17,32 @@ from base.mixins import MetadataPageMixin
 from base.models import AbstractIntroPage
 from base.utils import paginate, query_param_to_list
 from .blocks import ExtremeWeatherBlock
+from .utils import get_city_forecast_detail_data
 
 
 class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
-    template = "weather/weather_detail_page.html"
+    template = "weather/weather_detail_page_summary.html"
     max_count = 1
 
     parent_page_types = ["home.HomePage"]
+
+    # do not cache this page. We always want to show the latest data
+    cache_control = 'no-cache'
 
     @path('')
     @path('daily-table/', name="daily_table")
     @path('daily-table/<str:city_slug>/', name="daily_table_for_city")
     def forecast_for_city(self, request, city_slug=None):
-        context_overrides = {}
         fm_settings = ForecastSetting.for_request(request)
-        city_detail_page = fm_settings.weather_detail_page
-        city_detail_page_url = None
 
-        if city_detail_page:
-            city_detail_page = city_detail_page.specific
-            city_detail_page_url = city_detail_page.get_full_url(request)
-            city_detail_page_url = city_detail_page_url + city_detail_page.detail_page_base_url
-            context_overrides.update({
-                "city_detail_page_url": city_detail_page_url,
-            })
+        context_overrides = {}
 
         city_search_url = get_full_url(request, reverse("cities-list"))
         context_overrides.update({
             "city_search_url": city_search_url,
-            "city_detail_page_url": city_detail_page_url
+            "city_detail_page_url": self.get_full_url(request) + self.detail_page_base_url
         })
+
         if city_slug:
             city = City.objects.filter(slug=city_slug).first()
             if city is None:
@@ -64,32 +60,21 @@ class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
         if city is None:
             context_overrides.update({
                 "error": True,
-                "error_message": _("No data found")
+                "error_message": _("No location set in the system. Please contact the administrator."),
             })
 
             return self.render(request, context_overrides=context_overrides)
 
-        city_forecasts = CityForecast.objects.filter(
-            city=city,
-            parent__forecast_date__gte=timezone.localtime()
-        )
-
-        city_forecasts_by_date = {}
-        for forecast in city_forecasts:
-            forecast_date = forecast.parent.forecast_date
-            if forecast_date not in city_forecasts_by_date:
-                city_forecasts_by_date[forecast_date] = []
-            city_forecasts_by_date[forecast_date].append(forecast)
-
-        weather_parameters = ForecastSetting.for_request(request).data_parameters.all()
+        detail_data = get_city_forecast_detail_data(city, request)
 
         context_overrides.update({
-            "city_forecasts_by_date": city_forecasts_by_date,
-            "weather_parameters": weather_parameters,
-            "city": city
+            "city": city,
+            "today": timezone.localtime().date(),
+            **detail_data
         })
 
-        return self.render(request, context_overrides=context_overrides)
+        return self.render(request, context_overrides=context_overrides,
+                           template="weather/weather_detail_page_detail.html")
 
     @property
     def detail_page_base_url(self):

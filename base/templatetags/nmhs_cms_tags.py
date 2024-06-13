@@ -1,7 +1,7 @@
 import calendar
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, date
 from html.parser import HTMLParser
 
 from django import template
@@ -152,10 +152,12 @@ def default_site():
     return Site.objects.filter(is_default_site=True).first()
 
 
-@register.filter(name='dict_key')
-def dict_key(d, k):
-    '''Returns the given key from a dictionary.'''
-    return d[k]
+@register.filter
+def get_dict_item(d, k):
+    """
+    Return the value of a dictionary for a given key. If the key does not exist, return None.
+    """
+    return d.get(k, None)
 
 
 class SVGNotFound(Exception):
@@ -247,3 +249,9 @@ def exclude_images(value):
 
 
 register.filter('exclude_images', exclude_images)
+
+
+@register.filter
+def date_is_today(value):
+    """Returns True if the given date is today."""
+    return value == date.today()

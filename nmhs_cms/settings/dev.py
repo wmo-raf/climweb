@@ -31,3 +31,28 @@ SHOW_COLLAPSED = False
 # used in dev with Mac OS
 GDAL_LIBRARY_PATH = env.str('GDAL_LIBRARY_PATH', None)
 GEOS_LIBRARY_PATH = env.str('GEOS_LIBRARY_PATH', None)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        # Send logs with at least INFO level to the console.
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "[%(asctime)s][%(process)d][%(levelname)s][%(name)s] %(message)s"
+        },
+    },
+    "loggers": {
+        "": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}

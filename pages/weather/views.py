@@ -1,36 +1,61 @@
+from django.http import JsonResponse
 from django.shortcuts import render
-
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from forecastmanager.forecast_settings import ForecastSetting
-from forecastmanager.models import City, CityForecast
+from forecastmanager.models import City, Forecast
+from forecastmanager.serializers import ForecastSerializer
 from wagtail.api.v2.utils import get_full_url
-from wagtail.models import Site
+
+from pages.weather.utils import get_city_forecast_detail_data
 
 
 def get_home_forecast_widget(request):
+    forecast_setting = ForecastSetting.for_request(request)
+
+    city_slug = request.GET.get('city')
     context = {}
 
-    site = Site.objects.get(is_default_site=True)
-    forecast_setting = ForecastSetting.for_site(site)
+    if city_slug:
+        city = City.objects.filter(slug=city_slug).first()
+        if city is None:
+            context.update({
+                "error": True,
+                "error_message": _("Location not found. Please search for a different location.")
+            })
+            return JsonResponse(context, status=404)
+    else:
+        city = forecast_setting.default_city
+        if not city:
+            city = City.objects.first()
+
+    if city is None:
+        context.update({
+            "error": True,
+            "error_message": _("No location set in the system. Please contact the administrator."),
+        })
+
+        return render(request, 'weather/widgets/home_forecast_single.html', context)
 
     city_detail_page = forecast_setting.weather_detail_page
-    city_detail_page_url = None
 
     if city_detail_page:
-        city_detail_page = city_detail_page.specific
-        all_city_detail_page_url = city_detail_page.get_full_url(request)
-        city_detail_page_url = all_city_detail_page_url + city_detail_page.detail_page_base_url
-        context.update({
-            "all_city_detail_page_url": all_city_detail_page_url,
-            "city_detail_page_url": city_detail_page_url,
-
-        })
+        # Try getting the city detail page URL. If it fails, ignore it.
+        # this is here because a different page than what is expected might be set
+        try:
+            city_detail_page = city_detail_page.specific
+            city_detail_page_url = city_detail_page.get_full_url(request) + city_detail_page.reverse_subpage(
+                "daily_table_for_city", kwargs={"city_slug": city.slug})
+            context.update({
+                "city_detail_page_url": city_detail_page_url,
+            })
+        except Exception:
+            pass
 
     city_search_url = get_full_url(request, reverse("cities-list"))
     context.update({
         "city_search_url": city_search_url,
-        "city_detail_page_url": city_detail_page_url
     })
 
     if forecast_setting.weather_reports_page:
@@ -38,23 +63,36 @@ def get_home_forecast_widget(request):
             "weather_reports_page_url": forecast_setting.weather_reports_page.get_full_url(request)
         })
 
-    default_city = forecast_setting.default_city
-    if not default_city:
-        default_city = City.objects.first()
+    data = get_city_forecast_detail_data(city, request)
+    forecast_periods_count = forecast_setting.periods.count()
 
-    if default_city:
-        default_city_forecasts = CityForecast.objects.filter(
-            city=default_city,
-            parent__forecast_date__gte=timezone.localtime(),
-            parent__effective_period__default=True
-        ).order_by("parent__forecast_date")
+    context.update({
+        "city": city,
+        **data
+    })
 
-        # get unique forecast dates
-        forecast_dates = default_city_forecasts.values_list("parent__forecast_date", flat=True).distinct()
+    if forecast_periods_count > 1:
+        return render(request, 'weather/widgets/location_forecast_multiple_slider.html', context)
 
-        context.update({
-            "default_city_forecasts": default_city_forecasts,
-            "forecast_dates": forecast_dates,
-        })
+    return render(request, 'weather/widgets/location_forecast_single_slider.html', context)
 
-    return render(request, 'home/forecast_widget_include.html', context)
+
+def get_home_map_forecast(request):
+    forecast_setting = ForecastSetting.for_request(request)
+    forecast_periods_count = forecast_setting.periods.count()
+
+    multi_period = forecast_periods_count > 1
+
+    if multi_period:
+        forecasts = Forecast.objects.filter(forecast_date=timezone.localtime().date())
+    else:
+        forecasts = Forecast.objects.filter(forecast_date__gte=timezone.localtime().date())
+
+    forecast_data = ForecastSerializer(forecasts, many=True, context={"request": request, }).data
+
+    res_data = {
+        "data": forecast_data,
+        "multi_period": multi_period
+    }
+
+    return JsonResponse(res_data, safe=False)

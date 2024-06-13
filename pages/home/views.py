@@ -2,9 +2,10 @@ from adminboundarymanager.models import AdminBoundarySettings
 from django.http import JsonResponse
 from django.urls import reverse
 from wagtail.api.v2.utils import get_full_url
-from django.shortcuts import render
+
 from base.models import OrganisationSetting
 from pages.home.models import HomeMapSettings
+
 
 def home_map_settings(request):
     config = {
@@ -23,7 +24,7 @@ def home_map_settings(request):
         "weatherIconsUrl": get_full_url(request, reverse("weather-icons")),
         "forecastSettingsUrl": get_full_url(request, reverse("forecast-settings")),
         "homeMapAlertsUrl": get_full_url(request, reverse("home_map_alerts")),
-        "forecastDataApiUrl": get_full_url(request, reverse("forecast-list")),
+        "homeForecastDataUrl": get_full_url(request, reverse("home-weather-forecast")),
         "capGeojsonUrl": get_full_url(request, reverse("cap_alerts_geojson")),
     })
 
