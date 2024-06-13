@@ -34,8 +34,6 @@
                     </div>
                 </div>
             </div>
-
-
             {% if error %}
                 <div class="error-message">
                     <div class="icon is-left">
@@ -57,31 +55,45 @@
                     </h2>
                 {% endif %}
                 <div class="forecast-items">
-                    <table class="table is-fullwidth">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            {% for key,value in header.items %}
-                                <th>{{ value }}</th>
-                            {% endfor %}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for day, forecast in city_forecasts_by_date.items %}
-                            <tr>
-                                <td>{{ day }}</td>
-                                {% for key,param in forecast.items %}
-                                    <td>
-                                        {% if param.is_condition %}
-                                            <div class="weather-condition">
-                                                <img src="{{ param.value.icon_url }}" alt="">
-                                            </div>
-                                        {% endif %}
-                                    </td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </table>
+                    {% for day, forecast in city_forecasts_by_date.items %}
+                        <div class="forecast-day-item">
+                            <h5 class="title is-6 forecast-date">
+                                {{ day|date:"l j F" }}
+                            </h5>
+                            <div class="table-wrapper">
+                                <table class="table is-fullwidth">
+                                    <thead>
+                                    <tr>
+                                        <th>{% trans "Time" %} </th>
+                                        <th>{% trans "Weather" %} </th>
+                                        {% for param in weather_parameters %}
+                                            <th>{{ param.name }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for forecast in forecast %}
+                                        <tr>
+                                            <td>{{ forecast.effective_period.label }}</td>
+                                            <td class="weather-condition">
+                                                <img src="{{ forecast.condition.icon_url }}" alt="">
+                                            </td>
+                                            {% for param in weather_parameters %}
+                                                <td>
+                                                    {% for data in forecast.data_values.all %}
+                                                        {% if data.parameter.parameter == param.parameter and data.value_with_units %}
+                                                            {{ data.value_with_units }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             {% endif %}
         </div>
@@ -102,12 +114,11 @@
                     // Check if the URL ends with a slash
                     if (cityDetailUrl.charAt(cityDetailUrl.length - 1) === '/') {
                         // If it does, append the path without an extra slash
-                        url = cityDetailUrl + value;
+                        url = cityDetailUrl + value
                     } else {
                         // If it doesn't, append the path with a leading slash
                         url = cityDetailUrl + '/' + value;
                     }
-
                     window.location.href = url;
                 }
             }
@@ -131,4 +142,3 @@
         });
     </script>
 {% endblock %}
-
