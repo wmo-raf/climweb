@@ -21,7 +21,7 @@ from base.cache import wagcache
 from .models import (
     CapAlertPage,
     get_currently_active_alerts,
-    get_all_published_alerts,
+    get_all_published_alerts, OtherCAPSettings,
 )
 from .utils import serialize_and_sign_cap_alert
 
@@ -262,6 +262,8 @@ def get_home_map_alerts(request):
 
 
 def get_latest_active_alert(request):
+    active_alert_style = OtherCAPSettings.for_request(request).active_alert_style or "nav_left"
+
     alerts = get_currently_active_alerts()
     active_alert_infos = []
 
@@ -269,6 +271,9 @@ def get_latest_active_alert(request):
 
     for alert in alerts:
         for alert_info in alert.infos:
+            alert_info.update({
+                "title": alert.title,
+            })
             active_alert_infos.append(alert_info)
 
     if len(active_alert_infos) == 0:
@@ -277,7 +282,14 @@ def get_latest_active_alert(request):
         })
     else:
         context.update({
-            'latest_active_alert': active_alert_infos[0]
+            'latest_active_alert': active_alert_infos[0],
+            'alert_style': active_alert_style
         })
 
-    return render(request, "cap/active_alert.html", context)
+    if active_alert_style == "nav_left":
+        return render(request, "cap/widgets/nav_left_alert.html", context)
+
+    if active_alert_style == "nav_top":
+        return render(request, "cap/widgets/nav_top_alert.html", context)
+
+    return render(request, "cap/widgets/nav_left_alert.html", context)
