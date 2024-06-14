@@ -168,7 +168,7 @@ def create_cap_pdf_document(cap_alert, template_name):
         "alerts_url": cap_alert.get_parent().get_full_url().strip("/"),
     })
 
-    html = weasyprint.HTML(string=html_string, url_fetcher=django_url_fetcher, base_url=site.root_url)
+    html = weasyprint.HTML(string=html_string, url_fetcher=django_url_fetcher, base_url='file://')
 
     buffer = io.BytesIO()
     html.write_pdf(buffer)
