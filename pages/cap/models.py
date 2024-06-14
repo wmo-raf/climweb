@@ -382,6 +382,26 @@ class CAPGeomanagerSettings(BaseSiteSetting):
         return geojson_url
 
 
+@register_setting(name="other-cap-settings")
+class OtherCAPSettings(BaseSiteSetting):
+    ACTIVE_ALERT_STYLE_CHOICES = [
+        ("nav_left", _("Left of the Navbar")),
+        ("nav_top", _("Top of the Navbar")),
+    ]
+
+    active_alert_style = models.CharField(max_length=50, choices=ACTIVE_ALERT_STYLE_CHOICES, default="nav_left",
+                                          verbose_name=_("Active Alert Style"),
+                                          help_text=_("Choose the style of active alerts"))
+
+    panels = [
+        FieldPanel("active_alert_style"),
+    ]
+
+    class Meta:
+        verbose_name = _("Other Settings")
+        verbose_name_plural = _("Other Settings")
+
+
 class CAPAlertWebhook(ClusterableModel):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     url = models.URLField(max_length=255, unique=True, verbose_name=_("Webhook URL"))

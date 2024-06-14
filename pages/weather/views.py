@@ -8,6 +8,7 @@ from forecastmanager.models import City, Forecast
 from forecastmanager.serializers import ForecastSerializer
 from wagtail.api.v2.utils import get_full_url
 
+from base.cache import wagcache
 from pages.weather.utils import get_city_forecast_detail_data
 
 
@@ -36,7 +37,7 @@ def get_home_forecast_widget(request):
             "error_message": _("No location set in the system. Please contact the administrator."),
         })
 
-        return render(request, 'weather/widgets/home_forecast_single.html', context)
+        return render(request, 'weather/widgets/location_forecast_single_slider.html', context)
 
     city_detail_page = forecast_setting.weather_detail_page
 
@@ -63,18 +64,27 @@ def get_home_forecast_widget(request):
             "weather_reports_page_url": forecast_setting.weather_reports_page.get_full_url(request)
         })
 
-    data = get_city_forecast_detail_data(city, request)
-    forecast_periods_count = forecast_setting.periods.count()
+    response = wagcache.get(f"city_forecast_widget_data_{city.slug}")
 
-    context.update({
-        "city": city,
-        **data
-    })
+    if response is None:
+        data = get_city_forecast_detail_data(city, request)
 
-    if forecast_periods_count > 1:
-        return render(request, 'weather/widgets/location_forecast_multiple_slider.html', context)
+        forecast_periods_count = forecast_setting.periods.count()
 
-    return render(request, 'weather/widgets/location_forecast_single_slider.html', context)
+        context.update({
+            "city": city,
+            **data
+        })
+
+        if forecast_periods_count > 1:
+            response = render(request, 'weather/widgets/location_forecast_multiple_slider.html', context)
+        else:
+            response = render(request, 'weather/widgets/location_forecast_single_slider.html', context)
+
+        # Cache the response for 20 minutes
+        wagcache.set(f"city_forecast_widget_data_{city.slug}", response, 60 * 20)
+
+    return response
 
 
 def get_home_map_forecast(request):

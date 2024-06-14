@@ -17,7 +17,7 @@ except ImportError:
     pass
 
 # Disable caching in dev
-WAGTAIL_CACHE = False
+WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', default=False)
 
 INSTALLED_APPS = ["daphne"] + INSTALLED_APPS + ["wagtail.contrib.styleguide"]
 
@@ -31,6 +31,21 @@ SHOW_COLLAPSED = False
 # used in dev with Mac OS
 GDAL_LIBRARY_PATH = env.str('GDAL_LIBRARY_PATH', None)
 GEOS_LIBRARY_PATH = env.str('GEOS_LIBRARY_PATH', None)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache'),
+        'KEY_PREFIX': 'nmhs_cms_default',
+        'TIMEOUT': 14400,  # 4 hours (in seconds)
+    },
+    'pagecache': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': env('MEMCACHED_URI', default=""),
+        'KEY_PREFIX': 'nmhs_cms_pagecache',
+        'TIMEOUT': 14400,  # 4 hours (in seconds)
+    },
+}
 
 LOGGING = {
     "version": 1,
