@@ -1,17 +1,11 @@
-from django.shortcuts import render
-import json
 from adminboundarymanager.models import AdminBoundarySettings
-
-from climweb_wdqms.models import Station,Transmission
-from django.db.models.functions import TruncMonth
-from django.db.models import Max
-# Create your views here.
+from climweb_wdqms.models import Station, Transmission
+from django.shortcuts import render
 
 
 def wdqms_reports(request):
-
     stations = Station.objects.all()
-    transmissions = Transmission.objects.filter(received_date__year__gte = 2023)
+    transmissions = Transmission.objects.filter(received_date__year__gte=2023)
     variables = []
     latest_date = None
     years = []
@@ -19,7 +13,8 @@ def wdqms_reports(request):
     if transmissions:
         variables = transmissions.values_list('variable', flat=True).distinct()
         years = transmissions.values_list('received_date__year', flat=True).distinct()
-        latest_date = transmissions.filter(variable='pressure').order_by('received_date').values_list('received_date__date',  flat=True).last()
+        latest_date = transmissions.filter(variable='pressure').order_by('received_date').values_list(
+            'received_date__date', flat=True).last()
 
     abm_settings = AdminBoundarySettings.for_request(request)
 
@@ -27,8 +22,8 @@ def wdqms_reports(request):
 
     return render(request, "wdqms/report_index.html", {
         'stations': stations,
-        'variables':variables,
-        'latest_date':latest_date,
-        'years':years,
-        'bounds':abm_extents,
+        'variables': variables,
+        'latest_date': latest_date,
+        'years': years,
+        'bounds': abm_extents,
     })
