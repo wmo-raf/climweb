@@ -3,10 +3,10 @@
 {% wagtail_site as current_site %}
 <header class="header-nav">
     <div id="google_language_translator"></div>
+    <div class="nav-top-scroll-active-alert"></div>
     <div class="top-nav-wrapper is-hidden-touch container">
         <div class="level top-nav">
             <div class="level-left">
-               
                 <a class="level-item main-logo" href="{{ current_site.root_url }}"
                    style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
                     {% if settings.base.OrganisationSetting.logo %}
@@ -109,11 +109,10 @@
                         <img src="{{ country_flag.url }}" alt="Logo">
                     </a>
                 {% endif %}
-
-                <div class="latest-active-alert"></div>
+                <div class="nav-left-circle-active-alert"></div>
 
             </div>
-            
+
         </div>
     </div>
     <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
@@ -148,7 +147,7 @@
             </div>
         </div>
     </nav>
-    <div class="is-hidden-desktop latest-active-alert">
+    <div class="is-hidden-desktop nav-left-circle-active-alert">
     </div>
 
 </header>
@@ -182,11 +181,23 @@
                         return response.text();
                     })
                     .then(data => {
-                        const latestActiveAlert = document.querySelectorAll('.latest-active-alert')
                         if (data) {
-                            latestActiveAlert.forEach((alertContainer) => {
-                                alertContainer.innerHTML = data;
-                            });
+                            const $alert = $(data);
+                            const $alertContainer = $alert.filter("div").first();
+
+                            if ($alertContainer.length > 0) {
+                                const alertStyle = $alertContainer.data('alertStyle');
+                                if (alertStyle) {
+                                    if (alertStyle === 'nav_left') {
+                                        const navCircleAlertContainer = $('.nav-left-circle-active-alert')
+                                        navCircleAlertContainer.html(data);
+
+                                    } else if (alertStyle === 'nav_top') {
+                                        const navTopScrollActiveAlertContainer = $('.nav-top-scroll-active-alert')
+                                        navTopScrollActiveAlertContainer.html(data);
+                                    }
+                                }
+                            }
                         }
                     }).catch(error => {
                     console.error("NAVBAR_LATEST_ACTIVE_ALERT_ERROR:", error);

@@ -28,7 +28,7 @@ from wagtail_modeladmin.options import (
 from .models import (
     CapAlertPage,
     CAPGeomanagerSettings,
-    CapAlertListPage, get_currently_active_alerts, CAPAlertWebhook, CAPAlertWebhookEvent
+    CapAlertListPage, get_currently_active_alerts, CAPAlertWebhook, CAPAlertWebhookEvent, OtherCAPSettings
 )
 from .utils import create_cap_geomanager_dataset
 
@@ -170,6 +170,16 @@ class CAPMenuGroup(ModelAdminGroup):
 
             menu_items.append(cap_geomanager_settings_menu)
 
+            #  add other cap settings menu
+            settings_url = reverse("wagtailsettings:edit",
+                                   args=[OtherCAPSettings._meta.app_label,
+                                         OtherCAPSettings._meta.model_name, ], )
+
+            other_cap_settings_menu = MenuItem(label=_("Other Settings"), url=settings_url,
+                                               icon_name="cog")
+
+            menu_items.append(other_cap_settings_menu)
+
         except Exception:
             pass
 
@@ -181,7 +191,7 @@ modeladmin_register(CAPMenuGroup)
 
 @hooks.register('construct_settings_menu')
 def hide_settings_menu_item(request, menu_items):
-    hidden_settings = ["cap-settings", "cap-geomanager-settings"]
+    hidden_settings = ["cap-settings", "cap-geomanager-settings", "other-cap-settings"]
     menu_items[:] = [item for item in menu_items if item.name not in hidden_settings]
 
 

@@ -1,128 +1,119 @@
 {% load static nmhs_cms_tags i18n wagtailiconchooser_tags %}
+{% if city_forecasts_by_date %}
+    <style>
+        .forecast-widget {
+            color: #fff;
+            position: relative;
+        }
 
-<style>
-    .forecast-widget {
-        color: #fff;
-        position: relative;
-    }
+        .forecast-widget .loader-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
 
+        .forecast-widget .loader {
+            width: 50px;
+            height: 50px;
+        }
 
-    .forecast-widget .loader-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        opacity: 0;
-        z-index: -1;
-    }
+        .forecast-widget .loader-wrapper.is-active {
+            opacity: 1;
+            z-index: 9999;
+        }
 
-    .forecast-widget .loader {
-        width: 50px;
-        height: 50px;
-    }
-
-
-    .forecast-widget .loader-wrapper.is-active {
-        opacity: 1;
-        z-index: 9999;
-    }
-
-    .forecast-widget .loader.is-loading {
-        position: absolute;
-    }
+        .forecast-widget .loader.is-loading {
+            position: absolute;
+        }
 
 
-    .forecast-widget .city-search {
-        margin-right: 20px;
-        flex: 1;
-        width: 100%;
-    }
+        .forecast-widget .city-search {
+            margin-right: 20px;
+            flex: 1;
+            width: 100%;
+        }
 
-    .forecast-widget .city-search .dropdown-trigger {
-        width: 100%;
-    }
+        .forecast-widget .city-search .dropdown-trigger {
+            width: 100%;
+        }
 
-    .forecast-widget .city-search input {
-        background-color: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        width: 100%;
-        border: none;
-        color: #fff;
+        .forecast-widget .city-search input {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            border: none;
+            color: #fff;
 
-    }
+        }
 
-    .forecast-widget .city-search input::placeholder {
-        color: #fff;
-        opacity: 1; /* Firefox */
-    }
+        .forecast-widget .city-search input::placeholder {
+            color: #fff;
+            opacity: 1; /* Firefox */
+        }
 
-    .forecast-widget .detail-link {
-        color: #fff;
-        text-decoration: underline;
-    }
+        .forecast-widget .detail-link {
+            color: #fff;
+            text-decoration: underline;
+        }
 
-    .forecast-widget .dropdown-menu {
-        z-index: 99999;
-    }
+        .forecast-widget .dropdown-menu {
+            z-index: 99999;
+        }
 
-    .forecast-widget .city-name {
-        font-weight: bold;
-        font-size: 24px;
-        color: #fff;
-        margin-right: 20px;
-        margin-left: 50px;
-        text-shadow: 0px 1px 10px #333;
-    }
+        .forecast-widget .city-name {
+            font-weight: bold;
+            font-size: 24px;
+            color: #fff;
+            margin-right: 20px;
+            margin-left: 50px;
+            text-shadow: 0px 1px 10px #333;
+        }
 
 
-    .forecast-widget .city-name .icon {
-        margin-right: 10px;
-    }
+        .forecast-widget .city-name .icon {
+            margin-right: 10px;
+        }
 
-    .forecast-widget .forecast-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 100%;
-        min-height: 300px;
-        background-color: #ffffff20;
-        backdrop-filter: blur(10px);
-        border-radius: 8px;
-        overflow: hidden;
-    }
+        .forecast-widget .forecast-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            min-height: 300px;
+            background-color: #ffffff20;
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
-    .forecast-item .forecast-time {
-        font-weight: bold;
-        padding: 10px;
-        background-color: #ffffff40;
-        width: 100%;
-        text-align: center;
-        font-size: 14px;
-    }
+        .forecast-item .forecast-time {
+            font-weight: bold;
+            padding: 10px;
+            background-color: #ffffff40;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+        }
 
-    .forecast-item .forecast-condition {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
+        .forecast-item .forecast-condition {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
 
-    .forecast-item .forecast-condition .condition-img {
-        width: 50px;
-        height: 50px;
-    }
-
-    .forecast-item .forecast-condition .condition-label {
-        font-size: 13px;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        .forecast-item .forecast-condition .condition-img {
+            width: 50px;
+            height: 50px;
+        }
 
     .forecast-item .forecast-param {
         display: flex;
@@ -134,160 +125,169 @@
         font-size: 14px;
     }
 
-    .forecast-item .forecast-param.has-icon {
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .forecast-item .forecast-param-label {
-        text-align: center;
-    }
-
-    .forecast-item .forecast-parameter-icon {
-        margin-right: 10px;
-    }
-
-    .forecast-item .forecast-parameter-icon svg {
-        height: 14px;
-        width: 14px;
-        fill: #fff;
-    }
-
-
-    .slider-arrow {
-        height: 30px;
-        width: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        border-radius: 50%;
-    }
-
-    .slider-arrow svg {
-        height: 100%;
-        width: 100%;
-        fill: #fff;
-    }
-
-    /*768px and lower*/
-    @media screen and (max-width: 768px) {
-        .forecast-widget .city-name {
-            margin-left: 0;
+        .forecast-item .forecast-param {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 5px 10px;
+            font-size: 13px;
         }
-    }
 
-</style>
+        .forecast-item .forecast-param.has-icon {
+            flex-direction: row;
+            align-items: center;
+        }
 
-<div class="forecast-widget">
-    <div class="loader-wrapper" id="weather-widget-loader">
-        <div class="loader is-loading"></div>
-    </div>
-    <div class="columns is-multiline is-mobile">
-        <div class="column is-half-desktop is-full-mobile">
-            <div class="city-name">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-location-dot"></i>
-                </span>
-                {% if city_detail_page_url %}
-                    <a class="detail-link" href="{{ city_detail_page_url }}">
+        .forecast-item .forecast-param-label {
+            text-align: center;
+        }
+
+        .forecast-item .forecast-parameter-icon {
+            margin-right: 10px;
+        }
+
+        .forecast-item .forecast-parameter-icon svg {
+            height: 14px;
+            width: 14px;
+            fill: #fff;
+        }
+
+
+        .slider-arrow {
+            height: 30px;
+            width: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .slider-arrow svg {
+            height: 100%;
+            width: 100%;
+            fill: #fff;
+        }
+
+        /*768px and lower*/
+        @media screen and (max-width: 768px) {
+            .forecast-widget .city-name {
+                margin-left: 0;
+            }
+        }
+    </style>
+
+    <div class="forecast-widget">
+        <div class="loader-wrapper" id="weather-widget-loader">
+            <div class="loader is-loading"></div>
+        </div>
+        <div class="columns is-multiline is-mobile">
+            <div class="column is-half-desktop is-full-mobile">
+                <div class="city-name">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-location-dot"></i>
+                    </span>
+                    {% if city_detail_page_url %}
+                        <a class="detail-link" href="{{ city_detail_page_url }}">
+                            {{ city.name }}
+                        </a>
+                    {% else %}
                         {{ city.name }}
-                    </a>
-                {% else %}
-                    {{ city.name }}
-                {% endif %}
-            </div>
-        </div>
-        <div class="column is-half-desktop is-full-mobile">
-            <div class="dropdown city-search">
-                <div class="dropdown-trigger">
-                    <div class="control has-icons-left">
-                        <input id="city-search" class="input is-fullwidth" type="text"
-                               placeholder="{% translate 'Search location' %}"
-                               aria-haspopup="true"
-                               aria-controls="prova-menu"
-                               autocomplete="off"
-                        >
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-search"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="dropdown-menu" id="city-search-menu" role="menu">
+                    {% endif %}
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="glide" id="single-forecast-slider">
-        <div class="glide__track" data-glide-el="track">
-            <div class="glide__slides">
-                {% for date, forecasts in city_forecasts_by_date.items %}
-                    <div class="glide__slide">
-                        <div class="forecast-item">
-                            <div class="forecast-time">
-                                <div>
-                                    {% if date|date_is_today %}
-                                        {% translate "Today" %}
-                                    {% else %}
-                                        {{ date|date:"D" }}
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    {{ date|date:"d F" }}
-                                </div>
-                            </div>
-                            {% with forecasts.0 as forecast %}
-                                <div class="forecast-condition">
-                                    <div class="condition-img">
-                                        <img src="{{ forecast.condition.icon_url }}" alt="">
-                                    </div>
-                                    <div class="condition-label">{{ forecast.condition.label }}</div>
-                                </div>
-                                {% for param in weather_parameters %}
-                                    <div class="forecast-param {% if param.parameter_info and param.parameter_info.icon %} has-icon{% endif %}">
-                                        <div class="forecast-param-label">
-                                            {% if param.parameter_info and param.parameter_info.icon %}
-                                                <div class="forecast-parameter-icon">
-                                                    {% svg_icon param.parameter_info.icon %}
-                                                </div>
-                                            {% else %}
-                                                <span style="margin-right: 10px">
-                                                    {{ param.name }}:
-                                                </span>
-                                            {% endif %}
-                                        </div>
-                                        {% if forecast.data_values_dict|get_dict_item:param.parameter %}
-                                            {% with forecast.data_values_dict|get_dict_item:param.parameter as data_value %}
-                                                <div class="forecast-param-value">
-                                                    {% if data_value.value_with_units %}
-                                                        {{ data_value.value_with_units }}
-                                                    {% else %}
-                                                        -
-                                                    {% endif %}
-                                                </div>
-                                            {% endwith %}
-                                        {% else %}
-                                            <div class="forecast-param-value">
-                                                -
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                {% endfor %}
-                            {% endwith %}
+            <div class="column is-half-desktop is-full-mobile">
+                <div class="dropdown city-search">
+                    <div class="dropdown-trigger">
+                        <div class="control has-icons-left">
+                            <input id="city-search" class="input is-fullwidth" type="text"
+                                   placeholder="{% translate 'Search location' %}"
+                                   aria-haspopup="true"
+                                   aria-controls="prova-menu"
+                                   autocomplete="off"
+                            >
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
                         </div>
                     </div>
-                {% endfor %}
+                    <div class="dropdown-menu" id="city-search-menu" role="menu">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="glide__arrows" data-glide-el="controls">
-            <button class="slider-arrow glide__arrow glide__arrow--left" data-glide-dir="<">
-                {% svg_icon "arrow-left" %}
-            </button>
-            <button class="slider-arrow glide__arrow glide__arrow--right" data-glide-dir=">">
-                {% svg_icon "arrow-right" %}
-            </button>
+
+        <div class="glide" id="single-forecast-slider">
+            <div class="glide__track" data-glide-el="track">
+                <div class="glide__slides">
+                    {% for date, forecasts in city_forecasts_by_date.items %}
+                        <div class="glide__slide">
+                            <div class="forecast-item">
+                                <div class="forecast-time">
+                                    <div>
+                                        {% if date|date_is_today %}
+                                            {% translate "Today" %}
+                                        {% else %}
+                                            {{ date|date:"D" }}
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        {{ date|date:"d F" }}
+                                    </div>
+                                </div>
+                                {% with forecasts.0 as forecast %}
+                                    <div class="forecast-condition">
+                                        <div class="condition-img">
+                                            <img src="{{ forecast.condition.icon_url }}" alt="">
+                                        </div>
+                                        <div class="condition-label">{{ forecast.condition.label }}</div>
+                                    </div>
+                                    {% for param in weather_parameters %}
+                                        <div class="forecast-param {% if param.parameter_info and param.parameter_info.icon %} has-icon{% endif %}">
+                                            <div class="forecast-param-label">
+                                                {% if param.parameter_info and param.parameter_info.icon %}
+                                                    <div class="forecast-parameter-icon">
+                                                        {% svg_icon param.parameter_info.icon %}
+                                                    </div>
+                                                {% else %}
+                                                    <span style="margin-right: 10px">
+                                                        {{ param.name }}:
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                            {% if forecast.data_values_dict|get_dict_item:param.parameter %}
+                                                {% with forecast.data_values_dict|get_dict_item:param.parameter as data_value %}
+                                                    <div class="forecast-param-value">
+                                                        {% if data_value.value_with_units %}
+                                                            {{ data_value.value_with_units }}
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </div>
+                                                {% endwith %}
+                                            {% else %}
+                                                <div class="forecast-param-value">
+                                                    -
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="glide__arrows" data-glide-el="controls">
+                <button class="slider-arrow glide__arrow glide__arrow--left" data-glide-dir="<">
+                    {% svg_icon "arrow-left" %}
+                </button>
+                <button class="slider-arrow glide__arrow glide__arrow--right" data-glide-dir=">">
+                    {% svg_icon "arrow-right" %}
+                </button>
+            </div>
         </div>
     </div>
-
-</div>
+{% endif %}

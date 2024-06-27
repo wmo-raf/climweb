@@ -245,119 +245,117 @@
                 {% if city_detail_page_url %}
                     <a class="detail-link" href="{{ city_detail_page_url }}">
                         {{ city.name }}
-                    </a>
-                {% else %}
-                    {{ city.name }}
-                {% endif %}
+                    {% endif %}
+                </div>
             </div>
-        </div>
-        <div class="column is-half-desktop is-full-mobile">
-            <div class="dropdown city-search">
-                <div class="dropdown-trigger">
-                    <div class="control has-icons-left">
-                        <input id="city-search" class="input is-fullwidth" type="text"
-                               placeholder="{% translate 'Search location' %}"
-                               aria-haspopup="true"
-                               aria-controls="prova-menu"
-                               autocomplete="off"
-                        >
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-search"></i>
-                        </span>
+            <div class="column is-half-desktop is-full-mobile">
+                <div class="dropdown city-search">
+                    <div class="dropdown-trigger">
+                        <div class="control has-icons-left">
+                            <input id="city-search" class="input is-fullwidth" type="text"
+                                   placeholder="{% translate 'Search location' %}"
+                                   aria-haspopup="true"
+                                   aria-controls="prova-menu"
+                                   autocomplete="off"
+                            >
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu" id="city-search-menu" role="menu">
                     </div>
                 </div>
-                <div class="dropdown-menu" id="city-search-menu" role="menu">
-                </div>
             </div>
         </div>
-    </div>
-    <div class="tabs is-boxed is-fullwidth">
-        <ul>
+        <div class="tabs is-boxed is-fullwidth">
+            <ul>
+                {% for f_date, forecasts in city_forecasts_by_date.items %}
+                    <li class="{% if forloop.first %}is-active{% endif %}"
+                        data-target="tab-forecast-{{ f_date|date:"d-m-Y" }}">
+                        <a>
+                            <div class="day-name">
+                                {% if f_date|date_is_today %}
+                                    {% translate "Today" %}
+                                {% else %}
+                                    {{ f_date|date:"D" }}
+                                {% endif %}
+                            </div>
+                            <div class="month-name">
+                                {{ f_date|date:"d F" }}
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="tabs-content elevation-1">
             {% for f_date, forecasts in city_forecasts_by_date.items %}
-                <li class="{% if forloop.first %}is-active{% endif %}"
-                    data-target="tab-forecast-{{ f_date|date:"d-m-Y" }}">
-                    <a>
-                        <div class="day-name">
-                            {% if f_date|date_is_today %}
-                                {% translate "Today" %}
-                            {% else %}
-                                {{ f_date|date:"D" }}
-                            {% endif %}
-                        </div>
-                        <div class="month-name">
-                            {{ f_date|date:"d F" }}
-                        </div>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="tabs-content elevation-1">
-        {% for f_date, forecasts in city_forecasts_by_date.items %}
-            <div class="tab-content {% if not forloop.first %}is-hidden{% endif %}"
-                 id="tab-forecast-{{ f_date|date:"d-m-Y" }}"
-                 data-slider="day-forecast-slider-{{ f_date|date:"d-m-Y" }}">
-                <div class="day-forecast-slider glide {% if forloop.first %} initial-active{% endif %}"
-                     id="day-forecast-slider-{{ f_date|date:"d-m-Y" }}">
-                    <div class="glide__track" data-glide-el="track">
-                        <div class="glide__slides">
-                            {% for forecast in forecasts %}
-                                <div class="glide__slide">
-                                    <div class="forecast-item">
-                                        <div class="forecast-time">
-                                            {{ forecast.datetime|date:"H:i" }}
-                                        </div>
-                                        <div class="forecast-condition">
-                                            <div class="condition-img">
-                                                <img src="{{ forecast.condition.icon_url }}" alt="">
+                <div class="tab-content {% if not forloop.first %}is-hidden{% endif %}"
+                     id="tab-forecast-{{ f_date|date:"d-m-Y" }}"
+                     data-slider="day-forecast-slider-{{ f_date|date:"d-m-Y" }}">
+                    <div class="day-forecast-slider glide {% if forloop.first %} initial-active{% endif %}"
+                         id="day-forecast-slider-{{ f_date|date:"d-m-Y" }}">
+                        <div class="glide__track" data-glide-el="track">
+                            <div class="glide__slides">
+                                {% for forecast in forecasts %}
+                                    <div class="glide__slide">
+                                        <div class="forecast-item">
+                                            <div class="forecast-time">
+                                                {{ forecast.datetime|date:"H:i" }}
                                             </div>
-                                            <div class="condition-label">{{ forecast.condition.label }}</div>
-                                        </div>
-                                        {% for param in weather_parameters %}
-                                            <div class="forecast-param {% if param.parameter_info and param.parameter_info.icon %} has-icon{% endif %}">
-                                                <div class="forecast-param-label">
-                                                    {% if param.parameter_info and param.parameter_info.icon %}
-                                                        <div class="forecast-parameter-icon">
-                                                            {% svg_icon param.parameter_info.icon %}
-                                                        </div>
+                                            <div class="forecast-condition">
+                                                <div class="condition-img">
+                                                    <img src="{{ forecast.condition.icon_url }}" alt="">
+                                                </div>
+                                                <div class="condition-label">{{ forecast.condition.label }}</div>
+                                            </div>
+                                            {% for param in weather_parameters %}
+                                                <div class="forecast-param {% if param.parameter_info and param.parameter_info.icon %} has-icon{% endif %}">
+                                                    <div class="forecast-param-label">
+                                                        {% if param.parameter_info and param.parameter_info.icon %}
+                                                            <div class="forecast-parameter-icon">
+                                                                {% svg_icon param.parameter_info.icon %}
+                                                            </div>
+                                                        {% else %}
+                                                            <span style="margin-right: 10px">
+                                                                {{ param.name }}
+                                                            </span>
+                                                        {% endif %}
+                                                    </div>
+                                                    {% if forecast.data_values_dict|get_dict_item:param.parameter %}
+                                                        {% with forecast.data_values_dict|get_dict_item:param.parameter as data_value %}
+                                                            <div class="forecast-param-value">
+                                                                {% if data_value.value_with_units %}
+                                                                    {{ data_value.value_with_units }}
+                                                                {% else %}
+                                                                    -
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endwith %}
                                                     {% else %}
-                                                        <span style="margin-right: 10px">
-                                                            {{ param.name }}
-                                                        </span>
+                                                        <div class="forecast-param-value">
+                                                            -
+                                                        </div>
                                                     {% endif %}
                                                 </div>
-                                                {% if forecast.data_values_dict|get_dict_item:param.parameter %}
-                                                    {% with forecast.data_values_dict|get_dict_item:param.parameter as data_value %}
-                                                        <div class="forecast-param-value">
-                                                            {% if data_value.value_with_units %}
-                                                                {{ data_value.value_with_units }}
-                                                            {% else %}
-                                                                -
-                                                            {% endif %}
-                                                        </div>
-                                                    {% endwith %}
-                                                {% else %}
-                                                    <div class="forecast-param-value">
-                                                        -
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                        {% endfor %}
+                                            {% endfor %}
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="glide__arrows" data-glide-el="controls">
+                            <button class="slider-arrow glide__arrow glide__arrow--left" data-glide-dir="<">
+                                {% svg_icon "arrow-left" %}
+                            </button>
+                            <button class="slider-arrow glide__arrow glide__arrow--right" data-glide-dir=">">
+                                {% svg_icon "arrow-right" %}
+                            </button>
                         </div>
                     </div>
-                    <div class="glide__arrows" data-glide-el="controls">
-                        <button class="slider-arrow glide__arrow glide__arrow--left" data-glide-dir="<">
-                            {% svg_icon "arrow-left" %}
-                        </button>
-                        <button class="slider-arrow glide__arrow glide__arrow--right" data-glide-dir=">">
-                            {% svg_icon "arrow-right" %}
-                        </button>
-                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-</div>
+{% endif %}

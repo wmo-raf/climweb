@@ -4,6 +4,34 @@
         position: relative;
     }
 
+    .forecast-widget-skeleton .loader-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .forecast-widget-skeleton .loader {
+        width: 50px;
+        height: 50px;
+    }
+
+
+    .forecast-widget-skeleton .loader-wrapper.is-active {
+        opacity: 1;
+        z-index: 9999;
+    }
+
+    .forecast-widget-skeleton .loader.is-loading {
+        position: absolute;
+    }
+
     .forecast-widget-skeleton .tabs ul {
         align-items: flex-end;
     }
@@ -57,6 +85,9 @@
 </style>
 
 <div class="forecast-widget-skeleton">
+    <div class="loader-wrapper is-active">
+        <div class="loader is-loading"></div>
+    </div>
     <div class="columns is-multiline is-mobile mx-1 mb-5" style="background: #ffffff20; backdrop-filter: blur(10px);">
         <div class="column is-half-desktop is-full-mobile my-2">
         </div>
