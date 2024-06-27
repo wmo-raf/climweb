@@ -9,13 +9,18 @@
             {% endif %}
         </span>
     </div>
-    <div class="columns is-multiline is-mobile intro-items">
-        {% with page.what_we_do_items|length|divisibleby:3 as is_by3 %}
-            {% for block in page.what_we_do_items %}
-                {% include_block block with is_by3=is_by3 %}
-            {% endfor %}
-        {% endwith %}
-    </div>
+            <div class="columns is-mobile is-centered project-goals">
+                <div class="column is-three-quarters-desktop is-full-mobile">
+                    <div class="accordion js-accordion">
+                        {% for block in  page.what_we_do_items %}
+                            {% include_block block with is_first=forloop.first %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+
     {% if page.what_we_do_button_text and page.what_we_do_button_link %}
         <div class="center">
             <a href="{{ page.what_we_do_button_link.url }}"

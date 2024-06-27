@@ -124,23 +124,23 @@ select#city-option option{
 
 /* Width and height of the scrollbar */
 ::-webkit-scrollbar {
-    width: 12px; /* Width of the vertical scrollbar */
-    height: 2px; /* Height of the horizontal scrollbar */
+    width: 1px; /* Width of the vertical scrollbar */
+    height: 1px; /* Height of the horizontal scrollbar */
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #f1f1f110;
     border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
+    background: #ffffff;
     border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: var(--primary-color);
 }
