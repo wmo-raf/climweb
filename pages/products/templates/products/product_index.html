@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailiconchooser_tags i18n %}
+{% load static wagtailiconchooser_tags i18n wagtailcore_tags %}
 
 {% block extra_css %}
     {% if page.map_layers %}
@@ -14,11 +14,24 @@
 
 {% block content %}
     <main class="is-index">
-        <section class="nmhs-work is-desktop">
-            <div class="work container">
-                {% include 'service_introduction.html' with page=page what_we_do=False %}
-            </div>
-        </section>
+        {% if page.introduction_image %}
+            <section class="nmhs-work is-desktop">
+                <div class="work container">
+                    {% include 'service_introduction.html' with page=page what_we_do=False %}
+                </div>
+            </section>
+        {% else %}
+            <section>
+                <div class="work container">
+                    <h2 class="section-subheader">
+                        {{ page.introduction_title }}
+                    </h2>
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
         <section class="listing-section">
             {% if page.map_layers %}
                 <div class="tabs is-centered is-boxed is-medium">
@@ -63,10 +76,10 @@
                     <div class="container">
                         {% include "products/products_map_include.html" with layers=page.map_layers_list %}
                     </div>
-
                 </div>
             </div>
         </section>
+
     </main>
 {% endblock content %}
 

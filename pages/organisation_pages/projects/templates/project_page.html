@@ -15,14 +15,26 @@
 
 {% block content %}
     <main class="is-index">
-
         {% include 'hero.html' with page=page %}
-        <section class="ORG-work is-desktop">
-            <div class="work container">
-                {% include 'service_introduction.html' with page=page %}
-            </div>
-        </section>
+        {% if page.introduction_image %}
+            <section class="nmhs-work introduction-section">
+                <div class="work container">
+                    {% include 'service_introduction.html' with page=page %}
+                </div>
+            </section>
+        {% else %}
+            <section class="nmhs-work introduction-section">
+                <div class="work container">
+                    <h2 class="section-subheader">
+                        {{ page.introduction_title }}
+                    </h2>
 
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
         {% if page.goals_block %}
             <section class="project-goals-">
                 <h2 class="section-title has-text-centered">
