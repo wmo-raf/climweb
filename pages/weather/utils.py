@@ -4,17 +4,15 @@ from forecastmanager.models import CityForecast
 from wagtail.models import Site
 
 
-def get_city_forecast_detail_data(city, request=None):
-    city_forecasts = CityForecast.objects.filter(
-        city=city,
-        parent__forecast_date__gte=timezone.localtime()
-    )
+def get_city_forecast_detail_data(city, multi_period=False, request=None):
+    localtime = timezone.localtime()
+
+    city_forecasts = CityForecast.objects.filter(city=city, parent__forecast_date__gte=localtime.date())
 
     city_forecasts_by_date = {}
-    current_datetime = timezone.localtime().replace(minute=0, second=0, microsecond=0)
 
     for forecast in city_forecasts:
-        if forecast.datetime < current_datetime:
+        if multi_period and forecast.datetime < localtime:
             continue
 
         forecast_date = forecast.parent.forecast_date
