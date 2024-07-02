@@ -116,7 +116,7 @@ class ServicePage(AbstractBannerWithIntroPage):
         :return: products list
         """
         # Get all products related to this service
-        products = ProductPage.objects.filter(Q(service=self.service) | Q(other_services__in=[self.service]))
+        products = ProductPage.objects.filter(Q(service=self.service) | Q(other_services__in=[self.service])).distinct()
 
         return products
 
