@@ -177,6 +177,7 @@ def get_cap_xml(request, guid):
 
     if not xml:
         xml, signed = serialize_and_sign_cap_alert(alert, request)
+        xml = xml.decode("utf-8")
 
         if signed:
             # cache signed alerts for 5 days
