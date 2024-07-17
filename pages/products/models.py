@@ -130,6 +130,17 @@ class ProductPage(AbstractIntroPage):
     ], help_text=_("How many of this products should be visible on the landing page filter section ?"),
                                                     verbose_name=_("Products per page"))
 
+    default_listing_thumbnail = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_("Default Listing Thumbnail"),
+        help_text=_("An image that will be used as a thumbnail for in the products listing, "
+                    "if no image can be extracted from product items"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
     map_layers = StreamField([
         ('layers', LayerBlock(label="Layer"))
     ], blank=True, null=True, use_json_field=True, verbose_name=_("Map Layers"))
@@ -142,6 +153,7 @@ class ProductPage(AbstractIntroPage):
         MultiFieldPanel(
             [
                 FieldPanel('products_per_page'),
+                FieldPanel('default_listing_thumbnail'),
             ],
             heading=_("Other settings"),
         ),
@@ -327,3 +339,12 @@ class ProductItemPage(MetadataPageMixin, Page):
     def product_category(self):
         parent = self.get_parent().specific
         return parent.product.name
+
+    @property
+    def products_listing_image(self):
+        products = self.products
+        for product in products:
+            if product.value.p_image:
+                return product.value.p_image
+
+        return None
