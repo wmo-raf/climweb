@@ -75,11 +75,13 @@ def get_home_forecast_widget(request):
 
         multi_period = forecast_periods_count > 1
 
-        data = get_city_forecast_detail_data(city, multi_period=multi_period, request=request)
+        data = get_city_forecast_detail_data(city, multi_period=multi_period, request=request,
+                                             for_home_widget=True)
 
         context.update({
             "city": city,
-            **data
+            "show_condition_label": forecast_setting.show_conditions_label_on_widget,
+            **data,
         })
 
         if multi_period:
