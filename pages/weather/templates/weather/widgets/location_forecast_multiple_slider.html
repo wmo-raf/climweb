@@ -150,11 +150,10 @@
             flex-direction: column;
             align-items: center;
             height: 100%;
-            min-height: 300px;
+            min-height: 250px;
             background-color: #ffffff20;
             border-radius: 8px;
             overflow: hidden;
-            padding-bottom: 20px;
         }
 
         .forecast-item .forecast-time {
@@ -171,12 +170,30 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
+            width: 100%;
+            position: relative;
         }
 
         .forecast-item .forecast-condition .condition-img {
             width: 70px;
             height: 70px;
+        }
+
+        .forecast-item .forecast-condition .condition-label {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+
+        .forecast-item .forecast-params {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0 10px 20px;
         }
 
         .forecast-item .forecast-param {
@@ -275,6 +292,18 @@
                         {{ city.name }}
                     {% endif %}
                 </div>
+                <div style="padding: 20px 0">
+                    <a class="button is-small is-outlined"
+                       style="background-color: transparent;color: #fff"
+                       href="{{ city_detail_page_url }}">
+                    <span>
+                        {% translate "Detail" %}
+                    </span>
+                        <span class="icon is-small">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </span>
+                    </a>
+                </div>
             </div>
             <div class="column is-half-desktop is-full-mobile">
                 <div class="dropdown city-search">
@@ -296,6 +325,8 @@
                 </div>
             </div>
         </div>
+
+
         <div class="tabs is-boxed is-fullwidth">
             <ul>
                 {% for f_date, forecasts in city_forecasts_by_date.items %}
@@ -332,43 +363,50 @@
                                             <div class="forecast-time">
                                                 {{ forecast.datetime|date:"H:i" }}
                                             </div>
-                                            <div class="forecast-condition">
-                                                <div class="condition-img">
-                                                    <img src="{{ forecast.condition.icon_url }}"
-                                                         alt="{{ forecast.condition.label }}"
-                                                         title="{{ forecast.condition.label }}">
-                                                </div>
-                                            </div>
-                                            {% for param in weather_parameters %}
-                                                <div class="forecast-param {% if param.parameter_info and param.parameter_info.icon %} has-icon{% endif %}">
-                                                    <div class="forecast-param-label">
-                                                        {% if param.parameter_info and param.parameter_info.icon %}
-                                                            <div class="forecast-parameter-icon">
-                                                                {% svg_icon param.parameter_info.icon %}
-                                                            </div>
-                                                        {% else %}
-                                                            <span style="margin-right: 10px">
-                                                                {{ param.name }}
-                                                            </span>
-                                                        {% endif %}
+                                            <div class="forecast-params">
+                                                <div class="forecast-condition">
+                                                    <div class="condition-img">
+                                                        <img src="{{ forecast.condition.icon_url }}"
+                                                             alt="{{ forecast.condition.label }}"
+                                                             title="{{ forecast.condition.label }}">
                                                     </div>
-                                                    {% if forecast.data_values_dict|get_dict_item:param.parameter %}
-                                                        {% with forecast.data_values_dict|get_dict_item:param.parameter as data_value %}
-                                                            <div class="forecast-param-value">
-                                                                {% if data_value.value_with_units %}
-                                                                    {{ data_value.value_with_units }}
-                                                                {% else %}
-                                                                    -
-                                                                {% endif %}
-                                                            </div>
-                                                        {% endwith %}
-                                                    {% else %}
-                                                        <div class="forecast-param-value">
-                                                            -
+                                                    {% if show_condition_label %}
+                                                        <div class="condition-label">
+                                                            {{ forecast.condition.label }}
                                                         </div>
                                                     {% endif %}
                                                 </div>
-                                            {% endfor %}
+                                                {% for param in weather_parameters %}
+                                                    <div class="forecast-param {% if param.parameter_info and param.parameter_info.icon %} has-icon{% endif %}">
+                                                        <div class="forecast-param-label">
+                                                            {% if param.parameter_info and param.parameter_info.icon %}
+                                                                <div class="forecast-parameter-icon">
+                                                                    {% svg_icon param.parameter_info.icon %}
+                                                                </div>
+                                                            {% else %}
+                                                                <span style="margin-right: 10px">
+                                                                {{ param.name }}
+                                                            </span>
+                                                            {% endif %}
+                                                        </div>
+                                                        {% if forecast.data_values_dict|get_dict_item:param.parameter %}
+                                                            {% with forecast.data_values_dict|get_dict_item:param.parameter as data_value %}
+                                                                <div class="forecast-param-value">
+                                                                    {% if data_value.value_with_units %}
+                                                                        {{ data_value.value_with_units }}
+                                                                    {% else %}
+                                                                        -
+                                                                    {% endif %}
+                                                                </div>
+                                                            {% endwith %}
+                                                        {% else %}
+                                                            <div class="forecast-param-value">
+                                                                -
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}
