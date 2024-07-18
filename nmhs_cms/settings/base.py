@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "pages.glossary",
     "pages.webstories",
     "pages.wdqms",
+    "pages.aviation",
 
     "adminboundarymanager",
     "geomanager",
@@ -144,8 +145,7 @@ INSTALLED_APPS = [
     "dbbackup",
     "wagtailmodelchooser",
     "django_extensions",
-    "climweb_wdqms"
-
+    "climweb_wdqms",
 ]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
