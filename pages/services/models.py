@@ -15,7 +15,7 @@ from pages.events.models import EventPage
 from pages.flex_page.models import FlexPage
 from pages.news.models import NewsPage
 from pages.organisation_pages.projects.models import ServiceProject
-from pages.products.models import ProductPage
+from pages.products.models import ProductPage, SubNationalProductPage
 from pages.publications.models import PublicationPage
 from pages.services import blocks as local_blocks
 from pages.videos.models import YoutubePlaylist
@@ -116,9 +116,11 @@ class ServicePage(AbstractBannerWithIntroPage):
         :return: products list
         """
         # Get all products related to this service
-        products = ProductPage.objects.filter(Q(service=self.service) | Q(other_services__in=[self.service])).distinct()
+        national_products = ProductPage.objects.filter(
+            Q(service=self.service) | Q(other_services__in=[self.service]), live=True).distinct()
+        sub_national_products = SubNationalProductPage.objects.filter(Q(service=self.service), live=True).distinct()
 
-        return products
+        return list(national_products) + list(sub_national_products)
 
     @cached_property
     def core_products(self):
@@ -127,9 +129,10 @@ class ServicePage(AbstractBannerWithIntroPage):
         :return: core products list
         """
         # Get all products related to this service
-        core_products = ProductPage.objects.filter(service=self.service)
+        national_products = ProductPage.objects.filter(service=self.service, live=True)
+        sub_national_products = SubNationalProductPage.objects.filter(service=self.service, live=True)
 
-        return core_products
+        return list(national_products) + list(sub_national_products)
 
     @cached_property
     def flex_pages(self):
