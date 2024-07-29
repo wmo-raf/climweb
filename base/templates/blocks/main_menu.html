@@ -11,6 +11,9 @@
                     {% if value.page %}
                         {% if value.page.specific.is_services_index %}
                             {% include "blocks/services_with_products_menu.html" %}
+
+                        {% elif value.page.specific.is_products_index %}
+                            {% include "blocks/products_menu.html" with products_index=value.page %}
                         {% else %}
                             <div class="columns is-multiline megamenu-columns">
                                 {% for sub_page in value.page.get_children %}
