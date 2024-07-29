@@ -53,7 +53,12 @@
                                 {{ product.products.0.value.description|truncatewords_html:35|richtext }}
                             </div>
                             <div class="result-list-item-meta">
-                                <span class=""> {{ product.date }}</span>
+                                <div>
+                                    <span> {{ product.date }}</span>
+                                    {% if product.valid_until and product.valid_until != product.date %}
+                                        <span> - {{ product.valid_until }}</span>
+                                    {% endif %}
+                                </div>
                                 <a class="result-list-item-more read" href="{{ product.url }}">
                                     {% translate "Read More" %}
                                 </a>
