@@ -1,11 +1,13 @@
 from django.conf import settings
 from django.core.cache import cache
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from wagtail.admin import messages
 
 from base.forms import CMSUpgradeForm
 from base.utils import get_latest_cms_release, send_upgrade_command
+from nmhs_cms import __version__
 from nmhs_cms.utils.version import check_version_greater_than_current, get_main_version
 
 
@@ -107,3 +109,9 @@ def cms_version_view(request):
     context.update({"cms_upgrade_pending": cache.get("cms_upgrade_pending")})
 
     return render(request, template_name, context=context)
+
+
+def public_health_check(request):
+    return JsonResponse({
+        "version": __version__,
+    })
