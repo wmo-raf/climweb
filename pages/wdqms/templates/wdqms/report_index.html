@@ -328,10 +328,7 @@
                         
                         
                         // Add popup
-                        var popup = new maplibregl.Popup({
-                            closeButton: false,
-                            closeOnClick: false
-                        });
+                        var popup = new maplibregl.Popup();
 
                         // Change cursor on hover
                         map.on('mouseenter', 'points', function(e) {

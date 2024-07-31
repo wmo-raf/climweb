@@ -1,0 +1,672 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block extra_css %}
+<link href='{% static "css/maplibre-gl.css" %}' rel="stylesheet" />
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .page-container {
+        flex: 1;
+        background-color: #f4f4f4;
+        overflow: auto;
+        min-height: unset;
+    }
+
+    #aviation-map {
+        height: 100%;
+        background-color: #f0f0f0;
+    }
+
+    .card-content .content p {
+        margin-bottom: 0;
+    }
+    .card-content .content p b {
+        font-weight: 600;
+    }
+
+    .messages .card {
+        margin: 1em 1em;
+    }
+
+    .time-slider-control {
+        position: absolute;
+        bottom: 0;
+        left:0;
+        right:0;
+        z-index: 1
+    }
+
+    .current-time {
+        color: #fff;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1rem;
+        z-index: 1;
+        font-weight:600
+    }
+
+    .category-legend{
+        background-color: #ffffff20;
+        border-radius: 10px;
+        z-index: 1;
+        margin: 1em 1em;
+        width:150px;
+    backdrop-filter: blur(10px);
+    }
+
+    .time-slider-container {
+        padding: 20px;
+        background-color: #ffffff20;
+        border-radius: 10px;
+        z-index: 1;
+        margin: 1em 1em;
+        backdrop-filter: blur(10px);
+      
+    }
+
+    .time-labels {
+        display: flex;
+        justify-content: space-between;
+        color: #fff;
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 4px;
+        outline: none;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        background: #85e6ff;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    input[type='checkbox'] {
+        width: unset; 
+        height: unset; 
+        vertical-align: unset; 
+    }
+    
+    .checkbox > input {
+        margin-right: 0; 
+    }
+
+    .airplane-marker {
+        background-image: url("{% static 'img/airport.png' %}");
+        background-size: cover;
+        width: 30px;
+        height: 30px;
+    }
+    .format-toggle button{
+        background-color:#e3e3e3
+
+    }
+
+    .format-toggle button.active{
+        background-color: #333;
+        border-radius: 9999px !important;
+        font-weight: 800;
+        color: #ffffff !important;
+    }
+
+    .maplibregl-popup-content {
+        width:400px
+    }
+
+    code{
+        color: #0B1CA3
+    }
+
+
+    
+</style>
+{% endblock extra_css %} 
+{% block navbar %} 
+
+{% include 'navigation/app_navbar.html' %} 
+
+{% endblock %} 
+
+{% block content %}
+
+<main>
+    <div style="background-color: white; height: 100%; overflow:hidden">
+        <div class="columns" style="height: 100%; margin: 0">
+            <div class="column is-8" style="border-radius: 1em">
+                <div class="card" style="height: 100%">
+                    <div class="card-content" style="height: 100%; padding: 0">
+                        <div id="aviation-map" style="border-radius: 1em; display:flex; flex-direction:column">
+                           <div class="category-legend p-4" >
+                            {% for category in stn_categories %}
+                                <div class-"category-item" style="display:flex; align-items: baseline;">
+                                    <div class="category-color mr-1" style="width:1em; height:1em; border-radius:100%; border:1px solid #dfe6f3;background-color:{{category.color}}; "></div>
+                                    <p class="category-name has-text-white" style="font-weight:500">{{ category.name}}</p>
+                                </div>
+                            {% endfor %}
+                           </div>
+                           
+                            <div class="time-slider-control">
+                           
+                            <div class="current-time" id="currentTime">
+                            </div>
+                            <div class="time-slider-container">
+                                <input
+                                    type="range"
+                                    class="slider is-fullwidth is-small"
+                                    min="0"
+                                    max="10"
+                                    value="10"
+                                    step="1"
+                                    id="timeSlider"
+                                />
+
+                                <div class="time-labels">
+                                    <span data-value="23">00Z</span>
+                                    <span data-value="0">00Z</span>
+                                    <span data-value="1">00Z</span>
+                                    <span data-value="2">00Z</span>
+                                    <span data-value="3">00Z</span>
+                                    <span data-value="4">00Z</span>
+                                    <span data-value="5">00Z</span>
+                                    <span data-value="6">00Z</span>
+                                    <span data-value="7">00Z</span>
+                                    <span data-value="8">00Z</span>
+                                </div>
+                            </div>
+                        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column" style="padding-left: 0; max-height: 75vh">
+                <div style="height: 100%">
+                   
+                    <div
+                        class="controls"
+                        style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        "
+                    >
+                        <div
+                            style="
+                                background-color: #e3e3e3;
+                                width: max-content;
+                                border-radius: 9999px !important;
+                                display: flex;
+                            "
+                            class="format-toggle"
+                        >
+                            <button
+                                class="button m-0 is-small active"
+                                style="
+                                    border-radius: 9999px !important;
+                                    font-weight: 800;
+                                "
+                                id="toggle-metar"
+                            >
+                                METAR
+                            </button>
+                            <button
+                                class="button m-0 is-small"
+                                style="
+                                    color: #333;
+                                    border-radius: 9999px !important;
+                                    font-weight: 800;    
+                                "
+                                id="toggle-taf"
+                            >
+                                TAF
+                            </button>
+                        </div>
+
+
+                        <div class="field mt-3 mb-0">
+                            <p class="control has-icons-left has-icons-right">
+                              <input class="input is-small" id="search-box" type="text" placeholder="Start typing station code...">
+                              <span class="icon is-small is-left">
+                                <i class="fa-solid fa-plane"></i>
+                              </span>
+                              <span class="icon is-small is-right">
+                                <i class="fas fa-search"></i>
+                              </span>
+                            </p>
+                          </div>
+                        
+                    </div>
+                    
+                    <hr>
+
+                    <div
+                        class="messages mt-4"
+                        style="overflow-y: auto; height: 100%"
+                    >
+                    <p style="text-align:center"><em>Fetching messages...</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %} {% block footer %} {% endblock %} {% block extra_js %}
+<script src="{% static 'js/maplibre-gl.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const map = new maplibregl.Map({
+            container: "aviation-map", // container ID
+            style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+            center: [37.86,10],
+            zoom: 5,
+            scrollZoom: false,
+            attributionControl: false, //
+        });
+    
+        // Add zoom control to the map.
+        map.addControl(
+            new maplibregl.NavigationControl({ showCompass: false }),
+            "top-right"
+        );
+    
+        // add fullscreen control
+        map.addControl(new maplibregl.FullscreenControl(), "top-right");
+        // Fit map bounds
+        let country_bounds = {{bounds|safe}}
+        map.fitBounds(country_bounds, { padding: 10 });
+
+        for (let i = 1; i < 22; i++) {
+            map.loadImage(`{% static "img/barbs/barbs-${i}.png" %}`).then(image => {
+               
+                if (!map.hasImage(`barbs-${i}`)) {
+                    map.addImage(`barbs-${i}`, image.data);
+                }
+            })
+        
+        }
+
+        for (let i = 0; i < 9; i++) {
+            map.loadImage(`{% static "img/okta/okta-${i}.png" %}`).then(image => {
+            
+                if (!map.hasImage(`okta-${i}`)) {
+                    map.addImage(`okta-${i}`, image.data);
+                }
+            })
+        
+    }
+        const slider = document.getElementById('timeSlider');
+        const currentTime = document.getElementById('currentTime');
+        const timeLabels = document.querySelectorAll('.time-labels span');
+        const latestDatetime = new Date("{{ latest_metar_datetime }}");
+
+        function formatDatetimeToUTC(datetime) {
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                year: 'numeric', 
+                month: 'short', 
+                day: '2-digit', 
+                timeZone: 'UTC', 
+                timeZoneName: 'short' 
+            };
+            return datetime.toLocaleString('en-GB', options);
+        }
+
+        // Set initial current time display
+        currentTime.textContent = formatDatetimeToUTC(latestDatetime);
+        let msgFormat = 'METAR';
+    
+        fetch('{% url "get_latest_message_datetimes" %}')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.latest_metar_datetime || !data.latest_taf_datetime) {
+                    console.error('No latest date returned from the server');
+                    return;
+                }
+    
+                const latestDate = new Date(data[`latest_${msgFormat.toLowerCase()}_datetime`]);
+                const latestDateTimeArray = getLatestDateTimeArray(latestDate);
+    
+                // Populate time labels dynamically based on the latest datetime
+                timeLabels.forEach((label, index) => {
+                    const dateTime = latestDateTimeArray[index];
+                    label.textContent = `${dateTime.toISOString().slice(11, 16)}Z`;
+                    label.dataset.value = dateTime.toISOString();
+                });
+    
+                // Set initial slider value based on latest datetime
+                slider.max = 9; // Since we have 16 labels
+                slider.value = 9;
+    
+                const updateCurrentTime = () => {
+                    const value = slider.value;
+                    currentTime.textContent = `${timeLabels[value].textContent} UTC ${latestDate.toDateString()}`;
+                    loadMessages(timeLabels[value].dataset.value);
+                };
+    
+                slider.addEventListener('input', updateCurrentTime);
+                updateCurrentTime(); // Initialize display
+    
+                document.getElementById('toggle-metar').addEventListener('click', () => {
+                    msgFormat = 'METAR';
+                    updateLabels();
+                    document.getElementById('toggle-metar').classList.add("active")
+                    document.getElementById('toggle-taf').classList.remove("active")
+                    const value = slider.value;
+                    currentTime.textContent = `${timeLabels[value].textContent} UTC ${latestDate.toDateString()}`;
+                    
+                });
+    
+                document.getElementById('toggle-taf').addEventListener('click', () => {
+                    msgFormat = 'TAF';
+                    updateLabels();
+                    document.getElementById('toggle-metar').classList.remove("active")
+                    document.getElementById('toggle-taf').classList.add("active")
+                    const value = slider.value;
+                    currentTime.textContent = `${timeLabels[value].textContent} UTC ${latestDate.toDateString()}`;
+                    
+                });
+    
+                document.getElementById('search-box').addEventListener('input', () => loadMessages(timeLabels[slider.value].dataset.value));
+    
+                function updateLabels() {
+                    const latestDate = new Date(data[`latest_${msgFormat.toLowerCase()}_datetime`]);
+                    const latestDateTimeArray = getLatestDateTimeArray(latestDate);
+    
+                    timeLabels.forEach((label, index) => {
+                        const dateTime = latestDateTimeArray[index];
+                        label.textContent = `${dateTime.toISOString().slice(11, 16)}Z`;
+                        label.dataset.value = dateTime.toISOString();
+                    });
+    
+                    loadMessages(timeLabels[slider.value].dataset.value);
+                }
+    
+                function loadMessages(datetime) {
+                    const searchQuery = document.getElementById('search-box').value.toUpperCase();
+                    const url = new URL('{% url "get_messages" %}', window.location.origin);
+                    url.searchParams.append('format', msgFormat);
+                    url.searchParams.append('datetime', datetime);
+    
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            map.on('load', function() {
+                                if (map.getSource('stations') && map.getLayer('stations')) {
+                                    map.removeLayer('stations')
+                                    map.removeSource('stations')
+
+                                } 
+                                
+                                    map.addSource('stations', {
+                                        'type': 'geojson',
+                                        'data': data
+                                    });
+
+                                    map.addLayer({
+                                        'id': 'stations',
+                                        'type': 'symbol',
+                                        'source': 'stations',
+                                        'layout': {
+                                            "icon-image": [
+                                                    "case",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 107 / 1.944],
+                                                    "barbs-22",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 103 / 1.944],
+                                                    "barbs-21",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 97 / 1.944],
+                                                    "barbs-20",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 93 / 1.944],
+                                                    "barbs-19",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 87 / 1.944],
+                                                    "barbs-18",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 83 / 1.944],
+                                                    "barbs-17",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 78 / 1.944],
+                                                    "barbs-16",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 73 / 1.944],
+                                                    "barbs-15",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 68 / 1.944],
+                                                    "barbs-14",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 63 / 1.944],
+                                                    "barbs-13",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 58 / 1.944],
+                                                    "barbs-12",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 53 / 1.944],
+                                                    "barbs-11",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 48 / 1.944],
+                                                    "barbs-10",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 43 / 1.944],
+                                                    "barbs-9",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 38 / 1.944],
+                                                    "barbs-8",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 33 / 1.944],
+                                                    "barbs-7",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 28 / 1.944],
+                                                    "barbs-6",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 23 / 1.944],
+                                                    "barbs-5",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 18 / 1.944],
+                                                    "barbs-4",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 8 / 1.944],
+                                                    "barbs-3",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
+                                                    "barbs-2",
+                                                    "okta-0",
+                                                ],
+                                               "icon-size": [
+                                                    "case",
+                                                    [">=", ["to-number", ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
+                                                    ["literal", 0.4],
+                                                    ["literal", 0.1],
+                                                ],
+                                                "icon-allow-overlap": true,
+                                                "icon-rotation-alignment": "map",
+                                                "icon-rotate": [
+                                                    'interpolate',
+                                                    ['linear'],
+                                                    ["to-number", ['get', 'value', ['get', 'degrees',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]],
+                                                    0, 90,
+                                                    360, 450
+                                                ],
+                                                "icon-anchor": "bottom",
+                                                "icon-offset": [
+                                                    "case",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
+                                                    ["literal", [5, -15]],
+                                                    ["literal", [0, 65]],
+                                                ],
+                                        }
+                                    });
+
+                                    // Add the text layer
+                                    map.addLayer({
+                                        'id': 'stations-labels',
+                                        'type': 'symbol',
+                                        'source': 'stations',
+                                        'layout': {
+                                            'text-field': ['get', 'id'], // Display the station ID
+                                            'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+                                            'text-size': 12,
+                                            'text-offset': [1, 1], // Offset text to the bottom-right of the icon
+                                            'text-allow-overlap': true // Allow text to overlap with other features
+
+                                        },
+                                        'paint': {
+                                            'text-color': '#ffffff' // Set the text color
+                                        }
+                                    });
+
+                                    // Add the text layer
+                                    map.addLayer({
+                                        'id': 'dewpoint-labels',
+                                        'type': 'symbol',
+                                        'source': 'stations',
+                                        'layout': {
+                                            'text-field': ['get', 'value',['get', 'dew_point', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]],
+                                            'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+                                            'text-size': 12,
+                                            'text-offset': [-1, 1], // Offset text to the bottom-right of the icon
+                                            'text-allow-overlap': true // Allow text to overlap with other features
+
+                                        },
+                                        'paint': {
+                                            'text-color': '#ffffff' // Set the text color
+                                        }
+                                    });
+
+                                    // Add the text layer
+                                    map.addLayer({
+                                        'id': 'temperature-labels',
+                                        'type': 'symbol',
+                                        'source': 'stations',
+                                        'layout': {
+                                            'text-field': ['get', 'value',['get', 'temperature', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]], // Display the station ID
+                                            'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+                                            'text-size': 12,
+                                            'text-offset': [-1, -1], // Offset text to the bottom-right of the icon
+                                            'text-allow-overlap': true // Allow text to overlap with other features
+
+                                        },
+                                        'paint': {
+                                            'text-color': '#ffffff' // Set the text color
+                                        }
+                                    });
+
+                                    map.on('click', 'stations', (e) => {
+                                        const coordinates = e.features[0].geometry.coordinates.slice();
+                                        const id = e.features[0].properties.id;
+                                        const name = e.features[0].properties.name;
+                                        const messages = e.features[0].properties.messages
+    
+                                        const stationPopup = document.createElement('div');
+                                        const stationPopupMessages = document.createElement('div')
+                                        console.log(JSON.parse(messages))
+    
+                                        JSON.parse(messages).forEach((message) => {
+                                            stationPopupMessages.innerHTML += `
+                                                <p style="font-weight:800; font-size:12px">${message.msg_datetime}</p>
+                                                <p><code>${message.msg_encode
+                                                    .replace(/\r\n/g, '&#13;')
+                                                    .replace(/  /g, '<br>&nbsp;&nbsp;')
+                                                        .replace(/^\s+/gm, match => match.replace(/\s/g, '&nbsp;'))}</code></p>
+                                                <hr>
+                                            `
+                                            stationPopup.appendChild(stationPopupMessages);
+                                        })
+        
+                                        new maplibregl.Popup()
+                                            .setLngLat(coordinates)
+                                            .setHTML(`
+                                            <div class="p-2">
+                                                <h4 class="pb-2">(${id}) ${name}</h4>
+                                                ${stationPopup.innerHTML}
+                                                </div>
+                                            `)
+                                            .addTo(map);
+                                    });
+        
+                                    map.on('mouseenter', 'stations', () => {
+                                        map.getCanvas().style.cursor = 'pointer';
+                                    });
+        
+                                    map.on('mouseleave', 'stations', () => {
+                                        map.getCanvas().style.cursor = '';
+                                    });
+                                
+                            })
+                            
+    
+                            const messagesContainer = document.querySelector('.messages');
+                            messagesContainer.innerHTML = '';
+                            if(data.features.length>0){
+                                data.features.forEach(feature => {
+                                    const properties = feature.properties;
+                                    if (!searchQuery || properties.id.includes(searchQuery) || properties.name.includes(searchQuery)) {
+
+                                        properties.messages.forEach(message => {
+                                            const messageCard = document.createElement('div');
+
+                                            messageCard.className = 'card elevation-2 mb-3';
+                                            messageCard.innerHTML = `
+                                                <header class="card-header" style="display: flex; flex-direction: column">
+                                                    <p class="card-header-title">
+                                                        <span class="tag is-dark">
+                                                            <span class="icon">
+                                                                <i class="fa-solid fa-plane"></i>
+                                                            </span>
+                                                            ${properties.id} (${properties.name})
+                                                        </span>
+                                                    </p>
+                                                    <p class="card-header-title pt-0">
+                                                        <code>${message.msg_encode
+                                                        .replace(/\r\n/g, '&#13;')
+                                                        .replace(/  /g, '<br>&nbsp;&nbsp;')
+                                                        .replace(/^\s+/gm, match => match.replace(/\s/g, '&nbsp;'))}</code>
+                                                    </p>
+                                                </header>
+                                                <div class="card-content" style="background-color:#D0E7F2">
+                                                    <div class="content">
+                                                        <p><b>Conditions at:</b> <time datetime="${message.msg_datetime}">${formatDatetimeToUTC(new Date(message.msg_datetime))}</time></p>
+                                                        <!-- Add more decoded message fields here -->
+                                                    </div>
+                                                </div>
+                                            `;
+                                            messagesContainer.appendChild(messageCard);
+                                            
+                                        })
+                                        
+                                    } 
+                                });
+                            } else{
+                                messagesContainer.innerHTML = '<p style="text-align:center"><em> No messages found. Try another date/time </em></p>';
+                            }
+                        })
+                        .catch(error => console.error('Error fetching station data:', error));
+                }
+    
+                function getLatestDateTimeArray(latestDate) {
+                    const dateTimeArray = [];
+                    for (let i = 0; i < 10; i++) {
+                        const dateTime = new Date(latestDate);
+                        dateTime.setMinutes(dateTime.getMinutes() - i * 60);
+                        dateTimeArray.push(dateTime);
+                    }
+                    return dateTimeArray.reverse();
+                }
+            })
+            .catch(error => console.error('Error fetching latest message datetimes:', error));
+    });
+    
+</script>
+
+{% endblock extra_js %}
