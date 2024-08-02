@@ -100,13 +100,13 @@ body {
 }
 
 @media screen and (min-width: 769px) and (max-width: 1605px) {
-    .container {
+    section .container {
         max-width: 75vw !important;
     }
 }
 
 @media screen and (max-width: 768px) {
-    .container {
+    section .container {
         max-width: 90vw !important;
     }
 
@@ -121,3 +121,27 @@ select#city-option {
 select#city-option option {
     color: black !important;
 }
+
+/* Width and height of the scrollbar */
+::-webkit-scrollbar {
+    width: 1px; /* Width of the vertical scrollbar */
+    height: 1px; /* Height of the horizontal scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f110;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+

@@ -55,6 +55,7 @@ class HomePage(MetadataPageMixin, Page):
         'cap.CapAlertListPage',
         'glossary.GlossaryIndexPage',
         'webstories.WebStoryListPage',
+        'aviation.AviationPage'
 
     ]
     parent_page_type = [

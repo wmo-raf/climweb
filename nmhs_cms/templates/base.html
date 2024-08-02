@@ -93,11 +93,16 @@
 
 <body class="{% block body_class %}{% endblock %}">
 {% wagtailuserbar %}
+
+{% block navbar %}
 {% include 'navigation/navbar.html' %}
+{% endblock navbar %}
 
 <div class="page-container is-medium">
     {% block content %}{% endblock %}
-    {% include 'navigation/footer.html' %}
+    {% block footer %}
+        {% include 'navigation/footer.html' %}
+    {% endblock %}
 </div>
 
 <!-- Global javascript -->

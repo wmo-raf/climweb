@@ -290,7 +290,9 @@
                         </a>
                     {% else %}
                         {{ city.name }}
+                    </a>
                     {% endif %}
+
                 </div>
                 <div style="padding: 20px 0">
                     <a class="button is-small is-outlined"
@@ -305,23 +307,23 @@
                     </a>
                 </div>
             </div>
-            <div class="column is-half-desktop is-full-mobile">
-                <div class="dropdown city-search">
-                    <div class="dropdown-trigger">
-                        <div class="control has-icons-left">
-                            <input id="city-search" class="input is-fullwidth" type="text"
-                                   placeholder="{% translate 'Search location' %}"
-                                   aria-haspopup="true"
-                                   aria-controls="prova-menu"
-                                   autocomplete="off"
-                            >
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-search"></i>
-                            </span>
-                        </div>
+        </div>
+        <div class="column is-half-desktop is-full-mobile">
+            <div class="dropdown city-search">
+                <div class="dropdown-trigger">
+                    <div class="control has-icons-left">
+                        <input id="city-search" class="input is-fullwidth" type="text"
+                                placeholder="{% translate 'Search location' %}"
+                                aria-haspopup="true"
+                                aria-controls="prova-menu"
+                                autocomplete="off"
+                        >
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-search"></i>
+                        </span>
                     </div>
-                    <div class="dropdown-menu" id="city-search-menu" role="menu">
-                    </div>
+                </div>
+                <div class="dropdown-menu" id="city-search-menu" role="menu">
                 </div>
             </div>
         </div>
@@ -409,20 +411,20 @@
                                             </div>
                                         </div>
                                     </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="glide__arrows" data-glide-el="controls">
-                            <button class="slider-arrow glide__arrow glide__arrow--left" data-glide-dir="<">
-                                {% svg_icon "arrow-left" %}
-                            </button>
-                            <button class="slider-arrow glide__arrow glide__arrow--right" data-glide-dir=">">
-                                {% svg_icon "arrow-right" %}
-                            </button>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
+                    <div class="glide__arrows" data-glide-el="controls">
+                        <button class="slider-arrow glide__arrow glide__arrow--left" data-glide-dir="<">
+                            {% svg_icon "arrow-left" %}
+                        </button>
+                        <button class="slider-arrow glide__arrow glide__arrow--right" data-glide-dir=">">
+                            {% svg_icon "arrow-right" %}
+                        </button>
+                    </div>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
-{% endif %}
+</div>
