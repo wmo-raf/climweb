@@ -7,6 +7,7 @@ from forecastmanager.forecast_settings import ForecastSetting
 from forecastmanager.models import City, Forecast
 from forecastmanager.serializers import ForecastSerializer
 from wagtail.api.v2.utils import get_full_url
+from wagtailcache.settings import wagtailcache_settings
 
 from base.cache import wagcache
 from pages.weather.utils import get_city_forecast_detail_data
@@ -64,25 +65,33 @@ def get_home_forecast_widget(request):
             "weather_reports_page_url": forecast_setting.weather_reports_page.get_full_url(request)
         })
 
-    response = wagcache.get(f"city_forecast_widget_data_{city.slug}")
+    if wagtailcache_settings.WAGTAIL_CACHE:
+        response = wagcache.get(f"city_forecast_widget_data_{city.slug}")
+    else:
+        response = None
 
     if response is None:
-        data = get_city_forecast_detail_data(city, request)
-
         forecast_periods_count = forecast_setting.periods.count()
+
+        multi_period = forecast_periods_count > 1
+
+        data = get_city_forecast_detail_data(city, multi_period=multi_period, request=request,
+                                             for_home_widget=True)
 
         context.update({
             "city": city,
-            **data
+            "show_condition_label": forecast_setting.show_conditions_label_on_widget,
+            **data,
         })
 
-        if forecast_periods_count > 1:
+        if multi_period:
             response = render(request, 'weather/widgets/location_forecast_multiple_slider.html', context)
         else:
             response = render(request, 'weather/widgets/location_forecast_single_slider.html', context)
 
-        # Cache the response for 20 minutes
-        wagcache.set(f"city_forecast_widget_data_{city.slug}", response, 60 * 20)
+        if wagtailcache_settings.WAGTAIL_CACHE:
+            # Cache the response for 20 minutes
+            wagcache.set(f"city_forecast_widget_data_{city.slug}", response, 60 * 20)
 
     return response
 

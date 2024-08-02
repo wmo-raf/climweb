@@ -18,7 +18,7 @@ from wagtail.models import Site
 from base.models import ImportantPages
 from base.weasyprint_utils import django_url_fetcher
 from pages.cap.constants import DEFAULT_STYLE, CAP_LAYERS
-from .sign import sign_xml
+from .sign import sign_cap_xml
 
 
 def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request=None):
@@ -264,7 +264,7 @@ def serialize_and_sign_cap_alert(alert, request=None):
     signed = False
 
     try:
-        signed_xml = sign_xml(xml_bytes)
+        signed_xml = sign_cap_xml(xml_bytes)
         if signed_xml:
             xml = signed_xml
             signed = True

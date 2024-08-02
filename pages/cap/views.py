@@ -75,6 +75,42 @@ class CustomCAPFeed(Rss201rev2Feed):
         except Exception as e:
             pass
 
+    def add_item_elements(self, handler, item):
+        handler.addQuickElement("title", item["title"])
+        handler.addQuickElement("link", item["link"], attrs={"type": "application/cap+xml"})
+        if item["description"] is not None:
+            handler.addQuickElement("description", item["description"])
+
+        # Author information.
+        if item["author_name"] and item["author_email"]:
+            handler.addQuickElement(
+                "author", "%s (%s)" % (item["author_email"], item["author_name"])
+            )
+        elif item["author_email"]:
+            handler.addQuickElement("author", item["author_email"])
+        elif item["author_name"]:
+            handler.addQuickElement(
+                "dc:creator",
+                item["author_name"],
+                {"xmlns:dc": "http://purl.org/dc/elements/1.1/"},
+            )
+
+        if item["pubdate"] is not None:
+            handler.addQuickElement("pubDate", rfc2822_date(item["pubdate"]))
+        if item["comments"] is not None:
+            handler.addQuickElement("comments", item["comments"])
+        if item["unique_id"] is not None:
+            guid_attrs = {}
+            if isinstance(item.get("unique_id_is_permalink"), bool):
+                guid_attrs["isPermaLink"] = str(item["unique_id_is_permalink"]).lower()
+            handler.addQuickElement("guid", item["unique_id"], guid_attrs)
+        if item["ttl"] is not None:
+            handler.addQuickElement("ttl", item["ttl"])
+
+        # Categories.
+        for cat in item["categories"]:
+            handler.addQuickElement("category", cat)
+
 
 class AlertListFeed(Feed):
     feed_copyright = "public domain"
@@ -177,6 +213,7 @@ def get_cap_xml(request, guid):
 
     if not xml:
         xml, signed = serialize_and_sign_cap_alert(alert, request)
+        xml = xml.decode("utf-8")
 
         if signed:
             # cache signed alerts for 5 days

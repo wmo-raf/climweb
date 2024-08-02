@@ -19,15 +19,20 @@
         </div>
     </div>
     <div class="results-list list-view">
-
         {% if products %}
             {% for product in products %}
                 <div class="result-list-item">
                     <div class="result-list-item-wrapper">
                         <a href="{{ product.url }}" class="result-list-item-image">
                             <figure class="image" style="display: flex;align-items: center">
-                                {% if product.products.0.value.p_image %}
-                                    {% image product.products.0.value.p_image original as p_img %}
+                                {% if product.products_listing_image %}
+                                    {% image product.products_listing_image original as p_img %}
+                                    <img class="progressive__img progressive--not-loaded"
+                                         style="object-fit: cover"
+                                         data-progressive="{{ p_img.url }}"
+                                         src="{% lazy_image_url p_img %}" alt=""/>
+                                {% elif page.default_listing_thumbnail %}
+                                    {% image page.default_listing_thumbnail original as p_img %}
                                     <img class="progressive__img progressive--not-loaded"
                                          style="object-fit: cover"
                                          data-progressive="{{ p_img.url }}"
@@ -48,7 +53,12 @@
                                 {{ product.products.0.value.description|truncatewords_html:35|richtext }}
                             </div>
                             <div class="result-list-item-meta">
-                                <span class=""> {{ product.date }}</span>
+                                <div>
+                                    <span> {{ product.date }}</span>
+                                    {% if product.valid_until and product.valid_until != product.date %}
+                                        <span> - {{ product.valid_until }}</span>
+                                    {% endif %}
+                                </div>
                                 <a class="result-list-item-more read" href="{{ product.url }}">
                                     {% translate "Read More" %}
                                 </a>

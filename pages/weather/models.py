@@ -65,7 +65,9 @@ class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
 
             return self.render(request, context_overrides=context_overrides)
 
-        detail_data = get_city_forecast_detail_data(city, request)
+        forecast_periods_count = fm_settings.periods.count()
+        multi_period = forecast_periods_count > 1
+        detail_data = get_city_forecast_detail_data(city, multi_period=multi_period, request=request)
 
         context_overrides.update({
             "city": city,

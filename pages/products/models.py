@@ -18,20 +18,21 @@ from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField
 from wagtail.models import Page
+from wagtail.snippets.models import register_snippet
 from wagtailmodelchooser import register_model_chooser
 from wagtailmodelchooser.blocks import ModelChooserBlock
 
 from base.mixins import MetadataPageMixin
 from base.models import Product, ProductItemType
 from base.models import ServiceCategory, AbstractIntroPage
-from base.utils import paginate, query_param_to_list, get_first_page_of_pdf_as_image
+from base.utils import paginate, query_param_to_list
 from pages.products.blocks import ProductItemImageContentBlock, ProductItemDocumentContentBlock, \
     ProductItemStreamContentBlock
 
 
 class ProductIndexPage(MetadataPageMixin, Page):
     parent_page_types = ['home.HomePage']
-    subpage_types = ['products.ProductPage']
+    subpage_types = ['products.ProductPage', 'products.SubNationalProductPage']
     template = "subpages_listing.html"
 
     max_count = 1
@@ -45,6 +46,10 @@ class ProductIndexPage(MetadataPageMixin, Page):
         FieldPanel("listing_heading"),
         FieldPanel("group_menu_items_by_service")
     ]
+
+    class Meta:
+        verbose_name = _('Product Index Page')
+        verbose_name_plural = _('Product Index Pages')
 
     @cached_property
     def service_categories(self):
@@ -64,9 +69,11 @@ class ProductIndexPage(MetadataPageMixin, Page):
 
         return products_by_service
 
-    class Meta:
-        verbose_name = _('Product Index Page')
-        verbose_name_plural = _('Product Index Pages')
+    def get_menu_product_pages(self):
+        products = ProductPage.objects.live().descendant_of(self).order_by('menu_order')
+        subnational_products = SubNationalProductPage.objects.live().descendant_of(self).order_by('menu_order')
+
+        return list(products) + list(subnational_products)
 
 
 class UUIDModelChooserBlock(ModelChooserBlock):
@@ -110,7 +117,7 @@ class ProductPageForm(WagtailAdminPageForm):
         js = ("products/js/product_page_conditional.js",)
 
 
-class ProductPage(AbstractIntroPage):
+class BaseProductPage(AbstractIntroPage):
     base_form_class = ProductPageForm
 
     template = 'products/product_index.html'
@@ -120,9 +127,6 @@ class ProductPage(AbstractIntroPage):
     show_in_menus_default = True
 
     service = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Primary Service"))
-    other_services = ParentalManyToManyField(ServiceCategory, blank=True, verbose_name=_("Other relevant Services"),
-                                             related_name="other_services")
-    product = models.OneToOneField(Product, on_delete=models.PROTECT, verbose_name=_("Product"))
 
     products_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
@@ -130,22 +134,20 @@ class ProductPage(AbstractIntroPage):
     ], help_text=_("How many of this products should be visible on the landing page filter section ?"),
                                                     verbose_name=_("Products per page"))
 
-    map_layers = StreamField([
-        ('layers', LayerBlock(label="Layer"))
-    ], blank=True, null=True, use_json_field=True, verbose_name=_("Map Layers"))
+    default_listing_thumbnail = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_("Default Listing Thumbnail"),
+        help_text=_("An image that will be used as a thumbnail for in the products listing, "
+                    "if no image can be extracted from product items"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    menu_order = models.PositiveIntegerField(default=0, verbose_name=_("Menu Order"))
 
-    content_panels = Page.content_panels + [
-        FieldPanel('service'),
-        FieldPanel('other_services', widget=forms.CheckboxSelectMultiple),
-        FieldPanel('product'),
-        *AbstractIntroPage.content_panels,
-        MultiFieldPanel(
-            [
-                FieldPanel('products_per_page'),
-            ],
-            heading=_("Other settings"),
-        ),
-    ]
+    class Meta:
+        abstract = True
 
     @cached_property
     def listing_image(self):
@@ -189,10 +191,47 @@ class ProductPage(AbstractIntroPage):
         return paginated_products
 
     def get_context(self, request, *args, **kwargs):
-        context = super(ProductPage,
-                        self).get_context(request, *args, **kwargs)
+        context = super().get_context(request, *args, **kwargs)
 
         context['products'] = self.filter_and_paginate_products(request)
+
+        return context
+
+
+class ProductPage(BaseProductPage):
+    template = 'products/product_index.html'
+    parent_page_types = ['products.ProductIndexPage']
+    subpage_types = ['products.ProductItemPage']
+    show_in_menus_default = True
+
+    product = models.OneToOneField(Product, on_delete=models.PROTECT, verbose_name=_("Product"))
+    other_services = ParentalManyToManyField(ServiceCategory, blank=True, verbose_name=_("Other relevant Services"),
+                                             related_name="other_services")
+    map_layers = StreamField([
+        ('layers', LayerBlock(label="Layer"))
+    ], blank=True, null=True, use_json_field=True, verbose_name=_("Map Layers"))
+
+    content_panels = Page.content_panels + [
+        FieldPanel('service'),
+        FieldPanel('other_services', widget=forms.CheckboxSelectMultiple),
+        FieldPanel('product'),
+        *AbstractIntroPage.content_panels,
+        MultiFieldPanel(
+            [
+                FieldPanel('products_per_page'),
+                FieldPanel('default_listing_thumbnail'),
+                FieldPanel('menu_order'),
+            ],
+            heading=_("Other settings"),
+        ),
+    ]
+
+    class Meta:
+        verbose_name = _('National Product Page')
+        verbose_name_plural = _('National Product Pages')
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
 
         abm_settings = AdminBoundarySettings.for_request(request)
         abm_extents = abm_settings.combined_countries_bounds
@@ -227,10 +266,6 @@ class ProductPage(AbstractIntroPage):
             })
         return layers
 
-    class Meta:
-        verbose_name = _('Product Page')
-        verbose_name_plural = _('Product Pages')
-
 
 register_model_chooser(RasterFileLayer)
 
@@ -263,7 +298,7 @@ class ProductItemPageForm(WagtailAdminPageForm):
 
 class ProductItemPage(MetadataPageMixin, Page):
     template = 'products/product_detail.html'
-    parent_page_types = ['products.ProductPage', ]
+    parent_page_types = ['products.ProductPage', 'products.SubNationalProductPage']
     subpage_types = []
     base_form_class = ProductItemPageForm
 
@@ -327,3 +362,53 @@ class ProductItemPage(MetadataPageMixin, Page):
     def product_category(self):
         parent = self.get_parent().specific
         return parent.product.name
+
+    @property
+    def products_listing_image(self):
+        products = self.products
+        for product in products:
+            if product.value.p_image:
+                return product.value.p_image
+
+        return None
+
+
+@register_snippet
+class SubNationalRegion(models.Model):
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Subnational Region')
+        verbose_name_plural = _('Subnational Regions')
+
+
+class SubNationalProductPage(BaseProductPage):
+    template = 'products/subnational_product_index.html'
+    parent_page_types = ['products.ProductIndexPage']
+    subpage_types = ['products.ProductItemPage']
+    show_in_menus_default = False
+
+    region = models.ForeignKey(SubNationalRegion, on_delete=models.PROTECT, verbose_name=_("Region"))
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, verbose_name=_("Product"))
+
+    content_panels = Page.content_panels + [
+        FieldPanel('region'),
+        FieldPanel('service'),
+        FieldPanel('product'),
+        *AbstractIntroPage.content_panels,
+        MultiFieldPanel(
+            [
+                FieldPanel('products_per_page'),
+                FieldPanel('default_listing_thumbnail'),
+                FieldPanel('menu_order'),
+            ],
+            heading=_("Other settings"),
+        ),
+    ]
+
+    class Meta:
+        verbose_name = _('Subnational Product Page')
+        verbose_name_plural = _('Subnational Product Pages')
