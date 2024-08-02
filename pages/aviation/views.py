@@ -5,13 +5,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.gis.geos import Point
 
-from pages.aviation.models import Station,Message, StationCategory
-from pages.aviation.forms import StationLoaderForm, MessageForm
+from pages.aviation.models import Airport,Message,AirportCategory
+from pages.aviation.forms import AirportLoaderForm, MessageForm
 from pages.aviation.decode import identify_message_type, parse_metar_message,parse_taf_message
-from adminboundarymanager.models import AdminBoundarySettings
 
 # views.py
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
+
 
 
 def add_message(request):
@@ -23,7 +23,7 @@ def add_message(request):
             # Split messages by comma and decode them
             raw_messages = msg_encode.strip().split(',')
             data_to_save = []
-            station_ids_not_found = set()
+            airport_ids_not_found = set()
             
             warnings = []
 
@@ -35,14 +35,14 @@ def add_message(request):
                         continue
 
                     if decoded_message:
-                        station_code = decoded_message.get('station')
-                        if station_code:
+                        airport_code = decoded_message.get('airport')
+                        if airport_code:
                            
-                            station = Station.objects.filter(id=station_code).first()
-                            if station:
+                            airport = Airport.objects.filter(id=airport_code).first()
+                            if airport:
                                 # Prepare data for saving or updating
                                 data = {
-                                    'station': station,
+                                    'airport': airport,
                                     'msg_encode': message,
                                     'msg_decode': decoded_message,
                                     'msg_format': decoded_message.get('type'),
@@ -53,7 +53,7 @@ def add_message(request):
                                 
                                 
                             else:
-                                station_ids_not_found.add(station_code)
+                                airport_ids_not_found.add(airport_code)
 
                
                 elif identify_message_type(message)=="TAF":
@@ -63,14 +63,14 @@ def add_message(request):
                         continue
 
                     if decoded_message:
-                        station_code = decoded_message.get('station')
-                        if station_code:
+                        airport_code = decoded_message.get('airport')
+                        if airport_code:
                            
-                            station = Station.objects.filter(id=station_code).first()
-                            if station:
+                            airport = Airport.objects.filter(id=airport_code).first()
+                            if airport:
                                 # Prepare data for saving or updating
                                 data = {
-                                    'station': station,
+                                    'airport': airport,
                                     'msg_encode': message,
                                     'msg_decode': decoded_message,
                                     'msg_format': decoded_message.get('type'),
@@ -81,21 +81,21 @@ def add_message(request):
                                 
                                 
                             else:
-                                station_ids_not_found.add(station_code)
+                                airport_ids_not_found.add(airport_code)
 
                 else:
                     decoded_message = {}
                     warnings.append(F"Invalid message format. {message}")
             
-            if station_ids_not_found:
-                warnings.append(f"Station ID(s) not found: {', '.join(station_ids_not_found)}")
+            if airport_ids_not_found:
+                warnings.append(f"Airport ID(s) not found: {', '.join(airport_ids_not_found)}")
             
             if not data_to_save:
                 warnings.append('No valid messages to save.')
 
             for data in data_to_save:
                 Message.objects.update_or_create(
-                    station=data['station'],
+                    airport=data['airport'],
                     msg_format=data['msg_format'],
                     msg_datetime=data['msg_datetime'],
                     defaults={
@@ -131,112 +131,84 @@ def add_message(request):
 def get_latest_message_datetimes(request):
     latest_metar = Message.objects.filter(msg_format='METAR').order_by('-msg_datetime').first()
     latest_taf = Message.objects.filter(msg_format='TAF').order_by('-msg_datetime').first()
-    
-    if not latest_metar or not latest_taf:
+
+    latest_metar_datetime = None
+    latest_taf_datetime = None
+
+    if not latest_metar and not latest_taf:
         return JsonResponse({'error': 'No messages found'}, status=404)
 
-    latest_metar_datetime = latest_metar.msg_datetime
-    latest_taf_datetime = latest_taf.msg_datetime
+    if(latest_metar):
+        latest_metar_datetime = latest_metar.msg_datetime.isoformat()
+    
+    if(latest_taf):
+        latest_taf_datetime = latest_taf.msg_datetime.isoformat()
+
     return JsonResponse({
-        'latest_metar_datetime': latest_metar_datetime.isoformat(),
-        'latest_taf_datetime': latest_taf_datetime.isoformat()
+        'latest_metar_datetime': latest_metar_datetime,
+        'latest_taf_datetime': latest_taf_datetime
     })
 
 # Create your views here.
-def load_aviation_stations(request):
-    template = "aviation/load_stations.html"
+def load_aviation_airports(request):
+    template = "aviation/load_airports.html"
     context = {}
 
-    index_url_name = Station.snippet_viewset.get_url_name("list")
+    index_url_name = Airport.snippet_viewset.get_url_name("list")
     index_url = reverse(index_url_name)
 
     if request.POST:
-        form = StationLoaderForm(request.POST, files=request.FILES)
+        form = AirportLoaderForm(request.POST, files=request.FILES)
 
         if form.is_valid():
-            stations = form.cleaned_data.get("data")
+            airports = form.cleaned_data.get("data")
             overwrite = form.cleaned_data.get("overwrite_existing")
 
-            for station in stations:
-                station_name = station.get("station")
-                lat = station.get("lat")
-                lon = station.get("lon")
-                category = station.get("category")
+            for airport in airports:
 
-                exists = Station.objects.filter(name__iexact=station_name).exists()
+                id = airport.get("id")
+                print(id)
+                airport_name = airport.get("airport")
+                lat = airport.get("lat")
+                lon = airport.get("lon")
+                category = airport.get("category")
+                category_exists = AirportCategory.objects.filter(name__iexact=category).exists()
 
-                if exists:
+                airport_exists = Airport.objects.filter(id=id).exists()
+                if not category_exists:
+                    form.add_error(None, f"Category '{category}' does not exist. "
+                                             f"Please check the spelling or add the category first")
+                    context.update({"form": form})
+                    return render(request, template_name=template, context=context)
+                if airport_exists:
                     if not overwrite:
-                        form.add_error(None, f"Station {station_name} already exists. "
-                                             f"Please check the overwrite option to update or delete the existing station.")
+                        form.add_error(None, f"Airport {airport_name} with ID '{id}' already exists. "
+                                             f"Please check the overwrite option to update or delete the existing airport.")
                         context.update({"form": form})
                         return render(request, template_name=template, context=context)
                     else:
-                        station_obj = Station.objects.get(name__iexact=station_name)
-                        station_obj.location = Point(x=lon, y=lat, srid=4326)
-                        station_obj.category = category
+                        airport_obj = Airport.objects.get(id=id)
+                        airport_obj.id = id
+                        airport_obj.name = airport_name
+                        airport_obj.location = Point(x=lon, y=lat, srid=4326)
+                        airport_obj.category = AirportCategory.objects.get(name__iexact=category)
+                        print(airport_obj.category)
 
-                        station_obj.save()
+                        airport_obj.save()
                 else:
-                    station_obj = Station(name=station_name, location=Point(x=lon, y=lat, srid=4326), category=category)
-                    station_obj.save()
+                    airport_obj = Airport(id=id, name=airport_name, location=Point(x=lon, y=lat, srid=4326), category=AirportCategory.objects.get(name__iexact=category))
+                    airport_obj.save()
 
             return redirect(index_url)
         else:
             context.update({"form": form})
             return render(request, template_name=template, context=context)
         
-    form = StationLoaderForm()
+    form = AirportLoaderForm()
     context.update({"form": form})
 
     return render(request, template_name=template, context=context)
 
-
-
-def aviation(request):
-    latest_metar_message = Message.objects.filter(msg_format='METAR').order_by('-msg_datetime').first()
-    latest_metar_datetime = latest_metar_message.msg_datetime.astimezone(timezone.utc).isoformat() if latest_metar_message else None
-    
-    print("latest_metar_datetime", latest_metar_datetime)
-
-    abm_settings = AdminBoundarySettings.for_request(request)
-
-    abm_extents = abm_settings.combined_countries_bounds
-
-    stn_categories = StationCategory.objects.all()
-
-    context = {
-        'latest_metar_datetime': latest_metar_datetime,
-        'bounds':abm_extents,
-        'stn_categories':stn_categories
-    }
-    return render(request, 'aviation/aviation_page.html', context)
-
-
-
-def station_data_geojson(request):
-    stations = Station.objects.all()
-    features = []
-    for station in stations:
-        # point = GEOSGeometry(station.location)
-        features.append({
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': station.coordinates,
-            },
-            'properties': {
-                'id': station.id,
-                'name': station.name,
-                'category': station.category.name,
-            },
-        })
-    
-    data = {
-        'type': 'FeatureCollection',
-        'features': features,
-    }
-    return JsonResponse(data)
 
 def get_messages(request):
     msg_format = request.GET.get('format', 'METAR')
@@ -251,38 +223,41 @@ def get_messages(request):
         msg_format=msg_format,
         msg_datetime__gte=datetime_obj - timedelta(hours=1),
         msg_datetime__lte=datetime_obj
-    ).select_related('station')
+    ).select_related('airport').order_by('-msg_datetime')
 
-    print(messages.values().first())
-    # Group messages by station
-    station_messages = {}
-    
+
     # Construct the response data
     data = {
         'type': 'FeatureCollection',
         'features': [] 
     }
 
+    airport_messages ={}
+
     for msg in messages:
-        station_id = msg.station.id
-        data['features'].append({
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [msg.station.location.x, msg.station.location.y],
-            },
-            'properties':{
-                'id': station_id,
-                'name': msg.station.name,
-                'category_name':msg.station.category.name,
-                'category_color':msg.station.category.color,
-                'messages':[] 
+        airport_id = msg.airport.id
+        if airport_id not in airport_messages:
+            airport_messages[airport_id] = {
+                'id': airport_id,
             }
-        })
+            data['features'].append({
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [msg.airport.location.x, msg.airport.location.y],
+                },
+                'properties':{
+                    'id': airport_id,
+                    'name': msg.airport.name,
+                    'category_name':msg.airport.category.name,
+                    'category_color':msg.airport.category.color,
+                    'messages':[] 
+                }
+            })
 
     for msg in messages:
         for val in data['features']:
-            if val['properties']['id'] == msg.station.id:
+            if val['properties']['id'] == msg.airport.id:
                 val['properties']['messages'].append({
                     'msg_encode': msg.msg_encode,
                     'msg_datetime': msg.msg_datetime.isoformat(),

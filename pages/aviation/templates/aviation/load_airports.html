@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load l10n %}
 {% load wagtailadmin_tags wagtailimages_tags static %}
-{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}Aviation Stations Loader {{ title }}
+{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}Aviation Airports Loader {{ title }}
 {% endblocktrans %}{% endblock %}
 
 {% block extra_css %}
@@ -31,12 +31,12 @@
 {% endblock %}
 
 {% block content %}
-    {% trans "Aviation Stations Loader" as header_str %}
+    {% trans "Aviation Airports Loader" as header_str %}
     {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" %}
     <div class="nice-padding">
         <div class="row row-flush" style="padding-top:1rem">
             <div class="col5">
-                <form action="{% url 'load_aviation_stations' %}" method="POST"
+                <form action="{% url 'load_aviation_airports' %}" method="POST"
                       enctype="multipart/form-data">
                     {% if form.non_field_errors %}
                         <div class="non-field_errors" style="margin-bottom: 20px">
@@ -73,10 +73,19 @@
                         </div>
                         <ul class="param-selectors">
                             <li class="selector">
-                                <label for="station" class="w-field__label">{% trans 'Station' %}:</label>
+                                <label for="id" class="w-field__label">{% trans 'ID' %}:</label>
                                 <div class="w-field w-field--file_field w-field--file_input">
                                     <div class="w-field__input" data-field-input="">
-                                        <select id="station">
+                                        <select id="id">
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="selector">
+                                <label for="airport" class="w-field__label">{% trans 'Airport' %}:</label>
+                                <div class="w-field w-field--file_field w-field--file_input">
+                                    <div class="w-field__input" data-field-input="">
+                                        <select id="airport">
                                         </select>
                                     </div>
                                 </div>
@@ -100,7 +109,7 @@
                                 </div>
                             </li>
                             <li class="selector">
-                                <label for="category" class="w-field__label">{% trans 'category' %}: </label>
+                                <label for="category" class="w-field__label">{% trans 'Category' %}: </label>
                                 <div class="w-field w-field--file_field w-field--file_input">
                                     <div class="w-field__input" data-field-input="">
                                         <select id="category">
@@ -143,12 +152,14 @@
                 autoWrapCol: true,
                 rowHeaders: true,
                 colHeaders: [
-                    'Station',
+                    'ID',
+                    'Airport',
                     "Latitude",
                     "Longitude",
                     "Category"
                 ],
                 columns: [
+                    {type: 'text', allowEmpty: false, allowInvalid: false},
                     {type: 'text', allowEmpty: false, allowInvalid: false},
                     {type: 'numeric', allowEmpty: false, allowInvalid: false},
                     {type: 'numeric', allowEmpty: false, allowInvalid: false},
@@ -185,10 +196,11 @@
             }
 
             const columnSelectors = [
-                {dom_id: 'station', index: 0},
-                {dom_id: 'latitude', index: 1},
-                {dom_id: 'longitude', index: 2},
-                {dom_id: 'category', index: 2},
+                {dom_id: 'id', index: 0},
+                {dom_id: 'airport', index: 1},
+                {dom_id: 'latitude', index: 2},
+                {dom_id: 'longitude', index: 3},
+                {dom_id: 'category', index: 4},
             ]
 
             const onValidate = (isValid) => {

@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from pages.aviation.models import Message
 
-class StationLoaderForm(forms.Form):
+class AirportLoaderForm(forms.Form):
     file = forms.FileField(label="File", required=True)
     overwrite_existing = forms.BooleanField(label="Overwrite existing data", required=False)
     data = forms.JSONField(widget=forms.HiddenInput)
@@ -26,25 +26,26 @@ class StationLoaderForm(forms.Form):
         fields = data.get("fields")
         rows = data.get("rows")
 
-        stations = []
-        added_stations = []
+        airports = []
+        added_airports = []
         for row in rows:
             data_dict = dict(zip(fields, row))
-            station = data_dict.get("Station")
+            id = data_dict.get("ID")
+            airport = data_dict.get("Airport")
             lat = data_dict.get("Latitude")
             lon = data_dict.get("Longitude")
             category = data_dict.get("Category")
 
-            if station in added_stations:
+            if airport in added_airports:
                 self.add_error(None,
-                               f"Duplicate station found in table data: '{station}'. "
+                               f"Duplicate airport found in table data: '{airport}'. "
                                f"Please remove the duplicate entry and try again.")
                 return cleaned_data
 
-            added_stations.append(station)
-            stations.append({"station": station, "lat": lat, "lon": lon, "category": category})
+            added_airports.append(airport)
+            airports.append({"id":id, "airport": airport, "lat": lat, "lon": lon, "category": category})
 
-        cleaned_data["data"] = stations
+        cleaned_data["data"] = airports
 
         return cleaned_data
 

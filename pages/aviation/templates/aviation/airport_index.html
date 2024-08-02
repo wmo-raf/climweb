@@ -24,13 +24,13 @@
         {% if view.list_export %}
             {% include view.export_buttons_template_name %}
         {% endif %}
-        <a href="{% url 'load_aviation_stations' %}" class="button bicolor button--icon">
+        <a href="{% url 'load_aviation_airports' %}" class="button bicolor button--icon">
             <span class="icon-wrapper">
                 <svg class="icon icon-upload icon" aria-hidden="true">
                     <use href="#icon-upload"></use>
                 </svg>
             </span>
-            {% trans "Import Stations" %}
+            {% trans "Import Airports" %}
         </a>
     {% endfragment %}
     {% include 'wagtailadmin/shared/header.html' with title=model_opts.verbose_name_plural|capfirst icon=header_icon search_url=search_url base_actions=base_action_locale action_url=action_url_add_snippet action_icon="plus" action_text=action_text_snippet extra_actions=extra_actions search_results_url=index_results_url %}

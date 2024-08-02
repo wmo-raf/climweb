@@ -1,6 +1,8 @@
 import uuid
 from django.contrib.gis.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from wagtail.api.v2.utils import get_full_url
 
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.panels import LeafletPanel, GeoAddressPanel
@@ -11,9 +13,14 @@ from wagtailgeowidget import geocoders
 from wagtail_color_panel.fields import ColorField
 from wagtail.snippets.models import register_snippet
 from wagtail.admin.panels import FieldPanel
+from base.mixins import MetadataPageMixin
+from wagtail.models import Page
 
+from wagtail.contrib.routable_page.models import RoutablePageMixin
+from django.utils import timezone
+from adminboundarymanager.models import AdminBoundarySettings
 
-class StationCategory(models.Model):
+class AirportCategory(models.Model):
     name = models.CharField(_("Category name"), max_length=50)
     color = ColorField(blank=True, null=True, default="#363636",
                                help_text=_("Category color"))
@@ -23,20 +30,20 @@ class StationCategory(models.Model):
         NativeColorPanel('color')
     ]
     class Meta:
-        verbose_name = _("Station Category")
-        verbose_name_plural = _("Station Categories")
+        verbose_name = _("Airport Category")
+        verbose_name_plural = _("Airport Categories")
 
 
     def __str__(self) -> str:
         return self.name
 
 # Create your models here.
-class Station(models.Model):
+class Airport(models.Model):
     id = models.CharField(unique=True, primary_key=True,)
-    name = models.CharField(verbose_name=_("Station Name"), max_length=255, null=True, blank=False, unique=True)
+    name = models.CharField(verbose_name=_("Airport Name"), max_length=255, null=True, blank=False, unique=True)
     slug = AutoSlugField(populate_from='name', null=True, unique=True, default=None, editable=False)
-    category = models.ForeignKey(StationCategory, verbose_name=_("Station Category"), on_delete=models.CASCADE)
-    location = models.PointField(verbose_name=_("Station Location (Lat, Lng)"))
+    category = models.ForeignKey(AirportCategory, verbose_name=_("Airport Category"), on_delete=models.CASCADE)
+    location = models.PointField(verbose_name=_("Airport Location (Lat, Lng)"))
     
     
     panels = [
@@ -47,8 +54,8 @@ class Station(models.Model):
     ]
 
     class Meta:
-        verbose_name = _("Station")
-        verbose_name_plural = _("Stations")
+        verbose_name = _("Airport")
+        verbose_name_plural = _("Airports")
         ordering = ['name']
 
     def __str__(self):
@@ -66,6 +73,16 @@ class Station(models.Model):
     @property
     def y(self):
         return self.coordinates[1]
+    
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        airport_search_url = get_full_url(request, reverse("airports-list"))
+        context.update({
+            "airports_search_url": airport_search_url,
+        })
+
+        return context
+
 
 
 class Message(models.Model):
@@ -75,10 +92,36 @@ class Message(models.Model):
         ('TAF','TAF'),
     ]
 
-    station = models.ForeignKey(Station, verbose_name=_("Station"), on_delete=models.CASCADE)
+    airport = models.ForeignKey(Airport, verbose_name=_("Airport"), on_delete=models.CASCADE, null=True)
     msg_encode = models.TextField(_("Message in Encoded Form"))
     msg_decode = models.JSONField(_("Decoded Message"), blank=True, null=True)
     msg_format = models.CharField(max_length=50, choices=MSG_FORMAT_CHOICES,
                                           verbose_name=_("Message Format"),)
     msg_datetime = models.DateTimeField(_("Message Datetime"), auto_now=False, auto_now_add=False, null=True)
 
+
+class AviationPage(MetadataPageMixin, RoutablePageMixin, Page):
+    template = "aviation/aviation_page.html"
+    parent_page_types = ["home.HomePage"]
+    subpage_types = []
+    max_count = 1
+
+    content_panels = Page.content_panels
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        latest_metar_message = Message.objects.filter(msg_format='METAR').order_by('-msg_datetime').first()
+        latest_metar_datetime = latest_metar_message.msg_datetime.astimezone(timezone.utc).isoformat() if latest_metar_message else None
+
+        abm_settings = AdminBoundarySettings.for_request(request)
+
+        abm_extents = abm_settings.combined_countries_bounds
+
+        stn_categories = AirportCategory.objects.all()
+
+        context.update({
+            'latest_metar_datetime': latest_metar_datetime,
+            'bounds':abm_extents,
+            'stn_categories':stn_categories
+        })
+        return context

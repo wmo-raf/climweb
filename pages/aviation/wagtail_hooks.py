@@ -1,4 +1,4 @@
-from pages.aviation.models import Station, StationCategory
+from pages.aviation.models import Airport, AirportCategory
 from wagtail.snippets.views.snippets import (
     SnippetViewSet,
     SnippetViewSetGroup,
@@ -10,7 +10,7 @@ from django.urls import reverse
 from wagtail.admin.menu import MenuItem
 
 from wagtail import hooks
-from pages.aviation.views import add_message, load_aviation_stations
+from pages.aviation.views import add_message, load_aviation_airports
 
 @hooks.register("register_admin_urls")
 def register_admin_urls():
@@ -19,29 +19,29 @@ def register_admin_urls():
     """
     return [
         path("add-message/", add_message, name="add_message"),
-        path('load-aviation-stations/', load_aviation_stations, name='load_aviation_stations'),
+        path('load-aviation-airports/', load_aviation_airports, name='load_aviation_airports'),
 
     ]
 
-class StationCategoriesViewSet(SnippetViewSet):
-    model = StationCategory
+class AirportCategoriesViewSet(SnippetViewSet):
+    model = AirportCategory
     icon = "globe"
-    menu_label = _("Station Categories")
+    menu_label = _("Airport Categories")
 
 
 
-class StationsViewSet(SnippetViewSet):
-    model = Station
+class AirportsViewSet(SnippetViewSet):
+    model = Airport
     icon = 'location'
-    menu_label = _('Stations')
+    menu_label = _('Airports')
 
     list_display = ('name', 'category')
     list_filter = {"name": ["icontains"]}
-    index_template_name = "aviation/station_index.html"
+    index_template_name = "aviation/airport_index.html"
 
 
-class StationsViewSetGroup(SnippetViewSetGroup):
-    items = (StationsViewSet,StationCategoriesViewSet)
+class AirportsViewSetGroup(SnippetViewSetGroup):
+    items = (AirportsViewSet,AirportCategoriesViewSet)
     menu_icon = "airport"
     menu_label = _("Aviation Editor")
     menu_name = "aviation_editor"
@@ -61,4 +61,4 @@ class StationsViewSetGroup(SnippetViewSetGroup):
 
 
 
-register_snippet(StationsViewSetGroup)
+register_snippet(AirportsViewSetGroup)
