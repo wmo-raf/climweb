@@ -33,28 +33,6 @@
             </section>
         {% endif %}
         <section class="listing-section">
-            {% if page.map_layers %}
-                <div class="tabs is-centered is-boxed is-medium">
-                    <ul>
-                        <li class="is-active" data-content="browse">
-                            <a>
-                                <span class="icon is-small"><i class="fas fa-list" aria-hidden="true"></i></span>
-                                <span>
-                                    {% translate "Browse" %}
-                                </span>
-                            </a>
-                        </li>
-                        <li data-content="mapViewer">
-                            <a>
-                                <span class="icon is-small"><i class="fas fa-map" aria-hidden="true"></i></span>
-                                <span>
-                                    {% translate "MapViewer" %}
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            {% endif %}
             <div>
                 <div id="browse" class="content-tab">
                     <h2 id="results"
@@ -72,41 +50,13 @@
                         </div>
                     </div>
                 </div>
-                <div id="mapViewer" class="content-tab" style="display: none">
-                    <div class="container">
-                        {% include "products/products_map_include.html" with layers=page.map_layers_list %}
-                    </div>
-                </div>
             </div>
         </section>
-
     </main>
 {% endblock content %}
 
 {% block extra_js %}
-    {% if page.map_layers %}
-        <script src="{% static "js/maplibre-gl.js" %}"></script>
-        <script src="{% static "js/ion.rangeSlider.min.js" %}"></script>
-        <script src="{% static "js/d3.min.js" %}"></script>
-
-        <script>
-            const datasetsUrl = "{{ datasetsurl }}";
-            const layerTimestampsUrl = "{{ layertimestampsurl }}";
-
-            let countryBounds = {{ bounds|default_if_none:"[]"|safe }};
-            const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
-
-            if (countryBounds.length === 0) {
-                countryBounds = null;
-            }
-
-        </script>
-
-        <script src="{% static "products/js/product_map.js" %}"></script>
-    {% endif %}
-
     <script>
-
         $(document).ready(function () {
 
             const $tabs = $(".tabs li");
@@ -183,10 +133,7 @@
             filterChangeListener('product-filter', params, function (clickedEl, url_params) {
                 window.location.href = `${baseUrl}?${url_params}#results`;
             });
-
         });
-
-
     </script>
 
 {% endblock %}

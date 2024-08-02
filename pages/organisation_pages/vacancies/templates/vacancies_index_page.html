@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static i18n wagtailcore_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/vacancies.css' %}">
@@ -9,14 +9,25 @@
 
 {% block content %}
     <main class="is-index">
-
         {% include 'hero.html' with page=page %}
-        <section class="ORG-work intro-section">
-            <div class="work container">
-                {% include 'service_introduction.html' with page=page %}
-            </div>
-        </section>
-
+        {% if page.introduction_image %}
+            <section class="nmhs-work intro-section">
+                <div class="work container">
+                    {% include 'service_introduction.html' with page=page %}
+                </div>
+            </section>
+        {% else %}
+            <section class="nmhs-work intro-section">
+                <div class="work container">
+                    <h2 class="section-subheader">
+                        {{ page.introduction_title }}
+                    </h2>
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
         <section class="all-vacancies-section">
             <div class="container">
                 {% if vacancies %}

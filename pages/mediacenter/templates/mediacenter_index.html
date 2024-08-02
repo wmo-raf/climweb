@@ -1,5 +1,5 @@
 {% extends 'services_page_base.html' %}
-{% load static wagtailsettings_tags i18n %}
+{% load static wagtailsettings_tags i18n wagtailcore_tags %}
 {% get_settings use_default_site=True %}
 
 {% block extra_css %}
@@ -16,11 +16,24 @@
 {% block content %}
     <main class="is-index">
         {% include 'hero.html' with page=page %}
-        <section class="nmhs-work">
-            <div class="work container">
-                {% include 'service_introduction.html' with page=page %}
-            </div>
-        </section>
+        {% if page.introduction_image %}
+            <section class="nmhs-work">
+                <div class="work container">
+                    {% include 'service_introduction.html' with page=page %}
+                </div>
+            </section>
+        {% else %}
+            <section class="nmhs-work">
+                <div class="work container">
+                    <h2 class="section-subheader">
+                        {{ page.introduction_title }}
+                    </h2>
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
         {% if settings.base.OrganisationSetting.facebook or settings.base.OrganisationSetting.twitter %}
             <section class="social-media-feed-section">
                 <div class="container">

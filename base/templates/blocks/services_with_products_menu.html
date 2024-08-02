@@ -26,41 +26,34 @@
                         </a>
                         {% if service_page.core_products %}
                             {% for product_page in service_page.core_products %}
-                                <a class="navbar-item is-hidden-touch" href="{{ product_page.url }}"
-                                   style="margin-left: 50px;display: b">
-                                    <div class="menu-item-figure">
-                                        {% if product_page.introduction_image %}
-                                            {% image product_page.introduction_image original as product_image %}
-                                            <img src="{{ product_image.url }}" alt="">
-                                        {% endif %}
-                                    </div>
-                                    <div class="menu-item-label">
-                                        {{ product_page.title }}
-                                    </div>
-                                </a>
+                                {% if product_page.show_in_menus %}
+                                    <a class="navbar-item is-hidden-touch" href="{{ product_page.url }}"
+                                       style="margin-left: 20px;">
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                        <span class="menu-item-label">
+                                            {{ product_page.title }}
+                                        </span>
+                                    </a>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                         {% if service_page.flex_pages %}
                             {% for flex_page in service_page.flex_pages %}
-                                <a class="navbar-item" href="{{ flex_page.url }}"
-                                   style="margin-left: 50px;">
-                                    <div class="menu-item-figure">
-                                        {% if flex_page.banner_image %}
-                                            {% image flex_page.banner_image original as flex_page_image %}
-                                            <img src="{{ flex_page_image.url }}" alt="">
-                                        {% endif %}
-                                    </div>
-                                    <div class="menu-item-label">
-                                        {{ flex_page.title }}
-                                    </div>
-                                </a>
+                                {% if flex_page.show_in_menus %}
+                                    <a class="navbar-item" href="{{ flex_page.url }}">
+                                        <div class="menu-item-label">
+                                            {{ flex_page.title }}
+                                        </div>
+                                    </a>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>
                 {% endif %}
             {% endwith %}
         {% endfor %}
-
     {% endwith %}
 </div>
 

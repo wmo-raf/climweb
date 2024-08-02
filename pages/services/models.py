@@ -8,15 +8,16 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, Orderable
 from wagtailmetadata.models import MetadataPageMixin
 
-from base import blocks
+from base import blocks as base_blocks
 from base.models import ServiceCategory, AbstractBannerWithIntroPage
 from nmhs_cms.settings.base import SUMMARY_RICHTEXT_FEATURES
 from pages.events.models import EventPage
 from pages.flex_page.models import FlexPage
 from pages.news.models import NewsPage
 from pages.organisation_pages.projects.models import ServiceProject
-from pages.products.models import ProductPage
+from pages.products.models import ProductPage, SubNationalProductPage
 from pages.publications.models import PublicationPage
+from pages.services import blocks as local_blocks
 from pages.videos.models import YoutubePlaylist
 
 
@@ -53,7 +54,7 @@ class ServicePage(AbstractBannerWithIntroPage):
     service = models.OneToOneField(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
 
     what_we_do_items = StreamField([
-        ('what_we_do', blocks.WhatWeDoBlock()),
+        ('what_we_do', local_blocks.WhatWeDoBlock()),
     ], null=True, blank=True, use_json_field=True)
 
     what_we_do_button_text = models.TextField(max_length=20, blank=True, null=True,
@@ -71,7 +72,7 @@ class ServicePage(AbstractBannerWithIntroPage):
                                          features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_("Project Description"))
 
     feature_block_items = StreamField([
-        ('feature_item', blocks.FeatureBlock()),
+        ('feature_item', base_blocks.FeatureBlock()),
     ], null=True, blank=True, use_json_field=True, verbose_name=_("Feature block items"))
 
     youtube_playlist = models.ForeignKey(
@@ -115,9 +116,11 @@ class ServicePage(AbstractBannerWithIntroPage):
         :return: products list
         """
         # Get all products related to this service
-        products = ProductPage.objects.filter(Q(service=self.service) | Q(other_services__in=[self.service]))
+        national_products = ProductPage.objects.filter(
+            Q(service=self.service) | Q(other_services__in=[self.service]), live=True).distinct()
+        sub_national_products = SubNationalProductPage.objects.filter(Q(service=self.service), live=True).distinct()
 
-        return products
+        return list(national_products) + list(sub_national_products)
 
     @cached_property
     def core_products(self):
@@ -126,9 +129,10 @@ class ServicePage(AbstractBannerWithIntroPage):
         :return: core products list
         """
         # Get all products related to this service
-        core_products = ProductPage.objects.filter(service=self.service)
+        national_products = ProductPage.objects.filter(service=self.service, live=True)
+        sub_national_products = SubNationalProductPage.objects.filter(service=self.service, live=True)
 
-        return core_products
+        return list(national_products) + list(sub_national_products)
 
     @cached_property
     def flex_pages(self):

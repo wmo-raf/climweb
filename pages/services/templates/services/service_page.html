@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailsettings_tags i18n wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+{% load static wagtailsettings_tags i18n wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
 {% get_settings use_default_site=True %}
 
 {% block extra_css %}
@@ -9,7 +9,6 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
     {% endif %}
-
 {% endblock %}
 
 {% block body_class %}service_page{% endblock %}
@@ -17,12 +16,25 @@
 {% block content %}
     <main class="is-index">
         {% include 'hero.html' with page=page %}
-        <section class="nmhs-work is-desktop" style="padding:6em 0">
-            <div class="work container">
-                {% include 'service_introduction.html' with page=page %}
-            </div>
-        </section>
+        {% if page.introduction_image %}
+            <section class="nmhs-work is-desktop">
+                <div class="work container">
+                    {% include 'service_introduction.html' with page=page what_we_do=False %}
+                </div>
+            </section>
+        {% else %}
+            <section>
+                <div class="work container">
+                    <h2 class="section-subheader">
+                        {{ page.introduction_title }}
+                    </h2>
 
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
         {% if page.products %}
             <section id="offers" class="offers"
                      style="background-image: url('{% static 'img/bg_products.png' %}'); background-repeat:no-repeat; background-size:cover">
@@ -70,14 +82,55 @@
                     </div>
                 </div>
             </section>
-
         {% endif %}
 
         {% if page.what_we_do_items %}
-        
             <section class="nmhs-work is-desktop">
                 <div class="work container">
-                    {% include 'what_we_do_section.html' with page=page %}
+                    <div class="intro-items-container">
+                        <div class="intro-items-header">
+                            <span>
+                                {% translate "What we do" %}
+                            </span>
+                        </div>
+                        <div class="accordion js-accordion" style="padding:50px 0">
+                            {% for block in  page.what_we_do_items %}
+                                <div class="accordion__item js-accordion-item active">
+                                    <div class="accordion-header js-accordion-header">
+                                        <div style="display: flex;align-items: center">
+                                            {% if block.value.icon %}
+                                                <span class="icon" style="margin-right: 10px">
+                                                    {% svg_icon name=block.value.icon %}
+                                                </span>
+                                            {% endif %}
+                                            <span>
+                                                {{ block.value.title }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <i class="fas fa-sort-down"></i>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-body js-accordion-body" style="display: none;">
+                                        <div class="accordion-body__contents">
+                                            {{ block.value.description|richtext }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if page.what_we_do_button_text and page.what_we_do_button_link %}
+                            <div class="center">
+                                <a href="{{ page.what_we_do_button_link.url }}"
+                                   class="button is-rounded center sec-btn cta-btn">
+                                    <span>{{ page.what_we_do_button_text }}</span>
+                                    <span class="icon">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </section>
         {% endif %}
@@ -95,7 +148,6 @@
                 </div>
             </section>
         {% endif %}
-
 
         {% if page.events.all %}
             <section class="events-inline">

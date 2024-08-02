@@ -25,11 +25,14 @@ class ProductItemStructValue(StructValue):
     def product_date_str(self):
         return self.get("date").isoformat()
 
+    @property
     def p_image(self):
         if self.get("image"):
             return self.get("image")
         if self.get("thumbnail"):
             return self.get("thumbnail")
+
+        return None
 
 
 class ProductItemTypeBlock(blocks.StructBlock):
