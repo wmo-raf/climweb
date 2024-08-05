@@ -1,19 +1,27 @@
+from os.path import splitext
+
 from django.core.mail import mail_admins
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.template.response import TemplateResponse
+from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+from wagtail.contrib.forms.models import AbstractForm, AbstractFormField, FORM_FIELD_CHOICES
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
+from base.forms import CustomFormBuilder, FormImageField, FormDocumentField, CustomSubmissionsListView
 from base.mixins import MetadataPageMixin
+from base.models import FormFileSubmission
 from pages.contact.utils import get_duplicates
 
 
 class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     required_css_class = 'required'
+    form_builder = CustomFormBuilder
+    submissions_list_view_class = CustomSubmissionsListView
 
     template = 'datarequest.html'
     parent_page_types = ['home.HomePage']
@@ -110,6 +118,54 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
         content = '\n'.join(content)
         mail_admins("POSSIBLE SPAM (DATA REQUEST PAGE)- {}".format(self.subject), content, fail_silently=True)
 
+    @staticmethod
+    def get_image_title(filename):
+        """
+        Generates a usable title from the filename of an image upload.
+        Note: The filename will be provided as a 'path/to/file.jpg'
+        """
+        if filename:
+            result = splitext(filename)[0]
+            result = result.replace('-', ' ').replace('_', ' ')
+            return result.title()
+        return ''
+
+    def process_form_submission(self, form):
+        cleaned_data = form.cleaned_data
+
+        for name, field in form.fields.items():
+            file_type = None
+            if isinstance(field, FormImageField):
+                file_type = 'image'
+            elif isinstance(field, FormDocumentField):
+                file_type = 'document'
+
+            if file_type:
+                file = cleaned_data.get(name)
+                if file:
+                    file.title = self.get_image_title(file.name)
+                    file_type = file_type
+
+                    file_submission = FormFileSubmission.objects.create(
+                        file=file,
+                        file_type=file_type,
+                    )
+
+                    cleaned_data[name] = file_submission.pk
+                else:
+                    del cleaned_data[name]
+
+        return super(DataRequestPage, self).process_form_submission(form)
+
 
 class DataRequestFormField(AbstractFormField):
+    FILE_SUBMISSION_FIELD_CHOICES = (
+        ("image", _("Upload Image")),
+        ("document", _("Upload PDF Document")),
+    )
+
+    field_type = models.CharField(
+        verbose_name=_("field type"), max_length=16, choices=FORM_FIELD_CHOICES + FILE_SUBMISSION_FIELD_CHOICES
+    )
+
     page = ParentalKey(DataRequestPage, on_delete=models.CASCADE, related_name="datarequest_form_fields")
