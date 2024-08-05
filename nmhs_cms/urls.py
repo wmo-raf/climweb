@@ -10,7 +10,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtailcache.cache import cache_page
 
-from base.views import humans
+from base.views import humans, public_health_check
 from nmhs_cms.api import api_router
 from pages.search import views as search_views
 from climweb_wdqms import urls as climweb_wdqms_urls
@@ -46,6 +46,7 @@ urlpatterns = [
 
     path("api/satellite-imagery/", include("pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("pages.cityclimate.urls")),
+    path("api/_health/", public_health_check),
 ]
 
 if ADMIN_URL_PATH:
