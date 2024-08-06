@@ -162,7 +162,8 @@ def register_permissions():
 def hide_menu_items(request, menu_items):
     custom_menu_permissions = {
         "geo-manager": "base.can_view_geomanager_menu",
-        "city_forecast": "base.can_view_forecast_menu"
+        "city_forecast": "base.can_view_forecast_menu",
+        "aviation_editor": "base.can_view_aviation_editor_menu",
     }
 
     hidden = []
