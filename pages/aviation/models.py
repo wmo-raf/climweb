@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from wagtail.api.v2.utils import get_full_url
 
+
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.panels import LeafletPanel, GeoAddressPanel
 from wagtail_color_panel.edit_handlers import NativeColorPanel
@@ -39,7 +40,7 @@ class AirportCategory(models.Model):
 
 # Create your models here.
 class Airport(models.Model):
-    id = models.CharField(unique=True, primary_key=True,)
+    id = models.CharField(unique=True, primary_key=True,max_length=4, verbose_name=_("ICAO Code"), help_text=_("The ICAO airport code or location indicator is a four-letter code designating aerodromes around the world."))
     name = models.CharField(verbose_name=_("Airport Name"), max_length=255, null=True, blank=False, unique=True)
     slug = AutoSlugField(populate_from='name', null=True, unique=True, default=None, editable=False)
     category = models.ForeignKey(AirportCategory, verbose_name=_("Airport Category"), on_delete=models.CASCADE)
@@ -59,7 +60,7 @@ class Airport(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.id})"
 
     @property
     def coordinates(self):
@@ -84,7 +85,6 @@ class Airport(models.Model):
         return context
 
 
-
 class Message(models.Model):
 
     MSG_FORMAT_CHOICES = [
@@ -98,6 +98,9 @@ class Message(models.Model):
     msg_format = models.CharField(max_length=50, choices=MSG_FORMAT_CHOICES,
                                           verbose_name=_("Message Format"),)
     msg_datetime = models.DateTimeField(_("Message Datetime"), auto_now=False, auto_now_add=False, null=True)
+
+    def __str__(self) -> str:
+        return f"{self.airport} - {self.msg_datetime} - {self.msg_format}"
 
 
 class AviationPage(MetadataPageMixin, RoutablePageMixin, Page):

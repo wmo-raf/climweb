@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, time
-
+import pytz
+from django.conf import settings
 from metar_taf_parser.parser.parser import TAFParser,MetarParser
 from metar_taf_parser.model.enum import CloudQuantity, CloudType, WeatherChangeType, Phenomenon,Intensity, Descriptive
 from metar_taf_parser.model.model import WeatherCondition, WeatherChangeType
@@ -15,15 +16,22 @@ CLOUD_COVERAGE = {
 # Get the current date
 current_date = datetime.now()
 
-def fmt_date(day, time):
-    print(day, type(time))
-    print(day, time)
+def fmt_date(message_type, day, time):
     # Replace the day, hour, and minute in the current date
-    data_date = current_date.replace(day=day, hour=time.hour, minute=time.minute, second=time.second, microsecond=0)
-        # Adjust for month wrap-around
-    if data_date > current_date + timedelta(days=1):
-        data_date = data_date - timedelta(days=current_date.day)
+    # Get the settings timezone
+    settings_timezone = pytz.timezone(settings.TIME_ZONE)
 
+    data_date = current_date.replace(day=day, hour=time.hour, minute=time.minute, second=time.second, microsecond=0, tzinfo=None)
+    print("before",data_date)
+    data_date =  pytz.UTC.localize(data_date)
+    print("before",data_date)
+    data_date = data_date.astimezone(settings_timezone).replace(tzinfo=None)
+    print("after",data_date)
+    # If the decoded date is in the future, it must be from the previous month
+    if message_type == 'METAR':
+        if data_date > current_date:
+            previous_month = current_date.replace(day=1) - timedelta(days=1)
+            data_date = data_date.replace(month=previous_month.month, year=previous_month.year)
     
 
     return data_date
@@ -34,9 +42,10 @@ def parse_metar_message(message):
         wind = metar._get_wind()
         clouds = metar._get_clouds()
         visibility = metar._get_visibility()
+        print("metar.day",metar.day)
          
 
-        metar_date = fmt_date(metar.day, metar.time)
+        metar_date = fmt_date('METAR',metar.day, metar.time)
 
         decoded_message = {
             "type": "METAR",
@@ -130,7 +139,7 @@ def parse_taf_message(message):
         conditions = taf._get_weather_conditions()
         
 
-        taf_date = fmt_date(taf.day, taf.time)
+        taf_date = fmt_date('TAF',taf.day, taf.time)
 
         decoded_message = {
             "type": "TAF",
@@ -213,8 +222,8 @@ def parse_taf_message(message):
             "trends": [
                 {
                     "trend_type": WeatherChangeType(trend.type).__repr__() if trend.type else None,
-                    "start_date": fmt_date(trend.validity.start_day, time(trend.validity.start_hour, 0, 0)).strftime('%Y-%m-%d %H:%M:%S UTC') if trend._validity  else None,
-                    "end_date": fmt_date(trend.validity.end_day, time(trend.validity.end_hour, 0, 0)).strftime('%Y-%m-%d %H:%M:%S UTC') if trend._validity else None,
+                    "start_date": fmt_date('TAF',trend.validity.start_day, time(trend.validity.start_hour, 0, 0)).strftime('%Y-%m-%d %H:%M:%S UTC') if trend._validity  else None,
+                    "end_date": fmt_date('TAF',trend.validity.end_day, time(trend.validity.end_hour, 0, 0)).strftime('%Y-%m-%d %H:%M:%S UTC') if trend._validity else None,
                     "wind": {
                         "direction": {
                             "value": trend.wind.direction if trend.wind else None,

@@ -306,6 +306,12 @@
                     map.addImage(`barbs-${i}`, image.data);
                 }
             })
+            map.loadImage(`{% static "img/barbs/barbs-${i}-flip.png" %}`).then(image => {
+               
+                if (!map.hasImage(`barbs-${i}-flip`)) {
+                    map.addImage(`barbs-${i}-flip`, image.data);
+                }
+            })
         
         }
 
@@ -338,49 +344,53 @@
                 if (!data.latest_metar_datetime && !data.latest_taf_datetime) {
                     console.error('No latest date returned from the server');
                     return;
-                }
-    
-                const latestDate = new Date(data[`latest_${msgFormat.toLowerCase()}_datetime`]);
-                const latestDateTimeArray = getLatestDateTimeArray(latestDate);
-    
-                // Populate time labels dynamically based on the latest datetime
-                timeLabels.forEach((label, index) => {
-                    const dateTime = latestDateTimeArray[index];
-                    label.textContent = `${dateTime.toISOString().slice(11, 16)}Z`;
-                    label.dataset.value = dateTime.toISOString();
-                });
+                }    
+                
     
                 // Set initial slider value based on latest datetime
                 slider.max = 9; // Since we have 16 labels
                 slider.value = 9;
+            
     
                 const updateCurrentTime = () => {
+                    const latestDate = new Date(data[`latest_${msgFormat.toLowerCase()}_datetime`]);
+                    const latestDateTimeArray = getLatestDateTimeArray(latestDate);
+    
+                    // Populate time labels dynamically based on the latest datetime
+                    timeLabels.forEach((label, index) => {
+                        const dateTime = latestDateTimeArray[index];
+                        label.textContent = `${dateTime.toISOString().slice(11, 16)}Z`;
+                        label.dataset.value = dateTime.toISOString();
+                    });
                     const value = slider.value;
                     currentTime.textContent = `${timeLabels[value].textContent} UTC ${latestDate.toDateString()}`;
                     loadMessages(timeLabels[value].dataset.value);
+
                 };
     
-                slider.addEventListener('input', updateCurrentTime);
                 updateCurrentTime(); // Initialize display
+                slider.addEventListener('input',  updateCurrentTime);
     
                 document.getElementById('toggle-metar').addEventListener('click', () => {
+
                     msgFormat = 'METAR';
+
                     updateLabels();
                     document.getElementById('toggle-metar').classList.add("active")
                     document.getElementById('toggle-taf').classList.remove("active")
-                    const value = slider.value;
-                    currentTime.textContent = `${timeLabels[value].textContent} UTC ${latestDate.toDateString()}`;
+                    updateCurrentTime()
+
                     
                 });
     
                 document.getElementById('toggle-taf').addEventListener('click', () => {
+
                     msgFormat = 'TAF';
                     updateLabels();
                     document.getElementById('toggle-metar').classList.remove("active")
                     document.getElementById('toggle-taf').classList.add("active")
-                    const value = slider.value;
-                    currentTime.textContent = `${timeLabels[value].textContent} UTC ${latestDate.toDateString()}`;
-                    
+                    updateCurrentTime()
+
                 });
     
                 document.getElementById('search-box').addEventListener('input', () => loadMessages(timeLabels[slider.value].dataset.value));
@@ -394,6 +404,7 @@
                         label.textContent = `${dateTime.toISOString().slice(11, 16)}Z`;
                         label.dataset.value = dateTime.toISOString();
                     });
+
     
                     loadMessages(timeLabels[slider.value].dataset.value);
                 }
@@ -443,6 +454,9 @@
                                         'layout': {
                                             "icon-image": [
                                                     "case",
+                                                    [">=", ["get", "latitude"], 0],                                                    
+                                                    [
+                                                    "case",
                                                     [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 107 / 1.944],
                                                     "barbs-22",
                                                     [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 103 / 1.944],
@@ -487,6 +501,54 @@
                                                     "barbs-2",
                                                     "sky_clear",
                                                 ],
+                                                    [
+                                                        "case",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 107 / 1.944],
+                                                        "barbs-22-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 103 / 1.944],
+                                                        "barbs-21-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 97 / 1.944],
+                                                        "barbs-20-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 93 / 1.944],
+                                                        "barbs-19-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 87 / 1.944],
+                                                        "barbs-18-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 83 / 1.944],
+                                                        "barbs-17-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 78 / 1.944],
+                                                        "barbs-16-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 73 / 1.944],
+                                                        "barbs-15-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 68 / 1.944],
+                                                        "barbs-14-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 63 / 1.944],
+                                                        "barbs-13-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 58 / 1.944],
+                                                        "barbs-12-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 53 / 1.944],
+                                                        "barbs-11-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 48 / 1.944],
+                                                        "barbs-10-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 43 / 1.944],
+                                                        "barbs-9-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 38 / 1.944],
+                                                        "barbs-8-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 33 / 1.944],
+                                                        "barbs-7-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 28 / 1.944],
+                                                        "barbs-6-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 23 / 1.944],
+                                                        "barbs-5-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 18 / 1.944],
+                                                        "barbs-4-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 8 / 1.944],
+                                                        "barbs-3-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
+                                                        "barbs-2-flip",
+                                                        "sky_clear",
+                                                    ],
+                                                   
+                                                ],
                                                "icon-size": [
                                                     "case",
                                                     [">=", ["to-number", ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
@@ -499,8 +561,10 @@
                                                     'interpolate',
                                                     ['linear'],
                                                     ["to-number", ['get', 'value', ['get', 'degrees',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]],
-                                                    0, 90,
-                                                    360, 450
+                                                    0, 0,
+                                                    90, 90,
+                                                    360, 360,
+                                                    450, 450
                                                 ],
                                                 "icon-anchor": "bottom",
                                                 "icon-offset": [
@@ -635,7 +699,8 @@
                                         }
                                     });
 
-                                    map.on('click', 'cloud-cover', (e) => {
+                                    for(const layer of layers){
+                                    map.on('click', layer, (e) => {
                                         const coordinates = e.features[0].geometry.coordinates.slice();
                                         const id = e.features[0].properties.id;
                                         const name = e.features[0].properties.name;
@@ -681,14 +746,18 @@
                                             `)
                                             .addTo(map);
                                     });
-        
-                                    map.on('mouseenter', 'cloud-cover', () => {
+
+                                    map.on('mouseenter', layer, () => {
                                         map.getCanvas().style.cursor = 'pointer';
                                     });
         
-                                    map.on('mouseleave', 'cloud-cover', () => {
+                                    map.on('mouseleave', layer, () => {
                                         map.getCanvas().style.cursor = '';
                                     });
+
+                                }
+        
+                                  
                                 
                             
                             
