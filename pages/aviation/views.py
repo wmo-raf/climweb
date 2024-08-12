@@ -251,7 +251,9 @@ def get_messages(request):
                     'name': msg.airport.name,
                     'category_name':msg.airport.category.name,
                     'category_color':msg.airport.category.color,
-                    'messages':[] 
+                    'messages':[],
+                    'latitude':msg.airport.location.y,
+                    'longitude':msg.airport.location.x
                 }
             })
 
