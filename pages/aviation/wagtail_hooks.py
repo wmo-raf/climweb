@@ -9,6 +9,7 @@ from django.urls import path
 from django.urls import reverse
 from wagtail.admin.menu import MenuItem
 
+
 from wagtail import hooks
 from pages.aviation.views import add_message, load_aviation_airports
 
@@ -58,7 +59,6 @@ class AirportsViewSetGroup(SnippetViewSetGroup):
             pass
 
         return menu_items
-
 
 
 register_snippet(AirportsViewSetGroup)
