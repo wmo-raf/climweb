@@ -8,6 +8,8 @@ from django.contrib.gis.geos import Point
 from pages.aviation.models import Airport,Message,AirportCategory
 from pages.aviation.forms import AirportLoaderForm, MessageForm
 from pages.aviation.decode import identify_message_type, parse_metar_message,parse_taf_message
+from .utils import get_cloud_cover_icons, get_wind_barb_icons
+from wagtail.api.v2.utils import get_full_url
 
 # views.py
 from django.http import JsonResponse
@@ -268,3 +270,16 @@ def get_messages(request):
 
 
     return JsonResponse(data)
+
+
+def wind_barb_icons(request):
+    options = get_wind_barb_icons()
+    icons = [{"id": icon["id"], "name": icon["name"], "url": get_full_url(request, icon["icon_url"])} for icon in
+             options]
+    return JsonResponse(icons, safe=False)
+
+def cloud_cover_icons(request):
+    options = get_cloud_cover_icons()
+    icons = [{"id": icon["id"], "name": icon["name"], "url": get_full_url(request, icon["icon_url"])} for icon in
+             options]
+    return JsonResponse(icons, safe=False)

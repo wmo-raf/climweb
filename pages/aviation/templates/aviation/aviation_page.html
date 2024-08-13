@@ -254,7 +254,7 @@
                     <hr>
 
                     <div
-                        class="messages mt-4"
+                        class="messages"
                         style="overflow-y: auto; height: 100%"
                     >
                     <p style="text-align:center"><em>Fetching messages...</em></p>
@@ -289,33 +289,27 @@
         // Fit map bounds
         let country_bounds = {{bounds|safe}}
         map.fitBounds(country_bounds, { padding: 10 });
-        let cloud_covers = ['sky_clear', 'scattered', 'broken','few', 'no_significant_cloud', 'overcast', 'other']
 
-        cloud_covers.forEach(cover => {
-            map.loadImage(`{% static "img/cloud/${cover}.png" %}`).then(image => {
-               
-                if (!map.hasImage(`${cover}`)) {
-                    map.addImage(`${cover}`, image.data);
-                }
-            })
-        })
-        for (let i = 1; i < 22; i++) {
-            map.loadImage(`{% static "img/barbs/barbs-${i}.png" %}`).then(image => {
-               
-                if (!map.hasImage(`barbs-${i}`)) {
-                    map.addImage(`barbs-${i}`, image.data);
-                }
-            })
-            map.loadImage(`{% static "img/barbs/barbs-${i}-flip.png" %}`).then(image => {
-               
-                if (!map.hasImage(`barbs-${i}-flip`)) {
-                    map.addImage(`barbs-${i}-flip`, image.data);
-                }
-            })
+        fetch("{% url 'wind-barb-icons' %}").then(response => response.json()).then(icons => {
+            icons.forEach(icon => {
+                map.loadImage(icon.url).then(image => {
+                    if (!map.hasImage(icon.id)) {
+                        map.addImage(icon.id, image.data);
+                    }
+                });
+            });
+        });
+
+        fetch("{% url 'cloud-cover-icons' %}").then(response => response.json()).then(icons => {
+            icons.forEach(icon => {
+                map.loadImage(icon.url).then(image => {
+                    if (!map.hasImage(icon.id)) {
+                        map.addImage(icon.id, image.data);
+                    }
+                });
+            });
+        });
         
-        }
-
-    
         const slider = document.getElementById('timeSlider');
         const currentTime = document.getElementById('currentTime');
         const timeLabels = document.querySelectorAll('.time-labels span');
