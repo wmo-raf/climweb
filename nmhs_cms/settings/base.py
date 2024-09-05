@@ -507,3 +507,5 @@ WAGTAILIMAGES_EXTENSIONS = env.list("WAGTAILIMAGES_EXTENSIONS", default=DEFAULT_
 
 DEFAULT_WAGTAILDOCS_EXTENSIONS = ['pdf', 'docx', 'xlsx', 'pptx', 'csv', 'odt', 'rtf', 'txt', 'key', 'zip', 'doc']
 WAGTAILDOCS_EXTENSIONS = env.list("WAGTAILDOCS_EXTENSIONS", default=DEFAULT_WAGTAILDOCS_EXTENSIONS)
+
+CAP_ALLOW_EDITING = env.bool("CAP_ALLOW_EDITING", default=False)

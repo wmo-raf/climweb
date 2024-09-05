@@ -31,11 +31,17 @@ from .models import (
     CapAlertListPage, get_currently_active_alerts, CAPAlertWebhook, CAPAlertWebhookEvent, OtherCAPSettings
 )
 from .utils import create_cap_geomanager_dataset
+from django.conf import settings
 
 
 class CAPPagePermissionHelper(PagePermissionHelper):
     def user_can_edit_obj(self, user, obj):
         can_edit = super().user_can_edit_obj(user, obj)
+
+        # allow editing if enabled from settings
+        can_edit_cap = getattr(settings, "CAP_ALLOW_EDITING", False)
+        if can_edit_cap:
+            return True
 
         if obj.live and obj.status == "Actual":
             return False
@@ -288,6 +294,10 @@ def copy_cap_alert_page(request, page):
 def before_edit_cap_alert_page(request, page):
     page = page.specific
     if page.__class__.__name__ == "CapAlertPage":
+        # allow editing if enabled from settings
+        can_edit_cap = getattr(settings, "CAP_ALLOW_EDITING", False)
+        if can_edit_cap:
+            return
         if page.live and page.status == "Actual":
             url = AdminURLHelper(page).get_action_url("index")
             messages.warning(request, gettext(
