@@ -1,0 +1,99 @@
+{% load  i18n %}
+
+<div class="container">
+
+    <div class="report-header has-text-centered"> 
+        <h2 class="title">{% trans 'Monthly Average of observations' %}</h2>
+
+    </div>
+   
+    <div class="columns report-charts my-4">
+        <div class="column is-half">
+            <div class="card map-card elevation-1">
+                <div class="card-content p-1">
+                    <div id="monthly-report-rate-map"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="column">
+            <div class="columns report-charts">
+                <div class="column is-half">
+                    <div class="select is-dark is-fullwidth">
+                        <select id="month-select">
+                        <option value="1">'January' %}</option>
+                        <option value="2">{% trans 'February' %}</option>
+                        <option value="3">{% trans 'March' %}</option>
+                        <option value="4">{% trans 'Apri' %}l</option>
+                        <option value="5">{% trans 'May' %}</option>
+                        <option value="6">{% trans 'June' %}</option>
+                        <option value="7">{% trans 'July' %}</option>
+                        <option value="8">{% trans 'August' %}</option>
+                        <option value="9">{% trans 'September' %}</option>
+                        <option value="10">{% trans 'October' %}</option>
+                        <option value="11">{% trans 'November' %}</option>
+                        <option value="12">{% trans 'December' %}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="select is-fullwidth is-dark mb-3">
+                        <select id="year-select" style="text-transform:capitalize">
+                            {% comment %} <option value="all_stations">{% trans 'All Stations' %}</option> {% endcomment %}
+        
+                            {% for year in years %}
+                            <option value={{year}} {% if year == latest_date|date:"Y" %} selected {% endif %}>{{year}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            <figure class="transmissions-figure" style="">
+                <div id="monthly-average-pie">
+                </div>
+            </figure>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+
+    <div class="columns pb-4">
+        
+        <div class="column is-half">
+            
+
+            <div class="card map-card elevation-1">
+                <div class="card-content p-1">
+                     <div id="monthly-report-heat-map"></div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-half">
+            <p id="monthly-summary-text"></p>
+
+            <figure class="transmissions-figure" style="">
+                <div id="monthly-average-graph">
+                </div>
+            </figure>
+        </div>
+
+       
+    </div>
+
+    <div class="columns is-justify-content-center">
+        <div class="column is-10 ">
+            {% include "wdqms/color_scale_include.html" %}
+
+        </div>
+
+    <div>
+
+        
+
+</div>
+
+
+

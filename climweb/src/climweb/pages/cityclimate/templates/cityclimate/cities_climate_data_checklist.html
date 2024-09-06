@@ -1,0 +1,151 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n l10n wagtailadmin_tags wagtailimages_tags static %}
+{% block titletag %}
+    {% blocktranslate trimmed with title=page.get_admin_display_title %}
+        {{ title }}
+    {% endblocktranslate %}
+{% endblock %}
+
+
+{% block extra_css %}
+    {{ block.super }}
+
+    <style>
+        .city-icon {
+            height: 20px;
+            width: 20px;
+        }
+
+        .city-icon.success {
+            color: green;
+        }
+
+        .info-container {
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0
+        }
+
+        .info-text {
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 16px
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% translate page.title|add:" - Cities Data" as header_str %}
+
+    {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" %}
+
+    <div class="nice-padding">
+        {% if not cities_list %}
+            <div>
+                <div class="help-block help-info">
+                    <svg class="icon icon-help icon" aria-hidden="true">
+                        <use href="#icon-help"></use>
+                    </svg>
+                    <p>
+                        {% translate "No city has been created. Please add a city first then return here to upload data" %}
+                    </p>
+                </div>
+                <a href="{{ cities_list_url }}" class="button bicolor button--icon">
+                    <span class="icon-wrapper">
+                        <svg class="icon icon-plus icon" aria-hidden="true">
+                            <use href="#icon-plus"></use>
+                        </svg>
+                    </span>
+                    {% translate "Add City" %}
+                </a>
+            </div>
+        {% else %}
+            <div class="info-container">
+                <div class="info-item">
+                    {% icon name="info-circle" classname="city-icon no" %}
+                    <div class="info-text">
+                        {% blocktranslate with counter=cities_list|length trimmed %}
+                            Total Cities: {{ counter }}
+                        {% endblocktranslate %}
+                    </div>
+                </div>
+                <div class="info-item">
+                    {% icon name="info-circle" classname="city-icon no" %}
+                    <div class="info-text">
+                        {% blocktranslate with counter=cities_with_data_count trimmed %}
+                            Cities with data loaded: {{ counter }}
+                        {% endblocktranslate %}
+                    </div>
+                </div>
+            </div>
+
+            <table class="listing">
+                <thead>
+                <tr>
+                    <th>
+                        {% translate "City" %}
+                    </th>
+                    <th>
+                        {% translate "Data Loaded" %}
+                    </th>
+                    <th></th>
+                    <th>
+                        {% translate "Last Updated" %}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for city in cities_list %}
+                    <tr>
+                        <td class="title">
+                            <b>{{ city.city.name }}</b>
+                        </td>
+                        <td>
+                            {% if city.has_data %}
+                                {% icon name="tick-inverse" classname="city-icon success" %}
+                            {% else %}
+                                {% icon name="cross" classname="city-icon no" %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if city.has_data %}
+                                <a href="{{ city.load_data_url }}"
+                                   class="button button-small bicolor button--icon button-secondary"><span
+                                        class="icon-wrapper">
+                                    <svg class="icon icon-edit icon" aria-hidden="true">
+                                        <use href="#icon-edit"></use>
+                                    </svg>
+                                </span>
+                                    {% translate "Update data" %}
+                                </a>
+                            {% else %}
+                                <a href="{{ city.load_data_url }}"
+                                   class="button button-small bicolor button--icon"><span
+                                        class="icon-wrapper">
+                                    <svg class="icon icon-plus icon" aria-hidden="true">
+                                        <use href="#icon-plus"></use>
+                                    </svg>
+                                </span>
+                                    {% translate "Load data" %}
+                                </a>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if city.has_data %}
+                                date
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
+    </div>
+{% endblock %}

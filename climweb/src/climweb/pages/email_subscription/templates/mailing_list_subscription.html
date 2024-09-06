@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags bulma_tags i18n %}
+
+{% block content %}
+
+    <style>
+        .messages-container {
+            margin: 40px 0;
+        }
+    </style>
+
+
+    <main>
+        <section>
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-half-tablet">
+                        {% if page.heading %}
+                            <h2 class="section-subheader" style="padding-bottom: 20px">{{ page.heading }}</h2>
+                        {% endif %}
+                        {% if page.introduction_text %}
+                            <p style="margin-bottom: 40px">{{ page.introduction_text }}</p>
+                        {% endif %}
+
+                        <div class="messages-container">
+                            {% if success_message %}
+                                <article class="message is-success">
+                                    <div class="message-header">
+                                        <p>{% translate "Success" %} </p>
+                                    </div>
+                                    <div class="message-body">
+                                        {{ success_message }}
+                                    </div>
+                                </article>
+                            {% endif %}
+
+                            {% if error_message %}
+                                <article class="message is-danger">
+                                    <div class="message-header">
+                                        <p>Error</p>
+                                    </div>
+                                    <div class="message-body">
+                                        {{ error_message }}
+                                    </div>
+                                </article>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-column">
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form|bulma }}
+                                <div class="field">
+                                    <button type="submit" class="button submit-button has-no-border">
+                                        {% translate "Submit" %}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+        const params = getParams(window.location.href)
+        if (params['interests']) {
+            const interests = params['interests'].split(',')
+            interests.forEach(function (interest) {
+                $(`input[name="INTERESTS"][value=${interest}]`).prop('checked', true);
+            })
+        }
+    </script>
+{% endblock %}
+
+

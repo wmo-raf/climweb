@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags i18n %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block body_class %}glossary_detail{% endblock %}
+
+{% block content %}
+
+    <style>
+
+        .metadata {
+            color: #aaaaaa;
+            font-weight: 500;
+        }
+
+        .item-brief-definition {
+            padding: 30px 0;
+            margin-bottom: 10px;
+        }
+
+        .item-detail-description {
+
+        }
+
+        .detail-header {
+            padding-bottom: 20px;
+        }
+
+        .rich-text p {
+            font-size: 16px !important;
+        }
+
+        .rich-text img {
+            display: block;
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        .rich-text img {
+            max-height: 500px !important;
+            object-fit: contain;
+        }
+
+        .rich-text img.full-width {
+            width: 100% !important;
+        }
+
+        .rich-text figcaption {
+            font-style: italic;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .card {
+            border-radius: unset;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: #f8f9fb;
+        }
+
+        .local-definitions-header {
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .contributors-section {
+            padding-top: 30px;
+        }
+
+        .local-contributors {
+            padding: 10px;
+            background-color: #f8f9fb;
+        }
+
+        .contributor {
+            margin-top: 20px;
+        }
+    </style>
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        <section class="glossary-item-detail">
+            <div class="container">
+                <h2 class="term">{{ page.title }}</h2>
+                <div class="metadata">
+                    {% blocktranslate trimmed with last_published=page.last_published_at|date:"M d, Y" %}
+                        Updated on : {{ last_published }}
+                    {% endblocktranslate %}
+                </div>
+                <div class="item-brief-definition">
+                    {{ page.brief_definition }}
+                </div>
+                {% if page.detail_description %}
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                {% translate "More detail" %}
+                            </p>
+                            <a class="card-header-icon card-toggle">
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                        </header>
+                        <div class="card-content {% if page.local_definitions %}is-hidden{% endif %}">
+                            <div class="content">
+                                <div class="item-detail-description rich-text">
+                                    {{ page.detail_description|richtext }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if page.local_definitions %}
+                    <h4 class="local-definitions-header">
+                        {% translate "Local description" %}
+                    </h4>
+                    {% for local_def in page.local_definitions %}
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    {% translate "Language" %}: {{ local_def.value.language_name }}
+                                </p>
+                                <a class="card-header-icon card-toggle">
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                            </header>
+                            <div class="card-content is-hidden">
+                                <div class="content">
+                                    <div class="item-detail-description rich-text">
+                                        {{ local_def.value.definition|richtext }}
+                                    </div>
+                                    {% if local_def.value.contributor_names %}
+                                        <div class="contributors-section">
+                                            <h6>
+                                                {% translate "Contributors" %}:
+                                            </h6>
+                                            <div class="local-contributors">
+                                                {% for contributor in local_def.value.contributor_names %}
+                                                    <div class="contributor">
+                                                        <div>
+                                                            <b>{% translate "Name" %}:</b> {{ contributor.name }}
+                                                        </div>
+
+                                                        {% if contributor.organisation %}
+                                                            <div>
+                                                                <b>{% translate "Organisation" %}</b>: {{ contributor.organisation }}
+                                                            </div>
+                                                        {% endif %}
+
+                                                        {% if contributor.contact %}
+                                                            <div>
+                                                                <b>{% translate "Contact" %}</b>: {{ contributor.contact }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+
+{% block extra_js %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let cardToggles = document.getElementsByClassName('card-toggle');
+            for (let i = 0; i < cardToggles.length; i++) {
+                cardToggles[i].addEventListener('click', e => {
+                    e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+                });
+            }
+        })
+    </script>
+
+{% endblock %}
+
+
+

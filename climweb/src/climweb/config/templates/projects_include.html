@@ -1,0 +1,55 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailsettings_tags i18n %}
+{% get_settings use_default_site=True %}
+
+<div class="columns projects-inline-columns">
+    <div class="column is-one-third-desktop is-full-mobile ">
+        <h2 class="projects-inline-header">
+            {% translate "Projects" %}
+        </h2>
+        <div class="projects-inline-desc ">
+            {{ page.projects_description|richtext }}
+        </div>
+        {% if settings.base.ImportantPages.all_projects_page %}
+            <div class="more-container">
+                <a class="more" href="{{ settings.base.ImportantPages.all_projects_page.url }}">
+                    {% translate "More Projects" %}
+                    <span class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="column is-two-thirds-desktop is-full-mobile projects-list">
+        <div class="columns is-multiline">
+            {% for service_project in page.projects.all %}
+                <div class="column is-half-desktop is-full-mobile">
+                    <div class="project-inline-item">
+                        <div class="project-inline-img">
+                            <figure class="image">
+                                {% if service_project.project.banner_image %}
+                                    {% image service_project.project.banner_image original as proj_img %}
+                                    <img class="is-rounded progressive__img progressive--not-loaded"
+                                         data-progressive="{{ proj_img.url }}"
+                                         src="{% lazy_image_url proj_img %}"
+                                         alt="{{ service_project.project.short_name }}"/>
+                                {% endif %}
+
+                            </figure>
+                        </div>
+                        <a href="{{ service_project.project.url }}" class="project-inline-detail">
+                            {% if service_project.project.short_name %}
+                                <h4 class="project-inline-title">
+                                    {{ service_project.project.short_name }}
+                                </h4>
+                            {% endif %}
+                            <p class="grey project-inline-subtitle">
+                                {{ service_project.project.full_name }}
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n get_share_url %}
+
+<div class="columns is-multiline is-mobile document-item-detail-wrapper">
+    <div class="column is-3-desktop is-offset-1-desktop is-10-mobile document-detail-left box">
+        <div class="document-detail-image">
+            <figure class="image">
+                {% if card.card_image %}
+                    {% image card.card_image original as doc_img %}
+                    <img class="progressive__img progressive--not-loaded"
+                         data-progressive="{{ doc_img.url }}"
+                         src="{% lazy_image_url doc_img %}" alt="{{ card.card_title }}"
+                    />
+                {% endif %}
+            </figure>
+
+        </div>
+        <div class="document-detail-file-meta">
+            <span class="document-detail-file-download">
+                {% if card.card_file %}
+                    <a href="{{ card.card_file.url }}" {% if card.card_file.size > 10000000 %}
+                       download="{{ card.card_title }}"
+                    {% endif %}
+                       title="{{ card.card_title }}"
+                       data-ga-action="download"
+                       data-ga-event-category="Document Downloads"
+                       data-ga-event-label="{{ card.card_ga_label }}"
+                       data-ga-value="{{ card.card_title }}"
+                    >
+                        <span class="icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        <span>
+                            {% blocktranslate with file_size=card.card_file.size|filesizeformat trimmed %}
+                                Download - {{ file_size }}
+                            {% endblocktranslate %}
+                        </span>
+                    </a>
+                {% elif card.card_external_publication_url %}
+                    <a href="{{ card.card_external_publication_url }}" target="_blank" rel="nofollow">
+                        <span class="icon">
+                            <i class="fas fa-link"></i>
+                        </span>
+                        <span>
+                            {% translate "Go to publication" %}
+                        </span>
+                    </a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    <div class="column is-8-desktop is-full-mobile document-detail-right">
+        <div class="document-detail-header">
+            <h3 class="document-detail-title">{{ card.card_title }}</h3>
+            <div class="document-detail-header-meta">
+                <h5 class="document-detail-header-meta-item">{{ card.card_meta }}</h5>
+                <h5 class="document-detail-header-meta-item">
+                    <span class="icon" title="No. of Views">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                    <span>{{ card.card_views }}</span>
+                </h5>
+                {% if card.card_file %}
+                    <h5 class="document-detail-header-meta-item">
+                        <span class="icon" title="No. of Downloads">
+                            <i class="fas fa-file-download"></i>
+                        </span>
+                        <span>{{ card.card_file.downloads }}</span>
+                    </h5>
+                {% endif %}
+            </div>
+
+        </div>
+        <div class="document-detail-description format-text">{{ card.card_text|richtext }}</div>
+        {% if additional_materials %}
+            <h4 class="document-detail-additional-header">
+                {% translate "Additional Materials" %}:
+            </h4>
+            <div class="columns is-mobile is-multiline document-detail-materials">
+                {% for material in additional_materials %}
+                    {% if material.value.document and material.value.type == 'document' %}
+                        <a class="column is-half-tablet is-full-mobile document-detail-material"
+                           data-ga-action="download"
+                           data-ga-event-category="Additional Material Downloads"
+                           data-ga-event-label="{{ card.card_ga_label }} - Doc"
+                           data-ga-value="{{ material.value.title }}"
+                           href="{{ material.value.document.url }}" download="{{ material.value.title }}">
+                            <span class="icon document-material-icon">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span class="document-material-title">
+                                {{ material.value.title }}
+                                ({{ material.value.document.file.name|file_extension }})
+                            </span>
+                        </a>
+                    {% elif material.value.image and material.value.type == 'image' %}
+                        <a class="column is-half document-detail-material"
+                           data-ga-action="download"
+                           data-ga-event-category="Additional Material Downloads"
+                           data-ga-event-label="{{ card.card_ga_label }} - Image"
+                           data-ga-value="{{ material.value.title }}"
+                           href="{{ material.value.image.file.url }}" download="{{ material.value.title }}">
+                            <span class="icon document-material-icon">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span class="document-material-title">
+                                {{ material.value.title }} ({{ material.value.image.file.name|file_extension }})
+                            </span>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="document-detail-tags">
+            {% if card.card_tags %}
+                <span class="document-detail-tags-title">{% translate "Tags" %}: </span>
+                {% for tag in card.card_tags %}
+                    <span class="document-detail-tag">
+                        {{ tag }}
+                        {% if not forloop.last %},{% endif %}
+                    </span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="share-buttons document-detail-buttons">
+            {% if card.card_file %}
+                <a class="button is-rounded is-small"
+                   href="{{ card.card_file.url }}"
+                   download="{{ card.card_title }}"
+                   data-ga-action="download"
+                   data-ga-event-category="Document Download"
+                   data-ga-event-label="{{ card.card_ga_label }}"
+                   data-ga-value="{{ card.card_title }}">
+                    <span class="icon">
+                        <i class="fas fa-download"></i>
+                    </span>
+                    <span class="share-button-title">
+                        {% translate "Download document" %}
+                    </span>
+                </a>
+            {% elif card.card_external_publication_url %}
+                <a class="button is-rounded is-small"
+                   href="{{ card.card_external_publication_url }}" target="_blank" rel="noopener">
+                    <span class="icon">
+                        <i class="fas fa-link"></i>
+                    </span>
+                    <span class="share-button-title">
+                        {% translate "Go to publication" %}
+                    </span>
+                </a>
+            {% endif %}
+            {% share_buttons url=page.get_full_url text=page.title %}
+        </div>
+    </div>
+</div>

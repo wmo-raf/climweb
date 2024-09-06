@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static i18n wagtailcore_tags %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vacancies.css' %}">
+{% endblock %}
+
+{% block body_class %}vacancies{% endblock %}
+
+{% block content %}
+    <main class="is-index">
+        {% include 'hero.html' with page=page %}
+        {% if page.introduction_image %}
+            <section class="nmhs-work intro-section">
+                <div class="work container">
+                    {% include 'service_introduction.html' with page=page %}
+                </div>
+            </section>
+        {% else %}
+            <section class="nmhs-work intro-section">
+                <div class="work container">
+                    <h2 class="section-subheader">
+                        {{ page.introduction_title }}
+                    </h2>
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+        <section class="all-vacancies-section">
+            <div class="container">
+                {% if vacancies %}
+                    <h2 id="results" class="section-title has-text-centered">
+                        {% translate "Open Vacancies" %}
+                    </h2>
+                    <div class="columns is-centered">
+                        <div class="column is-9 is-full-mobile">
+                            {% include 'vacancy_list_include.html' with vacancies=vacancies %}
+                        </div>
+                    </div>
+                {% else %}
+                    {% include 'empty_items.html' with empty_header=page.no_vacancies_header_text empty_description=page.no_vacancies_description_text %}
+                {% endif %}
+            </div>
+        </section>
+
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+
+    <script>
+
+        $(document).ready(function () {
+
+            // If on smaller screens, collapse all filter items
+            const windowWidth = $(window).width();
+
+            if (windowWidth <= 768) {
+                //for  smaller devices
+                $('.results-filter .js-accordion-item').removeClass('active');
+            }
+
+            // initialize filter accordion
+            accordion.init({speed: 300, oneOpen: false});
+
+
+            const params = getParams(window.location.href);
+
+            // mark checkboxes from params url, on load
+            markCheckboxesFromUrlParams('vacancy-filter', params);
+
+            const baseUrl = "{{ page.url }}";
+
+            filterChangeListener('vacancy-filter', params, function (clickedEl, url_params) {
+                window.location.href = `${baseUrl}?${url_params}#results`;
+            });
+        });
+
+    </script>
+
+{% endblock %}
+
+
+
+
+

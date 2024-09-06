@@ -1,0 +1,365 @@
+
+.sat-map {
+    height: 600px;
+    width: 100%;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+}
+
+@media only screen and (max-width: 600px) {
+    .sat-map {
+        height: 500px;
+    }
+}
+
+
+.menu-control {
+    position: absolute;
+    z-index: 500;
+    top: 20px;
+    left: 20px;
+}
+
+
+.map-menu {
+    position: relative;
+}
+
+.map-menu::before {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    right: 0;
+    content: ' ';
+    left: 0;
+    width: 28px;
+    background-color: rgba(68, 65, 65, 0.84);
+    border-radius: 28px;
+    content: ' ';
+}
+
+.menu-category {
+    position: relative;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+}
+
+.category-icon {
+    cursor: pointer;
+    height: 28px;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.menu-category.active .category-icon {
+    background-color: #4e8ecb;
+    box-shadow: 0 0 4px 0 black;
+}
+
+.c-icon {
+    padding: 2px;
+    color: #fff;
+    fill: #fff;
+    width: 24px;
+    height: 24px;
+}
+
+.c-icon svg {
+    height: 100%;
+    width: 100%;
+}
+
+.layer-title {
+    position: absolute;
+    left: 34px;
+    cursor: pointer;
+    width: max-content;
+    padding: 0 6px 0 12px;
+    font-size: 16px;
+
+    font-weight: 500;
+    color: #fff;
+    border-radius: 20px;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.layer-label {
+    text-shadow: 0 0 3px #000;
+}
+
+.modal-layer-info {
+
+}
+
+.modal-layer-info .modal-card {
+    z-index: 999999999999;
+}
+
+.layer-info-icon {
+    height: 18px;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.layer-info-icon svg {
+    fill: #fff;
+    height: 100%;
+    width: 100%;
+}
+
+
+.menu-category.active .layer-title, .menu-category:hover .layer-title {
+    background-color: rgba(78, 142, 203, 0.9);
+    text-shadow: none;
+}
+
+.layer-controls-wrapper {
+    position: absolute;
+    bottom: 50px;
+    left: 12px;
+    z-index: 500;
+    max-height: 150px;
+    display: flex;
+
+}
+
+.layer-control {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    margin-right: 12px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.layer-control label {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+
+.anim-modal-trigger {
+    height: 20px;
+}
+
+.legend-control {
+    position: absolute;
+    bottom: 30px;
+    right: 12px;
+    z-index: 500;
+    width: 300px;
+    max-height: 150px;
+    padding: 16px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+}
+
+.legend-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.legend-layer-label {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.legend-layer-image {
+    margin-top: 5px;
+    max-height: 50px;
+}
+
+.legend-layer-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+@media only screen and (max-width: 600px) {
+    .legend-control {
+        bottom: 70px;
+        left: 12px;
+        padding: 8px;
+        width: 200px;
+    }
+
+    .layer-controls-wrapper {
+        bottom: 70px;
+    }
+}
+
+.leaflet-bar-timecontrol {
+    padding: 0 12px 0 8px;
+    border-radius: 16px;
+    display: flex;
+}
+
+.leaflet-bar-timecontrol .leaflet-control-timecontrol {
+    border: none;
+}
+
+.leaflet-bar-timecontrol .leaflet-control-timecontrol:last-child, .leaflet-bar-timecontrol .leaflet-control-timecontrol:first-child {
+    border-radius: 16px;
+}
+
+a.leaflet-control-timecontrol {
+    border-radius: 10px !important;
+}
+
+
+.timecontrol-slider .slider {
+    border-radius: 10px;
+    height: 10px;
+}
+
+.timecontrol-slider .knob {
+    border-radius: 10px;
+    height: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .leaflet-bar-timecontrol {
+        bottom: 20px;
+    }
+
+
+    .timecontrol-dateslider {
+        display: none;
+    }
+}
+
+
+.modal-animation {
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+}
+
+.animate-image-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.animate-image-container {
+    position: relative;
+    height: 400px;
+    background-color: rgba(78, 142, 203, .1);
+}
+
+.anim-canvas {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+.anim-controls {
+    width: 100%;
+    margin: 40px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.anim-play-pause {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 2px 0 black;
+    border-radius: 40px;
+}
+
+.anim-icon {
+    height: 18px;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-play, .icon-pause {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.anim-icon svg {
+    height: 100%;
+    width: 100%;
+    fill: #d49500;
+}
+
+.anim-icon .icon-pause {
+    display: none;
+}
+
+.anim-progress-line {
+    width: 500px;
+    margin-left: 20px;
+    position: relative;
+}
+
+.anim-slider {
+    border-radius: 8px;
+    height: 8px;
+}
+
+.ui-slider {
+    cursor: pointer;
+}
+
+.ui-slider .ui-slider-handle {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    top: -8px;
+    cursor: pointer;
+}
+
+.ui-slider-tooltip {
+    position: absolute;
+    background-color: #d49500;
+    height: 24px;
+    max-width: 150px;
+    min-width: 40px;
+    top: -32px;
+    left: -12px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #fff;
+}
+
+.ui-slider-tooltip-val {
+    width: max-content;
+}
+
+.ui-slider-tooltip::before {
+    top: 100%;
+    left: 20px;
+    content: '';
+    height: 0;
+    width: 0;
+    position: absolute;
+    border: 6px solid transparent;
+    border-top-color: #d49500;
+    margin-left: -0.5em;
+}

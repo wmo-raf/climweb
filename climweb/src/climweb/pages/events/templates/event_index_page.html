@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags static i18n %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/events.css' %}">
+{% endblock %}
+
+{% block body_class %}events{% endblock %}
+
+{% block content %}
+    {% include 'hero.html' with page=page %}
+    <main class="is-index">
+        {% if featured_event %}
+            <section class="featured-event-section">
+                <div class="container">
+                    <h2 class="section-title center">
+                        {% translate "Featured Event" %}
+                    </h2>
+                    {% include 'featured_item_include.html' with item_image=featured_event.image item_title=featured_event.title item_text=featured_event.description item_url=featured_event.url item_meta=featured_event.date_from %}
+                </div>
+            </section>
+        {% endif %}
+
+        <section class="all-events-section">
+            <h2 id="results" class="section-title center">
+                {% translate "All Events" %}
+            </h2>
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-3 is-full-mobile">
+                        <!-- Event filtering-->
+                        {% include 'events_filter_include.html' with filters=page.filters %}
+                        <!--Event filtering-->
+                    </div>
+                    <div class="column is-9 is-full-mobile">
+                        <!-- Event list-->
+                        {% include 'events_list_include.html' with events=events %}
+                        <!-- Event list-->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+
+    <script>
+
+        $(document).ready(function () {
+
+            // If on smaller screens, collapse all filter items
+            const windowWidth = $(window).width();
+
+            if (windowWidth <= 768) {
+                //for  smaller devices
+                $('.publication-filter .js-accordion-item').removeClass('active');
+            }
+
+            // initialize filter accordion
+            accordion.init({speed: 300, oneOpen: false});
+
+            const listButton = $("#list-view-button");
+            const gridButton = $("#grid-view-button");
+            const wrapper = $(".results-list");
+            const resultItem = $(".result-list-item");
+
+
+            const params = getParams(window.location.href);
+
+            // mark checkboxes from params url, on load
+            markCheckboxesFromUrlParams('event-filter', params, function (params) {
+                if (params && params.view) {
+                    if (params.view === 'grid') {
+                        listButton.removeClass("active");
+                        gridButton.addClass("active");
+                        wrapper.removeClass("list-view").addClass("grid-view columns is-mobile is-multiline");
+                        resultItem.addClass("column is-one-third-desktop is-full-mobile");
+                    } else {
+                        gridButton.removeClass("active");
+                        listButton.addClass("active");
+                        wrapper.removeClass("grid-view columns is-mobile is-multiline").addClass("list-view");
+                        resultItem.removeClass("column is-one-third-desktop is-full-mobile");
+                    }
+                }
+            });
+
+            const baseUrl = "{{ page.url }}";
+
+            filterChangeListener('event-filter', params, function (clickedEl, url_params) {
+                window.location.href = `${baseUrl}?${url_params}#results`;
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+

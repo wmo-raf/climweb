@@ -1,0 +1,39 @@
+{% extends "wagtailadmin/base.html" %}
+{% load static wagtailimages_tags wagtailsettings_tags nmhs_cms_tags %}
+{% get_settings use_default_site=True %}
+
+{% block branding_logo %}
+    <figure style="max-height: 130px;max-width: 130px;">
+        {% if settings.base.OrganisationSetting.cms_logo %}
+            {% image settings.base.OrganisationSetting.cms_logo original as logo_image %}
+            <img src="{{ logo_image.url }}" alt="ClimWeb Dashboard Logo"
+                 style="height: 100%;width: 100%;object-fit: contain"/>
+        {% else %}
+            <img src="{% static 'img/logo.svg' %}" alt="ClimWeb Dashboard Logo"
+                 style="height: 100%;width: 100%;object-fit: contain"/>
+        {% endif %}
+    </figure>
+
+    <a href="{% url 'cms-version' %}" style="color:#ababab; font-size: 12px; padding-top:1em; font-weight:600">
+        <span> v{% cms_version %}</span>
+    </a>
+
+{% endblock %}
+
+
+{% block branding_favicon %}
+    {% if settings.base.OrganisationSetting.favicon %}
+        {# See https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/app-icon/ #}
+        {% include 'favicon_include.html' with favicon_image=settings.base.OrganisationSetting.favicon %}
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block branding_title %}
+    {% if 'WAGTAIL_SITE_NAME'|django_settings %}
+        {{ 'WAGTAIL_SITE_NAME'|django_settings }}
+    {% else %}
+        ClimWeb
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% load wagtailimages_tags %}
+
+
+<div class="ioc-inline-wrapper">
+    <div class="ioc-inline-container">
+        <div id='ioc{{ image_of_change.pk }}' class='twentytwenty-container'>
+            {% if is_featured %}
+                {% image image_of_change.before_image width-700 %}
+                {% image image_of_change.after_image width-700 %}
+            {% else %}
+                {% image image_of_change.before_image fill-640x360 %}
+                {% image image_of_change.after_image fill-640x360 %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const beforeLabel = "{{ image_of_change.before_date|date:'d M Y' }}"
+        const afterLabel = "{{ image_of_change.after_date|date:'d M Y' }}"
+
+        $("#ioc{{ image_of_change.pk }}").twentytwenty({
+            before_label: beforeLabel,
+            after_label: afterLabel,
+        });
+    });
+
+</script>

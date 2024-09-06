@@ -1,0 +1,183 @@
+.product-page .result-list-item-detail .result-list-item-snippet * {
+    font-size: 14px;
+}
+
+.tabs li {
+    font-weight: 600;
+}
+
+/***** Map Viewer ******/
+#product-map {
+    height: 600px;
+    width: 100%;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+}
+
+@media only screen and (max-width: 768px) {
+    #product-map {
+        height: 500px;
+    }
+
+    .c-legend-type-choropleth {
+        bottom: 70px !important;
+    }
+
+    #sliderContainer {
+        max-width: 300px !important;
+    }
+}
+
+.menu-control {
+    position: absolute;
+    z-index: 500;
+    top: 20px;
+    left: 20px;
+}
+
+
+.map-menu {
+    position: relative;
+}
+
+.map-menu::before {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    right: 0;
+    content: ' ';
+    left: 0;
+    width: 28px;
+    background-color: rgba(68, 65, 65, 0.84);
+    border-radius: 28px;
+    content: ' ';
+}
+
+.menu-category {
+    position: relative;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+}
+
+.category-icon {
+    cursor: pointer;
+    height: 28px;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.menu-category.active .category-icon {
+    background-color: #4e8ecb;
+    box-shadow: 0 0 4px 0 black;
+}
+
+.c-icon {
+    padding: 2px;
+    color: #fff;
+    fill: #fff;
+    width: 24px;
+    height: 24px;
+}
+
+.c-icon svg {
+    height: 100%;
+    width: 100%;
+}
+
+.layer-title {
+    position: absolute;
+    left: 34px;
+    cursor: pointer;
+    width: max-content;
+    padding: 0 6px 0 12px;
+    font-size: 16px;
+
+    font-weight: 500;
+    color: #fff;
+    border-radius: 20px;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.layer-label {
+    text-shadow: 0 0 3px #000;
+}
+
+.layer-info-icon {
+    height: 18px;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.layer-info-icon svg {
+    fill: #fff;
+    height: 100%;
+    width: 100%;
+}
+
+
+.menu-category.active .layer-title, .menu-category:hover .layer-title {
+    background-color: rgba(78, 142, 203, 0.9);
+    text-shadow: none;
+}
+
+.layer-controls-wrapper {
+    position: absolute;
+    bottom: 50px;
+    left: 12px;
+    z-index: 500;
+    max-height: 150px;
+    display: flex;
+
+}
+
+.layer-control {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    margin-right: 12px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.layer-control label {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+
+.c-legend-type-choropleth svg {
+    color: #555555;
+}
+
+
+.irs-line {
+    cursor: pointer;
+}
+
+
+.irs--flat .irs-bar, .irs--flat .irs-single, .irs--flat .irs-handle > i:first-child, .irs--flat .irs-handle.state_hover > i:first-child {
+    background-color: #4e8ecb
+}
+
+.irs--flat .irs-single:before {
+    border-top-color: #4e8ecb;
+}
+
+
+.irs--flat .irs-grid-text {
+    text-shadow: 0px 0px 4px black;
+    color: #fff;
+}
+
+

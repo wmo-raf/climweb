@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static wagtailimages_tags wagtailcore_tags i18n %}
+
+{% block body_class %}weather-report{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'weather/css/daily_report_detail.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        <section>
+            <div class="container">
+                <h3 class="section-title ">{{ page.title }}</h3>
+                {% if  page.summary_date and page.summary_description %}
+                    <div class="report-item">
+                        <h4 class="report-item-title">
+                            {% if page.get_parent.specific.weather_summary_heading %}
+                                {{ page.get_parent.specific.weather_summary_heading }}
+                            {% else %}
+                                {% translate "Weather summary for previous day" %}
+                            {% endif %}
+                        </h4>
+                        <div class="report-item-date">
+                            <span class="icon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                            <span class="date">
+                                {{ page.summary_date }}
+                            </span>
+                        </div>
+                        <div>
+                            {{ page.summary_description|richtext }}
+                        </div>
+                        {% if  page.extreme_weather_observations %}
+                            <div class="extremes-observation-section">
+                                <div class="extremes-observation-title">
+                                    {% if page.get_parent.specific.extremes_section_title %}
+                                        {{ page.get_parent.specific.extremes_section_title }}
+                                    {% else %}
+                                        {% translate "Extreme weather observations" %}
+                                    {% endif %}
+
+                                </div>
+                                <div class="columns is-multiline is-mobile">
+                                    {% for block in page.extreme_weather_observations %}
+                                        {% include_block block %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if  page.forecast_date and page.forecast_description %}
+                    <div class="report-item">
+                        <h4 class="report-item-title">
+                            {% if page.get_parent.specific.weather_forecast_heading %}
+                                {{ page.get_parent.specific.weather_forecast_heading }}
+                            {% else %}
+                                {% translate "Weather forecast for next day" %}
+                            {% endif %}
+                        </h4>
+                        <div class="report-item-date">
+                            <span class="icon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+
+                            <span class="date">
+                                {{ page.forecast_date }}
+                            </span>
+                        </div>
+
+                        <div>
+                            {{ page.forecast_description|richtext }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+
+        </section>
+
+
+    </main>
+{% endblock content %}
+
+
+

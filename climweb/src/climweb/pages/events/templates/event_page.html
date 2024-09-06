@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags i18n %}
+
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/event_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}event-detail{% endblock %}
+
+{% block content %}
+    {% include 'hero.html' with page=page %}
+    <main>
+        <section class="event-detail-section">
+            <div class="container">
+
+                <div class="columns is-centered">
+                    <div class="column is-offset-1-desktop is-full-mobile event-detail-wrapper">
+                        {#                        <h3 class="event-detail-title">{{ page.event_title }}</h3>#}
+                        <div class="event-detail-body">
+
+                            {% include 'new_events_header.html' %}
+
+                            {% if page.zoom_events_details %}
+                                {% include 'zoom_events_details_include.html' %}
+                            {% else %}
+                                {% if page.panelists and not page.sessions_data %}
+                                    <div style="padding-top: 20px">
+                                        <div class="panelists-heading">
+                                            <h3>{% translate "Panelists" %}  </h3>
+                                        </div>
+                                        {% include 'panelists_include.html' with panelists=page.panelists %}
+                                    </div>
+                                {% endif %}
+                                {% if page.sessions_data and not page.panelists %}
+                                    {% include 'event_sessions_include.html' with sessions=page.sessions_data %}
+                                {% endif %}
+                                {% if page.sponsors %}
+                                    <h4 class="center" style="padding-top: 40px">
+
+                                     {% translate "Acknowledgements" %}
+
+                                    </h4>
+                                    {% include 'event_sponsors_include.html' with sponsors=page.sponsors %}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+
+{% block extra_js %}
+    {{ block.super }}
+    <script>
+        $('.schedule-section li').on('click', function () {
+            const $activeTab = $('.schedule-section li.is-active');
+            const $this = $(this);
+            const dataId = $this.attr('data-id');
+            const $targetContentTab = $(`#${dataId}`)
+            $activeTab.removeClass('is-active');
+            $this.addClass('is-active');
+
+            if ($targetContentTab) {
+                const $activeTabContent = $('.schedule-section .content-tab.is-active');
+                $activeTabContent.removeClass('is-active');
+                $targetContentTab.addClass('is-active')
+            }
+        });
+
+        $('.tabs li').on('click', function () {
+            const $activeTab = $('.tabs li.is-active');
+            const $this = $(this);
+            const dataId = $this.attr('data-id');
+            const $targetContentTab = $(`#${dataId}`)
+            $activeTab.removeClass('is-active');
+            $this.addClass('is-active');
+
+            if ($targetContentTab) {
+                const $activeTabContent = $('.content-tab.is-active');
+                $activeTabContent.removeClass('is-active');
+                $targetContentTab.addClass('is-active')
+            }
+        });
+
+
+        function getTimeRemaining(endTime) {
+            const total = Date.parse(endTime) - Date.parse(new Date());
+            const seconds = Math.floor((total / 1000) % 60);
+            const minutes = Math.floor((total / 1000 / 60) % 60);
+            const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+            const days = Math.floor(total / (1000 * 60 * 60 * 24));
+
+            return {
+                total,
+                days,
+                hours,
+                minutes,
+                seconds
+            };
+        }
+
+
+        function initializeCountDown(id, endTime) {
+            const countdown = document.getElementById(id);
+
+            function updateCountDown() {
+                const t = getTimeRemaining(endTime);
+
+                const days = t.days;
+                const hours = ('0' + t.hours).slice(-2);
+                const minutes = ('0' + t.minutes).slice(-2);
+                const seconds = ('0' + t.seconds).slice(-2);
+
+                countdown.innerHTML = `${days}D : ${hours}H : ${minutes}M : ${seconds}S`
+
+                if (t.total <= 0) {
+                    clearInterval(timeInterval);
+                }
+            }
+
+            updateCountDown();
+
+            const timeInterval = setInterval(updateCountDown, 1000);
+
+        }
+
+
+
+    </script>
+{% endblock %}
+
+

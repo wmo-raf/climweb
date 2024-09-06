@@ -1,0 +1,50 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n %}
+{% load l10n %}
+{% load wagtailadmin_tags wagtailimages_tags static %}
+{% block titletag %}
+    {% blocktranslate trimmed with title=page.get_admin_display_title %}
+        {{ title }}
+    {% endblocktranslate %}
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+    {% translate "Product Layers Integration" as header_str %}
+    {% translate "Product Page" as action_text %}
+
+    {% include "wagtailadmin/shared/header.html" with title=header_str icon="cog" action_url=product_page_url action_icon="view" action_text=action_text %}
+    <div class="nice-padding">
+        <form method="POST" enctype="multipart/form-data">
+            {% if form.non_field_errors %}
+                <div class="non-field_errors" style="margin-bottom: 20px">
+                    {% include "wagtailadmin/shared/non_field_errors.html" with form=form %}
+                </div>
+            {% endif %}
+            <ul class="fields">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.is_hidden %}
+                        {{ field }}
+                    {% else %}
+                        {% include "wagtailadmin/shared/field_as_li.html" %}
+                    {% endif %}
+                {% endfor %}
+                <li>
+                    <button type="submit" class="button">
+                        {% translate 'Save' %}
+                    </button>
+                </li>
+            </ul>
+        </form>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    {{ block.super }}
+    {{ form_media }}
+    <script src="{% versioned_static 'wagtailadmin/js/modal-workflow.js' %}"></script>
+{% endblock %}
+
+

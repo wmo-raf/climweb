@@ -1,0 +1,130 @@
+.project-inline-detail:hover * {
+    color: rgb(99, 110, 134);
+
+}
+
+.more-container {
+    display: flex;;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.application-item-detail {
+    background-color: rgba(99, 110, 134, .5);
+}
+
+
+.application-item-title {
+    background-color: rgba(99, 110, 134, .7);
+}
+
+.product-card {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+    height: 250px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.product-image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%
+}
+
+.product-content {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+    height: 100%;
+    color: #fff;
+}
+
+.product-content .icon {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+
+.product-title {
+    font-size: 20px;
+}
+
+
+.accordion__item.js-accordion-item {
+    background-color: white;
+    margin: 20px 0;
+}
+
+.accordion__item.js-accordion-item.active {
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .02);
+}
+
+
+.accordion-header.js-accordion-header {
+    display: flex;
+    background: white;
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 16px;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .02);
+}
+
+.accordion-header.js-accordion-header:hover {
+    color: #1a1a1a;
+
+}
+
+.accordion__item.js-accordion-item.active .accordion-header.js-accordion-header {
+    background: #004a54;
+    width: 100%;
+    color: white;
+}
+
+.accordion__item.active i.fa-sort-down {
+    transform: rotate(180deg);
+    transition: transform 0.5s ease-in-out;
+}
+
+.accordion__item:not(.active) i.fa-sort-down {
+    transform: rotate(0deg);
+    transition: transform 0.5s ease-in-out;
+}
+
+
+.accordion-body.js-accordion-body {
+    padding: 20px 30px;
+    color: #4a4a4a;
+}
+
+.accordion-body.js-accordion-body .rich-text ul,
+.accordion-body.js-accordion-body .rich-text ol {
+    padding-left: 40px;
+}
+
+.accordion-body.js-accordion-body p,
+.accordion-body.js-accordion-body li {
+    font-size: 16px;
+}
+
+.accordion-body.js-accordion-body .rich-text li {
+    list-style: square;
+}
+
+.accordion__item .icon {
+    height: 20px;
+    width: 20px;
+}
+
+.accordion__item .icon svg {
+    height: 100%;
+    width: 100%;
+    fill: var(--primary-color);
+}
+
+
+.accordion__item.js-accordion-item.active .icon svg {
+    fill: #fff;
+}

@@ -1,0 +1,57 @@
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
+
+<div class="results-view">
+    <div class="results-list list-view">
+        {% for tender  in tenders %}
+            <div class="tender-item-wrapper">
+                <div class="tender-item-header">
+                    {% if tender.is_new %}
+                        <button class="button is-small is-rounded tender-item-highlight">
+                            {% translate "New" %}
+                        </button>
+                    {% endif %}
+                    <h3 class="tender-item-title">
+                        <a href="{{ tender.url }}">
+                            {{ tender.tender_title }}
+                        </a>
+                    </h3>
+                </div>
+                <div style="padding-top: 12px">
+                    <div style="padding: 5px 0">
+                        <span class="icon">
+                            <i class="fas fa-calendar-plus"></i>
+                        </span>
+                        <span class="share-button-title">
+                            {% translate "Posted On" %}:
+                            <b>{{ tender.posting_date|date:"d M Y" }}</b>
+                        </span>
+                    </div>
+
+                    <div style="padding: 5px 0">
+                        <span class="icon">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                        <span class="share-button-title">
+                            {% translate "Closing On" %}:
+                            <b>{{ tender.deadline|date:'d M Y , H:i' }}</b>
+                        </span>
+                    </div>
+                </div>
+                <div class="tender-item-detail">
+                    <div class="tender-item-snippet">
+                        {{ tender.description|richtext|truncatechars_html:200 }}
+                    </div>
+                    <div class="tender-item-meta">
+                        <span class="tender-item-view-more">
+                            <a class="more" href="{{ tender.url }}">
+                                {% translate "View details" %}
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+    {% include 'pagination_include.html' with items=tenders %}
+</div>

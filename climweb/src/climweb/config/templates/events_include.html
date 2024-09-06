@@ -1,0 +1,50 @@
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags wagtailsettings_tags i18n %}
+{% get_settings use_default_site=True %}
+
+{% for event in events.all %}
+    <div class="event-inline-item">
+        {% if not show_thumbnail == False %}
+            <div>
+                <figure class="image event-inline-img">
+                    {% if event.image %}
+                        {% image event.image original as event_image %}
+                        <img class="progressive__img progressive--not-loaded"
+                             data-progressive="{{ event_image.url }}"
+                             src="{% lazy_image_url event_image %}" alt="{{ event.event_type }}"
+                        />
+                    {% else %}
+                        <img src="{% static 'images/event_placeholder.png' %}" alt="{{ event.event_type }}">
+                    {% endif %}
+                </figure>
+            </div>
+        {% endif %}
+        <div class="event-inline-detail" style="{% if show_thumbnail == False %}padding-left:0;{% endif %}">
+            <a class="event-inline-title" href="{{ event.url }}">
+                {{ event.event_title }}
+            </a>
+            <div class="events-inline-meta">
+                <span>
+                    {{ event.event_type }}
+                </span>
+                <span>
+                    {{ event.date_from|date:'d M Y' }}
+                    {% if event.date_to %}
+                        -  {{ event.date_to|date:'d M Y' }}
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr/>
+{% endfor %}
+
+{% if  settings.base.ImportantPages.all_events_page %}
+    <div class="more-container" style="padding-left: 0">
+        <a href="{{ settings.base.ImportantPages.all_events_page.url }}" class="more">
+            {% translate "More Events" %}
+            <span class="icon">
+                <i class="fas fa-arrow-right"></i>
+            </span>
+        </a>
+    </div>
+{% endif %}

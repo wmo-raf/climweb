@@ -1,0 +1,237 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n l10n wagtailadmin_tags wagtailimages_tags static %}
+{% block titletag %}
+    {% blocktranslate trimmed with title=page.get_admin_display_title %}
+        {{ title }}
+    {% endblocktranslate %}
+{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    {{ form_media.css }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css"/>
+
+    <style>
+        .non-interactive {
+            pointer-events: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% if city %}
+        {% translate "Load Climate Data for "|add:city.name as header_str %}
+    {% else %}
+        {% translate "Load Climate Data" as header_str %}
+    {% endif %}
+
+    {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" %}
+
+    <div class="nice-padding">
+
+        <div class="row row-flush" style="padding-top:1rem">
+            <div class="col4">
+                <form method="POST"
+                      enctype="multipart/form-data">
+                    {% if form.non_field_errors %}
+                        <div class="non-field_errors" style="margin-bottom: 20px">
+                            {% include "wagtailadmin/shared/non_field_errors.html" with form=form %}
+                        </div>
+                    {% endif %}
+                    <ul class="fields">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% if field.is_hidden %}
+                                {{ field }}
+                            {% else %}
+                                {% include "wagtailadmin/shared/field_as_li.html" %}
+                            {% endif %}
+                        {% endfor %}
+                        <li class="param-field" style="display: none;">
+                            <div class="w-field__wrapper " data-field-wrapper="">
+                                <label class="w-field__label" for="date_select">
+                                    {% translate "Date Field" %}
+                                </label>
+                                <div class="w-field w-field--choice_field w-field--select" data-field=""
+                                     data-contentpath="select">
+                                    <div class="w-field__input" data-field-input="">
+                                        <select name="date" id="date_select" data-label="Date" required>
+                                            <option value="">-----</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {% for param in parameters %}
+                            <li class="param-field" style="display: none;">
+                                <div class="w-field__wrapper " data-field-wrapper="">
+                                    <label class="w-field__label" for="{{ param.id }}_select">
+                                        {{ param.name }}
+                                    </label>
+                                    <div class="w-field w-field--choice_field w-field--select" data-field=""
+                                         data-contentpath="select">
+                                        <div class="w-field__input full-width" data-field-input="">
+                                            <select name="{{ param.slug }}" id="{{ param.id }}_select"
+                                                    data-label="{{ param.name }}" class="param-field-optional">
+                                                <option value="">-----</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        <li>
+                            <button id="upload-btn" type="submit" class="button" disabled> {% trans 'Upload' %}</button>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="col8">
+                <h2>
+                    {% translate "Data Preview" %}
+                </h2>
+                <div id="table-container"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    {{ form.media.js }}
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+    <script src="{% static 'cityclimate/js/papaparse.min.js' %}"></script>
+
+    <script>
+
+        // helpers
+        Array.prototype.replaceData = function (position, replacements) {
+            this.map((val, i) => {
+                val[position] = replacements[i]
+                return val
+            })
+        }
+
+        $(document).ready(function () {
+
+            const $fileInput = $('input[type=file]')
+            const tableElement = document.getElementById("table-container")
+            const $uploadBtn = $("#upload-btn")
+            const $fieldsMatchContainer = $(".param-field")
+            const $fieldsSelect = $fieldsMatchContainer.find("select")
+            const $dataInput = $("#id_data")
+            const fieldsMappingInput = $("#id_fields_mapping")
+
+
+            let hot;
+            let data
+
+            $fileInput.on("change", function () {
+                $('input[type=file]').parse({
+                    config: {
+                        complete: onParseComplete,
+                        dynamicTyping: true,
+                        header: true,
+                        skipEmptyLines: true,
+                        // base config to use for each file
+                    },
+                    before: function (file, inputElem) {
+                        console.log("STARTING")
+                        // executed before parsing each file begins;
+                        // what you return here controls the flow
+                    },
+                    error: function (err, file, inputElem, reason) {
+                        console.log(err)
+                        // executed if an error occurs while loading the file,
+                        // or if before callback aborted for some reason
+                    },
+                    complete: function () {
+                        console.log("DONE")
+                        // executed after all files are complete
+                    }
+                });
+            })
+
+            $fieldsSelect.on("change", function () {
+
+                const mapping = {}
+
+                const $dateInput = $("#date_select")
+                const dateField = $dateInput.val()
+                if (dateField) {
+                    mapping["date"] = dateField
+                }
+
+
+                $(".param-field-optional").each(function () {
+                    const $this = $(this)
+                    const fieldName = $this.attr("name")
+                    const fieldValue = $this.val()
+
+
+                    if (fieldValue && fieldValue !== "date") {
+                        mapping[fieldName] = fieldValue
+                    }
+                })
+
+
+                if (mapping.hasOwnProperty("date") && Object.keys(mapping).length > 1) {
+                    $uploadBtn.prop("disabled", false)
+
+                    const formData = data.reduce((all, item) => {
+                        const fieldData = {}
+                        for (const key in mapping) {
+                            fieldData[key] = item[mapping[key]]
+                        }
+                        all.push(fieldData)
+                        return all
+                    }, [])
+
+                    $dataInput.val(JSON.stringify(formData))
+
+                } else {
+                    $uploadBtn.prop("disabled", true)
+                }
+            })
+
+            function createOption(value, text) {
+                // Create a new <option> element
+                return $("<option></option>").attr("value", value).text(text);
+            }
+
+            function onParseComplete(results) {
+                const {data: inputData, meta: {fields}} = results
+
+                data = inputData
+
+                fields.forEach(val => {
+                    const option = createOption(val, val)
+                    $fieldsSelect.append(option)
+                })
+
+                $fieldsMatchContainer.show()
+
+                hot = new Handsontable(tableElement, {
+                    width: '100%',
+                    rowHeaders: true,
+                    colHeaders: fields,
+                    data: data,
+                    multiColumnSorting: true,
+                    allowInvalid: true,
+                    minSpareRows: 0,
+                    height: 'auto',
+                    stretchH: "all",
+                    renderAllRows: false,
+                    licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+                });
+
+            }
+
+
+        })
+
+    </script>
+{% endblock %}

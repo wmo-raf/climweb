@@ -1,0 +1,29 @@
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags i18n %}
+
+{% image self.hero_banner original as img %}
+<div class=" "
+     style="position: relative;max-height:fit-content;  ">
+    <div class="container-fluid">
+        <div id="filtered-forecasts">
+            <div class="columns is-justify-content-center is-align-items-center mb-0 pt-2">
+                <div class="column is-5" style="display:flex; justify-content: center;">
+                    <div class="px-4 title-subtitle" style=" width:70%">
+                        <p class="title pb-4"
+                           style="font-weight:700; font-size: 34px;">
+                            {{ self.hero_title|richtext }}
+                        </p>
+                        {% if self.hero_subtitle %}
+
+                            <p class="subtitle pb-5 mb-4"
+                               style="font-weight: 400; font-size: 16px;">
+                                {{ self.hero_subtitle }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

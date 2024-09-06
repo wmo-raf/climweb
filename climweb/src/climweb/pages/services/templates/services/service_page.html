@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static wagtailsettings_tags i18n wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+{% get_settings use_default_site=True %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/services_page.css' %}">
+    {% if page.youtube_playlist %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
+    {% endif %}
+{% endblock %}
+
+{% block body_class %}service_page{% endblock %}
+
+{% block content %}
+    <main class="is-index">
+        {% include 'hero.html' with page=page %}
+        {% if page.introduction_image %}
+            <section class="nmhs-work is-desktop">
+                <div class="work container">
+                    {% include 'service_introduction.html' with page=page what_we_do=False %}
+                </div>
+            </section>
+        {% else %}
+            <section>
+                <div class="work container">
+                    <h2 class="section-subheader">
+                        {{ page.introduction_title }}
+                    </h2>
+
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+        {% if page.products %}
+            <section id="offers" class="offers"
+                     style="background-image: url('{% static 'img/bg_products.png' %}'); background-repeat:no-repeat; background-size:cover">
+                <div class="container">
+                    <h2 class="section-title has-text-centered">
+                        {% translate 'Our Products' %}
+                    </h2>
+                    <div class="columns is-multiline is-mobile is-centered">
+                        {% for product in page.products %}
+                            <div class="column is-one-quarter-desktop is-full-mobile">
+                                <a href="{{ product.url }}">
+                                    <div class="product-card">
+                                        {% if product.introduction_image %}
+                                            {% image product.introduction_image original as product_img %}
+                                            <div class="progressive__bg progressive--not-loaded product-image"
+                                                 data-progressive="{{ product_img.url }}"
+                                                 style="background-image: url({% lazy_image_url product_img %});">
+                                                <div class="p-6 product-content">
+                                                    <div class="product-title">
+                                                        {{ product.title|truncatechars:40 }}
+                                                    </div>
+                                                    <div>
+                                                        <span class="icon">
+                                                            <i class="fas fa-arrow-circle-right"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <div class="p-6 product-content">
+                                                <div class="product-title">
+                                                    {{ product.title|truncatechars:40 }}
+                                                </div>
+                                                <div>
+                                                    <span class="icon">
+                                                        <i class="fas fa-arrow-circle-right"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.what_we_do_items %}
+            <section class="nmhs-work is-desktop">
+                <div class="work container">
+                    <div class="intro-items-container">
+                        <div class="intro-items-header">
+                            <span>
+                                {% translate "What we do" %}
+                            </span>
+                        </div>
+                        <div class="accordion js-accordion" style="padding:50px 0">
+                            {% for block in  page.what_we_do_items %}
+                                <div class="accordion__item js-accordion-item active">
+                                    <div class="accordion-header js-accordion-header">
+                                        <div style="display: flex;align-items: center">
+                                            {% if block.value.icon %}
+                                                <span class="icon" style="margin-right: 10px">
+                                                    {% svg_icon name=block.value.icon %}
+                                                </span>
+                                            {% endif %}
+                                            <span>
+                                                {{ block.value.title }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <i class="fas fa-sort-down"></i>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-body js-accordion-body" style="display: none;">
+                                        <div class="accordion-body__contents">
+                                            {{ block.value.description|richtext }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if page.what_we_do_button_text and page.what_we_do_button_link %}
+                            <div class="center">
+                                <a href="{{ page.what_we_do_button_link.url }}"
+                                   class="button is-rounded center sec-btn cta-btn">
+                                    <span>{{ page.what_we_do_button_text }}</span>
+                                    <span class="icon">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.feature_block_items %}
+            <section class="climate-change-feature-blocks-section">
+                {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}
+            </section>
+        {% endif %}
+
+        {% if page.projects.all %}
+            <section class="projects-inline">
+                <div class="container">
+                    {% include 'projects_include.html' with page=page %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.events.all %}
+            <section class="events-inline">
+                <div class="container">
+                    <h2 class="section-subheader">
+                        {% translate "Events" %}
+                    </h2>
+                    {% include 'events_include.html' with events=page.events %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.latest_updates %}
+            <section class="climate-change-publications">
+                <div class="container">
+                    <h2 class="section-title center">
+                        {% translate "Latest Updates" %}
+                    </h2>
+                    <div class="columns is-multiline is-centered update-items">
+                        {% for update in page.latest_updates %}
+                            <div class="column is-one-quarter-desktop is-half-tablet is-full-mobile update-item is-centered">
+                                {% include 'update_card_include.html' with card=update.card_props show_type=True %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="more-container has-double">
+                        {% if settings.base.ImportantPages.all_news_page %}
+                            <a href="{{ settings.base.ImportantPages.all_news_page.url }}" class="more">
+                                {% translate "All News" %}
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        {% endif %}
+                        {% if settings.base.ImportantPages.all_publications_page %}
+                            <a href="{{ settings.base.ImportantPages.all_publications_page.url }}" class="more">
+                                {% translate "All Publications" %}
+                                <span class="icon">
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </span>
+                            </a>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+
+
+        {% if page.youtube_playlist %}
+            <section class="has-text-centered videos" id="videoSection">
+                <div class="container is-align-content-center">
+                    <h2 class="section-title has-text-centered">{% translate 'Latest Media' %}  </h2>
+                    {% include 'videos_skeleton.html' %}
+                </div>
+            </section>
+        {% endif %}
+
+
+        {% if page.applications.all %}
+            <section class="pb-6">
+                <div class="container">
+                    <h2 class="section-title center">
+                        {% translate "Applications" %}
+                    </h2>
+                    {% include 'applications_include.html' with applications=page.applications.all %}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+
+{% endblock content %}
+
+
+{% block extra_js %}
+    {% if page.youtube_playlist %}
+        <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
+    {% endif %}
+    <script>
+
+        const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
+
+        $(document).ready(function () {
+            accordion.init({speed: 300, oneOpen: true})
+
+            if (page_youtube_playlist) {
+                const url = "{{ youtube_playlist_url }}";
+                $('#videoWrapper').scheletrone({
+                    onComplete: function () {
+                        $.ajax({
+                            url: url,
+                            dataType: "html",
+                            success: function (data) {
+                                // if we have videos append them, else hide whole section
+                                if (data) {
+                                    $('#videoWrapper').html('').append(data).ready();
+                                } else {
+                                    $('#videoSection').remove()
+                                }
+                            },
+                            error: function () {
+                                $('#videoSection').remove()
+                            }
+                        });
+                    }
+                });
+            }
+        })
+
+    </script>
+
+{% endblock extra_js %}
+
+

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailsearchpromotions_tags i18n %}
+
+{% block title %} Search {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'hero.html' %}
+    <main>
+        <section>
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-half-desktop is-full-mobile">
+                        <form action="{% url 'search' %}" method="get" id="search-form">
+                            <div class="field is-fullwidth has-addons" style="align-items: center">
+                                <div class="control is-expanded">
+                                    <input class="input is-fullwidth is-rounded" id="search-form-input" type="text"
+                                           placeholder="Search"
+                                           name="query"
+                                            {% if search_query %} value="{{ search_query }}"{% endif %}>
+                                </div>
+                                <div class="control">
+                                    <button class="button submit-button is-rounded" type="submit">
+                                        {% translate "Search" %}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="results">
+                    <div class="columns is-centered">
+                        <div class="column is-half-desktop is-full-mobile">
+                            {% get_search_promotions search_query as search_promotions %}
+                            {% if search_promotions or search_results %}
+
+                                <ul>
+                                    {% for search_promotion in search_promotions %}
+                                        <li class="search-result-item">
+                                            <h4 class="search-result-item-header">
+                                                <a href="{% pageurl search_promotion.page %}">{{ search_promotion.page.title }}</a>
+                                            </h4>
+                                            {% if search_promotion.description %}
+                                                <p class="search-result-item-desc">
+                                                    {{ search_promotion.description }}
+                                                </p>
+                                            {% endif %}
+                                            <a class="button is-rounded is-small search-result-item-more"
+                                               href="{% pageurl search_promotion.page %}">
+                                                {% translate "More" %}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+
+                                    {% for result in search_results %}
+                                        <li class="search-result-item">
+                                            <h4 class="search-result-item-header">
+                                                {% if result.search_result_title and result.search_result_url %}
+                                                    <a href="{{ result.search_result_url }}">{{ result.search_result_title }}</a>
+                                                {% else %}
+                                                    <a href="{% pageurl result %}">{{ result.title }}</a>
+                                                {% endif %}
+                                            </h4>
+                                            {% if result.search_description %}
+                                                <p class="search-result-item-desc format-text">
+                                                    {{ result.search_description|safe|richtext|truncatechars_html:200 }}
+                                                </p>
+                                            {% endif %}
+                                            {% if result.search_result_url %}
+                                                <a class="button is-rounded is-small search-result-item-more"
+                                                   href="{{ result.search_result_url }}">
+                                                    {% translate "More" %}
+                                                </a>
+                                            {% else %}
+                                                <a class="button is-rounded is-small search-result-item-more"
+                                                   href="{% pageurl result %}">
+                                                    {% translate "More" %}
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% elif search_query %}
+                                {% translate "No results found" %}
+                            {% else %}
+                                {% translate "Please type something into the search box" %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        /*** Tracking ***/
+        if (typeof cr_track_clicks !== 'undefined' && cr_track_clicks) {
+            $('#search-form').submit(function () {
+                const query = $('#search-form-input').val()
+                if (query) {
+                    ga_reg_event('search', {
+                        "event_category": "Search",
+                        "event_label": "Search Page",
+                        "value": query,
+                    });
+                }
+            });
+        }
+    </script>
+
+{% endblock %}

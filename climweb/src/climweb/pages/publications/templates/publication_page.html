@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/document_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/publication_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}research-detail"{% endblock %}
+
+{% block content %}
+    <main class="is-index">
+
+        {% include 'hero.html' with page=page %}
+        <section class="publication-detail-section">
+            <div class="container">
+                {% include 'document_detail_include.html' with card=page.card_props %}
+            </div>
+        </section>
+
+        {% if related_items %}
+            <section class="publication-items-related">
+                <h2 class="section-title has-text-centered">
+                    {% translate "Other Recent Publications" %}
+                </h2>
+                <div class="container">
+                    <div class="columns is-multiline is-flex is-centered">
+                        {% for item in related_items %}
+                            <div class="column is-one-quarter-desktop is-full-mobile update-card-column">
+                                {% include 'update_card_include.html' with card=item.card_props show_card_tag=True show_card_text=False show_type=True %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+    </main>
+{% endblock content %}
+
+
+
+

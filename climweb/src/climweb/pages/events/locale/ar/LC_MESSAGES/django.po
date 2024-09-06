@@ -1,0 +1,418 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-03 11:31+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: pages/events/models.py:46
+msgid "Event type"
+msgstr "نوع الحدث"
+
+#: pages/events/models.py:54
+msgid "Thumbnail/image for this type of event."
+msgstr "صورة مصغرة/صورة لهذا النوع من الأحداث."
+
+#: pages/events/models.py:67 pages/events/models.py:177
+msgid "Event Type"
+msgstr "نوع الحدث"
+
+#: pages/events/models.py:80
+msgid "How many events should be visible on the all events section ?"
+msgstr "كم عدد الأحداث التي يجب أن تكون مرئية في قسم كافة الأحداث؟"
+
+#: pages/events/models.py:81
+msgid "Events per page"
+msgstr "الأحداث في كل صفحة"
+
+#: pages/events/models.py:89
+msgid "Other Settings"
+msgstr "اعدادات اخرى"
+
+#: pages/events/models.py:93
+msgid "Event Index Page"
+msgstr "صفحة فهرس الأحداث"
+
+#: pages/events/models.py:178
+msgid "Service Categories"
+msgstr "فئات الخدمة"
+
+#: pages/events/models.py:179
+msgid "Relevant Projects"
+msgstr "المشاريع ذات الصلة"
+
+#: pages/events/models.py:180
+msgid "Event begin date"
+msgstr "تاريخ بدء الحدث"
+
+#: pages/events/models.py:181
+msgid "Day of the event. If multi-day, then this should be the first day"
+msgstr "يوم الحدث. إذا كان متعدد الأيام، فيجب أن يكون هذا هو اليوم الأول"
+
+#: pages/events/models.py:183
+msgid "End date - Note: Not Required if this is a one day Event"
+msgstr "تاريخ الانتهاء - ملاحظة: غير مطلوب إذا كان هذا حدثًا ليوم واحد"
+
+#: pages/events/models.py:184
+msgid "Not required if this is a one day event"
+msgstr "غير مطلوب إذا كان هذا حدثًا ليوم واحد"
+
+#: pages/events/models.py:186 pages/events/models.py:189
+#: pages/events/templates/event_meta_include.html:88
+msgid "Timezone"
+msgstr "وحدة زمنية"
+
+#: pages/events/models.py:191
+msgid "Where will the event take place ?"
+msgstr "أين سيقام الحدث؟"
+
+#: pages/events/models.py:192
+#: pages/events/templates/event_meta_include.html:41
+msgid "Location"
+msgstr "موقع"
+
+#: pages/events/models.py:194
+msgid "What is the cost for participating in this event ? Leave blank if free"
+msgstr "ما هي تكلفة المشاركة في هذا الحدث؟ اتركه فارغًا إذا كان مجانيًا"
+
+#: pages/events/models.py:195
+#: pages/events/templates/event_meta_include.html:102
+msgid "Cost"
+msgstr "يكلف"
+
+#: pages/events/models.py:197
+msgid "Description"
+msgstr "وصف"
+
+#: pages/events/models.py:200
+msgid "Downloadable agenda document"
+msgstr "وثيقة جدول الأعمال للتحميل"
+
+#: pages/events/models.py:201
+msgid "Agenda document, if available, preferably in PDF format"
+msgstr "وثيقة جدول الأعمال، إن وجدت، ويفضل أن تكون بصيغة PDF"
+
+#: pages/events/models.py:209
+msgid "Event Image"
+msgstr "صورة الحدث"
+
+#: pages/events/models.py:210
+msgid "An image for this event, can be a poster or any relevant image"
+msgstr "صورة لهذا الحدث، يمكن أن تكون ملصقًا أو أي صورة ذات صلة"
+
+#: pages/events/models.py:217
+msgid "Image Placement"
+msgstr "وضع الصورة"
+
+#: pages/events/models.py:219
+msgid "Form template"
+msgstr "قالب النموذج"
+
+#: pages/events/models.py:223
+msgid "Show this event in the events landing page as featured ?"
+msgstr "إظهار هذا الحدث في الصفحة المقصودة للأحداث كما هو مميز؟"
+
+#: pages/events/models.py:223
+msgid "Featured"
+msgstr "متميز"
+
+#: pages/events/models.py:227
+msgid "Make this event hidden in events page or elsewhere"
+msgstr "اجعل هذا الحدث مخفيًا في صفحة الأحداث أو في أي مكان آخر"
+
+#: pages/events/models.py:227
+msgid "Is hidden"
+msgstr "مخفيا"
+
+#: pages/events/models.py:231
+msgid "Show this event on the homepage ?"
+msgstr "عرض هذا الحدث على الصفحة الرئيسية؟"
+
+#: pages/events/models.py:231
+msgid "Is visible on homepage"
+msgstr "مرئي على الصفحة الرئيسية"
+
+#: pages/events/models.py:235 pages/events/templates/event_page.html:30
+msgid "Panelists"
+msgstr "أعضاء اللجنة"
+
+#: pages/events/models.py:239
+#: pages/events/templates/zoom_events_details_include.html:302
+msgid "Sessions"
+msgstr "الجلسات"
+
+#: pages/events/models.py:243
+#: pages/events/templates/new_events_header.html:160
+msgid "Additional Materials"
+msgstr "مواد إضافية"
+
+#: pages/events/models.py:246
+msgid "Acknowledgement/sponsors"
+msgstr "شكر وتقدير / الرعاة"
+
+#: pages/events/models.py:248
+msgid "Is archived"
+msgstr "تمت أرشفته"
+
+#: pages/events/models.py:249
+msgid "Registration open"
+msgstr "التسجيل مفتوح"
+
+#: pages/events/models.py:251
+msgid "Youtube Video ID if the event is being livestreamed"
+msgstr "معرف فيديو Youtube إذا كان يتم بث الحدث مباشرة"
+
+#: pages/events/models.py:252
+msgid "Meeting Registration Integration Platform"
+msgstr "منصة تكامل تسجيل الاجتماعات"
+
+#: pages/events/models.py:255
+msgid "Platform for Event"
+msgstr "منصة للحدث"
+
+#: pages/events/models.py:285 pages/events/models.py:507
+msgid "Content"
+msgstr "محتوى"
+
+#: pages/events/models.py:286 pages/events/models.py:508
+msgid "SEO"
+msgstr "تحسين محركات البحث"
+
+#: pages/events/models.py:287 pages/events/models.py:509
+msgid "Settings"
+msgstr "إعدادات"
+
+#: pages/events/models.py:293
+msgid "Event Page"
+msgstr "صفحة الحدث"
+
+#: pages/events/models.py:430
+msgid "Optional Additional information/details"
+msgstr "معلومات/تفاصيل إضافية اختيارية"
+
+#: pages/events/models.py:431
+msgid "Additional Information - (Optional)"
+msgstr "معلومات إضافية: (اختياري)"
+
+#: pages/events/models.py:433
+msgid "Number of available registrations"
+msgstr "عدد التسجيلات المتاحة"
+
+#: pages/events/models.py:434
+msgid "Registration Limit - (Leave blank if no limit)"
+msgstr "حد التسجيل - (اتركه فارغًا إذا لم يكن هناك حد)"
+
+#: pages/events/models.py:438
+msgid "Text to display after successful submission"
+msgstr "النص الذي سيتم عرضه بعد التقديم الناجح"
+
+#: pages/events/models.py:439
+msgid "Thank you text"
+msgstr "شكرا لك النص"
+
+#: pages/events/models.py:440
+msgid "Validation Field"
+msgstr "مجال التحقق"
+
+#: pages/events/models.py:441
+msgid ""
+"A field on the form to check if is already submitted so as to prevent "
+"multiple submissions by one person. This is usually the email address field "
+"in snake casing format"
+msgstr ""
+"حقل في النموذج للتحقق مما إذا كان قد تم إرساله بالفعل وذلك لمنع عمليات "
+"الإرسال المتعددة من قبل شخص واحد. عادةً ما يكون هذا هو حقل عنوان البريد "
+"الإلكتروني بتنسيق غلاف الثعبان"
+
+#: pages/events/models.py:447
+msgid "Should we send a confirmation/follow up email ?"
+msgstr "هل يجب أن نرسل رسالة تأكيد/متابعة بالبريد الإلكتروني؟"
+
+#: pages/events/models.py:448
+msgid "Send confirmation Email"
+msgstr "إرسال تأكيد البريد الإلكتروني"
+
+#: pages/events/models.py:450
+msgid ""
+"The field in the form that corresponds to the email to use. Should be "
+"snake_cased"
+msgstr ""
+"الحقل في النموذج الذي يتوافق مع البريد الإلكتروني المراد استخدامه. ينبغي أن "
+"يكون الثعبان"
+
+#: pages/events/models.py:451
+msgid "Email Field"
+msgstr "حقل البريد الإلكتروني"
+
+#: pages/events/models.py:453
+msgid "Email Confirmation message"
+msgstr "رسالة تأكيد البريد الإلكتروني"
+
+#: pages/events/models.py:454
+msgid "Message to send to the user. For example zoom links"
+msgstr "رسالة لإرسالها إلى المستخدم. على سبيل المثال روابط التكبير"
+
+#: pages/events/models.py:456
+msgid ""
+"Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
+"registrations"
+msgstr ""
+"تم تمكين تسجيل دفعة التكبير/التصغير - اتركه بدون تحديد لتسجيلات "
+"التكبير/التصغير المباشرة"
+
+#: pages/events/models.py:459
+msgid "Enable batch option for adding registrants to zoom later"
+msgstr "تمكين خيار الدفعة لإضافة المسجلين للتكبير لاحقًا"
+
+#: pages/events/models.py:477
+msgid "Event Registration Page"
+msgstr "صفحة تسجيل الحدث"
+
+#: pages/events/models.py:510
+msgid "Zoom Events Settings"
+msgstr "إعدادات تكبير الأحداث"
+
+#: pages/events/models.py:511
+msgid "MailChimp Settings"
+msgstr "إعدادات ميل تشيمب"
+
+#: pages/events/models.py:524
+msgid "Added to Zoom"
+msgstr "تمت إضافته إلى التكبير"
+
+#: pages/events/templates/event_index_page.html:17
+msgid "Featured Event"
+msgstr "حدث مميز"
+
+#: pages/events/templates/event_index_page.html:26
+msgid "All Events"
+msgstr "كل الأحداث"
+
+#: pages/events/templates/event_meta_include.html:12
+msgid "Ended"
+msgstr "انتهى"
+
+#: pages/events/templates/event_meta_include.html:28
+msgid "Type"
+msgstr "يكتب"
+
+#: pages/events/templates/event_meta_include.html:55
+msgid "Start Date"
+msgstr "تاريخ البدء"
+
+#: pages/events/templates/event_meta_include.html:57
+#, python-format
+msgid "%(start_date)s"
+msgstr "%(start_date)s"
+
+#: pages/events/templates/event_meta_include.html:72
+msgid "End Date"
+msgstr "تاريخ الانتهاء"
+
+#: pages/events/templates/event_meta_include.html:74
+#, python-format
+msgid "%(end_date)s"
+msgstr "%(end_date)s"
+
+#: pages/events/templates/event_meta_include.html:116
+msgid "Registration closed"
+msgstr "التسجيل مغلق"
+
+#: pages/events/templates/event_meta_include.html:128
+msgid "Registration will be open soon"
+msgstr "سيتم فتح التسجيل قريبا"
+
+#: pages/events/templates/event_meta_include.html:143
+msgid "Register"
+msgstr "يسجل"
+
+#: pages/events/templates/event_meta_include.html:156
+msgid "Register on Zoom"
+msgstr "التسجيل على زووم"
+
+#: pages/events/templates/event_page.html:41
+msgid "Acknowledgements"
+msgstr "شكر وتقدير"
+
+#: pages/events/templates/event_registration_page.html:41
+msgid "Submit"
+msgstr "يُقدِّم"
+
+#: pages/events/templates/event_registration_page.html:50
+msgid "ended"
+msgstr "انتهى"
+
+#: pages/events/templates/event_registration_page.html:57
+msgid " Registration closed"
+msgstr "التسجيل مغلق"
+
+#: pages/events/templates/events_filter_include.html:9
+msgid "Filter by Event Type"
+msgstr "التصفية حسب نوع الحدث"
+
+#: pages/events/templates/events_filter_include.html:35
+msgid "Filter by Year"
+msgstr "التصفية حسب السنة"
+
+#: pages/events/templates/events_filter_include.html:57
+msgid "Filter by Status"
+msgstr "التصفية حسب الحالة"
+
+#: pages/events/templates/events_filter_include.html:65
+msgid "Past"
+msgstr "ماضي"
+
+#: pages/events/templates/events_list_include.html:6
+#, python-format
+msgid "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#: pages/events/templates/events_list_include.html:57
+msgid " Read More"
+msgstr "اقرأ أكثر"
+
+#: pages/events/templates/new_events_header.html:129
+#, python-format
+msgid "Starts in %(counter)s day"
+msgid_plural "Starts in %(counter)s days"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#: pages/events/templates/new_events_header.html:152
+msgid "Download Agenda"
+msgstr "تحميل جدول الأعمال"
+
+#: pages/events/templates/panelists_include.html:90
+msgid "Topic"
+msgstr "عنوان"
+
+#: pages/events/templates/zoom_events_details_include.html:309
+msgid "Speakers"
+msgstr "مكبرات الصوت"
+
+#: pages/events/templates/zoom_events_details_include.html:316
+msgid "Sponsors"
+msgstr "الرعاة"

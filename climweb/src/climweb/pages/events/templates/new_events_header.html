@@ -1,0 +1,179 @@
+{% load wagtailcore_tags wagtailimages_tags static i18n %}
+
+{% block extra_css %}
+    <style>
+        .master-img {
+            background-position: 50%;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-color: #eff4f8;
+            border-radius: 10px;
+            height: 0;
+            overflow: hidden;
+            padding-bottom: 65%;
+            width: 100%;
+        }
+
+        @media screen and (min-width: 640px) {
+            .master-img {
+                height: 400px;
+            }
+        }
+
+        @media screen and (min-width: 960px) {
+            .master-img {
+                height: 520px;
+            }
+        }
+
+        .evd-summit-info-time {
+            align-items: center;
+            display: flex;
+            font-size: 16px;
+            line-height: 18px;
+            white-space: nowrap;
+        }
+
+        .evd-summit-info-time .evd-summit-info-day {
+            color: #232333;
+            font-weight: 600;
+        }
+
+        .evd-summit-info-time .evd-summit-info-day .evd-time-month {
+            color: #de2828;
+        }
+
+        .evd-summit-info-time .evd-summit-countdown {
+            align-items: center;
+            color: rgba(4, 4, 19, .56);
+            display: flex;
+        }
+
+        .evd-summit-info-time .evd-summit-countdown:before {
+            background: #c4c4c4;
+            border-radius: 100%;
+            content: "";
+            display: inline-block;
+            height: 4px;
+            margin: 0 8px;
+            width: 4px;
+        }
+
+        .evd-base-info-container .evd-info-title {
+            color: #222230;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 30px;
+            margin: 10px 0 12px;
+        }
+
+        .registration-button {
+            margin-top: 30px;
+        }
+
+        .registration-button a {
+            font-weight: bold;
+            background-color: #006799;
+            border-color: #006799;
+            color: #fff;
+        }
+
+        .agenda-btn {
+            margin-top: 20px;
+        }
+
+        .agenda-btn a {
+            font-weight: bold;
+            background-color: #006799;
+            border-color: #006799;
+            color: #fff;
+        }
+
+        .agenda-btn a:hover {
+            color: #fff;
+            background-color: var(--primary-hover-color);
+        }
+
+        .agenda-btn .icon {
+        }
+
+        .registration-button a:hover {
+            color: #fff;
+            background-color: var(--primary-hover-color);
+        }
+
+
+    </style>
+{% endblock extra_css %}
+
+
+{% image page.image original as event_img %}
+
+<div class="columns is-mobile is-multiline">
+    <div class="column is-two-thirds-desktop">
+        <div class="master-img"
+             style="background-image:url('{{ event_img.url }}');">
+        </div>
+    </div>
+    <div class="column is-one-third-desktop is-full-mobile">
+        <div class="evd-base-info-container">
+            <div class="evd-summit-info-time">
+                <div class="evd-summit-info-day">
+                    <span class="evd-time-month">
+                        {{ page.date_from|date:"M" }}
+                    </span>
+                    {{ page.date_from|date:"d, Y" }}
+                </div>
+                {% if page.count_down %}
+                    <div class="evd-summit-countdown">
+                        {% blocktranslate count counter=page.count_down trimmed %}
+                            Starts in {{ counter }} day
+                            {% plural %}
+                            Starts in {{ counter }} days
+                        {% endblocktranslate %}
+                    </div>
+                {% endif %}
+            </div>
+            <h3 class="evd-info-title">{{ page.title }}</h3>
+        </div>
+        {% include 'event_meta_include.html' %}
+    </div>
+</div>
+
+<div class="format-text" style="margin-top: 20px">
+    {{ page.description|richtext }}
+    {% if page.agenda_document %}
+        <div class="agenda-btn">
+            <a class="button is-rounded" href="{{ page.agenda_document.url }}">
+                <span class="icon">
+                    <i class="fas fa-download"></i>
+                </span>
+                <span>
+                    {% translate "Download Agenda" %}
+                </span>
+            </a>
+        </div>
+    {% endif %}
+    {% if page.additional_materials %}
+        <div class="event-detail-materials">
+            <h4 class="event-detail-materials-header">
+                {% translate "Additional Materials" %}
+            </h4>
+            <div class="columns is-multiline is-mobile">
+                {% for material in page.additional_materials %}
+                    <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+                        <a class="is-small event-additional-material"
+                           href="{% if material.value.document %}
+                                                    {{ material.value.document.url }}{% else %}{{ material.value.image.file.url }}{% endif %}"
+                           download="{{ material.value.title }}">
+                            {{ material.value.title }}
+                            <span class="icon">
+                                <img src="{% static 'images/download.svg' %}" alt="">
+                            </span>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>

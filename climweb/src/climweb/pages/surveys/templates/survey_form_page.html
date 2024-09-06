@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link href="{% static 'wagtailsurveyjs/css/vendor/defaultV2.min.css' %}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <section>
+            <div class="container">
+                <h3 class="section-title center">{{ page.title }}</h3>
+
+                <div class="card elevation-0">
+                    <div id="survey-form-container"></div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}
+
+{% block extra_js %}
+    {{ block.super }}
+    <script src="{% static 'wagtailsurveyjs/js/vendor/jquery.min.js' %}"></script>
+    <script src="{% static 'wagtailsurveyjs/js/vendor/survey.jquery.js' %}"></script>
+
+    {% include "wagtailsurveyjs/survey_form_page_js_include.html" %}
+{% endblock %}
