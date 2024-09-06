@@ -1,4 +1,4 @@
-# nmhs-cms
+# ClimWeb
 
 Content Management System for NMHSs in Africa
 
