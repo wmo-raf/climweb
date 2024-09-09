@@ -8,5 +8,3 @@ VERSION = (0, 9, 4, "beta", 1)
 __version__ = get_version(VERSION)
 
 __semver__ = get_semver_version(VERSION)
-
-__all__ = ["celery_app", ]
