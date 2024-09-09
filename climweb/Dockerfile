@@ -63,7 +63,7 @@ RUN chmod +x /wait
 RUN mkdir -p /climweb/web /climweb/plugins && chown -R $UID:$GID /climweb
 
 # Copy cron files, set permissions, and install cron jobs in one step
-COPY ./docker/cms/*.cron /etc/cron.d/
+COPY ./climweb/docker/*.cron /etc/cron.d/
 RUN chmod 0644 /etc/cron.d/*.cron && \
     cat /etc/cron.d/*.cron | crontab && \
     crontab -u $DOCKER_USER /etc/cron.d/*.cron && \
@@ -96,14 +96,11 @@ COPY --chown=$UID:$GID ./deploy/plugins/*.sh /climweb/plugins/
 ENV GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR=/climweb/geomanager/data
 RUN mkdir -p $GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR && chown -R $UID:$GID $GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR
 
-# Copy the entrypoint script
-COPY --chown=$UID:$GID ./docker/cms/docker-entrypoint.sh /climweb/web/docker-entrypoint.sh
-
 # install climweb as a package
-RUN chmod a+x /climweb/web/docker-entrypoint.sh && \
+RUN chmod a+x /climweb/web/docker/docker-entrypoint.sh && \
     /climweb/venv/bin/pip install --no-cache-dir -e /climweb/web/
 
-ENTRYPOINT ["/usr/bin/tini", "--", "/bin/bash", "/climweb/web/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/bin/bash", "/climweb/web/docker/docker-entrypoint.sh"]
 
 ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.production'
 
