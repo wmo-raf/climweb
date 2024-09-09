@@ -1,4 +1,4 @@
-from .config.celery import app as celery_app
+from .config.celery_init import app as celery_app
 from .utils.version import get_version, get_semver_version
 
 # major.minor.patch.release.number
