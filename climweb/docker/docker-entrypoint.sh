@@ -2,20 +2,6 @@
 # Bash strict mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
 
-# Use https://manytools.org/hacker-tools/ascii-banner/ and the font ANSI Shadow / Wide / Wide to generate
-cat <<EOF
-=========================================================================================
-
- ██████╗██╗     ██╗███╗   ███╗██╗    ██╗███████╗██████╗
-██╔════╝██║     ██║████╗ ████║██║    ██║██╔════╝██╔══██╗
-██║     ██║     ██║██╔████╔██║██║ █╗ ██║█████╗  ██████╔╝
-██║     ██║     ██║██║╚██╔╝██║██║███╗██║██╔══╝  ██╔══██╗
-╚██████╗███████╗██║██║ ╚═╝ ██║╚███╔███╔╝███████╗██████╔╝
- ╚═════╝╚══════╝╚═╝╚═╝     ╚═╝ ╚══╝╚══╝ ╚══════╝╚═════╝
-
-=========================================================================================
-EOF
-
 # ======================================================
 # ENVIRONMENT VARIABLES USED DIRECTLY BY THIS ENTRYPOINT
 # ======================================================
@@ -45,6 +31,23 @@ gunicorn            : Start ClimWeb using a prod ready gunicorn server:
                          * Automatically migrates the database on startup.
                          * Binds to 0.0.0.0
 """
+}
+
+show_startup_banner() {
+  # Use https://manytools.org/hacker-tools/ascii-banner/ and the font ANSI Shadow / Wide / Wide to generate
+cat <<EOF
+=========================================================================================
+ ██████╗██╗     ██╗███╗   ███╗██╗    ██╗███████╗██████╗
+██╔════╝██║     ██║████╗ ████║██║    ██║██╔════╝██╔══██╗
+██║     ██║     ██║██╔████╔██║██║ █╗ ██║█████╗  ██████╔╝
+██║     ██║     ██║██║╚██╔╝██║██║███╗██║██╔══╝  ██╔══██╗
+╚██████╗███████╗██║██║ ╚═╝ ██║╚███╔███╔╝███████╗██████╔╝
+ ╚═════╝╚══════╝╚═╝╚═╝     ╚═╝ ╚══╝╚══╝ ╚══════╝╚═════╝
+
+Version $CLIMWEB_APP_VERSION
+
+=========================================================================================
+EOF
 }
 
 run_setup_commands_if_configured() {
@@ -132,11 +135,17 @@ if [[ -z "${1:-}" ]]; then
     exit 1
 fi
 
+# activate virtualenv
+source /climweb/venv/bin/activate
+
+# get the current version of the app
+CLIMWEB_APP_VERSION=$(python /climweb/web/src/climweb/manage.py get_climweb_version)
+
+show_startup_banner
+
 # wait for required services to be available, using docker-compose-wait
 /wait
 
-# activate virtualenv
-source /climweb/venv/bin/activate
 # load plugin utils
 source /climweb/plugins/utils.sh
 
