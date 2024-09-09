@@ -1,3 +1,4 @@
+from .config.celery import app as celery_app
 from .utils.version import get_version, get_semver_version
 
 # major.minor.patch.release.number
@@ -7,3 +8,10 @@ VERSION = (0, 9, 4, "beta", 1)
 __version__ = get_version(VERSION)
 
 __semver__ = get_semver_version(VERSION)
+
+__all__ = [
+    "VERSION",
+    "__version__",
+    "__semver__",
+    "celery_app",
+]

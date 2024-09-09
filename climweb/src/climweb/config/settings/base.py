@@ -18,6 +18,7 @@ from pathlib import Path
 import django.conf.locale
 import environ
 from signxml import SignatureMethod
+from climweb import VERSION
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -76,6 +77,7 @@ INSTALLED_APPS = [
     "geomanager",
     "capeditor",
     "forecastmanager",
+    "climweb_wdqms",
 
     "wagtailmautic",
     "wagtailzoom",
@@ -148,13 +150,13 @@ INSTALLED_APPS = [
     "dbbackup",
     "wagtailmodelchooser",
     "django_extensions",
-    "climweb_wdqms",
+    "django_celery_beat",
 ]
 
-CLIMWEB_OPTIONAL_APPS = env.list("CLIMWEB_OPTIONAL_APPS", default=[])
-if CLIMWEB_OPTIONAL_APPS:
-    print(f"Loaded ClimWeb optional apps: {','.join(CLIMWEB_OPTIONAL_APPS)}")
-    INSTALLED_APPS += CLIMWEB_OPTIONAL_APPS
+CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
+if CLIMWEB_ADDITIONAL_APPS:
+    print(f"Loaded ClimWeb additional apps: {','.join(CLIMWEB_ADDITIONAL_APPS)}")
+    INSTALLED_APPS += CLIMWEB_ADDITIONAL_APPS
 
 CLIMWEB_PLUGIN_DIR = Path(env.str("CLIMWEB_PLUGIN_DIR", "/climweb/plugins"))
 if CLIMWEB_PLUGIN_DIR.exists():
@@ -196,7 +198,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-
 ]
 
 ROOT_URLCONF = "climweb.config.urls"
@@ -530,6 +531,34 @@ DEFAULT_WAGTAILDOCS_EXTENSIONS = ['pdf', 'docx', 'xlsx', 'pptx', 'csv', 'odt', '
 WAGTAILDOCS_EXTENSIONS = env.list("WAGTAILDOCS_EXTENSIONS", default=DEFAULT_WAGTAILDOCS_EXTENSIONS)
 
 CAP_ALLOW_EDITING = env.bool("CAP_ALLOW_EDITING", default=False)
+
+REDIS_HOST = env.str("REDIS_HOST", "redis")
+REDIS_PORT = env.str("REDIS_PORT", "6379")
+REDIS_USERNAME = env.str("REDIS_USER", "")
+REDIS_PASSWORD = env.str("REDIS_PASSWORD", "")
+REDIS_PROTOCOL = env.str("REDIS_PROTOCOL", "redis")
+REDIS_URL = env.str(
+    "REDIS_URL",
+    f"{REDIS_PROTOCOL}://{REDIS_USERNAME}:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/0",
+)
+
+CELERY_BROKER_URL = REDIS_URL
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+CELERY_SINGLETON_BACKEND_CLASS = (
+    "climweb.celery_singleton_backend.RedisBackendForSingleton"
+)
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_URL,
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "KEY_PREFIX": "climweb-default-cache",
+        "VERSION": VERSION,
+    },
+}
 
 
 class AttrDict(dict):

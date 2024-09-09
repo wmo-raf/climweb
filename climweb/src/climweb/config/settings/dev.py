@@ -30,21 +30,6 @@ SHOW_COLLAPSED = False
 GDAL_LIBRARY_PATH = env.str('GDAL_LIBRARY_PATH', None)
 GEOS_LIBRARY_PATH = env.str('GEOS_LIBRARY_PATH', None)
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'cache'),
-        'KEY_PREFIX': 'climweb_default',
-        'TIMEOUT': 14400,  # 4 hours (in seconds)
-    },
-    'pagecache': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION': env('MEMCACHED_URI', default=""),
-        'KEY_PREFIX': 'climweb_pagecache',
-        'TIMEOUT': 14400,  # 4 hours (in seconds)
-    },
-}
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

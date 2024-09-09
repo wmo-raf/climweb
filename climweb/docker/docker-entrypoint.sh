@@ -14,6 +14,8 @@ GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR=${GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR:
 CLIMWEB_LOG_LEVEL=${CLIMWEB_LOG_LEVEL:-INFO}
 GUNICORN_NUM_OF_WORKERS=${GUNICORN_NUM_OF_WORKERS:-}
 
+CLIMWEB_CELERY_BEAT_DEBUG_LEVEL=${CLIMWEB_CELERY_BEAT_DEBUG_LEVEL:-INFO}
+
 show_help() {
     echo """
 The available ClimWeb related commands and services are shown below:
@@ -30,6 +32,9 @@ gunicorn            : Start ClimWeb using a prod ready gunicorn server:
                          * Waits for the postgres database to be available first.
                          * Automatically migrates the database on startup.
                          * Binds to 0.0.0.0
+gunicorn-wsgi       : Same as gunicorn but runs a wsgi server
+celery-worker       : Start the celery worker queue which runs async tasks
+celery-beat         : Start the celery beat service used to schedule periodic jobs
 """
 }
 
@@ -94,6 +99,17 @@ run_setup_commands_if_configured() {
         fi
       done &
     fi
+}
+
+start_celery_worker() {
+    startup_plugin_setup
+
+    EXTRA_CELERY_ARGS=()
+
+    if [[ -n "$GUNICORN_NUM_OF_WORKERS" ]]; then
+        EXTRA_CELERY_ARGS+=(--concurrency "$GUNICORN_NUM_OF_WORKERS")
+    fi
+    exec celery -A climweb worker "${EXTRA_CELERY_ARGS[@]}" -l INFO "$@"
 }
 
 run_server() {
@@ -161,6 +177,12 @@ manage)
     ;;
 shell)
     exec python3 /climweb/web/src/climweb/manage.py shell
+    ;;
+celery-worker)
+    start_celery_worker -Q celery -n default-worker@%h "${@:2}"
+    ;;
+celery-beat)
+    exec celery -A climweb beat -l "${CLIMWEB_CELERY_BEAT_DEBUG_LEVEL}" -S django_celery_beat.schedulers:DatabaseScheduler "${@:2}"
     ;;
 install-plugin)
     exec /climweb/plugins/install_plugin.sh --runtime "${@:2}"

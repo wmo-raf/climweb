@@ -1,6 +1,11 @@
+import logging
+from datetime import timedelta
+
 import pytz
 from adminboundarymanager.models import AdminBoundarySettings
-from background_task import background
+from celery.signals import worker_ready
+from celery_singleton import Singleton, clear_locks
+from climweb.config.celery import app
 from django.core.files.base import ContentFile
 from django.utils import timezone
 from django.utils.text import slugify
@@ -13,8 +18,13 @@ from .models import (
 )
 from .utils import get_layer_time, get_wms_map
 
+logger = logging.getLogger(__name__)
 
-@background()
+
+@app.task(
+    base=Singleton,
+    bind=True
+)
 def download_imagery():
     today = timezone.datetime.today()
 
@@ -68,3 +78,17 @@ def download_imagery():
                         except Exception as e:
                             print(e)
                             pass
+
+
+@worker_ready.connect
+def unlock_all(**kwargs):
+    clear_locks(app)
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(
+        timedelta(minutes=15),
+        download_imagery.s(),
+        name="process-satellite-imagery-every-15-minutes",
+    )

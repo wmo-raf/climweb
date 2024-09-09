@@ -19,29 +19,12 @@ DATABASES = {
     'default': env.db()
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'cache'),
-        'KEY_PREFIX': 'climweb_default',
-        'TIMEOUT': 14400,  # 4 hours (in seconds)
-    },
-    'pagecache': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION': env('MEMCACHED_URI', default=""),
-        'KEY_PREFIX': 'climweb_pagecache',
-        'TIMEOUT': 14400,  # 4 hours (in seconds)
-    },
-}
-
 MANIFEST_LOADER = {
     'cache': True,
     # recommended True for production, requires a server restart to pick up new values from the manifest.
 }
 
 STATICFILES_STORAGE = "climweb.base.storage.ManifestStaticFilesStorageNotStrict"
-
-WAGTAIL_CACHE_BACKEND = env.str('WAGTAIL_CACHE_BACKEND', default='pagecache')
 
 # Enable caching in production
 WAGTAIL_CACHE = True
