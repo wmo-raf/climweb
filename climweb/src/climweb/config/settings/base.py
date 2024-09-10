@@ -158,9 +158,10 @@ if CLIMWEB_ADDITIONAL_APPS:
     print(f"Loaded ClimWeb additional apps: {','.join(CLIMWEB_ADDITIONAL_APPS)}")
     INSTALLED_APPS += CLIMWEB_ADDITIONAL_APPS
 
-CLIMWEB_PLUGIN_DIR = env.str("CLIMWEB_PLUGIN_DIR", "/climweb/plugins")
+CLIMWEB_PLUGIN_DIR = env("CLIMWEB_PLUGIN_DIR", default="/climweb/plugins")
 if CLIMWEB_PLUGIN_DIR and Path(CLIMWEB_PLUGIN_DIR).exists():
-    CLIMWEB_PLUGIN_FOLDERS = [file for file in CLIMWEB_PLUGIN_DIR.iterdir() if file.is_dir()]
+    climweb_plugin_dir_path = Path(CLIMWEB_PLUGIN_DIR)
+    CLIMWEB_PLUGIN_FOLDERS = [file for file in climweb_plugin_dir_path.iterdir() if file.is_dir()]
 else:
     CLIMWEB_PLUGIN_FOLDERS = []
 
