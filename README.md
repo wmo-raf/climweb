@@ -8,6 +8,6 @@ Read more from the user guide - [https://nmhs-cms.readthedocs.io](https://nmhs-c
 
 ---
 
-## Installation Guide
+## Docker Installation Guide
 
-For installation instructions please visit https://github.com/wmo-raf/nmhs-cms-init
+For installation instructions with docker, please visit https://github.com/wmo-raf/climweb-docker
