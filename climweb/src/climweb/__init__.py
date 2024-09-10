@@ -1,6 +1,6 @@
-from climweb.config.celery_init import app as celery_app
-from climweb.utils.version import get_version, get_semver_version
-from climweb.version import VERSION
+from .config.celery import app as celery_app
+from .utils.version import get_version, get_semver_version
+from .version import VERSION
 
 __version__ = get_version(VERSION)
 
