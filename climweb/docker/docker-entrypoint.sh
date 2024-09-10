@@ -73,9 +73,6 @@ run_setup_commands_if_configured() {
     # ensure cron is running
     service cron start
 
-    # submit satellite imagery download task
-    /climweb/web/src/climweb/manage.py submit_sat_imagery_download
-
     # initialize geomanager
     /climweb/web/src/climweb/manage.py initialize_geomanager
 
