@@ -6,4 +6,4 @@ __version__ = get_version(VERSION)
 
 __semver__ = get_semver_version(VERSION)
 
-__all__ = ["celery_app"]
+__all__ = ["celery_app", "__version__", "__semver__"]

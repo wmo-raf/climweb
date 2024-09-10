@@ -32,7 +32,7 @@ BOLD="$(safe_tput bold)"
 
 NC=$(safe_tput sgr0) # No Color
 
-CLIMWEB_PLUGIN_DIR=${WIS2BOX_ADL_PLUGIN_DIR:-/wis2box_adl/plugins}
+CLIMWEB_PLUGIN_DIR=${CLIMWEB_PLUGIN_DIR:-/climweb/plugins}
 
 simple_log(){
   echo -e "${BLUE}[PLUGIN] $*${NC}"
