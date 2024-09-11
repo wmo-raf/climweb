@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
     base=Singleton,
     bind=True
 )
-def download_imagery():
+def download_imagery(self):
     today = timezone.datetime.today()
 
     date_format = "%Y-%m-%dT%H:%M:%S.%fZ"
