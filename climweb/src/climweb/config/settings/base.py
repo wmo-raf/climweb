@@ -558,6 +558,7 @@ CACHES = {
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         "KEY_PREFIX": "climweb-default-cache",
         "VERSION": VERSION,
+        "TIMEOUT": 60 * 60 * 4,  # 4 hours
     },
 }
 
