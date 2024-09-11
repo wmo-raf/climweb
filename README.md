@@ -2,9 +2,9 @@
 
 Wagtail based Open Source Content Management System for National Meteorological and Hydrological Services in Africa.
 
-A website template co-developed with NMHSs in Africa to support their digital transformation. Adopts best practices in
-web design, data visualization and hydro meteorological and climate communications to ensure that NMHSs have a modern,
-responsive, and user-friendly website.
+A website template co-developed with NMHSs in Africa to support their digital transformation. Aims to adopt best
+practices in web design and development, data visualization and hydro meteorological and climate communications to
+ensure that NMHSs have a modern, responsive, and user-friendly website.
 
 ## 🌟 Core Features
 
