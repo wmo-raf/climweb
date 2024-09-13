@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from lxml import etree
 from wagtail.api.v2.utils import get_full_url
@@ -19,6 +20,16 @@ from climweb.base.models import ImportantPages
 from climweb.base.weasyprint_utils import django_url_fetcher
 from .constants import DEFAULT_STYLE, CAP_LAYERS
 from .sign import sign_cap_xml
+
+
+def get_all_published_alerts():
+    from .models import CapAlertPage
+    return CapAlertPage.objects.all().live().filter(status="Actual", scope="Public").order_by('-sent')
+
+
+def get_currently_active_alerts():
+    current_time = timezone.localtime()
+    return get_all_published_alerts().filter(expires__gte=current_time)
 
 
 def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request=None):

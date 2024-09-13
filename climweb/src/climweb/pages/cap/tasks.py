@@ -8,9 +8,10 @@ from wagtailcache.cache import clear_cache
 from climweb.base.utils import get_object_or_none, get_first_page_of_pdf_as_image
 from .utils import (
     create_cap_area_map_image,
-    create_cap_pdf_document, serialize_and_sign_cap_alert
+    create_cap_pdf_document,
+    serialize_and_sign_cap_alert
 )
-from .webhook_http import prepare_request
+from .webhook.http import prepare_request
 
 
 @background(schedule=5)
