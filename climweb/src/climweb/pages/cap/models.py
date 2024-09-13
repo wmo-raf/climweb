@@ -1,17 +1,15 @@
 import json
+import logging
 
 from capeditor.cap_settings import CapSetting
 from capeditor.models import AbstractCapAlertPage, CapAlertPageForm
-from capeditor.pubsub.publish import publish_cap_mqtt_message
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import SubCategory, Metadata
-from modelcluster.models import ClusterableModel
 from shapely.geometry import shape
 from shapely.ops import unary_union
 from wagtail import blocks
@@ -23,12 +21,29 @@ from wagtail.models import Page
 from wagtail.signals import page_published
 
 from climweb.base.mixins import MetadataPageMixin
+from .mqtt.models import CAPAlertMQTTBroker, CAPAlertMQTTBrokerEvent
+from .mqtt.publish import publish_cap_to_all_mqtt_brokers
 from .tasks import create_cap_alert_multi_media, fire_alert_webhooks
 from .utils import (
     get_cap_map_style,
     get_cap_settings,
     format_date_to_oid,
+    get_all_published_alerts
 )
+from .webhook.models import CAPAlertWebhook, CAPAlertWebhookEvent
+
+__all__ = [
+    "CapAlertListPage",
+    "CapAlertPage",
+    "CAPGeomanagerSettings",
+    "OtherCAPSettings",
+    "CAPAlertWebhook",
+    "CAPAlertWebhookEvent",
+    "CAPAlertMQTTBroker",
+    "CAPAlertMQTTBrokerEvent",
+]
+
+logger = logging.getLogger(__name__)
 
 
 class CapAlertListPage(MetadataPageMixin, Page):
@@ -404,62 +419,15 @@ class OtherCAPSettings(BaseSiteSetting):
         verbose_name_plural = _("Other Settings")
 
 
-class CAPAlertWebhook(ClusterableModel):
-    name = models.CharField(max_length=255, verbose_name=_("Name"))
-    url = models.URLField(max_length=255, unique=True, verbose_name=_("Webhook URL"))
-    active = models.BooleanField(default=True, verbose_name=_("Active"))
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    retry_on_failure = models.BooleanField(default=True, verbose_name=_("Retry on failure"))
-
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("url"),
-        FieldPanel("active"),
-    ]
-
-    class Meta:
-        verbose_name = _("CAP Alert Webhook")
-        verbose_name_plural = _("CAP Alert Webhooks")
-
-    def __str__(self):
-        return f"{self.name} - {self.url}"
-
-
-WEBHOOK_STATES = [
-    ("PENDING", _("Pending")),
-    ("FAILURE", _("Failure")),
-    ("SUCCESS", _("Success")),
-]
-
-
-class CAPAlertWebhookEvent(models.Model):
-    webhook = models.ForeignKey(CAPAlertWebhook, on_delete=models.CASCADE, related_name="events")
-    alert = models.ForeignKey(CapAlertPage, on_delete=models.CASCADE, related_name="webhook_events")
-    status = models.CharField(max_length=40, choices=WEBHOOK_STATES, default="PENDING", verbose_name=_("Status"),
-                              editable=False, )
-    retries = models.IntegerField(default=0, verbose_name=_("Retries"))
-    error = models.TextField(blank=True, null=True, verbose_name=_("Last Error Message"), )
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = _("CAP Alert Webhook Event")
-        verbose_name_plural = _("CAP Alert Webhook Events")
-
-    def __str__(self):
-        return f"{self.webhook.name} - {self.alert.title}"
-
-
 def on_publish_cap_alert(sender, **kwargs):
     instance = kwargs['instance']
 
     if instance.status == "Actual" and instance.scope == "Public":
         try:
             # publish cap alert to mqtt
-            topic = "cap/alerts/all"
-            publish_cap_mqtt_message(instance, topic)
+            publish_cap_to_all_mqtt_brokers(instance.id)
         except Exception as e:
+            logger.error(f"Error publishing cap alert to mqtt: {e}")
             pass
 
         # publish cap alert to webhook
@@ -476,15 +444,6 @@ def on_publish_cap_alert(sender, **kwargs):
         instance.alert_area_map_image.delete()
 
     create_cap_alert_multi_media(instance.pk, clear_cache_on_success=True)
-
-
-def get_all_published_alerts():
-    return CapAlertPage.objects.all().live().filter(status="Actual", scope="Public").order_by('-sent')
-
-
-def get_currently_active_alerts():
-    current_time = timezone.localtime()
-    return get_all_published_alerts().filter(expires__gte=current_time)
 
 
 page_published.connect(on_publish_cap_alert, sender=CapAlertPage)

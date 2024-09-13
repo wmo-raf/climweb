@@ -4,10 +4,13 @@ from datetime import datetime
 import pytz
 from capeditor.cap_settings import get_cap_contact_list, get_cap_audience_list
 from capeditor.models import CapSetting
+from django.conf import settings
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
+from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, gettext
 from wagtail import hooks
 from wagtail.actions.copy_page import CopyPageAction
@@ -17,7 +20,11 @@ from wagtail.admin.menu import MenuItem, Menu
 from wagtail.blocks import StreamValue
 from wagtail.models import Page
 from wagtail_modeladmin.helpers import AdminURLHelper
-from wagtail_modeladmin.helpers import PagePermissionHelper, PermissionHelper, PageButtonHelper
+from wagtail_modeladmin.helpers import (
+    PagePermissionHelper,
+    PermissionHelper,
+    PageButtonHelper
+)
 from wagtail_modeladmin.menus import GroupMenuItem
 from wagtail_modeladmin.options import (
     ModelAdmin,
@@ -28,10 +35,25 @@ from wagtail_modeladmin.options import (
 from .models import (
     CapAlertPage,
     CAPGeomanagerSettings,
-    CapAlertListPage, get_currently_active_alerts, CAPAlertWebhook, CAPAlertWebhookEvent, OtherCAPSettings
+    CapAlertListPage,
+    CAPAlertWebhook,
+    CAPAlertWebhookEvent,
+    OtherCAPSettings,
+    CAPAlertMQTTBroker,
+    CAPAlertMQTTBrokerEvent,
+
 )
-from .utils import create_cap_geomanager_dataset
-from django.conf import settings
+from .utils import (
+    create_cap_geomanager_dataset,
+    get_currently_active_alerts
+)
+
+
+@hooks.register("insert_editor_js")
+def insert_editor_js():
+    return format_html(
+        '<script src="{}"></script>', static("cap/js/mqtt_collapse_panels.js"),
+    )
 
 
 class CAPPagePermissionHelper(PagePermissionHelper):
@@ -127,6 +149,40 @@ class CAPAlertWebhookEventAdmin(ModelAdmin):
     permission_helper_class = CAPAlertWebhookEventPermissionHelper
 
 
+class CAPAlertMQTTAdmin(ModelAdmin):
+    model = CAPAlertMQTTBroker
+    menu_label = CAPAlertMQTTBroker._meta.verbose_name_plural
+    menu_icon = 'globe'
+    list_display = ('name', 'host', 'port', 'created', 'modified')
+    list_filter = ('wis2box_metadata_id', 'active')
+    search_fields = ('name', 'wis2box_metadata_id')
+
+
+class CAPAlertMQTTEventPermissionHelper(PermissionHelper):
+    def user_can_create(self, user):
+        return False
+
+    def user_can_edit_obj(self, user, obj):
+        return False
+
+    def user_can_delete_obj(self, user, obj):
+        return False
+
+    def user_can_copy_obj(self, user, obj):
+        return False
+
+
+class CAPAlertMQTTEventAdmin(ModelAdmin):
+    model = CAPAlertMQTTBrokerEvent
+    menu_label = CAPAlertMQTTBrokerEvent._meta.verbose_name_plural
+    menu_icon = 'notification'
+    list_display = ('broker', 'alert', 'created', 'status')
+    list_filter = ('broker', 'status')
+    inspect_view_enabled = True
+
+    permission_helper_class = CAPAlertMQTTEventPermissionHelper
+
+
 class CAPMenuGroupAdminMenuItem(GroupMenuItem):
     def is_shown(self, request):
         return request.user.has_perm("base.can_view_alerts_menu")
@@ -136,7 +192,7 @@ class CAPMenuGroup(ModelAdminGroup):
     menu_label = _('CAP Alerts')
     menu_icon = 'warning'  # change as required
     menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    items = (CAPAdmin, CAPAlertWebhookAdmin, CAPAlertWebhookEventAdmin,)
+    items = (CAPAdmin, CAPAlertWebhookAdmin, CAPAlertWebhookEventAdmin, CAPAlertMQTTAdmin, CAPAlertMQTTEventAdmin)
 
     def get_menu_item(self, order=None):
         if self.modeladmin_instances:

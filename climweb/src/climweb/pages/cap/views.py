@@ -20,10 +20,13 @@ from wagtail.models import Site
 from climweb.base.cache import wagcache
 from .models import (
     CapAlertPage,
-    get_currently_active_alerts,
-    get_all_published_alerts, OtherCAPSettings,
+    OtherCAPSettings,
 )
-from .utils import serialize_and_sign_cap_alert
+from .utils import (
+    serialize_and_sign_cap_alert,
+    get_currently_active_alerts,
+    get_all_published_alerts
+)
 
 
 class CustomCAPFeed(Rss201rev2Feed):
