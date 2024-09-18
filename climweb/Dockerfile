@@ -62,13 +62,6 @@ RUN chmod +x /wait
 # Create directories and set correct permissions
 RUN mkdir -p /climweb/web /climweb/plugins && chown -R $UID:$GID /climweb
 
-# Copy cron files, set permissions, and install cron jobs in one step
-COPY ./climweb/docker/*.cron /etc/cron.d/
-RUN chmod 0644 /etc/cron.d/*.cron && \
-    cat /etc/cron.d/*.cron | crontab && \
-    crontab -u $DOCKER_USER /etc/cron.d/*.cron && \
-    chmod u+s /usr/sbin/cron
-
 USER $UID:$GID
 
 COPY ./climweb/requirements/base.txt /climweb/requirements/
