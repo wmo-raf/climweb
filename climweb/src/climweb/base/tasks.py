@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from celery.schedules import crontab
 from celery_singleton import Singleton
 from django.core.management import call_command
@@ -42,6 +44,12 @@ def run_wdqms_stats(self, variable):
 
     # Run the `wdqms_stats` management command
     call_command('wdqms_stats', '-var', variable)
+
+
+@app.task(base=Singleton, bind=True)
+def process_tasks(self, duration):
+    # Run the `process_tasks` management command
+    call_command('process_tasks', '--duration', str(duration))
 
 
 @app.on_after_finalize.connect
@@ -100,4 +108,12 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour='0,12', minute=0),
         run_wdqms_stats.s('zonal_wind'),
         name='Run wdqms_stats for zonal_wind at 00:00 and 12:00'
+    )
+
+    # Schedule process_tasks to run every 15 minutes
+    # This runs tasks scheduled using django-background-tasks
+    sender.add_periodic_task(
+        timedelta(minutes=15),  # Schedule the task every 15 minutes
+        process_tasks.s(900),  # Call the task with --duration 900
+        name='Run process_tasks every 15 minutes'
     )
