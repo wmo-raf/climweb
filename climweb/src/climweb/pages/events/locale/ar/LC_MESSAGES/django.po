@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-03 11:31+0300\n"
+"POT-Creation-Date: 2024-09-30 21:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,216 +18,229 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pages/events/models.py:46
+#: pages/events/models.py:47
 msgid "Event type"
 msgstr "نوع الحدث"
 
-#: pages/events/models.py:54
+#: pages/events/models.py:55
 msgid "Thumbnail/image for this type of event."
 msgstr "صورة مصغرة/صورة لهذا النوع من الأحداث."
 
-#: pages/events/models.py:67 pages/events/models.py:177
+#: pages/events/models.py:68 pages/events/models.py:178
 msgid "Event Type"
 msgstr "نوع الحدث"
 
-#: pages/events/models.py:80
+#: pages/events/models.py:81
 msgid "How many events should be visible on the all events section ?"
 msgstr "كم عدد الأحداث التي يجب أن تكون مرئية في قسم كافة الأحداث؟"
 
-#: pages/events/models.py:81
+#: pages/events/models.py:82
 msgid "Events per page"
 msgstr "الأحداث في كل صفحة"
 
-#: pages/events/models.py:89
+#: pages/events/models.py:90
 msgid "Other Settings"
 msgstr "اعدادات اخرى"
 
-#: pages/events/models.py:93
+#: pages/events/models.py:94
 msgid "Event Index Page"
 msgstr "صفحة فهرس الأحداث"
 
-#: pages/events/models.py:178
+#: pages/events/models.py:179
 msgid "Service Categories"
 msgstr "فئات الخدمة"
 
-#: pages/events/models.py:179
+#: pages/events/models.py:180
 msgid "Relevant Projects"
 msgstr "المشاريع ذات الصلة"
 
-#: pages/events/models.py:180
+#: pages/events/models.py:181
 msgid "Event begin date"
 msgstr "تاريخ بدء الحدث"
 
-#: pages/events/models.py:181
+#: pages/events/models.py:182
 msgid "Day of the event. If multi-day, then this should be the first day"
 msgstr "يوم الحدث. إذا كان متعدد الأيام، فيجب أن يكون هذا هو اليوم الأول"
 
-#: pages/events/models.py:183
+#: pages/events/models.py:184
 msgid "End date - Note: Not Required if this is a one day Event"
 msgstr "تاريخ الانتهاء - ملاحظة: غير مطلوب إذا كان هذا حدثًا ليوم واحد"
 
-#: pages/events/models.py:184
+#: pages/events/models.py:185
 msgid "Not required if this is a one day event"
 msgstr "غير مطلوب إذا كان هذا حدثًا ليوم واحد"
 
-#: pages/events/models.py:186 pages/events/models.py:189
+#: pages/events/models.py:187 pages/events/models.py:190
 #: pages/events/templates/event_meta_include.html:88
 msgid "Timezone"
 msgstr "وحدة زمنية"
 
-#: pages/events/models.py:191
+#: pages/events/models.py:192
 msgid "Where will the event take place ?"
 msgstr "أين سيقام الحدث؟"
 
-#: pages/events/models.py:192
+#: pages/events/models.py:193
 #: pages/events/templates/event_meta_include.html:41
 msgid "Location"
 msgstr "موقع"
 
-#: pages/events/models.py:194
+#: pages/events/models.py:195
 msgid "What is the cost for participating in this event ? Leave blank if free"
 msgstr "ما هي تكلفة المشاركة في هذا الحدث؟ اتركه فارغًا إذا كان مجانيًا"
 
-#: pages/events/models.py:195
+#: pages/events/models.py:196
 #: pages/events/templates/event_meta_include.html:102
 msgid "Cost"
 msgstr "يكلف"
 
-#: pages/events/models.py:197
+#: pages/events/models.py:198
 msgid "Description"
 msgstr "وصف"
 
-#: pages/events/models.py:200
+#: pages/events/models.py:201
 msgid "Downloadable agenda document"
 msgstr "وثيقة جدول الأعمال للتحميل"
 
-#: pages/events/models.py:201
+#: pages/events/models.py:202
 msgid "Agenda document, if available, preferably in PDF format"
 msgstr "وثيقة جدول الأعمال، إن وجدت، ويفضل أن تكون بصيغة PDF"
 
-#: pages/events/models.py:209
+#: pages/events/models.py:210
 msgid "Event Image"
 msgstr "صورة الحدث"
 
-#: pages/events/models.py:210
+#: pages/events/models.py:211
 msgid "An image for this event, can be a poster or any relevant image"
 msgstr "صورة لهذا الحدث، يمكن أن تكون ملصقًا أو أي صورة ذات صلة"
 
-#: pages/events/models.py:217
+#: pages/events/models.py:218
 msgid "Image Placement"
 msgstr "وضع الصورة"
 
-#: pages/events/models.py:219
+#: pages/events/models.py:220
 msgid "Form template"
 msgstr "قالب النموذج"
 
-#: pages/events/models.py:223
+#: pages/events/models.py:224
 msgid "Show this event in the events landing page as featured ?"
 msgstr "إظهار هذا الحدث في الصفحة المقصودة للأحداث كما هو مميز؟"
 
-#: pages/events/models.py:223
+#: pages/events/models.py:224
 msgid "Featured"
 msgstr "متميز"
 
-#: pages/events/models.py:227
+#: pages/events/models.py:228
 msgid "Make this event hidden in events page or elsewhere"
 msgstr "اجعل هذا الحدث مخفيًا في صفحة الأحداث أو في أي مكان آخر"
 
-#: pages/events/models.py:227
+#: pages/events/models.py:228
 msgid "Is hidden"
 msgstr "مخفيا"
 
-#: pages/events/models.py:231
+#: pages/events/models.py:232
 msgid "Show this event on the homepage ?"
 msgstr "عرض هذا الحدث على الصفحة الرئيسية؟"
 
-#: pages/events/models.py:231
+#: pages/events/models.py:232
 msgid "Is visible on homepage"
 msgstr "مرئي على الصفحة الرئيسية"
 
-#: pages/events/models.py:235 pages/events/templates/event_page.html:30
+#: pages/events/models.py:236 pages/events/templates/event_page.html:30
 msgid "Panelists"
 msgstr "أعضاء اللجنة"
 
-#: pages/events/models.py:239
+#: pages/events/models.py:240
 #: pages/events/templates/zoom_events_details_include.html:302
 msgid "Sessions"
 msgstr "الجلسات"
 
-#: pages/events/models.py:243
+#: pages/events/models.py:244
 #: pages/events/templates/new_events_header.html:160
 msgid "Additional Materials"
 msgstr "مواد إضافية"
 
-#: pages/events/models.py:246
+#: pages/events/models.py:247
 msgid "Acknowledgement/sponsors"
 msgstr "شكر وتقدير / الرعاة"
 
-#: pages/events/models.py:248
+#: pages/events/models.py:249
 msgid "Is archived"
 msgstr "تمت أرشفته"
 
-#: pages/events/models.py:249
+#: pages/events/models.py:250
 msgid "Registration open"
 msgstr "التسجيل مفتوح"
 
-#: pages/events/models.py:251
+#: pages/events/models.py:252
 msgid "Youtube Video ID if the event is being livestreamed"
 msgstr "معرف فيديو Youtube إذا كان يتم بث الحدث مباشرة"
 
-#: pages/events/models.py:252
+#: pages/events/models.py:253
 msgid "Meeting Registration Integration Platform"
 msgstr "منصة تكامل تسجيل الاجتماعات"
 
-#: pages/events/models.py:255
+#: pages/events/models.py:256
 msgid "Platform for Event"
 msgstr "منصة للحدث"
 
-#: pages/events/models.py:285 pages/events/models.py:507
+#: pages/events/models.py:259
+msgid "Enable Zoom Integration in registration form"
+msgstr "تفعيل تكامل Zoom في نموذج التسجيل"
+
+#: pages/events/models.py:261
+msgid "Enable Mailchimp Integration in registration form"
+msgstr "تمكين تكامل Mailchimp في نموذج التسجيل"
+
+#: pages/events/models.py:297 pages/events/models.py:535
 msgid "Content"
 msgstr "محتوى"
 
-#: pages/events/models.py:286 pages/events/models.py:508
+#: pages/events/models.py:298 pages/events/models.py:536
 msgid "SEO"
 msgstr "تحسين محركات البحث"
 
-#: pages/events/models.py:287 pages/events/models.py:509
-msgid "Settings"
-msgstr "إعدادات"
+#: pages/events/models.py:299
+msgid "Registration and Integrations"
+msgstr "التسجيل والتكاملات"
 
-#: pages/events/models.py:293
+#: pages/events/models.py:305
 msgid "Event Page"
 msgstr "صفحة الحدث"
 
-#: pages/events/models.py:430
+#: pages/events/models.py:407
+#, python-format
+msgid "Register for %(event_title)s"
+msgstr "سجل لـ %(event_title)s"
+
+#: pages/events/models.py:459
 msgid "Optional Additional information/details"
 msgstr "معلومات/تفاصيل إضافية اختيارية"
 
-#: pages/events/models.py:431
+#: pages/events/models.py:460
 msgid "Additional Information - (Optional)"
 msgstr "معلومات إضافية: (اختياري)"
 
-#: pages/events/models.py:433
+#: pages/events/models.py:462
 msgid "Number of available registrations"
 msgstr "عدد التسجيلات المتاحة"
 
-#: pages/events/models.py:434
+#: pages/events/models.py:463
 msgid "Registration Limit - (Leave blank if no limit)"
 msgstr "حد التسجيل - (اتركه فارغًا إذا لم يكن هناك حد)"
 
-#: pages/events/models.py:438
+#: pages/events/models.py:467
 msgid "Text to display after successful submission"
 msgstr "النص الذي سيتم عرضه بعد التقديم الناجح"
 
-#: pages/events/models.py:439
+#: pages/events/models.py:468
 msgid "Thank you text"
 msgstr "شكرا لك النص"
 
-#: pages/events/models.py:440
+#: pages/events/models.py:469
 msgid "Validation Field"
 msgstr "مجال التحقق"
 
-#: pages/events/models.py:441
+#: pages/events/models.py:470
 msgid ""
 "A field on the form to check if is already submitted so as to prevent "
 "multiple submissions by one person. This is usually the email address field "
@@ -237,15 +250,15 @@ msgstr ""
 "الإرسال المتعددة من قبل شخص واحد. عادةً ما يكون هذا هو حقل عنوان البريد "
 "الإلكتروني بتنسيق غلاف الثعبان"
 
-#: pages/events/models.py:447
+#: pages/events/models.py:476
 msgid "Should we send a confirmation/follow up email ?"
 msgstr "هل يجب أن نرسل رسالة تأكيد/متابعة بالبريد الإلكتروني؟"
 
-#: pages/events/models.py:448
+#: pages/events/models.py:477
 msgid "Send confirmation Email"
 msgstr "إرسال تأكيد البريد الإلكتروني"
 
-#: pages/events/models.py:450
+#: pages/events/models.py:479
 msgid ""
 "The field in the form that corresponds to the email to use. Should be "
 "snake_cased"
@@ -253,19 +266,19 @@ msgstr ""
 "الحقل في النموذج الذي يتوافق مع البريد الإلكتروني المراد استخدامه. ينبغي أن "
 "يكون الثعبان"
 
-#: pages/events/models.py:451
+#: pages/events/models.py:480
 msgid "Email Field"
 msgstr "حقل البريد الإلكتروني"
 
-#: pages/events/models.py:453
+#: pages/events/models.py:482
 msgid "Email Confirmation message"
 msgstr "رسالة تأكيد البريد الإلكتروني"
 
-#: pages/events/models.py:454
+#: pages/events/models.py:483
 msgid "Message to send to the user. For example zoom links"
 msgstr "رسالة لإرسالها إلى المستخدم. على سبيل المثال روابط التكبير"
 
-#: pages/events/models.py:456
+#: pages/events/models.py:485
 msgid ""
 "Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
 "registrations"
@@ -273,23 +286,27 @@ msgstr ""
 "تم تمكين تسجيل دفعة التكبير/التصغير - اتركه بدون تحديد لتسجيلات "
 "التكبير/التصغير المباشرة"
 
-#: pages/events/models.py:459
+#: pages/events/models.py:488
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr "تمكين خيار الدفعة لإضافة المسجلين للتكبير لاحقًا"
 
-#: pages/events/models.py:477
+#: pages/events/models.py:505
 msgid "Event Registration Page"
 msgstr "صفحة تسجيل الحدث"
 
-#: pages/events/models.py:510
+#: pages/events/models.py:537
+msgid "Settings"
+msgstr "إعدادات"
+
+#: pages/events/models.py:538
 msgid "Zoom Events Settings"
 msgstr "إعدادات تكبير الأحداث"
 
-#: pages/events/models.py:511
+#: pages/events/models.py:539
 msgid "MailChimp Settings"
 msgstr "إعدادات ميل تشيمب"
 
-#: pages/events/models.py:524
+#: pages/events/models.py:552
 msgid "Added to Zoom"
 msgstr "تمت إضافته إلى التكبير"
 

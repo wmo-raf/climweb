@@ -202,7 +202,7 @@
                                                             </span>
                                                         {% endif %}
                                                         <span style="margin-right: 10px">
-                                                            {{ item.info.value.event |truncatechars:20}}
+                                                            {{ item.event |truncatechars:50 }}
                                                         </span>
                                                     </a>
                                                 </li>
@@ -263,7 +263,7 @@
                                                             <div class="cap-info-summary-type">
                                                                 {% translate "Category" %}:
                                                             </div>
-                                                            <span class="cap-info-summary-value"> {{ item.value.category }}</span>
+                                                            <span class="cap-info-summary-value"> {{ alert_info.category }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -276,7 +276,19 @@
                                                             <div class="cap-info-summary-type">
                                                                 {% translate "Urgency" %}:
                                                             </div>
-                                                            <div class="cap-info-summary-value">{{ item.value.urgency }}</div>
+                                                            <div class="cap-info-summary-value">
+                                                                {% with urgency=item.value.urgency %}
+                                                                    {% if urgency == "Immediate" %}
+                                                                        {% translate "Immediate" %}
+                                                                    {% elif urgency == "Expected" %}
+                                                                        {% translate "Expected" %}
+                                                                    {% elif urgency == "Future" %}
+                                                                        {% translate "Future" %}
+                                                                    {% elif urgency == "Past" %}
+                                                                        {% translate "Past" %}
+                                                                    {% endif %}
+                                                                {% endwith %}
+                                                            </div>
                                                         </div>
                                                         <div class="cap-info-summary-item">
                                                             <div class="cap-info-summary-icon">
@@ -285,7 +297,19 @@
                                                             <div class="cap-info-summary-type">
                                                                 {% translate "Severity" %}:
                                                             </div>
-                                                            <div class="cap-info-summary-value">{{ item.value.severity }}</div>
+                                                            <div class="cap-info-summary-value">
+                                                                {% with severity=item.value.severity %}
+                                                                    {% if severity == "Extreme" %}
+                                                                        {% translate "Extreme" %}
+                                                                    {% elif severity == "Severe" %}
+                                                                        {% translate "Severe" %}
+                                                                    {% elif severity == "Moderate" %}
+                                                                        {% translate "Moderate" %}
+                                                                    {% elif severity == "Minor" %}
+                                                                        {% translate "Minor" %}
+                                                                    {% endif %}
+                                                                {% endwith %}
+                                                            </div>
                                                         </div>
                                                         <div class="cap-info-summary-item">
                                                             <div class="cap-info-summary-icon">
@@ -294,7 +318,19 @@
                                                             <div class="cap-info-summary-type">
                                                                 {% translate "Certainty" %}:
                                                             </div>
-                                                            <div class="cap-info-summary-value">{{ item.value.certainty }}</div>
+                                                            <div class="cap-info-summary-value">
+                                                                {% with certainty=item.value.certainty %}
+                                                                    {% if certainty == "Observed" %}
+                                                                        {% translate "Observed" %}
+                                                                    {% elif certainty == "Likely" %}
+                                                                        {% translate "Likely" %}
+                                                                    {% elif certainty == "Possible" %}
+                                                                        {% translate "Possible" %}
+                                                                    {% elif certainty == "Unlikely" %}
+                                                                        {% translate "Unlikely" %}
+                                                                    {% endif %}
+                                                                {% endwith %}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -309,7 +345,29 @@
                                                                     {% translate "Response Types" %}:
                                                                 </div>
                                                                 {% for response in item.value.responseType %}
-                                                                    <span class="cap-info-summary-value"> {{ response.response_type }}</span>
+                                                                    <span class="cap-info-summary-value">
+                                                                        {% with response_type=response.response_type %}
+                                                                            {% if response_type == "Shelter" %}
+                                                                                {% translate "Shelter" %}
+                                                                            {% elif response_type == "Evacuate" %}
+                                                                                {% translate "Evacuate" %}
+                                                                            {% elif response_type == "Prepare" %}
+                                                                                {% translate "Prepare" %}
+                                                                            {% elif response_type == "Execute" %}
+                                                                                {% translate "Execute" %}
+                                                                            {% elif response_type == "Avoid" %}
+                                                                                {% translate "Avoid" %}
+                                                                            {% elif response_type == "Monitor" %}
+                                                                                {% translate "Monitor" %}
+                                                                            {% elif response_type == "Assess" %}
+                                                                                {% translate "Assess" %}
+                                                                            {% elif response_type == "AllClear" %}
+                                                                                {% translate "AllClear" %}
+                                                                            {% elif response_type == "None" %}
+                                                                                {% translate "None" %}
+                                                                            {% endif %}
+                                                                        {% endwith %}
+                                                                    </span>
                                                                     {% if not forloop.last %}, {% endif %}
                                                                 {% endfor %}
                                                             </div>

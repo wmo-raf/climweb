@@ -8,7 +8,7 @@ from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, gettext
 from geomanager.models import SubCategory, Metadata
 from shapely.geometry import shape
 from shapely.ops import unary_union
@@ -111,7 +111,7 @@ class CapAlertListPage(MetadataPageMixin, Page):
             severity = alert_info.get("severity")
             severity_val = severity.get("severity")
 
-            event_type = alert_info.get("info", {}).value.get('event')
+            event_type = gettext(alert_info.get("info", {}).value.get('event'))
 
             if filters["event_types"].get(event_type):
                 count = filters["event_types"].get(event_type).get("count") + 1

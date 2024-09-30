@@ -19,7 +19,7 @@ from .api import api_router
 handler500 = 'climweb.base.views.handler500'
 
 ADMIN_URL_PATH = getattr(settings, "ADMIN_URL_PATH", None)
-CLIMWEB_OPTIONAL_APPS = getattr(settings, "CLIMWEB_OPTIONAL_APPS", [])
+CLIMWEB_ADDITIONAL_APPS = getattr(settings, "CLIMWEB_ADDITIONAL_APPS", [])
 
 urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
@@ -50,7 +50,7 @@ urlpatterns = [
     path("api/_health/", public_health_check),
 ]
 
-if "climweb.pages.aviation" in CLIMWEB_OPTIONAL_APPS:
+if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
     urlpatterns += path("", include("climweb.pages.aviation.urls")),
 
 if ADMIN_URL_PATH:

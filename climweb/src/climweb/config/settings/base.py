@@ -294,8 +294,6 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    'docs/locale',
-
     'base/locale',
     'nmhs_cms/locale',
 
@@ -331,6 +329,10 @@ LOCALE_PATHS = [
     'pages/weather/locale',
     'pages/webstories/locale',
 ]
+
+# Add additional apps to locale paths
+if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
+    LOCALE_PATHS.append('pages/aviation/locale')
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 
