@@ -45,7 +45,17 @@
                         <b>
                             {% translate "Urgency" %}:
                         </b>
-                        {{ item.value.urgency }}
+                        {% with urgency=item.value.urgency %}
+                            {% if urgency == "Immediate" %}
+                                {% translate "Immediate" %}
+                            {% elif urgency == "Expected" %}
+                                {% translate "Expected" %}
+                            {% elif urgency == "Future" %}
+                                {% translate "Future" %}
+                            {% elif urgency == "Past" %}
+                                {% translate "Past" %}
+                            {% endif %}
+                        {% endwith %}
                     </span>
                 </div>
                 <div class="alert-level-info-item">
@@ -54,7 +64,17 @@
                         <b>
                             {% translate "Severity" %}:
                         </b>
-                        {{ item.value.severity }}
+                        {% with severity=item.value.severity %}
+                            {% if severity == "Extreme" %}
+                                {% translate "Extreme" %}
+                            {% elif severity == "Severe" %}
+                                {% translate "Severe" %}
+                            {% elif severity == "Moderate" %}
+                                {% translate "Moderate" %}
+                            {% elif severity == "Minor" %}
+                                {% translate "Minor" %}
+                            {% endif %}
+                        {% endwith %}
                     </span>
                 </div>
                 <div class="alert-level-info-item">
@@ -63,7 +83,17 @@
                         <b>
                             {% translate "Certainty" %}:
                         </b>
-                        {{ item.value.certainty }}
+                        {% with certainty=item.value.certainty %}
+                            {% if certainty == "Observed" %}
+                                {% translate "Observed" %}
+                            {% elif certainty == "Likely" %}
+                                {% translate "Likely" %}
+                            {% elif certainty == "Possible" %}
+                                {% translate "Possible" %}
+                            {% elif certainty == "Unlikely" %}
+                                {% translate "Unlikely" %}
+                            {% endif %}
+                        {% endwith %}
                     </span>
                 </div>
             </div>
@@ -92,7 +122,7 @@
                     <div class="item-value">
                         {% if  item.value.effective %}
                             <div>
-                                {{ item.value.effective|date:"D d M Y"  }}
+                                {{ item.value.effective|date:"D d M Y" }}
                             </div>
                             <div class="time">
                                 {{ item.value.effective|date:"f A" }}
@@ -116,7 +146,7 @@
                         </div>
                         <div class="item-value">
                             <div>
-                                {{ item.value.onset|date:"D d M Y"  }}
+                                {{ item.value.onset|date:"D d M Y" }}
                             </div>
                             <div class="time">
                                 {{ item.value.onset|date:"f A" }}
@@ -132,7 +162,7 @@
                     </div>
                     <div class="item-value">
                         <div>
-                            {{ item.value.expires|date:"D d M Y"  }}
+                            {{ item.value.expires|date:"D d M Y" }}
                         </div>
                         <div class="time">
                             {{ item.value.expires|date:"f A" }}

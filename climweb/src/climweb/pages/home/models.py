@@ -24,7 +24,7 @@ from climweb.pages.services.models import ServicePage
 from climweb.pages.videos.models import YoutubePlaylist
 from .blocks import AreaBoundaryBlock, AreaPolygonBlock
 
-CLIMWEB_OPTIONAL_APPS = getattr(settings, "CLIMWEB_OPTIONAL_APPS", [])
+CLIMWEB_ADDITIONAL_APPS = getattr(settings, "CLIMWEB_ADDITIONAL_APPS", [])
 
 HOME_SUBPAGE_TYPES = [
     'weather.WeatherDetailPage',
@@ -50,7 +50,7 @@ HOME_SUBPAGE_TYPES = [
     'webstories.WebStoryListPage',
 ]
 
-if "climweb.pages.aviation" in CLIMWEB_OPTIONAL_APPS:
+if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
     HOME_SUBPAGE_TYPES.append('aviation.AviationPage')
 
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-03 11:31+0300\n"
+"POT-Creation-Date: 2024-09-30 21:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,65 +30,65 @@ msgstr "ክፍሎች"
 msgid "Measurement"
 msgstr "መለኪያ"
 
-#: pages/weather/models.py:55
+#: pages/weather/models.py:51 pages/weather/views.py:27
 msgid "Location not found. Please search for a different location."
 msgstr "አካባቢ አልተገኘም። እባክህ የተለየ ቦታ ፈልግ።"
 
-#: pages/weather/models.py:67
-msgid "No data found"
-msgstr "ምንም ውሂብ አልተገኘም።"
+#: pages/weather/models.py:63 pages/weather/views.py:38
+msgid "No location set in the system. Please contact the administrator."
+msgstr "በስርዓቱ ውስጥ ምንም ቦታ አልተዘጋጀም. እባክዎ አስተዳዳሪውን ያግኙ።"
 
-#: pages/weather/models.py:107
+#: pages/weather/models.py:94
 msgid "Weather summary section heading"
 msgstr "የአየር ሁኔታ ማጠቃለያ ክፍል ርዕስ"
 
-#: pages/weather/models.py:110
+#: pages/weather/models.py:97
 msgid "Extreme weather observations section title"
 msgstr "የከፍተኛ የአየር ሁኔታ ምልከታዎች ክፍል ርዕስ"
 
-#: pages/weather/models.py:113
+#: pages/weather/models.py:100
 msgid "Weather forecast section heading"
 msgstr "የአየር ሁኔታ ትንበያ ክፍል ርዕስ"
 
-#: pages/weather/models.py:118
+#: pages/weather/models.py:105
 msgid "Products per page"
 msgstr "ምርቶች በገጽ"
 
-#: pages/weather/models.py:119
+#: pages/weather/models.py:106
 msgid ""
 "Number of items to show in the list section. Default is 6. Maximum is 20."
 msgstr "በዝርዝሩ ክፍል ውስጥ የሚታዩ የንጥሎች ብዛት። ነባሪው 6 ነው። ከፍተኛው 20 ነው።"
 
-#: pages/weather/models.py:176
+#: pages/weather/models.py:163
 #: pages/weather/templates/weather/dailyreports_list_include.html:45
 msgid "Issued on"
 msgstr "ላይ የተሰጠ"
 
-#: pages/weather/models.py:177
+#: pages/weather/models.py:164
 msgid "The date the report was issued."
 msgstr "ሪፖርቱ የወጣበት ቀን።"
 
-#: pages/weather/models.py:179
+#: pages/weather/models.py:166
 msgid "Summary Date"
 msgstr "ማጠቃለያ ቀን"
 
-#: pages/weather/models.py:180
+#: pages/weather/models.py:167
 msgid "Weather Summary Description"
 msgstr "የአየር ሁኔታ ማጠቃለያ መግለጫ"
 
-#: pages/weather/models.py:182
+#: pages/weather/models.py:169
 msgid "Forecast Date"
 msgstr "የትንበያ ቀን"
 
-#: pages/weather/models.py:183
+#: pages/weather/models.py:170
 msgid "Weather Forecast Description"
 msgstr "የአየር ሁኔታ ትንበያ መግለጫ"
 
-#: pages/weather/models.py:186
+#: pages/weather/models.py:173
 msgid "Extreme Weather Observation"
 msgstr "የከፍተኛ የአየር ሁኔታ ምልከታ"
 
-#: pages/weather/models.py:187
+#: pages/weather/models.py:174
 msgid "Extreme weather observations from previous day"
 msgstr "ካለፈው ቀን እጅግ በጣም ከፍተኛ የአየር ሁኔታ ምልከታዎች"
 
@@ -104,7 +104,7 @@ msgstr "ከፍተኛ የአየር ሁኔታ ምልከታዎች"
 msgid "Weather forecast for next day"
 msgstr "ለቀጣዩ ቀን የአየር ሁኔታ ትንበያ"
 
-#: pages/weather/templates/weather/daily_weather_report_index.html:15
+#: pages/weather/templates/weather/daily_weather_report_index.html:28
 msgid "Browse Updates"
 msgstr "ዝመናዎችን ያስሱ"
 
@@ -127,14 +127,33 @@ msgstr[1] ""
 msgid "Read More"
 msgstr "ተጨማሪ ያንብቡ"
 
-#: pages/weather/templates/weather/weather_detail_page.html:16
+#: pages/weather/templates/weather/weather_detail_page_detail.html:16
 msgid "Search Location"
 msgstr "አካባቢን ፈልግ"
 
-#: pages/weather/templates/weather/weather_detail_page.html:69
+#: pages/weather/templates/weather/weather_detail_page_detail.html:67
 msgid "Time"
 msgstr "ጊዜ"
 
-#: pages/weather/templates/weather/weather_detail_page.html:70
+#: pages/weather/templates/weather/weather_detail_page_detail.html:68
 msgid "Weather"
 msgstr "የአየር ሁኔታ"
+
+#: pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:298
+#: pages/weather/templates/weather/widgets/location_forecast_single_slider.html:384
+msgid "Detail"
+msgstr "ዝርዝር"
+
+#: pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:311
+#: pages/weather/templates/weather/widgets/location_forecast_single_slider.html:303
+msgid "Search location"
+msgstr "አካባቢን ፈልግ"
+
+#: pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:334
+#: pages/weather/templates/weather/widgets/location_forecast_single_slider.html:325
+#: pages/weather/templates/weather/widgets/location_forecast_single_slider.html:402
+msgid "Today"
+msgstr "ዛሬ"
+
+#~ msgid "No data found"
+#~ msgstr "ምንም ውሂብ አልተገኘም።"
