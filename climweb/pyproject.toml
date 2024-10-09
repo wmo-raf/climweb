@@ -38,6 +38,9 @@ include-package-data = true
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 platforms = ["Linux"]
 
+[project.scripts]
+manage = "climweb.manage:main"
+
 #[tool.setuptools.package-data]
 
 [tool.setuptools.packages.find]
