@@ -21,7 +21,7 @@ WAGTAIL_CACHE = env.bool('WAGTAIL_CACHE', default=False)
 
 INSTALLED_APPS = ["daphne"] + INSTALLED_APPS + ["wagtail.contrib.styleguide"]
 
-STATICFILES_STORAGE = "base.storage.ManifestStaticFilesStorageNotStrict"
+STATICFILES_STORAGE = "climweb.base.storage.ManifestStaticFilesStorageNotStrict"
 
 SHOW_TOOLBAR_CALLBACK = False
 SHOW_COLLAPSED = False
