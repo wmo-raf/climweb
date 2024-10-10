@@ -64,7 +64,7 @@ class StationSettings(BaseSiteSetting):
         attrs = {
             **fields,
             "managed": False,
-            "__module__": "pages.stations"
+            "__module__": "climweb.pages.stations"
         }
 
         station_model = type("Station", (models.Model,), attrs)
