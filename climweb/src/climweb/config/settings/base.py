@@ -561,6 +561,9 @@ CELERY_SINGLETON_BACKEND_CLASS = (
     "climweb.celery_singleton_backend.RedisBackendForSingleton"
 )
 
+# Set max memory per child process (in kilobytes, e.g., 200000 KB = 200 MB)
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = env.int("CELERY_WORKER_MAX_MEMORY_PER_CHILD", default=200000)
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
