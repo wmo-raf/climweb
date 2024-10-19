@@ -146,7 +146,6 @@ INSTALLED_APPS = [
     "manifest_loader",
     "django_tables2",
     "django_tables2_bulma_template",
-    "background_task",
     "django_cleanup",
     "django_countries",
     "wagtail_modeladmin",
@@ -535,10 +534,6 @@ if CAP_SIGNATURE_METHOD:
                                                            f"Must be one of " \
                                                            f"{list(SignatureMethod.__members__.keys())}"
     CAP_SIGNATURE_METHOD = SignatureMethod[CAP_SIGNATURE_METHOD]
-
-# Django Background Tasks
-# https://django-background-tasks.readthedocs.io/en/latest/#settings
-MAX_ATTEMPTS = env.int("MAX_ATTEMPTS", default=5)
 
 DEFAULT_WAGTAILIMAGES_EXTENSIONS = ['png', 'jpg', 'avif', 'gif', 'jpeg', 'webp']
 WAGTAILIMAGES_EXTENSIONS = env.list("WAGTAILIMAGES_EXTENSIONS", default=DEFAULT_WAGTAILIMAGES_EXTENSIONS)

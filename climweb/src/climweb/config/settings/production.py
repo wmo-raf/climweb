@@ -91,11 +91,6 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'background_task': {
-            'handlers': ['debug_file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
         'django': {
             'handlers': ['console'],
             'level': 'ERROR',

@@ -79,11 +79,6 @@ run_setup_commands_if_configured() {
     # reset cms upgrade status
     /climweb/web/src/climweb/manage.py reset_cms_upgrade_status
 
-    # start background tasks, with 15 minutes duration.
-    # Cron Job will triggered after 15 minutes
-    # https://django-background-tasks.readthedocs.io/en/latest/#running-tasks
-    /climweb/web/src/climweb/manage.py process_tasks --duration 900 &
-
     # watch for new files in the geomanager auto-ingest data dir
     if [ "$WATCH_GEOMANAGER_DATA_DIR" = "true" ]; then
       echo "GeoManager Listening for new files in $GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR"
