@@ -431,19 +431,26 @@ def on_publish_cap_alert(sender, **kwargs):
             pass
 
         # publish cap alert to webhook
-        fire_alert_webhooks(instance.id)
+        try:
+            fire_alert_webhooks(instance.id)
+        except Exception as e:
+            logger.error(f"Error publishing cap alert to webhook: {e}")
 
-    # delete previous pdf preview if exists
-    if instance.alert_pdf_preview:
-        instance.alert_pdf_preview.delete()
+    # create cap alert multimedia (PNG and PDF)
+    try:
+        # delete previous pdf preview if exists
+        if instance.alert_pdf_preview:
+            instance.alert_pdf_preview.delete()
 
-    if instance.search_image:
-        instance.search_image.delete()
+        if instance.search_image:
+            instance.search_image.delete()
 
-    if instance.alert_area_map_image:
-        instance.alert_area_map_image.delete()
+        if instance.alert_area_map_image:
+            instance.alert_area_map_image.delete()
 
-    create_cap_alert_multi_media(instance.pk, clear_cache_on_success=True)
+        create_cap_alert_multi_media(instance.pk, clear_cache_on_success=True)
+    except Exception as e:
+        logger.error(f"Error creating cap alert multimedia: {e}")
 
 
 page_published.connect(on_publish_cap_alert, sender=CapAlertPage)

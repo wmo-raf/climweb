@@ -146,7 +146,6 @@ INSTALLED_APPS = [
     "manifest_loader",
     "django_tables2",
     "django_tables2_bulma_template",
-    "background_task",
     "django_cleanup",
     "django_countries",
     "wagtail_modeladmin",
@@ -536,10 +535,6 @@ if CAP_SIGNATURE_METHOD:
                                                            f"{list(SignatureMethod.__members__.keys())}"
     CAP_SIGNATURE_METHOD = SignatureMethod[CAP_SIGNATURE_METHOD]
 
-# Django Background Tasks
-# https://django-background-tasks.readthedocs.io/en/latest/#settings
-MAX_ATTEMPTS = env.int("MAX_ATTEMPTS", default=5)
-
 DEFAULT_WAGTAILIMAGES_EXTENSIONS = ['png', 'jpg', 'avif', 'gif', 'jpeg', 'webp']
 WAGTAILIMAGES_EXTENSIONS = env.list("WAGTAILIMAGES_EXTENSIONS", default=DEFAULT_WAGTAILIMAGES_EXTENSIONS)
 
@@ -565,6 +560,9 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_SINGLETON_BACKEND_CLASS = (
     "climweb.celery_singleton_backend.RedisBackendForSingleton"
 )
+
+# Set max memory per child process (in kilobytes, e.g., 200000 KB = 200 MB)
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = env.int("CELERY_WORKER_MAX_MEMORY_PER_CHILD", default=200000)
 
 CACHES = {
     "default": {
