@@ -20,12 +20,12 @@ html_theme = 'sphinx_wagtail_theme'
 
 html_theme_options = {
     "project_name": "ClimWeb Documentation",
-    "github_url": "https://github.com/wmo-raf/nmhs-cms/blob/main/docs/",
-    "header_links": "En|https://nmhs-cms.readthedocs.io/en, Fr|https://nmhs-cms.readthedocs.io/fr, Sw|https://nmhs-cms.readthedocs.io/sw",
+    "github_url": "https://github.com/wmo-raf/climweb/blob/main/docs/",
+    "header_links": "En|https://climweb.readthedocs.io/en, Fr|https://climweb.readthedocs.io/fr, Sw|https://climweb.readthedocs.io/sw",
     "footer_links": ",".join([
         "Demo|http://20.56.94.119/cms/",
         "Packages|https://github.com/wmo-raf",
-        "Developers|https://github.com/wmo-raf/nmhs-cms-init"
+        "Developers|https://github.com/wmo-raf/climweb-docker"
     ]),
     "logo": "images/logo.svg",
     "logo_alt": "NMHS",
@@ -84,7 +84,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "NMHS ClimWeb Documentation"
+project = "ClimWeb Documentation"
 copyright = f"{datetime.now().year}, WMO Regional Office For Africa"
 
 # The version info for the project you're documenting, acts as replacement for
