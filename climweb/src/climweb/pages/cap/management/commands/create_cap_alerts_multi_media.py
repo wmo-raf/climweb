@@ -20,5 +20,5 @@ class Command(BaseCommand):
 
         for i, cap_alert in enumerate(cap_alerts):
             print(f"[{i + 1}/{count}] Processing CAP Alert: {cap_alert.title}")
-            create_cap_alert_multi_media.now(cap_alert.id)
+            create_cap_alert_multi_media(cap_alert.id)
             print(f"[{i + 1}/{count}] Completed processing CAP Alert: {cap_alert.title}")
