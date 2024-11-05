@@ -15,10 +15,6 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 DEBUG = env('DEBUG', False)
 
-DATABASES = {
-    'default': env.db()
-}
-
 MANIFEST_LOADER = {
     'cache': True,
     # recommended True for production, requires a server restart to pick up new values from the manifest.

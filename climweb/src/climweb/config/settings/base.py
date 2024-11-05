@@ -16,6 +16,7 @@ import os
 from email.utils import getaddresses
 from pathlib import Path
 
+import dj_database_url
 import django.conf.locale
 import environ
 from django.core.exceptions import ImproperlyConfigured
@@ -236,7 +237,10 @@ ASGI_APPLICATION = "climweb.config.asgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db()
+    "default": dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 REST_FRAMEWORK = {

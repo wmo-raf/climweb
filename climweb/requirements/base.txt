@@ -158,10 +158,13 @@ defusedxml==0.7.1
     #   djangorestframework-xml
     #   python3-openid
     #   willow
+dj-database-url==2.3.0
+    # via -r base.in
 django==4.2.7
     # via
     #   -r base.in
     #   channels
+    #   dj-database-url
     #   django-allauth
     #   django-bulma
     #   django-celery-beat
@@ -650,6 +653,7 @@ typing-extensions==4.12.2
     # via
     #   anyio
     #   asgiref
+    #   dj-database-url
     #   django-countries
     #   drf-spectacular
     #   kombu
