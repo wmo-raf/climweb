@@ -87,7 +87,7 @@ def publish_cap_to_each_mqtt_broker(alert, alert_xml, broker):
     data = b64encode(alert_xml).decode()
     alert_dt = alert.sent.strftime("%Y%m%dT%H%M%S")
     # Create the filename
-    filename = f"{alert.status}_{alert_dt}_{alert.title}.xml"
+    filename = f"{alert.status}_{alert_dt}_{alert.slug}.xml"
 
     # Create the notification to be sent to the internal broker
     msg = {
