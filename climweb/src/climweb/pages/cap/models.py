@@ -21,16 +21,18 @@ from wagtail.models import Page
 from wagtail.signals import page_published
 
 from climweb.base.mixins import MetadataPageMixin
+from .external_feed.models import ExternalAlertFeed, ExternalAlertFeedEntry
 from .mqtt.models import CAPAlertMQTTBroker, CAPAlertMQTTBrokerEvent
 from .mqtt.publish import publish_cap_to_all_mqtt_brokers
-from .tasks import create_cap_alert_multi_media, fire_alert_webhooks
 from .utils import (
     get_cap_map_style,
     get_cap_settings,
     format_date_to_oid,
-    get_all_published_alerts
+    get_all_published_alerts,
+    create_cap_alert_multi_media
 )
 from .webhook.models import CAPAlertWebhook, CAPAlertWebhookEvent
+from .webhook.utils import fire_alert_webhooks
 
 __all__ = [
     "CapAlertListPage",
@@ -41,6 +43,8 @@ __all__ = [
     "CAPAlertWebhookEvent",
     "CAPAlertMQTTBroker",
     "CAPAlertMQTTBrokerEvent",
+    "ExternalAlertFeed",
+    "ExternalAlertFeedEntry",
 ]
 
 logger = logging.getLogger(__name__)
@@ -66,42 +70,52 @@ class CapAlertListPage(MetadataPageMixin, Page):
             "cap_rss_feed_url": cap_rss_feed_url,
         })
 
-        return context
+        other_cap_settings = OtherCAPSettings.for_request(request)
+        default_alert_display_language = other_cap_settings.default_alert_display_language
 
-    @cached_property
-    def cap_alerts(self):
         alerts = get_all_published_alerts()
         alert_infos = []
 
         for alert in alerts:
-            for alert_info in alert.infos:
-                alert_infos.append(alert_info)
+            # take the first info by default
+            info = alert.infos[0]
+
+            # try to get the info in the default language
+            if default_alert_display_language and len(alert.info) > 1:
+                for info_item in alert.infos:
+                    info_lang = info_item.get("info").value.get("language")
+                    if info:
+                        if info_lang == default_alert_display_language.code or info_lang.startswith(
+                                default_alert_display_language.code):
+                            info = info_item
+                            break
+            alert_infos.append(info)
 
         alert_infos = sorted(alert_infos, key=lambda x: x.get("sent", {}), reverse=True)
 
-        return alert_infos
-
-    @cached_property
-    def alerts_by_expiry(self):
-        all_alerts = self.cap_alerts
         active_alerts = []
         past_alerts = []
 
-        for alert in all_alerts:
+        for alert in alert_infos:
             if alert.get("expired"):
                 past_alerts.append(alert)
             else:
                 active_alerts.append(alert)
 
-        return {
+        alerts_by_expiry = {
             "active_alerts": active_alerts,
             "past_alerts": past_alerts
         }
 
-    @cached_property
-    def filters(self):
-        alerts = self.cap_alerts
+        context.update({
+            "alerts_by_expiry": alerts_by_expiry,
+            "filters": self.get_filters(alert_infos),
+        })
 
+        return context
+
+    @staticmethod
+    def get_filters(alerts):
         filters = {
             "severity": {},
             "event_types": {}
@@ -138,8 +152,12 @@ class CapPageForm(CapAlertPageForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        references_field = self.fields.get("references")
+        is_imported = False
+        if self.instance.pk:
+            if hasattr(self.instance, "external_feed_entry"):
+                is_imported = True
 
+        references_field = self.fields.get("references")
         if references_field:
             for block_type, block in references_field.block.child_blocks.items():
                 if block_type == "reference":
@@ -156,6 +174,25 @@ class CapPageForm(CapAlertPageForm):
                     )
                     references_field.block.child_blocks[block_type].child_blocks[field_name].name = name
                     references_field.block.child_blocks[block_type].child_blocks[field_name].label = label
+
+        if is_imported:
+            info_field = self.fields.get("info")
+
+            # remove max_num for alert_info block. Allow having multiple info for multiple languages
+            info_field.block.meta.max_num = None
+            block_counts = info_field.block.meta.block_counts
+            block_counts.update({"alert_info": {**block_counts.get("alert_info"), "max_num": None}})
+
+            event_choices = []
+            for info in self.instance.info:
+                event = info.value.get("event")
+                if event:
+                    event_choices.append((event, event))
+
+            for block_type, block in info_field.block.child_blocks.items():
+                if block_type == "alert_info":
+                    field_name = "event"
+                    info_field.block.child_blocks[block_type].child_blocks[field_name].field.choices = event_choices
 
     def clean(self):
         cleaned_data = super().clean()
@@ -351,14 +388,27 @@ class CapAlertPage(MetadataPageMixin, AbstractCapAlertPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-
         cap_setting = CapSetting.for_request(request)
+
+        other_cap_settings = OtherCAPSettings.for_request(request)
+        default_alert_display_language = other_cap_settings.default_alert_display_language
+        infos = self.infos
+
+        if default_alert_display_language:
+            def sort_key(info, default_language_code):
+                language = info.get("info").value.get("language")
+                return language == default_language_code or language.startswith(default_language_code)
+
+            # sort default language first
+            infos = sorted(infos, key=lambda x: sort_key(x, default_alert_display_language.code), reverse=True)
 
         context.update({
             "org_logo": cap_setting.logo,
             "sender_name": cap_setting.sender_name,
             "sender_contact": cap_setting.sender,
             "alerts_url": self.get_parent().get_full_url(),
+            "show_languages": len(self.infos) > 1,
+            "sorted_infos": infos,
         })
 
         return context
@@ -409,9 +459,12 @@ class OtherCAPSettings(BaseSiteSetting):
     active_alert_style = models.CharField(max_length=50, choices=ACTIVE_ALERT_STYLE_CHOICES, default="nav_left",
                                           verbose_name=_("Active Alert Style"),
                                           help_text=_("Choose the style of active alerts"))
+    default_alert_display_language = models.ForeignKey("capeditor.AlertLanguage", null=True, blank=True,
+                                                       on_delete=models.SET_NULL)
 
     panels = [
         FieldPanel("active_alert_style"),
+        FieldPanel("default_alert_display_language"),
     ]
 
     class Meta:

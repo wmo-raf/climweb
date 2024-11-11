@@ -189,8 +189,8 @@
                             <div class="column is-three-fifths-widescreen is-full-touch featured-item-detail">
                                 <div class="tabs is-boxed ">
                                     <ul>
-                                        {% if page.infos|length > 0 %}
-                                            {% for item in page.infos %}
+                                        {% if sorted_infos|length > 0 %}
+                                            {% for item in sorted_infos %}
                                                 <li class="{% if forloop.first %}is-active {% endif %}"
                                                     data-target="{{ item.info.id }}">
                                                     <a>
@@ -211,7 +211,7 @@
                                     </ul>
                                 </div>
                                 <div id="tab-content">
-                                    {% for alert_info in page.infos %}
+                                    {% for alert_info in sorted_infos %}
                                         <div class="featured-item-body {% if not forloop.first %}is-hidden{% endif %}"
                                              id="{{ alert_info.info.id }}">
                                             {% with item=alert_info.info %}
@@ -474,7 +474,6 @@
             </div>
         </section>
     </main>
-
 {% endblock %}
 
 {% block extra_js %}

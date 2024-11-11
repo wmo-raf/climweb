@@ -17,7 +17,6 @@ from django.utils.translation import gettext as _
 from django.utils.xmlutils import SimplerXMLGenerator
 from wagtail.models import Site
 
-
 from climweb.base.cache import wagcache
 from .models import (
     CapAlertPage,
@@ -269,31 +268,44 @@ def get_home_map_alerts(request):
     active_alert_infos = []
     geojson = {"type": "FeatureCollection", "features": []}
 
+    cap_settings = OtherCAPSettings.for_request(request)
+    default_alert_display_language = cap_settings.default_alert_display_language
+
     for alert in alerts:
-        for info in alert.info:
-            start_time = info.value.get("effective") or alert.sent
+        # take the first info
+        info = alert.info[0]
 
-            if timezone.localtime() > start_time:
-                status = "Ongoing"
-            else:
-                status = "Expected"
+        if default_alert_display_language and len(alert.info) > 1:
+            for info_item in alert.info:
+                info_lang = info_item.value.get("language")
+                if info_lang == default_alert_display_language.code or info_lang.startswith(
+                        default_alert_display_language.code):
+                    info = info_item
+                    break
 
-            area_desc = [area.get("areaDesc") for area in info.value.area]
-            area_desc = ",".join(area_desc)
+        start_time = info.value.get("effective") or alert.sent
 
-            alert_info = {
-                "status": status,
-                "url": alert.url,
-                "event": f"{info.value.get('event')} ({area_desc})",
-                "event_icon": info.value.event_icon,
-                "severity": SEVERITY_MAPPING[info.value.get("severity")]
-            }
+        if timezone.localtime() > start_time:
+            status = "Ongoing"
+        else:
+            status = "Expected"
 
-            active_alert_infos.append(alert_info)
+        area_desc = [area.get("areaDesc") for area in info.value.area]
+        area_desc = ",".join(area_desc)
 
-            if info.value.features:
-                for feature in info.value.features:
-                    geojson["features"].append(feature)
+        alert_info = {
+            "status": status,
+            "url": alert.url,
+            "event": f"{info.value.get('event')} ({area_desc})",
+            "event_icon": info.value.event_icon,
+            "severity": SEVERITY_MAPPING[info.value.get("severity")]
+        }
+
+        active_alert_infos.append(alert_info)
+
+        if info.value.features:
+            for feature in info.value.features:
+                geojson["features"].append(feature)
     context = {
         'active_alert_info': active_alert_infos,
         'geojson': json.dumps(geojson)
@@ -303,7 +315,9 @@ def get_home_map_alerts(request):
 
 
 def get_latest_active_alert(request):
-    active_alert_style = OtherCAPSettings.for_request(request).active_alert_style or "nav_left"
+    other_cap_settings = OtherCAPSettings.for_request(request)
+    active_alert_style = other_cap_settings.active_alert_style or "nav_left"
+    default_alert_display_language = other_cap_settings.default_alert_display_language
 
     alerts = get_currently_active_alerts()
     active_alert_infos = []
@@ -311,11 +325,18 @@ def get_latest_active_alert(request):
     context = {}
 
     for alert in alerts:
+        alert_info = alert.infos[0]
         for alert_info in alert.infos:
-            alert_info.update({
-                "title": alert.title,
-            })
-            active_alert_infos.append(alert_info)
+            if default_alert_display_language and len(alert.info) > 1:
+                for info_item in alert.infos:
+                    info_lang = info_item.get("info").value.get("language")
+                    if info_lang == default_alert_display_language.code or info_lang.startswith(
+                            default_alert_display_language.code):
+                        alert_info = info_item
+                        break
+
+        alert_info.update({"title": alert.title, })
+        active_alert_infos.append(alert_info)
 
     if len(active_alert_infos) == 0:
         context.update({

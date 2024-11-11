@@ -33,8 +33,8 @@
                                 {% translate "Active Alerts" %}
                             </div>
 
-                            {% if page.alerts_by_expiry.active_alerts %}
-                                {% for alert_info in page.alerts_by_expiry.active_alerts %}
+                            {% if alerts_by_expiry.active_alerts %}
+                                {% for alert_info in alerts_by_expiry.active_alerts %}
                                     {% include "cap/include_alert_list_item.html" with alert_info=alert_info %}
                                 {% endfor %}
                             {% else %}
@@ -49,26 +49,26 @@
                             {% endif %}
                         </div>
 
-                        {% if  page.alerts_by_expiry.past_alerts %}
+                        {% if  alerts_by_expiry.past_alerts %}
                             <div class="alerts-group">
                                 <div class="group-title">
                                     {% translate "Past Alerts" %}
                                 </div>
-                                {% for alert_info in page.alerts_by_expiry.past_alerts %}
+                                {% for alert_info in alerts_by_expiry.past_alerts %}
                                     {% include "cap/include_alert_list_item.html" with alert_info=alert_info %}
                                 {% endfor %}
                             </div>
                         {% endif %}
                     </div>
                     <div class="column is-offset-1-desktop is-one-fifth-widescreen is-full-touch is-hidden-touch">
-                        {% if page.filters.severity %}
+                        {% if filters.severity %}
                             <div class="alert-category-filter">
                                 <div class="w-field__wrapper " data-field-wrapper="">
                                     <label class="w-field__label" for="" id="-label"
                                            style="font-weight: 600;">
                                         {% translate "Severity" %}
                                     </label>
-                                    {% for key,value in page.filters.severity.items %}
+                                    {% for key,value in filters.severity.items %}
                                         <div class="w-field w-field--multiple_choice_field w-field--checkbox_select_multiple"
                                              data-field="" data-contentpath="multiple_checkbox"
                                              style="padding-top: 10px">
@@ -89,14 +89,14 @@
                             </div>
                         {% endif %}
 
-                        {% if page.filters.event_types %}
+                        {% if filters.event_types %}
                             <div class="alert-category-filter">
                                 <div class="w-field__wrapper " data-field-wrapper="">
                                     <label class="w-field__label" for="" id="-label"
                                            style="font-weight: 600;">
                                         {% translate "Event type" %}
                                     </label>
-                                    {% for key,value in page.filters.event_types.items %}
+                                    {% for key,value in filters.event_types.items %}
                                         <div class="w-field w-field--multiple_choice_field w-field--checkbox_select_multiple"
                                              data-field="" data-contentpath="multiple_checkbox"
                                              style="padding-top: 10px">

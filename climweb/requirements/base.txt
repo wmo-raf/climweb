@@ -67,7 +67,9 @@ cairocffi==1.7.1
     # via cairosvg
 cairosvg==2.7.1
     # via geomanager
-capeditor==0.6.3
+capeditor==0.6.4
+    # via -r base.in
+capvalidator==0.1.0.dev4
     # via -r base.in
 cartopy==0.22.0
     # via -r base.in
@@ -76,6 +78,7 @@ celery==5.2.7
     #   -r base.in
     #   celery-singleton
     #   django-celery-beat
+    #   django-celery-results
 celery-singleton==0.3.1
     # via -r base.in
 certifi==2024.7.4
@@ -104,6 +107,7 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via
+    #   capvalidator
     #   celery
     #   click-didyoumean
     #   click-plugins
@@ -138,6 +142,7 @@ cron-descriptor==1.4.5
 cryptography==43.0.0
     # via
     #   autobahn
+    #   capvalidator
     #   pyjwt
     #   pyopenssl
     #   service-identity
@@ -168,6 +173,7 @@ django==4.2.7
     #   django-allauth
     #   django-bulma
     #   django-celery-beat
+    #   django-celery-results
     #   django-cors-headers
     #   django-dbbackup
     #   django-debug-toolbar
@@ -199,6 +205,8 @@ django-allauth==0.54.0
 django-bulma==0.9.0
     # via -r base.in
 django-celery-beat==2.6.0
+    # via -r base.in
+django-celery-results==2.5.1
     # via -r base.in
 django-cleanup==8.0.0
     # via -r base.in
@@ -398,9 +406,10 @@ large-image-source-pil==1.29.4
     # via geomanager
 large-image-source-rasterio==1.29.4
     # via geomanager
-lxml==4.9.3
+lxml==5.3.0
     # via
     #   -r base.in
+    #   capvalidator
     #   owslib
     #   signxml
 magics==1.5.8
@@ -617,7 +626,9 @@ shapely==2.0.5
     #   geomanager
     #   geopandas
 signxml==3.2.2
-    # via -r base.in
+    # via
+    #   -r base.in
+    #   capvalidator
 six==1.16.0
     # via
     #   automat

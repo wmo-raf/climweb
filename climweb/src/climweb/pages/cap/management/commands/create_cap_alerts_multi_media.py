@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from climweb.pages.cap.models import CapAlertPage
-from climweb.pages.cap.tasks import create_cap_alert_multi_media
+from climweb.pages.cap.utils import create_cap_alert_multi_media
 
 
 class Command(BaseCommand):

@@ -1,8 +1,3 @@
-import json
-from datetime import datetime
-
-import pytz
-from capeditor.cap_settings import get_cap_contact_list, get_cap_audience_list
 from capeditor.models import CapSetting
 from django.conf import settings
 from django.shortcuts import redirect
@@ -17,7 +12,6 @@ from wagtail.actions.copy_page import CopyPageAction
 from wagtail.admin import messages
 from wagtail.admin.forms.pages import CopyForm
 from wagtail.admin.menu import MenuItem, Menu
-from wagtail.blocks import StreamValue
 from wagtail.models import Page
 from wagtail_modeladmin.helpers import AdminURLHelper
 from wagtail_modeladmin.helpers import (
@@ -35,17 +29,17 @@ from wagtail_modeladmin.options import (
 from .models import (
     CapAlertPage,
     CAPGeomanagerSettings,
-    CapAlertListPage,
     CAPAlertWebhook,
     CAPAlertWebhookEvent,
     OtherCAPSettings,
     CAPAlertMQTTBroker,
     CAPAlertMQTTBrokerEvent,
+    ExternalAlertFeed
 
 )
 from .utils import (
     create_cap_geomanager_dataset,
-    get_currently_active_alerts
+    get_currently_active_alerts, create_draft_alert_from_alert_data
 )
 
 
@@ -116,6 +110,39 @@ class CAPAdmin(ModelAdmin):
     exclude_from_explorer = False
     permission_helper_class = CAPPagePermissionHelper
     button_helper_class = CAPAlertPageButtonHelper
+    list_display_add_buttons = "__str__"
+    list_filter = ("live", "msgType", "sent")
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.list_display = ["publish_status"] + list(self.list_display)
+
+        self.publish_status.__func__.short_description = _('Publish Status')
+
+    def publish_status(self, obj):
+        if obj.live:
+            return format_html(
+                '<span class="w-status w-status--primary">{}</span>',
+                _("Live"),
+            )
+
+        if obj.latest_revision and obj.latest_revision.submitted_for_moderation:
+            return format_html(
+                '<span class="w-status">{}</span>',
+                _("In moderation"),
+            )
+
+        return format_html(
+            '<span class="w-status">{}</span>',
+            _("Draft"),
+        )
+
+    def get_extra_class_names_for_field_col(self, obj, field_name):
+        if field_name == '__str__':
+            if not obj.live:
+                return ['unpublished']
+        return []
 
 
 class CAPAlertWebhookAdmin(ModelAdmin):
@@ -183,6 +210,12 @@ class CAPAlertMQTTEventAdmin(ModelAdmin):
     permission_helper_class = CAPAlertMQTTEventPermissionHelper
 
 
+class CAPExternalFeedAdmin(ModelAdmin):
+    model = ExternalAlertFeed
+    menu_label = _('External CAP Alert Feeds')
+    menu_icon = 'link'
+
+
 class CAPMenuGroupAdminMenuItem(GroupMenuItem):
     def is_shown(self, request):
         return request.user.has_perm("base.can_view_alerts_menu")
@@ -192,7 +225,14 @@ class CAPMenuGroup(ModelAdminGroup):
     menu_label = _('CAP Alerts')
     menu_icon = 'warning'  # change as required
     menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    items = (CAPAdmin, CAPAlertWebhookAdmin, CAPAlertWebhookEventAdmin, CAPAlertMQTTAdmin, CAPAlertMQTTEventAdmin)
+    items = (
+        CAPAdmin,
+        CAPAlertWebhookAdmin,
+        CAPAlertWebhookEventAdmin,
+        CAPAlertMQTTAdmin,
+        CAPAlertMQTTEventAdmin,
+        CAPExternalFeedAdmin
+    )
 
     def get_menu_item(self, order=None):
         if self.modeladmin_instances:
@@ -386,203 +426,13 @@ def before_delete_cap_alert_page(request, page):
 
 @hooks.register("before_import_cap_alert")
 def import_cap_alert(request, alert_data):
-    cap_settings = CapSetting.for_request(request)
-    hazard_event_types = cap_settings.hazard_event_types.all()
+    new_cap_alert_page = create_draft_alert_from_alert_data(alert_data, request)
 
-    base_data = {}
+    if not new_cap_alert_page:
+        return None
 
-    # an alert page requires a title
-    # here we use the headline of the first info block
-    title = None
-
-    if "sender" in alert_data:
-        base_data["sender"] = alert_data["sender"]
-    if "sent" in alert_data:
-        sent = alert_data["sent"]
-        # convert dates to local timezone
-        sent = datetime.fromisoformat(sent).astimezone(pytz.utc)
-        sent_local = sent.astimezone(timezone.get_current_timezone())
-        base_data["sent"] = sent_local
-    if "status" in alert_data:
-        base_data["status"] = alert_data["status"]
-    if "msgType" in alert_data:
-        base_data["msgType"] = alert_data["msgType"]
-    if "scope" in alert_data:
-        base_data["scope"] = alert_data["scope"]
-    if "restriction" in alert_data:
-        base_data["restriction"] = alert_data["restriction"]
-    if "note" in alert_data:
-        base_data["note"] = alert_data["note"]
-
-    info_blocks = []
-
-    if "info" in alert_data:
-        for info in alert_data.get("info"):
-            info_base_data = {}
-
-            if "language" in info:
-                info_base_data["language"] = info["language"]
-            if "category" in info:
-                info_base_data["category"] = info["category"]
-            if "event" in info:
-                event = info["event"]
-
-                existing_hazard_event_type = hazard_event_types.filter(event__iexact=event).first()
-                if existing_hazard_event_type:
-                    info_base_data["event"] = existing_hazard_event_type.event
-                else:
-                    hazard_event_types.create(setting=cap_settings, is_in_wmo_event_types_list=False, event=event,
-                                              icon="warning")
-                    info_base_data["event"] = event
-
-            if "responseType" in info:
-                response_types = info["responseType"]
-                response_type_data = []
-                for response_type in response_types:
-                    response_type_data.append({"response_type": response_type})
-                info_base_data["responseType"] = response_type_data
-
-            if "urgency" in info:
-                info_base_data["urgency"] = info["urgency"]
-            if "severity" in info:
-                info_base_data["severity"] = info["severity"]
-            if "certainty" in info:
-                info_base_data["certainty"] = info["certainty"]
-            if "eventCode" in info:
-                event_codes = info["eventCode"]
-                event_code_data = []
-                for event_code in event_codes:
-                    event_code_data.append({"valueName": event_code["valueName"], "value": event_code["value"]})
-                info_base_data["eventCode"] = event_code_data
-            if "effective" in info:
-                effective = info["effective"]
-                effective = datetime.fromisoformat(effective).astimezone(pytz.utc)
-                effective_local = effective.astimezone(timezone.get_current_timezone())
-                info_base_data["effective"] = effective_local
-            if "onset" in info:
-                onset = info["onset"]
-                onset = datetime.fromisoformat(onset).astimezone(pytz.utc)
-                onset_local = onset.astimezone(timezone.get_current_timezone())
-                info_base_data["onset"] = onset_local
-            if "expires" in info:
-                expires = info["expires"]
-                expires = datetime.fromisoformat(expires).astimezone(pytz.utc)
-                expires_local = expires.astimezone(timezone.get_current_timezone())
-                info_base_data["expires"] = expires_local
-            if "senderName" in info:
-                info_base_data["senderName"] = info["senderName"]
-            if "headline" in info:
-                info_base_data["headline"] = info["headline"]
-                if not title:
-                    title = info["headline"]
-
-            if "description" in info:
-                info_base_data["description"] = info["description"]
-            if "instruction" in info:
-                info_base_data["instruction"] = info["instruction"]
-            if "contact" in info:
-                contact = info["contact"]
-                contact_list = get_cap_contact_list(request)
-                if contact not in contact_list:
-                    cap_settings.contacts.append(("contact", {"contact": contact}))
-                    cap_settings.save()
-                info_base_data["contact"] = contact
-            if "audience" in info:
-                audience = info["audience"]
-                audience_list = get_cap_audience_list(request)
-                if audience not in audience_list:
-                    cap_settings.audience_types.append(("audience_type", {"audience": audience}))
-                    cap_settings.save()
-                info_base_data["audience"] = audience
-
-            if "parameter" in info:
-                parameters = info["parameter"]
-                parameter_data = []
-                for parameter in parameters:
-                    parameter_data.append({"valueName": parameter["valueName"], "value": parameter["value"]})
-                info_base_data["parameter"] = parameter_data
-            if "resource" in info:
-                resources = info["resource"]
-                resource_data = []
-                for resource in resources:
-                    if resource.get("uri") and resource.get("resourceDesc"):
-                        resource_data.append({
-                            "type": "external_resource",
-                            "value": {
-                                "external_url": resource["uri"],
-                                "resourceDesc": resource["resourceDesc"]
-                            }
-                        })
-                info_base_data["resource"] = resource_data
-
-            areas_data = []
-            if "area" in info:
-                for area in info.get("area"):
-                    area_data = {}
-                    areaDesc = area.get("areaDesc")
-
-                    if "geocode" in area:
-                        area_data["type"] = "geocode_block"
-                        geocode = area.get("geocode")
-                        geocode_data = {
-                            "areaDesc": areaDesc,
-                        }
-                        if "valueName" in geocode:
-                            geocode_data["valueName"] = geocode["valueName"]
-                        if "value" in geocode:
-                            geocode_data["value"] = geocode["value"]
-
-                        area_data["value"] = geocode_data
-
-                    if "polygon" in area:
-                        area_data["type"] = "polygon_block"
-                        polygon_data = {
-                            "areaDesc": areaDesc,
-                        }
-                        geometry = area.get("geometry")
-                        polygon_data["polygon"] = json.dumps(geometry)
-
-                        area_data["value"] = polygon_data
-
-                    if "circle" in area:
-                        area_data["type"] = "circle_block"
-                        circle_data = {
-                            "areaDesc": areaDesc,
-                        }
-                        circle = area.get("circle")
-                        # take the first circle for now
-                        # TODO: handle multiple circles ? Investigate use case
-                        circle_data["circle"] = circle[0]
-                        area_data["value"] = circle_data
-
-                    areas_data.append(area_data)
-
-            stream_item = {
-                "type": "alert_info",
-                "value": {
-                    **info_base_data,
-                    "area": areas_data,
-                },
-            }
-
-            info_blocks.append(stream_item)
-
-    if title:
-        base_data["title"] = title
-        new_cap_alert_page = CapAlertPage(**base_data, live=False)
-        new_cap_alert_page.info = StreamValue(new_cap_alert_page.info.stream_block, info_blocks, is_lazy=True)
-
-        cap_list_page = CapAlertListPage.objects.live().first()
-
-        if cap_list_page:
-            cap_list_page.add_child(instance=new_cap_alert_page)
-            cap_list_page.save_revision()
-
-            messages.success(request, gettext("CAP Alert draft created. You can now edit the alert."))
-
-            return redirect(reverse("wagtailadmin_pages:edit", args=[new_cap_alert_page.id]))
-
-    return None
+    messages.success(request, gettext("CAP Alert draft created. You can now edit the alert."))
+    return redirect(reverse("wagtailadmin_pages:edit", args=[new_cap_alert_page.id]))
 
 
 @hooks.register("register_icons")

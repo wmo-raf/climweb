@@ -154,6 +154,7 @@ INSTALLED_APPS = [
     "wagtailmodelchooser",
     "django_extensions",
     "django_celery_beat",
+    "django_celery_results",
 ]
 
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -560,6 +561,9 @@ REDIS_URL = env.str(
 CELERY_BROKER_URL = REDIS_URL
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_RESULT_EXTENDED = True
+CELERY_CACHE_BACKEND = "default"
 
 CELERY_SINGLETON_BACKEND_CLASS = (
     "climweb.celery_singleton_backend.RedisBackendForSingleton"
