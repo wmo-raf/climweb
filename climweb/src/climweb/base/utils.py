@@ -87,7 +87,7 @@ def query_param_to_list(query_param, as_int=False):
 def get_first_img_src(html):
     # parse html and get first image src
     soup = BeautifulSoup(html, 'html.parser')
-    img = soup.find('img')
+    img = soup.find('img', )
     if img and img['src']:
         return img['src']
     return None

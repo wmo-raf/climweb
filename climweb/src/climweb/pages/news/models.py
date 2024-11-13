@@ -12,6 +12,7 @@ from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.fields import RichTextField, StreamField
+from wagtail.images import get_image_model
 from wagtail.models import Page
 from wagtail.snippets.models import register_snippet
 from wagtail.templatetags.wagtailcore_tags import richtext
@@ -227,7 +228,6 @@ class NewsPage(MetadataPageMixin, Page):
     def save(self, *args, **kwargs):
         # get the first image src to use as thumbnail
         img_src = get_first_img_src(richtext(self.body))
-
         if img_src:
             self.feature_img_src = img_src
 
@@ -236,5 +236,21 @@ class NewsPage(MetadataPageMixin, Page):
             if p:
                 # Limit the search meta desc to google's 160 recommended chars
                 self.search_description = truncatechars(p, 160)
+
+        # try to get the first image from the body to use as SEO image
+        if not self.search_image:
+            field_obj = self._meta.get_field('body')
+            references_gen = field_obj.extract_references(self.body)
+            Image = get_image_model()
+            for reference in references_gen:
+                cls = reference[0]
+                if cls == Image:
+                    img_id = reference[1]
+                    try:
+                        img = Image.objects.get(id=img_id)
+                        self.search_image = img
+                        break
+                    except Image.DoesNotExist:
+                        continue
 
         return super().save(*args, **kwargs)
