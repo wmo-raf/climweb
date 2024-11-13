@@ -1,0 +1,103 @@
+# MAKE SURE YOU HAVE SET THE REQUIRED VARIABLES IN the .env FILE.configs:
+
+# This compose file starts up a dev version of the plugin with hot code reloading.
+# It is accessible at http://localhost .
+
+x-climweb-variables: &climweb-variables
+  DATABASE_URL: postgis://${DB_USER:-climweb}:${DB_PASSWORD}@climweb-dev-db:5432/${DB_NAME:-climweb}
+  REDIS_URL: redis://climweb-dev-redis:6379/0
+
+services:
+  climweb-dev-db:
+    image: postgis/postgis:15-master
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER:-climweb}
+      - POSTGRES_DB=${DB_NAME:-climweb}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-?}
+    ports:
+      - "5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  climweb-dev-redis:
+    image: redis:alpine
+
+  climweb-dev:
+    image: {{ cookiecutter.project_slug }}_dev
+    build:
+      context: .
+      dockerfile: ./dev.Dockerfile
+      args:
+        - PLUGIN_BUILD_UID=${PLUGIN_BUILD_UID}
+        - PLUGIN_BUILD_GID=${PLUGIN_BUILD_GID}
+    ports:
+      - "8000"
+    env_file:
+      - .env
+    environment:
+      <<: *climweb-variables
+      WAIT_HOSTS: climweb-dev-db:5432,climweb-dev-redis:6379
+    depends_on:
+      - climweb-dev-db
+      - climweb-dev-redis
+    volumes:
+      - static:/climweb/web/src/climweb/static
+      - media:/climweb/web/src/climweb/media
+      - ./plugins/{{ cookiecutter.project_module }}:/climweb/plugins/{{ cookiecutter.project_module }}
+    # Open stdin and tty so when attaching key input works as expected.
+    stdin_open: true
+    tty: true
+
+  climweb-dev-celery-worker:
+    image: {{ cookiecutter.project_slug }}_dev
+    command: celery-worker
+    env_file:
+      - .env
+    environment:
+      <<: *climweb-variables
+      WAIT_HOSTS: climweb-dev-db:5432,climweb-dev-redis:6379,climweb-dev:8000
+    depends_on:
+      - climweb-dev
+    volumes:
+      - static:/climweb/web/src/climweb/static
+      - media:/climweb/web/src/climweb/media
+      - ./plugins/{{ cookiecutter.project_module }}:/climweb/plugins/{{ cookiecutter.project_module }}
+    # Open stdin and tty so when attaching key input works as expected.
+    stdin_open: true
+    tty: true
+
+  climweb-dev-celery-beat:
+    image: {{ cookiecutter.project_slug }}_dev
+    command: celery-beat
+    env_file:
+      - .env
+    environment:
+      <<: *climweb-variables
+      WAIT_HOSTS: climweb-dev-db:5432,climweb-dev-redis:6379,climweb-dev:8000
+    depends_on:
+      - climweb-dev
+    volumes:
+      - static:/climweb/web/src/climweb/static
+      - media:/climweb/web/src/climweb/media
+      - ./plugins/{{ cookiecutter.project_module }}:/climweb/plugins/{{ cookiecutter.project_module }}
+    # Open stdin and tty so when attaching key input works as expected.
+    stdin_open: true
+    tty: true
+
+  climweb-dev-web-proxy:
+    image: nginx:1.20.2-alpine
+    env_file:
+      - .env
+    volumes:
+      - static:/wagtail_static
+      - media:/wagtail_media
+      - $PWD/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - ${CLIMWEB_PROXY_PORT:-80}:80
+
+volumes:
+  pgdata:
+  static:
+  media:
