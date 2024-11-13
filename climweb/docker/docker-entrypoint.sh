@@ -16,6 +16,8 @@ GUNICORN_NUM_OF_WORKERS=${GUNICORN_NUM_OF_WORKERS:-}
 
 CLIMWEB_CELERY_BEAT_DEBUG_LEVEL=${CLIMWEB_CELERY_BEAT_DEBUG_LEVEL:-INFO}
 
+CLIMWEB_PORT="${CLIMWEB_PORT:-8000}"
+
 show_help() {
     echo """
 The available ClimWeb related commands and services are shown below:
@@ -104,6 +106,14 @@ start_celery_worker() {
     exec celery -A climweb worker "${EXTRA_CELERY_ARGS[@]}" -l INFO "$@"
 }
 
+# Lets devs attach to this container running the passed command, press ctrl-c and only
+# the command will stop. Additionally they will be able to use bash history to
+# re-run the containers command after they have done what they want.
+attachable_exec(){
+    echo "$@"
+    exec bash --init-file <(echo "history -s $*; $*")
+}
+
 run_server() {
     run_setup_commands_if_configured
 
@@ -127,7 +137,7 @@ run_server() {
         --log-file=- \
         --access-logfile=- \
         --capture-output \
-        -b "0.0.0.0:8000" \
+        -b "0.0.0.0:${CLIMWEB_PORT}" \
         --log-level="${CLIMWEB_LOG_LEVEL}" \
         "${STARTUP_ARGS[@]}" \
         "${@:2}"
@@ -158,6 +168,17 @@ show_startup_banner
 source /climweb/plugins/utils.sh
 
 case "$1" in
+django-dev)
+    run_setup_commands_if_configured
+    echo "Running Development Server on 0.0.0.0:${CLIMWEB_PORT}"
+    echo "Press CTRL-p CTRL-q to close this session without stopping the container."
+    attachable_exec python3 /climweb/web/src/climeb/manage.py runserver "0.0.0.0:${CLIMWEB_PORT}"
+    ;;
+django-dev-no-attach)
+    run_setup_commands_if_configured
+    echo "Running Development Server on 0.0.0.0:${CLIMWEB_PORT}"
+    python /climweb/web/src/climweb/manage.py runserver "0.0.0.0:${CLIMWEB_PORT}"
+    ;;
 gunicorn)
     run_server asgi "${@:2}"
     ;;

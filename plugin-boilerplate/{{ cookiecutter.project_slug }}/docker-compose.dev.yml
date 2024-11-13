@@ -6,6 +6,7 @@
 x-climweb-variables: &climweb-variables
   DATABASE_URL: postgis://${DB_USER:-climweb}:${DB_PASSWORD}@climweb-dev-db:5432/${DB_NAME:-climweb}
   REDIS_URL: redis://climweb-dev-redis:6379/0
+  ADMIN_URL_PATH: ${ADMIN_URL_PATH:-admin}
 
 services:
   climweb-dev-db:

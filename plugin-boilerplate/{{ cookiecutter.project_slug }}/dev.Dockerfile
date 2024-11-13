@@ -23,5 +23,9 @@ COPY --chown=$PLUGIN_BUILD_UID:$PLUGIN_BUILD_GID ./plugins/{{ cookiecutter.proje
 RUN . /climweb/venv/bin/activate && /climweb/plugins/install_plugin.sh --folder $CLIMWEB_PLUGIN_DIR/{{ cookiecutter.project_module }} --dev
 
 USER $PLUGIN_BUILD_UID:$PLUGIN_BUILD_GID
+
+# Add the venv to the path. This ensures that the venv is always activated when the container starts.
+ENV PATH="/climweb/venv/bin:$PATH"
+
 ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev'
 CMD ["django-dev"]
