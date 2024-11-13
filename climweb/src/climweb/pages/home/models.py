@@ -1,3 +1,4 @@
+from adminboundarymanager.models import AdminBoundarySettings
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.template.defaultfilters import truncatechars
@@ -172,6 +173,12 @@ class HomePage(MetadataPageMixin, Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(HomePage, self).get_context(request, *args, **kwargs)
+
+        abm_settings = AdminBoundarySettings.for_request(request)
+        abm_extents = abm_settings.combined_countries_bounds
+        context.update({
+            "country_bounds": abm_extents,
+        })
 
         forecast_setting = ForecastSetting.for_request(request)
         city_detail_page = forecast_setting.weather_detail_page

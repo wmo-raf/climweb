@@ -307,6 +307,7 @@ def get_home_map_alerts(request):
             for feature in info.value.features:
                 geojson["features"].append(feature)
     context = {
+        'has_alerts': len(active_alert_infos) > 0,
         'active_alert_info': active_alert_infos,
         'geojson': json.dumps(geojson)
     }
