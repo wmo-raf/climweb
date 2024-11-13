@@ -82,6 +82,17 @@ class HomePage(MetadataPageMixin, Page):
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
     hero_type = models.CharField(_("Banner Type"), max_length=50, choices=BANNER_TYPES, default='full')
 
+    call_to_action_button_text = models.CharField(max_length=100, blank=True, null=True,
+                                                  verbose_name=_('Call to action button text'))
+    call_to_action_related_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_('Call to action related page')
+    )
+
     show_city_forecast = models.BooleanField(default=True, verbose_name=_("Show city forecast section"))
 
     show_weather_watch = models.BooleanField(default=True, verbose_name=_("Show weather watch section"))
@@ -107,13 +118,16 @@ class HomePage(MetadataPageMixin, Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
+            FieldPanel("hero_banner"),
             FieldPanel('pre_title'),
             FieldPanel('hero_title'),
             FieldPanel('hero_subtitle'),
-            FieldPanel("hero_banner"),
-            # NativeColorPanel('hero_text_color'),
             FieldPanel('hero_type')
         ], heading=_("Banner Section")),
+        MultiFieldPanel([
+            FieldPanel('call_to_action_button_text'),
+            FieldPanel('call_to_action_related_page'),
+        ], heading=_("Banner Call to Action Button")),
         MultiFieldPanel([
             FieldPanel('show_city_forecast'),
         ], heading=_("City Forecast Section")),

@@ -24,8 +24,21 @@
                             {{ self.hero_subtitle }}
                         </p>
                     {% endif %}
+                    {% if page.call_to_action_button_text %}
+                        {% if page.call_to_action_related_page %}
+                            {% if page.call_to_action_related_page %}
+                                <a class="button is-dark has-text-white"
+                                   style=" font-weight: 600; border-radius: var(--border-radius);"
+                                   href="{{ page.call_to_action_related_page.url }}">
+                                    <span>{{ page.call_to_action_button_text }}</span>
+                                    <span class="icon">
+                                        <i class="fa fa-arrow-right"></i>
+                                        </span>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
                 </div>
-
                 {% if page.show_city_forecast %}
                     <div class="column is-7-desktop is-full-tablet is-full-mobile weather-widget-column"
                          id="weather-widget-wrapper">
