@@ -254,3 +254,20 @@ class HomeMapSettings(BaseSiteSetting):
         ("boundary_block", AreaBoundaryBlock(label=_("Admin Boundary"))),
         ("polygon_block", AreaPolygonBlock(label=_("Draw Polygon"))),
     ], use_json_field=True, blank=True)
+    forecast_cluster = models.BooleanField(default=False, verbose_name=_("Cluster Location Forecast Points"), )
+    forecast_cluster_min_points = models.PositiveIntegerField(default=2, null=True, blank=True,
+                                                              verbose_name=_("Cluster Minimum number of Points"),
+                                                              help_text=_("Minimum number of points necessary to form"
+                                                                          " a cluster if clustering is enabled"))
+    forecast_cluster_radius = models.PositiveIntegerField(default=50, null=True, blank=True,
+                                                          verbose_name=_("Cluster Radius"),
+                                                          help_text=_("Radius of each cluster if clustering is "
+                                                                      "enabled"))
+    panels = [
+        MultiFieldPanel([
+            FieldPanel("forecast_cluster"),
+            FieldPanel("forecast_cluster_min_points"),
+            FieldPanel("forecast_cluster_radius"),
+        ], heading=_("Location Forecast Clustering")),
+        FieldPanel("zoom_locations"),
+    ]

@@ -103,6 +103,7 @@ class WeatherWatch {
                     homeMapAlertsUrl,
                     homeForecastDataUrl,
                     capGeojsonUrl,
+                    forecastClusterConfig,
                 } = settings
 
 
@@ -113,7 +114,7 @@ class WeatherWatch {
                 this.addWarningsLayer(homeMapAlertsUrl, capGeojsonUrl)
 
                 // initialize city forecast
-                this.initCityForecast(homeForecastDataUrl, weatherIconsUrl)
+                this.initCityForecast(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig)
 
                 // initialize zoom locations. Allow to zoom in to custom locations
                 // useful for islands or disputed territories
@@ -302,14 +303,12 @@ class WeatherWatch {
         }
     }
 
-    initCityForecast(homeForecastDataUrl, weatherIconsUrl) {
+    initCityForecast(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig) {
+
+
         // add city forecast source
         this.map.addSource("city-forecasts", {
-            type: "geojson",
-            cluster: true,
-            clusterMinPoints: 2,
-            clusterRadius: 25,
-            data: {type: "FeatureCollection", features: []}
+            type: "geojson", data: {type: "FeatureCollection", features: []}, ...forecastClusterConfig,
         })
 
         // add city forecast layer
