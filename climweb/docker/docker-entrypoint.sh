@@ -37,6 +37,11 @@ gunicorn            : Start ClimWeb using a prod ready gunicorn server:
 gunicorn-wsgi       : Same as gunicorn but runs a wsgi server
 celery-worker       : Start the celery worker queue which runs async tasks
 celery-beat         : Start the celery beat service used to schedule periodic jobs
+
+DEV COMMANDS:
+django-dev      : Start a normal Baserow backend django development server, performs
+                  the same checks and setup as the gunicorn command above.
+
 """
 }
 
