@@ -8,20 +8,23 @@ ensure that NMHSs have a modern, responsive, and user-friendly website.
 
 ## Live Instances
 NMHSs that have adopted ClimWeb across Africa:
-- 🇧🇯 [Benin](https://www.meteobenin.bj/)
-- 🇧🇫 [Burkina Faso](https://www.meteoburkina.bf/)
-- 🇧🇮 [Burundi](https://www.igebu.bi/)
-- 🇹🇩 [Chad](https://www.meteotchad.org/)
-- 🇪🇹 [Ethiopia](https://www.ethiomet.gov.et/)
-- 🇬🇭 [Ghana](https://www.meteo.gov.gh/)
-- 🇲🇼 [Malawi](https://www.metmalawi.gov.mw/)
-- 🇲🇱 [Mali](https://www.malimeteo.ml/)
-- 🇳🇪 [Niger](https://www.niger-meteo.ne/)
-- 🇸🇨 [Seychelles](https://www.meteo.sc/)
-- 🇸🇸 [South Sudan](https://meteosouthsudan.com.ss/)
-- 🇸🇩 [Sudan](https://meteosudan.sd/)
-- 🇹🇬 [Togo](https://www.anamet-togo.com/)
-- 🇿🇼 [Zimbabwe](https://www.weatherzw.org.zw/)
+1. 🇧🇯 [Benin](https://www.meteobenin.bj/)
+2. 🇧🇫 [Burkina Faso](https://www.meteoburkina.bf/)
+3. 🇧🇮 [Burundi](https://www.igebu.bi/)
+4. 🇹🇩 [Chad](https://www.meteotchad.org/)
+5. 🇪🇹 [Ethiopia](https://www.ethiomet.gov.et/)
+6. 🇬🇭 [Ghana](https://www.meteo.gov.gh/)
+7. 🇲🇼 [Malawi](https://www.metmalawi.gov.mw/)
+8. 🇲🇱 [Mali](https://www.malimeteo.ml/)
+9. 🇳🇪 [Niger](https://www.niger-meteo.ne/)
+10. 🇸🇨 [Seychelles](https://www.meteo.sc/)
+11. 🇸🇸 [South Sudan](https://meteosouthsudan.com.ss/)
+12. 🇸🇩 [Sudan](https://meteosudan.sd/)
+13. 🇹🇬 [Togo](https://www.anamet-togo.com/)
+14. 🇿🇼 [Zimbabwe](https://www.weatherzw.org.zw/)
+15. 🇬🇲 [The Gambia](https://meteogambia.org/)
+16. 🇬🇼 [Guinea Bissau](https://www.meteoguinebissau.org/)
+17. 🇨🇩 [Democratic Republic of Congo](https://www.meteordcongo.cd/)
 - And many more to go live soon.
 
 
