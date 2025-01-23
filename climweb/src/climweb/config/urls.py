@@ -23,28 +23,28 @@ CLIMWEB_ADDITIONAL_APPS = getattr(settings, "CLIMWEB_ADDITIONAL_APPS", [])
 
 urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
-
+    
     path("", include("climweb.pages.home.urls")),
     path("", include("climweb.pages.wdqms.urls")),
-    path("", include("climweb.pages.cap.urls")),
+    path("", include("alertwise.cap.urls")),
     path("", include("climweb.pages.stations.urls"), name="stations"),
     path("", include("climweb.pages.videos.urls")),
     path("weather/", include("climweb.pages.weather.urls")),
-
+    
     path("", include("geomanager.urls"), name="geomanager"),
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
     path("", include(forecastmanager_urls), name="forecast_api"),
     path("", include(climweb_wdqms_urls), name="climweb_wdqms_api"),
-
+    
     path("sitemap.xml", sitemap),
     path("humans.txt", humans),
-
+    
     path("search/", search_views.search, name="search"),
     path('auth/', include('allauth.urls')),
-
+    
     path('api/v2/', api_router.urls, name="wagtailapi"),
-
+    
     path("api/satellite-imagery/", include("climweb.pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("climweb.pages.cityclimate.urls")),
     path("api/_health/", public_health_check),
@@ -61,14 +61,14 @@ if settings.DEBUG:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
     from django.views.generic import TemplateView
-
+    
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += path("django-admin/", admin.site.urls),
-
+    
     import debug_toolbar
-
+    
     urlpatterns = [
                       path('__debug__/', include(debug_toolbar.urls)),
                       path("test404/", TemplateView.as_view(template_name="404.html")),
@@ -82,7 +82,7 @@ urlpatterns = urlpatterns + [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
-
+    
     # Copied from wagtail.urls for compatibility with wagtail-cache. See wagtail-cache documentation
     path(
         "_util/authenticate_with_password/<int:page_view_restriction_id>/<int:page_id>/",
