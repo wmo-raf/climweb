@@ -1,6 +1,6 @@
 import json
 
-from capeditor.blocks import BoundaryFieldBlock, PolygonFieldBlock
+from alertwise.capeditor.blocks import BoundaryFieldBlock, PolygonFieldBlock
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from shapely.geometry import shape
@@ -13,39 +13,39 @@ class AreaBoundaryStructValue(StructValue):
     def geojson(self):
         polygon = self.get("boundary")
         return json.loads(polygon)
-
+    
     @cached_property
     def bounds(self):
         geojson = self.geojson
         geo = shape(geojson)
         return geo.bounds
-
+    
     @cached_property
     def name(self):
         return self.get("areaDesc")
-
+    
     @cached_property
     def default(self):
         return self.get("default")
 
 
 class AreaPolygonStructValue(StructValue):
-
+    
     @cached_property
     def geojson(self):
         polygon = self.get("polygon")
         return json.loads(polygon)
-
+    
     @cached_property
     def bounds(self):
         geojson = self.geojson
         geo = shape(geojson)
         return geo.bounds
-
+    
     @cached_property
     def name(self):
         return self.get("areaDesc")
-
+    
     @cached_property
     def default(self):
         return self.get("default")
@@ -54,14 +54,14 @@ class AreaPolygonStructValue(StructValue):
 class AreaBoundaryBlock(blocks.StructBlock):
     class Meta:
         value_class = AreaBoundaryStructValue
-
+    
     ADMIN_LEVEL_CHOICES = (
         (0, _("Level 0")),
         (1, _("Level 1")),
         (2, _("Level 2")),
         (3, _("Level 3"))
     )
-
+    
     areaDesc = blocks.TextBlock(label=_("Area/Region Name"))
     default = blocks.BooleanBlock(label=_("Default"), required=False)
     admin_level = blocks.ChoiceBlock(choices=ADMIN_LEVEL_CHOICES, default=1, label=_("Administrative Level"))
@@ -71,7 +71,7 @@ class AreaBoundaryBlock(blocks.StructBlock):
 class AreaPolygonBlock(blocks.StructBlock):
     class Meta:
         value_class = AreaPolygonStructValue
-
+    
     areaDesc = blocks.TextBlock(label=_("Area/Region Name"))
     default = blocks.BooleanBlock(label=_("Default"), required=False)
     polygon = PolygonFieldBlock(label=_("Polygon"), help_text=_("Draw custom area on the map"))
