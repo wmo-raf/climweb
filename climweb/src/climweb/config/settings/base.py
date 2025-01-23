@@ -45,7 +45,7 @@ if os.path.isfile(dev_env_path):
 # Application definition
 INSTALLED_APPS = [
     "climweb.base",
-
+    
     "climweb.pages.home",
     "climweb.pages.services",
     "climweb.pages.products",
@@ -69,20 +69,20 @@ INSTALLED_APPS = [
     "climweb.pages.search",
     "climweb.pages.data_request",
     "climweb.pages.flex_page",
-    "climweb.pages.cap",
     "climweb.pages.stations",
     "climweb.pages.satellite_imagery",
     "climweb.pages.cityclimate",
     "climweb.pages.glossary",
     "climweb.pages.webstories",
     "climweb.pages.wdqms",
-
+    
     "adminboundarymanager",
     "geomanager",
-    "capeditor",
+    "alertwise.capeditor",
+    "alertwise.cap",
     "forecastmanager",
     "climweb_wdqms",
-
+    
     "wagtailmautic",
     "wagtailzoom",
     "wagtailsurveyjs",
@@ -91,7 +91,7 @@ INSTALLED_APPS = [
     "wagtailiconchooser",
     "wagtail_webstories_editor",
     "wagtailmedia",
-
+    
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     'wagtail.contrib.settings',
@@ -109,7 +109,7 @@ INSTALLED_APPS = [
     "wagtail.admin",
     "wagtail",
     "wagtail.api.v2",
-
+    
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -119,7 +119,7 @@ INSTALLED_APPS = [
     "django.contrib.gis",
     'django.contrib.sitemaps',
     'django.contrib.humanize',
-
+    
     "modelcluster",
     "rest_framework",
     'rest_framework_xml',
@@ -303,7 +303,7 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 LOCALE_PATHS = [
     'base/locale',
     'nmhs_cms/locale',
-
+    
     'pages/cap/locale',
     'pages/cityclimate/locale',
     'pages/contact/locale',
@@ -323,7 +323,7 @@ LOCALE_PATHS = [
     'pages/organisation_pages/tenders/locale',
     'pages/organisation_pages/vacancies/locale',
     'pages/organisation_pages/staff/locale',
-
+    
     'pages/products/locale',
     'pages/publications/locale',
     'pages/satellite_imagery/locale',
@@ -531,7 +531,7 @@ if CAP_MQTT_SECRET_KEY:
         base64.urlsafe_b64decode(CAP_MQTT_SECRET_KEY)
     except Exception as e:
         raise ImproperlyConfigured(f"CAP_MQTT_SECRET_KEY must be a base64 encoded string. {e}")
-
+    
     if len(CAP_MQTT_SECRET_KEY) != 44:
         raise ImproperlyConfigured("CAP_MQTT_SECRET_KEY must be 44 characters long")
 
@@ -575,6 +575,8 @@ CELERY_SINGLETON_BACKEND_CLASS = (
 # Set max memory per child process (in kilobytes, e.g., 200000 KB = 200 MB)
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = env.int("CELERY_WORKER_MAX_MEMORY_PER_CHILD", default=200000)
 
+CELERY_APP = 'climweb.config.celery:app'
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -590,10 +592,10 @@ CACHES = {
 class AttrDict(dict):
     def __getattr__(self, item):
         return super().__getitem__(item)
-
+    
     def __setattr__(self, item, value):
         globals()[item] = value
-
+    
     def __setitem__(self, key, value):
         globals()[key] = value
 
