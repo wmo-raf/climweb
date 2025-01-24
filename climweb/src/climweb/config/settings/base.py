@@ -350,6 +350,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+WAGTAILADMIN_STATIC_FILE_VERSION_STRINGS = False
+
 # Storages
 STORAGES = {
     "default": {
