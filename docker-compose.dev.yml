@@ -78,7 +78,7 @@ services:
       - ${BACKUP_VOLUME}:/climweb/web/src/climweb/backup
 
   climweb_celery_worker_dev:
-    image: climweb_celery_worker_dev
+    image: climweb_dev
     container_name: climweb_celery_worker_dev
     platform: linux/x86_64
     build:
@@ -98,7 +98,7 @@ services:
       - ${BACKUP_VOLUME}:/climweb/web/src/climweb/backup
 
   climweb_celery_beat_dev:
-    image: climweb_celery_beat_dev
+    image: climweb_dev
     container_name: climweb_celery_beat_dev
     platform: linux/x86_64
     build:
