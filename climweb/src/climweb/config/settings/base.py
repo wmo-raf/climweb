@@ -350,6 +350,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Storages
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "climweb.base.storage.ManifestStaticFilesStorageNotStrict",
+    },
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 

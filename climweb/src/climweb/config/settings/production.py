@@ -20,12 +20,12 @@ MANIFEST_LOADER = {
     # recommended True for production, requires a server restart to pick up new values from the manifest.
 }
 
-STATICFILES_STORAGE = "climweb.base.storage.ManifestStaticFilesStorageNotStrict"
-
 # Enable caching in production
 WAGTAIL_CACHE = True
 
-FILE_UPLOAD_TEMP_DIR = os.path.join(BASE_DIR, '/climweb/tmp')
+FILE_UPLOAD_TEMP_DIR = env.str("FILE_UPLOAD_TEMP_DIR", None)
+if FILE_UPLOAD_TEMP_DIR is None or not os.path.exists(FILE_UPLOAD_TEMP_DIR):
+    FILE_UPLOAD_TEMP_DIR = "/climweb/tmp"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env.str('EMAIL_HOST', default="localhost")
