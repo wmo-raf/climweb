@@ -11,10 +11,14 @@
         </h5>
         <div>
             <button id="list-view-button" class="news-filter view active" name="view" value="list">
-                <i class="fas fa-th-list"></i>
+                <span class="icon">
+                      {% svg_icon name="table-list" %}
+                  </span>
             </button>
             <button id="grid-view-button" class="news-filter view" name="view" value="grid">
-                <i class="fas fa-grip-horizontal"></i>
+                <span class="icon">
+                    {% svg_icon name="grip" %}
+                </span>
             </button>
         </div>
     </div>
@@ -36,19 +40,7 @@
                         <div class="result-list-item-detail">
                             <div class="result-list-item-tag">
                                 <div>
-                                    {% if  news_item.news_type.icon %}
-                                        {% comment %} <span class="icon"> {% endcomment %}
-                                    {% comment %} {% svg_icon name=news_item.news_type.icon %} {% endcomment %}
-                                    {% comment %} </span> {% endcomment %}
-                                    {% endif %}
                                     <span class="item-tag">{{ news_item.news_type }}</span>
-                                </div>
-                                <div>
-                                    <span class="icon item-tag" title="No of views">
-                                        <i class="fas fa-eye"></i>
-                                        {% comment %}
-                                            <span class="item-tag-content">{{ news_item.webhits.count }}</span> {% endcomment %}
-                                    </span>
                                 </div>
                             </div>
                             <a href="{{ news_item.url }}" class="result-list-item-title">

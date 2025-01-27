@@ -4,10 +4,14 @@
             <ul>
                 {% for page in self.get_ancestors %}
                     {% if page.is_root == False %}
-                        <li><a href={{ page.url }}> {{ page.title }}</a></li>
+                        <li>
+                            <a href={{ page.url }}> {{ page.title }}</a>
+                        </li>
                     {% endif %}
                 {% endfor %}
-                <li class=”active”><b style="padding-left: 8px"> {{ self.title }}</b></li>
+                <li class=”active”>
+                    <b style="padding-left: 8px"> {{ self.title }}</b>
+                </li>
             </ul>
         </nav>
     </div>

@@ -1,4 +1,4 @@
-{% load wagtailimages_tags static lazyimages_tags wagtailcore_tags %}
+{% load wagtailimages_tags static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags %}
 
 <div class="hero-header">
     {% if page.banner_image %}
@@ -43,8 +43,8 @@
                                    border: 0;"
                                     >
                                         <span class="has-text-white">{{ page.call_to_action_button_text }}</span>
-                                        <span class="icon">
-                                            <i class="fas fa-arrow-right has-text-white"></i>
+                                        <span class="icon btn-icon has-text-white">
+                                            {% svg_icon name="arrow-right-full" %}
                                         </span>
                                     </a>
                                 {% else %}
@@ -58,8 +58,8 @@
                                    border: 0;"
                                     >
                                         <span class="has-text-white">{{ page.call_to_action_button_text }}</span>
-                                        <span class="icon">
-                                            <i class="fas fa-arrow-right has-text-white"></i>
+                                        <span class="icon btn-icon has-text-white">
+                                            {% svg_icon name="arrow-right-full" %}
                                         </span>
                                     </a>
                                 {% endif %}

@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags static i18n %}
+{% load wagtailcore_tags wagtailimages_tags static i18n wagtailiconchooser_tags %}
 
 {% block extra_css %}
     <style>
@@ -145,8 +145,8 @@
     {% if page.agenda_document %}
         <div class="agenda-btn">
             <a class="button is-rounded" href="{{ page.agenda_document.url }}">
-                <span class="icon">
-                    <i class="fas fa-download"></i>
+                <span class="icon" style="height: 20px;width: 20px">
+                    {% svg_icon name="download" %}
                 </span>
                 <span>
                     {% translate "Download Agenda" %}

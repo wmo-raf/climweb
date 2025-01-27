@@ -1,13 +1,14 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
 
-<div class="accordion__item js-accordion-item active">
+<div class="accordion__item js-accordion-item {% if is_first %}active {% endif %}">
     <h4 class="accordion-header js-accordion-header">
         <span>{{ value.heading }}</span>
-        <i class="fas fa-sort-down" style="float: right;"></i>
+        <span class="icon btn-icon arrow-icon">
+            {% svg_icon name="expand-down" %}
+        </span>
     </h4>
-    <div class="accordion-body js-accordion-body"   style="display: none;">
+    <div class="accordion-body js-accordion-body" style="display: none;">
         <div class="accordion-body__contents">
-
             <div class="columns is-multiline is-mobile " style="margin: 0;align-items: center">
                 {% if value.image %}
                     <div class="column is-one-quarter-desktop is-full-mobile">
@@ -31,8 +32,8 @@
                 <div>
                     <a class="more" href="{{ value.link_related_page.url }}">
                         {{ value.link_text }}
-                        <span class="icon">
-                            <i class="fas fa-arrow-right"></i>
+                        <span class="icon btn-icon">
+                            {% svg_icon name="arrow-right-full" %}
                         </span>
                     </a>
                 </div>

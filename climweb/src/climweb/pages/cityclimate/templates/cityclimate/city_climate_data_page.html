@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags i18n %}
+{% load static wagtailcore_tags i18n wagtailiconchooser_tags %}
 
 {% block extra_css %}
     {{ block.supper }}
@@ -55,8 +55,8 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <span class="icon is-left">
-                                        <i class="fas fa-globe"></i>
+                                    <span class="icon s-left">
+                                        {% svg_icon name="globe" %}
                                     </span>
                                 </div>
                             </div>
@@ -142,10 +142,10 @@
             const options = {
                 pageId: {{ page.pk }},
                 city_data_url: "{{ city_data_url }}",
-                parameters:{{ parameters|safe }},
+                parameters: {{ parameters|safe }},
                 pageTitle: "{{ page.title }}",
                 months: "{{ months|safe }}",
-                filterByMonth:{{ page.filter_by_month|yesno:"true,false" }},
+                filterByMonth: {{ page.filter_by_month|yesno:"true,false" }},
                 timeFormat: "{{ page.time_format|default_if_none:"" }}",
             }
 

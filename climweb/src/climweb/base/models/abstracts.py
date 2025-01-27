@@ -74,7 +74,7 @@ class AbstractIntroPage(MetadataPageMixin, Page):
         related_name='+',
     )
 
-    introduction_button_text = models.TextField(max_length=20, blank=True, null=True,
+    introduction_button_text = models.CharField(max_length=20, blank=True, null=True,
                                                 verbose_name=_("Introduction button text"), )
     introduction_button_link = models.ForeignKey(
         'wagtailcore.Page',

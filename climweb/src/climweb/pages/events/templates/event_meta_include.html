@@ -6,7 +6,7 @@
         <div class="event-meta-item">
             <div class="event-meta-item-pre">
                 <span class="event-meta-item-icon">
-                    <i class="fas fa-archive" style="color: #de2828"></i>
+                    {% svg_icon name="box-archive" %}
                 </span>
                 <div class="event-meta-item-title" style="color: #de2828 ;font-weight: bold">
                     {% translate "Ended" %}
@@ -20,7 +20,7 @@
                 {% if page.event_type.icon %}
                     {% svg_icon page.event_type.icon %}
                 {% else %}
-                    <i class="fas fa-user-tag"></i>
+                    {% svg_icon name="tag" %}
                 {% endif %}
             </span>
             <div class="event-meta-item-title">
@@ -34,7 +34,7 @@
     <div class="event-meta-item">
         <div class="event-meta-item-pre">
             <span class="event-meta-item-icon">
-                <i class="fas fa-map-marker-alt"></i>
+                {% svg_icon name="location" %}
             </span>
             <div class="event-meta-item-title">
                 <span>
@@ -48,7 +48,7 @@
     <div class="event-meta-item">
         <div class="event-meta-item-pre">
             <span class="event-meta-item-icon">
-                <i class="fas fa-clock"></i>
+                {% svg_icon name="calendar-alt" %}
             </span>
             <div class="event-meta-item-title">
                 <span>
@@ -65,7 +65,7 @@
         <div class="event-meta-item">
             <div class="event-meta-item-pre">
                 <span class="event-meta-item-icon">
-                    <i class="fas fa-clock"></i>
+                    {% svg_icon name="calendar-alt" %}
                 </span>
                 <div class="event-meta-item-title">
                     <span>
@@ -81,7 +81,7 @@
     <div class="event-meta-item">
         <div class="event-meta-item-pre">
             <span class="event-meta-item-icon">
-                <i class="fas fa-clock"></i>
+                {% svg_icon name="globe" %}
             </span>
             <div class="event-meta-item-title">
                 <span>
@@ -95,7 +95,7 @@
         <div class="event-meta-item">
             <div class="event-meta-item-pre">
                 <span class="event-meta-item-icon">
-                    <i class="fas fa-wallet"></i>
+                    {% svg_icon name="wallet" %}
                 </span>
                 <div class="event-meta-item-title">
                     <span>
@@ -110,7 +110,7 @@
         <div class="event-meta-item">
             <div class="event-meta-item-pre">
                 <span class="event-meta-item-icon">
-                    <i class="fas fa-times-circle"></i>
+                    {% svg_icon name="circle-xmark" %}
                 </span>
                 <div class="event-meta-item-title">
                     {% translate "Registration closed" %}
@@ -122,7 +122,7 @@
         <div class="event-meta-item">
             <div class="event-meta-item-pre">
                 <span class="event-meta-item-icon">
-                    <i class="fas fa-hourglass-half"></i>
+                    {% svg_icon name="hourglass-half" %}
                 </span>
                 <div class="event-meta-item-title">
                     {% translate "Registration will be open soon" %}

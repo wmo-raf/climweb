@@ -1,5 +1,5 @@
 {% extends 'services_page_base.html' %}
-{% load static wagtailsettings_tags i18n wagtailcore_tags %}
+{% load static wagtailsettings_tags i18n wagtailcore_tags wagtailiconchooser_tags %}
 {% get_settings use_default_site=True %}
 
 {% block extra_css %}
@@ -42,9 +42,9 @@
                             <div class="column is-5-desktop is-offset-1-desktop">
                                 <div>
                                     <h3 class="social-media-feed-item-title">
-                                        <span class="icon">
-                                            <i class="fab fa-twitter"></i>
-                                        </span>
+                                            <span class="icon">
+                                                {% svg_icon name="x-twitter" %}
+                                            </span>
                                         <span>Twitter {% translate "Feed" %}</span>
                                     </h3>
                                 </div>
@@ -60,9 +60,10 @@
                         {% endif %}
                         {% if settings.base.OrganisationSetting.facebook %}
                             <div class="column is-5">
-                                <h3 class="social-media-feed-item-title"><span class="icon">
-                                    <i class="fab fa-facebook-f"></i>
-                                </span>
+                                <h3 class="social-media-feed-item-title">
+                                    <span class="icon">
+                                        {% svg_icon name="facebook" %}
+                                    </span>
                                     <span>Facebook {% translate "Feed" %}
                                     </span>
                                 </h3>
@@ -129,7 +130,7 @@
         <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
 
         <script>
-            const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
+            const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
 
             $(document).ready(function () {
                 if (page_youtube_playlist) {

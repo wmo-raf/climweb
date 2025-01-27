@@ -469,7 +469,8 @@ ONLINE_SHARE_CONFIG = [
         "link_param": "u",
         "text_param": "quote",
         "fa_icon": "facebook-f",
-        "enabled": True
+        "enabled": True,
+        "svg_icon": "facebook",
     },
     {
         "name": "X",
@@ -477,6 +478,7 @@ ONLINE_SHARE_CONFIG = [
         "link_param": "url",
         "text_param": "text",
         "fa_icon": "x-twitter",
+        "svg_icon": "x-twitter",
         "enabled": True,
     },
     {
@@ -484,6 +486,7 @@ ONLINE_SHARE_CONFIG = [
         "base_url": "https://www.linkedin.com/sharing/share-offsite",
         "link_param": "url",
         "fa_icon": "linkedin-in",
+        "svg_icon": "linkedin",
         "enabled": True,
     },
     {
@@ -493,6 +496,7 @@ ONLINE_SHARE_CONFIG = [
         "encode": True,
         "text_in_url": True,
         "fa_icon": "whatsapp",
+        "svg_icon": "whatsapp",
         "enabled": True,
     },
     {
@@ -501,6 +505,7 @@ ONLINE_SHARE_CONFIG = [
         "link_param": "url",
         "text_param": "text",
         "fa_icon": "telegram",
+        "svg_icon": "telegram",
         "enabled": True,
     },
 
@@ -537,6 +542,9 @@ CAP_CERT_PATH = env.str("CAP_CERT_PATH", default="")
 CAP_PRIVATE_KEY_PATH = env.str("CAP_PRIVATE_KEY_PATH", default="")
 CAP_SIGNATURE_METHOD = env.str("CAP_SIGNATURE_METHOD", default="RSA_SHA256")
 CAP_MQTT_SECRET_KEY = env.str("CAP_MQTT_SECRET_KEY", default="")
+
+CAP_LIST_PAGE_PARENT_PAGE_TYPES = ["home.HomePage", ]
+MAX_CAP_LIST_PAGE_COUNT = 1
 
 if CAP_MQTT_SECRET_KEY:
     try:

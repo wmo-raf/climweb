@@ -21,13 +21,13 @@
                     <div id="home-map" style="position: relative;">
                         <div class="columns p-2" style="position: absolute;top: 10px;left: 10px;z-index: 99">
                             <div class="column">
-                                <div class="control has-icons-left mr-2">
+                                <div class="control has-icons-left mr-2" style="display: flex; align-items: center">
                                     <div class="select">
                                         <select id="forecast-dates" style="color:#292929;display: none">
                                         </select>
                                     </div>
-                                    <span class="icon is-left">
-                                        <i class="fas fa-calendar-days"></i>
+                                    <span class="icon is-left" style="height: 20px;top:initial">
+                                        {% svg_icon name="calendar-alt" %}
                                     </span>
                                 </div>
                             </div>
@@ -78,8 +78,8 @@
                        style=" font-weight: 600;  border-radius: var(--border-radius);"
                        href="{{ self.mapviewer_cta_url }}">
                         <span>{{ self.mapviewer_cta_title }}</span>
-                        <span class="icon">
-                            <i class="fa fa-arrow-right"></i>
+                        <span class="icon btn-icon">
+                            {% svg_icon name="arrow-right-full" %}
                         </span>
                     </a>
                 </div>

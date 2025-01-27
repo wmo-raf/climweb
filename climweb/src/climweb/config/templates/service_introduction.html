@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags wagtailiconchooser_tags %}
 
 <div class="columns is-centered intro-section-wrapper">
     <div class="column is-5 has-text-left">
@@ -16,8 +16,8 @@
                         <a href="{{ page.introduction_button_link.url }}"
                            class="button is-rounded center sec-btn cta-btn">
                             <span>{{ page.introduction_button_text }}</span>
-                            <span class="icon">
-                                <i class="fas fa-arrow-right"></i>
+                            <span class="icon btn-icon">
+                                {% svg_icon name="arrow-right-full" %}
                             </span>
                         </a>
                     {% else %}
@@ -26,8 +26,8 @@
                            rel="noopener"
                            class="button is-rounded center sec-btn cta-btn">
                             <span>{{ page.introduction_button_text }}</span>
-                            <span class="icon">
-                                <i class="fas fa-arrow-right"></i>
+                            <span class="icon btn-icon">
+                                {% svg_icon name="arrow-right-full" %}
                             </span>
                         </a>
                     {% endif %}

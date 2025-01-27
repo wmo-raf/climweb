@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags i18n %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags i18n wagtailiconchooser_tags %}
 
 
 {% block extra_css %}
@@ -7,8 +7,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-timeline.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
-    {% comment %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}"> {% endcomment %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
 
@@ -19,12 +17,11 @@
 {% block content %}
     <main class="is-index">
         <div class="container pt-6 pb-0 sections">
-
             <div class="buttons is-justify-content-center">
                 {% if page.mission or page.vision %}
                     <button class="button nav-section is-light" data-target="#mission_vision_section">
-                        <span class="icon is-small">
-                            <i class="fa-sharp fa-solid fa-eye"></i>
+                        <span class="icon">
+                            {% svg_icon name="view" %}
                         </span>
                         <span class="has-text-weight-semibold">
                             {% translate "Mission & Vision" %}
@@ -35,9 +32,9 @@
 
                 {% if page.org_struct_heading or page.org_struct_description or page.org_struct_img %}
                     <button class="button nav-section is-light" data-target="#organisation_structure">
-                        <span class="icon is-small">
-                            <i class="fa-solid fa-sitemap"></i>
-                        </span>
+                        <span class="icon">
+                              {% svg_icon name="sitemap" %}
+                          </span>
                         <span class="has-text-weight-semibold">
                             {% translate " Organisational Structure" %}
                         </span>
@@ -46,8 +43,8 @@
 
                 {% if page.timeline %}
                     <button class="button nav-section is-light" data-target="#timeline_section">
-                        <span class="icon is-small">
-                            <i class="fa-solid fa-timeline"></i>
+                        <span class="icon">
+                            {% svg_icon name="timeline" %}
                         </span>
                         <span class="has-text-weight-semibold">
                             {% translate "History" %}
@@ -57,8 +54,8 @@
 
                 {% if page.feature_block %}
                     <button class="button nav-section is-light" data-target="#others_section">
-                        <span class="icon is-small">
-                            <i class="fa-solid fa-circle-nodes"></i>
+                        <span class="icon">
+                            {% svg_icon name="circle-nodes" %}
                         </span>
                         <span class="has-text-weight-semibold">
                             {% translate "Additional Information" %}
@@ -166,10 +163,7 @@
 
         {% if page.feature_block %}
             <section class="about-feature-blocks-section" id="others_section">
-                {% comment %}
-                    <div class="container"> {% endcomment %}
                 {% include 'feature_block_section.html' with feature_blocks=page.feature_block %}
-                {% comment %} </div> {% endcomment %}
             </section>
         {% endif %}
 
@@ -193,11 +187,8 @@
             </section>
         {% endif %}
 
-
         {% if page.partners %}
-
             <section>
-
                 <div class="container">
                     <h2 class="section-title has-text-centered">
                         {% translate "Our Partners" %}
@@ -225,8 +216,8 @@
                         <div class="more-container has-text-centered">
                             <a href="{{ settings.base.ImportantPages.all_partners_page.url }}" class="more">
                                 {% translate "More Partners" %}
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right"></i>
+                                <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-right-full" %}
                                 </span>
                             </a>
                         </div>
@@ -256,8 +247,8 @@
                                     <a href="{{ page.bottom_call_to_action_button_link.url }}"
                                        class="button is-small is-rounded center sec-btn cta-btn">
                                         <span>{{ page.bottom_call_to_action_button_text }}</span>
-                                        <span class="icon">
-                                            <i class="fas fa-arrow-right"></i>
+                                        <span class="icon btn-icon">
+                                            {% svg_icon name="arrow-right-full" %}
                                         </span>
                                     </a>
                                 </div>

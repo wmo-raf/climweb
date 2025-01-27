@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
 
 {% image page.hero_banner original as else_img %}
 <div id="page-hero" class="hero progressive__bg progressive--not-loaded mx-3"
@@ -31,9 +31,9 @@
                                    style=" font-weight: 600; border-radius: var(--border-radius);"
                                    href="{{ page.call_to_action_related_page.url }}">
                                     <span>{{ page.call_to_action_button_text }}</span>
-                                    <span class="icon">
-                                        <i class="fa fa-arrow-right"></i>
-                                        </span>
+                                    <span class="icon btn-icon">
+                                        {% svg_icon name="arrow-right-full" %}
+                                    </span>
                                 </a>
                             {% endif %}
                         {% endif %}

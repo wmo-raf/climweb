@@ -1,4 +1,4 @@
-{% load static i18n %}
+{% load static i18n wagtailiconchooser_tags %}
 
 <div class="results-filter">
     <div class="accordion js-accordion">
@@ -8,7 +8,9 @@
                     <span>
                         {% translate "Filter by Event Type" %}
                     </span>
-                    <i class="fas fa-sort-down" aria-hidden="true"></i>
+                    <span class="icon">
+                        {% svg_icon name="arrow-down" %}
+                    </span>
                 </h6>
                 <div class="accordion-body js-accordion-body">
                     <div class="accordion-body__contents">
@@ -34,7 +36,9 @@
                     <span>
                         {% translate "Filter by Year" %}
                     </span>
-                    <i class="fas fa-sort-down" aria-hidden="true"></i>
+                    <span class="icon">
+                            {% svg_icon name="arrow-down" %}
+                    </span>
                 </h6>
                 <div class="accordion-body js-accordion-body">
                     <div class="accordion-body__contents">
@@ -56,7 +60,9 @@
                 <span>
                     {% translate "Filter by Status" %}
                 </span>
-                <i class="fas fa-sort-down" aria-hidden="true"></i>
+                <span class="icon">
+                        {% svg_icon name="arrow-down" %}
+                </span>
             </h6>
             <div class="accordion-body js-accordion-body">
                 <div class="accordion-body__contents">

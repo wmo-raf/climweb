@@ -13,7 +13,7 @@
                         {% image settings.base.OrganisationSetting.logo original as logo %}
                         <img src="{{ logo.url }}" alt="Logo">
                     {% else %}
-                        N.M.H.S
+                        CLIMWEB
                     {% endif %}
                 </a>
 
@@ -64,14 +64,11 @@
                 <div class="level-item top-nav-item">
                     <div id="search-input" class="field is-hidden search-input">
                         <form action="{% url 'search' %}">
-                            <div class="control is-small has-icons-right">
+                            <div class="control is-small">
                                 <input id="input-el"
                                        class="input is-small is-rounded" type="text" name="query"
                                        value="{{ request.GET.query }}"
                                        placeholder="Search">
-                                <span class="icon is-small is-right">
-                                    <i class="fas fa-search"></i>
-                                </span>
                             </div>
                         </form>
                     </div>
@@ -131,7 +128,7 @@
                         <img src="{{ logo.url }}" alt="Logo">
                     {% endif %}
                 {% else %}
-                    N.M.H.S
+                    CLIMWEB
                 {% endif %}
             </a>
             <div id="navBurger" class="main-nav navbar-burger burger" data-target="mainNav">

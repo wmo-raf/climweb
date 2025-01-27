@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n wagtailiconchooser_tags %}
 
 <div class="results-view">
     <div class="results-list list-view">
@@ -19,7 +19,7 @@
                 <div style="padding-top: 12px">
                     <div style="padding: 5px 0">
                         <span class="icon">
-                            <i class="fas fa-calendar-plus"></i>
+                            {% svg_icon name="calendar-alt" %}
                         </span>
                         <span class="share-button-title">
                             {% translate "Posted On" %}:
@@ -28,7 +28,7 @@
                     </div>
                     <div style="padding: 5px 0">
                         <span class="icon">
-                            <i class="fas fa-clock"></i>
+                            {% svg_icon name="hourglass-half" %}
                         </span>
                         <span class="share-button-title">
                             {% translate "Closing On" %}:
@@ -39,9 +39,9 @@
                 <div class="vacancy-item-detail">
                     <div class="vacancy-item-meta">
                         <div class="vacancy-item-station">
-                            <figure class="image">
-                                <img src="{% static 'img/location.svg' %}" alt="location_icon">
-                            </figure>
+                            <span class="icon">
+                                {% svg_icon name="location" %}
+                            </span>
                             <span>{% translate "Duty Station" %}: {{ vacancy.duty_station }}</span>
                         </div>
                         <span class="vacancy-item-view-more">

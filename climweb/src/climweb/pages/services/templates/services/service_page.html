@@ -57,8 +57,8 @@
                                                         {{ product.title|truncatechars:40 }}
                                                     </div>
                                                     <div>
-                                                        <span class="icon">
-                                                            <i class="fas fa-arrow-circle-right"></i>
+                                                        <span class="icon btn-icon">
+                                                            {% svg_icon name="arrow-right-full" %}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -69,8 +69,8 @@
                                                     {{ product.title|truncatechars:40 }}
                                                 </div>
                                                 <div>
-                                                    <span class="icon">
-                                                        <i class="fas fa-arrow-circle-right"></i>
+                                                    <span class="icon btn-icon">
+                                                        {% svg_icon name="arrow-right-full" %}
                                                     </span>
                                                 </div>
                                             </div>
@@ -95,7 +95,7 @@
                         </div>
                         <div class="accordion js-accordion" style="padding:50px 0">
                             {% for block in  page.what_we_do_items %}
-                                <div class="accordion__item js-accordion-item active">
+                                <div class="accordion__item js-accordion-item {% if forloop.first %}active{% endif %}">
                                     <div class="accordion-header js-accordion-header">
                                         <div style="display: flex;align-items: center">
                                             {% if block.value.icon %}
@@ -108,7 +108,9 @@
                                             </span>
                                         </div>
                                         <div>
-                                            <i class="fas fa-sort-down"></i>
+                                            <span class="icon btn-icon arrow-icon">
+                                                {% svg_icon name="expand-down" %}
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="accordion-body js-accordion-body" style="display: none;">
@@ -124,8 +126,8 @@
                                 <a href="{{ page.what_we_do_button_link.url }}"
                                    class="button is-rounded center sec-btn cta-btn">
                                     <span>{{ page.what_we_do_button_text }}</span>
-                                    <span class="icon">
-                                        <i class="fas fa-arrow-right"></i>
+                                    <span class="icon btn-icon">
+                                        {% svg_icon name="arrow-right-full" %}
                                     </span>
                                 </a>
                             </div>
@@ -177,19 +179,18 @@
                         {% if settings.base.ImportantPages.all_news_page %}
                             <a href="{{ settings.base.ImportantPages.all_news_page.url }}" class="more">
                                 {% translate "All News" %}
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-right-full" %}
                                 </span>
                             </a>
                         {% endif %}
                         {% if settings.base.ImportantPages.all_publications_page %}
                             <a href="{{ settings.base.ImportantPages.all_publications_page.url }}" class="more">
                                 {% translate "All Publications" %}
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-right-full" %}
                                 </span>
                             </a>
-
                         {% endif %}
                     </div>
                 </div>
@@ -229,7 +230,7 @@
     {% endif %}
     <script>
 
-        const page_youtube_playlist ={{ page.youtube_playlist|yesno:'true,false' }};
+        const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
 
         $(document).ready(function () {
             accordion.init({speed: 300, oneOpen: true})

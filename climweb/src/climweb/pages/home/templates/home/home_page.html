@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n wagtailiconchooser_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -75,8 +75,8 @@
                         <div class="more-container" style="justify-content: center">
                             <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}" }>
                                 {% translate "More Partners" %}
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right"></i>
+                                <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-right-full" %}
                                 </span>
                             </a>
                         </div>

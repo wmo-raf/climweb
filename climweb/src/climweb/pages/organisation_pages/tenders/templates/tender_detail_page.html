@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags i18n get_share_url %}
+{% load static wagtailcore_tags i18n get_share_url wagtailiconchooser_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/tender_detail.css' %}">
@@ -10,6 +10,7 @@
 {% block content %}
     {% include 'hero.html' with page=page %}
     <main>
+        {% include "breadcrumbs_include.html" %}
         <section>
             <div class="container">
                 <div class="columns is-centered is-multiline tender-detail-wrapper">
@@ -19,8 +20,8 @@
                             {% if page.is_closed %}
                                 <div class="tender-header-item">
                                     <div class="tender-header-item-pre" style="color: #ff0000">
-                                        <span class="tender-header-item-icon">
-                                            <i class="fas fa-exclamation-triangle"></i>
+                                        <span class="icon tender-header-item-icon">
+                                            {% svg_icon name="warning" %}
                                         </span>
                                         <span class="tender-header-item-title">
                                             {% translate "Note: This tender has been closed" %}.
@@ -30,8 +31,8 @@
                             {% endif %}
                             <div class="tender-header-item">
                                 <div class="tender-header-item-pre">
-                                    <span class="tender-header-item-icon">
-                                        <i class="fas fa-calendar-plus"></i>
+                                    <span class="icon tender-header-item-icon">
+                                        {% svg_icon name="calendar-alt" %}
                                     </span>
                                     <span class="tender-header-item-title">
                                         {% translate "Posted On" %}: </span>
@@ -42,8 +43,8 @@
                             </div>
                             <div class="tender-header-item">
                                 <div class="tender-header-item-pre">
-                                    <span class="tender-header-item-icon">
-                                        <i class="fas fa-clock"></i>
+                                    <span class="icon tender-header-item-icon">
+                                        {% svg_icon name="hourglass-half" %}
                                     </span>
                                     <span class="tender-header-item-title">{% translate "Closing On" %}: </span>
                                 </div>
@@ -55,9 +56,9 @@
                             {% if page.ref_no %}
                                 <div class="tender-header-item">
                                     <div class="tender-header-item-pre">
-                                        <span class="tender-header-item-icon">
-                                            <i class="fas fa-hashtag"></i>
-                                        </span>
+                                        <span class="icon tender-header-item-icon">
+                                         {% svg_icon name="hashtag" %}
+                                       </span>
                                         <span class="tender-header-item-title">
                                             {% translate "Reference number" %}:
                                         </span>
@@ -70,7 +71,7 @@
                             <div style="padding: 20px 0">
                                 <h4>
                                     <span class="icon">
-                                        <i class="fas fa-folder-open"></i>
+                                        {% svg_icon name="folder-open-1" %}
                                     </span>
                                     <span>{% translate "Documents" %}:</span>
                                 </h4>
@@ -83,8 +84,8 @@
                                        data-ga-event-label="{{ page.tender_title }}"
                                        data-ga-value="{{ page.tender_document.url }}"
                                     >
-                                        <span class="icon">
-                                            <i class="fas fa-download"></i>
+                                        <span class="icon" style="margin-right: 4px">
+                                            {% svg_icon name="download" %}
                                         </span>
                                         <span class="share-button-title">
                                             {% translate "Download Tender Notice" %}
@@ -101,7 +102,7 @@
                                                data-ga-value="{{ doc.value.document.url }}"
                                             >
                                                 <span class="icon">
-                                                    <i class="fas fa-download"></i>
+                                                    {% svg_icon name="download" %}
                                                 </span>
                                                 <span class="share-button-title">{{ doc.value.title }}</span>
                                             </a>
