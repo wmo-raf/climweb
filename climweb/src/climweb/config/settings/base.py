@@ -542,9 +542,8 @@ CAP_CERT_PATH = env.str("CAP_CERT_PATH", default="")
 CAP_PRIVATE_KEY_PATH = env.str("CAP_PRIVATE_KEY_PATH", default="")
 CAP_SIGNATURE_METHOD = env.str("CAP_SIGNATURE_METHOD", default="RSA_SHA256")
 CAP_MQTT_SECRET_KEY = env.str("CAP_MQTT_SECRET_KEY", default="")
-
-CAP_LIST_PAGE_PARENT_PAGE_TYPES = ["home.HomePage", ]
-MAX_CAP_LIST_PAGE_COUNT = 1
+CAP_LIST_PAGE_PARENT_PAGE_TYPES = ["home.HomePage", ]  # can only add CAPListPage the home page
+MAX_CAP_LIST_PAGE_COUNT = 1  # can only have one CAPListPage
 
 if CAP_MQTT_SECRET_KEY:
     try:
