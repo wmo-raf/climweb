@@ -5,7 +5,7 @@
 {% block branding_login %}
     {% translate "Sign in to" %}
     {% if 'WAGTAIL_SITE_NAME'|django_settings %}
-        { 'WAGTAIL_SITE_NAME'|django_settings }}
+        {{ 'WAGTAIL_SITE_NAME'|django_settings }}
     {% else %}
         CLIMWEB
     {% endif %}
