@@ -4,5 +4,154 @@
 #
 #    pip-compile --output-file=dev.txt dev.in
 #
+anyascii==0.3.2
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+asgiref==3.8.1
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   django
+beautifulsoup4==4.9.3
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+certifi==2024.12.14
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   requests
+charset-normalizer==3.4.1
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   requests
 coverage==7.6.10
     # via -r dev.in
+defusedxml==0.7.1
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   willow
+django==4.2.18
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   django-filter
+    #   django-modelcluster
+    #   django-permissionedforms
+    #   django-taggit
+    #   django-treebeard
+    #   djangorestframework
+    #   laces
+    #   wagtail
+django-filter==24.3
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+django-modelcluster==6.4
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+django-permissionedforms==0.1
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+django-taggit==6.1.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+django-treebeard==4.7.1
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+djangorestframework==3.15.2
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+draftjs-exporter==5.0.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+et-xmlfile==2.0.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   openpyxl
+factory-boy==3.3.1
+    # via wagtail-factories
+faker==35.0.0
+    # via factory-boy
+filetype==1.2.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   willow
+idna==3.10
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   requests
+l18n==2021.3
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+laces==0.1.2
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+openpyxl==3.1.5
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+pillow==11.1.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   pillow-heif
+    #   wagtail
+pillow-heif==0.21.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   willow
+python-dateutil==2.8.2
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   faker
+pytz==2024.2
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   l18n
+requests==2.32.3
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+six==1.17.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   l18n
+    #   python-dateutil
+soupsieve==2.6
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   beautifulsoup4
+sqlparse==0.5.3
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   django
+telepath==0.3.1
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+typing-extensions==4.12.2
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   asgiref
+    #   faker
+urllib3==2.3.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   requests
+wagtail==6.3.2
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail-factories
+wagtail-factories==4.2.1
+    # via -r dev.in
+willow[heif]==1.9.0
+    # via
+    #   -c /Users/otenyo/Projects/wmo/climweb/climweb/requirements/base.txt
+    #   wagtail
+    #   willow
