@@ -27,7 +27,7 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     # don't cache this page because it has a form
     cache_control = 'no-cache'
 
-    introduction_title = models.TextField(verbose_name=_("Introduction Title"))
+    introduction_title = models.CharField(verbose_name=_("Introduction Title"))
     introduction_subtitle = models.TextField(blank=True, null=True, verbose_name=_("Introduction Subtitle"))
     illustration = models.ForeignKey(
         'wagtailimages.Image',
