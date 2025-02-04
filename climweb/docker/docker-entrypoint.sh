@@ -162,7 +162,7 @@ fi
 source /climweb/venv/bin/activate
 
 # get the current version of the app
-CLIMWEB_APP_VERSION=$(python /climweb/web/src/climweb/manage.py get_climweb_version)
+CLIMWEB_APP_VERSION=$(PYTHONPATH=/climweb/web/src/climweb python -c "import version; print(version.__version__)")
 
 show_startup_banner
 
