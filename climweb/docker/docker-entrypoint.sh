@@ -77,9 +77,6 @@ run_setup_commands_if_configured() {
         /climweb/web/src/climweb/manage.py collectstatic --clear --noinput
     fi
 
-    # ensure cron is running
-    service cron start
-
     # initialize geomanager
     /climweb/web/src/climweb/manage.py initialize_geomanager
 
