@@ -200,6 +200,7 @@ celery-worker)
     start_celery_worker -Q celery -n default-worker@%h "${@:2}"
     ;;
 celery-beat)
+    startup_plugin_setup
     exec celery -A climweb beat -l "${CLIMWEB_CELERY_BEAT_DEBUG_LEVEL}" -S django_celery_beat.schedulers:DatabaseScheduler "${@:2}"
     ;;
 install-plugin)
