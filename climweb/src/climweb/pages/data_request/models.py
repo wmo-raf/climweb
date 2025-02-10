@@ -20,6 +20,7 @@ from climweb.base.forms import (
 )
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import FormFileSubmission
+from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import get_duplicates
 
 
@@ -62,6 +63,28 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
             FieldPanel('subject'),
         ], "Email"),
     ]
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        if not meta_image and self.illustration_image:
+            meta_image = self.illustration_image
+        
+        if not meta_image:
+            meta_image = get_homepage_meta_image(self.get_site())
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description and self.introduction_subtitle:
+            meta_description = truncatechars(self.introduction_subtitle, 160)
+        
+        if not meta_description:
+            meta_description = get_homepage_meta_description(self.get_site())
+        
+        return meta_description
     
     def get_form_fields(self):
         return self.datarequest_form_fields.all()

@@ -110,11 +110,13 @@
 {% image page.image original as event_img %}
 
 <div class="columns is-mobile is-multiline">
-    <div class="column is-two-thirds-desktop">
-        <div class="master-img"
-             style="background-image:url('{{ event_img.url }}');">
+    {% if event_img %}
+        <div class="column is-two-thirds-desktop">
+            <div class="master-img"
+                 style="background-image:url('{{ event_img.url }}');">
+            </div>
         </div>
-    </div>
+    {% endif %}
     <div class="column is-one-third-desktop is-full-mobile">
         <div class="evd-base-info-container">
             <div class="evd-summit-info-time">

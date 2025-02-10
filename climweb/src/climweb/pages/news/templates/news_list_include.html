@@ -29,11 +29,11 @@
                     <div class="result-list-item-wrapper ">
                         <a href="{{ news_item.url }}" class="result-list-item-image">
                             <figure class="image">
-                                {% if news_item.feature_img_src %}
+                                {% if news_item.card_props.card_image %}
                                     <img class="progressive__img progressive--not-loaded"
                                          style="object-fit: cover"
-                                         data-progressive="{{ news_item.feature_img_src }}"
-                                         src="{{ news_item.feature_img_src }}" alt="{{ news_item.news_type }}"/>
+                                         data-progressive="{{ news_item.card_props.card_image }}"
+                                         src="{{ news_item.card_props.card_image }}" alt="{{ news_item.news_type }}"/>
                                 {% endif %}
                             </figure>
                         </a>
@@ -49,7 +49,7 @@
                                 </h5>
                             </a>
                             <div class="result-list-item-snippet">
-                                {{ news_item.body|exclude_images|truncatewords_html:35|richtext }}
+                                {{ news_item.meta_description }}
                             </div>
                             <div class="result-list-item-meta">
                                 <span class="">{{ news_item.date|date:'d M Y' }}</span>

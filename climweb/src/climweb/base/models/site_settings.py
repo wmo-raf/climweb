@@ -33,25 +33,25 @@ class OrganisationSetting(BaseSiteSetting):
     country = models.CharField(max_length=100, blank=True, null=True, choices=COUNTRY_CHOICES,
                                verbose_name=_("Country"))
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Organisation Name"))
-
+    
     phone = models.CharField(max_length=255, blank=True, null=True, help_text=_("Phone Number"),
                              verbose_name=_("Phone number"))
     email = models.EmailField(blank=True, null=True, max_length=254, help_text=_("Email address"),
                               verbose_name=_("Email address"))
     address = RichTextField(max_length=250, blank=True, null=True, help_text=_("Postal Address"),
                             verbose_name=_("Postal address"))
-
+    
     social_media_accounts = StreamField([
         ('social_media_account', SocialMediaBlock()),
     ], blank=True, null=True, use_json_field=True)
-
+    
     # logo
     logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
                              verbose_name=_("Organisation Logo"))
     country_flag = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL,
                                      related_name="+",
                                      verbose_name=_("Country Flag"))
-
+    
     favicon = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -61,7 +61,7 @@ class OrganisationSetting(BaseSiteSetting):
         help_text="Does not need to be any larger than 200x200 pixels. A 1:1 (square) image ratio is best here "
                   "- If the image is not square, it will be scaled to a square."
     )
-
+    
     footer_logo = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -71,7 +71,7 @@ class OrganisationSetting(BaseSiteSetting):
         verbose_name=_("Footer Logo"),
         help_text=_("Logo that appears on the footer"),
     )
-
+    
     cms_logo = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -81,7 +81,7 @@ class OrganisationSetting(BaseSiteSetting):
         verbose_name=_("CMS Logo"),
         help_text=_("Logo that appears on the CMS. Should be a whit transparent logo preferably"),
     )
-
+    
     page_not_found_error_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -91,7 +91,7 @@ class OrganisationSetting(BaseSiteSetting):
         verbose_name=_("Page not Found Image"),
         help_text=_("Image shown on error 404 page"),
     )
-
+    
     server_error_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -101,7 +101,7 @@ class OrganisationSetting(BaseSiteSetting):
         verbose_name=_("Server Error Image"),
         help_text=_("Image shown on error 500 error page"),
     )
-
+    
     panels = [
         FieldPanel("name"),
         FieldPanel('country'),
@@ -123,7 +123,7 @@ class OrganisationSetting(BaseSiteSetting):
             ],
             heading=_("Error Images")
         ),
-
+        
         MultiFieldPanel([
             FieldPanel("address"),
         ], heading=_("Address Settings")),
@@ -132,10 +132,10 @@ class OrganisationSetting(BaseSiteSetting):
             FieldPanel("phone"),
         ], heading=_("Contact Settings")),
     ]
-
+    
     class Meta:
         verbose_name = _("Organisation Settings")
-
+    
     @cached_property
     def country_info(self):
         if self.country:
@@ -146,7 +146,7 @@ class OrganisationSetting(BaseSiteSetting):
 class IntegrationSettings(BaseSiteSetting):
     youtube_api = models.CharField(verbose_name=_("Youtube API Key"), max_length=50, blank=True, help_text=_(
         "To set up Youtube API Key refer to https://developers.google.com/youtube/v3/getting-started"))
-
+    
     ga_tracking_id = models.CharField(
         blank=True,
         max_length=255,
@@ -159,17 +159,17 @@ class IntegrationSettings(BaseSiteSetting):
         help_text=_(
             'Track all button clicks using Google Analytics event tracking, '
             'Event tracking details can be specified in each button’s advanced settings options.'), )
-
+    
     track_internally = models.BooleanField(
         default=False,
         verbose_name=_('Track pages internally'),
         help_text=_(
             'Track   all pages internally. This will enable the internal analytics dashboard, '
             'alongside Google Analytics, if also enabled'), )
-
+    
     google_site_verification_key = models.CharField(max_length=255, blank=True, null=True,
                                                     verbose_name=_("Google Site Verification Key"), )
-
+    
     edit_handler = TabbedInterface([
         ObjectList([
             FieldPanel('youtube_api')
@@ -183,7 +183,7 @@ class IntegrationSettings(BaseSiteSetting):
             FieldPanel('google_site_verification_key'),
         ], heading=_("Google Search")),
     ])
-
+    
     class Meta:
         verbose_name = _("Integration Settings")
 
@@ -195,12 +195,12 @@ class LanguageSettings(BaseSiteSetting):
     languages = StreamField([
         ('languages', LanguageItemBlock())
     ], blank=True, null=True, use_json_field=True, verbose_name=_("languages"))
-
+    
     panels = [
         FieldPanel('default_language'),
         FieldPanel('languages')
     ]
-
+    
     @cached_property
     def google_languages(self):
         languages = []
@@ -209,10 +209,10 @@ class LanguageSettings(BaseSiteSetting):
         for lang in self.languages:
             languages.append(lang.value.lang_val())
         return languages
-
+    
     class Meta:
         verbose_name = _("Google Translate Languages")
-
+    
     @cached_property
     def included_languages(self):
         return [lang["language"] for lang in self.google_languages]
@@ -234,7 +234,7 @@ class Theme(models.Model):
     box_shadow = models.IntegerField(validators=[MinValueValidator(1),
                                                  MaxValueValidator(24)], verbose_name=_("Box shadow"),
                                      help_text=_("Elevation value minimum 1 and maximum 24"), default=6)
-
+    
     edit_handler = TabbedInterface([
         ObjectList([
             FieldPanel('name'),
@@ -253,24 +253,24 @@ class Theme(models.Model):
             FieldPanel('border_radius'),
             FieldPanel('box_shadow')],
             heading=_("Borders and Box Shadow")),
-
+    
     ])
-
+    
     class Meta:
         verbose_name = _("Theme")
-
+    
     def __str__(self) -> str:
         return self.name if not self.is_default else f"{self.name} (Default)"
-
+    
     def save(self, *args, **kwargs):
         themes = Theme.objects.all().exclude(name=self.name)
-
+        
         # when i default is enabled, disbale any other default theme
         if self.is_default:
             themes.update(
                 is_default=False
             )
-
+        
         super(Theme, self).save(*args, **kwargs)
 
 
@@ -282,12 +282,12 @@ class NavigationSettings(BaseSiteSetting):
     footer_menu = StreamField([
         ("navigation_item", FooterNavigationItemBlock()),
     ], use_json_field=True, blank=True, null=True)
-
+    
     panels = [
         FieldPanel("main_menu"),
         FieldPanel("footer_menu"),
     ]
-
+    
     class Meta:
         verbose_name = _("Navigation Setting")
         verbose_name_plural = _("Navigation Settings")
@@ -337,7 +337,7 @@ class ImportantPages(BaseSiteSetting):
     cap_warnings_list_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
         verbose_name=_("CAP Warnings List page"))
-
+    
     panels = [
         PageChooserPanel('mailing_list_signup_page'),
         PageChooserPanel('contact_us_page'),
@@ -354,7 +354,7 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_partners_page'),
         PageChooserPanel('cap_warnings_list_page'),
     ]
-
+    
     class Meta:
         verbose_name = _("Important Pages")
         verbose_name_plural = _("Important Pages")
@@ -368,5 +368,5 @@ class ImportantPages(BaseSiteSetting):
 @receiver(post_save, sender=NavigationSettings)
 @receiver(post_save, sender=ImportantPages)
 def handle_clear_wagtail_cache(sender, **kwargs):
-    logging.info("[WAGTAIL_CACHE]: Clearing cache")
+    logging.debug("[WAGTAIL_CACHE]: Clearing cache")
     clear_cache()
