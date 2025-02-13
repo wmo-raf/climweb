@@ -32,6 +32,7 @@ asgiref==3.8.1
     #   channels
     #   daphne
     #   django
+    #   django-axes
     #   django-countries
 async-timeout==5.0.1
     # via
@@ -169,6 +170,7 @@ django==4.2.18
     #   channels
     #   dj-database-url
     #   django-allauth
+    #   django-axes
     #   django-bulma
     #   django-celery-beat
     #   django-celery-results
@@ -201,6 +203,8 @@ django-allauth==0.54.0
     # via
     #   -r base.in
     #   geomanager
+django-axes==7.0.1
+    # via -r base.in
 django-bulma==0.9.0
     # via -r base.in
 django-celery-beat==2.7.0
@@ -240,6 +244,8 @@ django-filter==24.3
     #   wagtail
     #   wagtail-webstories-editor
 django-inline-svg==0.1.1
+    # via -r base.in
+django-ipware==7.0.1
     # via -r base.in
 django-json-widget==1.1.1
     # via
@@ -565,6 +571,8 @@ python-dateutil==2.8.2
     #   python-crontab
 python-dotenv==1.0.1
     # via uvicorn
+python-ipware==3.0.0
+    # via django-ipware
 python-magic==0.4.27
     # via alertwise
 python3-openid==3.2.0
