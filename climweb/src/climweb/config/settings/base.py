@@ -155,6 +155,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_celery_beat",
     "django_celery_results",
+    "axes",
 ]
 
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -174,6 +175,14 @@ CLIMWEB_PLUGIN_NAMES = [d.name for d in CLIMWEB_PLUGIN_FOLDERS]
 if CLIMWEB_PLUGIN_NAMES:
     print(f"Loaded plugins: {','.join(CLIMWEB_PLUGIN_NAMES)}")
     INSTALLED_APPS.extend(CLIMWEB_PLUGIN_NAMES)
+
+AUTHENTICATION_BACKENDS = [
+    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesStandaloneBackend',
+    
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
@@ -203,6 +212,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    
+    # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
+    # It only formats user lockout messages and renders Axes lockout responses
+    # on failed user authentication attempts from login views.
+    # If you do not want Axes to override the authentication response
+    # you can skip installing the middleware and use your own views.
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = "climweb.config.urls"
@@ -606,6 +622,11 @@ CACHES = {
         "TIMEOUT": 60 * 60 * 4,  # 4 hours
     },
 }
+
+# Django AXES settings
+AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
+AXES_IPWARE_PROXY_COUNT = env.int("AXES_IPWARE_PROXY_COUNT", default=2)
+AXES_LOCKOUT_TEMPLATE = "axes/lockout.html"
 
 
 class AttrDict(dict):
