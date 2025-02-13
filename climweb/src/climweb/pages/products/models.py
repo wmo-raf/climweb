@@ -2,6 +2,7 @@ from adminboundarymanager.models import AdminBoundarySettings
 from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.dates import MONTHS
@@ -16,6 +17,7 @@ from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField
 from wagtail.models import Page
+from wagtail.rich_text import RichText
 from wagtail.snippets.models import register_snippet
 from wagtailmodelchooser import register_model_chooser
 
@@ -23,7 +25,7 @@ from climweb.base.blocks import UUIDModelChooserBlock
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import Product, ProductItemType
 from climweb.base.models import ServiceCategory, AbstractIntroPage
-from climweb.base.utils import paginate, query_param_to_list
+from climweb.base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
 from .blocks import (
     ProductItemImageContentBlock,
     ProductItemDocumentContentBlock,
@@ -75,6 +77,22 @@ class ProductIndexPage(MetadataPageMixin, Page):
         subnational_products = SubNationalProductPage.objects.live().descendant_of(self).order_by('menu_order')
         
         return list(products) + list(subnational_products)
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        if not meta_image:
+            meta_image = self.get_parent().get_meta_image()
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description:
+            meta_description = self.get_parent().get_meta_description()
+        
+        return meta_description
 
 
 class LayerBlock(blocks.StructBlock):
@@ -341,6 +359,45 @@ class ProductItemPage(MetadataPageMixin, Page):
                 return product.value.p_image
         
         return None
+    
+    @property
+    def product_listing_description(self):
+        products = self.products
+        for product in products:
+            if product.value.description:
+                return product.value.description
+        
+        return None
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        if not meta_image:
+            meta_image = self.products_listing_image
+        
+        if not meta_image:
+            meta_image = self.get_parent().get_meta_image()
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description:
+            # try getting from the description of the first product item
+            if self.product_listing_description:
+                html = self.product_listing_description
+                if isinstance(self.product_listing_description, RichText):
+                    html = self.product_listing_description.source
+                p = get_first_non_empty_p_string(html)
+                if p:
+                    # Limit the search meta desc to google's 160 recommended chars
+                    meta_description = truncatechars(p, 160)
+        
+        if not meta_description:
+            meta_description = self.get_parent().get_meta_description()
+        
+        return meta_description
 
 
 @register_snippet

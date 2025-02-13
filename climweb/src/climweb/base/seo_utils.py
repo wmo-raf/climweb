@@ -1,3 +1,5 @@
+import re
+
 from bs4 import BeautifulSoup
 
 
@@ -18,7 +20,10 @@ def get_html_meta_tags(html_content):
     meta_image = meta_image["content"] if meta_image else None
     
     meta_name = soup.find("meta", attrs={"property": "og:site_name"})
+    
     meta_name = meta_name["content"] if meta_name else None
+    if meta_name:
+        meta_name = meta_name.strip().replace("\n", " ")
     
     return {
         "title": title,

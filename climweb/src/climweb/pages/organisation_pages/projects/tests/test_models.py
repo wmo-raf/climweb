@@ -24,7 +24,7 @@ class TestAboutPage(WagtailPageTestCase):
         resp = self.client.get(self.index_page.get_url())
         meta_tags = get_html_meta_tags(resp.content)
         
-        test_page_meta_tags(self, self.index_page, meta_tags)
+        test_page_meta_tags(self, self.index_page, meta_tags, request=resp.wsgi_request)
     
     def test_project_page_render(self):
         self.assertPageIsRenderable(self.project1)
@@ -34,9 +34,9 @@ class TestAboutPage(WagtailPageTestCase):
         resp = self.client.get(self.project1.get_url())
         meta_tags = get_html_meta_tags(resp.content)
         
-        test_page_meta_tags(self, self.project1, meta_tags)
+        test_page_meta_tags(self, self.project1, meta_tags, request=resp.wsgi_request)
         
         resp = self.client.get(self.project2.get_url())
         meta_tags = get_html_meta_tags(resp.content)
         
-        test_page_meta_tags(self, self.project2, meta_tags)
+        test_page_meta_tags(self, self.project2, meta_tags, request=resp.wsgi_request)

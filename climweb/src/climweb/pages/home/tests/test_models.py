@@ -32,4 +32,4 @@ class TestHomePage(WagtailPageTestCase):
         
         meta_tags = get_html_meta_tags(resp.content)
         
-        test_page_meta_tags(self, self.page, meta_tags)
+        test_page_meta_tags(self, self.page, meta_tags, request=resp.wsgi_request)

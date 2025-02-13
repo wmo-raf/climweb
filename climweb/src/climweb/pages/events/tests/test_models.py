@@ -3,7 +3,11 @@ from wagtail.test.utils import WagtailPageTestCase
 from climweb.base.seo_utils import get_html_meta_tags
 from climweb.base.test_utils import test_page_meta_tags
 from climweb.pages.home.tests.factories import get_or_create_homepage
-from .factories import EventIndexPageFactory, EventPageFactory, EventRegistrationPageFactory
+from .factories import (
+    EventIndexPageFactory,
+    EventPageFactory,
+    EventRegistrationPageFactory
+)
 
 
 class TestEventPages(WagtailPageTestCase):
@@ -25,7 +29,7 @@ class TestEventPages(WagtailPageTestCase):
         
         meta_tags = get_html_meta_tags(resp.content)
         
-        test_page_meta_tags(self, self.page, meta_tags)
+        test_page_meta_tags(self, self.page, meta_tags, request=resp.wsgi_request)
     
     def test_event_page_rendering(self):
         self.assertPageIsRenderable(self.event1)
@@ -34,7 +38,7 @@ class TestEventPages(WagtailPageTestCase):
     def test_event_page_meta_tags(self):
         resp = self.client.get(self.event1.get_url())
         meta_tags = get_html_meta_tags(resp.content)
-        test_page_meta_tags(self, self.event1, meta_tags)
+        test_page_meta_tags(self, self.event1, meta_tags, request=resp.wsgi_request)
     
     def test_event_registration_page_rendering(self):
         self.assertPageIsRenderable(self.event1_reg)
@@ -42,4 +46,4 @@ class TestEventPages(WagtailPageTestCase):
     def test_event_registration_page_meta_tags(self):
         resp = self.client.get(self.event1_reg.get_url())
         meta_tags = get_html_meta_tags(resp.content)
-        test_page_meta_tags(self, self.event1_reg, meta_tags)
+        test_page_meta_tags(self, self.event1_reg, meta_tags, request=resp.wsgi_request)

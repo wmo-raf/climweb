@@ -37,5 +37,5 @@ class NewsPageFactory(wagtail_factories.PageFactory):
         if extracted:
             image = wagtail_factories.ImageChooserBlockFactory()
             image_tag = f'<embed alt="{image.title}" embedtype="image" format="fullwidth" id="{image.id}"/>'
-            # self.body = RichText(f"<p>News page body</p>{image_tag}")
-            # self.save()
+            self.body = RichText(f"<p>News page body</p>{image_tag}")
+            self.save()

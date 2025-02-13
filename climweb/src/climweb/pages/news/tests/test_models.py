@@ -21,7 +21,7 @@ class TestNewsPages(WagtailPageTestCase):
         resp = self.client.get(self.index_page.get_url())
         meta_tags = get_html_meta_tags(resp.content)
         
-        test_page_meta_tags(self, self.index_page, meta_tags)
+        test_page_meta_tags(self, self.index_page, meta_tags, request=resp.wsgi_request)
     
     def test_news_page_render(self):
         self.assertPageIsRenderable(self.news1)
@@ -31,9 +31,9 @@ class TestNewsPages(WagtailPageTestCase):
         resp = self.client.get(self.news1.get_url())
         meta_tags = get_html_meta_tags(resp.content)
         
-        test_page_meta_tags(self, self.news1, meta_tags, check_image=False)
+        test_page_meta_tags(self, self.news1, meta_tags, check_image=False, request=resp.wsgi_request)
         
         resp = self.client.get(self.news2.get_url())
         meta_tags = get_html_meta_tags(resp.content)
         
-        test_page_meta_tags(self, self.news2, meta_tags, check_image=False)
+        test_page_meta_tags(self, self.news2, meta_tags, check_image=False, request=resp.wsgi_request)
