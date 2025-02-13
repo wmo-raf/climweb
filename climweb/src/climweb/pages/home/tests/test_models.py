@@ -1,5 +1,7 @@
 from wagtail.test.utils import WagtailPageTestCase
 
+from climweb.base.seo_utils import get_html_meta_tags
+from climweb.base.test_utils import test_page_meta_tags
 from .factories import get_or_create_homepage
 
 
@@ -24,3 +26,10 @@ class TestHomePage(WagtailPageTestCase):
         
         if self.page.youtube_playlist:
             self.assertIn("youtube_playlist_url", context)
+    
+    def test_meta_tags(self):
+        resp = self.client.get(self.page.full_url)
+        
+        meta_tags = get_html_meta_tags(resp.content)
+        
+        test_page_meta_tags(self, self.page, meta_tags, request=resp.wsgi_request)

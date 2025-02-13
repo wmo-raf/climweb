@@ -13,7 +13,7 @@ from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
 class AbstractBannerPage(MetadataPageMixin, Page):
     class Meta:
         abstract = True
-
+    
     banner_image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name=_("Banner Image"),
@@ -35,7 +35,7 @@ class AbstractBannerPage(MetadataPageMixin, Page):
         related_name='+',
         verbose_name=_('Call to action related page')
     )
-
+    
     content_panels = [
         MultiFieldPanel(
             [
@@ -48,15 +48,29 @@ class AbstractBannerPage(MetadataPageMixin, Page):
             heading=_("Banner Section"),
         )
     ]
-
-    def save(self, *args, **kwargs):
-        if not self.search_image and self.banner_image:
-            self.search_image = self.banner_image
-
-        if not self.search_description and self.banner_title:
-            # Limit the search meta desc to Google's 160 recommended chars
-            self.search_description = truncatechars(self.banner_title, 160)
-        return super().save(*args, **kwargs)
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        if not meta_image:
+            meta_image = self.banner_image
+        
+        if not meta_image:
+            meta_image = self.get_parent().specific.get_meta_image()
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description and self.banner_subtitle:
+            meta_description = self.banner_subtitle
+        
+        # use banner title as last resort
+        if not meta_description:
+            meta_description = self.banner_title
+        
+        return meta_description
 
 
 class AbstractIntroPage(MetadataPageMixin, Page):
@@ -73,7 +87,7 @@ class AbstractIntroPage(MetadataPageMixin, Page):
         on_delete=models.SET_NULL,
         related_name='+',
     )
-
+    
     introduction_button_text = models.CharField(max_length=20, blank=True, null=True,
                                                 verbose_name=_("Introduction button text"), )
     introduction_button_link = models.ForeignKey(
@@ -84,14 +98,14 @@ class AbstractIntroPage(MetadataPageMixin, Page):
         related_name='+',
         verbose_name=_("Introduction button link"),
     )
-
+    
     introduction_button_link_external = models.URLField(max_length=200, blank=True, null=True,
                                                         help_text="External Link if applicable. Ignored if internal "
                                                                   "page above is chosen")
-
+    
     class Meta:
         abstract = True
-
+    
     content_panels = [
         MultiFieldPanel(
             [
@@ -105,32 +119,36 @@ class AbstractIntroPage(MetadataPageMixin, Page):
             heading=_("Introduction Section"),
         ),
     ]
-
-    def save(self, *args, **kwargs):
-        if not self.search_image and self.introduction_image:
-            self.search_image = self.introduction_image
-
-        if not self.search_description and self.introduction_text:
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        if not meta_image and self.introduction_image:
+            meta_image = self.introduction_image
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description and self.introduction_text:
             p = get_first_non_empty_p_string(self.introduction_text)
             if p:
-                # Limit the search meta desc to Google's 160 recommended chars
-                self.search_description = truncatechars(p, 160)
-        return super().save(*args, **kwargs)
+                # Limit the search meta desc to google's 160 recommended chars
+                meta_description = truncatechars(p, 160)
+        
+        # use introduction_title as last resort
+        if not meta_description:
+            meta_description = self.introduction_title
+        
+        return meta_description
 
 
 class AbstractBannerWithIntroPage(AbstractBannerPage, AbstractIntroPage):
     class Meta:
         abstract = True
-
+    
     content_panels = [
         *AbstractBannerPage.content_panels,
         *AbstractIntroPage.content_panels,
     ]
-
-    def save(self, *args, **kwargs):
-        if not self.search_description and self.introduction_text:
-            p = get_first_non_empty_p_string(self.introduction_text)
-            if p:
-                # Limit the search meta desc to Google's 160 recommended chars
-                self.search_description = truncatechars(p, 160)
-        return super().save(*args, **kwargs)

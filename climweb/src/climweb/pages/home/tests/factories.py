@@ -21,5 +21,6 @@ def get_or_create_homepage():
         site = Site.objects.get(is_default_site=True)
         home_page = HomePageFactory()
         site.root_page = home_page
+        site.site_name = "ClimWeb"
         site.save()
     return home_page

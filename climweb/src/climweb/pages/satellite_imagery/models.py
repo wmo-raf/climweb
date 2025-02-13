@@ -41,11 +41,11 @@ class SatelliteImagerySetting(BaseSiteSetting):
                                  'msg_layer': {'max_num': 5},
                              },
                              verbose_name=_("MSG Layers"))
-
+    
     panels = [
         FieldPanel("msg_layers")
     ]
-
+    
     @cached_property
     def layers(self):
         layers = []
@@ -59,7 +59,7 @@ class SatelliteImagerySetting(BaseSiteSetting):
                     "generate_animation_images": value.get("generate_animation_images")
                 })
         return layers
-
+    
     def save(self, *args, **kwargs):
         for layer in self.msg_layers:
             if not layer.value.get("label") or not layer.value.get("abstract"):
@@ -80,22 +80,43 @@ class SatelliteImageryPage(MetadataPageMixin, Page):
     parent_page_types = ['home.HomePage']
     max_count = 1
     subpage_types = []
-
+    
+    class Meta:
+        verbose_name = _("Satellite Imagery Page")
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        if not meta_image:
+            # get homepage image
+            meta_image = self.get_parent().get_meta_image()
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description:
+            # get homepage description
+            meta_description = self.get_parent().get_meta_description()
+        
+        return meta_description
+    
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-
+        
         sat_setting = SatelliteImagerySetting.for_request(request)
-
+        
         layer_dates_url = reverse("sat_get_layer_time")
         layer_dates_url = get_full_url(request, layer_dates_url)
-
+        
         layer_images_url = reverse("sat_get_animation_images")
         layer_images_url = get_full_url(request, layer_images_url)
-
+        
         abm_settings = AdminBoundarySettings.for_request(request)
         abm_extents = abm_settings.combined_countries_bounds
         boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
-
+        
         context.update({
             "layer_dates_url": layer_dates_url,
             "layer_images_url": layer_images_url,
@@ -104,14 +125,14 @@ class SatelliteImageryPage(MetadataPageMixin, Page):
             "bounds": abm_extents,
             "boundary_tiles_url": boundary_tiles_url
         })
-
+        
         return context
 
 
 class SatAnimation(ClusterableModel):
     day = models.DateField()
     layer = models.CharField(max_length=255)
-
+    
     @property
     def layer_slug(self):
         return slugify(self.layer)
@@ -127,9 +148,9 @@ class SatAnimationImage(models.Model):
     sat_anim = ParentalKey(SatAnimation, related_name='images', on_delete=models.CASCADE)
     date = models.DateTimeField()
     file = models.FileField(upload_to=get_upload_to)
-
+    
     def __init__(self, *args, layer_slug=None, **kwargs):
         super().__init__(*args, **kwargs)
-
+        
         if layer_slug:
             self.layer_slug = layer_slug
