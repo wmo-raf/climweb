@@ -185,6 +185,7 @@ django==4.2.18
     #   django-manifest-loader
     #   django-modelcluster
     #   django-nextjs
+    #   django-otp
     #   django-permissionedforms
     #   django-positions
     #   django-recaptcha
@@ -198,6 +199,7 @@ django==4.2.18
     #   drf-spectacular
     #   laces
     #   wagtail
+    #   wagtail-2fa
     #   wagtailmedia
 django-allauth==0.54.0
     # via
@@ -261,6 +263,8 @@ django-nextjs==2.4.0
     # via
     #   -r base.in
     #   geomanager
+django-otp==1.5.4
+    # via wagtail-2fa
 django-permissionedforms==0.1
     # via wagtail
 django-positions==0.6.0
@@ -591,6 +595,8 @@ pyyaml==6.0.2
     #   drf-spectacular
     #   owslib
     #   uvicorn
+qrcode==8.0
+    # via wagtail-2fa
 rasterio==1.4.3
     # via
     #   geomanager
@@ -653,6 +659,7 @@ six==1.17.0
     #   fiona
     #   l18n
     #   python-dateutil
+    #   wagtail-2fa
 sniffio==1.3.1
     # via anyio
 soupsieve==2.6
@@ -720,6 +727,7 @@ wagtail==6.3.2
     #   climweb-wdqms
     #   forecastmanager
     #   geomanager
+    #   wagtail-2fa
     #   wagtail-adminsortable
     #   wagtail-cache
     #   wagtail-color-panel
@@ -735,6 +743,8 @@ wagtail==6.3.2
     #   wagtail-zoom-integration
     #   wagtailgeowidget
     #   wagtailmedia
+wagtail-2fa==1.6.9
+    # via -r base.in
 wagtail-adminsortable @ https://github.com/wmo-raf/wagtail-admin-sortable/archive/b25b96fc6d5b7b64b33badbc001f1557a9efc866.zip
     # via -r base.in
 wagtail-cache==2.5.1

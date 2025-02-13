@@ -156,6 +156,9 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "django_celery_results",
     "axes",
+    'wagtail_2fa',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
 ]
 
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -212,6 +215,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    
+    'wagtail_2fa.middleware.VerifyUserPermissionsMiddleware',
     
     # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
     # It only formats user lockout messages and renders Axes lockout responses
@@ -539,7 +544,8 @@ WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
 
 DJANGO_TABLES2_TEMPLATE = "django-tables2/bulma.html"
 
-ADMIN_URL_PATH = env.str("ADMIN_URL_PATH")
+ADMIN_URL_PATH = env.str("ADMIN_URL_PATH", "cms-admin")
+DJANGO_ADMIN_URL_PATH = env.str("DJANGO_ADMIN_URL_PATH", default="dj-ad-admin")
 
 CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
 
@@ -627,6 +633,9 @@ CACHES = {
 AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
 AXES_IPWARE_PROXY_COUNT = env.int("AXES_IPWARE_PROXY_COUNT", default=2)
 AXES_LOCKOUT_TEMPLATE = "axes/lockout.html"
+
+# Wagtail 2FA settings
+WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=True)
 
 
 class AttrDict(dict):

@@ -19,6 +19,8 @@ from .api import api_router
 handler500 = 'climweb.base.views.handler500'
 
 ADMIN_URL_PATH = getattr(settings, "ADMIN_URL_PATH", None)
+DJANGO_ADMIN_URL_PATH = getattr(settings, "DJANGO_ADMIN_URL_PATH", None)
+
 CLIMWEB_ADDITIONAL_APPS = getattr(settings, "CLIMWEB_ADDITIONAL_APPS", [])
 
 urlpatterns = [
@@ -57,6 +59,10 @@ if ADMIN_URL_PATH:
     ADMIN_URL_PATH = ADMIN_URL_PATH.strip("/")
     urlpatterns += path(f"{ADMIN_URL_PATH}/", include(wagtailadmin_urls), name='admin'),
 
+if DJANGO_ADMIN_URL_PATH:
+    DJANGO_ADMIN_URL_PATH = DJANGO_ADMIN_URL_PATH.strip("/")
+    urlpatterns += path(f"{DJANGO_ADMIN_URL_PATH}/", admin.site.urls, name='django-admin'),
+
 if settings.DEBUG:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -65,7 +71,6 @@ if settings.DEBUG:
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += path("django-admin/", admin.site.urls),
     
     import debug_toolbar
     
