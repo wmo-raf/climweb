@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta, time
+
 import pytz
 from django.conf import settings
+from loguru import logger
+from metar_taf_parser.model.enum import CloudQuantity, CloudType, Phenomenon, Intensity, Descriptive
+from metar_taf_parser.model.model import WeatherChangeType
 from metar_taf_parser.parser.parser import TAFParser, MetarParser
-from metar_taf_parser.model.enum import CloudQuantity, CloudType, WeatherChangeType, Phenomenon, Intensity, Descriptive
-from metar_taf_parser.model.model import WeatherCondition, WeatherChangeType
 
 CLOUD_COVERAGE = {
     "SKC": "Sky Clear",
@@ -20,20 +22,20 @@ def fmt_date(message_type, day, time):
     # Replace the day, hour, and minute in the current date
     # Get the settings timezone
     settings_timezone = pytz.timezone(settings.TIME_ZONE)
-
+    
     data_date = current_date.replace(day=day, hour=time.hour, minute=time.minute, second=time.second, microsecond=0,
                                      tzinfo=None)
-    print("before", data_date)
+    logger.debug(f"before {data_date}")
     data_date = pytz.UTC.localize(data_date)
-    print("before", data_date)
+    logger.debug(f"before {data_date}")
     data_date = data_date.astimezone(settings_timezone).replace(tzinfo=None)
-    print("after", data_date)
+    logger.debug(f"after {data_date}")
     # If the decoded date is in the future, it must be from the previous month
     if message_type == 'METAR':
         if data_date > current_date:
             previous_month = current_date.replace(day=1) - timedelta(days=1)
             data_date = data_date.replace(month=previous_month.month, year=previous_month.year)
-
+    
     return data_date
 
 
@@ -43,10 +45,10 @@ def parse_metar_message(message):
         wind = metar._get_wind()
         clouds = metar._get_clouds()
         visibility = metar._get_visibility()
-        print("metar.day", metar.day)
-
+        logger.debug(f"metar.day {metar.day}")
+        
         metar_date = fmt_date('METAR', metar.day, metar.time)
-
+        
         decoded_message = {
             "type": "METAR",
             "airport": metar.station,
@@ -117,14 +119,14 @@ def parse_metar_message(message):
                     "units": ""
                 }
             }
-
+            
         }
-
+        
         warnings = []
     except Exception as e:
         decoded_message = {}
         warnings = [str(e)]
-
+    
     return decoded_message, warnings
 
 
@@ -138,9 +140,9 @@ def parse_taf_message(message):
         visibility = taf._get_visibility()
         trends = taf._get_trends()
         conditions = taf._get_weather_conditions()
-
+        
         taf_date = fmt_date('TAF', taf.day, taf.time)
-
+        
         decoded_message = {
             "type": "TAF",
             "airport": taf.station,
@@ -309,26 +311,26 @@ def parse_taf_message(message):
                 for trend in trends
             ] if trends else []
         }
-
+        
         warnings = []
     except Exception as e:
         decoded_message = {}
         warnings = [str(e)]
-
+    
     return decoded_message, warnings
 
 
 def identify_message_type(message):
     # Split the message into lines
     lines = message.strip().splitlines()
-
+    
     # Check if lines is empty
     if not lines:
         return "Unknown"
-
+    
     # Extract the first line and split it
     first_line = lines[0].split()
-
+    
     # Check for TAF or METAR in the first line
     if len(first_line) > 0:
         if "TAF" in first_line[0]:
@@ -336,7 +338,7 @@ def identify_message_type(message):
         elif "METAR" in first_line[0] or (
                 len(first_line[0]) == 4 and first_line[0].isalpha() and first_line[0].isupper()):
             return "METAR"
-
+    
     return "Unknown"
 
 

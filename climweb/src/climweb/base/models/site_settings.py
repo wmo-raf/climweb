@@ -1,11 +1,10 @@
-import logging
-
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from loguru import logger
 from wagtail.admin.panels import (
     PageChooserPanel,
     MultiFieldPanel,
@@ -24,8 +23,6 @@ from wagtailcache.cache import clear_cache
 from climweb.base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock, SocialMediaBlock
 from climweb.base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT, COUNTRY_CHOICES
 from climweb.base.utils import get_country_info
-
-logger = logging.getLogger(__name__)
 
 
 @register_setting
@@ -368,5 +365,5 @@ class ImportantPages(BaseSiteSetting):
 @receiver(post_save, sender=NavigationSettings)
 @receiver(post_save, sender=ImportantPages)
 def handle_clear_wagtail_cache(sender, **kwargs):
-    logging.debug("[WAGTAIL_CACHE]: Clearing cache")
+    logger.debug("[WAGTAIL_CACHE]: Clearing cache")
     clear_cache()

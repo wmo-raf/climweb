@@ -1,12 +1,27 @@
-import logging
-
 from celery.schedules import crontab
+from celery.signals import task_prerun, worker_process_init
 from celery_singleton import Singleton
 from django.core.management import call_command
+from loguru import logger
+from opentelemetry import baggage, context
 
 from climweb.config.celery import app
+from climweb.config.telemetry.telemetry import setup_telemetry, setup_logging
+from climweb.config.telemetry.utils import otel_is_enabled
 
-logger = logging.getLogger(__name__)
+TASK_NAME_KEY = "celery.task_name"
+
+
+@worker_process_init.connect
+def initialize_otel(**kwargs):
+    setup_telemetry(add_django_instrumentation=False)
+    setup_logging()
+
+
+@task_prerun.connect
+def before_task(task_id, task, *args, **kwargs):
+    if otel_is_enabled():
+        context.attach(baggage.set_baggage(TASK_NAME_KEY, task.name))
 
 
 @app.task(
@@ -15,9 +30,11 @@ logger = logging.getLogger(__name__)
 )
 def run_backup(self):
     # Run the `dbbackup` command
+    logger.info("[BACKUP] Running backup")
     call_command('dbbackup', '--clean', '--noinput')
     
     # Run the `mediabackup` command
+    logger.info("[BACKUP] Running mediabackup")
     call_command('mediabackup', '--clean', '--noinput')
 
 
@@ -27,6 +44,7 @@ def run_backup(self):
 )
 def download_forecast(self):
     # Run the `generate_forecast` command
+    logger.info("[FORECAST] Running generate_forecast")
     call_command('generate_forecast')
 
 
@@ -36,6 +54,7 @@ def download_forecast(self):
 )
 def clear_old_forecasts(self):
     # Run the `clear_old_forecasts` command
+    logger.info("[FORECAST] Running clear_old_forecasts")
     call_command('clear_old_forecasts')
 
 

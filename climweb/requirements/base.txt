@@ -34,6 +34,7 @@ asgiref==3.8.1
     #   django
     #   django-axes
     #   django-countries
+    #   opentelemetry-instrumentation-asgi
 async-timeout==5.0.1
     # via
     #   aiohttp
@@ -162,6 +163,12 @@ defusedxml==0.7.1
     #   djangorestframework-xml
     #   python3-openid
     #   willow
+deprecated==1.2.18
+    # via
+    #   opentelemetry-api
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+    #   opentelemetry-semantic-conventions
 dj-database-url==2.3.0
     # via -r base.in
 django==4.2.18
@@ -359,7 +366,12 @@ google-auth==2.37.0
 google-auth-httplib2==0.2.0
     # via google-api-python-client
 googleapis-common-protos==1.66.0
-    # via google-api-core
+    # via
+    #   google-api-core
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+grpcio==1.70.0
+    # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==20.1.0
     # via -r base.in
 h11==0.14.0
@@ -381,9 +393,10 @@ idna==3.10
     #   requests
     #   twisted
     #   yarl
-importlib-metadata==8.6.1
+importlib-metadata==8.5.0
     # via
     #   fiona
+    #   opentelemetry-api
     #   rasterio
 importlib-resources==6.5.2
     # via matplotlib
@@ -466,6 +479,97 @@ oauthlib==3.2.2
     # via requests-oauthlib
 openpyxl==3.1.5
     # via wagtail
+opentelemetry-api==1.30.0
+    # via
+    #   -r base.in
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+    #   opentelemetry-instrumentation
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-celery
+    #   opentelemetry-instrumentation-dbapi
+    #   opentelemetry-instrumentation-django
+    #   opentelemetry-instrumentation-logging
+    #   opentelemetry-instrumentation-psycopg2
+    #   opentelemetry-instrumentation-redis
+    #   opentelemetry-instrumentation-requests
+    #   opentelemetry-instrumentation-wsgi
+    #   opentelemetry-sdk
+    #   opentelemetry-semantic-conventions
+opentelemetry-exporter-otlp==1.30.0
+    # via -r base.in
+opentelemetry-exporter-otlp-proto-common==1.30.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-exporter-otlp-proto-grpc==1.30.0
+    # via opentelemetry-exporter-otlp
+opentelemetry-exporter-otlp-proto-http==1.30.0
+    # via
+    #   -r base.in
+    #   opentelemetry-exporter-otlp
+opentelemetry-instrumentation==0.51b0
+    # via
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-celery
+    #   opentelemetry-instrumentation-dbapi
+    #   opentelemetry-instrumentation-django
+    #   opentelemetry-instrumentation-logging
+    #   opentelemetry-instrumentation-psycopg2
+    #   opentelemetry-instrumentation-redis
+    #   opentelemetry-instrumentation-requests
+    #   opentelemetry-instrumentation-wsgi
+opentelemetry-instrumentation-asgi==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-celery==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-dbapi==0.51b0
+    # via
+    #   -r base.in
+    #   opentelemetry-instrumentation-psycopg2
+opentelemetry-instrumentation-django==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-logging==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-psycopg2==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-redis==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-requests==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-wsgi==0.51b0
+    # via
+    #   -r base.in
+    #   opentelemetry-instrumentation-django
+opentelemetry-proto==1.30.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-common
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-sdk==1.30.0
+    # via
+    #   -r base.in
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-semantic-conventions==0.51b0
+    # via
+    #   -r base.in
+    #   opentelemetry-instrumentation
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-celery
+    #   opentelemetry-instrumentation-dbapi
+    #   opentelemetry-instrumentation-django
+    #   opentelemetry-instrumentation-redis
+    #   opentelemetry-instrumentation-requests
+    #   opentelemetry-instrumentation-wsgi
+    #   opentelemetry-sdk
+opentelemetry-util-http==0.51b0
+    # via
+    #   -r base.in
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-django
+    #   opentelemetry-instrumentation-requests
+    #   opentelemetry-instrumentation-wsgi
 owslib==0.29.2
     # via -r base.in
 packaging==24.2
@@ -474,6 +578,7 @@ packaging==24.2
     #   geopandas
     #   large-image-source-rasterio
     #   matplotlib
+    #   opentelemetry-instrumentation
     #   pyogrio
     #   rioxarray
     #   xarray
@@ -516,6 +621,7 @@ protobuf==5.29.3
     # via
     #   google-api-core
     #   googleapis-common-protos
+    #   opentelemetry-proto
     #   proto-plus
 psycopg2==2.9.10
     # via -r base.in
@@ -619,6 +725,7 @@ requests==2.32.3
     #   django-allauth
     #   google-api-core
     #   mailchimp3
+    #   opentelemetry-exporter-otlp-proto-http
     #   owslib
     #   requests-oauthlib
     #   wagtail
@@ -694,6 +801,7 @@ typing-extensions==4.12.2
     #   kombu
     #   large-image
     #   multidict
+    #   opentelemetry-sdk
     #   pydantic
     #   pydantic-core
     #   referencing
@@ -833,6 +941,12 @@ willow[heif]==1.9.0
     # via
     #   wagtail
     #   willow
+wrapt==1.17.2
+    # via
+    #   deprecated
+    #   opentelemetry-instrumentation
+    #   opentelemetry-instrumentation-dbapi
+    #   opentelemetry-instrumentation-redis
 xarray==2024.7.0
     # via
     #   geomanager
