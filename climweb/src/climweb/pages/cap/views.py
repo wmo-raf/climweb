@@ -17,13 +17,17 @@ from django.utils.translation import gettext as _
 from django.utils.xmlutils import SimplerXMLGenerator
 from wagtail.models import Site
 
+
 from climweb.base.cache import wagcache
 from .models import (
     CapAlertPage,
-    get_currently_active_alerts,
-    get_all_published_alerts, OtherCAPSettings,
+    OtherCAPSettings,
 )
-from .utils import serialize_and_sign_cap_alert
+from .utils import (
+    serialize_and_sign_cap_alert,
+    get_currently_active_alerts,
+    get_all_published_alerts
+)
 
 
 class CustomCAPFeed(Rss201rev2Feed):
@@ -77,7 +81,7 @@ class CustomCAPFeed(Rss201rev2Feed):
 
     def add_item_elements(self, handler, item):
         handler.addQuickElement("title", item["title"])
-        handler.addQuickElement("link", item["link"], attrs={"type": "application/cap+xml"})
+        handler.addQuickElement("link", item["link"])
         if item["description"] is not None:
             handler.addQuickElement("description", item["description"])
 

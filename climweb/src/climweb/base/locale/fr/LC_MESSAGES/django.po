@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-03 13:25+0300\n"
+"POT-Creation-Date: 2024-09-30 21:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,40 +18,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: base/blocks.py:46 base/blocks.py:47 base/blocks.py:59 base/blocks.py:60
+#: base/blocks.py:49 base/blocks.py:50 base/blocks.py:62 base/blocks.py:63
 msgid "Section Title"
 msgstr "Section titre"
 
-#: base/blocks.py:48 base/blocks.py:61
+#: base/blocks.py:51 base/blocks.py:64
 msgid "Section Text"
 msgstr "Texte de la section"
 
-#: base/blocks.py:49 base/blocks.py:62
+#: base/blocks.py:52 base/blocks.py:65
 msgid "Section description"
 msgstr "Description de la rubrique"
 
-#: base/blocks.py:55
+#: base/blocks.py:58
 msgid "Title, Text and Image"
 msgstr "Titre, texte et image"
 
-#: base/blocks.py:67
+#: base/blocks.py:70
 msgid "Title and Text"
 msgstr "Titre et texte"
 
-#: base/blocks.py:81
+#: base/blocks.py:84
 msgid "A URL that returns Highcharts.js configuration, including the data"
 msgstr ""
 "Une URL qui renvoie la configuration Highcharts.js, y compris les données"
 
-#: base/blocks.py:85
+#: base/blocks.py:88
 msgid "Description"
 msgstr "Description"
 
-#: base/blocks.py:87
+#: base/blocks.py:90
 msgid "Action Link Internal"
 msgstr "Lien d'action interne"
 
-#: base/blocks.py:89
+#: base/blocks.py:92
 msgid ""
 "An external link to a detailed resource on the internet.If provided, the "
 "internal link will be ignored"
@@ -59,82 +59,102 @@ msgstr ""
 "Un lien externe vers une ressource détaillée sur Internet. S'il est fourni, "
 "le lien interne sera ignoré"
 
-#: base/blocks.py:95
+#: base/blocks.py:98
 msgid "Feature Block"
 msgstr "Bloc de fonctionnalités"
 
-#: base/blocks.py:106
+#: base/blocks.py:109
 msgid "Collapsible Block"
 msgstr "Bloc pliable"
 
-#: base/blocks.py:118
+#: base/blocks.py:121
 msgid "Accordion"
 msgstr "Accordéon"
 
-#: base/blocks.py:133 base/blocks.py:145 base/models/snippets.py:48
-#: base/models/snippets.py:84
+#: base/blocks.py:137 base/models/snippets.py:48 base/models/snippets.py:84
 msgid "Icon"
 msgstr "Icône"
 
-#: base/blocks.py:140
-msgid "What we do"
-msgstr "Ce que nous faisons"
-
-#: base/blocks.py:146
+#: base/blocks.py:138
 msgid "The full url link that takes you to the page"
 msgstr "Le lien URL complet qui vous amène à la page"
 
-#: base/blocks.py:150
+#: base/blocks.py:142
 msgid "Social Media Account"
 msgstr "Compte de médias sociaux"
 
-#: base/blocks.py:162
+#: base/blocks.py:154
 msgid "Collapsible Text Block"
 msgstr "Bloc de texte pliable"
 
-#: base/blocks.py:172
+#: base/blocks.py:164
 msgid "Select document or file"
 msgstr "Sélectionnez un document ou un fichier"
 
-#: base/blocks.py:173
+#: base/blocks.py:165
 msgid "Document/File"
 msgstr "Document/Fichier"
 
-#: base/blocks.py:174
+#: base/blocks.py:166
 msgid "Select/upload image"
 msgstr "Sélectionner/télécharger une image"
 
-#: base/blocks.py:178
+#: base/blocks.py:170
 msgid "Additional Material"
 msgstr "Matériels supplémentaires"
 
-#: base/blocks.py:187
+#: base/blocks.py:179
 msgid "Additional Materials"
 msgstr "Matériaux additionnels"
 
-#: base/blocks.py:192 base/blocks.py:210
+#: base/blocks.py:184 base/blocks.py:202
 msgid "Label"
 msgstr "Étiquette"
 
-#: base/blocks.py:193 base/blocks.py:211
+#: base/blocks.py:185 base/blocks.py:203
 msgid "Page"
 msgstr "Page"
 
-#: base/blocks.py:194 base/blocks.py:212
+#: base/blocks.py:186 base/blocks.py:204
 msgid "External URL"
 msgstr "URL externe"
 
-#: base/blocks.py:195
+#: base/blocks.py:187
 msgid "Show as action button"
 msgstr "Afficher comme bouton d'action"
 
-#: base/blocks.py:213
+#: base/blocks.py:205
 msgid "Include Subpages"
 msgstr "Inclure les sous-pages"
 
-#: base/blocks.py:214
+#: base/blocks.py:206
 msgid "Large Submenu Dropdown"
 msgstr "Grand sous-menu déroulant"
+
+#: base/forms.py:26
+#, python-format
+msgid ""
+"Supported formats: %(supported_formats)s. Maximum filesize: "
+"%(max_upload_size)s."
+msgstr ""
+"Formats pris en charge : %(supported_formats)s. Taille maximale du fichier :"
+" %(max_upload_size)s."
+
+#: base/forms.py:41
+#, python-format
+msgid ""
+"File size must be under %(max_upload_size)s. Current file size is "
+"%(current_file_size)s"
+msgstr ""
+"La taille du fichier doit être inférieure à %(max_upload_size)s. La taille "
+"actuelle du fichier est %(current_file_size)s"
+
+#: base/forms.py:58
+#, python-format
+msgid "Supported formats: PDF. Maximum filesize: %(max_upload_size)s."
+msgstr ""
+"Formats pris en charge : PDF. Taille maximale du fichier : "
+"%(max_upload_size)s."
 
 #: base/mixins.py:21
 msgid "For search engines"
@@ -143,6 +163,14 @@ msgstr "Pour les moteurs de recherche"
 #: base/mixins.py:27
 msgid "For site menus"
 msgstr "Pour les menus du site"
+
+#: base/models/__init__.py:20
+msgid "File Submission"
+msgstr "Soumission de dossier"
+
+#: base/models/__init__.py:21
+msgid "File Submissions"
+msgstr "Soumission de fichiers"
 
 #: base/models/abstracts.py:19
 msgid "Banner Image"
@@ -204,139 +232,140 @@ msgstr "Texte du bouton d'introduction"
 msgid "Introduction button link"
 msgstr "Lien du bouton d'introduction"
 
-#: base/models/abstracts.py:104
+#: base/models/abstracts.py:105
 msgid "Introduction Section"
 msgstr "Section Introduction"
 
-#: base/models/site_settings.py:33
+#: base/models/site_settings.py:34
 msgid "Country"
 msgstr "Pays"
 
-#: base/models/site_settings.py:34
+#: base/models/site_settings.py:35
 msgid "Organisation Name"
 msgstr "Nom de l'organisme"
 
-#: base/models/site_settings.py:36
+#: base/models/site_settings.py:37
 msgid "Phone Number"
 msgstr "Numéro de téléphone"
 
-#: base/models/site_settings.py:37
+#: base/models/site_settings.py:38
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
-#: base/models/site_settings.py:38 base/models/site_settings.py:39
+#: base/models/site_settings.py:39 base/models/site_settings.py:40
 msgid "Email address"
 msgstr "Adresse e-mail"
 
-#: base/models/site_settings.py:40
+#: base/models/site_settings.py:41
 msgid "Postal Address"
 msgstr "Adresse postale"
 
-#: base/models/site_settings.py:41
+#: base/models/site_settings.py:42
 msgid "Postal address"
 msgstr "adresse postale"
 
-#: base/models/site_settings.py:49
+#: base/models/site_settings.py:50
 msgid "Organisation Logo"
 msgstr "Logo de l'organisation"
 
-#: base/models/site_settings.py:52
+#: base/models/site_settings.py:53
 msgid "Country Flag"
 msgstr "Drapeau du pays"
 
-#: base/models/site_settings.py:70
+#: base/models/site_settings.py:71
 msgid "Footer Logo"
 msgstr "Logo de pied de page"
 
-#: base/models/site_settings.py:71
+#: base/models/site_settings.py:72
 msgid "Logo that appears on the footer"
 msgstr "Logo qui apparaît en pied de page"
 
-#: base/models/site_settings.py:80
-msgid "ClimWeb Logo"
-msgstr "Logo ClimWeb"
-
 #: base/models/site_settings.py:81
+msgid "CMS Logo"
+msgstr "Logo CMS"
+
+#: base/models/site_settings.py:82
 msgid ""
-"Logo that appears on the ClimWeb. Should be a whit transparent logo preferably"
+"Logo that appears on the CMS. Should be a whit transparent logo preferably"
 msgstr ""
-"Logo qui apparaît sur le ClimWeb. Doit être un logo blanc transparent de "
+"Logo qui apparaît sur le CMS. Il doit s'agir d'un logo blanc transparent de "
 "préférence"
 
-#: base/models/site_settings.py:90
+#: base/models/site_settings.py:91
 msgid "Page not Found Image"
 msgstr "Page introuvable"
 
-#: base/models/site_settings.py:91
+#: base/models/site_settings.py:92
 msgid "Image shown on error 404 page"
 msgstr "Image affichée sur la page d'erreur 404"
 
-#: base/models/site_settings.py:100
+#: base/models/site_settings.py:101
 msgid "Server Error Image"
 msgstr "Image d'erreur du serveur"
 
-#: base/models/site_settings.py:101
+#: base/models/site_settings.py:102
 msgid "Image shown on error 500 error page"
 msgstr "Image affichée sur la page d'erreur 500"
 
-#: base/models/site_settings.py:115
+#: base/models/site_settings.py:116
 msgid "Logo"
 msgstr "Logo"
 
-#: base/models/site_settings.py:123
+#: base/models/site_settings.py:124
 msgid "Error Images"
 msgstr "Images d'erreur"
 
-#: base/models/site_settings.py:128
+#: base/models/site_settings.py:129
 msgid "Address Settings"
 msgstr "Paramètres d'adresse"
 
-#: base/models/site_settings.py:132
+#: base/models/site_settings.py:133
 msgid "Contact Settings"
 msgstr "Paramètres des contacts"
 
-#: base/models/site_settings.py:136
+#: base/models/site_settings.py:137
 msgid "Organisation Settings"
 msgstr "Paramètres de l'organisation"
 
-#: base/models/site_settings.py:146
+#: base/models/site_settings.py:147
 msgid "Youtube API Key"
 msgstr "Clé API YouTube"
 
-#: base/models/site_settings.py:147
+#: base/models/site_settings.py:148
 msgid ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 msgstr ""
-"Pour configurer la clé API Youtube, reportez-vous à https://developers."
-"google.com/youtube/v3/getting-started"
+"Pour configurer la clé API Youtube, reportez-vous à "
+"https://developers.google.com/youtube/v3/getting-started"
 
-#: base/models/site_settings.py:152
+#: base/models/site_settings.py:153
 msgid "GA Tracking ID"
 msgstr "Identifiant de suivi GA"
 
-#: base/models/site_settings.py:153
+#: base/models/site_settings.py:154
 msgid "Your Google Analytics tracking ID (begins with \"UA-\")"
 msgstr "Votre identifiant de suivi Google Analytics (commence par « UA- »)"
 
-#: base/models/site_settings.py:157
+#: base/models/site_settings.py:158
 msgid "Track button clicks"
 msgstr "Suivre les clics sur les boutons"
 
-#: base/models/site_settings.py:159
+#: base/models/site_settings.py:160
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 msgstr ""
 "Suivez tous les clics sur les boutons à l'aide du suivi des événements "
-"Google Analytics. Les détails du suivi des événements peuvent être spécifiés "
-"dans les options de paramètres avancés de chaque bouton."
+"Google Analytics. Les détails du suivi des événements peuvent être spécifiés"
+" dans les options de paramètres avancés de chaque bouton."
 
-#: base/models/site_settings.py:164
+#: base/models/site_settings.py:165
 msgid "Track pages internally"
 msgstr "Suivre les pages en interne"
 
-#: base/models/site_settings.py:166
+#: base/models/site_settings.py:167
 msgid ""
 "Track   all pages internally. This will enable the internal analytics "
 "dashboard, alongside Google Analytics, if also enabled"
@@ -344,161 +373,159 @@ msgstr ""
 "Suivez toutes les pages en interne. Cela activera le tableau de bord "
 "d'analyse interne, aux côtés de Google Analytics, s'il est également activé."
 
-#: base/models/site_settings.py:170
+#: base/models/site_settings.py:171
 msgid "Google Site Verification Key"
 msgstr "Clé de vérification du site Google"
 
-#: base/models/site_settings.py:175
+#: base/models/site_settings.py:176
 msgid "Youtube Integration"
 msgstr "Intégration YouTube"
 
-#: base/models/site_settings.py:180
+#: base/models/site_settings.py:181
 msgid "Google Analytics"
 msgstr "Google Analytics"
 
-#: base/models/site_settings.py:183
-#, fuzzy
-#| msgid "Google Analytics"
+#: base/models/site_settings.py:184
 msgid "Google Search"
 msgstr "Recherche Google"
 
-#: base/models/site_settings.py:187
+#: base/models/site_settings.py:188
 msgid "Integration Settings"
 msgstr "Paramètres d'intégration"
 
-#: base/models/site_settings.py:193
+#: base/models/site_settings.py:194
 msgid "Default Language"
 msgstr "Langage par défaut"
 
-#: base/models/site_settings.py:196
+#: base/models/site_settings.py:197
 msgid "languages"
 msgstr "langues"
 
-#: base/models/site_settings.py:213
+#: base/models/site_settings.py:214
 msgid "Google Translate Languages"
 msgstr "Google Traduction Langues"
 
-#: base/models/site_settings.py:221
+#: base/models/site_settings.py:222
 msgid "Is Default Theme"
 msgstr "Est le thème par défaut"
 
-#: base/models/site_settings.py:222
+#: base/models/site_settings.py:223
 msgid "Enable if this is the default theme"
 msgstr "Activer s'il s'agit du thème par défaut"
 
-#: base/models/site_settings.py:223
+#: base/models/site_settings.py:224
 msgid "Theme Name"
 msgstr "Nom du thème"
 
-#: base/models/site_settings.py:225
+#: base/models/site_settings.py:226
 msgid "Primary color (use color picker)"
 msgstr "Couleur primaire (utilisez le sélecteur de couleurs)"
 
-#: base/models/site_settings.py:227
+#: base/models/site_settings.py:228
 msgid "Primary Hover color (use color picker)"
 msgstr "Couleur de survol principale (utilisez le sélecteur de couleurs)"
 
-#: base/models/site_settings.py:229
+#: base/models/site_settings.py:230
 msgid "Secondary color (use color picker)"
 msgstr "Couleur secondaire (utilisez le sélecteur de couleurs)"
 
-#: base/models/site_settings.py:231
+#: base/models/site_settings.py:232
 msgid "Border radius (px)"
 msgstr "Rayon de bordure (px)"
 
-#: base/models/site_settings.py:232
+#: base/models/site_settings.py:233
 msgid "Minimum 0 and Maximum 20 pixels"
 msgstr "Minimum 0 et maximum 20 pixels"
 
-#: base/models/site_settings.py:234
+#: base/models/site_settings.py:235
 msgid "Box shadow"
 msgstr "Boîte ombre"
 
-#: base/models/site_settings.py:235
+#: base/models/site_settings.py:236
 msgid "Elevation value minimum 1 and maximum 24"
 msgstr "Valeur d'élévation minimum 1 et maximum 24"
 
-#: base/models/site_settings.py:241
+#: base/models/site_settings.py:242
 msgid "Information"
 msgstr "Information"
 
-#: base/models/site_settings.py:250
+#: base/models/site_settings.py:251
 msgid "Theme Colors"
 msgstr "Couleurs du thème"
 
-#: base/models/site_settings.py:254
+#: base/models/site_settings.py:255
 msgid "Borders and Box Shadow"
 msgstr "Bordures et ombre de boîte"
 
-#: base/models/site_settings.py:259
+#: base/models/site_settings.py:260
 msgid "Theme"
 msgstr "Thème"
 
-#: base/models/site_settings.py:291
+#: base/models/site_settings.py:292
 msgid "Navigation Setting"
 msgstr "Paramètres de navigation"
 
-#: base/models/site_settings.py:292
+#: base/models/site_settings.py:293
 msgid "Navigation Settings"
 msgstr "Paramètres de navigation"
 
-#: base/models/site_settings.py:299
+#: base/models/site_settings.py:300
 msgid "Mailing list sign up page"
 msgstr "Page d'inscription à la liste de diffusion"
 
-#: base/models/site_settings.py:302
+#: base/models/site_settings.py:303
 msgid "Contact us page"
 msgstr "Page Contactez-nous"
 
-#: base/models/site_settings.py:305
+#: base/models/site_settings.py:306
 msgid "All products page"
 msgstr "Page Tous les produits"
 
-#: base/models/site_settings.py:308
+#: base/models/site_settings.py:309
 msgid "All projects page"
 msgstr "Page de tous les projets"
 
-#: base/models/site_settings.py:311
+#: base/models/site_settings.py:312
 msgid "All news page"
 msgstr "Toute la page des actualités"
 
-#: base/models/site_settings.py:314
+#: base/models/site_settings.py:315
 msgid "All publications page"
 msgstr "Page de toutes les publications"
 
-#: base/models/site_settings.py:317
+#: base/models/site_settings.py:318
 msgid "All videos page"
 msgstr "Page toutes les vidéos"
 
-#: base/models/site_settings.py:320
+#: base/models/site_settings.py:321
 msgid "All applications page"
 msgstr "Page de toutes les candidatures"
 
-#: base/models/site_settings.py:323
+#: base/models/site_settings.py:324
 msgid "All events page"
 msgstr "Page de tous les événements"
 
-#: base/models/site_settings.py:326
+#: base/models/site_settings.py:327
 msgid "All partners page"
 msgstr "Page Tous les partenaires"
 
-#: base/models/site_settings.py:329
+#: base/models/site_settings.py:330
 msgid "All tenders page"
 msgstr "Page de tous les appels d'offres"
 
-#: base/models/site_settings.py:332
+#: base/models/site_settings.py:333
 msgid "All vacancies page"
 msgstr "Page de tous les postes vacants"
 
-#: base/models/site_settings.py:335
+#: base/models/site_settings.py:336
 msgid "Feedback page"
 msgstr "Page de commentaires"
 
-#: base/models/site_settings.py:338
+#: base/models/site_settings.py:339
 msgid "CAP Warnings List page"
 msgstr "Page Liste des avertissements du CAP"
 
-#: base/models/site_settings.py:358 base/models/site_settings.py:359
+#: base/models/site_settings.py:359 base/models/site_settings.py:360
 msgid "Important Pages"
 msgstr "Pages importantes"
 
@@ -605,10 +632,11 @@ msgid "Your ClimWeb version is up to date."
 msgstr "Votre version de ClimWeb est à jour."
 
 #: base/templates/admin/cms_version.html:73
-msgid "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
+msgid ""
+"A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
 msgstr ""
-"Une mise à niveau du ClimWeb a été lancée. Veuillez attendre la fin de la mise à "
-"niveau"
+"Une mise à niveau du ClimWeb a été lancée. Veuillez attendre la fin de la "
+"mise à niveau"
 
 #: base/templates/admin/cms_version.html:79
 msgid "ClimWeb upgrade available"
@@ -622,28 +650,32 @@ msgstr "Notes de version"
 msgid "Upgrade now"
 msgstr "Mettre à jour maintenant"
 
-#: base/views.py:40
+#: base/views.py:42
 msgid "Error fetching latest version. Please try again later."
 msgstr ""
 "Erreur lors de la récupération de la dernière version. Veuillez réessayer "
 "plus tard."
 
-#: base/views.py:58
+#: base/views.py:60
 msgid "Error in extracting latest version number from the release"
 msgstr ""
 "Erreur lors de l'extraction du dernier numéro de version de la publication"
 
-#: base/wagtail_hooks.py:55
+#: base/wagtail_hooks.py:56
 msgid "Themes"
 msgstr "Thèmes"
 
-#, fuzzy
-#~| msgid "Introduction Section"
-#~ msgid "Introduction Heading"
-#~ msgstr "Titre d'introduction"
+#~ msgid "What we do"
+#~ msgstr "Ce que nous faisons"
+
+#~ msgid "ClimWeb Logo"
+#~ msgstr "Logo ClimWeb"
 
 #, fuzzy
-#~| msgid "Introduction section title"
+#~ msgid "Introduction Heading"
+#~ msgstr "Introduction Titre"
+
+#, fuzzy
 #~ msgid "Introduction section heading"
 #~ msgstr "Titre de la section Introduction"
 
@@ -663,7 +695,7 @@ msgstr "Thèmes"
 #~ msgstr "Rôle du membre du personnel"
 
 #~ msgid "The role/position of the Staff member"
-#~ msgstr "Le rôle/position du membre du personnel"
+#~ msgstr "Le rôle/la position du membre du personnel"
 
 #~ msgid "Staff member Biography"
 #~ msgstr "Biographie du membre du personnel"
@@ -672,40 +704,39 @@ msgstr "Thèmes"
 #~ msgstr "Biographie sommaire facultative du membre du personnel"
 
 #~ msgid "Staff member's Department"
-#~ msgstr "Département du membre du personnel"
+#~ msgstr "Département du personnel"
 
 #~ msgid "Staff member's Profile Image"
 #~ msgstr "Image de profil du membre du personnel"
 
 #, fuzzy
-#~| msgid "A high quality banner image"
 #~ msgid "A high quality square image"
 #~ msgstr "Une image carrée de haute qualité"
 
 #~ msgid "Staff Member"
-#~ msgstr "Membre du staff"
+#~ msgstr "Membre du personnel"
 
 #~ msgid "Staff Members"
-#~ msgstr "Les membres du personnel"
+#~ msgstr "Membres du personnel"
 
 #~ msgid "Availability of Surface Land observations"
-#~ msgstr "Disponibilité des observations en surface"
+#~ msgstr "Disponibilité des observations de surface terrestre"
 
 #~ msgid "Global NWP"
-#~ msgstr "PNT mondiale"
+#~ msgstr "Prévision numérique globale"
 
 #, fuzzy
 #~ msgid "All Stations"
 #~ msgstr "Toutes les stations"
 
 #~ msgid "Data Source"
-#~ msgstr "La source de données"
+#~ msgstr "Source des données"
 
 #~ msgid "No stations at the moment"
 #~ msgstr "Aucune station pour le moment"
 
 #~ msgid "Synoptic hours"
-#~ msgstr "Horaires synoptiques"
+#~ msgstr "Heures synoptiques"
 
 #~ msgid "Weather Parameter"
 #~ msgstr "Paramètre météo"
@@ -714,20 +745,21 @@ msgstr "Thèmes"
 #~ msgstr "Unités"
 
 #~ msgid "Measurement"
-#~ msgstr "La mesure"
+#~ msgstr "Mesures"
 
 #~ msgid "Location not found. Please search for a different location."
-#~ msgstr "Emplacement introuvable. Veuillez rechercher un autre emplacement."
+#~ msgstr "Localisation introuvable. Veuillez rechercher une autre localisation."
 
 #~ msgid "No data found"
-#~ msgstr "Aucune donnée disponible"
+#~ msgstr "Aucune donnée trouvée"
 
 #~ msgid "Weather summary section heading"
 #~ msgstr "Titre de la section Résumé météo"
 
 #, fuzzy
 #~ msgid "Extreme weather observations section title"
-#~ msgstr "Titre de la section sur les observations météorologiques extrêmes"
+#~ msgstr ""
+#~ "Titre de la section Observations sur les conditions météorologiques extrêmes"
 
 #~ msgid "Weather forecast section heading"
 #~ msgstr "Titre de la section Prévisions météorologiques"
@@ -739,8 +771,8 @@ msgstr "Thèmes"
 #~ msgid ""
 #~ "Number of items to show in the list section. Default is 6. Maximum is 20."
 #~ msgstr ""
-#~ "Nombre d'éléments à afficher dans la section liste. La valeur par défaut "
-#~ "est 6. Le maximum est 20."
+#~ "Nombre d'éléments à afficher dans la section liste. La valeur par défaut est"
+#~ " 6. Le maximum est 20."
 
 #~ msgid "Issued on"
 #~ msgstr "Publié le"
@@ -752,7 +784,7 @@ msgstr "Thèmes"
 #~ msgstr "Date du résumé"
 
 #~ msgid "Weather Summary Description"
-#~ msgstr "Description du résumé météo"
+#~ msgstr "Description sommaire de la météo"
 
 #~ msgid "Forecast Date"
 #~ msgstr "Date de prévision"
@@ -770,7 +802,7 @@ msgstr "Thèmes"
 #~ msgstr "Résumé météo de la veille"
 
 #~ msgid "Extreme weather observations"
-#~ msgstr "Observations météorologiques extrêmes"
+#~ msgstr "Observations de conditions météorologiques extrêmes"
 
 #~ msgid "Weather forecast for next day"
 #~ msgstr "Prévisions météo pour le lendemain"
@@ -800,4 +832,4 @@ msgstr "Thèmes"
 #~ msgstr "Flux RSS des alertes CAP"
 
 #~ msgid "All good. You are running on the latest version"
-#~ msgstr "Tout bon. Vous utilisez la dernière version"
+#~ msgstr "Tout va bien. Vous utilisez la dernière version"

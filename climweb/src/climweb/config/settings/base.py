@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import base64
 import importlib
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -17,7 +18,9 @@ from pathlib import Path
 
 import django.conf.locale
 import environ
+from django.core.exceptions import ImproperlyConfigured
 from signxml import SignatureMethod
+
 from climweb import VERSION
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -143,7 +146,6 @@ INSTALLED_APPS = [
     "manifest_loader",
     "django_tables2",
     "django_tables2_bulma_template",
-    "background_task",
     "django_cleanup",
     "django_countries",
     "wagtail_modeladmin",
@@ -291,10 +293,8 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    'docs/locale',
-
-    # 'base/locale',
-    # 'nmhs_cms/locale',
+    'base/locale',
+    'nmhs_cms/locale',
 
     # 'pages/cap/locale',
     # 'pages/cityclimate/locale',
@@ -328,6 +328,10 @@ LOCALE_PATHS = [
     # 'pages/weather/locale',
     # 'pages/webstories/locale',
 ]
+
+# Add additional apps to locale paths
+if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
+    LOCALE_PATHS.append('pages/aviation/locale')
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 
@@ -498,9 +502,6 @@ ADMIN_URL_PATH = env.str("ADMIN_URL_PATH")
 
 CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
 
-# mqtt broker
-CMS_BROKER_URI = CAP_BROKER_URI = env.str("CMS_BROKER_URI", default="")
-
 WAGTAIL_WEBSTORIES_EDITOR_LISTING_PAGE_MODEL = "webstories.WebStoryListPage"
 
 GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR = env.str("GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR", "")
@@ -511,19 +512,28 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = env.int("DATA_UPLOAD_MAX_MEMORY_SIZE", default=262
 
 MBGL_RENDERER_URL = env.str("MBGL_RENDERER_URL", default="")
 
+# CAP Composer Settings
 CAP_CERT_PATH = env.str("CAP_CERT_PATH", default="")
 CAP_PRIVATE_KEY_PATH = env.str("CAP_PRIVATE_KEY_PATH", default="")
 CAP_SIGNATURE_METHOD = env.str("CAP_SIGNATURE_METHOD", default="RSA_SHA256")
+CAP_MQTT_SECRET_KEY = env.str("CAP_MQTT_SECRET_KEY", default="")
+
+if CAP_MQTT_SECRET_KEY:
+    try:
+        base64.urlsafe_b64decode(CAP_MQTT_SECRET_KEY)
+    except Exception as e:
+        raise ImproperlyConfigured(f"CAP_MQTT_SECRET_KEY must be a base64 encoded string. {e}")
+
+    if len(CAP_MQTT_SECRET_KEY) != 44:
+        raise ImproperlyConfigured("CAP_MQTT_SECRET_KEY must be 44 characters long")
+
+CAP_WIS2BOX_INTERNAL_TOPIC = env.str("CAP_WIS2BOX_INTERNAL_TOPIC", default="wis2box/cap/publication")
 
 if CAP_SIGNATURE_METHOD:
     assert hasattr(SignatureMethod, CAP_SIGNATURE_METHOD), f"Invalid signature method '{CAP_SIGNATURE_METHOD}'. " \
                                                            f"Must be one of " \
                                                            f"{list(SignatureMethod.__members__.keys())}"
     CAP_SIGNATURE_METHOD = SignatureMethod[CAP_SIGNATURE_METHOD]
-
-# Django Background Tasks
-# https://django-background-tasks.readthedocs.io/en/latest/#settings
-MAX_ATTEMPTS = env.int("MAX_ATTEMPTS", default=5)
 
 DEFAULT_WAGTAILIMAGES_EXTENSIONS = ['png', 'jpg', 'avif', 'gif', 'jpeg', 'webp']
 WAGTAILIMAGES_EXTENSIONS = env.list("WAGTAILIMAGES_EXTENSIONS", default=DEFAULT_WAGTAILIMAGES_EXTENSIONS)
@@ -550,6 +560,9 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_SINGLETON_BACKEND_CLASS = (
     "climweb.celery_singleton_backend.RedisBackendForSingleton"
 )
+
+# Set max memory per child process (in kilobytes, e.g., 200000 KB = 200 MB)
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = env.int("CELERY_WORKER_MAX_MEMORY_PER_CHILD", default=200000)
 
 CACHES = {
     "default": {

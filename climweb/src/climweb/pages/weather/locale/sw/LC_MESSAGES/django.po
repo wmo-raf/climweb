@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-03 11:31+0300\n"
+"POT-Creation-Date: 2024-09-30 21:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,67 +30,68 @@ msgstr "Vitengo"
 msgid "Measurement"
 msgstr "Kipimo"
 
-#: pages/weather/models.py:55
+#: pages/weather/models.py:51 pages/weather/views.py:27
 msgid "Location not found. Please search for a different location."
 msgstr "Mahali hapapatikani. Tafadhali tafuta eneo tofauti."
 
-#: pages/weather/models.py:67
-msgid "No data found"
-msgstr "Hakuna data iliyopatikana"
+#: pages/weather/models.py:63 pages/weather/views.py:38
+msgid "No location set in the system. Please contact the administrator."
+msgstr ""
+"Hakuna eneo lililowekwa kwenye mfumo. Tafadhali wasiliana na msimamizi."
 
-#: pages/weather/models.py:107
+#: pages/weather/models.py:94
 msgid "Weather summary section heading"
 msgstr "Kichwa cha sehemu ya muhtasari wa hali ya hewa"
 
-#: pages/weather/models.py:110
+#: pages/weather/models.py:97
 msgid "Extreme weather observations section title"
 msgstr "Kichwa cha sehemu ya uchunguzi wa hali ya hewa kali"
 
-#: pages/weather/models.py:113
+#: pages/weather/models.py:100
 msgid "Weather forecast section heading"
 msgstr "Kichwa cha sehemu ya utabiri wa hali ya hewa"
 
-#: pages/weather/models.py:118
+#: pages/weather/models.py:105
 msgid "Products per page"
 msgstr "Bidhaa kwa kila ukurasa"
 
-#: pages/weather/models.py:119
+#: pages/weather/models.py:106
 msgid ""
 "Number of items to show in the list section. Default is 6. Maximum is 20."
 msgstr ""
 "Idadi ya vipengee vya kuonyesha katika sehemu ya orodha. Chaguomsingi ni 6. "
 "Upeo ni 20."
 
-#: pages/weather/models.py:176
+#: pages/weather/models.py:163
 #: pages/weather/templates/weather/dailyreports_list_include.html:45
 msgid "Issued on"
 msgstr "Imetolewa"
 
-#: pages/weather/models.py:177
+#: pages/weather/models.py:164
 msgid "The date the report was issued."
 msgstr "Tarehe ambayo ripoti ilitolewa."
 
-#: pages/weather/models.py:179
+#: pages/weather/models.py:166
 msgid "Summary Date"
 msgstr "Tarehe ya muhtasari"
 
-#: pages/weather/models.py:180
+#: pages/weather/models.py:167
 msgid "Weather Summary Description"
 msgstr "Maelezo ya Muhtasari wa Hali ya Hewa"
 
-#: pages/weather/models.py:182
+#: pages/weather/models.py:169
 msgid "Forecast Date"
 msgstr "Tarehe ya Utabiri"
 
-#: pages/weather/models.py:183
+#: pages/weather/models.py:170
 msgid "Weather Forecast Description"
 msgstr "Maelezo ya Utabiri wa Hali ya Hewa"
 
-#: pages/weather/models.py:186
+#: pages/weather/models.py:173
 msgid "Extreme Weather Observation"
 msgstr "Uchunguzi wa Hali ya Hewa Uliokithiri"
 
-#: pages/weather/models.py:187
+#: pages/weather/models.py:174
 msgid "Extreme weather observations from previous day"
 msgstr "Uchunguzi wa hali ya hewa uliokithiri kutoka siku iliyopita"
 
@@ -106,7 +107,7 @@ msgstr "Uchunguzi wa hali ya hewa uliokithiri"
 msgid "Weather forecast for next day"
 msgstr "Utabiri wa hali ya hewa kwa siku inayofuata"
 
-#: pages/weather/templates/weather/daily_weather_report_index.html:15
+#: pages/weather/templates/weather/daily_weather_report_index.html:28
 msgid "Browse Updates"
 msgstr "Vinjari Masasisho"
 
@@ -129,14 +130,33 @@ msgstr[1] ""
 msgid "Read More"
 msgstr "Soma zaidi"
 
-#: pages/weather/templates/weather/weather_detail_page.html:16
+#: pages/weather/templates/weather/weather_detail_page_detail.html:16
 msgid "Search Location"
 msgstr "Tafuta Mahali"
 
-#: pages/weather/templates/weather/weather_detail_page.html:69
+#: pages/weather/templates/weather/weather_detail_page_detail.html:67
 msgid "Time"
 msgstr "Muda"
 
-#: pages/weather/templates/weather/weather_detail_page.html:70
+#: pages/weather/templates/weather/weather_detail_page_detail.html:68
 msgid "Weather"
 msgstr "Hali ya hewa"
+
+#: pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:298
+#: pages/weather/templates/weather/widgets/location_forecast_single_slider.html:384
+msgid "Detail"
+msgstr "Maelezo"
+
+#: pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:311
+#: pages/weather/templates/weather/widgets/location_forecast_single_slider.html:303
+msgid "Search location"
+msgstr "Tafuta eneo"
+
+#: pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:334
+#: pages/weather/templates/weather/widgets/location_forecast_single_slider.html:325
+#: pages/weather/templates/weather/widgets/location_forecast_single_slider.html:402
+msgid "Today"
+msgstr "Leo"
+
+#~ msgid "No data found"
+#~ msgstr "Hakuna data iliyopatikana"

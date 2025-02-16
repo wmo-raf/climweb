@@ -3,7 +3,7 @@
 <a href="{{ alert_info.url }}" class="alert-link">
     <div class="alert-item"
          data-severity="{{ alert_info.severity.severity }}"
-         data-event="{{ alert_info.info.value.event }}"
+         data-event="{{ alert_info.event }}"
          style="background-color: {{ alert_info.severity.background_color }};border: 1px solid {{ alert_info.severity.border_color }}">
         <div class="alert-item-left">
             <div class="alert-item-icon">
@@ -17,7 +17,7 @@
             </div>
             <div class="alert-item-info">
                 <div class="alert-item-title">
-                    {{ alert_info.status }}: {{ alert_info.event|truncatechars:60 }}
+                    {{ alert_info.status }}: {{ alert_info.event_with_area|truncatechars:60 }}
                 </div>
                 {% if alert_info.properties.headline %}
                     <div class="alert-info-headline">

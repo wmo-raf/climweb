@@ -67,7 +67,7 @@ cairocffi==1.7.1
     # via cairosvg
 cairosvg==2.7.1
     # via geomanager
-capeditor==0.6.1
+capeditor==0.6.3
     # via -r base.in
 cartopy==0.22.0
     # via -r base.in
@@ -163,7 +163,6 @@ django==4.2.7
     #   -r base.in
     #   channels
     #   django-allauth
-    #   django-background-tasks-updated
     #   django-bulma
     #   django-celery-beat
     #   django-cors-headers
@@ -194,8 +193,6 @@ django-allauth==0.54.0
     # via
     #   -r base.in
     #   geomanager
-django-background-tasks-updated==1.2.7
-    # via -r base.in
 django-bulma==0.9.0
     # via -r base.in
 django-celery-beat==2.6.0
@@ -312,8 +309,9 @@ findlibs==0.0.5
     #   magics
 fiona==1.9.6
     # via -r base.in
-fonttools[woff]==4.53.1
+fonttools[woff]==4.39.4
     # via
+    #   -r base.in
     #   matplotlib
     #   weasyprint
 forecastmanager==0.5.4
@@ -620,7 +618,6 @@ signxml==3.2.2
 six==1.16.0
     # via
     #   automat
-    #   django-background-tasks-updated
     #   django-deep-translator
     #   fiona
     #   html5lib
@@ -767,7 +764,7 @@ watchfiles==0.23.0
     # via uvicorn
 wcwidth==0.2.13
     # via prompt-toolkit
-weasyprint==61.2
+weasyprint==62.3
     # via -r base.in
 webencodings==0.5.1
     # via

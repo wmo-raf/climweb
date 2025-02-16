@@ -1,6 +1,5 @@
 import logging
 
-from background_task import background
 from requests import Session
 from requests.exceptions import RequestException
 from wagtailcache.cache import clear_cache
@@ -8,12 +7,12 @@ from wagtailcache.cache import clear_cache
 from climweb.base.utils import get_object_or_none, get_first_page_of_pdf_as_image
 from .utils import (
     create_cap_area_map_image,
-    create_cap_pdf_document, serialize_and_sign_cap_alert
+    create_cap_pdf_document,
+    serialize_and_sign_cap_alert
 )
-from .webhook_http import prepare_request
+from .webhook.http import prepare_request
 
 
-@background(schedule=5)
 def create_cap_alert_multi_media(cap_alert_page_id, clear_cache_on_success=False):
     from .models import CapAlertPage
 
@@ -65,7 +64,6 @@ def create_cap_alert_multi_media(cap_alert_page_id, clear_cache_on_success=False
         pass
 
 
-@background(schedule=5)
 def fire_alert_webhooks(cap_alert_id):
     from .models import CapAlertPage, CAPAlertWebhook, CAPAlertWebhookEvent
 

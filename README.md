@@ -6,6 +6,28 @@ A website template co-developed with NMHSs in Africa to support their digital tr
 practices in web design and development, data visualization and hydro meteorological and climate communications to
 ensure that NMHSs have a modern, responsive, and user-friendly website.
 
+## Live Instances
+NMHSs that have adopted ClimWeb across Africa:
+1. 🇧🇯 [Benin](https://www.meteobenin.bj/)
+2. 🇧🇫 [Burkina Faso](https://www.meteoburkina.bf/)
+3. 🇧🇮 [Burundi](https://www.igebu.bi/)
+4. 🇹🇩 [Chad](https://www.meteotchad.org/)
+5. 🇪🇹 [Ethiopia](https://www.ethiomet.gov.et/)
+6. 🇬🇭 [Ghana](https://www.meteo.gov.gh/)
+7. 🇲🇼 [Malawi](https://www.metmalawi.gov.mw/)
+8. 🇲🇱 [Mali](https://www.malimeteo.ml/)
+9. 🇳🇪 [Niger](https://www.niger-meteo.ne/)
+10. 🇸🇨 [Seychelles](https://www.meteo.sc/)
+11. 🇸🇸 [South Sudan](https://meteosouthsudan.com.ss/)
+12. 🇸🇩 [Sudan](https://meteosudan.sd/)
+13. 🇹🇬 [Togo](https://www.anamet-togo.com/)
+14. 🇿🇼 [Zimbabwe](https://www.weatherzw.org.zw/)
+15. 🇬🇲 [The Gambia](https://meteogambia.org/)
+16. 🇬🇼 [Guinea Bissau](https://www.meteoguinebissau.org/)
+17. 🇨🇩 [Democratic Republic of Congo](https://www.meteordcongo.cd/)
+- And many more to go live soon.
+
+
 ## 🌟 Core Features
 
 - 🙂 User friendly website Content Management System
