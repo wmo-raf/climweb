@@ -1,7 +1,7 @@
 :hidetoc: 1
 
 Welcome to NMHS ClimWeb documentation
-==================================
+=======================================
 
 .. image:: _static/images/home/cms_responsive.png
 
@@ -15,7 +15,7 @@ Downloadable pdf versions can be found at:
 
 
 NMHS ClimWeb
----------
+-------------
 
 .. toctree::
    :maxdepth: 2
