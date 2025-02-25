@@ -195,30 +195,38 @@ django-dev)
     run_setup_commands_if_configured
     echo "Running Development Server on 0.0.0.0:${CLIMWEB_PORT}"
     echo "Press CTRL-p CTRL-q to close this session without stopping the container."
+    export OTEL_SERVICE_NAME=climweb-dev
     attachable_exec python3 /climweb/web/src/climeb/manage.py runserver "0.0.0.0:${CLIMWEB_PORT}"
     ;;
 django-dev-no-attach)
     run_setup_commands_if_configured
     echo "Running Development Server on 0.0.0.0:${CLIMWEB_PORT}"
+    export OTEL_SERVICE_NAME=climweb-dev
     python /climweb/web/src/climweb/manage.py runserver "0.0.0.0:${CLIMWEB_PORT}"
     ;;
 gunicorn)
+    export OTEL_SERVICE_NAME="climweb-asgi"
     run_server asgi "${@:2}"
     ;;
 gunicorn-wsgi)
+    export OTEL_SERVICE_NAME="climweb-wsgi"
     run_server wsgi "${@:2}"
     ;;
 manage)
+    export OTEL_SERVICE_NAME=climweb-manage
     exec python3 /climweb/web/src/climweb/manage.py "${@:2}"
     ;;
 shell)
+    export OTEL_SERVICE_NAME=climweb-shell
     exec python3 /climweb/web/src/climweb/manage.py shell
     ;;
 celery-worker)
+    export OTEL_SERVICE_NAME="climweb-celery-worker"
     start_celery_worker -Q celery -n default-worker@%h "${@:2}"
     ;;
 celery-beat)
     startup_plugin_setup
+    export OTEL_SERVICE_NAME="climweb-celery-beat"
     exec celery -A climweb beat -l "${CLIMWEB_CELERY_BEAT_DEBUG_LEVEL}" -S django_celery_beat.schedulers:DatabaseScheduler "${@:2}"
     ;;
 install-plugin)

@@ -36,7 +36,7 @@ x-climweb-variables: &climweb-variables
   CLIMWEB_PLUGIN_GIT_REPOS: ${CLIMWEB_PLUGIN_GIT_REPOS:-}
   CLIMWEB_PLUGIN_URLS: ${CLIMWEB_PLUGIN_URLS:-}
   CLIMWEB_ENABLE_OTEL:
-  OTEL_EXPORTER_OTLP_ENDPOINT: http://climweb_otel_collector:4318
+  OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://climweb_otel_collector:4318}
   OTEL_RESOURCE_ATTRIBUTES:
   OTEL_TRACES_SAMPLER: ${OTEL_TRACES_SAMPLER:-traceidratio}
   OTEL_TRACES_SAMPLER_ARG: ${OTEL_TRACES_SAMPLER_ARG:-1.1}
@@ -172,8 +172,8 @@ services:
     command: [ "--config=/etc/otel-collector-config.yaml" ]
     environment:
       HONEYCOMB_API_KEY:
-      HONEYCOMB_LOGS_TRACES_DATASET: climweb-dev-logs
-      HONEYCOMB_METRICS_DATASET: climweb-dev-metrics
+      HONEYCOMB_LOGS_TRACES_DATASET: climweb-logs
+      HONEYCOMB_METRICS_DATASET: climweb-metrics
     volumes:
       - $PWD/deploy/otel/otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
