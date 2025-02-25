@@ -35,6 +35,13 @@ x-climweb-variables: &climweb-variables
   CLIMWEB_PLUGIN_DIR: ${CLIMWEB_PLUGIN_DIR:-}
   CLIMWEB_PLUGIN_GIT_REPOS: ${CLIMWEB_PLUGIN_GIT_REPOS:-}
   CLIMWEB_PLUGIN_URLS: ${CLIMWEB_PLUGIN_URLS:-}
+  CLIMWEB_ENABLE_OTEL:
+  OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://climweb_otel_collector:4318}
+  OTEL_RESOURCE_ATTRIBUTES:
+  OTEL_TRACES_SAMPLER: ${OTEL_TRACES_SAMPLER:-traceidratio}
+  OTEL_TRACES_SAMPLER_ARG: ${OTEL_TRACES_SAMPLER_ARG:-1.1}
+  OTEL_PER_MODULE_SAMPLER_OVERRIDES: ${OTEL_PER_MODULE_SAMPLER_OVERRIDES:-opentelemetry.instrumentation.django=always_on}
+  CLIMWEB_DEPLOYMENT_ENV: ${CLIMWEB_DEPLOYMENT_ENV:-dev}
 
 services:
   climweb_db_dev:
@@ -158,3 +165,16 @@ services:
       - "80:80"
     depends_on:
       - climweb_dev
+
+  climweb_otel_collector:
+    image: otel/opentelemetry-collector:0.119.0
+    container_name: climweb_otel_collector
+    command: [ "--config=/etc/otel-collector-config.yaml" ]
+    environment:
+      HONEYCOMB_API_KEY:
+      HONEYCOMB_LOGS_TRACES_DATASET: climweb-logs
+      HONEYCOMB_METRICS_DATASET: climweb-metrics
+    volumes:
+      - $PWD/deploy/otel/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4318"

@@ -6,12 +6,16 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from forecastmanager.models import City
 from modelcluster.fields import ParentalKey
+from opentelemetry import trace
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page, Orderable
 
 from .blocks import LineChartBlock, BarChartBlock, AreaChartBlock
+from ...config.telemetry.utils import climweb_trace
+
+tracer = trace.get_tracer(__name__)
 
 MONTHS = [
     {"name": "January", "num": 1},
@@ -27,6 +31,8 @@ MONTHS = [
     {"name": "November", "num": 11},
     {"name": "December", "num": 12},
 ]
+
+tracer = trace.get_tracer(__name__)
 
 
 class CityClimateDataPage(Page):
@@ -58,6 +64,7 @@ class CityClimateDataPage(Page):
         InlinePanel("data_parameters", heading=_("Data Parameters"), label=_("Data Parameter")),
     ]
     
+    @climweb_trace(tracer)
     def get_context(self, request, *args, **kwargs):
         context = super(CityClimateDataPage, self).get_context(request, *args, **kwargs)
         cities = City.objects.all().filter(datavalue__isnull=False).distinct()

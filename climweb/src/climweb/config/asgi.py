@@ -7,8 +7,18 @@ from django.core.asgi import get_asgi_application
 from django.urls import re_path, path
 from django_nextjs.proxy import NextJSProxyHttpConsumer, NextJSProxyWebsocketConsumer
 
+from climweb.config.telemetry.telemetry import setup_telemetry, setup_logging
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "climweb.config.settings.production")
+
+# The telemetry instrumentation library setup needs to run prior to django's setup.
+setup_telemetry(add_django_instrumentation=True)
+
 django_asgi_app = get_asgi_application()
+
+# It is critical to setup our own logging after django has been setup and done its own
+# logging setup. Otherwise Django will try to destroy and log handlers we added prior.
+setup_logging()
 
 http_routes = [re_path(r"", django_asgi_app)]
 websocket_routers = []

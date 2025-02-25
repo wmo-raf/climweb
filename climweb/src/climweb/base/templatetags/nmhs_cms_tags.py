@@ -1,5 +1,4 @@
 import calendar
-import logging
 import os
 from datetime import datetime, date
 from html.parser import HTMLParser
@@ -9,13 +8,13 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import stringfilter, truncatewords_html
 from django.utils.safestring import mark_safe
+from loguru import logger
 from wagtail.models import Site, Page
 
 from climweb import __version__
 from climweb.base.models import LanguageSettings
 from climweb.base.utils import get_first_non_empty_p_string
 
-logger = logging.getLogger(__name__)
 register = template.Library()
 
 
@@ -59,7 +58,7 @@ def file_extension(path):
 def get_active_groups(groups, products):
     active_groups = []
     active_resource_type = None
-
+    
     for group in groups:
         for product in products:
             if product.resource_type.group.name == group.name:
@@ -67,7 +66,7 @@ def get_active_groups(groups, products):
                 if not active_resource_type:
                     active_resource_type = product.resource_type
                 break
-
+    
     return {"active_groups": active_groups, "active_resource_type": active_resource_type}
 
 
@@ -121,13 +120,13 @@ def remove_param(query_string, key):
         returns year=2020
 
     """
-
+    
     query_string = query_string.replace("&amp;", "&")
-
+    
     params = query_string.split("&")
-
+    
     url = ""
-
+    
     for param in params:
         if param:
             v = param.split('=')
@@ -167,17 +166,17 @@ class SVGNotFound(Exception):
 @register.simple_tag
 def svg(filename, is_static=False):
     MEDIA_ROOT = getattr(settings, 'MEDIA_ROOT')
-
+    
     path = None
-
+    
     if is_static:
         BASE_DIR = getattr(settings, 'BASE_DIR')
         path = os.path.join(BASE_DIR, 'svg', '{filename}'.format(
             filename=filename))
-
+        
         if not path:
             message = "SVG '{filename}' not found".format(filename=filename)
-
+            
             # Raise exception if DEBUG is True, else just log a warning.
             if settings.DEBUG:
                 raise SVGNotFound(message)
@@ -188,20 +187,20 @@ def svg(filename, is_static=False):
         if MEDIA_ROOT:
             svg_path = os.path.join(MEDIA_ROOT, '{filename}'.format(
                 filename=filename))
-
+            
             if os.path.isfile(svg_path):
                 path = svg_path
-
+    
     # Sometimes path can be a list/tuple if there's more than one file found
     if isinstance(path, (list, tuple)):
         path = path[0]
-
+    
     if path is not None:
         with open(path) as svg_file:
             svg = mark_safe(svg_file.read())
-
+        
         return svg
-
+    
     return ''
 
 
@@ -225,19 +224,19 @@ class ExcludeImagesParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.result = []
-
+    
     def handle_starttag(self, tag, attrs):
         if tag.lower() == 'img':
             return
-
+        
         attr_repl = [f"{attr[0]}=\"{attr[1]}\"" for attr in attrs]
         self.result.append(f'<{tag} {" ".join(attr_repl)}>')
-
+    
     def handle_endtag(self, tag):
         if tag.lower() == 'img':
             return
         self.result.append(f'</{tag}>')
-
+    
     def handle_data(self, data):
         self.result.append(data)
 

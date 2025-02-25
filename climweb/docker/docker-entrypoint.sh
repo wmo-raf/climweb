@@ -12,11 +12,15 @@ WATCH_GEOMANAGER_DATA_DIR=${WATCH_GEOMANAGER_DATA_DIR:-true}
 GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR=${GEOMANAGER_AUTO_INGEST_RASTER_DATA_DIR:-/climweb/geomanager/data}
 
 CLIMWEB_LOG_LEVEL=${CLIMWEB_LOG_LEVEL:-INFO}
+CLIMWEB_NUM_OF_CELERY_WORKERS=${CLIMWEB_NUM_OF_CELERY_WORKERS:-}
 GUNICORN_NUM_OF_WORKERS=${GUNICORN_NUM_OF_WORKERS:-}
 
 CLIMWEB_CELERY_BEAT_DEBUG_LEVEL=${CLIMWEB_CELERY_BEAT_DEBUG_LEVEL:-INFO}
 
 CLIMWEB_PORT="${CLIMWEB_PORT:-8000}"
+
+# get the current version of the app
+CLIMWEB_APP_VERSION=$(PYTHONPATH=/climweb/web/src/climweb python -c "import version; print(version.__version__)")
 
 show_help() {
     echo """
@@ -102,8 +106,8 @@ start_celery_worker() {
 
     EXTRA_CELERY_ARGS=()
 
-    if [[ -n "$GUNICORN_NUM_OF_WORKERS" ]]; then
-        EXTRA_CELERY_ARGS+=(--concurrency "$GUNICORN_NUM_OF_WORKERS")
+    if [[ -n "$CLIMWEB_NUM_OF_CELERY_WORKERS" ]]; then
+        EXTRA_CELERY_ARGS+=(--concurrency "$CLIMWEB_NUM_OF_CELERY_WORKERS")
     fi
     exec celery -A climweb worker "${EXTRA_CELERY_ARGS[@]}" -l INFO "$@"
 }
@@ -145,6 +149,24 @@ run_server() {
         "${@:2}"
 }
 
+setup_otel_vars(){
+  # These key value pairs will be exported on every log/metric/trace by any otel
+  # exporters running in subprocesses launched by this script.
+  EXTRA_OTEL_RESOURCE_ATTRIBUTES="service.namespace=ClimWeb,"
+  EXTRA_OTEL_RESOURCE_ATTRIBUTES+="service.version=${CLIMWEB_APP_VERSION},"
+  EXTRA_OTEL_RESOURCE_ATTRIBUTES+="deployment.environment=${CLIMWEB_DEPLOYMENT_ENV:-production}"
+
+  if [[ -n "${OTEL_RESOURCE_ATTRIBUTES:-}" ]]; then
+    # If the container has been launched with some extra otel attributes, make sure not
+    # to override them with our ClimWeb specific ones.
+    OTEL_RESOURCE_ATTRIBUTES="${EXTRA_OTEL_RESOURCE_ATTRIBUTES},${OTEL_RESOURCE_ATTRIBUTES}"
+  else
+    OTEL_RESOURCE_ATTRIBUTES="$EXTRA_OTEL_RESOURCE_ATTRIBUTES"
+  fi
+  export OTEL_RESOURCE_ATTRIBUTES
+  echo "OTEL_RESOURCE_ATTRIBUTES=$OTEL_RESOURCE_ATTRIBUTES"
+}
+
 # ======================================================
 # COMMANDS
 # ======================================================
@@ -158,9 +180,6 @@ fi
 # activate virtualenv
 source /climweb/venv/bin/activate
 
-# get the current version of the app
-CLIMWEB_APP_VERSION=$(PYTHONPATH=/climweb/web/src/climweb python -c "import version; print(version.__version__)")
-
 show_startup_banner
 
 # wait for required services to be available, using docker-compose-wait
@@ -169,35 +188,45 @@ show_startup_banner
 # load plugin utils
 source /climweb/plugins/utils.sh
 
+setup_otel_vars
+
 case "$1" in
 django-dev)
     run_setup_commands_if_configured
     echo "Running Development Server on 0.0.0.0:${CLIMWEB_PORT}"
     echo "Press CTRL-p CTRL-q to close this session without stopping the container."
+    export OTEL_SERVICE_NAME=climweb-dev
     attachable_exec python3 /climweb/web/src/climeb/manage.py runserver "0.0.0.0:${CLIMWEB_PORT}"
     ;;
 django-dev-no-attach)
     run_setup_commands_if_configured
     echo "Running Development Server on 0.0.0.0:${CLIMWEB_PORT}"
+    export OTEL_SERVICE_NAME=climweb-dev
     python /climweb/web/src/climweb/manage.py runserver "0.0.0.0:${CLIMWEB_PORT}"
     ;;
 gunicorn)
+    export OTEL_SERVICE_NAME="climweb-asgi"
     run_server asgi "${@:2}"
     ;;
 gunicorn-wsgi)
+    export OTEL_SERVICE_NAME="climweb-wsgi"
     run_server wsgi "${@:2}"
     ;;
 manage)
+    export OTEL_SERVICE_NAME=climweb-manage
     exec python3 /climweb/web/src/climweb/manage.py "${@:2}"
     ;;
 shell)
+    export OTEL_SERVICE_NAME=climweb-shell
     exec python3 /climweb/web/src/climweb/manage.py shell
     ;;
 celery-worker)
+    export OTEL_SERVICE_NAME="climweb-celery-worker"
     start_celery_worker -Q celery -n default-worker@%h "${@:2}"
     ;;
 celery-beat)
     startup_plugin_setup
+    export OTEL_SERVICE_NAME="climweb-celery-beat"
     exec celery -A climweb beat -l "${CLIMWEB_CELERY_BEAT_DEBUG_LEVEL}" -S django_celery_beat.schedulers:DatabaseScheduler "${@:2}"
     ;;
 install-plugin)
