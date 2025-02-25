@@ -31,10 +31,10 @@ def fmt_date(message_type, day, time):
     data_date = data_date.astimezone(settings_timezone).replace(tzinfo=None)
     logger.debug(f"after {data_date}")
     # If the decoded date is in the future, it must be from the previous month
-    if message_type == 'METAR':
-        if data_date > current_date:
-            previous_month = current_date.replace(day=1) - timedelta(days=1)
-            data_date = data_date.replace(month=previous_month.month, year=previous_month.year)
+    # if message_type == 'METAR':
+    #     if data_date > current_date:
+    #         previous_month = current_date.replace(day=1) - timedelta(days=1)
+    #         data_date = data_date.replace(month=previous_month.month, year=previous_month.year)
     
     return data_date
 
