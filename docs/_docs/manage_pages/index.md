@@ -32,14 +32,14 @@ You can access an existing page's edit screen in three ways.
 
 On the edit screen, you can find the title of the page you are editing at the top of the page. If the page is already published, then you can find a link to the live version of the page at the top right of the page. To change the title of the page, click the title field and enter a new title.
 
-![Edit pages](../../_static/images/pages/edit_page.png "Edit pages")
+![Edit pages](../../_static/images/pages/Edit_page.png "Edit pages")
 
 While on the edit screen, you can perform several actions, such as copying, moving, or deleting a page. To perform any of these actions, click … Actions at the top of the edit screen and select the applicable option from the dropdown.
 
 ## Search Engine Optimization
 To promote your page for search engine optimization, using the promote tab set the title tag and meta description. This will ecnourage web crawlers to correctly index your page and rank it higher in search results for related topics. Under the promote tab, the slug is created automatically from the page's initial title
 
-![Search Engine Optimization](../../_static/images/pages/seo.png "Search Engine Optimization")
+![Search Engine Optimization](../../_static/images/pages/Seo.png "Search Engine Optimization")
 
 ## Create and edit comments
 
