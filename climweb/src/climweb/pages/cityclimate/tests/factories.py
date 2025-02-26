@@ -9,3 +9,4 @@ class CityClimateDataPageFactory(wagtail_factories.PageFactory):
         model = models.CityClimateDataPage
     
     title = factory.sequence(lambda n: 'City Climate %d' % n)
+    description = factory.Faker('paragraph')

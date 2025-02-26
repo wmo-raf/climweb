@@ -83,7 +83,27 @@
                     </div>
                 </div>
             </div>
-
+            <div style="padding:0 0 20px;">
+                <a class="button bicolor button--icon button-secondary"
+                   href="{% url 'wagtailadmin_pages:edit' page.id %}" target="_blank">
+                   <span class="icon-wrapper">
+                       <svg class="icon icon-edit icon" aria-hidden="true">
+                           <use href="#icon-edit"></use>
+                       </svg>
+                   </span>
+                    {% trans "Edit Data Parameters" %}
+                </a>
+                {% if page.live %}
+                    <a class="button bicolor button--icon button-secondary" href="{{ page.url }}" target="_blank">
+                            <span class="icon-wrapper">
+                                <svg class="icon icon-link-external icon" aria-hidden="true">
+                                    <use href="#icon-link-external"></use>
+                                </svg>
+                            </span>
+                        {% trans "View live page" %}
+                    </a>
+                {% endif %}
+            </div>
             <table class="listing">
                 <thead>
                 <tr>
@@ -94,9 +114,6 @@
                         {% translate "Data Loaded" %}
                     </th>
                     <th></th>
-                    <th>
-                        {% translate "Last Updated" %}
-                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -135,12 +152,34 @@
                                 </a>
                             {% endif %}
                         </td>
-
                         <td>
                             {% if city.has_data %}
-                                date
+                                <a href="{{ city.view_data_url }}"
+                                   class="button button-small bicolor button--icon button-secondary">
+                                   <span class="icon-wrapper">
+                                       <svg class="icon icon-table icon"
+                                            aria-hidden="true">
+                                           <use href="#icon-table"></use>
+                                       </svg>
+                                   </span>
+                                    {% translate "View Data" %}
+                                </a>
                             {% endif %}
                         </td>
+                        <td>
+                            {% if city.has_data %}
+                                <a href="{{ city.delete_data_url }}"
+                                   class="button button-small button--icon no">
+                                    <span class="icon-wrapper">
+                                        <svg class="icon icon-bin icon" aria-hidden="true">
+                                            <use href="#icon-bin"></use>
+                                        </svg>
+                                    </span>
+                                    {% translate "Delete Data" %}
+                                </a>
+                            {% endif %}
+                        </td>
+
                     </tr>
                 {% endfor %}
                 </tbody>

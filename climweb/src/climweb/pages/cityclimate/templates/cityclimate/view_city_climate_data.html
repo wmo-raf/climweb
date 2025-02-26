@@ -1,0 +1,78 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n l10n wagtailadmin_tags wagtailimages_tags static %}
+{% block titletag %}
+    {% translate "Data Preview" %}
+{% endblock %}
+
+{% block content %}
+    {% include "wagtailadmin/shared/header.html" with title=header_str icon="table" %}
+
+    <div class="nice-padding">
+
+        <div>
+            <a href="{{ index_url }}" class="button bicolor button--icon button-secondary">
+                <span class="icon-wrapper">
+                    <svg class="icon icon-arrow-left icon" aria-hidden="true">
+                        <use href="#icon-arrow-left"></use>
+                    </svg>
+                </span>
+                {% translate "Back to list" %}
+            </a>
+            <a href="{{ update_url }}" class="button bicolor button--icon button-secondary">
+                  <span class="icon-wrapper">
+                      <svg class="icon icon-edit icon" aria-hidden="true">
+                          <use href="#icon-edit"></use>
+                      </svg>
+                  </span>
+                {% translate "Update Data" %}
+            </a>
+            <a href="{{ delete_url }}" class="button button--icon no">
+                  <span class="icon-wrapper">
+                      <svg class="icon icon-bin icon" aria-hidden="true">
+                          <use href="#icon-bin"></use>
+                      </svg>
+                  </span>
+                {% translate "Delete Data" %}
+            </a>
+        </div>
+
+        <div style="margin-top:30px">
+            <table class="listing">
+                <thead>
+                <tr>
+                    <th>
+                        {% translate "Date" %}
+                    </th>
+                    {% for parameter in parameters %}
+                        <th>
+                            {{ parameter.name }}
+                        </th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for value in page_data_values %}
+                    <tr>
+
+                        <td>
+                            {{ value.date|date:template_date_format }}
+                        </td>
+                        {% for parameter in parameters %}
+                            <td>
+                                {% for param,value in value.params_data.items %}
+                                    {% if param == parameter.id %}
+                                        {{ value }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+{% endblock %}
