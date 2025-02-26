@@ -1,5 +1,6 @@
 from adminboundarymanager.models import AdminBoundarySettings
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.text import slugify
@@ -12,8 +13,10 @@ from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page, Orderable
 
+from climweb.base.mixins import MetadataPageMixin
+from climweb.config.telemetry.utils import climweb_trace
 from .blocks import LineChartBlock, BarChartBlock, AreaChartBlock
-from ...config.telemetry.utils import climweb_trace
+from ...base.utils import get_first_non_empty_p_string
 
 tracer = trace.get_tracer(__name__)
 
@@ -35,7 +38,7 @@ MONTHS = [
 tracer = trace.get_tracer(__name__)
 
 
-class CityClimateDataPage(Page):
+class CityClimateDataPage(MetadataPageMixin, Page):
     template = "cityclimate/city_climate_data_page.html"
     parent_page_types = ['home.HomePage']
     subpage_types = []
@@ -63,6 +66,26 @@ class CityClimateDataPage(Page):
         FieldPanel("filter_by_month"),
         InlinePanel("data_parameters", heading=_("Data Parameters"), label=_("Data Parameter")),
     ]
+    
+    @property
+    def template_date_format(self):
+        time_format = self.time_format
+        
+        # default date format
+        date_format = "Y-m-d"
+        
+        if time_format == "day":
+            date_format = 'd'  # Day (e.g., 01, 02, ..., 31)
+        elif time_format == "dayandmonth":
+            date_format = 'd M'  # Day and abbreviated month (e.g., 01 Jan)
+        elif time_format == "month":
+            date_format = 'M'  # Full month name (e.g., January)
+        elif time_format == "monthandyear":
+            date_format = 'M Y'  # Full month and year (e.g., January 2025)
+        elif time_format == "year":
+            date_format = 'Y'
+        
+        return date_format
     
     @climweb_trace(tracer)
     def get_context(self, request, *args, **kwargs):
@@ -106,6 +129,25 @@ class CityClimateDataPage(Page):
                 
                 params.append(param_data)
         return params
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        if not meta_image:
+            meta_image = self.get_parent().get_meta_image()
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description and self.description:
+            p = get_first_non_empty_p_string(self.description)
+            if p:
+                # Limit the search meta desc to google's 160 recommended chars
+                meta_description = truncatechars(p, 160)
+        
+        return meta_description
 
 
 class DataParameter(Orderable):

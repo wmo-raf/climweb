@@ -52,7 +52,7 @@
                         <li class="param-field" style="display: none;">
                             <div class="w-field__wrapper " data-field-wrapper="">
                                 <label class="w-field__label" for="date_select">
-                                    {% translate "Date Field" %}
+                                    {% translate "Select Date Column" %}
                                 </label>
                                 <div class="w-field w-field--choice_field w-field--select" data-field=""
                                      data-contentpath="select">
@@ -68,7 +68,9 @@
                             <li class="param-field" style="display: none;">
                                 <div class="w-field__wrapper " data-field-wrapper="">
                                     <label class="w-field__label" for="{{ param.id }}_select">
-                                        {{ param.name }}
+                                        {% translate "Select" %}
+                                        '{{ param.name }}'
+                                        {% translate "Column" %}
                                     </label>
                                     <div class="w-field w-field--choice_field w-field--select" data-field=""
                                          data-contentpath="select">
@@ -116,7 +118,6 @@
         }
 
         $(document).ready(function () {
-
             const $fileInput = $('input[type=file]')
             const tableElement = document.getElementById("table-container")
             const $uploadBtn = $("#upload-btn")
@@ -125,11 +126,20 @@
             const $dataInput = $("#id_data")
             const fieldsMappingInput = $("#id_fields_mapping")
 
-
             let hot;
             let data
 
             $fileInput.on("change", function () {
+                // destroy the table if it exists
+                if (hot) {
+                    hot.destroy()
+                }
+
+                // remove all options from the select
+                if ($fieldsSelect.children().length > 1) {
+                    $fieldsSelect.children().remove()
+                }
+
                 $('input[type=file]').parse({
                     config: {
                         complete: onParseComplete,
@@ -210,6 +220,12 @@
                 fields.forEach(val => {
                     const option = createOption(val, val)
                     $fieldsSelect.append(option)
+                })
+
+                // for each select, set the next field as the selected option, starting from index 0
+                $fieldsSelect.each(function (index) {
+                    const $this = $(this)
+                    $this.find("option").eq(index).prop("selected", true)
                 })
 
                 $fieldsMatchContainer.show()
