@@ -5,6 +5,7 @@ from django.core.mail import mail_admins
 from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from loguru import logger
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
@@ -88,7 +89,8 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                 try:
                     # see if we have any duplicated field values. Notorious with spammers !
                     duplicate_fields = get_duplicates(form.cleaned_data)
-                except Exception:
+                except Exception as e:
+                    logger.warning("[CONTACT_US_PAGE] Error checking for duplicate fields: {}".format(e))
                     duplicate_fields = []
                 
                 if not duplicate_fields:
@@ -98,8 +100,8 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                     # Send confirmation email
                     try:
                         self.send_confirmation_email(form.cleaned_data)
-                    except Exception:
-                        pass
+                    except Exception as e:
+                        logger.error("[CONTACT_US_PAGE] Error sending confirmation email: {}".format(e))
                 else:
                     self.process_suspicious_form(form)
                 
@@ -132,30 +134,33 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
             self.send_suspicious_form_to_admin(form)
         except Exception as e:
             pass
-            
-            # override send_mail to extract sender email from form, to use in 'reply_to'
-            # This will allow replying to the sender directly from the email client
     
     def send_mail(self, form):
-        addresses = [x.strip() for x in self.to_address.split(',')]
-        email = form.cleaned_data.get("email", None)
-        options = {
-            "fail_silently": True,
-        }
-        if email:
-            options["reply_to"] = [email]
-        send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
+        try:
+            addresses = [x.strip() for x in self.to_address.split(',')]
+            email = form.cleaned_data.get("email", None)
+            options = {
+                "fail_silently": True,
+            }
+            if email:
+                options["reply_to"] = [email]
+            send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
+        except Exception as e:
+            logger.error("[CONTACT_US_PAGE] Error sending email: {}".format(e))
     
     def send_suspicious_form_to_admin(self, form):
-        content = []
-        for field in form:
-            value = field.value()
-            if isinstance(value, list):
-                value = ', '.join(value)
-            content.append('{}: {}'.format(field.label, value))
-        content = '\n'.join(content)
-        
-        mail_admins("POSSIBLE SPAM (CONTACT US PAGE) - {}".format(self.subject), content, fail_silently=True)
+        try:
+            content = []
+            for field in form:
+                value = field.value()
+                if isinstance(value, list):
+                    value = ', '.join(value)
+                content.append('{}: {}'.format(field.label, value))
+            content = '\n'.join(content)
+            
+            mail_admins("POSSIBLE SPAM (CONTACT US PAGE) - {}".format(self.subject), content, fail_silently=True)
+        except Exception as e:
+            logger.error("[CONTACT_US_PAGE] Suspicious form, Error sending email: {}".format(e))
     
     class Meta:
         verbose_name = _("Contact Page")
