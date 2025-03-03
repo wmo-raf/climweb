@@ -16,7 +16,7 @@ from wagtailgeowidget import geocoders
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.panels import LeafletPanel, GeoAddressPanel
 
-from climweb.base.mail import send_mail
+from climweb.base.mail import send_mail, get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import get_duplicates
@@ -117,8 +117,8 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
             context
         )
     
-    @staticmethod
-    def send_confirmation_email(form):
+    def send_confirmation_email(self, form):
+        from_email = self.from_address or get_default_from_email()
         email = form.get('email')
         subject = form.get('subject')
         
@@ -126,7 +126,7 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
             message = "Thank you for getting in touch!\nWe appreciate you contacting us. Our team will" \
                       "get back to you as soon as possible. Thanks!"
             
-            send_mail("Confirmation", message, [email], fail_silently=True, from_email="Contact Us")
+            send_mail("Confirmation", message, [email], fail_silently=True, from_email=from_email)
     
     def process_suspicious_form(self, form):
         remove_captcha_field(form)
@@ -136,17 +136,20 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
             pass
     
     def send_mail(self, form):
-        try:
-            addresses = [x.strip() for x in self.to_address.split(',')]
-            email = form.cleaned_data.get("email", None)
-            options = {
-                "fail_silently": True,
-            }
-            if email:
-                options["reply_to"] = [email]
-            send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
-        except Exception as e:
-            logger.error("[CONTACT_US_PAGE] Error sending email: {}".format(e))
+        from_address = self.from_address or get_default_from_email()
+        
+        if from_address:
+            try:
+                addresses = [x.strip() for x in self.to_address.split(',')]
+                email = form.cleaned_data.get("email", None)
+                options = {
+                    "fail_silently": True,
+                }
+                if email:
+                    options["reply_to"] = [email]
+                send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
+            except Exception as e:
+                logger.error("[CONTACT_US_PAGE] Error sending email: {}".format(e))
     
     def send_suspicious_form_to_admin(self, form):
         try:
