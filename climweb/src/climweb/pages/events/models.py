@@ -39,6 +39,7 @@ from climweb.base.utils import (
     get_first_non_empty_p_string
 )
 from .blocks import PanelistBlock, EventSponsorBlock, SessionBlock
+from loguru import logger
 
 SUMMARY_RICHTEXT_FEATURES = getattr(settings, "SUMMARY_RICHTEXT_FEATURES")
 
@@ -654,8 +655,9 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                                         "make sure the correct field is set to avoid duplicate submissions and "
                                         "stop these messages from being sent".format(self.validation_field, self.title),
                                 fail_silently=True)
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.error("[EVENT_REGISTRATION_PAGE] Incorrect form validation field."
+                                 " Error sending email to admins: {}".format(e))
                 
                 # meanwhile, mark the form for saving
                 should_process = True
