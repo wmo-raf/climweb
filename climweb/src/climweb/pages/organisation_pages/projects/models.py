@@ -169,10 +169,7 @@ class ProjectPage(AbstractBannerWithIntroPage):
     
     @cached_property
     def label(self):
-        if self.short_name:
-            return self.short_name
-        else:
-            return self.full_name
+        return self.short_name or self.full_name
     
     @cached_property
     def progress(self):

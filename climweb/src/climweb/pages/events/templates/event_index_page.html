@@ -40,13 +40,10 @@
                 </div>
             </div>
         </section>
-
-
     </main>
 {% endblock content %}
 
 {% block extra_js %}
-
     <script>
 
         $(document).ready(function () {
@@ -56,11 +53,8 @@
 
             if (windowWidth <= 768) {
                 //for  smaller devices
-                $('.publication-filter .js-accordion-item').removeClass('active');
+                $('.js-accordion-item').removeClass('active');
             }
-
-            // initialize filter accordion
-            accordion.init({speed: 300, oneOpen: false});
 
             const listButton = $("#list-view-button");
             const gridButton = $("#grid-view-button");

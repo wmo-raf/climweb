@@ -1,7 +1,7 @@
 {% load static i18n wagtailiconchooser_tags %}
 
 <div class="results-filter">
-    <div class="accordion js-accordion">
+    <div class="accordion js-accordion" id="events-filter-accordion">
         {% if filters.event_types %}
             <div class="accordion__item js-accordion-item active">
                 <h6 class="accordion-header js-accordion-header filter-item-header">
@@ -77,6 +77,12 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                new Accordion("events-filter-accordion");
+            });
+        </script>
     </div>
 </div>
 

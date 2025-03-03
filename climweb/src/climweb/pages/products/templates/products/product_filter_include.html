@@ -1,7 +1,7 @@
 {% load static i18n wagtailiconchooser_tags %}
 
 <div class="results-filter">
-    <div class="accordion js-accordion">
+    <div class="accordion js-accordion" id="products-filter-accordion">
         {% if filters.year %}
             <div class="accordion__item js-accordion-item active">
                 <h6 class="accordion-header js-accordion-header filter-item-header">
@@ -50,6 +50,10 @@
                 </div>
             </div>
         {% endif %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                new Accordion("products-filter-accordion");
+            });
+        </script>
     </div>
 </div>
-

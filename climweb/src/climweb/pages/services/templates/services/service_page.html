@@ -94,7 +94,7 @@
                                 {% translate "What we do" %}
                             </span>
                         </div>
-                        <div class="accordion js-accordion" style="padding:50px 0">
+                        <div class="accordion js-accordion" style="padding:50px 0" id="what-we-do-accordion">
                             {% for block in  page.what_we_do_items %}
                                 <div class="accordion__item js-accordion-item {% if forloop.first %}active{% endif %}">
                                     <div class="accordion-header js-accordion-header">
@@ -121,6 +121,11 @@
                                     </div>
                                 </div>
                             {% endfor %}
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    new Accordion("what-we-do-accordion");
+                                });
+                            </script>
                         </div>
                         {% if page.what_we_do_button_text and page.what_we_do_button_link %}
                             <div class="center">

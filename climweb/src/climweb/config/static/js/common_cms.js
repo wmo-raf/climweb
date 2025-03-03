@@ -1,60 +1,58 @@
-const accordion = (function () {
-    const $accordion = $(".js-accordion");
-    const $accordion_header = $accordion.find(".js-accordion-header");
-    const $accordion_item = $(".js-accordion-item");
+class Accordion {
+    constructor(id, options = {}) {
+        this.$accordion = $(`#${id}`);
+        this.$accordion_header = this.$accordion.find(".js-accordion-header");
 
-    // default settings
-    const settings = {
-        // animation speed
-        speed: 400,
+        // Default settings
+        this.settings = {
+            speed: 400, // Animation speed
+            firstOpen: true, // Close all other accordion items if true
+        };
 
-        // close all other accordion items if true
-        oneOpen: false
-    };
+        // Extend default settings with user-provided options
+        $.extend(this.settings, options);
 
-    return {
-        // pass configurable object literal
-        init: function ($settings) {
-            $accordion_header.on("click", function () {
-                accordion.toggle($(this));
-            });
+        this.init();
+    }
 
-            $.extend(settings, $settings);
+    init() {
+        this.$accordion_header.on("click", (event) => {
+            this.toggle($(event.currentTarget));
+        });
 
-            // ensure only one accordion is active if oneOpen is true
-            if (settings.oneOpen && $(".js-accordion-item.active").length > 1) {
-                $(".js-accordion-item.active:not(:first)").removeClass("active");
-            }
-
-            // reveal the active accordion bodies
-            $(".js-accordion-item.active")
-                .find("> .js-accordion-body")
-                .show();
-        },
-        toggle: function ($this) {
-            if (
-                settings.oneOpen &&
-                $this[0] !=
-                $this
-                    .closest(".js-accordion")
-                    .find("> .js-accordion-item.active > .js-accordion-header")[0]
-            ) {
-                $this
-                    .closest(".js-accordion")
-                    .find("> .js-accordion-item")
-                    .removeClass("active")
-                    .find(".js-accordion-body")
-                    .slideUp();
-            }
-            // show/hide the clicked accordion item
-            $this.closest(".js-accordion-item").toggleClass("active");
-            $this
-                .next()
-                .stop()
-                .slideToggle(settings.speed);
+        if (this.settings.firstOpen) {
+            this.$accordion.find(".js-accordion-item:first").addClass("active");
+            this.$accordion.find(".js-accordion-item.active:not(:first)").removeClass("active");
         }
-    };
-})();
+
+        // Reveal the active accordion bodies
+        this.$accordion.find(".js-accordion-item.active").find("> .js-accordion-body").show();
+    }
+
+    toggle($this) {
+        if (
+            this.settings.oneOpen &&
+            $this[0] !=
+            $this
+                .closest(".js-accordion")
+                .find("> .js-accordion-item.active > .js-accordion-header")[0]
+        ) {
+            $this
+                .closest(".js-accordion")
+                .find("> .js-accordion-item")
+                .removeClass("active")
+                .find(".js-accordion-body")
+                .slideUp();
+        }
+
+        // Show/hide the clicked accordion item
+        $this.closest(".js-accordion-item").toggleClass("active");
+        $this
+            .next()
+            .stop()
+            .slideToggle(this.settings.speed);
+    }
+}
 
 
 function getCookie(name) {
