@@ -28,8 +28,8 @@ def send_mail(subject, message, recipient_list, from_email=None, **kwargs):
         elif hasattr(settings, 'DEFAULT_FROM_EMAIL'):
             from_email = settings.DEFAULT_FROM_EMAIL
         else:
-            from_email = 'webmaster@localhost'
-
+            from_email = 'climweb@localhost'
+    
     connection = kwargs.get('connection', False) or get_connection(
         username=kwargs.get('auth_user', None),
         password=kwargs.get('auth_password', None),
@@ -41,13 +41,22 @@ def send_mail(subject, message, recipient_list, from_email=None, **kwargs):
             'Auto-Submitted': 'auto-generated',
         }
     }
-
+    
     if kwargs.get("reply_to", None):
         multi_alt_kwargs["reply_to"] = kwargs.get("reply_to")
-
+    
     mail = EmailMultiAlternatives(subject, message, from_email, recipient_list, **multi_alt_kwargs)
     html_message = kwargs.get('html_message', None)
     if html_message:
         mail.attach_alternative(html_message, 'text/html')
-
+    
     return mail.send()
+
+
+def get_default_from_email():
+    if hasattr(settings, 'WAGTAILADMIN_NOTIFICATION_FROM_EMAIL'):
+        return settings.WAGTAILADMIN_NOTIFICATION_FROM_EMAIL
+    elif hasattr(settings, 'DEFAULT_FROM_EMAIL'):
+        return settings.DEFAULT_FROM_EMAIL
+    else:
+        return 'climweb@localhost'
