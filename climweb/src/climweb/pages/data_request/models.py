@@ -5,6 +5,7 @@ from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy as _
+from loguru import logger
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm
@@ -109,7 +110,8 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                 try:
                     # see if we have any duplicated field values. Notorious with spammers !
                     duplicate_fields = get_duplicates(form.cleaned_data)
-                except Exception:
+                except Exception as e:
+                    logger.error(f"[DATA_REQUEST_PAGE] Error checking for duplicate fields: {e}")
                     duplicate_fields = []
                 
                 if not duplicate_fields:
@@ -131,20 +133,21 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     
     def process_suspicious_form(self, form):
         remove_captcha_field(form)
-        try:
-            self.send_suspicious_form_to_admin(form)
-        except Exception:
-            pass
+        
+        self.send_suspicious_form_to_admin(form)
     
     def send_suspicious_form_to_admin(self, form):
-        content = []
-        for field in form:
-            value = field.value()
-            if isinstance(value, list):
-                value = ', '.join(value)
-            content.append('{}: {}'.format(field.label, value))
-        content = '\n'.join(content)
-        mail_admins("POSSIBLE SPAM (DATA REQUEST PAGE)- {}".format(self.subject), content, fail_silently=True)
+        try:
+            content = []
+            for field in form:
+                value = field.value()
+                if isinstance(value, list):
+                    value = ', '.join(value)
+                content.append('{}: {}'.format(field.label, value))
+            content = '\n'.join(content)
+            mail_admins("POSSIBLE SPAM (DATA REQUEST PAGE)- {}".format(self.subject), content, fail_silently=True)
+        except Exception as e:
+            logger.error(f"[DATA_REQUEST_PAGE] Error sending suspicious form email: {e}")
     
     @staticmethod
     def get_image_title(filename):
@@ -184,6 +187,12 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                     del cleaned_data[name]
         
         return super(DataRequestPage, self).process_form_submission(form)
+    
+    def send_mail(self, form):
+        try:
+            super(DataRequestPage, self).send_mail(form)
+        except Exception as e:
+            logger.error(f"[DATA_REQUEST_PAGE] Error sending email: {e}")
 
 
 class DataRequestFormField(AbstractFormField):
