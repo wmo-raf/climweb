@@ -8,6 +8,7 @@
     {% if page.youtube_playlist %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
     {% endif %}
 {% endblock %}
 
@@ -142,6 +143,13 @@
                 {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}
             </section>
         {% endif %}
+        {% if page.extra_content %}
+            {% for block in page.extra_content %}
+                <section class="feature-block-section">
+                    {% include_block block %}
+                </section>
+            {% endfor %}
+        {% endif %}
 
         {% if page.projects.all %}
             <section class="projects-inline">
@@ -197,8 +205,6 @@
             </section>
         {% endif %}
 
-
-
         {% if page.youtube_playlist %}
             <section class="has-text-centered videos" id="videoSection">
                 <div class="container is-align-content-center">
@@ -233,8 +239,6 @@
         const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
 
         $(document).ready(function () {
-            accordion.init({speed: 300, oneOpen: true})
-
             if (page_youtube_playlist) {
                 const url = "{{ youtube_playlist_url }}";
                 $('#videoWrapper').scheletrone({
