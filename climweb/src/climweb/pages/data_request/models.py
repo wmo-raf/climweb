@@ -7,6 +7,7 @@ from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
 from modelcluster.fields import ParentalKey
+from wagtail.admin.mail import send_mail
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm
 from wagtail.contrib.forms.models import AbstractFormField, FORM_FIELD_CHOICES
@@ -19,6 +20,7 @@ from climweb.base.forms import (
     FormDocumentField,
     CustomSubmissionsListView
 )
+from climweb.base.mail import get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import FormFileSubmission
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
@@ -189,8 +191,15 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
         return super(DataRequestPage, self).process_form_submission(form)
     
     def send_mail(self, form):
+        from_address = self.from_address or get_default_from_email()
         try:
-            super(DataRequestPage, self).send_mail(form)
+            addresses = [x.strip() for x in self.to_address.split(",")]
+            send_mail(
+                self.subject,
+                self.render_email(form),
+                addresses,
+                from_email=from_address
+            )
         except Exception as e:
             logger.error(f"[DATA_REQUEST_PAGE] Error sending email: {e}")
 
