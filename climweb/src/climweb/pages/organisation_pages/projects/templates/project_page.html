@@ -45,10 +45,15 @@
                 <div class="container">
                     <div class="columns is-mobile is-centered project-goals">
                         <div class="column is-three-quarters-desktop is-full-mobile">
-                            <div class="accordion js-accordion">
+                            <div class="accordion js-accordion" id="goals-accordion">
                                 {% for goal_block in page.goals_block %}
                                     {% include_block goal_block with is_first=forloop.first %}
                                 {% endfor %}
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        new Accordion("goals-accordion");
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -190,9 +195,7 @@
             //for  smaller devices
             $('.js-accordion-item').removeClass('active');
         }
-
-        accordion.init({oneOpen: true})
-
+        
         const page_youtube_playlist =
             {{ page.youtube_playlist|yesno:'true,false' }}
 
