@@ -3,17 +3,17 @@ from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy as _
+from loguru import logger
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
-from climweb.base.mail import send_mail
+from climweb.base.mail import send_mail, get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import get_duplicates
-from loguru import logger
 
 
 class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
@@ -133,13 +133,14 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     # override send_mail to extract sender email from form, to use in 'reply_to'
     # This will allow replying to the sender directly from the email client
     def send_mail(self, form):
+        from_address = self.from_address or get_default_from_email()
         try:
             addresses = [x.strip() for x in self.to_address.split(',')]
             email = form.cleaned_data.get("email", None)
             options = {}
             if email:
                 options["reply_to"] = [email]
-            send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
+            send_mail(self.subject, self.render_email(form), addresses, from_address, **options)
         except Exception as e:
             logger.error(f"[FEEDBACK_PAGE] Error sending email: {e}")
     
