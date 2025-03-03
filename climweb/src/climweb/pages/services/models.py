@@ -8,6 +8,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, Orderable
 from wagtailmetadata.models import MetadataPageMixin
 
+from climweb.base import blocks
 from climweb.base import blocks as base_blocks
 from climweb.base.models import ServiceCategory, AbstractBannerWithIntroPage
 from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
@@ -93,6 +94,17 @@ class ServicePage(AbstractBannerWithIntroPage):
         ('feature_item', base_blocks.FeatureBlock()),
     ], null=True, blank=True, use_json_field=True, verbose_name=_("Feature block items"))
     
+    extra_content = StreamField(
+        [
+            ("title_text", blocks.TitleTextBlock()),
+            ("title_text_image", blocks.TitleTextImageBlock()),
+            ("accordion", blocks.AccordionBlock()),
+            ("table", blocks.TableInfoBlock()),
+        ],
+        null=True,
+        blank=True
+    )
+    
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
         null=True,
@@ -112,12 +124,13 @@ class ServicePage(AbstractBannerWithIntroPage):
         ],
             heading=_("What we do in this Service section"),
         ),
+        FieldPanel('feature_block_items'),
+        FieldPanel("extra_content"),
         MultiFieldPanel([
             FieldPanel('projects_description'),
         ],
             heading=_("Projects Section"),
         ),
-        FieldPanel('feature_block_items'),
         FieldPanel('youtube_playlist'),
         InlinePanel('applications', heading=_("Applications"), label=_("Heading")),
     ]
