@@ -4,6 +4,7 @@
 ---
 maxdepth: 1
 ---
+Manage-2FA
 Manage-Settings
 Manage-Menus
 Manage-Users-and-Roles

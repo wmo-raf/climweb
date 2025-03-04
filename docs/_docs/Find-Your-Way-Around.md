@@ -6,7 +6,7 @@ This section describes the different pages that you are going to see as you navi
 
 The ClimWeb login button can be found at the top left corner of the website.
 
-![Access Dashboard](../_static/images/navigating/Access_dashboard.png "Access Dashboard")
+![Access Dashboard](../_static/images/navigating/access_dashboard_1.png "Access Dashboard")
 
 Logging into the ClimWeb automatically takes you to the Dashboard. If you navigate away from the dashboard, you can return to it at any time by clicking on the NMHS logo in the top-left section of your screen.
 
@@ -15,7 +15,7 @@ Logging into the ClimWeb automatically takes you to the Dashboard. If you naviga
 
 The Dashboard is the main hub of the website. From the dashboard, you can access all of the content you create in the ClimWeb as well as reports, settings, and other content management features.
 
-![Dashboard](../_static/images/navigating/Dashboard.png "Dashboard")
+![Dashboard](../_static/images/navigating/Dashboard_1.png "Dashboard")
 
 > What you see in your Dashboard depends on your user role. Common user roles include editors, moderators, composers, approvers, forecasters and administrators.
 
@@ -69,7 +69,7 @@ You can see the name of the page whose Explorer page you are on as a heading at 
 
 If you hover over a child page, you get an arrow on the right-hand side of that child page row. Clicking the arrow displays a further level of child pages.
 
-![Explorer](../_static/images/navigating/Explorer_page.png "Explorer")
+![Explorer](../_static/images/navigating/Explorer_page_1.png "Explorer")
 
 Additionally, hovering over a child page displays a checkbox at the left-hand side of the child page row. Selecting one or more child pages by clicking their checkboxes gives you an action bar at the bottom of the Explorer page. Clicking on any of the options in the action bar takes you to a confirmation page from which you can confirm the action.
 
