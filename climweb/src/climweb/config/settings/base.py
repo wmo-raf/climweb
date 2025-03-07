@@ -629,7 +629,7 @@ AXES_IPWARE_PROXY_COUNT = env.int("AXES_IPWARE_PROXY_COUNT", default=2)
 AXES_LOCKOUT_TEMPLATE = "axes/lockout.html"
 
 # Wagtail 2FA settings
-WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=True)
+WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=False)
 
 
 class AttrDict(dict):
