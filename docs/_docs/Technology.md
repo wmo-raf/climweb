@@ -65,15 +65,6 @@ More specialized functionality is developed as external Wagtail applications tha
 These are then installed as Python packages published on the Python Package Index (PyPI) , which is a repository of
 software for the Python programming language.
 
-Below is a list of currently developed external applications that add required functionality to the NMHSs ClimWeb
-
-![ClimWeb Page Structure](../_static/images/technology/page_structure.png "ClimWeb Page Structure")
-
-More specialized functionality is developed as external Wagtail applications that can be plugged into the code project.
-These are then installed as Python packages published on the [Python Package Index (PyPI)](https://pypi.org/) , which is
-a repository of software for the Python programming language.
-
-Below is a list of currently developed external applications that add required functionality to the NMHSs ClimWeb
 
 ### Functionality Packages
 
@@ -117,6 +108,8 @@ Below is a list of currently developed external applications that add required f
 - Web Mapping Library - [MapLibre GL JS](https://maplibre.org/)
 - SVG Icon Sources - [Font Awesome](https://fontawesome.com/)
   , [Ocha Humanitarian Icons](https://web.brand.unocha.org/svg-icon-library)
+
+---
 
 ## Developing new functionality
 
@@ -192,6 +185,7 @@ at [https://docs.djangoproject.com/en/5.0/topics/security](https://docs.djangopr
 - Ability to change admin url periodically
 - Daily backup mechanisms
 - Brute force login preventions 
+- 2 Factor Authentication for administrator account
 
 
 
