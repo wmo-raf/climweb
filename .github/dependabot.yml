@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"  # Specifies the Python package manager
+    directory: "/climweb/requirements"    # Path to the directory containing the requirements file
+    schedule:
+      interval: "weekly"       # How often to check for updates
+    target-branch: "main"     # Optional: Specify the target branch for PRs
+    allow:
+      - dependency-file: "base.txt"  # Specify the file to monitor
