@@ -1,6 +1,6 @@
 # {{ cookiecutter.project_name }}
 
-## ClimWeb Plugin
+## Climweb Plugin
 
-A ClimWeb plugin can be used to extend the functionality of ClimWeb.
+A Climweb plugin can be used to extend [Climweb](https:/github.com/wmo-raf/climweb) Functionality.
 

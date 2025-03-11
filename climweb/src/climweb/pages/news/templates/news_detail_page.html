@@ -2,15 +2,6 @@
 {% load static wagtailcore_tags wagtailcore_tags nmhs_cms_tags get_share_url i18n %}
 {% wagtail_site as current_site %}
 
-{% block page_meta %}
-    {% if page.feature_img_src %}
-        {% setvar current_site.root_url|add:page.feature_img_src as meta_image %}
-    {% endif %}
-    {% comment %}
-        {% include 'wagtailmetadata/parts/tags.html' with object=page site_name=current_site.site_name meta_image=meta_image %}
-    {% endcomment %}
-{% endblock %}
-
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/news_detail.css' %}">
 {% endblock %}
@@ -18,7 +9,7 @@
 {% block body_class %}news-detail-page"{% endblock %}
 
 {% block content %}
-    {% include 'hero.html' with page=page %}
+    {% include 'breadcrumbs_include.html' with page=page %}
     <main>
         <section class="news-detail-section">
             <div class="container">
@@ -35,10 +26,6 @@
                                 <div class="news-meta">
                                     <span>{{ page.date |date:"d M, Y" }}</span>
                                     <span>{{ page.news_type }}</span>
-                                    <span class="icon" title="No of views" style="padding-left: 30px">
-                                        <i class="fas fa-eye"></i>
-                                        <span class="item-tag-content">{{ page.webhits.count }}</span>
-                                    </span>
                                 </div>
                             </div>
                         </div>

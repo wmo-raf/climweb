@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags i18n %}
+{% load static wagtailcore_tags i18n wagtailiconchooser_tags %}
 
 {% block extra_css %}
 {% endblock %}
@@ -97,12 +97,17 @@
                 {% if page.detail_description %}
                     <div class="card">
                         <header class="card-header">
-                            <p class="card-header-title">
-                                {% translate "More detail" %}
-                            </p>
-                            <a class="card-header-icon card-toggle">
-                                <i class="fa fa-angle-down"></i>
-                            </a>
+                            <div class="card-toggle"
+                                 style="width: 100%; display: flex;justify-content: space-between;cursor: pointer">
+                                <p class="card-header-title">
+                                    {% translate "More detail" %}
+                                </p>
+                                <a class="card-header-icon">
+                                    <span class="icon btn-icon arrow-icon">
+                                        {% svg_icon name="expand-down" %}
+                                    </span>
+                                </a>
+                            </div>
                         </header>
                         <div class="card-content {% if page.local_definitions %}is-hidden{% endif %}">
                             <div class="content">
@@ -125,7 +130,9 @@
                                     {% translate "Language" %}: {{ local_def.value.language_name }}
                                 </p>
                                 <a class="card-header-icon card-toggle">
-                                    <i class="fa fa-angle-down"></i>
+                                    <span class="icon btn-icon arrow-icon">
+                                        {% svg_icon name="expand-down" %}
+                                    </span>
                                 </a>
                             </header>
                             <div class="card-content is-hidden">

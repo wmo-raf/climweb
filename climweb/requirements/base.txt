@@ -4,41 +4,44 @@
 #
 #    pip-compile --output-file=base.txt base.in
 #
-adm-boundary-manager==0.2.0
+adm-boundary-manager==0.2.5
     # via
-    #   capeditor
+    #   alertwise
     #   climweb-wdqms
     #   geomanager
 affine==2.4.0
     # via rasterio
-aiohappyeyeballs==2.3.5
+aiohappyeyeballs==2.4.4
     # via aiohttp
-aiohttp==3.10.3
+aiohttp==3.11.11
     # via django-nextjs
-aiosignal==1.3.1
+aiosignal==1.3.2
     # via aiohttp
-amqp==5.2.0
+alertwise==1.0.5
+    # via -r base.in
+amqp==5.3.1
     # via kombu
 annotated-types==0.7.0
     # via pydantic
 anyascii==0.3.2
     # via wagtail
-anyio==4.4.0
+anyio==4.8.0
     # via watchfiles
 asgiref==3.8.1
     # via
     #   channels
     #   daphne
     #   django
+    #   django-axes
     #   django-countries
-async-timeout==4.0.3
+    #   opentelemetry-instrumentation-asgi
+async-timeout==5.0.1
     # via
     #   aiohttp
     #   redis
-attrs==24.2.0
+attrs==24.3.0
     # via
     #   aiohttp
-    #   automat
     #   fiona
     #   jsonschema
     #   morecantile
@@ -48,18 +51,17 @@ attrs==24.2.0
     #   twisted
 autobahn==24.4.2
     # via daphne
-automat==22.10.0
+automat==24.8.1
     # via twisted
 beautifulsoup4==4.9.3
     # via
-    #   -r base.in
     #   deep-translator
     #   wagtail
 billiard==3.6.4.0
     # via celery
 brotli==1.1.0
     # via fonttools
-cachetools==5.4.0
+cachetools==5.5.1
     # via
     #   google-auth
     #   large-image
@@ -67,8 +69,8 @@ cairocffi==1.7.1
     # via cairosvg
 cairosvg==2.7.1
     # via geomanager
-capeditor==0.6.3
-    # via -r base.in
+capvalidator==0.1.0.dev4
+    # via alertwise
 cartopy==0.22.0
     # via -r base.in
 celery==5.2.7
@@ -76,9 +78,10 @@ celery==5.2.7
     #   -r base.in
     #   celery-singleton
     #   django-celery-beat
+    #   django-celery-results
 celery-singleton==0.3.1
     # via -r base.in
-certifi==2024.7.4
+certifi==2024.12.14
     # via
     #   fiona
     #   netcdf4
@@ -87,12 +90,12 @@ certifi==2024.7.4
     #   rasterio
     #   requests
     #   signxml
-cffi==1.17.0
+cffi==1.17.1
     # via
     #   cairocffi
     #   cryptography
     #   weasyprint
-cftime==1.6.4
+cftime==1.6.4.post1
     # via
     #   geomanager
     #   netcdf4
@@ -100,10 +103,11 @@ channels==4.0.0
     # via
     #   -r base.in
     #   django-nextjs
-charset-normalizer==3.3.2
+charset-normalizer==3.4.1
     # via requests
-click==8.1.7
+click==8.1.8
     # via
+    #   capvalidator
     #   celery
     #   click-didyoumean
     #   click-plugins
@@ -131,13 +135,14 @@ climweb-wdqms==0.0.8
     # via -r base.in
 constantly==23.10.4
     # via twisted
-contourpy==1.2.1
+contourpy==1.3.0
     # via matplotlib
 cron-descriptor==1.4.5
     # via django-celery-beat
-cryptography==43.0.0
+cryptography==43.0.3
     # via
     #   autobahn
+    #   capvalidator
     #   pyjwt
     #   pyopenssl
     #   service-identity
@@ -158,13 +163,24 @@ defusedxml==0.7.1
     #   djangorestframework-xml
     #   python3-openid
     #   willow
-django==4.2.7
+deprecated==1.2.18
+    # via
+    #   opentelemetry-api
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+    #   opentelemetry-semantic-conventions
+dj-database-url==2.3.0
+    # via -r base.in
+django==4.2.18
     # via
     #   -r base.in
     #   channels
+    #   dj-database-url
     #   django-allauth
+    #   django-axes
     #   django-bulma
     #   django-celery-beat
+    #   django-celery-results
     #   django-cors-headers
     #   django-dbbackup
     #   django-debug-toolbar
@@ -176,6 +192,7 @@ django==4.2.7
     #   django-manifest-loader
     #   django-modelcluster
     #   django-nextjs
+    #   django-otp
     #   django-permissionedforms
     #   django-positions
     #   django-recaptcha
@@ -187,17 +204,23 @@ django==4.2.7
     #   djangorestframework
     #   djangorestframework-simplejwt
     #   drf-spectacular
+    #   laces
     #   wagtail
+    #   wagtail-2fa
     #   wagtailmedia
 django-allauth==0.54.0
     # via
     #   -r base.in
     #   geomanager
+django-axes==7.0.1
+    # via -r base.in
 django-bulma==0.9.0
     # via -r base.in
-django-celery-beat==2.6.0
+django-celery-beat==2.7.0
     # via -r base.in
-django-cleanup==8.0.0
+django-celery-results==2.5.1
+    # via -r base.in
+django-cleanup==9.0.0
     # via -r base.in
 django-cors-headers==4.0.0
     # via -r base.in
@@ -208,7 +231,7 @@ django-countries==7.6.1
     #   wagtail-mailchimp-integration
 django-countries-geoextent==0.0.1
     # via adm-boundary-manager
-django-dbbackup==4.1.0
+django-dbbackup==4.2.1
     # via -r base.in
 django-debug-toolbar==3.8.1
     # via -r base.in
@@ -221,7 +244,7 @@ django-extensions==3.2.1
     #   -r base.in
     #   forecastmanager
     #   geomanager
-django-filter==23.5
+django-filter==24.3
     # via
     #   adm-boundary-manager
     #   climweb-wdqms
@@ -231,22 +254,24 @@ django-filter==23.5
     #   wagtail-webstories-editor
 django-inline-svg==0.1.1
     # via -r base.in
+django-ipware==7.0.1
+    # via -r base.in
 django-json-widget==1.1.1
     # via
     #   -r base.in
     #   geomanager
 django-large-image==0.10.0
-    # via
-    #   -r base.in
-    #   geomanager
+    # via geomanager
 django-manifest-loader==1.0.0
     # via -r base.in
-django-modelcluster==6.3
+django-modelcluster==6.4
     # via wagtail
 django-nextjs==2.4.0
     # via
     #   -r base.in
     #   geomanager
+django-otp==1.5.4
+    # via wagtail-2fa
 django-permissionedforms==0.1
     # via wagtail
 django-positions==0.6.0
@@ -263,7 +288,7 @@ django-tables2==2.6.0
     #   django-tables2-bulma-template
 django-tables2-bulma-template==0.2.0
     # via -r base.in
-django-taggit==4.0.0
+django-taggit==6.1.0
     # via wagtail
 django-timezone-field==5.0
     # via
@@ -273,9 +298,8 @@ django-treebeard==4.7.1
     # via wagtail
 django-widget-tweaks==1.4.12
     # via -r base.in
-djangorestframework==3.14.0
+djangorestframework==3.15.2
     # via
-    #   -r base.in
     #   climweb-wdqms
     #   django-large-image
     #   djangorestframework-simplejwt
@@ -288,18 +312,20 @@ djangorestframework-simplejwt==5.2.2
 djangorestframework-xml==2.0.0
     # via
     #   -r base.in
-    #   capeditor
-draftjs-exporter==2.1.7
+    #   alertwise
+draftjs-exporter==5.0.0
     # via wagtail
-drf-spectacular==0.27.2
+drf-spectacular==0.28.0
     # via django-large-image
 ecmwflibs==0.6.3
     # via geomanager
-et-xmlfile==1.1.0
+et-xmlfile==2.0.0
     # via openpyxl
 exceptiongroup==1.2.2
     # via anyio
-filelock==3.15.4
+feedparser==6.0.11
+    # via alertwise
+filelock==3.17.0
     # via django-large-image
 filetype==1.2.0
     # via willow
@@ -308,67 +334,71 @@ findlibs==0.0.5
     #   ecmwflibs
     #   magics
 fiona==1.9.6
-    # via -r base.in
-fonttools[woff]==4.39.4
+    # via
+    #   -r base.in
+    #   adm-boundary-manager
+fonttools[woff]==4.55.0
     # via
     #   -r base.in
     #   matplotlib
     #   weasyprint
-forecastmanager==0.5.4
+forecastmanager==0.5.5
     # via -r base.in
-frozenlist==1.4.1
+frozenlist==1.5.0
     # via
     #   aiohttp
     #   aiosignal
 future==1.0.0
     # via django-json-widget
-geomanager==0.4.9
+geomanager==0.5.3
     # via -r base.in
 geopandas==1.0.1
     # via adm-boundary-manager
-google-api-core==2.19.1
+google-api-core==2.24.0
     # via google-api-python-client
 google-api-python-client==2.79.0
     # via -r base.in
-google-auth==2.33.0
+google-auth==2.37.0
     # via
     #   google-api-core
     #   google-api-python-client
     #   google-auth-httplib2
 google-auth-httplib2==0.2.0
     # via google-api-python-client
-googleapis-common-protos==1.63.2
-    # via google-api-core
+googleapis-common-protos==1.66.0
+    # via
+    #   google-api-core
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+grpcio==1.70.0
+    # via opentelemetry-exporter-otlp-proto-grpc
 gunicorn==20.1.0
     # via -r base.in
 h11==0.14.0
     # via uvicorn
-html5lib==1.1
-    # via
-    #   wagtail
-    #   weasyprint
 httplib2==0.22.0
     # via
     #   google-api-python-client
     #   google-auth-httplib2
-httptools==0.6.1
+httptools==0.6.4
     # via uvicorn
 hyperlink==21.0.0
     # via
     #   autobahn
     #   twisted
-idna==3.7
+idna==3.10
     # via
     #   anyio
     #   hyperlink
     #   requests
     #   twisted
     #   yarl
-importlib-metadata==8.2.0
+importlib-metadata==8.5.0
     # via
     #   fiona
+    #   opentelemetry-api
     #   rasterio
-importlib-resources==6.4.0
+importlib-resources==6.5.2
     # via matplotlib
 incremental==24.7.2
     # via twisted
@@ -378,26 +408,32 @@ iso8601==2.1.0
     # via wagtail-zoom-integration
 jsonschema==4.23.0
     # via drf-spectacular
-jsonschema-specifications==2023.12.1
+jsonschema-specifications==2024.10.1
     # via jsonschema
-kiwisolver==1.4.5
+kiwisolver==1.4.7
     # via matplotlib
-kombu==5.4.0
+kombu==5.4.2
     # via celery
 l18n==2021.3
     # via wagtail
-large-image==1.29.4
+laces==0.1.2
+    # via wagtail
+large-image==1.30.6
     # via
     #   django-large-image
     #   large-image-source-pil
     #   large-image-source-rasterio
-large-image-source-pil==1.29.4
+large-image-source-pil==1.30.6
     # via geomanager
-large-image-source-rasterio==1.29.4
+large-image-source-rasterio==1.30.6
     # via geomanager
-lxml==4.9.3
+loguru==0.7.3
+    # via alertwise
+lxml==5.3.0
     # via
     #   -r base.in
+    #   alertwise
+    #   capvalidator
     #   owslib
     #   signxml
 magics==1.5.8
@@ -406,7 +442,7 @@ mailchimp3==3.0.18
     # via
     #   -r base.in
     #   wagtail-mailchimp-integration
-matplotlib==3.9.2
+matplotlib==3.9.4
     # via
     #   cartopy
     #   geomanager
@@ -414,15 +450,15 @@ mercantile==1.2.1
     # via geomanager
 metar-taf-parser-mivek==1.9.0
     # via -r base.in
-morecantile==5.3.1
+morecantile==6.2.0
     # via rio-cogeo
-multidict==6.0.5
+multidict==6.1.0
     # via
     #   aiohttp
     #   yarl
-netcdf4==1.7.1.post2
+netcdf4==1.7.2
     # via geomanager
-numpy==2.0.1
+numpy==2.0.2
     # via
     #   cartopy
     #   cftime
@@ -438,25 +474,116 @@ numpy==2.0.1
     #   rasterio
     #   rioxarray
     #   shapely
-    #   snuggs
     #   xarray
 oauthlib==3.2.2
     # via requests-oauthlib
 openpyxl==3.1.5
     # via wagtail
+opentelemetry-api==1.30.0
+    # via
+    #   -r base.in
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+    #   opentelemetry-instrumentation
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-celery
+    #   opentelemetry-instrumentation-dbapi
+    #   opentelemetry-instrumentation-django
+    #   opentelemetry-instrumentation-logging
+    #   opentelemetry-instrumentation-psycopg2
+    #   opentelemetry-instrumentation-redis
+    #   opentelemetry-instrumentation-requests
+    #   opentelemetry-instrumentation-wsgi
+    #   opentelemetry-sdk
+    #   opentelemetry-semantic-conventions
+opentelemetry-exporter-otlp==1.30.0
+    # via -r base.in
+opentelemetry-exporter-otlp-proto-common==1.30.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-exporter-otlp-proto-grpc==1.30.0
+    # via opentelemetry-exporter-otlp
+opentelemetry-exporter-otlp-proto-http==1.30.0
+    # via
+    #   -r base.in
+    #   opentelemetry-exporter-otlp
+opentelemetry-instrumentation==0.51b0
+    # via
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-celery
+    #   opentelemetry-instrumentation-dbapi
+    #   opentelemetry-instrumentation-django
+    #   opentelemetry-instrumentation-logging
+    #   opentelemetry-instrumentation-psycopg2
+    #   opentelemetry-instrumentation-redis
+    #   opentelemetry-instrumentation-requests
+    #   opentelemetry-instrumentation-wsgi
+opentelemetry-instrumentation-asgi==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-celery==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-dbapi==0.51b0
+    # via
+    #   -r base.in
+    #   opentelemetry-instrumentation-psycopg2
+opentelemetry-instrumentation-django==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-logging==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-psycopg2==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-redis==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-requests==0.51b0
+    # via -r base.in
+opentelemetry-instrumentation-wsgi==0.51b0
+    # via
+    #   -r base.in
+    #   opentelemetry-instrumentation-django
+opentelemetry-proto==1.30.0
+    # via
+    #   opentelemetry-exporter-otlp-proto-common
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-sdk==1.30.0
+    # via
+    #   -r base.in
+    #   opentelemetry-exporter-otlp-proto-grpc
+    #   opentelemetry-exporter-otlp-proto-http
+opentelemetry-semantic-conventions==0.51b0
+    # via
+    #   -r base.in
+    #   opentelemetry-instrumentation
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-celery
+    #   opentelemetry-instrumentation-dbapi
+    #   opentelemetry-instrumentation-django
+    #   opentelemetry-instrumentation-redis
+    #   opentelemetry-instrumentation-requests
+    #   opentelemetry-instrumentation-wsgi
+    #   opentelemetry-sdk
+opentelemetry-util-http==0.51b0
+    # via
+    #   -r base.in
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-django
+    #   opentelemetry-instrumentation-requests
+    #   opentelemetry-instrumentation-wsgi
 owslib==0.29.2
     # via -r base.in
-packaging==24.1
+packaging==24.2
     # via
     #   cartopy
     #   geopandas
     #   large-image-source-rasterio
     #   matplotlib
+    #   opentelemetry-instrumentation
     #   pyogrio
     #   rioxarray
     #   xarray
 paho-mqtt==2.1.0
-    # via capeditor
+    # via alertwise
 palettable==3.3.3
     # via large-image
 pandas==2.2.2
@@ -466,8 +593,10 @@ pandas==2.2.2
     #   geopandas
     #   xarray
 pdf2image==1.17.0
-    # via -r base.in
-pillow==10.4.0
+    # via
+    #   -r base.in
+    #   alertwise
+pillow==11.1.0
     # via
     #   cairosvg
     #   large-image
@@ -476,56 +605,62 @@ pillow==10.4.0
     #   pillow-heif
     #   wagtail
     #   weasyprint
-pillow-heif==0.18.0
+pillow-heif==0.21.0
     # via willow
 polib==1.2.0
     # via django-deep-translator
-prompt-toolkit==3.0.47
+prompt-toolkit==3.0.50
     # via click-repl
-proto-plus==1.24.0
+propcache==0.2.1
+    # via
+    #   aiohttp
+    #   yarl
+proto-plus==1.25.0
     # via google-api-core
-protobuf==5.27.3
+protobuf==5.29.3
     # via
     #   google-api-core
     #   googleapis-common-protos
+    #   opentelemetry-proto
     #   proto-plus
-psycopg2==2.9.9
+psycopg2==2.9.10
     # via -r base.in
-pyasn1==0.6.0
+pyasn1==0.6.1
     # via
     #   pyasn1-modules
     #   rsa
     #   service-identity
-pyasn1-modules==0.4.0
+pyasn1-modules==0.4.1
     # via
     #   google-auth
     #   service-identity
 pycparser==2.22
     # via cffi
-pydantic==2.8.2
+pydantic==2.10.5
     # via
     #   morecantile
     #   rio-cogeo
-pydantic-core==2.20.1
+pydantic-core==2.27.2
     # via pydantic
 pydyf==0.11.0
     # via weasyprint
-pyjwt[crypto]==2.9.0
+pyjwt[crypto]==2.10.1
     # via
     #   django-allauth
     #   djangorestframework-simplejwt
-pyogrio==0.9.0
+pyogrio==0.10.0
     # via geopandas
 pyopenssl==24.2.1
     # via
+    #   -r base.in
     #   signxml
     #   twisted
-pyparsing==3.1.2
+pyparsing==3.2.1
     # via
     #   httplib2
     #   matplotlib
-    #   snuggs
-pyphen==0.16.0
+    #   rasterio
+pyphen==0.17.2
     # via weasyprint
 pyproj==3.6.1
     # via
@@ -546,17 +681,18 @@ python-dateutil==2.8.2
     #   python-crontab
 python-dotenv==1.0.1
     # via uvicorn
+python-ipware==3.0.0
+    # via django-ipware
 python-magic==0.4.27
-    # via capeditor
+    # via alertwise
 python3-openid==3.2.0
     # via django-allauth
-pytz==2024.1
+pytz==2024.2
     # via
+    #   alertwise
     #   celery
     #   django-dbbackup
-    #   django-modelcluster
     #   django-timezone-field
-    #   djangorestframework
     #   l18n
     #   owslib
     #   pandas
@@ -565,27 +701,31 @@ pyyaml==6.0.2
     #   drf-spectacular
     #   owslib
     #   uvicorn
-rasterio==1.3.10
+qrcode==8.0
+    # via wagtail-2fa
+rasterio==1.4.3
     # via
     #   geomanager
     #   large-image-source-rasterio
     #   rio-cogeo
     #   rioxarray
-redis==5.0.8
+redis==5.2.1
     # via
     #   celery-singleton
     #   django-redis
-referencing==0.35.1
+referencing==0.36.1
     # via
     #   jsonschema
     #   jsonschema-specifications
 requests==2.32.3
     # via
+    #   alertwise
     #   climweb-wdqms
     #   deep-translator
     #   django-allauth
     #   google-api-core
     #   mailchimp3
+    #   opentelemetry-exporter-otlp-proto-http
     #   owslib
     #   requests-oauthlib
     #   wagtail
@@ -594,55 +734,59 @@ requests-oauthlib==2.0.0
     # via
     #   django-allauth
     #   wagtail-mautic-integration
-rio-cogeo==5.3.3
+rio-cogeo==5.4.1
     # via geomanager
 rioxarray==0.15.0
     # via geomanager
-rpds-py==0.20.0
+rpds-py==0.22.3
     # via
     #   jsonschema
     #   referencing
 rsa==4.9
     # via google-auth
-service-identity==24.1.0
+service-identity==24.2.0
     # via twisted
-shapely==2.0.5
+sgmllib3k==1.0.0
+    # via feedparser
+shapely==2.0.6
     # via
     #   adm-boundary-manager
-    #   capeditor
+    #   alertwise
     #   cartopy
     #   geomanager
     #   geopandas
 signxml==3.2.2
-    # via -r base.in
-six==1.16.0
     # via
-    #   automat
+    #   -r base.in
+    #   alertwise
+    #   capvalidator
+six==1.17.0
+    # via
     #   django-deep-translator
     #   fiona
-    #   html5lib
     #   l18n
     #   python-dateutil
+    #   wagtail-2fa
 sniffio==1.3.1
     # via anyio
-snuggs==1.4.7
-    # via rasterio
 soupsieve==2.6
     # via beautifulsoup4
-sqlparse==0.5.1
+sqlparse==0.5.3
     # via
     #   django
     #   django-debug-toolbar
 telepath==0.3.1
     # via wagtail
-tinycss2==1.3.0
+tinycss2==1.4.0
     # via
     #   cairosvg
     #   cssselect2
     #   weasyprint
-tomli==2.0.1
+tinyhtml5==2.0.0
+    # via weasyprint
+tomli==2.2.1
     # via incremental
-twisted[tls]==24.7.0
+twisted[tls]==24.11.0
     # via daphne
 txaio==23.1.1
     # via autobahn
@@ -650,41 +794,48 @@ typing-extensions==4.12.2
     # via
     #   anyio
     #   asgiref
+    #   automat
+    #   dj-database-url
     #   django-countries
     #   drf-spectacular
     #   kombu
     #   large-image
+    #   multidict
+    #   opentelemetry-sdk
     #   pydantic
     #   pydantic-core
+    #   referencing
     #   twisted
     #   uvicorn
-tzdata==2024.1
+tzdata==2025.1
     # via
     #   django-celery-beat
+    #   kombu
     #   pandas
 uritemplate==4.1.1
     # via
     #   drf-spectacular
     #   google-api-python-client
-urllib3==2.2.2
+urllib3==2.3.0
     # via requests
 uvicorn[standard]==0.30.5
     # via -r base.in
-uvloop==0.19.0
+uvloop==0.21.0
     # via uvicorn
 vine==5.1.0
     # via
     #   amqp
     #   celery
     #   kombu
-wagtail==5.2
+wagtail==6.3.2
     # via
     #   -r base.in
     #   adm-boundary-manager
-    #   capeditor
+    #   alertwise
     #   climweb-wdqms
     #   forecastmanager
     #   geomanager
+    #   wagtail-2fa
     #   wagtail-adminsortable
     #   wagtail-cache
     #   wagtail-color-panel
@@ -700,14 +851,16 @@ wagtail==5.2
     #   wagtail-zoom-integration
     #   wagtailgeowidget
     #   wagtailmedia
-wagtail-adminsortable @ https://github.com/Lh4cKg/wagtail-admin-sortable/archive/baa0d1f13a6bca4cc60e0d7dcd0522ecafcf5d67.zip#sha256=ab6ea62b180659f56330397e97e9fcc2769dd10801f52fd259bc3175d77e27b7
+wagtail-2fa==1.6.9
     # via -r base.in
-wagtail-cache==2.3.0
+wagtail-adminsortable @ https://github.com/wmo-raf/wagtail-admin-sortable/archive/33bf22f290e7a4210b44667e9ff56e4b35ad309e.zip
+    # via -r base.in
+wagtail-cache==2.5.1
     # via
     #   -r base.in
     #   adm-boundary-manager
     #   geomanager
-wagtail-color-panel==1.4.1
+wagtail-color-panel==1.6.0
     # via
     #   -r base.in
     #   geomanager
@@ -716,43 +869,50 @@ wagtail-django-recaptcha==1.0
 wagtail-font-awesome-svg==1.0.1
     # via
     #   -r base.in
+    #   alertwise
     #   forecastmanager
     #   geomanager
 wagtail-humanitarian-icons==2.0.0
     # via
     #   -r base.in
-    #   capeditor
+    #   alertwise
     #   geomanager
-wagtail-icon-chooser==0.0.7
+wagtail-icon-chooser==0.3.1
     # via
     #   -r base.in
-    #   capeditor
+    #   alertwise
     #   forecastmanager
     #   geomanager
 wagtail-lazyimages==0.1.5
-    # via -r base.in
+    # via
+    #   -r base.in
+    #   alertwise
 wagtail-mailchimp-integration==0.1.0
     # via -r base.in
 wagtail-mautic-integration==0.0.1
     # via -r base.in
 wagtail-metadata==5.0.0
-    # via -r base.in
-wagtail-modeladmin==1.0.0
+    # via
+    #   -r base.in
+    #   alertwise
+wagtail-modeladmin==2.1.0
     # via
     #   -r base.in
     #   adm-boundary-manager
     #   geomanager
+    #   wagtail-adminsortable
+    #   wagtail-surveyjs
 wagtail-modelchooser==4.0.1
     # via
     #   -r base.in
-    #   capeditor
-wagtail-surveyjs==0.0.1
+    #   alertwise
+wagtail-surveyjs==0.2.0
     # via -r base.in
-wagtail-webstories-editor==0.1.0
+wagtail-webstories-editor==0.2.0
     # via -r base.in
 wagtail-zoom-integration==0.0.8
     # via -r base.in
-wagtailgeowidget==7.0.0
+wagtailgeowidget==8.2.1
     # via
     #   -r base.in
     #   forecastmanager
@@ -760,40 +920,48 @@ wagtailleafletwidget==1.0.3
     # via -r base.in
 wagtailmedia==0.15.2
     # via wagtail-webstories-editor
-watchfiles==0.23.0
+watchfiles==1.0.4
     # via uvicorn
 wcwidth==0.2.13
     # via prompt-toolkit
-weasyprint==62.3
-    # via -r base.in
+weasyprint==63.1
+    # via
+    #   -r base.in
+    #   alertwise
 webencodings==0.5.1
     # via
     #   cssselect2
-    #   html5lib
     #   tinycss2
-websockets==12.0
+    #   tinyhtml5
+websockets==14.2
     # via
     #   django-nextjs
     #   uvicorn
-willow[heif]==1.6.3
+willow[heif]==1.9.0
     # via
     #   wagtail
     #   willow
+wrapt==1.17.2
+    # via
+    #   deprecated
+    #   opentelemetry-instrumentation
+    #   opentelemetry-instrumentation-dbapi
+    #   opentelemetry-instrumentation-redis
 xarray==2024.7.0
     # via
     #   geomanager
     #   rioxarray
-xmltodict==0.13.0
-    # via capeditor
-yarl==1.9.4
+xmltodict==0.14.2
+    # via alertwise
+yarl==1.18.3
     # via aiohttp
-zipp==3.20.0
+zipp==3.21.0
     # via
     #   importlib-metadata
     #   importlib-resources
-zope-interface==7.0.1
+zope-interface==7.2
     # via twisted
-zopfli==0.2.3
+zopfli==0.2.3.post1
     # via fonttools
 
 # The following packages are considered to be unsafe in a requirements file:

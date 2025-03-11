@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n get_share_url %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n get_share_url wagtailiconchooser_tags %}
 
 <div class="columns is-multiline is-mobile document-item-detail-wrapper">
     <div class="column is-3-desktop is-offset-1-desktop is-10-mobile document-detail-left box">
@@ -12,7 +12,6 @@
                     />
                 {% endif %}
             </figure>
-
         </div>
         <div class="document-detail-file-meta">
             <span class="document-detail-file-download">
@@ -26,8 +25,8 @@
                        data-ga-event-label="{{ card.card_ga_label }}"
                        data-ga-value="{{ card.card_title }}"
                     >
-                        <span class="icon">
-                            <i class="fas fa-download"></i>
+                        <span class="icon" style="margin-right: 8px;height: 20px">
+                            {% svg_icon name="download" %}
                         </span>
                         <span>
                             {% blocktranslate with file_size=card.card_file.size|filesizeformat trimmed %}
@@ -37,11 +36,11 @@
                     </a>
                 {% elif card.card_external_publication_url %}
                     <a href="{{ card.card_external_publication_url }}" target="_blank" rel="nofollow">
-                        <span class="icon">
-                            <i class="fas fa-link"></i>
-                        </span>
                         <span>
                             {% translate "Go to publication" %}
+                        </span>
+                        <span class="icon" style="margin-left: 8px;height: 20px">
+                            {% svg_icon name="link-external" %}
                         </span>
                     </a>
                 {% endif %}
@@ -52,20 +51,22 @@
         <div class="document-detail-header">
             <h3 class="document-detail-title">{{ card.card_title }}</h3>
             <div class="document-detail-header-meta">
-                <h5 class="document-detail-header-meta-item">{{ card.card_meta }}</h5>
-                <h5 class="document-detail-header-meta-item">
-                    <span class="icon" title="No. of Views">
-                        <i class="fas fa-eye"></i>
+                <div class="document-detail-header-meta-item">{{ card.card_meta }}</div>
+                {% if  card.card_views %}
+                    <div class="document-detail-header-meta-item">
+                    <span class="icon meta-icon" title="Views">
+                        {% svg_icon name="view" %}
                     </span>
-                    <span>{{ card.card_views }}</span>
-                </h5>
+                        <span>{{ card.card_views }}</span>
+                    </div>
+                {% endif %}
                 {% if card.card_file %}
-                    <h5 class="document-detail-header-meta-item">
-                        <span class="icon" title="No. of Downloads">
-                            <i class="fas fa-file-download"></i>
+                    <div class="document-detail-header-meta-item">
+                        <span class="icon meta-icon" title="Downloads">
+                            {% svg_icon name="download" %}
                         </span>
                         <span>{{ card.card_file.downloads }}</span>
-                    </h5>
+                    </div>
                 {% endif %}
             </div>
 
@@ -85,7 +86,7 @@
                            data-ga-value="{{ material.value.title }}"
                            href="{{ material.value.document.url }}" download="{{ material.value.title }}">
                             <span class="icon document-material-icon">
-                                <i class="fas fa-download"></i>
+                                {% svg_icon name="download" %}
                             </span>
                             <span class="document-material-title">
                                 {{ material.value.title }}
@@ -100,7 +101,7 @@
                            data-ga-value="{{ material.value.title }}"
                            href="{{ material.value.image.file.url }}" download="{{ material.value.title }}">
                             <span class="icon document-material-icon">
-                                <i class="fas fa-download"></i>
+                                {% svg_icon name="download" %}
                             </span>
                             <span class="document-material-title">
                                 {{ material.value.title }} ({{ material.value.image.file.name|file_extension }})
@@ -131,8 +132,8 @@
                    data-ga-event-category="Document Download"
                    data-ga-event-label="{{ card.card_ga_label }}"
                    data-ga-value="{{ card.card_title }}">
-                    <span class="icon">
-                        <i class="fas fa-download"></i>
+                    <span class="icon share-icon">
+                        {% svg_icon name="download" %}
                     </span>
                     <span class="share-button-title">
                         {% translate "Download document" %}
@@ -141,8 +142,8 @@
             {% elif card.card_external_publication_url %}
                 <a class="button is-rounded is-small"
                    href="{{ card.card_external_publication_url }}" target="_blank" rel="noopener">
-                    <span class="icon">
-                        <i class="fas fa-link"></i>
+                    <span class="icon share-icon">
+                        {% svg_icon name="link-external" %}
                     </span>
                     <span class="share-button-title">
                         {% translate "Go to publication" %}

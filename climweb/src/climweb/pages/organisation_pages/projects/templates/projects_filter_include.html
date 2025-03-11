@@ -1,14 +1,16 @@
-{% load static i18n %}
+{% load static i18n wagtailiconchooser_tags %}
 
 <div class="results-filter">
-    <div class="accordion js-accordion">
+    <div class="accordion js-accordion" id="project-filter-accordion">
         {% if filters.services %}
             <div class="accordion__item js-accordion-item active">
                 <h6 class="accordion-header js-accordion-header filter-item-header">
                     <span>
                         {% translate "Filter by Service" %}
                     </span>
-                    <i class="fas fa-sort-down" aria-hidden="true"></i>
+                    <span class="icon">
+                        {% svg_icon name="arrow-down" %}
+                    </span>
                 </h6>
                 <div class="accordion-body js-accordion-body">
                     <div class="accordion-body__contents">
@@ -33,7 +35,9 @@
                     <span>
                         {% translate "Filter by Start Year" %}
                     </span>
-                    <i class="fas fa-sort-down" aria-hidden="true"></i>
+                    <span class="icon">
+                        {% svg_icon name="arrow-down" %}
+                    </span>
                 </h6>
                 <div class="accordion-body js-accordion-body">
                     <div class="accordion-body__contents">
@@ -49,6 +53,11 @@
                 </div>
             </div>
         {% endif %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                new Accordion("project-filter-accordion");
+            });
+        </script>
     </div>
 </div>
 

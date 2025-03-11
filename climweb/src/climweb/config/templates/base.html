@@ -10,15 +10,6 @@
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="utf-8"/>
-    <title>
-        {% block title %}
-            {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
-        {% endblock %}
-        {% block title_suffix %}
-            {% wagtail_site as current_site %}
-            {% if current_site and current_site.site_name %} {{ current_site.site_name }}{% endif %}
-        {% endblock %}
-    </title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     {% if settings.base.IntegrationSettings.google_site_verification_key %}
@@ -95,7 +86,7 @@
 {% wagtailuserbar %}
 
 {% block navbar %}
-{% include 'navigation/navbar.html' %}
+    {% include 'navigation/navbar.html' %}
 {% endblock navbar %}
 
 <div class="page-container is-medium">
@@ -129,7 +120,6 @@
     progressively.init()
 </script>
 
-<script src="https://kit.fontawesome.com/db8ac3c257.js" crossorigin="anonymous"></script>
 <script src="{% static 'js/bulma-toast.min.js' %}"></script>
 
 <script>

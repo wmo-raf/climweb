@@ -11,10 +11,14 @@
         </h5>
         <div>
             <button id="list-view-button" class="news-filter view active" name="view" value="list">
-                <i class="fas fa-th-list"></i>
+                <span class="icon">
+                      {% svg_icon name="table-list" %}
+                  </span>
             </button>
             <button id="grid-view-button" class="news-filter view" name="view" value="grid">
-                <i class="fas fa-grip-horizontal"></i>
+                <span class="icon">
+                    {% svg_icon name="grip" %}
+                </span>
             </button>
         </div>
     </div>
@@ -25,30 +29,18 @@
                     <div class="result-list-item-wrapper ">
                         <a href="{{ news_item.url }}" class="result-list-item-image">
                             <figure class="image">
-                                {% if news_item.feature_img_src %}
+                                {% if news_item.card_props.card_image %}
                                     <img class="progressive__img progressive--not-loaded"
                                          style="object-fit: cover"
-                                         data-progressive="{{ news_item.feature_img_src }}"
-                                         src="{{ news_item.feature_img_src }}" alt="{{ news_item.news_type }}"/>
+                                         data-progressive="{{ news_item.card_props.card_image }}"
+                                         src="{{ news_item.card_props.card_image }}" alt="{{ news_item.news_type }}"/>
                                 {% endif %}
                             </figure>
                         </a>
                         <div class="result-list-item-detail">
                             <div class="result-list-item-tag">
                                 <div>
-                                    {% if  news_item.news_type.icon %}
-                                        {% comment %} <span class="icon"> {% endcomment %}
-                                    {% comment %} {% svg_icon name=news_item.news_type.icon %} {% endcomment %}
-                                    {% comment %} </span> {% endcomment %}
-                                    {% endif %}
                                     <span class="item-tag">{{ news_item.news_type }}</span>
-                                </div>
-                                <div>
-                                    <span class="icon item-tag" title="No of views">
-                                        <i class="fas fa-eye"></i>
-                                        {% comment %}
-                                            <span class="item-tag-content">{{ news_item.webhits.count }}</span> {% endcomment %}
-                                    </span>
                                 </div>
                             </div>
                             <a href="{{ news_item.url }}" class="result-list-item-title">
@@ -57,7 +49,7 @@
                                 </h5>
                             </a>
                             <div class="result-list-item-snippet">
-                                {{ news_item.body|exclude_images|truncatewords_html:35|richtext }}
+                                {{ news_item.meta_description }}
                             </div>
                             <div class="result-list-item-meta">
                                 <span class="">{{ news_item.date|date:'d M Y' }}</span>

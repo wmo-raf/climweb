@@ -1,5 +1,6 @@
-{% for share_url in share_urls %}
+{% load wagtailiconchooser_tags %}
 
+{% for share_url in share_urls %}
     <a class="button is-small is-rounded"
        href="{{ share_url.url }}"
        target="_blank" rel="noopener"
@@ -7,11 +8,9 @@
        data-ga-event-label="{{ share_url.name }}"
        data-ga-value="{{ share_url.url }}"
     >
-        <span class="icon">
-            <i class="fab fa-{{ share_url.fa_icon }}" aria-hidden="true"></i>
-        </span>
+        <span class="icon share-icon">
+              {% svg_icon name=share_url.svg_icon %}
+          </span>
         <span class="share-button-title">{{ share_url.name }}</span>
     </a>
-
-
 {% endfor %}

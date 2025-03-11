@@ -1,4 +1,4 @@
-{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags wagtailsettings_tags %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags wagtailsettings_tags wagtailiconchooser_tags %}
 {% get_settings use_default_site=True %}
 
 {% for item in items %}
@@ -54,8 +54,8 @@
     <div class="more-container" style="padding-left: 0">
         <a href="{{ more_link }}" class="more">
             {{ more_link_title }}
-            <span class="icon">
-                <i class="fas fa-arrow-right"></i>
+            <span class="icon btn-icon">
+                {% svg_icon name="arrow-right-full" %}
             </span>
         </a>
     </div>

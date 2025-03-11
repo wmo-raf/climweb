@@ -9,7 +9,6 @@
 
 {% block content %}
     <main class="is-index">
-
         {% include 'hero.html' with page=page %}
         {% if page.featured_publications %}
             <section class="featured-publications-section">
@@ -47,7 +46,6 @@
     </main>
 {% endblock content %}
 
-
 {% block extra_js %}
     <script>
 
@@ -60,9 +58,6 @@
                 //for  smaller devices
                 $('.results-filter .js-accordion-item').removeClass('active');
             }
-
-            // initialize filter accordion
-            accordion.init({speed: 300, oneOpen: false});
 
             const listButton = $("#list-view-button");
             const gridButton = $("#grid-view-button");

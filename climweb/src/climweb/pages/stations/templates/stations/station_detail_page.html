@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static geomanager_tags i18n %}
+{% load static geomanager_tags i18n  wagtailiconchooser_tags %}
 
 {% block body_class %}station-detail-page{% endblock %}
 
@@ -16,8 +16,8 @@
             {% if station %}
                 <div style="padding: 20px 0;">
                     <a href="{{ page.url }}" class="more">
-                        <span class="icon">
-                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                        <span class="icon btn-icon">
+                            {% svg_icon name="arrow-left" %}
                         </span>
                         {% translate "Back to stations list" %}
                     </a>

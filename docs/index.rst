@@ -29,7 +29,7 @@ NMHS ClimWeb
    _docs/manage_pages/index
    _docs/manage_settings/index
    _docs/manage_content_assets/index
-   _docs/Manage-CAP-Alerts
+   _docs/manage_cap/index
    _docs/Manage-City-Forecasts
    _docs/Manage-Mapviewer
    _docs/Mailing-Integrations

@@ -31,6 +31,7 @@ from wagtailzoom.models import AbstractZoomIntegrationForm
 
 from climweb.base import blocks
 from climweb.base.mixins import MetadataPageMixin
+from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import (
     get_pytz_gmt_offset_str,
     paginate,
@@ -38,6 +39,7 @@ from climweb.base.utils import (
     get_first_non_empty_p_string
 )
 from .blocks import PanelistBlock, EventSponsorBlock, SessionBlock
+from loguru import logger
 
 SUMMARY_RICHTEXT_FEATURES = getattr(settings, "SUMMARY_RICHTEXT_FEATURES")
 
@@ -54,16 +56,16 @@ class EventType(models.Model):
         related_name='+',
         help_text=_("Thumbnail/image for this type of event.")
     )
-
+    
     def __str__(self):
         return self.event_type
-
+    
     panels = [
         FieldPanel('event_type'),
         FieldPanel('icon', widget=IconChooserWidget),
         FieldPanel('thumbnail'),
     ]
-
+    
     class Meta:
         verbose_name = _("Event Type")
 
@@ -74,13 +76,13 @@ class EventIndexPage(MetadataPageMixin, Page):
     parent_page_types = ['home.HomePage']
     max_count = 1
     show_in_menus = True
-
+    
     events_per_page = models.PositiveIntegerField(default=6, validators=[
         MinValueValidator(6),
         MaxValueValidator(20),
     ], help_text=_("How many events should be visible on the all events section ?"),
                                                   verbose_name=_("Events per page"))
-
+    
     content_panels = Page.content_panels + [
         # *AbstractBannerPage.content_panels,
         MultiFieldPanel(
@@ -89,75 +91,91 @@ class EventIndexPage(MetadataPageMixin, Page):
             ],
             heading=_("Other Settings"),
         ), ]
-
+    
     class Meta:
         verbose_name = _("Event Index Page")
-
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        if not meta_image:
+            meta_image = get_homepage_meta_image(self.get_site())
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description:
+            meta_description = get_homepage_meta_description(self.get_site())
+        
+        return meta_description
+    
     @property
     def filters(self):
         event_types = EventType.objects.all()
-
+        
         years = EventPage.objects.dates("date_from", "year")
-
+        
         return {'event_types': event_types, 'year': years}
-
+    
     def get_featured_event(self):
-
+        
         queryset = self.all_events.filter(is_archived=False)
-
+        
         featured_event = queryset.filter(featured=True).first()
-
+        
         if featured_event:
             return featured_event
         else:
             featured_event = queryset.first()
-
+        
         return featured_event
-
+    
     def filter_events(self, request):
         events = self.all_events
-
+        
         years = query_param_to_list(request.GET.get("year"))
         event_types = query_param_to_list(request.GET.get("event_type"))
         archive = request.GET.get("archive")
-
+        
         is_archived = False
         # events in the past
         if archive == "True":
             is_archived = True
-
+        
         filters = models.Q()
-
+        
         filters &= models.Q(is_archived=is_archived)
-
+        
         if years:
             filters &= models.Q(date_from__year__in=years)
         if event_types:
             filters &= models.Q(event_type__in=event_types)
-
+        
         return events.filter(filters)
-
+    
     def filter_and_paginate_events(self, request):
         page = request.GET.get('page')
-
+        
         filtered_events = self.filter_events(request)
-
+        
         paginated_events = paginate(filtered_events, page, self.events_per_page)
-
+        
         return paginated_events
-
+    
     @property
     def all_events(self):
         return EventPage.objects.live().filter(is_hidden=False).order_by('-date_from')
-
+    
     def get_context(self, request, *args, **kwargs):
         context = super(EventIndexPage, self).get_context(
             request, *args, **kwargs)
-
+        
         context['featured_event'] = self.get_featured_event()
-
+        
         context['events'] = self.filter_and_paginate_events(request)
-
+        
         return context
 
 
@@ -166,15 +184,15 @@ class EventPage(MetadataPageMixin, Page):
         ('side', "Side by Side with Text"),
         ('top', "At the top before text"),
     )
-
+    
     MEETING_PLATFORM_CHOICES = (
         ('zoom', 'Zoom'),
     )
-
+    
     template = 'event_page.html'
     parent_page_types = ['events.EventIndexPage', ]
     subpage_types = ['events.EventRegistrationPage']
-
+    
     event_type = models.ForeignKey(EventType, on_delete=models.PROTECT, verbose_name=_("Event Type"))
     category = ParentalManyToManyField('base.ServiceCategory', verbose_name=_("Service Categories"))
     projects = ParentalManyToManyField('projects.ProjectPage', blank=True, verbose_name=_("Relevant Projects"))
@@ -188,7 +206,7 @@ class EventPage(MetadataPageMixin, Page):
                              choices_display="WITH_GMT_OFFSET",
                              use_pytz=True,
                              verbose_name=_("Timezone"))
-
+    
     location = models.CharField(max_length=100, help_text=_("Where will the event take place ?"),
                                 verbose_name=_("Location"))
     cost = models.CharField(max_length=100, blank=True, null=True,
@@ -218,34 +236,34 @@ class EventPage(MetadataPageMixin, Page):
                                        verbose_name=_("Image Placement"))
     form_template = models.ForeignKey('events.EventRegistrationFormTemplate', on_delete=models.SET_NULL, blank=True,
                                       null=True, verbose_name=_("Form template"))
-
+    
     featured = models.BooleanField(
         default=False,
         help_text=_("Show this event in the events landing page as featured ?"), verbose_name=_("Featured"))
-
+    
     is_hidden = models.BooleanField(
         default=False,
         help_text=_("Make this event hidden in events page or elsewhere"), verbose_name=_("Is hidden"))
-
+    
     is_visible_on_homepage = models.BooleanField(
         default=False,
         help_text=_("Show this event on the homepage ?"), verbose_name=_("Is visible on homepage"))
-
+    
     panelists = StreamField([
         ('panelist', PanelistBlock()),
     ], null=True, blank=True, use_json_field=True, verbose_name=_("Panelists"))
-
+    
     sessions = StreamField([
         ('session', SessionBlock()),
     ], null=True, blank=True, use_json_field=True, verbose_name=_("Sessions"))
-
+    
     additional_materials = StreamField([
         ('additional_material', blocks.AdditionalMaterialBlock()),
     ], null=True, blank=True, use_json_field=True, verbose_name=_("Additional Materials"))
     sponsors = StreamField([
         ('sponsor', EventSponsorBlock()),
     ], null=True, blank=True, verbose_name=_("Acknowledgement/sponsors"), use_json_field=True)
-
+    
     is_archived = models.BooleanField(default=False, verbose_name=_("Is archived"))
     registration_open = models.BooleanField(default=True, verbose_name=_("Registration open"))
     youtube_video_id = models.CharField(max_length=100, blank=True,
@@ -254,12 +272,12 @@ class EventPage(MetadataPageMixin, Page):
                                         max_length=100,
                                         blank=True, choices=MEETING_PLATFORM_CHOICES,
                                         help_text=_("Platform for Event"), default="zoom")
-
+    
     enable_zoom_integration = models.BooleanField(default=False,
                                                   verbose_name=_("Enable Zoom Integration in registration form"))
     enable_mailchimp_integration = models.BooleanField(default=False, verbose_name=_(
         "Enable Mailchimp Integration in registration form"))
-
+    
     content_panels = Page.content_panels + [
         FieldPanel('event_type'),
         FieldPanel('category', widget=CheckboxSelectMultiple),
@@ -276,21 +294,21 @@ class EventPage(MetadataPageMixin, Page):
         FieldPanel('panelists'),
         FieldPanel('sessions'),
         FieldPanel('additional_materials'),
-
+        
         FieldPanel('featured'),
         FieldPanel('is_hidden'),
         FieldPanel('is_visible_on_homepage'),
         FieldPanel('sponsors'),
         # FieldPanel('youtube_video_id'),
     ]
-
+    
     settings_panels = [
         FieldPanel('registration_open'),
         FieldPanel('form_template'),
         FieldPanel('enable_zoom_integration'),
         FieldPanel('enable_mailchimp_integration'),
     ]
-
+    
     # This is where all the tabs are created
     edit_handler = TabbedInterface(
         [
@@ -299,26 +317,44 @@ class EventPage(MetadataPageMixin, Page):
             ObjectList(settings_panels, heading=_('Registration and Integrations'), classname="settings"),
         ]
     )
-
+    
     class Meta:
         ordering = ['-date_from', ]
         verbose_name = _("Event Page")
-
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        # try getting the parent image
+        if not meta_image:
+            meta_image = self.get_parent().specific.get_meta_image()
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        # try getting the parent description
+        if not meta_description:
+            meta_description = self.get_parent().specific.get_meta_description()
+        
+        return meta_description
+    
     @property
     def count_down(self):
         if self.date_to:
             days = (self.date_from - timezone.now()).days
-
+            
             if days > 0:
                 return days
-
+        
         return None
-
+    
     @cached_property
     def card_props(self):
-
+        
         card_text = self.search_description or self.description
-
+        
         return {
             "card_image": self.image,
             "card_title": self.title,
@@ -328,24 +364,24 @@ class EventPage(MetadataPageMixin, Page):
             "card_tag": self.event_type,
             "card_tags": ""
         }
-
+    
     @cached_property
     def registration_page(self):
         return self.get_first_child()
-
+    
     @cached_property
     def sessions_data(self):
         sessions_list = list(self.sessions)
         sessions_list.sort(key=lambda s: s.value.get("start_time"))
-
+        
         sessions_by_date = {}
-
+        
         for session in sessions_list:
             start_time = session.value.get("start_time")
             st = start_time.strftime('%I:%M %p')
             ct = f"{st}"
             session_date = start_time.date()
-
+            
             if sessions_by_date.get(session_date) is None:
                 sessions_by_date[session_date] = {}
                 sessions_by_date[session_date][ct] = [session]
@@ -354,34 +390,34 @@ class EventPage(MetadataPageMixin, Page):
                     sessions_by_date[session_date][ct] = [session]
                 else:
                     sessions_by_date[session_date][ct].append(session)
-
+        
         return sessions_by_date
-
+    
     @cached_property
     def event_title(self):
         return self.title
-
+    
     @cached_property
     def is_ended(self):
         end_date = self.date_to
         if not end_date:
             end_date = self.date_from
         return timezone.now() > end_date
-
+    
     @cached_property
     def in_progress(self):
         start_date = self.date_from
         end_date = self.date_to
-
+        
         if start_date and end_date:
             return start_date < timezone.now() < end_date
-
+        
         return None
-
+    
     @cached_property
     def tz_gmt_offset(self):
         return get_pytz_gmt_offset_str(self.timezone)
-
+    
     def save(self, *args, **kwargs):
         if not self.search_image and self.image:
             self.search_image = self.image
@@ -399,7 +435,7 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
     def __init__(self, data=None, files=None, parent_page=None, *args, **kwargs):
         # update the kwargs BEFORE the init of the super form class
         instance = kwargs.get('instance')
-
+        
         # only update the initial value when creating a new page
         if not instance.id:
             # get parent title
@@ -408,36 +444,36 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
             slug = slugify(new_title)
             instance.title = new_title
             instance.slug = slug
-
+            
             # check if we have parent page and parent page has form template selected
             if parent_page and parent_page.form_template:
-
+                
                 form_template = parent_page.form_template
-
+                
                 template_form_fields = form_template.form_fields.all()
-
+                
                 registration_form_fields = []
-
+                
                 for template_form_field in template_form_fields:
                     template_field_obj = template_form_field.to_dict()
-
+                    
                     reg_field = EventRegistrationFormField(**template_field_obj)
                     registration_form_fields.append(reg_field)
-
+                
                 instance.registration_form_fields = registration_form_fields
                 instance.validation_field = form_template.validation_field
-
+        
         # Ensure you call the super class __init__
         super(EventPageCustomForm, self).__init__(data, files, *args, **kwargs)
         self.parent_page = parent_page
-
+        
         latest_parent_revision = parent_page.get_latest_revision_as_object()
         zoom_integration_enabled = latest_parent_revision.enable_zoom_integration
         mailchimp_integration_enabled = latest_parent_revision.enable_mailchimp_integration
-
+        
         if not zoom_integration_enabled:
             self.fields.pop('zoom_event', None)
-
+        
         if not mailchimp_integration_enabled:
             self.fields.pop('audience_list_id', None)
 
@@ -445,16 +481,16 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
 class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, AbstractMailchimpIntegrationForm,
                             AbstractZoomIntegrationForm):
     base_form_class = EventPageCustomForm
-
+    
     template = 'event_registration_page.html'
     landing_page_template = 'form_thank_you_landing.html'
     parent_page_types = ['events.EventPage']
     subpage_types = []
     max_count_per_parent = 1
-
+    
     # don't cache this page because it has a form
     cache_control = 'no-cache'
-
+    
     additional_information = models.TextField(blank=True, null=True,
                                               help_text=_("Optional Additional information/details"),
                                               verbose_name=_("Additional Information - (Optional)"))
@@ -462,7 +498,7 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                                                      help_text=_("Number of available registrations"),
                                                      verbose_name=_("Registration Limit - "
                                                                     "(Leave blank if no limit)"))
-
+    
     thank_you_text = models.TextField(blank=True, null=True,
                                       help_text=_("Text to display after successful submission"),
                                       verbose_name=_("Thank you text"))
@@ -471,7 +507,7 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                                                     "prevent multiple submissions by one person. This is usually the "
                                                     "email address field in snake casing format"),
                                         default="email_address")
-
+    
     send_confirmation_email = models.BooleanField(default=False,
                                                   help_text=_("Should we send a confirmation/follow up email ?"),
                                                   verbose_name=_("Send confirmation Email"))
@@ -486,51 +522,69 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                                                                 "Leave unchecked for direct zoom registrations"),
                                                  help_text=_(
                                                      "Enable batch option for adding registrants to zoom later"))
-
+    
     content_panels = AbstractEmailForm.content_panels + [
         FieldPanel('additional_information'),
         # FieldPanel('registration_limit'),
         InlinePanel('registration_form_fields', label="Form fields"),
         FieldPanel('validation_field'),
-
+        
         MultiFieldPanel([
             FieldPanel('to_address', heading="Email addresses"),
             FieldPanel('subject'),
         ], "Staff Email Notification Settings - When someone registers"),
-
+        
         FieldPanel('thank_you_text', heading="Message to show on website after successful submission"),
     ]
-
+    
     class Meta:
         verbose_name = _("Event Registration Page")
-
+    
+    def get_meta_image(self):
+        meta_image = super().get_meta_image()
+        
+        # try getting the parent image
+        if not meta_image:
+            meta_image = self.get_parent().specific.get_meta_image()
+        
+        return meta_image
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        # try getting the parent description
+        if not meta_description:
+            meta_description = self.get_parent().specific.get_meta_description()
+        
+        return meta_description
+    
     @cached_property
     def event(self):
         return self.get_parent().specific
-
+    
     def serve(self, request, *args, **kwargs):
         if request.method == "POST":
             form = self.get_form(
                 request.POST, request.FILES, page=self, user=request.user
             )
-
+            
             if form.is_valid():
                 # check for email duplication
                 if self.should_process_form(request, form_data=form.data):
                     return super(EventRegistrationPage, self).serve(request, *args, **kwargs)
         else:
             form = self.get_form(page=self, user=request.user)
-
+        
         context = self.get_context(request)
         context["form"] = form
         return TemplateResponse(request, self.get_template(request), context)
-
+    
     @cached_classmethod
     def get_edit_handler(cls):
         """
         Override to "lazy load" the panels overriden by subclasses.
         """
-
+        
         panels = [
             ObjectList(cls.content_panels, heading=_('Content')),
             ObjectList(cls.promote_panels, heading=_('SEO'), classname="seo"),
@@ -538,49 +592,49 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
             ObjectList(AbstractZoomIntegrationForm.integration_panels, heading=_('Zoom Events Settings')),
             ObjectList(AbstractMailchimpIntegrationForm.integration_panels, heading=_('MailChimp Settings'))
         ]
-
+        
         return TabbedInterface(panels).bind_to_model(model=cls)
-
+    
     def get_form_fields(self):
         return self.registration_form_fields.all()
-
+    
     def get_data_fields(self):
         data_fields = super().get_data_fields()
         meeting_platform = self.event.meeting_platform
-
+        
         if meeting_platform == "zoom" and self.zoom_event:
             data_fields.append(('added_to_zoom', _('Added to Zoom')), )
-
+        
         return data_fields
-
+    
     def get_form_class(self):
         form_class = super(EventRegistrationPage, self).get_form_class()
         form_class.required_css_class = 'required'
         return form_class
-
+    
     def should_perform_zoom_integration_operation(self, request, form):
         return self.event.enable_zoom_integration
-
+    
     def should_perform_mailchimp_integration_operation(self, request, form):
         return self.event.enable_mailchimp_integration
-
+    
     def show_page_listing_mailchimp_integration_button(self):
         return self.event.enable_mailchimp_integration
-
+    
     def show_page_listing_zoom_integration_button(self):
         return self.event.enable_zoom_integration
-
+    
     def should_process_form(self, request, form_data):
         should_process = True
         if self.validation_field:
             validation_field = self.validation_field.replace('-', '_')
             submission_class = self.get_submission_class()
             form_validation_value = form_data.get(validation_field)
-
+            
             # try getting email using email or email_address
             if not form_validation_value:
                 form_validation_value = form_data.get("email") or form_data.get("email_address")
-
+            
             if form_validation_value:
                 queryset = submission_class.objects.filter(form_data__icontains=form_validation_value, page=self)
                 if queryset.exists():
@@ -590,7 +644,7 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                         validation_field.replace('_', ' '),
                         form_validation_value)
                     messages.add_message(request, messages.ERROR, message)
-
+                    
                     # We have a duplicate. Do not continue to process form
                     should_process = False
             else:
@@ -601,23 +655,24 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                                         "make sure the correct field is set to avoid duplicate submissions and "
                                         "stop these messages from being sent".format(self.validation_field, self.title),
                                 fail_silently=True)
-                except Exception:
-                    pass
-
+                except Exception as e:
+                    logger.error("[EVENT_REGISTRATION_PAGE] Incorrect form validation field."
+                                 " Error sending email to admins: {}".format(e))
+                
                 # meanwhile, mark the form for saving
                 should_process = True
-
+        
         return should_process
-
+    
     def save(self, *args, **kwargs):
         parent = self.get_parent().specific
-
+        
         # Get meta items from parent
         if parent.search_description:
             self.search_description = parent.search_description
         if parent.search_image:
             self.search_image = parent.search_image
-
+        
         return super().save(*args, **kwargs)
 
 
@@ -631,22 +686,22 @@ class EventRegistrationFormField(AbstractFormField):
 class EventRegistrationFormTemplate(ClusterableModel):
     template_name = models.CharField(max_length=200)
     validation_field = models.CharField(max_length=200, default='email_address')
-
+    
     panels = [
         FieldPanel('template_name'),
         InlinePanel('form_fields', label="Form fields"),
         FieldPanel('validation_field'),
     ]
-
+    
     def __str__(self):
         return self.template_name
 
 
 class EventRegistrationFormTemplateField(AbstractFormField):
     form_template = ParentalKey(EventRegistrationFormTemplate, on_delete=models.CASCADE, related_name="form_fields")
-
+    
     EXCLUDE = ['id', 'clean_name', 'form_template']
-
+    
     def to_dict(self):
         opts = self._meta
         data = {}
@@ -658,6 +713,6 @@ class EventRegistrationFormTemplateField(AbstractFormField):
 
 def on_event_published(sender, **kwargs):
     event_page = kwargs['instance']
-
+    
     if event_page.zoom_events_id:
         cache.delete(f'zoom-events-{event_page.zoom_events_id}')

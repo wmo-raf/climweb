@@ -17,34 +17,8 @@ Initially, the selected pilot countries were:
 
 However, several additional countries have expressed interest in adapting the ClimWeb
 
-The table below lists the status of the ClimWeb setup for each country that has requested to install the ClimWeb so far:
-
-|     | Country       | Status/Stage             | Public URL                                                        |
-|:----|---------------|--------------------------|-------------------------------------------------------------------|
-| 1   | Algeria       | Internal Testing         |                                                                   |
-| 2   | Benin         | Training stage           |                                                                   |
-| 3   | Burkina Faso  | Published                | [https://www.meteoburkina.bf](https://www.meteoburkina.bf)        |
-| 4   | Burundi       | Training stage           |                                                                   |
-| 5   | Chad          | Server setup stage       |                                                                   |
-| 6   | Djibouti      | Initial discussion stage |                                                                   |
-| 7   | Ethiopia      | Training stage           |                                                                   |
-| 8   | Ghana         | Training Stage           |                                                                   |
-| 9   | Guinea Bissau | Initial discussion stage |                                                                   |
-| 10  | Kenya         | Server setup stage       |                                                                   |
-| 11  | Libya         | Initial discussion stage |                                                                   |
-| 12  | Malawi        | Published                | [http://www.metmalawi.gov.mw](http://www.metmalawi.gov.mw)        |
-| 13  | Mali          | Published                | [https://malimeteo.ml](https://malimeteo.ml)                      |
-| 14  | Mauritius     | Initial discussion stage |                                                                   |
-| 15  | Morocco       | Internal testing         |                                                                   |
-| 16  | Niger         | Published                | [https://www.niger-meteo.ne](https://www.niger-meteo.ne)          |
-| 17  | Nigeria       | Server setup stage       |                                                                   |
-| 18  | Seychelles    | Published                | [https://www.meteo.sc](https://www.meteo.sc)                      |
-| 19  | Sierra Leone  | Initial discussion stage |                                                                   |
-| 20  | South Sudan   | Published                | [https://meteosouthsudan.com.ss](https://meteosouthsudan.com.ss ) |
-| 21  | Sudan         | Published                | [https://meteosudan.sd](https://meteosudan.sd  )                  |
-| 22  | The Gambia    | Initial discussion stage |                                                                   |
-| 23  | Togo          | Published                | [https://www.anamet-togo.com](https://www.anamet-togo.com )       |
-| 24  | Zimbabwe      | Initial discussion stage |                                                                   |
+The status of Climweb setup for each country can be found at [https://climtech.africa/climweb/](https://climtech.africa/climweb/)
+                                                              |
 
 The development of the website generally encompasses eleven steps.
 
@@ -60,9 +34,6 @@ The development of the website generally encompasses eleven steps.
 - Setup of CAP composing tool
 - Integration of email marketing tool with the website to enable users to sign up to receiving services via email.
 
-The table below summarises each country’s progress:
-
-![ClimWeb Country Progress](../_static/images/piloting/content_progess_table.png)
 
 ## Conclusion and recommendations
 
@@ -72,7 +43,7 @@ The table below summarises each country’s progress:
   requests to pilot the system to modernize their existing websites. Currently, ten countries are in various stages of
   ClimWeb customization, with the first group aiming to launch their updated websites between February and March 2024.
 
-- **Pilot countries have recognized the ClimWeb's potential to significantly enhance service provision and elevate
+- **Countries have recognized the ClimWeb's potential to significantly enhance service provision and elevate
   visibility**
   not only among their public but also across line ministries and other stakeholders at the national, regional, and
   global levels. The ClimWeb is expected to foster greater public trust in the products and warnings, enhance national

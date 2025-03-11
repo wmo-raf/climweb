@@ -1,0 +1,49 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load i18n wagtailadmin_tags nmhs_cms_tags wagtailimages_tags wagtailsettings_tags %}
+{% get_settings use_default_site=True %}
+{% block titletag %}{% trans "Sign in" %}{% endblock %}
+{% block bodyclass %}login{% endblock %}
+
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+        <h1 style="color:red ">
+            {% block branding_login %}{% trans "Account Locked" %}{% endblock %}
+        </h1>
+
+        <div>
+            <p style="font-size: 14px">
+                {% if cooloff_time %}
+                    {% translate "Your account has been locked due to multiple failed login attempts. Please try again later." %}
+                {% else %}
+                    {% translate "You account has been locked due to multiple failed login attempts. Please contact our support team for assistance." %}
+                {% endif %}
+            </p>
+            {% if settings.base.ImportantPages.contact_us_page %}
+                <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
+                   class="button"
+                   style="display: flex;justify-content: center;align-items: center;margin-top: 20px"
+                >
+                    {% translate "Contact us" %}
+                </a>
+            {% endif %}
+        </div>
+
+        {% block branding_logo %}
+            <div class="login-logo">
+                <figure style="max-height: 90px;max-width: 90px;">
+                    {% if settings.base.OrganisationSetting.cms_logo %}
+                        {% image settings.base.OrganisationSetting.cms_logo original as logo_image %}
+                        <img src="{{ logo_image.url }}" alt="ClimWeb Login Logo"
+                             style="height: 100%;width: 100%;object-fit: contain"/>
+                    {% else %}
+                        <style>
+                            .login-logo {
+                                display: none
+                            }
+                        </style>
+                    {% endif %}
+                </figure>
+            </div>
+        {% endblock %}
+    </main>
+{% endblock %}

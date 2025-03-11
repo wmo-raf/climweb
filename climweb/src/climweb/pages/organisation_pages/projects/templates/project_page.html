@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailimages_tags wagtailsettings_tags i18n %}
+{% load static wagtailcore_tags wagtailimages_tags wagtailsettings_tags i18n wagtailiconchooser_tags %}
 {% get_settings use_default_site=True %}
 {% wagtail_site as current_site %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
-    {% comment %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/twentytwenty.css' %}"> {% endcomment %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
 {% endblock %}
 
@@ -47,10 +45,15 @@
                 <div class="container">
                     <div class="columns is-mobile is-centered project-goals">
                         <div class="column is-three-quarters-desktop is-full-mobile">
-                            <div class="accordion js-accordion">
+                            <div class="accordion js-accordion" id="goals-accordion">
                                 {% for goal_block in page.goals_block %}
                                     {% include_block goal_block with is_first=forloop.first %}
                                 {% endfor %}
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        new Accordion("goals-accordion");
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -106,8 +109,8 @@
                         <div class="more-container">
                             <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">
                                 {% translate "More Videos" %}
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right"></i>
+                                <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-right-full" %}
                                 </span>
                             </a>
                         </div>
@@ -168,8 +171,8 @@
                         <div class="more-container">
                             <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}">
                                 {% translate "More Partners" %}
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right"></i>
+                                <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-right-full" %}
                                 </span>
                             </a>
                         </div>
@@ -192,11 +195,9 @@
             //for  smaller devices
             $('.js-accordion-item').removeClass('active');
         }
-
-        accordion.init({oneOpen: true})
-
+        
         const page_youtube_playlist =
-        {{ page.youtube_playlist|yesno:'true,false' }}
+            {{ page.youtube_playlist|yesno:'true,false' }}
 
         if (page_youtube_playlist) {
 

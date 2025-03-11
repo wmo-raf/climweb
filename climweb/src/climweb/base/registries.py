@@ -1,12 +1,8 @@
-import logging
-
 from .registry import Registry, Instance
-
-logger = logging.getLogger(__name__)
 
 
 class Plugin(Instance):
-
+    
     def get_urls(self):
         """
         If needed root urls related to the plugin can be added here.
@@ -30,7 +26,7 @@ class Plugin(Instance):
         :return: A list containing the urls.
         :rtype: list
         """
-
+        
         return []
 
 
@@ -39,9 +35,9 @@ class PluginRegistry(Registry):
     With the plugin registry it is possible to register new plugins. A plugin is an
     abstraction made specifically for ClimWeb. It allows to extend and develop specific functionalities on top of ClimWeb.
     """
-
+    
     name = "plugin"
-
+    
     @property
     def urls(self):
         """
@@ -51,12 +47,12 @@ class PluginRegistry(Registry):
         :return: The urls of the registered instances.
         :rtype: list
         """
-
+        
         urls = []
         for types in self.registry.values():
             urls += types.get_urls()
         return urls
-
+    
     def get_plugin_subpage_types_for_page(self, page_model_class_name):
         """
         Returns a list of all the subpage types that are available for a specific page model.
@@ -66,17 +62,17 @@ class PluginRegistry(Registry):
         :return: A list of the subpage types.
         :rtype: list
         """
-
+        
         name = page_model_class_name.lower()
         fn_name = f"get_{name}_subpage_types"
-
+        
         subpage_types = []
         for types in self.registry.values():
             fn = getattr(types, fn_name, None)
-
+            
             if fn:
                 subpage_types += fn()
-
+        
         return subpage_types
 
 

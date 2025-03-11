@@ -40,4 +40,15 @@ def home_map_settings(request):
             "default": location.value.default
         })
 
+    if settings.forecast_cluster:
+        config["forecastClusterConfig"] = {
+            "cluster": True
+        }
+
+        if settings.forecast_cluster_min_points:
+            config["forecastClusterConfig"]["clusterMinPoints"] = settings.forecast_cluster_min_points
+
+        if settings.forecast_cluster_radius:
+            config["forecastClusterConfig"]["clusterRadius"] = settings.forecast_cluster_radius
+
     return JsonResponse(config)

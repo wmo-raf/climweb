@@ -1,4 +1,4 @@
-{% load nmhs_cms_tags i18n %}
+{% load nmhs_cms_tags i18n wagtailiconchooser_tags %}
 
 {% for item in videos %}
     <div class="column is-one-third-desktop is-half-tablet is-full-mobile video-item" style="display: flex;">
@@ -34,7 +34,9 @@
                     </a>
                     <a href="https://youtu.be/{{ item.contentDetails.videoId }}" target="_blank"
                        rel="noreferrer noreferrer">
-                        <i class="fas fa-arrow-right"></i>
+                        <span class="icon btn-icon">
+                            {% svg_icon name="arrow-right-full" %}
+                        </span>
                     </a>
                 </div>
             </div>

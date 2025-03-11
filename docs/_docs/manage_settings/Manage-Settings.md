@@ -1,4 +1,4 @@
-# Settings
+# Base Settings
 
 All settings can be found at the settings menu on the left side-bar. *Scroll down if settings menu is not visible*. 
 
