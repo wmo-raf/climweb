@@ -76,7 +76,7 @@ NMHSs that have adopted ClimWeb across Africa:
 ## 📕 User Guide
 
 Read more from the user
-guide - [https://nmhs-cms.readthedocs.io](https://nmhs-cms.readthedocs.io/en/latest/_docs/Home.html)
+guide - [https://climweb.readthedocs.io/](https://climweb.readthedocs.io/)
 
 ---
 
