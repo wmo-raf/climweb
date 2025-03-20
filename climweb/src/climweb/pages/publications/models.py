@@ -256,6 +256,7 @@ class PublicationPage(MetadataPageMixin, Page):
             "card_title": self.publication_title,
             "card_tag_category": self.publication_type.name,
             "card_text": card_text,
+            "card_full_text": self.summary,
             "card_meta": self.publication_date,
             "card_more_link": self.url,
             "card_tag": "Publication",
