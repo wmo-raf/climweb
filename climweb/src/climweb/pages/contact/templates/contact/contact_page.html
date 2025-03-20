@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-{% load i18n static lazyimages_tags wagtailcore_tags widget_tweaks wagtailiconchooser_tags %}
+{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags %}
 {% block extra_css %}
     {{ block.super }}
     <link type="text/css" rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}"/>
-    <link type="text/css" rel="stylesheet" href="{% static 'contact/css/contact.css' %}"/>
 {% endblock extra_css %}
 
 {% block content %}
@@ -24,44 +23,14 @@
                             <div class="column is-7 mr-3">
                                 <div class="card {{ box_shadow }}" style="background-color:#f8f9fb">
                                     <div class="card-content mx-6">
-
-                                        <form id="cfde" method="GET" class="my-6">
+                                        <form action="{% pageurl page %}" method="POST">
                                             {% csrf_token %}
-                                            {{ form.non_field_errors }}
-
-                                            {% for hidden_field in form.hidden_fields %}
-                                                {{ hidden_field.errors }}
-                                                {{ hidden_field }}
-                                            {% endfor %}
-
-                                            {% for field in form.visible_fields %}
-                                                <div class="field pb-2">
-                                                    {{ field.errors }}
-                                                    <label class="label {% if field.field.required %} required {% endif %}">{{ field.label }}</label>
-                                                    {% comment %}
-                                                        <div class="control">
-                                                            <input class="input" type="text" required>
-                                                        </div> {% endcomment %}
-                                                    {% if field.widget_type|lower == "textarea" %}
-                                                        <div class="control">
-                                                            {% render_field field class="textarea" rows="10" %}
-                                                        </div>
-                                                        <p class="help">{{ field.help_text }}</p>
-                                                    {% else %}
-                                                        <div class="control">
-                                                            {% render_field field class="input" %}
-                                                        </div>
-                                                        <p class="help">{{ field.help_text }}</p>
-                                                    {% endif %}
-                                                </div>
-                                            {% endfor %}
-
+                                            {{ form|bulma }}
                                             <div class="field">
-                                                <div class="control">
-                                                    <button class="button is-dark" id="cf">
-                                                        {% translate "Submit" %}
-                                                    </button>
-                                                </div>
+                                                <button type="submit"
+                                                        class="button feedback-submit-button submit-button has-no-border">
+                                                    {% translate "Submit" %}
+                                                </button>
                                             </div>
                                         </form>
                                     </div>
@@ -124,14 +93,6 @@
     <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
 
     <script>
-
-        $('#cf').click(function (e) {
-
-            const data = $('#cfde').serializeArray()
-
-            $('#cfde').attr('action', "{% pageurl page %}").attr('method', "POST").submit()
-        })
-
         const locationStr = JSON.parse($('#location').val())
 
         const locationData = {
