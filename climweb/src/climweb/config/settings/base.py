@@ -132,7 +132,7 @@ INSTALLED_APPS = [
     "django_filters",
     "django_deep_translator",
     "widget_tweaks",
-    "captcha",
+    "django_recaptcha",
     'wagtailcaptcha',
     "bulma",
     "mailchimp3",
