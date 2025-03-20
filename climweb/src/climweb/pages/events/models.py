@@ -13,6 +13,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _, gettext
+from loguru import logger
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.models import ClusterableModel
 from timezone_field import TimeZoneField
@@ -39,7 +40,6 @@ from climweb.base.utils import (
     get_first_non_empty_p_string
 )
 from .blocks import PanelistBlock, EventSponsorBlock, SessionBlock
-from loguru import logger
 
 SUMMARY_RICHTEXT_FEATURES = getattr(settings, "SUMMARY_RICHTEXT_FEATURES")
 
@@ -567,11 +567,11 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
             form = self.get_form(
                 request.POST, request.FILES, page=self, user=request.user
             )
-            
             if form.is_valid():
                 # check for email duplication
                 if self.should_process_form(request, form_data=form.data):
-                    return super(EventRegistrationPage, self).serve(request, *args, **kwargs)
+                    form_submission = self.process_form_submission(form)
+                    return self.render_landing_page(request, form_submission, *args, **kwargs)
         else:
             form = self.get_form(page=self, user=request.user)
         
