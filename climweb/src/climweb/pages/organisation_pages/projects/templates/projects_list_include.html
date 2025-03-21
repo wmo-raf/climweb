@@ -5,7 +5,7 @@
         <h5 id="results" class="results-count results">
             {% blocktranslate count counter=projects.paginator.count trimmed %}
                 Showing {{ counter }} result
-                {% plural %}
+            {% plural %}
                 Showing {{ counter }} results
             {% endblocktranslate %}
         </h5>
@@ -65,7 +65,9 @@
                                 </h5>
                             </a>
                             <div class="result-list-item-snippet">
-                                {{ project.introduction_text|truncatewords_html:35|richtext }}
+                                {% if project.listing_summary %}
+                                    {{ project.listing_summary }}
+                                {% endif %}
                             </div>
                             <div class="result-list-item-meta">
                                 <span class="">{{ project.period }}</span>

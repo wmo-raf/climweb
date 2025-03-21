@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.dates import MONTHS
@@ -15,7 +16,7 @@ from wagtail.models import Page
 
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import AbstractIntroPage
-from climweb.base.utils import paginate, query_param_to_list
+from climweb.base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
 from .blocks import ExtremeWeatherBlock
 from .utils import get_city_forecast_detail_data
 
@@ -186,3 +187,23 @@ class DailyWeatherReportDetailPage(MetadataPageMixin, Page):
             FieldPanel('forecast_description'),
         ], heading="Weather forecast for next day"),
     ]
+    
+    @property
+    def listing_summary(self):
+        p = get_first_non_empty_p_string(self.summary_description)
+        
+        if p:
+            # Limit the search meta desc to google's 160 recommended chars
+            return truncatechars(p, 160)
+        return None
+    
+    def get_meta_image(self):
+        return self.get_parent().specific.get_meta_image()
+    
+    def get_meta_description(self):
+        meta_description = super().get_meta_description()
+        
+        if not meta_description and self.listing_summary:
+            meta_description = self.listing_summary
+        
+        return meta_description

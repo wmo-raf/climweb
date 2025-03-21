@@ -160,6 +160,10 @@ class ProjectPage(AbstractBannerWithIntroPage):
         FieldPanel('partners', widget=CheckboxSelectMultiple),
     ]
     
+    class Meta:
+        verbose_name = _("Project")
+        ordering = ['-end_date', ]
+    
     @cached_property
     def period(self):
         if not self.end_date:
@@ -219,17 +223,23 @@ class ProjectPage(AbstractBannerWithIntroPage):
     def events(self):
         return EventPage.objects.live().filter(projects=self.pk, is_hidden=False).order_by('-date_from')[:4]
     
-    class Meta:
-        verbose_name = _("Project")
-        ordering = ['-end_date', ]
-    
-    def save(self, *args, **kwargs):
-        # if not self.search_image and self.banner_image:
-        # self.search_image = self.banner_image
-        if not self.search_description and self.introduction_title:
+    @cached_property
+    def listing_summary(self):
+        p = get_first_non_empty_p_string(self.introduction_text)
+        
+        if p:
             # Limit the search meta desc to google's 160 recommended chars
-            self.search_description = truncatechars(self.introduction_title, 160)
-        return super().save(*args, **kwargs)
+            return truncatechars(p, 160)
+        return None
+    
+    def get_meta_description(self):
+        # try to use the introduction text as meta description
+        meta_description = self.listing_summary
+        
+        if not meta_description:
+            meta_description = super().get_meta_description()
+        
+        return meta_description
 
 
 class ServiceProject(models.Model):

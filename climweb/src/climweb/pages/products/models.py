@@ -380,19 +380,25 @@ class ProductItemPage(MetadataPageMixin, Page):
         
         return meta_image
     
+    @property
+    def listing_summary(self):
+        html_description = self.product_listing_description
+        if html_description:
+            if isinstance(html_description, RichText):
+                html = html_description.source
+                p = get_first_non_empty_p_string(html)
+                if p:
+                    # Limit the search meta desc to google's 160 recommended chars
+                    return truncatechars(p, 160)
+        return None
+    
     def get_meta_description(self):
         meta_description = super().get_meta_description()
         
         if not meta_description:
             # try getting from the description of the first product item
-            if self.product_listing_description:
-                html = self.product_listing_description
-                if isinstance(self.product_listing_description, RichText):
-                    html = self.product_listing_description.source
-                p = get_first_non_empty_p_string(html)
-                if p:
-                    # Limit the search meta desc to google's 160 recommended chars
-                    meta_description = truncatechars(p, 160)
+            if self.listing_summary:
+                meta_description = self.listing_summary
         
         if not meta_description:
             meta_description = self.get_parent().get_meta_description()
