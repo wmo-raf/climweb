@@ -231,6 +231,14 @@ class PublicationPage(MetadataPageMixin, Page):
     def publication_title(self):
         return self.title
     
+    @property
+    def listing_summary(self):
+        p = get_first_non_empty_p_string(self.summary)
+        if p:
+            # Limit the search meta desc to google's 160 recommended chars
+            return truncatechars(p, 160)
+        return None
+    
     @cached_property
     def related_items(self):
         related_items = PublicationPage.objects.live().exclude(pk=self.pk).order_by('-publication_date')[:3]
@@ -249,13 +257,11 @@ class PublicationPage(MetadataPageMixin, Page):
         
         card_tags = self.tags.all()
         
-        card_text = self.search_description or self.summary
-        
         props = {
             "card_image": self.thumbnail,
             "card_title": self.publication_title,
             "card_tag_category": self.publication_type.name,
-            "card_text": card_text,
+            "card_text": self.listing_summary,
             "card_full_text": self.summary,
             "card_meta": self.publication_date,
             "card_more_link": self.url,
@@ -291,9 +297,6 @@ class PublicationPage(MetadataPageMixin, Page):
         meta_description = super().get_meta_description()
         
         if not meta_description:
-            p = get_first_non_empty_p_string(self.summary)
-            if p:
-                # Limit the search meta desc to google's 160 recommended chars
-                meta_description = truncatechars(p, 160)
+            meta_description = self.listing_summary
         
         return meta_description

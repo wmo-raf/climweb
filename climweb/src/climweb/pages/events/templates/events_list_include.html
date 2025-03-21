@@ -5,7 +5,7 @@
         <h5 class="results-count results">
             {% blocktranslate count counter=events.paginator.count trimmed %}
                 Showing {{ counter }} result
-                {% plural %}
+            {% plural %}
                 Showing {{ counter }} results
             {% endblocktranslate %}
         </h5>
@@ -53,7 +53,9 @@
                                 </h5>
                             </a>
                             <div class="result-list-item-snippet">
-                                {{ event.description|truncatewords_html:35|richtext }}
+                                {% if event.listing_summary %}
+                                    {{ event.listing_summary }}
+                                {% endif %}
                             </div>
                             <div class="result-list-item-meta">
                                 <span class="">{{ event.date_from|date:'d M Y' }}</span>

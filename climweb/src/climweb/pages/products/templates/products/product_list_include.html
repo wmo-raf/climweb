@@ -5,7 +5,7 @@
         <h5 class="results-count results">
             {% blocktranslate trimmed count counter=products.paginator.count %}
                 Showing {{ counter }} result
-                {% plural %}
+            {% plural %}
                 Showing {{ counter }} results
             {% endblocktranslate %}
         </h5>
@@ -54,7 +54,9 @@
                                 </h5>
                             </a>
                             <div class="result-list-item-snippet">
-                                {{ product.products.0.value.description|truncatewords_html:35|richtext }}
+                                {% if product.listing_summary %}
+                                    {{ product.listing_summary }}
+                                {% endif %}
                             </div>
                             <div class="result-list-item-meta">
                                 <div>

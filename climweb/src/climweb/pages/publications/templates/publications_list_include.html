@@ -5,7 +5,7 @@
         <h5 class="results-count results">
             {% blocktranslate trimmed count counter=publications.paginator.count %}
                 Showing {{ counter }} result
-                {% plural %}
+            {% plural %}
                 Showing {{ counter }} result
             {% endblocktranslate %}
         </h5>
@@ -86,7 +86,9 @@
                                 </h5>
                             </a>
                             <div class="result-list-item-snippet">
-                                {{ publication.summary|truncatewords_html:35|richtext }}
+                                {% if publication.listing_summary %}
+                                    {{ publication.listing_summary }}
+                                {% endif %}
                             </div>
                             <div class="result-list-item-meta">
                                 <span class="">{{ publication.publication_date|date:'d M Y' }}</span>

@@ -5,7 +5,7 @@
         <h5 class="results-count results">
             {% blocktranslate count counter=news.paginator.count trimmed %}
                 Showing {{ counter }} result
-                {% plural %}
+            {% plural %}
                 Showing {{ counter }} results
             {% endblocktranslate %}
         </h5>
@@ -49,7 +49,9 @@
                                 </h5>
                             </a>
                             <div class="result-list-item-snippet">
-                                {{ news_item.meta_description }}
+                                {% if news_item.listing_summary %}
+                                    {{ news_item.listing_summary }}
+                                {% endif %}
                             </div>
                             <div class="result-list-item-meta">
                                 <span class="">{{ news_item.date|date:'d M Y' }}</span>

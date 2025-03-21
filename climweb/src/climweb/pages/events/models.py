@@ -322,8 +322,21 @@ class EventPage(MetadataPageMixin, Page):
         ordering = ['-date_from', ]
         verbose_name = _("Event Page")
     
+    @property
+    def listing_summary(self):
+        p = get_first_non_empty_p_string(self.description)
+        
+        if p:
+            return truncatechars(p, 160)
+        
+        return None
+    
     def get_meta_image(self):
         meta_image = super().get_meta_image()
+        
+        # get the poster image
+        if not meta_image:
+            meta_image = self.image
         
         # try getting the parent image
         if not meta_image:
@@ -333,6 +346,10 @@ class EventPage(MetadataPageMixin, Page):
     
     def get_meta_description(self):
         meta_description = super().get_meta_description()
+        
+        # get the first paragraph of the description
+        if not meta_description:
+            meta_description = self.listing_summary
         
         # try getting the parent description
         if not meta_description:
@@ -417,16 +434,6 @@ class EventPage(MetadataPageMixin, Page):
     @cached_property
     def tz_gmt_offset(self):
         return get_pytz_gmt_offset_str(self.timezone)
-    
-    def save(self, *args, **kwargs):
-        if not self.search_image and self.image:
-            self.search_image = self.image
-        if not self.search_description and self.description:
-            p = get_first_non_empty_p_string(self.description)
-            if p:
-                # Limit the search meta desc to google's 160 recommended chars
-                self.search_description = truncatechars(p, 160)
-        return super().save(*args, **kwargs)
 
 
 # Custom page form to enable using a template to pre-populate  form fields
