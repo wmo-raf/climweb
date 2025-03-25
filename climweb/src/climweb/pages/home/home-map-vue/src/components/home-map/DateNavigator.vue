@@ -1,45 +1,65 @@
 <script setup>
-import {ref, computed} from 'vue';
+import {computed, ref, watch} from 'vue';
+import {useMapStore} from "@/stores/map";
+import {format as formatDate} from "date-fns"
 
-const props = defineProps({
-  dates: {
-    type: Array,
-    required: true,
-  },
-});
-
-const emit = defineEmits(['update:selectedDate']);
+const mapStore = useMapStore();
 
 const selectedIndex = ref(0);
 
-const selectedDate = computed(() => props.dates[selectedIndex.value] || '');
+const activeTimeLayerDates = computed(() => {
+  const activeLayerId = mapStore.activeTimeLayer;
+  return activeLayerId ? mapStore.timeLayerDates[activeLayerId]?.value || [] : [];
+});
 
-const nextDisabled = computed(() => selectedIndex.value >= props.dates.length - 1);
+const dateDisplayFormat = computed(() => {
+  const activeLayerId = mapStore.activeTimeLayer;
+  const layer = activeLayerId && mapStore.getLayerById(activeLayerId);
+
+  return layer ? layer.dateFormat : "yyyy-MM-dd HH:mm"
+});
+
+console.log(dateDisplayFormat)
+
+
+const selectedDate = computed(() => activeTimeLayerDates.value[selectedIndex.value] || '');
+const selectedDateFormatted = computed(() => {
+  return formatDate(new Date(selectedDate.value), dateDisplayFormat.value);
+});
+
+const nextDisabled = computed(() => selectedIndex.value >= activeTimeLayerDates.value.length - 1);
 const prevDisabled = computed(() => selectedIndex.value <= 0);
 
 const selectNext = () => {
   if (!nextDisabled.value) {
     selectedIndex.value++;
-    emit('update:selectedDate', selectedDate.value);
+    mapStore.setSelectedTimeLayerDate(mapStore.activeTimeLayer, selectedDate.value);
   }
 };
 
 const selectPrev = () => {
   if (!prevDisabled.value) {
     selectedIndex.value--;
-    emit('update:selectedDate', selectedDate.value);
+    mapStore.setSelectedTimeLayerDate(mapStore.activeTimeLayer, selectedDate.value);
   }
 };
 
-defineExpose({
-  getSelectedDate: () => selectedDate.value,
+watch(activeTimeLayerDates, (newDates) => {
+  if (!newDates.length) {
+    // Reset index and do not update selectedDate if no valid dates
+    selectedIndex.value = 0;
+  } else {
+    selectedIndex.value = 0;
+    mapStore.setSelectedTimeLayerDate(mapStore.activeTimeLayer, selectedDate.value);
+  }
 });
+
 </script>
 
 <template>
-  <div class="time-picker">
+  <div class="time-picker" v-if="!!activeTimeLayerDates.length">
     <button @click="selectPrev" :disabled="prevDisabled" class="nav-button">◄</button>
-    <span class="date-display">{{ selectedDate }}</span>
+    <span class="date-display">{{ selectedDateFormatted }}</span>
     <button @click="selectNext" :disabled="nextDisabled" class="nav-button">►</button>
   </div>
 </template>

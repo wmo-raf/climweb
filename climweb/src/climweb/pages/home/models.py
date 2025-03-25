@@ -6,15 +6,20 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from forecastmanager.forecast_settings import ForecastSetting
-from wagtail.admin.panels import MultiFieldPanel, FieldPanel
+from geomanager.models import RasterFileLayer
+from modelcluster.models import ClusterableModel
+from wagtail import blocks
+from wagtail.admin.panels import MultiFieldPanel, FieldPanel, TabbedInterface, ObjectList
 from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtail_color_panel.fields import ColorField
+from wagtailiconchooser.blocks import IconChooserBlock
+from wagtailiconchooser.utils import get_svg_sprite_for_icons
 
-from climweb.base import blocks
+from climweb.base import blocks as climweb_blocks
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.registries import plugin_registry
 from climweb.pages.events.models import EventPage
@@ -113,7 +118,7 @@ class HomePage(MetadataPageMixin, Page):
     )
     
     feature_block = StreamField([
-        ('feature_item', blocks.FeatureBlock()),
+        ('feature_item', climweb_blocks.FeatureBlock()),
     ], null=True, blank=True, use_json_field=True, verbose_name=_("Feature block"))
     
     content_panels = Page.content_panels + [
@@ -219,6 +224,21 @@ class HomePage(MetadataPageMixin, Page):
         if self.youtube_playlist:
             context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
         
+        home_map_settings = HomeMapSettings.for_request(request)
+        home_map_layer_icons = [
+            "warning",
+            "heavy-rain",
+            "layer-group"
+        ]
+        
+        if home_map_settings.map_layers:
+            icons = [layer_block.value.get("icon") for layer_block in home_map_settings.map_layers]
+            home_map_layer_icons.extend(icons)
+        
+        context.update({
+            "home_map_layer_svg_sprite": get_svg_sprite_for_icons(home_map_layer_icons)
+        })
+        
         return context
     
     @cached_property
@@ -262,12 +282,27 @@ class HomePage(MetadataPageMixin, Page):
         return services
 
 
+class HomeMapRasterLayerBlock(blocks.StructBlock):
+    layer = climweb_blocks.UUIDModelChooserBlock(RasterFileLayer, icon="map")
+    icon = IconChooserBlock(required=False, default="layer-group", label=_("Icon"))
+    display_name = blocks.CharBlock(max_length=100, required=False,
+                                    help_text=_("Name to display on the map. "
+                                                "Leave blank to use the original layer name"))
+
+
 @register_setting(icon="map")
-class HomeMapSettings(BaseSiteSetting):
-    zoom_locations = StreamField([
-        ("boundary_block", AreaBoundaryBlock(label=_("Admin Boundary"))),
-        ("polygon_block", AreaPolygonBlock(label=_("Draw Polygon"))),
-    ], use_json_field=True, blank=True)
+class HomeMapSettings(BaseSiteSetting, ClusterableModel):
+    DATE_FORMAT_CHOICES = (
+        ("yyyy-MM-dd HH:mm", _("Hour minute:second - (E.g 2023-01-01 00:00)")),
+        ("iii d HH:mm", _("Day of Week Day - (E.g Tue 25 08:00)")),
+        ("yyyy-MM-dd", _("Day - (E.g 2023-01-01)")),
+    )
+    
+    show_warnings_layer = models.BooleanField(default=True, verbose_name=_("Show CAP Warnings Layer"))
+    show_location_forecast_layer = models.BooleanField(default=True, verbose_name=_("Show Location forecast Layer"))
+    location_forecat_date_display_format = models.CharField(max_length=100, choices=DATE_FORMAT_CHOICES,
+                                                            default="yyyy-MM-dd HH:mm",
+                                                            help_text=_("Location Forecast Date Display Format"))
     forecast_cluster = models.BooleanField(default=False, verbose_name=_("Cluster Location Forecast Points"), )
     forecast_cluster_min_points = models.PositiveIntegerField(default=2, null=True, blank=True,
                                                               verbose_name=_("Cluster Minimum number of Points"),
@@ -277,11 +312,28 @@ class HomeMapSettings(BaseSiteSetting):
                                                           verbose_name=_("Cluster Radius"),
                                                           help_text=_("Radius of each cluster if clustering is "
                                                                       "enabled"))
-    panels = [
-        MultiFieldPanel([
-            FieldPanel("forecast_cluster"),
-            FieldPanel("forecast_cluster_min_points"),
-            FieldPanel("forecast_cluster_radius"),
-        ], heading=_("Location Forecast Clustering")),
-        FieldPanel("zoom_locations"),
-    ]
+    zoom_locations = StreamField([
+        ("boundary_block", AreaBoundaryBlock(label=_("Admin Boundary"))),
+        ("polygon_block", AreaPolygonBlock(label=_("Draw Polygon"))),
+    ], use_json_field=True, blank=True)
+    
+    map_layers = StreamField([
+        ('raster_layer', HomeMapRasterLayerBlock(label="Raster Layer", icon="map")),
+    ], null=True, blank=True, max_num=5, verbose_name=_("Map Layers"))
+    
+    edit_handler = TabbedInterface([
+        ObjectList([
+            FieldPanel("show_warnings_layer"),
+            FieldPanel("show_location_forecast_layer"),
+            FieldPanel("location_forecat_date_display_format"),
+            MultiFieldPanel([
+                FieldPanel("forecast_cluster"),
+                FieldPanel("forecast_cluster_min_points"),
+                FieldPanel("forecast_cluster_radius"),
+            ], heading=_("Location Forecast Clustering")),
+            FieldPanel("zoom_locations"),
+        ], heading=_("Map Settings")),
+        ObjectList([
+            FieldPanel("map_layers"),
+        ], heading=_("Geomanager Map Layers")),
+    ])

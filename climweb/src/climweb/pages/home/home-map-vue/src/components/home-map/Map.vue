@@ -1,13 +1,17 @@
 <template>
   <div ref="mapContainer" class="map-container"></div>
+
+  <!-- Zoom Controls -->
   <div class="zoom-controls">
     <button @click="zoomIn">+</button>
     <button @click="zoomOut">−</button>
   </div>
+
+  <!-- Basemap Controls -->
   <div class="basemap-control">
     <div class="basemap-icon icon" @click="toggleBaseMapChooser">
       <svg>
-        <use xlink:href="#icon-layers"></use>
+        <use xlink:href="#icon-layer-group"></use>
       </svg>
     </div>
     <Popover ref="basemapChooserRef">
@@ -15,32 +19,38 @@
     </Popover>
   </div>
 
+  <!-- Fixed Layers -->
   <div class="fixed-layer-control">
-    <LayerItem v-for="layer in sortedFixedLayers" :key="layer.id" :title="layer.title" :active="layer.active"
-               :layer-type="layer.layerType" :position="layer.position" :id="layer.id"
-               @update:toggleLayer="handleLayerToggle"/>
-  </div>
-  <div class="dynamic-layer-control">
+    <LayerItem
+        v-for="layer in mapStore.sortedFixedLayers"
+        :key="layer.id"
+        :title="layer.title"
+        :enabled="layer.enabled"
+        :visible="layer.visible"
+        :home-map-layer-type="layer.homeMapLayerType"
+        :position="layer.position"
+        :id="layer.id"
+        :icon="layer.icon"
+        @update:toggleLayer="handleLayerToggle"
+    />
   </div>
 
-
+  <!-- Date Navigator -->
   <div class="date-navigator-control">
-    <DateNavigator :dates="dateList" @update:selectedDate="handleDateChange"/>
+    <DateNavigator/>
   </div>
-
-
 </template>
 
 <script setup>
+import {onMounted, onUnmounted, ref, shallowRef, watch} from 'vue';
 import maplibregl from "maplibre-gl";
-import {computed, onMounted, onUnmounted, ref, shallowRef} from 'vue';
-import Popover from 'primevue/popover';
 import {bbox as turfBbox} from "@turf/bbox";
+import {useMapStore} from "@/stores/map";
+import Popover from 'primevue/popover';
 import LayerItem from "./LayerItem.vue";
+import DateNavigator from "./DateNavigator.vue";
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-
-import DateNavigator from "./DateNavigator.vue";
 
 const props = defineProps({
   mapSettingsUrl: {
@@ -51,126 +61,75 @@ const props = defineProps({
     type: String,
     required: false
   },
-})
+});
 
+const mapStore = useMapStore();
 const mapContainer = shallowRef(null);
-const basemapChooserRef = ref()
-let map;
+const basemapChooserRef = ref();
 let forecastData = ref([])
-
-const fixedLayers = ref({
-  "weather-warnings": {
-    id: "weather-warnings",
-    layerType: "fixed",
-    title: "Weather Warnings",
-    position: 1,
-    active: false
-  },
-  "weather-forecast": {
-    id: "weather-forecast",
-    layerType: "fixed",
-    title: "Weather Forecast",
-    position: 2,
-    active: false,
-  }
-});
+let map;
 
 
-const sortedFixedLayers = computed(() => {
-  return Object.values(fixedLayers.value).sort((a, b) => a.position - b.position);
-});
-
-
-const dateList = ref(["2025-03-17 13:00", "2025-03-18 14:00", "2025-03-19 15:00"]);
-
-const handleDateChange = (newDate) => {
-  console.log("Selected Date:", newDate);
+// Fetch map settings from API
+const fetchMapSettings = async () => {
+  const response = await fetch(props.mapSettingsUrl);
+  return response.json();
 };
 
-const handleLayerToggle = (layer) => {
-  const {layerId, active} = layer
-
-  const mapLayer = map.getLayer(layerId)
-
-  if (mapLayer) {
-    if (active) {
-      map.setLayoutProperty(mapLayer.id, "visibility", "visible")
-    } else {
-      map.setLayoutProperty(mapLayer.id, "visibility", "none")
-    }
-  }
-}
-
-
-const fetchMapSettings = async () => {
-  return fetch(props.mapSettingsUrl).then(response => response.json())
-}
-
-onMounted(() => {
+// Initialize Map
+const initializeMap = async () => {
   const mapInitOptions = {
     container: mapContainer.value,
     style: "https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
     center: [0, 0],
     zoom: 4,
-    scrollZoom: false
-  }
+    scrollZoom: false,
+  };
 
   if (props.initialBounds) {
     try {
-      const bounds = JSON.parse(props.initialBounds)
-      mapInitOptions.bounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
-      mapInitOptions.fitBoundsOptions = {padding: 20}
+      const bounds = JSON.parse(props.initialBounds);
+      mapInitOptions.bounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]];
+      mapInitOptions.fitBoundsOptions = {padding: 20};
     } catch (e) {
-      console.log("Error parsing initial bounds", e)
+      console.error("Error parsing initial bounds", e);
     }
   }
 
-  map = new maplibregl.Map({
-    ...mapInitOptions
+  map = new maplibregl.Map(mapInitOptions);
+
+  map.on("load", async () => {
+    const mapSettings = await fetchMapSettings();
+    initializeMapLayers(mapSettings);
   });
-
-  map.on("load", () => {
-    fetchMapSettings().then(mapSettings => {
-      initializeMapLayers(mapSettings);
-    });
-  });
-})
-
-onUnmounted(() => {
-  map?.remove();
-})
-
-const zoomIn = () => {
-  map?.zoomIn();
-};
-
-const zoomOut = () => {
-  map?.zoomOut();
-};
-
-const toggleBaseMapChooser = (event) => {
-  basemapChooserRef.value.toggle(event)
 };
 
 const initializeMapLayers = (mapSettings) => {
   const {
-    zoomLocations,
     boundaryTilesUrl,
-    weatherIconsUrl,
-    forecastSettingsUrl,
-    homeMapAlertsUrl,
-    homeForecastDataUrl,
+    showWarningsLayer,
     capGeojsonUrl,
-    forecastClusterConfig,
-  } = mapSettings
-
+    showLocationForecastLayer,
+    locationForecastDateDisplayFormat,
+    homeForecastDataUrl,
+    weatherIconsUrl,
+    forecastClusterConfig
+  } = mapSettings;
 
   addBoundaryLayer(boundaryTilesUrl);
 
-  addWarningsLayer(capGeojsonUrl);
+  if (showWarningsLayer) {
+    mapStore.updateLayerState("weather-warnings", true);
+    addWarningsLayer(capGeojsonUrl);
+  }
 
-  initializeCityForecast(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig);
-}
+  if (showLocationForecastLayer) {
+    mapStore.updateLayerState("weather-forecast", true);
+    mapStore.setWeatherForecastLayerDateFormat(locationForecastDateDisplayFormat);
+    addLocationForecastLayer(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig)
+  }
+
+};
 
 const addBoundaryLayer = (boundaryTilesUrl) => {
   // add source
@@ -200,6 +159,7 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
     }
   });
 
+
   map.addLayer({
     'id': 'admin-boundary-line-2',
     'type': 'line',
@@ -212,9 +172,7 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
   });
 }
 
-
 const addWarningsLayer = (capGeojsonUrl) => {
-
   fetch(capGeojsonUrl).then(res => res.json()).then(alertsGeojson => {
     if (alertsGeojson.features.length > 0) {
       const bounds = turfBbox(alertsGeojson);
@@ -238,22 +196,15 @@ const addWarningsLayer = (capGeojsonUrl) => {
           "fill-opacity": 0.7,
           "fill-outline-color": "#000",
         },
-      }, "weather-forecast");
+      });
 
-      if (fixedLayers.value["weather-warnings"]) {
-        fixedLayers.value = {
-          ...fixedLayers.value,
-          "weather-warnings": {
-            ...fixedLayers.value["weather-warnings"],
-            active: true,
-          },
-        };
-      }
+      mapStore.updateLayerVisibility("weather-warnings", true);
     }
   })
 }
 
-const initializeCityForecast = (homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig) => {
+
+const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig) => {
   // add city forecast source
   map.addSource("weather-forecast", {
     type: "geojson", data: {type: "FeatureCollection", features: []}, ...forecastClusterConfig,
@@ -267,31 +218,23 @@ const initializeCityForecast = (homeForecastDataUrl, weatherIconsUrl, forecastCl
       'icon-image': ['get', 'condition'], 'icon-size': 0.3, 'icon-allow-overlap': true
     },
     source: "weather-forecast"
-  })
-  // fetch city forecast data
-  fetch(homeForecastDataUrl).then(res => res.json()).then(data => {
+  });
+
+  fetch(homeForecastDataUrl).then(res => res.json()).then(response => {
     // get and set weather icons
-    getWeatherIcons(weatherIconsUrl)
-
+    addWeatherIcons(weatherIconsUrl)
     // set city forecast data
-    setCityForecastData(data)
+    setCityForecastData(response)
 
+    const {data} = response
 
-    if (fixedLayers.value["weather-forecast"]) {
-      fixedLayers.value = {
-        ...fixedLayers.value,
-        "weather-forecast": {
-          ...fixedLayers.value["weather-forecast"],
-          active: true,
-        },
-      };
+    if (data && !!data.length) {
+      mapStore.updateLayerVisibility("weather-forecast", true)
     }
-
-
-  })
+  });
 }
 
-const getWeatherIcons = (weatherIconsUrl) => {
+const addWeatherIcons = (weatherIconsUrl) => {
   fetch(weatherIconsUrl).then(response => response.json()).then(icons => {
     if (icons && Array.isArray(icons))
       icons.forEach(icon => {
@@ -302,15 +245,26 @@ const getWeatherIcons = (weatherIconsUrl) => {
   });
 }
 
-const setCityForecastData = (data) => {
-  const {multi_period: isMultiPeriod, data: apiForecastData} = data
+
+const setCityForecastData = (apiResponse) => {
+  const {multi_period: isMultiPeriod, data: apiForecastData} = apiResponse
   forecastData.value = apiForecastData
-  const dates = forecastData.value.map(d => d.datetime)
-  const selectedDate = dates?.[0]
-  updateMapCityForecastData(selectedDate)
+
+  const now = new Date()
+  const dates = apiForecastData.reduce((all, d) => {
+    const dObj = new Date(d.datetime)
+    if (!(isMultiPeriod && dObj.toDateString() === now.toDateString() && dObj.getHours() < now.getHours())) {
+      all.push(d.datetime)
+    }
+    return all
+  }, [])
+
+  mapStore.setActiveTimeLayer("weather-forecast")
+  mapStore.setTimeLayerDates("weather-forecast", dates)
 }
 
 const updateMapCityForecastData = (date) => {
+
   const selectedDateData = forecastData.value.find(d => d.datetime === date)
 
   if (selectedDateData) {
@@ -318,8 +272,48 @@ const updateMapCityForecastData = (date) => {
   }
 }
 
+// Map Controls
+const zoomIn = () => map?.zoomIn();
+const zoomOut = () => map?.zoomOut();
 
+const toggleBaseMapChooser = (event) => {
+  basemapChooserRef.value.toggle(event);
+};
+
+const handleLayerToggle = ({layerId, visible}) => {
+  mapStore.updateLayerVisibility(layerId, visible);
+
+  const layer = mapStore.getLayerById(layerId);
+
+  const mapLayer = map.getLayer(layerId);
+  if (mapLayer) {
+    map.setLayoutProperty(mapLayer.id, "visibility", visible ? "visible" : "none");
+  }
+
+  if (layer.multiTemporal) {
+    if (visible) {
+      mapStore.setActiveTimeLayer(layerId)
+    } else {
+      mapStore.setActiveTimeLayer(null)
+    }
+  }
+};
+
+watch(mapStore.selectedTimeLayerDate, (newTimeLayerDate) => {
+  if (newTimeLayerDate[mapStore.activeTimeLayer]) {
+    const date = newTimeLayerDate[mapStore.activeTimeLayer]
+
+    if (mapStore.activeTimeLayer === "weather-forecast") {
+      updateMapCityForecastData(date)
+    }
+  }
+});
+
+
+onMounted(() => initializeMap());
+onUnmounted(() => map?.remove());
 </script>
+
 <style scoped>
 .map-container {
   width: 100%;
@@ -348,6 +342,7 @@ const updateMapCityForecastData = (date) => {
 
 .zoom-controls button:hover {
   background: #666;
+
 }
 
 .basemap-control {
@@ -398,5 +393,4 @@ const updateMapCityForecastData = (date) => {
   transform: translateX(-50%);
   padding: 10px;
 }
-
 </style>

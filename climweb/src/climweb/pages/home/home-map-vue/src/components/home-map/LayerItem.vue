@@ -7,7 +7,7 @@ const props = defineProps({
     type: String,
     required: true
   },
-  layerType: {
+  homeMapLayerType: {
     type: String,
     required: true
   },
@@ -23,7 +23,17 @@ const props = defineProps({
     type: String,
     required: false
   },
-  active: {
+  enabled: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  visible: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  multiTemporal: {
     type: Boolean,
     required: false,
     default: false
@@ -31,27 +41,36 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:toggleLayer']);
-const isActive = ref(props.active);
+const isVisible = ref(props.visible);
+const isEnabled = ref(props.enabled);
 
 watch(
-    () => props.active,
-    (newActiveValue) => {
-      isActive.value = newActiveValue;
+    () => props.visible,
+    (newVisibleValue) => {
+      isVisible.value = newVisibleValue;
     }
 );
 
+watch(
+    () => props.enabled,
+    (newEnabledValue) => {
+      isEnabled.value = newEnabledValue;
+    }
+);
+
+
 const onToggle = () => {
-  isActive.value = !isActive.value;
-  emit('update:toggleLayer', {layerId: props.id, active: isActive.value});
+  isVisible.value = !isVisible.value;
+  emit('update:toggleLayer', {layerId: props.id, visible: isVisible.value});
 };
 
 </script>
 
 <template>
-  <div class="layer-control" :class="{ active: isActive }" @click="onToggle">
+  <div v-if="isEnabled" class="layer-control" :class="{ active: visible }" @click="onToggle">
     <div class="layer-icon">
       <svg>
-        <use xlink:href="#icon-layers"></use>
+        <use :xlink:href="icon ? `#${icon}` : '#icon-layers'"></use>
       </svg>
     </div>
     <div class="layer-title">
@@ -101,6 +120,8 @@ const onToggle = () => {
 .layer-icon svg {
   height: 18px;
   width: 18px;
+  fill: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .layer-title {
