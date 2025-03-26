@@ -1,58 +1,56 @@
 <script setup>
-import {computed, ref, watch} from 'vue';
+import {computed} from 'vue';
 import {useMapStore} from "@/stores/map";
-import {format as formatDate} from "date-fns"
+import {dFormatter} from "@/utils";
 
 const mapStore = useMapStore();
 
-const selectedIndex = ref(0);
-
 const activeTimeLayerDates = computed(() => {
   const activeLayerId = mapStore.activeTimeLayer;
-  return activeLayerId ? mapStore.timeLayerDates[activeLayerId]?.value || [] : [];
+  return activeLayerId ? mapStore.timeLayerDates[activeLayerId] || [] : [];
 });
+
 
 const dateDisplayFormat = computed(() => {
   const activeLayerId = mapStore.activeTimeLayer;
   const layer = activeLayerId && mapStore.getLayerById(activeLayerId);
-
-  return layer ? layer.dateFormat : "yyyy-MM-dd HH:mm"
+  return layer && layer.dateFormat ? layer.dateFormat : {currentTime: "yyyy-MM-dd HH:mm"}
 });
 
-console.log(dateDisplayFormat)
+const selectedTimeLayerDateIndex = computed(() => {
+  const activeLayerId = mapStore.activeTimeLayer;
+  return activeLayerId ? mapStore.selectedTimeLayerDateIndex[activeLayerId] || 0 : 0;
+});
 
+const selectedDate = computed(() => {
+  return activeTimeLayerDates.value[selectedTimeLayerDateIndex.value];
+});
 
-const selectedDate = computed(() => activeTimeLayerDates.value[selectedIndex.value] || '');
 const selectedDateFormatted = computed(() => {
-  return formatDate(new Date(selectedDate.value), dateDisplayFormat.value);
+  if (selectedDate.value && dateDisplayFormat.value) {
+    const {currentTime, asPeriod} = dateDisplayFormat.value
+    return dFormatter(new Date(selectedDate.value), currentTime, asPeriod);
+  }
+  return "";
 });
 
-const nextDisabled = computed(() => selectedIndex.value >= activeTimeLayerDates.value.length - 1);
-const prevDisabled = computed(() => selectedIndex.value <= 0);
+const nextDisabled = computed(() => selectedTimeLayerDateIndex.value >= activeTimeLayerDates.value.length - 1);
+const prevDisabled = computed(() => selectedTimeLayerDateIndex.value <= 0);
 
 const selectNext = () => {
   if (!nextDisabled.value) {
-    selectedIndex.value++;
-    mapStore.setSelectedTimeLayerDate(mapStore.activeTimeLayer, selectedDate.value);
+    const nextIndex = selectedTimeLayerDateIndex.value + 1;
+    mapStore.setSelectedTimeLayerDateIndex(mapStore.activeTimeLayer, nextIndex);
   }
 };
 
 const selectPrev = () => {
   if (!prevDisabled.value) {
-    selectedIndex.value--;
-    mapStore.setSelectedTimeLayerDate(mapStore.activeTimeLayer, selectedDate.value);
+    const prevIndex = selectedTimeLayerDateIndex.value - 1;
+    mapStore.setSelectedTimeLayerDateIndex(mapStore.activeTimeLayer, prevIndex);
   }
 };
 
-watch(activeTimeLayerDates, (newDates) => {
-  if (!newDates.length) {
-    // Reset index and do not update selectedDate if no valid dates
-    selectedIndex.value = 0;
-  } else {
-    selectedIndex.value = 0;
-    mapStore.setSelectedTimeLayerDate(mapStore.activeTimeLayer, selectedDate.value);
-  }
-});
 
 </script>
 

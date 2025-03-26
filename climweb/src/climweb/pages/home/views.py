@@ -59,7 +59,7 @@ def home_map_settings(request):
     })
     
     dynamic_map_layers = []
-    for block in settings.map_layers:
+    for index, block in enumerate(settings.map_layers):
         if block.block_type == "raster_layer":
             raster_layer = block.value.get("layer")
             layer_config = RasterFileLayerSerializer(raster_layer, context={"request": request}).data
@@ -67,6 +67,7 @@ def home_map_settings(request):
             layer_config.update({
                 "icon": block.value.get("icon"),
                 "display_name": block.value.get("display_name"),
+                "position": index
             })
             
             dynamic_map_layers.append(layer_config)

@@ -35,6 +35,21 @@
     />
   </div>
 
+  <div class="dynamic-layer-control">
+    <LayerItem
+        v-for="layer in mapStore.sortedDynamicLayers"
+        :key="layer.id"
+        :title="layer.title"
+        :enabled="layer.enabled"
+        :visible="layer.visible"
+        :home-map-layer-type="layer.homeMapLayerType"
+        :position="layer.position"
+        :id="layer.id"
+        :icon="layer.icon"
+        @update:toggleLayer="handleLayerToggle"
+    />
+  </div>
+
   <!-- Date Navigator -->
   <div class="date-navigator-control">
     <DateNavigator/>
@@ -42,15 +57,18 @@
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, ref, shallowRef, watch} from 'vue';
+import {computed, onMounted, onUnmounted, ref, shallowRef, watch} from 'vue';
 import maplibregl from "maplibre-gl";
 import {bbox as turfBbox} from "@turf/bbox";
 import {useMapStore} from "@/stores/map";
+import {getLayerTime, getRasterFileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils.js";
+
 import Popover from 'primevue/popover';
 import LayerItem from "./LayerItem.vue";
 import DateNavigator from "./DateNavigator.vue";
 
 import 'maplibre-gl/dist/maplibre-gl.css';
+
 
 const props = defineProps({
   mapSettingsUrl: {
@@ -69,6 +87,28 @@ const basemapChooserRef = ref();
 let forecastData = ref([])
 let map;
 
+const alwaysOnTopLayers = [
+  "admin-boundary-fill",
+  "admin-boundary-line",
+  "admin-boundary-line-1",
+  "weather-warnings",
+  "weather-forecast"
+];
+
+
+const activeTimeLayerDates = computed(() => {
+  const activeLayerId = mapStore.activeTimeLayer;
+  return activeLayerId ? mapStore.timeLayerDates[activeLayerId] || [] : [];
+});
+
+const selectedTimeLayerDateIndex = computed(() => {
+  const activeLayerId = mapStore.activeTimeLayer;
+  return activeLayerId ? mapStore.selectedTimeLayerDateIndex[activeLayerId] || 0 : 0;
+});
+
+const selectedDate = computed(() => {
+  return activeTimeLayerDates.value[selectedTimeLayerDateIndex.value];
+});
 
 // Fetch map settings from API
 const fetchMapSettings = async () => {
@@ -113,7 +153,8 @@ const initializeMapLayers = (mapSettings) => {
     locationForecastDateDisplayFormat,
     homeForecastDataUrl,
     weatherIconsUrl,
-    forecastClusterConfig
+    forecastClusterConfig,
+    dynamicMapLayers
   } = mapSettings;
 
   addBoundaryLayer(boundaryTilesUrl);
@@ -125,10 +166,28 @@ const initializeMapLayers = (mapSettings) => {
 
   if (showLocationForecastLayer) {
     mapStore.updateLayerState("weather-forecast", true);
-    mapStore.setWeatherForecastLayerDateFormat(locationForecastDateDisplayFormat);
+    mapStore.setWeatherForecastLayerDateFormat({currentTime: locationForecastDateDisplayFormat});
     addLocationForecastLayer(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig)
   }
 
+  if (dynamicMapLayers && !!dynamicMapLayers.length) {
+    dynamicMapLayers.forEach(layer => {
+
+      const dateFormat = layer.paramsSelectorConfig?.find(c => c.key === "time")?.dateFormat
+
+      const mapStoreLayer = {
+        ...layer,
+        title: layer.name,
+        homeMapLayerType: "dynamic",
+        "visible": false,
+        "enabled": true,
+        "icon": layer.icon ? `icon-${layer.icon}` : "icon-layers",
+        dateFormat: dateFormat,
+      }
+
+      handleDynamicLayer(mapStoreLayer)
+    })
+  }
 };
 
 const addBoundaryLayer = (boundaryTilesUrl) => {
@@ -161,7 +220,7 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
 
 
   map.addLayer({
-    'id': 'admin-boundary-line-2',
+    'id': 'admin-boundary-line-1',
     'type': 'line',
     'source': 'admin-boundary-source',
     "source-layer": "default",
@@ -186,6 +245,13 @@ const addWarningsLayer = (capGeojsonUrl) => {
         data: alertsGeojson,
       });
 
+
+      let beforeLayer
+
+      if (map.getLayer("weather-forecast")) {
+        beforeLayer = "weather-forecast"
+      }
+
       // add layer
       map.addLayer({
         id: "weather-warnings",
@@ -196,7 +262,7 @@ const addWarningsLayer = (capGeojsonUrl) => {
           "fill-opacity": 0.7,
           "fill-outline-color": "#000",
         },
-      });
+      }, beforeLayer);
 
       mapStore.updateLayerVisibility("weather-warnings", true);
     }
@@ -260,15 +326,89 @@ const setCityForecastData = (apiResponse) => {
   }, [])
 
   mapStore.setActiveTimeLayer("weather-forecast")
+  mapStore.setSelectedTimeLayerDateIndex("weather-forecast", 0)
   mapStore.setTimeLayerDates("weather-forecast", dates)
 }
 
 const updateMapCityForecastData = (date) => {
-
   const selectedDateData = forecastData.value.find(d => d.datetime === date)
-
   if (selectedDateData) {
     map.getSource("weather-forecast").setData(selectedDateData)
+  }
+}
+
+const handleDynamicLayer = (layer) => {
+  const {layerType} = layer
+
+  if (layerType === "raster_file") {
+    layer.mapLayerConfig = getRasterFileLayerConfig(layer)
+    mapStore.addLayer(layer)
+  }
+}
+
+const toggleDynamicLayer = (layerId, visible) => {
+  const layer = mapStore.getLayerById(layerId)
+  const {layerType} = layer
+
+  if (!visible) {
+    if (map.getLayer(layerId)) {
+      map.removeLayer(layerId)
+    }
+
+    if (map.getSource(layerId)) {
+      map.removeSource(layerId)
+    }
+  } else {
+    if (layerType === "raster_file") {
+      addRasterFileLayer(layer.id)
+    }
+  }
+}
+
+const addRasterFileLayer = async (layerId) => {
+  const layer = mapStore.getLayerById(layerId)
+
+  const {mapLayerConfig} = layer
+
+  const {tileJsonUrl, currentTimeMethod} = layer
+  const timestamps = await fetch(tileJsonUrl).then(res => res.json()).then(res => res.timestamps)
+
+  if (timestamps && !!timestamps.length) {
+    const currentLayerTime = getLayerTime(timestamps, currentTimeMethod);
+    const currentLayerTimeIndex = timestamps.indexOf(currentLayerTime);
+
+    mapStore.setSelectedTimeLayerDateIndex(layer.id, currentLayerTimeIndex)
+
+    mapStore.setTimeLayerDates(layer.id, timestamps)
+
+    const sourceId = mapLayerConfig.source.id
+    const layerId = mapLayerConfig.layer.id
+
+    const tileUrl = updateTileUrl(mapLayerConfig.source.tiles, {time: currentLayerTime})
+
+    if (!map.getSource(sourceId)) {
+      map.addSource(sourceId, {
+        type: "raster",
+        tiles: [tileUrl]
+      });
+    }
+
+
+    if (!map.getLayer(layerId)) {
+      map.addLayer({
+        id: layerId,
+        type: "raster",
+        source: sourceId,
+      });
+
+      // move always on top layers to the top
+      alwaysOnTopLayers.forEach(l => {
+        if (map.getLayer(l)) {
+          map.moveLayer(l)
+        }
+      });
+
+    }
   }
 }
 
@@ -285,26 +425,75 @@ const handleLayerToggle = ({layerId, visible}) => {
 
   const layer = mapStore.getLayerById(layerId);
 
-  const mapLayer = map.getLayer(layerId);
-  if (mapLayer) {
-    map.setLayoutProperty(mapLayer.id, "visibility", visible ? "visible" : "none");
+  const {homeMapLayerType} = layer
+
+  // turn on/off fixed layer
+  if (homeMapLayerType === "fixed" && map.getLayer(layerId)) {
+    map.setLayoutProperty(layerId, "visibility", visible ? "visible" : "none");
   }
 
+  // handle time layers
   if (layer.multiTemporal) {
     if (visible) {
+      // if we have an active time layer, switch it off
+      if (mapStore.activeTimeLayer) {
+        mapStore.updateLayerVisibility(mapStore.activeTimeLayer, false)
+
+        if (map.getLayer(mapStore.activeTimeLayer)) {
+          map.setLayoutProperty(mapStore.activeTimeLayer, "visibility", "none");
+        }
+
+        // remove source and layer from map
+        if (mapStore.activeTimeLayer !== "weather-forecast") {
+
+          // remove layer from map
+          if (map.getLayer(mapStore.activeTimeLayer)) {
+            map.removeLayer(mapStore.activeTimeLayer)
+          }
+
+          // remove source from map
+          if (map.getSource(mapStore.activeTimeLayer)) {
+            map.removeSource(mapStore.activeTimeLayer)
+          }
+
+        }
+      }
       mapStore.setActiveTimeLayer(layerId)
     } else {
       mapStore.setActiveTimeLayer(null)
     }
   }
+
+  if (homeMapLayerType === "dynamic") {
+    toggleDynamicLayer(layerId, visible)
+  }
 };
 
-watch(mapStore.selectedTimeLayerDate, (newTimeLayerDate) => {
-  if (newTimeLayerDate[mapStore.activeTimeLayer]) {
-    const date = newTimeLayerDate[mapStore.activeTimeLayer]
 
-    if (mapStore.activeTimeLayer === "weather-forecast") {
-      updateMapCityForecastData(date)
+const handleDynamicLayerTimeChange = (layer, newDateStr) => {
+  const {layerType, mapLayerConfig} = layer
+
+  if (layerType === "raster_file") {
+    if (mapLayerConfig) {
+      updateSourceTileUrl(map, mapLayerConfig.source.id, {time: newDateStr})
+    }
+  }
+}
+
+watch(selectedDate, (newSelectedDate) => {
+  const activeLayerId = mapStore.activeTimeLayer;
+
+  if (activeLayerId) {
+    const layer = mapStore.getLayerById(activeLayerId)
+    const {homeMapLayerType} = layer
+
+
+    if (homeMapLayerType === "fixed") {
+      if (activeLayerId === "weather-forecast") {
+        updateMapCityForecastData(newSelectedDate)
+      }
+    } else {
+      handleDynamicLayerTimeChange(layer, newSelectedDate)
     }
   }
 });
