@@ -85,7 +85,7 @@ const onToggle = () => {
 .layer-control {
   position: relative;
   display: flex;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, .3);
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   font-weight: 700;

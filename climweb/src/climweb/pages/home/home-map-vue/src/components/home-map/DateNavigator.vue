@@ -1,7 +1,7 @@
 <script setup>
 import {computed} from 'vue';
 import {useMapStore} from "@/stores/map";
-import {dFormatter} from "@/utils";
+import {dFormatter} from "@/utils/date";
 
 const mapStore = useMapStore();
 

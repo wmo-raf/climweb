@@ -1,71 +1,16 @@
-<template>
-  <div ref="mapContainer" class="map-container"></div>
-
-  <!-- Zoom Controls -->
-  <div class="zoom-controls">
-    <button @click="zoomIn">+</button>
-    <button @click="zoomOut">−</button>
-  </div>
-
-  <!-- Basemap Controls -->
-  <div class="basemap-control">
-    <div class="basemap-icon icon" @click="toggleBaseMapChooser">
-      <svg>
-        <use xlink:href="#icon-layer-group"></use>
-      </svg>
-    </div>
-    <Popover ref="basemapChooserRef">
-      Hello
-    </Popover>
-  </div>
-
-  <!-- Fixed Layers -->
-  <div class="fixed-layer-control">
-    <LayerItem
-        v-for="layer in mapStore.sortedFixedLayers"
-        :key="layer.id"
-        :title="layer.title"
-        :enabled="layer.enabled"
-        :visible="layer.visible"
-        :home-map-layer-type="layer.homeMapLayerType"
-        :position="layer.position"
-        :id="layer.id"
-        :icon="layer.icon"
-        @update:toggleLayer="handleLayerToggle"
-    />
-  </div>
-
-  <div class="dynamic-layer-control">
-    <LayerItem
-        v-for="layer in mapStore.sortedDynamicLayers"
-        :key="layer.id"
-        :title="layer.title"
-        :enabled="layer.enabled"
-        :visible="layer.visible"
-        :home-map-layer-type="layer.homeMapLayerType"
-        :position="layer.position"
-        :id="layer.id"
-        :icon="layer.icon"
-        @update:toggleLayer="handleLayerToggle"
-    />
-  </div>
-
-  <!-- Date Navigator -->
-  <div class="date-navigator-control">
-    <DateNavigator/>
-  </div>
-</template>
-
 <script setup>
 import {computed, onMounted, onUnmounted, ref, shallowRef, watch} from 'vue';
 import maplibregl from "maplibre-gl";
 import {bbox as turfBbox} from "@turf/bbox";
+
 import {useMapStore} from "@/stores/map";
-import {getLayerTime, getRasterFileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils.js";
+import {getRasterFileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
+import {getTimeFromList} from "@/utils/date";
 
 import Popover from 'primevue/popover';
 import LayerItem from "./LayerItem.vue";
 import DateNavigator from "./DateNavigator.vue";
+import Legend from "./legend/Legend.vue";
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -139,8 +84,16 @@ const initializeMap = async () => {
   map = new maplibregl.Map(mapInitOptions);
 
   map.on("load", async () => {
-    const mapSettings = await fetchMapSettings();
-    initializeMapLayers(mapSettings);
+    mapStore.setLoading(true);
+    try {
+      const mapSettings = await fetchMapSettings();
+      mapStore.setLoading(false)
+      initializeMapLayers(mapSettings);
+
+    } catch (e) {
+
+    }
+
   });
 };
 
@@ -286,6 +239,8 @@ const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecast
     source: "weather-forecast"
   });
 
+  mapStore.setLoading(true)
+
   fetch(homeForecastDataUrl).then(res => res.json()).then(response => {
     // get and set weather icons
     addWeatherIcons(weatherIconsUrl)
@@ -297,7 +252,14 @@ const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecast
     if (data && !!data.length) {
       mapStore.updateLayerVisibility("weather-forecast", true)
     }
+
+    mapStore.setLoading(false)
+
+  }).catch(e => {
+    mapStore.setLoading(false)
   });
+
+
 }
 
 const addWeatherIcons = (weatherIconsUrl) => {
@@ -367,48 +329,54 @@ const toggleDynamicLayer = (layerId, visible) => {
 
 const addRasterFileLayer = async (layerId) => {
   const layer = mapStore.getLayerById(layerId)
-
   const {mapLayerConfig} = layer
-
   const {tileJsonUrl, currentTimeMethod} = layer
-  const timestamps = await fetch(tileJsonUrl).then(res => res.json()).then(res => res.timestamps)
 
-  if (timestamps && !!timestamps.length) {
-    const currentLayerTime = getLayerTime(timestamps, currentTimeMethod);
-    const currentLayerTimeIndex = timestamps.indexOf(currentLayerTime);
+  try {
+    mapStore.setLoading(true)
 
-    mapStore.setSelectedTimeLayerDateIndex(layer.id, currentLayerTimeIndex)
+    const timestamps = await fetch(tileJsonUrl).then(res => res.json()).then(res => res.timestamps)
+    if (timestamps && !!timestamps.length) {
+      const currentLayerTime = getTimeFromList(timestamps, currentTimeMethod);
+      const currentLayerTimeIndex = timestamps.indexOf(currentLayerTime);
 
-    mapStore.setTimeLayerDates(layer.id, timestamps)
+      mapStore.setSelectedTimeLayerDateIndex(layer.id, currentLayerTimeIndex)
 
-    const sourceId = mapLayerConfig.source.id
-    const layerId = mapLayerConfig.layer.id
+      mapStore.setTimeLayerDates(layer.id, timestamps)
 
-    const tileUrl = updateTileUrl(mapLayerConfig.source.tiles, {time: currentLayerTime})
+      const sourceId = mapLayerConfig.source.id
+      const layerId = mapLayerConfig.layer.id
 
-    if (!map.getSource(sourceId)) {
-      map.addSource(sourceId, {
-        type: "raster",
-        tiles: [tileUrl]
-      });
+      const tileUrl = updateTileUrl(mapLayerConfig.source.tiles, {time: currentLayerTime})
+
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, {
+          type: "raster",
+          tiles: [tileUrl]
+        });
+      }
+
+
+      if (!map.getLayer(layerId)) {
+        map.addLayer({
+          id: layerId,
+          type: "raster",
+          source: sourceId,
+        });
+
+        // move always on top layers to the top
+        alwaysOnTopLayers.forEach(l => {
+          if (map.getLayer(l)) {
+            map.moveLayer(l)
+          }
+        });
+
+      }
     }
 
-
-    if (!map.getLayer(layerId)) {
-      map.addLayer({
-        id: layerId,
-        type: "raster",
-        source: sourceId,
-      });
-
-      // move always on top layers to the top
-      alwaysOnTopLayers.forEach(l => {
-        if (map.getLayer(l)) {
-          map.moveLayer(l)
-        }
-      });
-
-    }
+    mapStore.setLoading(false)
+  } catch (e) {
+    mapStore.setLoading(false)
   }
 }
 
@@ -503,6 +471,77 @@ onMounted(() => initializeMap());
 onUnmounted(() => map?.remove());
 </script>
 
+
+<template>
+  <div ref="mapContainer" class="map-container"></div>
+
+  <!-- Zoom Controls -->
+  <div class="zoom-controls">
+    <button @click="zoomIn">+</button>
+    <button @click="zoomOut">−</button>
+  </div>
+
+  <!-- Basemap Controls -->
+  <div class="basemap-control">
+    <div class="basemap-icon icon" @click="toggleBaseMapChooser">
+      <svg>
+        <use xlink:href="#icon-layer-group"></use>
+      </svg>
+    </div>
+    <Popover ref="basemapChooserRef">
+      Hello
+    </Popover>
+  </div>
+
+  <!-- Fixed Layers -->
+  <div class="fixed-layer-control">
+    <LayerItem
+        v-for="layer in mapStore.sortedFixedLayers"
+        :key="layer.id"
+        :title="layer.title"
+        :enabled="layer.enabled"
+        :visible="layer.visible"
+        :home-map-layer-type="layer.homeMapLayerType"
+        :position="layer.position"
+        :id="layer.id"
+        :icon="layer.icon"
+        @update:toggleLayer="handleLayerToggle"
+    />
+  </div>
+
+  <div class="dynamic-layer-control">
+    <LayerItem
+        v-for="layer in mapStore.sortedDynamicLayers"
+        :key="layer.id"
+        :title="layer.title"
+        :enabled="layer.enabled"
+        :visible="layer.visible"
+        :home-map-layer-type="layer.homeMapLayerType"
+        :position="layer.position"
+        :id="layer.id"
+        :icon="layer.icon"
+        @update:toggleLayer="handleLayerToggle"
+    />
+  </div>
+
+  <!-- Date Navigator -->
+  <div class="date-navigator-control">
+    <DateNavigator/>
+  </div>
+
+  <div class="legend-control">
+    <Legend/>
+  </div>
+
+  <!-- Overlay Loader -->
+  <div v-if="mapStore.loading" class="overlay-loader">
+    <div class="spinner"></div>
+  </div>
+
+
+</template>
+
+
 <style scoped>
 .map-container {
   width: 100%;
@@ -531,7 +570,6 @@ onUnmounted(() => map?.remove());
 
 .zoom-controls button:hover {
   background: #666;
-
 }
 
 .basemap-control {
@@ -577,9 +615,49 @@ onUnmounted(() => map?.remove());
 
 .date-navigator-control {
   position: absolute;
-  bottom: 0;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   padding: 10px;
 }
+
+.legend-control {
+  position: absolute;
+  bottom: 40px;
+  right: 10px;
+}
+
+
+.overlay-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, .7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #000; /* Spinner color */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 </style>

@@ -12,6 +12,16 @@ export const useMapStore = defineStore("map", () => {
             enabled: false,
             icon: "icon-warning",
             multiTemporal: false,
+            legendConfig: {
+                type: "basic",
+                title: "Weather Warnings",
+                items: [
+                    {name: "Extreme", color: "#d72f2a"},
+                    {name: "Severe", color: "#fe9900"},
+                    {name: "Moderate", color: "#ff0"},
+                    {name: "Minor", color: "#03ffff"},
+                ],
+            }
         },
         "weather-forecast": {
             id: "weather-forecast",
@@ -27,13 +37,13 @@ export const useMapStore = defineStore("map", () => {
             multiTemporal: true,
         },
     });
+    const loading = ref(false);
 
     const sortedFixedLayers = computed(() => {
         return Object.values(layers)
             .filter((layer) => layer.enabled && layer.homeMapLayerType === "fixed")
             .sort((a, b) => a.position - b.position);
     });
-
     const sortedDynamicLayers = computed(() => {
         return Object.values(layers)
             .filter((layer) => layer.enabled && layer.homeMapLayerType === "dynamic")
@@ -43,6 +53,10 @@ export const useMapStore = defineStore("map", () => {
     const timeLayerDates = ref({});
     const selectedTimeLayerDateIndex = ref({});
     const activeTimeLayer = ref(null);
+
+    const setLoading = (isLoading) => {
+        loading.value = isLoading;
+    }
 
     const updateLayerState = (layerId, enabled) => {
         if (layers[layerId]) {
@@ -90,13 +104,20 @@ export const useMapStore = defineStore("map", () => {
         layers[layer.id] = layer;
     };
 
+    const visibleLayers = computed(() => {
+        return Object.values(layers).filter((layer) => layer.visible);
+    });
+
     return {
+        loading,
         layers,
         sortedFixedLayers,
         sortedDynamicLayers,
+        visibleLayers,
         timeLayerDates,
         selectedTimeLayerDateIndex,
         activeTimeLayer,
+        setLoading,
         setTimeLayerDates,
         setSelectedTimeLayerDateIndex,
         updateLayerState,
