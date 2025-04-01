@@ -7,11 +7,13 @@ import {useMapStore} from "@/stores/map";
 import {getRasterLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
 import {getTimeFromList} from "@/utils/date";
 import {getTimeValuesFromWMS} from "@/utils/wms";
+import {defaultMapStyle} from "@/utils/basemap";
 
 import Popover from 'primevue/popover';
 import LayerItem from "./LayerItem.vue";
 import DateNavigator from "./DateNavigator.vue";
 import Legend from "./legend/Legend.vue";
+import MapOptions from "./MapOptions.vue";
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -66,7 +68,7 @@ const fetchMapSettings = async () => {
 const initializeMap = async () => {
   const mapInitOptions = {
     container: mapContainer.value,
-    style: "https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
+    style: defaultMapStyle,
     center: [0, 0],
     zoom: 4,
     scrollZoom: false,
@@ -158,6 +160,9 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
     "filter": ["==", "level", 0],
     'paint': {
       'fill-color': "#fff", 'fill-opacity': 0,
+    },
+    'metadata': {
+      'mapbox:groups': 'boundary',
     }
   });
 
@@ -169,6 +174,9 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
     "filter": ["==", "level", 0],
     'paint': {
       "line-color": "#C0FF24", "line-width": 1, "line-offset": 1,
+    },
+    'metadata': {
+      'mapbox:groups': 'boundary',
     }
   });
 
@@ -181,6 +189,9 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
     "filter": ["==", "level", 0],
     'paint': {
       "line-color": "#000", "line-width": 1.5,
+    },
+    'metadata': {
+      'mapbox:groups': 'boundary',
     }
   });
 }
@@ -474,6 +485,7 @@ const handleDynamicLayerTimeChange = (layer, newDateStr) => {
   }
 }
 
+
 watch(selectedDate, (newSelectedDate) => {
   const activeLayerId = mapStore.activeTimeLayer;
 
@@ -490,6 +502,32 @@ watch(selectedDate, (newSelectedDate) => {
       handleDynamicLayerTimeChange(layer, newSelectedDate)
     }
   }
+});
+
+watch(() => mapStore.selectedBasemap, (newBasemap) => {
+  const mapStyle = map.getStyle()
+  const backgroundLayers = mapStyle.layers.filter(layer => layer.metadata && layer.metadata["mapbox:groups"] === "background")
+
+  backgroundLayers.forEach(layer => {
+    if (layer.id === newBasemap) {
+      map.setLayoutProperty(layer.id, 'visibility', 'visible')
+    } else {
+      map.setLayoutProperty(layer.id, 'visibility', 'none')
+    }
+  })
+});
+
+watch(() => mapStore.showBoundary, (newShowBoundary) => {
+  const mapStyle = map.getStyle()
+  const backgroundLayers = mapStyle.layers.filter(layer => layer.metadata && layer.metadata["mapbox:groups"] === "boundary")
+
+  backgroundLayers.forEach(layer => {
+    if (newShowBoundary) {
+      map.setLayoutProperty(layer.id, 'visibility', 'visible')
+    } else {
+      map.setLayoutProperty(layer.id, 'visibility', 'none')
+    }
+  })
 });
 
 
@@ -515,7 +553,7 @@ onUnmounted(() => map?.remove());
       </svg>
     </div>
     <Popover ref="basemapChooserRef">
-      Hello
+      <MapOptions/>
     </Popover>
   </div>
 

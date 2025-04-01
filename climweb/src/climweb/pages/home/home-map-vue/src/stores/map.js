@@ -54,6 +54,38 @@ export const useMapStore = defineStore("map", () => {
     const selectedTimeLayerDateIndex = ref({});
     const activeTimeLayer = ref(null);
 
+    const basemaps = ref([
+        {
+            "label": "Voyager",
+            "value": "voyager",
+        },
+        {
+            "label": "Light",
+            "value": "carto-light",
+        },
+        {
+            "label": "Dark",
+            "value": "carto-dark",
+        },
+    ])
+
+    const selectedBasemap = ref(basemaps.value[0].value);
+
+    const showBoundary = ref(true);
+    const setShowBoundary = (value) => {
+        showBoundary.value = value;
+    }
+
+
+    const setSelectedBasemap = (basemap) => {
+        if (basemaps.value.some(b => b.value === basemap)) {
+            selectedBasemap.value = basemap;
+        } else {
+            console.error("Invalid basemap selected");
+        }
+    }
+
+
     const setLoading = (isLoading) => {
         loading.value = isLoading;
     }
@@ -117,6 +149,9 @@ export const useMapStore = defineStore("map", () => {
         timeLayerDates,
         selectedTimeLayerDateIndex,
         activeTimeLayer,
+        basemaps,
+        selectedBasemap,
+        showBoundary,
         setLoading,
         setTimeLayerDates,
         setSelectedTimeLayerDateIndex,
@@ -126,5 +161,7 @@ export const useMapStore = defineStore("map", () => {
         setWeatherForecastLayerDateFormat,
         getLayerById,
         addLayer,
+        setSelectedBasemap,
+        setShowBoundary,
     };
 });
