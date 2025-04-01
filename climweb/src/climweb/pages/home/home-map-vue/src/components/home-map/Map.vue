@@ -4,8 +4,9 @@ import maplibregl from "maplibre-gl";
 import {bbox as turfBbox} from "@turf/bbox";
 
 import {useMapStore} from "@/stores/map";
-import {getRasterFileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
+import {getRasterLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
 import {getTimeFromList} from "@/utils/date";
+import {getTimeValuesFromWMS} from "@/utils/wms";
 
 import Popover from 'primevue/popover';
 import LayerItem from "./LayerItem.vue";
@@ -303,8 +304,15 @@ const handleDynamicLayer = (layer) => {
   const {layerType} = layer
 
   if (layerType === "raster_file") {
-    layer.mapLayerConfig = getRasterFileLayerConfig(layer)
+    layer.mapLayerConfig = getRasterLayerConfig(layer)
     mapStore.addLayer(layer)
+  } else if (layerType === "wms") {
+    const {getCapabilitiesUrl, getCapabilitiesLayerName} = layer
+    // valid WMS layer must have getCapabilitiesUrl and getCapabilitiesLayerName
+    if (getCapabilitiesUrl && getCapabilitiesLayerName) {
+      layer.mapLayerConfig = getRasterLayerConfig(layer)
+      mapStore.addLayer(layer)
+    }
   }
 }
 
@@ -321,21 +329,38 @@ const toggleDynamicLayer = (layerId, visible) => {
       map.removeSource(layerId)
     }
   } else {
-    if (layerType === "raster_file") {
-      addRasterFileLayer(layer.id)
+
+    if (layerType === "raster_file" || layerType === "wms") {
+      addRasterLayer(layer.id)
     }
   }
 }
 
-const addRasterFileLayer = async (layerId) => {
+
+const fetchTimestamps = (layer) => {
+  const {layerType,} = layer
+
+  if (layerType === "raster_file") {
+    const {tileJsonUrl} = layer
+    return fetch(tileJsonUrl).then(res => res.json()).then(res => res.timestamps)
+  } else if (layerType === "wms") {
+    const {getCapabilitiesUrl, getCapabilitiesLayerName} = layer
+    return getTimeValuesFromWMS(getCapabilitiesUrl, getCapabilitiesLayerName)
+  }
+
+  return []
+}
+
+const addRasterLayer = async (layerId) => {
   const layer = mapStore.getLayerById(layerId)
   const {mapLayerConfig} = layer
-  const {tileJsonUrl, currentTimeMethod} = layer
+  const {currentTimeMethod} = layer
 
   try {
     mapStore.setLoading(true)
 
-    const timestamps = await fetch(tileJsonUrl).then(res => res.json()).then(res => res.timestamps)
+    const timestamps = await fetchTimestamps(layer)
+
     if (timestamps && !!timestamps.length) {
       const currentLayerTime = getTimeFromList(timestamps, currentTimeMethod);
       const currentLayerTimeIndex = timestamps.indexOf(currentLayerTime);
@@ -379,6 +404,7 @@ const addRasterFileLayer = async (layerId) => {
     mapStore.setLoading(false)
   }
 }
+
 
 // Map Controls
 const zoomIn = () => map?.zoomIn();
@@ -441,7 +467,7 @@ const handleLayerToggle = ({layerId, visible}) => {
 const handleDynamicLayerTimeChange = (layer, newDateStr) => {
   const {layerType, mapLayerConfig} = layer
 
-  if (layerType === "raster_file") {
+  if (layerType === "raster_file" || layerType === "wms") {
     if (mapLayerConfig) {
       updateSourceTileUrl(map, mapLayerConfig.source.id, {time: newDateStr})
     }

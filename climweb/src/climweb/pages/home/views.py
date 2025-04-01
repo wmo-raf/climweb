@@ -2,6 +2,7 @@ from adminboundarymanager.models import AdminBoundarySettings
 from django.http import JsonResponse
 from django.urls import reverse
 from geomanager.serializers import RasterFileLayerSerializer
+from geomanager.serializers.wms import WmsLayerSerializer
 from wagtail.api.v2.utils import get_full_url
 
 from climweb.base.models import OrganisationSetting
@@ -60,9 +61,15 @@ def home_map_settings(request):
     
     dynamic_map_layers = []
     for index, block in enumerate(settings.map_layers):
-        if block.block_type == "raster_layer":
-            raster_layer = block.value.get("layer")
-            layer_config = RasterFileLayerSerializer(raster_layer, context={"request": request}).data
+        LayerSerializer = None
+        if block.block_type == "raster_file_layer":
+            LayerSerializer = RasterFileLayerSerializer
+        elif block.block_type == "wms_layer":
+            LayerSerializer = WmsLayerSerializer
+        
+        if LayerSerializer:
+            layer = block.value.get("layer")
+            layer_config = LayerSerializer(layer, context={"request": request}).data
             
             layer_config.update({
                 "icon": block.value.get("icon"),

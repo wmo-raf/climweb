@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from forecastmanager.forecast_settings import ForecastSetting
-from geomanager.models import RasterFileLayer
+from geomanager.models import RasterFileLayer, WmsLayer
 from modelcluster.models import ClusterableModel
 from wagtail import blocks
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel, TabbedInterface, ObjectList
@@ -18,6 +18,7 @@ from wagtail.models import Page
 from wagtail_color_panel.fields import ColorField
 from wagtailiconchooser.blocks import IconChooserBlock
 from wagtailiconchooser.utils import get_svg_sprite_for_icons
+from wagtailmodelchooser import register_model_chooser
 
 from climweb.base import blocks as climweb_blocks
 from climweb.base.mixins import MetadataPageMixin
@@ -282,8 +283,19 @@ class HomePage(MetadataPageMixin, Page):
         return services
 
 
-class HomeMapRasterLayerBlock(blocks.StructBlock):
+register_model_chooser(WmsLayer)
+
+
+class RasterFileLayerBlock(blocks.StructBlock):
     layer = climweb_blocks.UUIDModelChooserBlock(RasterFileLayer, icon="map")
+    icon = IconChooserBlock(required=False, default="layer-group", label=_("Icon"))
+    display_name = blocks.CharBlock(max_length=100, required=False,
+                                    help_text=_("Name to display on the map. "
+                                                "Leave blank to use the original layer name"))
+
+
+class WMSLayerBlock(blocks.StructBlock):
+    layer = climweb_blocks.UUIDModelChooserBlock(WmsLayer, icon="map")
     icon = IconChooserBlock(required=False, default="layer-group", label=_("Icon"))
     display_name = blocks.CharBlock(max_length=100, required=False,
                                     help_text=_("Name to display on the map. "
@@ -318,7 +330,8 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
     ], use_json_field=True, blank=True)
     
     map_layers = StreamField([
-        ('raster_layer', HomeMapRasterLayerBlock(label="Raster Layer", icon="map")),
+        ('raster_file_layer', RasterFileLayerBlock(label="Raster Layer", icon="map")),
+        ('wms_layer', WMSLayerBlock(label="WMS Layer", icon="map")),
     ], null=True, blank=True, max_num=5, verbose_name=_("Map Layers"))
     
     edit_handler = TabbedInterface([

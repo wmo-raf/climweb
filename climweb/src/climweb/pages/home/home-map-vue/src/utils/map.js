@@ -1,4 +1,4 @@
-export const getRasterFileLayerConfig = (layer) => {
+export const getRasterLayerConfig = (layer) => {
     const {layerConfig, id} = layer
     const tileUrl = layerConfig.source.tiles[0].replace("{geostore_id}", "")
 
@@ -14,6 +14,7 @@ export const getRasterFileLayerConfig = (layer) => {
         }
     }
 }
+
 
 export const updateTileUrl = (tileUrl, params) => {
     // construct new url with new query params
