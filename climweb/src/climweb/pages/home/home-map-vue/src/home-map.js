@@ -1,5 +1,6 @@
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
+import {createI18n} from 'vue-i18n'
 import DjangoUtilsPlugin, {convertDatasetToProps} from 'vue-plugin-django-utils'
 
 import PrimeVue from 'primevue/config';
@@ -7,6 +8,12 @@ import Aura from '@primeuix/themes/aura';
 import HomeMap from './components/home-map/HomeMap.vue'
 
 const pinia = createPinia()
+
+const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    fallbackLocale: 'en',
+})
 
 const homeMapEl = document.getElementById('home-map')
 
@@ -24,6 +31,7 @@ if (homeMapEl) {
     });
 
     app.use(pinia)
+    app.use(i18n)
     app.use(DjangoUtilsPlugin, {rootElement: homeMapEl})
     app.mount(homeMapEl)
 }

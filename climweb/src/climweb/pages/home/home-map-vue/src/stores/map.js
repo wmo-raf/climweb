@@ -106,6 +106,14 @@ export const useMapStore = defineStore("map", () => {
         }
     };
 
+    const updateLayerTitle = (layerId, title) => {
+        if (layers[layerId]) {
+            layers[layerId].title = title;
+        } else {
+            console.warn(`Layer with ID '${layerId}' not found`);
+        }
+    }
+
     const setWeatherForecastLayerDateFormat = (dateFormat) => {
         if (layers["weather-forecast"]) {
             layers["weather-forecast"].dateFormat = dateFormat;
@@ -163,5 +171,6 @@ export const useMapStore = defineStore("map", () => {
         addLayer,
         setSelectedBasemap,
         setShowBoundary,
+        updateLayerTitle
     };
 });

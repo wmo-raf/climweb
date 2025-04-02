@@ -2,6 +2,7 @@
 
 import {ref, watch} from "vue";
 
+
 const props = defineProps({
   id: {
     type: String,
@@ -44,6 +45,7 @@ const emit = defineEmits(['update:toggleLayer']);
 const isVisible = ref(props.visible);
 const isEnabled = ref(props.enabled);
 
+
 watch(
     () => props.visible,
     (newVisibleValue) => {
@@ -58,7 +60,6 @@ watch(
     }
 );
 
-
 const onToggle = () => {
   isVisible.value = !isVisible.value;
   emit('update:toggleLayer', {layerId: props.id, visible: isVisible.value});
@@ -67,7 +68,7 @@ const onToggle = () => {
 </script>
 
 <template>
-  <div v-if="isEnabled" class="layer-control" :class="{ active: visible }" @click="onToggle">
+  <div v-if="isEnabled" class="layer-control" :class="{ active: visible}" @click="onToggle">
     <div class="layer-icon">
       <svg>
         <use :xlink:href="icon ? `#${icon}` : '#icon-layers'"></use>
@@ -76,6 +77,8 @@ const onToggle = () => {
     <div class="layer-title">
       {{ title }}
     </div>
+
+
   </div>
 </template>
 
@@ -85,13 +88,15 @@ const onToggle = () => {
 .layer-control {
   position: relative;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background: rgba(0, 0, 0, .3);
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   font-weight: 700;
   color: #fff;
   padding: 0 12px;
-  align-items: center;
   height: 30px;
   width: fit-content;
   max-width: 100%;
@@ -101,6 +106,10 @@ const onToggle = () => {
 
 .layer-control.active {
   background-color: var(--primary-color);
+}
+
+.layer-control.mobile {
+  padding: 0;
 }
 
 .layer-icon {
@@ -127,4 +136,6 @@ const onToggle = () => {
 .layer-title {
   padding-left: 12px;
 }
+
+
 </style>

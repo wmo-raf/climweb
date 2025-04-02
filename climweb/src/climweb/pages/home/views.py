@@ -2,6 +2,7 @@ from adminboundarymanager.models import AdminBoundarySettings
 from django.http import JsonResponse
 from django.urls import reverse
 from geomanager.serializers import RasterFileLayerSerializer
+from geomanager.serializers.vector_tile import VectorTileLayerSerializer
 from geomanager.serializers.wms import WmsLayerSerializer
 from wagtail.api.v2.utils import get_full_url
 
@@ -55,7 +56,9 @@ def home_map_settings(request):
     
     config.update({
         "showWarningsLayer": settings.show_warnings_layer,
+        "capWarningsLayerDisplayName": settings.warnings_layer_display_name,
         "showLocationForecastLayer": settings.show_location_forecast_layer,
+        "locationForecastLayerDisplayName": settings.location_forecast_layer_display_name,
         "locationForecastDateDisplayFormat": settings.location_forecat_date_display_format,
     })
     
@@ -66,6 +69,8 @@ def home_map_settings(request):
             LayerSerializer = RasterFileLayerSerializer
         elif block.block_type == "wms_layer":
             LayerSerializer = WmsLayerSerializer
+        elif block.block_type == "vector_tile_layer":
+            LayerSerializer = VectorTileLayerSerializer
         
         if LayerSerializer:
             layer = block.value.get("layer")

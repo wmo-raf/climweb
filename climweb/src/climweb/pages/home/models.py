@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from forecastmanager.forecast_settings import ForecastSetting
-from geomanager.models import RasterFileLayer, WmsLayer
+from geomanager.models import RasterFileLayer, WmsLayer, VectorTileLayer
 from modelcluster.models import ClusterableModel
 from wagtail import blocks
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel, TabbedInterface, ObjectList
@@ -284,6 +284,7 @@ class HomePage(MetadataPageMixin, Page):
 
 
 register_model_chooser(WmsLayer)
+register_model_chooser(VectorTileLayer)
 
 
 class RasterFileLayerBlock(blocks.StructBlock):
@@ -302,6 +303,14 @@ class WMSLayerBlock(blocks.StructBlock):
                                                 "Leave blank to use the original layer name"))
 
 
+class VectorTileLayerBlock(blocks.StructBlock):
+    layer = climweb_blocks.UUIDModelChooserBlock(VectorTileLayer, icon="map")
+    icon = IconChooserBlock(required=False, default="layer-group", label=_("Icon"))
+    display_name = blocks.CharBlock(max_length=100, required=False,
+                                    help_text=_("Name to display on the map. "
+                                                "Leave blank to use the original layer name"))
+
+
 @register_setting(icon="map")
 class HomeMapSettings(BaseSiteSetting, ClusterableModel):
     DATE_FORMAT_CHOICES = (
@@ -311,7 +320,11 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
     )
     
     show_warnings_layer = models.BooleanField(default=True, verbose_name=_("Show CAP Warnings Layer"))
+    warnings_layer_display_name = models.CharField(max_length=100, default=_("Weather Warnings"),
+                                                   verbose_name=_("CAP Warnings Layer Display Name"))
     show_location_forecast_layer = models.BooleanField(default=True, verbose_name=_("Show Location forecast Layer"))
+    location_forecast_layer_display_name = models.CharField(max_length=100, default=_("Location Forecast"),
+                                                            verbose_name=_("Location Forecast Layer Display Name"))
     location_forecat_date_display_format = models.CharField(max_length=100, choices=DATE_FORMAT_CHOICES,
                                                             default="yyyy-MM-dd HH:mm",
                                                             help_text=_("Location Forecast Date Display Format"))
@@ -330,20 +343,28 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
     ], use_json_field=True, blank=True)
     
     map_layers = StreamField([
-        ('raster_file_layer', RasterFileLayerBlock(label="Raster Layer", icon="map")),
-        ('wms_layer', WMSLayerBlock(label="WMS Layer", icon="map")),
+        ('raster_file_layer', RasterFileLayerBlock(label=_("Raster Layer"), icon="map")),
+        ('wms_layer', WMSLayerBlock(label=_("WMS Layer"), icon="map")),
+        ('vector_tile_layer', VectorTileLayerBlock(label=_("Vector Tile Layer"), icon="map")),
     ], null=True, blank=True, max_num=5, verbose_name=_("Map Layers"))
     
     edit_handler = TabbedInterface([
         ObjectList([
-            FieldPanel("show_warnings_layer"),
-            FieldPanel("show_location_forecast_layer"),
-            FieldPanel("location_forecat_date_display_format"),
+            
             MultiFieldPanel([
+                FieldPanel("show_warnings_layer"),
+                FieldPanel("warnings_layer_display_name"),
+            ], heading=_("CAP Warnings Layer"), ),
+            
+            MultiFieldPanel([
+                FieldPanel("show_location_forecast_layer"),
+                FieldPanel("location_forecast_layer_display_name"),
+                FieldPanel("location_forecat_date_display_format"),
                 FieldPanel("forecast_cluster"),
                 FieldPanel("forecast_cluster_min_points"),
                 FieldPanel("forecast_cluster_radius"),
-            ], heading=_("Location Forecast Clustering")),
+            ], heading=_("Location Forecast Layer"), ),
+            
             FieldPanel("zoom_locations"),
         ], heading=_("Map Settings")),
         ObjectList([

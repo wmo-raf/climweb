@@ -16,6 +16,36 @@ export const getRasterLayerConfig = (layer) => {
 }
 
 
+export const getVectorTileLayerConfig = (layer) => {
+    const {layerConfig, id} = layer
+    const tileUrl = layerConfig.source.tiles[0]
+
+    const {render} = layerConfig
+
+    const config = {
+        source: {
+            "id": id,
+            "type": "vector",
+            "tiles": [tileUrl]
+        },
+        layers: []
+    }
+
+    if (render && render.layers) {
+        render.layers.forEach((layer, index) => {
+            const lConfig = {
+                id: `${id}-${index}`,
+                ...layer,
+                "source": id,
+            }
+            config.layers.push(lConfig)
+        })
+    }
+
+    return config
+}
+
+
 export const updateTileUrl = (tileUrl, params) => {
     // construct new url with new query params
     const url = new URL(tileUrl)

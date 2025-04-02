@@ -4,7 +4,7 @@ import maplibregl from "maplibre-gl";
 import {bbox as turfBbox} from "@turf/bbox";
 
 import {useMapStore} from "@/stores/map";
-import {getRasterLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
+import {getRasterLayerConfig, getVectorTileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
 import {getTimeFromList} from "@/utils/date";
 import {getTimeValuesFromWMS} from "@/utils/wms";
 import {defaultMapStyle} from "@/utils/basemap";
@@ -72,7 +72,9 @@ const initializeMap = async () => {
     center: [0, 0],
     zoom: 4,
     scrollZoom: false,
+    attributionControl: false,
   };
+
 
   if (props.initialBounds) {
     try {
@@ -86,17 +88,22 @@ const initializeMap = async () => {
 
   map = new maplibregl.Map(mapInitOptions);
 
+  // add attribution
+  map.addControl(new maplibregl.AttributionControl({
+    customAttribution: '<a href="https://maplibre.org" target="_blank">MapLibre</a>   &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+    compact: false,
+  }), "bottom-left");
+
   map.on("load", async () => {
     mapStore.setLoading(true);
     try {
       const mapSettings = await fetchMapSettings();
       mapStore.setLoading(false)
       initializeMapLayers(mapSettings);
-
     } catch (e) {
-
+      console.log("Error fetching map settings", e)
+      mapStore.setLoading(false)
     }
-
   });
 };
 
@@ -104,8 +111,10 @@ const initializeMapLayers = (mapSettings) => {
   const {
     boundaryTilesUrl,
     showWarningsLayer,
+    capWarningsLayerDisplayName,
     capGeojsonUrl,
     showLocationForecastLayer,
+    locationForecastLayerDisplayName,
     locationForecastDateDisplayFormat,
     homeForecastDataUrl,
     weatherIconsUrl,
@@ -116,11 +125,14 @@ const initializeMapLayers = (mapSettings) => {
   addBoundaryLayer(boundaryTilesUrl);
 
   if (showWarningsLayer) {
+    mapStore.updateLayerTitle("weather-warnings", capWarningsLayerDisplayName);
     mapStore.updateLayerState("weather-warnings", true);
+
     addWarningsLayer(capGeojsonUrl);
   }
 
   if (showLocationForecastLayer) {
+    mapStore.updateLayerTitle("weather-forecast", locationForecastLayerDisplayName);
     mapStore.updateLayerState("weather-forecast", true);
     mapStore.setWeatherForecastLayerDateFormat({currentTime: locationForecastDateDisplayFormat});
     addLocationForecastLayer(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig)
@@ -324,6 +336,11 @@ const handleDynamicLayer = (layer) => {
       layer.mapLayerConfig = getRasterLayerConfig(layer)
       mapStore.addLayer(layer)
     }
+  } else if (layerType === "vector_tile") {
+    layer.mapLayerConfig = getVectorTileLayerConfig(layer)
+    mapStore.addLayer(layer)
+  } else {
+    console.error("Unsupported layer type:", layerType);
   }
 }
 
@@ -332,44 +349,60 @@ const toggleDynamicLayer = (layerId, visible) => {
   const {layerType} = layer
 
   if (!visible) {
-    if (map.getLayer(layerId)) {
-      map.removeLayer(layerId)
+    if (layerType === "vector_tile") {
+      const {layers} = layer.mapLayerConfig
+      layers && layers.forEach(layer => {
+        if (map.getLayer(layer.id)) {
+          map.removeLayer(layer.id)
+        }
+      })
+    } else {
+      if (map.getLayer(layerId)) {
+        map.removeLayer(layerId)
+      }
     }
 
     if (map.getSource(layerId)) {
       map.removeSource(layerId)
     }
-  } else {
 
-    if (layerType === "raster_file" || layerType === "wms") {
-      addRasterLayer(layer.id)
+
+  } else {
+    if (layerType === "raster_file" || layerType === "wms" || layerType === "vector_tile") {
+      addDynamicLayer(layer.id)
     }
+
   }
+}
+
+const getTimeValuesFromTileJson = (tileJsonUrl, timestampsResponseObjectKey = "timestamps") => {
+  return fetch(tileJsonUrl).then(res => res.json()).then(res => res[timestampsResponseObjectKey])
 }
 
 
 const fetchTimestamps = (layer) => {
-  const {layerType,} = layer
+  const {layerType} = layer
 
-  if (layerType === "raster_file") {
-    const {tileJsonUrl} = layer
-    return fetch(tileJsonUrl).then(res => res.json()).then(res => res.timestamps)
+  if (layerType === "raster_file" || layerType === "vector_tile") {
+    const {tileJsonUrl, timestampsResponseObjectKey} = layer
+    return getTimeValuesFromTileJson(tileJsonUrl, timestampsResponseObjectKey)
   } else if (layerType === "wms") {
     const {getCapabilitiesUrl, getCapabilitiesLayerName} = layer
     return getTimeValuesFromWMS(getCapabilitiesUrl, getCapabilitiesLayerName)
+  } else {
+    console.error("Unsupported layer type:", layerType);
   }
 
   return []
 }
 
-const addRasterLayer = async (layerId) => {
+const addDynamicLayer = async (layerId) => {
   const layer = mapStore.getLayerById(layerId)
-  const {mapLayerConfig} = layer
+  const {mapLayerConfig, layerType, paramsSelectorConfig} = layer
   const {currentTimeMethod} = layer
 
   try {
     mapStore.setLoading(true)
-
     const timestamps = await fetchTimestamps(layer)
 
     if (timestamps && !!timestamps.length) {
@@ -377,28 +410,49 @@ const addRasterLayer = async (layerId) => {
       const currentLayerTimeIndex = timestamps.indexOf(currentLayerTime);
 
       mapStore.setSelectedTimeLayerDateIndex(layer.id, currentLayerTimeIndex)
-
       mapStore.setTimeLayerDates(layer.id, timestamps)
 
       const sourceId = mapLayerConfig.source.id
-      const layerId = mapLayerConfig.layer.id
 
-      const tileUrl = updateTileUrl(mapLayerConfig.source.tiles, {time: currentLayerTime})
+      let tileUrl
+      const timeSelectorConfig = paramsSelectorConfig.find(c => c.key === "time")
 
-      if (!map.getSource(sourceId)) {
-        map.addSource(sourceId, {
-          type: "raster",
-          tiles: [tileUrl]
-        });
+      if (timeSelectorConfig) {
+        let timeUrlParam = "time"
+        const {url_param} = timeSelectorConfig
+        if (url_param) {
+          timeUrlParam = url_param
+        }
+        tileUrl = updateTileUrl(mapLayerConfig.source.tiles[0], {[timeUrlParam]: currentLayerTime})
       }
 
+      if (tileUrl) {
+        if (!map.getSource(sourceId)) {
+          map.addSource(sourceId, {
+            ...mapLayerConfig.source,
+            tiles: [tileUrl],
+          });
+        }
 
-      if (!map.getLayer(layerId)) {
-        map.addLayer({
-          id: layerId,
-          type: "raster",
-          source: sourceId,
-        });
+        if (layerType === "raster_file" || layerType === "wms") {
+          if (!map.getLayer(layerId)) {
+            map.addLayer({
+              id: layerId,
+              type: "raster",
+              source: sourceId,
+            });
+          }
+        } else if (layerType === "vector_tile") {
+          const {layers} = mapLayerConfig
+          layers && layers.forEach(layer => {
+            if (!map.getLayer(layer.id)) {
+              map.addLayer({
+                ...layer,
+                source: sourceId,
+              });
+            }
+          })
+        }
 
         // move always on top layers to the top
         alwaysOnTopLayers.forEach(l => {
@@ -406,12 +460,12 @@ const addRasterLayer = async (layerId) => {
             map.moveLayer(l)
           }
         });
-
       }
     }
 
     mapStore.setLoading(false)
   } catch (e) {
+    console.log("Error adding dynamic layer", e)
     mapStore.setLoading(false)
   }
 }
@@ -476,11 +530,20 @@ const handleLayerToggle = ({layerId, visible}) => {
 
 
 const handleDynamicLayerTimeChange = (layer, newDateStr) => {
-  const {layerType, mapLayerConfig} = layer
+  const {layerType, mapLayerConfig, paramsSelectorConfig} = layer
 
-  if (layerType === "raster_file" || layerType === "wms") {
+  if (layerType === "raster_file" || layerType === "wms" || layerType === "vector_tile") {
+    const timeSelectorConfig = paramsSelectorConfig.find(c => c.key === "time")
+    let timeUrlParam = "time"
+    if (timeSelectorConfig) {
+      const {url_param} = timeSelectorConfig
+      if (url_param) {
+        timeUrlParam = url_param
+      }
+    }
+
     if (mapLayerConfig) {
-      updateSourceTileUrl(map, mapLayerConfig.source.id, {time: newDateStr})
+      updateSourceTileUrl(map, mapLayerConfig.source.id, {[timeUrlParam]: newDateStr})
     }
   }
 }
@@ -556,6 +619,9 @@ onUnmounted(() => map?.remove());
       <MapOptions/>
     </Popover>
   </div>
+
+  <!-- DatePicker for screens < desktop size -->
+  <div id="datepicker-mobile"></div>
 
   <!-- Fixed Layers -->
   <div class="fixed-layer-control">
@@ -659,10 +725,16 @@ onUnmounted(() => map?.remove());
   fill: #fff;
 }
 
+#datepicker-mobile {
+  position: absolute;
+  top: 130px;
+  right: 10px;
+}
+
 .fixed-layer-control {
   position: absolute;
   top: 20px;
-  left: 30px;
+  left: 24px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -670,8 +742,8 @@ onUnmounted(() => map?.remove());
 
 .dynamic-layer-control {
   position: absolute;
-  bottom: 20px;
-  left: 30px;
+  bottom: 30px;
+  left: 24px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -679,7 +751,7 @@ onUnmounted(() => map?.remove());
 
 .date-navigator-control {
   position: absolute;
-  bottom: 30px;
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   padding: 10px;
@@ -687,7 +759,7 @@ onUnmounted(() => map?.remove());
 
 .legend-control {
   position: absolute;
-  bottom: 40px;
+  bottom: 12px;
   right: 10px;
 }
 

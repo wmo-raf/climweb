@@ -1,5 +1,8 @@
 <script setup>
 import {computed} from 'vue';
+import {breakpointsTailwind, useBreakpoints} from '@vueuse/core'
+
+
 import {useMapStore} from "@/stores/map";
 import {dFormatter} from "@/utils/date";
 
@@ -51,15 +54,19 @@ const selectPrev = () => {
   }
 };
 
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isDesktop = breakpoints.greater('md')
 
 </script>
 
 <template>
-  <div class="time-picker" v-if="!!activeTimeLayerDates.length">
-    <button @click="selectPrev" :disabled="prevDisabled" class="nav-button">◄</button>
-    <span class="date-display">{{ selectedDateFormatted }}</span>
-    <button @click="selectNext" :disabled="nextDisabled" class="nav-button">►</button>
-  </div>
+  <Teleport to="#datepicker-mobile" :disabled="isDesktop">
+    <div class="time-picker" v-if="!!activeTimeLayerDates.length">
+      <button @click="selectPrev" :disabled="prevDisabled" class="nav-button">◄</button>
+      <span class="date-display">{{ selectedDateFormatted }}</span>
+      <button @click="selectNext" :disabled="nextDisabled" class="nav-button">►</button>
+    </div>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -68,16 +75,15 @@ const selectPrev = () => {
   align-items: center;
   background: rgba(0, 0, 0, .6);
   color: white;
-  border-radius: 5px;
+  border-radius: 4px;
   font-family: Arial, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .nav-button {
   background: none;
   border: none;
   color: white;
-  font-size: 20px;
   cursor: pointer;
   padding: 5px;
 }
