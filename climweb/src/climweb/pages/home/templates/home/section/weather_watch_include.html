@@ -1,5 +1,7 @@
 {% load static nmhs_cms_tags wagtailiconchooser_tags i18n nmhs_cms_tags %}
 
+{% get_current_language as LANGUAGE_CODE %}
+
 {% if self.show_weather_watch %}
     {% if home_map_layer_svg_sprite %}
         <div id="django-svg-data-sprite">
@@ -24,7 +26,10 @@
                 </div>
                 <div class="column is-three-quarters-desktop is-full-touch">
                     <div id="home-map" style="position: relative;" data-map-settings-url="{{ home_map_settings_url }}"
-                         data-initial-bounds="{{ country_bounds }}" data-city-detail-url="{{ city_detail_page_url }}">
+                         data-initial-bounds="{{ country_bounds }}"
+                         data-location-forecast-detail-url="{{ city_detail_page_url }}"
+                         data-language-code="{{ LANGUAGE_CODE }}"
+                    >
                     </div>
                 </div>
             </div>

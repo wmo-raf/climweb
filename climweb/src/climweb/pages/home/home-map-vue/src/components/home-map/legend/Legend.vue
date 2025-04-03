@@ -8,6 +8,7 @@ import LegendItem from "./LegendItem.vue";
 
 
 const mapStore = useMapStore();
+
 const {t} = useI18n({
   locale: 'en',
   messages: {
@@ -16,8 +17,34 @@ const {t} = useI18n({
         title: 'Legend',
       }
     },
+    fr: {
+      legend: {
+        title: 'Légende',
+      }
+    },
+    ar: {
+      legend: {
+        title: 'مفتاح الخريطة',
+      }
+    },
+    am: {
+      legend: {
+        title: 'ምስክር',
+      }
+    },
+    es: {
+      legend: {
+        title: 'Leyenda',
+      }
+    },
+    sw: {
+      legend: {
+        title: 'Maelezo ya Ramani',
+      }
+    }
   }
 })
+
 
 const hasLegend = computed(() => {
   return mapStore.visibleLayers.some(layer => layer.legendConfig);

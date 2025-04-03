@@ -9,20 +9,27 @@ import HomeMap from './components/home-map/HomeMap.vue'
 
 const pinia = createPinia()
 
-const i18n = createI18n({
-    legacy: false,
-    locale: 'en',
-    fallbackLocale: 'en',
-})
 
 const homeMapEl = document.getElementById('home-map')
 
+
 // If the element exists, mount the Vue app
 if (homeMapEl) {
-    const app = createApp(HomeMap, convertDatasetToProps({
+
+    const props = convertDatasetToProps({
         dataset: {...homeMapEl.dataset},
         component: HomeMap
-    }))
+    })
+
+    let defaultLocale = props?.languageCode || 'en'
+
+    const i18n = createI18n({
+        legacy: false,
+        locale: defaultLocale,
+        fallbackLocale: 'en',
+    })
+
+    const app = createApp(HomeMap, props)
 
     app.use(PrimeVue, {
         theme: {

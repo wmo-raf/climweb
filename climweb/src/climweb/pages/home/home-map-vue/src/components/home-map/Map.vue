@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, onUnmounted, ref, shallowRef, watch} from 'vue';
+import {computed, nextTick, onMounted, onUnmounted, ref, shallowRef, watch} from 'vue';
 import maplibregl from "maplibre-gl";
 import {bbox as turfBbox} from "@turf/bbox";
 
@@ -14,6 +14,8 @@ import LayerItem from "./LayerItem.vue";
 import DateNavigator from "./DateNavigator.vue";
 import Legend from "./legend/Legend.vue";
 import MapOptions from "./MapOptions.vue";
+import CAPWarningPopup from "./popup/CAPWarningPopup.vue";
+import LocationForecastPopup from "./popup/LocationForecastPopup.vue";
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -24,6 +26,10 @@ const props = defineProps({
     required: true
   },
   initialBounds: {
+    type: String,
+    required: false
+  },
+  locationForecastDetailUrl: {
     type: String,
     required: false
   },
@@ -42,6 +48,13 @@ const alwaysOnTopLayers = [
   "weather-warnings",
   "weather-forecast"
 ];
+
+const popupContent = ref(null);
+const popupInstance = ref(null);
+
+const popupVisible = ref(false);
+const popupComponent = shallowRef(null);
+const popupProps = ref({});
 
 
 const activeTimeLayerDates = computed(() => {
@@ -105,9 +118,72 @@ const initializeMap = async () => {
       mapStore.setLoading(false)
     }
   });
+
+  const interactiveLayers = ['weather-warnings', 'weather-forecast'];
+  interactiveLayers.forEach(layer => {
+    map.on('mouseenter', layer, () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', layer, () => {
+      map.getCanvas().style.cursor = '';
+    });
+  });
+
+  map.on("click", (e) => {
+    if (popupInstance.value) {
+      popupInstance.value.remove();
+      popupInstance.value = null;
+    }
+
+    const features = map.queryRenderedFeatures(e.point, {
+      layers: interactiveLayers,
+    });
+
+    // get first feature
+    const feature = features && !!features.length && features[0];
+
+    if (feature) {
+      const layerId = feature.layer.id;
+
+      if (layerId === "weather-warnings") {
+        popupComponent.value = CAPWarningPopup;
+        popupProps.value = {
+          properties: feature.properties,
+        };
+      } else if (layerId === "weather-forecast") {
+        popupComponent.value = LocationForecastPopup;
+
+        popupProps.value = {
+          properties: feature.properties,
+          locationForecastDetailUrl: props.locationForecastDetailUrl,
+        };
+      }
+
+      popupVisible.value = true;
+
+      nextTick(() => {
+        if (popupInstance.value) popupInstance.value.remove();
+
+
+        popupInstance.value = new maplibregl.Popup()
+            .setDOMContent(popupContent.value)
+            .setLngLat(e.lngLat)
+            .addTo(map);
+
+        popupInstance.value.on("close", () => {
+          popupVisible.value = false;
+          popupInstance.value.remove();
+          popupInstance.value = null;
+        });
+      });
+    }
+  });
+
+
 };
 
-const initializeMapLayers = (mapSettings) => {
+const initializeMapLayers = async (mapSettings) => {
   const {
     boundaryTilesUrl,
     showWarningsLayer,
@@ -119,7 +195,8 @@ const initializeMapLayers = (mapSettings) => {
     homeForecastDataUrl,
     weatherIconsUrl,
     forecastClusterConfig,
-    dynamicMapLayers
+    dynamicMapLayers,
+    forecastSettingsUrl
   } = mapSettings;
 
   addBoundaryLayer(boundaryTilesUrl);
@@ -135,7 +212,18 @@ const initializeMapLayers = (mapSettings) => {
     mapStore.updateLayerTitle("weather-forecast", locationForecastLayerDisplayName);
     mapStore.updateLayerState("weather-forecast", true);
     mapStore.setWeatherForecastLayerDateFormat({currentTime: locationForecastDateDisplayFormat});
-    addLocationForecastLayer(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig)
+
+
+    try {
+      const forecastSettings = await fetch(forecastSettingsUrl).then(res => res.json());
+      mapStore.setForecastSettings(forecastSettings)
+      addLocationForecastLayer(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig)
+
+    } catch (e) {
+      console.log("Error fetching forecast settings", e)
+    }
+
+
   }
 
   if (dynamicMapLayers && !!dynamicMapLayers.length) {
@@ -668,9 +756,22 @@ onUnmounted(() => map?.remove());
     <div class="spinner"></div>
   </div>
 
+  <teleport to="body" v-if="popupVisible">
+    <div ref="popupContent">
+      <component
+          :is="popupComponent"
+          v-bind="popupProps"
+      />
+    </div>
+  </teleport>
 
 </template>
 
+<style>
+.maplibregl-popup-content {
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+}
+</style>
 
 <style scoped>
 .map-container {

@@ -1,5 +1,5 @@
 <template>
-  <Map :initialBounds :mapSettingsUrl/>
+  <Map :initialBounds :mapSettingsUrl :locationForecastDetailUrl/>
 </template>
 
 <script setup>
@@ -10,13 +10,18 @@ const props = defineProps({
     type: String,
     required: true
   },
-  cityDetailUrl: {
-    type: String,
-    required: false
-  },
   initialBounds: {
     type: String,
     required: false
+  },
+  locationForecastDetailUrl: {
+    type: String,
+    required: false
+  },
+  languageCode: {
+    type: String,
+    required: false,
+    default: 'en'
   }
 });
 

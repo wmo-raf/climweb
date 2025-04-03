@@ -54,6 +54,11 @@ export const useMapStore = defineStore("map", () => {
     const selectedTimeLayerDateIndex = ref({});
     const activeTimeLayer = ref(null);
 
+    const forecastSettings = ref({});
+    const setForecastSettings = (settings) => {
+        forecastSettings.value = settings;
+    }
+
     const basemaps = ref([
         {
             "label": "Voyager",
@@ -160,6 +165,7 @@ export const useMapStore = defineStore("map", () => {
         basemaps,
         selectedBasemap,
         showBoundary,
+        forecastSettings,
         setLoading,
         setTimeLayerDates,
         setSelectedTimeLayerDateIndex,
@@ -171,6 +177,7 @@ export const useMapStore = defineStore("map", () => {
         addLayer,
         setSelectedBasemap,
         setShowBoundary,
-        updateLayerTitle
+        updateLayerTitle,
+        setForecastSettings
     };
 });

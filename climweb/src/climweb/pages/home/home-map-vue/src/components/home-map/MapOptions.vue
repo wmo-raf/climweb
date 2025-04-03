@@ -2,8 +2,46 @@
 import RadioButton from 'primevue/radiobutton';
 import Checkbox from 'primevue/checkbox';
 import {useMapStore} from "@/stores/map";
+import {useI18n} from 'vue-i18n'
 
 const mapStore = useMapStore();
+
+const {t} = useI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      mapOptions: {
+        boundaries: 'Boundaries',
+      }
+    },
+    fr: {
+      mapOptions: {
+        boundaries: 'Frontières',
+      }
+    },
+    ar: {
+      mapOptions: {
+        boundaries: 'الحدود',
+      }
+    },
+    am: {
+      mapOptions: {
+        boundaries: 'ድንበሮች',
+      }
+    },
+    es: {
+      mapOptions: {
+        boundaries: 'Fronteras',
+      }
+    },
+    sw: {
+      mapOptions: {
+        boundaries: 'Mipaka',
+      }
+    }
+  }
+})
+
 
 </script>
 
@@ -19,10 +57,9 @@ const mapStore = useMapStore();
     <div class="divisor"></div>
     <div class="boundary-check">
       <Checkbox v-model="mapStore.showBoundary" inputId="boundary" name="boundary" value="yes" binary/>
-      <label for="boundary"> Boundaries </label>
+      <label for="boundary" class="boundary-label"> {{ t('mapOptions.boundaries') }} </label>
     </div>
   </div>
-
 
 </template>
 
@@ -52,6 +89,10 @@ const mapStore = useMapStore();
   gap: 4px;
 }
 
+.boundary-label {
+  margin-left: 4px;
+}
+
 </style>
 
 <style>
@@ -59,6 +100,4 @@ const mapStore = useMapStore();
   border-color: var(--primary-color);
   background: var(--primary-color);
 }
-
-
 </style>
