@@ -1,6 +1,6 @@
 # major.minor.patch.release.number
 # release must be one of alpha, beta, rc, or final
-VERSION = (0, 9, 6, "beta", 1)
+VERSION = (0, 9, 6, "beta", 2)
 
 
 def get_semver_version(version):
