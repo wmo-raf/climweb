@@ -127,7 +127,7 @@ services:
   climweb_mapviewer_dev:
     image: climweb_mapviewer_dev
     container_name: climweb_mapviewer_dev
-    restart: always
+    restart: no
     platform: linux/x86_64
     build:
       context: ./deploy/mapviewer
@@ -155,7 +155,7 @@ services:
   climweb_nginx_dev:
     container_name: climweb_nginx_dev
     image: nginx:1.20.2-alpine
-    restart: always
+    restart: no
     volumes:
       - ${CMS_STATIC_VOLUME}:/wagtail_static
       - ${CMS_MEDIA_VOLUME}:/wagtail_media
@@ -168,6 +168,7 @@ services:
 
   climweb_otel_collector:
     image: otel/opentelemetry-collector:0.119.0
+    restart: no
     container_name: climweb_otel_collector
     command: [ "--config=/etc/otel-collector-config.yaml" ]
     environment:
