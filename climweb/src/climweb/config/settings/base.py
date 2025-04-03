@@ -254,11 +254,13 @@ ASGI_APPLICATION = "climweb.config.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+DB_ENGINE = "climweb.config.db_engine"
 
-DB_CONNECTION_MAX_AGE = env.int("DB_CONNECTION_MAX_AGE", default=60)
+DB_CONNECTION_MAX_AGE = env.int("DB_CONNECTION_MAX_AGE", default=600)
 
 DATABASES = {
     "default": dj_database_url.config(
+        engine=DB_ENGINE,
         conn_max_age=DB_CONNECTION_MAX_AGE,
         conn_health_checks=True,
     )
