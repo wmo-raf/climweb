@@ -1,3 +1,4 @@
+from alertwise.cap.utils import get_currently_active_alerts
 from django.conf import settings
 from django.contrib.auth.models import Permission
 from django.core.cache import cache
@@ -16,7 +17,8 @@ from wagtail_modeladmin.options import (
 from wagtailcache.cache import clear_cache
 
 from climweb.utils.version import get_main_version, check_version_greater_than_current
-from .models import Theme, ServiceCategory
+from .cap import create_cap_geomanager_dataset
+from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
 from .views import cms_version_view
 
@@ -187,3 +189,28 @@ def hide_menu_items(request, menu_items):
             hidden.append(item.name)
     
     menu_items[:] = [item for item in menu_items if item.name not in hidden]
+
+
+# @hooks.register('construct_settings_menu')
+# def hide_settings_menu_item(request, menu_items):
+#     hidden_settings = ["cap-geomanager-settings"]
+#     menu_items[:] = [item for item in menu_items if item.name not in hidden_settings]
+
+
+@hooks.register('register_geomanager_datasets')
+def add_geomanager_datasets(request):
+    datasets = []
+    cap_geomanager_settings = CAPGeomanagerSettings.for_request(request)
+    if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
+        
+        # check if we have any active alerts
+        has_live_alerts = get_currently_active_alerts().exists()
+        
+        # create dataset
+        dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)
+        
+        # add dataset to list
+        if dataset:
+            datasets.append(dataset)
+    
+    return datasets
