@@ -32,6 +32,8 @@ if os.path.isfile(dev_env_path):
     # reading .env file
     environ.Env.read_env(dev_env_path)
 
+DEBUG = env('DEBUG', False)
+
 # Application definition
 INSTALLED_APPS = [
     "climweb.base",
@@ -149,6 +151,7 @@ INSTALLED_APPS = [
     'wagtail_2fa',
     'django_otp',
     'django_otp.plugins.otp_totp',
+    'django_vue_utilities',
 ]
 
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -685,3 +688,9 @@ LOGGING = {
         "level": CLIMWEB_LOG_LEVEL,
     },
 }
+
+VUE_FRONTEND_USE_TYPESCRIPT = False
+VUE_FRONTEND_USE_DEV_SERVER = DEBUG
+VUE_FRONTEND_DEV_SERVER_URL = 'http://localhost:5173'
+VUE_FRONTEND_DEV_SERVER_PATH = 'src'
+VUE_FRONTEND_STATIC_PATH = 'vue'

@@ -204,6 +204,7 @@ django==4.2.18
     #   django-taggit
     #   django-timezone-field
     #   django-treebeard
+    #   django-vue-utils
     #   djangorestframework
     #   djangorestframework-simplejwt
     #   drf-spectacular
@@ -297,6 +298,8 @@ django-timezone-field==7.1
     #   django-celery-beat
 django-treebeard==4.7.1
     # via wagtail
+django-vue-utils==0.1.7
+    # via -r base.in
 django-widget-tweaks==1.4.12
     # via -r base.in
 djangorestframework==3.15.2
@@ -343,7 +346,7 @@ fonttools[woff]==4.39.4
     #   -r base.in
     #   matplotlib
     #   weasyprint
-forecastmanager==0.5.5
+forecastmanager==0.5.6
     # via -r base.in
 frozenlist==1.5.0
     # via
