@@ -194,6 +194,8 @@ class HomePage(MetadataPageMixin, Page):
     def get_context(self, request, *args, **kwargs):
         context = super(HomePage, self).get_context(request, *args, **kwargs)
         
+        context["home_map_alerts_url"] = get_full_url(request, reverse("home_map_alerts"))
+        
         abm_settings = AdminBoundarySettings.for_request(request)
         abm_extents = abm_settings.combined_countries_bounds
         context.update({

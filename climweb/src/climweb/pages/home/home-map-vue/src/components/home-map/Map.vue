@@ -136,8 +136,10 @@ const initializeMap = async () => {
       popupInstance.value = null;
     }
 
+    const queryLayers = interactiveLayers.filter(l => mapStore.visibleLayers.find(layer => layer.id === l))
+
     const features = map.queryRenderedFeatures(e.point, {
-      layers: interactiveLayers,
+      layers: queryLayers
     });
 
     // get first feature
@@ -203,8 +205,6 @@ const initializeMapLayers = async (mapSettings) => {
 
   if (showWarningsLayer) {
     mapStore.updateLayerTitle("weather-warnings", capWarningsLayerDisplayName);
-    mapStore.updateLayerState("weather-warnings", true);
-
     addWarningsLayer(capGeojsonUrl);
   }
 
@@ -212,7 +212,6 @@ const initializeMapLayers = async (mapSettings) => {
     mapStore.updateLayerTitle("weather-forecast", locationForecastLayerDisplayName);
     mapStore.updateLayerState("weather-forecast", true);
     mapStore.setWeatherForecastLayerDateFormat({currentTime: locationForecastDateDisplayFormat});
-
 
     try {
       const forecastSettings = await fetch(forecastSettingsUrl).then(res => res.json());
@@ -299,6 +298,8 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
 const addWarningsLayer = (capGeojsonUrl) => {
   fetch(capGeojsonUrl).then(res => res.json()).then(alertsGeojson => {
     if (alertsGeojson.features.length > 0) {
+      mapStore.updateLayerState("weather-warnings", true);
+
       const bounds = turfBbox(alertsGeojson);
 
       // fit map to alert bounds
@@ -558,7 +559,6 @@ const addDynamicLayer = async (layerId) => {
   }
 }
 
-
 // Map Controls
 const zoomIn = () => map?.zoomIn();
 const zoomOut = () => map?.zoomOut();
@@ -615,7 +615,6 @@ const handleLayerToggle = ({layerId, visible}) => {
     toggleDynamicLayer(layerId, visible)
   }
 };
-
 
 const handleDynamicLayerTimeChange = (layer, newDateStr) => {
   const {layerType, mapLayerConfig, paramsSelectorConfig} = layer
@@ -680,7 +679,6 @@ watch(() => mapStore.showBoundary, (newShowBoundary) => {
     }
   })
 });
-
 
 onMounted(() => initializeMap());
 onUnmounted(() => map?.remove());
