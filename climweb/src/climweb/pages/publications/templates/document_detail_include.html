@@ -69,9 +69,8 @@
                     </div>
                 {% endif %}
             </div>
-
         </div>
-        <div class="document-detail-description format-text">{{ card.card_text|richtext }}</div>
+        <div class="document-detail-description format-text">{{ card.card_full_text|richtext }}</div>
         {% if additional_materials %}
             <h4 class="document-detail-additional-header">
                 {% translate "Additional Materials" %}:

@@ -15,7 +15,6 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model
 from wagtail.models import Page
 from wagtail.snippets.models import register_snippet
-from wagtail.templatetags.wagtailcore_tags import richtext
 from wagtailiconchooser.widgets import IconChooserWidget
 
 from climweb.base.mixins import MetadataPageMixin
@@ -23,7 +22,6 @@ from climweb.base.models import AbstractBannerPage, ServiceCategory
 from climweb.base.utils import (
     paginate,
     query_param_to_list,
-    get_first_img_src,
     get_first_non_empty_p_string
 )
 from .blocks import ExternalLinkBlock
@@ -206,6 +204,15 @@ class NewsPage(MetadataPageMixin, Page):
     class Meta:
         verbose_name = _("News Page")
     
+    @property
+    def listing_summary(self):
+        p = get_first_non_empty_p_string(self.body)
+        
+        if p:
+            # Limit the search meta desc to google's 160 recommended chars
+            return truncatechars(p, 160)
+        return None
+    
     @cached_property
     def card_props(self):
         card_tags = self.tags.all()
@@ -250,14 +257,6 @@ class NewsPage(MetadataPageMixin, Page):
         meta_description = super().get_meta_description()
         
         if not meta_description:
-            p = get_first_non_empty_p_string(self.body)
-            
-            if p:
-                # Limit the search meta desc to google's 160 recommended chars
-                meta_description = truncatechars(p, 160)
+            meta_description = self.listing_summary
         
         return meta_description
-    
-    @property
-    def meta_description(self):
-        return self.get_meta_description()

@@ -66,7 +66,9 @@
                             </h5>
                         </a>
                         <div class="result-list-item-snippet">
-                            {{ term_page.brief_definition|truncatewords:25 }}
+                            {% if term_page.listing_summary %}
+                                {{ term_page.listing_summary }}
+                            {% endif %}
                         </div>
                         <div class="result-list-item-meta">
                             <span></span>

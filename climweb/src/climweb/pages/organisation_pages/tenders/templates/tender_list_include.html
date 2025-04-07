@@ -40,7 +40,9 @@
                 </div>
                 <div class="tender-item-detail">
                     <div class="tender-item-snippet">
-                        {{ tender.description|richtext|truncatechars_html:200 }}
+                        {% if tender.listing_summary %}
+                            {{ tender.listing_summary }}
+                        {% endif %}
                     </div>
                     <div class="tender-item-meta">
                         <span class="tender-item-view-more">

@@ -176,6 +176,15 @@ class TenderDetailPage(MetadataPageMixin, Page):
             return True
         return False
     
+    @property
+    def listing_summary(self):
+        p = get_first_non_empty_p_string(self.description)
+        if p:
+            # Limit the search meta desc to google's 160 recommended chars
+            return truncatechars(p, 160)
+        
+        return None
+    
     def get_meta_image(self):
         meta_image = super().get_meta_image()
         
@@ -187,10 +196,7 @@ class TenderDetailPage(MetadataPageMixin, Page):
     def get_meta_description(self):
         meta_description = super().get_meta_description()
         
-        if not meta_description and self.description:
-            p = get_first_non_empty_p_string(self.description)
-            if p:
-                # Limit the search meta desc to google's 160 recommended chars
-                meta_description = truncatechars(p, 160)
+        if not meta_description:
+            meta_description = self.listing_summary
         
         return meta_description

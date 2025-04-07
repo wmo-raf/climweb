@@ -1,12 +1,19 @@
 {% load static nmhs_cms_tags wagtailiconchooser_tags i18n nmhs_cms_tags %}
 
+{% get_current_language as LANGUAGE_CODE %}
+
 {% if self.show_weather_watch %}
+    {% if home_map_layer_svg_sprite %}
+        <div id="django-svg-data-sprite">
+            {{ home_map_layer_svg_sprite|safe }}
+        </div>
+    {% endif %}
     <section class="weather-watch-section">
         <div class="container">
             <h2 class="section-title has-text-centered"
                 style=" font-weight:700">{{ page.weather_watch_header }}</h2>
             <div class="columns is-justify-content-center is-mobile is-multiline weather-watch-container">
-                <div class="column is-one-third-widescreen is-full-touch ">
+                <div class="column is-one-quarter-desktop is-full-touch ">
                     <div class="alerts-container" id="alerts-container">
                         <div class="alerts-title">
                             <img src="{% static 'img/CAPLogo.jpeg' %}" alt="" width="20"
@@ -17,55 +24,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="column is-two-thirds-widescreen is-full-touch">
-                    <div id="home-map" style="position: relative;">
-                        <div class="columns p-2" style="position: absolute;top: 10px;left: 10px;z-index: 99">
-                            <div class="column">
-                                <div class="control has-icons-left mr-2" style="display: flex; align-items: center">
-                                    <div class="select">
-                                        <select id="forecast-dates" style="color:#292929;display: none">
-                                        </select>
-                                    </div>
-                                    <span class="icon is-left" style="height: 20px;top:initial">
-                                        {% svg_icon name="calendar-alt" %}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="alerts-legend" class="map-legend elevation-1 py-3 px-4"
-                             style="position: absolute;bottom: 5px;left:5px;display: none">
-                            <div><p class="has-text-weight-medium">{% translate "Alert Severity" %} </p></div>
-                            <div class="legend-items">
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background-color: rgb(215, 47, 42);"></div>
-                                    <div class="legend-label">{% translate "Extreme" %} </div>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background-color: rgb(254, 153, 0);"></div>
-                                    <div class="legend-label">{% translate "Severe" %} </div>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background-color: rgb(255, 255, 0);"></div>
-                                    <div class="legend-label">{% translate "Moderate" %}</div>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background-color: rgb(3, 255, 255);"></div>
-                                    <div class="legend-label">{% translate "Minor" %}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="map-ctrl map-ctrl-group" style="position: absolute;top: 10em; right:0.5em; background: white; z-index:1;
-                        border-radius: 3px;
-                        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);">
-                            <button id="carto-light" class="map-ctrl-icon" title="Carto Light"
-                                    style="background-image: url({% static 'img/light-basemap.png' %});"></button>
-                            <button id="carto-dark" class="map-ctrl-icon" title="Carto Dark"
-                                    style="background-image: url({% static 'img/dark-basemap.png' %});"></button>
-                            <button id="voyager" class="map-ctrl-icon" title="Voyager"
-                                    style="background-image: url({% static 'img/voyager-basemap.png' %});"></button>
-                            <button id="wikimedia" class="map-ctrl-icon" title="Wikimedia"
-                                    style="background-image: url({% static 'img/wikimedia-basemap.png' %});"></button>
-                        </div>
+                <div class="column is-three-quarters-desktop is-full-touch">
+                    <div id="home-map" style="position: relative;" data-map-settings-url="{{ home_map_settings_url }}"
+                         data-initial-bounds="{{ country_bounds }}"
+                         data-location-forecast-detail-url="{{ city_detail_page_url }}"
+                         data-language-code="{{ LANGUAGE_CODE }}"
+                         data-home-map-alerts-url="{{ home_map_alerts_url }}"
+                    >
                     </div>
                 </div>
             </div>

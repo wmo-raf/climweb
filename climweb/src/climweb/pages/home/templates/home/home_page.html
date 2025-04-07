@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n wagtailiconchooser_tags %}
+{% load vue_utils %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -92,6 +93,7 @@
     <script src="{% static 'js/turf.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bulmahead.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/zoom-to-location-control.js' %}"></script>
+    <script type="module" crossorigin src="{% vue_bundle_url 'home-map' %}"></script>
 
     {% if page.youtube_playlist %}
         <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
@@ -310,14 +312,6 @@
                 }
             }
         });
-
-
-        const weatherWatch = new WeatherWatch('home-map', {
-            mapSettingsUrl: homeMapSettingsUrl,
-            initialBounds: countryBounds,
-            cityDetailUrl: cityDetailUrl
-        })
-
     </script>
 
 {% endblock %}

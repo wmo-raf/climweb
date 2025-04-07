@@ -3,12 +3,14 @@ from functools import cached_property
 
 from django import forms
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail import blocks
 from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.admin.panels import InlinePanel, FieldPanel
 from wagtail.fields import RichTextField, StreamField
+from wagtail.images import get_image_model
 from wagtail.models import Page, Orderable
 
 from climweb.base.mixins import MetadataPageMixin
@@ -176,8 +178,31 @@ class GlossaryItemDetailPage(MetadataPageMixin, Page):
         FieldPanel("local_definitions"),
     ]
     
+    @property
+    def listing_summary(self):
+        return truncatechars(self.brief_definition, 160)
+    
     def get_meta_image(self):
-        return None
+        meta_image = super().get_meta_image()
+        
+        if not meta_image:
+            field_obj = self._meta.get_field('detail_description')
+            references_gen = field_obj.extract_references(self.detail_description)
+            Image = get_image_model()
+            for reference in references_gen:
+                cls = reference[0]
+                if cls == Image:
+                    img_id = reference[1]
+                    try:
+                        meta_image = Image.objects.get(id=img_id)
+                        break
+                    except Image.DoesNotExist:
+                        continue
+        
+        if not meta_image:
+            meta_image = self.get_parent().specific.get_meta_image()
+        
+        return meta_image
     
     def get_meta_description(self):
-        return self.brief_definition
+        return self.listing_summary
