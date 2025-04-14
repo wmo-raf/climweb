@@ -1,6 +1,8 @@
 <script setup>
 import RadioButton from 'primevue/radiobutton';
 import Checkbox from 'primevue/checkbox';
+import Select from 'primevue/select';
+import FloatLabel from 'primevue/floatlabel';
 import {useMapStore} from "@/stores/map";
 import {useI18n} from 'vue-i18n'
 
@@ -59,8 +61,20 @@ const {t} = useI18n({
       <Checkbox v-model="mapStore.showBoundary" inputId="boundary" name="boundary" value="yes" binary/>
       <label for="boundary" class="boundary-label"> {{ t('mapOptions.boundaries') }} </label>
     </div>
+    <div class="divisor"></div>
+    <div class="zoom-locations" v-if="mapStore.zoomLocations">
+      <label class="zoom-locations-label" for="zoom_location">Zoom Locations</label>
+      <Select
+          inputId="zoom_location"
+          v-model="mapStore.selectedZoomLocation"
+          :options="mapStore.zoomLocations"
+          optionLabel="name"
+          optionValue="id"
+          size="small"
+          placeholder="Select location"
+      />
+    </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -93,6 +107,17 @@ const {t} = useI18n({
   margin-left: 4px;
 }
 
+.zoom-locations {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.zoom-locations-label {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
 </style>
 
 <style>
@@ -100,4 +125,5 @@ const {t} = useI18n({
   border-color: var(--primary-color);
   background: var(--primary-color);
 }
+
 </style>

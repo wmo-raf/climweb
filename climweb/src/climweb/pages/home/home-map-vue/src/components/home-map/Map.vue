@@ -198,8 +198,18 @@ const initializeMapLayers = async (mapSettings) => {
     weatherIconsUrl,
     forecastClusterConfig,
     dynamicMapLayers,
-    forecastSettingsUrl
+    forecastSettingsUrl,
+    zoomLocations,
   } = mapSettings;
+
+  if (zoomLocations) {
+    mapStore.setZoomLocations(zoomLocations)
+    const defaultZoomLocation = zoomLocations.find(location => location.default)
+
+    if (defaultZoomLocation) {
+      mapStore.setSelectedZoomLocation(defaultZoomLocation.id)
+    }
+  }
 
   addBoundaryLayer(boundaryTilesUrl);
 
@@ -371,8 +381,6 @@ const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecast
   }).catch(e => {
     mapStore.setLoading(false)
   });
-
-
 }
 
 const addWeatherIcons = (weatherIconsUrl) => {
@@ -680,6 +688,14 @@ watch(() => mapStore.showBoundary, (newShowBoundary) => {
       map.setLayoutProperty(layer.id, 'visibility', 'none')
     }
   })
+});
+
+watch(() => mapStore.selectedZoomLocation, (newSelectedZoomLocationId) => {
+  const zoomLocation = mapStore.zoomLocations.find(location => location.id === newSelectedZoomLocationId)
+  if (zoomLocation && zoomLocation.bounds) {
+    const bounds = zoomLocation.bounds
+    map.fitBounds([[bounds[0], bounds[1]], [bounds[2], bounds[3]]], {padding: 50});
+  }
 });
 
 onMounted(() => initializeMap());
