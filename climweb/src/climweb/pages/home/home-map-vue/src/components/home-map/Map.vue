@@ -465,9 +465,11 @@ const toggleDynamicLayer = (layerId, visible) => {
 }
 
 const getTimeValuesFromTileJson = (tileJsonUrl, timestampsResponseObjectKey = "timestamps") => {
-  return fetch(tileJsonUrl).then(res => res.json()).then(res => res[timestampsResponseObjectKey])
+  return fetch(tileJsonUrl).then(res => res.json()).then(res => {
+    const timestamps = res[timestampsResponseObjectKey]
+    return timestamps.sort((a, b) => new Date(a) - new Date(b))
+  })
 }
-
 
 const fetchTimestamps = (layer) => {
   const {layerType} = layer
