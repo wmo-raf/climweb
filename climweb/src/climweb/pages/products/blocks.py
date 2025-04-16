@@ -1,6 +1,4 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.utils import timezone
-from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.blocks import StructValue, StructBlockValidationError
@@ -8,8 +6,6 @@ from wagtail.contrib.table_block.blocks import TableBlock, DEFAULT_TABLE_OPTIONS
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
-
-from climweb.base.utils import get_first_page_of_pdf_as_image
 
 
 class ProductItemStructValue(StructValue):
@@ -78,14 +74,20 @@ class ProductItemImageContentBlock(blocks.StructBlock):
 
 class ProductItemDocumentContentBlock(blocks.StructBlock):
     product_type = blocks.CharBlock(required=True, label=_("Product Type"))
-    thumbnail = ImageChooserBlock(required=False, label=_("Thumbnail of the document"),
-                                  help_text=_("For example a screen grab of the cover page"))
     date = blocks.DateBlock(required=True, label=_("Effective from"),
                             help_text=_("The date when this product becomes effective"))
     valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
                                    help_text=_("The last day this product remains effective. "
                                                "Leave blank if not applicable"))
     document = DocumentChooserBlock(required=True, label=_("Document"))
+    auto_generate_thumbnail = blocks.BooleanBlock(required=False, default=True,
+                                                  label=_("Auto-generate thumbnail"),
+                                                  help_text=_("If the document is a PDF, an image of the first page "
+                                                              "will be auto-generated."))
+    thumbnail = ImageChooserBlock(required=False, label=_("Thumbnail of the document"),
+                                  help_text=_("For example a screen grab of the cover page. If left empty "
+                                              "and Auto-generate above is checked and the uploaded document is a PDF, "
+                                              "an image of the first page will be auto-generated."))
     description = blocks.RichTextBlock(required=False, label=_("Summary of the document information"))
     
     class Meta:
@@ -102,23 +104,12 @@ class ProductItemDocumentContentBlock(blocks.StructBlock):
             })
         
         # generate thumbnail from document if not provided
-        thumbnail = result.get('thumbnail')
-        if not thumbnail:
-            document = result.get('document')
-            # check if document extension is .pdf
-            if document and document.file.name.endswith('.pdf'):
-                document_title = document.title
-                try:
-                    current_time = timezone.localtime(timezone.now()).strftime("%Y-%m-%d-%H-%M-%S")
-                    file_name = f"f{slugify(document_title)}-{current_time}-thumbnail.jpg"
-                    thumbnail = get_first_page_of_pdf_as_image(document.file.path, title=document_title,
-                                                               file_name=file_name)
-                    if thumbnail:
-                        result["thumbnail"] = thumbnail
-                except:
-                    # do nothing if thumbnail generation fails
-                    pass
-        
+        document = result.get('document')
+        auto_generate_thumbnail = result.get('auto_generate_thumbnail')
+        if document and auto_generate_thumbnail:
+            thumbnail = document.get_thumbnail()
+            if thumbnail:
+                result["thumbnail"] = thumbnail
         return result
 
 

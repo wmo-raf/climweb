@@ -176,8 +176,15 @@ class PublicationPage(MetadataPageMixin, Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        verbose_name=_("Publication image"),
-        help_text=_("This can be a screenshot of the front page of the publication")
+        verbose_name=_("Publication Image (Thumbnail)"),
+        help_text=_("This can be a screenshot of the front page of the publication. "
+                    "If left empty and Auto-generate above is checked and the uploaded document is a PDF, an image of the "
+                    "first page will be auto-generated.")
+    )
+    auto_generate_thumbnail = models.BooleanField(
+        default=True,
+        help_text=_("If the document is a PDF, an image of the first page will be auto-generated."),
+        verbose_name=_("Auto-generate thumbnail")
     )
     
     document = models.ForeignKey(
@@ -200,9 +207,10 @@ class PublicationPage(MetadataPageMixin, Page):
         FieldPanel('publication_type'),
         FieldPanel('categories', widget=CheckboxSelectMultiple),
         FieldPanel('projects', widget=CheckboxSelectMultiple),
-        FieldPanel('thumbnail'),
         FieldPanel('publication_date'),
         FieldPanel('document'),
+        FieldPanel('auto_generate_thumbnail'),
+        FieldPanel('thumbnail'),
         FieldPanel('external_publication_url'),
         FieldPanel('summary'),
         FieldPanel('featured'),
@@ -226,6 +234,12 @@ class PublicationPage(MetadataPageMixin, Page):
     
     class Meta:
         verbose_name = "Publication"
+    
+    def save(self, *args, **kwargs):
+        if self.document and self.auto_generate_thumbnail:
+            self.thumbnail = self.document.get_thumbnail()
+        
+        super(PublicationPage, self).save(*args, **kwargs)
     
     @cached_property
     def publication_title(self):
@@ -289,7 +303,9 @@ class PublicationPage(MetadataPageMixin, Page):
             meta_image = self.thumbnail
         
         if not meta_image:
-            meta_image = self.get_parent().get_meta_image()
+            parent = self.get_parent()
+            if hasattr(parent, 'get_meta_image'):
+                meta_image = parent.get_meta_image()
         
         return meta_image
     
