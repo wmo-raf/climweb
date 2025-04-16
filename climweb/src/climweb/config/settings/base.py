@@ -180,18 +180,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
-DBBACKUP_CLEANUP_KEEP_MEDIA = 1
-DBBACKUP_CLEANUP_KEEP = 1
-DBBACKUP_CONNECTORS = {
-    "default": {
-        "CONNECTOR": "dbbackup.db.postgresql.PgDumpBinaryConnector",  # Use pg_dump binary
-        "DUMP_SUFFIX": "-e plpgsql",  # dump only system extensions
-        "RESTORE_SUFFIX": "--if-exists"  # Drop only if exists
-    }
-}
-
 PO_TRANSLATOR_SERVICE = 'django_deep_translator.services.GoogleTranslatorService'
 DEEPL_TRANSLATE_KEY = "testkey"
 DEEPL_FREE_API = True
@@ -264,6 +252,22 @@ DATABASES = {
         conn_max_age=DB_CONNECTION_MAX_AGE,
         conn_health_checks=True,
     )
+}
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
+DBBACKUP_CLEANUP_KEEP_MEDIA = 1
+DBBACKUP_CLEANUP_KEEP = 1
+DBBACKUP_CONNECTORS = {
+    "default": {
+        "CONNECTOR": "dbbackup.db.postgresql.PgDumpBinaryConnector",  # Use pg_dump binary
+        "DUMP_SUFFIX": "-e plpgsql",  # dump only system extensions
+        "RESTORE_SUFFIX": "--if-exists"  # Drop only if exists
+    }
+}
+
+DBBACKUP_CONNECTOR_MAPPING = {
+    DB_ENGINE: "dbbackup.db.postgresql.PgDumpBinaryConnector",
 }
 
 REST_FRAMEWORK = {
