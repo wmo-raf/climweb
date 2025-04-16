@@ -44,8 +44,10 @@ class ServiceIndexPage(MetadataPageMixin, Page):
         meta_image = super().get_meta_image()
         
         if not meta_image:
-            # get from homepage
-            meta_image = self.get_parent().get_meta_image()
+            parent = self.get_parent()
+            ## get from homepage
+            if hasattr(parent, 'get_meta_image'):
+                meta_image = parent.get_meta_image()
         
         return meta_image
     
@@ -53,8 +55,10 @@ class ServiceIndexPage(MetadataPageMixin, Page):
         meta_description = super().get_meta_description()
         
         if not meta_description:
+            parent = self.get_parent()
             # get from homepage
-            meta_description = self.get_parent().get_meta_description()
+            if hasattr(parent, 'get_meta_description'):
+                meta_description = parent.get_meta_description()
         
         return meta_description
     

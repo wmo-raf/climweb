@@ -134,7 +134,9 @@ class CityClimateDataPage(MetadataPageMixin, Page):
         meta_image = super().get_meta_image()
         
         if not meta_image:
-            meta_image = self.get_parent().get_meta_image()
+            parent = self.get_parent()
+            if hasattr(parent, 'get_meta_image'):
+                meta_image = parent.get_meta_image()
         
         return meta_image
     

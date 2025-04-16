@@ -38,6 +38,7 @@ def home_map_settings(request):
     
     for location in settings.zoom_locations:
         config["zoomLocations"].append({
+            "id": location.id,
             "name": location.value.name,
             "bounds": location.value.bounds,
             "default": location.value.default
