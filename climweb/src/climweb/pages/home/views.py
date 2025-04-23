@@ -80,7 +80,8 @@ def home_map_settings(request):
             layer_config.update({
                 "icon": block.value.get("icon"),
                 "display_name": block.value.get("display_name"),
-                "position": index
+                "position": index,
+                "show_by_default": block.value.get("default"),
             })
             
             dynamic_map_layers.append(layer_config)

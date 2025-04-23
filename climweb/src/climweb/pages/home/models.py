@@ -289,28 +289,27 @@ register_model_chooser(WmsLayer)
 register_model_chooser(VectorTileLayer)
 
 
-class RasterFileLayerBlock(blocks.StructBlock):
+class BaseLayerBlock(blocks.StructBlock):
+    layer = blocks.CharBlock()  # placeholder for the actual layer chooser block, implemented in the subclasses
+    icon = IconChooserBlock(required=False, default="layer-group", label=_("Icon"))
+    display_name = blocks.CharBlock(max_length=100, required=False,
+                                    help_text=_("Name to display on the map. "
+                                                "Leave blank to use the original layer name"))
+    default = blocks.BooleanBlock(default=False, required=False, label=_("Show on map by default ?"),
+                                  help_text=_("You can only select one layer to be shown on the map by default. "
+                                              "If multiple layers are selected, only the first one will be shown"))
+
+
+class RasterFileLayerBlock(BaseLayerBlock):
     layer = climweb_blocks.UUIDModelChooserBlock(RasterFileLayer, icon="map")
-    icon = IconChooserBlock(required=False, default="layer-group", label=_("Icon"))
-    display_name = blocks.CharBlock(max_length=100, required=False,
-                                    help_text=_("Name to display on the map. "
-                                                "Leave blank to use the original layer name"))
 
 
-class WMSLayerBlock(blocks.StructBlock):
+class WMSLayerBlock(BaseLayerBlock):
     layer = climweb_blocks.UUIDModelChooserBlock(WmsLayer, icon="map")
-    icon = IconChooserBlock(required=False, default="layer-group", label=_("Icon"))
-    display_name = blocks.CharBlock(max_length=100, required=False,
-                                    help_text=_("Name to display on the map. "
-                                                "Leave blank to use the original layer name"))
 
 
-class VectorTileLayerBlock(blocks.StructBlock):
+class VectorTileLayerBlock(BaseLayerBlock):
     layer = climweb_blocks.UUIDModelChooserBlock(VectorTileLayer, icon="map")
-    icon = IconChooserBlock(required=False, default="layer-group", label=_("Icon"))
-    display_name = blocks.CharBlock(max_length=100, required=False,
-                                    help_text=_("Name to display on the map. "
-                                                "Leave blank to use the original layer name"))
 
 
 @register_setting(icon="map")

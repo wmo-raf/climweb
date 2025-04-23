@@ -250,6 +250,16 @@ const initializeMapLayers = async (mapSettings) => {
 
       handleDynamicLayer(mapStoreLayer)
     })
+
+    const defaultDynamicLayer = dynamicMapLayers.find(layer => layer.show_by_default)
+
+    // if we have a default dynamic layer and warnings/locationForecast not enabled,
+    // activate it
+    if (defaultDynamicLayer && !showWarningsLayer && !showLocationForecastLayer) {
+      toggleDynamicLayer(defaultDynamicLayer.id, true)
+      mapStore.setActiveTimeLayer(defaultDynamicLayer.id)
+      mapStore.updateLayerVisibility(defaultDynamicLayer.id, true)
+    }
   }
 };
 
