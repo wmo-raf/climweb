@@ -468,7 +468,6 @@ const toggleDynamicLayer = (layerId, visible) => {
     if (layerType === "raster_file" || layerType === "wms" || layerType === "vector_tile") {
       addDynamicLayer(layer.id)
     }
-
   }
 }
 
@@ -602,17 +601,7 @@ const handleLayerToggle = ({layerId, visible}) => {
 
         // remove source and layer from map
         if (mapStore.activeTimeLayer !== "weather-forecast") {
-
-          // remove layer from map
-          if (map.getLayer(mapStore.activeTimeLayer)) {
-            map.removeLayer(mapStore.activeTimeLayer)
-          }
-
-          // remove source from map
-          if (map.getSource(mapStore.activeTimeLayer)) {
-            map.removeSource(mapStore.activeTimeLayer)
-          }
-
+          toggleDynamicLayer(mapStore.activeTimeLayer, false)
         }
       }
       mapStore.setActiveTimeLayer(layerId)
