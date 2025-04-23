@@ -1,6 +1,6 @@
 import json
 
-from alertwise.capeditor.blocks import BoundaryFieldBlock, PolygonFieldBlock
+from alertwise.capeditor.blocks import BoundaryFieldBlock, PolygonOrMultiPolygonFieldBlock
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from shapely.geometry import shape
@@ -74,4 +74,4 @@ class AreaPolygonBlock(blocks.StructBlock):
     
     areaDesc = blocks.TextBlock(label=_("Area/Region Name"))
     default = blocks.BooleanBlock(label=_("Default"), required=False)
-    polygon = PolygonFieldBlock(label=_("Polygon"), help_text=_("Draw custom area on the map"))
+    polygon = PolygonOrMultiPolygonFieldBlock(label=_("Polygon"), help_text=_("Draw custom area on the map"))

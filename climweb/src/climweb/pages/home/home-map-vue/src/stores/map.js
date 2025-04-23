@@ -59,6 +59,15 @@ export const useMapStore = defineStore("map", () => {
         forecastSettings.value = settings;
     }
 
+    const zoomLocations = ref([]);
+    const selectedZoomLocation = ref(null);
+    const setZoomLocations = (locations) => {
+        zoomLocations.value = locations
+    }
+    const setSelectedZoomLocation = (locationId) => {
+        selectedZoomLocation.value = locationId;
+    }
+
     const basemaps = ref([
         {
             "label": "Voyager",
@@ -166,6 +175,10 @@ export const useMapStore = defineStore("map", () => {
         selectedBasemap,
         showBoundary,
         forecastSettings,
+        zoomLocations,
+        selectedZoomLocation,
+        setZoomLocations,
+        setSelectedZoomLocation,
         setLoading,
         setTimeLayerDates,
         setSelectedTimeLayerDateIndex,

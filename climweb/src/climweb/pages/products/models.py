@@ -35,7 +35,10 @@ from .blocks import (
 
 class ProductIndexPage(MetadataPageMixin, Page):
     parent_page_types = ['home.HomePage']
-    subpage_types = ['products.ProductPage', 'products.SubNationalProductPage']
+    subpage_types = [
+        'products.ProductPage',
+        'products.SubNationalProductsLandingPage'
+    ]
     template = "subpages_listing.html"
     
     max_count = 1
@@ -82,7 +85,9 @@ class ProductIndexPage(MetadataPageMixin, Page):
         meta_image = super().get_meta_image()
         
         if not meta_image:
-            meta_image = self.get_parent().get_meta_image()
+            parent = self.get_parent()
+            if hasattr(parent, 'get_meta_image'):
+                meta_image = parent.get_meta_image()
         
         return meta_image
     
@@ -90,7 +95,10 @@ class ProductIndexPage(MetadataPageMixin, Page):
         meta_description = super().get_meta_description()
         
         if not meta_description:
-            meta_description = self.get_parent().get_meta_description()
+            parent = self.get_parent()
+            # get from homepage
+            if hasattr(parent, 'get_meta_description'):
+                meta_description = parent.get_meta_description()
         
         return meta_description
 
@@ -376,7 +384,9 @@ class ProductItemPage(MetadataPageMixin, Page):
             meta_image = self.products_listing_image
         
         if not meta_image:
-            meta_image = self.get_parent().get_meta_image()
+            parent = self.get_parent()
+            if hasattr(parent, 'get_meta_image'):
+                meta_image = parent.get_meta_image()
         
         return meta_image
     
@@ -401,9 +411,63 @@ class ProductItemPage(MetadataPageMixin, Page):
                 meta_description = self.listing_summary
         
         if not meta_description:
-            meta_description = self.get_parent().get_meta_description()
+            parent = self.get_parent()
+            if hasattr(parent, 'get_meta_description'):
+                meta_description = parent.get_meta_description()
         
         return meta_description
+
+
+class SubNationalProductsLandingPage(AbstractIntroPage, Page):
+    parent_page_types = ['products.ProductIndexPage']
+    subpage_types = ['products.SubNationalProductPage']
+    template = "products/subnational/subnational_products_landing.html"
+    
+    max_count = 1
+    
+    content_panels = Page.content_panels + AbstractIntroPage.content_panels
+    
+    class Meta:
+        verbose_name = _('Subnational Product Landing Page')
+        verbose_name_plural = _('Subnational Product Landing Pages')
+    
+    @cached_property
+    def all_items(self):
+        product_pages = self.get_children().specific().live()
+        return product_pages
+    
+    @cached_property
+    def filters(self):
+        regions = {p.region.id: p.region for p in self.all_items.all()}
+        return {'regions': list(regions.values())}
+    
+    def filter_items(self, request):
+        items = self.all_items
+        
+        regions = query_param_to_list(request.GET.get("region"), as_int=True)
+        
+        filters = models.Q()
+        
+        if regions:
+            filters &= models.Q(subnationalproductpage__region__id__in=regions)
+        
+        return items.filter(filters)
+    
+    def filter_and_paginate_items(self, request):
+        page = request.GET.get('page')
+        
+        filtered_products = self.filter_items(request)
+        
+        paginated_products = paginate(filtered_products, page, 10)
+        
+        return paginated_products
+    
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        
+        context['items'] = self.filter_and_paginate_items(request)
+        
+        return context
 
 
 @register_snippet
@@ -419,8 +483,8 @@ class SubNationalRegion(models.Model):
 
 
 class SubNationalProductPage(BaseProductPage):
-    template = 'products/subnational_product_index.html'
-    parent_page_types = ['products.ProductIndexPage']
+    template = 'products/subnational/subnational_product_index.html'
+    parent_page_types = ['products.SubNationalProductsLandingPage']
     subpage_types = ['products.ProductItemPage']
     show_in_menus_default = False
     
@@ -445,3 +509,8 @@ class SubNationalProductPage(BaseProductPage):
     class Meta:
         verbose_name = _('Subnational Product Page')
         verbose_name_plural = _('Subnational Product Pages')
+    
+    @cached_property
+    def listing_summary(self):
+        summary = self.get_meta_description()
+        return summary

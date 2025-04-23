@@ -38,6 +38,7 @@ def home_map_settings(request):
     
     for location in settings.zoom_locations:
         config["zoomLocations"].append({
+            "id": location.id,
             "name": location.value.name,
             "bounds": location.value.bounds,
             "default": location.value.default
@@ -79,7 +80,8 @@ def home_map_settings(request):
             layer_config.update({
                 "icon": block.value.get("icon"),
                 "display_name": block.value.get("display_name"),
-                "position": index
+                "position": index,
+                "show_by_default": block.value.get("default"),
             })
             
             dynamic_map_layers.append(layer_config)

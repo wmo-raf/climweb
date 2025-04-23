@@ -198,8 +198,18 @@ const initializeMapLayers = async (mapSettings) => {
     weatherIconsUrl,
     forecastClusterConfig,
     dynamicMapLayers,
-    forecastSettingsUrl
+    forecastSettingsUrl,
+    zoomLocations,
   } = mapSettings;
+
+  if (zoomLocations) {
+    mapStore.setZoomLocations(zoomLocations)
+    const defaultZoomLocation = zoomLocations.find(location => location.default)
+
+    if (defaultZoomLocation) {
+      mapStore.setSelectedZoomLocation(defaultZoomLocation.id)
+    }
+  }
 
   addBoundaryLayer(boundaryTilesUrl);
 
@@ -221,8 +231,6 @@ const initializeMapLayers = async (mapSettings) => {
     } catch (e) {
       console.log("Error fetching forecast settings", e)
     }
-
-
   }
 
   if (dynamicMapLayers && !!dynamicMapLayers.length) {
@@ -232,7 +240,7 @@ const initializeMapLayers = async (mapSettings) => {
 
       const mapStoreLayer = {
         ...layer,
-        title: layer.name,
+        title: layer.display_name || layer.name,
         homeMapLayerType: "dynamic",
         "visible": false,
         "enabled": true,
@@ -242,6 +250,16 @@ const initializeMapLayers = async (mapSettings) => {
 
       handleDynamicLayer(mapStoreLayer)
     })
+
+    const defaultDynamicLayer = dynamicMapLayers.find(layer => layer.show_by_default)
+
+    // if we have a default dynamic layer and warnings/locationForecast not enabled,
+    // activate it
+    if (defaultDynamicLayer && !showWarningsLayer && !showLocationForecastLayer) {
+      toggleDynamicLayer(defaultDynamicLayer.id, true)
+      mapStore.setActiveTimeLayer(defaultDynamicLayer.id)
+      mapStore.updateLayerVisibility(defaultDynamicLayer.id, true)
+    }
   }
 };
 
@@ -371,8 +389,6 @@ const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecast
   }).catch(e => {
     mapStore.setLoading(false)
   });
-
-
 }
 
 const addWeatherIcons = (weatherIconsUrl) => {
@@ -460,14 +476,14 @@ const toggleDynamicLayer = (layerId, visible) => {
     if (layerType === "raster_file" || layerType === "wms" || layerType === "vector_tile") {
       addDynamicLayer(layer.id)
     }
-
   }
 }
 
 const getTimeValuesFromTileJson = (tileJsonUrl, timestampsResponseObjectKey = "timestamps") => {
-  return fetch(tileJsonUrl).then(res => res.json()).then(res => res[timestampsResponseObjectKey])
+  return fetch(tileJsonUrl).then(res => res.json()).then(res => {
+    return res[timestampsResponseObjectKey]
+  })
 }
-
 
 const fetchTimestamps = (layer) => {
   const {layerType} = layer
@@ -492,11 +508,13 @@ const addDynamicLayer = async (layerId) => {
 
   try {
     mapStore.setLoading(true)
-    const timestamps = await fetchTimestamps(layer)
 
-    if (timestamps && !!timestamps.length) {
-      const currentLayerTime = getTimeFromList(timestamps, currentTimeMethod);
-      const currentLayerTimeIndex = timestamps.indexOf(currentLayerTime);
+    const timestamps = await fetchTimestamps(layer)
+    const sortedTimestamps = timestamps.sort((a, b) => new Date(a) - new Date(b));
+
+    if (sortedTimestamps && !!sortedTimestamps.length) {
+      const currentLayerTime = getTimeFromList([...sortedTimestamps], currentTimeMethod);
+      const currentLayerTimeIndex = sortedTimestamps.indexOf(currentLayerTime);
 
       mapStore.setSelectedTimeLayerDateIndex(layer.id, currentLayerTimeIndex)
       mapStore.setTimeLayerDates(layer.id, timestamps)
@@ -592,17 +610,7 @@ const handleLayerToggle = ({layerId, visible}) => {
 
         // remove source and layer from map
         if (mapStore.activeTimeLayer !== "weather-forecast") {
-
-          // remove layer from map
-          if (map.getLayer(mapStore.activeTimeLayer)) {
-            map.removeLayer(mapStore.activeTimeLayer)
-          }
-
-          // remove source from map
-          if (map.getSource(mapStore.activeTimeLayer)) {
-            map.removeSource(mapStore.activeTimeLayer)
-          }
-
+          toggleDynamicLayer(mapStore.activeTimeLayer, false)
         }
       }
       mapStore.setActiveTimeLayer(layerId)
@@ -678,6 +686,14 @@ watch(() => mapStore.showBoundary, (newShowBoundary) => {
       map.setLayoutProperty(layer.id, 'visibility', 'none')
     }
   })
+});
+
+watch(() => mapStore.selectedZoomLocation, (newSelectedZoomLocationId) => {
+  const zoomLocation = mapStore.zoomLocations.find(location => location.id === newSelectedZoomLocationId)
+  if (zoomLocation && zoomLocation.bounds) {
+    const bounds = zoomLocation.bounds
+    map.fitBounds([[bounds[0], bounds[1]], [bounds[2], bounds[3]]], {padding: 50});
+  }
 });
 
 onMounted(() => initializeMap());

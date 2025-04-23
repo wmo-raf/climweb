@@ -20,16 +20,14 @@ export const getNextToNowDate = (dates) => {
 
 
 export const getPreviousToNowDate = (dates) => {
-    // Get the current date time
     const now = new Date();
 
-    // Find the date that is one step behind the current date time, assuming the dates are ordered
-    const previousDate = dates.reverse().find((dateStr) => {
+    // Clone and reverse to avoid mutating the original array
+    const previousDate = [...dates].reverse().find((dateStr) => {
         const date = new Date(dateStr);
         return date < now;
     });
 
-    // Return the previous date, or null if there isn't one
     return previousDate || null;
 };
 
@@ -210,4 +208,13 @@ export function dFormatter(date, format, asPeriod) {
     }
 
     return formated;
+}
+
+export function sortDates(datesList) {
+    return datesList.sort((a, b) => {
+        const dateA = new Date(a);
+        const dateB = new Date(b);
+
+        return dateA - dateB;
+    });
 }

@@ -85,7 +85,7 @@ export const getTimeValuesFromWMS = async (wmsUrl, layerName, params = {}) => {
             return getValidTimestamps(timeValueStr);
         }
 
-        return timeValueStr.split(",");
+        return timeValueStr.split(",")
     } catch (error) {
         console.error(
             `Error fetching or parsing GetCapabilities document: ${error.message}`
