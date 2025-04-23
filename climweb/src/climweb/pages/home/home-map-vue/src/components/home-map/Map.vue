@@ -231,8 +231,6 @@ const initializeMapLayers = async (mapSettings) => {
     } catch (e) {
       console.log("Error fetching forecast settings", e)
     }
-
-
   }
 
   if (dynamicMapLayers && !!dynamicMapLayers.length) {
@@ -242,7 +240,7 @@ const initializeMapLayers = async (mapSettings) => {
 
       const mapStoreLayer = {
         ...layer,
-        title: layer.name,
+        title: layer.display_name || layer.name,
         homeMapLayerType: "dynamic",
         "visible": false,
         "enabled": true,
