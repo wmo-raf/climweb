@@ -85,10 +85,7 @@ export const getTimeValuesFromWMS = async (wmsUrl, layerName, params = {}) => {
             return getValidTimestamps(timeValueStr);
         }
 
-        const timestamps = timeValueStr.split(",");
-
-        // sort
-        return timestamps && timestamps.sort((a, b) => new Date(a) - new Date(b));
+        return timeValueStr.split(",")
     } catch (error) {
         console.error(
             `Error fetching or parsing GetCapabilities document: ${error.message}`

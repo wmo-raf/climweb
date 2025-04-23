@@ -481,8 +481,7 @@ const toggleDynamicLayer = (layerId, visible) => {
 
 const getTimeValuesFromTileJson = (tileJsonUrl, timestampsResponseObjectKey = "timestamps") => {
   return fetch(tileJsonUrl).then(res => res.json()).then(res => {
-    const timestamps = res[timestampsResponseObjectKey]
-    return timestamps.sort((a, b) => new Date(a) - new Date(b))
+    return res[timestampsResponseObjectKey]
   })
 }
 
@@ -509,11 +508,13 @@ const addDynamicLayer = async (layerId) => {
 
   try {
     mapStore.setLoading(true)
-    const timestamps = await fetchTimestamps(layer)
 
-    if (timestamps && !!timestamps.length) {
-      const currentLayerTime = getTimeFromList(timestamps, currentTimeMethod);
-      const currentLayerTimeIndex = timestamps.indexOf(currentLayerTime);
+    const timestamps = await fetchTimestamps(layer)
+    const sortedTimestamps = timestamps.sort((a, b) => new Date(a) - new Date(b));
+
+    if (sortedTimestamps && !!sortedTimestamps.length) {
+      const currentLayerTime = getTimeFromList([...sortedTimestamps], currentTimeMethod);
+      const currentLayerTimeIndex = sortedTimestamps.indexOf(currentLayerTime);
 
       mapStore.setSelectedTimeLayerDateIndex(layer.id, currentLayerTimeIndex)
       mapStore.setTimeLayerDates(layer.id, timestamps)
