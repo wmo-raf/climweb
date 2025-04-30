@@ -196,13 +196,13 @@ django-dev)
     echo "Running Development Server on 0.0.0.0:${CLIMWEB_PORT}"
     echo "Press CTRL-p CTRL-q to close this session without stopping the container."
     export OTEL_SERVICE_NAME=climweb-dev
-    attachable_exec python3 /climweb/web/src/climeb/manage.py runserver "0.0.0.0:${CLIMWEB_PORT}"
+    attachable_exec climweb runserver "0.0.0.0:${CLIMWEB_PORT}"
     ;;
 django-dev-no-attach)
     run_setup_commands_if_configured
     echo "Running Development Server on 0.0.0.0:${CLIMWEB_PORT}"
     export OTEL_SERVICE_NAME=climweb-dev
-    python /climweb/web/src/climweb/manage.py runserver "0.0.0.0:${CLIMWEB_PORT}"
+    climweb runserver "0.0.0.0:${CLIMWEB_PORT}"
     ;;
 gunicorn)
     export OTEL_SERVICE_NAME="climweb-asgi"
@@ -214,11 +214,11 @@ gunicorn-wsgi)
     ;;
 manage)
     export OTEL_SERVICE_NAME=climweb-manage
-    exec python3 /climweb/web/src/climweb/manage.py "${@:2}"
+    exec climweb "${@:2}"
     ;;
 shell)
     export OTEL_SERVICE_NAME=climweb-shell
-    exec python3 /climweb/web/src/climweb/manage.py shell
+    exec climweb shell
     ;;
 celery-worker)
     export OTEL_SERVICE_NAME="climweb-celery-worker"

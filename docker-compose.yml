@@ -2,7 +2,7 @@ x-climweb-variables: &climweb-variables
   WAIT_TIMEOUT: 120
   GUNICORN_NUM_OF_WORKERS: ${CMS_NUM_OF_WORKERS:-4}
   GUNICORN_TIMEOUT: ${CMS_GUNICORN_TIMEOUT:-300}
-  DEBUG: ${CMS_DEBUG}
+  DEBUG: ${CMS_DEBUG:-False}
   WAGTAIL_SITE_NAME: ${CMS_SITE_NAME}
   ADMIN_URL_PATH: ${CMS_ADMIN_URL_PATH}
   TIME_ZONE: ${TIME_ZONE}
@@ -69,6 +69,7 @@ services:
     build:
       context: .
       dockerfile: ./climweb/Dockerfile
+      target: dev
       args:
         - UID=${UID}
         - GID=${GID}
@@ -80,6 +81,7 @@ services:
     ports:
       - "8000"
     volumes:
+      - ./climweb:/climweb/web
       - ${CMS_STATIC_VOLUME}:/climweb/web/src/climweb/static
       - ${CMS_MEDIA_VOLUME}:/climweb/web/src/climweb/media
       - ${BACKUP_VOLUME}:/climweb/web/src/climweb/backup
@@ -91,6 +93,7 @@ services:
     build:
       context: .
       dockerfile: ./climweb/Dockerfile
+      target: dev
       args:
         - UID=${UID}
         - GID=${GID}
@@ -100,6 +103,7 @@ services:
     environment:
       <<: *climweb-variables
     volumes:
+      - ./climweb:/climweb/web
       - ${CMS_STATIC_VOLUME}:/climweb/web/src/climweb/static
       - ${CMS_MEDIA_VOLUME}:/climweb/web/src/climweb/media
       - ${BACKUP_VOLUME}:/climweb/web/src/climweb/backup
@@ -111,6 +115,7 @@ services:
     build:
       context: .
       dockerfile: ./climweb/Dockerfile
+      target: dev
       args:
         - UID=${UID}
         - GID=${GID}
@@ -120,6 +125,7 @@ services:
     environment:
       <<: *climweb-variables
     volumes:
+      - ./climweb:/climweb/web
       - ${CMS_STATIC_VOLUME}:/climweb/web/src/climweb/static
       - ${CMS_MEDIA_VOLUME}:/climweb/web/src/climweb/media
       - ${BACKUP_VOLUME}:/climweb/web/src/climweb/backup
@@ -144,13 +150,6 @@ services:
       - ${MAPVIEWER_NEXT_STATIC_VOLUME}:/app/nginx/.next/static
     ports:
       - "3000"
-
-  climweb_mbgl_renderer_dev:
-    image: consbio/mbgl-renderer:0.8.0
-    container_name: climweb_mbgl_renderer_dev
-    restart: unless-stopped
-    ports:
-      - "80"
 
   climweb_nginx_dev:
     container_name: climweb_nginx_dev

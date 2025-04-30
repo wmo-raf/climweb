@@ -2,7 +2,7 @@
 
 # use osgeo gdal ubuntu small 3.7 image.
 # pre-installed with GDAL 3.7.0 and Python 3.10.6
-FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.0
+FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.0 as base
 
 ARG UID
 ENV UID=${UID:-9999}
@@ -101,3 +101,11 @@ ENV PATH="/climweb/venv/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.production'
 
 CMD ["gunicorn"]
+
+FROM base as dev
+
+USER $UID:$GID
+
+# Override env variables and initial cmd to start up in dev mode.
+ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev'
+CMD ["django-dev-no-attach"]
