@@ -408,6 +408,10 @@ GOOGLE_TRANSLATE_SUPPORTED_LANGUAGES = [
         "name": "Sesotho"
     },
     {
+        "language": "crs",
+        "name": "Seychellois Creole"
+    },
+    {
         "language": "sn",
         "name": "Shona"
     },
