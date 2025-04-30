@@ -17,7 +17,7 @@ aiohttp==3.11.11
     # via django-nextjs
 aiosignal==1.3.2
     # via aiohttp
-alertwise==1.0.9
+alertwise==1.1.0
     # via -r base.in
 amqp==5.3.1
     # via kombu
@@ -85,6 +85,7 @@ celery-singleton==0.3.1
 certifi==2024.12.14
     # via
     #   fiona
+    #   mailchimp-marketing
     #   netcdf4
     #   pyogrio
     #   pyproj
@@ -149,7 +150,7 @@ cryptography==44.0.2
     #   pyopenssl
     #   service-identity
     #   signxml
-cssselect2==0.7.0
+cssselect2==0.8.0
     # via
     #   cairosvg
     #   weasyprint
@@ -211,6 +212,7 @@ django==4.2.18
     #   laces
     #   wagtail
     #   wagtail-2fa
+    #   wagtail-newsletter
     #   wagtailmedia
 django-allauth==0.54.0
     # via
@@ -426,7 +428,7 @@ large-image-source-rasterio==1.30.6
     # via geomanager
 loguru==0.7.3
     # via alertwise
-lxml==5.3.0
+lxml==5.4.0
     # via
     #   -r base.in
     #   alertwise
@@ -435,6 +437,8 @@ lxml==5.3.0
     #   signxml
 magics==1.5.8
     # via geomanager
+mailchimp-marketing==3.0.80
+    # via alertwise
 mailchimp3==3.0.18
     # via
     #   -r base.in
@@ -449,6 +453,8 @@ metar-taf-parser-mivek==1.9.0
     # via -r base.in
 morecantile==6.2.0
     # via rio-cogeo
+mrml==0.2.0
+    # via alertwise
 multidict==6.1.0
     # via
     #   aiohttp
@@ -673,6 +679,7 @@ python-crontab==3.2.0
 python-dateutil==2.8.2
     # via
     #   -r base.in
+    #   mailchimp-marketing
     #   matplotlib
     #   owslib
     #   pandas
@@ -685,7 +692,7 @@ python-magic==0.4.27
     # via alertwise
 python3-openid==3.2.0
     # via django-allauth
-pytz==2024.2
+pytz==2025.2
     # via
     #   alertwise
     #   celery
@@ -700,6 +707,8 @@ pyyaml==6.0.2
     #   uvicorn
 qrcode==8.0
     # via wagtail-2fa
+queryish==0.2
+    # via wagtail-newsletter
 rasterio==1.4.3
     # via
     #   geomanager
@@ -721,9 +730,11 @@ requests==2.32.3
     #   deep-translator
     #   django-allauth
     #   google-api-core
+    #   mailchimp-marketing
     #   mailchimp3
     #   opentelemetry-exporter-otlp-proto-http
     #   owslib
+    #   queryish
     #   requests-oauthlib
     #   staticmap
     #   wagtail
@@ -762,6 +773,7 @@ six==1.17.0
     # via
     #   django-deep-translator
     #   l18n
+    #   mailchimp-marketing
     #   python-dateutil
     #   wagtail-2fa
 sniffio==1.3.1
@@ -814,7 +826,9 @@ uritemplate==4.1.1
     #   drf-spectacular
     #   google-api-python-client
 urllib3==2.3.0
-    # via requests
+    # via
+    #   mailchimp-marketing
+    #   requests
 uvicorn[standard]==0.30.5
     # via -r base.in
 uvloop==0.21.0
@@ -843,6 +857,7 @@ wagtail==6.3.2
     #   wagtail-metadata
     #   wagtail-modeladmin
     #   wagtail-modelchooser
+    #   wagtail-newsletter
     #   wagtail-surveyjs
     #   wagtail-webstories-editor
     #   wagtail-zoom-integration
@@ -903,6 +918,8 @@ wagtail-modelchooser==4.0.1
     # via
     #   -r base.in
     #   alertwise
+wagtail-newsletter==0.2.2
+    # via alertwise
 wagtail-surveyjs==0.2.0
     # via -r base.in
 wagtail-webstories-editor==0.2.0
@@ -921,7 +938,7 @@ watchfiles==1.0.4
     # via uvicorn
 wcwidth==0.2.13
     # via prompt-toolkit
-weasyprint==63.1
+weasyprint==65.1
     # via
     #   -r base.in
     #   alertwise
