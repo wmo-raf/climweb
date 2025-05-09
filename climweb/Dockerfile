@@ -11,10 +11,18 @@ ENV GID=${GID:-9999}
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# We might be running as a user which already exists in this image. In that situation
-# Everything is OK and we should just continue on.
-RUN groupadd -g $GID climweb_docker_group || exit 0
+# Create or rename group to climweb_docker_group with desired GID
+RUN if getent group $GID > /dev/null; then \
+        existing_group=$(getent group $GID | cut -d: -f1); \
+        if [ "$existing_group" != "climweb_docker_group" ]; then \
+            groupmod -n climweb_docker_group "$existing_group"; \
+        fi; \
+    else \
+        groupadd -g $GID climweb_docker_group; \
+    fi
+
 RUN useradd --shell /bin/bash -u $UID -g $GID -o -c "" -m climweb_docker_user -l || exit 0
+
 ENV DOCKER_USER=climweb_docker_user
 
 ENV POSTGRES_VERSION=15
@@ -73,6 +81,12 @@ RUN --mount=type=cache,mode=777,target=$PIP_CACHE_DIR,uid=$UID,gid=$GID . /climw
      pip3 install  -r /climweb/requirements/base.txt
 
 COPY --chown=$UID:$GID ./climweb /climweb/web
+
+# Create static and media directories
+RUN mkdir -p /climweb/web/src/climweb/static \
+    && mkdir -p /climweb/web/src/climweb/media \
+    && mkdir -p /climweb/web/src/climweb/backup \
+    && chown -R $UID:$GID /climweb/web/src/climweb
 
 # Create a tmp directory for the django to use
 RUN mkdir -p /climweb/tmp && chown -R $UID:$GID /climweb/tmp

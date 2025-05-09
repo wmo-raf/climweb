@@ -88,10 +88,10 @@ NMHSs that have adopted ClimWeb across Africa:
     - Website traffic analytics (eg. google analytics) .
 - 😎 And many more others feature added iteratively, as per the needs of the NMHSs.
 
-## Development
+## Technical & Development
 
-For local development, please refer to the [Development Environment](docs/development/development-environment.md)
-documentation.
+For technical and local development details, please refer to
+the [Technical & Development](docs/technical/introduction.md) documentation.
 
 ## 📕 User Guide
 
