@@ -193,7 +193,7 @@ $DOCKER_COMPOSE -f "$CORE_FILE" "${OVERRIDE_FILE[@]}" kill
 fi
 
 if [ "$build" = true ] ; then
-  $DOCKER_COMPOSE -f "$CORE_FILE" build "${OVERRIDE_FILE[@]}" "$@"
+  $DOCKER_COMPOSE -f "$CORE_FILE" "${OVERRIDE_FILE[@]}" build "$@"
 fi
 
 if [ "$delete_volumes" = true ] ; then
