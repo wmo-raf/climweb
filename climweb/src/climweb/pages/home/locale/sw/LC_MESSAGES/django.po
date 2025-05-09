@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 21:19+0300\n"
+"POT-Creation-Date: 2025-05-08 16:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,55 +18,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: pages/home/blocks.py:59
+#: climweb/src/climweb/pages/home/blocks.py:59
 msgid "Level 0"
 msgstr "Kiwango cha 0"
 
-#: pages/home/blocks.py:60
+#: climweb/src/climweb/pages/home/blocks.py:60
 msgid "Level 1"
 msgstr "Kiwango cha 1"
 
-#: pages/home/blocks.py:61
+#: climweb/src/climweb/pages/home/blocks.py:61
 msgid "Level 2"
 msgstr "Kiwango cha 2"
 
-#: pages/home/blocks.py:62
+#: climweb/src/climweb/pages/home/blocks.py:62
 msgid "Level 3"
 msgstr "Kiwango cha 3"
 
-#: pages/home/blocks.py:65 pages/home/blocks.py:75
+#: climweb/src/climweb/pages/home/blocks.py:65
+#: climweb/src/climweb/pages/home/blocks.py:75
 msgid "Area/Region Name"
 msgstr "Jina la Eneo/Mkoa"
 
-#: pages/home/blocks.py:66 pages/home/blocks.py:76
+#: climweb/src/climweb/pages/home/blocks.py:66
+#: climweb/src/climweb/pages/home/blocks.py:76
 msgid "Default"
 msgstr "Chaguomsingi"
 
-#: pages/home/blocks.py:67
+#: climweb/src/climweb/pages/home/blocks.py:67
 msgid "Administrative Level"
 msgstr "Kiwango cha Utawala"
 
-#: pages/home/blocks.py:68
+#: climweb/src/climweb/pages/home/blocks.py:68
 msgid "Boundary"
 msgstr "Mpaka"
 
-#: pages/home/blocks.py:68
+#: climweb/src/climweb/pages/home/blocks.py:68
 msgid "Click to select boundary on the map"
 msgstr "Bofya ili kuchagua mpaka kwenye ramani"
 
-#: pages/home/blocks.py:77
+#: climweb/src/climweb/pages/home/blocks.py:77
 msgid "Polygon"
 msgstr "Poligoni"
 
-#: pages/home/blocks.py:77
+#: climweb/src/climweb/pages/home/blocks.py:77
 msgid "Draw custom area on the map"
 msgstr "Chora eneo maalum kwenye ramani"
 
-#: pages/home/models.py:71
+#: climweb/src/climweb/pages/home/models.py:78
 msgid "Pre Title"
 msgstr "Kichwa cha Kabla"
 
-#: pages/home/models.py:72
+#: climweb/src/climweb/pages/home/models.py:79
 msgid ""
 "Text to show before the name of the institution. For example, if the "
 "institution is under a ministry, the ministry name can added here"
@@ -74,182 +76,306 @@ msgstr ""
 "Nakala ya kuonyesha kabla ya jina la taasisi. Kwa mfano, ikiwa taasisi iko "
 "chini ya wizara, jina la wizara linaweza kuongezwa hapa"
 
-#: pages/home/models.py:75
+#: climweb/src/climweb/pages/home/models.py:82
 msgid "Institution Name"
 msgstr "Jina la Taasisi"
 
-#: pages/home/models.py:76
+#: climweb/src/climweb/pages/home/models.py:83
 msgid "Full name of the institution"
 msgstr "Jina kamili la taasisi"
 
-#: pages/home/models.py:77
+#: climweb/src/climweb/pages/home/models.py:84
 msgid "Tagline"
 msgstr "Mstari wa tagi"
 
-#: pages/home/models.py:78
+#: climweb/src/climweb/pages/home/models.py:85
 msgid "Can be the tagline or slogan of the institution"
 msgstr "Inaweza kuwa tagline au kauli mbiu ya taasisi"
 
-#: pages/home/models.py:80
+#: climweb/src/climweb/pages/home/models.py:87
 msgid "Banner Image"
 msgstr "Picha ya Bango"
 
-#: pages/home/models.py:81
+#: climweb/src/climweb/pages/home/models.py:88
 msgid "Banner Text Color"
 msgstr "Rangi ya Maandishi ya Bango"
 
-#: pages/home/models.py:82
+#: climweb/src/climweb/pages/home/models.py:89
 msgid "Banner Type"
 msgstr "Aina ya Bango"
 
-#: pages/home/models.py:84
+#: climweb/src/climweb/pages/home/models.py:92
+msgid "Call to action button text"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:99
+msgid "Call to action related page"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:102
 msgid "Show city forecast section"
 msgstr "Onyesha sehemu ya utabiri wa jiji"
 
-#: pages/home/models.py:86
+#: climweb/src/climweb/pages/home/models.py:104
 msgid "Show weather watch section"
 msgstr "Onyesha sehemu ya kuangalia hali ya hewa"
 
-#: pages/home/models.py:88
+#: climweb/src/climweb/pages/home/models.py:106
 msgid "Weather Watch Section header"
 msgstr "Kijajuu cha Sehemu ya Kutazama Hali ya Hewa"
 
-#: pages/home/models.py:89
+#: climweb/src/climweb/pages/home/models.py:107
 msgid "Show MapViewer button"
 msgstr "Onyesha kitufe cha Kitazamaji Ramani"
 
-#: pages/home/models.py:91
+#: climweb/src/climweb/pages/home/models.py:109
 msgid "MapViewer Call to Action Title"
 msgstr "Kichwa cha Kitendo cha Kitazamaji cha Ramani"
 
-#: pages/home/models.py:92
+#: climweb/src/climweb/pages/home/models.py:110
 msgid "Mapviewer URL"
 msgstr "URL ya kitazama ramani"
 
-#: pages/home/models.py:100
+#: climweb/src/climweb/pages/home/models.py:118
 msgid "Youtube Playlist"
 msgstr "Orodha ya kucheza ya Youtube"
 
-#: pages/home/models.py:105
+#: climweb/src/climweb/pages/home/models.py:123
 msgid "Feature block"
 msgstr "Kizuizi cha kipengele"
 
-#: pages/home/models.py:115
+#: climweb/src/climweb/pages/home/models.py:132
 msgid "Banner Section"
 msgstr "Sehemu ya Bango"
 
-#: pages/home/models.py:118
+#: climweb/src/climweb/pages/home/models.py:136
+#, fuzzy
+#| msgid "MapViewer Call to Action Title"
+msgid "Banner Call to Action Button"
+msgstr "Kichwa cha Kitendo cha Kitazamaji cha Ramani"
+
+#: climweb/src/climweb/pages/home/models.py:139
 msgid "City Forecast Section"
 msgstr "Sehemu ya Utabiri wa Jiji"
 
-#: pages/home/models.py:125
+#: climweb/src/climweb/pages/home/models.py:146
 msgid "Weather Watch Section"
 msgstr "Sehemu ya Kutazama Hali ya Hewa"
 
-#: pages/home/models.py:128
+#: climweb/src/climweb/pages/home/models.py:149
 msgid "Media Section"
 msgstr "Sehemu ya Vyombo vya Habari"
 
-#: pages/home/models.py:132
+#: climweb/src/climweb/pages/home/models.py:153
 msgid "Addditional Information"
 msgstr "Taarifa ya Ziada"
 
-#: pages/home/models.py:137
+#: climweb/src/climweb/pages/home/models.py:158
 msgid "Home Page"
 msgstr "Ukurasa wa Nyumbani"
 
-#: pages/home/models.py:138
+#: climweb/src/climweb/pages/home/models.py:159
 msgid "Home Pages"
 msgstr "Kurasa za Nyumbani"
 
-#: pages/home/models.py:247
+#: climweb/src/climweb/pages/home/models.py:294
+msgid "Icon"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:296
+msgid "Name to display on the map. Leave blank to use the original layer name"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:298
+msgid "Show on map by default ?"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:299
+msgid ""
+"You can only select one layer to be shown on the map by default. If multiple "
+"layers are selected, only the first one will be shown"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:318
+msgid "Hour minute:second - (E.g 2023-01-01 00:00)"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:319
+msgid "Day of Week Day - (E.g Tue 25 08:00)"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:320
+msgid "Day - (E.g 2023-01-01)"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:323
+msgid "Show CAP Warnings Layer"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:324
+#, fuzzy
+#| msgid "Latest Weather Warnings"
+msgid "Weather Warnings"
+msgstr "Maonyo ya Hivi Punde ya Hali ya Hewa"
+
+#: climweb/src/climweb/pages/home/models.py:325
+msgid "CAP Warnings Layer Display Name"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:326
+#, fuzzy
+#| msgid "Show city forecast section"
+msgid "Show Location forecast Layer"
+msgstr "Onyesha sehemu ya utabiri wa jiji"
+
+#: climweb/src/climweb/pages/home/models.py:327
+#, fuzzy
+#| msgid "Forecasts"
+msgid "Location Forecast"
+msgstr "Utabiri"
+
+#: climweb/src/climweb/pages/home/models.py:328
+msgid "Location Forecast Layer Display Name"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:331
+msgid "Location Forecast Date Display Format"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:332
+msgid "Cluster Location Forecast Points"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:334
+msgid "Cluster Minimum number of Points"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:335
+msgid ""
+"Minimum number of points necessary to form a cluster if clustering is enabled"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:338
+msgid "Cluster Radius"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:339
+msgid "Radius of each cluster if clustering is enabled"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:341
+#, fuzzy
+#| msgid "Show city forecast section"
+msgid "Show Location Forecast Attribution"
+msgstr "Onyesha sehemu ya utabiri wa jiji"
+
+#: climweb/src/climweb/pages/home/models.py:343
 msgid "Admin Boundary"
 msgstr "Mpaka wa Utawala"
 
-#: pages/home/models.py:248
+#: climweb/src/climweb/pages/home/models.py:344
 msgid "Draw Polygon"
 msgstr "Chora Polygon"
 
-#: pages/home/templates/home/forecasts_index.html:3
-msgid "Forecasts"
-msgstr "Utabiri"
+#: climweb/src/climweb/pages/home/models.py:348
+msgid "Raster Layer"
+msgstr ""
 
-#: pages/home/templates/home/forecasts_index.html:133
-msgid "City Weather Forecast"
-msgstr "Utabiri wa Hali ya Hewa wa Jiji"
+#: climweb/src/climweb/pages/home/models.py:349
+msgid "WMS Layer"
+msgstr ""
 
-#: pages/home/templates/home/forecasts_index.html:140
-msgid "Download Image"
-msgstr "Pakua Picha"
+#: climweb/src/climweb/pages/home/models.py:350
+msgid "Vector Tile Layer"
+msgstr ""
 
-#: pages/home/templates/home/forecasts_index.html:172
-msgid "City"
-msgstr "Jiji"
+#: climweb/src/climweb/pages/home/models.py:351
+msgid "Map Layers"
+msgstr ""
 
-#: pages/home/templates/home/forecasts_index.html:175
-#, python-format
-msgid "%(forecast_date)s"
-msgstr "%(forecast_date)s"
+#: climweb/src/climweb/pages/home/models.py:359
+msgid "CAP Warnings Layer"
+msgstr ""
 
-#: pages/home/templates/home/home_page.html:36
+#: climweb/src/climweb/pages/home/models.py:369
+msgid "Location Forecast Layer"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:372
+msgid "Map Settings"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:375
+msgid "Geomanager Map Layers"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/templates/home/home_page.html:37
 msgid "Latest Media"
 msgstr "Vyombo vya Habari vya Hivi Punde"
 
-#: pages/home/templates/home/home_page.html:52
+#: climweb/src/climweb/pages/home/templates/home/home_page.html:53
 msgid "Our Partners"
 msgstr "Washirika wetu"
 
-#: pages/home/templates/home/home_page.html:77
+#: climweb/src/climweb/pages/home/templates/home/home_page.html:78
 msgid "More Partners"
 msgstr "Washirika Zaidi"
 
-#: pages/home/templates/home/section/home_map_alerts_include.html:42
+#: climweb/src/climweb/pages/home/templates/home/section/home_map_alerts_include.html:42
 msgid "No active alerts currently"
 msgstr "Hakuna arifa zinazotumika kwa sasa"
 
-#: pages/home/templates/home/section/services_include.html:6
+#: climweb/src/climweb/pages/home/templates/home/section/services_include.html:6
 msgid "Our Service Areas "
 msgstr "Maeneo Yetu ya Huduma"
 
-#: pages/home/templates/home/section/updates_include.html:6
+#: climweb/src/climweb/pages/home/templates/home/section/updates_include.html:6
 msgid "Latest Updates"
 msgstr "Sasisho za Hivi Punde"
 
-#: pages/home/templates/home/section/updates_include.html:17
+#: climweb/src/climweb/pages/home/templates/home/section/updates_include.html:17
 msgid "All News"
 msgstr "Habari Zote"
 
-#: pages/home/templates/home/section/updates_include.html:25
+#: climweb/src/climweb/pages/home/templates/home/section/updates_include.html:25
 msgid "All Publications"
 msgstr "Machapisho Yote"
 
-#: pages/home/templates/home/section/weather_watch_include.html:15
+#: climweb/src/climweb/pages/home/templates/home/section/weather_watch_include.html:22
 msgid "Latest Weather Warnings"
 msgstr "Maonyo ya Hivi Punde ya Hali ya Hewa"
 
-#: pages/home/templates/home/section/weather_watch_include.html:37
-msgid "Alert Severity"
-msgstr "Ukali wa Tahadhari"
-
-#: pages/home/templates/home/section/weather_watch_include.html:41
-msgid "Extreme"
-msgstr "Uliokithiri"
-
-#: pages/home/templates/home/section/weather_watch_include.html:45
-msgid "Severe"
-msgstr "Mkali"
-
-#: pages/home/templates/home/section/weather_watch_include.html:49
-msgid "Moderate"
-msgstr "Wastani"
-
-#: pages/home/templates/home/section/weather_watch_include.html:53
-msgid "Minor"
-msgstr "Ndogo"
-
-#: pages/home/templates/home/section/weather_watch_include.html:75
+#: climweb/src/climweb/pages/home/templates/home/section/weather_watch_include.html:40
 msgid "For more interactive data"
 msgstr "Kwa data shirikishi zaidi"
+
+#~ msgid "City Weather Forecast"
+#~ msgstr "Utabiri wa Hali ya Hewa wa Jiji"
+
+#~ msgid "Download Image"
+#~ msgstr "Pakua Picha"
+
+#~ msgid "City"
+#~ msgstr "Jiji"
+
+#, python-format
+#~ msgid "%(forecast_date)s"
+#~ msgstr "%(forecast_date)s"
+
+#~ msgid "Alert Severity"
+#~ msgstr "Ukali wa Tahadhari"
+
+#~ msgid "Extreme"
+#~ msgstr "Uliokithiri"
+
+#~ msgid "Severe"
+#~ msgstr "Mkali"
+
+#~ msgid "Moderate"
+#~ msgstr "Wastani"
+
+#~ msgid "Minor"
+#~ msgstr "Ndogo"
 
 #, fuzzy
 #~ msgid "All Locations"

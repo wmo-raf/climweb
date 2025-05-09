@@ -338,6 +338,7 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
                                                           verbose_name=_("Cluster Radius"),
                                                           help_text=_("Radius of each cluster if clustering is "
                                                                       "enabled"))
+    show_forecast_attribution = models.BooleanField(default=True, verbose_name=_("Show Location Forecast Attribution"))
     zoom_locations = StreamField([
         ("boundary_block", AreaBoundaryBlock(label=_("Admin Boundary"))),
         ("polygon_block", AreaPolygonBlock(label=_("Draw Polygon"))),
@@ -358,6 +359,7 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
             ], heading=_("CAP Warnings Layer"), ),
             
             MultiFieldPanel([
+                FieldPanel("show_forecast_attribution"),
                 FieldPanel("show_location_forecast_layer"),
                 FieldPanel("location_forecast_layer_display_name"),
                 FieldPanel("location_forecat_date_display_format"),

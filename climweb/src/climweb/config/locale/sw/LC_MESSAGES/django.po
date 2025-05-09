@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 21:19+0300\n"
+"POT-Creation-Date: 2025-05-08 16:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,95 +18,113 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: config/templates/404.html:22
+#: climweb/src/climweb/config/templates/404.html:20
 msgid "Page not found"
 msgstr "Ukurasa haujapatikana"
 
-#: config/templates/404.html:26
+#: climweb/src/climweb/config/templates/404.html:24
 msgid "Sorry, this page could not be found"
 msgstr "Samahani, ukurasa huu haukuweza kupatikana"
 
-#: config/templates/404.html:30 config/templates/500.html:27
+#: climweb/src/climweb/config/templates/404.html:28
+#: climweb/src/climweb/config/templates/500.html:26
 msgid "Back to Home Page"
 msgstr "Rudi kwa Ukurasa wa Nyumbani"
 
-#: config/templates/500.html:20
+#: climweb/src/climweb/config/templates/500.html:19
 msgid "Internal server error"
 msgstr "Hitilafu ya seva ya ndani"
 
-#: config/templates/500.html:23
+#: climweb/src/climweb/config/templates/500.html:22
 msgid "Sorry, there seems to be an error. Please try again soon"
 msgstr ""
 "Samahani, inaonekana kuna hitilafu. Tafadhali jaribu tena hivi karibuni"
 
-#: config/templates/applications_include.html:19
+#: climweb/src/climweb/config/templates/applications_include.html:19
 msgid "View"
 msgstr "Tazama"
 
-#: config/templates/document_detail_include.html:33
-#, python-format
-msgid "Download - %(file_size)s"
-msgstr "Pakua - %(file_size)s"
+#: climweb/src/climweb/config/templates/axes/lockout.html:4
+#: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:4
+#: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:52
+msgid "Sign in"
+msgstr ""
 
-#: config/templates/document_detail_include.html:44
-#: config/templates/document_detail_include.html:148
-msgid "Go to publication"
-msgstr "Nenda kwenye uchapishaji"
+#: climweb/src/climweb/config/templates/axes/lockout.html:10
+msgid "Account Locked"
+msgstr ""
 
-#: config/templates/document_detail_include.html:76
-msgid "Additional Materials"
-msgstr "Nyenzo za Ziada"
+#: climweb/src/climweb/config/templates/axes/lockout.html:16
+msgid ""
+"Your account has been locked due to multiple failed login attempts. Please "
+"try again later."
+msgstr ""
 
-#: config/templates/document_detail_include.html:116
-#: config/templates/featured_item_include.html:45
-msgid "Tags"
-msgstr "Lebo"
+#: climweb/src/climweb/config/templates/axes/lockout.html:18
+msgid ""
+"You account has been locked due to multiple failed login attempts. Please "
+"contact our support team for assistance."
+msgstr ""
 
-#: config/templates/document_detail_include.html:138
-msgid "Download document"
-msgstr "Pakua hati"
+#: climweb/src/climweb/config/templates/axes/lockout.html:26
+#: climweb/src/climweb/config/templates/navigation/app_navbar.html:86
+#: climweb/src/climweb/config/templates/navigation/navbar.html:86
+msgid "Contact us"
+msgstr "Wasiliana nasi"
 
-#: config/templates/empty_items.html:7
+#: climweb/src/climweb/config/templates/bulma/forms/field.html:109
+msgid "Choose a file"
+msgstr ""
+
+#: climweb/src/climweb/config/templates/bulma/forms/field.html:113
+msgid "Please select a file"
+msgstr ""
+
+#: climweb/src/climweb/config/templates/empty_items.html:7
 msgid "Nothing listed at the moment"
 msgstr "Hakuna kilichoorodheshwa kwa sasa"
 
-#: config/templates/empty_state_include.html:24
+#: climweb/src/climweb/config/templates/empty_state_include.html:24
 msgid "No data found"
 msgstr "Hakuna data iliyopatikana"
 
-#: config/templates/events_include.html:44
+#: climweb/src/climweb/config/templates/events_include.html:44
 msgid "More Events"
 msgstr "Matukio Zaidi"
 
-#: config/templates/featured_item_include.html:28
+#: climweb/src/climweb/config/templates/featured_item_include.html:28
 msgid "Featured"
 msgstr "Iliyoangaziwa"
 
-#: config/templates/featured_item_include.html:59
+#: climweb/src/climweb/config/templates/featured_item_include.html:45
+msgid "Tags"
+msgstr "Lebo"
+
+#: climweb/src/climweb/config/templates/featured_item_include.html:59
 msgid "Read More"
 msgstr "Soma zaidi"
 
-#: config/templates/form_thank_you_landing.html:33
+#: climweb/src/climweb/config/templates/form_thank_you_landing.html:33
 msgid "We have received your submission. Thank you!"
 msgstr "Tumepokea wasilisho lako. Asante!"
 
-#: config/templates/form_thank_you_landing.html:44
+#: climweb/src/climweb/config/templates/form_thank_you_landing.html:44
 msgid "Back to Homepage"
 msgstr "Rudi kwa Ukurasa wa Nyumbani"
 
-#: config/templates/modeladmin/index.html:33
+#: climweb/src/climweb/config/templates/modeladmin/index.html:33
 msgid "Download XLSX"
 msgstr "Pakua XLSX"
 
-#: config/templates/modeladmin/index.html:39
+#: climweb/src/climweb/config/templates/modeladmin/index.html:39
 msgid "Download CSV"
 msgstr "Pakua CSV"
 
-#: config/templates/modeladmin/index.html:62
+#: climweb/src/climweb/config/templates/modeladmin/index.html:62
 msgid "Filter"
 msgstr "Chuja"
 
-#: config/templates/modeladmin/index.html:74
+#: climweb/src/climweb/config/templates/modeladmin/index.html:74
 #, python-format
 msgid ""
 "No %(name)s have been created yet. One of the following must be created "
@@ -115,87 +133,114 @@ msgstr ""
 "Bado hakuna %(name)s zilizoundwa. Moja ya yafuatayo lazima iundwe kabla ya "
 "kuongeza %(name)s yoyote:"
 
-#: config/templates/modeladmin/index.html:79
+#: climweb/src/climweb/config/templates/modeladmin/index.html:79
 #, python-format
 msgid "No %(name)s have been created yet."
 msgstr "Bado hakuna %(name)s zilizoundwa."
 
-#: config/templates/modeladmin/index.html:81
+#: climweb/src/climweb/config/templates/modeladmin/index.html:81
 #, python-format
 msgid "Why not <a href=\"%(url)s\">add one</a>?"
 msgstr "Kwa nini <a href=\"%(url)s\">usiongeze moja</a>?"
 
-#: config/templates/modeladmin/index.html:96
+#: climweb/src/climweb/config/templates/modeladmin/index.html:96
 msgid "Pagination"
 msgstr "Pagination"
 
-#: config/templates/modeladmin/index.html:97
+#: climweb/src/climweb/config/templates/modeladmin/index.html:97
 #, python-format
 msgid "Page %(current_page)s of %(num_pages)s."
 msgstr "Ukurasa %(current_page)s wa %(num_pages)s."
 
-#: config/templates/navigation/app_navbar.html:26
-#: config/templates/navigation/navbar.html:26
+#: climweb/src/climweb/config/templates/navigation/app_navbar.html:26
+#: climweb/src/climweb/config/templates/navigation/navbar.html:26
 msgid "Alerts"
 msgstr "Tahadhari"
 
-#: config/templates/navigation/app_navbar.html:35
-#: config/templates/navigation/navbar.html:35
+#: climweb/src/climweb/config/templates/navigation/app_navbar.html:35
+#: climweb/src/climweb/config/templates/navigation/navbar.html:35
 msgid "Subscribe"
 msgstr "Jisajili"
 
-#: config/templates/navigation/app_navbar.html:45
-#: config/templates/navigation/navbar.html:45
+#: climweb/src/climweb/config/templates/navigation/app_navbar.html:45
+#: climweb/src/climweb/config/templates/navigation/navbar.html:45
 msgid "Language"
 msgstr "Lugha"
 
-#: config/templates/navigation/app_navbar.html:79
-#: config/templates/navigation/navbar.html:79
+#: climweb/src/climweb/config/templates/navigation/app_navbar.html:76
+#: climweb/src/climweb/config/templates/navigation/navbar.html:76
 msgid "Search"
 msgstr "Tafuta"
 
-#: config/templates/navigation/app_navbar.html:89
-#: config/templates/navigation/navbar.html:89
-msgid "Contact us"
-msgstr "Wasiliana nasi"
-
-#: config/templates/navigation/app_navbar.html:96
-#: config/templates/navigation/navbar.html:96
+#: climweb/src/climweb/config/templates/navigation/app_navbar.html:93
+#: climweb/src/climweb/config/templates/navigation/navbar.html:93
 msgid "Feedback"
 msgstr "Maoni"
 
-#: config/templates/navigation/footer.html:37
+#: climweb/src/climweb/config/templates/navigation/footer.html:37
 msgid "Powered by Climweb"
 msgstr ""
 
-#: config/templates/projects_include.html:7
+#: climweb/src/climweb/config/templates/projects_include.html:7
 msgid "Projects"
 msgstr "Miradi"
 
-#: config/templates/projects_include.html:15
+#: climweb/src/climweb/config/templates/projects_include.html:15
 msgid "More Projects"
 msgstr "Miradi Zaidi"
 
-#: config/templates/update_card_include.html:58
+#: climweb/src/climweb/config/templates/update_card_include.html:58
 msgid "Read more"
 msgstr "Soma zaidi"
 
-#: config/templates/videos_include.html:21
+#: climweb/src/climweb/config/templates/videos_include.html:21
 #, python-format
 msgid "Published on : %(updated_on)s"
 msgstr "Ilichapishwa mnamo : %(updated_on)s"
 
-#: config/templates/videos_include.html:33
+#: climweb/src/climweb/config/templates/videos_include.html:33
 msgid "SUBSCRIBE"
 msgstr "SUBSCRIBE"
 
-#: config/templates/wagtailadmin/home.html:5
+#: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:12
+msgid "Enter your two-factor authentication code"
+msgstr ""
+
+#: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:21
+msgid "Invalid code"
+msgstr ""
+
+#: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:52
+msgid "Signing in…"
+msgstr ""
+
+#: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:56
+msgid "Sign out"
+msgstr ""
+
+#: climweb/src/climweb/config/templates/wagtailadmin/home.html:5
 msgid "Welcome to"
 msgstr "Karibu"
 
-#: config/templates/wagtailadmin/home.html:9
-msgid "NMHS ClimWeb"
-msgstr "NMHS ClimWeb"
+#: climweb/src/climweb/config/templates/wagtailadmin/login.html:6
+msgid "Sign in to"
+msgstr ""
+
+#, python-format
+#~ msgid "Download - %(file_size)s"
+#~ msgstr "Pakua - %(file_size)s"
+
+#~ msgid "Go to publication"
+#~ msgstr "Nenda kwenye uchapishaji"
+
+#~ msgid "Additional Materials"
+#~ msgstr "Nyenzo za Ziada"
+
+#~ msgid "Download document"
+#~ msgstr "Pakua hati"
+
+#~ msgid "NMHS ClimWeb"
+#~ msgstr "NMHS ClimWeb"
 
 #~ msgid "What we do"
 #~ msgstr "Tunachofanya"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 21:19+0300\n"
+"POT-Creation-Date: 2025-05-08 16:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,133 +16,138 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: pages/aviation/models.py:21
+#: climweb/src/climweb/pages/aviation/models.py:21
 msgid "Category name"
 msgstr "اسم الفئة"
 
-#: pages/aviation/models.py:23
+#: climweb/src/climweb/pages/aviation/models.py:23
 msgid "Category color"
 msgstr "لون الفئة"
 
-#: pages/aviation/models.py:31 pages/aviation/models.py:44
+#: climweb/src/climweb/pages/aviation/models.py:31
+#: climweb/src/climweb/pages/aviation/models.py:44
 msgid "Airport Category"
 msgstr "فئة المطار"
 
-#: pages/aviation/models.py:32 pages/aviation/wagtail_hooks.py:27
+#: climweb/src/climweb/pages/aviation/models.py:32
+#: climweb/src/climweb/pages/aviation/wagtail_hooks.py:27
 msgid "Airport Categories"
 msgstr "فئات المطار"
 
-#: pages/aviation/models.py:40
+#: climweb/src/climweb/pages/aviation/models.py:40
 msgid "ICAO Code"
 msgstr "كود منظمة الطيران المدني الدولي"
 
-#: pages/aviation/models.py:41
+#: climweb/src/climweb/pages/aviation/models.py:41
 msgid ""
 "The ICAO airport code or location indicator is a four-letter code "
 "designating aerodromes around the world."
 msgstr ""
-"رمز المطار أو مؤشر الموقع التابع لمنظمة الطيران المدني الدولي هو رمز مكون من"
-" أربعة أحرف يشير إلى المطارات حول العالم."
+"رمز المطار أو مؤشر الموقع التابع لمنظمة الطيران المدني الدولي هو رمز مكون من "
+"أربعة أحرف يشير إلى المطارات حول العالم."
 
-#: pages/aviation/models.py:42
+#: climweb/src/climweb/pages/aviation/models.py:42
 msgid "Airport Name"
 msgstr "اسم المطار"
 
-#: pages/aviation/models.py:45
+#: climweb/src/climweb/pages/aviation/models.py:45
 msgid "Airport Location (Lat, Lng)"
 msgstr "موقع المطار (خط العرض، خط الطول)"
 
-#: pages/aviation/models.py:55 pages/aviation/models.py:91
-#: pages/aviation/templates/aviation/load_airports.html:85
+#: climweb/src/climweb/pages/aviation/models.py:55
+#: climweb/src/climweb/pages/aviation/models.py:91
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:85
 msgid "Airport"
 msgstr "مطار"
 
-#: pages/aviation/models.py:56 pages/aviation/wagtail_hooks.py:33
+#: climweb/src/climweb/pages/aviation/models.py:56
+#: climweb/src/climweb/pages/aviation/wagtail_hooks.py:33
 msgid "Airports"
 msgstr "المطارات"
 
-#: pages/aviation/models.py:92
+#: climweb/src/climweb/pages/aviation/models.py:92
 msgid "Message in Encoded Form"
 msgstr "الرسالة في شكل مشفر"
 
-#: pages/aviation/models.py:93
+#: climweb/src/climweb/pages/aviation/models.py:93
 msgid "Decoded Message"
 msgstr "رسالة مفككة"
 
-#: pages/aviation/models.py:95
+#: climweb/src/climweb/pages/aviation/models.py:95
 msgid "Message Format"
 msgstr "تنسيق الرسالة"
 
-#: pages/aviation/models.py:96
+#: climweb/src/climweb/pages/aviation/models.py:96
 msgid "Message Datetime"
 msgstr "تاريخ ووقت الرسالة"
 
-#: pages/aviation/templates/aviation/add_message.html:28
+#: climweb/src/climweb/pages/aviation/templates/aviation/add_message.html:28
 msgid "Add Messages"
 msgstr "إضافة الرسائل"
 
-#: pages/aviation/templates/aviation/add_message.html:65
-#: pages/aviation/wagtail_hooks.py:43
+#: climweb/src/climweb/pages/aviation/templates/aviation/add_message.html:65
+#: climweb/src/climweb/pages/aviation/wagtail_hooks.py:43
 msgid "Aviation Editor"
 msgstr "محرر الطيران"
 
-#: pages/aviation/templates/aviation/add_message.html:94
+#: climweb/src/climweb/pages/aviation/templates/aviation/add_message.html:94
 msgid "Message"
 msgstr "رسالة"
 
-#: pages/aviation/templates/aviation/airport_index.html:3
+#: climweb/src/climweb/pages/aviation/templates/aviation/airport_index.html:3
 #, python-format
 msgid "Snippets %(snippet_type_name_plural)s"
 msgstr "مقتطفات %(snippet_type_name_plural)s"
 
-#: pages/aviation/templates/aviation/airport_index.html:21
+#: climweb/src/climweb/pages/aviation/templates/aviation/airport_index.html:21
 #, python-format
 msgid "Add %(snippet_type_name)s"
 msgstr "أضف %(snippet_type_name)s"
 
-#: pages/aviation/templates/aviation/airport_index.html:33
+#: climweb/src/climweb/pages/aviation/templates/aviation/airport_index.html:33
 msgid "Import Airports"
 msgstr "مطارات الاستيراد"
 
-#: pages/aviation/templates/aviation/airport_index.html:44
+#: climweb/src/climweb/pages/aviation/templates/aviation/airport_index.html:44
 msgid "Select all snippets in listing"
 msgstr "حدد جميع المقاطع الموجودة في القائمة"
 
-#: pages/aviation/templates/aviation/load_airports.html:5
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:5
 #, python-format
 msgid "Aviation Airports Loader %(title)s\n"
 msgstr "محمل مطارات الطيران %(title)s"
 
-#: pages/aviation/templates/aviation/load_airports.html:34
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:34
 msgid "Aviation Airports Loader"
 msgstr "محمل مطارات الطيران"
 
-#: pages/aviation/templates/aviation/load_airports.html:56
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:56
 msgid "Upload"
 msgstr "رفع"
 
-#: pages/aviation/templates/aviation/load_airports.html:71
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:71
 msgid "Verify that all columns match correctly"
 msgstr "تأكد من تطابق جميع الأعمدة بشكل صحيح"
 
-#: pages/aviation/templates/aviation/load_airports.html:76
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:76
 msgid "ID"
 msgstr "بطاقة تعريف"
 
-#: pages/aviation/templates/aviation/load_airports.html:94
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:94
 msgid "Latitude"
 msgstr "خط العرض"
 
-#: pages/aviation/templates/aviation/load_airports.html:103
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:103
 msgid "Longitude"
 msgstr "خط الطول"
 
-#: pages/aviation/templates/aviation/load_airports.html:112
+#: climweb/src/climweb/pages/aviation/templates/aviation/load_airports.html:112
 msgid "Category"
 msgstr "فئة"
 
-#: pages/aviation/wagtail_hooks.py:51
+#: climweb/src/climweb/pages/aviation/wagtail_hooks.py:51
 msgid "Messages"
 msgstr "رسائل"

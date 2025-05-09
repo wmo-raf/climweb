@@ -2,6 +2,7 @@
 *.log
 *.pot
 *.pyc
+*.csv
 __pycache__/
 local_settings.py
 db.sqlite3
@@ -172,12 +173,16 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/django
 
 /static
-media/
 cache/
-nginx/
 dumpdata.json
 docker/volumes
 climweb/src/climweb/static
-climweb/src/climweb/media
 
 backup/
+.vscode/
+node_modules/
+
+.git
+docs
+/plugin-boilerplate
+.github

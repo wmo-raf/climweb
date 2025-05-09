@@ -289,6 +289,24 @@
                 margin-left: 0;
             }
         }
+
+        .forecast-attribution {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .forecast-attribution .icon {
+            margin-right: 4px;
+        }
+
+        .forecast-attribution a {
+            color: #fff;
+        }
+
+
     </style>
 
     <div class="forecast-widget">
@@ -485,6 +503,17 @@
                     </button>
                 </div>
             </div>
+
+            {% if external_source_attribution and external_source_url %}
+                <div class="forecast-attribution">
+                    <span class="icon is-small">
+                        {% svg_icon "info-circle" %}
+                    </span>
+                    <a href="{{ external_source_url }}" target="_blank" rel="noopener noreferrer">
+                        {{ external_source_attribution }}
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endif %}

@@ -1,4 +1,4 @@
-{% load static nmhs_cms_tags i18n wagtailiconchooser_tags %}
+{% load static nmhs_cms_tags i18n wagtailiconchooser_tags l10n %}
 
 {% if city_forecasts_by_date %}
     <style>
@@ -269,6 +269,24 @@
             scrollbar-width: thin;
             scrollbar-color: #ffffff #f1f1f110;
         }
+
+        .forecast-attribution {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .forecast-attribution .icon {
+            margin-right: 4px;
+        }
+
+        .forecast-attribution a {
+            color: #fff;
+        }
+
+
     </style>
 
     <div class="forecast-widget">
@@ -417,6 +435,16 @@
                     </div>
                 </div>
             {% endfor %}
+            {% if external_source_attribution and external_source_url %}
+                <div class="forecast-attribution">
+                     <span class="icon is-small">
+                         {% svg_icon "info-circle" %}
+                     </span>
+                    <a href="{{ external_source_url }}" target="_blank" rel="noopener noreferrer">
+                        {{ external_source_attribution }}
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endif %}

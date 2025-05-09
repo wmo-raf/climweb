@@ -152,6 +152,7 @@ INSTALLED_APPS = [
     'django_otp',
     'django_otp.plugins.otp_totp',
     'django_vue_utilities',
+    'wagtail_newsletter',
 ]
 
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -700,3 +701,7 @@ VUE_FRONTEND_USE_DEV_SERVER = DEBUG
 VUE_FRONTEND_DEV_SERVER_URL = 'http://localhost:5173'
 VUE_FRONTEND_DEV_SERVER_PATH = 'src'
 VUE_FRONTEND_STATIC_PATH = 'vue'
+
+WAGTAIL_NEWSLETTER_MAILCHIMP_API_KEY = env("WAGTAIL_NEWSLETTER_MAILCHIMP_API_KEY", default="")
+WAGTAIL_NEWSLETTER_FROM_NAME = env("WAGTAIL_NEWSLETTER_FROM_NAME", default="")
+WAGTAIL_NEWSLETTER_REPLY_TO = env("WAGTAIL_NEWSLETTER_REPLY_TO", default="")
