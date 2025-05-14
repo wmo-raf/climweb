@@ -1,181 +1,37 @@
-x-climweb-variables: &climweb-variables
-  WAIT_TIMEOUT: 120
-  GUNICORN_NUM_OF_WORKERS: ${CMS_NUM_OF_WORKERS:-4}
-  GUNICORN_TIMEOUT: ${CMS_GUNICORN_TIMEOUT:-300}
-  DEBUG: ${CMS_DEBUG}
-  WAGTAIL_SITE_NAME: ${CMS_SITE_NAME}
-  ADMIN_URL_PATH: ${CMS_ADMIN_URL_PATH}
-  TIME_ZONE: ${TIME_ZONE}
-  SECRET_KEY: ${SECRET_KEY}
-  ALLOWED_HOSTS: ${ALLOWED_HOSTS}
-  CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS}
-  DATABASE_URL: postgis://${CMS_DB_USER}:${CMS_DB_PASSWORD}@climweb_db_dev:5432/${CMS_DB_NAME}
-  REDIS_URL: redis://climweb_redis_dev:6379/0
-  EMAIL_HOST: ${SMTP_EMAIL_HOST}
-  EMAIL_PORT: ${SMTP_EMAIL_PORT}
-  EMAIL_USE_TLS: ${SMTP_EMAIL_USE_TLS}
-  EMAIL_HOST_USER: ${SMTP_EMAIL_HOST_USER}
-  EMAIL_HOST_PASSWORD: ${SMTP_EMAIL_HOST_PASSWORD}
-  DJANGO_ADMINS: ${CMS_ADMINS}
-  DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL}
-  RECAPTCHA_PUBLIC_KEY: ${RECAPTCHA_PUBLIC_KEY}
-  RECAPTCHA_PRIVATE_KEY: ${RECAPTCHA_PRIVATE_KEY}
-  RECAPTCHA_DOMAIN: ${RECAPTCHA_DOMAIN:-www.google.com}
-  RECAPTCHA_VERIFY_REQUEST_TIMEOUT: ${RECAPTCHA_VERIFY_REQUEST_TIMEOUT:-60}
-  NEXTJS_SERVER_URL: http://climweb_mapviewer_dev:3000
-  CMS_UPGRADE_HOOK_URL: ${CMS_UPGRADE_HOOK_URL}
-  WAGTAILADMIN_BASE_URL: ${CMS_BASE_URL}
-  LANGUAGE_CODE: ${CMS_DEFAULT_LANGUAGE_CODE}
-  MBGL_RENDERER_URL: http://climweb_mbgl_renderer_dev:80/render
-  CAP_CERT_PATH: ${CAP_CERT_PATH:-}
-  CAP_PRIVATE_KEY_PATH: ${CAP_PRIVATE_KEY_PATH:-}
-  CAP_SIGNATURE_METHOD: ${CAP_SIGNATURE_METHOD:-ECDSA_SHA256}
-  CAP_MQTT_SECRET_KEY: ${CAP_MQTT_SECRET_KEY:-}
-  CLIMWEB_ADDITIONAL_APPS: ${CLIMWEB_ADDITIONAL_APPS:-}
-  CLIMWEB_PLUGIN_DIR: ${CLIMWEB_PLUGIN_DIR:-}
-  CLIMWEB_PLUGIN_GIT_REPOS: ${CLIMWEB_PLUGIN_GIT_REPOS:-}
-  CLIMWEB_PLUGIN_URLS: ${CLIMWEB_PLUGIN_URLS:-}
-  CLIMWEB_ENABLE_OTEL:
-  OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://climweb_otel_collector:4318}
-  OTEL_RESOURCE_ATTRIBUTES:
-  OTEL_TRACES_SAMPLER: ${OTEL_TRACES_SAMPLER:-traceidratio}
-  OTEL_TRACES_SAMPLER_ARG: ${OTEL_TRACES_SAMPLER_ARG:-1.1}
-  OTEL_PER_MODULE_SAMPLER_OVERRIDES: ${OTEL_PER_MODULE_SAMPLER_OVERRIDES:-opentelemetry.instrumentation.django=always_on}
-  CLIMWEB_DEPLOYMENT_ENV: ${CLIMWEB_DEPLOYMENT_ENV:-dev}
-
 services:
   climweb_db_dev:
-    container_name: climweb_db_dev
-    image: postgis/postgis:15-master
-    restart: no
-    environment:
-      - POSTGRES_USER=${CMS_DB_USER}
-      - POSTGRES_DB=${CMS_DB_NAME}
-      - POSTGRES_PASSWORD=${CMS_DB_PASSWORD}
-    ports:
-      - "5432"
-    volumes:
-      - ${CMS_DB_VOLUME}:/var/lib/postgresql/data/
+    image: postgis/postgis:${POSTGRES_VERSION:-15}-master
 
   climweb_redis_dev:
     image: redis:alpine
-    container_name: climweb_redis_dev
-    restart: no
 
   climweb_dev:
     image: climweb_dev
     container_name: climweb_dev
-    platform: linux/x86_64
+    restart: no
     build:
       context: .
       dockerfile: ./climweb/Dockerfile
+      target: dev
       args:
         - UID=${UID}
         - GID=${GID}
-    restart: no
-    expose:
-      - 8000
-    environment:
-      <<: *climweb-variables
     ports:
-      - "8000"
+      - "80:8000"
     volumes:
-      - ${CMS_STATIC_VOLUME}:/climweb/web/src/climweb/static
-      - ${CMS_MEDIA_VOLUME}:/climweb/web/src/climweb/media
-      - ${BACKUP_VOLUME}:/climweb/web/src/climweb/backup
+      - ./climweb:/climweb/web
 
   climweb_celery_worker_dev:
     image: climweb_dev
     container_name: climweb_celery_worker_dev
-    platform: linux/x86_64
-    build:
-      context: .
-      dockerfile: ./climweb/Dockerfile
-      args:
-        - UID=${UID}
-        - GID=${GID}
-    init: true
     command: celery-worker
-    restart: no
-    environment:
-      <<: *climweb-variables
     volumes:
-      - ${CMS_STATIC_VOLUME}:/climweb/web/src/climweb/static
-      - ${CMS_MEDIA_VOLUME}:/climweb/web/src/climweb/media
-      - ${BACKUP_VOLUME}:/climweb/web/src/climweb/backup
+      - ./climweb:/climweb/web
 
   climweb_celery_beat_dev:
     image: climweb_dev
     container_name: climweb_celery_beat_dev
-    platform: linux/x86_64
-    build:
-      context: .
-      dockerfile: ./climweb/Dockerfile
-      args:
-        - UID=${UID}
-        - GID=${GID}
-    init: true
+    restart: no
     command: celery-beat
-    restart: no
-    environment:
-      <<: *climweb-variables
     volumes:
-      - ${CMS_STATIC_VOLUME}:/climweb/web/src/climweb/static
-      - ${CMS_MEDIA_VOLUME}:/climweb/web/src/climweb/media
-      - ${BACKUP_VOLUME}:/climweb/web/src/climweb/backup
-
-  climweb_mapviewer_dev:
-    image: climweb_mapviewer_dev
-    container_name: climweb_mapviewer_dev
-    restart: no
-    platform: linux/x86_64
-    build:
-      context: ./deploy/mapviewer
-      args:
-        - CMS_API=${MAPVIEWER_CMS_API}
-        - BASE_PATH=${MAPVIEWER_BASE_PATH}
-        - ASSET_PREFIX=${MAPVIEWER_ASSET_PREFIX}
-        - ANALYTICS_PROPERTY_ID=${ANALYTICS_PROPERTY_ID}
-        - BITLY_TOKEN=${BITLY_TOKEN}
-        - GOOGLE_CUSTOM_SEARCH_CX=${GOOGLE_CUSTOM_SEARCH_CX}
-        - GOOGLE_SEARCH_API_KEY=${GOOGLE_SEARCH_API_KEY}
-        - NEXT_TELEMETRY_DISABLED=1
-    volumes:
-      - ${MAPVIEWER_NEXT_STATIC_VOLUME}:/app/nginx/.next/static
-    ports:
-      - "3000"
-
-  climweb_mbgl_renderer_dev:
-    image: consbio/mbgl-renderer:0.8.0
-    container_name: climweb_mbgl_renderer_dev
-    restart: unless-stopped
-    ports:
-      - "80"
-
-  climweb_nginx_dev:
-    container_name: climweb_nginx_dev
-    image: nginx:1.20.2-alpine
-    restart: no
-    volumes:
-      - ${CMS_STATIC_VOLUME}:/wagtail_static
-      - ${CMS_MEDIA_VOLUME}:/wagtail_media
-      - ${MAPVIEWER_NEXT_STATIC_VOLUME}:/mapviewer/static
-      - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-    depends_on:
-      - climweb_dev
-
-  climweb_otel_collector:
-    image: otel/opentelemetry-collector:0.119.0
-    restart: no
-    container_name: climweb_otel_collector
-    command: [ "--config=/etc/otel-collector-config.yaml" ]
-    environment:
-      HONEYCOMB_API_KEY:
-      HONEYCOMB_LOGS_TRACES_DATASET: climweb-logs
-      HONEYCOMB_METRICS_DATASET: climweb-metrics
-    volumes:
-      - $PWD/deploy/otel/otel-collector-config.yaml:/etc/otel-collector-config.yaml
-    ports:
-      - "4318"
+      - ./climweb:/climweb/web

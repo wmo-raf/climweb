@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 21:19+0300\n"
+"POT-Creation-Date: 2025-05-08 16:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,251 +17,307 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pages/products/blocks.py:39 pages/products/blocks.py:43
-#: pages/products/models.py:348
+#: climweb/src/climweb/pages/products/blocks.py:40
+#: climweb/src/climweb/pages/products/blocks.py:44
+#: climweb/src/climweb/pages/products/models.py:475
 msgid "Name"
 msgstr "ስም"
 
-#: pages/products/blocks.py:44
+#: climweb/src/climweb/pages/products/blocks.py:45
 msgid "Icon"
 msgstr "አዶ"
 
-#: pages/products/blocks.py:50 pages/products/blocks.py:75
-#: pages/products/blocks.py:127
+#: climweb/src/climweb/pages/products/blocks.py:51
+#: climweb/src/climweb/pages/products/blocks.py:76
+#: climweb/src/climweb/pages/products/blocks.py:128
 msgid "Product Type"
 msgstr "የምርት አይነት"
 
-#: pages/products/blocks.py:51 pages/products/blocks.py:78
-#: pages/products/blocks.py:128 pages/products/models.py:275
+#: climweb/src/climweb/pages/products/blocks.py:52
+#: climweb/src/climweb/pages/products/blocks.py:77
+#: climweb/src/climweb/pages/products/blocks.py:129
+#: climweb/src/climweb/pages/products/models.py:301
 msgid "Effective from"
 msgstr "ውጤታማ ከ"
 
-#: pages/products/blocks.py:52 pages/products/blocks.py:79
-#: pages/products/blocks.py:129
+#: climweb/src/climweb/pages/products/blocks.py:53
+#: climweb/src/climweb/pages/products/blocks.py:78
+#: climweb/src/climweb/pages/products/blocks.py:130
 msgid "The date when this product becomes effective"
 msgstr "ይህ ምርት ተግባራዊ የሚሆንበት ቀን"
 
-#: pages/products/blocks.py:53 pages/products/blocks.py:80
-#: pages/products/blocks.py:130 pages/products/models.py:277
+#: climweb/src/climweb/pages/products/blocks.py:54
+#: climweb/src/climweb/pages/products/blocks.py:79
+#: climweb/src/climweb/pages/products/blocks.py:131
+#: climweb/src/climweb/pages/products/models.py:303
 msgid "Effective until"
 msgstr "ድረስ ውጤታማ"
 
-#: pages/products/blocks.py:54 pages/products/blocks.py:81
-#: pages/products/blocks.py:131
+#: climweb/src/climweb/pages/products/blocks.py:55
+#: climweb/src/climweb/pages/products/blocks.py:80
+#: climweb/src/climweb/pages/products/blocks.py:132
 msgid ""
 "The last day this product remains effective. Leave blank if not applicable"
 msgstr "የመጨረሻው ቀን ይህ ምርት ውጤታማ ሆኖ ይቆያል. የማይተገበር ከሆነ ባዶ ይተዉት።"
 
-#: pages/products/blocks.py:56
+#: climweb/src/climweb/pages/products/blocks.py:57
 msgid "Image"
 msgstr "ምስል"
 
-#: pages/products/blocks.py:57
+#: climweb/src/climweb/pages/products/blocks.py:58
 msgid "Summary of the map/image information"
 msgstr "የካርታ/ምስል መረጃ ማጠቃለያ"
 
-#: pages/products/blocks.py:69 pages/products/blocks.py:96
-#: pages/products/blocks.py:148
-msgid ""
-"The effective until date cannot be earlier than the effective from date"
+#: climweb/src/climweb/pages/products/blocks.py:70
+#: climweb/src/climweb/pages/products/blocks.py:103
+#: climweb/src/climweb/pages/products/blocks.py:146
+msgid "The effective until date cannot be earlier than the effective from date"
 msgstr "እስከ ቀን ድረስ የሚሠራው ከቀን ጀምሮ ከተሠራበት ቀደም ብሎ ሊሆን አይችልም"
 
-#: pages/products/blocks.py:76
-msgid "Thumbnail of the document"
-msgstr "የሰነዱ ድንክዬ"
-
-#: pages/products/blocks.py:77
-msgid "For example a screen grab of the cover page"
-msgstr "ለምሳሌ የሽፋን ገጹን ማያ ገጽ ይያዙ"
-
-#: pages/products/blocks.py:83
+#: climweb/src/climweb/pages/products/blocks.py:82
 msgid "Document"
 msgstr "ሰነድ"
 
-#: pages/products/blocks.py:84
+#: climweb/src/climweb/pages/products/blocks.py:84
+msgid "Auto-generate thumbnail"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/blocks.py:85
+msgid ""
+"If the document is a PDF, an image of the first page will be auto-generated."
+msgstr ""
+
+#: climweb/src/climweb/pages/products/blocks.py:87
+msgid "Thumbnail of the document"
+msgstr "የሰነዱ ድንክዬ"
+
+#: climweb/src/climweb/pages/products/blocks.py:88
+msgid ""
+"For example a screen grab of the cover page. If left empty and Auto-generate "
+"above is checked and the uploaded document is a PDF, an image of the first "
+"page will be auto-generated."
+msgstr ""
+
+#: climweb/src/climweb/pages/products/blocks.py:91
 msgid "Summary of the document information"
 msgstr "የሰነዱ መረጃ ማጠቃለያ"
 
-#: pages/products/blocks.py:134
+#: climweb/src/climweb/pages/products/blocks.py:123
 msgid "Table"
 msgstr "ጠረጴዛ"
 
-#: pages/products/blocks.py:135
+#: climweb/src/climweb/pages/products/blocks.py:124
 msgid "Text"
 msgstr "ጽሑፍ"
 
-#: pages/products/blocks.py:136
+#: climweb/src/climweb/pages/products/blocks.py:134
 msgid "Content"
 msgstr "ይዘት"
 
-#: pages/products/models.py:43
+#: climweb/src/climweb/pages/products/models.py:48
 msgid "Products listing Heading"
 msgstr "የምርት ዝርዝር ርዕስ"
 
-#: pages/products/models.py:44
+#: climweb/src/climweb/pages/products/models.py:49
 msgid "Group menu items by service"
 msgstr "የቡድን ምናሌ ንጥሎችን በአገልግሎት"
 
-#: pages/products/models.py:52
+#: climweb/src/climweb/pages/products/models.py:57
 msgid "Product Index Page"
 msgstr "የምርት መረጃ ጠቋሚ ገጽ"
 
-#: pages/products/models.py:53
+#: climweb/src/climweb/pages/products/models.py:58
 msgid "Product Index Pages"
 msgstr "የምርት ማውጫ ገጾች"
 
-#: pages/products/models.py:99
+#: climweb/src/climweb/pages/products/models.py:125
 msgid "Primary Service"
 msgstr "የመጀመሪያ ደረጃ አገልግሎት"
 
-#: pages/products/models.py:104
+#: climweb/src/climweb/pages/products/models.py:130
 msgid ""
 "How many of this products should be visible on the landing page filter "
 "section ?"
 msgstr "ከእነዚህ ምርቶች ውስጥ ስንት ናቸው በማረፊያ ገጽ ማጣሪያ ክፍል ላይ መታየት ያለባቸው?"
 
-#: pages/products/models.py:105
+#: climweb/src/climweb/pages/products/models.py:131
 msgid "Products per page"
 msgstr "ምርቶች በገጽ"
 
-#: pages/products/models.py:109
+#: climweb/src/climweb/pages/products/models.py:135
 msgid "Default Listing Thumbnail"
 msgstr "ነባሪ ዝርዝር ድንክዬ"
 
-#: pages/products/models.py:110
+#: climweb/src/climweb/pages/products/models.py:136
 msgid ""
-"An image that will be used as a thumbnail for in the products listing, if no"
-" image can be extracted from product items"
+"An image that will be used as a thumbnail for in the products listing, if no "
+"image can be extracted from product items"
 msgstr "ከምርት ዕቃዎች ምንም ምስል ማውጣት ካልተቻለ ለምርቶቹ ዝርዝር ውስጥ እንደ ድንክዬ የሚያገለግል ምስል"
 
-#: pages/products/models.py:117
+#: climweb/src/climweb/pages/products/models.py:143
 msgid "Menu Order"
 msgstr "የምናሌ ትዕዛዝ"
 
-#: pages/products/models.py:177 pages/products/models.py:365
+#: climweb/src/climweb/pages/products/models.py:203
+#: climweb/src/climweb/pages/products/models.py:492
 msgid "Product"
 msgstr "ምርት"
 
-#: pages/products/models.py:178
+#: climweb/src/climweb/pages/products/models.py:204
 msgid "Other relevant Services"
 msgstr "ሌሎች ተዛማጅ አገልግሎቶች"
 
-#: pages/products/models.py:182
+#: climweb/src/climweb/pages/products/models.py:208
 msgid "Map Layers"
 msgstr "የካርታ ንብርብሮች"
 
-#: pages/products/models.py:195 pages/products/models.py:378
+#: climweb/src/climweb/pages/products/models.py:221
+#: climweb/src/climweb/pages/products/models.py:505
 msgid "Other settings"
 msgstr "ሌሎች ቅንብሮች"
 
-#: pages/products/models.py:200
+#: climweb/src/climweb/pages/products/models.py:226
 msgid "National Product Page"
 msgstr "ብሔራዊ የምርት ገጽ"
 
-#: pages/products/models.py:201
+#: climweb/src/climweb/pages/products/models.py:227
 msgid "National Product Pages"
 msgstr "ብሔራዊ የምርት ገጾች"
 
-#: pages/products/models.py:245
+#: climweb/src/climweb/pages/products/models.py:271
 msgid "Product Tag"
 msgstr "የምርት መለያ"
 
-#: pages/products/models.py:276
+#: climweb/src/climweb/pages/products/models.py:302
 msgid "The first day when products added below become effective"
 msgstr "ከታች የተጨመሩ ምርቶች ውጤታማ ሲሆኑ የመጀመሪያው ቀን"
 
-#: pages/products/models.py:278
+#: climweb/src/climweb/pages/products/models.py:304
 msgid ""
 "The last day when products added below remain effective. Leave blank if not "
 "applicable"
 msgstr "ከታች የተጨመሩ ምርቶች ውጤታማ ሆነው የሚቆዩበት የመጨረሻው ቀን። የማይተገበር ከሆነ ባዶ ይተዉት።"
 
-#: pages/products/models.py:293
+#: climweb/src/climweb/pages/products/models.py:319
 msgid "Product Item"
 msgstr "የምርት ንጥል"
 
-#: pages/products/models.py:354
+#: climweb/src/climweb/pages/products/models.py:431
+#, fuzzy
+#| msgid "Subnational Product Page"
+msgid "Subnational Product Landing Page"
+msgstr "ንዑስ ብሄራዊ የምርት ገጽ"
+
+#: climweb/src/climweb/pages/products/models.py:432
+#, fuzzy
+#| msgid "Subnational Product Pages"
+msgid "Subnational Product Landing Pages"
+msgstr "ንዑስ ብሄራዊ የምርት ገጾች"
+
+#: climweb/src/climweb/pages/products/models.py:481
 msgid "Subnational Region"
 msgstr "ብሄረሰብ ክልል"
 
-#: pages/products/models.py:355
+#: climweb/src/climweb/pages/products/models.py:482
 msgid "Subnational Regions"
 msgstr "ብሔረሰባዊ ክልሎች"
 
-#: pages/products/models.py:364
+#: climweb/src/climweb/pages/products/models.py:491
 msgid "Region"
 msgstr "ክልል"
 
-#: pages/products/models.py:383
+#: climweb/src/climweb/pages/products/models.py:510
 msgid "Subnational Product Page"
 msgstr "ንዑስ ብሄራዊ የምርት ገጽ"
 
-#: pages/products/models.py:384
+#: climweb/src/climweb/pages/products/models.py:511
 msgid "Subnational Product Pages"
 msgstr "ንዑስ ብሄራዊ የምርት ገጾች"
 
-#: pages/products/templates/products/product_detail.html:93
+#: climweb/src/climweb/pages/products/templates/products/product_detail.html:93
 msgid "View"
 msgstr "ይመልከቱ"
 
-#: pages/products/templates/products/product_detail.html:104
+#: climweb/src/climweb/pages/products/templates/products/product_detail.html:104
 msgid "Download"
 msgstr "አውርድ"
 
-#: pages/products/templates/products/product_detail.html:132
+#: climweb/src/climweb/pages/products/templates/products/product_detail.html:132
 #, python-format
 msgid "Download document  - %(file_size)s"
 msgstr "ሰነድ አውርድ - %(file_size)s"
 
-#: pages/products/templates/products/product_detail.html:149
+#: climweb/src/climweb/pages/products/templates/products/product_detail.html:149
 msgid "Download document"
 msgstr "ሰነድ አውርድ"
 
-#: pages/products/templates/products/product_filter_include.html:9
+#: climweb/src/climweb/pages/products/templates/products/product_filter_include.html:9
 msgid "Filter by Year"
 msgstr "በአመት አጣራ"
 
-#: pages/products/templates/products/product_filter_include.html:31
+#: climweb/src/climweb/pages/products/templates/products/product_filter_include.html:33
 msgid "Filter by Month"
 msgstr "በወር አጣራ"
 
-#: pages/products/templates/products/product_index.html:43
+#: climweb/src/climweb/pages/products/templates/products/product_index.html:45
 msgid "Browse"
 msgstr "አስስ"
 
-#: pages/products/templates/products/product_index.html:51
+#: climweb/src/climweb/pages/products/templates/products/product_index.html:55
 msgid "MapViewer"
 msgstr "ካርታ መመልከቻ"
 
-#: pages/products/templates/products/product_index.html:62
-#: pages/products/templates/products/subnational_product_index.html:40
+#: climweb/src/climweb/pages/products/templates/products/product_index.html:66
+#: climweb/src/climweb/pages/products/templates/products/subnational/subnational_product_index.html:40
 msgid "Browse Product Updates"
 msgstr "የምርት ዝመናዎችን ያስሱ"
 
-#: pages/products/templates/products/product_layer_integration.html:6
+#: climweb/src/climweb/pages/products/templates/products/product_layer_integration.html:6
 #, python-format
 msgid "%(title)s"
 msgstr "%(title)s"
 
-#: pages/products/templates/products/product_layer_integration.html:15
+#: climweb/src/climweb/pages/products/templates/products/product_layer_integration.html:15
 msgid "Product Layers Integration"
 msgstr "የምርት ንብርብሮች ውህደት"
 
-#: pages/products/templates/products/product_layer_integration.html:16
+#: climweb/src/climweb/pages/products/templates/products/product_layer_integration.html:16
 msgid "Product Page"
 msgstr "የምርት ገጽ"
 
-#: pages/products/templates/products/product_layer_integration.html:37
+#: climweb/src/climweb/pages/products/templates/products/product_layer_integration.html:37
 msgid "Save"
 msgstr "አስቀምጥ"
 
-#: pages/products/templates/products/product_list_include.html:6
+#: climweb/src/climweb/pages/products/templates/products/product_list_include.html:6
+#: climweb/src/climweb/pages/products/templates/products/subnational/subnational_product_page_list_include.html:6
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pages/products/templates/products/product_list_include.html:63
+#: climweb/src/climweb/pages/products/templates/products/product_list_include.html:69
 msgid "Read More"
 msgstr "ተጨማሪ ያንብቡ"
+
+#: climweb/src/climweb/pages/products/templates/products/subnational/subnational_product_page_list_include.html:52
+#, fuzzy
+#| msgid "Product"
+msgid "View products"
+msgstr "ምርት"
+
+#: climweb/src/climweb/pages/products/templates/products/subnational/subnational_products_landing.html:32
+#, fuzzy
+#| msgid "Browse Product Updates"
+msgid "Browse Products"
+msgstr "የምርት ዝመናዎችን ያስሱ"
+
+#: climweb/src/climweb/pages/products/templates/products/subnational/subnational_products_landing_filter_include.html:9
+#, fuzzy
+#| msgid "Filter by Month"
+msgid "Filter by Region"
+msgstr "በወር አጣራ"
+
+#~ msgid "For example a screen grab of the cover page"
+#~ msgstr "ለምሳሌ የሽፋን ገጹን ማያ ገጽ ይያዙ"

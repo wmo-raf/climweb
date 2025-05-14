@@ -10,6 +10,7 @@ from wagtail.api.v2.utils import get_full_url
 from wagtailcache.settings import wagtailcache_settings
 
 from climweb.base.cache import wagcache
+from climweb.pages.home.models import HomeMapSettings
 from climweb.pages.weather.utils import get_city_forecast_detail_data
 
 
@@ -18,6 +19,19 @@ def get_home_forecast_widget(request):
     
     city_slug = request.GET.get('city')
     context = {}
+    
+    home_settings = HomeMapSettings.for_request(request)
+    show_forecast_attribution = home_settings.show_forecast_attribution
+    external_source = forecast_setting.enable_auto_forecast
+    if external_source and show_forecast_attribution:
+        source_name = "Yr.no"
+        source_url = "https://www.yr.no"
+        context.update({
+            "external_source_attribution": _(
+                "Forecast Data Source: %(forecast_source)s"
+            ) % {"forecast_source": source_name},
+            "external_source_url": source_url,
+        })
     
     if city_slug:
         city = City.objects.filter(slug=city_slug).first()

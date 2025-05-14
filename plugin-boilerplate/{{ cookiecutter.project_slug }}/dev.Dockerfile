@@ -1,7 +1,7 @@
 # This a dev image for testing your plugin when installed into the climweb image
-FROM climweb:latest AS base
+FROM climweb_dev:latest AS base
 
-FROM climweb:latest
+FROM climweb_dev:latest
 
 USER root
 

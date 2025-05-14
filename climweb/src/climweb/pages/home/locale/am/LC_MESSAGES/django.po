@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 21:19+0300\n"
+"POT-Creation-Date: 2025-05-08 16:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,55 +17,57 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pages/home/blocks.py:59
+#: climweb/src/climweb/pages/home/blocks.py:59
 msgid "Level 0"
 msgstr "ደረጃ 0"
 
-#: pages/home/blocks.py:60
+#: climweb/src/climweb/pages/home/blocks.py:60
 msgid "Level 1"
 msgstr "ደረጃ 1"
 
-#: pages/home/blocks.py:61
+#: climweb/src/climweb/pages/home/blocks.py:61
 msgid "Level 2"
 msgstr "ደረጃ 2"
 
-#: pages/home/blocks.py:62
+#: climweb/src/climweb/pages/home/blocks.py:62
 msgid "Level 3"
 msgstr "ደረጃ 3"
 
-#: pages/home/blocks.py:65 pages/home/blocks.py:75
+#: climweb/src/climweb/pages/home/blocks.py:65
+#: climweb/src/climweb/pages/home/blocks.py:75
 msgid "Area/Region Name"
 msgstr "የአካባቢ/የክልል ስም"
 
-#: pages/home/blocks.py:66 pages/home/blocks.py:76
+#: climweb/src/climweb/pages/home/blocks.py:66
+#: climweb/src/climweb/pages/home/blocks.py:76
 msgid "Default"
 msgstr "ነባሪ"
 
-#: pages/home/blocks.py:67
+#: climweb/src/climweb/pages/home/blocks.py:67
 msgid "Administrative Level"
 msgstr "የአስተዳደር ደረጃ"
 
-#: pages/home/blocks.py:68
+#: climweb/src/climweb/pages/home/blocks.py:68
 msgid "Boundary"
 msgstr "ድንበር"
 
-#: pages/home/blocks.py:68
+#: climweb/src/climweb/pages/home/blocks.py:68
 msgid "Click to select boundary on the map"
 msgstr "በካርታው ላይ ድንበር ለመምረጥ ጠቅ ያድርጉ"
 
-#: pages/home/blocks.py:77
+#: climweb/src/climweb/pages/home/blocks.py:77
 msgid "Polygon"
 msgstr "ፖሊጎን"
 
-#: pages/home/blocks.py:77
+#: climweb/src/climweb/pages/home/blocks.py:77
 msgid "Draw custom area on the map"
 msgstr "በካርታው ላይ ብጁ ቦታ ይሳሉ"
 
-#: pages/home/models.py:71
+#: climweb/src/climweb/pages/home/models.py:78
 msgid "Pre Title"
 msgstr "ቅድመ ርዕስ"
 
-#: pages/home/models.py:72
+#: climweb/src/climweb/pages/home/models.py:79
 msgid ""
 "Text to show before the name of the institution. For example, if the "
 "institution is under a ministry, the ministry name can added here"
@@ -73,182 +75,306 @@ msgstr ""
 "ከተቋሙ ስም በፊት የሚታይ ጽሑፍ። ለምሳሌ ተቋሙ በሚኒስቴር ስር ከሆነ የሚኒስቴር መስሪያ ቤቱ ስም እዚህ ጋር መጨመር "
 "ይቻላል።"
 
-#: pages/home/models.py:75
+#: climweb/src/climweb/pages/home/models.py:82
 msgid "Institution Name"
 msgstr "የተቋሙ ስም"
 
-#: pages/home/models.py:76
+#: climweb/src/climweb/pages/home/models.py:83
 msgid "Full name of the institution"
 msgstr "የተቋሙ ሙሉ ስም"
 
-#: pages/home/models.py:77
+#: climweb/src/climweb/pages/home/models.py:84
 msgid "Tagline"
 msgstr "የመለያ መስመር"
 
-#: pages/home/models.py:78
+#: climweb/src/climweb/pages/home/models.py:85
 msgid "Can be the tagline or slogan of the institution"
 msgstr "የተቋሙ መለያ ወይም መፈክር ሊሆን ይችላል።"
 
-#: pages/home/models.py:80
+#: climweb/src/climweb/pages/home/models.py:87
 msgid "Banner Image"
 msgstr "የባነር ምስል"
 
-#: pages/home/models.py:81
+#: climweb/src/climweb/pages/home/models.py:88
 msgid "Banner Text Color"
 msgstr "ባነር ጽሑፍ ቀለም"
 
-#: pages/home/models.py:82
+#: climweb/src/climweb/pages/home/models.py:89
 msgid "Banner Type"
 msgstr "የሰንደቅ አይነት"
 
-#: pages/home/models.py:84
+#: climweb/src/climweb/pages/home/models.py:92
+msgid "Call to action button text"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:99
+msgid "Call to action related page"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:102
 msgid "Show city forecast section"
 msgstr "የከተማ ትንበያ ክፍል አሳይ"
 
-#: pages/home/models.py:86
+#: climweb/src/climweb/pages/home/models.py:104
 msgid "Show weather watch section"
 msgstr "የአየር ሁኔታ መመልከቻ ክፍልን አሳይ"
 
-#: pages/home/models.py:88
+#: climweb/src/climweb/pages/home/models.py:106
 msgid "Weather Watch Section header"
 msgstr "የአየር ሁኔታ እይታ ክፍል ራስጌ"
 
-#: pages/home/models.py:89
+#: climweb/src/climweb/pages/home/models.py:107
 msgid "Show MapViewer button"
 msgstr "MapViewer አዝራር አሳይ"
 
-#: pages/home/models.py:91
+#: climweb/src/climweb/pages/home/models.py:109
 msgid "MapViewer Call to Action Title"
 msgstr "MapViewer ጥሪ ወደ ተግባር ርዕስ"
 
-#: pages/home/models.py:92
+#: climweb/src/climweb/pages/home/models.py:110
 msgid "Mapviewer URL"
 msgstr "የካርታ መመልከቻ ዩአርኤል"
 
-#: pages/home/models.py:100
+#: climweb/src/climweb/pages/home/models.py:118
 msgid "Youtube Playlist"
 msgstr "የዩቲዩብ አጫዋች ዝርዝር"
 
-#: pages/home/models.py:105
+#: climweb/src/climweb/pages/home/models.py:123
 msgid "Feature block"
 msgstr "የባህሪ እገዳ"
 
-#: pages/home/models.py:115
+#: climweb/src/climweb/pages/home/models.py:132
 msgid "Banner Section"
 msgstr "ባነር ክፍል"
 
-#: pages/home/models.py:118
+#: climweb/src/climweb/pages/home/models.py:136
+#, fuzzy
+#| msgid "MapViewer Call to Action Title"
+msgid "Banner Call to Action Button"
+msgstr "MapViewer ጥሪ ወደ ተግባር ርዕስ"
+
+#: climweb/src/climweb/pages/home/models.py:139
 msgid "City Forecast Section"
 msgstr "የከተማ ትንበያ ክፍል"
 
-#: pages/home/models.py:125
+#: climweb/src/climweb/pages/home/models.py:146
 msgid "Weather Watch Section"
 msgstr "የአየር ሁኔታ እይታ ክፍል"
 
-#: pages/home/models.py:128
+#: climweb/src/climweb/pages/home/models.py:149
 msgid "Media Section"
 msgstr "የሚዲያ ክፍል"
 
-#: pages/home/models.py:132
+#: climweb/src/climweb/pages/home/models.py:153
 msgid "Addditional Information"
 msgstr "ተጨማሪ መረጃ"
 
-#: pages/home/models.py:137
+#: climweb/src/climweb/pages/home/models.py:158
 msgid "Home Page"
 msgstr "መነሻ ገጽ"
 
-#: pages/home/models.py:138
+#: climweb/src/climweb/pages/home/models.py:159
 msgid "Home Pages"
 msgstr "መነሻ ገጾች"
 
-#: pages/home/models.py:247
+#: climweb/src/climweb/pages/home/models.py:294
+msgid "Icon"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:296
+msgid "Name to display on the map. Leave blank to use the original layer name"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:298
+msgid "Show on map by default ?"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:299
+msgid ""
+"You can only select one layer to be shown on the map by default. If multiple "
+"layers are selected, only the first one will be shown"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:318
+msgid "Hour minute:second - (E.g 2023-01-01 00:00)"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:319
+msgid "Day of Week Day - (E.g Tue 25 08:00)"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:320
+msgid "Day - (E.g 2023-01-01)"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:323
+msgid "Show CAP Warnings Layer"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:324
+#, fuzzy
+#| msgid "Latest Weather Warnings"
+msgid "Weather Warnings"
+msgstr "የቅርብ ጊዜ የአየር ሁኔታ ማስጠንቀቂያዎች"
+
+#: climweb/src/climweb/pages/home/models.py:325
+msgid "CAP Warnings Layer Display Name"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:326
+#, fuzzy
+#| msgid "Show city forecast section"
+msgid "Show Location forecast Layer"
+msgstr "የከተማ ትንበያ ክፍል አሳይ"
+
+#: climweb/src/climweb/pages/home/models.py:327
+#, fuzzy
+#| msgid "Forecasts"
+msgid "Location Forecast"
+msgstr "ትንበያዎች"
+
+#: climweb/src/climweb/pages/home/models.py:328
+msgid "Location Forecast Layer Display Name"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:331
+msgid "Location Forecast Date Display Format"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:332
+msgid "Cluster Location Forecast Points"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:334
+msgid "Cluster Minimum number of Points"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:335
+msgid ""
+"Minimum number of points necessary to form a cluster if clustering is enabled"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:338
+msgid "Cluster Radius"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:339
+msgid "Radius of each cluster if clustering is enabled"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:341
+#, fuzzy
+#| msgid "Show city forecast section"
+msgid "Show Location Forecast Attribution"
+msgstr "የከተማ ትንበያ ክፍል አሳይ"
+
+#: climweb/src/climweb/pages/home/models.py:343
 msgid "Admin Boundary"
 msgstr "የአስተዳዳሪ ድንበር"
 
-#: pages/home/models.py:248
+#: climweb/src/climweb/pages/home/models.py:344
 msgid "Draw Polygon"
 msgstr "ፖሊጎን ይሳሉ"
 
-#: pages/home/templates/home/forecasts_index.html:3
-msgid "Forecasts"
-msgstr "ትንበያዎች"
+#: climweb/src/climweb/pages/home/models.py:348
+msgid "Raster Layer"
+msgstr ""
 
-#: pages/home/templates/home/forecasts_index.html:133
-msgid "City Weather Forecast"
-msgstr "የከተማ የአየር ሁኔታ ትንበያ"
+#: climweb/src/climweb/pages/home/models.py:349
+msgid "WMS Layer"
+msgstr ""
 
-#: pages/home/templates/home/forecasts_index.html:140
-msgid "Download Image"
-msgstr "ምስል አውርድ"
+#: climweb/src/climweb/pages/home/models.py:350
+msgid "Vector Tile Layer"
+msgstr ""
 
-#: pages/home/templates/home/forecasts_index.html:172
-msgid "City"
-msgstr "ከተማ"
+#: climweb/src/climweb/pages/home/models.py:351
+msgid "Map Layers"
+msgstr ""
 
-#: pages/home/templates/home/forecasts_index.html:175
-#, python-format
-msgid "%(forecast_date)s"
-msgstr "%(forecast_date)s"
+#: climweb/src/climweb/pages/home/models.py:359
+msgid "CAP Warnings Layer"
+msgstr ""
 
-#: pages/home/templates/home/home_page.html:36
+#: climweb/src/climweb/pages/home/models.py:369
+msgid "Location Forecast Layer"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:372
+msgid "Map Settings"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/models.py:375
+msgid "Geomanager Map Layers"
+msgstr ""
+
+#: climweb/src/climweb/pages/home/templates/home/home_page.html:37
 msgid "Latest Media"
 msgstr "የቅርብ ጊዜ ሚዲያ"
 
-#: pages/home/templates/home/home_page.html:52
+#: climweb/src/climweb/pages/home/templates/home/home_page.html:53
 msgid "Our Partners"
 msgstr "አጋሮቻችን"
 
-#: pages/home/templates/home/home_page.html:77
+#: climweb/src/climweb/pages/home/templates/home/home_page.html:78
 msgid "More Partners"
 msgstr "ተጨማሪ አጋሮች"
 
-#: pages/home/templates/home/section/home_map_alerts_include.html:42
+#: climweb/src/climweb/pages/home/templates/home/section/home_map_alerts_include.html:42
 msgid "No active alerts currently"
 msgstr "በአሁኑ ጊዜ ምንም ንቁ ማንቂያዎች የሉም"
 
-#: pages/home/templates/home/section/services_include.html:6
+#: climweb/src/climweb/pages/home/templates/home/section/services_include.html:6
 msgid "Our Service Areas "
 msgstr "የእኛ የአገልግሎት አካባቢዎች"
 
-#: pages/home/templates/home/section/updates_include.html:6
+#: climweb/src/climweb/pages/home/templates/home/section/updates_include.html:6
 msgid "Latest Updates"
 msgstr "የቅርብ ጊዜ ዝመናዎች"
 
-#: pages/home/templates/home/section/updates_include.html:17
+#: climweb/src/climweb/pages/home/templates/home/section/updates_include.html:17
 msgid "All News"
 msgstr "ሁሉም ዜና"
 
-#: pages/home/templates/home/section/updates_include.html:25
+#: climweb/src/climweb/pages/home/templates/home/section/updates_include.html:25
 msgid "All Publications"
 msgstr "ሁሉም ህትመቶች"
 
-#: pages/home/templates/home/section/weather_watch_include.html:15
+#: climweb/src/climweb/pages/home/templates/home/section/weather_watch_include.html:22
 msgid "Latest Weather Warnings"
 msgstr "የቅርብ ጊዜ የአየር ሁኔታ ማስጠንቀቂያዎች"
 
-#: pages/home/templates/home/section/weather_watch_include.html:37
-msgid "Alert Severity"
-msgstr "የማንቂያ ጥብቅነት"
-
-#: pages/home/templates/home/section/weather_watch_include.html:41
-msgid "Extreme"
-msgstr "ጽንፍ"
-
-#: pages/home/templates/home/section/weather_watch_include.html:45
-msgid "Severe"
-msgstr "ከባድ"
-
-#: pages/home/templates/home/section/weather_watch_include.html:49
-msgid "Moderate"
-msgstr "መጠነኛ"
-
-#: pages/home/templates/home/section/weather_watch_include.html:53
-msgid "Minor"
-msgstr "አናሳ"
-
-#: pages/home/templates/home/section/weather_watch_include.html:75
+#: climweb/src/climweb/pages/home/templates/home/section/weather_watch_include.html:40
 msgid "For more interactive data"
 msgstr "ለበለጠ በይነተገናኝ ውሂብ"
+
+#~ msgid "City Weather Forecast"
+#~ msgstr "የከተማ የአየር ሁኔታ ትንበያ"
+
+#~ msgid "Download Image"
+#~ msgstr "ምስል አውርድ"
+
+#~ msgid "City"
+#~ msgstr "ከተማ"
+
+#, python-format
+#~ msgid "%(forecast_date)s"
+#~ msgstr "%(forecast_date)s"
+
+#~ msgid "Alert Severity"
+#~ msgstr "የማንቂያ ጥብቅነት"
+
+#~ msgid "Extreme"
+#~ msgstr "ጽንፍ"
+
+#~ msgid "Severe"
+#~ msgstr "ከባድ"
+
+#~ msgid "Moderate"
+#~ msgstr "መጠነኛ"
+
+#~ msgid "Minor"
+#~ msgstr "አናሳ"
 
 #, fuzzy
 #~ msgid "All Locations"

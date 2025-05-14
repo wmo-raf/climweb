@@ -7,7 +7,9 @@ practices in web design and development, data visualization and hydro meteorolog
 ensure that NMHSs have a modern, responsive, and user-friendly website.
 
 ## Live Instances
+
 NMHSs that have adopted ClimWeb across Africa:
+
 1. 🇧🇯 [Benin](https://www.meteobenin.bj/)
 2. 🇧🇫 [Burkina Faso](https://www.meteoburkina.bf/)
 3. 🇧🇮 [Burundi](https://www.igebu.bi/)
@@ -29,6 +31,7 @@ NMHSs that have adopted ClimWeb across Africa:
 19. 🇧🇫 [Hydrology Department of Burkina Faso](https://dgre.gov.bf/)
 
 #### In progress
+
 - 🇰🇪 Kenya
 - 🇰🇲 Comoros
 - 🇩🇯 Djibouti
@@ -36,7 +39,6 @@ NMHSs that have adopted ClimWeb across Africa:
 - 🇬🇳 Guinea
 - 🇺🇬 Uganda
 - 🇱🇷 Liberia
-
 
 ## 🌟 Core Features
 
@@ -86,6 +88,11 @@ NMHSs that have adopted ClimWeb across Africa:
     - Website traffic analytics (eg. google analytics) .
 - 😎 And many more others feature added iteratively, as per the needs of the NMHSs.
 
+## Technical & Development
+
+For technical and local development details, please refer to
+the [Technical & Development](docs/technical/introduction.md) documentation.
+
 ## 📕 User Guide
 
 Read more from the user
@@ -93,6 +100,6 @@ guide - [https://climweb.readthedocs.io/](https://climweb.readthedocs.io/)
 
 ---
 
-## 🛠️ Docker Installation Guide
+## 🛠️ Production deployment with Docker Installation Guide
 
 For installation instructions with docker, please visit https://github.com/wmo-raf/climweb-docker

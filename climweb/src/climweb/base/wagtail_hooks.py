@@ -115,7 +115,9 @@ def register_icons(icons):
     others = [
         'wagtailfontawesomesvg/solid/podcast.svg',
         "icons/empty-tray.svg",
-        "icons/x-twitter.svg"
+        "icons/x-twitter.svg",
+        "icons/dam.svg",
+        "icons/dust-storm.svg"
     ]
     
     return icons + brands + others
