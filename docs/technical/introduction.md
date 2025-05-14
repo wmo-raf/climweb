@@ -10,17 +10,15 @@ Hydrological Services (NMHSs) in their content management and deliver of climate
 The system is designed to be modular and extensible, allowing for easy addition of new features and content types. It is
 built with a focus on customization and flexibility, enabling NMHSs to tailor the system to their specific needs.
 
-### Core Components
-
-#### Web Framework & CMS
+### Web Framework & CMS
 
 - Built on Django framework with Wagtail CMS integration
 - Uses ASGI (Asynchronous Server Gateway Interface) for modern web capabilities
 - The system Implements both WSGI and ASGI configurations for flexibility
 
-#### Backend Architecture:
+### Backend Architecture:
 
-##### Base Module (`/base/`)**
+#### Base Module (`/base/`)
 
 - Core models and database schema
 - Custom blocks and templates
@@ -29,7 +27,7 @@ built with a focus on customization and flexibility, enabling NMHSs to tailor th
 - Utility functions and mixins
 - Task management system using Celery
 
-##### Configuration (`/config/`):
+#### Configuration (`/config/`):
 
 - Environment-specific settings
 - URL routing
@@ -38,13 +36,11 @@ built with a focus on customization and flexibility, enabling NMHSs to tailor th
 - Static file handling
 - Internationalization support
 
-##### Content Structure
+#### Content Structure
 
 The system is organized into several key content sections, each implemented as a Django/Wagtail app:
 
-1. **Core Content Sections**
-
-- Home (/`pages/home/`)
+1. **Home** (/`pages/home/`)
     - Custom home page implementation
     - Interactive map component (Vue.js integration)
     - Custom blocks and templates
@@ -85,7 +81,7 @@ The system is organized into several key content sections, each implemented as a
 - Glossary (`/pages/glossary/`)
 - Search (`/pages/search/`)
 
-##### Page Architecture
+#### Page Architecture
 
 Each page type, where fully implmented as a Django/Wagtail app, follows a consistent structure:
 

@@ -43,11 +43,9 @@ To use Django's internationalization features, we wrap our text with a special f
 For more information, refer to
 the [Django Internationalization and Localization documentation](https://docs.djangoproject.com/en/3.2/topics/i18n/).
 
-https://mjml.io/
-
 ## Frontend
 
-We mostly use Django templates for the frontend. However, we also use `Vue.js` for some parts of the frontend that
+Climweb mostly uses Django templates for the frontend. However, we also use `Vue.js` for some parts of the frontend that
 require more interactivity, such as the home page map component.
 
 We use a custom approach to integrate Vue.js with Django. This approach combines the strengths of Django's templating
