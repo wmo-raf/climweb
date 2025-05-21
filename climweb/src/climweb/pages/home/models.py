@@ -339,7 +339,7 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
                                                           verbose_name=_("Cluster Radius"),
                                                           help_text=_("Radius of each cluster if clustering is "
                                                                       "enabled"))
-    show_forecast_attribution = models.BooleanField(default=True, verbose_name=_("Show Location Forecast Attribution"))
+    show_forecast_attribution = models.BooleanField(default=False, verbose_name=_("Show Location Forecast Attribution"))
     zoom_locations = StreamField([
         ("boundary_block", AreaBoundaryBlock(label=_("Admin Boundary"))),
         ("polygon_block", AreaPolygonBlock(label=_("Draw Polygon"))),
