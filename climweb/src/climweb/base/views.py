@@ -26,12 +26,12 @@ def cms_version_view(request):
     # set upgrade status
     if cache.get("cms_upgrade_pending") is None:
         cache.set("cms_upgrade_pending", False)
-
+    
     cms_upgrade_pending = cache.get("cms_upgrade_pending")
-
+    
     template_name = "admin/cms_version.html"
     cms_upgrade_hook_url = getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
-
+    
     try:
         latest_release = get_latest_cms_release()
         latest_version = latest_release.get("version")
@@ -42,15 +42,15 @@ def cms_version_view(request):
                           "error_message": _("Error fetching latest version. Please try again later."),
                           "error_traceback": str(e)
                       })
-
+    
     current_version = get_main_version()
-
+    
     context = {
         "latest_release": latest_release,
         "current_version": current_version,
         "cms_upgrade_hook_url": cms_upgrade_hook_url,
     }
-
+    
     try:
         latest_release_greater_than_current = check_version_greater_than_current(latest_version)
     except Exception as e:
@@ -60,31 +60,31 @@ def cms_version_view(request):
                           "error_message": _("Error in extracting latest version number from the release"),
                           "error_traceback": str(e)
                       })
-
+    
     context.update({
         "has_new_version": latest_release_greater_than_current,
     })
-
+    
     initial = {
         "latest_version": latest_version,
         "current_version": current_version
     }
-
+    
     form = CMSUpgradeForm(initial=initial)
-
+    
     context.update({
         "form": form,
     })
-
+    
     upgrade_form = CMSUpgradeForm(initial=initial)
-
+    
     if request.POST:
         form = CMSUpgradeForm(request.POST)
-
+        
         if form.is_valid():
             current_version = form.cleaned_data.get("current_version")
             latest_version = form.cleaned_data.get("latest_version")
-
+            
             if cms_upgrade_hook_url:
                 if cms_upgrade_pending:
                     messages.warning(request, "ClimWeb upgrade already initiated")
@@ -105,9 +105,9 @@ def cms_version_view(request):
         context.update({
             "form": upgrade_form
         })
-
+    
     context.update({"cms_upgrade_pending": cache.get("cms_upgrade_pending")})
-
+    
     return render(request, template_name, context=context)
 
 

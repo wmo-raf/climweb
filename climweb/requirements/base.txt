@@ -60,6 +60,8 @@ beautifulsoup4==4.9.3
     #   wagtail
 billiard==3.6.4.0
     # via celery
+bleach[css]==6.2.0
+    # via django-markdownify
 brotli==1.1.0
     # via fonttools
 cachetools==5.5.1
@@ -193,6 +195,7 @@ django==4.2.18
     #   django-inline-svg
     #   django-large-image
     #   django-manifest-loader
+    #   django-markdownify
     #   django-modelcluster
     #   django-nextjs
     #   django-otp
@@ -269,6 +272,8 @@ django-json-widget==2.0.1
 django-large-image==0.10.0
     # via geomanager
 django-manifest-loader==1.0.0
+    # via -r base.in
+django-markdownify==0.9.5
     # via -r base.in
 django-modelcluster==6.4
     # via wagtail
@@ -435,6 +440,8 @@ mailchimp3==3.0.18
     # via
     #   -r base.in
     #   wagtail-mailchimp-integration
+markdown==3.8
+    # via django-markdownify
 matplotlib==3.9.4
     # via
     #   cartopy
@@ -781,6 +788,7 @@ telepath==0.3.1
     # via wagtail
 tinycss2==1.4.0
     # via
+    #   bleach
     #   cairosvg
     #   cssselect2
     #   weasyprint
@@ -938,6 +946,7 @@ weasyprint==65.1
     #   alertwise
 webencodings==0.5.1
     # via
+    #   bleach
     #   cssselect2
     #   tinycss2
     #   tinyhtml5

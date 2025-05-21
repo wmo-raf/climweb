@@ -153,6 +153,7 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_totp',
     'django_vue_utilities',
     'wagtail_newsletter',
+    'markdownify',
 ]
 
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -705,3 +706,9 @@ VUE_FRONTEND_STATIC_PATH = 'vue'
 WAGTAIL_NEWSLETTER_MAILCHIMP_API_KEY = env("WAGTAIL_NEWSLETTER_MAILCHIMP_API_KEY", default="")
 WAGTAIL_NEWSLETTER_FROM_NAME = env("WAGTAIL_NEWSLETTER_FROM_NAME", default="")
 WAGTAIL_NEWSLETTER_REPLY_TO = env("WAGTAIL_NEWSLETTER_REPLY_TO", default="")
+
+MARKDOWNIFY = {
+    "default": {
+        "BLEACH": False
+    }
+}
