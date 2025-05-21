@@ -129,3 +129,10 @@ These plugins can be used to add new features, modify existing functionality, or
 These can be developed by third-party developers, allowing for a wide range of customization options.
 
 Read more about the plugin system in the [Plugin System](../technical/plugins.md) section.
+
+### Management Commands
+
+Climweb provides a set of management commands that can be used to perform various tasks related to the system's
+operation and maintenance.
+
+You can find more about these commands in the [Management Commands](../technical/management-commands.md) section.
