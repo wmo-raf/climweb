@@ -295,6 +295,7 @@ class BaseLayerBlock(blocks.StructBlock):
     display_name = blocks.CharBlock(max_length=100, required=False,
                                     help_text=_("Name to display on the map. "
                                                 "Leave blank to use the original layer name"))
+    enabled = blocks.BooleanBlock(default=True, required=False, label=_("Enabled"))
     default = blocks.BooleanBlock(default=False, required=False, label=_("Show on map by default ?"),
                                   help_text=_("You can only select one layer to be shown on the map by default. "
                                               "If multiple layers are selected, only the first one will be shown"))
