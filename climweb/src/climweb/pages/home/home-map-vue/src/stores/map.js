@@ -50,6 +50,9 @@ export const useMapStore = defineStore('map', {
             {label: "Dark", value: "carto-dark"},
         ],
         selectedBasemap: "voyager",
+        apiBaseMaps: [],
+        selectedApiBaseMap: null,
+        usingApiStyle: false,
         showBoundary: true,
     }),
 
@@ -67,6 +70,9 @@ export const useMapStore = defineStore('map', {
         visibleLayers(state) {
             return Object.values(state.layers).filter(layer => layer.visible);
         },
+        getApiBaseMapById: (state) => (baseMapId) => {
+            return state.apiBaseMaps.find(basemap => basemap.id === baseMapId) || null;
+        }
     },
 
     actions: {
@@ -136,6 +142,18 @@ export const useMapStore = defineStore('map', {
         },
         setShowBoundary(value) {
             this.showBoundary = value;
-        }
-    }
+        },
+        setApiBaseMaps(baseMaps) {
+            this.apiBaseMaps = baseMaps;
+        },
+        setSelectedApiBaseMap(baseMapId) {
+            this.selectedApiBaseMap = baseMapId;
+        },
+        getSelectedApiBaseMap() {
+            return this.apiBaseMaps.find(basemap => basemap.id === this.selectedApiBaseMap) || null;
+        },
+        setUsingApiStyle(value) {
+            this.usingApiStyle = value;
+        },
+    },
 });

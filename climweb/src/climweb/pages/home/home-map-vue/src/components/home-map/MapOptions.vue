@@ -2,7 +2,6 @@
 import RadioButton from 'primevue/radiobutton';
 import Checkbox from 'primevue/checkbox';
 import Select from 'primevue/select';
-import FloatLabel from 'primevue/floatlabel';
 import {useMapStore} from "@/stores/map";
 import {useI18n} from 'vue-i18n'
 
@@ -50,9 +49,33 @@ const {t} = useI18n({
 <template>
   <div class="map-options">
     <div class="basemap-options">
-      <div v-for="basemap in mapStore.basemaps" :key="basemap.value" class="basemap-item">
-        <RadioButton v-model="mapStore.selectedBasemap" :inputId="basemap.value" name="basemap" :value="basemap.value"
-                     class="basemap-input"/>
+
+      <div
+          v-if="mapStore.usingApiStyle"
+          v-for="basemap in mapStore.apiBaseMaps"
+          :key="basemap.id"
+          class="basemap-item">
+        <RadioButton
+            v-model="mapStore.selectedApiBaseMap"
+            :inputId="basemap.id"
+            name="basemap"
+            :value="basemap.id"
+            class="basemap-input"
+        />
+        <label :for="basemap.id">{{ basemap.label }}</label>
+      </div>
+      <div
+          v-else
+          v-for="basemap in mapStore.basemaps"
+          :key="basemap.value"
+          class="basemap-item">
+        <RadioButton
+            v-model="mapStore.selectedBasemap"
+            :inputId="basemap.value"
+            name="basemap"
+            :value="basemap.value"
+            class="basemap-input"
+        />
         <label :for="basemap.value">{{ basemap.label }}</label>
       </div>
     </div>

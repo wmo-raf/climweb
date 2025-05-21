@@ -7,7 +7,6 @@ import {useMapStore} from "@/stores/map";
 import {getRasterLayerConfig, getVectorTileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
 import {getTimeFromList} from "@/utils/date";
 import {getTimeValuesFromWMS} from "@/utils/wms";
-import {defaultMapStyle} from "@/utils/basemap";
 
 import Popover from 'primevue/popover';
 import LayerItem from "./LayerItem.vue";
@@ -18,6 +17,7 @@ import CAPWarningPopup from "./popup/CAPWarningPopup.vue";
 import LocationForecastPopup from "./popup/LocationForecastPopup.vue";
 
 import 'maplibre-gl/dist/maplibre-gl.css';
+import {defaultMapStyle} from "@/utils/basemap.js";
 
 
 const props = defineProps({
@@ -45,6 +45,7 @@ const alwaysOnTopLayers = [
   "admin-boundary-fill",
   "admin-boundary-line",
   "admin-boundary-line-1",
+  "admin-boundary-line-lv-1",
   "weather-warnings",
   "weather-forecast"
 ];
@@ -71,6 +72,7 @@ const selectedDate = computed(() => {
   return activeTimeLayerDates.value[selectedTimeLayerDateIndex.value];
 });
 
+
 // Fetch map settings from API
 const fetchMapSettings = async () => {
   const response = await fetch(props.mapSettingsUrl);
@@ -81,7 +83,11 @@ const fetchMapSettings = async () => {
 const initializeMap = async () => {
   const mapInitOptions = {
     container: mapContainer.value,
-    style: defaultMapStyle,
+    style: {
+      version: 8,
+      sources: {},
+      layers: [],
+    },
     center: [0, 0],
     zoom: 4,
     scrollZoom: false,
@@ -200,7 +206,37 @@ const initializeMapLayers = async (mapSettings) => {
     dynamicMapLayers,
     forecastSettingsUrl,
     zoomLocations,
+    basemaps,
+    showLevel1Boundaries
   } = mapSettings;
+
+  if (basemaps && !!basemaps.length) {
+    const defaultBasemap = basemaps.find(basemap => basemap.default) || basemaps[0]
+
+    mapStore.setApiBaseMaps(basemaps);
+
+    if (defaultBasemap) {
+      const {mapStyle} = defaultBasemap
+      const mapStyleJson = await fetch(mapStyle).then(res => res.json()).catch(e => console.error(e));
+
+      if (mapStyleJson) {
+        mapStyleJson.metadata = {
+          ...mapStyleJson.metadata,
+          customStyle: true,
+        }
+        map.setStyle(mapStyleJson)
+        mapStore.setUsingApiStyle(true)
+        mapStore.setSelectedApiBaseMap(defaultBasemap.id)
+
+        setLabels()
+      } else {
+        map.setStyle(defaultMapStyle);
+      }
+    }
+  } else {
+    // if no basemaps are provided, set the default style
+    map.setStyle(defaultMapStyle);
+  }
 
   if (zoomLocations) {
     mapStore.setZoomLocations(zoomLocations)
@@ -211,7 +247,7 @@ const initializeMapLayers = async (mapSettings) => {
     }
   }
 
-  addBoundaryLayer(boundaryTilesUrl);
+  addBoundaryLayer(boundaryTilesUrl, showLevel1Boundaries);
 
   if (showWarningsLayer) {
     mapStore.updateLayerTitle("weather-warnings", capWarningsLayerDisplayName);
@@ -263,11 +299,13 @@ const initializeMapLayers = async (mapSettings) => {
   }
 };
 
-const addBoundaryLayer = (boundaryTilesUrl) => {
+const addBoundaryLayer = (boundaryTilesUrl, showLevel1Boundaries) => {
   // add source
   map.addSource("admin-boundary-source", {
     type: "vector", tiles: [boundaryTilesUrl],
   })
+
+
   // add layer
   map.addLayer({
     'id': 'admin-boundary-fill',
@@ -276,12 +314,14 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
     "source-layer": "default",
     "filter": ["==", "level", 0],
     'paint': {
-      'fill-color': "#fff", 'fill-opacity': 0,
+      'fill-color': "#fff",
+      'fill-opacity': 0,
     },
     'metadata': {
       'mapbox:groups': 'boundary',
     }
   });
+
 
   map.addLayer({
     'id': 'admin-boundary-line',
@@ -290,7 +330,9 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
     "source-layer": "default",
     "filter": ["==", "level", 0],
     'paint': {
-      "line-color": "#C0FF24", "line-width": 1, "line-offset": 1,
+      "line-color": "#C0FF24",
+      "line-width": 1,
+      "line-offset": 1,
     },
     'metadata': {
       'mapbox:groups': 'boundary',
@@ -305,12 +347,31 @@ const addBoundaryLayer = (boundaryTilesUrl) => {
     "source-layer": "default",
     "filter": ["==", "level", 0],
     'paint': {
-      "line-color": "#000", "line-width": 1.5,
+      "line-color": "#000",
+      "line-width": 1.5,
     },
     'metadata': {
       'mapbox:groups': 'boundary',
     }
   });
+
+  if (showLevel1Boundaries) {
+    map.addLayer({
+      'id': 'admin-boundary-line-lv-1',
+      "type": "line",
+      'source': 'admin-boundary-source',
+      "source-layer": "default",
+      "filter": ["==", "level", 1],
+      "paint": {
+        "line-color": "#8b8b8b",
+        "line-width": 0.8,
+        "line-dasharray": [2, 4],
+      },
+      'metadata': {
+        'mapbox:groups': 'boundary',
+      }
+    });
+  }
 }
 
 const addWarningsLayer = (capGeojsonUrl) => {
@@ -357,7 +418,9 @@ const addWarningsLayer = (capGeojsonUrl) => {
 const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig) => {
   // add city forecast source
   map.addSource("weather-forecast", {
-    type: "geojson", data: {type: "FeatureCollection", features: []}, ...forecastClusterConfig,
+    type: "geojson",
+    data: {type: "FeatureCollection", features: []},
+    ...forecastClusterConfig,
   })
 
   // add city forecast layer
@@ -385,6 +448,8 @@ const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecast
     }
 
     mapStore.setLoading(false)
+
+    setLabels()
 
   }).catch(e => {
     mapStore.setLoading(false)
@@ -567,6 +632,8 @@ const addDynamicLayer = async (layerId) => {
             map.moveLayer(l)
           }
         });
+
+        setLabels()
       }
     }
 
@@ -643,6 +710,114 @@ const handleDynamicLayerTimeChange = (layer, newDateStr) => {
   }
 }
 
+const setAPIBaseMap = (basemapId) => {
+  const basemap = mapStore.getApiBaseMapById(basemapId)
+  const BASEMAP_GROUPS = ["basemap"];
+
+  if (map) {
+    const {layers, metadata} = map.getStyle();
+    const basemapGroups = Object.keys(metadata["mapbox:groups"]).filter(
+        (k) => {
+          const {name} = metadata["mapbox:groups"][k];
+          const matchedGroups = BASEMAP_GROUPS.map((rgr) =>
+              name?.toLowerCase()?.includes(rgr)
+          );
+
+          return matchedGroups.some((bool) => bool);
+        }
+    );
+
+    const basemapsWithMeta = basemapGroups.map((_groupId) => ({
+      ...metadata["mapbox:groups"][_groupId],
+      id: _groupId,
+    }));
+
+    const basemapToDisplay = basemapsWithMeta.find((_basemap) =>
+        _basemap.name.includes(basemap.basemapGroup)
+    );
+
+    if (basemapToDisplay) {
+      const basemapLayers = layers.filter((l) => {
+        const {metadata: layerMetadata} = l;
+        if (!layerMetadata) return false;
+        const gr = layerMetadata["mapbox:group"];
+        return basemapGroups.includes(gr);
+      });
+
+      basemapLayers.forEach((_layer) => {
+        const match = _layer.metadata["mapbox:group"] === basemapToDisplay.id;
+
+        if (!match) {
+          map.setLayoutProperty(_layer.id, "visibility", "none");
+        } else {
+          map.setLayoutProperty(_layer.id, "visibility", "visible");
+        }
+      });
+    }
+  }
+}
+
+const setLabels = () => {
+  const usingApiStyle = mapStore.usingApiStyle
+
+  if (!usingApiStyle) return
+
+  const basemap = mapStore.getSelectedApiBaseMap()
+  const showMapLabels = true
+  const labelsLang = "en"
+
+  const LABELS_GROUP = ["labels"];
+
+  if (map && map.getStyle()) {
+    const {layers, metadata} = map.getStyle();
+
+    const labelGroups = Object.keys(metadata["mapbox:groups"]).filter((k) => {
+      const {name} = metadata["mapbox:groups"][k];
+
+      const matchedGroups = LABELS_GROUP.filter((rgr) =>
+          name.toLowerCase().includes(rgr)
+      );
+
+      return matchedGroups.some((bool) => bool);
+    });
+
+    const labelsWithMeta = labelGroups.map((_groupId) => ({
+      ...metadata["mapbox:groups"][_groupId],
+      id: _groupId,
+    }));
+    const labelsToDisplay =
+        labelsWithMeta.find((_basemap) =>
+            _basemap.name.includes(basemap?.labelsGroup)
+        ) || {};
+
+    const labelLayers = layers.filter((l) => {
+      const {metadata: layerMetadata} = l;
+      if (!layerMetadata) return false;
+
+      const gr = layerMetadata["mapbox:group"];
+      return labelGroups.includes(gr);
+    });
+
+    labelLayers.forEach((_layer) => {
+      const match = _layer.metadata["mapbox:group"] === labelsToDisplay.id;
+      map.setLayoutProperty(
+          _layer.id,
+          "visibility",
+          match && showMapLabels ? "visible" : "none"
+      );
+      map.setLayoutProperty(_layer.id, "text-field", ["get", `name_${labelsLang}`]);
+
+      map.moveLayer(_layer.id);
+    });
+  }
+
+
+}
+
+watch(() => mapStore.selectedApiBaseMap, (newSelectedApiBaseMapId) => {
+  setAPIBaseMap(newSelectedApiBaseMapId);
+});
+
 
 watch(selectedDate, (newSelectedDate) => {
   const activeLayerId = mapStore.activeTimeLayer;
@@ -674,6 +849,7 @@ watch(() => mapStore.selectedBasemap, (newBasemap) => {
     }
   })
 });
+
 
 watch(() => mapStore.showBoundary, (newShowBoundary) => {
   const mapStyle = map.getStyle()

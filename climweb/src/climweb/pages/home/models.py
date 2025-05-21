@@ -351,9 +351,15 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
         ('vector_tile_layer', VectorTileLayerBlock(label=_("Vector Tile Layer"), icon="map")),
     ], null=True, blank=True, max_num=5, verbose_name=_("Map Layers"))
     
+    show_level_1_boundaries = models.BooleanField(default=False, verbose_name=_("Show Level 1 Boundaries"))
+    use_geomanager_basemaps = models.BooleanField(default=False, verbose_name=_("Use Geomanager Basemaps, if set"))
+    
     edit_handler = TabbedInterface([
         ObjectList([
-            
+            MultiFieldPanel([
+                FieldPanel("show_level_1_boundaries"),
+                FieldPanel("use_geomanager_basemaps"),
+            ], heading=_("Boundary Settings"), ),
             MultiFieldPanel([
                 FieldPanel("show_warnings_layer"),
                 FieldPanel("warnings_layer_display_name"),
