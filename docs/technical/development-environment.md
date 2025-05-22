@@ -33,20 +33,20 @@ nano .env
 4. Build the Docker images
 
 ```bash
-docker compose -f docker-compose-dev.yml build
+docker compose -f docker-compose.dev.yml build
 ```
 
 5. Start the containers
 
 ```bash
-docker compose -f docker-compose-dev.yml up
+docker compose -f docker-compose.dev.yml up
 ```
 
 6. Create superuser. You can open a new terminal, navigate to the project root and run the command below to create a
    superuser
 
 ```bash
-docker compose -f docker-compose-dev.yml exec climweb_dev climweb createsuperuser
+docker compose -f docker-compose.dev.yml exec climweb_dev climweb createsuperuser
 ```
 
 ### Environment Variables
