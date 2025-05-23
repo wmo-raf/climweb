@@ -12,7 +12,6 @@ import dj_database_url
 import django.conf.locale
 import environ
 from django.core.exceptions import ImproperlyConfigured
-from signxml import SignatureMethod
 
 from climweb import VERSION
 from climweb.config.telemetry.utils import otel_is_enabled
@@ -583,12 +582,6 @@ if CAP_MQTT_SECRET_KEY:
         raise ImproperlyConfigured("CAP_MQTT_SECRET_KEY must be 44 characters long")
 
 CAP_WIS2BOX_INTERNAL_TOPIC = env.str("CAP_WIS2BOX_INTERNAL_TOPIC", default="wis2box/cap/publication")
-
-if CAP_SIGNATURE_METHOD:
-    assert hasattr(SignatureMethod, CAP_SIGNATURE_METHOD), f"Invalid signature method '{CAP_SIGNATURE_METHOD}'. " \
-                                                           f"Must be one of " \
-                                                           f"{list(SignatureMethod.__members__.keys())}"
-    CAP_SIGNATURE_METHOD = SignatureMethod[CAP_SIGNATURE_METHOD]
 
 DEFAULT_WAGTAILIMAGES_EXTENSIONS = ['png', 'jpg', 'avif', 'gif', 'jpeg', 'webp']
 WAGTAILIMAGES_EXTENSIONS = env.list("WAGTAILIMAGES_EXTENSIONS", default=DEFAULT_WAGTAILIMAGES_EXTENSIONS)
