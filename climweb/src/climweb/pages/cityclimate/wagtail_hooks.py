@@ -27,10 +27,10 @@ def urlconf_boundarymanager():
 
 
 @hooks.register('register_page_listing_buttons')
-def page_listing_buttons(page, page_perms, next_url=None):
+def page_listing_buttons(page, user, next_url=None):
     if isinstance(page, CityClimateDataPage):
         url = reverse("cityclimate_data_checklist", args=[page.pk, ])
-        yield wagtail_admin_widgets.PageListingButton(
+        yield wagtail_admin_widgets.ListingButton(
             "Load Data",
             url,
             priority=50

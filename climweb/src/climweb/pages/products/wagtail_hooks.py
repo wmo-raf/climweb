@@ -15,7 +15,7 @@ def urlconf_products():
 
 
 @hooks.register('register_page_listing_buttons')
-def page_listing_buttons(page, page_perms, next_url=None):
+def page_listing_buttons(page, user, next_url=None):
     if isinstance(page, ProductPage):
         url = reverse("product_layer_integration", args=[page.pk, ])
         yield wagtail_admin_widgets.PageListingButton(
