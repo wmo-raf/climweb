@@ -92,7 +92,7 @@ NMHSs that have adopted ClimWeb across Africa:
 
 Read more from the user guide - [https://climweb.readthedocs.io/](https://climweb.readthedocs.io/)
 
-## Technical & Development
+## 💻 Technical & Development
 
 For technical and local development details, please refer to
 the [Technical Guide](https://climweb.readthedocs.io/en/latest/_docs/technical/index.html) section of the documentation.
