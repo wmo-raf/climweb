@@ -1,4 +1,4 @@
-# Climweb Management Commands
+# Management Commands
 
 ## Resetting login attempts and lockouts
 
@@ -6,7 +6,7 @@ Climweb uses [Django Axes](https://django-axes.readthedocs.io/en/latest/) to man
 
 An account is locked when a user has failed to login too many times.
 
-![Climweb locked account](./images/locked-account.png)
+![Climweb locked account](../../_static/images/technical/locked-account.png "Climweb locked account")
 
 This means that the instructions on Django Axes' documentation for resetting login attempts and lockouts are applicable
 to Climweb as well.

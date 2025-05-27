@@ -1,76 +1,7 @@
-## Developing ClimWeb Plugins
+## Creating a Plugin
 
-### Plugin Overview
-
-ClimWeb Plugins are custom Wagtail apps that extend the functionality of ClimWeb. They can be used to add new features,
-modify existing ones, or integrate with external services.
-
-Some examples of what you can do with a Climweb plugin are:
-
-- Add new country specific modules, for example for data processing, payments integration etc.
-- Add new page types that are not available in the core Climweb installation.
-- Integrate with 3rd party APIs or software
-- Install custom postgres extensions, system packages, python dependencies
-- And much more!
-
-### Important Notes on Plugins
-
-- You should always make backups of your Climweb data before installing and using any plugin.
-- You should only ever install plugins from a trusted source
-- Ensure that you fully understand the plugins you are installing and using, as this entirely at your own risk.
-
-In this guide we dive into how to create a Climweb plugin, discuss the plugin architecture and give you sample
-plugins to get inspiration from.
-
-### Plugin Installation
-
-There are a few ways to install a plugin:
-
-#### Using and environment variable
-
-This method assumes you already have the Climweb docker compose services running.
-
-You can use the `CLIMWEB_PLUGIN_GIT_REPOS` env variables when using the Climweb docker images to install
-plugins on startup.
-
-- The `CLIMWEB_PLUGIN_GIT_REPOS` should be a comma separated list of `https git repo` urls which will be used to
-  download and install plugins on startup.
-
-After setting the environment variable, you can start the docker container using the following command:
-
-```sh
-docker compose up 
-```
-
-These variables will only trigger and installation when found on startup of the container. To uninstall a plugin you
-must still manually follow the instructions below.
-
-##### Caveats when installing into an existing container
-
-If you ever delete the container you’ve installed plugins into at runtime and re-create it, the new container is created
-from the base climweb docker image which does not have any plugins installed.
-
-However, when a plugin is installed at runtime or build time it is stored in the `CLIMWEB_PLUGIN_DIR`which by default is
-`/climweb/plugins` container folder which should be mounted inside a docker volume. On startup if a plugin is found in
-this directory which has not yet been installed into the current container it will be re-installed.
-
-As long as you re-use the same data volume, you should not lose any plugin data even if you remove and re-create the
-containers. The only effect is on initial container startup you might see the plugins re-installing themselves if you
-re-created the container from scratch.
-
-#### Uninstalling a plugin installed using an environment variable
-
-- It is highly recommended that you backup your data before uninstalling a plugin.
-
-- To uninstall a plugin you installed using one of `CLIMWEB_PLUGIN_GIT_REPOS`  you need to make sure
-  that you delete and recreate the container with the plugin removed from the corresponding environment variable. If you
-  fail to do so and just uninstall-plugin using exec and restart, the plugin will be re-installed after the restart as
-  the environment variable will still contain the old plugin
-
-#### Checking which plugins are already installed
-
-Use the `list-plugins` command or built in /climweb/plugins/list_plugins.sh script to check what plugins are currently
-installed.
+In this guide we will dive into how to create a Climweb plugin, discuss the plugin architecture and give an example
+plugin to get inspiration from and discuss how to publish your plugin.
 
 ### Plugin Architecture
 
@@ -184,8 +115,10 @@ Once you have installed Cookiecutter you can execute the following command to cr
 template. In this guide we will name our plugin “My Climweb Plugin”, however you can choose your own plugin name
 when prompted to by Cookiecutter.
 
-> The python module depends on your chosen plugin name. If we for example go with “My Climweb Plugin” the Django app
-> name should be my_climweb_plugin
+```{note}
+The python module depends on your chosen plugin name. If we for example go with “My Climweb Plugin” the Django app 
+name should be my_climweb_plugin
+```
 
 ```sh
 cookiecutter gh:wmo-raf/climweb --directory plugin-boilerplate
@@ -210,8 +143,10 @@ If your plugin needs to store state, you should only ever do this in:
 - The Redis being used by Climweb, but only for non-persistent state like a cache that is fine to be destroyed at any
   moment.
 
-> Never store any state in your plugin folder itself inside the container. This folder is deleted and recreated as part
-> of the plugin installation process and any state you store inside it can be lost.
+```{note}
+Never store any state in your plugin folder itself inside the container. This folder is deleted and recreated as part
+of the plugin installation process and any state you store inside it can be lost.
+```
 
 #### Adding Python Requirements
 
