@@ -1,6 +1,6 @@
 :hidetoc: 1
 
-Welcome to NMHS ClimWeb documentation
+Welcome to ClimWeb documentation
 ==================================
 
 .. image:: _static/images/home/cms_responsive.png
@@ -9,12 +9,12 @@ Downloadable pdf versions can be found at:
 
 .. admonition:: To download the PDF version of this guide use
    
-   * :download:`NMHS ClimWeb Manual (English) <https://nmhs-cms.readthedocs.io/_/downloads/en/latest/pdf/>`
-   * :download:`NMHS ClimWeb Manual (French) <https://nmhs-cms.readthedocs.io/_/downloads/fr/latest/pdf/>`
-   * :download:`NMHS ClimWeb Manual (Swahili) <https://nmhs-cms.readthedocs.io/_/downloads/sw/latest/pdf/>`
+   * :download:`ClimWeb Manual (English) <https://climweb.readthedocs.io/_/downloads/en/latest/pdf/>`
+   * :download:`ClimWeb Manual (French) <https://climweb.readthedocs.io/_/downloads/fr/latest/pdf/>`
+   * :download:`ClimWeb Manual (Swahili) <https://climweb.readthedocs.io/_/downloads/sw/latest/pdf/>`
 
 
-NMHS ClimWeb
+ClimWeb
 ---------
 
 .. toctree::
@@ -34,6 +34,7 @@ NMHS ClimWeb
    _docs/Manage-Mapviewer
    _docs/Mailing-Integrations
    _docs/Frequently-Asked-Questions
+   _docs/technical/index
    
    
 

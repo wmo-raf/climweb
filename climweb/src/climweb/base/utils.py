@@ -142,15 +142,19 @@ def get_country_info(country_iso):
 
 
 def get_latest_cms_release():
-    r = requests.get("https://api.github.com/repos/wmo-raf/nmhs-cms/releases/latest")
+    r = requests.get("https://api.github.com/repos/wmo-raf/climweb/releases/latest")
     r.raise_for_status()
     res = r.json()
     version = res.get("name")
     version = version.strip("v").strip("V")
+    body = res.get("body")
+    published_at = res.get("published_at")
     
     return {
         "version": version,
-        "html_url": res.get("html_url")
+        "html_url": res.get("html_url"),
+        "published_at": published_at,
+        "body": body,
     }
 
 

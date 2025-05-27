@@ -1,55 +1,4 @@
-## Local Development With Docker
-
-Below are instructions to run ClimWeb locally using Docker. This way, you can test the application make changes and
-contribute to the project.
-
-For production deployment, please visit https://github.com/wmo-raf/climweb-docker
-
-### Prerequisites
-
-- Docker + Docker Compose installed
-
-### Getting Started
-
-1. Clone the repository
-
-```bash
-git clone https://github.com/wmo-raf/climweb.git
-cd climweb
-```
-
-2. Copy the example environment file. See [Environment Variables](#environment-variables) for more details.
-
-```bash
-cp .env.sample .env
-```
-
-3. Edit the `.env` file and set the required environment variables.
-
-```bash
-nano .env
-```
-
-4. Build the Docker images
-
-```bash
-docker compose -f docker-compose-dev.yml build
-```
-
-5. Start the containers
-
-```bash
-docker compose -f docker-compose-dev.yml up
-```
-
-6. Create superuser. You can open a new terminal, navigate to the project root and run the command below to create a
-   superuser
-
-```bash
-docker compose -f docker-compose-dev.yml exec climweb_dev climweb createsuperuser
-```
-
-### Environment Variables
+# Environment Variables
 
 | Variable                             | Description                                                                                                                                                                                                                                          | Required | Default         | More Details                                                                                           |
 |:-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:----------------|:-------------------------------------------------------------------------------------------------------|
@@ -83,4 +32,4 @@ docker compose -f docker-compose-dev.yml exec climweb_dev climweb createsuperuse
 | BACKUP_VOLUME                        | Mounted docker volume path for persisting Backup dp and media files                                                                                                                                                                                  | YES      | ./climeb/backup |                                                                                                        |
 | WAGTAIL_NEWSLETTER_MAILCHIMP_API_KEY | When using the default Mailchimp backend, this setting specifies the API key. An API key can be obtained from the [Mailchimp website](https://us1.admin.mailchimp.com/account/api).                                                                  | NO       |                 |                                                                                                        |
 | WAGTAIL_NEWSLETTER_FROM_NAME         | When sending a newsletter, this value will appear as the email sender’s name.                                                                                                                                                                        | NO       |                 |                                                                                                        |
-| WAGTAIL_NEWSLETTER_REPLY_TO          | When sending a newsletter, this value will appear as the email sender’s address. Be sure to configure your email domain to allow the newsletter service to send emails on behalf of this address, otherwise they will likely be marked as spam.      | NO       |                 |    
+| WAGTAIL_NEWSLETTER_REPLY_TO          | When sending a newsletter, this value will appear as the email sender’s address. Be sure to configure your email domain to allow the newsletter service to send emails on behalf of this address, otherwise they will likely be marked as spam.      | NO       |                 |

@@ -1,7 +1,7 @@
 {% extends "wagtailadmin/base.html" %}
 {% load i18n %}
 {% load l10n %}
-{% load wagtailadmin_tags wagtailimages_tags static nmhs_cms_tags %}
+{% load wagtailadmin_tags wagtailimages_tags static nmhs_cms_tags markdownify %}
 {% block titletag %}
     {% blocktranslate trimmed with title=page.get_admin_display_title %}
         {{ title }}
@@ -73,16 +73,23 @@
                                 {% translate "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete" %}
                             </div>
                         {% else %}
-                            {% if cms_upgrade_hook_url %}
-                                <div class="upgrade-info">
+                            <div class="upgrade-info">
                                     <span style="margin-right: 4px">
                                         {% translate "ClimWeb upgrade available" %}!
                                     </span>
-                                    <a href="{{ latest_release.html_url }}" target="_blank"
-                                       rel="noopener noreferrer" style="text-decoration: underline">
-                                        {% translate "Release notes" %}
-                                    </a>
-                                </div>
+
+                                {% if latest_release.body %}
+                                    <div style="margin: 20px 0">
+                                        {{ latest_release.body|markdownify }}
+                                    </div>
+                                {% endif %}
+
+                                <a href="{{ latest_release.html_url }}" target="_blank"
+                                   rel="noopener noreferrer" style="text-decoration: underline">
+                                    {% translate "Release notes" %}
+                                </a>
+                            </div>
+                            {% if cms_upgrade_hook_url %}
                                 <div style="margin-top: 20px">
                                     <form method="POST"
                                           enctype="multipart/form-data">

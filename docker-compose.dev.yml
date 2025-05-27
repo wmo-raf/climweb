@@ -17,7 +17,7 @@ services:
         - UID=${UID}
         - GID=${GID}
     ports:
-      - "80:8000"
+      - "${CLIMWEB_DEV_PORT:-8000}:8000"
     volumes:
       - ./climweb:/climweb/web
 

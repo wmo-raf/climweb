@@ -2,9 +2,8 @@
 
 ## CAP Warning Composer Features
 
-
 The Alertwise tool is a solution that provides a range of functionalities to support the NMHS in seamlessly issuing
-CAP. It has been developed with an aim of increasing the adoption of CAP by NMHS in Africa. 
+CAP. It has been developed with an aim of increasing the adoption of CAP by NMHS in Africa.
 
 ![CAP Example](../../_static/images/cap/cap_example.png "CAP Example")
 

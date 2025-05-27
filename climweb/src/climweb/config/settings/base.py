@@ -2,7 +2,6 @@
 Django settings for climweb project
 """
 
-import base64
 import importlib
 import os
 from email.utils import getaddresses
@@ -11,8 +10,6 @@ from pathlib import Path
 import dj_database_url
 import django.conf.locale
 import environ
-from django.core.exceptions import ImproperlyConfigured
-from signxml import SignatureMethod
 
 from climweb import VERSION
 from climweb.config.telemetry.utils import otel_is_enabled
@@ -153,6 +150,7 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_totp',
     'django_vue_utilities',
     'wagtail_newsletter',
+    'markdownify',
 ]
 
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -199,6 +197,8 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     
     'wagtail_2fa.middleware.VerifyUserPermissionsMiddleware',
+    
+    "allauth.account.middleware.AccountMiddleware",
     
     # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
     # It only formats user lockout messages and renders Axes lockout responses
@@ -468,23 +468,6 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 WAGTAILDOCS_DOCUMENT_MODEL = 'base.CustomDocumentModel'
 WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
-# AUTH STUFF
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
-ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
-ACCOUNT_PRESERVE_USERNAME_CASING = False
-ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-ACCOUNT_USERNAME_BLACKLIST = ["admin", "god", "superadmin", "staff"]
-ACCOUNT_USERNAME_MIN_LENGTH = 3
-
 ONLINE_SHARE_CONFIG = [
     {
         "name": "Facebook",
@@ -569,32 +552,15 @@ CAP_PRIVATE_KEY_PATH = env.str("CAP_PRIVATE_KEY_PATH", default="")
 CAP_SIGNATURE_METHOD = env.str("CAP_SIGNATURE_METHOD", default="RSA_SHA256")
 CAP_MQTT_SECRET_KEY = env.str("CAP_MQTT_SECRET_KEY", default="")
 CAP_LIST_PAGE_PARENT_PAGE_TYPES = ["home.HomePage", ]  # can only add CAPListPage the home page
-MAX_CAP_LIST_PAGE_COUNT = 1  # can only have one CAPListPage
-
-if CAP_MQTT_SECRET_KEY:
-    try:
-        base64.urlsafe_b64decode(CAP_MQTT_SECRET_KEY)
-    except Exception as e:
-        raise ImproperlyConfigured(f"CAP_MQTT_SECRET_KEY must be a base64 encoded string. {e}")
-    
-    if len(CAP_MQTT_SECRET_KEY) != 44:
-        raise ImproperlyConfigured("CAP_MQTT_SECRET_KEY must be 44 characters long")
-
+CAP_MAX_LIST_PAGE_COUNT = 1  # can only have one CAPListPage
 CAP_WIS2BOX_INTERNAL_TOPIC = env.str("CAP_WIS2BOX_INTERNAL_TOPIC", default="wis2box/cap/publication")
-
-if CAP_SIGNATURE_METHOD:
-    assert hasattr(SignatureMethod, CAP_SIGNATURE_METHOD), f"Invalid signature method '{CAP_SIGNATURE_METHOD}'. " \
-                                                           f"Must be one of " \
-                                                           f"{list(SignatureMethod.__members__.keys())}"
-    CAP_SIGNATURE_METHOD = SignatureMethod[CAP_SIGNATURE_METHOD]
+CAP_ALLOW_EDITING = env.bool("CAP_ALLOW_EDITING", default=False)
 
 DEFAULT_WAGTAILIMAGES_EXTENSIONS = ['png', 'jpg', 'avif', 'gif', 'jpeg', 'webp']
 WAGTAILIMAGES_EXTENSIONS = env.list("WAGTAILIMAGES_EXTENSIONS", default=DEFAULT_WAGTAILIMAGES_EXTENSIONS)
 
 DEFAULT_WAGTAILDOCS_EXTENSIONS = ['pdf', 'docx', 'xlsx', 'pptx', 'csv', 'odt', 'rtf', 'txt', 'key', 'zip', 'doc']
 WAGTAILDOCS_EXTENSIONS = env.list("WAGTAILDOCS_EXTENSIONS", default=DEFAULT_WAGTAILDOCS_EXTENSIONS)
-
-CAP_ALLOW_EDITING = env.bool("CAP_ALLOW_EDITING", default=False)
 
 REDIS_HOST = env.str("REDIS_HOST", "redis")
 REDIS_PORT = env.str("REDIS_PORT", "6379")
@@ -705,3 +671,9 @@ VUE_FRONTEND_STATIC_PATH = 'vue'
 WAGTAIL_NEWSLETTER_MAILCHIMP_API_KEY = env("WAGTAIL_NEWSLETTER_MAILCHIMP_API_KEY", default="")
 WAGTAIL_NEWSLETTER_FROM_NAME = env("WAGTAIL_NEWSLETTER_FROM_NAME", default="")
 WAGTAIL_NEWSLETTER_REPLY_TO = env("WAGTAIL_NEWSLETTER_REPLY_TO", default="")
+
+MARKDOWNIFY = {
+    "default": {
+        "BLEACH": False
+    }
+}

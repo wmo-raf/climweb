@@ -295,6 +295,7 @@ class BaseLayerBlock(blocks.StructBlock):
     display_name = blocks.CharBlock(max_length=100, required=False,
                                     help_text=_("Name to display on the map. "
                                                 "Leave blank to use the original layer name"))
+    enabled = blocks.BooleanBlock(default=True, required=False, label=_("Enabled"))
     default = blocks.BooleanBlock(default=False, required=False, label=_("Show on map by default ?"),
                                   help_text=_("You can only select one layer to be shown on the map by default. "
                                               "If multiple layers are selected, only the first one will be shown"))
@@ -338,7 +339,7 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
                                                           verbose_name=_("Cluster Radius"),
                                                           help_text=_("Radius of each cluster if clustering is "
                                                                       "enabled"))
-    show_forecast_attribution = models.BooleanField(default=True, verbose_name=_("Show Location Forecast Attribution"))
+    show_forecast_attribution = models.BooleanField(default=False, verbose_name=_("Show Location Forecast Attribution"))
     zoom_locations = StreamField([
         ("boundary_block", AreaBoundaryBlock(label=_("Admin Boundary"))),
         ("polygon_block", AreaPolygonBlock(label=_("Draw Polygon"))),
@@ -350,9 +351,15 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
         ('vector_tile_layer', VectorTileLayerBlock(label=_("Vector Tile Layer"), icon="map")),
     ], null=True, blank=True, max_num=5, verbose_name=_("Map Layers"))
     
+    show_level_1_boundaries = models.BooleanField(default=False, verbose_name=_("Show Level 1 Boundaries"))
+    use_geomanager_basemaps = models.BooleanField(default=False, verbose_name=_("Use Geomanager Basemaps, if set"))
+    
     edit_handler = TabbedInterface([
         ObjectList([
-            
+            MultiFieldPanel([
+                FieldPanel("show_level_1_boundaries"),
+                FieldPanel("use_geomanager_basemaps"),
+            ], heading=_("Boundary Settings"), ),
             MultiFieldPanel([
                 FieldPanel("show_warnings_layer"),
                 FieldPanel("warnings_layer_display_name"),

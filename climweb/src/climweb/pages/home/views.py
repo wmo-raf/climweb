@@ -1,6 +1,7 @@
 from adminboundarymanager.models import AdminBoundarySettings
 from django.http import JsonResponse
 from django.urls import reverse
+from geomanager.models import Category, VectorLayerIcon, VectorTileLayerIcon, GeomanagerSettings
 from geomanager.serializers import RasterFileLayerSerializer
 from geomanager.serializers.vector_tile import VectorTileLayerSerializer
 from geomanager.serializers.wms import WmsLayerSerializer
@@ -63,8 +64,35 @@ def home_map_settings(request):
         "locationForecastDateDisplayFormat": settings.location_forecat_date_display_format,
     })
     
+    # boundaries
+    config["showLevel1Boundaries"] = settings.show_level_1_boundaries
+    if settings.use_geomanager_basemaps:
+        gm_settings = GeomanagerSettings.for_request(request)
+        base_maps_data = []
+        tile_gl_source = gm_settings.tile_gl_source
+        if tile_gl_source:
+            # get base maps
+            for base_map in gm_settings.base_maps:
+                data = base_map.block.get_api_representation(base_map.value)
+                data.update({"id": base_map.id})
+                for key, value in base_map.value.items():
+                    if key == "image" and value:
+                        data.update({"image": get_full_url(request, value.file.url)})
+                
+                data.update({"mapStyle": get_full_url(request, tile_gl_source.map_style_url)})
+                base_maps_data.append(data)
+        
+        if base_maps_data:
+            config["basemaps"] = base_maps_data
+    
     dynamic_map_layers = []
     for index, block in enumerate(settings.map_layers):
+        
+        # check if the layer is enabled
+        enabled = block.value.get("enabled")
+        if not enabled:
+            continue
+        
         LayerSerializer = None
         if block.block_type == "raster_file_layer":
             LayerSerializer = RasterFileLayerSerializer
