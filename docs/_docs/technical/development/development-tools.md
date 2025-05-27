@@ -1,4 +1,4 @@
-# Development tools & Stack
+# Development tools
 
 ## Backend
 
@@ -8,7 +8,7 @@ Climweb uses PostgreSQL for persistent storage.
 
 PostGIS is an extension to PostgreSQL that adds support for geographic objects
 
-https://www.postgresql.org/
+[https://www.postgresql.org](https://www.postgresql.org)
 
 ### Django + Wagtail CMS
 
@@ -16,7 +16,7 @@ At the core of the system we run the Django framework. A popular framework was c
 to lower the barrier of creating custom modules that extend Climweb. We also looked for a batteries included,
 simple, and proven framework. Django was the obvious choice.
 
-https://www.djangoproject.com
+[https://www.djangoproject.com](https://www.djangoproject.com)
 
 Wagtail is an open-source content management system (CMS) built on top of Django, a popular Python web framework. It's
 designed to be developer-friendly, flexible, and provide a modern, intuitive editing experience for content creators.
@@ -24,14 +24,14 @@ designed to be developer-friendly, flexible, and provide a modern, intuitive edi
 The user interface of the Wagtail Admin and the overall editing experience provided by Wagtail made it a good choice for
 Climweb, as it allows for easy content creation and management.
 
-https://wagtail.org/
+[https://wagtail.org](https://wagtail.org)
 
 ### Django REST framework
 
 To quickly create endpoints, handle external authentication, object serialization, validation,
 and do many more things we use Django REST Framework.
 
-https://www.django-rest-framework.org/
+[https://www.django-rest-framework.org](https://www.django-rest-framework.org)
 
 ### Internationalization
 
@@ -80,4 +80,4 @@ We mostly use Font Awesome for SVG icons. Font Awesome is a popular icon library
 vector icons. We use [wagtail-font-awesome-svg](https://github.com/wagtail-nest/wagtail-font-awesome-svg), a Wagtail
 package that allows us to use Font Awesome icons in Wagtail projects.
 
-https://fontawesome.com/
+[https://fontawesome.com](https://fontawesome.com)

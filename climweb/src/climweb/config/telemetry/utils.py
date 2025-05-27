@@ -142,7 +142,7 @@ def climweb_trace(tracer):
     
     if not isinstance(tracer, Tracer):
         raise Exception(
-            f"Must provider a tracer to baserow_trace, instead you gave me a "
+            f"Must provider a tracer to climweb_trace, instead you gave me a "
             f"{type(tracer)}. Get "
             "one using "
             "`tracer = trace.get_tracer(__name__)`."

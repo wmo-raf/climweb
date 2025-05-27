@@ -27,12 +27,6 @@ html_theme_options = {
         "Packages|https://github.com/wmo-raf",
         "Developers|https://github.com/wmo-raf/climweb-docker"
     ]),
-    "logo": "images/logo.svg",
-    "logo_alt": "NMHS",
-    "logo_height": 50,
-    "logo_url": "/",
-    "logo_width": 110,
-
 }
 
 html_css_files = ["css/theme.overrides.css"]
@@ -240,7 +234,7 @@ html_show_sphinx = True
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "NMHSCMSdoc"
+htmlhelp_basename = "Climwebdoc"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -262,7 +256,7 @@ htmlhelp_basename = "NMHSCMSdoc"
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ("index", "NMHS_CMS.tex", "NMHS ClimWeb Documentation", "ORGANISATION", "manual"),
+    ("index", "climweb.tex", "ClimWeb Documentation", "ORGANISATION", "manual"),
 ]
 
 # with open('./cover.tex', 'r') as cover_page_file:
@@ -294,7 +288,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", "NMHS ClimWeb", "NMHS ClimWeb Documentation", ["ORGANISATION"], 1)]
+man_pages = [("index", "ClimWeb", "ClimWeb Documentation", ["ORGANISATION"], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -307,9 +301,8 @@ man_pages = [("index", "NMHS ClimWeb", "NMHS ClimWeb Documentation", ["ORGANISAT
 texinfo_documents = [
     (
         "index",
-        "NMHS ClimWeb",
-        "NMHS ClimWeb Documentation",
-        "NMHS ClimWeb",
+        "ClimWeb",
+        "ClimWeb Documentation",
         "One line description of project.",
         "Miscellaneous",
     ),

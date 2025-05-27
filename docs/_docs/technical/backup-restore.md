@@ -1,4 +1,4 @@
-# Climweb Backup and Restore Guide
+# Backup and Restore Guide
 
 ## Backup Mechanism
 
