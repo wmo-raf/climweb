@@ -1,143 +1,122 @@
-from datetime import datetime
-from dateutil import parser
+import datetime
 
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from forecastmanager.models import City
 from wagtail.admin import messages
 from wagtail.admin.auth import user_passes_test, user_has_any_page_permission
 from wagtail.api.v2.utils import get_full_url
 from wagtail_modeladmin.helpers import AdminURLHelper
-from .constants import DATE_FORMAT_CHOICES_PARSE_PARAMS
 
+from .constants import DATE_FORMAT_CHOICES_PARSE_PARAMS
 from .forms import ClimateDataForm
 from .models import CityClimateDataPage, DataValue
+from .utils import get_climatology_page_data
 
 
 @user_passes_test(user_has_any_page_permission)
 def pre_load_climate_data(request, page_id):
     template = "cityclimate/cities_climate_data_checklist.html"
     context = {}
-
+    
     page = CityClimateDataPage.objects.filter(pk=page_id)
     if page.exists():
         page = page.first().specific
-
+    
     context.update({"page": page})
-
+    
     cities_list = []
     cities = City.objects.all()
     cities_with_data_count = 0
-
+    
     for city in cities:
-        load_data_url = reverse("cityclimate_load_data", args=[page.pk])
-        load_data_url = load_data_url + f"?city_id={city.pk}"
-
+        load_data_url = reverse("cityclimate_load_data", args=[page.pk, city.id])
+        
         city_info = {
             "city": city,
             "has_data": False,
-            "load_data_url": get_full_url(request, load_data_url)
+            "load_data_url": get_full_url(request, load_data_url),
+            "delete_data_url": reverse("confirm_delete_city_climate_data", args=[page.pk, city.id]),
+            "view_data_url": reverse("view_city_climate_data", args=[page.pk, city.id])
         }
-
+        
         test_value = DataValue.objects.filter(city=city, parameter__page_id=page.pk).first()
         if test_value:
             city_info.update({"has_data": True})
             cities_with_data_count += 1
-
+        
         cities_list.append(city_info)
-
+    
     context.update({"cities_list": cities_list, "cities_with_data_count": cities_with_data_count})
-
+    
     if not cities_list:
         city_admin_helper = AdminURLHelper(City)
         url = city_admin_helper.get_action_url("index")
         context.update({"cities_list_url": url})
-
+    
     return render(request, template_name=template, context=context)
 
 
 @user_passes_test(user_has_any_page_permission)
-def load_climate_data(request, page_id):
+def load_city_climate_data(request, page_id, city_id):
+    page = get_object_or_404(CityClimateDataPage, pk=page_id).specific
+    selected_city = get_object_or_404(City, pk=city_id)
+    
     template = "cityclimate/load_climate_data.html"
     context = {}
-
-    city_id = request.GET.get("city_id")
-    selected_city = None
-
-    if city_id:
-        selected_city = City.objects.get(pk=city_id)
-
+    
     context.update({
         "city": selected_city
     })
-
-    page = CityClimateDataPage.objects.filter(pk=page_id)
-
-    if page.exists():
-        page = page.first().specific
-
+    
     parameters = page.data_parameters.all()
     context.update({"parameters": parameters})
-
+    
     if request.POST:
         form = ClimateDataForm(request.POST, request.FILES)
-
+        
         if form.is_valid():
-            city = form.cleaned_data.get("city")
-            data = form.cleaned_data.get("data")
-            date_format = form.cleaned_data.get("date_format")
-
-            records_to_update = []
-            records_to_create = []
-
-            for value in data:
-                date_str = value.get("date")
-                parse_params = DATE_FORMAT_CHOICES_PARSE_PARAMS.get(date_format)
-
-                if parse_params:
-                    date_obj = parser.parse(date_str, **parse_params)
-                else:
-                    date_obj = parser.parse(date_str)
-
-                date_val = date_obj.strftime("%Y-%m-%d")
-
-                for parameter in parameters:
-                    if value.get(parameter.slug):
-                        val = value.get(parameter.slug)
-                        unique_data = {"date": date_val, "city": city, "parameter": parameter}
-                        existing_record = DataValue.objects.filter(**unique_data)
-
-                        if existing_record.exists():
-                            existing_record = existing_record.first()
-                            records_to_update.append({**unique_data, "value": val, "pk": existing_record.pk})
-                        else:
-                            records_to_create.append({**unique_data, "value": val})
-
-            # bulk create or update. Saves database round trips
             try:
-                # update
-                if records_to_update:
-                    DataValue.objects.bulk_update(
-                        [
-                            DataValue(**values) for values in records_to_update
-                        ],
-                        ["value"],
-                        batch_size=1000
-                    )
-                # create
-                if records_to_create:
-                    DataValue.objects.bulk_create(
-                        [DataValue(**values) for values in records_to_create], batch_size=1000
-                    )
-
+                city = form.cleaned_data.get("city")
+                data = form.cleaned_data.get("data")
+                file_date_format = form.cleaned_data.get("date_format")
+                date_format = DATE_FORMAT_CHOICES_PARSE_PARAMS.get(file_date_format).get("date_format")
+                
+                records_to_create = []
+                
+                # delete all existing data for the city and parameters
+                DataValue.objects.filter(city=city, parameter__in=parameters).delete()
+                
+                for value in data:
+                    date_str = str(value.get("date"))
+                    date_val = datetime.datetime.strptime(date_str, date_format).date()
+                    
+                    for parameter in parameters:
+                        if value.get(parameter.slug):
+                            val = value.get(parameter.slug)
+                            record_data = {"date": date_val, "city": city, "parameter": parameter, "value": val}
+                            records_to_create.append({**record_data})
+                
+                # bulk create. Saves database round trips
+                try:
+                    # create
+                    if records_to_create:
+                        DataValue.objects.bulk_create(
+                            [DataValue(**values) for values in records_to_create], batch_size=1000
+                        )
+                except Exception as e:
+                    form.add_error(None, f"An error occurred while saving data. {str(e)}")
+                    context.update({"form": form})
+                    return render(request, template_name=template, context=context)
+                
+                messages.success(request, "Data loaded successfully")
+                return redirect(reverse("cityclimate_data_checklist", args=(page.pk,)))
+            
             except Exception as e:
-                form.add_error(None, f"An error occurred while saving data. {str(e)}")
+                form.add_error(None, f"An error occurred while processing data. {str(e)}")
                 context.update({"form": form})
                 return render(request, template_name=template, context=context)
-
-            messages.success(request, "Data loaded successfully")
-            return redirect(reverse("cityclimate_data_checklist", args=(page.pk,)))
         else:
             context.update({"form": form})
             return render(request, template_name=template, context=context)
@@ -147,41 +126,83 @@ def load_climate_data(request, page_id):
         if selected_city:
             initial_data.update({"city": selected_city})
             form_kwargs.update({"city": selected_city})
-
+        
         form_kwargs.update({
             "initial": initial_data
         })
-
+        
         form = ClimateDataForm(**form_kwargs)
         context["form"] = form
-
+    
     return render(request, template_name=template, context=context)
+
+
+def view_city_climate_data(request, page_id, city_id):
+    page = get_object_or_404(CityClimateDataPage, pk=page_id).specific
+    city = get_object_or_404(City, pk=city_id)
+    
+    parameters = page.data_parameters.all()
+    page_data = get_climatology_page_data(page, city_id, date_as_str=False, param_key_field="id", params_as_dict=True)
+    
+    context = {
+        "page": page,
+        "city": city,
+        "parameters": parameters,
+        "page_data_values": page_data,
+        "header_str": f"Uploaded Data for {city.name}",
+        "template_date_format": page.template_date_format,
+        "delete_url": reverse("confirm_delete_city_climate_data", args=[page_id, city_id]),
+        "index_url": reverse("cityclimate_data_checklist", args=[page_id]),
+        "update_url": reverse("cityclimate_load_data", args=[page_id, city_id])
+    }
+    
+    return render(request, "cityclimate/view_city_climate_data.html", context)
+
+
+def confirm_delete_city_climate_data(request, page_id, city_id):
+    page = get_object_or_404(CityClimateDataPage, pk=page_id)
+    
+    city = get_object_or_404(City, pk=city_id)
+    
+    context = {
+        "header_str": "Delete Data for {}".format(city.name),
+        "city": city,
+        "page": page.specific,
+        "delete_url": reverse("delete_city_climate_date", args=[page_id, city.id]),
+        "index_url": reverse("cityclimate_data_checklist", args=[page_id])
+    }
+    
+    return render(request, "cityclimate/confirm_delete_city_climate_data.html", context)
+
+
+def delete_city_climate_date(request, page_id, city_id):
+    if request.method == "GET":
+        return redirect(reverse("cityclimate_data_checklist", args=(page_id,)))
+    
+    city_id = get_object_or_404(City, pk=city_id)
+    
+    page = CityClimateDataPage.objects.filter(pk=page_id)
+    
+    if page.exists():
+        page = page.first().specific
+    
+    parameters = page.data_parameters.all()
+    
+    DataValue.objects.filter(city_id=city_id, parameter__in=parameters).delete()
+    
+    messages.success(request, "Data deleted successfully")
+    
+    return redirect(reverse("cityclimate_data_checklist", args=(page_id,)))
 
 
 def climate_data(request, page_id):
     city_id = request.GET.get("city_id")
-
+    
     page = CityClimateDataPage.objects.filter(pk=page_id)
-
+    
     if page.exists():
         page = page.first().specific
-
-    parameters = page.data_parameters.all()
-    if city_id:
-        param_values = DataValue.objects.filter(city_id=city_id, parameter__in=parameters)
-    else:
-        param_values = DataValue.objects.filter(parameter__in=parameters)
-
-    values_dict = {}
-
-    for value in param_values:
-        date_str = value.date.isoformat()
-        if not values_dict.get(date_str):
-            values_dict[date_str] = {}
-        values_dict[date_str].update({value.parameter.slug: value.value, "city": value.city.name,
-                                      "coordinates": [float(coordinate) for coordinate in value.city.coordinates if
-                                                      coordinate]})
-
-    values = [{"date": key, **values_dict[key]} for key in values_dict.keys()]
-
-    return JsonResponse(values, safe=False)
+    
+    page_data = get_climatology_page_data(page, city_id, date_as_str=False)
+    
+    return JsonResponse(page_data, safe=False)

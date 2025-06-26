@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n wagtailiconchooser_tags %}
 
 <style>
     ul.alphabet-container {
@@ -66,14 +66,16 @@
                             </h5>
                         </a>
                         <div class="result-list-item-snippet">
-                            {{ term_page.brief_definition|truncatewords:25 }}
+                            {% if term_page.listing_summary %}
+                                {{ term_page.listing_summary }}
+                            {% endif %}
                         </div>
                         <div class="result-list-item-meta">
                             <span></span>
-                            <a class="result-list-item-more read" href="{{ term_page.url }}">
+                            <a class="result-list-item-more read" href="{{ term_page.url }}" style="display: flex;">
                                 {% translate "More detail" %}
-                                <span class="icon">
-                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-right-full" %}
                                 </span>
                             </a>
                         </div>

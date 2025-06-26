@@ -432,6 +432,21 @@ img#work-map {
     max-height: 725px
 }
 
+
+.btn-icon {
+    height: 20px;
+    width: 20px;
+    margin-left: 8px;
+    color: currentColor;
+}
+
+.btn-icon svg {
+    height: 100%;
+    width: 100%;
+    fill: currentColor;
+}
+
+
 .checkbox-container {
     display: block;
     position: relative;
@@ -772,7 +787,6 @@ img#work-map {
     margin-left: 4px;
     font-size: 24px;
     text-align: center;
-    line-height: 1.4;
     border-radius: var(--border-radius);
     border: none;
     outline: none;
@@ -1142,9 +1156,24 @@ img#work-map {
     color: #484848
 }
 
+.icon svg {
+    height: 100%;
+    width: 100%;
+    fill: currentColor;
+}
+
+.button .share-icon, .share-icon {
+    height: 14px;
+    width: 14px;
+}
 
 .more-container {
     padding-top: 40px
+}
+
+.more-container .more {
+    display: flex;
+    align-items: center;
 }
 
 
@@ -2225,14 +2254,6 @@ p.footer-link {
     height: 100%;
 }
 
-li {
-    list-style: disc !important;
-    list-style-position: inside !important;
-}
-
-li a, p a {
-    color: var(--primary-hover-color) !important;
-}
 
 ul.warning-timeline li {
     list-style: none !important;

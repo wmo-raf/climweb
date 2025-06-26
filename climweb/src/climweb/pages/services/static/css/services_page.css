@@ -83,12 +83,12 @@
     color: white;
 }
 
-.accordion__item.active i.fa-sort-down {
+.accordion__item.active .arrow-icon {
     transform: rotate(180deg);
     transition: transform 0.5s ease-in-out;
 }
 
-.accordion__item:not(.active) i.fa-sort-down {
+.accordion__item:not(.active) .arrow-icon {
     transform: rotate(0deg);
     transition: transform 0.5s ease-in-out;
 }

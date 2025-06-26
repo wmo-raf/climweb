@@ -1,0 +1,18 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n l10n wagtailadmin_tags wagtailimages_tags static %}
+{% block titletag %}
+    {% translate "Confirm delete" %}
+{% endblock %}
+
+{% block content %}
+    {% include "wagtailadmin/shared/header.html" with title=header_str icon="bin" %}
+
+    <div class="nice-padding">
+        <p>{% translate "Are you sure you want to delete this data" %}</p>
+        <form action="{{ delete_url }}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="{% trans 'Yes, delete' %}" class="button serious"/>
+            <a href="{{ index_url }}" class="button button-secondary">{% trans "No, don't delete" %}</a>
+        </form>
+    </div>
+{% endblock %}

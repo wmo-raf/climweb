@@ -8,16 +8,15 @@
 {% block body_class %}{% endblock %}
 
 {% block content %}
-    <main class="is-index">
-
+    <main>
         {% include 'hero.html' with page=page %}
         {% if featured_news %}
-            <section class="featured-news-section">
+            <section class="featured-news-section" style="background-color: #f8f9fb;">
                 <div class="container">
                     <h2 class="section-title center">
                         {% translate "Featured News" %}
                     </h2>
-                    {% include 'featured_item_include.html' with item_image_src=featured_news.feature_img_src item_title=featured_news.title item_text=featured_news.body item_url=featured_news.url item_meta=featured_news.date item_tags=featured_news.tags %}
+                    {% include 'featured_item_include.html' with item_image_src=featured_news.card_props.card_image item_title=featured_news.title item_text=featured_news.body item_url=featured_news.url item_meta=featured_news.date item_tags=featured_news.tags %}
                 </div>
             </section>
         {% endif %}
@@ -51,9 +50,6 @@
                 //for  smaller devices
                 $('.results-filter .js-accordion-item').removeClass('active');
             }
-
-            // initialize filter accordion
-            accordion.init({speed: 300, oneOpen: false});
 
             const listButton = $("#list-view-button");
             const gridButton = $("#grid-view-button");

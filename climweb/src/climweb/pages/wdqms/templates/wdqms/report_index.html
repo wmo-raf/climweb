@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load static  i18n%}
+{% load static  i18n wagtailiconchooser_tags%}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
@@ -91,8 +91,11 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <span class="icon is-left">
-                                    <i class="fa-solid fa-location-dot"></i>
+                                <span class="icon is-left" style="height: 24px">
+
+                                    {% svg_icon name="location" %}
+
+
                                 </span>
                             </div>
 
@@ -105,8 +108,9 @@
                                         
                                     </select>
                                 </div>
-                                <span class="icon is-left">
-                                    <i class="fa-solid fa-gear"></i>
+                                <span class="icon is-left" style="height: 20px">
+                                {% svg_icon name="cog" %}
+
                                 </span>
                             </div>
 

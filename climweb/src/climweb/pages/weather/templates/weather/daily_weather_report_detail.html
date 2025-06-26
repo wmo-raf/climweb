@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailimages_tags wagtailcore_tags i18n %}
+{% load static wagtailimages_tags wagtailcore_tags i18n wagtailiconchooser_tags %}
 
 {% block body_class %}weather-report{% endblock %}
 
@@ -24,7 +24,7 @@
                         </h4>
                         <div class="report-item-date">
                             <span class="icon">
-                                <i class="fas fa-calendar"></i>
+                                  {% svg_icon name="calendar-alt" %}
                             </span>
                             <span class="date">
                                 {{ page.summary_date }}
@@ -64,25 +64,19 @@
                         </h4>
                         <div class="report-item-date">
                             <span class="icon">
-                                <i class="fas fa-calendar"></i>
+                                  {% svg_icon name="calendar-alt" %}
                             </span>
-
                             <span class="date">
                                 {{ page.forecast_date }}
                             </span>
                         </div>
-
                         <div>
                             {{ page.forecast_description|richtext }}
                         </div>
                     </div>
                 {% endif %}
             </div>
-
-
         </section>
-
-
     </main>
 {% endblock content %}
 

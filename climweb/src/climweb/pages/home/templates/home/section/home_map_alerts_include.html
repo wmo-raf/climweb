@@ -1,7 +1,7 @@
 {% load wagtailiconchooser_tags i18n %}
 
-<div class="alerts-item-wrapper">
-    {% if active_alert_info|length > 0 %}
+<div class="alerts-item-wrapper" data-alerts-available="{{ has_alerts|yesno:"true,false" }}">
+    {% if has_alerts %}
         {% for alert_info in active_alert_info %}
             <a href="{{ alert_info.url }}" class="alert-link">
                 <div class="alert-item"
@@ -26,8 +26,8 @@
                         </div>
                     </div>
                     <div>
-                        <span class="icon">
-                            <i class="fa fa-arrow-right"></i>
+                        <span class="icon btn-icon">
+                            {% svg_icon name="arrow-right-full" %}
                         </span>
                     </div>
                 </div>

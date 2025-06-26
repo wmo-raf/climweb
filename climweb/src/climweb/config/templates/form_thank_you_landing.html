@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags i18n %}
+{% load static wagtailcore_tags i18n wagtailiconchooser_tags %}
 {% wagtail_site as current_site %}
 
 {% block body_class %}thank_you_page{% endblock %}
@@ -37,8 +37,8 @@
                     <div class="back-link-container" style="text-align:center">
                         <a href="{{ current_site.root_url }}"
                            class="button is-rounded is-uppercase has-text-weight-bold back-button">
-                            <span class="icon">
-                                <i class="fas fa-arrow-left"></i>
+                            <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-left" %}
                             </span>
                             <span>
                                 {% translate "Back to Homepage" %}

@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n wagtailiconchooser_tags %}
 
 <div class="results-view">
     <div class="results-list list-view">
@@ -19,8 +19,9 @@
                 <div style="padding-top: 12px">
                     <div style="padding: 5px 0">
                         <span class="icon">
-                            <i class="fas fa-calendar-plus"></i>
+                            {% svg_icon name="calendar-alt" %}
                         </span>
+
                         <span class="share-button-title">
                             {% translate "Posted On" %}:
                             <b>{{ tender.posting_date|date:"d M Y" }}</b>
@@ -29,7 +30,7 @@
 
                     <div style="padding: 5px 0">
                         <span class="icon">
-                            <i class="fas fa-clock"></i>
+                            {% svg_icon name="hourglass-half" %}
                         </span>
                         <span class="share-button-title">
                             {% translate "Closing On" %}:
@@ -39,7 +40,9 @@
                 </div>
                 <div class="tender-item-detail">
                     <div class="tender-item-snippet">
-                        {{ tender.description|richtext|truncatechars_html:200 }}
+                        {% if tender.listing_summary %}
+                            {{ tender.listing_summary }}
+                        {% endif %}
                     </div>
                     <div class="tender-item-meta">
                         <span class="tender-item-view-more">

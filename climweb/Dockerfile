@@ -2,7 +2,7 @@
 
 # use osgeo gdal ubuntu small 3.7 image.
 # pre-installed with GDAL 3.7.0 and Python 3.10.6
-FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.0
+FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.0 as base
 
 ARG UID
 ENV UID=${UID:-9999}
@@ -11,10 +11,18 @@ ENV GID=${GID:-9999}
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# We might be running as a user which already exists in this image. In that situation
-# Everything is OK and we should just continue on.
-RUN groupadd -g $GID climweb_docker_group || exit 0
+# Create or rename group to climweb_docker_group with desired GID
+RUN if getent group $GID > /dev/null; then \
+        existing_group=$(getent group $GID | cut -d: -f1); \
+        if [ "$existing_group" != "climweb_docker_group" ]; then \
+            groupmod -n climweb_docker_group "$existing_group"; \
+        fi; \
+    else \
+        groupadd -g $GID climweb_docker_group; \
+    fi
+
 RUN useradd --shell /bin/bash -u $UID -g $GID -o -c "" -m climweb_docker_user -l || exit 0
+
 ENV DOCKER_USER=climweb_docker_user
 
 ENV POSTGRES_VERSION=15
@@ -74,6 +82,12 @@ RUN --mount=type=cache,mode=777,target=$PIP_CACHE_DIR,uid=$UID,gid=$GID . /climw
 
 COPY --chown=$UID:$GID ./climweb /climweb/web
 
+# Create static and media directories
+RUN mkdir -p /climweb/web/src/climweb/static \
+    && mkdir -p /climweb/web/src/climweb/media \
+    && mkdir -p /climweb/web/src/climweb/backup \
+    && chown -R $UID:$GID /climweb/web/src/climweb
+
 # Create a tmp directory for the django to use
 RUN mkdir -p /climweb/tmp && chown -R $UID:$GID /climweb/tmp
 
@@ -95,6 +109,17 @@ RUN chmod a+x /climweb/web/docker/docker-entrypoint.sh && \
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/bin/bash", "/climweb/web/docker/docker-entrypoint.sh"]
 
+# Add the venv to the path. This ensures that the venv is always activated when the container starts.
+ENV PATH="/climweb/venv/bin:$PATH"
+
 ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.production'
 
 CMD ["gunicorn"]
+
+FROM base as dev
+
+USER $UID:$GID
+
+# Override env variables and initial cmd to start up in dev mode.
+ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev'
+CMD ["django-dev-no-attach"]

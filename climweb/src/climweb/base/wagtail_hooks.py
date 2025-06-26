@@ -1,3 +1,4 @@
+from alertwise.cap.utils import get_currently_active_alerts
 from django.conf import settings
 from django.contrib.auth.models import Permission
 from django.core.cache import cache
@@ -16,7 +17,8 @@ from wagtail_modeladmin.options import (
 from wagtailcache.cache import clear_cache
 
 from climweb.utils.version import get_main_version, check_version_greater_than_current
-from .models import Theme, ServiceCategory
+from .cap import create_cap_geomanager_dataset
+from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
 from .views import cms_version_view
 
@@ -94,14 +96,30 @@ def register_icons(icons):
         'wagtailfontawesomesvg/brands/flickr.svg',
         'wagtailfontawesomesvg/brands/telegram.svg',
         'wagtailfontawesomesvg/brands/whatsapp.svg',
+        'wagtailfontawesomesvg/solid/phone.svg',
+        'wagtailfontawesomesvg/solid/box-archive.svg',
+        'wagtailfontawesomesvg/solid/hourglass-start.svg',
+        'wagtailfontawesomesvg/solid/hourglass-end.svg',
+        'wagtailfontawesomesvg/solid/hourglass-half.svg',
+        'wagtailfontawesomesvg/solid/wallet.svg',
+        'wagtailfontawesomesvg/solid/table-list.svg',
+        'wagtailfontawesomesvg/solid/table-cells.svg',
+        'wagtailfontawesomesvg/solid/grip.svg',
+        'wagtailfontawesomesvg/solid/sitemap.svg',
+        'wagtailfontawesomesvg/solid/timeline.svg',
+        'wagtailfontawesomesvg/solid/circle-nodes.svg',
+        'wagtailfontawesomesvg/solid/hashtag.svg',
+        'wagtailfontawesomesvg/solid/map-pin.svg',
     ]
-
+    
     others = [
         'wagtailfontawesomesvg/solid/podcast.svg',
         "icons/empty-tray.svg",
-        "icons/x-twitter.svg"
+        "icons/x-twitter.svg",
+        "icons/dam.svg",
+        "icons/dust-storm.svg"
     ]
-
+    
     return icons + brands + others
 
 
@@ -109,23 +127,23 @@ class CMSUpgradeNotificationPanel(Component):
     name = "cms_upgrade_notification"
     template_name = "admin/cms_upgrade_notification.html"
     order = 100
-
+    
     def get_webhook_url(self):
         return getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
-
+    
     def has_required_variables(self):
         current_version = get_main_version()
         webhook_url = self.get_webhook_url()
-
+        
         return current_version and webhook_url
-
+    
     def get_context_data(self, parent_context):
         current_version = get_main_version()
         try:
             latest_release = get_latest_cms_release()
             latest_version = latest_release.get("version")
             latest_release_greater_than_current = check_version_greater_than_current(latest_version)
-
+            
             return {
                 "has_new_version": latest_release_greater_than_current,
                 "latest_release": latest_release,
@@ -135,9 +153,9 @@ class CMSUpgradeNotificationPanel(Component):
             }
         except Exception as e:
             pass
-
+        
         return {}
-
+    
     def render_html(self, parent_context):
         if (
                 parent_context["request"].user.is_superuser
@@ -165,11 +183,36 @@ def hide_menu_items(request, menu_items):
         "city_forecast": "base.can_view_forecast_menu",
         "aviation_editor": "base.can_view_aviation_editor_menu",
     }
-
+    
     hidden = []
-
+    
     for item in menu_items:
         if custom_menu_permissions.get(item.name) and not request.user.has_perm(custom_menu_permissions.get(item.name)):
             hidden.append(item.name)
-
+    
     menu_items[:] = [item for item in menu_items if item.name not in hidden]
+
+
+# @hooks.register('construct_settings_menu')
+# def hide_settings_menu_item(request, menu_items):
+#     hidden_settings = ["cap-geomanager-settings"]
+#     menu_items[:] = [item for item in menu_items if item.name not in hidden_settings]
+
+
+@hooks.register('register_geomanager_datasets')
+def add_geomanager_datasets(request):
+    datasets = []
+    cap_geomanager_settings = CAPGeomanagerSettings.for_request(request)
+    if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
+        
+        # check if we have any active alerts
+        has_live_alerts = get_currently_active_alerts().exists()
+        
+        # create dataset
+        dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)
+        
+        # add dataset to list
+        if dataset:
+            datasets.append(dataset)
+    
+    return datasets

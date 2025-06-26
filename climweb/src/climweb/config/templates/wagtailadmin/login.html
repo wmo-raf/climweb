@@ -1,12 +1,13 @@
 {% extends "wagtailadmin/login.html" %}
-{% load nmhs_cms_tags wagtailimages_tags wagtailsettings_tags %}
+{% load nmhs_cms_tags wagtailimages_tags wagtailsettings_tags i18n %}
 {% get_settings use_default_site=True %}
 
 {% block branding_login %}
+    {% translate "Sign in to" %}
     {% if 'WAGTAIL_SITE_NAME'|django_settings %}
-        Sign in to {{ 'WAGTAIL_SITE_NAME'|django_settings }}
+        {{ 'WAGTAIL_SITE_NAME'|django_settings }}
     {% else %}
-        Sign in
+        CLIMWEB
     {% endif %}
 {% endblock %}
 

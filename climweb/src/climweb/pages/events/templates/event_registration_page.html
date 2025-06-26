@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags bulma_tags i18n %}
+{% load wagtailcore_tags bulma_tags i18n wagtailiconchooser_tags %}
 
 {% block page_meta %}
     {{ block.super }}
@@ -43,18 +43,18 @@
                                     </div>
                                 </form>
                             {% elif page.event.is_ended %}
-                                <h5 style="color: red">
-                                    <span class="event-meta-item-icon">
-                                        <i class="fas fa-exclamation-triangle"></i>
+                                <h5 style="color: red;display: flex">
+                                    <span class="icon event-meta-item-icon" style="margin-right: 8px">
+                                        {% svg_icon name="warning" %}
                                     </span>
                                     {{ page.event.event_type.event_type }} {% translate "ended" %}.
                                 </h5>
                             {% elif not page.event.registration_open %}
-                                <h5 style="color: red">
-                                    <span class="event-meta-item-icon">
-                                        <i class="fas fa-exclamation-triangle"></i>
+                                <h5 style="color: red;display: flex">
+                                    <span class="icon event-meta-item-icon" style="margin-right: 8px">
+                                        {% svg_icon name="warning" %}
                                     </span>
-                                    {% translate " Registration closed" %}.
+                                    {% translate "Registration closed" %}.
                                 </h5>
                             {% endif %}
                         </div>
@@ -64,7 +64,3 @@
         </section>
     </main>
 {% endblock content %}
-
-{% block extra_js %}
-    <script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
-{% endblock %}

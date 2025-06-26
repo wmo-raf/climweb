@@ -1,11 +1,13 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailiconchooser_tags %}
 
 
 <div class="accordion__item js-accordion-item {% if is_first %}active{% endif %}">
     <h3 class="accordion-header js-accordion-header"
         style="padding-top: 0px;display: flex;align-items: center;justify-content: space-between">
         <span>{{ value.heading }}</span>
-        <i class="fas fa-sort-down" style="float: right;"></i>
+        <span class="icon">
+            {% svg_icon name="arrow-down" %}
+        </span>
     </h3>
     <div class="accordion-body js-accordion-body">
         <div class="accordion-body__contents format-text">
@@ -14,8 +16,8 @@
                 <div>
                     <a class="more" href="{{ value.link_related_page.url }}">
                         {{ value.link_text }}
-                        <span class="icon">
-                            <i class="fas fa-arrow-right"></i>
+                        <span class="icon btn-icon">
+                            {% svg_icon name="arrow-right-full" %}
                         </span>
                     </a>
                 </div>

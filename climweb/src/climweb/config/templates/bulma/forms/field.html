@@ -1,4 +1,4 @@
-{% load bulma_tags %}
+{% load bulma_tags wagtailiconchooser_tags i18n %}
 <div class="field">
     {% if field|is_checkbox %}
         <div class="control {{ classes.single_value }}">
@@ -12,7 +12,6 @@
             {% for error in field.errors %}
                 <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
             {% endfor %}
-
             {% if field.help_text %}
                 <p class="help">
                     {{ field.help_text|safe }}
@@ -97,20 +96,22 @@
         <label class="label {{ classes.label }}
         {% if field.field.required %}{{ form.required_css_class }}{% endif %}">{{ field.label }}</label>
         <div class="control {{ classes.value }}">
-
             <div class="file has-name is-boxed">
-
                 <label class="file-label">
                     {{ field|addclass:'file-input' }}
                     <span class="file-cta">
           <span class="file-icon">
-            <i class="fas fa-upload"></i>
+              <span class="icon btn-icon">
+                  {% svg_icon name="upload" %}
+              </span>
           </span>
           <span class="file-label">
-            Choose a file…
+              {% translate "Choose a file" %}
           </span>
         </span>
-                    <span class="file-name">Please select a file.</span>
+                    <span class="file-name">
+                        {% translate "Please select a file" %}
+                    </span>
                 </label>
             </div>
 

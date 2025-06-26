@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailimages_tags i18n %}
+{% load static wagtailimages_tags i18n wagtailiconchooser_tags %}
 
 {% block body_class %}weather{% endblock %}
 
@@ -24,9 +24,6 @@
                                        aria-controls="city-search-menu"
                                        autocomplete="off"
                                 >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-search"></i>
-                                </span>
                             </div>
                         </div>
                         <div class="dropdown-menu" id="city-search-menu" role="menu">
@@ -37,7 +34,7 @@
             {% if error %}
                 <div class="error-message">
                     <div class="icon is-left">
-                        <i class="fas fa-exclamation-triangle"></i>
+                        {% svg_icon name="warning" %}
                     </div>
                     <div>
                         {{ error_message }}
@@ -47,7 +44,7 @@
                 {% if city %}
                     <h2 class="title is-3 city-name">
                         <span class="icon is-left">
-                            <i class="fas fa-location-dot"></i>
+                            {% svg_icon name="map-pin" %}
                         </span>
                         <span>
                             {{ city.name }}

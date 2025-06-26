@@ -1,4 +1,4 @@
-{% load static %}
+{% load static wagtailiconchooser_tags %}
 <style>
 
     .material-download {
@@ -14,8 +14,8 @@
 <div class="materials-item-wrapper">
     <div class="materials-item-icon">
         <figure class="image is-96x96">
-            <span class="icon">
-                <i class="far fa-file-alt document-icon"></i>
+            <span class="icon" style="height: 30px;width: 30px">
+                {% svg_icon name="doc-full-inverse" %}
             </span>
         </figure>
     </div>
