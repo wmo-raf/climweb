@@ -1,0 +1,45 @@
+from wagtail_modeladmin.options import (
+    ModelAdmin, modeladmin_register, ModelAdminGroup
+)
+from .snippets import ChartSnippet, DashboardMap
+from .models import DashboardPage
+
+
+class ChartAdmin(ModelAdmin):
+    model = ChartSnippet
+    menu_label = "Charts"
+    menu_icon = "chart"
+    menu_order = 100
+    add_to_settings_menu = False
+    list_display = ("title", "chart_type", "dataset")
+    search_fields = ("title",)
+
+
+class MapAdmin(ModelAdmin):
+    model = DashboardMap
+    menu_label = "Maps"
+    menu_icon = "site"
+    menu_order = 101
+    add_to_settings_menu = False
+    list_display = ("title","dataset")
+    search_fields = ("title",)
+
+
+class DashboardPageAdmin(ModelAdmin):
+    model = DashboardPage
+    menu_label = "Dashboards"
+    menu_icon = "report"
+    menu_order = 102
+    add_to_settings_menu = False
+    list_display = ("title","dataset")
+    search_fields = ("title",)
+
+
+class CustomDashboardMenu(ModelAdminGroup):
+    menu_label = "Dashboards"
+    menu_icon = "analysis"
+    menu_order = 105
+    items = (ChartAdmin, MapAdmin, DashboardPageAdmin)
+
+
+modeladmin_register(CustomDashboardMenu)

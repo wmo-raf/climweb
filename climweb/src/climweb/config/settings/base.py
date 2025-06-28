@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "climweb.pages.glossary",
     "climweb.pages.webstories",
     "climweb.pages.wdqms",
+    "climweb.pages.dashboards",
     
     "adminboundarymanager",
     "geomanager",
