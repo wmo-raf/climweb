@@ -17,7 +17,7 @@ aiohttp==3.11.11
     # via django-nextjs
 aiosignal==1.3.2
     # via aiohttp
-alertwise @ git+https://github.com/wmo-raf/alertwise.git@10c0fd0a3c915e02854154beb8894684e172fb63#subdirectory=alertwise
+alertwise @ git+https://github.com/wmo-raf/alertwise.git@4b997f3914f629f0aa1b6de657ba61231cf89857#subdirectory=alertwise
     # via -r base.in
 amqp==5.3.1
     # via kombu
@@ -712,8 +712,9 @@ referencing==0.36.2
     # via
     #   jsonschema
     #   jsonschema-specifications
-requests==2.32.3
+requests==2.32.4
     # via
+    #   -r base.in
     #   alertwise
     #   climweb-wdqms
     #   deep-translator
@@ -810,8 +811,9 @@ uritemplate==4.1.1
     # via
     #   drf-spectacular
     #   google-api-python-client
-urllib3==2.3.0
+urllib3==2.5.0
     # via
+    #   -r base.in
     #   mailchimp-marketing
     #   requests
 uvicorn[standard]==0.30.5
