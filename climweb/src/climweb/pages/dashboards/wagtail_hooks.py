@@ -1,10 +1,15 @@
+from wagtail import hooks
 from wagtail_modeladmin.options import (
     ModelAdmin, modeladmin_register, ModelAdminGroup
 )
 from .snippets import ChartSnippet, DashboardMap
 from .models import DashboardPage
+from django.templatetags.static import static
+from django.utils.html import format_html
 
-
+@hooks.register('insert_editor_js')
+def chart_snippet_editor_js():
+    return format_html('<script src="{}"></script>', static('dashboards/js/chart_snippet.js'))
 class ChartAdmin(ModelAdmin):
     model = ChartSnippet
     menu_label = "Charts"
@@ -21,7 +26,7 @@ class MapAdmin(ModelAdmin):
     menu_icon = "site"
     menu_order = 101
     add_to_settings_menu = False
-    list_display = ("title","dataset")
+    list_display = ("title","map_layer")
     search_fields = ("title",)
 
 
@@ -31,7 +36,7 @@ class DashboardPageAdmin(ModelAdmin):
     menu_icon = "report"
     menu_order = 102
     add_to_settings_menu = False
-    list_display = ("title","dataset")
+    list_display = ("title",)
     search_fields = ("title",)
 
 
@@ -43,3 +48,5 @@ class CustomDashboardMenu(ModelAdminGroup):
 
 
 modeladmin_register(CustomDashboardMenu)
+
+

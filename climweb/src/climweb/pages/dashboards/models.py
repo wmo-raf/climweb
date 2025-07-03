@@ -19,6 +19,7 @@ class DashboardGalleryPage(Page):
         verbose_name = "Dashboards Gallery"
 
 class DashboardPage(Page):
+    template = 'dashboards/dashboard_page.html'
     parent_page_types = ['dashboards.DashboardGalleryPage']
     banner_title = models.CharField(max_length=255, blank=True)
     banner_description = models.TextField(blank=True)
