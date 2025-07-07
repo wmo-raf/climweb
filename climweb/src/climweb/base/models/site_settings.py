@@ -23,6 +23,7 @@ from wagtailcache.cache import clear_cache
 from climweb.base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock, SocialMediaBlock
 from climweb.base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT, COUNTRY_CHOICES
 from climweb.base.utils import get_country_info
+from django.conf import settings
 
 
 @register_setting
@@ -187,7 +188,7 @@ class IntegrationSettings(BaseSiteSetting):
 
 @register_setting(icon="site")
 class LanguageSettings(BaseSiteSetting):
-    default_language = models.CharField(max_length=10, blank=True, null=True, choices=LANGUAGE_CHOICES, default="en",
+    default_language = models.CharField(max_length=10, blank=True, null=True, choices=LANGUAGE_CHOICES, default=settings.LANGUAGE_CODE,
                                         verbose_name=_("Default Language"))
     languages = StreamField([
         ('languages', LanguageItemBlock())
