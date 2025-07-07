@@ -21,8 +21,8 @@ class DashboardGalleryPage(Page):
 class DashboardPage(Page):
     template = 'dashboards/dashboard_page.html'
     parent_page_types = ['dashboards.DashboardGalleryPage']
-    banner_title = models.CharField(max_length=255, blank=True)
-    banner_description = models.TextField(blank=True)
+    banner_title = models.CharField(max_length=255)
+    banner_description = RichTextField(help_text="Banner description")
     banner_background_color = models.CharField(
         max_length=7,
         default="#f5f5f5",

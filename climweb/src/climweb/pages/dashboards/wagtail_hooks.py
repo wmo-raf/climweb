@@ -9,7 +9,7 @@ from django.utils.html import format_html
 
 @hooks.register('insert_editor_js')
 def chart_snippet_editor_js():
-    return format_html('<script src="{}"></script>', static('dashboards/js/chart_snippet.js'))
+    return format_html('<script src="{}"></script>', static('js/chart_snippet.js'))
 class ChartAdmin(ModelAdmin):
     model = ChartSnippet
     menu_label = "Charts"

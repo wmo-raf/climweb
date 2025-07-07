@@ -1,2 +1,42 @@
-TODO: 'create django template code for the dashboard model'  
+{% extends 'base.html' %}
+{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+    <main class="is-index">
+        <div class="hero-header">
+                <section id="page-hero" class="hero is-small" style="background-color:{{page.banner_background_color}}">
+                    <div class="hero-body is-align-items-center" style="display:flex">
+                        <div class="container">
+                            {% block banner_title %}
+                                <h1 class="title page-title has-text-white"
+                                    style="font-weight:300;  color: #ffffff;">
+                                    {{ page.banner_title }}
+                                </h1>
+                            {% endblock %}
+                            {% block page_subtitle %}
+                                <div class="columns" style="margin: 0">
+                                    <div class="column is-full-desktop" style="padding: 0;">
+                                        <div class="page-description has-text-white"
+                                            style="color: #ffffff;">
+                                            {{ page.banner_description|richtext }}</div>
+                                    </div>
+                                </div>
+                            {% endblock %}
+                        </div>
+                    </div>
+                    {% if page.content %}
+                        {% for block in page.content %}
+                            <section class="feature-block-section">
+                                {% include_block block %}
+                            </section>
+                        {% endfor %}
+                    {% endif %}
+                </section>
+        </div>
+        
+    </main>
+{% endblock content %}
