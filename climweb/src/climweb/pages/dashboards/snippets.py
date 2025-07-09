@@ -44,7 +44,7 @@ class ChartSnippet(models.Model):
     ]
 
     def __str__(self):
-        return f"{self.dataset.title} ({self.chart_type} chart)"
+        return f"{self.title} ({self.chart_type} chart)"
 
     class Meta:
         verbose_name = "Dashboard Chart"

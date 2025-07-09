@@ -1,0 +1,19 @@
+<div class="columns is-multiline my-4">
+  {% for chart in charts %}
+    <div class="column is-half chart-column">
+      <div class="card elevation-1">
+        <header class="card-header elevation-0">
+          <p class="card-header-title">{{ chart.title }}</p>
+        </header>
+        <div class="card-content">
+          <div class="chart-container" id="chart-{{ forloop.parentloop.counter0|add:index }}"></div>
+        </div>
+        <footer class="card-footer">
+          <p class="card-footer-item is-justify-content-left">
+            <span>{{ chart.title }}</span>
+          </p>
+        </footer>
+      </div>
+    </div>
+  {% endfor %}
+</div>

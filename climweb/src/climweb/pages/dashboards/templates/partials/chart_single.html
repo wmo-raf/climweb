@@ -1,0 +1,29 @@
+<div class="columns my-4">
+  {% if index|divisibleby:2 and chart.description %}
+    <div class="column description-column">
+      <p>{{ chart.description }}</p>
+    </div>
+    <div class="column chart-column">
+  {% else %}
+    <div class="column chart-column">
+  {% endif %}
+      <div class="card elevation-1">
+        <header class="card-header elevation-0">
+          <p class="card-header-title">{{ chart.title }}</p>
+        </header>
+        <div class="card-content">
+          <div class="chart-container" id="chart-{{ index }}"></div>
+        </div>
+        <footer class="card-footer">
+          <p class="card-footer-item is-justify-content-left">
+            <span>{{ chart.title }}</span>
+          </p>
+        </footer>
+      </div>
+    </div>
+{% if chart.description and index|divisibleby:2 == False %}
+    <div class="column description-column">
+      <p>{{ chart.description }}</p>
+    </div>
+  {% endif %}
+</div>

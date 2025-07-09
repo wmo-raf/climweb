@@ -9,6 +9,7 @@ class ChartSnippetChooser(blocks.StructBlock):
     charts_block = blocks.ListBlock(SnippetChooserBlock(target_model="dashboards.ChartSnippet"))
 
     class Meta:
+        template = "streams/dashboard_chart.html"
         icon = "chart"
         label = _("Chart")
 
@@ -16,8 +17,11 @@ class MapSnippetChooser(blocks.StructBlock):
     maps_block = blocks.ListBlock(SnippetChooserBlock(target_model="dashboards.DashboardMap"))
 
     class Meta:
+        template = "streams/dashboard_map.html"
         icon = "site"
         label = _("Map")
+
+
 
 class DashboardSectionBlock(blocks.StructBlock):
     section_title = blocks.CharBlock(required=True)

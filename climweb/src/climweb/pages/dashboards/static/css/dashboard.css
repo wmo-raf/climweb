@@ -18,3 +18,87 @@
 main section {
     padding: 30px 0;
 }
+
+h1 {
+    font-weight: 200;
+    text-align: left;
+}
+
+.work .section-subheader{
+    text-align: left !important;
+    font-size: 30px;
+    font-weight: 200;
+}
+
+.card{
+        background-color: transparent;
+
+}
+
+.map-container,.chart-container{
+    min-height: 300px;
+}
+
+.card-content{
+    padding: 0
+}
+
+.map-time-slider {
+  width: 100%;
+}
+
+.map-time-slider input[type="range"] {
+  width: 100%;
+  background: transparent;
+  margin-bottom: 10px;
+}
+
+
+/* WebKit Thumb */
+.map-time-slider input[type="range"]::-webkit-slider-thumb {
+appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #444;
+  border: 2px solid #fff;
+  margin-top: -5px;
+  box-shadow: 0 0 0 2px #aaa;
+  cursor: pointer;
+}
+
+/* Firefox Thumb */
+.map-time-slider input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #444;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #aaa;
+}
+
+/* Track */
+.map-time-slider input[type="range"]::-webkit-slider-runnable-track,
+.map-time-slider input[type="range"]::-moz-range-track {
+  height: 1px;
+  background: #ccc;
+  border-radius: 4px;
+}
+
+/* Visible tick labels */
+.custom-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #393838;
+  margin-top: -4px;
+  pointer-events: none;
+}
+
+.custom-ticks span {
+  width: 40px;
+  text-align: center;
+}
+
+

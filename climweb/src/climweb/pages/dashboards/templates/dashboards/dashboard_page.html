@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags %}
+{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags wagtailiconchooser_tags nmhs_cms_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
@@ -28,15 +28,34 @@
                             {% endblock %}
                         </div>
                     </div>
-                    {% if page.content %}
-                        {% for block in page.content %}
-                            <section class="feature-block-section">
-                                {% include_block block %}
-                            </section>
-                        {% endfor %}
-                    {% endif %}
+    
                 </section>
-        </div>
+
+                {% if page.body %}
+
+                    {% for block in page.body %}
+                        <section class="feature-block-section my-6">
+                            <div class="container" style="text-align:left">
+                            <h1 class="my-4" style="color:{{page.banner_background_color}}">{{ block.value.section_title }}</h1>
+
+                            {% for item in block.value.content %}
+                                {% if item.block_type == 'title_text' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'title_text_image' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'chart' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'map' %}
+                                    {% include_block item with section=forloop.parentloop.counter %}
+                                {% elif item.block_type == 'table' %}
+                                    {% include_block item %}
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        </section>
+                    {% endfor %}
+                {% endif %}        
+            </div>
         
     </main>
 {% endblock content %}
