@@ -1,120 +1,19 @@
 {% load wagtailcore_tags static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/maplibre-gl.css' %}">
-{% endblock extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/maplibre-gl.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard-map.css' %}">
+{% endblock %}
+
 <div class="dashboard-maps">
   {% for map_snippet in self.maps_block %}
     <div class="dashboard-map">
       <div class="columns my-4">
-        
         {% if self.maps_block|length > 1 and forloop.counter|divisibleby:2 %}
-          {# Even-numbered block: Description first #}
-          {% if map_snippet.description %}
-            <div class="column description-column">
-              <p>{{ map_snippet.description }}</p>
-            </div>
-          {% endif %}
-
-          <div class="column map-column">
-            <div class="card elevation-1">
-              <header class="card-header elevation-0">
-                <p class="card-header-title">{{ map_snippet.title }}</p>
-              </header>
-              <div class="card-content">
-                {% for layer in map_snippet.map_layer %}
-                  {% if layer.block_type == "raster_file_layer" %}
-                    <div class="map-container"
-                         id="map-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
-                         data-layer-type="raster"
-                         data-tilejson-url="/api/raster/{{ layer.value.id }}/tiles.json"
-                         data-title="{{ map_snippet.title }}">
-                         
-                    </div>
-                  {% elif layer.block_type == "wms_layer" %}
-                    <p>WMS Layer ID: {{ layer.value.id }}</p>
-                  {% elif layer.block_type == "vector_tile_layer" %}
-                    <p>Vector Tile Layer ID: {{ layer.value.id }}</p>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              <footer class="card-footer">
-                <div class="map-time-slider m-2" data-map-id="map-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">
-                  <div class="slider-wrapper">
-                    <input class="slider is-fullwidth has-ticks"
-                          type="range"
-                          min="0"
-                          max="0"
-                          step="1"
-                          value="0"
-                          disabled 
-                          list="ticks-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
-                          />
-                    <datalist id="ticks-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"></datalist>
-                      <div class="custom-ticks" id="tick-labels-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"></div>
-                                        <p class="is-size-7 mt-1 has-text-grey"><span class="slider-value">Loading...</span></p>
-                  </div>
-                </div>
-
-
-              </footer>
-            </div>
-          </div>
-
+          {% include "partials/dashboard_map_with_description.html" with map_snippet=map_snippet section=section counter=forloop.counter %}
         {% else %}
-          {# Odd-numbered block: Map first #}
-          <div class="column map-column">
-            <div class="card elevation-1">
-              <header class="card-header elevation-0">
-                <p class="card-header-title">{{ map_snippet.title }}</p>
-              </header>
-              <div class="card-content">
-                
-                {% for layer in map_snippet.map_layer %}
-                  {% if layer.block_type == "raster_file_layer" %}
-                    <div class="map-container"
-                         id="map-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
-                         data-layer-type="raster"
-                         data-tilejson-url="/api/raster/{{ layer.value.id }}/tiles.json"
-                         data-title="{{ map_snippet.title }}">
-                    </div>
-                  {% elif layer.block_type == "wms_layer" %}
-                    <p>WMS Layer ID: {{ layer.value.id }}</p>
-                  {% elif layer.block_type == "vector_tile_layer" %}
-                    <p>Vector Tile Layer ID: {{ layer.value.id }}</p>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              <footer class="card-footer">
-                <div class="map-time-slider m-2" data-map-id="map-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">
-                  <div class="slider-wrapper">
-                    <input class="slider is-fullwidth has-ticks"
-                          type="range"
-                          min="0"
-                          max="0"
-                          step="1"
-                          value="0"
-                          disabled 
-                          list="ticks-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
-                          />
-                    <datalist id="ticks-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"></datalist>
-                      <div class="custom-ticks" id="tick-labels-{{ section }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"></div>
-                  <p class="is-size-7 mt-1 has-text-grey slider-value"><span>Loading...</span></p>
-
-                  </div>
-                </div>
-
-              </footer>
-            </div>
-          </div>
-
-          {% if map_snippet.description %}
-            <div class="column description-column">
-              <p>{{ map_snippet.description }}</p>
-            </div>
-          {% endif %}
+          {% include "partials/dashboard_map_with_map_first.html" with map_snippet=map_snippet section=section counter=forloop.counter %}
         {% endif %}
-
       </div>
     </div>
   {% endfor %}
@@ -122,107 +21,6 @@
 
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
-
-<script>
-  document.querySelectorAll('.map-container[data-layer-type="raster"]').forEach(container => {
-  const tileJsonUrl = container.dataset.tilejsonUrl;
-  const containerId = container.id;
-
-  const map = new maplibregl.Map({
-    container: containerId,
-    style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-    center: [36.8219, -1.2921],
-    zoom: 3,
-    scrollZoom: false
-  });
-
-  map.addControl(new maplibregl.NavigationControl(), 'top-right');
-  map.addControl(new maplibregl.FullscreenControl(), 'top-right');
-  map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
-
-  fetch(tileJsonUrl)
-    .then(res => res.json())
-    .then(tilejson => {
-      const timeParam = tilejson.time_parameter || 'time';
-      const timestamps = tilejson.timestamps || [];
-      if (!timestamps.length) return;
-
-      const sliderWrapper = container.closest('.dashboard-map').querySelector('.map-time-slider');
-      const slider = sliderWrapper.querySelector('input[type="range"]');
-      const sliderLabel = sliderWrapper.querySelector('.slider-value');
-
-      const datalist = sliderWrapper.querySelector('datalist');
-      const tickLabels = sliderWrapper.querySelector('.custom-ticks');
-
-      // Use only first 10 timestamps
-      const displayedTimestamps = timestamps.slice(0, 10);
-      slider.max = displayedTimestamps.length - 1;
-      slider.value = 0;
-      slider.disabled = false;
-
-      const latestTimestamp = displayedTimestamps[0]; // FIRST timestamp
-      sliderLabel.style.display = "none"
-
-      // Add tick options
-      datalist.innerHTML = '';
-      tickLabels.innerHTML = '';
-      displayedTimestamps.forEach((timestamp, i) => {
-        const label = new Date(timestamp).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-        });
-
-        // Firefox ticks
-        const option = document.createElement('option');
-        option.value = i;
-        option.label = label;
-        datalist.appendChild(option);
-
-        // Visible ticks (all browsers)
-        const tick = document.createElement('span');
-        tick.textContent = label;
-        tickLabels.appendChild(tick);
-      });
-
-      const sourceId = 'raster-source-' + containerId;
-      const layerId = 'raster-layer-' + containerId;
-
-      function updateLayer(time) {
-        if (map.getLayer(layerId)) map.removeLayer(layerId);
-        if (map.getSource(sourceId)) map.removeSource(sourceId);
-
-        const tilesWithTime = tilejson.tiles.map(tile =>
-          `${tile}?${timeParam}=${encodeURIComponent(time)}`
-        );
-
-        map.addSource(sourceId, {
-          type: 'raster',
-          tiles: tilesWithTime,
-          tileSize: tilejson.tileSize || 256,
-          attribution: tilejson.attribution || ''
-        });
-
-        map.addLayer({
-          id: layerId,
-          type: 'raster',
-          source: sourceId,
-          paint: { 'raster-opacity': 0.85 }
-        });
-      }
-
-      map.on('load', () => {
-        updateLayer(latestTimestamp);
-
-        slider.addEventListener('input', () => {
-          const selectedIndex = parseInt(slider.value);
-          const selectedTime = displayedTimestamps[selectedIndex];
-          sliderLabel.textContent = new Date(selectedTime).toLocaleString();
-          updateLayer(selectedTime);
-        });
-      });
-    });
-});
-
-</script>
-{% endblock extra_js %}
+<script type="text/javascript" src="{% static 'js/d3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dashboard-map.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+<div class="column description-column">
+  {% if map_snippet.description %}
+    <p>{{ map_snippet.description }}</p>
+  {% endif %}
+</div>
+
+<div class="column map-column">
+  <div class="card elevation-1">
+    <header class="card-header elevation-0">
+      <p class="card-header-title">{{ map_snippet.title }}</p>
+    </header>
+    <div class="card-content">
+      {% for layer in map_snippet.map_layer %}
+        {% if layer.block_type == "raster_file_layer" %}
+          {% with container_id="map-"|add:section|add:"-"|add:forloop.parentloop.counter|stringformat:"s"|add:"-"|add:forloop.counter|stringformat:"s" %}
+            <div class="map-container"
+                id="{{ container_id }}"
+                data-layer-config='{{ map_snippet.layer_config|json_script:"layer-config-" }}'
+                data-legend='{{ map_snippet.legend_config|json_script:"legend-data-" }}'
+                data-title="{{ map_snippet.title }}"
+                data-layer-type="raster">
+            </div>
+          {% endwith %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    <footer class="card-footer">
+      {% include "partials/time_slider.html" with container_id=container_id %}
+    </footer>
+  </div>
+</div>

@@ -5,6 +5,7 @@ from wagtail.fields import StreamField
 from django.utils.translation import gettext_lazy as _
 from climweb.base import blocks as climweb_blocks
 from wagtail_color_panel.edit_handlers import NativeColorPanel
+from django.utils.functional import cached_property
 
 from geomanager.models import RasterFileLayer, WmsLayer, VectorTileLayer
 
@@ -71,6 +72,25 @@ class DashboardMap(models.Model):
     def __str__(self):
 
         return f"{self.title}"
+    
+    @cached_property
+    def tilejson_config(self):
+        """Returns the tile JSON dictionary for the selected layer."""
+        block = self.map_layer[0]
+        return block.value.get_tile_json_dict()
+
+    @cached_property
+    def layer_config(self):
+        """Returns the full layer config (GeoManager format)."""
+        block = self.map_layer[0]
+        return block.value.layer_config or {}
+
+    @cached_property
+    def legend_config(self):
+        """Returns the legend configuration for styling."""
+        block = self.map_layer[0]
+        return block.value.legend_config or {}
+
 
     class Meta:
         verbose_name = "Dashboard Map"

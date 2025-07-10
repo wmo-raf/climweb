@@ -35,6 +35,20 @@ h1 {
 
 }
 
+.card .card-header-title{
+    font-weight: 300;
+}
+
+
+.dashboard-maps {
+  padding: 1rem;
+}
+
+.dashboard-map {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
 .map-container,.chart-container{
     min-height: 300px;
 }
@@ -102,3 +116,28 @@ appearance: none;
 }
 
 
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-item .color {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+
+.legend-item .label {
+  white-space: nowrap;
+}
