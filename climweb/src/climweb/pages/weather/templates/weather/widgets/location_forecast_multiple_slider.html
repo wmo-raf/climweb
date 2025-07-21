@@ -375,7 +375,11 @@
                                     <div class="glide__slide" style="height: unset;">
                                         <div class="forecast-item">
                                             <div class="forecast-time">
-                                                {{ forecast.datetime|date:"H:i" }}
+                                                {% if use_period_labels %}
+                                                    {{ forecast.parent.effective_period }}
+                                                {% else %}
+                                                    {{ forecast.datetime|date:"H:i" }}
+                                                {% endif %}
                                             </div>
                                             <div class="forecast-params">
                                                 <div class="forecast-condition">

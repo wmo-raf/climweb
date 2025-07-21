@@ -95,6 +95,7 @@ def get_home_forecast_widget(request):
         context.update({
             "city": city,
             "show_condition_label": forecast_setting.show_conditions_label_on_widget,
+            "use_period_labels": forecast_setting.use_period_labels,
             **data,
         })
         
