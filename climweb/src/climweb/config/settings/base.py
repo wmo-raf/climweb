@@ -185,7 +185,7 @@ DEEPL_FREE_API = True
 
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'django.middleware.locale.LocaleMiddleware',
+    # 'django.middleware.locale.LocaleMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -327,7 +327,7 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 LOCALE_PATHS = [
     'base/locale',
     'nmhs_cms/locale',
-    
+
     'pages/cap/locale',
     'pages/cityclimate/locale',
     'pages/contact/locale',
@@ -347,7 +347,7 @@ LOCALE_PATHS = [
     'pages/organisation_pages/tenders/locale',
     'pages/organisation_pages/vacancies/locale',
     'pages/organisation_pages/staff/locale',
-    
+
     'pages/products/locale',
     'pages/publications/locale',
     'pages/satellite_imagery/locale',

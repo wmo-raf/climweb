@@ -1,6 +1,6 @@
 # Rationale
 
-### Supporting the achievement of WMO’s Long Term Goals and implementation of flagship initiatives in Africa
+## Supporting the achievement of WMO’s Long Term Goals and implementation of flagship initiatives in Africa
 
 - To cover everyone on earth with early warnings by 2027
 - Supporting the Global Multi-hazard Alert System (GMAS) for Africa
@@ -14,7 +14,7 @@ context, thereafter, **the World Meteorological Organization (WMO) Regional Offi
 Management System (ClimWeb) as a website template specifically designed to aid the digital transformation of National
 Meteorological and Hydrological Services (NMHSs) in Africa.**
 
-### Supporting key United Nations conventions and initiatives
+## Supporting key United Nations conventions and initiatives
 
 - The Paris Agreement on Climate Change (2015) and NDCs
 - The United Nations Framework Convention on Climate Change (UNFCCC)
@@ -23,7 +23,7 @@ Meteorological and Hydrological Services (NMHSs) in Africa.**
 - The Convention on Biological Diversity (CBD)
 - The United Nations Convention to Combat Desertification (UNCCD)
 
-### Supporting African policies and plans
+## Supporting African policies and plans
 
 - African Union's Climate Change Strategy (2020-2030)
 - African Union's Agenda 2063 "The Africa We Want"

@@ -7,7 +7,8 @@
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+<html lang="{{ settings.base.LanguageSettings.default_language }}" 
+      dir="{% if settings.base.LanguageSettings.default_language|slice:":2" == "ar" %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -90,6 +91,8 @@
 {% endblock navbar %}
 
 <div class="page-container is-medium">
+    {{LANGUAGE_CODE}}
+    {{settings.base.LanguageSettings.default_language}}
     {% block content %}{% endblock %}
     {% block footer %}
         {% include 'navigation/footer.html' %}
