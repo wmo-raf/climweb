@@ -260,7 +260,7 @@ def date_is_today(value):
 
 
 @register.simple_tag(takes_context=True)
-def render_charts(context, charts_block):
+def render_charts(context, charts_block, section_index=0):
     rendered_output = ""
     i = 0
     while i < len(charts_block):
@@ -274,7 +274,10 @@ def render_charts(context, charts_block):
         if not current_desc and not next_desc and next_chart:
             rendered = render_to_string(
                 "partials/chart_pair.html",
-                {"charts": [current, next_chart], "index": i + 1},
+                {"charts": [current, next_chart], 
+                 "index": i + 1,         
+                 "section_index": section_index,
+                },
                 request=context["request"]
             )
             rendered_output += rendered
@@ -282,7 +285,9 @@ def render_charts(context, charts_block):
         else:
             rendered = render_to_string(
                 "partials/chart_single.html",
-                {"chart": current, "index": i + 1},
+                {"chart": current, "index": i + 1,
+                "section_index": section_index,
+                },
                 request=context["request"]
             )
             rendered_output += rendered

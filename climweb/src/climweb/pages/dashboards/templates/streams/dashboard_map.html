@@ -1,26 +1,42 @@
 {% load wagtailcore_tags static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/maplibre-gl.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard-map.css' %}">
+  <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/ion.rangeSlider.min.css' %}">
+
 {% endblock %}
 
 <div class="dashboard-maps">
-  {% for map_snippet in self.maps_block %}
+  {% for mapdata in maps %}
     <div class="dashboard-map">
       <div class="columns my-4">
         {% if self.maps_block|length > 1 and forloop.counter|divisibleby:2 %}
-          {% include "partials/dashboard_map_with_description.html" with map_snippet=map_snippet section=section counter=forloop.counter %}
+          {% include "partials/dashboard_map_with_description.html" with map_snippet=mapdata section_index=section|stringformat:"s" map_index=forloop.counter|stringformat:"s" %}
         {% else %}
-          {% include "partials/dashboard_map_with_map_first.html" with map_snippet=map_snippet section=section counter=forloop.counter %}
+          {% include "partials/dashboard_map_with_map_first.html" with map_snippet=mapdata section_index=section|stringformat:"s" map_index=forloop.counter|stringformat:"s" %}
         {% endif %}
       </div>
     </div>
+  <script>
+    function mapConfig (){
+      const datasetsUrl = "{{ mapdata.datasetsurl }}";
+      const countryBounds = {{mapdata.bounds|default_if_none:"[]"|safe}}
+      const boundaryTilesUrl = "{{mapdata.boundary_tiles_url|default_if_none:''}}"
+
+      return {datasetsUrl, countryBounds, boundaryTilesUrl}
+    }
+  </script>
   {% endfor %}
 </div>
 
 {% block extra_js %}
-<script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/d3.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/dashboard-map.js' %}"></script>
-{% endblock %}
+  <script src="{% static 'js/maplibre-gl.js' %}"></script>
+  <script src="{% static 'js/d3.min.js' %}"></script>
+  <script src="{% static "js/ion.rangeSlider.min.js" %}"></script>
+
+    <script src="{% static 'js/dashboard-map.js' %}"></script>
+
+{% endblock extra_js %}
+
+

@@ -1,31 +1,51 @@
-<div class="column description-column">
-  {% if map_snippet.description %}
-    <p>{{ map_snippet.description }}</p>
-  {% endif %}
-</div>
+{% with map=map_snippet.map %}
+  {% if map.description %}
+      <div class="column description-column">
 
-<div class="column map-column">
-  <div class="card elevation-1">
-    <header class="card-header elevation-0">
-      <p class="card-header-title">{{ map_snippet.title }}</p>
-    </header>
-    <div class="card-content">
-      {% for layer in map_snippet.map_layer %}
-        {% if layer.block_type == "raster_file_layer" %}
-          {% with container_id="map-"|add:section|add:"-"|add:forloop.parentloop.counter|stringformat:"s"|add:"-"|add:forloop.counter|stringformat:"s" %}
+        <p>{{ map.description }}</p>
+            </div>
+
+      {% endif %}
+
+
+    <div class="column map-column">
+    {% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
+      <div class="card elevation-1">
+        <header class="card-header elevation-0">
+          <p class="card-header-title">{{ map.title }}</p>
+        </header>
+        <div class="card-content">
+          {% for block in map.map_layer %}
+
             <div class="map-container"
                 id="{{ container_id }}"
-                data-layer-config='{{ map_snippet.layer_config|json_script:"layer-config-" }}'
-                data-legend='{{ map_snippet.legend_config|json_script:"legend-data-" }}'
-                data-title="{{ map_snippet.title }}"
-                data-layer-type="raster">
-            </div>
-          {% endwith %}
-        {% endif %}
-      {% endfor %}
+                data-tilejson="{{map_snippet.datasetsurl}}{{block.value.dataset.id}}"
+                data-dataset="{{ block.value.dataset.id }}"
+                data-layer="{{ block.value.id }}"
+                data-title="{{ map.title }}"
+                data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector{% endif %}">
+             <div class="c-legend-type-choropleth" style="position: absolute;bottom: 20px;left: 20px;background: white;padding: 10px;border-radius: 6px;font-size: 14px;z-index: 1000;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);"
+              id="legend-{{container_id}}">
+          </div>
+              </div>
+
+           
+          
+          {% endfor %}
+
+          
+        </div>
+        <footer class="card-footer">
+          <div style="width: 100%"  class="m-2">
+              <div id="slider-{{ container_id }}">
+                  <input type="text" class="layer-date-slider" style="display: none" name="my_range" value=""/>
+              </div>
+          </div>
+    
+        </footer>
+      </div>
+
+      {% endwith %}
+
     </div>
-    <footer class="card-footer">
-      {% include "partials/time_slider.html" with container_id=container_id %}
-    </footer>
-  </div>
-</div>
+{% endwith %}

@@ -44,7 +44,7 @@
                                 {% elif item.block_type == 'title_text_image' %}
                                     {% include_block item %}
                                 {% elif item.block_type == 'chart' %}
-                                    {% include_block item %}
+                                    {% include_block item with section=forloop.parentloop.counter %}
                                 {% elif item.block_type == 'map' %}
                                     {% include_block item with section=forloop.parentloop.counter %}
                                 {% elif item.block_type == 'table' %}

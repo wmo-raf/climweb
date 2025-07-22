@@ -6,13 +6,18 @@
           <p class="card-header-title">{{ chart.title }}</p>
         </header>
         <div class="card-content">
-          <div class="chart-container" id="chart-{{ forloop.parentloop.counter0|add:index }}"></div>
+          <div class="chart-container" 
+          id="chart-{{ section_index }}-{{ index|add:forloop.counter0 }}"
+          data-layer-id="{{ chart.dataset.id }}"
+          data-title="{{ chart.title }}"
+          data-color="{{ chart.chart_color|default:'#0b76e1' }}"
+          data-unit="{{ chart.data_unit|default:'Value' }}"
+          data-type="{{ chart.chart_type|default:'line' }}"
+
+          data-admin-code="GH"
+          >
+          </div>
         </div>
-        <footer class="card-footer">
-          <p class="card-footer-item is-justify-content-left">
-            <span>{{ chart.title }}</span>
-          </p>
-        </footer>
       </div>
     </div>
   {% endfor %}

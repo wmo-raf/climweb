@@ -1,6 +1,7 @@
 <div class="columns my-4">
   {% if index|divisibleby:2 and chart.description %}
     <div class="column description-column">
+      </h3>{{ chart.title }}</h3>
       <p>{{ chart.description }}</p>
     </div>
     <div class="column chart-column">
@@ -12,18 +13,24 @@
           <p class="card-header-title">{{ chart.title }}</p>
         </header>
         <div class="card-content">
-          <div class="chart-container" id="chart-{{ index }}"></div>
+          <div class="chart-container" 
+          id="chart-{{ section_index }}-{{ index }}"
+          data-layer-id="{{ chart.dataset.id }}"
+          data-title="{{ chart.title }}"
+          data-color="{{ chart.chart_color|default:'#0b76e1' }}"
+          data-unit="{{ chart.data_unit|default:'Value' }}"
+          data-type="{{ chart.chart_type|default:'line' }}"
+
+          data-admin-code="GH"
+          ></div>
         </div>
-        <footer class="card-footer">
-          <p class="card-footer-item is-justify-content-left">
-            <span>{{ chart.title }}</span>
-          </p>
-        </footer>
       </div>
     </div>
 {% if chart.description and index|divisibleby:2 == False %}
-    <div class="column description-column">
+    <div class="column is-half description-column">
+      <h3>{{ chart.title }}</h3>
       <p>{{ chart.description }}</p>
     </div>
   {% endif %}
 </div>
+

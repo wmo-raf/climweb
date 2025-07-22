@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from wagtail.admin.panels import FieldPanel,MultiFieldPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.fields import StreamField
@@ -6,6 +7,8 @@ from django.utils.translation import gettext_lazy as _
 from climweb.base import blocks as climweb_blocks
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from django.utils.functional import cached_property
+from wagtail.api.v2.utils import get_full_url
+from adminboundarymanager.models import AdminBoundarySettings
 
 from geomanager.models import RasterFileLayer, WmsLayer, VectorTileLayer
 
@@ -13,7 +16,7 @@ from geomanager.models import RasterFileLayer, WmsLayer, VectorTileLayer
 class ChartSnippet(models.Model):
     CHART_TYPE_CHOICES = [
         ("line", "Line Chart"),
-        ("bar", "Bar Chart"),
+        ("column", "Bar Chart"),
         ("stripes", "Warming stripes"),
     ]
 
@@ -51,9 +54,9 @@ class ChartSnippet(models.Model):
         verbose_name = "Dashboard Chart"
         verbose_name_plural = "Dashboard Charts"
 
+
 @register_snippet
 class DashboardMap(models.Model):
-
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
@@ -70,28 +73,53 @@ class DashboardMap(models.Model):
     ]
 
     def __str__(self):
+        return self.title
 
-        return f"{self.title}"
-    
+
+    def get_layertimestampsurl(self, request):
+        try:
+            return get_full_url(request, reverse("layerrasterfile-list"))
+        except Exception:
+            return None
+
+    def get_datasetsurl(self, request):
+        try:
+            return get_full_url(request, reverse("datasets-list"))
+        except Exception:
+            return None
+
+    def get_boundary_tiles_url(self, request):
+        try:
+            abm_settings = AdminBoundarySettings.for_request(request)
+            return get_full_url(request, abm_settings.boundary_tiles_url)
+        except Exception:
+            return None
+
+    def get_bounds(self, request):
+        try:
+            abm_settings = AdminBoundarySettings.for_request(request)
+            return abm_settings.combined_countries_bounds
+        except Exception:
+            return None
+
+
     @cached_property
-    def tilejson_config(self):
-        """Returns the tile JSON dictionary for the selected layer."""
-        block = self.map_layer[0]
-        return block.value.get_tile_json_dict()
+    def selected_layer(self):
+        """
+        Returns the actual model instance (RasterFileLayer, WmsLayer, or VectorTileLayer)
+        for the single layer selected in the StreamField.
+        """
+        if not self.map_layer or len(self.map_layer) == 0:
+            return None
+
+        return self.map_layer  # Already a model instance via UUIDModelChooserBlock
 
     @cached_property
-    def layer_config(self):
-        """Returns the full layer config (GeoManager format)."""
-        block = self.map_layer[0]
-        return block.value.layer_config or {}
-
-    @cached_property
-    def legend_config(self):
-        """Returns the legend configuration for styling."""
-        block = self.map_layer[0]
-        return block.value.legend_config or {}
-
-
-    class Meta:
-        verbose_name = "Dashboard Map"
-        verbose_name_plural = "Dashboard Maps"
+    def map_layers_list(self):
+        """
+        Returns a list with one dict containing the selected layer instance.
+        """
+        layer = self.selected_layer
+        if layer:
+            return [{"layer": layer}]
+        return []
