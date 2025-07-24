@@ -13,11 +13,24 @@
           data-color="{{ chart.chart_color|default:'#0b76e1' }}"
           data-unit="{{ chart.data_unit|default:'Value' }}"
           data-type="{{ chart.chart_type|default:'line' }}"
-
           data-admin-code="GH"
           >
           </div>
         </div>
+        <footer class="card-footer">
+          <div class="field">
+            <label class="label">Start</label>
+            <div class="control">
+              <input type="date" placeholder="Start" id="startdate-{{ section_index }}-{{ index|add:forloop.counter0 }}">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">End</label>
+            <div class="control">
+              <input type="date" placeholder="End" id="enddate-{{ section_index }}-{{ index|add:forloop.counter0 }}">
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   {% endfor %}

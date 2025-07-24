@@ -1,4 +1,7 @@
 {% load wagtailcore_tags static nmhs_cms_tags %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/bulma-calendar.min.css' %}">
+{% endblock extra_css %}
 
 <div class="dashboard-charts">
     {% render_charts self.charts_block section_index=section %}
@@ -6,6 +9,7 @@
 
 {% block extra_js %}
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="{% static 'js/bulma-calendar.min.js' %}"></script>
 <script>
     function formatDateTime(datetimeString) {
         const date = new Date(datetimeString);
@@ -109,6 +113,26 @@
                     });
             });
     });
+
+    // Initialize all input of date type.
+    let data_calendars = bulmaCalendar.attach('[type="date"]', options);
+
+    // Loop on each calendar initialized
+    data_calendars.forEach(calendar => {
+        // Add listener to select event
+        calendar.on('select', date => {
+            console.log(date);
+        });
+    });
+
+    // To access to bulmaCalendar instance of an element
+    const element = document.querySelector('#my-element');
+    if (element) {
+        // bulmaCalendar instance is available as element.bulmaCalendar
+        element.bulmaCalendar.on('select', datepicker => {
+            console.log(datepicker.data.value());
+        });
+    }
 </script>
 
 {% endblock extra_js %}
