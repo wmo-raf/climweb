@@ -1,50 +1,58 @@
 {% with map=map_snippet.map %}
 <div class="column map-column">
-  <div class="card elevation-1">
-    <header class="card-header elevation-0">
-      <p class="card-header-title">{{ map.title }}</p>
-    </header>
-    {% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
-    <div class="card-content">
-      {% for block in map.map_layer %}
+    <div class="card elevation-1">
+        <header class="card-header elevation-0">
+            <p class="card-header-title">{{ map.title }}</p>
+        </header>
+        {% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
+        <div class="card-content">
+            {% for block in map.map_layer %}
 
-
-            <div class="map-container"
+            <div
+                class="map-container"
                 id="{{ container_id }}"
                 data-tilejson="{{map_snippet.datasetsurl}}{{block.value.dataset.id}}"
                 data-dataset="{{ block.value.dataset.id }}"
                 data-layer="{{ block.value.id }}"
                 data-title="{{ map.title }}"
-                data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector{% endif %}">
-            
-            <div class="c-legend-type-choropleth" style="position: absolute;bottom: 20px;left: 20px;background: white;padding: 10px;border-radius: 6px;font-size: 14px;z-index: 1000;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);"
-              id="legend-{{container_id}}"></div>
-              </div>
-          
-          {% endfor %}
-    </div>
-    <footer class="card-footer">
-          <div style="width: 100%" class="m-2">
-              <div id="slider-{{ container_id }}">
-                  <input type="text" class="layer-date-slider" style="display: none" name="my_range" value=""/>
-              </div>
-          </div>
-    
-        </footer>
-      {% endwith %}
+                data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector{% endif %}"
+            >
+                <div
+                    class="c-legend-type-choropleth"
+                    style="
+                        position: absolute;
+                        bottom: 20px;
+                        left: 20px;
+                        background: white;
+                        padding: 10px;
+                        border-radius: 6px;
+                        font-size: 14px;
+                        z-index: 1000;
+                        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                    "
+                    id="legend-{{container_id}}"
+                ></div>
+            </div>
 
-  </div>
+            {% endfor %}
+        </div>
+        <footer class="card-footer">
+            <div style="width: 100%" class="m-2">
+                <input
+                    class="flatpickr flatpickr-input input is-small"
+                    type="text"
+                    placeholder="Select Date.."
+                    id="mapdate-{{ container_id }}"
+                />
+            </div>
+        </footer>
+        {% endwith %}
+    </div>
 </div>
 
+{% if map.description %}
+<div class="column description-column mt-3">
+    <p>{{ map.description }}</p>
+</div>
 
-  {% if map.description %}
-    <div class="column description-column">
-
-      <p>{{ map.description }}</p>
-    </div>
-
-  {% endif %}
-  
-{% endwith %}
-
-
+{% endif %} {% endwith %}

@@ -36,7 +36,7 @@ h1 {
 }
 
 .card .card-header-title{
-    font-weight: 300;
+    font-weight: 800;
 }
 
 
@@ -140,4 +140,22 @@ appearance: none;
 
 .legend-item .label {
   white-space: nowrap;
+}
+
+.admin-select .control.has-icons-left .icon, .control.has-icons-right .icon {
+    color: #dbdbdb;
+    height: 2.5em;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 1.5rem;
+    z-index: 4;
+}
+
+.admin-select .select select {
+    background-color: transparent;
+    border: transparent;
+    border-radius: 4px;
+    color: white;
+    border-bottom: white 1px solid;
 }

@@ -86,39 +86,38 @@ async function getTimeValuesFromWMS(wmsUrl, layerName, params = {}) {
 }
 
 function getTimeFromList(timestamps, currentTimeMethod) {
-    let currentTime = timestamps[timestamps.length - 1];
+  let currentTime = timestamps[timestamps.length - 1];
 
-    switch (currentTimeMethod) {
-        case "next_to_now":
-            const nextDate = getNextToNowDate(timestamps);
-            if (nextDate) {
-                currentTime = nextDate;
-            }
-            break;
-        case "previous_to_now":
-            const previousDate = getPreviousToNowDate(timestamps);
-            if (previousDate) {
-                currentTime = previousDate;
-            }
-            break;
-        case "latest_from_source":
-            currentTime = timestamps[timestamps.length - 1];
-            break;
-        case "earliest_from_source":
-            currentTime = timestamps[0];
-            break;
-        default:
-            break;
-    }
+  switch (currentTimeMethod) {
+    case "next_to_now":
+      const nextDate = getNextToNowDate(timestamps);
+      if (nextDate) {
+        currentTime = nextDate;
+      }
+      break;
+    case "previous_to_now":
+      const previousDate = getPreviousToNowDate(timestamps);
+      if (previousDate) {
+        currentTime = previousDate;
+      }
+      break;
+    case "latest_from_source":
+      currentTime = timestamps[timestamps.length - 1];
+      break;
+    case "earliest_from_source":
+      currentTime = timestamps[0];
+      break;
+    default:
+      break;
+  }
 
-    return currentTime;
+  return currentTime;
 };
 
 
 (function () {
   const datasets = {}
   const layerConfigs = {}
-  const slider = $(".layer-date-slider")
 
   const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig()
   const dashboardBasemapStyle = {
@@ -159,19 +158,43 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
       if (!containerId || !tileJsonUrl || !layerType) return;
 
-      createMap(containerId, selected_layer, selected_dataset,layerType );
+      createMap(containerId, selected_layer, selected_dataset, layerType);
     });
   }
 
+  function initializeCalender(containerId, availableDates) {
+    
 
-  function createMap(containerId,selected_layer, selected_dataset, layerType) {
+    const availableDateStrings = availableDates && !!availableDates.length &&  availableDates.map(d => new Date(d)).sort((a, b) => new Date(b) - new Date(a));;
+
+    if(availableDateStrings && availableDateStrings.length>0){
+
+      const uniqueDates = [...new Set(availableDateStrings)];
+      const defaultDate = uniqueDates[0]
+      flatpickr(`#mapdate-${containerId}`, {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        enable: uniqueDates.map(d => new Date(d)),
+        defaultDate: defaultDate
+      });
 
 
+    } 
+    
+    
+
+  }
+
+
+  function createMap(containerId, selected_layer, selected_dataset, layerType) {
+
+      
     const map = new maplibregl.Map({
       container: containerId,
       style: dashboardBasemapStyle,
       scrollZoom: false
     });
+    updateLayer(map, containerId, selected_dataset, selected_layer, layerType)
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
     map.addControl(
@@ -185,8 +208,10 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
     map.on("load", () => {
 
-      updateLayer(map, containerId, selected_dataset, selected_layer, layerType)
+
+
       loadBoundaries(map)
+      
 
 
     });
@@ -235,32 +260,6 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     map.triggerRepaint();
   }
 
-  const updateSlider = (map, dateValues, layerId) => {
-    const dateSlider = slider.data("ionRangeSlider");
-
-    if (dateSlider) {
-      // destroy  existing  slider
-      dateSlider.destroy()
-    }
-
-    if (!!dateValues.length) {
-      slider.ionRangeSlider({
-        type: "single",
-        skin: "flat",
-        values: dateValues,
-        prettify: tsToDate,
-        grid: true,
-        grid_num: 1,
-        hide_min_max: true,
-        force_edges: true,
-        grid_snap: true,
-        onFinish: function (selected) {
-          onDateChange(map, selected, layerId)
-        }
-      });
-    }
-
-  }
 
   const getLayerDataset = async (selected_dataset, selected_layer) => {
     if (typeof (datasetsUrl) !== undefined && selected_dataset && selected_layer) {
@@ -289,8 +288,6 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     const sourceId = layerConfig.source.id
     const layerId = layerConfig.layer.id
     const layerType = layerConfig.layerType
-
-    console.log("layerconfig",layerConfig )
 
     if (map.getLayer(layerId)) {
       map.removeLayer(layerId)
@@ -329,7 +326,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
             "fill-opacity": 0.6,
           },
         });
-      } 
+      }
 
     }
 
@@ -339,7 +336,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
   const getLayerConfig = (layer, tileUrl) => {
 
     const config = {
-      layerType :layer.layerType,
+      layerType: layer.layerType,
       source: {
         "id": layer.id,
         "type": "raster",
@@ -580,21 +577,21 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     return null
   }
 
+
+
   const updateLayer = (map, containerId, selected_layer, selected_dataset, layerType) => {
-   getLayerDataset(selected_layer, selected_dataset).then(async activeLayerDataset => {
+    return getLayerDataset(selected_layer, selected_dataset).then(async activeLayerDataset => {
 
       if (activeLayerDataset) {
         const layer = activeLayerDataset.layers && activeLayerDataset.layers[0]
-        console.log(layer)
-
         const { tileJsonUrl, getCapabilitiesLayerName, getCapabilitiesUrl, paramsSelectorConfig, layerConfig } = layer
-        const {currentTimeMethod} = layer
+        const { currentTimeMethod } = layer
 
         let layerDates;
         let tileUrl
 
-        
-        if (layerType === 'raster'){
+
+        if (layerType === 'raster') {
           layerDates = await getLayerDates(tileJsonUrl)
 
           const defaultDate = layerDates && !!layerDates.length && layerDates[0]
@@ -603,10 +600,10 @@ function getTimeFromList(timestamps, currentTimeMethod) {
           const res = await fetch(tileJsonUrl);
           const res_1 = await res.json();
           tileUrl = updateTileUrl(res_1.tiles[0], { time: isoString })
-          console.log(tileUrl)
+          initializeCalender(containerId, layerDates)
 
 
-        } else if (layerType === 'wms'){
+        } else if (layerType === 'wms') {
           const timestamps = await getTimeValuesFromWMS(getCapabilitiesUrl, getCapabilitiesLayerName)
           layerDates = timestamps.sort((a, b) => new Date(a) - new Date(b));
           const currentLayerTime = getTimeFromList([...layerDates], currentTimeMethod);
@@ -614,31 +611,31 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
           if (timeSelectorConfig) {
             let timeUrlParam = "time"
-            const {url_param} = timeSelectorConfig
+            const { url_param } = timeSelectorConfig
             if (url_param) {
               timeUrlParam = url_param
             }
-            tileUrl = updateTileUrl(layerConfig.source.tiles[0], {[timeUrlParam]: currentLayerTime})
+            tileUrl = updateTileUrl(layerConfig.source.tiles[0], { [timeUrlParam]: currentLayerTime })
           }
+          initializeCalender(containerId, layerDates)
+
         }
 
-        console.log(layerDates)
-
-        const dateValues = layerDates.map(d => new Date(d).valueOf())
-        updateSlider(map, dateValues, layer.id)
 
         const { legendConfig } = layer || {}
 
         if (legendConfig) {
           const legend = createLegend(legendConfig)
-          $("#legend"+containerId).html(legend)
+          $("#legend" + containerId).html(legend)
         }
-        
+
         const layerSetup = getLayerConfig(layer, tileUrl)
 
         const defaultDate = layerDates && !!layerDates.length && layerDates[0]
 
         updateMapLayer(map, layerSetup, defaultDate)
+
+
 
 
       }

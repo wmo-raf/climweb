@@ -1,36 +1,44 @@
 <div class="columns my-4">
-  {% if index|divisibleby:2 and chart.description %}
-    <div class="column description-column">
-      </h3>{{ chart.title }}</h3>
-      <p>{{ chart.description }}</p>
+    {% if index|divisibleby:2 and chart.description %}
+    <div class="column description-column mt-3">
+        <p>{{ chart.description }}</p>
     </div>
     <div class="column chart-column">
-  {% else %}
-    <div class="column chart-column">
-  {% endif %}
-      <div class="card elevation-1">
-        <header class="card-header elevation-0">
-          <p class="card-header-title">{{ chart.title }}</p>
-        </header>
-        <div class="card-content">
-          <div class="chart-container" 
-          id="chart-{{ section_index }}-{{ index }}"
-          data-layer-id="{{ chart.dataset.id }}"
-          data-title="{{ chart.title }}"
-          data-color="{{ chart.chart_color|default:'#0b76e1' }}"
-          data-unit="{{ chart.data_unit|default:'Value' }}"
-          data-type="{{ chart.chart_type|default:'line' }}"
-
-          data-admin-code="GH"
-          ></div>
+        {% else %}
+        <div class="column chart-column">
+            {% endif %}
+            <div class="card elevation-1">
+                <header class="card-header elevation-0">
+                    <p class="card-header-title">{{ chart.title }}</p>
+                </header>
+                <div class="card-content">
+                    <div
+                        class="chart-container"
+                        id="chart-{{ section_index }}-{{ index }}"
+                        data-layer-id="{{ chart.dataset.id }}"
+                        data-title="{{ chart.title }}"
+                        data-color="{{ chart.chart_color|default:'#0b76e1' }}"
+                        data-unit="{{ chart.data_unit|default:'Value' }}"
+                        data-type="{{ chart.chart_type|default:'line' }}"
+                        data-admin-code="GH"
+                    ></div>
+                </div>
+                <footer class="card-footer">
+                    <div style="width: 100%" class="m-2">
+                        <input
+                            class="flatpickr flatpickr-input input is-small"
+                            type="text"
+                            placeholder="Select Date Range"
+                            id="date-chart-{{ section_index }}-{{ index }}"
+                        />
+                    </div>
+                </footer>
+            </div>
         </div>
-      </div>
+        {% if chart.description and index|divisibleby:2 == False %}
+        <div class="column is-half description-column mt-3">
+            <p>{{ chart.description }}</p>
+        </div>
+        {% endif %}
     </div>
-{% if chart.description and index|divisibleby:2 == False %}
-    <div class="column is-half description-column">
-      <h3>{{ chart.title }}</h3>
-      <p>{{ chart.description }}</p>
-    </div>
-  {% endif %}
 </div>
-
