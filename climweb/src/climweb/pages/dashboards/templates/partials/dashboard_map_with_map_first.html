@@ -1,8 +1,20 @@
+{% load wagtailiconchooser_tags %}
+
 {% with map=map_snippet.map %}
 <div class="column map-column">
     <div class="card elevation-1">
         <header class="card-header elevation-0">
             <p class="card-header-title">{{ map.title }}</p>
+            <button class="card-header-icon" aria-label="more options">
+              <div class="icon is-small">
+                  {% svg_icon "layer-group" %}
+              </div>
+            </button>
+            <button class="card-header-icon" aria-label="more options">
+              <div class="icon is-small">
+                  {% svg_icon "info-circle" %}
+              </div>
+            </button>
         </header>
         {% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
         <div class="card-content">

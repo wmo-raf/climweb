@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags wagtailiconchooser_tags nmhs_cms_tags %}
+{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags nmhs_cms_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
@@ -14,6 +14,15 @@
                 <section id="page-hero" class="hero is-small" style="background-color:{{page.banner_background_color}}">
                     <div class="hero-body is-align-items-center" style="display:flex">
                         <div class="container">
+                            <div class="dashboards-li is-align-items-center my-3" style="display:flex; color: #fab72e;  fill:#fab72e">
+                                 <span class="icon is-small">
+                                    {% svg_icon "arrow-left" %}
+                                </span>
+                                <a href="#" style="color: #fab72e; font-weight:400">
+                                    Dashboards
+                                </a>  
+                            </div>
+                                
                             {% block banner_title %}
                                 <h1 class="title page-title has-text-white"
                                     style="font-weight:300;  color: #ffffff;">
@@ -85,7 +94,7 @@
         const hours = date.getHours().toString().padStart(2, "0");
         const minutes = date.getMinutes().toString().padStart(2, "0");
 
-        return `${day} ${month} ${year}<br>${hours}:${minutes}`;
+        return `${day} ${month} ${year} ${hours}:${minutes}`;
     }
     document.addEventListener("DOMContentLoaded", function () {
         document
@@ -105,6 +114,35 @@
 
                 let geostoreId = null;
                 let oldestDate = null;
+
+                const chart = Highcharts.chart(chartId, {
+                    chart: {
+                        type: container.dataset.type || "line",
+                        backgroundColor: "transparent",
+                        spacingTop: 40,
+                    },
+                    title: { text: null },
+                    credits: {
+                        enabled: false,
+                    },
+                    xAxis: {
+                        labels: {
+                            formatter: function () {
+                                return formatDateTime(this.value);
+                            },
+                        },
+                    },
+                    yAxis: {
+                        title: { text: container.dataset.unit },
+                    },
+                    
+                    
+                });
+
+                
+
+                 // 🔄 Show loading while fetching
+                chart.showLoading('Loading data...');
 
                 // Step 1: Get geostore_id
                 fetch(`/api/geostore/admin/${adminCode}?thresh=0.005`)
@@ -140,44 +178,36 @@
                             data.map((d) => Math.round(d.value * 100) / 100) ||
                             [];
 
-                        Highcharts.chart(chartId, {
-                            chart: {
-                                type: container.dataset.type || "line",
-                                backgroundColor: "transparent",
-                                spacingTop: 40,
-                            },
-                            title: { text: null },
-                            credits: {
-                                enabled: false,
-                            },
-                            xAxis: {
-                                categories: timestamps,
-                                labels: {
-                                    formatter: function () {
-                                        return formatDateTime(this.value);
-                                    },
-                                },
-                            },
-                            yAxis: {
-                                title: { text: container.dataset.unit },
-                            },
-                            series: [
+                            chart.xAxis[0].setCategories(timestamps);
+                            
+
+                            chart.addSeries(
                                 {
                                     name: container.dataset.title,
                                     color: container.dataset.color,
                                     data: values,
                                 },
-                            ],
-                            tooltip: {
-                                formatter: function () {
-                                    return `
-                <b>${this.series.name}</b><br>
-                ${formatDateTime(this.x)}<br>
-                <b>${this.y.toFixed(2)}</b> ${this.series.options.unit || ""}
-                `;
-                                },
-                            },
-                        });
+                            );
+                            chart.update({
+                                tooltip: {
+                                    formatter: function () {
+                                        return `
+                                        <b>${this.series.name}</b><br>
+                                        ${formatDateTime(this.x)} <br> <b>${this.y.toFixed(2)}</b> 
+                                        ${this.series.options.unit || ""}
+                                    `;
+                                    },
+                                }
+                                });
+
+
+
+                            
+
+                            // ✅ Hide loading when ready
+                            chart.hideLoading();
+
+                        
                     })
                     .catch((err) => {
                         console.error("Chart load error:", err);

@@ -1,3 +1,4 @@
+{% load wagtailiconchooser_tags %}
 <div class="columns my-4">
     {% if index|divisibleby:2 and chart.description %}
     <div class="column description-column mt-3">
@@ -10,6 +11,16 @@
             <div class="card elevation-1">
                 <header class="card-header elevation-0">
                     <p class="card-header-title">{{ chart.title }}</p>
+                    <button class="card-header-icon" aria-label="more options">
+                      <div class="icon is-small">
+                          {% svg_icon "layer-group" %}
+                      </div>
+                    </button>
+                    <button class="card-header-icon" aria-label="more options">
+                      <div class="icon is-small">
+                          {% svg_icon "info-circle" %}
+                      </div>
+                    </button>
                 </header>
                 <div class="card-content">
                     <div

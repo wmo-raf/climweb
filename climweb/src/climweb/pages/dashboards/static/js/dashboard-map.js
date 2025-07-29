@@ -163,32 +163,31 @@ function getTimeFromList(timestamps, currentTimeMethod) {
   }
 
   function initializeCalender(containerId, availableDates) {
-    
 
-    const availableDateStrings = availableDates && !!availableDates.length &&  availableDates.map(d => new Date(d)).sort((a, b) => new Date(b) - new Date(a));;
 
-    if(availableDateStrings && availableDateStrings.length>0){
+    const availableDateStrings = availableDates && !!availableDates.length && availableDates.map(d => new Date(d)).sort((a, b) => new Date(b) - new Date(a));;
+
+    if (availableDateStrings && availableDateStrings.length > 0) {
 
       const uniqueDates = [...new Set(availableDateStrings)];
+
       const defaultDate = uniqueDates[0]
       flatpickr(`#mapdate-${containerId}`, {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
         enable: uniqueDates.map(d => new Date(d)),
-        defaultDate: defaultDate
+        defaultDate: new Date(defaultDate)
       });
 
 
-    } 
-    
-    
+    }
 
   }
 
 
   function createMap(containerId, selected_layer, selected_dataset, layerType) {
 
-      
+
     const map = new maplibregl.Map({
       container: containerId,
       style: dashboardBasemapStyle,
@@ -197,13 +196,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     updateLayer(map, containerId, selected_dataset, selected_layer, layerType)
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
-    map.addControl(
-      new maplibregl.AttributionControl({
-        customAttribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        compact: true,
-      })
-    );
+
     map.addControl(new maplibregl.FullscreenControl());
 
     map.on("load", () => {
@@ -211,7 +204,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
 
       loadBoundaries(map)
-      
+
 
 
     });
