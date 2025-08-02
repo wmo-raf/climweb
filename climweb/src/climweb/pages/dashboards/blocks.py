@@ -10,14 +10,19 @@ class ChartSnippetChooser(blocks.StructBlock):
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context)
+        request = context.get("request")
 
         maps_with_urls = []
-        for chart_snippet in value.get("charts_block", []):
+        for map_snippet in value.get("maps_block", []):
             maps_with_urls.append({
-                "chart": chart_snippet,
+                "map": map_snippet,
+                "layertimestampsurl": map_snippet.get_layertimestampsurl(request),
+                "datasetsurl": map_snippet.get_datasetsurl(request),
+                "boundary_tiles_url": map_snippet.get_boundary_tiles_url(request),
+                "bounds": map_snippet.get_bounds(request),
             })
 
-        context["charts"] = maps_with_urls
+        context["maps"] = maps_with_urls
         return context
     
 

@@ -2,19 +2,20 @@ from wagtail.models import Page
 from wagtail.fields import StreamField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField
-from wagtail import blocks as wagtail_blocks
 from django.db import models
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from climweb.pages.dashboards.blocks import DashboardSectionBlock
 
-from wagtail.snippets.models import register_snippet
-
-
 class DashboardGalleryPage(Page):
     subpage_types = ['dashboards.DashboardPage']  # only allow DashboardPage children
     parent_page_types = ['home.HomePage']
+
+    description = models.CharField(max_length=255, null=True)
     max_count = 1  # optional: only one index page site-wide
 
+    content_panels = Page.content_panels + [
+        FieldPanel("description"),
+    ]
     class Meta:
         verbose_name = "Dashboards Gallery"
 

@@ -118,6 +118,8 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 (function () {
   const datasets = {}
   const layerConfigs = {}
+  const flatpickrInstances = {};
+  const containers = document.querySelectorAll(".map-container");
 
   const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig()
   const dashboardBasemapStyle = {
@@ -146,7 +148,6 @@ function getTimeFromList(timestamps, currentTimeMethod) {
   };
 
   function initializeMap() {
-    const containers = document.querySelectorAll(".map-container");
 
     containers.forEach((container) => {
 
@@ -155,37 +156,55 @@ function getTimeFromList(timestamps, currentTimeMethod) {
       const containerId = container.id;
       const selected_dataset = container.dataset.dataset
       const selected_layer = container.dataset.layer
+      const boundaryGeom = container.dataset.geom;
 
       if (!containerId || !tileJsonUrl || !layerType) return;
 
-      createMap(containerId, selected_layer, selected_dataset, layerType);
+      createMap(containerId, selected_layer, selected_dataset, layerType, boundaryGeom && JSON.parse(boundaryGeom));
+
+
     });
   }
 
-  function initializeCalender(containerId, availableDates) {
+  function initializeCalender() {
 
-
-    const availableDateStrings = availableDates && !!availableDates.length && availableDates.map(d => new Date(d)).sort((a, b) => new Date(b) - new Date(a));;
-
-    if (availableDateStrings && availableDateStrings.length > 0) {
-
-      const uniqueDates = [...new Set(availableDateStrings)];
-
-      const defaultDate = uniqueDates[0]
-      flatpickr(`#mapdate-${containerId}`, {
+    containers.forEach((container) => {
+      const containerId = container.id;
+      const fp = flatpickr(`#mapdate-${containerId}`, {
         enableTime: true,
-        dateFormat: "Y-m-d H:i",
-        enable: uniqueDates.map(d => new Date(d)),
-        defaultDate: new Date(defaultDate)
+        dateFormat: "d M Y, h:i K",
+        onChange: function(selectedDates, dateStr, instance) {
+          console.log(selectedDates)
+          console.log(dateStr)
+              instance.close(); // Close calendar on date selection
+            }
       });
 
+      flatpickrInstances[containerId] = fp;
+    })
+  }
 
-    }
+  function setCalendarDates(containerId, availableDates) {
+
+    const fp = flatpickrInstances[containerId];
+    if (!fp || !availableDates || !availableDates.length) return;
+
+    const parsedDates = availableDates
+      .map(d => new Date(d))
+      .filter(d => !isNaN(d))
+      .sort((a, b) => b - a); // newest first
+
+    // Remove duplicates by timestamp
+    const uniqueTimestamps = [...new Set(parsedDates.map(d => d.getTime()))];
+
+    const defaultDate = uniqueTimestamps[0];
+
+    fp.setDate(defaultDate, true);
+    fp.set('enable', uniqueTimestamps);
 
   }
 
-
-  function createMap(containerId, selected_layer, selected_dataset, layerType) {
+  function createMap(containerId, selected_layer, selected_dataset, layerType, boundaryGeom) {
 
 
     const map = new maplibregl.Map({
@@ -200,12 +219,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     map.addControl(new maplibregl.FullscreenControl());
 
     map.on("load", () => {
-
-
-
-      loadBoundaries(map)
-
-
+      loadBoundaries(map, boundaryGeom)
 
     });
 
@@ -320,6 +334,12 @@ function getTimeFromList(timestamps, currentTimeMethod) {
           },
         });
       }
+
+      if (map.getLayer("admin-boundary-line") && map.getLayer("admin-boundary-line-2")) {
+        map.moveLayer("admin-boundary-line");
+        map.moveLayer("admin-boundary-line-2");
+      }
+
 
     }
 
@@ -585,15 +605,16 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
 
         if (layerType === 'raster') {
-          layerDates = await getLayerDates(tileJsonUrl)
-
+          const timestamps = await getLayerDates(tileJsonUrl)
+          layerDates = timestamps.sort((a, b) => new Date(a) - new Date(b));
           const defaultDate = layerDates && !!layerDates.length && layerDates[0]
 
           const isoString = new Date(defaultDate).toISOString()
           const res = await fetch(tileJsonUrl);
           const res_1 = await res.json();
           tileUrl = updateTileUrl(res_1.tiles[0], { time: isoString })
-          initializeCalender(containerId, layerDates)
+
+          setCalendarDates(containerId, layerDates)
 
 
         } else if (layerType === 'wms') {
@@ -610,7 +631,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
             }
             tileUrl = updateTileUrl(layerConfig.source.tiles[0], { [timeUrlParam]: currentLayerTime })
           }
-          initializeCalender(containerId, layerDates)
+          setCalendarDates(containerId, layerDates)
 
         }
 
@@ -638,40 +659,30 @@ function getTimeFromList(timestamps, currentTimeMethod) {
   }
 
 
-  const loadBoundaries = (map) => {
-    // fit to country bounds
-    if (typeof (countryBounds) !== 'undefined' && countryBounds) {
-      const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
-      map.fitBounds(bounds, { padding: 50 });
-    }
+  const loadBoundaries = (map, boundaryGeom) => {
 
-    // add country layer
-    if (typeof (boundaryTilesUrl) !== 'undefined' && boundaryTilesUrl) {
-      // add source
+    if (boundaryGeom && boundaryGeom.type === "MultiPolygon") {
+      const coordinates = boundaryGeom.coordinates.flat(2); // Flatten deep arrays
+      const lats = coordinates.map(c => c[1]);
+      const lngs = coordinates.map(c => c[0]);
+
+      const bounds = [
+        [Math.min(...lngs), Math.min(...lats)],
+        [Math.max(...lngs), Math.max(...lats)],
+      ];
+
+      map.fitBounds(bounds, { padding: 30 });
       map.addSource("admin-boundary-source", {
-        type: "vector",
-        tiles: [boundaryTilesUrl],
+        type: "geojson",
+        data: boundaryGeom,
       }
       )
-      // add layer
-      map.addLayer({
-        'id': 'admin-boundary-fill',
-        'type': 'fill',
-        'source': 'admin-boundary-source',
-        "source-layer": "default",
-        "filter": ["==", "level", 0],
-        'paint': {
-          'fill-color': "#fff",
-          'fill-opacity': 0,
-        }
-      });
+
 
       map.addLayer({
         'id': 'admin-boundary-line',
         'type': 'line',
         'source': 'admin-boundary-source',
-        "source-layer": "default",
-        "filter": ["==", "level", 0],
         'paint': {
           "line-color": "#C0FF24",
           "line-width": 1,
@@ -682,18 +693,62 @@ function getTimeFromList(timestamps, currentTimeMethod) {
         'id': 'admin-boundary-line-2',
         'type': 'line',
         'source': 'admin-boundary-source',
-        "source-layer": "default",
-        "filter": ["==", "level", 0],
         'paint': {
           "line-color": "#000",
           "line-width": 1.5,
         }
       });
+
+
+    } else {
+      // fit to country bounds
+      if (typeof (countryBounds) !== 'undefined' && countryBounds) {
+        const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
+        map.fitBounds(bounds, { padding: 50 });
+      }
+
+      // add country layer
+      if (typeof (boundaryTilesUrl) !== 'undefined' && boundaryTilesUrl) {
+        // add source
+        map.addSource("admin-boundary-source", {
+          type: "vector",
+          tiles: [boundaryTilesUrl],
+        }
+        )
+
+
+        map.addLayer({
+          'id': 'admin-boundary-line',
+          'type': 'line',
+          'source': 'admin-boundary-source',
+          "source-layer": "default",
+          "filter": ["==", "level", 0],
+          'paint': {
+            "line-color": "#C0FF24",
+            "line-width": 1,
+            "line-offset": 1,
+          }
+        });
+        map.addLayer({
+          'id': 'admin-boundary-line-2',
+          'type': 'line',
+          'source': 'admin-boundary-source',
+          "source-layer": "default",
+          "filter": ["==", "level", 0],
+          'paint': {
+            "line-color": "#000",
+            "line-width": 1.5,
+          }
+        });
+      }
     }
+
+
+
   }
 
 
   initializeMap()
-
+  initializeCalender()
 
 })()

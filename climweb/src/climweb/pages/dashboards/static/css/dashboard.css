@@ -1,9 +1,9 @@
-.page-title{
-    font-size:60px!important
+.page-title {
+    font-size: 60px !important;
 }
-.page-description>p{
-    font-size: 23px!important;
-    font-weight:200
+.page-description > p {
+    font-size: 23px !important;
+    font-weight: 200;
 }
 
 .hero-body .title {
@@ -24,125 +24,123 @@ h1 {
     text-align: left;
 }
 
-.work .section-subheader{
+.work .section-subheader {
     text-align: left !important;
     font-size: 30px;
     font-weight: 200;
 }
 
-.card{
-        background-color: transparent;
-
+.card {
+    background-color: transparent;
 }
 
-.card .card-header-title{
+.card .card-header-title {
     font-weight: 500;
 }
 
-
 .dashboard-maps {
-  padding: 1rem;
+    padding: 1rem;
 }
 
 .dashboard-map {
-  margin-bottom: 2rem;
-  position: relative;
+    margin-bottom: 2rem;
+    position: relative;
 }
 
-.map-container,.chart-container{
+.map-container,
+.chart-container {
     min-height: 300px;
 }
 
-.card-content{
-    padding: 0
+.card-content {
+    padding: 0;
 }
 
 .map-time-slider {
-  width: 100%;
+    width: 100%;
 }
 
 .map-time-slider input[type="range"] {
-  width: 100%;
-  background: transparent;
-  margin-bottom: 10px;
+    width: 100%;
+    background: transparent;
+    margin-bottom: 10px;
 }
-
 
 /* WebKit Thumb */
 .map-time-slider input[type="range"]::-webkit-slider-thumb {
-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #444;
-  border: 2px solid #fff;
-  margin-top: -5px;
-  box-shadow: 0 0 0 2px #aaa;
-  cursor: pointer;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #444;
+    border: 2px solid #fff;
+    margin-top: -5px;
+    box-shadow: 0 0 0 2px #aaa;
+    cursor: pointer;
 }
 
 /* Firefox Thumb */
 .map-time-slider input[type="range"]::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #444;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #aaa;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #444;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #aaa;
 }
 
 /* Track */
 .map-time-slider input[type="range"]::-webkit-slider-runnable-track,
 .map-time-slider input[type="range"]::-moz-range-track {
-  height: 1px;
-  background: #ccc;
-  border-radius: 4px;
+    height: 1px;
+    background: #ccc;
+    border-radius: 4px;
 }
 
 /* Visible tick labels */
 .custom-ticks {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  font-weight: 400;
-  color: #393838;
-  margin-top: -4px;
-  pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: #393838;
+    margin-top: -4px;
+    pointer-events: none;
 }
 
 .custom-ticks span {
-  width: 40px;
-  text-align: center;
+    width: 40px;
+    text-align: center;
 }
 
-
 .map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 1rem;
-  font-size: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1rem;
+    font-size: 0.8rem;
 }
 
 .legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .legend-item .color {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  border-radius: 2px;
-  border: 1px solid #ccc;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #ccc;
 }
 
 .legend-item .label {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
-.admin-select .control.has-icons-left .icon, .control.has-icons-right .icon {
+.admin-select .control.has-icons-left .icon,
+.control.has-icons-right .icon {
     color: #dbdbdb;
     height: 2.5em;
     pointer-events: none;
@@ -160,15 +158,23 @@ appearance: none;
     border-bottom: white 1px solid;
 }
 
-.dashboards-li a:hover{
-  color: #fab72e !important;
-  font-weight: 600;
+.dashboards-li a:hover {
+    color: #fab72e !important;
+    font-weight: 600;
 }
 
-.card-header-icon{
-  padding: .75rem .5rem
+.card-header-icon {
+    padding: 0.75rem 0.5rem;
 }
 
-.table{
-      font-size: 14px;
+.table {
+    font-size: 14px;
+}
+
+.hero {
+    box-shadow: unset;
+}
+
+.hero h1 {
+    color: #444;
 }

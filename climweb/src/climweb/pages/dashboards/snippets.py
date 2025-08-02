@@ -1,6 +1,10 @@
+import json
+from climweb.pages.dashboards.forms import BoundaryMultiPolygonField, BoundaryIDWidget
 from django.db import models
+from django.contrib.gis.db import models as gis_models
+
 from django.urls import reverse
-from wagtail.admin.panels import FieldPanel,MultiFieldPanel
+from wagtail.admin.panels import FieldPanel,MultiFieldPanel,TabbedInterface,ObjectList
 from wagtail.snippets.models import register_snippet
 from wagtail.fields import StreamField
 from django.utils.translation import gettext_lazy as _
@@ -11,6 +15,54 @@ from wagtail.api.v2.utils import get_full_url
 from adminboundarymanager.models import AdminBoundarySettings
 
 from geomanager.models import RasterFileLayer, WmsLayer, VectorTileLayer
+from shapely.geometry import shape
+from shapely import Point, Polygon
+
+
+
+class DashboardMapValue:
+    def __init__(self, instance):
+        self.instance = instance
+
+    @cached_property
+    def area(self):
+        geom_geojson_str = self.instance.boundary
+        geom_geojson_dict = json.loads(geom_geojson_str)
+        geom_shape = shape(geom_geojson_dict)
+
+        polygons = []
+        if isinstance(geom_shape, Polygon):
+            polygons.append(geom_shape)
+        else:
+            polygons = list(geom_shape.geoms)
+
+        polygons_data = []
+        for polygon in polygons:
+            coords = " ".join(["{},{}".format(y, x) for x, y in list(polygon.exterior.reverse().coords)])
+            polygons_data.append(coords)
+
+        area_data = {
+            "type": "polygon",
+            "areaDesc": self.instance.areaDesc,
+            "polygons": polygons_data,
+        }
+
+        if getattr(self.instance, "altitude", None):
+            area_data["altitude"] = self.instance.altitude
+            if getattr(self.instance, "ceiling", None):
+                area_data["ceiling"] = self.instance.ceiling
+
+        if getattr(self.instance, "geocode", None):
+            area_data["geocode"] = [
+                {"valueName": g["valueName"], "value": g["value"]}
+                for g in self.instance.geocode
+            ]
+
+        return area_data
+
+    @cached_property
+    def geojson(self):
+        return json.loads(self.instance.boundary)
 
 @register_snippet
 class ChartSnippet(models.Model):
@@ -19,6 +71,13 @@ class ChartSnippet(models.Model):
         ("column", "Bar Chart"),
         ("stripes", "Warming stripes"),
     ]
+
+    ADMIN_LEVEL_CHOICES = (
+        (0, _("Level 0")),
+        (1, _("Level 1")),
+        (2, _("Level 2")),
+        (3, _("Level 3"))
+    )
 
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -34,17 +93,32 @@ class ChartSnippet(models.Model):
         help_text="Hex color code for chart color (e.g., #0b76e1)"
     )
 
+    areaDesc = models.TextField(max_length=50,
+                                help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
+    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=True )
+    
+    geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
+
     panels = [
-        FieldPanel("title"),
-        FieldPanel("description"),
-        MultiFieldPanel([
-            FieldPanel("dataset"),
-            FieldPanel("data_unit"),
-        ],heading= "Data Configuration"),
-        MultiFieldPanel([
-            FieldPanel("chart_type"),
-            NativeColorPanel("chart_color"),
-        ], heading= "Chart Configuration"),
+        TabbedInterface([
+            ObjectList([
+                FieldPanel("title"),
+                FieldPanel("description"),
+                MultiFieldPanel([
+                    FieldPanel("dataset"),
+                    FieldPanel("data_unit"),
+                ],heading= "Data Configuration"),
+                MultiFieldPanel([
+                    FieldPanel("chart_type"),
+                    NativeColorPanel("chart_color"),
+                ], heading= "Chart Configuration")
+            ], heading=_("Layer")),
+            ObjectList([
+                FieldPanel("admin_level"),
+                FieldPanel("areaDesc"),
+                FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}))
+            ], heading=_("Admin Boundary"))
+        ])
     ]
 
     def __str__(self):
@@ -57,8 +131,22 @@ class ChartSnippet(models.Model):
 
 @register_snippet
 class DashboardMap(models.Model):
+
+    ADMIN_LEVEL_CHOICES = (
+        (0, _("Level 0")),
+        (1, _("Level 1")),
+        (2, _("Level 2")),
+        (3, _("Level 3"))
+    )
+
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
+
+    areaDesc = models.TextField(max_length=50,
+                                help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
+    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=True )
+    
+    geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
 
     map_layer = StreamField([
         ('raster_file_layer', climweb_blocks.UUIDModelChooserBlock(RasterFileLayer, icon="map")),
@@ -67,9 +155,20 @@ class DashboardMap(models.Model):
     ], null=True, blank=False, max_num=1, verbose_name=_("Map Layers"))
 
     panels = [
-        FieldPanel("title"),
-        FieldPanel("description"),
-        FieldPanel("map_layer"),
+        TabbedInterface([
+            ObjectList([
+                
+                FieldPanel("title"),
+                FieldPanel("description"),
+                FieldPanel("map_layer"),
+            ], heading=_("Layer")),
+            ObjectList([
+                FieldPanel("admin_level"),
+            FieldPanel("areaDesc"),
+            FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}))
+            ], heading=_("Admin Boundary")),
+        ]),
+        
     ]
 
     def __str__(self):
@@ -101,8 +200,18 @@ class DashboardMap(models.Model):
             return abm_settings.combined_countries_bounds
         except Exception:
             return None
+        
 
+    @property
+    def geom_geojson(self):
+        if self.geom:
+            return self.geom.geojson  # returns valid GeoJSON string
+        return None
 
+    @cached_property
+    def boundary_tiles_url(self):
+        return reverse("admin_boundary_tiles", args=[0, 0, 0]).replace("/0/0/0", r"/{z}/{x}/{y}")
+    
     @cached_property
     def selected_layer(self):
         """

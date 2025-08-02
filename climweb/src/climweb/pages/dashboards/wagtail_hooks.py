@@ -1,4 +1,7 @@
+from climweb.pages.dashboards.forms import BoundaryMultiPolygonField
 from wagtail import hooks
+from django import forms
+
 from wagtail_modeladmin.options import (
     ModelAdmin, modeladmin_register, ModelAdminGroup
 )
@@ -50,3 +53,14 @@ class CustomDashboardMenu(ModelAdminGroup):
 modeladmin_register(CustomDashboardMenu)
 
 
+class DashboardMapForm(forms.ModelForm):
+    boundary = BoundaryMultiPolygonField(required=False)
+
+    class Meta:
+        model = DashboardMap
+        fields = "__all__"
+
+@hooks.register('construct_snippet_form')
+def use_custom_form_for_map_snippet(model, request, **kwargs):
+    if model == DashboardMap:
+        return DashboardMapForm

@@ -27,6 +27,7 @@
                 data-dataset="{{ block.value.dataset.id }}"
                 data-layer="{{ block.value.id }}"
                 data-title="{{ map.title }}"
+                data-geom='{{ map.geom_geojson|default:"null"|safe }}'
                 data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector{% endif %}"
             >
                 <div
