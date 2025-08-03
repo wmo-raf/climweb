@@ -580,7 +580,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
         let tileUrl
 
 
-        if (layerType === 'raster_file' || layerType === 'raster_tile') {
+        if (layerType === 'raster_file' || layerType === 'raster_tile' || layerType === 'vector_tile' ) {
           const timestamps = await getLayerDates(tileJsonUrl)
           layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
           const defaultDate = layerDates && !!layerDates.length && layerDates[0]
@@ -590,7 +590,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
           const res_1 = await res.json();
           tileUrl = updateTileUrl(res_1.tiles[0], { time: isoString })
 
-        } else if (layerType === 'wms' || layerType === 'vector_tile' ) {
+        } else if (layerType === 'wms') {
           const timestamps = await getTimeValuesFromWMS(getCapabilitiesUrl, getCapabilitiesLayerName)
           layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
           const currentLayerTime = getTimeFromList([...layerDates], currentTimeMethod);
