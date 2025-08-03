@@ -5,11 +5,11 @@
     <div class="card elevation-1">
         <header class="card-header elevation-0">
             <p class="card-header-title">{{ map.title }}</p>
-            <button class="card-header-icon" aria-label="more options">
+            <a class="card-header-icon" aria-label="more options" href="{{map.mapviewer_map_url}}"  target="_blank" rel="noopener">
               <div class="icon is-small">
                   {% svg_icon "layer-group" %}
               </div>
-            </button>
+            </a>
             <button class="card-header-icon" aria-label="more options">
               <div class="icon is-small">
                   {% svg_icon "info-circle" %}

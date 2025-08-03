@@ -1,3 +1,4 @@
+import base64
 import json
 from climweb.pages.dashboards.forms import BoundaryIDWidget
 from django.db import models
@@ -206,6 +207,38 @@ class DashboardMap(models.Model):
             return abm_settings.combined_countries_bounds
         except Exception:
             return None
+
+    @property
+    def mapviewer_map_url(self):
+        base_mapviewer_url = reverse("mapview")
+
+        map_config = {
+            "datasets": [{"dataset": "political-boundaries", "layers": ["political-boundaries"], "visibility": True}]
+        }
+
+        map_str = json.dumps(map_config, separators=(',', ':'))
+
+        map_bytes = map_str.encode()
+        map_base64_bytes = base64.b64encode(map_bytes)
+        map_byte_str = map_base64_bytes.decode()
+
+        dataset_category_title = "Unknown"
+
+        # Step 1: Get selected layer instance (already a model via UUIDModelChooserBlock)
+        selected = self.selected_layer
+
+        # Step 2: If it exists and has a dataset with a category, extract it
+        if selected and hasattr(selected, "dataset") and selected.dataset and selected.dataset.category:
+            dataset_category_title = selected.dataset.category.title
+
+
+        menu_config = {"menuSection": "datasets", "datasetCategory": dataset_category_title}
+        menu_str = json.dumps(menu_config, separators=(',', ':'))
+        menu_bytes = menu_str.encode()
+        menu_base64_bytes = base64.b64encode(menu_bytes)
+        menu_byte_str = menu_base64_bytes.decode()
+
+        return base_mapviewer_url + f"?map={map_byte_str}&mapMenu={menu_byte_str}"
         
 
     @property
