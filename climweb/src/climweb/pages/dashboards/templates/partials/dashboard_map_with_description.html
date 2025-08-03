@@ -2,6 +2,7 @@
 
 {% with map=map_snippet.map %} {% if map.description %}
 <div class="column description-column mt-3">
+    {% if map.areaDesc %}<b><em>{{map.areaDesc}} </em></b>{% endif %}
     <p>{{ map.description }}</p>
 </div>
 
@@ -34,20 +35,21 @@
                 data-layer="{{ block.value.id }}"
                 data-title="{{ map.title }}"
                 data-geom='{{ map.geom_geojson|default:"null"|safe }}'
-                data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector{% endif %}"
+                data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster_file{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector_tile{% elif block.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
             >
                 <div
                     class="c-legend-type-choropleth"
                     style="
                         position: absolute;
                         bottom: 20px;
-                        left: 20px;
+                        left: 10px;
                         background: white;
-                        padding: 10px;
+                        padding: 2px 14px;
                         border-radius: 6px;
                         font-size: 14px;
                         z-index: 1000;
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                        display:none;
                     "
                     id="legend-{{container_id}}"
                 ></div>

@@ -100,6 +100,7 @@ def home_map_settings(request):
             LayerSerializer = WmsLayerSerializer
         elif block.block_type == "vector_tile_layer":
             LayerSerializer = VectorTileLayerSerializer
+
         
         if LayerSerializer:
             layer = block.value.get("layer")

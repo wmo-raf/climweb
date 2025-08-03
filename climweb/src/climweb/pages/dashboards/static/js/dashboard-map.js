@@ -173,36 +173,35 @@ function getTimeFromList(timestamps, currentTimeMethod) {
       const fp = flatpickr(`#mapdate-${containerId}`, {
         enableTime: true,
         dateFormat: "d M Y, h:i K",
-        onChange: function(selectedDates, dateStr, instance) {
-          console.log(selectedDates)
-          console.log(dateStr)
-              instance.close(); // Close calendar on date selection
-            }
       });
 
       flatpickrInstances[containerId] = fp;
     })
   }
 
-  function setCalendarDates(containerId, availableDates) {
 
+
+  function setCalendarDates(containerId, availableDates) {
+  return new Promise((resolve, reject) => {
     const fp = flatpickrInstances[containerId];
-    if (!fp || !availableDates || !availableDates.length) return;
+    if (!fp || !availableDates || !availableDates.length) {
+      return resolve(); // Resolve early even if nothing to set
+    }
 
     const parsedDates = availableDates
       .map(d => new Date(d))
-      .filter(d => !isNaN(d))
-      .sort((a, b) => b - a); // newest first
+      .filter(d => !isNaN(d));
 
-    // Remove duplicates by timestamp
     const uniqueTimestamps = [...new Set(parsedDates.map(d => d.getTime()))];
-
     const defaultDate = uniqueTimestamps[0];
 
     fp.setDate(defaultDate, true);
     fp.set('enable', uniqueTimestamps);
 
-  }
+    resolve();
+  });
+}
+
 
   function createMap(containerId, selected_layer, selected_dataset, layerType, boundaryGeom) {
 
@@ -290,6 +289,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     return decodeURIComponent(url.href)
   }
 
+
   const updateMapLayer = (map, layerConfig, withDate) => {
 
     const sourceId = layerConfig.source.id
@@ -306,8 +306,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
     if (withDate) {
       const tileUrl = updateTileUrl(layerConfig.source.tiles, { time: withDate })
-
-      if (layerType === "raster_file" || layerType === "wms") {
+      if (layerType === "raster_file" || layerType === "wms" || layerType === "raster_tile") {
         map.addSource(sourceId, {
           type: "raster",
           tiles: [tileUrl],
@@ -318,7 +317,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
           type: "raster",
           source: sourceId,
         });
-      } else if (layerType === "vector") {
+      } else if (layerType === "vector_tile") {
         map.addSource(sourceId, {
           type: "vector",
           tiles: [tileUrl],
@@ -372,29 +371,6 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     return res_1.timestamps;
   }
 
-  const createChoroplethLegend = (legendItems) => {
-    // Create the container div and ul elements
-    const containerDiv = $('<div>').addClass('c-legend-type-choropleth');
-    const ulColors = $('<ul>').attr('id', 'legendColors');
-    const ulNames = $('<ul>').attr('id', 'legendNames');
-
-    // Append ul elements to the container div
-    containerDiv.append(ulColors, ulNames);
-
-
-    // Loop through legend items and create elements
-    legendItems.forEach(({ color, name }, i) => {
-      const colorLi = $('<li>').css('width', `${100 / legendItems.length}%`);
-      $('<div>').addClass('icon-choropleth').css('background-color', color).appendTo(colorLi);
-      ulColors.append(colorLi);
-
-      const nameLi = $('<li>').css('width', `${100 / legendItems.length}%`);
-      $('<span>').addClass('name').text(name).appendTo(nameLi);
-      ulNames.append(nameLi);
-    });
-
-    return containerDiv
-  }
 
   function createSvgChoroplethLegend(
     color,
@@ -578,7 +554,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
   const createLegend = (legendConfig) => {
     const { type, items, ...rest } = legendConfig
-    if (type === "choropleth" && items && !!items.length) {
+    if (items && !!items.length) {
 
       const thresholds = items.map((item) => item.from || item.name);
       const colors = items.map((item) => item.color);
@@ -604,9 +580,9 @@ function getTimeFromList(timestamps, currentTimeMethod) {
         let tileUrl
 
 
-        if (layerType === 'raster') {
+        if (layerType === 'raster_file' || layerType === 'raster_tile') {
           const timestamps = await getLayerDates(tileJsonUrl)
-          layerDates = timestamps.sort((a, b) => new Date(a) - new Date(b));
+          layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
           const defaultDate = layerDates && !!layerDates.length && layerDates[0]
 
           const isoString = new Date(defaultDate).toISOString()
@@ -614,12 +590,9 @@ function getTimeFromList(timestamps, currentTimeMethod) {
           const res_1 = await res.json();
           tileUrl = updateTileUrl(res_1.tiles[0], { time: isoString })
 
-          setCalendarDates(containerId, layerDates)
-
-
-        } else if (layerType === 'wms') {
+        } else if (layerType === 'wms' || layerType === 'vector_tile' ) {
           const timestamps = await getTimeValuesFromWMS(getCapabilitiesUrl, getCapabilitiesLayerName)
-          layerDates = timestamps.sort((a, b) => new Date(a) - new Date(b));
+          layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
           const currentLayerTime = getTimeFromList([...layerDates], currentTimeMethod);
           const timeSelectorConfig = paramsSelectorConfig.find(c => c.key === "time")
 
@@ -631,16 +604,19 @@ function getTimeFromList(timestamps, currentTimeMethod) {
             }
             tileUrl = updateTileUrl(layerConfig.source.tiles[0], { [timeUrlParam]: currentLayerTime })
           }
-          setCalendarDates(containerId, layerDates)
 
         }
-
+        
 
         const { legendConfig } = layer || {}
 
         if (legendConfig) {
-          const legend = createLegend(legendConfig)
-          $("#legend" + containerId).html(legend)
+          const {items} = legendConfig
+          if(items && !!items.length){
+            const legend = createLegend(legendConfig)
+            $("#legend-" + containerId).html(legend).show();
+          }
+          
         }
 
         const layerSetup = getLayerConfig(layer, tileUrl)
@@ -649,8 +625,15 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
         updateMapLayer(map, layerSetup, defaultDate)
 
+        setCalendarDates(containerId, layerDates).then(() =>{
+          const fp = flatpickrInstances[containerId]
 
-
+          fp.config.onChange.push(function(selectedDates, dateStr, instance){
+            const dateStrIso = new Date(dateStr).toISOString()
+            updateMapLayer(map, layerSetup, dateStrIso)
+            instance.close(); 
+          });
+        })
 
       }
     }).catch(e => {

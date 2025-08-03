@@ -1,5 +1,5 @@
 import json
-from climweb.pages.dashboards.forms import BoundaryMultiPolygonField, BoundaryIDWidget
+from climweb.pages.dashboards.forms import BoundaryIDWidget
 from django.db import models
 from django.contrib.gis.db import models as gis_models
 
@@ -14,11 +14,16 @@ from django.utils.functional import cached_property
 from wagtail.api.v2.utils import get_full_url
 from adminboundarymanager.models import AdminBoundarySettings
 
-from geomanager.models import RasterFileLayer, WmsLayer, VectorTileLayer
+from geomanager.models import RasterFileLayer, WmsLayer, RasterTileLayer, VectorTileLayer
 from shapely.geometry import shape
 from shapely import Point, Polygon
+from wagtailmodelchooser import register_model_chooser
 
 
+register_model_chooser(RasterFileLayer)
+register_model_chooser(WmsLayer)
+register_model_chooser(RasterTileLayer)
+register_model_chooser(VectorTileLayer)
 
 class DashboardMapValue:
     def __init__(self, instance):
@@ -144,13 +149,14 @@ class DashboardMap(models.Model):
 
     areaDesc = models.TextField(max_length=50,
                                 help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
-    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=True )
+    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=1, help_text=_("Administrative Level"), blank=False )
     
     geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
 
     map_layer = StreamField([
         ('raster_file_layer', climweb_blocks.UUIDModelChooserBlock(RasterFileLayer, icon="map")),
         ('wms_layer', climweb_blocks.UUIDModelChooserBlock(WmsLayer, icon="map")),
+        ('raster_tile_layer', climweb_blocks.UUIDModelChooserBlock(RasterTileLayer, icon="map")),
         ('vector_tile_layer', climweb_blocks.UUIDModelChooserBlock(VectorTileLayer, icon="map")),
     ], null=True, blank=False, max_num=1, verbose_name=_("Map Layers"))
 
@@ -207,6 +213,7 @@ class DashboardMap(models.Model):
         if self.geom:
             return self.geom.geojson  # returns valid GeoJSON string
         return None
+        
 
     @cached_property
     def boundary_tiles_url(self):

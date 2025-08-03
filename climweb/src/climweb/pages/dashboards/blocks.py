@@ -1,6 +1,5 @@
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail import blocks
-from climweb.pages.dashboards.snippets import ChartSnippet, DashboardMap
 from climweb.base.blocks import TitleTextBlock, TitleTextImageBlock, TableInfoBlock
 from django.utils.translation import gettext_lazy as _
 
