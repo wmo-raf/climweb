@@ -1,5 +1,7 @@
 import base64
 import json
+from django.http import HttpRequest
+import requests
 from climweb.pages.dashboards.forms import BoundaryIDWidget
 from django.db import models
 from django.contrib.gis.db import models as gis_models
@@ -8,6 +10,7 @@ from django.urls import reverse
 from wagtail.admin.panels import FieldPanel,MultiFieldPanel,TabbedInterface,ObjectList
 from wagtail.snippets.models import register_snippet
 from wagtail.fields import StreamField
+from wagtail.models import Site
 from django.utils.translation import gettext_lazy as _
 from climweb.base import blocks as climweb_blocks
 from wagtail_color_panel.edit_handlers import NativeColorPanel
@@ -25,6 +28,84 @@ register_model_chooser(RasterFileLayer)
 register_model_chooser(WmsLayer)
 register_model_chooser(RasterTileLayer)
 register_model_chooser(VectorTileLayer)
+
+
+def get_absolute_url(path, request=None):
+    """
+    Build a full absolute URL from a relative path.
+    Works without needing an incoming request.
+    """
+    if request:
+        return request.build_absolute_uri(path)
+
+    # Get Wagtail default site
+    site = Site.objects.filter(is_default_site=True).first()
+    if not site:
+        raise RuntimeError("No default Wagtail Site is configured")
+
+    domain = site.hostname
+    port = site.port or 80
+    scheme = "https" if port == 443 else "http"
+    netloc = f"{domain}:{port}" if port not in [80, 443] else domain
+
+    fake_request = HttpRequest()
+    fake_request.META['HTTP_HOST'] = netloc
+    fake_request.META['wsgi.url_scheme'] = scheme
+
+    return fake_request.build_absolute_uri(path)
+
+
+def get_gid_for_level(area_desc, level, request=None):
+    """
+    Given an area name and admin level, return the admin_path like:
+    - /GH
+    - /GH/GH11
+    - /GH/GH11/GH1104
+
+    Matches area_desc to name_{level} in /api/country responses.
+    """
+
+    if not area_desc or level is None:
+        return None
+
+
+    try:
+        # Step 1: Get top-level countries
+        base_url = get_absolute_url(reverse("country_list"), request)
+        response = requests.get(base_url, timeout=5)
+        response.raise_for_status()
+        countries = response.json()
+
+        for country in countries:
+            if level == 0 and country.get("name_0") == area_desc:
+                return f"/{country['gid_0']}"
+
+            # Step 2: Get level 1 regions
+            country_code = country["gid_0"]
+            response_lvl1 = requests.get(f"{base_url}/{country_code}", timeout=5)
+            response_lvl1.raise_for_status()
+            level1_regions = response_lvl1.json()
+
+            for region1 in level1_regions:
+                if level == 1 and region1.get("name_1") == area_desc:
+                    return f"/{region1['gid_0']}/{region1['gid_1']}"
+
+                # Step 3: Get level 2 regions
+                gid_1 = region1.get("gid_1")
+                if gid_1:
+                    response_lvl2 = requests.get(f"{base_url}/{country_code}/{gid_1}", timeout=5)
+                    response_lvl2.raise_for_status()
+                    level2_regions = response_lvl2.json()
+
+                    for region2 in level2_regions:
+                        if level == 2 and region2.get("name_2") == area_desc:
+                            return f"/{region2['gid_0']}/{region2['gid_1']}/{region2['gid_2']}"
+
+    except Exception as e:
+        print("Error fetching gid for level:", e)
+
+    return None
+
 
 class DashboardMapValue:
     def __init__(self, instance):
@@ -49,7 +130,7 @@ class DashboardMapValue:
 
         area_data = {
             "type": "polygon",
-            "areaDesc": self.instance.areaDesc,
+            "area_desc": self.instance.area_desc,
             "polygons": polygons_data,
         }
 
@@ -82,7 +163,6 @@ class ChartSnippet(models.Model):
         (0, _("Level 0")),
         (1, _("Level 1")),
         (2, _("Level 2")),
-        (3, _("Level 3"))
     )
 
     title = models.CharField(max_length=255)
@@ -99,11 +179,12 @@ class ChartSnippet(models.Model):
         help_text="Hex color code for chart color (e.g., #0b76e1)"
     )
 
-    areaDesc = models.TextField(max_length=50,
+    area_desc = models.TextField(max_length=50,
                                 help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
     admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=True )
     
     geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
+    admin_path = models.CharField(null=True, max_length=250)
 
     panels = [
         TabbedInterface([
@@ -121,7 +202,7 @@ class ChartSnippet(models.Model):
             ], heading=_("Layer")),
             ObjectList([
                 FieldPanel("admin_level"),
-                FieldPanel("areaDesc"),
+                FieldPanel("area_desc"),
                 FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}))
             ], heading=_("Admin Boundary"))
         ])
@@ -129,10 +210,18 @@ class ChartSnippet(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.chart_type} chart)"
+    
+
+    def save(self, *args, **kwargs):
+        if self.area_desc and self.admin_level is not None:
+            self.admin_path = get_gid_for_level(self.area_desc, self.admin_level)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Dashboard Chart"
         verbose_name_plural = "Dashboard Charts"
+
+    
 
 
 @register_snippet
@@ -148,11 +237,12 @@ class DashboardMap(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
-    areaDesc = models.TextField(max_length=50,
+    area_desc = models.TextField(max_length=50,
                                 help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
     admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=1, help_text=_("Administrative Level"), blank=False )
     
     geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
+    admin_path = models.CharField(null=True, max_length=250)
 
     map_layer = StreamField([
         ('raster_file_layer', climweb_blocks.UUIDModelChooserBlock(RasterFileLayer, icon="map")),
@@ -171,7 +261,7 @@ class DashboardMap(models.Model):
             ], heading=_("Layer")),
             ObjectList([
                 FieldPanel("admin_level"),
-            FieldPanel("areaDesc"),
+            FieldPanel("area_desc"),
             FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}))
             ], heading=_("Admin Boundary")),
         ]),
@@ -272,3 +362,8 @@ class DashboardMap(models.Model):
         if layer:
             return [{"layer": layer}]
         return []
+
+    def save(self, *args, **kwargs):
+        if self.area_desc and self.admin_level is not None:
+            self.admin_path = get_gid_for_level(self.area_desc, self.admin_level)
+        super().save(*args, **kwargs)

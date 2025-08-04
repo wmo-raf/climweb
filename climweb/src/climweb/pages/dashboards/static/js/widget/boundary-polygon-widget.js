@@ -23,7 +23,7 @@ class BoundaryIDWidget {
         }
 
         // area description input selector
-        const areaDescInputId = this.options.id.replace("geom", "areaDesc")
+        const areaDescInputId = this.options.id.replace("geom", "area_desc")
         this.areaDescInput = $('#' + areaDescInputId);
 
         this.emptyGeojsonData = {type: "Feature", "geometry": {type: "Polygon", coordinates: []}}
@@ -52,6 +52,7 @@ class BoundaryIDWidget {
     initAdmBoundary() {
         if (this.boundaryInfoUrl) {
             fetch(this.boundaryInfoUrl).then(res => res.json()).then(boundaryInfo => {
+                console.log(boundaryInfo)
                 const {tiles_url, detail_url, country_bounds} = boundaryInfo
 
                 if (!tiles_url || !detail_url || !country_bounds) {

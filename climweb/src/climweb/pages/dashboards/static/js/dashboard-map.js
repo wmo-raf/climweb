@@ -147,6 +147,8 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     ],
   };
 
+
+
   function initializeMap() {
 
     containers.forEach((container) => {
@@ -156,11 +158,11 @@ function getTimeFromList(timestamps, currentTimeMethod) {
       const containerId = container.id;
       const selected_dataset = container.dataset.dataset
       const selected_layer = container.dataset.layer
-      const boundaryGeom = container.dataset.geom;
+      const admin_path = container.dataset.adminPath
 
       if (!containerId || !tileJsonUrl || !layerType) return;
 
-      createMap(containerId, selected_layer, selected_dataset, layerType, boundaryGeom && JSON.parse(boundaryGeom));
+      createMap(containerId, selected_layer, selected_dataset, layerType, admin_path);
 
 
     });
@@ -182,28 +184,28 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
 
   function setCalendarDates(containerId, availableDates) {
-  return new Promise((resolve, reject) => {
-    const fp = flatpickrInstances[containerId];
-    if (!fp || !availableDates || !availableDates.length) {
-      return resolve(); // Resolve early even if nothing to set
-    }
+    return new Promise((resolve, reject) => {
+      const fp = flatpickrInstances[containerId];
+      if (!fp || !availableDates || !availableDates.length) {
+        return resolve(); // Resolve early even if nothing to set
+      }
 
-    const parsedDates = availableDates
-      .map(d => new Date(d))
-      .filter(d => !isNaN(d));
+      const parsedDates = availableDates
+        .map(d => new Date(d))
+        .filter(d => !isNaN(d));
 
-    const uniqueTimestamps = [...new Set(parsedDates.map(d => d.getTime()))];
-    const defaultDate = uniqueTimestamps[0];
+      const uniqueTimestamps = [...new Set(parsedDates.map(d => d.getTime()))];
+      const defaultDate = uniqueTimestamps[0];
 
-    fp.setDate(defaultDate, true);
-    fp.set('enable', uniqueTimestamps);
+      fp.setDate(defaultDate, true);
+      fp.set('enable', uniqueTimestamps);
 
-    resolve();
-  });
-}
+      resolve();
+    });
+  }
 
 
-  function createMap(containerId, selected_layer, selected_dataset, layerType, boundaryGeom) {
+  function createMap(containerId, selected_layer, selected_dataset, layerType, admin_path) {
 
 
     const map = new maplibregl.Map({
@@ -218,7 +220,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
     map.addControl(new maplibregl.FullscreenControl());
 
     map.on("load", () => {
-      loadBoundaries(map, boundaryGeom)
+      loadBoundaries(map, admin_path)
 
     });
 
@@ -580,7 +582,7 @@ function getTimeFromList(timestamps, currentTimeMethod) {
         let tileUrl
 
 
-        if (layerType === 'raster_file' || layerType === 'raster_tile' || layerType === 'vector_tile' ) {
+        if (layerType === 'raster_file' || layerType === 'raster_tile' || layerType === 'vector_tile') {
           const timestamps = await getLayerDates(tileJsonUrl)
           layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
           const defaultDate = layerDates && !!layerDates.length && layerDates[0]
@@ -606,17 +608,17 @@ function getTimeFromList(timestamps, currentTimeMethod) {
           }
 
         }
-        
+
 
         const { legendConfig } = layer || {}
 
         if (legendConfig) {
-          const {items} = legendConfig
-          if(items && !!items.length){
+          const { items } = legendConfig
+          if (items && !!items.length) {
             const legend = createLegend(legendConfig)
             $("#legend-" + containerId).html(legend).show();
           }
-          
+
         }
 
         const layerSetup = getLayerConfig(layer, tileUrl)
@@ -625,13 +627,13 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
         updateMapLayer(map, layerSetup, defaultDate)
 
-        setCalendarDates(containerId, layerDates).then(() =>{
+        setCalendarDates(containerId, layerDates).then(() => {
           const fp = flatpickrInstances[containerId]
 
-          fp.config.onChange.push(function(selectedDates, dateStr, instance){
+          fp.config.onChange.push(function (selectedDates, dateStr, instance) {
             const dateStrIso = new Date(dateStr).toISOString()
             updateMapLayer(map, layerSetup, dateStrIso)
-            instance.close(); 
+            instance.close();
           });
         })
 
@@ -642,89 +644,90 @@ function getTimeFromList(timestamps, currentTimeMethod) {
   }
 
 
-  const loadBoundaries = (map, boundaryGeom) => {
+  const loadBoundaries = (map, admin_path) => {
+    console.log(admin_path)
+    fetch(`/api/geostore/admin${admin_path}?thresh=0.005`)
+      .then(res => res.json())
+      .then((geostoreInfo) => {
+        console.log(geostoreInfo)
 
-    if (boundaryGeom && boundaryGeom.type === "MultiPolygon") {
-      const coordinates = boundaryGeom.coordinates.flat(2); // Flatten deep arrays
-      const lats = coordinates.map(c => c[1]);
-      const lngs = coordinates.map(c => c[0]);
+        const { geojson, bbox } = geostoreInfo.attributes
 
-      const bounds = [
-        [Math.min(...lngs), Math.min(...lats)],
-        [Math.max(...lngs), Math.max(...lats)],
-      ];
+        if (geojson && bbox) {
 
-      map.fitBounds(bounds, { padding: 30 });
-      map.addSource("admin-boundary-source", {
-        type: "geojson",
-        data: boundaryGeom,
-      }
-      )
-
-
-      map.addLayer({
-        'id': 'admin-boundary-line',
-        'type': 'line',
-        'source': 'admin-boundary-source',
-        'paint': {
-          "line-color": "#C0FF24",
-          "line-width": 1,
-          "line-offset": 1,
-        }
-      });
-      map.addLayer({
-        'id': 'admin-boundary-line-2',
-        'type': 'line',
-        'source': 'admin-boundary-source',
-        'paint': {
-          "line-color": "#000",
-          "line-width": 1.5,
-        }
-      });
-
-
-    } else {
-      // fit to country bounds
-      if (typeof (countryBounds) !== 'undefined' && countryBounds) {
-        const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
-        map.fitBounds(bounds, { padding: 50 });
-      }
-
-      // add country layer
-      if (typeof (boundaryTilesUrl) !== 'undefined' && boundaryTilesUrl) {
-        // add source
-        map.addSource("admin-boundary-source", {
-          type: "vector",
-          tiles: [boundaryTilesUrl],
-        }
-        )
-
-
-        map.addLayer({
-          'id': 'admin-boundary-line',
-          'type': 'line',
-          'source': 'admin-boundary-source',
-          "source-layer": "default",
-          "filter": ["==", "level", 0],
-          'paint': {
-            "line-color": "#C0FF24",
-            "line-width": 1,
-            "line-offset": 1,
+          map.fitBounds(bbox, { padding: 30 });
+          map.addSource("admin-boundary-source", {
+            type: "geojson",
+            data: geojson,
           }
-        });
-        map.addLayer({
-          'id': 'admin-boundary-line-2',
-          'type': 'line',
-          'source': 'admin-boundary-source',
-          "source-layer": "default",
-          "filter": ["==", "level", 0],
-          'paint': {
-            "line-color": "#000",
-            "line-width": 1.5,
+          )
+
+
+          map.addLayer({
+            'id': 'admin-boundary-line',
+            'type': 'line',
+            'source': 'admin-boundary-source',
+            'paint': {
+              "line-color": "#C0FF24",
+              "line-width": 1,
+              "line-offset": 1,
+            }
+          });
+          map.addLayer({
+            'id': 'admin-boundary-line-2',
+            'type': 'line',
+            'source': 'admin-boundary-source',
+            'paint': {
+              "line-color": "#000",
+              "line-width": 1.5,
+            }
+          });
+
+
+        } else {
+          // fit to country bounds
+          if (typeof (countryBounds) !== 'undefined' && countryBounds) {
+            const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
+            map.fitBounds(bounds, { padding: 50 });
           }
-        });
-      }
-    }
+
+          // add country layer
+          if (typeof (boundaryTilesUrl) !== 'undefined' && boundaryTilesUrl) {
+            // add source
+            map.addSource("admin-boundary-source", {
+              type: "vector",
+              tiles: [boundaryTilesUrl],
+            }
+            )
+
+
+            map.addLayer({
+              'id': 'admin-boundary-line',
+              'type': 'line',
+              'source': 'admin-boundary-source',
+              "source-layer": "default",
+              "filter": ["==", "level", 0],
+              'paint': {
+                "line-color": "#C0FF24",
+                "line-width": 1,
+                "line-offset": 1,
+              }
+            });
+            map.addLayer({
+              'id': 'admin-boundary-line-2',
+              'type': 'line',
+              'source': 'admin-boundary-source',
+              "source-layer": "default",
+              "filter": ["==", "level", 0],
+              'paint': {
+                "line-color": "#000",
+                "line-width": 1.5,
+              }
+            });
+          }
+        }
+
+      })
 
 
 

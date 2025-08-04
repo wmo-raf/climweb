@@ -2,7 +2,7 @@
 
 {% with map=map_snippet.map %} {% if map.description %}
 <div class="column description-column mt-3">
-    {% if map.areaDesc %}<b><em>{{map.areaDesc}} </em></b>{% endif %}
+    {% if map.area_desc %}<b><em>{{map.area_desc}} </em></b>{% endif %}
     <p>{{ map.description }}</p>
 </div>
 
@@ -34,7 +34,7 @@
                 data-dataset="{{ block.value.dataset.id }}"
                 data-layer="{{ block.value.id }}"
                 data-title="{{ map.title }}"
-                data-geom='{{ map.geom_geojson|default:"null"|safe }}'
+                data-admin-path='{{map.admin_path}}'
                 data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster_file{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector_tile{% elif block.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
             >
                 <div
