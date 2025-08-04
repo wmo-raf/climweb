@@ -7,7 +7,7 @@ class BoundaryIDWidget {
             this.resizeTriggerEls = $(this.options.resize_trigger_selector)
         }
         this.boundaryInfoUrl = this.geomInput.data("boundaryinfourl")
-
+        
         this.init()
     }
 
@@ -22,10 +22,13 @@ class BoundaryIDWidget {
             })
         }
 
-        // area description input selector
         const areaDescInputId = this.options.id.replace("geom", "area_desc")
         this.areaDescInput = $('#' + areaDescInputId);
+        // Make areaDescInput disabled (read-only)
+        this.areaDescInput.prop('readonly', true);
 
+        // area description input selector
+        
         this.emptyGeojsonData = {type: "Feature", "geometry": {type: "Polygon", coordinates: []}}
 
         this.initMap().then(() => {
@@ -52,7 +55,6 @@ class BoundaryIDWidget {
     initAdmBoundary() {
         if (this.boundaryInfoUrl) {
             fetch(this.boundaryInfoUrl).then(res => res.json()).then(boundaryInfo => {
-                console.log(boundaryInfo)
                 const {tiles_url, detail_url, country_bounds} = boundaryInfo
 
                 if (!tiles_url || !detail_url || !country_bounds) {

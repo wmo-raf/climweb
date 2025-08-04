@@ -1,36 +1,32 @@
 function parseISO8601Duration(durationString) {
-  const regex =
-    /P(?:([0-9]+)Y)?(?:([0-9]+)M)?(?:([0-9]+)D)?(?:T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+(?:\.[0-9]+)?)S)?)?/;
+  const regex = /P(?:([0-9]+)Y)?(?:([0-9]+)M)?(?:([0-9]+)D)?(?:T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+(?:\.[0-9]+)?)S)?)?/;
   const matches = regex.exec(durationString);
 
-  const years = matches[1] || 0;
-  const months = matches[2] || 0;
-  const days = matches[3] || 0;
-  const hours = matches[4] || 0;
-  const minutes = matches[5] || 0;
+  const years = +matches[1] || 0;
+  const months = +matches[2] || 0;
+  const days = +matches[3] || 0;
+  const hours = +matches[4] || 0;
+  const minutes = +matches[5] || 0;
   const seconds = parseFloat(matches[6]) || 0;
 
   const duration =
     (((years * 365 + months * 30 + days) * 24 + hours) * 60 + minutes) * 60 +
     seconds;
-  return duration * 1000; // convert to milliseconds
+  return duration * 1000; // ms
 }
 
+
 function getValidTimestamps(rangeString) {
-  const parts = rangeString.split("/");
-  const start_time = new Date(parts[0]);
-  const end_time = new Date(parts[1]);
-  const duration = parseISO8601Duration(parts[2]);
+  const [start, end, durationStr] = rangeString.split("/");
+  const startTime = new Date(start).getTime();
+  const endTime = new Date(end).getTime();
+  const duration = parseISO8601Duration(durationStr);
 
-  let current_time = start_time.getTime();
-  const valid_timestamps = [];
-
-  while (current_time < end_time.getTime()) {
-    valid_timestamps.push(new Date(current_time).toISOString());
-    current_time += duration;
+  const timestamps = [];
+  for (let t = startTime; t < endTime; t += duration) {
+    timestamps.push(new Date(t).toISOString());
   }
-
-  return valid_timestamps;
+  return timestamps;
 }
 
 async function getTimeValuesFromWMS(wmsUrl, layerName, params = {}) {
@@ -39,23 +35,18 @@ async function getTimeValuesFromWMS(wmsUrl, layerName, params = {}) {
     request: "GetCapabilities",
     version: "1.3.0",
   };
-
   const queryParams = new URLSearchParams({ ...defaultParams, ...params }).toString();
   const fullUrl = `${wmsUrl}?${queryParams}`;
 
   try {
     const xmlText = await fetch(fullUrl).then((res) => res.text());
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlText, "application/xml");
-
+    const xml = new DOMParser().parseFromString(xmlText, "application/xml");
     const layers = xml.querySelectorAll("Layer");
     let match = null;
 
     layers.forEach((layer) => {
       const nameEl = layer.querySelector("Name");
-      if (nameEl && nameEl.textContent === layerName) {
-        match = layer;
-      }
+      if (nameEl && nameEl.textContent === layerName) match = layer;
     });
 
     if (!match) return [];
@@ -64,56 +55,37 @@ async function getTimeValuesFromWMS(wmsUrl, layerName, params = {}) {
     const timeValueStr = dimension ? dimension.textContent : "";
     const dateRange = timeValueStr.split("/");
 
-    if (!!dateRange.length && dateRange.length > 1) {
+    if (dateRange.length > 1) {
       const isoDuration = dateRange[dateRange.length - 1];
-      const durationMilliseconds = parseISO8601Duration(isoDuration);
-      const durationDays = durationMilliseconds / 8.64e7;
-
+      const durationDays = parseISO8601Duration(isoDuration) / 8.64e7;
       if (durationDays < 1) {
         const endTime = new Date(dateRange[1]);
         const startTime = new Date(endTime.getTime() - 2 * 86400000);
         return getValidTimestamps(`${startTime.toISOString()}/${endTime.toISOString()}/${isoDuration}`);
       }
-
       return getValidTimestamps(timeValueStr);
     }
-
     return timeValueStr.split(",");
   } catch (error) {
     console.error(`Error fetching or parsing GetCapabilities document: ${error.message}`);
     return [];
   }
 }
-
-function getTimeFromList(timestamps, currentTimeMethod) {
-  let currentTime = timestamps[timestamps.length - 1];
-
-  switch (currentTimeMethod) {
+function getTimeFromList(timestamps, method) {
+  if (!timestamps.length) return null;
+  switch (method) {
     case "next_to_now":
-      const nextDate = getNextToNowDate(timestamps);
-      if (nextDate) {
-        currentTime = nextDate;
-      }
-      break;
+      return getNextToNowDate(timestamps) || timestamps[timestamps.length - 1];
     case "previous_to_now":
-      const previousDate = getPreviousToNowDate(timestamps);
-      if (previousDate) {
-        currentTime = previousDate;
-      }
-      break;
+      return getPreviousToNowDate(timestamps) || timestamps[timestamps.length - 1];
     case "latest_from_source":
-      currentTime = timestamps[timestamps.length - 1];
-      break;
+      return timestamps[timestamps.length - 1];
     case "earliest_from_source":
-      currentTime = timestamps[0];
-      break;
+      return timestamps[0];
     default:
-      break;
+      return timestamps[timestamps.length - 1];
   }
-
-  return currentTime;
-};
-
+}
 
 (function () {
   const datasets = {}
@@ -169,41 +141,27 @@ function getTimeFromList(timestamps, currentTimeMethod) {
   }
 
   function initializeCalender() {
-
     containers.forEach((container) => {
       const containerId = container.id;
-      const fp = flatpickr(`#mapdate-${containerId}`, {
+      flatpickrInstances[containerId] = flatpickr(`#mapdate-${containerId}`, {
         enableTime: true,
         dateFormat: "d M Y, h:i K",
       });
-
-      flatpickrInstances[containerId] = fp;
-    })
-  }
-
-
-
-  function setCalendarDates(containerId, availableDates) {
-    return new Promise((resolve, reject) => {
-      const fp = flatpickrInstances[containerId];
-      if (!fp || !availableDates || !availableDates.length) {
-        return resolve(); // Resolve early even if nothing to set
-      }
-
-      const parsedDates = availableDates
-        .map(d => new Date(d))
-        .filter(d => !isNaN(d));
-
-      const uniqueTimestamps = [...new Set(parsedDates.map(d => d.getTime()))];
-      const defaultDate = uniqueTimestamps[0];
-
-      fp.setDate(defaultDate, true);
-      fp.set('enable', uniqueTimestamps);
-
-      resolve();
     });
   }
 
+  function setCalendarDates(containerId, availableDates) {
+    return new Promise((resolve) => {
+      const fp = flatpickrInstances[containerId];
+      if (!fp || !availableDates?.length) return resolve();
+      const parsedDates = availableDates.map(d => new Date(d)).filter(d => !isNaN(d));
+      const uniqueTimestamps = [...new Set(parsedDates.map(d => d.getTime()))];
+      const defaultDate = uniqueTimestamps[0];
+      fp.setDate(defaultDate, true);
+      fp.set('enable', uniqueTimestamps);
+      resolve();
+    });
+  }
 
   function createMap(containerId, selected_layer, selected_dataset, layerType, admin_path) {
 
@@ -228,151 +186,69 @@ function getTimeFromList(timestamps, currentTimeMethod) {
 
   function tsToDate(ts) {
     const d = new Date(ts);
-    const lang = "en-US";
-
-    return d.toLocaleDateString(lang, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    return d.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
   }
 
-  const onDateChange = (map, selectedDate, layerId) => {
-    const { from_value } = selectedDate
-    const isoString = new Date(from_value).toISOString()
 
-    const layerConfig = layerConfigs[layerId]
-
-    if (layerConfig) {
-      updateSourceTileUrl(map, layerConfig.source.id, { time: isoString })
+  async function getLayerDataset(selected_dataset, selected_layer) {
+    if (typeof datasetsUrl !== "undefined" && selected_dataset && selected_layer) {
+      if (datasets[selected_dataset]) return datasets[selected_dataset];
+      const dataset = await fetch(datasetsUrl + selected_dataset).then(res => res.json());
+      datasets[selected_dataset] = dataset;
+      return dataset;
     }
   }
 
-  const updateSourceTileUrl = (map, sourceId, params) => {
-
-    // Get the source object from the map using the specified source ID.
-    const source = map.getSource(sourceId);
-    const sourceTileUrl = source.tiles[0]
-    const newTileUrl = updateTileUrl(sourceTileUrl, params)
-
-    // Replace the source's tile URL with the updated URL.
-    map.getSource(sourceId).tiles = [newTileUrl];
-
-    // Remove the tiles for the updated source from the map cache.
-    map.style.sourceCaches[sourceId].clearTiles();
-
-    // Load the new tiles for the updated source within the current viewport.
-    map.style.sourceCaches[sourceId].update(map.transform);
-
-    // Trigger a repaint of the map to display the updated tiles.
-    map.triggerRepaint();
-  }
-
-
-  const getLayerDataset = async (selected_dataset, selected_layer) => {
-    if (typeof (datasetsUrl) !== undefined && selected_dataset && selected_layer) {
-      if (datasets[selected_dataset]) {
-        return datasets[selected_dataset]
-      }
-      const dataset = await fetch(datasetsUrl + selected_dataset).then(res => res.json())
-      datasets[selected_dataset] = dataset
-      return dataset
-    }
-  }
-
-  const updateTileUrl = (tileUrl, params) => {
-    // construct new url with new query params
-    const url = new URL(tileUrl)
+  function updateTileUrl(tileUrl, params) {
+    const url = new URL(tileUrl);
     const qs = new URLSearchParams(url.search);
-    Object.keys(params).forEach(key => {
-      qs.set(key, params[key])
-    })
+    Object.keys(params).forEach(key => qs.set(key, params[key]));
     url.search = decodeURIComponent(qs);
-    return decodeURIComponent(url.href)
+    return decodeURIComponent(url.href);
   }
 
-
-  const updateMapLayer = (map, layerConfig, withDate) => {
-
-    const sourceId = layerConfig.source.id
-    const layerId = layerConfig.layer.id
-    const layerType = layerConfig.layerType
-
-    if (map.getLayer(layerId)) {
-      map.removeLayer(layerId)
-    }
-
-    if (map.getSource(sourceId)) {
-      map.removeSource(sourceId)
-    }
+  function updateMapLayer(map, layerConfig, withDate) {
+    const { source: { id: sourceId }, layer: { id: layerId }, layerType } = layerConfig;
+    if (map.getLayer(layerId)) map.removeLayer(layerId);
+    if (map.getSource(sourceId)) map.removeSource(sourceId);
 
     if (withDate) {
-      const tileUrl = updateTileUrl(layerConfig.source.tiles, { time: withDate })
-      if (layerType === "raster_file" || layerType === "wms" || layerType === "raster_tile") {
-        map.addSource(sourceId, {
-          type: "raster",
-          tiles: [tileUrl],
-          tileSize: 256,
-        });
-        map.addLayer({
-          id: layerId,
-          type: "raster",
-          source: sourceId,
-        });
+      const tileUrl = updateTileUrl(layerConfig.source.tiles, { time: withDate });
+      if (["raster_file", "wms", "raster_tile"].includes(layerType)) {
+        map.addSource(sourceId, { type: "raster", tiles: [tileUrl], tileSize: 256 });
+        map.addLayer({ id: layerId, type: "raster", source: sourceId });
       } else if (layerType === "vector_tile") {
-        map.addSource(sourceId, {
-          type: "vector",
-          tiles: [tileUrl],
-        });
+        map.addSource(sourceId, { type: "vector", tiles: [tileUrl] });
         map.addLayer({
           id: layerId,
           type: "fill",
           source: sourceId,
           "source-layer": "default",
-          paint: {
-            "fill-color": "#088",
-            "fill-opacity": 0.6,
-          },
+          paint: { "fill-color": "#088", "fill-opacity": 0.6 },
         });
       }
-
       if (map.getLayer("admin-boundary-line") && map.getLayer("admin-boundary-line-2")) {
         map.moveLayer("admin-boundary-line");
         map.moveLayer("admin-boundary-line-2");
       }
-
-
     }
-
-
   }
 
-  const getLayerConfig = (layer, tileUrl) => {
-
+  function getLayerConfig(layer, tileUrl) {
     const config = {
       layerType: layer.layerType,
-      source: {
-        "id": layer.id,
-        "type": "raster",
-        "tiles": [tileUrl]
-      },
-      layer: {
-        "id": layer.id,
-        "type": "raster",
-      }
-    }
-
-    layerConfigs[layer.id] = config
-
-    return config
+      source: { id: layer.id, type: "raster", tiles: [tileUrl] },
+      layer: { id: layer.id, type: "raster" }
+    };
+    layerConfigs[layer.id] = config;
+    return config;
   }
 
-  const getLayerDates = async (url) => {
+  async function getLayerDates(url) {
     const res = await fetch(url);
     const res_1 = await res.json();
     return res_1.timestamps;
   }
-
 
   function createSvgChoroplethLegend(
     color,
@@ -554,185 +430,108 @@ function getTimeFromList(timestamps, currentTimeMethod) {
   }
 
 
-  const createLegend = (legendConfig) => {
-    const { type, items, ...rest } = legendConfig
-    if (items && !!items.length) {
-
-      const thresholds = items.map((item) => item.from || item.name);
-      const colors = items.map((item) => item.color);
-      return createSvgChoroplethLegend(d3.scaleThreshold(thresholds, colors), {
-        tickSize: 0,
-        ...rest,
-      })
+  function createLegend(legendConfig) {
+    const { items, ...rest } = legendConfig;
+    if (items?.length) {
+      const thresholds = items.map(item => item.from || item.name);
+      const colors = items.map(item => item.color);
+      return createSvgChoroplethLegend(d3.scaleThreshold(thresholds, colors), { tickSize: 0, ...rest });
     }
-    return null
+    return null;
   }
 
+  function updateLayer(map, containerId, selected_layer, selected_dataset, layerType) {
+    getLayerDataset(selected_layer, selected_dataset).then(async activeLayerDataset => {
+      if (!activeLayerDataset) return;
+      const layer = activeLayerDataset.layers?.[0];
+      const { tileJsonUrl, getCapabilitiesLayerName, getCapabilitiesUrl, paramsSelectorConfig, layerConfig, currentTimeMethod, legendConfig } = layer;
+      let layerDates, tileUrl;
 
-
-  const updateLayer = (map, containerId, selected_layer, selected_dataset, layerType) => {
-    return getLayerDataset(selected_layer, selected_dataset).then(async activeLayerDataset => {
-
-      if (activeLayerDataset) {
-        const layer = activeLayerDataset.layers && activeLayerDataset.layers[0]
-        const { tileJsonUrl, getCapabilitiesLayerName, getCapabilitiesUrl, paramsSelectorConfig, layerConfig } = layer
-        const { currentTimeMethod } = layer
-
-        let layerDates;
-        let tileUrl
-
-
-        if (layerType === 'raster_file' || layerType === 'raster_tile' || layerType === 'vector_tile') {
-          const timestamps = await getLayerDates(tileJsonUrl)
-          layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
-          const defaultDate = layerDates && !!layerDates.length && layerDates[0]
-
-          const isoString = new Date(defaultDate).toISOString()
-          const res = await fetch(tileJsonUrl);
-          const res_1 = await res.json();
-          tileUrl = updateTileUrl(res_1.tiles[0], { time: isoString })
-
-        } else if (layerType === 'wms') {
-          const timestamps = await getTimeValuesFromWMS(getCapabilitiesUrl, getCapabilitiesLayerName)
-          layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
-          const currentLayerTime = getTimeFromList([...layerDates], currentTimeMethod);
-          const timeSelectorConfig = paramsSelectorConfig.find(c => c.key === "time")
-
-          if (timeSelectorConfig) {
-            let timeUrlParam = "time"
-            const { url_param } = timeSelectorConfig
-            if (url_param) {
-              timeUrlParam = url_param
-            }
-            tileUrl = updateTileUrl(layerConfig.source.tiles[0], { [timeUrlParam]: currentLayerTime })
-          }
-
+      if (["raster_file", "raster_tile", "vector_tile"].includes(layerType)) {
+        const timestamps = await getLayerDates(tileJsonUrl);
+        layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
+        const defaultDate = layerDates?.[0];
+        const isoString = new Date(defaultDate).toISOString();
+        const res = await fetch(tileJsonUrl);
+        const res_1 = await res.json();
+        tileUrl = updateTileUrl(res_1.tiles[0], { time: isoString });
+      } else if (layerType === "wms") {
+        const timestamps = await getTimeValuesFromWMS(getCapabilitiesUrl, getCapabilitiesLayerName);
+        layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
+        const currentLayerTime = getTimeFromList([...layerDates], currentTimeMethod);
+        const timeSelectorConfig = paramsSelectorConfig.find(c => c.key === "time");
+        if (timeSelectorConfig) {
+          let timeUrlParam = timeSelectorConfig.url_param || "time";
+          tileUrl = updateTileUrl(layerConfig.source.tiles[0], { [timeUrlParam]: currentLayerTime });
         }
-
-
-        const { legendConfig } = layer || {}
-
-        if (legendConfig) {
-          const { items } = legendConfig
-          if (items && !!items.length) {
-            const legend = createLegend(legendConfig)
-            $("#legend-" + containerId).html(legend).show();
-          }
-
-        }
-
-        const layerSetup = getLayerConfig(layer, tileUrl)
-
-        const defaultDate = layerDates && !!layerDates.length && layerDates[0]
-
-        updateMapLayer(map, layerSetup, defaultDate)
-
-        setCalendarDates(containerId, layerDates).then(() => {
-          const fp = flatpickrInstances[containerId]
-
-          fp.config.onChange.push(function (selectedDates, dateStr, instance) {
-            const dateStrIso = new Date(dateStr).toISOString()
-            updateMapLayer(map, layerSetup, dateStrIso)
-            instance.close();
-          });
-        })
-
       }
-    }).catch(e => {
-      console.log(e)
-    })
+
+      if (legendConfig?.items?.length) {
+        const legend = createLegend(legendConfig);
+        $("#legend-" + containerId).html(legend).show();
+      }
+
+      const layerSetup = getLayerConfig(layer, tileUrl);
+      const defaultDate = layerDates?.[0];
+      updateMapLayer(map, layerSetup, defaultDate);
+
+      setCalendarDates(containerId, layerDates).then(() => {
+        const fp = flatpickrInstances[containerId];
+        fp.config.onChange.push(function (selectedDates, dateStr, instance) {
+          const dateStrIso = new Date(dateStr).toISOString();
+          updateMapLayer(map, layerSetup, dateStrIso);
+          instance.close();
+        });
+      });
+    }).catch(console.log);
   }
 
 
-  const loadBoundaries = (map, admin_path) => {
-    console.log(admin_path)
+  function loadBoundaries(map, admin_path) {
     fetch(`/api/geostore/admin${admin_path}?thresh=0.005`)
       .then(res => res.json())
       .then((geostoreInfo) => {
-        console.log(geostoreInfo)
-
-        const { geojson, bbox } = geostoreInfo.attributes
-
+        const { geojson, bbox } = geostoreInfo.attributes;
         if (geojson && bbox) {
-
           map.fitBounds(bbox, { padding: 30 });
-          map.addSource("admin-boundary-source", {
-            type: "geojson",
-            data: geojson,
-          }
-          )
-
-
+          map.addSource("admin-boundary-source", { type: "geojson", data: geojson });
           map.addLayer({
-            'id': 'admin-boundary-line',
-            'type': 'line',
-            'source': 'admin-boundary-source',
-            'paint': {
-              "line-color": "#C0FF24",
-              "line-width": 1,
-              "line-offset": 1,
-            }
+            id: 'admin-boundary-line',
+            type: 'line',
+            source: 'admin-boundary-source',
+            paint: { "line-color": "#C0FF24", "line-width": 1, "line-offset": 1 }
           });
           map.addLayer({
-            'id': 'admin-boundary-line-2',
-            'type': 'line',
-            'source': 'admin-boundary-source',
-            'paint': {
-              "line-color": "#000",
-              "line-width": 1.5,
-            }
+            id: 'admin-boundary-line-2',
+            type: 'line',
+            source: 'admin-boundary-source',
+            paint: { "line-color": "#000", "line-width": 1.5 }
           });
-
-
         } else {
-          // fit to country bounds
-          if (typeof (countryBounds) !== 'undefined' && countryBounds) {
-            const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
+          if (typeof countryBounds !== 'undefined' && countryBounds) {
+            const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]];
             map.fitBounds(bounds, { padding: 50 });
           }
-
-          // add country layer
-          if (typeof (boundaryTilesUrl) !== 'undefined' && boundaryTilesUrl) {
-            // add source
-            map.addSource("admin-boundary-source", {
-              type: "vector",
-              tiles: [boundaryTilesUrl],
-            }
-            )
-
-
-            map.addLayer({
-              'id': 'admin-boundary-line',
-              'type': 'line',
-              'source': 'admin-boundary-source',
-              "source-layer": "default",
-              "filter": ["==", "level", 0],
-              'paint': {
-                "line-color": "#C0FF24",
-                "line-width": 1,
-                "line-offset": 1,
-              }
-            });
-            map.addLayer({
-              'id': 'admin-boundary-line-2',
-              'type': 'line',
-              'source': 'admin-boundary-source',
-              "source-layer": "default",
-              "filter": ["==", "level", 0],
-              'paint': {
-                "line-color": "#000",
-                "line-width": 1.5,
-              }
+          if (typeof boundaryTilesUrl !== 'undefined' && boundaryTilesUrl) {
+            map.addSource("admin-boundary-source", { type: "vector", tiles: [boundaryTilesUrl] });
+            ["admin-boundary-line", "admin-boundary-line-2"].forEach((id, i) => {
+              map.addLayer({
+                id,
+                type: 'line',
+                source: 'admin-boundary-source',
+                "source-layer": "default",
+                "filter": ["==", "level", 0],
+                paint: {
+                  "line-color": i === 0 ? "#C0FF24" : "#000",
+                  "line-width": i === 0 ? 1 : 1.5,
+                  ...(i === 0 ? { "line-offset": 1 } : {})
+                }
+              });
             });
           }
         }
-
-      })
-
-
-
+      });
   }
-
 
   initializeMap()
   initializeCalender()

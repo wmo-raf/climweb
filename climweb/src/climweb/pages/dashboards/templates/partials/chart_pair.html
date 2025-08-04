@@ -5,12 +5,12 @@
     <div class="column is-half chart-column">
         <div class="card elevation-1">
             <header class="card-header elevation-0">
-                <p class="card-header-title">{{ chart.title }}</p>
-                <button class="card-header-icon" aria-label="more options">
+                <p class="card-header-title">{{ chart.title }}{% if admin_level != 0 %} in {{chart.area_desc}}{% endif %}</p>
+                <a class="card-header-icon" aria-label="more options" href="{{chart.mapviewer_map_url}}" target="_blank" rel="noopener">
                   <div class="icon is-small">
                       {% svg_icon "layer-group" %}
                   </div>
-                </button>
+                </a>
                 <button class="card-header-icon" aria-label="more options">
                   <div class="icon is-small">
                       {% svg_icon "info-circle" %}
@@ -18,20 +18,28 @@
                 </button>
             </header>
             <div class="card-content">
-                <div
-                    class="chart-container"
-                    id="chart-{{ section_index }}-{{ index|add:forloop.counter0 }}"
-                    data-layer-id="{{ chart.dataset.id }}"
-                    data-title="{{ chart.title }}"
-                    data-color="{{ chart.chart_color|default:'#0b76e1' }}"
-                    data-unit="{{ chart.data_unit|default:'Value' }}"
-                    data-type="{{ chart.chart_type|default:'line' }}"
-                    data-area-desc="{{ chart.area_desc }}"
-                    data-admin-level="{{ chart.admin_level }}"
-                    data-admin-code="GH"
-                    data-admin-path='{{map.admin_path}}'
-
-                ></div>
+                {% if chart.chart_type == "stripes" %}
+                    <div
+                        class="warming-stripes-chart"
+                        id="stripes-{{ section_index }}-{{ index|add:forloop.counter0 }}"
+                        data-layer-id="{{ chart.dataset.id }}"
+                        data-admin-path="{{ chart.admin_path }}"
+                        style="width:100%;height:60px;"
+                    ></div>
+                {% else %}
+                    <div
+                        class="chart-container"
+                        id="chart-{{ section_index }}-{{ index|add:forloop.counter0 }}"
+                        data-layer-id="{{ chart.dataset.id }}"
+                        data-title="{{ chart.title }}"
+                        data-color="{{ chart.chart_color|default:'#0b76e1' }}"
+                        data-unit="{{ chart.data_unit|default:'Value' }}"
+                        data-type="{{ chart.chart_type|default:'line' }}"
+                        data-area-desc="{{ chart.area_desc }}"
+                        data-admin-level="{{ chart.admin_level }}"
+                        data-admin-path='{{chart.admin_path}}'
+                    ></div>
+                {% endif %}
             </div>
             <footer class="card-footer">
                 <div style="width: 100%" class="m-2">
@@ -39,7 +47,7 @@
                         class="flatpickr flatpickr-input input is-small"
                         type="text"
                         placeholder="Select Date Range"
-                        id="date-chart-{{ section_index }}-{{ index }}"
+                        id="{% if chart.chart_type == 'stripes' %}date-stripes-{% else %}date-chart-{% endif %}{{ section_index }}-{{ index|add:forloop.counter0 }}"
                     />
                 </div>
             </footer>

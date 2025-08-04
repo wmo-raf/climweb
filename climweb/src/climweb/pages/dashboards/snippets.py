@@ -7,7 +7,7 @@ from django.db import models
 from django.contrib.gis.db import models as gis_models
 
 from django.urls import reverse
-from wagtail.admin.panels import FieldPanel,MultiFieldPanel,TabbedInterface,ObjectList
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, TabbedInterface, ObjectList, Panel
 from wagtail.snippets.models import register_snippet
 from wagtail.fields import StreamField
 from wagtail.models import Site
@@ -29,7 +29,7 @@ register_model_chooser(WmsLayer)
 register_model_chooser(RasterTileLayer)
 register_model_chooser(VectorTileLayer)
 
-
+    
 def get_absolute_url(path, request=None):
     """
     Build a full absolute URL from a relative path.
@@ -180,8 +180,8 @@ class ChartSnippet(models.Model):
     )
 
     area_desc = models.TextField(max_length=50,
-                                help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
-    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=True )
+                                help_text=_("The text describing the affected area of the alert message. Click on map to generate name"), null=True,  blank=True)
+    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=False )
     
     geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
     admin_path = models.CharField(null=True, max_length=250)
@@ -216,6 +216,39 @@ class ChartSnippet(models.Model):
         if self.area_desc and self.admin_level is not None:
             self.admin_path = get_gid_for_level(self.area_desc, self.admin_level)
         super().save(*args, **kwargs)
+
+    
+    @property
+    def mapviewer_map_url(self):
+        base_mapviewer_url = reverse("mapview")
+
+        map_config = {
+            "datasets": [{"dataset": "political-boundaries", "layers": ["political-boundaries"], "visibility": True}]
+        }
+
+        map_str = json.dumps(map_config, separators=(',', ':'))
+        map_bytes = map_str.encode()
+        map_base64_bytes = base64.b64encode(map_bytes)
+        map_byte_str = map_base64_bytes.decode()
+
+        dataset_category_title = "Unknown"
+
+        # Step 1: Get selected layer instance (already a model via UUIDModelChooserBlock)
+        selected = self.dataset
+
+        # Step 2: If it exists and has a dataset with a category, extract it
+        if selected and hasattr(selected, "dataset") and selected.dataset and selected.dataset.category:
+            dataset_category_title = selected.dataset.category.title
+
+
+        menu_config = {"menuSection": "datasets", "datasetCategory": dataset_category_title}
+        menu_str = json.dumps(menu_config, separators=(',', ':'))
+        menu_bytes = menu_str.encode()
+        menu_base64_bytes = base64.b64encode(menu_bytes)
+        menu_byte_str = menu_base64_bytes.decode()
+
+        return base_mapviewer_url + f"?map={map_byte_str}&mapMenu={menu_byte_str}"
+
 
     class Meta:
         verbose_name = "Dashboard Chart"
@@ -329,6 +362,7 @@ class DashboardMap(models.Model):
         menu_byte_str = menu_base64_bytes.decode()
 
         return base_mapviewer_url + f"?map={map_byte_str}&mapMenu={menu_byte_str}"
+
         
 
     @property
