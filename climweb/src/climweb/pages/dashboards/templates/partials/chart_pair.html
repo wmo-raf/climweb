@@ -24,7 +24,7 @@
                         id="stripes-{{ section_index }}-{{ index|add:forloop.counter0 }}"
                         data-layer-id="{{ chart.dataset.id }}"
                         data-admin-path="{{ chart.admin_path }}"
-                        style="width:100%;height:60px;"
+                        data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
                     ></div>
                 {% else %}
                     <div
@@ -37,7 +37,8 @@
                         data-type="{{ chart.chart_type|default:'line' }}"
                         data-area-desc="{{ chart.area_desc }}"
                         data-admin-level="{{ chart.admin_level }}"
-                        data-admin-path='{{chart.admin_path}}'
+                        data-admin-path="{{chart.admin_path}}"
+                        data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
                     ></div>
                 {% endif %}
             </div>

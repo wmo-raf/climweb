@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
   <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
 
 {% endblock extra_css %}
 
@@ -51,7 +52,7 @@
                 {% if page.body %}
 
                     {% for block in page.body %}
-                        <section class="feature-block-section my-6">
+                        <section class="feature-block-section py-6">
                             <div class="container" style="text-align:left">
                             <h1 class="my-4" style="color:{{page.banner_background_color}}">{{ block.value.section_title }}</h1>
 
@@ -83,6 +84,7 @@
     <script type"text/javascript" src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
     <script type"text/javascript" src="{% static 'js/dashboard-map.js' %}"></script>
     <script type"text/javascript" src="{% static 'js/dashboard-chart.js' %}"></script>
 
