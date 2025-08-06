@@ -29,6 +29,7 @@ function getValidTimestamps(rangeString) {
   return timestamps;
 }
 
+
 async function getTimeValuesFromWMS(wmsUrl, layerName, params = {}) {
   const defaultParams = {
     service: "WMS",
@@ -232,6 +233,55 @@ function getTimeFromList(timestamps, method) {
         map.moveLayer("admin-boundary-line-2");
       }
     }
+  }
+
+  function setParamSelectors(containerID, paramsSelectorConfig, layerConfigs, map) {
+    const paramsContainer = document.getElementById(`paramsContainer-${containerID}`);
+    paramsContainer.innerHTML = ''; // Clear any previous content
+
+
+    let hasOptions = false;
+
+    paramsSelectorConfig.forEach((param) => {
+      if (!param.options) return;
+
+      hasOptions = true;
+
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('param-group', 'select', 'is-small');
+
+      const label = document.createElement('label');
+      label.textContent = param.label || param.key;
+      label.setAttribute('for', `param-${param.key}`);
+
+      const select = document.createElement('select');
+      select.id = `param-${param.key}`;
+      select.dataset.key = param.key;
+
+      select.innerHTML = param.options
+        .map(option => `<option value="${option.value}">${option.label}</option>`)
+        .join('');
+
+      select.value = param.default_value || param.options[0]?.value || '';
+
+      select.addEventListener('change', () => {
+        const fp = flatpickrInstances[containerID];
+        const selectedDate = fp?.selectedDates?.[0];
+
+        updateMapLayer(
+          map,
+          layerConfigs,
+          new Date(selectedDate).toISOString()
+        );
+
+      });
+
+      wrapper.appendChild(label);
+      wrapper.appendChild(select);
+      paramsContainer.appendChild(wrapper);
+    });
+
+    paramsContainer.style.display = hasOptions ? 'block' : 'none';
   }
 
   function getLayerConfig(layer, tileUrl) {
@@ -474,6 +524,7 @@ function getTimeFromList(timestamps, method) {
       const layerSetup = getLayerConfig(layer, tileUrl);
       const defaultDate = layerDates?.[0];
       updateMapLayer(map, layerSetup, defaultDate);
+      setParamSelectors(containerId, paramsSelectorConfig, layerSetup, map)
 
       setCalendarDates(containerId, layerDates).then(() => {
         const fp = flatpickrInstances[containerId];
