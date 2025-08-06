@@ -209,7 +209,7 @@ class ChartSnippet(models.Model):
     ]
 
     def __str__(self):
-        return f"{self.title} ({self.chart_type} chart)"
+        return f"{self.title} ({self.chart_type} chart) {self.area_desc}"
     
 
     def save(self, *args, **kwargs):
@@ -302,7 +302,7 @@ class DashboardMap(models.Model):
     ]
 
     def __str__(self):
-        return self.title
+        return f"{self.title} - {self.area_desc}"
 
 
     def get_layertimestampsurl(self, request):

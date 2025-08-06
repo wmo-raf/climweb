@@ -19,8 +19,9 @@ class ChartAdmin(ModelAdmin):
     menu_icon = "chart"
     menu_order = 100
     add_to_settings_menu = False
-    list_display = ("title", "chart_type", "dataset")
-    search_fields = ("title",)
+    list_display = ("title", "chart_type", "area_desc")
+    list_filter = ("chart_type", "area_desc")
+    search_fields = ("title", "area_desc")
 
 
 class MapAdmin(ModelAdmin):
@@ -29,8 +30,9 @@ class MapAdmin(ModelAdmin):
     menu_icon = "site"
     menu_order = 101
     add_to_settings_menu = False
-    list_display = ("title","map_layer")
-    search_fields = ("title",)
+    list_display = ("title","map_layer","area_desc")
+    list_filter = ("area_desc", )
+    search_fields = ("title",  "area_desc")
 
 
 class DashboardPageAdmin(ModelAdmin):

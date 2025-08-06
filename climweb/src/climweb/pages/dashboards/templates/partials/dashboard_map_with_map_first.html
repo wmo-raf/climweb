@@ -4,7 +4,7 @@
 <div class="column map-column">
     <div class="card elevation-1">
         <header class="card-header elevation-0">
-            <p class="card-header-title">{{ map.title }}</p>
+            <p class="card-header-title">{{ map.title }} for {{map.area_desc}}</p>
             <a class="card-header-icon" aria-label="more options" href="{{map.mapviewer_map_url}}"  target="_blank" rel="noopener">
               <div class="icon is-small">
                   {% svg_icon "layer-group" %}
@@ -19,7 +19,6 @@
         {% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
         <div class="card-content">
             {% for block in map.map_layer %}
- {{block.value.date_format}}
             <div
                 class="map-container"
                 id="{{ container_id }}"

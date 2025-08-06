@@ -67,7 +67,7 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat) {
         mode: "range",
         defaultDate: defaultDates,
         allowInput: true,
-        onChange
+        onClose: onChange
     };
 
     // Adjust flatpickr options based on your dateFormat
@@ -131,6 +131,12 @@ function initChart({ chartType, chartId, dataUnit, dateFormat }) {
                 lineWidth: 2.5,
                 marker: { enabled: false }, // <-- No dots
                 turboThreshold: 0, // Optional: for large datasets
+
+            },
+            column: {
+                pointPadding: 0.05,
+                borderWidth: 0,
+                groupPadding: 0.05,
             }
         }
     });
@@ -161,9 +167,10 @@ async function fetchTimeseries(layerId, geostoreId, timeFrom, timeTo) {
     return res.json();
 }
 
-function renderChart(chart, data, container, chartTitle, chartColor, dataUnit) {
-    const timestamps = data.map(d => d.date) || [];
-    const values = data.map(d => Math.round(d.value * 100) / 100) || [];
+function renderChart(chart, data, chartTitle, chartColor, dataUnit) {
+    const sortedData = data.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const timestamps = sortedData.sort((a, b) => b - a).map(d => d.date) || [];
+    const values = sortedData.map(d => Math.round(d.value * 100) / 100) || [];
     chart.xAxis[0].setCategories(timestamps);
     chart.series.forEach(s => s.remove(false)); // Remove old series
     chart.addSeries({
@@ -236,7 +243,6 @@ async function loadChart(container) {
             renderChart(
                 chart,
                 data,
-                container,
                 container.dataset.title,
                 container.dataset.color,
                 container.dataset.unit
