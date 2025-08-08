@@ -1,16 +1,16 @@
-{% load wagtailiconchooser_tags %}
+{% load wagtailiconchooser_tags wagtailcore_tags %}
 <div class="columns my-4">
     {% if index|divisibleby:2 and chart.description %}
     <div class="column description-column mt-3">
-        {% if chart.area_desc %}
-        <b><em>{{chart.area_desc}}</em></b>
-        {% endif %}
-        <p>{{ chart.description }}</p>
+        <h3 class="chart-title" style="color:{{page.banner_background_color}}">{{ chart.title|richtext }}</h3>
+        {% if chart.area_desc %}<p class="chart-area">{{chart.area_desc}} </p>{% endif %}
+        <p>{{ chart.description|richtext }}</p>
     </div>
     <div class="column chart-column">
         <div class="card elevation-1">
             <header class="card-header elevation-0">
                 <p class="card-header-title">{{ chart.title }}</p>
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
                 <a
                     class="card-header-icon"
                     aria-label="more options"
@@ -22,11 +22,18 @@
                         {% svg_icon "layer-group" %}
                     </div>
                 </a>
-                <button class="card-header-icon" aria-label="more options">
+                {% endif %} 
+                {% if chart.dataset.dataset.metadata %}
+                <button
+                    class="card-header-icon js-modal-trigger"
+                    aria-label="more options"
+                    data-target="modal-{{ section_index }}-{{ index }}"
+                >
                     <div class="icon is-small">
                         {% svg_icon "info-circle" %}
                     </div>
                 </button>
+                {% endif %}
             </header>
             <div class="card-content">
                 {% if chart.chart_type == "stripes" %}
@@ -70,6 +77,7 @@
         <div class="card elevation-1">
             <header class="card-header elevation-0">
                 <p class="card-header-title">{{ chart.title }}</p>
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
                 <a
                     class="card-header-icon"
                     aria-label="more options"
@@ -81,11 +89,18 @@
                         {% svg_icon "layer-group" %}
                     </div>
                 </a>
-                <button class="card-header-icon" aria-label="more options">
+                {% endif %} 
+                {% if chart.dataset.dataset.metadata %}
+                <button
+                    class="card-header-icon js-modal-trigger"
+                    aria-label="more options"
+                    data-target="modal-{{ section_index }}-{{ index }}"
+                >
                     <div class="icon is-small">
                         {% svg_icon "info-circle" %}
                     </div>
                 </button>
+                {% endif %}
             </header>
             <div class="card-content">
                 {% if chart.chart_type == "stripes" %}
@@ -125,16 +140,16 @@
         </div>
     </div>
     <div class="column is-half description-column mt-3">
-        {% if chart.area_desc %}
-        <b><em>{{chart.area_desc}}</em></b>
-        {% endif %}
-        <p>{{ chart.description }}</p>
+        <h3 class="chart-title" style="color:{{page.banner_background_color}}">{{ chart.title|richtext }}</h3>
+        {% if chart.area_desc %}<p class="chart-area">{{chart.area_desc}} </p>{% endif %}
+        <p>{{ chart.description|richtext }}</p>
     </div>
     {% else %}
     <div class="column chart-column">
         <div class="card elevation-1">
             <header class="card-header elevation-0">
                 <p class="card-header-title">{{ chart.title }}</p>
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
                 <a
                     class="card-header-icon"
                     aria-label="more options"
@@ -146,11 +161,18 @@
                         {% svg_icon "layer-group" %}
                     </div>
                 </a>
-                <button class="card-header-icon" aria-label="more options">
+                {% endif %} 
+                {% if chart.dataset.dataset.metadata %}
+                <button
+                    class="card-header-icon js-modal-trigger"
+                    aria-label="more options"
+                    data-target="modal-{{ section_index }}-{{ index }}"
+                >
                     <div class="icon is-small">
                         {% svg_icon "info-circle" %}
                     </div>
                 </button>
+                {% endif %}
             </header>
             <div class="card-content">
                 {% if chart.chart_type == "stripes" %}
@@ -190,4 +212,7 @@
         </div>
     </div>
     {% endif %}
+
+    {% include "partials/modal.html" with metadata=chart.dataset.dataset.metadata section=section_index index=index %}
+
 </div>

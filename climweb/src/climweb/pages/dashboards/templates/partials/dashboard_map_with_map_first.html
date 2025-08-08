@@ -1,24 +1,34 @@
-{% load wagtailiconchooser_tags %}
-
-{% with map=map_snippet.map %}
+{% load wagtailiconchooser_tags wagtailcore_tags %} 
+{% with map=map_snippet.map%}
 <div class="column map-column">
+    {% with container_id="map-"|add:section_index|add:"-"|add:map_index %} 
+    {% for block in map.map_layer %}
+
     <div class="card elevation-1">
         <header class="card-header elevation-0">
-            <p class="card-header-title">{{ map.title }} for {{map.area_desc}}</p>
-            <a class="card-header-icon" aria-label="more options" href="{{map.mapviewer_map_url}}"  target="_blank" rel="noopener">
-              <div class="icon is-small">
-                  {% svg_icon "layer-group" %}
-              </div>
+            <p class="card-header-title">
+                {{ map.title }} for {{map.area_desc}}
+            </p>
+            <a
+                class="card-header-icon"
+                aria-label="more options"
+                href="{{map.mapviewer_map_url}}"
+                target="_blank"
+                rel="noopener"
+            >
+                <div class="icon is-small">{% svg_icon "layer-group" %}</div>
             </a>
-            <button class="card-header-icon" aria-label="more options">
-              <div class="icon is-small">
-                  {% svg_icon "info-circle" %}
-              </div>
+            {% if block.value.dataset.metadata %}
+            <button
+                class="card-header-icon js-modal-trigger"
+                aria-label="more options"
+                data-target="modal-{{ section_index }}-{{ map_index }}"
+            >
+                <div class="icon is-small">{% svg_icon "info-circle" %}</div>
             </button>
+            {% endif %}
         </header>
-        {% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
         <div class="card-content">
-            {% for block in map.map_layer %}
             <div
                 class="map-container"
                 id="{{ container_id }}"
@@ -42,14 +52,11 @@
                         font-size: 14px;
                         z-index: 1000;
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-                        display:none;
-                        
+                        display: none;
                     "
                     id="legend-{{container_id}}"
                 ></div>
             </div>
-
-            {% endfor %}
         </div>
         <footer class="card-footer">
             <div style="width: 100%" class="m-2">
@@ -59,18 +66,28 @@
                     placeholder="Select Date.."
                     id="mapdate-{{ container_id }}"
                 />
-                <div class="params" id="paramsContainer-{{ container_id }}"></div>
-
+                <div
+                    class="params"
+                    id="paramsContainer-{{ container_id }}"
+                ></div>
             </div>
         </footer>
-        {% endwith %}
     </div>
+    {% include "partials/modal.html" with metadata=block.value.dataset.metadata section=section_index index=map_index %} 
+    {% endfor %} 
+    {% endwith %}
 </div>
 
 {% if map.description %}
 <div class="column description-column mt-3">
-    {% if map.area_desc %}<b><em>{{map.area_desc}} </em></b>{% endif %}
-    <p>{{ map.description }}</p>
+    <h3 class="map-title" style="color:{{page.banner_background_color}}">
+        {{ map.title|richtext }}
+    </h3>
+    {% if map.area_desc %}
+    <p class="map-area">{{map.area_desc}}</p>
+    {% endif %}
+    <p>{{ map.description|richtext }}</p>
 </div>
 
-{% endif %} {% endwith %}
+{% endif %} 
+{% endwith %}

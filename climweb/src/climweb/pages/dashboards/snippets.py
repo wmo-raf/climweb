@@ -5,11 +5,12 @@ import requests
 from climweb.pages.dashboards.forms import BoundaryIDWidget
 from django.db import models
 from django.contrib.gis.db import models as gis_models
+from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
 
 from django.urls import reverse
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, TabbedInterface, ObjectList, Panel
 from wagtail.snippets.models import register_snippet
-from wagtail.fields import StreamField
+from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Site
 from django.utils.translation import gettext_lazy as _
 from climweb.base import blocks as climweb_blocks
@@ -166,7 +167,8 @@ class ChartSnippet(models.Model):
     )
 
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
+                                      help_text=_("Description"))
     dataset = models.ForeignKey(
         "geomanager.RasterFileLayer", on_delete=models.CASCADE, related_name="charts"
     )
@@ -268,8 +270,8 @@ class DashboardMap(models.Model):
     )
 
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
+    description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
+                                      help_text=_("Description"))
     area_desc = models.TextField(max_length=50,
                                 help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
     admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=1, help_text=_("Administrative Level"), blank=False )
