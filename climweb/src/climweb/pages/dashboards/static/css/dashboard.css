@@ -221,3 +221,74 @@ h1 {
 .modal{
     z-index: 1000
 }
+
+.modal-background {
+    background-color: rgb(10 10 10 / 61%);
+}
+
+.meta-modal {
+    margin: auto;
+    max-width: 950px;
+    width: calc(100% + 200px)
+}
+
+
+.modal-content{
+    max-height: 80vh;
+    overflow-y: auto;
+    width: calc(100% + 200px);
+    max-width: 950px;
+}
+
+.modal-content h2{
+    margin-bottom: 1em;
+    color: #333;
+    font-size: 36px;
+    line-height: 40px;
+    font-weight: 350;
+    padding: 40px 90px 0px
+}
+
+.meta-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.meta-table .table-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #e5e5df;
+}
+
+.modal-content .overview{
+    margin-bottom: 1.875rem;
+    padding: 40px 90px 0px;
+}
+
+.modal-content .overview h4{
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: .625rem;
+}
+
+.meta-table .table-row:nth-child(2n)
+ {
+    background-color: #f7f7f7;
+}
+
+.modal .description-column {
+    padding: 1em;
+    padding: .8125rem 6.25rem .1875rem;
+    border-radius: 4px;
+    font-size: 14px
+}
+
+.modal .title-column {
+    padding: .9375rem .3125rem .9375rem 6.25rem;
+    font-weight: 600;
+    font-size: .5875rem;
+    text-transform: uppercase;
+    color: #141414;
+    width: 9.375rem;
+}

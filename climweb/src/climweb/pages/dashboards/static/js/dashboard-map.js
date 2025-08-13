@@ -15,6 +15,26 @@ function parseISO8601Duration(durationString) {
   return duration * 1000; // ms
 }
 
+function extractPlaceholders(url) {
+  const matches = url.match(/{\w+}/g);
+  return matches ? matches.map(m => m.replace(/[{}]/g, "")) : [];
+}
+
+// 2. Build params object from selectors and context
+function buildParams(placeholders, paramsSelectorConfig, containerId, context = {}) {
+  const params = { ...context };
+
+  paramsSelectorConfig.forEach(param => {
+    if (param.key === "time") return; // Skip time, handled by calendar
+    const select = document.getElementById(`param-${param.key}`);
+    if (select && placeholders.includes(param.key)) {
+      params[param.key] = select.value;
+    }
+  });
+  return params;
+}
+
+
 
 function getValidTimestamps(rangeString) {
   const [start, end, durationStr] = rangeString.split("/");
@@ -208,30 +228,29 @@ function getTimeFromList(timestamps, method) {
     return decodeURIComponent(url.href);
   }
 
-  function updateMapLayer(map, layerConfig, withDate) {
+  function updateMapLayer(map, layerConfig, withDate, tileUrlOverride) {
     const { source: { id: sourceId }, layer: { id: layerId }, layerType } = layerConfig;
     if (map.getLayer(layerId)) map.removeLayer(layerId);
     if (map.getSource(sourceId)) map.removeSource(sourceId);
 
-    if (withDate) {
-      const tileUrl = updateTileUrl(layerConfig.source.tiles, { time: withDate });
-      if (["raster_file", "wms", "raster_tile"].includes(layerType)) {
-        map.addSource(sourceId, { type: "raster", tiles: [tileUrl], tileSize: 256 });
-        map.addLayer({ id: layerId, type: "raster", source: sourceId });
-      } else if (layerType === "vector_tile") {
-        map.addSource(sourceId, { type: "vector", tiles: [tileUrl] });
-        map.addLayer({
-          id: layerId,
-          type: "fill",
-          source: sourceId,
-          "source-layer": "default",
-          paint: { "fill-color": "#088", "fill-opacity": 0.6 },
-        });
-      }
-      if (map.getLayer("admin-boundary-line") && map.getLayer("admin-boundary-line-2")) {
-        map.moveLayer("admin-boundary-line");
-        map.moveLayer("admin-boundary-line-2");
-      }
+    const tileUrl = tileUrlOverride || updateTileUrl(layerConfig.source.tiles, { time: withDate });
+
+    if (["raster_file", "wms", "raster_tile"].includes(layerType)) {
+      map.addSource(sourceId, { type: "raster", tiles: [tileUrl], tileSize: 256 });
+      map.addLayer({ id: layerId, type: "raster", source: sourceId });
+    } else if (layerType === "vector_tile") {
+      map.addSource(sourceId, { type: "vector", tiles: [tileUrl] });
+      map.addLayer({
+        id: layerId,
+        type: "fill",
+        source: sourceId,
+        "source-layer": "default",
+        paint: { "fill-color": "#088", "fill-opacity": 0.6 },
+      });
+    }
+    if (map.getLayer("admin-boundary-line") && map.getLayer("admin-boundary-line-2")) {
+      map.moveLayer("admin-boundary-line");
+      map.moveLayer("admin-boundary-line-2");
     }
   }
 
@@ -239,11 +258,10 @@ function getTimeFromList(timestamps, method) {
     const paramsContainer = document.getElementById(`paramsContainer-${containerID}`);
     paramsContainer.innerHTML = ''; // Clear any previous content
 
-
     let hasOptions = false;
 
     paramsSelectorConfig.forEach((param) => {
-      if (!param.options) return;
+      if (!param.options || param.key === "time") return; // skip time, handled by calendar
 
       hasOptions = true;
 
@@ -259,21 +277,13 @@ function getTimeFromList(timestamps, method) {
       select.dataset.key = param.key;
 
       select.innerHTML = param.options
-        .map(option => `<option value="${option.value}">${option.label}</option>`)
+        .map(option => `<option value="${option.value}" ${option.default ? "selected" : ""}>${option.label}</option>`)
         .join('');
 
-      select.value = param.default_value || param.options[0]?.value || '';
+      // select.value = param.default_value || param.options[0]?.value || '';
 
       select.addEventListener('change', () => {
-        const fp = flatpickrInstances[containerID];
-        const selectedDate = fp?.selectedDates?.[0];
-
-        updateMapLayer(
-          map,
-          layerConfigs,
-          new Date(selectedDate).toISOString()
-        );
-
+        updateLayerWithParams(containerID, map, layerConfigs);
       });
 
       wrapper.appendChild(label);
@@ -284,13 +294,15 @@ function getTimeFromList(timestamps, method) {
     paramsContainer.style.display = hasOptions ? 'block' : 'none';
   }
 
-  function getLayerConfig(layer, tileUrl) {
+  function getLayerConfig(layer, tileUrl, containerId) {
     const config = {
       layerType: layer.layerType,
       source: { id: layer.id, type: "raster", tiles: [tileUrl] },
-      layer: { id: layer.id, type: "raster" }
+      layer: { id: layer.id, type: "raster" },
+      paramsSelectorConfig: layer.paramsSelectorConfig || []
+
     };
-    layerConfigs[layer.id] = config;
+    layerConfigs[containerId] = config;
     return config;
   }
 
@@ -495,16 +507,34 @@ function getTimeFromList(timestamps, method) {
       if (!activeLayerDataset) return;
       const layer = activeLayerDataset.layers?.[0];
       const { tileJsonUrl, getCapabilitiesLayerName, getCapabilitiesUrl, paramsSelectorConfig, layerConfig, currentTimeMethod, legendConfig } = layer;
-      let layerDates, tileUrl;
+      let layerDates, tileUrl, layerSetup;
 
       if (["raster_file", "raster_tile", "vector_tile"].includes(layerType)) {
         const timestamps = await getLayerDates(tileJsonUrl);
         layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
         const defaultDate = layerDates?.[0];
         const isoString = new Date(defaultDate).toISOString();
-        const res = await fetch(tileJsonUrl);
-        const res_1 = await res.json();
-        tileUrl = updateTileUrl(res_1.tiles[0], { time: isoString });
+        tileUrl = updateTileUrl(layer.layerConfig.source.tiles[0], { time: isoString })
+        layerSetup = getLayerConfig(layer, tileUrl, containerId);
+
+        if (layerType === "raster_tile" || layerType === "vector_tile") {
+
+          setParamSelectors(containerId, paramsSelectorConfig, layerSetup, map)
+
+          const placeholders = extractPlaceholders(tileUrl);
+
+          // Build params from selectors
+          const params = buildParams(placeholders, paramsSelectorConfig, containerId, {
+            // Add any context params here, e.g. geostore_id if available
+            geostore_id: window.geostoreId || undefined
+          });
+          Object.keys(params).forEach(key => {
+            tileUrl = tileUrl.replace(`{${key}}`, params[key]);
+          });
+        }
+
+        layerSetup = getLayerConfig(layer, tileUrl, containerId);
+
       } else if (layerType === "wms") {
         const timestamps = await getTimeValuesFromWMS(getCapabilitiesUrl, getCapabilitiesLayerName);
         layerDates = timestamps.sort((a, b) => new Date(b) - new Date(a));
@@ -514,6 +544,8 @@ function getTimeFromList(timestamps, method) {
           let timeUrlParam = timeSelectorConfig.url_param || "time";
           tileUrl = updateTileUrl(layerConfig.source.tiles[0], { [timeUrlParam]: currentLayerTime });
         }
+        layerSetup = getLayerConfig(layer, tileUrl, containerId);
+
       }
 
       if (legendConfig?.items?.length) {
@@ -521,10 +553,9 @@ function getTimeFromList(timestamps, method) {
         $("#legend-" + containerId).html(legend).show();
       }
 
-      const layerSetup = getLayerConfig(layer, tileUrl);
+
       const defaultDate = layerDates?.[0];
       updateMapLayer(map, layerSetup, defaultDate);
-      setParamSelectors(containerId, paramsSelectorConfig, layerSetup, map)
 
       setCalendarDates(containerId, layerDates).then(() => {
         const fp = flatpickrInstances[containerId];
@@ -584,6 +615,39 @@ function getTimeFromList(timestamps, method) {
       });
   }
 
+  function getSelectedParams(paramsSelectorConfig) {
+    const params = {};
+    paramsSelectorConfig.forEach(param => {
+      if (param.key === "time") return;
+      const select = document.getElementById(`param-${param.key}`);
+      if (select) params[param.key] = select.value;
+    });
+    return params;
+  }
+
+  function updateLayerWithParams(containerID, map, layerConfigs) {
+    // Get layer config and paramsSelectorConfig for this container
+    const paramsSelectorConfig = layerConfigs?.paramsSelectorConfig || [];
+    const params = getSelectedParams(paramsSelectorConfig);
+
+    // Get selected date from flatpickr
+    const fp = flatpickrInstances[containerID];
+    let time = null;
+    if (fp && fp.selectedDates && fp.selectedDates[0]) {
+      time = new Date(fp.selectedDates[0]).toISOString();
+    }
+    // Add time param if present
+    if (time) params.time = time;
+
+    // Build tile URL with all params
+    let tileUrl = layerConfigs.source.tiles[0];
+    Object.keys(params).forEach(key => {
+      tileUrl = tileUrl.replace(`{${key}}`, params[key]);
+    });
+
+    // Update map layer
+    updateMapLayer(map, layerConfigs, time, tileUrl);
+  }
   initializeMap()
   initializeCalender()
 
