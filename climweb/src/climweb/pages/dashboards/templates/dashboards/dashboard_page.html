@@ -59,6 +59,7 @@
                             {% for item in block.value.content %}
                                 {% if item.block_type == 'title_text' %}
                                     {% include_block item %}
+                                    
                                 {% elif item.block_type == 'title_text_image' %}
                                     {% include_block item %}
                                 {% elif item.block_type == 'chart' %}

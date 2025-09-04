@@ -110,7 +110,6 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat) {
 }
 
 function initChart({ chartType, chartId, dataUnit, dateFormat }) {
-    console.log(chartType)
     const chart = Highcharts.chart(chartId, {
         chart: {
             type: chartType || "line", // Default to line chart
@@ -231,7 +230,6 @@ async function fetchTimeseries(layerId, geostoreId, timeFrom, timeTo, chartType 
 function renderChart(chart, data, chartTitle, chartColor, dataUnit) {
 
     if (chart.options.chart.type === "scatter") {
-        console.log(data)
         // Scatterplot-specific rendering
         chart.series.forEach(s => s.remove(false)); // Remove old series
         chart.addSeries({
