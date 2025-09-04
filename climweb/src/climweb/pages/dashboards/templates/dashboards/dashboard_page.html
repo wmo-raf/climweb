@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags nmhs_cms_tags %}
+{% load i18n static lazyimages_tags wagtailimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags nmhs_cms_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
@@ -10,9 +10,13 @@
 {% endblock extra_css %}
 
 {% block content %}
-    <main class="is-index">
+    <main class="is-index" style="--banner-background-color: {{ page.banner_background_color }};">
         <div class="hero-header">
-                <section id="page-hero" class="hero is-small" style="background-color:{{page.banner_background_color}}">
+            {% image page.banner_image original as banner_img %}
+                <section id="page-hero" class="hero is-small progressive__bg progressive--not-loaded" 
+                style="{% if page.banner_image %}background: url({% lazy_image_url banner_img %}) {{page.banner_background_color}};background-repeat:no-repeat; background-size:cover; {% else %} background: {{ page.banner_background_color }}{% endif %} "
+                data-progressive="{{ banner_img.url }}">
+               
                     <div class="hero-body is-align-items-center" style="display:flex">
                         <div class="container">
                             <div class="dashboards-li is-align-items-center my-3" style="display:flex; color: #fab72e;  fill:#fab72e">

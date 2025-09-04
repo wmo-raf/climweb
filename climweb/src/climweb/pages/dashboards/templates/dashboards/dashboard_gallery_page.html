@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags static lazyimages_tags %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
@@ -34,10 +34,13 @@
   <div class="container">
     <div class="columns is-multiline">
       {% for dashboard in page.get_children.specific %}
-        <div class="column is-3">
+        <div class="column is-3" style="--banner-background-color: {{ dashboard.banner_background_color }}">
+          {% if dashboard.banner_image %}{% image dashboard.banner_image original as banner_img %}{% endif %}
           <a href="{{ dashboard.url }}">
-            <div class="card px-4 py-6 is-align-items-center is-justify-content-center" style="background-color: {{ dashboard.banner_background_color }}; min-height:200px">
-                <div class="card-content">
+            <div class="card dashboard-card px-4 py-6 is-align-items-center is-justify-content-center {% if dashboard.banner_image %}progressive__bg progressive--not-loaded{% endif %}"
+                style="min-height:200px; {% if dashboard.banner_image %}background-image: url({% lazy_image_url banner_img %});background-repeat:no-repeat; background-size:cover;position:relative {% else %} background-color: {{ dashboard.banner_background_color }}{% endif %}"
+                data-progressive="{% if dashboard.banner_image %}{{ banner_img.url }}{% endif %}">
+                <div class="card-content" style="position:absolute">
                     <h4 class="title is-6 has-text-white">{{ dashboard.banner_title }}</h4>
                 </div>
             </div>

@@ -15,9 +15,30 @@
     min-height: unset;
 }
 
+
+
 main section {
-    padding: 30px 0;
+    padding: 0;
 }
+
+.hero::before{
+  background-color: var(--banner-background-color);
+  content: '';
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  opacity: 0.5
+}
+
+.dashboard-card::before{
+  background-color: var(--banner-background-color);
+  content: '';
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  opacity: 0.3
+}
+
 
 h1 {
     font-weight: 200;
@@ -292,3 +313,4 @@ h1 {
     color: #141414;
     width: 9.375rem;
 }
+
