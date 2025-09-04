@@ -17,7 +17,7 @@ class ChartAdmin(ModelAdmin):
     model = ChartSnippet
     menu_label = "Charts"
     menu_icon = "chart"
-    menu_order = 100
+    menu_order = 102
     add_to_settings_menu = False
     list_display = ("title", "chart_type", "area_desc")
     list_filter = ("chart_type", "area_desc")
@@ -39,14 +39,14 @@ class DashboardPageAdmin(ModelAdmin):
     model = DashboardPage
     menu_label = "Dashboards"
     menu_icon = "report"
-    menu_order = 102
+    menu_order = 100
     add_to_settings_menu = False
     list_display = ("title",)
     search_fields = ("title",)
 
 
 class CustomDashboardMenu(ModelAdminGroup):
-    menu_label = "Dashboards"
+    menu_label = "Atlas"
     menu_icon = "analysis"
     menu_order = 105
     items = (ChartAdmin, MapAdmin, DashboardPageAdmin)

@@ -1,12 +1,7 @@
 :hidetoc: 1
 
-<<<<<<< HEAD
-Welcome to NMHS ClimWeb documentation
-=======================================
-=======
 Welcome to ClimWeb documentation
 ==================================
->>>>>>> dd740772b2aaaee1d403d28429c010791b628116
 
 .. image:: _static/images/home/cms_responsive.png
 
@@ -19,13 +14,8 @@ Downloadable pdf versions can be found at:
    * :download:`ClimWeb Manual (Swahili) <https://climweb.readthedocs.io/_/downloads/sw/latest/pdf/>`
 
 
-<<<<<<< HEAD
-NMHS ClimWeb
--------------
-=======
 ClimWeb
 ---------
->>>>>>> dd740772b2aaaee1d403d28429c010791b628116
 
 .. toctree::
    :maxdepth: 2
@@ -42,6 +32,7 @@ ClimWeb
    _docs/manage_cap/index
    _docs/Manage-City-Forecasts
    _docs/Manage-Mapviewer
+   _docs/Atlas
    _docs/Mailing-Integrations
    _docs/Frequently-Asked-Questions
    _docs/technical/index

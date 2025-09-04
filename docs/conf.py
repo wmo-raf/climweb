@@ -36,16 +36,6 @@ html_css_files = ["css/theme.overrides.css"]
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath(".."))
 
-import django
-
-# Autodoc may need to import some models modules which require django settings
-# be configured
-os.environ["DJANGO_SETTINGS_MODULE"] = "wagtail.test.settings"
-django.setup()
-
-# Use SQLite3 database engine so it doesn't attempt to use psycopg2 on RTD
-os.environ["DATABASE_ENGINE"] = "django.db.backends.sqlite3"
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
