@@ -110,34 +110,52 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat) {
 }
 
 function initChart({ chartType, chartId, dataUnit, dateFormat }) {
+    console.log(chartType)
     const chart = Highcharts.chart(chartId, {
         chart: {
-            type: chartType || "line",
+            type: chartType || "line", // Default to line chart
             backgroundColor: "transparent",
             spacingTop: 40,
         },
         title: { text: null },
         credits: { enabled: false },
         xAxis: {
+            title: { text: "X-Axis" }, // Customize as needed
             labels: {
                 formatter: function () {
                     return formatDateTimeJS(this.value, dateFormat);
                 }
             }
         },
-        yAxis: { title: { text: dataUnit } },
+        yAxis: {
+            title: { text: dataUnit || "Y-Axis" } // Customize as needed
+        },
         plotOptions: {
             series: {
-                lineWidth: 2.5,
-                marker: { enabled: false }, // <-- No dots
+                lineWidth: chartType === "scatter" ? null : 2.5,
+                marker: { enabled: chartType === "scatter" ? true : false },
                 turboThreshold: 0, // Optional: for large datasets
-
             },
             column: {
                 pointPadding: 0.05,
                 borderWidth: 0,
                 groupPadding: 0.05,
-            }
+            },
+            scatter: {
+                opacity: 0.6,
+                marker: {
+                    radius: 3.5,
+                    symbol: 'square',
+                    lineWidth: 0.7
+                },
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: "X: {point.x}, Y: {point.y}"
+                },
+                 jitter: {
+                    x: 0.005
+                }
+            },
         }
     });
     chart.showLoading('Loading data...');
@@ -159,37 +177,82 @@ async function fetchTimestamps(layerId) {
     return timestamps;
 }
 
-async function fetchTimeseries(layerId, geostoreId, timeFrom, timeTo) {
+function getBoxStats(values) {
+    values.sort((a, b) => a - b);
+
+    const q1 = quantile(values, 0.25);
+    const median = quantile(values, 0.5);
+    const q3 = quantile(values, 0.75);
+    const low = values[0];
+    const high = values[values.length - 1];
+
+    return [low, q1, median, q3, high];
+}
+
+function quantile(arr, q) {
+    const pos = (arr.length - 1) * q;
+    const base = Math.floor(pos);
+    const rest = pos - base;
+    if ((arr[base + 1] !== undefined)) {
+        return arr[base] + rest * (arr[base + 1] - arr[base]);
+    } else {
+        return arr[base];
+    }
+}
+
+async function fetchTimeseries(layerId, geostoreId, timeFrom, timeTo, chartType = "line") {
     let url = `/api/raster-data/geostore/timeseries/${layerId}?geostore_id=${geostoreId}&value_type=mean`;
     if (timeFrom) url += `&time_from=${timeFrom}`;
     if (timeTo) url += `&time_to=${timeTo}`;
-    const res = await fetch(url);
-    return res.json();
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (chartType === "scatter") {
+            // Format data for scatterplot
+            return data.map(d => ({
+                x: new Date(d.date).getTime(), // X-axis: timestamp
+                y: d.value // Y-axis: value
+            }));
+        } else {
+            // Format data for other chart types
+            return data.map(d => ({
+                date: d.date,
+                value: d.value
+            }));
+        }
+    } catch (err) {
+        console.error("Error fetching timeseries data:", err);
+        throw err;
+    }
 }
 
 function renderChart(chart, data, chartTitle, chartColor, dataUnit) {
-    const sortedData = data.sort((a, b) => new Date(a.date) - new Date(b.date));
-    const timestamps = sortedData.sort((a, b) => b - a).map(d => d.date) || [];
-    const values = sortedData.map(d => Math.round(d.value * 100) / 100) || [];
-    chart.xAxis[0].setCategories(timestamps);
-    chart.series.forEach(s => s.remove(false)); // Remove old series
-    chart.addSeries({
-        name: chartTitle,
-        color: chartColor,
-        data: values,
-        unit: dataUnit,
-    });
-    chart.update({
-        tooltip: {
-            formatter: function () {
-                return `
-                    <b>${this.series.name}</b><br>
-                    ${formatDateTime(this.x)} <br> <b>${this.y.toFixed(2)}</b> 
-                    ${this.series.options.unit || ""}
-                `;
-            },
-        }
-    });
+
+    if (chart.options.chart.type === "scatter") {
+        console.log(data)
+        // Scatterplot-specific rendering
+        chart.series.forEach(s => s.remove(false)); // Remove old series
+        chart.addSeries({
+            name: chartTitle,
+            color: chartColor,
+            data: data, // Scatterplot data: [{ x, y }, ...]
+        });
+    } else {
+        // Default rendering for other chart types
+        const sortedData = data.sort((a, b) => new Date(a.date) - new Date(b.date));
+        const timestamps = sortedData.map(d => d.date) || [];
+        const values = sortedData.map(d => Math.round(d.value * 100) / 100) || [];
+        chart.xAxis[0].setCategories(timestamps);
+        chart.series.forEach(s => s.remove(false)); // Remove old series
+        chart.addSeries({
+            name: chartTitle,
+            color: chartColor,
+            data: values,
+            unit: dataUnit,
+        });
+    }
     chart.hideLoading();
 }
 
@@ -201,10 +264,9 @@ async function loadChart(container) {
 
     const dateFormat = getDateFormatFromContainer(container);
 
-
     const chartConfig = {
         chartId,
-        chartType: container.dataset.type,
+        chartType: container.dataset.type, // Pass chart type (e.g., "line", "column", "boxplot")
         dataUnit: container.dataset.unit,
         dateFormat
     };
@@ -239,7 +301,7 @@ async function loadChart(container) {
         }
         chart.showLoading('Loading data...');
         try {
-            const data = await fetchTimeseries(layerId, geostoreId, timeFrom, timeTo);
+            const data = await fetchTimeseries(layerId, geostoreId, timeFrom, timeTo, chartConfig.chartType);
             renderChart(
                 chart,
                 data,

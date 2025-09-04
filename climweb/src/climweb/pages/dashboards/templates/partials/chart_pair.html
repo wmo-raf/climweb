@@ -69,6 +69,10 @@
                         placeholder="Select Date Range"
                         id="{% if chart.chart_type == 'stripes' %}date-stripes-{% else %}date-chart-{% endif %}{{ section_index }}-{{ index|add:forloop.counter0 }}"
                     />
+                     <div
+                        class="params"
+                        id="paramsContainer-chart-{{ section_index }}-{{ index|add:forloop.counter0 }}"
+                    ></div>
                 </div>
             </footer>
         </div>

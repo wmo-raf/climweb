@@ -156,7 +156,11 @@ class DashboardMapValue:
 class ChartSnippet(models.Model):
     CHART_TYPE_CHOICES = [
         ("line", "Line Chart"),
-        ("column", "Bar Chart"),
+        ("column", "Vertical Bar Chart"),
+        ("bar", "Horizontal Bar Chart"),
+        ("area", "Area Chart"),
+        # ("boxplot", "Box Plot"), # TODO: Box plot not implemented in frontend yet
+        ("scatter", "Scatter Plot"),
         ("stripes", "Warming stripes"),
     ]
 
@@ -168,7 +172,7 @@ class ChartSnippet(models.Model):
 
     title = models.CharField(max_length=255)
     description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
-                                      help_text=_("Description"))
+                                      help_text=_("Description"), null=True, blank=True)
     dataset = models.ForeignKey(
         "geomanager.RasterFileLayer", on_delete=models.CASCADE, related_name="charts"
     )
@@ -271,7 +275,7 @@ class DashboardMap(models.Model):
 
     title = models.CharField(max_length=255)
     description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
-                                      help_text=_("Description"))
+                                      help_text=_("Description"), null=True, blank=True)
     area_desc = models.TextField(max_length=50,
                                 help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
     admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=1, help_text=_("Administrative Level"), blank=False )
