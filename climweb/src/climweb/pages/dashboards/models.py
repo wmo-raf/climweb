@@ -18,7 +18,7 @@ class DashboardGalleryPage(Page):
         FieldPanel("description"),
     ]
     class Meta:
-        verbose_name = "Dashboards Gallery"
+        verbose_name = "Dashboards Gallery / Atlas"
 
 class DashboardPage(Page):
     template = 'dashboards/dashboard_page.html'
