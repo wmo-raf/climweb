@@ -49,7 +49,7 @@ class CustomDashboardMenu(ModelAdminGroup):
     menu_label = "Atlas"
     menu_icon = "analysis"
     menu_order = 105
-    items = (ChartAdmin, MapAdmin, DashboardPageAdmin)
+    items = (DashboardPageAdmin, MapAdmin, ChartAdmin )
 
 
 modeladmin_register(CustomDashboardMenu)
