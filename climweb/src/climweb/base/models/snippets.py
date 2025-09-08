@@ -52,7 +52,7 @@ class ProductCategory(ClusterableModel):
     panels = [
         FieldPanel("product"),
         FieldPanel("name"),
-        FieldPanel("icon", widget=IconChooserWidget),
+        FieldPanel("icon", IconChooserWidget),
         InlinePanel("product_item_types", heading=_("Product Item Types"), label=_("Product Item Type")),
     ]
     
@@ -88,7 +88,7 @@ class ServiceCategory(models.Model):
     
     panels = [
         FieldPanel('name'),
-        FieldPanel('icon', widget=IconChooserWidget),
+        FieldPanel('icon', IconChooserWidget),
         FieldPanel('order'),
     ]
     

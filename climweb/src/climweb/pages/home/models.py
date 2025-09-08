@@ -55,6 +55,7 @@ HOME_SUBPAGE_TYPES = [
     'cap.CapAlertListPage',
     'glossary.GlossaryIndexPage',
     'webstories.WebStoryListPage',
+    'dashboards.DashboardGalleryPage'
 ]
 
 if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:

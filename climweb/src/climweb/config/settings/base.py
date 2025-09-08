@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "climweb.pages.glossary",
     "climweb.pages.webstories",
     "climweb.pages.wdqms",
+    "climweb.pages.dashboards",
     
     "adminboundarymanager",
     "geomanager",
@@ -345,7 +346,7 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 LOCALE_PATHS = [
     'base/locale',
     'nmhs_cms/locale',
-    
+
     'pages/cap/locale',
     'pages/cityclimate/locale',
     'pages/contact/locale',
@@ -365,7 +366,7 @@ LOCALE_PATHS = [
     'pages/organisation_pages/tenders/locale',
     'pages/organisation_pages/vacancies/locale',
     'pages/organisation_pages/staff/locale',
-    
+
     'pages/products/locale',
     'pages/publications/locale',
     'pages/satellite_imagery/locale',
