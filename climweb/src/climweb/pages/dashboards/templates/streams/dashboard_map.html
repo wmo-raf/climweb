@@ -1,0 +1,30 @@
+{% load wagtailcore_tags static %}
+
+<div class="dashboard-maps">
+  
+  {% for mapdata in maps %}
+    <div class="dashboard-map">
+      
+      <div class="columns my-4">
+        {% if self.maps_block|length > 1 and forloop.counter|divisibleby:2 %}
+          {% include "partials/dashboard_map_with_description.html" with map_snippet=mapdata section_index=section|stringformat:"s" map_index=forloop.counter|stringformat:"s" %}
+        {% else %}
+          {% include "partials/dashboard_map_with_map_first.html" with map_snippet=mapdata section_index=section|stringformat:"s" map_index=forloop.counter|stringformat:"s" %}
+        {% endif %}
+      </div>
+    </div>
+  <script>
+    function mapConfig (){
+      const datasetsUrl = "{{ mapdata.datasetsurl }}";
+      const countryBounds = {{mapdata.bounds|default_if_none:"[]"|safe}}
+      const boundaryTilesUrl = "{{mapdata.boundary_tiles_url|default_if_none:''}}"
+
+      return {datasetsUrl, countryBounds, boundaryTilesUrl}
+    }
+  </script>
+  {% endfor %}
+</div>
+
+
+
+

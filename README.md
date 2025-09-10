@@ -30,15 +30,21 @@ NMHSs that have adopted ClimWeb across Africa:
 18. 🇨🇬 [Republic of Congo](http://dirmet.cg/)
 19. 🇧🇫 [Hydrology Department of Burkina Faso](https://dgre.gov.bf/)
 20. 🇬🇳 [Guinea](https://anmeteo.gov.gn/)
+21. 🇰🇲 [Comoros](https://meteocomores.km/)
+22. 🇰🇪 [Kenya](https://meteo.go.ke)
 
 #### In progress
 
-- 🇰🇪 Kenya
-- 🇰🇲 Comoros
 - 🇩🇯 Djibouti
 - 🇸🇱 Sierra Leone
 - 🇺🇬 Uganda
 - 🇱🇷 Liberia
+- 🇿🇲 Zambia
+- 🇳🇦 Namibia
+- 🇸🇴 Somalia
+- 🇿🇲 Mauritania
+- 🇨🇫 Central African Republic
+- 🇬🇦 Gabon
 
 ## 🌟 Core Features
 

@@ -14,6 +14,8 @@ from wagtail.models import Site, Page
 from climweb import __version__
 from climweb.base.models import LanguageSettings
 from climweb.base.utils import get_first_non_empty_p_string
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -254,3 +256,40 @@ register.filter('exclude_images', exclude_images)
 def date_is_today(value):
     """Returns True if the given date is today."""
     return value == date.today()
+
+
+
+@register.simple_tag(takes_context=True)
+def render_charts(context, charts_block, section_index=0):
+    rendered_output = ""
+    i = 0
+    while i < len(charts_block):
+        current = charts_block[i]
+        next_chart = charts_block[i + 1] if i + 1 < len(charts_block) else None
+
+        current_desc = getattr(current, "description", None)
+        next_desc = getattr(next_chart, "description", None) if next_chart else None
+
+        # If both current and next chart have no description, render them side by side
+        if not current_desc and not next_desc and next_chart:
+            rendered = render_to_string(
+                "partials/chart_pair.html",
+                {"charts": [current, next_chart], 
+                 "index": i + 1,         
+                 "section_index": section_index,
+                },
+                request=context["request"]
+            )
+            rendered_output += rendered
+            i += 2
+        else:
+            rendered = render_to_string(
+                "partials/chart_single.html",
+                {"chart": current, "index": i + 1,
+                "section_index": section_index,
+                },
+                request=context["request"]
+            )
+            rendered_output += rendered
+            i += 1
+    return mark_safe(rendered_output)

@@ -1,0 +1,230 @@
+{% load wagtailiconchooser_tags wagtailcore_tags %}
+<div class="columns my-4">
+    {% if index|divisibleby:2 and chart.description %}
+    <div class="column description-column mt-3">
+        <h3 class="chart-title" style="color:{{page.banner_background_color}}">{{ chart.title|richtext }}</h3>
+        {% if chart.area_desc %}<p class="chart-area">{{chart.area_desc}} </p>{% endif %}
+        <p>{{ chart.description|richtext }}</p>
+    </div>
+    <div class="column chart-column is-half">
+        <div class="card elevation-1">
+            <header class="card-header elevation-0">
+                <p class="card-header-title">{{ chart.title }}</p>
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
+                <a
+                    class="card-header-icon"
+                    aria-label="more options"
+                    href="{{chart.mapviewer_map_url}}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    <div class="icon is-small">
+                        {% svg_icon "layer-group" %}
+                    </div>
+                </a>
+                {% endif %} 
+                {% if chart.dataset.dataset.metadata %}
+                <button
+                    class="card-header-icon js-modal-trigger"
+                    aria-label="more options"
+                    data-target="modal-{{ section_index }}-{{ index }}"
+                >
+                    <div class="icon is-small">
+                        {% svg_icon "info-circle" %}
+                    </div>
+                </button>
+                {% endif %}
+            </header>
+            <div class="card-content">
+                {% if chart.chart_type == "stripes" %}
+                <div
+                    class="warming-stripes-chart"
+                    id="stripes-{{ section_index }}-{{ index }}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-admin-path="{{ chart.admin_path }}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div>
+                {% else %}
+                <div
+                    class="chart-container"
+                    id="chart-{{ section_index }}-{{ index }}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-title="{{ chart.title }}"
+                    data-color="{{ chart.chart_color|default:'#0b76e1' }}"
+                    data-unit="{{ chart.data_unit|default:'Value' }}"
+                    data-type="{{ chart.chart_type|default:'line' }}"
+                    data-area-desc="{{ chart.area_desc }}"
+                    data-admin-level="{{ chart.admin_level }}"
+                    data-admin-path="{{chart.admin_path}}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div>
+                {% endif %}
+            </div>
+            <footer class="card-footer">
+                <div style="width: 100%" class="m-2">
+                    <input
+                        class="flatpickr flatpickr-input input is-small"
+                        type="text"
+                        placeholder="Select Date Range"
+                        id="{% if chart.chart_type == 'stripes' %}date-stripes-{% else %}date-chart-{% endif %}{{ section_index }}-{{ index }}"
+                    />
+                    <div
+                        class="params"
+                        id="paramsContainer-chart-{{ section_index }}-{{ index }}"
+                    ></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    {% elif chart.description %}
+    <div class="column chart-column is-half">
+        <div class="card elevation-1">
+            <header class="card-header elevation-0">
+                <p class="card-header-title">{{ chart.title }}</p>
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
+                <a
+                    class="card-header-icon"
+                    aria-label="more options"
+                    href="{{chart.mapviewer_map_url}}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    <div class="icon is-small">
+                        {% svg_icon "layer-group" %}
+                    </div>
+                </a>
+                {% endif %} 
+                {% if chart.dataset.dataset.metadata %}
+                <button
+                    class="card-header-icon js-modal-trigger"
+                    aria-label="more options"
+                    data-target="modal-{{ section_index }}-{{ index }}"
+                >
+                    <div class="icon is-small">
+                        {% svg_icon "info-circle" %}
+                    </div>
+                </button>
+                {% endif %}
+            </header>
+            <div class="card-content">
+                {% if chart.chart_type == "stripes" %}
+                <div
+                    class="warming-stripes-chart"
+                    id="stripes-{{ section_index }}-{{ index }}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-admin-path="{{ chart.admin_path }}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div>
+                {% else %}
+                <div
+                    class="chart-container"
+                    id="chart-{{ section_index }}-{{ index }}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-title="{{ chart.title }}"
+                    data-color="{{ chart.chart_color|default:'#0b76e1' }}"
+                    data-unit="{{ chart.data_unit|default:'Value' }}"
+                    data-type="{{ chart.chart_type|default:'line' }}"
+                    data-area-desc="{{ chart.area_desc }}"
+                    data-admin-level="{{ chart.admin_level }}"
+                    data-admin-path="{{chart.admin_path}}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div>
+                {% endif %}
+            </div>
+            <footer class="card-footer">
+                <div style="width: 100%" class="m-2">
+                    <input
+                        class="flatpickr flatpickr-input input is-small"
+                        type="text"
+                        placeholder="Select Date Range"
+                        id="{% if chart.chart_type == 'stripes' %}date-stripes-{% else %}date-chart-{% endif %}{{ section_index }}-{{ index }}"
+                    />
+                    <div
+                        class="params"
+                        id="paramsContainer-chart-{{ section_index }}-{{ index }}"
+                    ></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <div class="column description-column mt-3">
+        <h3 class="chart-title" style="color:{{page.banner_background_color}}">{{ chart.title|richtext }}</h3>
+        {% if chart.area_desc %}<p class="chart-area">{{chart.area_desc}} </p>{% endif %}
+        <p>{{ chart.description|richtext }}</p>
+    </div>
+    {% else %}
+    <div class="column chart-column">
+        <div class="card elevation-1">
+            <header class="card-header elevation-0">
+                <p class="card-header-title">{{ chart.title }}</p>
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
+                <a
+                    class="card-header-icon"
+                    aria-label="more options"
+                    href="{{chart.mapviewer_map_url}}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    <div class="icon is-small">
+                        {% svg_icon "layer-group" %}
+                    </div>
+                </a>
+                {% endif %} 
+                {% if chart.dataset.dataset.metadata %}
+                <button
+                    class="card-header-icon js-modal-trigger"
+                    aria-label="more options"
+                    data-target="modal-{{ section_index }}-{{ index }}"
+                >
+                    <div class="icon is-small">
+                        {% svg_icon "info-circle" %}
+                    </div>
+                </button>
+                {% endif %}
+            </header>
+            <div class="card-content">
+                {% if chart.chart_type == "stripes" %}
+                <div
+                    class="warming-stripes-chart"
+                    id="stripes-{{ section_index }}-{{ index }}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-admin-path="{{ chart.admin_path }}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div>
+                {% else %}
+                <div
+                    class="chart-container"
+                    id="chart-{{ section_index }}-{{ index }}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-title="{{ chart.title }}"
+                    data-color="{{ chart.chart_color|default:'#0b76e1' }}"
+                    data-unit="{{ chart.data_unit|default:'Value' }}"
+                    data-type="{{ chart.chart_type|default:'line' }}"
+                    data-area-desc="{{ chart.area_desc }}"
+                    data-admin-level="{{ chart.admin_level }}"
+                    data-admin-path="{{chart.admin_path}}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div>
+                {% endif %}
+            </div>
+            <footer class="card-footer">
+                <div style="width: 100%" class="m-2">
+                    <input
+                        class="flatpickr flatpickr-input input is-small"
+                        type="text"
+                        placeholder="Select Date Range"
+                        id="{% if chart.chart_type == 'stripes' %}date-stripes-{% else %}date-chart-{% endif %}{{ section_index }}-{{ index }}"
+                    />
+                     <div
+                    class="params"
+                    id="paramsContainer-chart-{{ section_index }}-{{ index }}"
+                ></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    {% endif %}
+
+    {% include "partials/modal.html" with metadata=chart.dataset.dataset.metadata section=section_index index=index %}
+
+</div>

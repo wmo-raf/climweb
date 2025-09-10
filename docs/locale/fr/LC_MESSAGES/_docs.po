@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2024, WMO Regional Office For Africa
+# Copyright (C) 2023
 # This file is distributed under the same license as the NMHS ClimWeb
 # Documentation package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: NMHS ClimWeb Documentation 0.9.4beta1-2-gfc109913\n"
+"Project-Id-Version: NMHS ClimWeb Documentation 0.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-20 22:48+0900\n"
+"POT-Creation-Date: 2023-08-06 19:37+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -42,7 +42,7 @@ msgstr ""
 
 #: ../../_docs/Find-Your-Way-Around.md:9
 msgid ""
-"![Access Dashboard](../_static/images/navigating/access_dashboard.png "
+"![Access Dashboard](../_static/images/navigating/access_dashboard_1.png "
 "\"Access Dashboard\")"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgid ""
 msgstr ""
 
 #: ../../_docs/Find-Your-Way-Around.md:18
-msgid "![Dashboard](../_static/images/navigating/dashboard.png \"Dashboard\")"
+msgid "![Dashboard](../_static/images/navigating/Dashboard_1.png \"Dashboard\")"
 msgstr ""
 
 #: ../../_docs/Find-Your-Way-Around.md:18
@@ -213,7 +213,7 @@ msgid ""
 msgstr ""
 
 #: ../../_docs/Find-Your-Way-Around.md:72
-msgid "![Explorer](../_static/images/navigating/explorer_page.png \"Explorer\")"
+msgid "![Explorer](../_static/images/navigating/Explorer_page_1.png \"Explorer\")"
 msgstr ""
 
 #: ../../_docs/Find-Your-Way-Around.md:72
@@ -1028,7 +1028,7 @@ msgid ""
 msgstr ""
 
 #: ../../_docs/Mailing-Integrations.md:12
-#: ../../_docs/manage_settings/Manage-Settings.md:1
+#: ../../_docs/manage_settings/homepage-map.md:11
 msgid "Settings"
 msgstr ""
 
@@ -1179,676 +1179,69 @@ msgid "In progress ..."
 msgstr ""
 
 #: ../../_docs/Manage-CAP-Alerts.md:1
-msgid "CAP Composer"
-msgstr ""
+msgid "CAP Editor"
+msgstr "Éditeur du CAP"
 
-#: ../../_docs/Manage-CAP-Alerts.md:3
+#: ../../_docs/Manage-City-Forecasts.md:3
 msgid ""
 "The **Common Alerting Protocol (CAP)** provides an open, non-proprietary "
-"digital message format for all types of alerts and notifications. It does"
-" not address any particular application or telecommunications method. The"
-" CAP format is compatible with emerging techniques, such as Web services,"
-" as well as existing formats including the Specific Area Message Encoding"
-" (SAME) used for the United States' National Oceanic and Atmospheric "
-"Administration (NOAA) Weather Radio and the Emergency Alert System (EAS)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:9
-msgid ""
-"The CAP xml response follows the structure of the schema provided at "
-"http://docs.oasis-open.org/emergency/cap/v1.2/CAP-v1.2-os.html"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:12
-msgid "CAP Warning Composer Features"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:14
-msgid "![CAP Preview](../_static/images/cap/cap_preview.png \"CAP Preview\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:14
-msgid "CAP Preview"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:16
-msgid ""
-"The CAP composer tool is a solution that provides a range of "
-"functionalities to support the NMHS in seamlessly issuing CAP. It has "
-"been developed with an aim of increasing the adoption of CAP by NMHS in "
-"Africa. Some of the key features of the tool include:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:20
-msgid ""
-"Possibility to run as standalone composer or integrate into Wagtail-"
-"ClimWeb-based website"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:21
-msgid ""
-"Search Engine Optimization support to increase visibility and attract "
-"targeted traffic to an alert"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:22
-msgid ""
-"Support for Approval Workflow from composer to approver, including "
-"commenting and email notification support"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:23
-msgid ""
-"Interoperable XML API of Alert List and Detail for integration with CAP "
-"Aggregators - Live CAP creation and editing preview"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:25
-msgid "Draw / Upload Polygon Functionality for Alert Area/Areas"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:26
-msgid "User-friendly and mobile friendly CAP alert creation and management"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:27
-msgid "Alert to Alert/Alerts Reference Linkage"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:28
-msgid ""
-"Published python package with version management and changelogs "
-"https://github.com/wmo-raf/cap-editor"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:29
-msgid "Related Setup/Installation and Usage instructions"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:31
-msgid "Creating a CAP Alert"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:33
-msgid ""
-"To create a CAP Alert access the CAP composing interface from the "
-"explorer menu as below and add a new cap alert page:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:35
-msgid "![CAP Explorer](../_static/images/cap/cap_explorer.png \"CAP Explorer\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:35
-msgid "CAP Explorer"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:39
-msgid "Sections in the Alert Page and corresponding XML"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:41
-msgid "The overall Document Object Model of an alert is as below:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:43
-msgid "![Alert DOM](../_static/images/cap/dom.jpg \"CAP Document Object Model\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:43
-msgid "Alert DOM"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:45 ../../_docs/Manage-CAP-Alerts.md:66
-msgid "Alert Identification"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:47
-msgid "It contains the following entities required for a valid CAP message:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:49
-msgid "Sender ID(sender),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:50
-msgid "Sent Dat/Time (sent),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:51
-msgid "Message Status (status),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:52
-msgid "Message Type (msgType),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:53
-msgid "Scope(scope),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:54
-msgid "Restriction (restriction),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:55
-msgid "Addresses (addresses),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:56
-msgid "Note (note),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:57
-msgid "Reference IDs (references) and"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:58
-msgid "Incident ids (incidents)."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:60
-msgid "The alert identifier is generated automatically and is not editable."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:63
-msgid "Some fields are visible based on selection of different parameters."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:66
-msgid ""
-"![Alert Identification](../_static/images/cap/alert_identification.png "
-"\"Alert Identification section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:68
-msgid "Alert Information"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:70
-msgid ""
-"Corresponds to the `<info>` element in the CAP message. The <info> entity"
-" specifies the alert's details. At least one <info> block is required for"
-" an alert. If you support multiple languages, it is recommended that you "
-"use one <info> block for each language for the same <alert> entity.:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:74
-msgid ""
-"A CAP message expects at least one `<info>` element to be present. "
-"Multiple `<info>` blocks should all have the same `<category>` and "
-"`<event>` element values."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:77
-msgid "Each `Information` block contains the following elements:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:79
-msgid "Langauge (langauge"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:80
-msgid "Event Category/Categories (category)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:81
-msgid "Event Type (event)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:82
-msgid "Response Type/Types (responseType)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:83
-msgid "Urgency (urgency)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:84
-msgid "Severity (severity)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:85
-msgid "Certainty (certainty)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:86
-msgid "Audience (audience)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:87
-msgid "Event Code/Codes (eventCode)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:88
-msgid "Effective Date/Time (effective)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:89
-msgid "Onset Date/Time (onset)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:90
-msgid "Expiration Date/Time (expires)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:91
-msgid "Sender Name (senderName)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:92
-msgid "Headline(headline)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:93
-msgid "Event description (description)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:94
-msgid "Instructions (instruction)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:95
-msgid "Information URL (web),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:96
-msgid "Contact Info (contact) and"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:97
-msgid "Parameter/Parameters(parameter)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:99
-msgid "![Alert Info](../_static/images/cap/alert_info.png \"Alert Info\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:99
-msgid "Alert Info"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:101 ../../_docs/Manage-CAP-Alerts.md:113
-msgid "Alert Area"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:103
-msgid ""
-"Information Entity that defines the geographic area to be notified. "
-"Multiple areas can be defined in the alert. Each area contains the "
-"following elements:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:106
-msgid "Area Description (areaDesc),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:107
-msgid "Area Polygon/Polygons (polygon),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:108
-msgid "Area Circle/Circles (circle),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:109
-msgid "Area Geocode/Geocodes (geocode),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:110
-msgid "Altitude (altitude),"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:111
-msgid "Ceiling (ceiling)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:113
-msgid ""
-"![Alert Area](../_static/images/cap/alert_area_options.png \"Alert Area "
-"section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:115
-msgid "The Alert area input has 4 selector options:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:117
-msgid ""
-"Admin Boundary (area is picked from predefined boundaries). To use this "
-"option, ensure that admin boundaries are initially loaded. Refer to "
-"[Setting up boundaries](#setting-up-boundaries) section."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:120
-msgid ""
-"![Alert Area boundary](../_static/images/cap/alert_area_boundary.png "
-"\"Alert Area section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:120
-msgid "Alert Area boundary"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:122
-msgid "Polygon (drawing a polygon)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:124
-msgid ""
-"![Alert Area polygon](../_static/images/cap/alert_area_polygon.png "
-"\"Alert Area section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:124
-msgid "Alert Area polygon"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:126
-msgid ""
-"Circle (drawing a circle which specifies the latitude, longitude and "
-"radius)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:128
-msgid ""
-"![Alert Area circle](../_static/images/cap/alert_area_circle.png \"Alert "
-"Area section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:128
-msgid "Alert Area circle"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:130
-msgid ""
-"Geocode (specifying area geocode name and value). Using this option "
-"presumes knowleged of the coding system"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:132
-msgid ""
-"![Alert Area geocode](../_static/images/cap/alert_area_geocode.png "
-"\"Alert Area section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:132
-msgid "Alert Area geocode"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:134 ../../_docs/Manage-CAP-Alerts.md:146
-#: ../../_docs/Manage-CAP-Alerts.md:150
-msgid "Alert Resource"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:136
-msgid ""
-"Entity that defines supplemental information related to an <info> object "
-"Multiple instances of this section are allowed. It contains:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:139
-msgid ""
-"Description (resourceDesc), MIME Type (mimeType), File Size (size), URI "
-"(uri), Dereferenced URI (derefUri) and Digest (digest)**"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:142
-msgid "The Alert resource input has 2 selector options:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:144
-msgid "File resource (takes in a file and description)"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:146
-msgid ""
-"![Alert Resource](../_static/images/cap/alert_resource_file.png \"Alert "
-"Resource section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:148
-msgid "External resource"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:150
-msgid ""
-"![Alert Resource](../_static/images/cap/alert_resource_external.png "
-"\"Alert Resource section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:152
-msgid "Additional CAP Inputs"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:154
-msgid "Addition alert information elements include parameters and event codes"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:156
-msgid "Incidents"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:158
-msgid "This defines the reference incident to the current alert, if any."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:160
-msgid ""
-"![Alert Incidents](../_static/images/cap/alert_incidents.png \"Alert "
-"Incidents section\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:160
-msgid "Alert Incidents"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:164 ../../_docs/Manage-CAP-Alerts.md:168
-#: ../../_docs/Manage-CAP-Alerts.md:174 ../../_docs/Manage-CAP-Alerts.md:176
-msgid "CAP Settings"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:166
-msgid ""
-"CAP Settings include sender name, sender identifier, contact details, "
-"hazard types and audience types."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:168
-msgid "![CAP Settings](../_static/images/cap/cap_settings.png \"CAP Settings\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:171
-msgid ""
-"The creation of Hazard types will change the event input under alert "
-"information to a dropdown."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:174
-msgid ""
-"![CAP Settings](../_static/images/cap/alert_hazard_types.png \"CAP "
-"Settings\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:176
-msgid ""
-"![CAP Settings](../_static/images/cap/alert_hazard_input.png \"CAP "
-"Settings\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:178
-msgid "Setting up boundaries"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:180
-msgid ""
-"The boundary manager allows for the addition of boundaries to be used in "
-"the creation of an alert area using the admin boundary option."
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:183
-msgid ""
-"To access it, click on the boundary manager in the explorer menu as below"
-" and select Admin boundary settings to select the boundary data source "
-"and country/countries of interest. You will then need to add boundary "
-"data for the countries selected:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:187
-msgid ""
-"![Boundary Settings](../_static/images/cap/boundary_settings_menu.png "
-"\"Boundary Settings\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:187
-msgid "Boundary Settings"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:189
-msgid ""
-"Select the 'boundary data source' where you will download the boundaries."
-" The current options are:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:191
-msgid ""
-"OCHA Administrative Boundary common Operational Datasets (COD-ABS) "
-"(*default*) https://data.humdata.org/"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:192
-msgid ""
-"Global Administrative Areas 4.1 (GADM) "
-"https://gadm.org/download_country.html"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:194
-msgid "Add one or more countries"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:196
-msgid ""
-"To add boundary data, access the menu as below and click on 'Add "
-"Boundary' button:"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:198
-msgid "![Boundary Data](../_static/images/cap/add_boundary.png \"Boundary Data\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:198
-msgid "Boundary Data"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:200
-msgid ""
-"Load country boundaries at each of different levels (level 0 to 4) in "
-"zipped shapefile format"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:202
-msgid ""
-"![Boundary Loader](../_static/images/cap/boundary_loader.png \"Boundary "
-"Loader\")"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:202
-msgid "Boundary Loader"
-msgstr ""
-
-#: ../../_docs/Manage-CAP-Alerts.md:205
-msgid "Zip shapefiles seperately by Admin level before upload."
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:1
-msgid "City Forecasts"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:3
-msgid ""
-"![Preview Home](../_static/images/city_forecasts/preview_home.png "
-"\"Preview Home\")"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:3
-msgid "Preview Home"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:5
+"digital message format for all types of alerts and notifications. It does "
+"not address any particular application or telecommunications method. The CAP"
+" format is compatible with emerging techniques, such as Web services, as "
+"well as existing formats including the Specific Area Message Encoding (SAME)"
+" used for the United States' National Oceanic and Atmospheric Administration"
+" (NOAA) Weather Radio and the Emergency Alert System (EAS)"
+msgstr ""
+"Le **Common Alerting Protocol (CAP)** fournit un format de message numérique"
+" ouvert et non propriétaire pour tous les types d'alertes et de "
+"notifications. Il ne concerne aucune application ou méthode de "
+"télécommunication particulière. Le format CAP est compatible avec les "
+"techniques émergentes, telles que les services Web, ainsi qu'avec les "
+"formats existants, notamment le codage de messages de zone spécifique (SAME)"
+" utilisé pour la radio météo de la National Oceanic and Atmospheric "
+"Administration (NOAA) des États-Unis et le système d'alerte d'urgence ( EAS)"
+
+#: ../../_docs/Manage-CAP-Alerts.md:5
 msgid ""
 "City forecasts displayed on the homepage, and forecasts page can be added"
 " through the ClimWeb in two ways:"
 msgstr ""
+"La réponse CAP XML suit la structure du schéma fourni sur http://docs.oasis-"
+"open.org/emergency/cap/v1.2/CAP-v1.2-os.html"
 
-#: ../../_docs/Manage-City-Forecasts.md:6
-msgid "Manually adding daily forecasts"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:8
+msgid "CAP Editor Features"
+msgstr "Fonctionnalités de l'éditeur CAP"
 
-#: ../../_docs/Manage-City-Forecasts.md:7
+#: ../../_docs/Manage-CAP-Alerts.md:10
+msgid "![CAP Preview](../_static/images/cap/cap_preview.png \"CAP Preview\")"
+msgstr "![Aperçu CAP](../_static/images/cap/cap_preview.png \"Aperçu CAP\")"
+
+#: ../../_docs/Manage-CAP-Alerts.md:10
+msgid "CAP Preview"
+msgstr "Aperçu du CAP"
+
+#: ../../_docs/Manage-CAP-Alerts.md:12
 msgid ""
-"Fetching city forecasts from an external source i.e YR Meteo Norway's "
-"location forecast API https://developer.yr.no/featured-products/forecast/"
+"The CAP editor tool is a solution that provides a range of functionalities "
+"to support the NMHS in seamlessly issuing CAP. It has been developed with an"
+" aim of increasing the adoption of CAP by NMHS in Africa. Some of the key "
+"features of the tool include:"
 msgstr ""
+"L'outil éditeur de CAP est une solution qui fournit une gamme de "
+"fonctionnalités pour aider les SMHN à émettre des CAP en toute transparence."
+" Il a été développé dans le but d’accroître l’adoption du CAP par les SMHN "
+"en Afrique. Certaines des fonctionnalités clés de l'outil incluent :"
 
-#: ../../_docs/Manage-City-Forecasts.md:10
+#: ../../_docs/Manage-CAP-Alerts.md:14
 msgid ""
-"The forecast manager comes with predefined weather conditions and icons. "
-"Please refer to YR Weather symbols documentation for guidance on icons "
-"and naming convention. "
-"https://api.met.no/weatherapi/weathericon/2.0/documentation"
+"Possibility to run as standalone editor or integrate into Wagtail-ClimWeb-based "
+"website"
 msgstr ""
+"Possibilité de fonctionner en tant qu'éditeur autonome ou d'intégrer un site"
+" Web basé sur Wagtail-ClimWeb"
 
-#: ../../_docs/Manage-City-Forecasts.md:13
-msgid "Manually Adding Forecasts"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:15
-msgid "The city forecast explorer menu can be accessed on the left sidebar."
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:17
-msgid ""
-"![Forecast "
-"explorer](../_static/images/city_forecasts/forecast_explorer.png "
-"\"Forecast explorer\")"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:17
-msgid "Forecast explorer"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:19
-msgid "Here you have the ability to:"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:20
-msgid "Add/Edit/Delete a city (city name and location)"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:22
-msgid "![Add city](../_static/images/city_forecasts/add_city.png \"Add city\")"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:22
-msgid "Add city"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:26
-msgid "Import city forecasts in CSV format."
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:28
-msgid ""
-"![Add Forecast "
-"Explorer](../_static/images/city_forecasts/add_forecast_explorer.png "
-"\"Add Forecast Explorer\")"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:28
-msgid "Add Forecast Explorer"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:31
+#: ../../_docs/Manage-CAP-Alerts.md:15
 msgid ""
 "Using the forecast manager, it is possible to load city forecasts in CSV "
 "format created offline or alternatively populate the table on the right "
@@ -1859,142 +1252,112 @@ msgid ""
 " for the data being uploaded before publishing."
 msgstr ""
 
-#: ../../_docs/Manage-City-Forecasts.md:33
+#: ../../_docs/Manage-CAP-Alerts.md:16
 msgid ""
 "![Add Forecast](../_static/images/city_forecasts/add_forecast.png \"Add "
 "Forecast\")"
 msgstr ""
+"Prise en charge du flux de travail d'approbation du compositeur à "
+"l'approbateur, y compris la prise en charge des commentaires et des "
+"notifications par courrier électronique"
 
-#: ../../_docs/Manage-City-Forecasts.md:33
-msgid "Add Forecast"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:37
-msgid "Preview previously added city forecasts (last 7 days)"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:39
+#: ../../_docs/Manage-CAP-Alerts.md:17
 msgid ""
 "![Load Forecast "
 "Explorer](../_static/images/city_forecasts/load_forecast_explorer.png "
 "\"Load Forecast Explorer\")"
 msgstr ""
 
-#: ../../_docs/Manage-City-Forecasts.md:39
-msgid "Load Forecast Explorer"
+#: ../../_docs/Manage-CAP-Alerts.md:18
+msgid "Draw / Upload Polygon Functionality for Alert Area/Areas"
 msgstr ""
 
-#: ../../_docs/Manage-City-Forecasts.md:41
+#: ../../_docs/Manage-CAP-Alerts.md:19
 msgid ""
-"It is also possible to fetch and preview the last 7 day city forecasts. "
-"The forecast manager allows for switching between each of the avilable "
-"dates and preview both in tabular and georeferenced formats."
+"Simple user friendly and mobile friendly CAP alert creation and management"
 msgstr ""
+"Création et gestion d'alertes CAP simples, conviviales et adaptées aux "
+"appareils mobiles"
 
-#: ../../_docs/Manage-City-Forecasts.md:43
-msgid ""
-"![Load Forecast](../_static/images/city_forecasts/load_forecast.png "
-"\"Load Forecast\")"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:20
+msgid "Alert to Alert/Alerts Reference Linkage"
+msgstr "Lien de référence entre alerte et alerte/alertes"
 
-#: ../../_docs/Manage-City-Forecasts.md:43
-msgid "Load Forecast"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:45
-msgid "Add Daily Weather Summary"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:47
+#: ../../_docs/Manage-CAP-Alerts.md:21
 msgid ""
 "![Daily Weather "
 "Explorer](../_static/images/city_forecasts/daily_weather_explorer.png "
 "\"Daily Weather Explorer\")"
 msgstr ""
+"Package Python publié avec gestion des versions et journaux des "
+"modifications https://github.com/wmo-raf/cap-editor"
 
-#: ../../_docs/Manage-City-Forecasts.md:47
-msgid "Daily Weather Explorer"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:22
+msgid "Related Setup/Installation and Usage instructions"
+msgstr "Instructions de configuration/installation et d'utilisation associées"
 
-#: ../../_docs/Manage-City-Forecasts.md:49
+#: ../../_docs/Manage-CAP-Alerts.md:24
+msgid "Creating a CAP Alert"
+msgstr "Créer une alerte CAP"
+
+#: ../../_docs/Manage-CAP-Alerts.md:27
 msgid ""
-"![Daily Weather](../_static/images/city_forecasts/daily_weather.png "
-"\"Daily Weather\")"
+"To create a CAP Alert access the editor from the explorer menu as below and "
+"add a new cap alert page:"
 msgstr ""
 
-#: ../../_docs/Manage-City-Forecasts.md:49
-msgid "Daily Weather"
+#: ../../_docs/Manage-CAP-Alerts.md:29
+msgid "![CAP Explorer](../_static/images/cap/cap_explorer.png \"CAP Explorer\")"
 msgstr ""
 
-#: ../../_docs/Manage-City-Forecasts.md:51
+#: ../../_docs/Manage-CAP-Alerts.md:29
+msgid "CAP Explorer"
+msgstr "Explorateur CAP"
+
+#: ../../_docs/Manage-CAP-Alerts.md:34
+msgid "Sections in the Alert Page and corresponding XML"
+msgstr "Sections de la page d'alerte et XML correspondant"
+
+#: ../../_docs/Manage-CAP-Alerts.md:36
+msgid "The overall Document Object Model of an alert is as below:"
+msgstr "Le modèle objet de document global d’une alerte est le suivant :"
+
+#: ../../_docs/Manage-CAP-Alerts.md:38
+msgid "![Alert DOM](../_static/images/cap/dom.jpg \"CAP Document Object Model\")"
+msgstr ""
+
+#: ../../_docs/Manage-CAP-Alerts.md:38
+msgid "Alert DOM"
+msgstr "Alerte DOM"
+
+#: ../../_docs/Manage-CAP-Alerts.md:40
+msgid "A. Alert Identification"
+msgstr "A. Identification des alertes"
+
+#: ../../_docs/Manage-CAP-Alerts.md:42
+msgid "This is the root section of CAP corresponds to:"
+msgstr "Voici la section racine du CAP qui correspond à :"
+
+#: ../../_docs/Manage-CAP-Alerts.md:50
 msgid ""
-"Additionally, a daily weather summary containing descriptive information "
-"about the observed conditions, weather forecast and extreme station "
-"readings is also provided. A preview of this information would appear as "
-"below on the website:"
+"It contains the **Message ID (identifier), Sender ID(sender), Sent Dat/Time "
+"(sent), Message Status (status), Message Type (msgType), Scope (scope), "
+"Restriction (restriction), Addresses (addresses), Note (note), Reference IDs"
+" (references) and Incident ids (incidents)**."
 msgstr ""
+"Il contient le ** ID du message (identifiant), ID de l'expéditeur "
+"(expéditeur), Date/heure d'envoi (envoyé), Statut du message (statut), Type "
+"de message (msgType), Portée (portée), Restriction (restriction), Adresses "
+"(adresses). ), Note (note), ID de référence (références) et ID d'incident "
+"(incidents)**."
 
-#: ../../_docs/Manage-City-Forecasts.md:53
-msgid ""
-"![Daily Weather "
-"Preview](../_static/images/city_forecasts/daily_weather_preview.png "
-"\"Daily Weather Preview\")"
+#: ../../_docs/Manage-CAP-Alerts.md:56
+msgid "Some fields are visible based on selection of different parameters."
 msgstr ""
+"Certains champs sont visibles en fonction de la sélection de différents "
+"paramètres."
 
-#: ../../_docs/Manage-City-Forecasts.md:53
-msgid "Daily Weather Preview"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:56
-msgid "Fetching from an external source"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:58
-msgid ""
-"To enable automated fetching of city forecasts from an external source "
-"i.e YR Meteo Norway's location forecast API https://developer.yr.no"
-"/featured-products/forecast/, this option needs to be set to true."
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:60
-msgid ""
-"The forecast will be fetched every three hours and get updated "
-"accordingly."
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:62
-msgid ""
-"![AutoForecast](../_static/images/city_forecasts/autoforecast.png "
-"\"AutoForecast\")"
-msgstr ""
-
-#: ../../_docs/Manage-City-Forecasts.md:62
-msgid "AutoForecast"
-msgstr ""
-
-#: ../../_docs/Manage-Mapviewer.md:1
-msgid "Mapviewer"
-msgstr ""
-
-#: ../../_docs/Manage-Mapviewer.md:3
-msgid ""
-"![Organisation page](../_static/images/mapviewer/mapviewer.png "
-"\"Organisation page\")"
-msgstr ""
-
-#: ../../_docs/Manage-Mapviewer.md:3
-#: ../../_docs/manage_pages/manage_organisation/Manage-Organisation.md:3
-#: ../../_docs/manage_pages/manage_organisation/Manage-Organisation.md:22
-#: ../../_docs/manage_pages/manage_organisation/Manage-Organisation.md:24
-#: ../../_docs/manage_pages/manage_organisation/Manage-Organisation.md:28
-msgid "Organisation page"
-msgstr ""
-
-#: ../../_docs/Piloting.md:1
-msgid "Pilot Phase"
-msgstr ""
-
-#: ../../_docs/Piloting.md:3
+#: ../../_docs/Manage-CAP-Alerts.md:59
 msgid ""
 "The regional office began piloting the ClimWeb with several African "
 "countries from **July to December of 2023**, in response to formal "
@@ -2003,368 +1366,76 @@ msgid ""
 "progress in the pilot phase, conclusions drawn from the technical support"
 " and collaboration provided to NMHSs in developing their pilot websites."
 msgstr ""
+"![Identification des alertes](../_static/images/cap/alert_identification.png"
+" \"Section Identification des alertes\")"
 
-#: ../../_docs/Piloting.md:8
-msgid "Summary of the progress"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:59
+msgid "AlertIdentification"
+msgstr "AlerteIdentification"
 
-#: ../../_docs/Piloting.md:10
-msgid "Initially, the selected pilot countries were:"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:62
+msgid "B. Alert Information"
+msgstr "B. Informations d'alerte"
 
-#: ../../_docs/Piloting.md ../../_docs/Piloting.md:12
-msgid "Ethiopia"
-msgstr ""
-
-#: ../../_docs/Piloting.md:13
-msgid "Mozambique"
-msgstr ""
-
-#: ../../_docs/Piloting.md ../../_docs/Piloting.md:14
-msgid "Niger"
-msgstr ""
-
-#: ../../_docs/Piloting.md ../../_docs/Piloting.md:15
-msgid "Burkina Faso"
-msgstr ""
-
-#: ../../_docs/Piloting.md ../../_docs/Piloting.md:16
-msgid "Ghana"
-msgstr ""
-
-#: ../../_docs/Piloting.md:18
+#: ../../_docs/Manage-CAP-Alerts.md:64
 msgid ""
-"However, several additional countries have expressed interest in adapting"
-" the ClimWeb"
+"This is an optional child section of the Alert Identification Section i.e"
 msgstr ""
 
-#: ../../_docs/Piloting.md:20
+#: ../../_docs/Manage-CAP-Alerts.md:75
 msgid ""
-"The table below lists the status of the ClimWeb setup for each country "
-"that has requested to install the ClimWeb so far:"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Country"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Status/Stage"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Public URL"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "1"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Algeria"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Internal Testing"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "2"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Benin"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Training stage"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "3"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Published"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "[https://www.meteoburkina.bf](https://www.meteoburkina.bf)"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "4"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Burundi"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "5"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Chad"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Server setup stage"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "6"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Djibouti"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Initial discussion stage"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "7"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "8"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Training Stage"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "9"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Guinea Bissau"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "10"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Kenya"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "11"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Libya"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "12"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Malawi"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "[http://www.metmalawi.gov.mw](http://www.metmalawi.gov.mw)"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "13"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Mali"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "[https://malimeteo.ml](https://malimeteo.ml)"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "14"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Mauritius"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "15"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Morocco"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Internal testing"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "16"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "[https://www.niger-meteo.ne](https://www.niger-meteo.ne)"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "17"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Nigeria"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "18"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Seychelles"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "[https://www.meteo.sc](https://www.meteo.sc)"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "19"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Sierra Leone"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "20"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "South Sudan"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "[https://meteosouthsudan.com.ss](https://meteosouthsudan.com.ss )"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "21"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Sudan"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "[https://meteosudan.sd](https://meteosudan.sd  )"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "22"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "The Gambia"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "23"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Togo"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "[https://www.anamet-togo.com](https://www.anamet-togo.com )"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "24"
-msgstr ""
-
-#: ../../_docs/Piloting.md
-msgid "Zimbabwe"
-msgstr ""
-
-#: ../../_docs/Piloting.md:49
-msgid "The development of the website generally encompasses eleven steps."
-msgstr ""
-
-#: ../../_docs/Piloting.md:51
-msgid "The initial step is installation of the ClimWeb software package"
-msgstr ""
-
-#: ../../_docs/Piloting.md:52
-msgid "Preparation of the base ClimWeb setting"
-msgstr ""
-
-#: ../../_docs/Piloting.md:53
-msgid "Organisation of the website’s pages"
-msgstr ""
-
-#: ../../_docs/Piloting.md:54
-msgid "Listing of the desired pages,"
-msgstr ""
-
-#: ../../_docs/Piloting.md:55
-msgid "Listing of services and products made by NMHSs"
-msgstr ""
-
-#: ../../_docs/Piloting.md:56
-msgid "Setup of the MapViewer package"
-msgstr ""
-
-#: ../../_docs/Piloting.md:57
-msgid "Automatic products visualisation"
-msgstr ""
-
-#: ../../_docs/Piloting.md:58
-msgid "Event pages setup and registration integration"
-msgstr ""
-
-#: ../../_docs/Piloting.md:59
-msgid "Integration of NMHSs’s social media accounts into the website"
-msgstr ""
-
-#: ../../_docs/Piloting.md:60
-msgid "Setup of CAP composing tool"
-msgstr ""
-
-#: ../../_docs/Piloting.md:61
+"Multiple instances of this section are allowed. It contains the **Langauge "
+"(langauge), Event Category/Categories (category), Event Type (event), "
+"Response Type/Types (responseType), Urgency (urgency), Severity (severity), "
+"Certainty (certainty), Audience (audience), Event Code/Codes (eventCode), "
+"Effective Date/Time (effective), Onset Date/Time (onset), Expiration "
+"Date/Time (expires), Sender Name (senderName), Headline (headline), Event "
+"description (description), Instructions (instruction), Information URL "
+"(web), Contact Info (contact) and Parameter/Parameters (parameter)**."
+msgstr ""
+"Plusieurs instances de cette section sont autorisées. Il contient le ** "
+"Langauge (langauge), la ou les catégories d'événements (catégorie), le type "
+"d'événement (événement), le ou les types de réponse (responseType), "
+"l'urgence (urgence), la gravité (gravité), la certitude (certitude), "
+"l'audience (audience). ), code/codes d'événement (eventCode), date/heure "
+"d'effet (effectif), date/heure de début (début), date/heure d'expiration "
+"(expire), nom de l'expéditeur (senderName), titre (titre), description de "
+"l'événement (description) , Instructions (instruction), URL d'information "
+"(web), Informations de contact (contact) et Paramètre/Paramètres "
+"(paramètre)**."
+
+#: ../../_docs/Manage-CAP-Alerts.md:85
+msgid "![Alert Info](../_static/images/cap/alert_info.png \"Alert Info\")"
+msgstr ""
+"![Infos d'alerte](../_static/images/cap/alert_info.png \"Infos d'alerte\")"
+
+#: ../../_docs/Manage-CAP-Alerts.md:85
+msgid "AlertInfo"
+msgstr "AlerteInfo"
+
+#: ../../_docs/Manage-CAP-Alerts.md:88
+msgid "C. Alert Area"
+msgstr "C. Zone d'alerte"
+
+#: ../../_docs/Manage-CAP-Alerts.md:90 ../../_docs/Manage-CAP-Alerts.md:132
+msgid "This is an optional child section of the Alert Info Section i.e"
+msgstr ""
+"Il s'agit d'une section enfant facultative de la section Informations sur "
+"les alertes, c'est-à-dire"
+
+#: ../../_docs/Manage-CAP-Alerts.md:105
 msgid ""
-"Integration of email marketing tool with the website to enable users to "
-"sign up to receiving services via email."
+"Multiple instances of this section are allowed. It contains the **Area "
+"Description (areaDesc), Area Polygon/Polygons (polygon), Area Circle/Circles"
+" (circle), Area Geocode/Geocodes (geocode), Altitude (altitude), Ceiling "
+"(ceiling)**."
 msgstr ""
+"Plusieurs instances de cette section sont autorisées. Il contient la "
+"**Description de la zone (areaDesc), la zone Polygone/Polygones (polygone), "
+"la Zone Cercle/Cercles (cercle), la Zone Géocode/Géocodes (géocode), "
+"l'Altitude (altitude), le Plafond (plafond)**."
 
-#: ../../_docs/Piloting.md:63
-msgid "The table below summarises each country’s progress:"
-msgstr ""
-
-#: ../../_docs/Piloting.md:65
-msgid ""
-"![ClimWeb Country "
-"Progress](../_static/images/piloting/content_progess_table.png)"
-msgstr ""
-
-#: ../../_docs/Piloting.md:65
-msgid "ClimWeb Country Progress"
-msgstr ""
-
-#: ../../_docs/Piloting.md:67
-msgid "Conclusion and recommendations"
-msgstr ""
-
-#: ../../_docs/Piloting.md:69
-msgid "Broad Implementation and Technical Support"
-msgstr ""
-
-#: ../../_docs/Piloting.md:71
+#: ../../_docs/Manage-CAP-Alerts.md:110
 msgid ""
 "**The ClimWeb has been enthusiastically embraced by member states in "
 "Africa**, as numerous PRs have submitted formal requests to pilot the "
@@ -2372,317 +1443,188 @@ msgid ""
 " in various stages of ClimWeb customization, with the first group aiming "
 "to launch their updated websites between February and March 2024."
 msgstr ""
+"![Zone d'alerte](../_static/images/cap/alert_area_options.png \"Section Zone"
+" d'alerte\")"
 
-#: ../../_docs/Piloting.md:75
+#: ../../_docs/Manage-CAP-Alerts.md:110
+msgid "Alert Area"
+msgstr "Zone d'alerte"
+
+#: ../../_docs/Manage-CAP-Alerts.md:113 ../../_docs/Manage-CAP-Alerts.md:154
+msgid "The Alert area input accepts 4 options:"
+msgstr "L'entrée Zone d'alerte accepte 4 options :"
+
+#: ../../_docs/Manage-CAP-Alerts.md:114
 msgid ""
-"**Pilot countries have recognized the ClimWeb's potential to "
-"significantly enhance service provision and elevate visibility** not only"
-" among their public but also across line ministries and other "
-"stakeholders at the national, regional, and global levels. The ClimWeb is"
-" expected to foster greater public trust in the products and warnings, "
-"enhance national visibility, and improve institutional positioning within"
-" government structures. Additionally, its integration with digital "
-"marketing tools like email marketing and social media is anticipated to "
-"spur user growth. The ClimWeb has also been designed to optimize the "
-"utilization of satellite products, amplify the impact and visibility of "
-"warnings, and enable more effective comparison of national, regional and "
-"global forecast, and monitoring products."
+"Admin Boundary (area is picked from predefined boundaries). To use this "
+"option, ensure that admin boundaries are initially loaded. Refer to [Setting"
+" up boundaries](#setting-up-boundaries) section."
 msgstr ""
+"Limite d'administration (la zone est sélectionnée à partir de limites "
+"prédéfinies). Pour utiliser cette option, assurez-vous que les limites "
+"d'administration sont initialement chargées. Reportez-vous à la section "
+"[Définition des limites](#setting-up-boundaries)."
 
-#: ../../_docs/Piloting.md:84
+#: ../../_docs/Manage-CAP-Alerts.md:116
 msgid ""
-"**Given the crucial role of a website as an institution's global "
-"interface, it is recommended that the ClimWeb be made broadly accessible "
-"to NMHSs across Africa**. The WMO's continued technical support in "
-"customizing and adopting the ClimWeb is essential. A professional, user-"
-"friendly, and service-oriented website will bolster NMHSs' presence and "
-"demonstrate their value at the national level, potentially leading to "
-"increased funding and recognition from national governments."
+"![Alert Area boundary](../_static/images/cap/alert_area_boundary.png \"Alert"
+" Area section\")"
 msgstr ""
+"![Limite de la zone d'alerte](../_static/images/cap/alert_area_boundary.png "
+"\"Section de la zone d'alerte\")"
 
-#: ../../_docs/Piloting.md:89
-msgid "Licensing and Operational Guidelines"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:116
+msgid "Alert Area boundary"
+msgstr "Limite de la zone d'alerte"
 
-#: ../../_docs/Piloting.md:91
+#: ../../_docs/Manage-CAP-Alerts.md:118
+msgid "Polygon (drawing a polygon)"
+msgstr "Polygone (dessiner un polygone)"
+
+#: ../../_docs/Manage-CAP-Alerts.md:120
 msgid ""
-"Adopting a Free Open Software System (FOSS) License for the ClimWeb is "
-"recommended, catering to the diverse needs of NMHSs. While the ClimWeb is"
-" specifically tailored for meteorological services, it should be noted "
-"that WMO offers it without any liability or warranty. NMHSs are "
-"encouraged to employ the ClimWeb according to their preferences, with the"
-" assurance of continued assistance from WMO and its partners in areas of "
-"installation and staff training."
+"![Alert Area polygon](../_static/images/cap/alert_area_polygon.png \"Alert "
+"Area section\")"
 msgstr ""
 
-#: ../../_docs/Piloting.md:96
-msgid "Establishing a Community of Practice and Digital Public Good"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:120
+msgid "Alert Area polygon"
+msgstr "Polygone de la zone d'alerte"
 
-#: ../../_docs/Piloting.md:98
+#: ../../_docs/Manage-CAP-Alerts.md:122
 msgid ""
-"**In recognition of its transformative potential, the ClimWeb should be "
-"declared a \"Digital Public Good.\"** This status will enhance its global"
-" visibility and utility. Furthermore, establishing a community of "
-"practice, comprising experts from various fields including ICT, climate "
-"science, and social sciences is crucial. This community will play a "
-"pivotal role in ensuring the ClimWeb's continuous development, adapting "
-"it to the evolving challenges in climate services. A \" Digital Public "
-"Good\" refers to digital products, typically software, data, AI models, "
-"standards, or content, that adhere to specific criteria of openness and "
-"inclusivity. These goods are designed to foster collaboration and "
-"inclusivity, often focusing on solving societal challenges especially in "
-"areas such as climate, healthcare, education, and governance. The annexe "
-"contains further information on the criteria for digital public goods."
+"Circle (drawing a circle which specifies the latitude, longitude and radius)"
 msgstr ""
+"Cercle (dessiner un cercle qui précise la latitude, la longitude et le "
+"rayon)"
 
-#: ../../_docs/Piloting.md:107
-msgid ""
-"**To ensure sustainable maintenance and iteration of the system "
-"functionalities and technologies we recommend developing a community of "
-"practice** made of ICT, climate and social science experts from NMHSs, "
-"Regional Climate Centers, Global Producing Centers, Satellite Agencies, "
-"Universities and any relevant institutions leading in innovation in "
-"climate services."
-msgstr ""
-
-#: ../../_docs/Piloting.md:112
-msgid "Global Accessibility and Contribution to Early Warning Systems"
-msgstr ""
-
-#: ../../_docs/Piloting.md:114
-msgid ""
-"**Expanding the ClimWeb’s reach beyond Africa is vital, aligning with the"
-" goals of the UN's Early Warning for All Initiative**. The ClimWeb, with "
-"its advanced tools and integrations, can significantly enhance early "
-"warning systems globally, thereby contributing to improved disaster "
-"preparedness and response."
-msgstr ""
-
-#: ../../_docs/Piloting.md:118
-msgid "Enhanced Visibility and Resource Accessibility"
-msgstr ""
-
-#: ../../_docs/Piloting.md:120
-msgid ""
-"**To maximize its impact, the ClimWeb's code and user guides should be "
-"made widely accessible**. A dedicated landing page, alongside "
-"distribution through partner organizations' websites and networks, will "
-"ensure ease of access and usability. This step is crucial in promoting "
-"transparency, user engagement, and the system's widespread adoption."
-msgstr ""
-
-#: ../../_docs/Piloting.md:124
-msgid "Resources"
-msgstr ""
-
-#: ../../_docs/Piloting.md:126
+#: ../../_docs/Manage-CAP-Alerts.md:124
 msgid ""
 "[ClimWeb Pitch](https://wmoomm-"
 "my.sharepoint.com/:b:/g/personal/gochieng_wmo_int/EWTk5L0QQ1dAmg3XFvdTzbQBdUjD4kvdQyDV_Dnm7DrVFQ)"
 msgstr ""
 
-#: ../../_docs/Piloting.md:127
-msgid "[Installation guide](https://github.com/wmo-raf/nmhs-cms-init)"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:124
+msgid "Alert Area circle"
+msgstr "Cercle de zone d'alerte"
 
-#: ../../_docs/Piloting.md:128
+#: ../../_docs/Manage-CAP-Alerts.md:126
 msgid ""
-"[Customization training parts](https://wmoomm-"
-"my.sharepoint.com/:b:/g/personal/gochieng_wmo_int/EXeqk659MglNsoNABgpku-"
-"UBa2HZFZj56WxUMYQEY58jeg)"
+"Geocode (specifying area geocode name and value). Using this option presumes"
+" knowleged of the coding system"
 msgstr ""
 
-#: ../../_docs/Piloting.md:129
+#: ../../_docs/Manage-CAP-Alerts.md:128
 msgid ""
-"[Customization video Tutorials](https://wmoomm-"
-"my.sharepoint.com/:f:/g/personal/gochieng_wmo_int"
-"/Eg92KovWP0xBm3P8coKyX6IBrQDlTXsqirP1uUCDi-yfhQ)"
+"![Alert Area geocode](../_static/images/cap/alert_area_geocode.png \"Alert "
+"Area section\")"
 msgstr ""
+"![Géocode de la zone d'alerte](../_static/images/cap/alert_area_geocode.png "
+"\"Section de la zone d'alerte\")"
 
-#: ../../_docs/Rationale.md:1
-msgid "Rationale"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:128
+msgid "Alert Area geocode"
+msgstr "Géocodage de la zone d'alerte"
 
-#: ../../_docs/Rationale.md:3
+#: ../../_docs/Manage-CAP-Alerts.md:130
+msgid "D. Alert Resource"
+msgstr "D. Ressource d'alerte"
+
+#: ../../_docs/Manage-CAP-Alerts.md:150
 msgid ""
-"Supporting the achievement of WMO’s Long Term Goals and implementation of"
-" flagship initiatives in Africa"
+"Multiple instances of this section are allowed. It contains the "
+"**Description (resourceDesc), MIME Type (mimeType), File Size (size), URI "
+"(uri), Dereferenced URI (derefUri) and Digest (digest)**"
 msgstr ""
+"Plusieurs instances de cette section sont autorisées. Il contient la "
+"**Description (resourceDesc), le type MIME (mimeType), la taille du fichier "
+"(taille), l'URI (uri), l'URI déréférencé (derefUri) et le résumé (digest)**."
 
-#: ../../_docs/Rationale.md:5
-msgid "To cover everyone on earth with early warnings by 2027"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:155
+msgid "File resource (takes in a file and description)"
+msgstr "Ressource de fichier (prend un fichier et une description)"
 
-#: ../../_docs/Rationale.md:6
-msgid "Supporting the Global Multi-hazard Alert System (GMAS) for Africa"
-msgstr ""
-
-#: ../../_docs/Rationale.md:7
-msgid "Digital transformation of NMHSs in the region"
-msgstr ""
-
-#: ../../_docs/Rationale.md:9
-msgid ""
-"In February 2023, the eighteenth session of the Regional Association I "
-"(RA I) took note of the recommendation from the Regional Conference on "
-"the emerging needs of NMHSs in Africa on digital transformation and "
-"requested in [Decision 13 (RA "
-"I-18)](https://library.wmo.int/viewer/57803/?offset=1#page=56&viewer=picture&o=bookmark&n=0&q=)"
-" the Secretary-General and Technical Commissions to support regional "
-"activities to close the gaps in the region. In this context, thereafter, "
-"**the World Meteorological Organization (WMO) Regional Office for Africa "
-"developed a Content Management System (ClimWeb) as a website template "
-"specifically designed to aid the digital transformation of National "
-"Meteorological and Hydrological Services (NMHSs) in Africa.**"
-msgstr ""
-
-#: ../../_docs/Rationale.md:17
-msgid "Supporting key United Nations conventions and initiatives"
-msgstr ""
-
-#: ../../_docs/Rationale.md:19
-msgid "The Paris Agreement on Climate Change (2015) and NDCs"
-msgstr ""
-
-#: ../../_docs/Rationale.md:20
-msgid "The United Nations Framework Convention on Climate Change (UNFCCC)"
-msgstr ""
-
-#: ../../_docs/Rationale.md:21
-msgid "The Sendai Framework for Disaster Risk Reduction"
-msgstr ""
-
-#: ../../_docs/Rationale.md:22
-msgid "The UN Sustainable Development Goals (UN SDGs)"
-msgstr ""
-
-#: ../../_docs/Rationale.md:23
-msgid "The Convention on Biological Diversity (CBD)"
-msgstr ""
-
-#: ../../_docs/Rationale.md:24
-msgid "The United Nations Convention to Combat Desertification (UNCCD)"
-msgstr ""
-
-#: ../../_docs/Rationale.md:26
-msgid "Supporting African policies and plans"
-msgstr ""
-
-#: ../../_docs/Rationale.md:28
-msgid "African Union's Climate Change Strategy (2020-2030)"
-msgstr ""
-
-#: ../../_docs/Rationale.md:29
-msgid "African Union's Agenda 2063 \"The Africa We Want\""
-msgstr ""
-
-#: ../../_docs/Rationale.md:30
-msgid "African Union's Digital Transformation Strategy for Africa (2020-2030)"
-msgstr ""
-
-#: ../../_docs/Rationale.md:31
+#: ../../_docs/Manage-CAP-Alerts.md:157
 msgid ""
 "Climate Change, Disaster Risk Reduction, Environment, and Food Security "
 "strategies by Regional Economic Commissions ( AMU, CEN-SAD, COMESA, EAC, "
 "ECCAS, ECOWAS, IGAD, and SADC)"
 msgstr ""
+"![Ressource d'alerte](../_static/images/cap/alert_resource_file.png "
+"\"Section des ressources d'alerte\")"
 
-#: ../../_docs/Technology.md:1
-msgid "Technology"
-msgstr ""
+#: ../../_docs/Manage-CAP-Alerts.md:157 ../../_docs/Manage-CAP-Alerts.md:161
+msgid "Alert Resource"
+msgstr "Ressource d'alerte"
 
-#: ../../_docs/Technology.md:3
+#: ../../_docs/Manage-CAP-Alerts.md:159
+msgid "External resource"
+msgstr "Ressource externe"
+
+#: ../../_docs/Manage-CAP-Alerts.md:161
 msgid ""
-"The ClimWeb includes tools and functionalities aimed at supporting the "
-"NMHSs in their daily website management activities, in providing "
-"information and services to their users."
+"![Alert Resource](../_static/images/cap/alert_resource_external.png \"Alert "
+"Resource section\")"
 msgstr ""
+"![Ressource d'alerte](../_static/images/cap/alert_resource_external.png "
+"\"Section des ressources d'alerte\")"
 
-#: ../../_docs/Technology.md:6
-msgid ""
-"This section seeks to present the choice of technologies, development "
-"approach and present the packages that support the functionalities "
-"available on the ClimWeb at a high level."
+#: ../../_docs/Manage-CAP-Alerts.md:164
+msgid "E. Additional CAP Inputs"
+msgstr "E. Contributions supplémentaires du PAC"
+
+#: ../../_docs/Manage-CAP-Alerts.md:166
+msgid "Addition alert information elements include parameters and event codes"
 msgstr ""
+"Les éléments d'information d'alerte supplémentaires incluent des paramètres "
+"et des codes d'événement"
 
-#: ../../_docs/Technology.md:9
-msgid ""
-"The developed ClimWeb is open-source and hosted on GitHub at "
-"[https://github.com/wmo-raf/nmhs-cms](https://github.com/wmo-raf/nmhs-"
-"cms)"
+#: ../../_docs/Manage-CAP-Alerts.md:169
+msgid "F. Incidents"
+msgstr "F. Incidents"
+
+#: ../../_docs/Manage-CAP-Alerts.md:171
+msgid "This defines the reference incident to the current alert, if any."
 msgstr ""
+"Ceci définit l'incident de référence à l'alerte actuelle, le cas échéant."
 
-#: ../../_docs/Technology.md:12
-msgid "Base ClimWeb Framework"
-msgstr ""
-
-#: ../../_docs/Technology.md:14
-msgid ""
-"The website template is built on top of the open-source "
-"[Wagtail](https://wagtail.org/) Framework. Wagtail itself is built on of "
-"[Django](https://www.djangoproject.com/) , which is a high-level Python "
-"web framework that encourages rapid development and clean, pragmatic "
-"design"
-msgstr ""
-
-#: ../../_docs/Technology.md:18
-msgid ""
-"![ClimWeb Framework](../_static/images/technology/CMS_Framework.png "
-"\"ClimWeb Framework\")"
-msgstr ""
-
-#: ../../_docs/Technology.md:18
-msgid "ClimWeb Framework"
-msgstr ""
-
-#: ../../_docs/Technology.md:20
+#: ../../_docs/Manage-CAP-Alerts.md:173
 msgid ""
 "The following was taken into consideration when picking Wagtail as the "
 "framework of choice:"
 msgstr ""
+"![Incidents d'alerte](../_static/images/cap/alert_incidents.png \"Section "
+"Incidents d'alerte\")"
 
-#: ../../_docs/Technology.md:22
+#: ../../_docs/Manage-CAP-Alerts.md:173
+msgid "Alert Incidents"
+msgstr "Incidents d’alerte"
+
+#: ../../_docs/Manage-CAP-Alerts.md:177 ../../_docs/Manage-CAP-Alerts.md:181
+#: ../../_docs/Manage-CAP-Alerts.md:187 ../../_docs/Manage-CAP-Alerts.md:189
+msgid "CAP Settings"
+msgstr "Paramètres du PAC"
+
+#: ../../_docs/Manage-CAP-Alerts.md:179
 msgid ""
-"**Python as the programming language**. The weather and climate domain "
-"requires a lot of interaction with scientific data. Python is one of the "
-"scripting languages that makes it easy to develop procedures for "
-"manipulating this kind of data. Developing a website using Python thus "
-"allows the flexibility of developing data-based functionalities"
+"CAP Settings include sender name, sender identifier, contact details, hazard"
+" types and audience types."
+msgstr ""
+"Les paramètres CAP incluent le nom de l’expéditeur, l’identifiant de "
+"l’expéditeur, les coordonnées, les types de danger et les types d’audience."
+
+#: ../../_docs/Manage-CAP-Alerts.md:181
+msgid "![CAP Settings](../_static/images/cap/cap_settings.png \"CAP Settings\")"
 msgstr ""
 
-#: ../../_docs/Technology.md:26
-msgid ""
-"**Easy to Use:** One of the key features of Wagtail is its intuitive, "
-"user-friendly interface. This makes it easy for content editors to manage"
-" websites without having to learn the complexities and technicalities of "
-"the underlying framework."
-msgstr ""
-
-#: ../../_docs/Technology.md:30
-msgid ""
-"**Flexibility:** Wagtail is flexible when it comes to creating and "
-"managing websites. It allows for quick development of highly customized "
-"websites with complex layouts, content, and features, based on what the "
-"content editors need."
-msgstr ""
-
-#: ../../_docs/Technology.md:33
-msgid ""
-"**Extensibility:** Wagtail is designed to be easily extended with a wide "
-"variety of plugins, themes, components, and other features. This allows "
-"to add new features, customise the look and feel of their website, and "
-"extend the functionality of the ClimWeb."
-msgstr ""
-
-#: ../../_docs/Technology.md:37
+#: ../../_docs/Manage-CAP-Alerts.md:184
 msgid ""
 "**Security:** Wagtail is designed with security in mind. It comes with "
 "Django's built-in security features such as user authentication, input "
 "validation, and protection against common attack methods."
 msgstr ""
 
-#: ../../_docs/Technology.md:40
+#: ../../_docs/Manage-CAP-Alerts.md:187
 msgid ""
 "**Scalability:** Being based on Django, Wagtail is designed to be highly "
 "scalable, making it an ideal choice for websites with large amounts of "
@@ -2691,44 +1633,35 @@ msgid ""
 "as their user base increases."
 msgstr ""
 
-#: ../../_docs/Technology.md:44
+#: ../../_docs/Manage-CAP-Alerts.md:189
 msgid ""
 "**Enterprise features out of the box:** Wagtail includes user and group "
 "permissions, content and moderation workflows, reports, content editing "
 "history tracking, and other features that website administrators and "
 "teams need."
 msgstr ""
+"![Paramètres CAP](../_static/images/cap/alert_hazard_input.png \"Paramètres "
+"CAP\")"
 
-#: ../../_docs/Technology.md:47
+#: ../../_docs/Manage-CAP-Alerts.md:192
+msgid "Setting up boundaries"
+msgstr "Fixer des limites"
+
+#: ../../_docs/Manage-CAP-Alerts.md:194
 msgid ""
-"**Experience of the development team:** The current development team of "
-"the NMHSs ClimWeb has extensive experience in developing Wagtail and "
-"Django based projects. This makes it quick to implement new features and "
-"functionality"
+"The boundary manager allows for the addition of boundaries to be used in the"
+" creation of an alert area using the admin boundary option."
 msgstr ""
 
-#: ../../_docs/Technology.md:50
-msgid "Development Approach"
-msgstr ""
-
-#: ../../_docs/Technology.md:52
+#: ../../_docs/Manage-CAP-Alerts.md:196
 msgid ""
-"We use the Django/Wagtail modular approach of developing “Django "
-"applications” to provide a set of features and functionality. A "
-"Django/Wagtail application is a Python package that provides some set of "
-"features. Applications may be reused in various projects."
+"To access it, click on the boundary manager in the explorer menu as below "
+"and select Admin boundary settings to select the boundary data source and "
+"country/countries of interest. You will then need to add boundary data for "
+"the countries selected:"
 msgstr ""
 
-#: ../../_docs/Technology.md:56
-msgid ""
-"Applications include some combination of Django models, views, templates,"
-" template tags, static files, URLS, middleware etc. These are then wired "
-"to the project with INSTALLED_APPS settings. An application thus, in this"
-" context, is a set of code that interacts with various parts of the "
-"framework."
-msgstr ""
-
-#: ../../_docs/Technology.md:60
+#: ../../_docs/Manage-CAP-Alerts.md:198
 msgid ""
 "The NMHS ClimWeb is thus designed with a set of internal applications "
 "that provide functionality for different webpages of the functional "
@@ -2737,343 +1670,361 @@ msgid ""
 "the website that can allows to create one or more related pages of that "
 "section"
 msgstr ""
+"![Paramètres des limites](../_static/images/cap/boundary_settings_menu.png "
+"\"Paramètres des limites\")"
 
-#: ../../_docs/Technology.md:64
+#: ../../_docs/Manage-CAP-Alerts.md:198
+msgid "Boundary Settings"
+msgstr "Paramètres de limite"
+
+#: ../../_docs/Manage-CAP-Alerts.md:200
 msgid ""
-"More specialized functionality is developed as external Wagtail "
-"applications that can be plugged into the code project. These are then "
-"installed as Python packages published on the Python Package Index (PyPI)"
-" , which is a repository of software for the Python programming language."
+"Select the 'boundary data source' where you will download the boundaries. "
+"The current options are:"
 msgstr ""
 
-#: ../../_docs/Technology.md:68 ../../_docs/Technology.md:76
-msgid ""
-"Below is a list of currently developed external applications that add "
-"required functionality to the NMHSs ClimWeb"
-msgstr ""
-
-#: ../../_docs/Technology.md:70
-msgid ""
-"![ClimWeb Page Structure](../_static/images/technology/page_structure.png"
-" \"ClimWeb Page Structure\")"
-msgstr ""
-
-#: ../../_docs/Technology.md:70
-msgid "ClimWeb Page Structure"
-msgstr ""
-
-#: ../../_docs/Technology.md:72
-msgid ""
-"More specialized functionality is developed as external Wagtail "
-"applications that can be plugged into the code project. These are then "
-"installed as Python packages published on the [Python Package Index "
-"(PyPI)](https://pypi.org/) , which is a repository of software for the "
-"Python programming language."
-msgstr ""
-
-#: ../../_docs/Technology.md:78
-msgid "Functionality Packages"
-msgstr ""
-
-#: ../../_docs/Technology.md:80
-msgid ""
-"[CAP Composer:](https://github.com/wmo-raf/cap-composer)  Common Alerting"
-" Protocol (CAP) composing and publishing tool that provides functionality"
-" to create and publish CAP formatted alerts."
-msgstr ""
-
-#: ../../_docs/Technology.md:83
+#: ../../_docs/Manage-CAP-Alerts.md:202
 msgid ""
 "[Forecast Manager](https://github.com/wmo-raf/forecastmanager) – "
 "Interface for managing NMHSs City Forecasts"
 msgstr ""
 
-#: ../../_docs/Technology.md:85
+#: ../../_docs/Manage-CAP-Alerts.md:203
 msgid ""
 "[GeoManager](https://github.com/erick-otenyo/geomanager) - Provides an "
 "interactive interface for managing and publishing Geo-referenced (GIS) "
 "datasets"
 msgstr ""
+"Zones administratives mondiales 4.1 (GADM) "
+"https://gadm.org/download_country.html"
 
-#: ../../_docs/Technology.md:88
+#: ../../_docs/Manage-CAP-Alerts.md:205
+msgid "Add one or more countries"
+msgstr "Ajouter un ou plusieurs pays"
+
+#: ../../_docs/Manage-CAP-Alerts.md:207
 msgid ""
-"[Administrative Boundary Manager:](https://github.com/erick-otenyo/adm-"
-"boundary-manager) Provides functionality to load, manage and visualize "
-"boundaries for a country"
+"To add boundary data, access the menu as below and click on 'Add Boundary' "
+"button:"
 msgstr ""
+"Pour ajouter des données de limite, accédez au menu comme ci-dessous et "
+"cliquez sur le bouton « Ajouter une limite » :"
 
-#: ../../_docs/Technology.md:91
+#: ../../_docs/Manage-CAP-Alerts.md:209
+msgid "![Boundary Data](../_static/images/cap/add_boundary.png \"Boundary Data\")"
+msgstr ""
+"![Données de limite](../_static/images/cap/add_boundary.png \"Données de "
+"limite\")"
+
+#: ../../_docs/Manage-CAP-Alerts.md:209
+msgid "Boundary Data"
+msgstr "Données de limite"
+
+#: ../../_docs/Manage-CAP-Alerts.md:211
 msgid ""
-"[WebStories Editor](https://github.com/erick-otenyo/wagtail-webstories-"
-"editor) - Provides functionality to create and publish [Google Web "
-"Stories](https://creators.google/en-us/content-creation-products/own-"
-"your-content/web-stories/)"
+"Load country boundaries at each of different levels (level 0 to 4) in zipped"
+" shapefile format"
 msgstr ""
 
-#: ../../_docs/Technology.md:94
-msgid ""
-"[Surveys Creator](https://github.com/erick-otenyo/wagtail-surveyjs) – "
-"Provides functionality to create and publish surveys directly in the "
-"ClimWeb, visualization and analysis of the results using interactive "
-"graphics"
-msgstr ""
-
-#: ../../_docs/Technology.md:97
-msgid "Third party tools integration packages"
-msgstr ""
-
-#: ../../_docs/Technology.md:99
-msgid "Email Marketing"
-msgstr ""
-
-#: ../../_docs/Technology.md:101
-msgid ""
-"[Mailchimp Integration:](https://github.com/erick-otenyo/wagtail-"
-"mailchimp-integration) Integrate [Mailchimp](https://mailchimp.com/) into"
-" Wagtail Projects"
-msgstr ""
-
-#: ../../_docs/Technology.md:104
+#: ../../_docs/Manage-CAP-Alerts.md:213
 msgid ""
 "[Mautic Integration:](https://github.com/erick-otenyo/wagtail-mautic-"
 "integration) Integration of [Mautic](https://www.mautic.org/) forms in "
 "Wagtail Projects."
 msgstr ""
 
-#: ../../_docs/Technology.md:107
-msgid "Online Meetings"
+#: ../../_docs/Manage-CAP-Alerts.md:213
+msgid "Boundary Loader"
+msgstr "Chargeur de frontière"
+
+#: ../../_docs/Manage-CAP-Alerts.md:217
+msgid "Zip shapefiles seperately by Admin level before upload."
 msgstr ""
+
+#: ../../_docs/Manage-City-Forecasts.md:1
+msgid "City Forecasts"
+msgstr "Prévisions de la ville"
+
+#: ../../_docs/Technology.md:105
+msgid ""
+"![Preview Home](../_static/images/city_forecasts/preview_home.png \"Preview "
+"Home\")"
+msgstr ""
+"![Accueil de l'aperçu](../_static/images/city_forecasts/preview_home.png "
+"\"Accueil de l'aperçu\")"
+
+#: ../../_docs/Manage-City-Forecasts.md:3
+msgid "Preview Home"
+msgstr "Aperçu Accueil"
 
 #: ../../_docs/Technology.md:109
 msgid ""
-"[Zoom Integration:](https://github.com/erick-otenyo/wagtail-zoom-"
-"integration) Integrate [Zoom](https://zoom.us/) Events (meetings or "
-"webinars) registration to form pages created with Wagtail"
+"City forecasts displayed on the homepage, and forecasts page can be added "
+"through the ClimWeb in two ways:"
 msgstr ""
 
-#: ../../_docs/Technology.md:112
-msgid "User Interface Frameworks and Libraries"
-msgstr ""
-
-#: ../../_docs/Technology.md:114
-msgid ""
-"Templating - [Django based "
-"templates](https://docs.djangoproject.com/en/5.0/topics/templates/)"
-msgstr ""
-
-#: ../../_docs/Technology.md:115
-msgid "CSS Framework - [Bulma](https://bulma.io/)"
-msgstr ""
+#: ../../_docs/Manage-City-Forecasts.md:6
+msgid "Manually adding daily forecasts"
+msgstr "Ajout manuel de prévisions quotidiennes"
 
 #: ../../_docs/Technology.md:116
-msgid "JavaScript Library - [JQuery](https://jquery.com/)"
-msgstr ""
-
-#: ../../_docs/Technology.md:117
-msgid "Web Mapping Library - [MapLibre GL JS](https://maplibre.org/)"
-msgstr ""
-
-#: ../../_docs/Technology.md:118
-msgid ""
-"SVG Icon Sources - [Font Awesome](https://fontawesome.com/) , [Ocha "
-"Humanitarian Icons](https://web.brand.unocha.org/svg-icon-library)"
-msgstr ""
-
-#: ../../_docs/Technology.md:121
-msgid "Developing new functionality"
-msgstr ""
-
-#: ../../_docs/Technology.md:123
 msgid ""
 "A modular approach is used when developing new functionality to be "
 "included in the ClimWeb. The new functionality should be developed in "
 "isolation as a Wagtail Python package and published on PyPi for "
 "installation using Pip."
 msgstr ""
+"Récupération des prévisions de la ville à partir d'une source externe, par "
+"exemple l'API de prévision de localisation de YR Meteo Norvège "
+"https://developer.yr.no/featured-products/forecast/"
 
-#: ../../_docs/Technology.md:126
-msgid "We follow the following steps in general:"
-msgstr ""
-
-#: ../../_docs/Technology.md:128
+#: ../../_docs/Technology.md:121
 msgid ""
-"Explore existing packages in the Wagtail/Django community that provide "
-"similar functionality."
+"The forecast manager comes with predefined weather conditions and icons. "
+"Please refer to YR Weather symbols documentation for guidance on icons and "
+"naming convention. "
+"https://api.met.no/weatherapi/weathericon/2.0/documentation"
 msgstr ""
+"Le gestionnaire de prévisions est livré avec des conditions météorologiques "
+"et des icônes prédéfinies. Veuillez vous référer à la documentation des "
+"symboles YR Weather pour obtenir des conseils sur les icônes et la "
+"convention de dénomination. "
+"https://api.met.no/weatherapi/weathericon/2.0/documentation"
 
-#: ../../_docs/Technology.md:130
+#: ../../_docs/Manage-City-Forecasts.md:13
+msgid "Manually Adding Forecasts"
+msgstr "Ajout manuel de prévisions"
+
+#: ../../_docs/Manage-City-Forecasts.md:15
+msgid "The city forecast explorer menu can be accessed on the left sidebar."
+msgstr ""
+"Le menu de l’explorateur de prévisions de la ville est accessible dans la "
+"barre latérale gauche."
+
+#: ../../_docs/Technology.md:131
 msgid ""
-"If an existing package exists and cannot be directly integrated into the "
-"ClimWeb, we try to customize as much as we can on top of this package, to"
-" make it interoperable. Otherwise, we use it directly"
+"![Forecast explorer](../_static/images/city_forecasts/forecast_explorer.png "
+"\"Forecast explorer\")"
 msgstr ""
+"![Explorateur de "
+"prévisions](../_static/images/city_forecasts/forecast_explorer.png "
+"\"Explorateur de prévisions\")"
 
-#: ../../_docs/Technology.md:133
-msgid ""
-"If we cannot find existing packages, then we develop the package from "
-"scratch. The idea is to avoid reinvention of the wheel where possible."
-msgstr ""
+#: ../../_docs/Manage-City-Forecasts.md:17
+msgid "Forecast explorer"
+msgstr "Explorateur de prévisions"
 
-#: ../../_docs/Technology.md:136
-msgid "Production Deployment"
-msgstr ""
+#: ../../_docs/Manage-City-Forecasts.md:19
+msgid "Here you have the ability to:"
+msgstr "Ici, vous avez la possibilité de :"
 
-#: ../../_docs/Technology.md:138
-msgid ""
-"[Docker](https://www.docker.com/) is used to containerize the different "
-"components of the ClimWeb."
-msgstr ""
+#: ../../_docs/Manage-City-Forecasts.md:20
+msgid "Add/Edit/Delete a city (city name and location)"
+msgstr "Ajouter/Modifier/Supprimer une ville (nom de la ville et emplacement)"
 
-#: ../../_docs/Technology.md:140
-msgid "Other containers used include"
-msgstr ""
-
-#: ../../_docs/Technology.md:142
-msgid ""
-"[PostgreSQL](https://github.com/postgis/docker-postgis) with PostGIS "
-"extension as the database"
-msgstr ""
-
-#: ../../_docs/Technology.md:144
-msgid "[Nginx](https://hub.docker.com/_/nginx) as the webserver and web proxy"
-msgstr ""
-
-#: ../../_docs/Technology.md:146
+#: ../../_docs/Technology.md:139
 msgid ""
 "[Memcached](https://hub.docker.com/_/memcached) as the caching system for"
 " web requests"
 msgstr ""
+"![Ajouter une ville](../_static/images/city_forecasts/add_city.png \"Ajouter"
+" une ville\")"
 
-#: ../../_docs/Technology.md:148
+#: ../../_docs/Manage-City-Forecasts.md:22
+msgid "Add city"
+msgstr "Ajouter une ville"
+
+#: ../../_docs/Manage-City-Forecasts.md:26
+msgid "Import city forecasts in CSV format."
+msgstr "Importez les prévisions de la ville au format CSV."
+
+#: ../../_docs/Manage-City-Forecasts.md:28
 msgid ""
-"[Eclipse Mosquitto](https://hub.docker.com/_/eclipse-mosquitto) as the "
-"MQTT message broker. Mainly used for CAP alerts messaging"
+"![Add Forecast "
+"Explorer](../_static/images/city_forecasts/add_forecast_explorer.png \"Add "
+"Forecast Explorer\")"
 msgstr ""
 
-#: ../../_docs/Technology.md:151
+#: ../../_docs/Manage-City-Forecasts.md:28
+msgid "Add Forecast Explorer"
+msgstr "Ajouter un explorateur de prévisions"
+
+#: ../../_docs/Technology.md:152
 msgid ""
-"These are put into a docker compose configuration file, used to deploy "
-"the project using Docker Compose."
+"Using the forecast manager, it is possible to load city forecasts in CSV "
+"format created offline or alternatively populate the table on the right with"
+" data. A template of the standard CSV structure is provided prepopulated "
+"with a list of all cities listed in the database. However, the forecast "
+"manager can accept a different structure and allow for correct matching of "
+"each of the columns. A forecast date must be provided for the data being "
+"uploaded before publishing."
 msgstr ""
 
-#: ../../_docs/Technology.md:153
-msgid ""
-"An initialization repository is provided that brings together all the "
-"different components into one project. This can be accessed at "
-"[https://github.com/wmo-raf/nmhs-cms-init](https://github.com/wmo-raf"
-"/nmhs-cms-init) . An installation guide is provided in the README file of"
-" the repository."
-msgstr ""
-
-#: ../../_docs/Technology.md:157
-msgid "Managing Updates"
-msgstr ""
-
-#: ../../_docs/Technology.md:159
-msgid ""
-"New releases with bug fixes and feature updates are periodically "
-"published on the [nmhs-cms repository releases](https://github.com/wmo-"
-"raf/nmhs-cms/releases)."
-msgstr ""
-
-#: ../../_docs/Technology.md:162
+#: ../../_docs/Technology.md:155
 msgid ""
 "When there is a new release, The ClimWeb Admin interface will show a "
 "message indicating that there is a new release. The Website administrator"
 " can then choose to upgrade to the new version, after going through the "
 "release notes that accompany every release."
 msgstr ""
+"![Ajouter une prévision](../_static/images/city_forecasts/add_forecast.png "
+"\"Ajouter une prévision\")"
 
-#: ../../_docs/Technology.md:166
-msgid ""
-"The upgrade is through a click of a button, that triggers a docker build "
-"process with the new versions. Once the new version is built "
-"successfully, the container is restarted with the new version effected."
-msgstr ""
+#: ../../_docs/Manage-City-Forecasts.md:33
+msgid "Add Forecast"
+msgstr "Ajouter une prévision"
 
-#: ../../_docs/Technology.md:169
+#: ../../_docs/Technology.md:162
 msgid ""
 "![ClimWeb Update Button](../_static/images/technology/upgrade_button.png "
 "\"ClimWeb Upgrade Button\")"
 msgstr ""
+"Aperçu des prévisions de la ville ajoutées précédemment (7 derniers jours)"
 
-#: ../../_docs/Technology.md:169
-msgid "ClimWeb Update Button"
-msgstr ""
-
-#: ../../_docs/Technology.md:171
+#: ../../_docs/Technology.md:164
 msgid ""
-"In rare cases where the automatic build trigger fails, the system admins "
-"are trained to manually perform the upgrade"
+"![Load Forecast "
+"Explorer](../_static/images/city_forecasts/load_forecast_explorer.png \"Load"
+" Forecast Explorer\")"
 msgstr ""
 
-#: ../../_docs/Technology.md:173
-msgid "Security in Django/Wagtail"
-msgstr ""
+#: ../../_docs/Manage-City-Forecasts.md:39
+msgid "Load Forecast Explorer"
+msgstr "Explorateur de prévisions de charge"
 
-#: ../../_docs/Technology.md:175
+#: ../../_docs/Technology.md:168
 msgid ""
-"The ClimWeb, by using Django/Wagtail, out of the box contains the "
-"following security features inbuilt. More details on each feature can be "
-"found at "
-"[https://docs.djangoproject.com/en/5.0/topics/security](https://docs.djangoproject.com/en/5.0/topics/security/)"
+"It is also possible to fetch and preview the last 7 day city forecasts. The "
+"forecast manager allows for switching between each of the avilable dates and"
+" preview both in tabular and georeferenced formats."
+msgstr ""
+"Il est également possible de récupérer et de prévisualiser les prévisions de"
+" la ville des 7 derniers jours. Le gestionnaire de prévisions permet de "
+"basculer entre chacune des dates disponibles et de prévisualiser à la fois "
+"sous forme tabulaire et géoréférencée."
+
+#: ../../_docs/manage_atlas/Create-Dashboard.md:1
+msgid "Creating a Dashboard Page"
 msgstr ""
 
-#: ../../_docs/Technology.md:179
-msgid "Cross site scripting (XSS) protection"
+#: ../../_docs/manage_atlas/Create-Dashboard.md:3
+msgid "When creating a new Dashboard Page:"
 msgstr ""
 
-#: ../../_docs/Technology.md:180
-msgid "Cross site request forgery (CSRF) protection"
+#: ../../_docs/manage_atlas/Create-Dashboard.md:5
+msgid ""
+"![Load Forecast](../_static/images/city_forecasts/load_forecast.png \"Load "
+"Forecast\")"
+msgstr ""
+"![Prévision de charge](../_static/images/city_forecasts/load_forecast.png "
+"\"Prévision de charge\")"
+
+#: ../../_docs/Manage-City-Forecasts.md:43
+msgid "Load Forecast"
+msgstr "Prévision de charge"
+
+#: ../../_docs/Manage-City-Forecasts.md:45
+msgid "Add Daily Weather Summary"
+msgstr "Ajouter un résumé météo quotidien"
+
+#: ../../_docs/manage_atlas/Create-Dashboard.md:8
+msgid ""
+"Choose a **background color** (theme for the atlas that will be used for "
+"section headings) and **banner image** if desired."
+msgstr ""
+"![Explorateur météo "
+"quotidien](../_static/images/city_forecasts/daily_weather_explorer.png "
+"\"Explorateur météo quotidien\")"
+
+#: ../../_docs/Manage-City-Forecasts.md:47
+msgid "Daily Weather Explorer"
+msgstr "Explorateur météo quotidien"
+
+#: ../../_docs/manage_atlas/Create-Dashboard.md:11
+msgid ""
+"![Daily Weather](../_static/images/city_forecasts/daily_weather.png \"Daily "
+"Weather\")"
+msgstr ""
+"![Météo quotidienne](../_static/images/city_forecasts/daily_weather.png "
+"\"Météo quotidienne\")"
+
+#: ../../_docs/Manage-City-Forecasts.md:49
+msgid "Daily Weather"
+msgstr "Météo quotidienne"
+
+#: ../../_docs/manage_atlas/Create-Dashboard.md:17
+msgid ""
+"Additionally, a daily weather summary containing descriptive information "
+"about the observed conditions, weather forecast and extreme station readings"
+" is also provided. A preview of this information would appear as below on "
+"the website:"
 msgstr ""
 
-#: ../../_docs/Technology.md:181
-msgid "SQL Injection protection"
+#: ../../_docs/manage_atlas/Create-Dashboard.md:19
+msgid ""
+"![Daily Weather "
+"Preview](../_static/images/city_forecasts/daily_weather_preview.png \"Daily "
+"Weather Preview\")"
+msgstr ""
+"![Aperçu météo "
+"quotidien](../_static/images/city_forecasts/daily_weather_preview.png "
+"\"Aperçu météo quotidien\")"
+
+#: ../../_docs/Manage-City-Forecasts.md:53
+msgid "Daily Weather Preview"
+msgstr "Aperçu météo quotidien"
+
+#: ../../_docs/Manage-City-Forecasts.md:56
+msgid "Fetching from an external source"
+msgstr "Récupération à partir d'une source externe"
+
+#: ../../_docs/manage_atlas/Create-Dashboard-Gallery.md:10
+msgid ""
+"To enable automated fetching of city forecasts from an external source i.e "
+"YR Meteo Norway's location forecast API https://developer.yr.no/featured-"
+"products/forecast/, this option needs to be set to true."
+msgstr ""
+"Pour activer la récupération automatisée des prévisions urbaines à partir "
+"d'une source externe, c'est-à-dire l'API de prévision de localisation de YR "
+"Meteo Norvège https://developer.yr.no/featured-products/forecast/, cette "
+"option doit être définie sur true."
+
+#: ../../_docs/manage_atlas/Create-Dashboard-Gallery.md:13
+msgid ""
+"The forecast will be fetched every three hours and get updated accordingly."
 msgstr ""
 
-#: ../../_docs/Technology.md:182
-msgid "Clickjacking protection"
+#: ../../_docs/manage_atlas/Create-Dashboard-Gallery.md:15
+msgid ""
+"![ClimWeb Atlas](../../_static/images/atlas/create_gallery.png \"ClimWeb "
+"Atlas\")"
 msgstr ""
+"![AutoForecast](../_static/images/city_forecasts/autoforecast.png "
+"\"AutoForecast\")"
 
-#: ../../_docs/Technology.md:183
-msgid "SSL\\HTTPS protection settings"
-msgstr ""
+#: ../../_docs/Manage-City-Forecasts.md:62
+msgid "AutoForecast"
+msgstr "Prévision automatique"
 
-#: ../../_docs/Technology.md:184
-msgid "Host header validation"
-msgstr ""
+#: ../../_docs/Manage-Mapviewer.md:1
+msgid "Mapviewer"
+msgstr "Visionneuse de cartes"
 
-#: ../../_docs/Technology.md:185
-msgid "Referrer Policy Protection"
+#: ../../_docs/manage_atlas/Create-Dashboard-Gallery.md:23
+msgid ""
+"![ClimWeb Atlas](../../_static/images/atlas/access_dashboards.png "
+"\"ClimWeb Atlas\")"
 msgstr ""
+"![Page de l'organisation](../_static/images/mapviewer/mapviewer.png \"Page "
+"de l'organisation\")"
 
-#: ../../_docs/Technology.md:186
-msgid "Cross-origin opener policy"
-msgstr ""
-
-#: ../../_docs/Technology.md:187
-msgid "Session Security"
-msgstr ""
-
-#: ../../_docs/Technology.md:188
-msgid "User-uploaded content protection"
-msgstr ""
-
-#: ../../_docs/Technology.md:190
-msgid "ClimWeb Specific security features:"
-msgstr ""
-
-#: ../../_docs/Technology.md:192
-msgid "Ability to change admin url periodically"
-msgstr ""
-
-#: ../../_docs/Technology.md:193
-msgid "Daily backup mechanisms"
-msgstr ""
-
-#: ../../_docs/Technology.md:194
-msgid "Brute force login preventions"
-msgstr ""
+#: ../../_docs/Manage-Mapviewer.md:3
+#: ../../_docs/manage_pages/manage_organisation/Manage-Organisation.md:3
+#: ../../_docs/manage_pages/manage_organisation/Manage-Organisation.md:22
+#: ../../_docs/manage_pages/manage_organisation/Manage-Organisation.md:24
+#: ../../_docs/manage_pages/manage_organisation/Manage-Organisation.md:28
+msgid "Organisation page"
+msgstr "Page de l'organisation"
 
 #: ../../_docs/manage_content_assets/Manage-Collections.md:1
 #: ../../_docs/manage_content_assets/Manage-Collections.md:9
@@ -4104,7 +3055,7 @@ msgstr ""
 
 #: ../../_docs/manage_pages/Manage-Flex.md:13
 #: ../../_docs/manage_pages/Manage-News.md:37
-#: ../../_docs/manage_pages/Manage-Publications.md:37
+#: ../../_docs/manage_pages/Manage-Publications.md:40
 #: ../../_docs/manage_pages/Manage-Services.md:37
 msgid ""
 "To create this page navigate to the 'pages' item on the explorer menu as "
@@ -4113,7 +3064,7 @@ msgstr ""
 
 #: ../../_docs/manage_pages/Manage-Flex.md:16
 #: ../../_docs/manage_pages/Manage-News.md:43
-#: ../../_docs/manage_pages/Manage-Publications.md:43
+#: ../../_docs/manage_pages/Manage-Publications.md:47
 #: ../../_docs/manage_pages/Manage-Services.md:43
 msgid ""
 "![Pages Explorer](../../_static/images/pages/pages_explorer.png \"Pages "
@@ -4122,21 +3073,21 @@ msgstr ""
 
 #: ../../_docs/manage_pages/Manage-Flex.md:16
 #: ../../_docs/manage_pages/Manage-News.md:43
-#: ../../_docs/manage_pages/Manage-Publications.md:43
+#: ../../_docs/manage_pages/Manage-Publications.md:47
 #: ../../_docs/manage_pages/Manage-Services.md:43
 msgid "Pages Explorer"
 msgstr ""
 
 #: ../../_docs/manage_pages/Manage-Flex.md:18
 #: ../../_docs/manage_pages/Manage-News.md:45
-#: ../../_docs/manage_pages/Manage-Publications.md:45
+#: ../../_docs/manage_pages/Manage-Publications.md:49
 #: ../../_docs/manage_pages/Manage-Services.md:45
 msgid "Hover over the Home item and click 'Add Child Page'"
 msgstr ""
 
 #: ../../_docs/manage_pages/Manage-Flex.md:20
 #: ../../_docs/manage_pages/Manage-News.md:47
-#: ../../_docs/manage_pages/Manage-Publications.md:47
+#: ../../_docs/manage_pages/Manage-Publications.md:51
 #: ../../_docs/manage_pages/Manage-Services.md:47
 msgid ""
 "![Add Child Page](../../_static/images/pages/add_child_page.png \"Add "
@@ -4145,7 +3096,7 @@ msgstr ""
 
 #: ../../_docs/manage_pages/Manage-Flex.md:20
 #: ../../_docs/manage_pages/Manage-News.md:47
-#: ../../_docs/manage_pages/Manage-Publications.md:47
+#: ../../_docs/manage_pages/Manage-Publications.md:51
 #: ../../_docs/manage_pages/Manage-Services.md:47
 msgid "Add Child Page"
 msgstr ""
@@ -4355,7 +3306,7 @@ msgid "Add News List Page"
 msgstr ""
 
 #: ../../_docs/manage_pages/Manage-News.md:53
-#: ../../_docs/manage_pages/Manage-Publications.md:53
+#: ../../_docs/manage_pages/Manage-Publications.md:57
 msgid ""
 "Provide a the page title, banner image, title, subtitle and call to "
 "action and either save draft, publish or submit to moderation depending "
@@ -4398,7 +3349,7 @@ msgid "News Page Sections"
 msgstr ""
 
 #: ../../_docs/manage_pages/Manage-News.md:70
-#: ../../_docs/manage_pages/Manage-Publications.md:70
+#: ../../_docs/manage_pages/Manage-Publications.md:75
 #: ../../_docs/manage_pages/Manage-Services.md:69
 msgid "The sections of a service page include:"
 msgstr ""
@@ -4503,35 +3454,35 @@ msgid ""
 "website, the practical way to do it using the steps above would be:"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:15
+#: ../../_docs/manage_pages/Manage-Products.md:16
 msgid ""
 "Step 1: Create an 'Agromet Service Category' and a 'Dekadal Agromet "
 "Bulletin' Product"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:17
+#: ../../_docs/manage_pages/Manage-Products.md:18
 msgid ""
 "To create a service, navigate to the 'Snippets' section on the explorer "
 "menu and select 'Servies' as below:"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:19
+#: ../../_docs/manage_pages/Manage-Products.md:20
 #: ../../_docs/manage_pages/Manage-Services.md:19
 msgid ""
 "![Services Explorer](../../_static/images/products/services_explorer.png "
 "\"Services Explorer\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:19
+#: ../../_docs/manage_pages/Manage-Products.md:20
 #: ../../_docs/manage_pages/Manage-Services.md:19
 msgid "Services Explorer"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:21
+#: ../../_docs/manage_pages/Manage-Products.md:22
 msgid "Click on 'Add service' to create a new service."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:23
+#: ../../_docs/manage_pages/Manage-Products.md:24
 #: ../../_docs/manage_pages/Manage-Services.md:23
 msgid ""
 "![Services "
@@ -4539,102 +3490,102 @@ msgid ""
 "\"Services Category\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:23
-#: ../../_docs/manage_pages/Manage-Products.md:27
+#: ../../_docs/manage_pages/Manage-Products.md:24
+#: ../../_docs/manage_pages/Manage-Products.md:28
 #: ../../_docs/manage_pages/Manage-Services.md:23
 #: ../../_docs/manage_pages/Manage-Services.md:27
 msgid "Services Category"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:25
+#: ../../_docs/manage_pages/Manage-Products.md:26
 #: ../../_docs/manage_pages/Manage-Services.md:25
 msgid "Provide service category name and choose an icon and save."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:27
+#: ../../_docs/manage_pages/Manage-Products.md:28
 #: ../../_docs/manage_pages/Manage-Services.md:27
 msgid ""
 "![Services Category](../../_static/images/products/service_category.png "
 "\"Services Category\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:31
+#: ../../_docs/manage_pages/Manage-Products.md:32
 msgid ""
 "To create a product, navigate to the 'Snippets' section on the explorer "
 "menu and select 'Products' as below:"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:33
+#: ../../_docs/manage_pages/Manage-Products.md:34
 msgid ""
 "![Products Explorer](../../_static/images/products/products_explorer.png "
 "\"Products Explorer\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:33
+#: ../../_docs/manage_pages/Manage-Products.md:34
 msgid "Products Explorer"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:35
+#: ../../_docs/manage_pages/Manage-Products.md:36
 msgid "Click on 'Add product' to create a new product."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:37
+#: ../../_docs/manage_pages/Manage-Products.md:38
 msgid ""
 "![Add Product](../../_static/images/products/add_product.png \"Add "
 "Product\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:37
-#: ../../_docs/manage_pages/Manage-Products.md:41
-#: ../../_docs/manage_pages/Manage-Products.md:54
-#: ../../_docs/manage_pages/Manage-Products.md:58
-#: ../../_docs/manage_pages/Manage-Products.md:79
+#: ../../_docs/manage_pages/Manage-Products.md:38
+#: ../../_docs/manage_pages/Manage-Products.md:42
+#: ../../_docs/manage_pages/Manage-Products.md:55
+#: ../../_docs/manage_pages/Manage-Products.md:61
+#: ../../_docs/manage_pages/Manage-Products.md:82
 msgid "Add Product"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:39
+#: ../../_docs/manage_pages/Manage-Products.md:40
 msgid ""
 "Fill in the form providing the name of the product e.g Dekadal Agromet "
 "Bulletin"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:41
+#: ../../_docs/manage_pages/Manage-Products.md:42
 msgid ""
 "![Add Product](../../_static/images/products/add_product_name.png \"Add "
 "Product\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:45
+#: ../../_docs/manage_pages/Manage-Products.md:46
 msgid ""
 "Step 2: Creation of one or more product categories for each of the "
 "products"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:47
+#: ../../_docs/manage_pages/Manage-Products.md:48
 msgid ""
 "Create a product category based on sections measured and reported in "
 "Dekadal Agrometeorology providing the name and icon e.g"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:49
+#: ../../_docs/manage_pages/Manage-Products.md:51
 msgid "Category 1 - Weather Assessment"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:50
+#: ../../_docs/manage_pages/Manage-Products.md:52
 msgid "Category 2 - Agrometeorological conditions and impact on agriculture"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:51
+#: ../../_docs/manage_pages/Manage-Products.md:53
 msgid "Category 3 - Bulletin"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:54
+#: ../../_docs/manage_pages/Manage-Products.md:55
 msgid ""
 "![Add Product](../../_static/images/products/add_product_categories.png "
 "\"Add Product\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:56
+#: ../../_docs/manage_pages/Manage-Products.md:57
 msgid ""
 "Category 1 and 2 can contain text and images and allows you to break down"
 " your bulletin into sharable sections while category 3 can hold the "
@@ -4642,115 +3593,116 @@ msgid ""
 "categories to the public would appear as below on the website."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:58
-#: ../../_docs/manage_pages/Manage-Products.md:79
+#: ../../_docs/manage_pages/Manage-Products.md:61
+#: ../../_docs/manage_pages/Manage-Products.md:82
 msgid ""
 "![Add Product](../../_static/images/products/product_preview.png \"Add "
 "Product\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:62
+#: ../../_docs/manage_pages/Manage-Products.md:65
 msgid ""
 "Step 3: Creation of one or more product item types for each of the "
 "product categories"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:64
+#: ../../_docs/manage_pages/Manage-Products.md:67
 msgid ""
 "For each of the three categories above, you can now add product item "
 "types e.g"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:66
+#: ../../_docs/manage_pages/Manage-Products.md:69
 msgid "**Category 1** - Weather Assessment"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:67
+#: ../../_docs/manage_pages/Manage-Products.md:70
 msgid "|_ Rainfall Amount"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:68
+#: ../../_docs/manage_pages/Manage-Products.md:71
 msgid "|_ Rainfall Anomaly"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:69
+#: ../../_docs/manage_pages/Manage-Products.md:72
 msgid "|_ Moisture Condition"
 msgstr ""
 
 #: ../../_docs/manage_pages/Manage-Products.md:70
-msgid "**Category 2** - Agrometeorological conditions and impact on agriculture"
+msgid ""
+"**Category 2** - Agrometeorological conditions and impact on agriculture"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:71
+#: ../../_docs/manage_pages/Manage-Products.md:74
 msgid "|_ Vegetation Condition & Impact on Agriculture"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:72
+#: ../../_docs/manage_pages/Manage-Products.md:75
 msgid "**Category 3** - Bulletin"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:73
+#: ../../_docs/manage_pages/Manage-Products.md:76
 msgid "|_ Document"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:75
+#: ../../_docs/manage_pages/Manage-Products.md:78
 msgid ""
 "![Add Product "
 "Item](../../_static/images/products/add_product_item_types.png \"Add "
 "Product Item\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:75
-#: ../../_docs/manage_pages/Manage-Products.md:103
+#: ../../_docs/manage_pages/Manage-Products.md:78
+#: ../../_docs/manage_pages/Manage-Products.md:110
 msgid "Add Product Item"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:77
+#: ../../_docs/manage_pages/Manage-Products.md:80
 msgid ""
 "A preview of these product item types to the public would appear as below"
 " on the website."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:82
+#: ../../_docs/manage_pages/Manage-Products.md:86
 msgid ""
 "Step 4: Creation of a product page that will serve all products for a "
 "specific category"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:84
+#: ../../_docs/manage_pages/Manage-Products.md:88
 msgid ""
 "Once a product, its categories and items have been defined, a product "
 "page can be created to hold all products linked to it. To create this, "
 "navigate to 'pages' in the explorer menu and click on products."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:86
+#: ../../_docs/manage_pages/Manage-Products.md:91
 msgid ""
 "![Add Product Page](../../_static/images/products/add_product_page.png "
 "\"Add Product Page\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:86
+#: ../../_docs/manage_pages/Manage-Products.md:91
 msgid "Add Product Page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:88
+#: ../../_docs/manage_pages/Manage-Products.md:93
 msgid "Click on the three dots and select 'Add child pages'"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:90
+#: ../../_docs/manage_pages/Manage-Products.md:95
 msgid ""
 "![Add Product Child "
 "Page](../../_static/images/products/add_product_child_page.png \"Add "
 "Product Child Page\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:90
-#: ../../_docs/manage_pages/Manage-Products.md:94
+#: ../../_docs/manage_pages/Manage-Products.md:95
+#: ../../_docs/manage_pages/Manage-Products.md:100
 msgid "Add Product Child Page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:92
+#: ../../_docs/manage_pages/Manage-Products.md:97
 msgid ""
 "Choose the relevant service category and product as below. Fill in "
 "another necessary and optional inputs including an introduction section, "
@@ -4758,101 +3710,101 @@ msgid ""
 "Agromet Bulletin Page."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:94
+#: ../../_docs/manage_pages/Manage-Products.md:100
 msgid ""
 "![Add Product Child "
 "Page](../../_static/images/products/product_child_page.png \"Add Product "
 "Child Page\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:96
+#: ../../_docs/manage_pages/Manage-Products.md:102
 msgid "Save draft / Publish page."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:99
+#: ../../_docs/manage_pages/Manage-Products.md:106
 msgid "Step 5: Creation of one or more product items for a product page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:101
+#: ../../_docs/manage_pages/Manage-Products.md:108
 msgid ""
 "Add a product item by hovering over Dekadal Agromet Bulletin and "
 "selecting 'add child page'."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:103
+#: ../../_docs/manage_pages/Manage-Products.md:110
 msgid ""
 "![Add Product Item](../../_static/images/products/product_item.png \"Add "
 "Product Item\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:105
+#: ../../_docs/manage_pages/Manage-Products.md:112
 msgid ""
 "For example, you can add a product item for **1 - 10 June 2023** , by "
 "specifying the date, valid until and products."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:107
+#: ../../_docs/manage_pages/Manage-Products.md:114
 msgid ""
 "![Add Product Item "
 "Page](../../_static/images/products/product_item_page.png \"Add Product "
 "Item Page\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:107
+#: ../../_docs/manage_pages/Manage-Products.md:114
 msgid "Add Product Item Page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:109
+#: ../../_docs/manage_pages/Manage-Products.md:116
 msgid "The 'products' input accepts two options:"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:111
+#: ../../_docs/manage_pages/Manage-Products.md:118
 msgid "Map/Image Product"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:112
+#: ../../_docs/manage_pages/Manage-Products.md:119
 msgid "Document/Bulletin Product"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:114
+#: ../../_docs/manage_pages/Manage-Products.md:121
 msgid ""
 "![Add Product Options](../../_static/images/products/product_options.png "
 "\"Add Product Options\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:114
-#: ../../_docs/manage_pages/Manage-Products.md:118
-#: ../../_docs/manage_pages/Manage-Products.md:122
+#: ../../_docs/manage_pages/Manage-Products.md:121
+#: ../../_docs/manage_pages/Manage-Products.md:125
+#: ../../_docs/manage_pages/Manage-Products.md:129
 msgid "Add Product Options"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:116
+#: ../../_docs/manage_pages/Manage-Products.md:123
 msgid ""
 "An example of a product based on Map/Image product would be the type "
 "'Rainfall Amount'"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:118
+#: ../../_docs/manage_pages/Manage-Products.md:125
 msgid ""
 "![Add Product "
 "Options](../../_static/images/products/product_options_map_image.png "
 "\"Add Product Options\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:120
+#: ../../_docs/manage_pages/Manage-Products.md:127
 msgid ""
 "An example of a product based on Document/Bulletin product would be the "
 "type 'Document'"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:122
+#: ../../_docs/manage_pages/Manage-Products.md:129
 msgid ""
 "![Add Product "
 "Options](../../_static/images/products/product_options_document.png \"Add"
 " Product Options\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Products.md:125
+#: ../../_docs/manage_pages/Manage-Products.md:132
 msgid ""
 "When adding a new bulletin, you will only need to begin from Step 5: "
 "[Creation of one or more product items for a product page](Manage-"
@@ -4860,6 +3812,11 @@ msgid ""
 " section above to upload the document or any related text and images "
 "about a new period."
 msgstr ""
+"Lors de l'ajout d'un nouveau bulletin, il vous suffira de commencer à partir"
+" de l'étape 5 : [Création d'un ou plusieurs éléments de produit pour une "
+"page produit](Gérer les produits#étape-5-création-d'un ou plusieurs-"
+"produits- articles-pour-une-page-produit) ci-dessus pour télécharger le "
+"document ou tout texte et image connexe concernant une nouvelle période."
 
 #: ../../_docs/manage_pages/Manage-Publications.md:1
 msgid "Publications"
@@ -4895,146 +3852,146 @@ msgid ""
 "the website, the practical way to do it using the steps above would be:"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:15
+#: ../../_docs/manage_pages/Manage-Publications.md:16
 msgid "Step 1: Create an publication type"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:17
+#: ../../_docs/manage_pages/Manage-Publications.md:18
 msgid ""
 "To create a publication type, navigate to the 'Snippets' section on the "
 "explorer menu and select 'Publication Types' as below:"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:19
+#: ../../_docs/manage_pages/Manage-Publications.md:21
 msgid ""
 "![Publications "
 "Explorer](../../_static/images/publications/publications_explorer.png "
 "\"Publications Explorer\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:19
+#: ../../_docs/manage_pages/Manage-Publications.md:21
 msgid "Publications Explorer"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:21
+#: ../../_docs/manage_pages/Manage-Publications.md:23
 msgid "Click on 'Add Publication Type' to create a new publication type."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:23
+#: ../../_docs/manage_pages/Manage-Publications.md:25
 msgid ""
 "![Publications "
 "Type](../../_static/images/publications/add_publication_type.png "
 "\"Publications Type\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:23
-#: ../../_docs/manage_pages/Manage-Publications.md:27
+#: ../../_docs/manage_pages/Manage-Publications.md:25
+#: ../../_docs/manage_pages/Manage-Publications.md:29
 msgid "Publications Type"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:25
+#: ../../_docs/manage_pages/Manage-Publications.md:27
 msgid "Provide publication type name and choose an icon and save."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:27
+#: ../../_docs/manage_pages/Manage-Publications.md:29
 msgid ""
 "![Publications "
 "Type](../../_static/images/publications/publication_type.png "
 "\"Publications Type\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:31
+#: ../../_docs/manage_pages/Manage-Publications.md:33
 msgid "Step 2: Create a publication listing page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:33
+#: ../../_docs/manage_pages/Manage-Publications.md:35
 msgid ""
 "A listing page is a page that holds a list of pages. For example, a "
 "Publication Listing page would hold one or more publications. It lists "
 "the banner, latest 3 featured publications and all other publications."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:35
+#: ../../_docs/manage_pages/Manage-Publications.md:38
 msgid ""
 "![Publication List "
 "Preview](../../_static/images/publications/publication_list_preview.png "
 "\"Publication List Preview\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:35
+#: ../../_docs/manage_pages/Manage-Publications.md:38
 msgid "Publication List Preview"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:40
+#: ../../_docs/manage_pages/Manage-Publications.md:44
 msgid ""
 "This option will only appear if no publication listing page already "
 "exists as there can only be on instance/occurrrence of a publication "
 "listing page."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:49
+#: ../../_docs/manage_pages/Manage-Publications.md:53
 msgid "Select Publication List Page from the type of pages provided."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:51
+#: ../../_docs/manage_pages/Manage-Publications.md:55
 msgid ""
 "![Add Publication List "
 "Page](../../_static/images/publications/add_publication_list.png \"Add "
 "Publication List Page\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:51
 #: ../../_docs/manage_pages/Manage-Publications.md:55
+#: ../../_docs/manage_pages/Manage-Publications.md:60
 msgid "Add Publication List Page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:55
+#: ../../_docs/manage_pages/Manage-Publications.md:60
 msgid ""
 "![Add Publication List "
 "Page](../../_static/images/publications/publication_list_page.png \"Add "
 "Publication List Page\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:59
+#: ../../_docs/manage_pages/Manage-Publications.md:64
 msgid "Step 3: Create a publication page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:61
+#: ../../_docs/manage_pages/Manage-Publications.md:66
 msgid ""
 "This will navigate to the list of pages under the home page including the"
 " publication list page you just created. Hover over the the publication "
 "listing page and click on 'add child page'."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:63
+#: ../../_docs/manage_pages/Manage-Publications.md:69
 msgid ""
 "![Add Publication "
 "Page](../../_static/images/publications/add_publication.png \"Add "
 "Publication Page\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:63
+#: ../../_docs/manage_pages/Manage-Publications.md:69
 msgid "Add Publication Page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:67
+#: ../../_docs/manage_pages/Manage-Publications.md:73
 msgid ""
 "![Publication Page "
 "Sections](../../_static/images/publications/publication_sections.png "
 "\"Publication Page Sections\")"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:67
+#: ../../_docs/manage_pages/Manage-Publications.md:73
 msgid "Publication Page Sections"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:71
+#: ../../_docs/manage_pages/Manage-Publications.md:77
 msgid ""
 "**Publication Type** - selected from previously prepared service category"
 " in step 1"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:73
+#: ../../_docs/manage_pages/Manage-Publications.md:79
 msgid ""
 "**Service Category** - selected from previously prepared service "
 "category. Refer to [Create Services Categories Section](./Manage-"
@@ -5042,69 +3999,68 @@ msgid ""
 "categories."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:75
+#: ../../_docs/manage_pages/Manage-Publications.md:83
 msgid ""
 "**Projects Section** - select from previously prepared projects. Please "
 "refer [Manage Projects](./Manage-Projects) to guide on creation of "
 "projects."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:77
+#: ../../_docs/manage_pages/Manage-Publications.md:86
 msgid ""
 "**Publication Image** - This can be a screenshot of the front page of the"
 " publication"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:79
+#: ../../_docs/manage_pages/Manage-Publications.md:88
 msgid "**Date of Publish** - the date the publication was published"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:81
+#: ../../_docs/manage_pages/Manage-Publications.md:90
 msgid ""
 "**Document or File** - Here you can upload pdfs, word documents, "
-"powerpoints, zip files or any other file  of the publication"
+"powerpoints, zip files or any other file of the publication"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:83
+#: ../../_docs/manage_pages/Manage-Publications.md:93
 msgid ""
 "**External Url** - Only If published/hosted somewhere else, provide a "
 "link to published resource if external"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:85
+#: ../../_docs/manage_pages/Manage-Publications.md:95
 msgid "**Summary** - Brief Summary of the publication"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:87
+#: ../../_docs/manage_pages/Manage-Publications.md:97
 msgid ""
 "**Mark as featured** - If enabled, the publication will appear as "
 "Featured publications on the publications listing page"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:89
+#: ../../_docs/manage_pages/Manage-Publications.md:100
 msgid ""
 "**Is visible on homepage** - If enabled, the publication will appear in "
 "the homepage as an alert/latest update"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:91
+#: ../../_docs/manage_pages/Manage-Publications.md:102
 msgid ""
 "**Peer reviewed** - enable this option if the publication has been peer "
 "reviewed"
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:93
+#: ../../_docs/manage_pages/Manage-Publications.md:104
 msgid ""
 "**Additional Details** - this include an optional start and end date for "
 "which the publication is considered relevant."
 msgstr ""
 
-#: ../../_docs/manage_pages/Manage-Publications.md:97
+#: ../../_docs/manage_pages/Manage-Publications.md:107
 msgid ""
 "To create additional publications in the future you would need to begin "
 "from [Step 3: Create a publication page](./Manage-"
 "Publications#step-3-create-a-publication-page)."
-msgstr ""
 
 #: ../../_docs/manage_pages/Manage-Services.md:1
 msgid "Services"
@@ -5440,7 +4396,7 @@ msgid ""
 msgstr ""
 
 #: ../../_docs/manage_pages/index.md:35
-msgid "![Edit pages](../../_static/images/pages/edit_page.png \"Edit pages\")"
+msgid "![Edit pages](../../_static/images/pages/Edit_page_1.png \"Edit pages\")"
 msgstr ""
 
 #: ../../_docs/manage_pages/index.md:35
@@ -5470,8 +4426,8 @@ msgstr ""
 
 #: ../../_docs/manage_pages/index.md:42
 msgid ""
-"![Search Engine Optimization](../../_static/images/pages/seo.png \"Search"
-" Engine Optimization\")"
+"![Search Engine Optimization](../../_static/images/pages/seo.png \"Search "
+"Engine Optimization\")"
 msgstr ""
 
 #: ../../_docs/manage_pages/index.md:44
@@ -6600,6 +5556,13 @@ msgid ""
 "causes any pages currently in moderation on that task to skip to the next"
 " task."
 msgstr ""
+"Lors de la modification d'une tâche, vous constaterez peut-être que certains"
+" champs, tels que le champ de nom, ne sont pas modifiables. Cela permet de "
+"garantir que l’historique du flux de travail reste cohérent. Si vous devez "
+"modifier le nom d'une tâche, désactivez l'ancienne tâche et créez-en une "
+"nouvelle avec le nom dont vous avez besoin. La désactivation d'une tâche "
+"fait passer toutes les pages actuellement en modération sur cette tâche à la"
+" tâche suivante."
 
 #: ../../_docs/manage_settings/Manage-Menus.md:1
 msgid "Menus"
@@ -6707,7 +5670,7 @@ msgstr ""
 
 #: ../../_docs/manage_settings/Manage-Menus.md:30
 msgid "Edit Footer"
-msgstr ""
+msgstr "Modifier le pied de page"
 
 #: ../../_docs/manage_settings/Manage-Settings.md:3
 msgid ""
@@ -6833,13 +5796,13 @@ msgid ""
 "![Languages](../../_static/images/settings/manage_languages_explorer.png "
 "\"Languages\")"
 msgstr ""
+"![Langues](../../_static/images/settings/manage_linguals_explorer.png "
+"\"Langues\")"
 
 #: ../../_docs/manage_settings/Manage-Settings.md:40
 #: ../../_docs/manage_settings/Manage-Settings.md:42
-#: ../../_docs/manage_settings/Manage-Settings.md:48
-#: ../../_docs/manage_settings/Manage-Settings.md:50
 msgid "Languages"
-msgstr ""
+msgstr "Langues"
 
 #: ../../_docs/manage_settings/Manage-Settings.md:42
 msgid ""
@@ -7042,9 +6005,8 @@ msgstr ""
 
 #: ../../_docs/manage_settings/Manage-Users-and-Roles.md:43
 msgid "Edit Roles"
-msgstr ""
+msgstr "Modifier les rôles"
 
 #: ../../_docs/manage_settings/index.md:1
 msgid "Configure Settings"
-msgstr ""
-
+msgstr "Configurer les paramètres"
