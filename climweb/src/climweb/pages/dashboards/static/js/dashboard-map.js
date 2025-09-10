@@ -601,8 +601,7 @@ function getTimeFromList(timestamps, method) {
 
       setCalendarDates(containerId, layerDates).then(() => {
         const fp = flatpickrInstances[`${containerId}`];
-        console.log(fp)
-        console.log(containerId)
+      
         fp.config.onChange.push(function (selectedDates, dateStr, instance) {
           const dateStrIso = new Date(dateStr).toISOString();
           updateMapLayer(map, layerSetup, dateStrIso);
@@ -676,7 +675,6 @@ function getTimeFromList(timestamps, method) {
 
     // Get selected date from flatpickr
     const fp = flatpickrInstances[containerID];
-    console.log(fp)
     let time = null;
     if (fp && fp.selectedDates && fp.selectedDates[0]) {
       time = new Date(fp.selectedDates[0]).toISOString();
