@@ -3,6 +3,7 @@ Django settings for climweb project
 """
 
 import importlib
+import json
 import os
 from email.utils import getaddresses
 from pathlib import Path
@@ -154,23 +155,40 @@ INSTALLED_APPS = [
     'markdownify',
 ]
 
+## Plugins loading logic start
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
 if CLIMWEB_ADDITIONAL_APPS:
     print(f"Loaded ClimWeb additional apps: {','.join(CLIMWEB_ADDITIONAL_APPS)}")
     INSTALLED_APPS += CLIMWEB_ADDITIONAL_APPS
 
-CLIMWEB_PLUGIN_DIR = env("CLIMWEB_PLUGIN_DIR", default="/climweb/plugins")
-if CLIMWEB_PLUGIN_DIR and Path(CLIMWEB_PLUGIN_DIR).exists():
-    climweb_plugin_dir_path = Path(CLIMWEB_PLUGIN_DIR)
-    CLIMWEB_PLUGIN_FOLDERS = [file for file in climweb_plugin_dir_path.iterdir() if file.is_dir()]
-else:
-    CLIMWEB_PLUGIN_FOLDERS = []
+CLIMWEB_PLUGIN_DIRS = env.list("CLIMWEB_PLUGIN_DIRS", default=["/climweb/plugins", ])
+CLIMWEB_PLUGIN_PACKAGE_FOLDERS = []
 
-CLIMWEB_PLUGIN_NAMES = [d.name for d in CLIMWEB_PLUGIN_FOLDERS]
+for plugin_dir in CLIMWEB_PLUGIN_DIRS:
+    plugin_package = Path(plugin_dir)
+    if plugin_package.exists():
+        plugin_package_folders = [file for file in plugin_package.iterdir() if file.is_dir()]
+        CLIMWEB_PLUGIN_PACKAGE_FOLDERS.extend(plugin_package_folders)
 
-if CLIMWEB_PLUGIN_NAMES:
-    print(f"Loaded plugins: {','.join(CLIMWEB_PLUGIN_NAMES)}")
-    INSTALLED_APPS.extend(CLIMWEB_PLUGIN_NAMES)
+if CLIMWEB_PLUGIN_PACKAGE_FOLDERS:
+    print(f"Found ClimWeb plugins: {', '.join([folder.name for folder in CLIMWEB_PLUGIN_PACKAGE_FOLDERS])}")
+    plugins_loaded = []
+    for plugin_dir in CLIMWEB_PLUGIN_PACKAGE_FOLDERS:
+        plugin_info_file = os.path.join(plugin_dir, "climweb_plugin_info.json")
+        if os.path.isfile(plugin_info_file):
+            with open(plugin_info_file, 'r') as f:
+                plugin_info = json.load(f)
+            plugin_apps = plugin_info.get("django_apps", [])
+            if not plugin_apps:
+                plugin_apps = [plugin_dir.name]
+            INSTALLED_APPS.extend(plugin_apps)
+            plugins_loaded.append(plugin_dir.name)
+        else:
+            print(f"Plugin {plugin_dir.name} does not have a climweb_plugin_info.json file, skipping..")
+    if plugins_loaded:
+        print(f"Loaded ClimWeb plugins: {', '.join(plugins_loaded)}")
+
+## Plugin loading logic end
 
 AUTHENTICATION_BACKENDS = [
     # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
@@ -620,9 +638,9 @@ class AttrDict(dict):
         globals()[key] = value
 
 
-for plugin in [*CLIMWEB_PLUGIN_NAMES]:
+for plugin in [*CLIMWEB_PLUGIN_PACKAGE_FOLDERS]:
     try:
-        mod = importlib.import_module(plugin + ".config.settings.settings")
+        mod = importlib.import_module(plugin.name + ".config.settings.plugin_settings")
         # The plugin should have a setup function which accepts a 'settings' object.
         # This settings object is an AttrDict shadowing our local variables so the
         # plugin can access the Django settings and modify them prior to startup.
