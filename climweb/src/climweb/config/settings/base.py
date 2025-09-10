@@ -69,8 +69,8 @@ INSTALLED_APPS = [
     
     "adminboundarymanager",
     "geomanager",
-    "alertwise.capeditor",
-    "alertwise.cap",
+    "capcomposer.capeditor",
+    "capcomposer.cap",
     "forecastmanager",
     "climweb_wdqms",
     

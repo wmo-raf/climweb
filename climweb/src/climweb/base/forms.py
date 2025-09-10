@@ -7,6 +7,7 @@ from wagtail.api.v2.utils import get_full_url
 from wagtail.contrib.forms.forms import FormBuilder
 from wagtail.contrib.forms.views import SubmissionsListView
 from wagtail.images.fields import WagtailImageField
+from wagtailcaptcha.forms import WagtailCaptchaFormBuilder
 
 from climweb.base.models import FormFileSubmission
 
@@ -124,3 +125,7 @@ class CustomFormBuilder(FormBuilder):
     
     def create_document_field(self, field, options):
         return FormDocumentField(**options)
+
+
+class CustomWagtailCaptchaFormBuilder(CustomFormBuilder, WagtailCaptchaFormBuilder):
+    pass

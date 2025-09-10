@@ -67,7 +67,9 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat) {
         mode: "range",
         defaultDate: defaultDates,
         allowInput: true,
-        onClose: onChange
+        onClose: onChange,
+        altInput: true,
+        altFormat: "F j, Y, h:i K",
     };
 
     // Adjust flatpickr options based on your dateFormat
@@ -404,6 +406,7 @@ async function renderWarmingStripes(container) {
             container.innerHTML = `<p style="color:red;">No data</p>`;
             return;
         }
+        data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
         // Prepare values and formatted labels
         const values = data.map(d => d.value);
