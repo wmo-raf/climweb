@@ -67,7 +67,9 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat) {
         mode: "range",
         defaultDate: defaultDates,
         allowInput: true,
-        onClose: onChange
+        onClose: onChange,
+        altInput: true,
+        altFormat: "F j, Y, h:i K",
     };
 
     // Adjust flatpickr options based on your dateFormat

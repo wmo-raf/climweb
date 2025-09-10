@@ -163,13 +163,55 @@ function getTimeFromList(timestamps, method) {
 
   function initializeCalender() {
     containers.forEach((container) => {
-      const containerId = container.id;
-      flatpickrInstances[containerId] = flatpickr(`#mapdate-${containerId}`, {
-        enableTime: true,
-        dateFormat: "d M Y, h:i K",
-      });
+        const containerId = container.id;
+        const dateFormat = container.dataset.dateFormat || "yyyy-MM-dd"; // Default to "yyyy-MM-dd" if not provided
+
+        let flatpickrOptions = {
+            enableTime: false, // Default to no time picker
+            allowInput: true,  // Allow manual input
+            altInput: true,
+            altFormat: "F j, Y, h:i K",
+        };
+
+        // Map the dateFormat to flatpickr's options
+        switch (dateFormat) {
+            case "yyyy":
+                flatpickrOptions.dateFormat = "Y"; // Year only
+                flatpickrOptions.plugins = [
+                    new window.monthSelectPlugin({
+                        shorthand: false,
+                        dateFormat: "Y",
+                        altFormat: "Y",
+                        theme: "light"
+                    })
+                ];
+                break;
+            case "yyyy-MM":
+            case "MMMM yyyy":
+                flatpickrOptions.dateFormat = "Y-m"; // Year and month
+                flatpickrOptions.plugins = [
+                    new window.monthSelectPlugin({
+                        shorthand: false,
+                        dateFormat: "Y-m",
+                        altFormat: "F Y", // Full month name and year
+                        theme: "light"
+                    })
+                ];
+                break;
+            case "yyyy-MM-dd":
+                flatpickrOptions.dateFormat = "Y-m-d"; // Year, month, and day
+                break;
+            case "yyyy-MM-dd HH:mm":
+                flatpickrOptions.dateFormat = "Y-m-d H:i"; // Year, month, day, and time
+                flatpickrOptions.enableTime = true; // Enable time picker
+                break;
+            default:
+                flatpickrOptions.dateFormat = "Y-m-d"; // Default to "yyyy-MM-dd"
+        }
+
+        flatpickrInstances[containerId] = flatpickr(`#mapdate-${containerId}`, flatpickrOptions);
     });
-  }
+}
 
   function setCalendarDates(containerId, availableDates) {
     return new Promise((resolve) => {
@@ -558,7 +600,9 @@ function getTimeFromList(timestamps, method) {
       updateMapLayer(map, layerSetup, defaultDate);
 
       setCalendarDates(containerId, layerDates).then(() => {
-        const fp = flatpickrInstances[containerId];
+        const fp = flatpickrInstances[`${containerId}`];
+        console.log(fp)
+        console.log(containerId)
         fp.config.onChange.push(function (selectedDates, dateStr, instance) {
           const dateStrIso = new Date(dateStr).toISOString();
           updateMapLayer(map, layerSetup, dateStrIso);
@@ -632,6 +676,7 @@ function getTimeFromList(timestamps, method) {
 
     // Get selected date from flatpickr
     const fp = flatpickrInstances[containerID];
+    console.log(fp)
     let time = null;
     if (fp && fp.selectedDates && fp.selectedDates[0]) {
       time = new Date(fp.selectedDates[0]).toISOString();
