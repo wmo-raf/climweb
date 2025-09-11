@@ -61,6 +61,7 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
     let startTimeSelectEl = document.querySelector(`#time-start-${id}`);
     let endTimeSelectEl = document.querySelector(`#time-end-${id}`);
 
+
     if (!startInputEl || !endInputEl) {
         console.error(`Start or End date input not found for id: ${id}`);
         return;

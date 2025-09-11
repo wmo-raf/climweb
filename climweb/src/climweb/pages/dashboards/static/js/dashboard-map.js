@@ -267,8 +267,6 @@ function getTimeFromList(timestamps, method) {
       if (timeSelectEl) {
         timeSelectEl.addEventListener("change", handleDateTimeChange);
       }
-
-
     });
 }
 
@@ -730,19 +728,6 @@ function getTimeFromList(timestamps, method) {
       const defaultDate = layerDates?.[0];
       updateMapLayer(map, layerSetup, defaultDate);
 
-<<<<<<< HEAD
-
-=======
-      setCalendarDates(containerId, layerDates).then(() => {
-        const fp = flatpickrInstances[`${containerId}`];
-      
-        fp.config.onChange.push(function (selectedDates, dateStr, instance) {
-          const dateStrIso = new Date(dateStr).toISOString();
-          updateMapLayer(map, layerSetup, dateStrIso);
-          instance.close();
-        });
-      });
->>>>>>> c6597ac88c58e83fcd4f626839b086c3227df0fa
     }).catch(console.log);
   }
 
