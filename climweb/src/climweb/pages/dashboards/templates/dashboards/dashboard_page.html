@@ -3,7 +3,6 @@
 
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bulma-tooltip@3.0.2/dist/css/bulma-tooltip.min.css">
 <link rel="stylesheet" href="{% static 'css/datepicker-bulma.min.css' %}">
 
@@ -89,12 +88,10 @@
 {% block extra_js %}
     <script type"text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
     <script type"text/javascript" src="{% static 'js/d3.min.js' %}"></script>
-    <script type"text/javascript" src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script src="{% static 'js/datepicker.min.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+{% comment %} <script src="{% static 'js/datepicker.min.js' %}"></script> {% endcomment %}
     <script type"text/javascript" src="{% static 'js/dashboard-map.js' %}"></script>
     <script type"text/javascript" src="{% static 'js/dashboard-chart.js' %}"></script>
     <script type"text/javascript" src="{% static 'js/modal.js' %}"></script>
