@@ -28,7 +28,7 @@ urlpatterns = [
     
     path("", include("climweb.pages.home.urls")),
     path("", include("climweb.pages.wdqms.urls")),
-    path("", include("alertwise.cap.urls")),
+    path("", include("capcomposer.cap.urls")),
     path("", include("climweb.pages.stations.urls"), name="stations"),
     path("", include("climweb.pages.videos.urls")),
     path("weather/", include("climweb.pages.weather.urls")),

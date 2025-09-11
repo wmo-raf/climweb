@@ -1,6 +1,6 @@
-# Alertwise Base Settings
+# CAPComposer Base Settings
 
-These are common details that are repeated across the Alertwise tool and are set only once.
+These are common details that are repeated across the CAPComposer tool and are set only once.
 
 ## Sender Details
 

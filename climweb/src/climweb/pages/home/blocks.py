@@ -1,6 +1,6 @@
 import json
 
-from alertwise.capeditor.blocks import BoundaryFieldBlock, PolygonOrMultiPolygonFieldBlock
+from capcomposer.capeditor.blocks import BoundaryFieldBlock, PolygonOrMultiPolygonFieldBlock
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from shapely.geometry import shape
