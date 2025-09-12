@@ -49,6 +49,29 @@ function getValidTimestamps(rangeString) {
   return timestamps;
 }
 
+function formatDateTimeJS(datetimeString, formatStr) {
+  const date = new Date(datetimeString);
+
+  switch (formatStr) {
+    case "yyyy-MM-dd HH:mm":
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+    case "yyyy-MM-dd":
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+    case "yyyy-MM":
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+    case "MMMM yyyy":
+      return `${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`;
+    case "yyyy":
+      return `${date.getFullYear()}`;
+    case "pentadal":
+      return pentadalLabel(date);
+    case "dekadal":
+      return dekadalLabel(date);
+    default:
+      return datetimeString;
+  }
+}
+
 
 async function getTimeValuesFromWMS(wmsUrl, layerName, params = {}) {
   const defaultParams = {
@@ -111,7 +134,9 @@ function getTimeFromList(timestamps, method) {
 (function () {
   const datasets = {}
   const layerConfigs = {}
-  const flatpickrInstances = {};
+  const datepickerInstances = {};
+  const mapInstances = {};
+
   const containers = document.querySelectorAll(".map-container");
 
   const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig()
@@ -152,81 +177,171 @@ function getTimeFromList(timestamps, method) {
       const selected_dataset = container.dataset.dataset
       const selected_layer = container.dataset.layer
       const admin_path = container.dataset.adminPath
+      const displayFormat = container.dataset.dateFormat || "yyyy-MM-dd";
 
       if (!containerId || !tileJsonUrl || !layerType) return;
 
-      createMap(containerId, selected_layer, selected_dataset, layerType, admin_path);
+      createMap(containerId, selected_layer, selected_dataset, layerType, admin_path, displayFormat);
 
 
     });
   }
 
-  function initializeCalender() {
+  function updateMapLayerWithDate(containerId, selectedDateTime) {
+    const map = mapInstances[containerId];
+    const layerConfig = layerConfigs[containerId];
+
+    if (!map || !layerConfig) {
+      console.error(`Map or layerConfig not found for containerId: ${containerId}`);
+      return;
+    }
+
+    updateMapLayer(map, layerConfig, selectedDateTime);
+  }
+
+  // Initialize Datepicker for all containers
+  function initializeCalendar() {
     containers.forEach((container) => {
-        const containerId = container.id;
-        const dateFormat = container.dataset.dateFormat || "yyyy-MM-dd"; // Default to "yyyy-MM-dd" if not provided
+      const containerId = container.id;
+      const inputEl = document.querySelector(`#mapdate-${containerId}`);
+      let timeSelectEl = document.querySelector(`#maptime-${containerId}`); // Time dropdown
 
-        let flatpickrOptions = {
-            enableTime: false, // Default to no time picker
-            allowInput: true,  // Allow manual input
-            altInput: true,
-            altFormat: "F j, Y, h:i K",
-        };
+      if (!inputEl) {
+        console.error(`Date input not found for containerId: ${containerId}`);
+        return;
+      }
 
-        // Map the dateFormat to flatpickr's options
-        switch (dateFormat) {
-            case "yyyy":
-                flatpickrOptions.dateFormat = "Y"; // Year only
-                flatpickrOptions.plugins = [
-                    new window.monthSelectPlugin({
-                        shorthand: false,
-                        dateFormat: "Y",
-                        altFormat: "Y",
-                        theme: "light"
-                    })
-                ];
-                break;
-            case "yyyy-MM":
-            case "MMMM yyyy":
-                flatpickrOptions.dateFormat = "Y-m"; // Year and month
-                flatpickrOptions.plugins = [
-                    new window.monthSelectPlugin({
-                        shorthand: false,
-                        dateFormat: "Y-m",
-                        altFormat: "F Y", // Full month name and year
-                        theme: "light"
-                    })
-                ];
-                break;
-            case "yyyy-MM-dd":
-                flatpickrOptions.dateFormat = "Y-m-d"; // Year, month, and day
-                break;
-            case "yyyy-MM-dd HH:mm":
-                flatpickrOptions.dateFormat = "Y-m-d H:i"; // Year, month, day, and time
-                flatpickrOptions.enableTime = true; // Enable time picker
-                break;
-            default:
-                flatpickrOptions.dateFormat = "Y-m-d"; // Default to "yyyy-MM-dd"
+      // Determine the date format
+      const dateFormat = container.dataset.dateFormat || "yyyy-MM-dd HH:mm";
+      let dpFormat = "yyyy-mm-dd"; // Default format
+      let pickLevel = 0;
+
+      switch (dateFormat) {
+        case "yyyy":
+          dpFormat = "yyyy";
+          pickLevel = 2; // Year picker
+          break;
+        case "yyyy-MM":
+          dpFormat = "yyyy-mm";
+          pickLevel = 1; // Month picker
+          break;
+        case "yyyy-MM-dd":
+          dpFormat = "yyyy-mm-dd";
+          pickLevel = 0; // Full date picker
+          break;
+        case "yyyy-MM-dd HH:mm":
+          dpFormat = "yyyy-mm-dd"; // Date only (time handled separately)
+          pickLevel = 0;
+
+
+          break;
+      }
+
+      // Initialize the datepicker
+      const datepicker = new Datepicker(inputEl, {
+        format: dpFormat,
+        autohide: true,
+        todayHighlight: true,
+        clearBtn: true,
+        pickLevel,
+      });
+
+      datepickerInstances[containerId] = datepicker;
+
+      // Handle date and time changes
+      const handleDateTimeChange = () => {
+        const selectedDate = datepicker.getDate();
+        const selectedTime = timeSelectEl ? timeSelectEl.value : "00:00";
+
+        if (selectedDate) {
+          // Combine date and time into a single ISO string
+          const [hours, minutes] = selectedTime.split(":").map(Number);
+          selectedDate.setHours(hours || 0, minutes || 0, 0, 0);
+          const isoDateTime = selectedDate.toISOString();
+          updateMapLayerWithDate(containerId, isoDateTime);
         }
+      };
 
-        flatpickrInstances[containerId] = flatpickr(`#mapdate-${containerId}`, flatpickrOptions);
+      // Add event listeners for date and time changes
+      inputEl.addEventListener("changeDate", handleDateTimeChange);
+      if (timeSelectEl) {
+        timeSelectEl.addEventListener("change", handleDateTimeChange);
+      }
     });
 }
 
-  function setCalendarDates(containerId, availableDates) {
+  function setCalendarDates(containerId, availableDates, displayFormat) {
     return new Promise((resolve) => {
-      const fp = flatpickrInstances[containerId];
-      if (!fp || !availableDates?.length) return resolve();
+      const picker = datepickerInstances[containerId];
+      const timeSelectEl = document.querySelector(`#maptime-${containerId}`);
+
+      if (!picker || !availableDates?.length) return resolve();
+
       const parsedDates = availableDates.map(d => new Date(d)).filter(d => !isNaN(d));
-      const uniqueTimestamps = [...new Set(parsedDates.map(d => d.getTime()))];
-      const defaultDate = uniqueTimestamps[0];
-      fp.setDate(defaultDate, true);
-      fp.set('enable', uniqueTimestamps);
+      if (!parsedDates.length) return resolve();
+
+      const latestDate = new Date(Math.max(...parsedDates)); // Get the latest date
+
+      const availableDatesSet = new Set(
+        availableDates.map((date) => {
+          // Create a new Date object and reset the time to midnight (00:00:00)
+          const dateWithoutTime = new Date(date);
+          dateWithoutTime.setHours(0, 0, 0, 0);
+          return formatDateTimeJS(dateWithoutTime, displayFormat);
+        })
+      );
+
+      // Function to check if a date is available
+      const isDateAvailable = (date) => {
+        // Ensure the input date also has its time stripped
+        const dateWithoutTime = new Date(date);
+        dateWithoutTime.setHours(0, 0, 0, 0);
+        const formattedDate = formatDateTimeJS(dateWithoutTime, displayFormat);
+
+
+        return availableDatesSet.has(formattedDate);
+      };
+
+
+      picker.setDate(latestDate);
+
+      picker.setOptions({
+        beforeShowDay: (date) => {
+          return isDateAvailable(date) ? { enabled: true } : { enabled: false };
+        },
+        beforeShowYear: (date) => {
+          return isDateAvailable(date) ? { enabled: true } : { enabled: false };
+        },
+        beforeShowMonth: (date) => {
+          return isDateAvailable(date) ? { enabled: true } : { enabled: false };
+        },
+      });
+      if (timeSelectEl) {
+        // Filter available times for the selected date
+        const selectedDate = latestDate.toISOString().split("T")[0]; // Get the date part
+        const availableTimes = parsedDates
+          .filter((d) => d.toISOString().startsWith(selectedDate)) // Match times for the selected date
+          .map((d) => {
+            const hours = d.getHours().toString().padStart(2, "0");
+            const minutes = d.getMinutes().toString().padStart(2, "0");
+            return `${hours}:${minutes}`;
+          });
+
+        // Populate the time dropdown
+        timeSelectEl.innerHTML = availableTimes
+          .map((time) => `<option value="${time}">${time}</option>`)
+          .join("");
+
+        // Set the default time to the latest available time
+        timeSelectEl.value = availableTimes[availableTimes.length - 1];
+      }
       resolve();
+
+
     });
   }
 
-  function createMap(containerId, selected_layer, selected_dataset, layerType, admin_path) {
+  function createMap(containerId, selected_layer, selected_dataset, layerType, admin_path, displayFormat) {
 
 
     const map = new maplibregl.Map({
@@ -234,7 +349,11 @@ function getTimeFromList(timestamps, method) {
       style: dashboardBasemapStyle,
       scrollZoom: false
     });
-    updateLayer(map, containerId, selected_dataset, selected_layer, layerType)
+
+    // Store the map instance in mapInstances
+    mapInstances[containerId] = map;
+
+    updateLayer(map, containerId, selected_dataset, selected_layer, layerType, displayFormat)
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
 
@@ -247,10 +366,6 @@ function getTimeFromList(timestamps, method) {
 
   }
 
-  function tsToDate(ts) {
-    const d = new Date(ts);
-    return d.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
-  }
 
 
   async function getLayerDataset(selected_dataset, selected_layer) {
@@ -544,7 +659,7 @@ function getTimeFromList(timestamps, method) {
     return null;
   }
 
-  function updateLayer(map, containerId, selected_layer, selected_dataset, layerType) {
+  function updateLayer(map, containerId, selected_layer, selected_dataset, layerType, displayFormat) {
     getLayerDataset(selected_layer, selected_dataset).then(async activeLayerDataset => {
       if (!activeLayerDataset) return;
       const layer = activeLayerDataset.layers?.[0];
@@ -595,19 +710,24 @@ function getTimeFromList(timestamps, method) {
         $("#legend-" + containerId).html(legend).show();
       }
 
+      setCalendarDates(containerId, layerDates, displayFormat).then(() => {
+        const picker = datepickerInstances[containerId];
+        const input = document.querySelector(`#mapdate-${containerId}`);
+
+        if (!picker || !input) return;
+
+        input.addEventListener("changeDate", (ev) => {
+          const selectedDate = ev.detail.date;
+          if (selectedDate) {
+            const dateStrIso = new Date(selectedDate).toISOString();
+            updateMapLayer(map, layerSetup, dateStrIso);
+          }
+        });
+      });
 
       const defaultDate = layerDates?.[0];
       updateMapLayer(map, layerSetup, defaultDate);
 
-      setCalendarDates(containerId, layerDates).then(() => {
-        const fp = flatpickrInstances[`${containerId}`];
-      
-        fp.config.onChange.push(function (selectedDates, dateStr, instance) {
-          const dateStrIso = new Date(dateStr).toISOString();
-          updateMapLayer(map, layerSetup, dateStrIso);
-          instance.close();
-        });
-      });
     }).catch(console.log);
   }
 
@@ -669,29 +789,28 @@ function getTimeFromList(timestamps, method) {
   }
 
   function updateLayerWithParams(containerID, map, layerConfigs) {
-    // Get layer config and paramsSelectorConfig for this container
     const paramsSelectorConfig = layerConfigs?.paramsSelectorConfig || [];
     const params = getSelectedParams(paramsSelectorConfig);
 
-    // Get selected date from flatpickr
-    const fp = flatpickrInstances[containerID];
+    const picker = datepickerInstances[containerID];
     let time = null;
-    if (fp && fp.selectedDates && fp.selectedDates[0]) {
-      time = new Date(fp.selectedDates[0]).toISOString();
+
+    if (picker && picker.getDate()) {
+      time = new Date(picker.getDate()).toISOString();
     }
-    // Add time param if present
+
     if (time) params.time = time;
 
-    // Build tile URL with all params
     let tileUrl = layerConfigs.source.tiles[0];
-    Object.keys(params).forEach(key => {
+    Object.keys(params).forEach((key) => {
       tileUrl = tileUrl.replace(`{${key}}`, params[key]);
     });
 
-    // Update map layer
     updateMapLayer(map, layerConfigs, time, tileUrl);
   }
+
   initializeMap()
-  initializeCalender()
+  initializeCalendar()
 
 })()
+
