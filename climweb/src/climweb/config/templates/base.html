@@ -7,8 +7,9 @@
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
-<head>
+<html lang="{{ settings.base.LanguageSettings.default_language }}" 
+      dir="{% if settings.base.LanguageSettings.default_language|slice:":2" == "ar" %}rtl{% else %}ltr{% endif %}">
+    <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
@@ -34,16 +35,7 @@
         <base target="_blank" rel="noopener noreferrer">
     {% endif %}
 
-    {# Global stylesheets #}
-    <style>
-        :root {
-            --primary-color: {{ primary_color }};
-            --primary-color-background: {{ primary_color }}25;
-            --secondary-color: {{ secondary_color }};
-            --border-radius: {{ border_radius }};
-            --primary-hover-color: {{ primary_hover_color }};
-        }
-    </style>
+    
     <link rel="stylesheet" type="text/css" href="{% static 'css/bulma.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-divider.min.css' %}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,6 +49,36 @@
     <link rel="stylesheet" href="{% static 'css/services_common.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/nmhs_cms.css' %}">
 
+    {# Global stylesheets #}
+    <style>
+        :root {
+            --primary-color: {{ primary_color }};
+            --primary-color-background: {{ primary_color }}25;
+            --secondary-color: {{ secondary_color }};
+            --border-radius: {{ border_radius }};
+            --primary-hover-color: {{ primary_hover_color }};
+        }
+
+        {% if settings.base.LanguageSettings.default_language|slice:":2" == "ar" %}
+            .section-subheader{
+                text-align:right !important;
+            }
+            h1,h2,h3,h4,h5,p{
+                text-align:right !important;
+            }
+
+            .table th {
+                text-align: right !important;
+            }
+
+            .has-text-left{
+                text-align: right !important;
+            }
+}
+        
+        {% endif %}
+
+    </style>
     <script type="text/javascript" src="{% static 'js/jquery-3.6.3.min.js' %}"></script>
     {% if request.user.is_authenticated or request.is_preview %} {% else %}
         {% if settings.base.IntegrationSettings.ga_tracking_id %}
