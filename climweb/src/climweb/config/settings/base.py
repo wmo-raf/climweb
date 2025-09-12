@@ -264,13 +264,17 @@ ASGI_APPLICATION = "climweb.config.asgi.application"
 
 DB_ENGINE = "climweb.config.db_engine"
 
-DB_CONNECTION_MAX_AGE = env.int("DB_CONNECTION_MAX_AGE", default=600)
+DB_CONNECTION_MAX_AGE = env.int("DB_CONNECTION_MAX_AGE", default=0)
+DB_DISABLE_SERVER_SIDE_CURSORS = env.bool("DB_DISABLE_SERVER_SIDE_CURSORS", default=True)
+DB_SSL_REQUIRE = env.bool("DB_SSL_REQUIRE", default=False)
 
 DATABASES = {
     "default": dj_database_url.config(
         engine=DB_ENGINE,
         conn_max_age=DB_CONNECTION_MAX_AGE,
         conn_health_checks=True,
+        disable_server_side_cursors=DB_DISABLE_SERVER_SIDE_CURSORS,
+        ssl_require=DB_SSL_REQUIRE,
     )
 }
 
@@ -346,7 +350,7 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 LOCALE_PATHS = [
     'base/locale',
     'nmhs_cms/locale',
-
+    
     'pages/cap/locale',
     'pages/cityclimate/locale',
     'pages/contact/locale',
@@ -366,7 +370,7 @@ LOCALE_PATHS = [
     'pages/organisation_pages/tenders/locale',
     'pages/organisation_pages/vacancies/locale',
     'pages/organisation_pages/staff/locale',
-
+    
     'pages/products/locale',
     'pages/publications/locale',
     'pages/satellite_imagery/locale',
