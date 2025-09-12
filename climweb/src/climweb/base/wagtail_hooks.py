@@ -1,4 +1,4 @@
-from alertwise.cap.utils import get_currently_active_alerts
+from capcomposer.cap.utils import get_currently_active_alerts
 from django.conf import settings
 from django.contrib.auth.models import Permission
 from django.core.cache import cache

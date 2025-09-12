@@ -7,7 +7,13 @@
     <div class="card elevation-1">
         <header class="card-header elevation-0">
             <p class="card-header-title">
-                {{ map.title }} for {{map.area_desc}}
+                 {% if map.description %}
+                    {{ block.value.dataset.title }}
+
+                    {% else %}
+                    {{map.title}}
+
+                    {% endif %} for {{map.area_desc}}
             </p>
             <a
                 class="card-header-icon"
@@ -61,11 +67,21 @@
         <footer class="card-footer">
             <div style="width: 100%" class="m-2">
                 <input
-                    class="flatpickr flatpickr-input input is-small"
+                    class="datepicker-input input is-small"
                     type="text"
                     placeholder="Select Date.."
                     id="mapdate-{{ container_id }}"
+                    data-date-format="{{ block.value.date_format }}"
                 />
+                {% if block.value.date_format == "yyyy-MM-dd HH:mm" %}
+                 <select
+                    class="timepicker-select input is-small"
+                    id="maptime-{{ container_id }}"
+                >
+                    <!-- Options will be dynamically populated -->
+                </select>
+                {% endif %}
+
                 <div
                     class="params"
                     id="paramsContainer-{{ container_id }}"
