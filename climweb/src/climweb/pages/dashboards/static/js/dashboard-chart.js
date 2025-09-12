@@ -54,7 +54,6 @@ function dekadalLabel(date) {
     return `${month} ${year} - D${period} ${range}`;
 }
 
-// ------------------ UNIFIED CALENDAR ------------------ //
 function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDates = []) {
     const startInputEl = document.querySelector(`#date-start-${id}`);
     const endInputEl = document.querySelector(`#date-end-${id}`);
