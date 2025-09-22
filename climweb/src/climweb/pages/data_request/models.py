@@ -15,10 +15,9 @@ from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
 from climweb.base.forms import (
-    CustomFormBuilder,
     FormImageField,
     FormDocumentField,
-    CustomSubmissionsListView
+    CustomSubmissionsListView, CustomWagtailCaptchaFormBuilder
 )
 from climweb.base.mail import get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
@@ -29,7 +28,7 @@ from climweb.base.utils import get_duplicates
 
 class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     required_css_class = 'required'
-    form_builder = CustomFormBuilder
+    form_builder = CustomWagtailCaptchaFormBuilder
     submissions_list_view_class = CustomSubmissionsListView
     
     template = 'datarequest.html'

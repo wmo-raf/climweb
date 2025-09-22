@@ -55,7 +55,7 @@
                     data-layer-id="{{ chart.dataset.id }}"
                     data-title="{{ chart.title }}"
                     data-color="{{ chart.chart_color|default:'#0b76e1' }}"
-                    data-unit="{{ chart.data_unit|default:'Value' }}"
+                    data-unit="{{ chart.data_unit|default:'' }}"
                     data-type="{{ chart.chart_type|default:'line' }}"
                     data-area-desc="{{ chart.area_desc }}"
                     data-admin-level="{{ chart.admin_level }}"
@@ -69,13 +69,28 @@
             </div>
             <footer class="card-footer">
                 <div style="width: 100%" class="m-2">
-                    <input
-                        class="flatpickr flatpickr-input input is-small"
-                        type="text"
-                        placeholder="Select Date Range"
-                        id="{% if chart.chart_type == 'stripes' %}date-stripes-{% else %}date-chart-{% endif %}{{ section_index }}-{{ index|add:forloop.counter0 }}"
-                    />
-                     <div
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <input
+                                class="datepicker-input input is-small"
+                                type="text"
+                                placeholder="Start Date"
+                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index|add:forloop.counter0 }}"
+                            />
+                         
+                        </div>
+                        <div class="control">
+                            <input
+                                class="datepicker-input input is-small"
+                                type="text"
+                                placeholder="End Date"
+                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index|add:forloop.counter0 }}"
+                            />
+                         
+                        </div>
+                         
+                    </div>
+                    <div
                         class="params"
                         id="paramsContainer-chart-{{ section_index }}-{{ index|add:forloop.counter0 }}"
                     ></div>

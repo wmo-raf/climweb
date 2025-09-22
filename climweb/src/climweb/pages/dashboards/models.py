@@ -6,6 +6,10 @@ from django.db import models
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from climweb.pages.dashboards.blocks import DashboardSectionBlock
 from django.utils.translation import gettext_lazy as _
+from django.template.defaultfilters import truncatechars
+from climweb.base.mixins import MetadataPageMixin
+from django.utils.html import strip_tags
+
 
 class DashboardGalleryPage(Page):
     subpage_types = ['dashboards.DashboardPage']  # only allow DashboardPage children
@@ -20,7 +24,7 @@ class DashboardGalleryPage(Page):
     class Meta:
         verbose_name = "Dashboards Gallery / Atlas"
 
-class DashboardPage(Page):
+class DashboardPage(MetadataPageMixin, Page):
     template = 'dashboards/dashboard_page.html'
     parent_page_types = ['dashboards.DashboardGalleryPage']
     banner_title = models.CharField(max_length=255)
@@ -54,6 +58,36 @@ class DashboardPage(Page):
         FieldPanel("body"),
     ]
 
+    def get_meta_image(self):
+        if self.search_image:
+            return self.search_image
+        return self.banner_image
+    
+    def save(self, *args, **kwargs):
+        if not self.search_image and self.banner_image:
+            self.search_image = self.banner_image
+        
+        if not self.seo_title and self.banner_title:
+            self.seo_title = self.banner_title
+        
+        if not self.search_description and self.banner_description:
+            plain_text_description = strip_tags(self.banner_description)
+            self.search_description = truncatechars(plain_text_description, 160)
+
+        
+        return super().save(*args, **kwargs)
+    
+    def get_meta_description(self):
+        if self.search_description:
+            return self.search_description
+        return strip_tags(self.banner_description)
+    
+    def get_meta_title(self):
+        if self.seo_title:
+            return self.seo_title
+        return self.banner_title
+
     class Meta:
         verbose_name = "Dashboard Page"
+
 
