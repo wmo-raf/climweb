@@ -36,7 +36,10 @@
                 data-dataset="{{ block.value.dataset.id }}"
                 data-layer="{{ block.value.id }}"
                 data-title="{{ map.title }}"
-                data-admin-path="{{map.admin_path}}"
+                data-geostore-id="{{ map.geostore_id }}"
+                data-gid0="{% if map.gid0 %}{{ map.gid0 }}{% else %}{% endif %}"
+                data-gid1="{% if map.gid1 %}{{ map.gid1 }}{% else %}{% endif %}"
+                data-gid2="{% if map.gid2 %}{{ map.gid2 }}{% else %}{% endif %}"
                 data-date-format="{{ block.value.date_format }}"
                 data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster_file{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector_tile{% elif block.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
             >
