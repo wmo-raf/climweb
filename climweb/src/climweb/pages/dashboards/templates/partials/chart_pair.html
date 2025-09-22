@@ -42,7 +42,10 @@
                     class="warming-stripes-chart"
                     id="stripes-{{ section_index }}-{{ index|add:forloop.counter0 }}"
                     data-layer-id="{{ chart.dataset.id }}"
-                    data-admin-path="{{ chart.admin_path }}"
+                    data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
+                    data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
+                    data-gid1="{% if chart.gid1 %}{{ chart.gid1 }}{% else %}{% endif %}"
+                    data-gid2="{% if chart.gid2 %}{{ chart.gid2 }}{% else %}{% endif %}"
                     data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
                 ></div>
                 {% else %}
@@ -56,7 +59,10 @@
                     data-type="{{ chart.chart_type|default:'line' }}"
                     data-area-desc="{{ chart.area_desc }}"
                     data-admin-level="{{ chart.admin_level }}"
-                    data-admin-path="{{chart.admin_path}}"
+                    data-geostore-id="{{ chart.geostore_id }}"
+                    data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
+                    data-gid1="{% if chart.gid1 %}{{ chart.gid1 }}{% else %}{% endif %}"
+                    data-gid2="{% if chart.gid2 %}{{ chart.gid2 }}{% else %}{% endif %}"
                     data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
                 ></div>
                 {% endif %}

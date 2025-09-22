@@ -24,6 +24,12 @@ class BoundaryIDWidget {
 
         const areaDescInputId = this.options.id.replace("geom", "area_desc")
         this.areaDescInput = $('#' + areaDescInputId);
+        const gid0InputId = this.options.id.replace("geom", "gid0")
+        this.gid0InputId = $('#' + gid0InputId);
+        const gid1InputId = this.options.id.replace("geom", "gid1")
+        this.gid1InputId = $('#' + gid1InputId);
+        const gid2InputId = this.options.id.replace("geom", "gid2")
+        this.gid2InputId = $('#' + gid2InputId);
         // Make areaDescInput disabled (read-only)
         this.areaDescInput.prop('readonly', true);
 
@@ -197,6 +203,9 @@ class BoundaryIDWidget {
 
             // clear area desctiption
             this.areaDescInput.val("")
+            this.gid0InputId.val("")
+            this.gid1InputId.val("")
+            this.gid2InputId.val("")    
 
             // set state to empty string
             this.setState("")
@@ -285,10 +294,14 @@ class BoundaryIDWidget {
                     fetch(`${this.boundaryDetailUrl}/${id}`)
                     .then(res => res.json()).then(boundary => {
                         const {feature, level} = boundary
+                        console.log(boundary)
                         const name = boundary[`name_${level}`]
 
                         if (name) {
                             this.areaDescInput.val(name)
+                            this.gid0InputId.val(boundary.gid_0)
+                            this.gid1InputId.val(boundary.gid_1)
+                            this.gid2InputId.val(boundary.gid_2)                            
                         }
 
                         this.setSourceData(feature)

@@ -176,8 +176,7 @@ function getTimeFromList(timestamps, method) {
       const containerId = container.id;
       const selected_dataset = container.dataset.dataset
       const selected_layer = container.dataset.layer
-      const admin_path = container.dataset.adminPath
-      const displayFormat = container.dataset.dateFormat || "yyyy-MM-dd";
+      const admin_path = container.dataset.gid0 + (container.dataset.gid1 ? `/${container.dataset.gid1}` : '') + (container.dataset.gid2 ? `/${container.dataset.gid2}` : '')
 
       if (!containerId || !tileJsonUrl || !layerType) return;
 
@@ -733,7 +732,7 @@ function getTimeFromList(timestamps, method) {
 
 
   function loadBoundaries(map, admin_path) {
-    fetch(`/api/geostore/admin${admin_path}?thresh=0.005`)
+    fetch(`/api/geostore/admin/${admin_path}?thresh=0.005`)
       .then(res => res.json())
       .then((geostoreInfo) => {
         const { geojson, bbox } = geostoreInfo.attributes;

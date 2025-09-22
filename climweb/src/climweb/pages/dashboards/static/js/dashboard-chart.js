@@ -280,13 +280,6 @@ function initChart({ chartType, chartId, dataUnit, dateFormat }) {
     return chart;
 }
 
-async function fetchGeostoreId(adminPath) {
-    const res = await fetch(`/api/geostore/admin${adminPath}?thresh=0.005`);
-    const geo = await res.json();
-    if (!geo?.id) throw new Error("Geostore ID not found");
-    return geo.id;
-}
-
 async function fetchTimestamps(layerId) {
     const res = await fetch(`/api/raster/${layerId}/tiles.json`);
     const tileJson = await res.json();
@@ -335,16 +328,16 @@ function renderChart(chart, data, chartTitle, chartColor, dataUnit) {
 async function loadChart(container) {
     const layerId = container.dataset.layerId;
     const chartId = container.id;
-    const adminPath = container.dataset.adminPath;
+    const adminPath = container.dataset.gid0 + (container.dataset.gid1 ? `/${container.dataset.gid1}` : '') + (container.dataset.gid2 ? `/${container.dataset.gid2}` : '')
+    const geostoreId = container.dataset.geostoreId;
     if (!layerId || !adminPath) return;
 
     const dateFormat = getDateFormatFromContainer(container);
     const chartConfig = { chartId, chartType: container.dataset.type, dataUnit: container.dataset.unit, dateFormat };
     const chart = initChart(chartConfig);
 
-    let geostoreId, timestamps;
+    let timestamps;
     try {
-        geostoreId = await fetchGeostoreId(adminPath);
         timestamps = await fetchTimestamps(layerId);
     } catch (err) {
         container.innerHTML = `<p style="color:red;">Error loading chart</p>`;
@@ -384,21 +377,13 @@ function getStripeColor(val, min, max) {
 
 async function renderWarmingStripes(container) {
     const layerId = container.dataset.layerId;
-    const adminPath = container.dataset.adminPath;
+    const geostoreId = container.dataset.geostoreId;
+    const adminPath = container.dataset.gid0 + (container.dataset.gid1 ? `/${container.dataset.gid1}` : '') + (container.dataset.gid2 ? `/${container.dataset.gid2}` : '')
     if (!layerId || !adminPath) return;
 
     container.innerHTML = `<div style="text-align:center;padding:1em;color:#888;">Loading...</div>`;
 
-    let geostoreId;
-    try {
-        const res = await fetch(`/api/geostore/admin${adminPath}?thresh=0.005`);
-        const geo = await res.json();
-        geostoreId = geo.id;
-    } catch {
-        container.innerHTML = `<p style="color:red;">Error loading stripes</p>`;
-        return;
-    }
-
+    // Fetch timestamps to determine time_from and time_to
     let timestamps;
     try {
         const res = await fetch(`/api/raster/${layerId}/tiles.json`);
