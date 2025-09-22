@@ -381,7 +381,8 @@ async function renderWarmingStripes(container) {
     const adminPath = container.dataset.gid0 + (container.dataset.gid1 ? `/${container.dataset.gid1}` : '') + (container.dataset.gid2 ? `/${container.dataset.gid2}` : '')
     if (!layerId || !adminPath) return;
 
-    container.innerHTML = `<div style="text-align:center;padding:1em;color:#888;">Loading...</div>`;
+    // Show loading indicator
+    container.innerHTML = `<div style="text-align:center;padding:1em;color:#888;display:flex;align-self:center;justify-content:center">Loading...</div>`;
 
     // Fetch timestamps to determine time_from and time_to
     let timestamps;

@@ -173,6 +173,7 @@ function getTimeFromList(timestamps, method) {
 
       const tileJsonUrl = container.dataset.tilejson;
       const layerType = container.dataset.layerType;
+      const displayFormat = container.dataset.dateFormat
       const containerId = container.id;
       const selected_dataset = container.dataset.dataset
       const selected_layer = container.dataset.layer
