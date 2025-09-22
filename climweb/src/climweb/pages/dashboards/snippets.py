@@ -186,7 +186,7 @@ class ChartSnippet(models.Model):
     )
 
     area_desc = models.TextField(max_length=50,
-                                help_text=_("The text describing the affected area of the alert message. Click on map to generate name"), null=True,  blank=True)
+                                help_text=_("Click on map to generate name"), null=True,  blank=True)
     admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=False )
     
     geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
@@ -208,8 +208,8 @@ class ChartSnippet(models.Model):
             ], heading=_("Layer")),
             ObjectList([
                 FieldPanel("admin_level"),
-                FieldPanel("area_desc"),
-                FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}))
+                FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}), help_text=_("Click on map to generate name")),
+                                FieldPanel("area_desc", help_text=_("Click on map to generate name")),
             ], heading=_("Admin Boundary"))
         ])
     ]
@@ -270,15 +270,14 @@ class DashboardMap(models.Model):
         (0, _("Level 0")),
         (1, _("Level 1")),
         (2, _("Level 2")),
-        (3, _("Level 3"))
     )
 
     title = models.CharField(max_length=255)
     description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
                                       help_text=_("Description"), null=True, blank=True)
     area_desc = models.TextField(max_length=50,
-                                help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
-    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=1, help_text=_("Administrative Level"), blank=False )
+                                help_text=_("Click on map to generate name"), null=True,  blank=True)
+    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"), blank=False )
     
     geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
     admin_path = models.CharField(null=True, max_length=250)
@@ -300,8 +299,8 @@ class DashboardMap(models.Model):
             ], heading=_("Layer")),
             ObjectList([
                 FieldPanel("admin_level"),
-            FieldPanel("area_desc"),
-            FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}))
+            FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}), help_text=_("Click on map to generate name")),
+            FieldPanel("area_desc", help_text=_("Click on map to generate name")),
             ], heading=_("Admin Boundary")),
         ]),
         
