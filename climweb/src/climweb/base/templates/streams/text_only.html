@@ -1,0 +1,19 @@
+{% block extra_css %}
+    <style>
+
+        ul {
+            list-style: revert !important;
+            padding-left: 10px;
+        }
+    </style>
+{% endblock extra_css %}
+
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+
+<div class="work container mt-1">
+    <div class="intro-description">
+        {{ value.text|richtext }}
+    </div>
+</div>
+
+

@@ -1,8 +1,9 @@
 {% load wagtailiconchooser_tags wagtailcore_tags %} 
 {% with map=map_snippet.map%}
 <div class="column map-column">
-    {% with container_id="map-"|add:section_index|add:"-"|add:map_index %} 
     {% for block in map.map_layer %}
+    {{counter }}
+{% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
 
     <div class="card elevation-1">
         <header class="card-header elevation-0">
@@ -28,8 +29,7 @@
             <button
                 class="card-header-icon js-modal-trigger"
                 aria-label="more options"
-                data-target="modal-{{ section_index }}-{{ map_index }}"
-            >
+data-target="modal-{{ section_index }}-{{ map_index }}-{{ counter }}"            >
                 <div class="icon is-small">{% svg_icon "info-circle" %}</div>
             </button>
             {% endif %}
@@ -37,7 +37,7 @@
         <div class="card-content">
             <div
                 class="map-container"
-                id="{{ container_id }}"
+                id="{{ container_id }}-{{counter}}"
                 data-tilejson="{{map_snippet.datasetsurl}}{{block.value.dataset.id}}"
                 data-dataset="{{ block.value.dataset.id }}"
                 data-layer="{{ block.value.id }}"
@@ -63,7 +63,7 @@
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
                         display: none;
                     "
-                    id="legend-{{container_id}}"
+                    id="legend-{{container_id}}-{{counter}}"
                 ></div>
             </div>
         </div>
@@ -73,13 +73,13 @@
                     class="datepicker-input input is-small"
                     type="text"
                     placeholder="Select Date.."
-                    id="mapdate-{{ container_id }}"
+                    id="mapdate-{{ container_id }}-{{counter}}"
                     data-date-format="{{ block.value.date_format }}"
                 />
                 {% if block.value.date_format == "yyyy-MM-dd HH:mm" %}
                  <select
                     class="timepicker-select input is-small"
-                    id="maptime-{{ container_id }}"
+                    id="maptime-{{ container_id }}-{{counter}}"
                 >
                     <!-- Options will be dynamically populated -->
                 </select>
@@ -87,14 +87,15 @@
 
                 <div
                     class="params"
-                    id="paramsContainer-{{ container_id }}"
+                    id="paramsContainer-{{ container_id }}-{{counter}}"
                 ></div>
             </div>
         </footer>
     </div>
     {% include "partials/modal.html" with metadata=block.value.dataset.metadata section=section_index index=map_index %} 
+        {% endwith %}
+
     {% endfor %} 
-    {% endwith %}
 </div>
 
 {% if map.description %}

@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="{% static 'css/datepicker.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+
 
 {% endblock extra_css %}
 
@@ -63,23 +65,48 @@
                             <h1 class="my-4" style="color:{{page.banner_background_color}}">{{ block.value.section_title }}</h1>
 
                             {% for item in block.value.content %}
-                                {% if item.block_type == 'title_text' %}
+                                {% if item.block_type == 'title_only' %}
                                     {% include_block item %}
-                                    
+                                {% elif item.block_type == 'text_only' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'title_text' %}
+                                    {% include_block item %}
                                 {% elif item.block_type == 'title_text_image' %}
                                     {% include_block item %}
                                 {% elif item.block_type == 'chart' %}
                                     {% include_block item with section=forloop.parentloop.counter %}
                                 {% elif item.block_type == 'map' %}
-                                    {% include_block item with section=forloop.parentloop.counter %}
+                                    {% include_block item with section=forloop.parentloop.counter counter=forloop.counter %}
                                 {% elif item.block_type == 'table' %}
                                     {% include_block item %}
+                                {% elif item.block_type == 'what_we_do' %}
+                                    {% include_block item with theme=page.banner_background_color %}
                                 {% endif %}
+
                             {% endfor %}
                             </div>
                         </section>
                     {% endfor %}
-                {% endif %}        
+
+                     {% if page.additional_materials %}
+                        <section class="additional-materials-section py-6">
+                            <div class="container">
+                                <div class="columns is-multiline is-mobile">
+                                    {% for category in page.additional_materials %}
+                                        <div class="column is-one-third-desktop is-full-mobile" style="
+                                            justify-content: center;
+                                            display: flex;
+                                        ">
+                                            {% include_block category with theme=page.banner_background_color %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </section>
+                    {% endif %}
+
+                {% endif %}  
+
             </div>
         
     </main>

@@ -1,0 +1,22 @@
+
+{% load wagtailcore_tags %}
+<div class="intro-items-container my-4">
+    <div class="columns is-multiline is-mobile intro-items">
+        {% with value.what_we_do_items|length|divisibleby:3 as is_by3 %}
+            {% for block in value.what_we_do_items %}
+                {% include_block block with is_by3=is_by3 %}
+            {% endfor %}
+        {% endwith %}
+    </div>
+    {% if value.what_we_do_button_text and value.what_we_do_button_link %}
+        <div class="center mb-6">
+            <a href="{{ value.what_we_do_button_link.url }}"
+               class="button is-rounded center sec-btn cta-btn">
+                <span>{{ value.what_we_do_button_text }}</span>
+                <span class="icon">
+                    <i class="fas fa-arrow-right"></i>
+                </span>
+            </a>
+        </div>
+    {% endif %}
+</div>

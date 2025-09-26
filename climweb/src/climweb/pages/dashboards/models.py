@@ -1,3 +1,4 @@
+from climweb.base.blocks import CategorizedAdditionalMaterialBlock
 from wagtail.models import Page
 from wagtail.fields import StreamField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
@@ -48,6 +49,10 @@ class DashboardPage(MetadataPageMixin, Page):
         ("section", DashboardSectionBlock()),
     ], use_json_field=True)
 
+    additional_materials = StreamField([
+        ('material', CategorizedAdditionalMaterialBlock())
+    ], null=True, blank=True, use_json_field=True, verbose_name=_("Additional Materials"))
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel("banner_title"),
@@ -56,6 +61,7 @@ class DashboardPage(MetadataPageMixin, Page):
             FieldPanel("banner_image"),
         ], heading="Banner Settings"),
         FieldPanel("body"),
+        FieldPanel("additional_materials"),
     ]
 
     def get_meta_image(self):

@@ -1,0 +1,34 @@
+{% load wagtailiconchooser_tags static wagtailcore_tags %}
+
+
+<style>
+    svg path {
+        fill: {{theme}} !important;
+        stroke: transparent !important;
+    }
+</style>
+<div class="column {% if is_by3 %}is-one-third-tablet {% else %}is-one-third-desktop is-half-tablet {% endif %}is-full-mobile intro-item" style="text-align:center; align-items:center">
+
+    <div class="card" style="height: 100%;width:100%; background-color:white">
+        <div class="card-content" style="display: flex;flex-direction: column;align-items: center;margin: 1.5em;">
+                <figure class="image" style="height:50px;width: 50px;">
+                    <div class="service-icon-container">
+                        <div class="service-icon">
+                            {% if value.icon %}
+                                {% svg_icon value.icon %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </figure>
+
+                <div style="display: flex;flex-direction: column;height: 100%;">
+                    {% if value.title %}
+                        <h5 class="what-we-do-item-title {% if is_by_3 %}is-by3 {% else %}is-by4{% endif %}">{{ value.title }}</h5>
+                    {% endif %}
+                    <p style="padding: 0">
+                        {{ value.description|richtext|truncatechars:150 }}
+                    </p>
+                </div>
+        </div>
+    </div>
+</div>
