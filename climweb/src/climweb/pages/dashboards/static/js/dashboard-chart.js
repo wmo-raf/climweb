@@ -1,59 +1,4 @@
-function formatDateTime(datetimeString) {
-    const date = new Date(datetimeString);
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    return `${day} ${month} ${year} ${hours}:${minutes}`;
-}
-
-function formatDateTimeJS(datetimeString, formatStr) {
-    const date = new Date(datetimeString);
-
-    switch (formatStr) {
-        case "yyyy-MM-dd HH:mm":
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-        case "yyyy-MM-dd":
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-        case "yyyy-MM":
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-        case "MMMM yyyy":
-            return `${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`;
-        case "yyyy":
-            return `${date.getFullYear()}`;
-        case "pentadal":
-            return pentadalLabel(date);
-        case "dekadal":
-            return dekadalLabel(date);
-        default:
-            return datetimeString;
-    }
-}
-
-function pentadalLabel(date) {
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
-    const year = date.getFullYear();
-    let period = 1, range = "1-5th";
-    if (day > 25) { period = 6; range = "26-end"; }
-    else if (day > 20) { period = 5; range = "21-25th"; }
-    else if (day > 15) { period = 4; range = "16-20th"; }
-    else if (day > 10) { period = 3; range = "11-15th"; }
-    else if (day > 5) { period = 2; range = "6-10th"; }
-    return `${month} ${year} - P${period} ${range}`;
-}
-
-function dekadalLabel(date) {
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
-    const year = date.getFullYear();
-    let period = 1, range = "1-10th";
-    if (day > 20) { period = 3; range = "21-end"; }
-    else if (day > 10) { period = 2; range = "11-20th"; }
-    return `${month} ${year} - D${period} ${range}`;
-}
-
+// ------------------ CHART CODE ------------------ //
 function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDates = []) {
     const startInputEl = document.querySelector(`#date-start-${id}`);
     const endInputEl = document.querySelector(`#date-end-${id}`);
@@ -189,6 +134,8 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
 
         populateTimeSelector(startTimeSelectEl, "00:00");
         populateTimeSelector(endTimeSelectEl, "23:45");
+
+        
     }
 
     // Format the displayed date to be human-friendly
@@ -246,7 +193,6 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
 
 }
 
-// ------------------ CHART CODE ------------------ //
 function initChart({ chartType, chartId, dataUnit, dateFormat }) {
     const chart = Highcharts.chart(chartId, {
         chart: { type: chartType || "line", backgroundColor: "transparent", spacingTop: 40 },
@@ -464,10 +410,6 @@ async function renderWarmingStripes(container) {
     );
 
     updateStripesForRange([new Date(timeFromDefault), new Date(timeToDefault)]);
-}
-
-function getDateFormatFromContainer(container) {
-    return container.dataset.datetimeFormat || "yyyy-MM-dd";
 }
 
 // ------------------ DOM INIT ------------------ //

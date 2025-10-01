@@ -49,28 +49,6 @@ function getValidTimestamps(rangeString) {
   return timestamps;
 }
 
-function formatDateTimeJS(datetimeString, formatStr) {
-  const date = new Date(datetimeString);
-
-  switch (formatStr) {
-    case "yyyy-MM-dd HH:mm":
-      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-    case "yyyy-MM-dd":
-      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-    case "yyyy-MM":
-      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-    case "MMMM yyyy":
-      return `${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`;
-    case "yyyy":
-      return `${date.getFullYear()}`;
-    case "pentadal":
-      return pentadalLabel(date);
-    case "dekadal":
-      return dekadalLabel(date);
-    default:
-      return datetimeString;
-  }
-}
 
 
 async function getTimeValuesFromWMS(wmsUrl, layerName, params = {}) {
@@ -139,7 +117,7 @@ function getTimeFromList(timestamps, method) {
 
   const containers = document.querySelectorAll(".map-container");
 
-  const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig()
+  const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig() || {};
   const dashboardBasemapStyle = {
     version: 8,
     sources: {
@@ -204,7 +182,7 @@ function getTimeFromList(timestamps, method) {
     containers.forEach((container) => {
       const containerId = container.id;
       const inputEl = document.querySelector(`#mapdate-${containerId}`);
-      let timeSelectEl = document.querySelector(`#maptime-${containerId}`); // Time dropdown
+      const timeSelectEl = document.querySelector(`#maptime-${containerId}`); // Time dropdown
 
       if (!inputEl) {
         console.error(`Date input not found for containerId: ${containerId}`);
@@ -232,8 +210,6 @@ function getTimeFromList(timestamps, method) {
         case "yyyy-MM-dd HH:mm":
           dpFormat = "yyyy-mm-dd"; // Date only (time handled separately)
           pickLevel = 0;
-
-
           break;
       }
 
@@ -277,7 +253,7 @@ function getTimeFromList(timestamps, method) {
 
       if (!picker || !availableDates?.length) return resolve();
 
-      const parsedDates = availableDates.map(d => new Date(d)).filter(d => !isNaN(d));
+      const parsedDates = availableDates.map((d) => new Date(d)).filter((d) => !isNaN(d));
       if (!parsedDates.length) return resolve();
 
       const latestDate = new Date(Math.max(...parsedDates)); // Get the latest date
@@ -298,10 +274,8 @@ function getTimeFromList(timestamps, method) {
         dateWithoutTime.setHours(0, 0, 0, 0);
         const formattedDate = formatDateTimeJS(dateWithoutTime, displayFormat);
 
-
         return availableDatesSet.has(formattedDate);
       };
-
 
       picker.setDate(latestDate);
 
@@ -316,28 +290,47 @@ function getTimeFromList(timestamps, method) {
           return isDateAvailable(date) ? { enabled: true } : { enabled: false };
         },
       });
+
       if (timeSelectEl) {
-        // Filter available times for the selected date
-        const selectedDate = latestDate.toISOString().split("T")[0]; // Get the date part
-        const availableTimes = parsedDates
-          .filter((d) => d.toISOString().startsWith(selectedDate)) // Match times for the selected date
+        // Function to update available times for the selected date
+        const updateAvailableTimes = (selectedDate) => {
+
+          const availableTimes = parsedDates.filter(d =>
+            new Date(d).getFullYear() === new Date(selectedDate).getFullYear() &&
+            new Date(d).getMonth() === new Date(selectedDate).getMonth() &&
+            new Date(d).getDate() === new Date(selectedDate).getDate()
+          )
+          .sort((a, b) => a - b)
           .map((d) => {
-            const hours = d.getHours().toString().padStart(2, "0");
-            const minutes = d.getMinutes().toString().padStart(2, "0");
-            return `${hours}:${minutes}`;
-          });
+              const hours = d.getHours().toString().padStart(2, "0");
+              const minutes = d.getMinutes().toString().padStart(2, "0");
+              return `${hours}:${minutes}`;
+            });
 
-        // Populate the time dropdown
-        timeSelectEl.innerHTML = availableTimes
-          .map((time) => `<option value="${time}">${time}</option>`)
-          .join("");
+          // Populate the time dropdown
+          timeSelectEl.innerHTML = availableTimes
+            .map((time) => `<option value="${time}">${time}</option>`)
+            .join("");
 
-        // Set the default time to the latest available time
-        timeSelectEl.value = availableTimes[availableTimes.length - 1];
+          // Set the default time to the latest available time
+          if (availableTimes.length) {
+            timeSelectEl.value = availableTimes[availableTimes.length - 1];
+          }
+        };
+
+        // Update times for the latest date initially
+        updateAvailableTimes(latestDate);
+
+        // Add event listener to update times when the date changes
+        picker.inputField.addEventListener("changeDate", (ev) => {
+          const selectedDate = ev.detail.date;
+          if (selectedDate) {
+            updateAvailableTimes(selectedDate);
+          }
+        });
       }
+
       resolve();
-
-
     });
   }
 
