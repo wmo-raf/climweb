@@ -10,8 +10,9 @@
 {% endif %}
 
 <div class="column map-column">
-    {% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
     {% for block in map.map_layer %}
+        {% with container_id="map-"|add:section_index|add:"-"|add:map_index %}
+
 
     <div class="card elevation-1">
         <header class="card-header elevation-0">
@@ -51,15 +52,17 @@
                 {% endif %}
         </header>
         <div class="card-content">
-           
             <div
                 class="map-container"
-                id="{{ container_id }}"
+                id="{{ container_id }}-{{counter}}"
                 data-tilejson="{{map_snippet.datasetsurl}}{{block.value.dataset.id}}"
                 data-dataset="{{ block.value.dataset.id }}"
                 data-layer="{{ block.value.id }}"
                 data-title="{{ map.title }}"
-                data-admin-path="{{map.admin_path}}"
+                data-geostore-id="{{ map.geostore_id }}"
+                data-gid0="{% if map.gid0 %}{{ map.gid0 }}{% else %}{% endif %}"
+                data-gid1="{% if map.gid1 %}{{ map.gid1 }}{% else %}{% endif %}"
+                data-gid2="{% if map.gid2 %}{{ map.gid2 }}{% else %}{% endif %}"
                 data-date-format="{{ block.value.date_format }}"
                 data-layer-type="{% if block.block_type == 'raster_file_layer' %}raster_file{% elif block.block_type == 'wms_layer' %}wms{% elif block.block_type == 'vector_tile_layer' %}vector_tile{% elif block.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
             >
@@ -77,7 +80,7 @@
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
                         display:none;
                     "
-                    id="legend-{{container_id}}"
+                    id="legend-{{container_id}}-{{counter}}"
                 ></div>
             </div>
 
@@ -88,7 +91,7 @@
                     class="datepicker-input input is-small"
                     type="text"
                     placeholder="Select Date.."
-                    id="mapdate-{{ container_id }}"
+                    id="mapdate-{{ container_id }}-{{counter}}"
                     data-date-format="{{ block.value.date_format }}"
                 />
                 {% if block.value.date_format == "yyyy-MM-dd HH:mm" %}
@@ -96,20 +99,20 @@
 
                  <select
                     class="timepicker-select input is-small"
-                    id="maptime-{{ container_id }}"
+                    id="maptime-{{ container_id }}-{{counter}}"
                 >
                     <!-- Options will be dynamically populated -->
                 </select>
                 {% endif %}
-                <div class="params" id="paramsContainer-{{ container_id }}"></div>
+                <div class="params" id="paramsContainer-{{ container_id }}-{{counter}}"></div>
             </div>
         </footer>
     </div>
-        {% include "partials/modal.html" with metadata=block.value.dataset.metadata section=section_index index=map_index %}
+        {% include "partials/modal.html" with metadata=block.value.dataset.metadata section=section_index index=map_index|add:forloop.counter0 %}
+    {% endwith %}
 
     {% endfor %}
 
 
-    {% endwith %}
 </div>
 {% endwith %}

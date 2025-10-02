@@ -1,6 +1,6 @@
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail import blocks
-from climweb.base.blocks import TitleTextBlock, TitleTextImageBlock, TableInfoBlock
+from climweb.base.blocks import  TextOnlyBlock, TitleOnlyBlock, TitleTextBlock, TitleTextImageBlock, TableInfoBlock, WhatWeDoBlock, WhatWeDoGroupBlock
 from django.utils.translation import gettext_lazy as _
 
 
@@ -57,15 +57,20 @@ class MapSnippetChooser(blocks.StructBlock):
 
 
 
+
+
 class DashboardSectionBlock(blocks.StructBlock):
     section_title = blocks.CharBlock(required=True)
 
     content = blocks.StreamBlock([
+        ("title_only",TitleOnlyBlock()),
+        ("text_only",TextOnlyBlock()),
         ("title_text",TitleTextBlock(icon="document")),
         ("title_text_image",TitleTextImageBlock(icon="image")),
         ("chart", ChartSnippetChooser()),
         ("map", MapSnippetChooser()),
-        ("table",TableInfoBlock(icon="table"))
+        ("table",TableInfoBlock(icon="table")),
+        ("what_we_do", WhatWeDoGroupBlock())
     ], required=True)
 
     

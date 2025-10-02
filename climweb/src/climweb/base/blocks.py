@@ -58,6 +58,24 @@ class TitleTextImageBlock(blocks.StructBlock):
         label = _("Title, Text and Image")
 
 
+class TitleOnlyBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
+                             help_text=_("Section Title"), )
+    
+    class Meta:
+        template = "streams/title_only.html"
+        icon = "h1"
+        label = _("Title")
+
+class TextOnlyBlock(blocks.StructBlock):
+    text = blocks.RichTextBlock(features=FULL_RICHTEXT_FRATURES, verbose_name=_('Section Text'),
+                                help_text=_("Section description"))
+
+    class Meta:
+        template = "streams/text_only.html"
+        icon = "bars"
+        label = _("Text")
+
 class TitleTextBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
                              help_text=_("Section Title"), )
@@ -262,3 +280,24 @@ class UUIDModelChooserBlock(ModelChooserBlock):
         return [
             objects.get(uuid.UUID(id)) for id in values
         ]
+    
+class WhatWeDoBlock(blocks.StructBlock):
+    icon = IconChooserBlock(required=False, label=_("Icon"))
+    title = blocks.CharBlock(max_length=60, required=False)
+    description = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES)
+
+    class Meta:
+        template = 'streams/what_we_do_block.html'
+        icon = 'placeholder'
+        label = _("Card")
+
+
+class WhatWeDoGroupBlock(blocks.StructBlock):
+    what_we_do_items = blocks.ListBlock(WhatWeDoBlock())
+    what_we_do_button_text = blocks.CharBlock(max_length=20, required=False, label=_("Card button text"))
+    what_we_do_button_link = blocks.PageChooserBlock(required=False, label=_("Card button link"))
+
+    class Meta:
+        icon = "placeholder"
+        label = _("Cards with Icon and Text")
+        template = 'streams/what_we_do_group.html'

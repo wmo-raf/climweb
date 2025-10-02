@@ -1,7 +1,9 @@
 import base64
 import json
-from django.http import HttpRequest
-import requests
+import uuid
+from rest_framework.exceptions import NotFound
+from django.contrib.gis.geos import MultiPolygon
+
 from climweb.pages.dashboards.forms import BoundaryIDWidget
 from django.db import models
 from django.contrib.gis.db import models as gis_models
@@ -21,8 +23,10 @@ from adminboundarymanager.models import AdminBoundarySettings
 
 from geomanager.models import RasterFileLayer, WmsLayer, RasterTileLayer, VectorTileLayer
 from shapely.geometry import shape
-from shapely import Point, Polygon
+from shapely import Polygon
 from wagtailmodelchooser import register_model_chooser
+from adminboundarymanager.models import AdminBoundary
+from geomanager.models import Geostore
 
 
 register_model_chooser(RasterFileLayer)
@@ -31,81 +35,85 @@ register_model_chooser(RasterTileLayer)
 register_model_chooser(VectorTileLayer)
 
     
-def get_absolute_url(path, request=None):
-    """
-    Build a full absolute URL from a relative path.
-    Works without needing an incoming request.
-    """
-    if request:
-        return request.build_absolute_uri(path)
+def get_by_admin(gid_0, gid_1=None, gid_2=None, simplify_thresh=None):
+    abm_settings = AdminBoundarySettings.objects.first()
+    if not abm_settings:
+        raise RuntimeError("No default AdminBoundarySettings configured")
 
-    # Get Wagtail default site
-    site = Site.objects.filter(is_default_site=True).first()
-    if not site:
-        raise RuntimeError("No default Wagtail Site is configured")
+    data_source = abm_settings.data_source
 
-    domain = site.hostname
-    port = site.port or 80
-    scheme = "https" if port == 443 else "http"
-    netloc = f"{domain}:{port}" if port not in [80, 443] else domain
-
-    fake_request = HttpRequest()
-    fake_request.META['HTTP_HOST'] = netloc
-    fake_request.META['wsgi.url_scheme'] = scheme
-
-    return fake_request.build_absolute_uri(path)
-
-
-def get_gid_for_level(area_desc, level, request=None):
-    """
-    Given an area name and admin level, return the admin_path like:
-    - /GH
-    - /GH/GH11
-    - /GH/GH11/GH1104
-
-    Matches area_desc to name_{level} in /api/country responses.
-    """
-
-    if not area_desc or level is None:
+    countries = AdminBoundary.objects.filter(level=0).filter(gid_0=gid_0)
+    if not countries.exists():
         return None
+    
+    country_iso = countries.values_list("gid_0", flat=True).first()
+
+    geostore_filter = {
+        "iso": country_iso,
+        "id1": None,
+        "id2": None,
+    }
+
+    boundary_filter = {
+            "gid_0": gid_0,
+            "level": 0
+        }
+
+    if data_source != "gadm41":
+        if gid_1:
+            geostore_filter.update({"id1": gid_1})
+            boundary_filter.update({"gid_1": gid_1, "level": 1})
+        if gid_2:
+            geostore_filter.update({"id2": gid_2})
+            boundary_filter.update({"gid_2": gid_2, "level": 2})
+    else:
+        if gid_1:
+            geostore_filter.update({"id1": gid_1})
+            boundary_filter.update({"gid_1": f"{gid_0}.{gid_1}_1", "level": 1})
+        if gid_2:
+            geostore_filter.update({"id2": gid_2})
+            boundary_filter.update({"gid_2": f"{gid_0}.{gid_1}.{gid_2}_1", "level": 2})
 
 
-    try:
-        # Step 1: Get top-level countries
-        base_url = get_absolute_url(reverse("country_list"), request)
-        response = requests.get(base_url, timeout=5)
-        response.raise_for_status()
-        countries = response.json()
+    geostore = Geostore.objects.filter(**geostore_filter)
 
-        for country in countries:
-            if level == 0 and country.get("name_0") == area_desc:
-                return f"/{country['gid_0']}"
+    should_save = False
 
-            # Step 2: Get level 1 regions
-            country_code = country["gid_0"]
-            response_lvl1 = requests.get(f"{base_url}/{country_code}", timeout=5)
-            response_lvl1.raise_for_status()
-            level1_regions = response_lvl1.json()
+    if not geostore.exists():
+        should_save = True
+        geostore = AdminBoundary.objects.filter(**boundary_filter)
 
-            for region1 in level1_regions:
-                if level == 1 and region1.get("name_1") == area_desc:
-                    return f"/{region1['gid_0']}/{region1['gid_1']}"
+    if not geostore.exists():
+        raise NotFound(detail='Geostore not found')
 
-                # Step 3: Get level 2 regions
-                gid_1 = region1.get("gid_1")
-                if gid_1:
-                    response_lvl2 = requests.get(f"{base_url}/{country_code}/{gid_1}", timeout=5)
-                    response_lvl2.raise_for_status()
-                    level2_regions = response_lvl2.json()
+    geostore = geostore.first()
 
-                    for region2 in level2_regions:
-                        if level == 2 and region2.get("name_2") == area_desc:
-                            return f"/{region2['gid_0']}/{region2['gid_1']}/{region2['gid_2']}"
+    geom = geostore.geom
 
-    except Exception as e:
-        print("Error fetching gid for level:", e)
+    if simplify_thresh:
+        geom = geostore.geom.simplify(tolerance=float(simplify_thresh))
 
-    return None
+    # convert to multipolygon if not
+    if geom.geom_type != "MultiPolygon":
+        geom = MultiPolygon(geom)
+
+    if should_save:
+        geostore_data = {
+            "iso": geostore.gid_0,
+            "id1": gid_1,
+            "id2": gid_2,
+            "name_0": geostore.name_0,
+            "name_1": geostore.name_1,
+            "name_2": geostore.name_2,
+            "geom": geom
+        }
+
+        geostore = Geostore.objects.create(**geostore_data)
+
+    # geostore_id = geostore.values('id').first()['id']
+
+    return geostore.id
+
 
 
 class DashboardMapValue:
@@ -186,11 +194,16 @@ class ChartSnippet(models.Model):
     )
 
     area_desc = models.TextField(max_length=50,
-                                help_text=_("The text describing the affected area of the alert message. Click on map to generate name"), null=True,  blank=True)
+                                help_text=_("Click on map to generate name"), null=True,  blank=True)
     admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=False )
     
     geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
-    admin_path = models.CharField(null=True, max_length=250)
+    # hidden inputs for determining geostoreid 
+    gid0 = models.CharField(null=True, max_length=250, blank = True)
+    gid1 = models.CharField(null=True, max_length=250, blank = True)
+    gid2 = models.CharField(null=True, max_length=250, blank = True)
+    geostore_id = models.UUIDField(default=uuid.uuid4, editable=False)
+
 
     panels = [
         TabbedInterface([
@@ -208,8 +221,11 @@ class ChartSnippet(models.Model):
             ], heading=_("Layer")),
             ObjectList([
                 FieldPanel("admin_level"),
-                FieldPanel("area_desc"),
-                FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}))
+                FieldPanel("gid0", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+                FieldPanel("gid1", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+                FieldPanel("gid2", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+                FieldPanel("area_desc", help_text=_("Click on map to generate name")),
+                FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}), help_text=_("Click on map to generate name")),
             ], heading=_("Admin Boundary"))
         ])
     ]
@@ -219,8 +235,7 @@ class ChartSnippet(models.Model):
     
 
     def save(self, *args, **kwargs):
-        if self.area_desc and self.admin_level is not None:
-            self.admin_path = get_gid_for_level(self.area_desc, self.admin_level)
+        self.geostore_id = get_by_admin(self.gid0, self.gid1, self.gid2)
         super().save(*args, **kwargs)
 
     
@@ -270,18 +285,16 @@ class DashboardMap(models.Model):
         (0, _("Level 0")),
         (1, _("Level 1")),
         (2, _("Level 2")),
-        (3, _("Level 3"))
     )
 
     title = models.CharField(max_length=255)
     description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
                                       help_text=_("Description"), null=True, blank=True)
     area_desc = models.TextField(max_length=50,
-                                help_text=_("The text describing the affected area of the alert message"), null=True,  blank=True)
-    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=1, help_text=_("Administrative Level"), blank=False )
+                                help_text=_("Click on map to generate name"), null=True,  blank=True)
+    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"), blank=False )
     
     geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
-    admin_path = models.CharField(null=True, max_length=250)
 
     map_layer = StreamField([
         ('raster_file_layer', climweb_blocks.UUIDModelChooserBlock(RasterFileLayer, icon="map")),
@@ -290,18 +303,27 @@ class DashboardMap(models.Model):
         ('vector_tile_layer', climweb_blocks.UUIDModelChooserBlock(VectorTileLayer, icon="map")),
     ], null=True, blank=False, max_num=1, verbose_name=_("Map Layers"))
 
+
+    # hidden inputs for determining geostoreid 
+    gid0 = models.CharField(null=True, max_length=250, blank = True)
+    gid1 = models.CharField(null=True, max_length=250, blank = True)
+    gid2 = models.CharField(null=True, max_length=250, blank = True)
+    geostore_id = models.UUIDField(default=uuid.uuid4, editable=False)
+
     panels = [
         TabbedInterface([
             ObjectList([
-                
                 FieldPanel("title"),
                 FieldPanel("description"),
                 FieldPanel("map_layer"),
             ], heading=_("Layer")),
             ObjectList([
                 FieldPanel("admin_level"),
-            FieldPanel("area_desc"),
-            FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}))
+                FieldPanel("area_desc", help_text=_("Click on map to generate name")),
+                FieldPanel("gid0", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+                FieldPanel("gid1", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+                FieldPanel("gid2", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+            FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}), help_text=_("Click on map to generate name")),
             ], heading=_("Admin Boundary")),
         ]),
         
@@ -404,6 +426,7 @@ class DashboardMap(models.Model):
         return []
 
     def save(self, *args, **kwargs):
-        if self.area_desc and self.admin_level is not None:
-            self.admin_path = get_gid_for_level(self.area_desc, self.admin_level)
+
+        self.geostore_id = get_by_admin(self.gid0, self.gid1, self.gid2)
+
         super().save(*args, **kwargs)
