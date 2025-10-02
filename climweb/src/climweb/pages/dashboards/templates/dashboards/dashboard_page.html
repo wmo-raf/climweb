@@ -60,7 +60,7 @@
                                     {% for block in page.body %}
                                            <a href="#section-{{ forloop.counter }}">
 
-                                            <span class="tag is-hoverable px-3 mr-1" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">{{block.value.section_title|truncatechars:50}}</span>
+                                            <span class="tag px-3 mr-1 mb-2" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">{{block.value.section_title|truncatechars:50}}</span>
                                            </a> 
                                     {% endfor %}
                             </div>
