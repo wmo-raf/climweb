@@ -47,20 +47,32 @@
                                     </div>
                                 </div>
                             {% endblock %}
-
-                            
-    
-
-
                         </div>
                     </div>
     
                 </section>
+                
+                {% if page.body %}
+                    {% if page.body|length > 1 %}
+                    <section class="py-3 sticky-section" >
+                        <div class="container">
+                            <div class="section-topics">
+                                    {% for block in page.body %}
+                                           <a href="#section-{{ forloop.counter }}">
+
+                                            <span class="tag is-hoverable px-3 mr-1" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">{{block.value.section_title|truncatechars:50}}</span>
+                                           </a> 
+                                    {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                    {% endif %}
+                {% endif %}
 
                 {% if page.body %}
 
                     {% for block in page.body %}
-                        <section class="feature-block-section py-6">
+                        <section class="feature-block-section py-6" id="section-{{ forloop.counter }}">
                             <div class="container">
                             <h1 class="my-4" style="color:{{page.banner_background_color}}">{{ block.value.section_title }}</h1>
 

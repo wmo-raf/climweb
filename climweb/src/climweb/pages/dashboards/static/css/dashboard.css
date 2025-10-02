@@ -328,3 +328,10 @@ h1 {
     align-items: flex-start;
 }
 
+.sticky-section {
+    position: sticky;
+    top: 0; /* Distance from the top of the viewport */
+    z-index: 10000; /* Ensure it stays above other elements */
+    background-color: white; /* Optional: Add a background color to avoid transparency issues */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for better visibility */
+}
