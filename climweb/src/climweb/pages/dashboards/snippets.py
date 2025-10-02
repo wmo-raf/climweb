@@ -1,11 +1,9 @@
 import base64
 import json
 import uuid
-from django.http import HttpRequest
 from rest_framework.exceptions import NotFound
 from django.contrib.gis.geos import MultiPolygon
 
-import requests
 from climweb.pages.dashboards.forms import BoundaryIDWidget
 from django.db import models
 from django.contrib.gis.db import models as gis_models
@@ -25,7 +23,7 @@ from adminboundarymanager.models import AdminBoundarySettings
 
 from geomanager.models import RasterFileLayer, WmsLayer, RasterTileLayer, VectorTileLayer
 from shapely.geometry import shape
-from shapely import Point, Polygon
+from shapely import Polygon
 from wagtailmodelchooser import register_model_chooser
 from adminboundarymanager.models import AdminBoundary
 from geomanager.models import Geostore

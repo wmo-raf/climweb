@@ -1,59 +1,4 @@
-function formatDateTime(datetimeString) {
-    const date = new Date(datetimeString);
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    return `${day} ${month} ${year} ${hours}:${minutes}`;
-}
-
-function formatDateTimeJS(datetimeString, formatStr) {
-    const date = new Date(datetimeString);
-
-    switch (formatStr) {
-        case "yyyy-MM-dd HH:mm":
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-        case "yyyy-MM-dd":
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-        case "yyyy-MM":
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-        case "MMMM yyyy":
-            return `${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`;
-        case "yyyy":
-            return `${date.getFullYear()}`;
-        case "pentadal":
-            return pentadalLabel(date);
-        case "dekadal":
-            return dekadalLabel(date);
-        default:
-            return datetimeString;
-    }
-}
-
-function pentadalLabel(date) {
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
-    const year = date.getFullYear();
-    let period = 1, range = "1-5th";
-    if (day > 25) { period = 6; range = "26-end"; }
-    else if (day > 20) { period = 5; range = "21-25th"; }
-    else if (day > 15) { period = 4; range = "16-20th"; }
-    else if (day > 10) { period = 3; range = "11-15th"; }
-    else if (day > 5) { period = 2; range = "6-10th"; }
-    return `${month} ${year} - P${period} ${range}`;
-}
-
-function dekadalLabel(date) {
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
-    const year = date.getFullYear();
-    let period = 1, range = "1-10th";
-    if (day > 20) { period = 3; range = "21-end"; }
-    else if (day > 10) { period = 2; range = "11-20th"; }
-    return `${month} ${year} - D${period} ${range}`;
-}
-
+// ------------------ CHART CODE ------------------ //
 function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDates = []) {
     const startInputEl = document.querySelector(`#date-start-${id}`);
     const endInputEl = document.querySelector(`#date-end-${id}`);
@@ -70,7 +15,7 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
     let dpFormat = "yyyy-mm-dd";
     let displayFormat = "yyyy-MM-dd"; // Default display format
     let pickLevel = 0;
-     switch (dateFormat) {
+    switch (dateFormat) {
         case "yyyy":
             dpFormat = "yyyy";
             displayFormat = "yyyy";
@@ -97,23 +42,21 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
 
     const availableDatesSet = new Set(
         availableDates.map((date) => {
-          // Create a new Date object and reset the time to midnight (00:00:00)
-          const dateWithoutTime = new Date(date);
-          dateWithoutTime.setHours(0, 0, 0, 0);
-          return formatDateTimeJS(dateWithoutTime, displayFormat);
+            // Create a new Date object and reset the time to midnight (00:00:00)
+            const dateWithoutTime = new Date(date);
+            return formatDateTimeJS(dateWithoutTime, displayFormat);
         })
-      );
+    );
 
-      // Function to check if a date is available
-      const isDateAvailable = (date) => {
+    // Function to check if a date is available
+    const isDateAvailable = (date) => {
         // Ensure the input date also has its time stripped
         const dateWithoutTime = new Date(date);
-        dateWithoutTime.setHours(0, 0, 0, 0);
         const formattedDate = formatDateTimeJS(dateWithoutTime, displayFormat);
 
 
         return availableDatesSet.has(formattedDate);
-      };
+    };
 
     // Initialize start and end datepickers
     const startDatepicker = new Datepicker(startInputEl, {
@@ -156,22 +99,36 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
         endDatepicker.setDate(defaultDates[1]);
     }
 
-    
+    const updateAvailableTimes = (timeSelectEl, selectedDate, sortOrder='old_to_new') => {
+        const availableTimes = availableDates.filter(d =>
+            new Date(d).getFullYear() === new Date(selectedDate).getFullYear() &&
+            new Date(d).getMonth() === new Date(selectedDate).getMonth() &&
+            new Date(d).getDate() === new Date(selectedDate).getDate()
+        )
+            .sort((a, b) => sortOrder === 'old_to_new' ? new Date(b) - new Date(a) :  new Date(a) - new Date(b))
+            .map((d) => {
+                const hours = new Date(d).getHours().toString().padStart(2, "0");
+                const minutes = new Date(d).getMinutes().toString().padStart(2, "0");
+                return `${hours}:${minutes}`;
+            });
+
+        // Populate the time dropdown
+        timeSelectEl.innerHTML = availableTimes
+            .map((time) => `<option value="${time}">${time}</option>`)
+            .join("");
+
+        // Set the default time to the latest available time
+        if (availableTimes.length) {
+            timeSelectEl.value = availableTimes[availableTimes.length - 1];
+        }
+    };
+
+    // Update times for the latest date initially
+
 
     // Populate time selectors if time support is enabled
     if (dateFormat === "yyyy-MM-dd HH:mm") {
-        const populateTimeSelector = (timeSelectEl, defaultTime) => {
-            const times = [];
-            for (let hour = 0; hour < 24; hour++) {
-                for (let minute = 0; minute < 60; minute += 15) {
-                    const time = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
-                    times.push(time);
-                }
-            }
-            timeSelectEl.innerHTML = times
-                .map((time) => `<option value="${time}" ${time === defaultTime ? "selected" : ""}>${time}</option>`)
-                .join("");
-        };
+
 
         if (!startTimeSelectEl) {
             startTimeSelectEl = document.createElement("select");
@@ -187,8 +144,24 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
             endInputEl.parentNode.insertBefore(endTimeSelectEl, endInputEl.nextSibling);
         }
 
-        populateTimeSelector(startTimeSelectEl, "00:00");
-        populateTimeSelector(endTimeSelectEl, "23:45");
+        updateAvailableTimes(startTimeSelectEl, defaultDates[0]);
+        updateAvailableTimes(endTimeSelectEl, defaultDates[1], 'new_to_old');
+
+        // Add event listener to update times when the date changes
+        startDatepicker.inputField.addEventListener("changeDate", (ev) => {
+          const selectedDate = ev.detail.date;
+          if (selectedDate) {
+            updateAvailableTimes(startTimeSelectEl, selectedDate);
+          }
+        });
+
+        // Add event listener to update times when the date changes
+        endDatepicker.inputField.addEventListener("changeDate", (ev) => {
+          const selectedDate = ev.detail.date;
+          if (selectedDate) {
+            updateAvailableTimes(endTimeSelectEl, selectedDate);
+          }
+        });
     }
 
     // Format the displayed date to be human-friendly
@@ -232,9 +205,12 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
             onChange([startDate, endDate]);
         }
 
-        updateDisplayDates();
 
         
+
+        updateDisplayDates();
+
+
     };
 
     // Add event listeners for date changes
@@ -246,29 +222,29 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
 
 }
 
-// ------------------ CHART CODE ------------------ //
 function initChart({ chartType, chartId, dataUnit, dateFormat }) {
     const chart = Highcharts.chart(chartId, {
         chart: { type: chartType || "line", backgroundColor: "transparent", spacingTop: 40 },
         title: { text: null },
         credits: { enabled: false },
         xAxis: {
-            labels: { formatter: function () { return formatDateTimeJS(this.value, dateFormat); } },
+            labels: { formatter: function () { return Highcharts.dateFormat('%b %e, %Y %H:%M', this.value); } },
             type: 'datetime',
             tickPixelInterval: 200,
-            minTickInterval: 604800000, 
+            minTickInterval: 604800000,
         },
         yAxis: { title: { text: dataUnit || "Y-Axis" } },
         tooltip: {
             formatter: function () {
-                const formattedDate = Highcharts.dateFormat('%b %e, %Y %H:%M', this.x); // Tooltip date
+                const formattedDate = formatDateTimeJS(this.x, dateFormat); // Tooltip date
                 const value = this.y; // The y-value
                 return `<b>${formattedDate}</b><br/><b>Value:</b> ${value} ${dataUnit || ""}`;
             },
+            backgroundColor: '#ffffff'
         },
         plotOptions: {
             series: { lineWidth: chartType === "scatter" ? null : 2.5, marker: { enabled: chartType === "scatter" }, turboThreshold: 0 },
-            column: { pointPadding: 0.05, borderWidth: 0, groupPadding: 0.05 },
+            column: { pointPadding: 0.05,  groupPadding: 0.05},
             scatter: {
                 opacity: 0.6,
                 marker: { radius: 3.5, symbol: "square", lineWidth: 0.7 },
@@ -299,7 +275,7 @@ async function fetchTimeseries(layerId, geostoreId, timeFrom, timeTo, chartType 
     if (chartType === "scatter") {
         return data.map(d => ({ x: new Date(d.date).getTime(), y: d.value }));
     } else {
-        return data.map(d => ({ date: d.date, value: d.value }));
+        return data.map(d => ({ date: d.date, value: d.value }) );
     }
 }
 
@@ -312,14 +288,15 @@ function renderChart(chart, data, chartTitle, chartColor, dataUnit) {
         const timestamps = sortedData.map(d => new Date(d.date).getTime()) || []; // Use timestamps for datetime xAxis
         const values = sortedData.map(d => Math.round(d.value * 100) / 100) || [];
 
-        
+
         chart.series.forEach(s => s.remove(false));
-        chart.addSeries({ 
-            name: chartTitle, 
-            color: chartColor, 
+        chart.addSeries({
+            name: chartTitle,
+            color: chartColor,
             data: timestamps.map((timestamp, i) => [timestamp, values[i]]), // Use [timestamp, value] pairs
-            unit: dataUnit });
-        
+            unit: dataUnit
+        });
+
 
     }
     chart.hideLoading();
@@ -362,12 +339,12 @@ async function loadChart(container) {
         }
     }
 
-    initializeCalendar(chartId, updateChartForRange, defaultDates, dateFormat, timestamps.map(ts => new Date(ts).toISOString().split("T")[0]));
+    initializeCalendar(chartId, updateChartForRange, defaultDates, dateFormat, timestamps.map(ts => new Date(ts).toISOString()));
     updateChartForRange(defaultDates);
 }
 
 // ------------------ WARMING STRIPES ------------------ //
-const warmingStripesColors = ["#08306b","#08519c","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef","#deebf7","#f7fbff","#fff5f0","#fee0d2","#fcbba1","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#99000d"];
+const warmingStripesColors = ["#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7", "#f7fbff", "#fff5f0", "#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#99000d"];
 
 function getStripeColor(val, min, max) {
     const percent = (val - min) / (max - min);
@@ -464,10 +441,6 @@ async function renderWarmingStripes(container) {
     );
 
     updateStripesForRange([new Date(timeFromDefault), new Date(timeToDefault)]);
-}
-
-function getDateFormatFromContainer(container) {
-    return container.dataset.datetimeFormat || "yyyy-MM-dd";
 }
 
 // ------------------ DOM INIT ------------------ //

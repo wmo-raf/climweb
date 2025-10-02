@@ -2,10 +2,14 @@
 {% load wagtailcore_tags wagtailimages_tags static lazyimages_tags %}
 
 {% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
+
+<main>
 
 <section id="page-hero" class="hero is-small">
     <div class="hero-body is-align-items-center" style="display:flex">
@@ -28,24 +32,37 @@
     </div>
 
 </section>
-<main>
+
 
 <section class="section">
   <div class="container">
     <div class="columns is-multiline">
       {% for dashboard in page.get_children.specific %}
-        <div class="column is-3" style="--banner-background-color: {{ dashboard.banner_background_color }}">
-          {% if dashboard.banner_image %}{% image dashboard.banner_image original as banner_img %}{% endif %}
-          <a href="{{ dashboard.url }}">
-            <div class="card dashboard-card px-4 py-6 is-align-items-center is-justify-content-center {% if dashboard.banner_image %}progressive__bg progressive--not-loaded{% endif %}"
-                style="min-height:200px; {% if dashboard.banner_image %}background-image: url({% lazy_image_url banner_img %});background-repeat:no-repeat; background-size:cover;position:relative {% else %} background-color: {{ dashboard.banner_background_color }}{% endif %}"
-                data-progressive="{% if dashboard.banner_image %}{{ banner_img.url }}{% endif %}">
-                <div class="card-content" style="position:absolute">
-                    <h4 class="title is-6 has-text-white">{{ dashboard.banner_title }}</h4>
-                </div>
-            </div>
-        </a>
-        </div>
+          <div class="column is-one-third-desktop is-full-mobile">
+              <div class="project-inline-item">
+                  <div class="project-inline-img" style="--banner-background-color: {{ dashboard.banner_background_color }}">
+                      <figure class="image" style=" background-color: {{ dashboard.banner_background_color }} ">
+                          {% if dashboard.banner_image %}
+                              {% image dashboard.banner_image original as proj_img %}
+                              <img class="is-rounded progressive__img progressive--not-loaded"
+                                    data-progressive="{{ proj_img.url }}"
+                                    src="{% lazy_image_url proj_img %}"
+                                    alt="{{ dashboard.banner_title }}"/>
+                          {% endif %}
+
+                      </figure>
+                  </div>
+                  <a href="{{ dashboard.url }}" class="project-inline-detail" style="color: grey;">
+                     <h4 class="project-inline-title" style="">
+                          {{ dashboard.banner_title|upper }}
+                      </h4>
+                      <p class="grey project-inline-subtitle">
+                          {{ dashboard.banner_description|richtext|truncatechars:70 }}
+                      </p>
+
+                  </a>
+              </div>
+          </div>
       {% empty %}
         <p>No dashboards available yet.</p>
       {% endfor %}

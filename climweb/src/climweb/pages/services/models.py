@@ -77,7 +77,7 @@ class ServicePage(AbstractBannerWithIntroPage):
     service = models.OneToOneField(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))
     
     what_we_do_items = StreamField([
-        ('what_we_do', local_blocks.WhatWeDoBlock()),
+        ('what_we_do', base_blocks.WhatWeDoBlock()),
     ], null=True, blank=True, use_json_field=True)
     
     what_we_do_button_text = models.TextField(max_length=20, blank=True, null=True,
