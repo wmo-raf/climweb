@@ -12,14 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='chartsnippet',
-            name='admin_path',
-        ),
-        migrations.RemoveField(
-            model_name='dashboardmap',
-            name='admin_path',
-        ),
         migrations.AddField(
             model_name='chartsnippet',
             name='geostore_id',
