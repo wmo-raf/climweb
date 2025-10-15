@@ -16,7 +16,7 @@
                     <h2 class="section-title center">
                         {% translate "Featured Event" %}
                     </h2>
-                    {% include 'featured_item_include.html' with item_image=featured_event.image item_title=featured_event.title item_text=featured_event.description item_url=featured_event.url item_meta=featured_event.date_from %}
+                    {% include 'featured_item_include.html' with item_image=featured_event.image item_title=featured_event.title item_text=featured_event.listing_summary item_url=featured_event.url item_meta=featured_event.date_from %}
                 </div>
             </section>
         {% endif %}
