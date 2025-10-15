@@ -1,0 +1,20 @@
+{% load wagtailiconchooser_tags wagtailcore_tags %}
+
+{% for map in maps %}
+<div class="columns my-4 {% if index|divisibleby:2 and map.description %}is-flex-direction-row-reverse{% endif %}">
+    
+    {% if map.description %}
+    <div class="column description-column mt-3">
+        <h3 class="map-title" style="color:{{page.banner_background_color}}">{{ map.title|richtext }}</h3>
+        {% if map.area_desc %}
+            <p class="map-area">{{ map.area_desc }}</p>
+        {% endif %}
+        <p>{{ map.description|richtext }}</p>
+    </div>
+    {% endif %}
+
+    <div class="column map-column {% if map.description %}is-half{% endif %}">
+        {% include "partials/map_card.html" with map=map map_layers=map.map_layer section_index=section_index index=index block_index=block_index %}
+    </div>
+</div>
+{% endfor %}

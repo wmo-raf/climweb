@@ -287,6 +287,11 @@ class DashboardMap(models.Model):
         (2, _("Level 2")),
     )
 
+    MAP_TYPE_CHOICES = (
+        ("single", _("Single")),
+        ("comparison", _("Comparison")),
+    )
+
     title = models.CharField(max_length=255)
     description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
                                       help_text=_("Description"), null=True, blank=True)
@@ -303,6 +308,9 @@ class DashboardMap(models.Model):
         ('vector_tile_layer', climweb_blocks.UUIDModelChooserBlock(VectorTileLayer, icon="map")),
     ], null=True, blank=False, max_num=1, verbose_name=_("Map Layers"))
 
+    # New: map type indicator for single vs comparison usage
+    map_type = models.CharField(max_length=20, choices=MAP_TYPE_CHOICES, default="single")
+
 
     # hidden inputs for determining geostoreid 
     gid0 = models.CharField(null=True, max_length=250, blank = True)
@@ -316,6 +324,7 @@ class DashboardMap(models.Model):
                 FieldPanel("title"),
                 FieldPanel("description"),
                 FieldPanel("map_layer"),
+                FieldPanel("map_type"),
             ], heading=_("Layer")),
             ObjectList([
                 FieldPanel("admin_level"),

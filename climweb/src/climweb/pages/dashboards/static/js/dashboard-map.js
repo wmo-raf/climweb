@@ -156,26 +156,29 @@ function getTimeFromList(timestamps, method) {
       const selected_dataset = container.dataset.dataset
       const selected_layer = container.dataset.layer
       const admin_path = container.dataset.gid0 + (container.dataset.gid1 ? `/${container.dataset.gid1}` : '') + (container.dataset.gid2 ? `/${container.dataset.gid2}` : '')
+      const mapType = container.dataset.mapType
+
 
       if (!containerId || !tileJsonUrl || !layerType) return;
 
-      createMap(containerId, selected_layer, selected_dataset, layerType, admin_path, displayFormat);
+      createMap(containerId, selected_layer, selected_dataset, layerType, admin_path, displayFormat, mapType);
 
 
     });
   }
 
   function updateMapLayerWithDate(containerId, selectedDateTime) {
-    const map = mapInstances[containerId];
+    const mapInstance = mapInstances[containerId];
     const layerConfig = layerConfigs[containerId];
 
-    if (!map || !layerConfig) {
+    if (!mapInstance || !layerConfig) {
       console.error(`Map or layerConfig not found for containerId: ${containerId}`);
       return;
     }
 
-    updateMapLayer(map, layerConfig, selectedDateTime);
+    updateMapLayer(mapInstance, layerConfig, selectedDateTime);
   }
+
 
   // Initialize Datepicker for all containers
   function initializeCalendar() {
@@ -244,7 +247,7 @@ function getTimeFromList(timestamps, method) {
         timeSelectEl.addEventListener("change", handleDateTimeChange);
       }
     });
-}
+  }
 
   function setCalendarDates(containerId, availableDates, displayFormat) {
     return new Promise((resolve) => {
@@ -300,8 +303,8 @@ function getTimeFromList(timestamps, method) {
             new Date(d).getMonth() === new Date(selectedDate).getMonth() &&
             new Date(d).getDate() === new Date(selectedDate).getDate()
           )
-          .sort((a, b) => a - b)
-          .map((d) => {
+            .sort((a, b) => a - b)
+            .map((d) => {
               const hours = d.getHours().toString().padStart(2, "0");
               const minutes = d.getMinutes().toString().padStart(2, "0");
               return `${hours}:${minutes}`;
@@ -334,34 +337,102 @@ function getTimeFromList(timestamps, method) {
     });
   }
 
-  function createMap(containerId, selected_layer, selected_dataset, layerType, admin_path, displayFormat) {
+  function createMap(containerId, selected_layer, selected_dataset, layerType, admin_path, displayFormat, mapType) {
+
+    // Clean up if a map already exists for this container
+    if (mapInstances[containerId]) {
+      console.warn(`Removing existing map for ${containerId} to free WebGL context.`);
+      mapInstances[containerId].remove();
+      delete mapInstances[containerId];
+    }
+    const isBefore = containerId.startsWith('before-');
+    const isAfter = containerId.startsWith('after-');
 
 
-    const map = new maplibregl.Map({
-      container: containerId,
-      style: dashboardBasemapStyle,
-      scrollZoom: false
-    });
+    if (mapType === "single" && !isBefore && !isAfter) {
+      // Single map logic
+      map = new maplibregl.Map({
+        container: containerId,
+        style: dashboardBasemapStyle,
+        scrollZoom: false,
+      });
 
-    // Store the map instance in mapInstances
-    mapInstances[containerId] = map;
+      mapInstances[containerId] = map;
 
-    updateLayer(map, containerId, selected_dataset, selected_layer, layerType, displayFormat)
+      updateLayer(map, containerId, selected_layer, selected_dataset, layerType, displayFormat);
 
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+      map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+      map.addControl(new maplibregl.FullscreenControl());
 
-    map.addControl(new maplibregl.FullscreenControl());
+      loadBoundaries(map, admin_path);
 
-    map.on("load", () => {
-      loadBoundaries(map, admin_path)
 
-    });
+      return;
+
+    }
+    if (mapType === "comparison") {
+      const compareContainer = `#comparison-${containerId}`.replace('before-', '').replace('after-', '');
+
+
+      // Handle 'before' map
+      if (isBefore) {
+        const mapBefore = new maplibregl.Map({
+          container: containerId,
+          style: dashboardBasemapStyle,
+          scrollZoom: false,
+
+        });
+
+        mapInstances[containerId] = mapBefore;
+
+        mapBefore.on("load", () => {
+          updateLayer(mapBefore, containerId, selected_layer, selected_dataset, layerType, displayFormat);
+          loadBoundaries(mapBefore, admin_path);
+        });
+
+        // If 'after' already exists, initialize compare
+        const afterId = containerId.replace('before-', 'after-');
+        if (mapInstances[afterId]) {
+          new maplibregl.Compare(mapBefore, mapInstances[afterId], compareContainer, {
+            orientation: "horizontal",
+          });
+        }
+      }
+
+
+      // Handle 'after' map
+      if (isAfter) {
+        const mapAfter = new maplibregl.Map({
+          container: containerId,
+          style: dashboardBasemapStyle,
+          scrollZoom: false,
+
+        });
+        mapInstances[containerId] = mapAfter;
+
+        mapAfter.on("load", () => {
+          updateLayer(mapAfter, containerId, selected_layer, selected_dataset, layerType, displayFormat);
+          loadBoundaries(mapAfter, admin_path);
+        });
+
+        // If 'before' already exists, initialize compare
+        const beforeId = containerId.replace('after-', 'before-');
+        if (mapInstances[beforeId]) {
+          new maplibregl.Compare(mapInstances[beforeId], mapAfter, compareContainer, {
+            orientation: "vertical",
+          });
+        }
+
+        return;
+      }
+
+    }
+
 
   }
 
 
-
-  async function getLayerDataset(selected_dataset, selected_layer) {
+  async function getLayerDataset(selected_layer, selected_dataset) {
     if (typeof datasetsUrl !== "undefined" && selected_dataset && selected_layer) {
       if (datasets[selected_dataset]) return datasets[selected_dataset];
       const dataset = await fetch(datasetsUrl + selected_dataset).then(res => res.json());
@@ -654,6 +725,7 @@ function getTimeFromList(timestamps, method) {
 
   function updateLayer(map, containerId, selected_layer, selected_dataset, layerType, displayFormat) {
     getLayerDataset(selected_layer, selected_dataset).then(async activeLayerDataset => {
+
       if (!activeLayerDataset) return;
       const layer = activeLayerDataset.layers?.[0];
       const { tileJsonUrl, getCapabilitiesLayerName, getCapabilitiesUrl, paramsSelectorConfig, layerConfig, currentTimeMethod, legendConfig } = layer;
@@ -804,6 +876,47 @@ function getTimeFromList(timestamps, method) {
 
   initializeMap()
   initializeCalendar()
+  function destroyMap(containerId) {
+    const map = mapInstances[containerId];
+    if (map && map.remove) {
+      console.log(`Removing map for ${containerId}`);
+      map.remove();
+      delete mapInstances[containerId];
+    }
+  }
 
+  // === LAZY LOAD MAPS ===
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const containerId = entry.target.id;
+
+        if (entry.isIntersecting) {
+          // Avoid re-initializing existing maps
+          if (!mapInstances[containerId]) {
+            console.log(`Initializing map for ${containerId}`);
+            const mapType = entry.target.dataset.mapType || 'normal'; // optional attribute
+            const selected_layer = entry.target.dataset.layer || null;
+            const selected_dataset = entry.target.dataset.dataset || null;
+            const layerType = entry.target.dataset.layerType || null;
+            const displayFormat = entry.target.dataset.displayFormat || null;
+            const admin_path = entry.target.dataset.adminPath || null;
+
+            createMap(containerId, mapType, selected_layer, selected_dataset, layerType, displayFormat, admin_path);
+          }
+
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1, // load when 10% visible
+    }
+  );
+
+  // Observe all map containers
+  document.querySelectorAll('.map-container').forEach((el) => observer.observe(el));
 })()
 
