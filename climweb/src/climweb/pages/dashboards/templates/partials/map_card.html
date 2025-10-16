@@ -41,7 +41,7 @@
                 data-layer-type="{% if map.map_layer.0.block_type == 'raster_file_layer' %}raster_file{% elif map.map_layer.0.block_type == 'wms_layer' %}wms{% elif map.map_layer.0.block_type == 'vector_tile_layer' %}vector_tile{% elif map.map_layer.0.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
                 ></div>
         {% elif map.map_type == "comparison" %}
-            <div class="comparison-maps" id="comparison-map-{{ section_index }}-{{ index }}-{{ block_index }}" style="position: relative;
+            <div class="comparison-maps" id="comparison-map-{{ section_index }}-{{ index }}-{{ block_index }}" style="
     min-height: 400px;">
                 <div
                     class="map-container"

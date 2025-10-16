@@ -1,7 +1,7 @@
 {% load wagtailcore_tags static nmhs_cms_tags %}
 
 <div class="dashboard-maps">
-      {% render_charts_or_map self.maps_block "map" section_index=section block_index=counter %}
+      {% render_chart_or_map self.maps_block "map" section_index=section block_index=counter %}
 </div>
 
 {% if maps %}
