@@ -293,3 +293,42 @@ def render_charts(context, charts_block, section_index=0):
             rendered_output += rendered
             i += 1
     return mark_safe(rendered_output)
+
+@register.simple_tag(takes_context=True)
+def render_chart_or_map(context, block, block_type="map", section_index=0, block_index=0):
+    rendered_output = ""
+    i = 0
+    while i < len(block):
+        current = block[i]
+        next_chart = block[i + 1] if i + 1 < len(block) else None
+
+        current_desc = getattr(current, "description", None)
+        next_desc = getattr(next_chart, "description", None) if next_chart else None
+
+        # If both current and next chart have no description, render them side by side
+        if not current_desc and not next_desc and next_chart:
+            rendered = render_to_string(
+                f"partials/{block_type}_pair.html",
+                {"maps": [current, next_chart], 
+                "block_type":block_type,
+                 "index": i + 1,         
+                 "section_index": section_index,
+                 "block_index":block_index
+                },
+                request=context["request"]
+            )
+            rendered_output += rendered
+            i += 2
+        else:
+            rendered = render_to_string(
+                f"partials/{block_type}_single.html",
+                {"map": current, "index": i + 1,
+                "block_type":block_type,
+                "section_index": section_index,
+                "block_index": block_index
+                },
+                request=context["request"]
+            )
+            rendered_output += rendered
+            i += 1
+    return mark_safe(rendered_output)
