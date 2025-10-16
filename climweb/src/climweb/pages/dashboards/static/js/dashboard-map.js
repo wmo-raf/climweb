@@ -432,7 +432,7 @@ function getTimeFromList(timestamps, method) {
   }
 
 
-  async function getLayerDataset(selected_layer, selected_dataset) {
+  async function getLayerDataset(selected_dataset,selected_layer) {
     if (typeof datasetsUrl !== "undefined" && selected_dataset && selected_layer) {
       if (datasets[selected_dataset]) return datasets[selected_dataset];
       const dataset = await fetch(datasetsUrl + selected_dataset).then(res => res.json());

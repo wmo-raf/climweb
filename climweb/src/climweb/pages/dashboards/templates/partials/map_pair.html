@@ -1,7 +1,9 @@
+
 {% load wagtailiconchooser_tags wagtailcore_tags %}
 
+{% for map in maps %}
 <div class="columns my-4 {% if index|divisibleby:2 and map.description %}is-flex-direction-row-reverse{% endif %}">
-    
+    hello
     {% if map.description %}
     <div class="column description-column mt-3">
         <h3 class="map-title" style="color:{{page.banner_background_color}}">{{ map.title|richtext }}</h3>
@@ -16,3 +18,4 @@
         {% include "partials/map_card.html" with map=map map_layers=map.map_layer section_index=section_index index=index block_index=block_index %}
     </div>
 </div>
+{% endfor %}
