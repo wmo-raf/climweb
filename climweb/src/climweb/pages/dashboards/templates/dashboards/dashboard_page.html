@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load i18n static lazyimages_tags wagtailimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags nmhs_cms_tags %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
+ <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bulma-tooltip@3.0.2/dist/css/bulma-tooltip.min.css">
+
+<link rel="stylesheet" href="{% static 'css/datepicker-bulma.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/datepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/maplibre-gl-compare.css' %}" type="text/css" />
+
+
+{% endblock extra_css %}
+
+{% block content %}
+    <main class="is-index" style="--banner-background-color: {{ page.banner_background_color }};">
+        <div class="hero-header">
+            {% image page.banner_image original as banner_img %}
+                <section id="page-hero" class="hero is-small progressive__bg progressive--not-loaded" 
+                style="{% if page.banner_image %}background: url({% lazy_image_url banner_img %}) {{page.banner_background_color}};background-repeat:no-repeat; background-size:cover; {% else %} background: {{ page.banner_background_color }}{% endif %} "
+                data-progressive="{{ banner_img.url }}">
+               
+                    <div class="hero-body is-align-items-center" style="display:flex">
+                        <div class="container">
+                            <div class="dashboards-li is-align-items-center my-3" style="display:flex; color: #fab72e;  fill:#fab72e">
+                                 <span class="icon is-small">
+                                    {% svg_icon "arrow-left" %}
+                                </span>
+                                <a href="{{ page.get_parent.url }}" style="color: #fab72e; font-weight:400">
+                                    {{ page.get_parent.title }}
+                                </a>  
+                            </div>
+                                
+                            {% block banner_title %}
+                                <h1 class="title page-title has-text-white"
+                                    style="font-weight:300;  color: #ffffff;">
+                                    {{ page.banner_title }}
+                                </h1>
+                            {% endblock %}
+                            {% block page_subtitle %}
+                                <div class="columns" style="margin: 0">
+                                    <div class="column is-full-desktop" style="padding: 0;">
+                                        <div class="page-description has-text-white"
+                                            style="color: #ffffff;">
+                                            {{ page.banner_description|richtext }}</div>
+                                    </div>
+                                </div>
+                            {% endblock %}
+                        </div>
+                    </div>
+    
+                </section>
+                
+                {% if page.body %}
+                    {% if page.body|length > 1 %}
+                    <section class="py-3 sticky-section" >
+                        <div class="container">
+                            <div class="section-topics">
+                                    {% for block in page.body %}
+                                           <a href="#section-{{ forloop.counter }}">
+
+                                            <span class="tag px-3 mr-1 mb-2" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">{{block.value.section_title|truncatechars:50}}</span>
+                                           </a> 
+                                    {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                    {% endif %}
+                {% endif %}
+
+                {% if page.body %}
+
+                    {% for block in page.body %}
+                        <section class="feature-block-section py-6" id="section-{{ forloop.counter }}">
+                            <div class="container">
+                            <h1 class="my-4" style="color:{{page.banner_background_color}}">{{ block.value.section_title }}</h1>
+
+                            {% for item in block.value.content %}
+                                {% if item.block_type == 'title_only' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'text_only' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'title_text' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'title_text_image' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'chart' %}
+                                    {% include_block item with section=forloop.parentloop.counter %}
+                                {% elif item.block_type == 'map' %}
+                                    {% include_block item with section=forloop.parentloop.counter counter=forloop.counter %}
+                                {% elif item.block_type == 'table' %}
+                                    {% include_block item %}
+                                {% elif item.block_type == 'what_we_do' %}
+                                    {% include_block item with theme=page.banner_background_color %}
+                                {% endif %}
+
+                            {% endfor %}
+                            </div>
+                        </section>
+                    {% endfor %}
+
+                     {% if page.additional_materials %}
+                        <section class="additional-materials-section py-6">
+                            <div class="container">
+                                <div class="columns is-multiline is-mobile">
+                                    {% for category in page.additional_materials %}
+                                        <div class="column is-one-third-desktop is-full-mobile" style="
+                                            justify-content: center;
+                                            display: flex;
+                                        ">
+                                            {% include_block category with theme=page.banner_background_color %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </section>
+                    {% endif %}
+
+                {% endif %}  
+
+            </div>
+        
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+    <script type"text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
+    <script type"text/javascript" src="{% static 'js/d3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="{% static 'js/datepicker.min.js' %}"></script>
+    <script src="{% static 'js/date-utils.js' %}"></script>
+    <script src="{% static 'js/maplibre-gl-compare.js' %}"></script>
+    <script type"text/javascript" src="{% static 'js/dashboard-map.js' %}"></script>
+    <script type"text/javascript" src="{% static 'js/dashboard-chart.js' %}"></script>
+    <script type"text/javascript" src="{% static 'js/modal.js' %}"></script>
+
+{% endblock extra_js %}

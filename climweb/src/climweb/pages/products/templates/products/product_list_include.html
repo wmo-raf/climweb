@@ -1,0 +1,84 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags static i18n wagtailiconchooser_tags %}
+
+<div class="results-view">
+    <div class="results-header">
+        <h5 class="results-count results">
+            {% blocktranslate trimmed count counter=products.paginator.count %}
+                Showing {{ counter }} result
+            {% plural %}
+                Showing {{ counter }} results
+            {% endblocktranslate %}
+        </h5>
+        <div>
+            <button id="list-view-button" class="product-filter view active" name="view" value="list">
+                <span class="icon">
+                      {% svg_icon name="table-list" %}
+                </span>
+            </button>
+            <button id="grid-view-button" class="product-filter view" name="view" value="grid">
+                <span class="icon">
+                    {% svg_icon name="grip" %}
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="results-list list-view">
+        {% if products %}
+            {% for product in products %}
+                <div class="result-list-item">
+                    <div class="result-list-item-wrapper">
+                        <a href="{{ product.url }}" class="result-list-item-image">
+                            <figure class="image" style="display: flex;align-items: center">
+                                {% if product.products_listing_image %}
+                                    {% image product.products_listing_image original as p_img %}
+                                    <img class="progressive__img progressive--not-loaded"
+                                         style="object-fit: cover"
+                                         data-progressive="{{ p_img.url }}"
+                                         src="{% lazy_image_url p_img %}" alt=""/>
+                                {% elif page.default_listing_thumbnail %}
+                                    {% image page.default_listing_thumbnail original as p_img %}
+                                    <img class="progressive__img progressive--not-loaded"
+                                         style="object-fit: cover"
+                                         data-progressive="{{ p_img.url }}"
+                                         src="{% lazy_image_url p_img %}" alt=""/>
+                                {% else %}
+                                    <img style="object-fit: contain;height: 90%"
+                                         src="{% static 'products/img/doc_placeholder.png' %}" alt=""/>
+                                {% endif %}
+                            </figure>
+                        </a>
+                        <div class="result-list-item-detail">
+                            <a href="{{ product.url }}" class="result-list-item-title">
+                                <h5>
+                                    {{ product.title }}
+                                </h5>
+                            </a>
+                            <div class="result-list-item-snippet">
+                                {% if product.listing_summary %}
+                                    {{ product.listing_summary }}
+                                {% endif %}
+                            </div>
+                            <div class="result-list-item-meta">
+                                <div>
+                                    <span> {{ product.date }}</span>
+                                    {% if product.valid_until and product.valid_until != product.date %}
+                                        <span> - {{ product.valid_until }}</span>
+                                    {% endif %}
+                                </div>
+                                <a class="result-list-item-more read" href="{{ product.url }}">
+                                    {% translate "Read More" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            {% include "empty_state_include.html" %}
+        {% endif %}
+
+
+    </div>
+    {% include 'pagination_include.html' with items=products %}
+</div>

@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags i18n get_share_url wagtailiconchooser_tags %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vacancy_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}vacancy-detail-page"{% endblock %}
+
+{% block content %}
+    {% include 'hero.html' with page=page %}
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        <section>
+            <div class="container">
+                <div class="columns is-centered is-multiline vacancy-detail-wrapper">
+                    <div class="column is-10-desktop is-full-mobile">
+                        <h2 class="vacancy-detail-title">{{ page.position_title }}</h2>
+                        <div class="vacancy-detail-header">
+                            <div class="vacancy-detail-header-items">
+                                {% if page.is_closed %}
+                                    <div class="vacancy-header-item">
+                                        <div class="vacancy-header-item-pre" style="color: red">
+                                            <span class="icon vacancy-header-item-icon">
+                                                {% svg_icon name="warning" %}
+                                            </span>
+                                            <span class="vacancy-header-item-title">
+                                                {% translate "Note: This opening has been closed." %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="vacancy-header-item">
+                                    <div class="vacancy-header-item-pre">
+                                        <span class="icon vacancy-header-item-icon">
+                                            {% svg_icon name="calendar-alt" %}
+                                        </span>
+                                        <span class="vacancy-header-item-title">
+                                            {% translate "Posted On" %}:
+                                        </span>
+                                    </div>
+                                    <span>
+                                        {{ page.posting_date|date:"d M Y" }}
+                                    </span>
+                                </div>
+                                <div class="vacancy-header-item">
+                                    <div class="vacancy-header-item-pre">
+                                        <span class="icon vacancy-header-item-icon">
+                                            {% svg_icon name="hourglass-half" %}
+                                        </span>
+                                        <span class="vacancy-header-item-title">
+                                            {% translate "Closing On" %}:
+                                        </span>
+                                    </div>
+                                    <span>
+                                        {{ page.deadline|date:"d M Y, H:i" }}
+                                    </span>
+                                </div>
+                                <div class="vacancy-header-item">
+                                    <div class="vacancy-header-item-pre">
+                                        <span class="vacancy-header-item-icon">
+                                            {% svg_icon name="location" %}
+                                        </span>
+                                        <span class="vacancy-header-item-title">
+                                            {% translate "Duty Station" %}:
+                                        </span>
+                                    </div>
+                                    <span>
+                                        {{ page.duty_station }}
+                                    </span>
+                                </div>
+                                {% if page.duration %}
+                                    <div class="vacancy-header-item">
+                                        <div class="vacancy-header-item-pre">
+                                            <span class="vacancy-header-item-icon">
+                                                {% svg_icon name="time" %}
+                                            </span>
+                                            <span class="vacancy-header-item-title">
+                                                {% translate "Duration" %}:
+                                            </span>
+                                        </div>
+                                        <span>
+                                            {{ page.duration }}
+                                        </span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="vacancy-detail-actions share-buttons">
+                                {% if page.document %}
+                                    <a class="button is-rounded is-small" href="{{ page.document.url }}"
+                                       download="{{ page.position_title }}"
+                                       data-ga-action="download"
+                                       data-ga-event-category="Vacancy Document Download"
+                                       data-ga-event-label="{{ page.title }}"
+                                       data-ga-value="{{ page.document.url }}"
+                                    >
+                                        <span class="icon">
+                                            {% svg_icon name="download" %}
+                                        </span>
+                                        <span class="share-button-title">
+                                            {% translate "Download pdf" %}
+                                        </span>
+                                    </a>
+                                {% endif %}
+                                {% share_buttons url=page.get_full_url text=page.title %}
+                            </div>
+                        </div>
+                        <div class="vacancy-detail-description format-text">
+                            {{ page.description| richtext }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+

@@ -1,0 +1,41 @@
+receivers:
+  otlp:
+    protocols:
+      grpc: # port 4317
+      http:
+        endpoint: "0.0.0.0:4318"
+
+processors:
+  batch:
+    send_batch_size: 1000
+
+exporters:
+  otlp:
+    endpoint: "api.honeycomb.io:443"
+    headers:
+      "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
+      "x-honeycomb-dataset": "${env:HONEYCOMB_LOGS_TRACES_DATASET}"
+  otlp/metrics:
+    endpoint: "api.honeycomb.io:443"
+    headers:
+      "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
+      "x-honeycomb-dataset": "${env:HONEYCOMB_METRICS_DATASET}"
+  debug:
+
+service:
+  pipelines:
+    traces:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ otlp,debug ]
+    metrics:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ otlp/metrics,debug ]
+    logs:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ otlp,debug ]
+
+extensions:
+  health_check:

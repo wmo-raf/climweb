@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags i18n wagtailiconchooser_tags %}
+
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-timeline.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
+
+{% endblock %}
+
+{% block body_class %}about-page{% endblock %}
+
+{% block content %}
+    <main class="is-index">
+        <div class="container pt-6 pb-0 sections">
+            <div class="buttons is-justify-content-center">
+                {% if page.mission or page.vision %}
+                    <button class="button nav-section is-light" data-target="#mission_vision_section">
+                        <span class="icon">
+                            {% svg_icon name="view" %}
+                        </span>
+                        <span class="has-text-weight-semibold">
+                            {% translate "Mission & Vision" %}
+                        </span>
+
+                    </button>
+                {% endif %}
+
+                {% if page.org_struct_heading or page.org_struct_description or page.org_struct_img %}
+                    <button class="button nav-section is-light" data-target="#organisation_structure">
+                        <span class="icon">
+                              {% svg_icon name="sitemap" %}
+                          </span>
+                        <span class="has-text-weight-semibold">
+                            {% translate " Organisational Structure" %}
+                        </span>
+                    </button>
+                {% endif %}
+
+                {% if page.timeline %}
+                    <button class="button nav-section is-light" data-target="#timeline_section">
+                        <span class="icon">
+                            {% svg_icon name="timeline" %}
+                        </span>
+                        <span class="has-text-weight-semibold">
+                            {% translate "History" %}
+                        </span>
+                    </button>
+                {% endif %}
+
+                {% if page.feature_block %}
+                    <button class="button nav-section is-light" data-target="#others_section">
+                        <span class="icon">
+                            {% svg_icon name="circle-nodes" %}
+                        </span>
+                        <span class="has-text-weight-semibold">
+                            {% translate "Additional Information" %}
+                        </span>
+                    </button>
+                {% endif %}
+
+            </div>
+
+        </div>
+        <section class="nmhs-work">
+            <div class="work container">
+                {% include 'service_introduction.html' with page=page %}
+
+            </div>
+        </section>
+
+        {% if page.mission or page.vision %}
+            <div class="container">
+                <hr style="background:rgba(195, 192, 192, 0.37)">
+            </div>
+
+            <section class="mission-vision-section" id="mission_vision_section" style="background-color:white">
+                <div class="container has-text-centered">
+                    <h2 class="pb-4 mb-4 has-text-centered" style="font-size: 28px; font-weight:700">
+                        {% translate "Mission & Vision" %}
+                    </h2>
+
+                    <div class="columns is-centered" style="padding-top:3em">
+                        {% if page.mission %}
+                            <div class="column is-3">
+                                <div class="mission-logo pb-4">
+                                    <img src="{% static 'img/mission.png' %}" width="40"/>
+                                </div>
+                                <h3 class="title" style="font-size:22px">
+                                    {% translate "Our Mission" %}
+                                </h3>
+
+                                <p class="subtitle" style="font-size:16px">
+                                    “{{ page.mission }}”
+                                </p>
+
+                            </div>
+                        {% endif %}
+                        {% if page.vision %}
+                            <div class="column is-1 is-desktop"></div>
+
+                            <div class="column is-3">
+                                <div class="mission-logo pb-4">
+                                    <img src="{% static 'img/vision.png' %}" width="40"/>
+                                </div>
+
+                                <h3 class="title" style="font-size:22px">
+                                    {% translate "Our Vision" %}
+                                </h3>
+
+                                <p class="subtitle" style="font-size:16px">
+                                    “{{ page.vision }}”
+                                </p>
+
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.org_struct_heading and page.org_struct_description %}
+            <section id="organisation_structure">
+                <div class="container">
+                    {% include 'organisation_structure.html' with page=page %}
+                </div>
+            </section>
+        {% endif %}
+
+
+        {% if page.timeline %}
+            <section class="timeline-section" id="timeline_section">
+                <div class="container">
+                    {% if page.timeline_heading %}
+                        <h2 class="section-title has-text-centered timeline-section-heading">{{ page.timeline_heading }}</h2>
+                    {% endif %}
+                    <div class="timeline is-centered">
+                        {% for block in page.timeline %}
+                            <span class="timeline-header">
+                                <span class="tag ">{{ block.value.year }}</span>
+                            </span>
+                            {% for milestone in block.value.milestones %}
+                                <div class="timeline-item ">
+                                    <div class="timeline-marker is-primary">
+                                    </div>
+                                    <div class="timeline-content">
+                                        <p class="heading">{{ milestone.period }}</p>
+                                        <p>{{ milestone.description }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+
+        {% if page.feature_block %}
+            <section class="about-feature-blocks-section" id="others_section">
+                {% include 'feature_block_section.html' with feature_blocks=page.feature_block %}
+            </section>
+        {% endif %}
+
+
+        {% if page.additional_materials %}
+            <section class="additional-materials-section">
+                <div class="container">
+                    <div class="columns is-multiline is-mobile is-centered"
+                         style="display: flex;align-items: center">
+                        <div class="column is-two-thirds-desktop is-full-mobile">
+                            <div class="columns is-multiline is-centered is-mobile">
+                                {% for category in page.additional_materials %}
+                                    <div class="column is-half-desktop is-full-mobile">
+                                        {% include_block category %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.partners %}
+            <section>
+                <div class="container">
+                    <h2 class="section-title has-text-centered">
+                        {% translate "Our Partners" %}
+                    </h2>
+                    <div class="columns is-multiline is-mobile is-centered partners-list">
+                        {% for partner in page.partners %}
+                            <div class="column is-one-fifth-desktop is-half-mobile partner-item">
+                                <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
+                                   target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                                   rel="noopener">
+                                    <div class="partner-img-wrapper" title="{{ partner.name }}">
+                                        <figure class="image">
+                                            {% image partner.logo original as p_logo %}
+                                            <img class="progressive__img progressive--not-loaded"
+                                                 data-progressive="{{ p_logo.url }}"
+                                                 src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"/>
+                                        </figure>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if  settings.base.ImportantPages.all_partners_page %}
+                        <div class="more-container has-text-centered">
+                            <a href="{{ settings.base.ImportantPages.all_partners_page.url }}" class="more">
+                                {% translate "More Partners" %}
+                                <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-right-full" %}
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.accordion %}
+            {% for block in page.accordion %}
+                <section class="feature-block-section">
+                    {% include_block block %}
+                </section>
+            {% endfor %}
+        {% endif %}
+
+        {% if page.bottom_call_to_action_heading %}
+            <section class="about-us-cta-section">
+                <div class="container nmhs-work">
+                    <div class="columns is-centered">
+                        <div class="column is-half-desktop"
+                             style="align-items: center;display: flex;flex-direction: column">
+                            <h2 class="section-title has-text-centered">{{ page.bottom_call_to_action_heading }}</h2>
+                            <p class="has-text-centered">{{ page.bottom_call_to_action_description }}</p>
+                            {% if page.bottom_call_to_action_button_text and page.bottom_call_to_action_button_link %}
+                                <div class="more-container">
+                                    <a href="{{ page.bottom_call_to_action_button_link.url }}"
+                                       class="button is-small is-rounded center sec-btn cta-btn">
+                                        <span>{{ page.bottom_call_to_action_button_text }}</span>
+                                        <span class="icon btn-icon">
+                                            {% svg_icon name="arrow-right-full" %}
+                                        </span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+    </main>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
+    <script src="{% static 'js/jquery.event.move.js' %}"></script>
+    <script src="{% static 'js/jquery.twentytwenty.js' %}"></script>
+    <script>
+        $(".nav-section").click(function (e) {
+            $('.nav-section').removeClass('is-dark')
+            $(e.target).closest('.nav-section').addClass('is-dark')
+            var dataTarget = $(e.target).closest('.nav-section').data('target')
+            $('html,body').animate({
+                    scrollTop: $(`${dataTarget}`).offset().top
+                },
+                'slow');
+        });
+
+        // If on smaller screens, collapse all filter items
+        $(document).ready(function () {
+            const windowWidth = $(window).width();
+
+            if (windowWidth <= 768) {
+                //for  smaller devices
+                $('.js-accordion-item').removeClass('active');
+            }
+        })
+    </script>
+{% endblock %}
+
+

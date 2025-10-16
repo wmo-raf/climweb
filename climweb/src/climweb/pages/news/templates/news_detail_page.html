@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailcore_tags nmhs_cms_tags get_share_url i18n %}
+{% wagtail_site as current_site %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/news_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}news-detail-page"{% endblock %}
+
+{% block content %}
+    {% include 'breadcrumbs_include.html' with page=page %}
+    <main>
+        <section class="news-detail-section">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-three-quarters-desktop is-full-mobile">
+                        <div class="news-header">
+                            <h1 class="news-heading">
+                                {{ page.title }}
+                            </h1>
+                            {% if page.subtitle %}
+                                <h3 style="padding: 20px 0 50px;">{{ page.subtitle }}</h3>
+                            {% endif %}
+                            <div class="news-meta-wrapper">
+                                <div class="news-meta">
+                                    <span>{{ page.date |date:"d M, Y" }}</span>
+                                    <span>{{ page.news_type }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="share-buttons">
+                            {% share_buttons url=page.get_full_url text=page.title %}
+                        </div>
+
+                        <div class="news-body format-text">
+                            {{ page.body|richtext }}
+                        </div>
+                        {% if page.tags.all %}
+                            <div class="news-tags">
+                                <span class="news-tags-title">{% translate "Tags" %}: </span>
+                                {% for tag in page.tags.all %}
+                                    <span class="news-tag">
+                                        {{ tag }}
+                                        {% if not forloop.last %},{{ " " }} {% endif %}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if page.external_links %}
+                            <div style="padding-top: 60px">
+                                <hr/>
+                                <h4 style="padding-bottom: 20px">
+                                    {% if page.extra_links_heading %}
+                                        {{ page.extra_links_heading }}
+                                    {% else %}
+                                        {% translate "Find out more" %}
+                                    {% endif %}
+                                </h4>
+                                <div class="columns is-multiline is-mobile" style="margin: 0">
+                                    {% for link_block in page.external_links %}
+                                        {% include_block link_block %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+
+

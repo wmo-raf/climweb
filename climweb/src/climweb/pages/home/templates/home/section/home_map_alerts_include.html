@@ -1,0 +1,46 @@
+{% load wagtailiconchooser_tags i18n %}
+
+<div class="alerts-item-wrapper" data-alerts-available="{{ has_alerts|yesno:"true,false" }}">
+    {% if has_alerts %}
+        {% for alert_info in active_alert_info %}
+            <a href="{{ alert_info.url }}" class="alert-link">
+                <div class="alert-item"
+                     style="background-color: {{ alert_info.severity.background_color }};border: 1px solid {{ alert_info.severity.border_color }}">
+                    <div class="alert-item-left">
+                        <div class="alert-item-icon">
+                            <div class="alert-icon-wrapper"
+                                 style="background-color: {{ alert_info.severity.color }};border-color: {{ alert_info.severity.border_color }};
+                                         {% if alert_info.severity.icon_color %}color:{{ alert_info.severity.icon_color }};{% endif %} ">
+                                {% if alert_info.event_icon %}
+                                    {% svg_icon name=alert_info.event_icon %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="alert-item-info">
+                            <div class="alert-item-title">
+                                {{ alert_info.status }}: {{ alert_info.event|truncatechars:30 }}
+                            </div>
+                            <div class="alert-severity-label">
+                                {{ alert_info.severity.label }}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="icon btn-icon">
+                            {% svg_icon name="arrow-right-full" %}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    {% else %}
+        <div class="empty-alerts-state">
+            <div class="empty-alerts-icon">
+                {% svg_icon name="alert" %}
+            </div>
+            <div>
+                {% translate "No active alerts currently" %}
+            </div>
+        </div>
+    {% endif %}
+</div>

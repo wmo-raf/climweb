@@ -1,0 +1,30 @@
+{% extends "wagtailadmin/login.html" %}
+{% load nmhs_cms_tags wagtailimages_tags wagtailsettings_tags i18n %}
+{% get_settings use_default_site=True %}
+
+{% block branding_login %}
+    {% translate "Sign in to" %}
+    {% if 'WAGTAIL_SITE_NAME'|django_settings %}
+        {{ 'WAGTAIL_SITE_NAME'|django_settings }}
+    {% else %}
+        CLIMWEB
+    {% endif %}
+{% endblock %}
+
+{% block branding_logo %}
+    <div class="login-logo">
+        <figure style="max-height: 90px;max-width: 90px;">
+            {% if settings.base.OrganisationSetting.cms_logo %}
+                {% image settings.base.OrganisationSetting.cms_logo original as logo_image %}
+                <img src="{{ logo_image.url }}" alt="ClimWeb Login Logo"
+                     style="height: 100%;width: 100%;object-fit: contain"/>
+            {% else %}
+                <style>
+                    .login-logo {
+                        display: none
+                    }
+                </style>
+            {% endif %}
+        </figure>
+    </div>
+{% endblock %}

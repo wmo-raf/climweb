@@ -1,0 +1,58 @@
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n wagtailiconchooser_tags %}
+
+<div class="results-view">
+    <div class="results-list list-view">
+        {% for vacancy  in vacancies %}
+            <div class="vacancy-item-wrapper">
+                <div class="vacancy-item-header">
+                    {% if vacancy.is_new %}
+                        <button class="button is-small is-rounded vacancy-item-highlight">
+                            {% translate "New" %}
+                        </button>
+                    {% endif %}
+                    <h3 class="vacancy-item-title">
+                        <a href="{{ vacancy.url }}">
+                            {{ vacancy.position_title }}
+                        </a>
+                    </h3>
+                </div>
+                <div style="padding-top: 12px">
+                    <div style="padding: 5px 0">
+                        <span class="icon">
+                            {% svg_icon name="calendar-alt" %}
+                        </span>
+                        <span class="share-button-title">
+                            {% translate "Posted On" %}:
+                            <b>{{ vacancy.posting_date|date:"d M Y" }}</b>
+                        </span>
+                    </div>
+                    <div style="padding: 5px 0">
+                        <span class="icon">
+                            {% svg_icon name="hourglass-half" %}
+                        </span>
+                        <span class="share-button-title">
+                            {% translate "Closing On" %}:
+                            <b>{{ vacancy.deadline|date:'d M Y , H:i' }}</b>
+                        </span>
+                    </div>
+                </div>
+                <div class="vacancy-item-detail">
+                    <div class="vacancy-item-meta">
+                        <div class="vacancy-item-station">
+                            <span class="icon">
+                                {% svg_icon name="location" %}
+                            </span>
+                            <span>{% translate "Duty Station" %}: {{ vacancy.duty_station }}</span>
+                        </div>
+                        <span class="vacancy-item-view-more">
+                            <a class="more" href="{{ vacancy.url }}">
+                                {% translate "View details" %}
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% include 'pagination_include.html' with items=vacancies %}
+</div>

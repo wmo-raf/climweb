@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailsettings_tags wagtailiconchooser_tags %}
+
+{% block body_class %}service_page{% endblock %}
+
+{% block content %}
+
+    <style>
+
+        .subpage-item {
+            display: flex;
+            padding-bottom: 20px;
+            align-items: center;
+        }
+
+        .subpage-img figure {
+            background-color: #fff;
+            border-radius: 50%;
+            height: 96px;
+            width: 96px;
+        }
+
+        .subpage-img figure img {
+            object-fit: cover;
+            height: 100%;
+        }
+
+
+        .subpage-detail {
+            padding-left: 20px;
+        }
+
+        .subpage-title {
+            color: #4a4a4a;
+            padding-bottom: 8px;
+        }
+
+        .service-category {
+            display: flex;
+        }
+
+        .service-category .menu-item-figure {
+            height: 40px;
+            width: 40px;
+            background-color: rgba(0, 153, 151, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-category .menu-item-figure svg {
+            height: 60%;
+            width: 60%;
+        }
+
+        .service-category .menu-item-figure svg {
+            fill: #3e8ed0;
+        }
+
+        .service-category-block {
+            padding-bottom: 2em
+        }
+
+    </style>
+    <main class="is-index">
+        {% include "breadcrumbs_include.html" %}
+        <section>
+            <div class="container">
+                {% if page.get_children %}
+                    {% if page.listing_heading %}
+                        <h2 class="title pb-4">{{ page.listing_heading }}</h2>
+                    {% endif %}
+
+                    {% if page.service_categories %}
+                        {% if page.service_categories|length > 0 %}
+
+                            {% for category in page.service_categories %}
+                                <div class="service-category-block">
+                                    <div class="service-category">
+                                        {% if category.icon %}
+                                            <div class="menu-item-figure">
+                                                {% svg_icon category.icon %}
+                                            </div>
+                                        {% endif %}
+                                        <h3 style="font-weight:500; color:#363636; align-self:center"
+                                            class="px-4">{{ category.name }}</h3>
+
+                                    </div>
+                                    <hr>
+
+
+                                    <div class="columns is-multiline" style="padding-top: 20px">
+                                        {% for sub_page in page.get_children %}
+                                            {% if category.name == sub_page.specific.service.name %}
+                                                <div class="column is-one-third-desktop is-full-mobile">
+                                                    <div class="subpage-item">
+                                                        {% if sub_page.specific.listing_image %}
+                                                            <div class="subpage-img">
+                                                                <figure class="image">
+                                                                    {% image sub_page.specific.listing_image original as sub_page_image %}
+                                                                    <img class="is-rounded progressive__img progressive--not-loaded"
+                                                                         data-progressive="{{ sub_page_image.url }}"
+                                                                         src="{% lazy_image_url sub_page_image %}"
+                                                                         alt="{{ sub_page.title }}"/>
+                                                                </figure>
+                                                            </div>
+                                                        {% endif %}
+                                                        <a href="{{ sub_page.url }}" class="subpage-detail">
+                                                            <h4 class="subpage-title">
+                                                                {{ sub_page.title }}
+                                                            </h4>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        {% endif %}
+
+                    {% else %}
+                        <div class="columns is-multiline" style="padding-top: 30px">
+                            {% for sub_page in page.get_children %}
+                                <div class="column is-one-third-desktop is-full-mobile">
+                                    <div class="subpage-item">
+                                        {% if sub_page.specific.listing_image %}
+                                            <div class="subpage-img">
+                                                <figure class="image">
+
+                                                    {% image sub_page.specific.listing_image original as sub_page_image %}
+                                                    <img class="is-rounded progressive__img progressive--not-loaded"
+                                                         data-progressive="{{ sub_page_image.url }}"
+                                                         src="{% lazy_image_url sub_page_image %}"
+                                                         alt="{{ sub_page.title }}"/>
+                                                </figure>
+                                            </div>
+                                        {% endif %}
+                                        <a href="{{ sub_page.url }}" class="subpage-detail">
+                                            <h4 class="subpage-title">
+                                                {{ sub_page.title }}
+                                            </h4>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}

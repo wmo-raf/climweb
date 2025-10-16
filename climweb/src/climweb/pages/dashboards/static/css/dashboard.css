@@ -1,0 +1,348 @@
+.page-title {
+    font-size: 60px !important;
+}
+.page-description > p {
+    font-size: 23px !important;
+    font-weight: 200;
+}
+
+.hero-body .title {
+    width: 100%;
+}
+
+.hero {
+    max-height: unset;
+    min-height: unset;
+}
+
+
+
+main section {
+    padding: 0;
+}
+
+.hero::before{
+  background-color: var(--banner-background-color);
+  content: '';
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  opacity: 0.5
+}
+
+.dashboard-card::before{
+  background-color: var(--banner-background-color);
+  content: '';
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  opacity: 0.3
+}
+
+
+h1 {
+    font-weight: 200;
+    text-align: left;
+}
+
+.work .section-subheader {
+    text-align: left;
+    font-size: 30px;
+    font-weight: 200;
+}
+
+.card {
+    background-color: transparent;
+}
+
+.card .card-header-title {
+    font-weight: 500;
+}
+
+.dashboard-maps {
+    padding: 1rem;
+}
+
+.dashboard-map {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.map-column .card-content{
+    height:400px;
+    position: relative
+}
+
+.map-column .comparison-maps .card-content {
+    height:400px;
+}
+
+.map-container,
+.chart-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.card-content {
+    padding: 0;
+}
+
+.map-time-slider {
+    width: 100%;
+}
+
+.map-time-slider input[type="range"] {
+    width: 100%;
+    background: transparent;
+    margin-bottom: 10px;
+}
+
+/* WebKit Thumb */
+.map-time-slider input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #444;
+    border: 2px solid #fff;
+    margin-top: -5px;
+    box-shadow: 0 0 0 2px #aaa;
+    cursor: pointer;
+}
+
+/* Firefox Thumb */
+.map-time-slider input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #444;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #aaa;
+}
+
+/* Track */
+.map-time-slider input[type="range"]::-webkit-slider-runnable-track,
+.map-time-slider input[type="range"]::-moz-range-track {
+    height: 1px;
+    background: #ccc;
+    border-radius: 4px;
+}
+
+/* Visible tick labels */
+.custom-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: #393838;
+    margin-top: -4px;
+    pointer-events: none;
+}
+
+.custom-ticks span {
+    width: 40px;
+    text-align: center;
+}
+
+.map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-item .color {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+}
+
+.legend-item .label {
+    white-space: nowrap;
+}
+
+.admin-select .control.has-icons-left .icon,
+.control.has-icons-right .icon {
+    color: #dbdbdb;
+    height: 2.5em;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 1.5rem;
+    z-index: 4;
+}
+
+.admin-select .select select {
+    background-color: transparent;
+    border: transparent;
+    border-radius: 4px;
+    color: white;
+    border-bottom: white 1px solid;
+}
+
+.dashboards-li a:hover {
+    color: #fab72e !important;
+    font-weight: 600;
+}
+
+.card-header-icon {
+    padding: 0.75rem 0.5rem;
+}
+
+.table {
+    font-size: 14px;
+}
+
+.hero {
+    box-shadow: unset;
+}
+
+.hero h1 {
+    color: #444;
+}
+
+.warming-stripes-chart {
+    width: 100%;
+    height: 200px;
+    padding: 1em;
+    white-space: nowrap;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5em;
+}
+
+.params {
+    /* display: none; */
+    margin-bottom: 1em;
+}
+.param-group {
+    margin: 0.5em 0;
+    display: flex;
+    align-items: center;
+}
+
+.param-group select {
+    width: 100%
+}
+.param-group.select label {
+    margin-right: 0.5em;
+    font-weight: 600;
+    color: #444;
+    text-transform:capitalize
+}
+
+.description-column .map-title, .description-column .chart-title {
+    font-weight: 300 !important;
+}
+
+.description-column .map-area,.description-column .chart-area {
+    font-weight: 500 !important;
+    font-size: 14px;
+}
+
+.modal{
+    z-index: 1000
+}
+
+.modal-background {
+    background-color: rgb(10 10 10 / 61%);
+}
+
+.meta-modal {
+    margin: auto;
+    max-width: 950px;
+    width: calc(100% + 200px)
+}
+
+
+.modal-content{
+    max-height: 80vh;
+    overflow-y: auto;
+    width: calc(100% + 200px);
+    max-width: 950px;
+}
+
+.modal-content h2{
+    margin-bottom: 1em;
+    color: #333;
+    font-size: 36px;
+    line-height: 40px;
+    font-weight: 350;
+    padding: 40px 90px 0px
+}
+
+.meta-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.meta-table .table-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #e5e5df;
+}
+
+.modal-content .overview{
+    margin-bottom: 1.875rem;
+    padding: 40px 90px 0px;
+}
+
+.modal-content .overview h4{
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: .625rem;
+}
+
+.meta-table .table-row:nth-child(2n)
+ {
+    background-color: #f7f7f7;
+}
+
+.modal .description-column {
+    padding: 1em;
+    padding: .8125rem 6.25rem .1875rem;
+    border-radius: 4px;
+    font-size: 14px
+}
+
+.modal .title-column {
+    padding: .9375rem .3125rem .9375rem 6.25rem;
+    font-weight: 600;
+    font-size: .5875rem;
+    text-transform: uppercase;
+    color: #141414;
+    width: 9.375rem;
+}
+
+.field.is-grouped {
+    justify-content: center;
+}
+
+
+.datepicker-dropdown {
+    z-index: 1000 !important;
+}
+
+.intro-section-wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+.sticky-section {
+    position: sticky;
+    top: 0; /* Distance from the top of the viewport */
+    z-index: 10000; /* Ensure it stays above other elements */
+    background-color: white; /* Optional: Add a background color to avoid transparency issues */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for better visibility */
+}

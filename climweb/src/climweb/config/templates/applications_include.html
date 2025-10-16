@@ -1,0 +1,24 @@
+{% load wagtailimages_tags lazyimages_tags i18n %}
+
+<div class="slider application-items">
+    {% for app in applications %}
+        <a href="{{ app.application.url }}" class="application-item {{ box_shadow }}" target="_blank" rel="noopener"
+           data-ga-action="click"
+           data-ga-event-category="Geospatial App"
+           data-ga-event-label="{{ app.application.title }}"
+           data-ga-value="{{ page.title }}">
+            <figure class="image">
+                {% if app.application.thumbnail %}
+                    {% image app.application.thumbnail original as app_img %}
+                    <img class="progressive__img progressive--not-loaded"
+                         data-progressive="{{ app_img.url }}"
+                         src="{% lazy_image_url app_img %}" alt="{{ app.application.title }}"/>
+                {% endif %}
+                <div class="application-item-detail">
+                    <span class="application-item-title">{{ app.application.title }}</span>
+                    <span class="application-item-view">{% translate "View" %}</span>
+                </div>
+            </figure>
+        </a>
+    {% endfor %}
+</div>

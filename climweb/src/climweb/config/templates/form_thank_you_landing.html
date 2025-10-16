@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags i18n wagtailiconchooser_tags %}
+{% wagtail_site as current_site %}
+
+{% block body_class %}thank_you_page{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/thank_you_page.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section style="padding:8em 0">
+        <div class="container">
+            <div class="columns is-centered is-justify-content-center">
+                <div class="column is-half-desktop is-full-mobile thank-you-container">
+                    {% if messages %}
+                        <ul class="messages" style="padding-bottom: 40px">
+                            {% for message in messages %}
+                                <li class="message is-{% if message.tags == 'error' %}danger{% else %}info{% endif %}">
+                                    <div class="message-header">
+                                        <button class="delete" aria-label="delete"></button>
+                                    </div>
+                                    <div class="message-body">
+                                        {{ message }}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if not hide_thank_you_text %}
+                        <h3 class="thank-you-text" style="text-align:center; padding:2em 0">
+                            {% if page.thank_you_text %} {{ page.thank_you_text|richtext }} {% else %}
+                                {% translate "We have received your submission. Thank you!" %}
+                            {% endif %}
+                        </h3>
+                    {% endif %}
+                    <div class="back-link-container" style="text-align:center">
+                        <a href="{{ current_site.root_url }}"
+                           class="button is-rounded is-uppercase has-text-weight-bold back-button">
+                            <span class="icon btn-icon">
+                                    {% svg_icon name="arrow-left" %}
+                            </span>
+                            <span>
+                                {% translate "Back to Homepage" %}
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

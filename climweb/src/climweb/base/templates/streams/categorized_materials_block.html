@@ -1,0 +1,47 @@
+{% load static wagtailiconchooser_tags %}
+<style>
+    .material-download {
+        padding-bottom: 16px !important;
+        display: block;
+    }
+
+    .material-download:hover {
+        text-decoration: underline;
+    }
+
+    .service-icon svg path {
+        fill: {{theme}}d6 !important;
+        stroke: transparent !important;
+    }
+</style>
+
+    <div class="materials-item-wrapper">
+        <div class="materials-item-icon">
+            <figure class="image is-96x96" style="background-color:{{ theme }}29">
+                <span class="icon" style="height: 30px; width: 30px">
+                    {% svg_icon name="doc-full-inverse" %}
+                </span>
+            </figure>
+        </div>
+        <div class="materials-item-detail">
+            <h4 class="materials-item-header">{{ value.category }}</h4>
+            <div class="materials-item-files">
+                {% for item in value.materials %}
+                <a
+                    class="material-download"
+                    href="{% if item.document %}{{ item.document.url }}{% else %}{{ item.image.file.url }}{% endif %}"
+                    download="{{ item.title }}"
+                    data-ga-action="download"
+                    data-ga-event-category="Materials download"
+                    data-ga-event-label="{{ page.title }}"
+                    data-ga-value="{{ item.title }}"
+                >
+                    <span>{{ item.title }}</span>
+                    <span class="icon">
+                        <img src="{% static 'images/download.svg' %}" alt="" />
+                    </span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>

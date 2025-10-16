@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags %}
+{% block extra_css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}"/>
+{% endblock extra_css %}
+
+{% block content %}
+    <main class="is-index">
+        <section>
+            <div class="container">
+                <h2 class="section-title center">{{ page.title }}</h2>
+                <div id="contact-map" class=" {{ box_shadow }}"
+                     style="height:400px; width:100%; background-color:#cad2d3"></div>
+                <input type="hidden" value="{{ page.point }}" id="location"/>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="columns is-justify-content-center mt-3 mb-6">
+                    <div class="column is-12">
+                        <div class="columns">
+                            <div class="column is-7 mr-3">
+                                <div class="card {{ box_shadow }}" style="background-color:#f8f9fb">
+                                    <div class="card-content mx-6">
+                                        <form action="{% pageurl page %}" method="POST">
+                                            {% csrf_token %}
+                                            {{ form|bulma }}
+                                            <div class="field">
+                                                <button type="submit"
+                                                        class="button feedback-submit-button submit-button has-no-border">
+                                                    {% translate "Submit" %}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="column ml-3">
+                                <div class="block pt-2">
+                                    {% if settings.base.OrganisationSetting.address %}
+                                        <div class="block ">
+                                            <h2 class="title" style="font-size:20px">
+                                                <span class="icon">
+                                                    {% svg_icon name="location" %}
+                                                </span>
+                                                {% translate "Address" %}
+                                            </h2>
+                                            {{ settings.base.OrganisationSetting.address|richtext }}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if settings.base.OrganisationSetting.email or settings.base.OrganisationSetting.phone %}
+                                        <div class="block pt-5">
+                                            <h2 class="title" style="font-size:20px">
+                                                <span class="icon">
+                                                    {% svg_icon name="phone" %}
+                                                </span>
+                                                {% translate "Contact" %}
+                                            </h2>
+                                            {% if settings.base.OrganisationSetting.email %}
+                                                <p>{{ settings.base.OrganisationSetting.email }}</p>{% endif %}
+                                            {% if settings.base.OrganisationSetting.phone %}
+                                                <p>{{ settings.base.OrganisationSetting.phone }}</p>{% endif %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="block pt-3" style="display: flex;">
+                                        {% for account in settings.base.OrganisationSetting.social_media_accounts %}
+                                            <a title="{{ account.value.name }}" href="{{ account.value.full_url }}"
+                                               target="_blank"
+                                               rel="noopener"
+                                               class="footer-social"
+                                               style="color:black"
+                                            >
+                                                <span class="social-icon">
+                                                    {% svg_icon name=account.value.icon %}
+                                                </span>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
+
+    <script>
+        const locationStr = JSON.parse($('#location').val())
+
+        const locationData = {
+            type: 'FeatureCollection',
+            features: [
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [locationStr.x, locationStr.y]
+                    },
+                    properties: {}
+                }
+            ]
+        }
+
+        const defaultStyle = {
+            'version': 8,
+            "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
+            'sources': {
+                'carto-dark': {
+                    'type': 'raster',
+                    'tiles': [
+                        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
+                    ]
+                },
+                'carto-light': {
+                    'type': 'raster',
+                    'tiles': [
+                        "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                        "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                        "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                        "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
+                    ]
+                },
+                'voyager': {
+                    'type': 'raster',
+                    'tiles': [
+                        "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                        "https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                        "https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                        "https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+
+                    ]
+                },
+                'wikimedia': {
+                    'type': 'raster',
+                    'tiles': [
+                        "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+                    ]
+                }
+            },
+            'layers': [{
+                'id': 'carto-light-layer',
+                'source': 'carto-light',
+                'type': 'raster',
+                'minzoom': 0,
+                'maxzoom': 22
+            }]
+        }
+
+
+        const map = new maplibregl.Map({
+            container: "contact-map", // container ID
+            style: defaultStyle,
+            center: [locationStr.x, locationStr.y], // starting position [lng, lat]
+            zoom: 7, // starting zoom
+            scrollZoom: false,
+
+        });
+
+        map.addControl(new maplibregl.NavigationControl({showCompass: false}));
+
+        map.on("load", function () {
+            const marker = new maplibregl.Marker({
+                color: '#007cbf'
+            })
+            marker.setLngLat([locationStr.x, locationStr.y]).addTo(map)
+        })
+
+    </script>
+
+{% endblock extra_js %}

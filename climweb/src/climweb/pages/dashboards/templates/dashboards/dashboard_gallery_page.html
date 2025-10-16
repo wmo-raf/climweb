@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags static lazyimages_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+
+<main>
+
+<section id="page-hero" class="hero is-small">
+    <div class="hero-body is-align-items-center" style="display:flex">
+        <div class="container">            
+            {% block banner_title %}
+                <h1 class="title page-title"
+                    style="font-weight:300">
+                    {{ page.title }}
+                </h1>
+            {% endblock %}
+            {% block page_subtitle %}
+                <div class="columns" style="margin: 0">
+                    <div class="column is-8 is-full-mobile" style="padding: 0;">
+                        <div class="page-description">
+                            {{ page.description|richtext }}</div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+
+</section>
+
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-multiline">
+      {% for dashboard in page.get_children.specific %}
+          <div class="column is-one-third-desktop is-full-mobile">
+              <div class="project-inline-item">
+                  <div class="project-inline-img" style="--banner-background-color: {{ dashboard.banner_background_color }}">
+                      <figure class="image" style=" background-color: {{ dashboard.banner_background_color }} ">
+                          {% if dashboard.banner_image %}
+                              {% image dashboard.banner_image original as proj_img %}
+                              <img class="is-rounded progressive__img progressive--not-loaded"
+                                    data-progressive="{{ proj_img.url }}"
+                                    src="{% lazy_image_url proj_img %}"
+                                    alt="{{ dashboard.banner_title }}"/>
+                          {% endif %}
+
+                      </figure>
+                  </div>
+                  <a href="{{ dashboard.url }}" class="project-inline-detail" style="color: grey;">
+                     <h4 class="project-inline-title" style="">
+                          {{ dashboard.banner_title|upper }}
+                      </h4>
+                      <p class="grey project-inline-subtitle">
+                          {{ dashboard.banner_description|richtext|truncatechars:70 }}
+                      </p>
+
+                  </a>
+              </div>
+          </div>
+      {% empty %}
+        <p>No dashboards available yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+</main>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags wagtailiconchooser_tags %}
+
+<div class="columns is-centered intro-section-wrapper">
+    <div class="column is-5 has-text-left">
+        <h2 class="section-subheader">
+            {{ page.introduction_title }}
+        </h2>
+        <div class="intro-description format-text">
+            {{ page.introduction_text|richtext }}
+        </div>
+        {% block intro_extra %}{% endblock %}
+        {% if page.introduction_button_text %}
+            {% if page.introduction_button_link or page.introduction_button_link_external %}
+                <div class="more-container">
+                    {% if page.introduction_button_link %}
+                        <a href="{{ page.introduction_button_link.url }}"
+                           class="button is-rounded center sec-btn cta-btn">
+                            <span>{{ page.introduction_button_text }}</span>
+                            <span class="icon btn-icon">
+                                {% svg_icon name="arrow-right-full" %}
+                            </span>
+                        </a>
+                    {% else %}
+                        <a href="{{ page.introduction_button_link_external }}"
+                           target="_blank"
+                           rel="noopener"
+                           class="button is-rounded center sec-btn cta-btn">
+                            <span>{{ page.introduction_button_text }}</span>
+                            <span class="icon btn-icon">
+                                {% svg_icon name="arrow-right-full" %}
+                            </span>
+                        </a>
+                    {% endif %}
+
+                </div>
+            {% endif %}
+        {% endif %}
+
+    </div>
+    <div class="column is-1 is-desktop">
+    </div>
+    <div class="column is-6 intro-image">
+        <figure class="image">
+            {% if page.introduction_image %}
+                {% if page.introduction_image.url %}
+                    {% svg page.introduction_image.file.name %}
+                {% else %}
+                    {% image page.introduction_image original as intro_img %}
+                    <img class="progressive__img progressive--not-loaded"
+                         data-progressive="{{ intro_img.url }}"
+                         src="{% lazy_image_url intro_img %}" alt=""/>
+                {% endif %}
+            {% endif %}
+        </figure>
+    </div>
+</div>

@@ -1,0 +1,859 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block extra_css %}
+<link href='{% static "css/maplibre-gl.css" %}' rel="stylesheet" />
+<link href='{% static "cap/css/cap_detail_page.css" %}' rel="stylesheet" />
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .page-container {
+        flex: 1;
+        background-color: #f4f4f4;
+        overflow: auto;
+        min-height: unset;
+    }
+
+    #aviation-map {
+        height: 100%;
+        background-color: #f0f0f0;
+    }
+
+    .card-content .content p {
+        margin-bottom: 0;
+    }
+    .card-content .content p b {
+        font-weight: 600;
+    }
+
+    .messages .card {
+        margin: 1em 1em;
+    }
+
+    .time-slider-control {
+        position: absolute;
+        bottom: 0;
+        left:0;
+        right:0;
+        z-index: 1
+    }
+
+    .current-time {
+        color: #fff;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1rem;
+        z-index: 1;
+        font-weight:600
+    }
+
+    .time-slider-container {
+        padding: 20px;
+        background-color: #ffffff20;
+        border-radius: 10px;
+        z-index: 1;
+        margin: 1em 1em;
+        backdrop-filter: blur(10px);
+      
+    }
+
+    .time-labels {
+        display: flex;
+        justify-content: space-between;
+        color: #fff;
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 4px;
+        outline: none;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        background: #85e6ff;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    input[type='checkbox'] {
+        width: unset; 
+        height: unset; 
+        vertical-align: unset; 
+    }
+    
+    .checkbox > input {
+        margin-right: 0; 
+    }
+
+    .airplane-marker {
+        background-image: url("{% static 'img/airport.png' %}");
+        background-size: cover;
+        width: 30px;
+        height: 30px;
+    }
+    .format-toggle button{
+        background-color:#e3e3e3
+
+    }
+
+    .format-toggle button.active{
+        background-color: #333;
+        border-radius: 10px !important;
+        font-weight: 800;
+        color: #ffffff !important;
+    }
+
+    .maplibregl-popup-content {
+        width:450px
+    }
+
+    code{
+        color: #0B1CA3
+    }
+
+
+    
+</style>
+{% endblock extra_css %} 
+{% block navbar %} 
+
+{% include 'navigation/app_navbar.html' %} 
+
+{% endblock %} 
+
+{% block content %}
+
+<main>
+    <div style="background-color: white; height: 100%; overflow:hidden">
+        <div class="columns" style="height: 100%; margin: 0">
+            <div class="column is-8" style="border-radius: 1em">
+                <div class="card" style="height: 100%">
+                    <div class="card-content" style="height: 100%; padding: 0">
+                        <div id="aviation-map" style="border-radius: 1em; display:flex; flex-direction:column">
+                          
+                           
+                            <div class="time-slider-control">
+                           
+                            <div class="current-time" id="currentTime">
+                            </div>
+                            <div class="time-slider-container">
+                                <input
+                                    type="range"
+                                    class="slider is-fullwidth is-small"
+                                    min="0"
+                                    max="10"
+                                    value="10"
+                                    step="1"
+                                    id="timeSlider"
+                                />
+
+                                <div class="time-labels">
+                                    <span data-value="23">00Z</span>
+                                    <span data-value="0">00Z</span>
+                                    <span data-value="1">00Z</span>
+                                    <span data-value="2">00Z</span>
+                                    <span data-value="3">00Z</span>
+                                    <span data-value="4">00Z</span>
+                                    <span data-value="5">00Z</span>
+                                    <span data-value="6">00Z</span>
+                                    <span data-value="7">00Z</span>
+                                    <span data-value="8">00Z</span>
+                                </div>
+                            </div>
+                        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column" style="padding-left: 0; max-height: 75vh">
+                <div style="height: 100%">
+                   
+                    <div
+                        class="controls"
+                        style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        "
+                    >
+                        <div
+                            style="
+                                background-color: #e3e3e3;
+                                width: max-content;
+                                display: flex;
+                                border-radius: 10px !important;
+
+                            "
+                            class="format-toggle"
+                        >
+                            <button
+                                class="button m-0 is-small active"
+                                style="
+                                    border-radius: 10px !important;
+                                    font-weight: 800;
+                                "
+                                id="toggle-metar"
+                            >
+                                METAR
+                            </button>
+                            <button
+                                class="button m-0 is-small"
+                                style="
+                                    color: #333;
+                                    border-radius: 10px !important;
+                                    font-weight: 800;    
+                                "
+                                id="toggle-taf"
+                            >
+                                TAF
+                            </button>
+                        </div>
+
+
+                        <div class="field mt-3 mb-0">
+                            <p class="control has-icons-left has-icons-right">
+                              <input class="input is-small" id="search-box" type="text" placeholder="Start typing airport code...">
+                              <span class="icon is-small is-left">
+                                <i class="fa-solid fa-plane"></i>
+                              </span>
+                              <span class="icon is-small is-right">
+                                <i class="fas fa-search"></i>
+                              </span>
+                            </p>
+                          </div>
+                        
+                    </div>
+                    
+                    <hr>
+
+                    <div
+                        class="messages"
+                        style="overflow-y: auto; height: 100%"
+                    >
+                    <p style="text-align:center"><em>Fetching messages...</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %} {% block footer %} {% endblock %} {% block extra_js %}
+<script src="{% static 'js/maplibre-gl.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const map = new maplibregl.Map({
+            container: "aviation-map", // container ID
+            style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+            center: [37.86,10],
+            zoom: 5,
+            scrollZoom: false,
+            attributionControl: false, //
+        });
+    
+        // Add zoom control to the map.
+        map.addControl(
+            new maplibregl.NavigationControl({ showCompass: false }),
+            "top-right"
+        );
+    
+        // add fullscreen control
+        map.addControl(new maplibregl.FullscreenControl(), "top-right");
+        // Fit map bounds
+        let country_bounds = {{bounds|safe}}
+        map.fitBounds(country_bounds, { padding: 10 });
+
+        fetch("{% url 'wind-barb-icons' %}").then(response => response.json()).then(icons => {
+            icons.forEach(icon => {
+                map.loadImage(icon.url).then(image => {
+                    if (!map.hasImage(icon.id)) {
+                        map.addImage(icon.id, image.data);
+                    }
+                });
+            });
+        });
+
+        fetch("{% url 'cloud-cover-icons' %}").then(response => response.json()).then(icons => {
+            icons.forEach(icon => {
+                map.loadImage(icon.url).then(image => {
+                    if (!map.hasImage(icon.id)) {
+                        map.addImage(icon.id, image.data);
+                    }
+                });
+            });
+        });
+        
+        const slider = document.getElementById('timeSlider');
+        const currentTime = document.getElementById('currentTime');
+        const timeLabels = document.querySelectorAll('.time-labels span');
+        const latestDatetime = new Date("{{ latest_metar_datetime }}");
+
+        function formatDatetimeToUTC(datetime) {
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                year: 'numeric', 
+                month: 'short', 
+                day: '2-digit', 
+                timeZone: 'UTC', 
+                timeZoneName: 'short' 
+            };
+            return datetime.toLocaleString('en-GB', options);
+        }
+
+        // Set initial current time display
+        currentTime.textContent = formatDatetimeToUTC(latestDatetime);
+        let msgFormat = 'METAR';
+    
+        fetch('{% url "get_latest_message_datetimes" %}')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.latest_metar_datetime && !data.latest_taf_datetime) {
+                    console.error('No latest date returned from the server');
+                    return;
+                }    
+                
+    
+                // Set initial slider value based on latest datetime
+                slider.max = 9; // Since we have 16 labels
+                slider.value = 9;
+            
+    
+                const updateCurrentTime = () => {
+                    const latestDate = new Date(data[`latest_${msgFormat.toLowerCase()}_datetime`]);
+                    const latestDateTimeArray = getLatestDateTimeArray(latestDate);
+    
+                    // Populate time labels dynamically based on the latest datetime
+                    timeLabels.forEach((label, index) => {
+                        const dateTime = latestDateTimeArray[index];
+                        label.textContent = `${dateTime.toISOString().slice(11, 16)}Z`;
+                        label.dataset.value = dateTime.toISOString();
+                    });
+                    const value = slider.value;
+                    currentTime.textContent = `${timeLabels[value].textContent} UTC ${latestDate.toDateString()}`;
+                    loadMessages(timeLabels[value].dataset.value);
+
+                };
+    
+                updateCurrentTime(); // Initialize display
+                slider.addEventListener('input',  updateCurrentTime);
+    
+                document.getElementById('toggle-metar').addEventListener('click', () => {
+
+                    msgFormat = 'METAR';
+
+                    updateLabels();
+                    document.getElementById('toggle-metar').classList.add("active")
+                    document.getElementById('toggle-taf').classList.remove("active")
+                    updateCurrentTime()
+
+                    
+                });
+    
+                document.getElementById('toggle-taf').addEventListener('click', () => {
+
+                    msgFormat = 'TAF';
+                    updateLabels();
+                    document.getElementById('toggle-metar').classList.remove("active")
+                    document.getElementById('toggle-taf').classList.add("active")
+                    updateCurrentTime()
+
+                });
+    
+                document.getElementById('search-box').addEventListener('input', () => loadMessages(timeLabels[slider.value].dataset.value));
+    
+                function updateLabels() {
+                    const latestDate = new Date(data[`latest_${msgFormat.toLowerCase()}_datetime`]);
+                    const latestDateTimeArray = getLatestDateTimeArray(latestDate);
+    
+                    timeLabels.forEach((label, index) => {
+                        const dateTime = latestDateTimeArray[index];
+                        label.textContent = `${dateTime.toISOString().slice(11, 16)}Z`;
+                        label.dataset.value = dateTime.toISOString();
+                    });
+
+    
+                    loadMessages(timeLabels[slider.value].dataset.value);
+                }
+    
+                function loadMessages(datetime) {
+                    const searchQuery = document.getElementById('search-box').value.toUpperCase();
+                    const url = new URL('{% url "get_messages" %}', window.location.origin);
+                    url.searchParams.append('format', msgFormat);
+                    url.searchParams.append('datetime', datetime);
+    
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            
+                            
+                                let layers = [
+                                    'visibility-labels',
+                                    'pressure-labels',
+                                    'temperature-labels',
+                                    'dewpoint-labels',
+                                    'airports-labels',
+                                    'airports',
+                                    'cloud-cover'
+
+                                ]
+
+                                if(map.getSource('airports')){
+                                    layers.forEach(layer => {
+                                        if (map.getLayer(layer)) {
+                                            map.removeLayer(layer)
+    
+                                        }
+                                    })
+                                    map.removeSource('airports')
+
+                                }
+                                  
+                                    map.addSource('airports', {
+                                        'type': 'geojson',
+                                        'data': data
+                                    });
+
+                                    map.addLayer({
+                                        'id': 'airports',
+                                        'type': 'symbol',
+                                        'source': 'airports',
+                                        'layout': {
+                                            "icon-image": [
+                                                    "case",
+                                                    [">=", ["get", "latitude"], 0],                                                    
+                                                    [
+                                                    "case",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 107 / 1.944],
+                                                    "barbs-22",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 103 / 1.944],
+                                                    "barbs-21",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 97 / 1.944],
+                                                    "barbs-20",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 93 / 1.944],
+                                                    "barbs-19",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 87 / 1.944],
+                                                    "barbs-18",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 83 / 1.944],
+                                                    "barbs-17",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 78 / 1.944],
+                                                    "barbs-16",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 73 / 1.944],
+                                                    "barbs-15",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 68 / 1.944],
+                                                    "barbs-14",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 63 / 1.944],
+                                                    "barbs-13",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 58 / 1.944],
+                                                    "barbs-12",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 53 / 1.944],
+                                                    "barbs-11",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 48 / 1.944],
+                                                    "barbs-10",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 43 / 1.944],
+                                                    "barbs-9",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 38 / 1.944],
+                                                    "barbs-8",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 33 / 1.944],
+                                                    "barbs-7",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 28 / 1.944],
+                                                    "barbs-6",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 23 / 1.944],
+                                                    "barbs-5",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 18 / 1.944],
+                                                    "barbs-4",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 8 / 1.944],
+                                                    "barbs-3",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
+                                                    "barbs-2",
+                                                    "sky_clear",
+                                                ],
+                                                    [
+                                                        "case",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 107 / 1.944],
+                                                        "barbs-22-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 103 / 1.944],
+                                                        "barbs-21-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 97 / 1.944],
+                                                        "barbs-20-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 93 / 1.944],
+                                                        "barbs-19-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 87 / 1.944],
+                                                        "barbs-18-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 83 / 1.944],
+                                                        "barbs-17-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 78 / 1.944],
+                                                        "barbs-16-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 73 / 1.944],
+                                                        "barbs-15-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 68 / 1.944],
+                                                        "barbs-14-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 63 / 1.944],
+                                                        "barbs-13-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 58 / 1.944],
+                                                        "barbs-12-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 53 / 1.944],
+                                                        "barbs-11-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 48 / 1.944],
+                                                        "barbs-10-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 43 / 1.944],
+                                                        "barbs-9-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 38 / 1.944],
+                                                        "barbs-8-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 33 / 1.944],
+                                                        "barbs-7-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 28 / 1.944],
+                                                        "barbs-6-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 23 / 1.944],
+                                                        "barbs-5-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 18 / 1.944],
+                                                        "barbs-4-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 8 / 1.944],
+                                                        "barbs-3-flip",
+                                                        [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
+                                                        "barbs-2-flip",
+                                                        "sky_clear",
+                                                    ],
+                                                   
+                                                ],
+                                               "icon-size": [
+                                                    "case",
+                                                    [">=", ["to-number", ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
+                                                    ["literal", 0.4],
+                                                    ["literal", 0.1],
+                                                ],
+                                                "icon-allow-overlap": true,
+                                                "icon-rotation-alignment": "map",
+                                                "icon-rotate": [
+                                                    'interpolate',
+                                                    ['linear'],
+                                                    ["to-number", ['get', 'value', ['get', 'degrees',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]],
+                                                    0, 0,
+                                                    90, 90,
+                                                    360, 360,
+                                                    450, 450
+                                                ],
+                                                "icon-anchor": "bottom",
+                                                "icon-offset": [
+                                                    "case",
+                                                    [">=", ['to-number', ['get', 'value', ['get', 'speed',['get', 'winds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 3 / 1.944],
+                                                    ["literal", [5, -15]],
+                                                    ["literal", [0, 65]],
+                                                ],
+                                        }
+                                    });
+
+
+                                    map.addLayer({
+                                        'id': 'cloud-cover',
+                                        'type': 'symbol',
+                                        'source': 'airports',
+                                        'layout': {
+                                            "icon-image": [
+                                                    "case",
+                                                    ["==",  ['get', 'value', ['get', 'quantity',['at',0, ['get', 'clouds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 'sky_clear'],
+                                                    "sky_clear",
+                                                    ["==",  ['get', 'value', ['get', 'quantity',['at',0, ['get', 'clouds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 'scattered'],
+                                                    "scattered",
+                                                    ["==",  ['get', 'value', ['get', 'quantity',['at',0, ['get', 'clouds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 'broken'],
+                                                    "broken",
+                                                    ["==",  ['get', 'value', ['get', 'quantity',['at',0, ['get', 'clouds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 'few'],
+                                                    "few",
+                                                    ["==",  ['get', 'value', ['get', 'quantity',['at',0, ['get', 'clouds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 'no_significant_cloud'],
+                                                    "no_significant_cloud",
+                                                    ["==",  ['get', 'value', ['get', 'quantity',['at',0, ['get', 'clouds', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]]], 'overcast'],
+                                                    "overcast",
+                                                    "other",
+                                                ],
+                                               "icon-size": 0.1,
+                                                "icon-allow-overlap": true,
+                                                "icon-anchor": "bottom",
+                                                "icon-offset": [0, 65],
+                                        }
+                                    });
+
+                                    map.addLayer({
+                                        'id': 'visibility-labels',
+                                        'type': 'symbol',
+                                        'source': 'airports',
+                                        'layout': {
+                                            'text-field': ['get', 'value',['get', 'distance',['get', 'visibility', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]],
+                                            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'], // Use a bolder font stack
+                                            'text-size': 12,
+                                            'text-offset': [-3, 0], // Offset text to the bottom-right of the icon
+                                            'text-allow-overlap': true // Allow text to overlap with other features
+
+                                        },
+                                        'paint': {
+                                            'text-color': '#85e6ff' // Set the text color
+                                        }
+                                    });
+
+                                    // Add the text layer
+                                    map.addLayer({
+                                        'id': 'dewpoint-labels',
+                                        'type': 'symbol',
+                                        'source': 'airports',
+                                        'layout': {
+                                            'text-field': ['get', 'value',['get', 'dew_point', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]],
+                                            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'], // Use a bolder font stack
+                                            'text-size': 12,
+                                            'text-offset': [-1.5, 1.5], // Offset text to the bottom-right of the icon
+                                            'text-allow-overlap': true // Allow text to overlap with other features
+
+                                        },
+                                        'paint': {
+                                            'text-color': '#ffffff' // Set the text color
+                                        }
+                                    });
+
+                                    // Add the text layer
+                                    map.addLayer({
+                                        'id': 'temperature-labels',
+                                        'type': 'symbol',
+                                        'source': 'airports',
+                                        'layout': {
+                                            'text-field': ['get', 'value',['get', 'temperature', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]], // Display the airport ID
+                                            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'], // Use a bolder font stack
+                                            'text-size': 12,
+                                            'text-offset': [-1.5, -1.5], // Offset text to the bottom-right of the icon
+                                            'text-allow-overlap': true // Allow text to overlap with other features
+
+                                        },
+                                        'paint': {
+                                            'text-color': '#ffffff' // Set the text color
+                                        }
+                                    });
+
+                                    // Add the text layer
+                                    map.addLayer({
+                                        'id': 'pressure-labels',
+                                        'type': 'symbol',
+                                        'source': 'airports',
+                                        'layout': {
+                                            'text-field': [
+                                            "slice",
+                                            [
+                                                "to-string",['get', 'value',['get', 'altimeter', ['get', 'msg_decode', ['at', 0, ['get', 'messages']]]]]],
+                                                -3
+                                            ], // Display the airport ID
+                                            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'], // Use a bolder font stack
+                                            'text-size': 12,
+                                            'text-offset': [1.5,0], // Offset text to the bottom-right of the icon
+                                            'text-allow-overlap': true // Allow text to overlap with other features
+
+                                        },
+                                        'paint': {
+                                            'text-color': '#ffffff' // Set the text color
+                                        }
+                                    });
+
+                                     // Add the text layer
+                                     map.addLayer({
+                                        'id': 'airports-labels',
+                                        'type': 'symbol',
+                                        'source': 'airports',
+                                        'layout': {
+                                            'text-field': ['get', 'id'], // Display the airport ID
+                                            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'], // Use a bolder font stack
+                                            'text-size': 12,
+                                            'text-offset': [1.5, 1.5], // Offset text to the bottom-right of the icon
+                                            'text-allow-overlap': true // Allow text to overlap with other features
+
+                                        },
+                                        'paint': {
+                                            'text-color': '#f8a02e90' // Set the text color
+                                        }
+                                    });
+
+                                    for(const layer of layers){
+                                    map.on('click', layer, (e) => {
+                                        const coordinates = e.features[0].geometry.coordinates.slice();
+                                        const id = e.features[0].properties.id;
+                                        const name = e.features[0].properties.name;
+                                        const messages = e.features[0].properties.messages
+                                        const category = e.features[0].properties.category_name
+    
+                                        const airportPopup = document.createElement('div');
+                                        const airportPopupTimeline = document.createElement('ul')
+                                        airportPopupTimeline.classList.add('warning-timeline')
+
+    
+                                        JSON.parse(messages).forEach((message) => {
+                                            const airportPopupMessages = document.createElement('li')
+                                            airportPopupMessages.classList.add('warning-timeline__item')
+                                            airportPopupMessages.innerHTML += `
+
+                                                    <div class="warning-timeline__circle"></div>
+                                                    <div style="display:flex; flex-direction:column;align-items: flex-start">
+                                                        <span class="time-type tag is-light">
+                                                            ${message.msg_datetime}
+                                                        </span>
+                                                        <code>
+                                                            ${message.msg_encode
+                                                                .replace(/\r\n/g, '&#13;')
+                                                                .replace(/  /g, '<br>&nbsp;&nbsp;')
+                                                                .replace(/^\s+/gm, match => match.replace(/\s/g, '&nbsp;'))}
+                                                        </code>
+                                                        
+                                                    </div>
+
+                                            `
+                                            airportPopupTimeline.appendChild(airportPopupMessages);
+                                        })
+
+        
+                                        new maplibregl.Popup()
+                                            .setLngLat(coordinates)
+                                            .setHTML(`
+                                            <div class="p-2">
+                                                <h4 class="pb-2">(${id}) ${name} - ${category}</h4>
+                                                ${airportPopupTimeline.outerHTML}
+                                                </div>
+                                            `)
+                                            .addTo(map);
+                                    });
+
+                                    map.on('mouseenter', layer, () => {
+                                        map.getCanvas().style.cursor = 'pointer';
+                                    });
+        
+                                    map.on('mouseleave', layer, () => {
+                                        map.getCanvas().style.cursor = '';
+                                    });
+
+                                }
+        
+                                  
+                                
+                            
+                            
+    
+                            const messagesContainer = document.querySelector('.messages');
+                            
+                            messagesContainer.innerHTML = '';
+                            if(data.features.length>0){
+                                data.features.forEach(feature => {
+                                    const properties = feature.properties;
+                                    if (!searchQuery || properties.id.toUpperCase().includes(searchQuery) || properties.name.toUpperCase().includes(searchQuery)) {
+                                        
+                                        properties.messages.forEach(message => {
+                                            
+                                            const messageCard = document.createElement('div');
+                                            const temperature = 'temperature' in message.msg_decode ? message.msg_decode.temperature.value ? `<p><b>Temperature:</b> ${message.msg_decode.temperature.value} ${message.msg_decode.temperature.units}</p>`: '' : ''
+                                            const dewpoint = 'dew_point' in message.msg_decode ? message.msg_decode.dew_point.value ? `<p><b>Dewpoint:</b> ${message.msg_decode.dew_point.value} ${message.msg_decode.temperature.units}</p>`: '' : ''
+                                            const winds = 'winds' in message.msg_decode ? message.msg_decode.winds.speed.value && message.msg_decode.winds.direction.value && message.msg_decode.winds.degrees.value ? `<p><b>Winds:</b> Blowing from the ${message.msg_decode.winds.direction.value} (${message.msg_decode.winds.degrees.value} ${message.msg_decode.winds.degrees.units}) at ${message.msg_decode.winds.speed.value} ${message.msg_decode.winds.speed.units}</p>`: '' : ''
+                                            const visibility = 'visibility' in message.msg_decode ? message.msg_decode.visibility.distance.value ? `<p><b>Visibility:</b> ${message.msg_decode.visibility.distance.value}</p>`: '' : ''
+                                            const pressure = 'altimeter' in message.msg_decode ? message.msg_decode.altimeter.value ? `<p><b>Pressure (altimeter):</b> ${message.msg_decode.altimeter.value} mb</p>`: '' : ''
+                                            const clouds = 'clouds' in message.msg_decode ? message.msg_decode.clouds.length > 0 ? `<p><b>Clouds:</b> ${message.msg_decode.clouds.map((cloud) => (cloud.quantity.value ? cloud.quantity.value : '') + ' ' + (cloud.type.value ? cloud.type.value : '') + ' clouds at ' + (cloud.height.value ? cloud.height.value + ' ' +cloud.height.units : '')).join()}</p>`: '' : ''
+                                            const conditions = 'conditions' in message.msg_decode ? message.msg_decode.conditions.length > 0 ? 
+                                                `<p><b>Weather Conditions:</b> ${message.msg_decode.conditions.map(condition =>
+                                                        `${condition.intensity.value} ${condition.phenomenons.length > 0 ? condition.phenomenons.map(phenomenon => phenomenon.value).join(' and ') : ''} with ${condition.descriptive.value} `).join(', ')}</p>`
+                                                        :'' : ''
+                                            const trends = 'trends' in message.msg_decode && message.msg_decode.trends.length > 0 
+                                                ? `<hr><p><b>Trends:</b></p>${message.msg_decode.trends.map(trend => `
+                                                    <div style="color:#008001;font-style: italic"> <p style="text-transform:uppercase; font-weight:800">${trend.start_date ? `From ${trend.start_date}` : ''} ${trend.end_date ? `to ${trend.end_date}` : ''} <span style="text-decoration:underline">${trend.trend_type}</span>: </p>
+                                                    ${'conditions' in trend && trend.conditions.length > 0 ? 
+                                                        `<p>${trend.conditions.map(condition =>
+                                                        `${condition.intensity.value} ${condition.phenomenons.length > 0 ? condition.phenomenons.map(phenomenon => phenomenon.value).join(' and ') : ''} with ${condition.descriptive.value} `).join(', ')}</p>`
+                                                        :''
+                                                    }
+                                                    ${'clouds' in trend && trend.clouds.length > 0 
+                                                        ? `<p><b>Clouds:</b> ${trend.clouds.map(cloud => 
+                                                            (cloud.quantity.value ? cloud.quantity.value : '') + ' ' + 
+                                                            (cloud.type.value ? cloud.type.value : '') + ' clouds at ' + 
+                                                            (cloud.height.value ? cloud.height.value + ' ' + cloud.height.units : '')
+                                                        ).join(', ')}</p></div>` 
+                                                        : ''
+                                                    }`).join('')}`
+                                                : '';
+
+
+                                            messageCard.className = 'card elevation-2 mb-3';
+                                            messageCard.innerHTML = `
+                                                <header class="card-header" style="display: flex; flex-direction: column">
+                                                    <p class="card-header-title">
+                                                        <span class="tag is-dark">
+                                                            <span class="icon">
+                                                                <i class="fa-solid fa-plane"></i>
+                                                            </span>
+                                                            ${properties.id} (${properties.name})
+                                                        </span>
+                                                    </p>
+                                                    <p class="card-header-title pt-0">
+                                                        <code>${message.msg_encode
+                                                        .replace(/\r\n/g, '&#13;')
+                                                        .replace(/  /g, '<br>&nbsp;&nbsp;')
+                                                        .replace(/^\s+/gm, match => match.replace(/\s/g, '&nbsp;'))}</code>
+                                                    </p>
+                                                </header>
+                                                <div class="card-content" style="background-color:#D0E7F2">
+                                                    <div class="content">
+                                                        <p><b>Conditions at:</b> <time datetime="${message.msg_datetime}">${formatDatetimeToUTC(new Date(message.msg_datetime))}</time></p>
+                                                        ${temperature}
+                                                        ${dewpoint}
+                                                        ${pressure}
+                                                        ${winds}
+                                                        ${visibility}
+                                                        ${clouds}
+                                                        ${trends}
+                                                    </div>
+                                                </div>
+                                            `;
+                                            messagesContainer.appendChild(messageCard);
+
+                                        })
+
+                                        
+                                    } 
+                                });
+                            } else{
+                                messagesContainer.innerHTML = '<p style="text-align:center"><em> No messages found. Try another date/time </em></p>';
+                            }
+                        })
+                        .catch(error => console.error('Error fetching airport data:', error));
+                }
+    
+                function getLatestDateTimeArray(latestDate) {
+                    const dateTimeArray = [];
+                    for (let i = 0; i < 10; i++) {
+                        const dateTime = new Date(latestDate);
+                        dateTime.setMinutes(dateTime.getMinutes() - i * 60);
+                        dateTimeArray.push(dateTime);
+                    }
+                    return dateTimeArray.reverse();
+                }
+            })
+            .catch(error => console.error('Error fetching latest message datetimes:', error));
+    });
+    
+</script>
+
+{% endblock extra_js %}

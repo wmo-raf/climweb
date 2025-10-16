@@ -1,0 +1,32 @@
+{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags nmhs_cms_tags wagtailiconchooser_tags i18n %}
+
+{% if page.services %}
+    <section style="padding-top: 4rem; padding-bottom: 4rem;" class="has-text-centered">
+        <div class="container is-justify-content-center ma-2">
+            <h2 class="section-title has-text-centered">{% translate "Our Service Areas " %}</h2>
+            <div class="columns is-multiline is-mobile intro-items">
+                {% for service in page.services %}
+                    <a href="{{ service.url }}"
+                       class="column is-half-mobile is-half-tablet is-one-quarter-desktop service-item">
+                        <figure class="image" style="height:50px;width: 50px">
+                            <div class="service-icon-container">
+                                <img class="service-icon-bg-img" src="{% static 'images/icon-bg.svg' %}"
+                                     alt="background icon">
+                                <div class="service-icon">
+                                    {% if service.service.icon %}
+                                        {% svg_icon service.service.icon %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </figure>
+                        <div class="service-detail">
+                            <p class="intro-item-title dark-grey">
+                                {{ service.banner_title }}
+                            </p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endif %}

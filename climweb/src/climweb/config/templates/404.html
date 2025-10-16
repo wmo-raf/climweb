@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load i18n wagtailcore_tags wagtailiconchooser_tags %}
+
+{% block title %}404{% endblock %}
+
+{% block body_class %}template-404{% endblock %}
+
+{% wagtail_site as current_site %}
+
+{% block content %}
+    <main>
+        <section>
+            <div class="container has-text-centered">
+                <div>
+                    <div style="padding-left: 20px; align-items: center;
+                display: flex;
+                flex-direction: column">
+                        <h3 class="py-2">
+                            {% translate "Page not found" %}
+                        </h3>
+                        <h5 class="py-4"
+                            style="color: grey">
+                            {% translate "Sorry, this page could not be found" %}.
+                        </h5>
+                        <a href="{{ current_site.root_url }}"
+                           class="button is-rounded center sec-btn cta-btn" style="text-align:center">
+                            <span>{% translate "Back to Home Page" %}  </span>
+                            <span class="icon btn-icon">
+                                {% svg_icon name="arrow-right-full" %}
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

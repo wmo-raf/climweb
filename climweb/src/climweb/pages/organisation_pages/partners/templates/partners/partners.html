@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags static wagtailimages_tags lazyimages_tags i18n  %}
+
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/partners.css' %}">
+{% endblock %}
+
+{% block body_class %}partners-page{% endblock %}
+
+{% block content %}
+    <main>
+        {% include 'hero.html' with page=page %}
+        {% if page.introduction_image %}
+            <section class="nmhs-work introduction-section">
+                <div class="work container">
+                    {% include 'service_introduction.html' with page=page %}
+                </div>
+            </section>
+        {% else %}
+            <section class="nmhs-work introduction-section">
+                <div class="work container">
+                    <h2 class="section-subheader">
+                        {{ page.introduction_title }}
+                    </h2>
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+        {% if partners %}
+            <section>
+                <div class="container">
+                    <h2 class="section-title has-text-centered">
+                        {% translate "Our Partners" %}
+                    </h2>
+                    <div class="columns is-multiline is-mobile is-centered partners-list">
+                        {% for partner in partners %}
+                            {% if partner.logo %}
+                                <div class="column is-4-mobile is-4-tablet is-2-desktop  partner-item">
+                                    <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
+                                       target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                                       rel="noopener">
+                                        <div class="partner-img-wrapper" title="{{ partner.name }}">
+                                            <figure class="image">
+                                                {% image partner.logo original as p_logo %}
+                                                <img class="progressive__img progressive--not-loaded"
+                                                     data-progressive="{{ p_logo.url }}"
+                                                     src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"
+                                                     syle="width:100px;object-fit: cover;"/>
+                                            </figure>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.partners_cta_title or page.partners_cta_image or page.partners_cta_text %}
+            <section class="nmhs-work partners-cta-section ">
+                <div class="container work">
+                    {% include 'partners/partners_cta.html' with page=page %}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}

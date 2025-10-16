@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags lazyimages_tags wagtailimages_tags nmhs_cms_tags wagtailiconchooser_tags i18n get_share_url %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'products/css/product_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}product_detail{% endblock %}
+
+{% block content %}
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        <section class=product-detail>
+            <div class="container">
+                <h2 class="section-title center">{{ page.title }}</h2>
+                <div class="product-items-container">
+                    <div class="columns">
+                        <div class="column is-one-third-desktop is-full-mobile">
+                            <div class="categories">
+                                {% for category_id, category in categories.items %}
+                                    <div class="category">
+                                        <div class="category-heading">
+                                            <span class="category-icon">
+                                                {% svg_icon name=category.icon %}
+                                            </span>
+                                            <span class="category-title">{{ category.name }}</span>
+                                        </div>
+                                        <div class="tabs" role="tablist" style="white-space:normal">
+                                            {% for slug, item in products.items %}
+                                                {% if item.item_type.category.id == category_id %}
+                                                    <a class="tab" id="tab-label-content"
+                                                       href="#tab-{{ slug }}"
+                                                       role="tab" aria-controls="tab-{{ slug }}"
+                                                       style="border-bottom-style:none !important">
+                                                        {{ item.item_type.name }}
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="column is-two-thirds-desktop is-full-mobile">
+                            <div class="content-container">
+                                {% for slug, item_products_dict  in products.items %}
+                                    <div class="content" id="tab-{{ slug }}">
+                                        {% setvar item_products_dict.products|length as products_len %}
+                                        <div class="date-tabs" id="{{ slug }}-date-tab">
+                                            <div class="tabs is-toggle is-centered">
+                                                <ul>
+                                                    {% for product_item in item_products_dict.products %}
+                                                        <li class="product-item-date-tab {% if forloop.first %}is-active{% endif %}"
+                                                            data-target="{{ slug }}-{{ product_item.value.product_type }}-{{ product_item.value.product_date_str }}">
+                                                            <a>
+                                                                <span class="icon is-small">
+                                                                    {% svg_icon name="calendar-alt" %}
+                                                                </span>
+                                                                <span>{{ product_item.value.date }} </span>
+                                                                {% if product_item.value.valid_until %}
+                                                                    <span style="margin-left: 4px">- {{ product_item.value.valid_until }}</span>
+                                                                {% endif %}
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {% for product_item in item_products_dict.products %}
+                                            <div class="product-item-wrapper {% if forloop.first %}is-active{% endif %}"
+                                                 id="{{ slug }}-{{ product_item.value.product_type }}-{{ product_item.value.product_date_str }}"
+                                            >
+                                                {% if product_item.block_type == "image_product" %}
+                                                    <figure class="product-item-image"
+                                                            style="margin-left: 0;margin-right: 0">
+                                                        {% image product_item.value.image height-600 width-600 as product_item_image %}
+                                                        <img class="progressive__img progressive--not-loaded"
+                                                             data-progressive="{{ product_item_image.url }}"
+                                                             src="{% lazy_image_url product_item_image %}"
+                                                             alt="{{ product_item.value.product_item_type.name }}"
+                                                        />
+                                                    </figure>
+                                                    <div class="share-buttons">
+                                                        <a class="button is-rounded is-small"
+                                                           href="{{ product_item_image.url }}"
+                                                           target="_blank"
+                                                           rel="noopener noreferrer"
+                                                        >
+                                                            <span class="icon">
+                                                                {% svg_icon name="view" %}
+                                                            </span>
+                                                            <span class="share-button-title">
+                                                                {% translate "View" %}
+                                                            </span>
+                                                        </a>
+                                                        <a class="button is-rounded is-small"
+                                                           href="{{ product_item_image.url }}"
+                                                           download="{{ product_item.value.product_item_type.name }}"
+                                                        >
+                                                            <span class="icon">
+                                                                {% svg_icon name="download" %}
+                                                            </span>
+                                                            <span class="share-button-title">
+                                                                {% translate "Download" %}
+                                                            </span>
+                                                        </a>
+                                                        {% share_buttons url=page.get_full_url text=product_item.value.product_item_type.name %}
+                                                    </div>
+                                                {% elif product_item.block_type == "document_product" %}
+                                                    <div class="product-item-doc-container box {{ box_shadow }}">
+                                                        <figure class="product-item-doc">
+                                                            {% if  product_item.value.thumbnail %}
+                                                                {% image product_item.value.thumbnail height-600 width-600 as product_item_thumbnail %}
+                                                                <img class="progressive__img progressive--not-loaded"
+                                                                     data-progressive="{{ product_item_thumbnail.url }}"
+                                                                     src="{% lazy_image_url product_item_thumbnail %}"
+                                                                     alt="{{ product_item.value.product_item_type.name }}"
+                                                                />
+                                                            {% else %}
+                                                                {% svg_icon name="document" %}
+                                                            {% endif %}
+                                                        </figure>
+                                                        <div class="product-item-doc-meta">
+                                                            <span class="document-detail-file-download">
+                                                                <a href="{{ product_item.value.document.url }}"
+                                                                   title="{{ product_item.product_item_type.name }}"
+                                                                >
+                                                                    <span class="icon">
+                                                                        {% svg_icon name="download" %}
+                                                                    </span>
+                                                                    <span>
+                                                                        {% blocktranslate with file_size=product_item.value.document.file.size|filesizeformat trimmed %}
+                                                                            Download document  - {{ file_size }}
+                                                                        {% endblocktranslate %}
+                                                                    </span>
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="share-buttons">
+                                                        <a class="button is-rounded is-small"
+                                                           href="{{ product_item.value.document.url }}"
+                                                           download="{{ product_item.product_item_type.name }}"
+                                                        >
+                                                            <span class="icon">
+                                                                {% svg_icon name="download" %}
+                                                            </span>
+                                                            <span class="share-button-title">
+                                                                {% translate "Download document" %}
+                                                            </span>
+                                                        </a>
+                                                        {% share_buttons url=page.get_full_url text=product_item.value.product_item_type.name %}
+                                                    </div>
+                                                {% elif product_item.block_type == "content_block" %}
+                                                    <div class="product-item-text-container">
+
+                                                        {% for block in product_item.value.content %}
+                                                            {% if block.block_type == 'table' %}
+                                                                {% include_block block %}
+                                                            {% elif block.block_type == 'text' %}
+                                                                {{ block.value }}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+
+                                                {% endif %}
+
+                                                {% if product_item.value.description %}
+                                                    <div class="content-description">{{ product_item.value.description|richtext }}</div>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const tabs = $(".categories .tab")
+            const contents = $(".content-container .content");
+            const hash = window.location.hash;
+            const dateTabs = $(".product-item-date-tab")
+            const productItems = $(".product-item-wrapper")
+
+            const setDefault = () => {
+                const firstTab = tabs.first()
+                const contentId = firstTab.attr("aria-controls")
+                if (contentId) {
+                    $("#" + contentId).addClass("active")
+                    firstTab.addClass("active")
+                }
+            }
+
+
+            if (hash) {
+                const hashId = hash.split("#")[1]
+
+                try {
+                    const $content = $("#" + hashId)
+
+                    if ($content.length) {
+                        $content.addClass("active")
+                        const tab = $("[aria-controls=" + hashId + "]");
+
+                        if (tab) {
+                            tab.addClass("active")
+                        }
+                    } else {
+                        setDefault()
+                    }
+
+                } catch (e) {
+                    setDefault()
+                }
+
+
+            } else {
+                setDefault()
+            }
+
+
+            const removeActiveClass = () => {
+                tabs.each(function () {
+                    const tab = $(this)
+                    tab.removeClass("active");
+                })
+
+                contents.each(function () {
+                    const content = $(this)
+                    content.removeClass("active");
+                });
+            };
+
+            tabs.each(function (i) {
+                const tab = $(this)
+                const contentId = tab.attr("aria-controls")
+
+                tab.click(function (e) {
+                    removeActiveClass();
+                    tab.addClass("active");
+                    if (contentId) {
+                        const content = $("#" + contentId)
+                        // add active class to content container
+                        content.addClass("active")
+                        // get all date tabs
+                        const dateTabs = content.find(".date-tabs .tabs li")
+                        // remove is-active class from all
+                        dateTabs.removeClass("is-active")
+
+
+                        // get first date tab
+                        const firstDateTab = dateTabs.first()
+                        // add active class to the first date tab
+                        firstDateTab.addClass("is-active")
+                        // get target product item
+                        const dataTarget = firstDateTab.data("target")
+                        // remove active class from all product items
+                        productItems.removeClass("is-active")
+
+                        // make only targe active
+                        $("#" + dataTarget).addClass("is-active")
+                    }
+                })
+            });
+
+            dateTabs.click(function () {
+                const $this = $(this)
+                const dataTarget = $this.data("target")
+
+                // make only this date tab active
+                dateTabs.removeClass("is-active")
+                $this.addClass("is-active")
+
+                // make only target active
+                productItems.removeClass("is-active")
+                $("#" + dataTarget).addClass("is-active")
+            })
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% load wagtailiconchooser_tags %}
+
+<div class="station-observation">
+    <div class="station-name">
+        <span class="icon" style="height: 20px">
+            {% svg_icon name="map-pin" %}
+        </span>
+        <span>{{ self.station_name }}:</span>
+    </div>
+    <div class="value">
+        {{ self.value }} {{ units }}
+    </div>
+</div>

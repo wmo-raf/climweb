@@ -1,0 +1,35 @@
+{% load static i18n wagtailiconchooser_tags %}
+
+<div class="results-filter">
+    <div class="accordion js-accordion" id="terms-filter-accordion">
+        <div class="accordion__item js-accordion-item active">
+            <h6 class="accordion-header js-accordion-header filter-item-header">
+                <span>{% translate "Filter terms by " %}  </span>
+                <span class="icon">
+                           {% svg_icon name="arrow-down" %}
+                </span>
+            </h6>
+            <div class="accordion-body js-accordion-body">
+                <div class="accordion-body__contents">
+                    <label class="checkbox-container" for="local">
+                        <span class="filter-sub-item">
+                            {% translate "Has local description" %}
+                        </span>
+                        <input type="checkbox" id="local"
+                               name="local"
+                               value="local"
+                               class="glossary-filter local"
+                        >
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        new Accordion("terms-filter-accordion");
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

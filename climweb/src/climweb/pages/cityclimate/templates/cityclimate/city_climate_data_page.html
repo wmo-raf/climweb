@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags i18n wagtailiconchooser_tags %}
+
+{% block extra_css %}
+    {{ block.supper }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/maplibre-gl.css' %}">
+    <style>
+
+        .data-controls-container {
+            background-color: #f8f9fb;
+            padding: 20px;
+            margin-bottom: 40px;
+            height: 100%
+        }
+
+        .data-control {
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .control-label {
+            font-weight: 500;
+        }
+
+        #climate-map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px
+        }
+
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        {% if cities %}
+            <section class="container">
+                <h2 class="section-title has-text-centered">{{ page.title }}</h2>
+                <div class="columns">
+                    <div class="column is-4">
+                        <div class="data-controls-container">
+                            <div class="data-control">
+                                <label for="city_select" class="control-label">
+                                    {% translate "Choose a city" %}
+                                </label>
+                                <div class="control has-icons-left">
+                                    <div class="select">
+                                        <select id="city_select">
+                                            {% for city in cities %}
+                                                <option value="{{ city.pk }}"
+                                                        {% if forloop.first %}
+                                                        selected{% endif %}>{{ city.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <span class="icon s-left">
+                                        {% svg_icon name="globe" %}
+                                    </span>
+                                </div>
+                            </div>
+                            {% if page.filter_by_month %}
+                                <div class="data-control">
+                                    <label for="month_select" class="control-label">
+                                        {% translate "Select Month" %}
+                                    </label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select id="month_select">
+                                                {% for month in months %}
+                                                    <option value="{{ month.num }}"
+                                                            {% if forloop.first %}
+                                                            selected{% endif %}>{{ month.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="data-control">
+                                <div>
+                                    <label for="parameter_select" class="control-label" style="padding-bottom: 20px">
+                                        {% translate "Select Parameter" %}
+                                    </label>
+                                    <div class="control" style="display: flex;flex-direction: column">
+                                        {% for param in parameters %}
+                                            <div>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="parameter" value="{{ param.slug }}"
+                                                            {% if forloop.first %}
+                                                           checked{% endif %}>
+                                                    {{ param.name }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="climate-map" class="is-hidden-mobile"></div>
+                        </div>
+                    </div>
+
+                    <div class="column is-8">
+                        <div id="chart-container" class="elevation-1"
+                             style="width:100%; height:400px;margin-top: 20px"></div>
+                    </div>
+                </div>
+
+            </section>
+            <section class="container" style="padding-top: 0">
+                {% if page.description %}
+                    <div>
+                        {{ page.description | richtext }}
+                    </div>
+                {% endif %}
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.supper }}
+
+    {% if cities %}
+        <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/highcharts-exporting.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
+
+        <script>
+
+            let countryBounds = {{ bounds|default_if_none:"[]"|safe }};
+            const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+
+            const citiesWithDataIds = {{ cities_with_data_ids|default_if_none:"[]"|safe }};
+
+            if (countryBounds.length === 0) {
+                countryBounds = null;
+            }
+
+            const options = {
+                pageId: {{ page.pk }},
+                city_data_url: "{{ city_data_url }}",
+                parameters: {{ parameters|safe }},
+                pageTitle: "{{ page.title }}",
+                months: "{{ months|safe }}",
+                filterByMonth: {{ page.filter_by_month|yesno:"true,false" }},
+                timeFormat: "{{ page.time_format|default_if_none:"" }}",
+            }
+
+            $(document).ready(function () {
+                const cityData = {}
+
+                const $citySelect = $("#city_select")
+                const $monthSelect = $("#month_select")
+
+                $citySelect.on("change", function () {
+                    updateChart()
+                })
+
+                $monthSelect.on("change", function () {
+                    updateChart()
+                })
+
+                $("input[name='parameter']").on("change", function () {
+                    updateChart()
+                })
+
+                let mapReady = false
+
+                // default MapLibre style
+                const defaultStyle = {
+                    'version': 8,
+                    'sources': {
+                        'carto-dark': {
+                            'type': 'raster',
+                            'tiles': [
+                                "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                                "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                                "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
+                                "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
+                            ]
+                        },
+                        'carto-light': {
+                            'type': 'raster',
+                            'tiles': [
+                                "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                                "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                                "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+                                "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
+                            ]
+                        },
+                        'wikimedia': {
+                            'type': 'raster',
+                            'tiles': [
+                                "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+                            ]
+                        }
+                    },
+                    'layers': [{
+                        'id': 'carto-light-layer',
+                        'source': 'carto-light',
+
+
+                        'type': 'raster',
+                        'minzoom': 0,
+                        'maxzoom': 22
+                    }]
+                }
+
+                const climate_map = new maplibregl.Map({
+                    container: "climate-map", // container ID
+                    style: defaultStyle,
+                    center: [0, 0], // starting position [lng, lat]
+                    zoom: 2, // starting zoom
+                    scrollZoom: false,
+                    dragRotate: false,
+                });
+
+                // add zoom control
+                climate_map.addControl(new maplibregl.NavigationControl({showCompass: false}));
+
+                const fetchCityData = () => {
+                    const selectedCity = $citySelect.val()
+                    return fetch(options.city_data_url + `?city_id=${selectedCity}`).then((res) => res.json())
+                }
+
+                const updateChart = () => {
+                    const selectedCity = $citySelect.val()
+
+                    if (mapReady) {
+                        try {
+                            climate_map.setFilter("cities_outline", ["==", "id", selectedCity])
+                        } catch (e) {
+                            console.error(e)
+                        }
+                    }
+
+
+                    if (cityData[selectedCity]) {
+                        setChart(cityData[selectedCity])
+                    } else {
+                        fetchCityData().then(data => {
+                            setChart(data)
+                            cityData[selectedCity] = data
+                        })
+                    }
+                }
+
+                const setChart = (data) => {
+                    const selectedCity = $citySelect.val()
+                    const selectedCityLabel = $citySelect.find(`option[value="${selectedCity}"]:selected`).text();
+
+                    let apiData = data
+
+                    if (options.filterByMonth) {
+                        const selectedMonth = Number($monthSelect.val())
+
+                        apiData = data.filter(d => new Date(d.date).getMonth() === selectedMonth - 1)
+                    }
+
+                    let dates = apiData.map(entry => new Date(entry.date).getTime());
+
+
+                    let parameters = options.parameters
+
+                    let selectedParams = []
+
+                    $("input[name='parameter']:checked").map(function () {
+
+                        if (this.value) {
+                            selectedParams.push(parameters.find(p => p.slug === this.value))
+                        }
+                    })
+
+
+                    const seriesConfig = selectedParams.reduce((all, param) => {
+                        const paramData = apiData.map(entry => entry[param.slug]);
+                        if (paramData && !!paramData.length) {
+                            all.push({
+                                name: param.name,
+                                data: paramData,
+                                valueSuffix: param.units,
+                                ...param.chart_config,
+                            })
+                        }
+                        return all
+                    }, [])
+                    let dateFormat = "%Y-%m-%d";
+
+                    switch (options.timeFormat) {
+                        case "day":
+                            dateFormat = '%d'
+                            break;
+                        case "dayandmonth":
+                            dateFormat = '%d %b'
+                            break;
+                        case "month":
+                            dateFormat = '%b'
+                            break;
+                        case "monthandyear":
+                            dateFormat = '%b %Y'
+                            break;
+                        case "year":
+                            dateFormat = '%Y'
+                            break;
+                        default:
+                            break;
+                    }
+
+                    const chartOptions = {
+                        title: {
+                            text: `${options.pageTitle} - ${selectedCityLabel}`
+                        },
+                        chart: {},
+                        xAxis: [{
+                            type: 'datetime',
+                            categories: dates,
+                            labels: {
+                                formatter: function () {
+                                    return Highcharts.dateFormat(dateFormat, this.value);
+                                }
+                            },
+                        }],
+                        tooltip: {
+                            formatter: function () {
+                                let tooltipContent = '<b>Date: ' + Highcharts.dateFormat(dateFormat, this.x) + '</b><br>';
+                                // Loop through each series and display Y-axis data
+                                this.points.forEach(function (point) {
+                                    const suffix = point.series.options.valueSuffix || ""
+                                    tooltipContent += '<span style="color:' + point.series.color + '">\u25CF </span>' + point.series.name + ': ' + point.y + suffix + '<br>';
+                                });
+
+                                return tooltipContent;
+                            },
+                            shared: true,
+                        },
+                        yAxis: {},
+                        series: seriesConfig
+                    }
+                    Highcharts.chart('chart-container', chartOptions);
+                }
+
+
+                updateChart()
+
+
+                climate_map.on("load", () => {
+                    // fit to country bounds
+                    if (countryBounds) {
+                        const bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
+                        climate_map.fitBounds(bounds, {padding: 50});
+                    }
+
+                    // add country layer
+                    if (boundaryTilesUrl) {
+                        // add source
+                        climate_map.addSource("admin-boundary-source", {
+                                type: "vector",
+                                tiles: [boundaryTilesUrl],
+                            }
+                        )
+                        // add layer
+                        climate_map.addLayer({
+                            'id': 'admin-boundary-fill',
+                            'type': 'fill',
+                            'source': 'admin-boundary-source',
+                            "source-layer": "default",
+                            "filter": ["==", "level", 0],
+                            'paint': {
+                                'fill-color': "#fff",
+                                'fill-opacity': 0,
+                            }
+                        });
+
+                        climate_map.addLayer({
+                            'id': 'admin-boundary-line',
+                            'type': 'line',
+                            'source': 'admin-boundary-source',
+                            "source-layer": "default",
+                            "filter": ["==", "level", 0],
+                            'paint': {
+                                "line-color": "#C0FF24",
+                                "line-width": 1,
+                                "line-offset": 1,
+                            }
+                        });
+                        climate_map.addLayer({
+                            'id': 'admin-boundary-line-2',
+                            'type': 'line',
+                            'source': 'admin-boundary-source',
+                            "source-layer": "default",
+                            "filter": ["==", "level", 0],
+                            'paint': {
+                                "line-color": "#000",
+                                "line-width": 1.5,
+                            }
+                        });
+
+
+                    }
+
+
+                    fetch("{% url 'cities-list' %}")
+                        .then((res) => res.json())
+                        .then((city_data) => {
+                            const citiesWithData = city_data.filter(city => citiesWithDataIds.includes(city.id))
+
+                            const selectedCity = $citySelect.val()
+
+                            let cities_geom = {
+                                type: "FeatureCollection",
+                                features: []
+                            }
+
+                            citiesWithData.map(city => {
+                                cities_geom.features.push({
+                                    type: "Feature",
+                                    properties: {
+                                        id: city.id,
+                                        name: city.name
+                                    },
+                                    geometry: {
+                                        coordinates: city.coordinates,
+                                        type: "Point"
+                                    }
+                                })
+                            })
+
+                            if (cities_geom) {
+                                climate_map.addSource("cities", {
+                                    type: "geojson",
+                                    data: cities_geom,
+                                })
+
+                                climate_map.addLayer({
+                                    'id': 'cities',
+                                    'type': 'circle',
+                                    'source': 'cities',
+                                    'paint': {
+                                        'circle-color': "#ADEFD1FF",
+                                        'circle-radius': 8,
+                                        "circle-stroke-width": 4,
+                                        "circle-stroke-color": "#00203FFF",
+                                    }
+                                })
+
+
+                                climate_map.addLayer({
+                                    'id': 'cities_outline',
+                                    'type': 'circle',
+                                    'source': 'cities',
+                                    'paint': {
+                                        'circle-color': "#ADEFD1FF",
+                                        'circle-radius': 8,
+                                        "circle-stroke-width": 4,
+                                        "circle-stroke-color": "red",
+                                    },
+                                    filter: ["==", "id", selectedCity]
+                                })
+
+
+                                mapReady = true
+
+
+                            }
+
+                            // When a click event occurs on a feature in the places layer, open a popup at the
+                            // location of the feature, with description HTML from its properties.
+                            climate_map.on("click", "cities", (e) => {
+                                // Copy coordinates array.
+
+                                let city_id = e.features[0].properties.id
+
+                                // $citySelect.find(`option[value="${city_id}"]`).attr('selected','selected')
+
+                                $citySelect.val(city_id).change();
+                            });
+
+                            climate_map.on("mouseenter", "cities", (e) => {
+                                // Get the feature that was hovered over
+                                climate_map.getCanvas().style.cursor = "pointer";
+                            })
+
+                            // Change it back to a pointer when it leaves.
+                            climate_map.on("mouseleave", "city-forecasts", () => {
+                                climate_map.getCanvas().style.cursor = "";
+                            });
+
+                        })
+
+
+                })
+            })
+        </script>
+    {% endif %}
+{% endblock %}

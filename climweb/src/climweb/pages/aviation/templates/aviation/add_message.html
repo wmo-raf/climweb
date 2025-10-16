@@ -1,0 +1,123 @@
+{% extends "wagtailadmin/base.html" %} {% load wagtailadmin_tags i18n static %}
+{% load wagtailsettings_tags %} {% get_settings use_default_site=True %} 
+{% block extra_css %} 
+{{ block.super }}
+
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css"
+/>
+<link
+    href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css"
+    rel="stylesheet"
+/>
+
+<style>
+
+    li.selector{
+        padding:1em 0
+    }
+
+    .selector .w-field--file_input label {
+        display: flex;
+</style>
+
+{{ form.media.css }} 
+{% endblock %} 
+{% block titletag %} 
+{% trans 'Add Messages'%} 
+{% endblock %} 
+{% block extra_js %}
+<script src="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js"></script>
+<script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+<script
+    type="text/javascript"
+    src="{% static 'forecastmanager/js/forecast_basemap.js' %}"
+></script>
+
+<script>
+   
+
+     // Function to dismiss messages after a delay
+     function dismissMessage(selector, delay) {
+        const messageElement = document.querySelector(selector);
+        console.log(messageElement)
+        if (messageElement && messageElement.style.display === 'block') {
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, delay);
+        }
+    }
+
+    // Dismiss success message after 5 seconds
+    dismissMessage('#creatSuccess', 3000);
+
+</script>
+{% endblock extra_js %} 
+{% block content %} 
+{% block header %} 
+{% trans 'Aviation Editor' as title_str %} 
+{% include "wagtailadmin/shared/header.html" with title=title_str icon='form' %} 
+{% endblock %} 
+{% include "wagtailadmin/pages/_editor_js.html" %}
+
+<!-- Success message -->
+
+<div class="nice-padding">
+    
+
+   
+    <div class="row row-flush">
+        
+        <div id="forms-content" class="w-panel__content">
+            <div class="messages" role="status">
+                <ul>
+                <li class="success" id="creatSuccess" style="{% if success %}display:block{% else %}display:none{% endif %};     background-color: var(--w-color-positive-100);
+                color: var(--w-color-white);">
+                    <svg class="icon icon-success messages-icon" aria-hidden="true">
+                        <use href="#icon-success"></use>
+                    </svg>
+                    <span class="successMessage">Submitted successfully!</span>
+                </li>
+            </ul>
+            </div>
+            <form method="post" action="{% url 'add_message' %}">
+                {% csrf_token %}
+                <ul class="fields param-selectors">
+                    <li class="field selector">
+                        <label for="msg_encode" class="w-field__label">{% trans 'Message' %}:</label>
+                        <div class="w-field w-field--file_field w-field--file_input">
+                            <div class="w-field__help" id="id_text-helptext" data-field-help="">
+            
+            
+                                <div class="help">Seperate METAR/TAF messages using commas</div>
+                            
+                        </div>
+                        <textarea id="id_msg_encode" name="msg_encode" rows="8" required>{% if form.msg_encode.value %}{{ form.msg_encode.value }}{% endif %} </textarea>
+                    </div>
+                    </li>
+                    
+                    <div class="help-block help-critical" style="{% if warnings %}display:block{% else %}display:none{% endif %}">
+                        <svg class="icon icon-warning icon" aria-hidden="true"><use href="#icon-warning"></use></svg>
+                        Encountered errors. Fix to proceed.
+                        <ul>
+                            {% for warning in warnings %}
+                                <li>{{ warning }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <li><button type="submit" class="button">Save</button></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

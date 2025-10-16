@@ -1,0 +1,53 @@
+{% load static nmhs_cms_tags wagtailiconchooser_tags i18n nmhs_cms_tags %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+{% if self.show_weather_watch %}
+    {% if home_map_layer_svg_sprite %}
+        <div id="django-svg-data-sprite">
+            {{ home_map_layer_svg_sprite|safe }}
+        </div>
+    {% endif %}
+    <section class="weather-watch-section">
+        <div class="container">
+            <h2 class="section-title has-text-centered"
+                style=" font-weight:700">{{ page.weather_watch_header }}</h2>
+            <div class="columns is-justify-content-center is-mobile is-multiline weather-watch-container">
+                <div class="column is-one-quarter-desktop is-full-touch ">
+                    <div class="alerts-container" id="alerts-container">
+                        <div class="alerts-title">
+                            <img src="{% static 'img/CAPLogo.jpeg' %}" alt="" width="20"
+                                 style="border-radius:4px;">
+                            <h4>
+                                {% translate "Latest Weather Warnings" %}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-three-quarters-desktop is-full-touch">
+                    <div id="home-map" style="position: relative;" data-map-settings-url="{{ home_map_settings_url }}"
+                         data-initial-bounds="{{ country_bounds }}"
+                         data-location-forecast-detail-url="{{ city_detail_page_url }}"
+                         data-language-code="{{ LANGUAGE_CODE }}"
+                         data-home-map-alerts-url="{{ home_map_alerts_url }}"
+                    >
+                    </div>
+                </div>
+            </div>
+            {% if self.show_mapviewer_cta and self.mapviewer_cta_url %}
+                <div class="container mapviewer-explore">
+                    <div class="desc">
+                        {% translate "For more interactive data" %}
+                    </div>
+                    <a class="button is-dark has-text-white"
+                       style=" font-weight: 600;  border-radius: var(--border-radius);"
+                       href="{{ self.mapviewer_cta_url }}">
+                        <span>{{ self.mapviewer_cta_title }}</span>
+                        <span class="icon btn-icon">
+                            {% svg_icon name="arrow-right-full" %}
+                        </span>
+                    </a>
+                </div>
+            {% endif %}
+    </section>
+{% endif %}

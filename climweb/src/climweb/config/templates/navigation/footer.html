@@ -1,0 +1,54 @@
+{% load i18n static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags nmhs_cms_tags %}
+{% get_settings use_default_site=True %}
+{% wagtail_site as current_site %}
+
+<footer>
+    <div id="footer" class="footer is-desktop">
+        <div class="container">
+            <div class="columns is-mobile is-multiline" style="margin: 0">
+                <div class="column is-half-mobile is-one-quarter-desktop" style="margin-bottom: 20px">
+                    <div>
+                        <a class="footer-logo" href="{{ current_site.root_url }}">
+                            <figure class="image">
+                                {% if settings.base.OrganisationSetting.footer_logo %}
+                                    {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}
+                                    <img src="{{ footer_logo.url }}" alt="Logo">
+                                {% endif %}
+                            </figure>
+                        </a>
+                    </div>
+                </div>
+                {% for block in settings.base.NavigationSettings.footer_menu %}
+                    {% include_block block %}
+                {% endfor %}
+            </div>
+            <div class="columns is-mobile" style="margin-top: 40px">
+                <div class="column is-half">
+                    {% if settings.base.OrganisationSetting.name %}
+                        <p class="has-text-white footer-text">
+                            &copy; {{ settings.base.OrganisationSetting.name }} {% now 'Y' %}</p>
+                    {% endif %}
+                    <a
+                            href="https://github.com/wmo-raf/nmhs-cms"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style="color:#ababab; font-size: 12px;  font-weight:600">
+                        <span>
+                            {% translate "Powered by Climweb" %} v{% cms_version %}
+                        </span>
+                    </a>
+                </div>
+                <div class="column is-half" style="display: flex;justify-content: flex-end;">
+                    {% for account in settings.base.OrganisationSetting.social_media_accounts %}
+                        <a title="{{ account.value.name }}" href="{{ account.value.full_url }}" target="_blank"
+                           rel="noopener"
+                           class="footer-social"
+                        >
+                            <span class="social-icon">{% svg_icon name=account.value.icon %}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

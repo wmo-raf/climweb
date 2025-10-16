@@ -1,0 +1,6 @@
+{% load static wagtailcore_tags i18n  %}
+
+<div class="column is-one-third-desktop is-full-mobile">
+    <div class="parameter-name"> {{ self.title }} </div>
+    {% include_block self.measurements with units=self.units %}
+</div>

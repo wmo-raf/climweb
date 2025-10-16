@@ -1,0 +1,54 @@
+{% extends "wagtailadmin/base.html" %}
+{% load wagtailadmin_tags i18n static nmhs_cms_tags %}
+
+{% block titletag %}{% trans 'Youtube Playlists' %}{% endblock %}
+
+
+{% block content %}
+
+    <header class="col12">
+        <div class="row nice-padding">
+
+            <div class="row">
+                <div class="left">
+                    <div class="col header-title">
+                        <h1 class="icon icon-form">
+                            {% trans playlist.title|add:" Videos" %}
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="nice-padding">
+        <div style="padding: 20px;margin: 10px">
+            <div>
+                <table class="listing">
+                    <thead>
+                    <tr>
+                        <th>{% translate "Video" %}</th>
+                        <th>{% translate "Published at" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for video in playlist.playlist_items %}
+                        <tr>
+                            <td class="title">
+                                <iframe width="350" height="200"
+                                        src="https://www.youtube.com/embed/{{ video.snippet.resourceId.videoId }}">
+                                </iframe>
+                                <h2>{{ video.snippet.title }}</h2>
+                            </td>
+                            <td class="title">
+                                <h2>{{ video.snippet.publishedAt }}</h2>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

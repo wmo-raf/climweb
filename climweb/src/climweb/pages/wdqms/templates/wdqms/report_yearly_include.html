@@ -1,0 +1,33 @@
+{% load  i18n%}
+
+
+<div class="container">
+
+    <div class="report-header has-text-centered"> 
+        <h2 class="title">{% trans 'Yearly Average of observations' %}</h2>
+    </div>
+
+    <div class="columns report-charts my-4">
+        <div class="column is-8">
+            <figure class="hourly-figure transmissions-figure" style="">
+                <div id="yearly-average-graph">
+                </div>
+            </figure>
+        </div>
+        <div class="column is-4">
+            <p id="yearly-summary-text"></p>
+        </div>
+        {% comment %} <div class="column 1">
+            <input class="slider is-fullwidth is-small is-circle" step="1" min={{start_year}} max={{end_year}} value={{end_year}} type="range">
+        </div> {% endcomment %}
+        
+        
+    </div>
+
+    <div class="columns is-justify-content-center">
+        <div class="column is-10">
+           {% include "wdqms/color_scale_include.html" %}
+        </div>
+    <div>
+
+</div>

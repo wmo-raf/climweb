@@ -1,0 +1,70 @@
+{% load wagtailcore_tags %}
+
+<div id="modal-{{section}}-{{index}}-{{block_index}}" class="modal">
+    <div class="modal-background"></div>
+
+    <div class="modal-content">
+        <div class="box meta-modal">
+            <h2>{{metadata.title}}</h2>
+            <div class="meta-table element-fullwidth">
+                {% if metadata.function %}
+                <div class="table-row columns">
+                    <div class="title-column column is-3">Function</div>
+                    <div class="description-column column">
+                        <div>{{metadata.function}}</div>
+                    </div>
+                </div>
+                {% endif %} {% if metadata.function %}
+                <div class="table-row columns">
+                    <div class="title-column column is-3">Resolution</div>
+                    <div class="description-column column">
+                        <div>{{metadata.resolution}}</div>
+                    </div>
+                </div>
+                {% endif %} {% if metadata.function %}
+                <div class="table-row columns">
+                    <div class="title-column column is-3">
+                        Geographic coverage
+                    </div>
+                    <div class="description-column column">
+                        <div>{{metadata.geographic_coverage}}</div>
+                    </div>
+                </div>
+                {% endif %} {% if metadata.function %}
+                <div class="table-row columns">
+                    <div class="title-column column is-3">Source</div>
+                    <div class="description-column column">
+                        <div>{{metadata.source}}</div>
+                    </div>
+                </div>
+                {% endif %} {% if metadata.function %}
+                <div class="table-row columns">
+                    <div class="title-column column is-3">License</div>
+                    <div class="description-column column">
+                        <div>{{metadata.license}}</div>
+                    </div>
+                </div>
+                {% endif %} {% if metadata.function %}
+                <div class="table-row columns">
+                    <div class="title-column column is-3">
+                        Frequency of Update
+                    </div>
+                    <div class="description-column column">
+                        <div>{{metadata.frequency_of_update}}</div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% if metadata.overview %}
+            <div class="overview">
+                <h4>Overview</h4>
+                <div class="body">
+                    {{ metadata.overview|richtext }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+</div>

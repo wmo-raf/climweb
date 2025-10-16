@@ -1,0 +1,10 @@
+{% load wagtailiconchooser_tags %}
+
+<div class="column is-half-tablet is-full-mobile">
+    <div style="display: flex">
+        <span class="icon" style="margin-right: 4px">
+            {% svg_icon name="arrow-right" %}
+        </span>
+        <a href="{{ value.link }}" target="_blank" style="text-decoration: underline">{{ value.title }}</a>
+    </div>
+</div>

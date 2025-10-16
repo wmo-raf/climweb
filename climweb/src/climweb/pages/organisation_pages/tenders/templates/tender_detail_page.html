@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags i18n get_share_url wagtailiconchooser_tags %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tender_detail.css' %}">
+{% endblock %}
+
+{% block body_class %}tender-detail-page"{% endblock %}
+
+{% block content %}
+    {% include 'hero.html' with page=page %}
+    <main>
+        {% include "breadcrumbs_include.html" %}
+        <section>
+            <div class="container">
+                <div class="columns is-centered is-multiline tender-detail-wrapper">
+                    <div class="column is-10-desktop is-full-mobile" style="padding: 0">
+                        <h2 class="tender-detail-title">{{ page.tender_title }}</h2>
+                        <div class="tender-detail-header">
+                            {% if page.is_closed %}
+                                <div class="tender-header-item">
+                                    <div class="tender-header-item-pre" style="color: #ff0000">
+                                        <span class="icon tender-header-item-icon">
+                                            {% svg_icon name="warning" %}
+                                        </span>
+                                        <span class="tender-header-item-title">
+                                            {% translate "Note: This tender has been closed" %}.
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="tender-header-item">
+                                <div class="tender-header-item-pre">
+                                    <span class="icon tender-header-item-icon">
+                                        {% svg_icon name="calendar-alt" %}
+                                    </span>
+                                    <span class="tender-header-item-title">
+                                        {% translate "Posted On" %}: </span>
+                                </div>
+                                <span>
+                                    {{ page.posting_date|date:"d M Y" }}
+                                </span>
+                            </div>
+                            <div class="tender-header-item">
+                                <div class="tender-header-item-pre">
+                                    <span class="icon tender-header-item-icon">
+                                        {% svg_icon name="hourglass-half" %}
+                                    </span>
+                                    <span class="tender-header-item-title">{% translate "Closing On" %}: </span>
+                                </div>
+                                <span>
+                                    {{ page.deadline|date:"d M Y, H:i" }}
+                                </span>
+                            </div>
+
+                            {% if page.ref_no %}
+                                <div class="tender-header-item">
+                                    <div class="tender-header-item-pre">
+                                        <span class="icon tender-header-item-icon">
+                                         {% svg_icon name="hashtag" %}
+                                       </span>
+                                        <span class="tender-header-item-title">
+                                            {% translate "Reference number" %}:
+                                        </span>
+                                    </div>
+                                    <span>
+                                        {{ page.ref_no }}
+                                    </span>
+                                </div>
+                            {% endif %}
+                            <div style="padding: 20px 0">
+                                <h4>
+                                    <span class="icon">
+                                        {% svg_icon name="folder-open-1" %}
+                                    </span>
+                                    <span>{% translate "Documents" %}:</span>
+                                </h4>
+                                <div class="tender-detail-docs share-buttons">
+                                    <a class="button is-rounded is-small tender-doc"
+                                       href="{{ page.tender_document.url }}"
+                                       download="{{ page.tender_title }}"
+                                       data-ga-action="download"
+                                       data-ga-event-category="Tender Document Download"
+                                       data-ga-event-label="{{ page.tender_title }}"
+                                       data-ga-value="{{ page.tender_document.url }}"
+                                    >
+                                        <span class="icon" style="margin-right: 4px">
+                                            {% svg_icon name="download" %}
+                                        </span>
+                                        <span class="share-button-title">
+                                            {% translate "Download Tender Notice" %}
+                                        </span>
+                                    </a>
+                                    {% if page.additional_documents %}
+                                        {% for doc in page.additional_documents %}
+                                            <a class="button is-rounded is-small tender-doc"
+                                               href="{{ doc.value.document.url }}"
+                                               download="{{ doc.value.title }}"
+                                               data-ga-action="download"
+                                               data-ga-event-category="Tender Additional Document Download"
+                                               data-ga-event-label="{{ doc.value.title }}"
+                                               data-ga-value="{{ doc.value.document.url }}"
+                                            >
+                                                <span class="icon">
+                                                    {% svg_icon name="download" %}
+                                                </span>
+                                                <span class="share-button-title">{{ doc.value.title }}</span>
+                                            </a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="tender-detail-actions share-buttons">
+                                {% share_buttons url=page.get_full_url text=page.title %}
+                            </div>
+                        </div>
+
+                        <div class="tender-detail-description format-text">
+                            {{ page.description| richtext }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+
+
