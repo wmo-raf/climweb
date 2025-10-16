@@ -45,6 +45,11 @@ NMHSs that have adopted ClimWeb across Africa:
 - 🇿🇲 Mauritania
 - 🇨🇫 Central African Republic
 - 🇬🇦 Gabon
+- 🇲🇿 Mozambique
+- 🇲🇬 Madagascar
+- 🇸🇿 Eswatini
+- 🇱🇸 Lesotho
+- 🇸🇩 Sudan Hydrology Department 
 
 ## 🌟 Core Features
 
