@@ -45,7 +45,7 @@
                                 <label for="city_select" class="control-label">
                                     {% translate "Choose a city" %}
                                 </label>
-                                <div class="control has-icons-left">
+                                <div class="control has-icons-left is-small">
                                     <div class="select">
                                         <select id="city_select">
                                             {% for city in cities %}
@@ -55,7 +55,7 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <span class="icon s-left">
+                                    <span class="icon s-left is-small">
                                         {% svg_icon name="globe" %}
                                     </span>
                                 </div>
@@ -124,7 +124,9 @@
 
     {% if cities %}
         <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/highcharts-exporting.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/exporting.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/export-data.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
 
         <script>
@@ -336,7 +338,28 @@
                             shared: true,
                         },
                         yAxis: {},
-                        series: seriesConfig
+                        series: seriesConfig,
+                        exporting: {
+                            enabled: true,
+                            fallbackToExportServer: false, // prevent CORS call
+                            libURL: "https://code.highcharts.com/lib/", // required for client-side export
+                            sourceWidth: 1200,
+                            sourceHeight: 800,
+                            buttons: {
+                                contextButton: {
+                                    menuItems: [
+                                        'viewFullscreen',
+                                        'separator',
+                                        'downloadPNG',
+                                        'downloadJPEG',
+                                        'downloadPDF',
+                                        'downloadSVG',
+                                        'downloadCSV',
+                                        'downloadXLS'
+                                    ]
+                                }
+                            }
+                        }
                     }
                     Highcharts.chart('chart-container', chartOptions);
                 }
