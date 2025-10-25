@@ -987,8 +987,9 @@ onUnmounted(() => map?.remove());
   color: #fff;
   font-size: 20px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
+  
 }
 
 .zoom-controls button:hover {
