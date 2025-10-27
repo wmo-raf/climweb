@@ -30,8 +30,8 @@ class MapAdmin(ModelAdmin):
     menu_icon = "site"
     menu_order = 101
     add_to_settings_menu = False
-    list_display = ("title","map_layer","area_desc")
-    list_filter = ("area_desc", )
+    list_display = ("title","map_layer","area_desc", "map_type")
+    list_filter = ("area_desc", "map_type")
     search_fields = ("title",  "area_desc")
 
 

@@ -9,6 +9,7 @@ from django.db import models
 from django.contrib.gis.db import models as gis_models
 from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
 
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, TabbedInterface, ObjectList, Panel
 from wagtail.snippets.models import register_snippet
@@ -301,8 +302,20 @@ class DashboardMap(models.Model):
         ('wms_layer', climweb_blocks.UUIDModelChooserBlock(WmsLayer, icon="map")),
         ('raster_tile_layer', climweb_blocks.UUIDModelChooserBlock(RasterTileLayer, icon="map")),
         ('vector_tile_layer', climweb_blocks.UUIDModelChooserBlock(VectorTileLayer, icon="map")),
-    ], null=True, blank=False, max_num=1, verbose_name=_("Map Layers"))
+    ], null=True, blank=False,verbose_name=_("Map Layers"))
 
+
+    MAP_TYPE_CHOICES = (
+    ("single", _("Single Map")),
+    ("comparison", _("Comparison Map")),
+    )
+
+    map_type = models.CharField(
+        max_length=20,
+        choices=MAP_TYPE_CHOICES,
+        default="single",
+        help_text=_("Select whether this is a single map or a comparison map."),
+    )
 
     # hidden inputs for determining geostoreid 
     gid0 = models.CharField(null=True, max_length=250, blank = True)
@@ -315,6 +328,7 @@ class DashboardMap(models.Model):
             ObjectList([
                 FieldPanel("title"),
                 FieldPanel("description"),
+                FieldPanel("map_type"),
                 FieldPanel("map_layer"),
             ], heading=_("Layer")),
             ObjectList([
@@ -328,6 +342,15 @@ class DashboardMap(models.Model):
         ]),
         
     ]
+
+    def clean(self):
+        super().clean()
+
+        # Validate the number of map layers based on the map type
+        if self.map_type == "single" and len(self.map_layer) > 1 :
+            raise ValidationError(_("A single map can only have one map layer."))
+        elif self.map_type == "comparison" and len(self.map_layer) != 2:
+            raise ValidationError(_("A comparison map must have two map layers."))
 
     def __str__(self):
         return f"{self.title} - {self.area_desc}"

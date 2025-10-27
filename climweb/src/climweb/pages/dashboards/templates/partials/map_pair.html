@@ -1,0 +1,14 @@
+{% load wagtailiconchooser_tags %}
+
+
+
+<div class="columns is-multiline my-4">
+    {% for map in maps %}
+    <div class="column is-half map-column">
+        {% include "partials/map_card.html" with map=map map_layers=map.map_layers section_index=section_index index=forloop.counter block_index=block_index %}
+    </div>
+
+    {% endfor %}
+</div>
+
+

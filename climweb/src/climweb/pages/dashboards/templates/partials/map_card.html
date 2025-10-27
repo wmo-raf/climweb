@@ -1,0 +1,148 @@
+{% load wagtailiconchooser_tags wagtailcore_tags %}
+<div class="card elevation-1">
+    <header class="card-header elevation-0">
+        <p class="card-header-title">
+            {{ map.title}}
+        </p>
+
+        {% if map.map_type == 'single' %}
+
+            {% if map_layers.0.value.dataset.published and map_layers.0.value.dataset.public %}
+            <a class="card-header-icon" href="{{ map.mapviewer_map_url }}" target="_blank" rel="noopener">
+                <div class="icon is-small">{% svg_icon "layer-group" %}</div>
+            </a>
+            {% endif %}
+
+            {% if map_layers.0.value.dataset.metadata %}
+            <button class="card-header-icon js-modal-trigger" data-target="modal-{{ section_index }}-{{ index }}-{{ block_index }}">
+                <div class="icon is-small">{% svg_icon "info-circle" %}</div>
+            </button>
+            {% endif %}
+
+        {% endif %}
+    </header>
+
+    <div class="card-content">
+        
+        {% if map.map_type == "single" %}
+            <div
+                class="map-container"
+                id="map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                data-map-type="{{ map.map_type }}"
+                data-tilejson="{{ map_snippet.datasetsurl }}{{ map.map_layer.0.value.dataset.id }}"
+                data-dataset="{{ map.map_layer.0.value.dataset.id }}"
+                data-layer="{{ map.map_layer.0.value.id }}"
+                data-title="{{ map.title }}"
+                data-geostore-id="{{ map.geostore_id }}"
+                data-gid0="{{ map.gid0|default_if_none:'' }}"
+                data-gid1="{{ map.gid1|default_if_none:'' }}"
+                data-gid2="{{ map.gid2|default_if_none:'' }}"
+                data-date-format="{{ map.map_layer.0.value.date_format }}"
+                data-layer-type="{% if map.map_layer.0.block_type == 'raster_file_layer' %}raster_file{% elif map.map_layer.0.block_type == 'wms_layer' %}wms{% elif map.map_layer.0.block_type == 'vector_tile_layer' %}vector_tile{% elif map.map_layer.0.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
+                ></div>
+        {% elif map.map_type == "comparison" %}
+            <div class="comparison-maps" id="comparison-map-{{ section_index }}-{{ index }}-{{ block_index }}" style="
+    min-height: 500px;">
+                <div
+                    class="map-container"
+                    id="before-map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                    data-map-type="{{ map.map_type }}"
+                    data-tilejson="{{ map_snippet.datasetsurl }}{{ map.map_layer.0.value.dataset.id }}"
+                    data-dataset="{{ map.map_layer.0.value.dataset.id }}"
+                    data-layer="{{ map.map_layer.0.value.id }}"
+                    data-title="{{ map.title }}"
+                    data-geostore-id="{{ map.geostore_id }}"
+                    data-gid0="{{ map.gid0|default_if_none:'' }}"
+                    data-gid1="{{ map.gid1|default_if_none:'' }}"
+                    data-gid2="{{ map.gid2|default_if_none:'' }}"
+                    data-date-format="{{ map.map_layer.0.value.date_format }}"
+                    data-layer-type="{% if map.map_layer.0.block_type == 'raster_file_layer' %}raster_file{% elif map.map_layer.0.block_type == 'wms_layer' %}wms{% elif map.map_layer.0.block_type == 'vector_tile_layer' %}vector_tile{% elif map.map_layer.0.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
+                ></div>
+                <div
+                    class="map-container"
+                    id="after-map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                    data-map-type="{{ map.map_type }}"
+                    data-tilejson="{{ map_snippet.datasetsurl }}{{ map.map_layer.1.value.dataset.id }}"
+                    data-dataset="{{ map.map_layer.1.value.dataset.id }}"
+                    data-layer="{{ map.map_layer.1.value.id }}"
+                    data-title="{{ map.title }}"
+                    data-geostore-id="{{ map.geostore_id }}"
+                    data-gid0="{{ map.gid0|default_if_none:'' }}"
+                    data-gid1="{{ map.gid1|default_if_none:'' }}"
+                    data-gid2="{{ map.gid2|default_if_none:'' }}"
+                    data-date-format="{{ map.map_layer.1.value.date_format }}"
+                    data-layer-type="{% if map.map_layer.1.block_type == 'raster_file_layer' %}raster_file{% elif map.map_layer.1.block_type == 'wms_layer' %}wms{% elif map.map_layer.1.block_type == 'vector_tile_layer' %}vector_tile{% elif map.map_layer.1.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
+                ></div>
+            </div>
+        {% endif %}
+        
+    </div>
+
+    <footer class="card-footer" style="position: relative;">
+        {% if map.map_type == "single" %}
+            <div class="m-2" style="width: 100%">
+                <input
+                    class="datepicker-input input is-small"
+                    type="text"
+                    placeholder="Select Date.."
+                    id="mapdate-map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                    data-date-format="{{ map_layers.0.value.date_format }}"
+                />
+                {% if map_layers.0.value.date_format == "yyyy-MM-dd HH:mm" %}
+                <select
+                    class="timepicker-select input is-small"
+                    id="maptime-map-{{ section_index }}-{{ index }}-{{ block_index }}">
+                </select>
+                {% endif %}
+                <div class="params" id="paramsContainer-map-{{ section_index }}-{{ index }}-{{ block_index }}"></div>
+            </div>
+            {% elif map.map_type == "comparison" %}
+
+            <div class="m-2 before-date" style="width: 100%">
+                <label style="font-size: 14px;
+                    font-weight: 700;
+                    color: #4a4a4a;" for="mapdate-before-map-{{ section_index }}-{{ index }}-{{ block_index }}">{{map_layers.0.value.dataset.title}}</label>
+                <input
+                    class="datepicker-input input is-small"
+                    type="text"
+                    placeholder="Select Date.."
+                    id="mapdate-before-map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                    data-date-format="{{ map_layers.0.value.date_format }}"
+                />
+                {% if map_layers.0.value.date_format == "yyyy-MM-dd HH:mm" %}
+                <select
+                    class="timepicker-select input is-small"
+                    id="maptime-before-map-{{ section_index }}-{{ index }}-{{ block_index }}">
+                </select>
+                {% endif %}
+                <div class="params" id="paramsContainer-before-map-{{ section_index }}-{{ index }}-{{ block_index }}"></div>
+            </div>
+
+            <div class="m-2 after-date" style="width: 100%">
+                <label style="font-size: 14px;
+                    font-weight: 700;
+                    color: #4a4a4a;" for="mapdate-after-map-{{ section_index }}-{{ index }}-{{ block_index }}">{{map_layers.1.value.dataset.title}}</label>
+               
+                <input
+                    class="datepicker-input input is-small"
+                    type="text"
+                    placeholder="Select Date.."
+                    id="mapdate-after-map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                    data-date-format="{{ map_layers.1.value.date_format }}"
+                />
+                {% if map_layers.1.value.date_format == "yyyy-MM-dd HH:mm" %}
+                <select
+                    class="timepicker-select input is-small"
+                    id="maptime-after-map-{{ section_index }}-{{ index }}-{{ block_index }}">
+                </select>
+                {% endif %}
+                <div class="params" id="paramsContainer-after-map-{{ section_index }}-{{ index }}-{{ block_index }}"></div>
+            </div>
+            {% endif %}
+        
+    </footer>
+</div>
+
+{% if map.map_type == 'single' %}
+{% include "partials/modal.html" with metadata=map_layers.0.value.dataset.metadata section=section_index index=index block_index=block_index %}
+{% endif %}
