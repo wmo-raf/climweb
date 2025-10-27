@@ -23,7 +23,7 @@ class DashboardGalleryPage(Page):
         FieldPanel("description"),
     ]
     class Meta:
-        verbose_name = "Dashboards Gallery / Atlas"
+        verbose_name =  _("Dashboards Gallery / Atlas")
 
 class DashboardPage(MetadataPageMixin, Page):
     template = 'dashboards/dashboard_page.html'

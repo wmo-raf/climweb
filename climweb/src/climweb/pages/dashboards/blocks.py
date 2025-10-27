@@ -56,9 +56,6 @@ class MapSnippetChooser(blocks.StructBlock):
         label = _("Map")
 
 
-
-
-
 class DashboardSectionBlock(blocks.StructBlock):
     section_title = blocks.CharBlock(required=True)
 
@@ -73,10 +70,8 @@ class DashboardSectionBlock(blocks.StructBlock):
         ("what_we_do", WhatWeDoGroupBlock())
     ], required=True)
 
-    
-
     class Meta:
         icon = "folder-open-inverse"
-        label = "Dashboard Section"
+        label =  _("Dashboard Section")
 
 
