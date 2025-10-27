@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2025-10-25 10:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,19 +16,21 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: climweb/src/climweb/base/blocks.py:49 climweb/src/climweb/base/blocks.py:50
 #: climweb/src/climweb/base/blocks.py:62 climweb/src/climweb/base/blocks.py:63
+#: climweb/src/climweb/base/blocks.py:80 climweb/src/climweb/base/blocks.py:81
 msgid "Section Title"
 msgstr "عنوان القسم"
 
-#: climweb/src/climweb/base/blocks.py:51 climweb/src/climweb/base/blocks.py:64
+#: climweb/src/climweb/base/blocks.py:51 climweb/src/climweb/base/blocks.py:71
+#: climweb/src/climweb/base/blocks.py:82
 msgid "Section Text"
 msgstr "نص القسم"
 
-#: climweb/src/climweb/base/blocks.py:52 climweb/src/climweb/base/blocks.py:65
+#: climweb/src/climweb/base/blocks.py:52 climweb/src/climweb/base/blocks.py:72
+#: climweb/src/climweb/base/blocks.py:83
 msgid "Section description"
 msgstr "وصف القسم"
 
@@ -36,23 +38,32 @@ msgstr "وصف القسم"
 msgid "Title, Text and Image"
 msgstr "العنوان والنص والصورة"
 
-#: climweb/src/climweb/base/blocks.py:70
+#: climweb/src/climweb/base/blocks.py:68
+#: climweb/src/climweb/base/models/snippets.py:110
+msgid "Title"
+msgstr "عنوان"
+
+#: climweb/src/climweb/base/blocks.py:77
+msgid "Text"
+msgstr "نص"
+
+#: climweb/src/climweb/base/blocks.py:88
 msgid "Title and Text"
 msgstr "العنوان والنص"
 
-#: climweb/src/climweb/base/blocks.py:84
+#: climweb/src/climweb/base/blocks.py:102
 msgid "A URL that returns Highcharts.js configuration, including the data"
 msgstr "عنوان URL الذي يُرجع تكوين Highcharts.js، بما في ذلك البيانات"
 
-#: climweb/src/climweb/base/blocks.py:88
+#: climweb/src/climweb/base/blocks.py:106
 msgid "Description"
 msgstr "وصف"
 
-#: climweb/src/climweb/base/blocks.py:90
+#: climweb/src/climweb/base/blocks.py:108
 msgid "Action Link Internal"
 msgstr "رابط العمل داخلي"
 
-#: climweb/src/climweb/base/blocks.py:92
+#: climweb/src/climweb/base/blocks.py:110
 msgid ""
 "An external link to a detailed resource on the internet.If provided, the "
 "internal link will be ignored"
@@ -60,88 +71,109 @@ msgstr ""
 "رابط خارجي لمورد تفصيلي على الإنترنت. إذا تم توفيره، سيتم تجاهل الرابط "
 "الداخلي"
 
-#: climweb/src/climweb/base/blocks.py:98
+#: climweb/src/climweb/base/blocks.py:116
 msgid "Feature Block"
 msgstr "كتلة الميزة"
 
-#: climweb/src/climweb/base/blocks.py:109
+#: climweb/src/climweb/base/blocks.py:127
 msgid "Collapsible Block"
 msgstr "كتلة قابلة للطي"
 
-#: climweb/src/climweb/base/blocks.py:121
+#: climweb/src/climweb/base/blocks.py:139
 msgid "Accordion"
 msgstr "الأكورديون"
 
-#: climweb/src/climweb/base/blocks.py:137
+#: climweb/src/climweb/base/blocks.py:155
+#: climweb/src/climweb/base/blocks.py:285
 #: climweb/src/climweb/base/models/snippets.py:50
 #: climweb/src/climweb/base/models/snippets.py:86
 msgid "Icon"
 msgstr "أيقونة"
 
-#: climweb/src/climweb/base/blocks.py:138
+#: climweb/src/climweb/base/blocks.py:156
 msgid "The full url link that takes you to the page"
 msgstr "رابط URL الكامل الذي ينقلك إلى الصفحة"
 
-#: climweb/src/climweb/base/blocks.py:142
+#: climweb/src/climweb/base/blocks.py:160
 msgid "Social Media Account"
 msgstr "حساب وسائل التواصل الاجتماعي"
 
-#: climweb/src/climweb/base/blocks.py:154
+#: climweb/src/climweb/base/blocks.py:172
 msgid "Collapsible Text Block"
 msgstr "كتلة نصية قابلة للطي"
 
-#: climweb/src/climweb/base/blocks.py:164
+#: climweb/src/climweb/base/blocks.py:182
 msgid "Select document or file"
 msgstr "حدد المستند أو الملف"
 
-#: climweb/src/climweb/base/blocks.py:165
+#: climweb/src/climweb/base/blocks.py:183
 msgid "Document/File"
 msgstr "ملف المستند"
 
-#: climweb/src/climweb/base/blocks.py:166
+#: climweb/src/climweb/base/blocks.py:184
 msgid "Select/upload image"
 msgstr "حدد/تحميل الصورة"
 
-#: climweb/src/climweb/base/blocks.py:170
+#: climweb/src/climweb/base/blocks.py:188
 msgid "Additional Material"
 msgstr "مواد اضافية"
 
-#: climweb/src/climweb/base/blocks.py:179
+#: climweb/src/climweb/base/blocks.py:197
 msgid "Additional Materials"
 msgstr "مواد إضافية"
 
-#: climweb/src/climweb/base/blocks.py:184
 #: climweb/src/climweb/base/blocks.py:202
+#: climweb/src/climweb/base/blocks.py:220
 msgid "Label"
 msgstr "ملصق"
 
-#: climweb/src/climweb/base/blocks.py:185
 #: climweb/src/climweb/base/blocks.py:203
+#: climweb/src/climweb/base/blocks.py:221
 msgid "Page"
 msgstr "صفحة"
 
-#: climweb/src/climweb/base/blocks.py:186
 #: climweb/src/climweb/base/blocks.py:204
+#: climweb/src/climweb/base/blocks.py:222
 msgid "External URL"
 msgstr "عنوان URL الخارجي"
 
-#: climweb/src/climweb/base/blocks.py:187
+#: climweb/src/climweb/base/blocks.py:205
 msgid "Show as action button"
 msgstr "إظهار كزر إجراء"
 
-#: climweb/src/climweb/base/blocks.py:205
+#: climweb/src/climweb/base/blocks.py:223
 msgid "Include Subpages"
 msgstr "تضمين الصفحات الفرعية"
 
-#: climweb/src/climweb/base/blocks.py:206
+#: climweb/src/climweb/base/blocks.py:224
 msgid "Large Submenu Dropdown"
 msgstr "قائمة فرعية منسدلة كبيرة"
 
+#: climweb/src/climweb/base/blocks.py:292
+msgid "Card"
+msgstr "بطاقة"
+
+#: climweb/src/climweb/base/blocks.py:297
+#, fuzzy
+#| msgid "Introduction button text"
+msgid "Card button text"
+msgstr "نص زر البطاقة"
+
+#: climweb/src/climweb/base/blocks.py:298
+#, fuzzy
+#| msgid "Introduction button link"
+msgid "Card button link"
+msgstr "رابط زر البطاقة"
+
+#: climweb/src/climweb/base/blocks.py:302
+msgid "Cards with Icon and Text"
+msgstr "بطاقات مع أيقونة والنص"
+
 #: climweb/src/climweb/base/cap.py:103
 msgid "Go to warnings list"
-msgstr ""
+msgstr "انتقل إلى قائمة التحذيرات"
 
-#: climweb/src/climweb/base/forms.py:26
+#: climweb/src/climweb/base/forms.py:27
 #, python-format
 msgid ""
 "Supported formats: %(supported_formats)s. Maximum filesize: "
@@ -150,7 +182,7 @@ msgstr ""
 "التنسيقات المدعومة: %(supported_formats)s. الحد الأقصى لحجم الملف: "
 "%(max_upload_size)s."
 
-#: climweb/src/climweb/base/forms.py:41
+#: climweb/src/climweb/base/forms.py:42
 #, python-format
 msgid ""
 "File size must be under %(max_upload_size)s. Current file size is "
@@ -159,7 +191,7 @@ msgstr ""
 "يجب أن يكون حجم الملف أقل من %(max_upload_size)s. حجم الملف الحالي هو "
 "%(current_file_size)s"
 
-#: climweb/src/climweb/base/forms.py:58
+#: climweb/src/climweb/base/forms.py:59
 #, python-format
 msgid "Supported formats: PDF. Maximum filesize: %(max_upload_size)s."
 msgstr "التنسيقات المدعومة: PDF. الحد الأقصى لحجم الملف: %(max_upload_size)s."
@@ -246,35 +278,37 @@ msgstr "قسم المقدمة"
 
 #: climweb/src/climweb/base/models/cap_settings.py:14
 msgid "Show on MapViewer"
-msgstr ""
+msgstr "عرض على MapViewer"
 
 #: climweb/src/climweb/base/models/cap_settings.py:15
 msgid "Check to show cap alerts on MapViewer"
-msgstr ""
+msgstr "تحقق لإظهار تنبيهات الحد الأقصى على MapViewer"
 
 #: climweb/src/climweb/base/models/cap_settings.py:17
 #, fuzzy
 #| msgid "CAP Alerts RSS Feed"
 msgid "CAP Alerts Layer Title"
-msgstr "موجز RSS لتنبيهات CAP"
+msgstr "عنوان طبقة تنبيهات CAP"
 
 #: climweb/src/climweb/base/models/cap_settings.py:19
 msgid "CAP Alerts Layer SubCategory"
-msgstr ""
+msgstr "الفئة الفرعية لطبقة تنبيهات CAP"
 
 #: climweb/src/climweb/base/models/cap_settings.py:22
 msgid "CAP Layer Metadata"
-msgstr ""
+msgstr "البيانات التعريفية لطبقة CAP"
 
 #: climweb/src/climweb/base/models/cap_settings.py:24
 msgid "Auto Refresh interval in minutes"
-msgstr ""
+msgstr "الفاصل الزمني للتحديث التلقائي في دقائق"
 
 #: climweb/src/climweb/base/models/cap_settings.py:26
 msgid ""
 "Refresh cap alerts on the map after this minutes. Leave blank to disable "
 "auto refreshing"
 msgstr ""
+"قم بتحديث تنبيهات الحد الأقصى على الخريطة بعد هذه الدقائق. اتركه فارغًا "
+"لتعطيل التحديث التلقائي"
 
 #: climweb/src/climweb/base/models/site_settings.py:31
 msgid "Country"
@@ -329,8 +363,8 @@ msgstr "شعار نظام إدارة المحتوى"
 msgid ""
 "Logo that appears on the CMS. Should be a whit transparent logo preferably"
 msgstr ""
-"الشعار الذي يظهر على نظام إدارة المحتوى، يجب أن يكون شعارًا أبيض شفافًا ويفضل "
-"أن يكون شعارًا عاديًا."
+"الشعار الذي يظهر على نظام إدارة المحتوى، يجب أن يكون شعارًا أبيض شفافًا "
+"ويفضل أن يكون شعارًا عاديًا."
 
 #: climweb/src/climweb/base/models/site_settings.py:88
 msgid "Page not Found Image"
@@ -374,11 +408,11 @@ msgstr "يوتيوب API مفتاح"
 
 #: climweb/src/climweb/base/models/site_settings.py:145
 msgid ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 msgstr ""
-"لإعداد مفتاح واجهة برمجة تطبيقات Youtube، راجع https://developers.google.com/"
-"youtube/v3/getting-started"
+"لإعداد مفتاح واجهة برمجة تطبيقات Youtube، راجع "
+"https://developers.google.com/youtube/v3/getting-started"
 
 #: climweb/src/climweb/base/models/site_settings.py:150
 msgid "GA Tracking ID"
@@ -395,7 +429,8 @@ msgstr "نقرات زر المسار"
 #: climweb/src/climweb/base/models/site_settings.py:157
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 msgstr ""
 "تتبع جميع نقرات الأزرار باستخدام تتبع الأحداث في Google Analytics، ويمكن "
 "تحديد تفاصيل تتبع الأحداث في خيارات الإعدادات المتقدمة لكل زر."
@@ -614,10 +649,6 @@ msgstr "فئة الخدمة"
 msgid "Service Categories"
 msgstr "فئات الخدمة"
 
-#: climweb/src/climweb/base/models/snippets.py:110
-msgid "Title"
-msgstr "عنوان"
-
 #: climweb/src/climweb/base/models/snippets.py:117
 msgid "Thumbnail"
 msgstr "ظفري"
@@ -680,15 +711,15 @@ msgid ""
 "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
 msgstr "بدأت عملية ترقية ClimWeb. الرجاء الانتظار حتى تكتمل الترقية"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:79
+#: climweb/src/climweb/base/templates/admin/cms_version.html:78
 msgid "ClimWeb upgrade available"
 msgstr "ترقية ClimWeb متاحة"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:83
+#: climweb/src/climweb/base/templates/admin/cms_version.html:89
 msgid "Release notes"
 msgstr "ملاحظات الإصدار"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:110
+#: climweb/src/climweb/base/templates/admin/cms_version.html:117
 msgid "Upgrade now"
 msgstr "تحديث الآن"
 
@@ -712,7 +743,7 @@ msgstr "المواضيع"
 
 #, fuzzy
 #~ msgid "Introduction Heading"
-#~ msgstr "مقدمة العنوان"
+#~ msgstr "عنوان المقدمة"
 
 #, fuzzy
 #~ msgid "Introduction section heading"
@@ -725,38 +756,38 @@ msgstr "المواضيع"
 #~ msgstr "صفحة الموظفين"
 
 #~ msgid "Staff member's name"
-#~ msgstr "اسم عضو هيئة التدريس"
+#~ msgstr "اسم الموظف"
 
 #~ msgid "First and Last names of Staff member"
-#~ msgstr "الاسم الأول والأخير لعضو هيئة التدريس"
+#~ msgstr "الأسماء الأولى والأخيرة لعضو فريق العمل"
 
 #~ msgid "Staff member's role"
-#~ msgstr "دور عضو هيئة التدريس"
+#~ msgstr "دور عضو فريق العمل"
 
 #~ msgid "The role/position of the Staff member"
-#~ msgstr "الدور/المنصب لعضو هيئة التدريس"
+#~ msgstr "دور/ منصب الموظف"
 
 #~ msgid "Staff member Biography"
 #~ msgstr "السيرة الذاتية لعضو هيئة التدريس"
 
 #~ msgid "Optional Summary biography of the Staff member"
-#~ msgstr "ملخص اختياري للسيرة الذاتية لعضو هيئة التدريس"
+#~ msgstr "ملخص اختياري للسيرة الذاتية للموظف"
 
 #~ msgid "Staff member's Department"
-#~ msgstr "قسم أعضاء هيئة التدريس"
+#~ msgstr "قسم شؤون الموظفين"
 
 #~ msgid "Staff member's Profile Image"
-#~ msgstr "صورة الملف الشخصي لعضو هيئة التدريس"
+#~ msgstr "صورة الملف الشخصي للموظف"
 
 #, fuzzy
 #~ msgid "A high quality square image"
 #~ msgstr "صورة مربعة عالية الجودة"
 
 #~ msgid "Staff Member"
-#~ msgstr "عضو هيئة التدريس"
+#~ msgstr "عضو فريق العمل"
 
 #~ msgid "Staff Members"
 #~ msgstr "أعضاء هيئة التدريس"
 
 #~ msgid "All good. You are running on the latest version"
-#~ msgstr "كل شيء على ما يرام. أنت تستخدم الإصدار الأحدث"
+#~ msgstr "كل شيء جيد. أنت تعمل على أحدث إصدار"

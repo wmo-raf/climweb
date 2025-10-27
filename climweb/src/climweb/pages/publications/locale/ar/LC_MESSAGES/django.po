@@ -16,8 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: climweb/src/climweb/pages/publications/models.py:27
 msgid "Name"
@@ -31,7 +30,8 @@ msgstr "أنواع المنشورات"
 msgid ""
 "The year for the earliest available publication. This is used to generate "
 "the years available for filtering "
-msgstr "السنة لأقدم منشور متاح. يتم استخدام هذا لإنشاء السنوات المتاحة للتصفية"
+msgstr ""
+"السنة لأقدم منشور متاح. يتم استخدام هذا لإنشاء السنوات المتاحة للتصفية"
 
 #: climweb/src/climweb/pages/publications/models.py:60
 msgid "Earliest Publication Year"
@@ -99,23 +99,26 @@ msgstr "تمت مراجعة النظراء"
 #, fuzzy
 #| msgid "Publication image"
 msgid "Publication Image (Thumbnail)"
-msgstr "صورة المنشور"
+msgstr "صورة المنشور (صورة مصغرة)"
 
 #: climweb/src/climweb/pages/publications/models.py:180
 msgid ""
-"This can be a screenshot of the front page of the publication. If left empty "
-"and Auto-generate above is checked and the uploaded document is a PDF, an "
+"This can be a screenshot of the front page of the publication. If left empty"
+" and Auto-generate above is checked and the uploaded document is a PDF, an "
 "image of the first page will be auto-generated."
 msgstr ""
+"يمكن أن تكون هذه لقطة شاشة للصفحة الأولى للمنشور. إذا تركت فارغة وتم تحديد "
+"الإنشاء التلقائي أعلاه وكان المستند الذي تم تحميله عبارة عن ملف PDF، فسيتم "
+"إنشاء صورة الصفحة الأولى تلقائيًا."
 
 #: climweb/src/climweb/pages/publications/models.py:186
 msgid ""
 "If the document is a PDF, an image of the first page will be auto-generated."
-msgstr ""
+msgstr "إذا كان المستند بتنسيق PDF، فسيتم إنشاء صورة للصفحة الأولى تلقائيًا."
 
 #: climweb/src/climweb/pages/publications/models.py:187
 msgid "Auto-generate thumbnail"
-msgstr ""
+msgstr "إنشاء صورة مصغرة تلقائيًا"
 
 #: climweb/src/climweb/pages/publications/models.py:196
 msgid "Document or File"
@@ -149,24 +152,24 @@ msgstr "تفاصيل اضافية"
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:32
 #, python-format
 msgid "Download - %(file_size)s"
-msgstr ""
+msgstr "تنزيل - %(file_size)s"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:40
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:148
 #, fuzzy
 #| msgid "All Publications"
 msgid "Go to publication"
-msgstr "جميع المنشورات"
+msgstr "انتقل إلى النشر"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:76
 #, fuzzy
 #| msgid "Additional Details"
 msgid "Additional Materials"
-msgstr "تفاصيل اضافية"
+msgstr "مواد إضافية"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:138
 msgid "Download document"
-msgstr ""
+msgstr "تنزيل المستند"
 
 #: climweb/src/climweb/pages/publications/templates/publication_page.html:24
 msgid "Other Recent Publications"
