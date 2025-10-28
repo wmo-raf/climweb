@@ -1,9 +1,13 @@
 from climweb.base.blocks import CategorizedAdditionalMaterialBlock
+from climweb.base.models.snippets import ServiceCategory
+from climweb.pages.news.models import NewsPage
+from climweb.pages.publications.models import PublicationPage
 from wagtail.models import Page
 from wagtail.fields import StreamField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField
 from django.db import models
+from django.utils.functional import cached_property
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from climweb.pages.dashboards.blocks import DashboardSectionBlock
 from django.utils.translation import gettext_lazy as _
@@ -45,6 +49,8 @@ class DashboardPage(MetadataPageMixin, Page):
         related_name='+',
     )
 
+    service = models.OneToOneField(ServiceCategory, on_delete=models.PROTECT, null=True, blank=True, verbose_name=_("Service"), help_text=_("The service this dashboard is associated with. This is useful in fetching the latest updates i.e publications, news, articles related to this service."))
+
     body = StreamField([
         ("section", DashboardSectionBlock()),
     ], use_json_field=True)
@@ -60,6 +66,7 @@ class DashboardPage(MetadataPageMixin, Page):
             NativeColorPanel("banner_background_color"),
             FieldPanel("banner_image"),
         ], heading="Banner Settings"),
+        FieldPanel('service'),
         FieldPanel("body"),
         FieldPanel("additional_materials"),
     ]
@@ -92,6 +99,35 @@ class DashboardPage(MetadataPageMixin, Page):
         if self.seo_title:
             return self.seo_title
         return self.banner_title
+    
+
+    @cached_property
+    def latest_updates(self):
+        updates = []
+        
+        news = NewsPage.objects.live().filter(services__in=[self.service]).order_by('-is_featured', '-date')[:2]
+        
+        publications = PublicationPage.objects.live().filter(categories__in=[self.service]).order_by(
+            '-featured',
+            '-publication_date')
+        
+        if news.exists():
+            if news.count() > 1:
+                # we have 2 news , get 2 publications
+                publications = publications[:2]
+            else:
+                # we have 1 news, get 3 publications
+                publications = publications[:3]
+            # add news
+            updates.extend(news)
+        else:
+            # no news, get 4 publications
+            publications = publications[:4]
+        
+        # add publications
+        updates.extend(publications)
+        
+        return updates
 
     class Meta:
         verbose_name = "Dashboard Page"
