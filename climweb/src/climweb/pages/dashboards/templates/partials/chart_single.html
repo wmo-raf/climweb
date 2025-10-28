@@ -8,7 +8,7 @@
     </div>
     <div class="column chart-column is-half">
         <div class="card elevation-1">
-            <header class="card-header elevation-0">
+            <header class="card-header elevation-0" style="align-items:center">
                 <p class="card-header-title">
                     {% if chart.description %}
                     {{ chart.dataset.dataset.title }}
@@ -18,19 +18,7 @@
 
                     {% endif %}
                 </p>
-                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
-                <a
-                    class="card-header-icon"
-                    aria-label="more options"
-                    href="{{chart.mapviewer_map_url}}"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    <div class="icon is-small">
-                        {% svg_icon "layer-group" %}
-                    </div>
-                </a>
-                {% endif %} 
+                
                 {% if chart.dataset.dataset.metadata %}
                 <button
                     class="card-header-icon js-modal-trigger"
@@ -42,6 +30,13 @@
                     </div>
                 </button>
                 {% endif %}
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
+             
+                            <a class="card-header-icon button is-small is-dark is-rounded" href="{{ chart.mapviewer_map_url }}" target="_blank" rel="noopener" style="border-radius: 20px !important; ">
+                                <span class="icon is-small">{% svg_icon "layer-group" %}</span><span>Mapviewer</span>
+                            </a>
+
+                {% endif %} 
             </header>
             <div class="card-content">
                 {% if chart.chart_type == "stripes" %}
@@ -108,7 +103,7 @@
     {% elif chart.description %}
     <div class="column chart-column is-half">
         <div class="card elevation-1">
-            <header class="card-header elevation-0">
+            <header class="card-header elevation-0" style="align-items:center">
                 <p class="card-header-title">
                     {% if chart.description %}
                     {{ chart.dataset.dataset.title }}
@@ -118,19 +113,7 @@
 
                     {% endif %}
                 </p>
-                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
-                <a
-                    class="card-header-icon"
-                    aria-label="more options"
-                    href="{{chart.mapviewer_map_url}}"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    <div class="icon is-small">
-                        {% svg_icon "layer-group" %}
-                    </div>
-                </a>
-                {% endif %} 
+                
                 {% if chart.dataset.dataset.metadata %}
                 <button
                     class="card-header-icon js-modal-trigger"
@@ -142,6 +125,13 @@
                     </div>
                 </button>
                 {% endif %}
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
+             
+                            <a class="card-header-icon button is-small is-dark is-rounded" href="{{ chart.mapviewer_map_url }}" target="_blank" rel="noopener" style="border-radius: 20px !important; ">
+                                <span class="icon is-small">{% svg_icon "layer-group" %}</span><span>Mapviewer</span>
+                            </a>
+
+                {% endif %} 
             </header>
             <div class="card-content">
                 {% if chart.chart_type == "stripes" %}
@@ -212,7 +202,7 @@
     {% else %}
     <div class="column chart-column">
         <div class="card elevation-1">
-            <header class="card-header elevation-0">
+            <header class="card-header elevation-0" style="align-items:center">
                 <p class="card-header-title">
                     {% if chart.description %}
                     {{ chart.dataset.dataset.title }}
@@ -222,19 +212,7 @@
 
                     {% endif %}
                 </p>
-                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
-                <a
-                    class="card-header-icon"
-                    aria-label="more options"
-                    href="{{chart.mapviewer_map_url}}"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    <div class="icon is-small">
-                        {% svg_icon "layer-group" %}
-                    </div>
-                </a>
-                {% endif %} 
+                
                 {% if chart.dataset.dataset.metadata %}
                 <button
                     class="card-header-icon js-modal-trigger"
@@ -246,6 +224,13 @@
                     </div>
                 </button>
                 {% endif %}
+                {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
+             
+                            <a class="card-header-icon button is-small is-dark is-rounded" href="{{ chart.mapviewer_map_url }}" target="_blank" rel="noopener" style="border-radius: 20px !important; ">
+                                <span class="icon is-small">{% svg_icon "layer-group" %}</span><span>Mapviewer</span>
+                            </a>
+
+                {% endif %} 
             </header>
             <div class="card-content">
                 {% if chart.chart_type == "stripes" %}
