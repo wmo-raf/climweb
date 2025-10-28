@@ -1,6 +1,7 @@
 from climweb.pages.dashboards.forms import BoundaryMultiPolygonField
 from wagtail import hooks
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from wagtail_modeladmin.options import (
     ModelAdmin, modeladmin_register, ModelAdminGroup
@@ -15,7 +16,7 @@ def chart_snippet_editor_js():
     return format_html('<script src="{}"></script>', static('js/chart_snippet.js'))
 class ChartAdmin(ModelAdmin):
     model = ChartSnippet
-    menu_label = "Charts"
+    menu_label =  _("Charts")
     menu_icon = "chart"
     menu_order = 102
     add_to_settings_menu = False
@@ -26,7 +27,7 @@ class ChartAdmin(ModelAdmin):
 
 class MapAdmin(ModelAdmin):
     model = DashboardMap
-    menu_label = "Maps"
+    menu_label =  _("Maps")
     menu_icon = "site"
     menu_order = 101
     add_to_settings_menu = False
@@ -37,7 +38,7 @@ class MapAdmin(ModelAdmin):
 
 class DashboardPageAdmin(ModelAdmin):
     model = DashboardPage
-    menu_label = "Dashboards"
+    menu_label = _("Dashboards")
     menu_icon = "report"
     menu_order = 100
     add_to_settings_menu = False
@@ -46,7 +47,7 @@ class DashboardPageAdmin(ModelAdmin):
 
 
 class CustomDashboardMenu(ModelAdminGroup):
-    menu_label = "Atlas"
+    menu_label = _("Atlas")
     menu_icon = "analysis"
     menu_order = 105
     items = (DashboardPageAdmin, MapAdmin, ChartAdmin )

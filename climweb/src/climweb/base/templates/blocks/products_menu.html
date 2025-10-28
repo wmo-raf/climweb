@@ -1,4 +1,4 @@
-{% load wagtailimages_tags wagtailiconchooser_tags %}
+{% load wagtailimages_tags wagtailiconchooser_tags lazyimages_tags %}
 
 <div class="columns is-multiline megamenu-columns">
     {% for sub_page in products_index.specific.get_menu_product_pages %}
@@ -10,10 +10,17 @@
                             {% svg_icon sub_page.specific.nav_menu_icon %}
                         {% elif sub_page.specific.banner_image %}
                             {% image sub_page.specific.banner_image original as subpage_image %}
-                            <img src="{{ subpage_image.url }}" alt="">
+                            <img 
+                            class="progressive__img progressive--not-loaded"
+                            data-progressive="{{ subpage_image.url }}"
+                            src="{% lazy_image_url subpage_image %}"
+                            alt="">
                         {% elif sub_page.specific.introduction_image %}
                             {% image sub_page.specific.introduction_image original as subpage_image %}
-                            <img src="{{ subpage_image.url }}" alt="">
+                            <img class="progressive__img progressive--not-loaded"
+                            data-progressive="{{ subpage_image.url }}"
+                            src="{% lazy_image_url subpage_image %}"
+                            alt="">
                         {% endif %}
                     </div>
                     <div class="menu-item-label">

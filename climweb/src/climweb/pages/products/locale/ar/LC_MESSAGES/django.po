@@ -16,8 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: climweb/src/climweb/pages/products/blocks.py:40
 #: climweb/src/climweb/pages/products/blocks.py:44
@@ -74,7 +73,8 @@ msgstr "ملخص معلومات الخريطة/الصورة"
 #: climweb/src/climweb/pages/products/blocks.py:70
 #: climweb/src/climweb/pages/products/blocks.py:103
 #: climweb/src/climweb/pages/products/blocks.py:146
-msgid "The effective until date cannot be earlier than the effective from date"
+msgid ""
+"The effective until date cannot be earlier than the effective from date"
 msgstr "لا يمكن أن يكون تاريخ السريان حتى أقدم من تاريخ السريان"
 
 #: climweb/src/climweb/pages/products/blocks.py:82
@@ -83,12 +83,12 @@ msgstr "وثيقة"
 
 #: climweb/src/climweb/pages/products/blocks.py:84
 msgid "Auto-generate thumbnail"
-msgstr ""
+msgstr "إنشاء صورة مصغرة تلقائيًا"
 
 #: climweb/src/climweb/pages/products/blocks.py:85
 msgid ""
 "If the document is a PDF, an image of the first page will be auto-generated."
-msgstr ""
+msgstr "إذا كان المستند بتنسيق PDF، فسيتم إنشاء صورة للصفحة الأولى تلقائيًا."
 
 #: climweb/src/climweb/pages/products/blocks.py:87
 msgid "Thumbnail of the document"
@@ -96,10 +96,13 @@ msgstr "صورة مصغرة للوثيقة"
 
 #: climweb/src/climweb/pages/products/blocks.py:88
 msgid ""
-"For example a screen grab of the cover page. If left empty and Auto-generate "
-"above is checked and the uploaded document is a PDF, an image of the first "
+"For example a screen grab of the cover page. If left empty and Auto-generate"
+" above is checked and the uploaded document is a PDF, an image of the first "
 "page will be auto-generated."
 msgstr ""
+"على سبيل المثال، لقطة شاشة لصفحة الغلاف. إذا تركت فارغة وتم تحديد الإنشاء "
+"التلقائي أعلاه وكان المستند الذي تم تحميله عبارة عن ملف PDF، فسيتم إنشاء "
+"صورة الصفحة الأولى تلقائيًا."
 
 #: climweb/src/climweb/pages/products/blocks.py:91
 msgid "Summary of the document information"
@@ -154,8 +157,8 @@ msgstr "الصورة المصغرة للقائمة الافتراضية"
 
 #: climweb/src/climweb/pages/products/models.py:136
 msgid ""
-"An image that will be used as a thumbnail for in the products listing, if no "
-"image can be extracted from product items"
+"An image that will be used as a thumbnail for in the products listing, if no"
+" image can be extracted from product items"
 msgstr ""
 "صورة سيتم استخدامها كصورة مصغرة في قائمة المنتجات، إذا لم يكن من الممكن "
 "استخراج صورة من عناصر المنتج"
@@ -214,13 +217,13 @@ msgstr "البند المنتج"
 #, fuzzy
 #| msgid "Subnational Product Page"
 msgid "Subnational Product Landing Page"
-msgstr "صفحة المنتج الفرعية"
+msgstr "الصفحة المقصودة للمنتج دون الوطني"
 
 #: climweb/src/climweb/pages/products/models.py:432
 #, fuzzy
 #| msgid "Subnational Product Pages"
 msgid "Subnational Product Landing Pages"
-msgstr "صفحات المنتجات الفرعية"
+msgstr "الصفحات المقصودة للمنتجات دون الوطنية"
 
 #: climweb/src/climweb/pages/products/models.py:481
 msgid "Subnational Region"
@@ -317,19 +320,19 @@ msgstr "اقرأ أكثر"
 #, fuzzy
 #| msgid "Product"
 msgid "View products"
-msgstr "منتج"
+msgstr "عرض المنتجات"
 
 #: climweb/src/climweb/pages/products/templates/products/subnational/subnational_products_landing.html:32
 #, fuzzy
 #| msgid "Browse Product Updates"
 msgid "Browse Products"
-msgstr "تصفح تحديثات المنتج"
+msgstr "تصفح المنتجات"
 
 #: climweb/src/climweb/pages/products/templates/products/subnational/subnational_products_landing_filter_include.html:9
 #, fuzzy
 #| msgid "Filter by Month"
 msgid "Filter by Region"
-msgstr "التصفية حسب الشهر"
+msgstr "تصفية حسب المنطقة"
 
 #~ msgid "For example a screen grab of the cover page"
 #~ msgstr "على سبيل المثال، لقطة شاشة لصفحة الغلاف"

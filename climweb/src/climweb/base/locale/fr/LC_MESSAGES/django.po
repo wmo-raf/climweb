@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2025-10-25 10:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,14 +20,17 @@ msgstr ""
 
 #: climweb/src/climweb/base/blocks.py:49 climweb/src/climweb/base/blocks.py:50
 #: climweb/src/climweb/base/blocks.py:62 climweb/src/climweb/base/blocks.py:63
+#: climweb/src/climweb/base/blocks.py:80 climweb/src/climweb/base/blocks.py:81
 msgid "Section Title"
 msgstr "Section titre"
 
-#: climweb/src/climweb/base/blocks.py:51 climweb/src/climweb/base/blocks.py:64
+#: climweb/src/climweb/base/blocks.py:51 climweb/src/climweb/base/blocks.py:71
+#: climweb/src/climweb/base/blocks.py:82
 msgid "Section Text"
 msgstr "Texte de la section"
 
-#: climweb/src/climweb/base/blocks.py:52 climweb/src/climweb/base/blocks.py:65
+#: climweb/src/climweb/base/blocks.py:52 climweb/src/climweb/base/blocks.py:72
+#: climweb/src/climweb/base/blocks.py:83
 msgid "Section description"
 msgstr "Description de la rubrique"
 
@@ -35,24 +38,33 @@ msgstr "Description de la rubrique"
 msgid "Title, Text and Image"
 msgstr "Titre, texte et image"
 
-#: climweb/src/climweb/base/blocks.py:70
+#: climweb/src/climweb/base/blocks.py:68
+#: climweb/src/climweb/base/models/snippets.py:110
+msgid "Title"
+msgstr "Titre"
+
+#: climweb/src/climweb/base/blocks.py:77
+msgid "Text"
+msgstr "Texte"
+
+#: climweb/src/climweb/base/blocks.py:88
 msgid "Title and Text"
 msgstr "Titre et texte"
 
-#: climweb/src/climweb/base/blocks.py:84
+#: climweb/src/climweb/base/blocks.py:102
 msgid "A URL that returns Highcharts.js configuration, including the data"
 msgstr ""
 "Une URL qui renvoie la configuration Highcharts.js, y compris les données"
 
-#: climweb/src/climweb/base/blocks.py:88
+#: climweb/src/climweb/base/blocks.py:106
 msgid "Description"
 msgstr "Description"
 
-#: climweb/src/climweb/base/blocks.py:90
+#: climweb/src/climweb/base/blocks.py:108
 msgid "Action Link Internal"
 msgstr "Lien d'action interne"
 
-#: climweb/src/climweb/base/blocks.py:92
+#: climweb/src/climweb/base/blocks.py:110
 msgid ""
 "An external link to a detailed resource on the internet.If provided, the "
 "internal link will be ignored"
@@ -60,97 +72,118 @@ msgstr ""
 "Un lien externe vers une ressource détaillée sur Internet. S'il est fourni, "
 "le lien interne sera ignoré"
 
-#: climweb/src/climweb/base/blocks.py:98
+#: climweb/src/climweb/base/blocks.py:116
 msgid "Feature Block"
 msgstr "Bloc de fonctionnalités"
 
-#: climweb/src/climweb/base/blocks.py:109
+#: climweb/src/climweb/base/blocks.py:127
 msgid "Collapsible Block"
 msgstr "Bloc pliable"
 
-#: climweb/src/climweb/base/blocks.py:121
+#: climweb/src/climweb/base/blocks.py:139
 msgid "Accordion"
 msgstr "Accordéon"
 
-#: climweb/src/climweb/base/blocks.py:137
+#: climweb/src/climweb/base/blocks.py:155
+#: climweb/src/climweb/base/blocks.py:285
 #: climweb/src/climweb/base/models/snippets.py:50
 #: climweb/src/climweb/base/models/snippets.py:86
 msgid "Icon"
 msgstr "Icône"
 
-#: climweb/src/climweb/base/blocks.py:138
+#: climweb/src/climweb/base/blocks.py:156
 msgid "The full url link that takes you to the page"
 msgstr "Le lien URL complet qui vous amène à la page"
 
-#: climweb/src/climweb/base/blocks.py:142
+#: climweb/src/climweb/base/blocks.py:160
 msgid "Social Media Account"
 msgstr "Compte de médias sociaux"
 
-#: climweb/src/climweb/base/blocks.py:154
+#: climweb/src/climweb/base/blocks.py:172
 msgid "Collapsible Text Block"
 msgstr "Bloc de texte pliable"
 
-#: climweb/src/climweb/base/blocks.py:164
+#: climweb/src/climweb/base/blocks.py:182
 msgid "Select document or file"
 msgstr "Sélectionnez un document ou un fichier"
 
-#: climweb/src/climweb/base/blocks.py:165
+#: climweb/src/climweb/base/blocks.py:183
 msgid "Document/File"
 msgstr "Document/Fichier"
 
-#: climweb/src/climweb/base/blocks.py:166
+#: climweb/src/climweb/base/blocks.py:184
 msgid "Select/upload image"
 msgstr "Sélectionner/télécharger une image"
 
-#: climweb/src/climweb/base/blocks.py:170
+#: climweb/src/climweb/base/blocks.py:188
 msgid "Additional Material"
 msgstr "Matériels supplémentaires"
 
-#: climweb/src/climweb/base/blocks.py:179
+#: climweb/src/climweb/base/blocks.py:197
 msgid "Additional Materials"
 msgstr "Matériaux additionnels"
 
-#: climweb/src/climweb/base/blocks.py:184
 #: climweb/src/climweb/base/blocks.py:202
+#: climweb/src/climweb/base/blocks.py:220
 msgid "Label"
 msgstr "Étiquette"
 
-#: climweb/src/climweb/base/blocks.py:185
 #: climweb/src/climweb/base/blocks.py:203
+#: climweb/src/climweb/base/blocks.py:221
 msgid "Page"
 msgstr "Page"
 
-#: climweb/src/climweb/base/blocks.py:186
 #: climweb/src/climweb/base/blocks.py:204
+#: climweb/src/climweb/base/blocks.py:222
 msgid "External URL"
 msgstr "URL externe"
 
-#: climweb/src/climweb/base/blocks.py:187
+#: climweb/src/climweb/base/blocks.py:205
 msgid "Show as action button"
 msgstr "Afficher comme bouton d'action"
 
-#: climweb/src/climweb/base/blocks.py:205
+#: climweb/src/climweb/base/blocks.py:223
 msgid "Include Subpages"
 msgstr "Inclure les sous-pages"
 
-#: climweb/src/climweb/base/blocks.py:206
+#: climweb/src/climweb/base/blocks.py:224
 msgid "Large Submenu Dropdown"
 msgstr "Grand sous-menu déroulant"
 
+#: climweb/src/climweb/base/blocks.py:292
+msgid "Card"
+msgstr "Carte"
+
+#: climweb/src/climweb/base/blocks.py:297
+#, fuzzy
+#| msgid "Introduction button text"
+msgid "Card button text"
+msgstr "Texte du bouton de la carte"
+
+#: climweb/src/climweb/base/blocks.py:298
+#, fuzzy
+#| msgid "Introduction button link"
+msgid "Card button link"
+msgstr "Lien du bouton de la carte"
+
+#: climweb/src/climweb/base/blocks.py:302
+msgid "Cards with Icon and Text"
+msgstr "Cartes avec icône et texte"
+
 #: climweb/src/climweb/base/cap.py:103
 msgid "Go to warnings list"
-msgstr ""
+msgstr "Aller à la liste des avertissements"
 
-#: climweb/src/climweb/base/forms.py:26
+#: climweb/src/climweb/base/forms.py:27
 #, python-format
 msgid ""
 "Supported formats: %(supported_formats)s. Maximum filesize: "
 "%(max_upload_size)s."
 msgstr ""
-"Formats pris en charge : %(supported_formats)s. Taille maximale du fichier : "
-"%(max_upload_size)s."
+"Formats pris en charge : %(supported_formats)s. Taille maximale du fichier :"
+" %(max_upload_size)s."
 
-#: climweb/src/climweb/base/forms.py:41
+#: climweb/src/climweb/base/forms.py:42
 #, python-format
 msgid ""
 "File size must be under %(max_upload_size)s. Current file size is "
@@ -159,7 +192,7 @@ msgstr ""
 "La taille du fichier doit être inférieure à %(max_upload_size)s. La taille "
 "actuelle du fichier est %(current_file_size)s"
 
-#: climweb/src/climweb/base/forms.py:58
+#: climweb/src/climweb/base/forms.py:59
 #, python-format
 msgid "Supported formats: PDF. Maximum filesize: %(max_upload_size)s."
 msgstr ""
@@ -248,35 +281,37 @@ msgstr "Section Introduction"
 
 #: climweb/src/climweb/base/models/cap_settings.py:14
 msgid "Show on MapViewer"
-msgstr ""
+msgstr "Afficher sur MapViewer"
 
 #: climweb/src/climweb/base/models/cap_settings.py:15
 msgid "Check to show cap alerts on MapViewer"
-msgstr ""
+msgstr "Cochez pour afficher les alertes de plafond sur MapViewer"
 
 #: climweb/src/climweb/base/models/cap_settings.py:17
 #, fuzzy
 #| msgid "CAP Alerts RSS Feed"
 msgid "CAP Alerts Layer Title"
-msgstr "Flux RSS des alertes CAP"
+msgstr "Titre de la couche d’alertes CAP"
 
 #: climweb/src/climweb/base/models/cap_settings.py:19
 msgid "CAP Alerts Layer SubCategory"
-msgstr ""
+msgstr "Sous-catégorie de couche d'alertes CAP"
 
 #: climweb/src/climweb/base/models/cap_settings.py:22
 msgid "CAP Layer Metadata"
-msgstr ""
+msgstr "Métadonnées de la couche CAP"
 
 #: climweb/src/climweb/base/models/cap_settings.py:24
 msgid "Auto Refresh interval in minutes"
-msgstr ""
+msgstr "Intervalle de rafraîchissement automatique en minutes"
 
 #: climweb/src/climweb/base/models/cap_settings.py:26
 msgid ""
 "Refresh cap alerts on the map after this minutes. Leave blank to disable "
 "auto refreshing"
 msgstr ""
+"Actualisez les alertes de plafond sur la carte après ces minutes. Laisser "
+"vide pour désactiver l'actualisation automatique"
 
 #: climweb/src/climweb/base/models/site_settings.py:31
 msgid "Country"
@@ -376,11 +411,11 @@ msgstr "Clé API YouTube"
 
 #: climweb/src/climweb/base/models/site_settings.py:145
 msgid ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 msgstr ""
-"Pour configurer la clé API Youtube, reportez-vous à https://"
-"developers.google.com/youtube/v3/getting-started"
+"Pour configurer la clé API Youtube, reportez-vous à "
+"https://developers.google.com/youtube/v3/getting-started"
 
 #: climweb/src/climweb/base/models/site_settings.py:150
 msgid "GA Tracking ID"
@@ -397,11 +432,12 @@ msgstr "Suivre les clics sur les boutons"
 #: climweb/src/climweb/base/models/site_settings.py:157
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 msgstr ""
 "Suivez tous les clics sur les boutons à l'aide du suivi des événements "
-"Google Analytics. Les détails du suivi des événements peuvent être spécifiés "
-"dans les options de paramètres avancés de chaque bouton."
+"Google Analytics. Les détails du suivi des événements peuvent être spécifiés"
+" dans les options de paramètres avancés de chaque bouton."
 
 #: climweb/src/climweb/base/models/site_settings.py:162
 msgid "Track pages internally"
@@ -617,10 +653,6 @@ msgstr "Catégorie de services"
 msgid "Service Categories"
 msgstr "Catégories de services"
 
-#: climweb/src/climweb/base/models/snippets.py:110
-msgid "Title"
-msgstr "Titre"
-
 #: climweb/src/climweb/base/models/snippets.py:117
 msgid "Thumbnail"
 msgstr "Vignette"
@@ -685,15 +717,15 @@ msgstr ""
 "Une mise à niveau du ClimWeb a été lancée. Veuillez attendre la fin de la "
 "mise à niveau"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:79
+#: climweb/src/climweb/base/templates/admin/cms_version.html:78
 msgid "ClimWeb upgrade available"
 msgstr "Mise à jour du ClimWeb disponible"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:83
+#: climweb/src/climweb/base/templates/admin/cms_version.html:89
 msgid "Release notes"
 msgstr "Notes de version"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:110
+#: climweb/src/climweb/base/templates/admin/cms_version.html:117
 msgid "Upgrade now"
 msgstr "Mettre à jour maintenant"
 
@@ -720,7 +752,7 @@ msgstr "Thèmes"
 
 #, fuzzy
 #~ msgid "Introduction Heading"
-#~ msgstr "Introduction Titre"
+#~ msgstr "Titre d'introduction"
 
 #, fuzzy
 #~ msgid "Introduction section heading"
@@ -742,7 +774,7 @@ msgstr "Thèmes"
 #~ msgstr "Rôle du membre du personnel"
 
 #~ msgid "The role/position of the Staff member"
-#~ msgstr "Le rôle/la position du membre du personnel"
+#~ msgstr "Le rôle/position du membre du personnel"
 
 #~ msgid "Staff member Biography"
 #~ msgstr "Biographie du membre du personnel"
@@ -751,7 +783,7 @@ msgstr "Thèmes"
 #~ msgstr "Biographie sommaire facultative du membre du personnel"
 
 #~ msgid "Staff member's Department"
-#~ msgstr "Département du personnel"
+#~ msgstr "Département du membre du personnel"
 
 #~ msgid "Staff member's Profile Image"
 #~ msgstr "Image de profil du membre du personnel"
@@ -767,23 +799,23 @@ msgstr "Thèmes"
 #~ msgstr "Membres du personnel"
 
 #~ msgid "Availability of Surface Land observations"
-#~ msgstr "Disponibilité des observations de surface terrestre"
+#~ msgstr "Disponibilité des observations en surface"
 
 #~ msgid "Global NWP"
-#~ msgstr "Prévision numérique globale"
+#~ msgstr "PNT mondiale"
 
 #, fuzzy
 #~ msgid "All Stations"
 #~ msgstr "Toutes les stations"
 
 #~ msgid "Data Source"
-#~ msgstr "Source des données"
+#~ msgstr "Source de données"
 
 #~ msgid "No stations at the moment"
 #~ msgstr "Aucune station pour le moment"
 
 #~ msgid "Synoptic hours"
-#~ msgstr "Heures synoptiques"
+#~ msgstr "Horaires synoptiques"
 
 #~ msgid "Weather Parameter"
 #~ msgstr "Paramètre météo"
@@ -795,8 +827,7 @@ msgstr "Thèmes"
 #~ msgstr "Mesures"
 
 #~ msgid "Location not found. Please search for a different location."
-#~ msgstr ""
-#~ "Localisation introuvable. Veuillez rechercher une autre localisation."
+#~ msgstr "Emplacement introuvable. Veuillez rechercher un autre emplacement."
 
 #~ msgid "No data found"
 #~ msgstr "Aucune donnée trouvée"
@@ -806,9 +837,7 @@ msgstr "Thèmes"
 
 #, fuzzy
 #~ msgid "Extreme weather observations section title"
-#~ msgstr ""
-#~ "Titre de la section Observations sur les conditions météorologiques "
-#~ "extrêmes"
+#~ msgstr "Titre de la section sur les observations météorologiques extrêmes"
 
 #~ msgid "Weather forecast section heading"
 #~ msgstr "Titre de la section Prévisions météorologiques"
@@ -820,8 +849,8 @@ msgstr "Thèmes"
 #~ msgid ""
 #~ "Number of items to show in the list section. Default is 6. Maximum is 20."
 #~ msgstr ""
-#~ "Nombre d'éléments à afficher dans la section liste. La valeur par défaut "
-#~ "est 6. Le maximum est 20."
+#~ "Nombre d'éléments à afficher dans la section liste. La valeur par défaut est"
+#~ " 6. Le maximum est 20."
 
 #~ msgid "Issued on"
 #~ msgstr "Publié le"
@@ -833,7 +862,7 @@ msgstr "Thèmes"
 #~ msgstr "Date du résumé"
 
 #~ msgid "Weather Summary Description"
-#~ msgstr "Description sommaire de la météo"
+#~ msgstr "Description du résumé météo"
 
 #~ msgid "Forecast Date"
 #~ msgstr "Date de prévision"
@@ -851,7 +880,7 @@ msgstr "Thèmes"
 #~ msgstr "Résumé météo de la veille"
 
 #~ msgid "Extreme weather observations"
-#~ msgstr "Observations de conditions météorologiques extrêmes"
+#~ msgstr "Observations météorologiques extrêmes"
 
 #~ msgid "Weather forecast for next day"
 #~ msgstr "Prévisions météo pour le lendemain"
@@ -869,7 +898,7 @@ msgstr "Thèmes"
 #~ msgstr "En savoir plus"
 
 #~ msgid "Search Location"
-#~ msgstr "Emplacement de la recherche"
+#~ msgstr "Rechercher un emplacement"
 
 #~ msgid "Time"
 #~ msgstr "Temps"

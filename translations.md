@@ -47,7 +47,7 @@ export ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev'
 
 ```sh
 export ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev' 
-./climweb/src/climweb/manage.py manage.py translate_messages -l fr
+./climweb/src/climweb/manage.py translate_messages -l fr
 ```
 
 3. Build docs in target language (generate ***.mo** files)

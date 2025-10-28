@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2025-10-25 10:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,14 +20,17 @@ msgstr ""
 
 #: climweb/src/climweb/base/blocks.py:49 climweb/src/climweb/base/blocks.py:50
 #: climweb/src/climweb/base/blocks.py:62 climweb/src/climweb/base/blocks.py:63
+#: climweb/src/climweb/base/blocks.py:80 climweb/src/climweb/base/blocks.py:81
 msgid "Section Title"
 msgstr "Section Title"
 
-#: climweb/src/climweb/base/blocks.py:51 climweb/src/climweb/base/blocks.py:64
+#: climweb/src/climweb/base/blocks.py:51 climweb/src/climweb/base/blocks.py:71
+#: climweb/src/climweb/base/blocks.py:82
 msgid "Section Text"
 msgstr "Section Text"
 
-#: climweb/src/climweb/base/blocks.py:52 climweb/src/climweb/base/blocks.py:65
+#: climweb/src/climweb/base/blocks.py:52 climweb/src/climweb/base/blocks.py:72
+#: climweb/src/climweb/base/blocks.py:83
 msgid "Section description"
 msgstr "Section description"
 
@@ -35,23 +38,32 @@ msgstr "Section description"
 msgid "Title, Text and Image"
 msgstr "Title, Text and Image"
 
-#: climweb/src/climweb/base/blocks.py:70
+#: climweb/src/climweb/base/blocks.py:68
+#: climweb/src/climweb/base/models/snippets.py:110
+msgid "Title"
+msgstr "Title"
+
+#: climweb/src/climweb/base/blocks.py:77
+msgid "Text"
+msgstr "Text"
+
+#: climweb/src/climweb/base/blocks.py:88
 msgid "Title and Text"
 msgstr "Title and Text"
 
-#: climweb/src/climweb/base/blocks.py:84
+#: climweb/src/climweb/base/blocks.py:102
 msgid "A URL that returns Highcharts.js configuration, including the data"
 msgstr "A URL that returns Highcharts.js configuration, including the data"
 
-#: climweb/src/climweb/base/blocks.py:88
+#: climweb/src/climweb/base/blocks.py:106
 msgid "Description"
 msgstr "Description"
 
-#: climweb/src/climweb/base/blocks.py:90
+#: climweb/src/climweb/base/blocks.py:108
 msgid "Action Link Internal"
 msgstr "Action Link Internal"
 
-#: climweb/src/climweb/base/blocks.py:92
+#: climweb/src/climweb/base/blocks.py:110
 msgid ""
 "An external link to a detailed resource on the internet.If provided, the "
 "internal link will be ignored"
@@ -59,88 +71,109 @@ msgstr ""
 "An external link to a detailed resource on the internet.If provided, the "
 "internal link will be ignored"
 
-#: climweb/src/climweb/base/blocks.py:98
+#: climweb/src/climweb/base/blocks.py:116
 msgid "Feature Block"
 msgstr "Feature Block"
 
-#: climweb/src/climweb/base/blocks.py:109
+#: climweb/src/climweb/base/blocks.py:127
 msgid "Collapsible Block"
 msgstr "Collapsible Block"
 
-#: climweb/src/climweb/base/blocks.py:121
+#: climweb/src/climweb/base/blocks.py:139
 msgid "Accordion"
 msgstr "Accordion"
 
-#: climweb/src/climweb/base/blocks.py:137
+#: climweb/src/climweb/base/blocks.py:155
+#: climweb/src/climweb/base/blocks.py:285
 #: climweb/src/climweb/base/models/snippets.py:50
 #: climweb/src/climweb/base/models/snippets.py:86
 msgid "Icon"
 msgstr "Icon"
 
-#: climweb/src/climweb/base/blocks.py:138
+#: climweb/src/climweb/base/blocks.py:156
 msgid "The full url link that takes you to the page"
 msgstr "The full url link that takes you to the page"
 
-#: climweb/src/climweb/base/blocks.py:142
+#: climweb/src/climweb/base/blocks.py:160
 msgid "Social Media Account"
 msgstr "Social Media Account"
 
-#: climweb/src/climweb/base/blocks.py:154
+#: climweb/src/climweb/base/blocks.py:172
 msgid "Collapsible Text Block"
 msgstr "Collapsible Text Block"
 
-#: climweb/src/climweb/base/blocks.py:164
+#: climweb/src/climweb/base/blocks.py:182
 msgid "Select document or file"
 msgstr "Select document or file"
 
-#: climweb/src/climweb/base/blocks.py:165
+#: climweb/src/climweb/base/blocks.py:183
 msgid "Document/File"
 msgstr "Document/File"
 
-#: climweb/src/climweb/base/blocks.py:166
+#: climweb/src/climweb/base/blocks.py:184
 msgid "Select/upload image"
 msgstr "Select/upload image"
 
-#: climweb/src/climweb/base/blocks.py:170
+#: climweb/src/climweb/base/blocks.py:188
 msgid "Additional Material"
 msgstr "Additional Material"
 
-#: climweb/src/climweb/base/blocks.py:179
+#: climweb/src/climweb/base/blocks.py:197
 msgid "Additional Materials"
 msgstr "Additional Materials"
 
-#: climweb/src/climweb/base/blocks.py:184
 #: climweb/src/climweb/base/blocks.py:202
+#: climweb/src/climweb/base/blocks.py:220
 msgid "Label"
 msgstr "Label"
 
-#: climweb/src/climweb/base/blocks.py:185
 #: climweb/src/climweb/base/blocks.py:203
+#: climweb/src/climweb/base/blocks.py:221
 msgid "Page"
 msgstr "Page"
 
-#: climweb/src/climweb/base/blocks.py:186
 #: climweb/src/climweb/base/blocks.py:204
+#: climweb/src/climweb/base/blocks.py:222
 msgid "External URL"
 msgstr "External URL"
 
-#: climweb/src/climweb/base/blocks.py:187
+#: climweb/src/climweb/base/blocks.py:205
 msgid "Show as action button"
 msgstr "Show as action button"
 
-#: climweb/src/climweb/base/blocks.py:205
+#: climweb/src/climweb/base/blocks.py:223
 msgid "Include Subpages"
 msgstr "Include Subpages"
 
-#: climweb/src/climweb/base/blocks.py:206
+#: climweb/src/climweb/base/blocks.py:224
 msgid "Large Submenu Dropdown"
 msgstr "Large Submenu Dropdown"
 
+#: climweb/src/climweb/base/blocks.py:292
+msgid "Card"
+msgstr "Card"
+
+#: climweb/src/climweb/base/blocks.py:297
+#, fuzzy
+#| msgid "Introduction button text"
+msgid "Card button text"
+msgstr "Card button text"
+
+#: climweb/src/climweb/base/blocks.py:298
+#, fuzzy
+#| msgid "Introduction button link"
+msgid "Card button link"
+msgstr "Card button link"
+
+#: climweb/src/climweb/base/blocks.py:302
+msgid "Cards with Icon and Text"
+msgstr "Cards with Icon and Text"
+
 #: climweb/src/climweb/base/cap.py:103
 msgid "Go to warnings list"
-msgstr ""
+msgstr "Go to warnings list"
 
-#: climweb/src/climweb/base/forms.py:26
+#: climweb/src/climweb/base/forms.py:27
 #, python-format
 msgid ""
 "Supported formats: %(supported_formats)s. Maximum filesize: "
@@ -149,7 +182,7 @@ msgstr ""
 "Supported formats: %(supported_formats)s. Maximum filesize: "
 "%(max_upload_size)s."
 
-#: climweb/src/climweb/base/forms.py:41
+#: climweb/src/climweb/base/forms.py:42
 #, python-format
 msgid ""
 "File size must be under %(max_upload_size)s. Current file size is "
@@ -158,7 +191,7 @@ msgstr ""
 "File size must be under %(max_upload_size)s. Current file size is "
 "%(current_file_size)s"
 
-#: climweb/src/climweb/base/forms.py:58
+#: climweb/src/climweb/base/forms.py:59
 #, python-format
 msgid "Supported formats: PDF. Maximum filesize: %(max_upload_size)s."
 msgstr "Supported formats: PDF. Maximum filesize: %(max_upload_size)s."
@@ -245,33 +278,35 @@ msgstr "Introduction Section"
 
 #: climweb/src/climweb/base/models/cap_settings.py:14
 msgid "Show on MapViewer"
-msgstr ""
+msgstr "Show on MapViewer"
 
 #: climweb/src/climweb/base/models/cap_settings.py:15
 msgid "Check to show cap alerts on MapViewer"
-msgstr ""
+msgstr "Check to show cap alerts on MapViewer"
 
 #: climweb/src/climweb/base/models/cap_settings.py:17
 msgid "CAP Alerts Layer Title"
-msgstr ""
+msgstr "CAP Alerts Layer Title"
 
 #: climweb/src/climweb/base/models/cap_settings.py:19
 msgid "CAP Alerts Layer SubCategory"
-msgstr ""
+msgstr "CAP Alerts Layer SubCategory"
 
 #: climweb/src/climweb/base/models/cap_settings.py:22
 msgid "CAP Layer Metadata"
-msgstr ""
+msgstr "CAP Layer Metadata"
 
 #: climweb/src/climweb/base/models/cap_settings.py:24
 msgid "Auto Refresh interval in minutes"
-msgstr ""
+msgstr "Auto Refresh interval in minutes"
 
 #: climweb/src/climweb/base/models/cap_settings.py:26
 msgid ""
 "Refresh cap alerts on the map after this minutes. Leave blank to disable "
 "auto refreshing"
 msgstr ""
+"Refresh cap alerts on the map after this minutes. Leave blank to disable "
+"auto refreshing"
 
 #: climweb/src/climweb/base/models/site_settings.py:31
 msgid "Country"
@@ -370,11 +405,11 @@ msgstr "Youtube API Key"
 
 #: climweb/src/climweb/base/models/site_settings.py:145
 msgid ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 msgstr ""
-"To set up Youtube API Key refer to https://developers.google.com/youtube/v3/"
-"getting-started"
+"To set up Youtube API Key refer to "
+"https://developers.google.com/youtube/v3/getting-started"
 
 #: climweb/src/climweb/base/models/site_settings.py:150
 msgid "GA Tracking ID"
@@ -391,10 +426,12 @@ msgstr "Track button clicks"
 #: climweb/src/climweb/base/models/site_settings.py:157
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 msgstr ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
+"tracking details can be specified in each button’s advanced settings "
+"options."
 
 #: climweb/src/climweb/base/models/site_settings.py:162
 msgid "Track pages internally"
@@ -610,10 +647,6 @@ msgstr "Service Category"
 msgid "Service Categories"
 msgstr "Service Categories"
 
-#: climweb/src/climweb/base/models/snippets.py:110
-msgid "Title"
-msgstr "Title"
-
 #: climweb/src/climweb/base/models/snippets.py:117
 msgid "Thumbnail"
 msgstr "Thumbnail"
@@ -677,15 +710,15 @@ msgid ""
 msgstr ""
 "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:79
+#: climweb/src/climweb/base/templates/admin/cms_version.html:78
 msgid "ClimWeb upgrade available"
 msgstr "ClimWeb upgrade available"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:83
+#: climweb/src/climweb/base/templates/admin/cms_version.html:89
 msgid "Release notes"
 msgstr "Release notes"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:110
+#: climweb/src/climweb/base/templates/admin/cms_version.html:117
 msgid "Upgrade now"
 msgstr "Upgrade now"
 
