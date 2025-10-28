@@ -5,16 +5,16 @@
 </div>
 
 {% if maps %}
-{% for map in maps %}
+{% with last_map=maps|last %}
 <script>
   function mapConfig() {
-    const datasetsUrl = "{{ map.datasetsurl }}";
-    const countryBounds = {{ map.bounds|default_if_none:"[]"|safe }};
-    const boundaryTilesUrl = "{{ map.boundary_tiles_url|default_if_none:'' }}";
+    const datasetsUrl = "{{ last_map.datasetsurl }}";
+    const countryBounds = {{ last_map.bounds|default_if_none:"[]"|safe }};
+    const boundaryTilesUrl = "{{ last_map.boundary_tiles_url|default_if_none:'' }}";
     return { datasetsUrl, countryBounds, boundaryTilesUrl };
   }
 </script>
-{% endfor %}
+{% endwith %}
 {% endif %}
 
 

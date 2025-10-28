@@ -77,11 +77,14 @@ h1 {
     height:400px;
 }
 
-.map-container,
-.chart-container {
+.map-container {
     height: 100%;
     width: 100%;
     position: absolute;
+}
+
+.chart-container{
+    min-height: 300px;
 }
 
 .card-content {
