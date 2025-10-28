@@ -118,6 +118,7 @@ function getTimeFromList(timestamps, method) {
   const containers = document.querySelectorAll(".map-container");
 
   const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig() || {};
+  console.log("datasetsUrl",datasetsUrl)
   const dashboardBasemapStyle = {
     version: 8,
     sources: {
