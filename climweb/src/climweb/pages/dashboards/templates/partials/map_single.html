@@ -12,7 +12,7 @@
     {% endif %}
 
     <div class="column map-column {% if map.description %}is-half{% endif %}">
-        {% include "partials/map_card.html" with map=map map_layers=map.map_layer section_index=section_index index=index block_index=block_index %}
+        {% include "partials/map_card.html" with map=map map_layers=map.map_layer section_index=section_index index=index block_index=block_index page=page %}
     </div>
 </div>
 
