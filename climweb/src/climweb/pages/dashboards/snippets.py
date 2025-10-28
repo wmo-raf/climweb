@@ -164,13 +164,13 @@ class DashboardMapValue:
 @register_snippet
 class ChartSnippet(models.Model):
     CHART_TYPE_CHOICES = [
-        ("line", "Line Chart"),
-        ("column", "Vertical Bar Chart"),
-        ("bar", "Horizontal Bar Chart"),
-        ("area", "Area Chart"),
+        ("line",  _("Line Chart")),
+        ("column",  _("Vertical Bar Chart")),
+        ("bar",  _("Horizontal Bar Chart")),
+        ("area",  _("Area Chart")),
         # ("boxplot", "Box Plot"), # TODO: Box plot not implemented in frontend yet
-        ("scatter", "Scatter Plot"),
-        ("stripes", "Warming stripes"),
+        ("scatter",  _("Scatter Plot")),
+        ("stripes",  _("Warming stripes")),
     ]
 
     ADMIN_LEVEL_CHOICES = (
@@ -191,7 +191,7 @@ class ChartSnippet(models.Model):
     chart_color = models.CharField(
         max_length=7,
         default="#0b76e1",
-        help_text="Hex color code for chart color (e.g., #0b76e1)"
+        help_text= _("Hex color code for chart color (e.g., #0b76e1)")
     )
 
     area_desc = models.TextField(max_length=50,
@@ -273,8 +273,8 @@ class ChartSnippet(models.Model):
 
 
     class Meta:
-        verbose_name = "Dashboard Chart"
-        verbose_name_plural = "Dashboard Charts"
+        verbose_name =  _("Dashboard Chart")
+        verbose_name_plural =  _("Dashboard Charts")
 
     
 
