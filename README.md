@@ -36,6 +36,7 @@ NMHSs that have adopted ClimWeb across Africa:
 24. 🇿🇲 [Zambia](http://zmd.gov.zm/)
 25. 🇩🇯 [Djibouti](https://meteodjibouti.dj/)
 26. 🇸🇱 [Sierra Leone](https://slmet.gov.sl/)
+27. 🇸🇴 [Somalia](https://meteosomalia.so/)
 
 #### In progress
 
@@ -46,7 +47,6 @@ NMHSs that have adopted ClimWeb across Africa:
 - 🇲🇿 Mozambique 
 - 🇸🇿 Eswatini
 - 🇱🇸 Lesotho
-- 🇸🇴 Somalia
 - 🇿🇲 Mauritania
 - 🇨🇫 Central African Republic
 - 🇬🇦 Gabon
