@@ -38,6 +38,13 @@
                             </figure>
                         </a>
                         <div class="result-list-item-detail">
+                            {% if  news_item.news_type.icon %}
+                                    <span class="icon btn-icon">
+
+                                        {% svg_icon news_item.news_type.icon %}
+                                    
+                                    </span>
+                                {% endif %}
                             <div class="result-list-item-tag">
                                 <div>
                                     <span class="item-tag">{{ news_item.news_type }}</span>

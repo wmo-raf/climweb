@@ -41,8 +41,10 @@
                         <div class="result-list-item-detail">
                             <div class="result-list-item-tag">
                                 {% if  event.event_type.icon %}
-                                    <span class="icon">
-                                        <img src="{{ event.event_type.icon.url }}" alt=""/>
+                                    <span class="icon btn-icon">
+
+                                        {% svg_icon event.event_type.icon %}
+                                    
                                     </span>
                                 {% endif %}
                                 <span class="item-tag">{{ event.event_type }}</span>
