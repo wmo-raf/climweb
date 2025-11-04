@@ -6,6 +6,8 @@ from django.forms.widgets import CheckboxSelectMultiple
 from django.template.defaultfilters import truncatechars
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField, ParentalKey
 from taggit.models import TaggedItemBase
@@ -20,6 +22,119 @@ from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import ServiceCategory, AbstractBannerPage
 from climweb.base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
 from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
+
+
+class PageView(models.Model):
+    """Model to track page views for analytics"""
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    
+    ip_address = models.GenericIPAddressField(null=True, blank=True, verbose_name=_("IP Address"))
+    user_agent = models.TextField(blank=True, null=True, verbose_name=_("User Agent"))
+    timestamp = models.DateTimeField(auto_now_add=True, verbose_name=_("View Timestamp"))
+    session_key = models.CharField(max_length=40, blank=True, null=True, verbose_name=_("Session Key"))
+    
+    class Meta:
+        verbose_name = _("Page View")
+        verbose_name_plural = _("Page Views")
+        indexes = [
+            models.Index(fields=['content_type', 'object_id']),
+            models.Index(fields=['timestamp']),
+        ]
+    
+    def __str__(self):
+        return f"View of {self.content_object} at {self.timestamp}"
+
+    @classmethod
+    def record_view(cls, content_object, request=None, ip_address=None, user_agent=None, session_key=None):
+        """
+        Record a page view for the given content object.
+        
+        Args:
+            content_object: The object being viewed (e.g., PublicationPage)
+            request: HttpRequest object (optional, used to extract IP, user agent, session)
+            ip_address: Manual IP address override
+            user_agent: Manual user agent override  
+            session_key: Manual session key override
+        """
+        # Additional checks if request is provided
+        if request:
+            # Don't track views for authenticated users
+            if request.user.is_authenticated:
+                return None
+            
+            # Don't track views in preview mode
+            if getattr(request, 'is_preview', False):
+                return None
+            
+            # Don't track views from bots/crawlers (basic check)
+            user_agent_check = request.META.get('HTTP_USER_AGENT', '').lower()
+            bot_indicators = ['bot', 'crawler', 'spider', 'scraper', 'wget', 'curl']
+            if any(indicator in user_agent_check for indicator in bot_indicators):
+                return None
+        
+        # Extract information from request if provided
+        if request:
+            if not ip_address:
+                # Try to get real IP from headers (for proxy setups)
+                ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
+                if ip_address:
+                    # Take the first IP in case of multiple proxies
+                    ip_address = ip_address.split(',')[0].strip()
+                else:
+                    ip_address = request.META.get('REMOTE_ADDR')
+            
+            if not user_agent:
+                user_agent = request.META.get('HTTP_USER_AGENT', '')
+            
+            if not session_key and hasattr(request, 'session'):
+                session_key = request.session.session_key
+        
+        # Create the view record
+        return cls.objects.create(
+            content_object=content_object,
+            ip_address=ip_address,
+            user_agent=user_agent,
+            session_key=session_key
+        )
+
+    @classmethod
+    def should_track_view(cls, request):
+        """
+        Check if a view should be tracked based on request conditions.
+        
+        Args:
+            request: HttpRequest object
+            
+        Returns:
+            bool: True if the view should be tracked, False otherwise
+        """
+        # Don't track if not a GET request
+        if request.method != 'GET':
+            return False
+            
+        # Don't track authenticated users
+        if request.user.is_authenticated:
+            return False
+            
+        # Don't track preview mode
+        if getattr(request, 'is_preview', False):
+            return False
+            
+        # Don't track bots/crawlers
+        user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
+        bot_indicators = ['bot', 'crawler', 'spider', 'scraper', 'wget', 'curl']
+        if any(indicator in user_agent for indicator in bot_indicators):
+            return False
+            
+        # Check if internal tracking is enabled in settings
+        try:
+            from climweb.base.models import IntegrationSettings
+            integration_settings = IntegrationSettings.for_request(request)
+            return integration_settings and integration_settings.track_internally
+        except Exception:
+            return False
 
 
 @register_snippet
@@ -253,6 +368,26 @@ class PublicationPage(MetadataPageMixin, Page):
             return truncatechars(p, 160)
         return None
     
+    @property
+    def view_count(self):
+        """Get the total number of views for this publication"""
+        try:
+            from django.contrib.contenttypes.models import ContentType
+            content_type = ContentType.objects.get_for_model(self)
+            return PageView.objects.filter(content_type=content_type, object_id=self.pk).count()
+        except Exception:
+            return 0
+    
+    def record_view(self, request=None, **kwargs):
+        """Record a view of this publication page"""
+        try:
+            view_record = PageView.record_view(self, request=request, **kwargs)
+            print(f"Recorded view for {self.title}: {view_record}")
+            return view_record
+        except Exception as e:
+            print(f"Error in record_view: {e}")
+            return None
+
     @cached_property
     def related_items(self):
         related_items = PublicationPage.objects.live().exclude(pk=self.pk).order_by('-publication_date')[:3]
@@ -283,12 +418,35 @@ class PublicationPage(MetadataPageMixin, Page):
             "card_file": card_file,
             "card_external_publication_url": self.external_publication_url,
             "card_tags": card_tags,
-            # "card_views": self.webhits.count,
+            "card_views": self.view_count,
             "card_ga_label": "Publication",
         }
         
         return props
     
+    def serve(self, request, *args, **kwargs):
+        """Override serve to record page views when the publication is accessed"""
+        try:
+            # Only record views for GET requests from non-authenticated users and not in preview mode
+            if (request.method == 'GET' and 
+                not request.user.is_authenticated and 
+                not getattr(request, 'is_preview', False)):
+                
+                # Check if internal tracking is enabled in settings
+                from climweb.base.models import IntegrationSettings
+                try:
+                    integration_settings = IntegrationSettings.for_request(request)
+                    if integration_settings and integration_settings.track_internally:
+                        self.record_view(request)
+                except Exception:
+                    # If settings are not available, don't track views
+                    pass
+        except Exception as e:
+            # Log the error for debugging but continue serving the page
+            print(f"Error recording page view: {e}")
+        
+        return super().serve(request, *args, **kwargs)
+
     def get_context(self, request, *args, **kwargs):
         context = super(PublicationPage, self).get_context(request, *args, **kwargs)
         

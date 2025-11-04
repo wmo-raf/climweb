@@ -85,6 +85,15 @@
                                         </div>
                                     </div>
                                 {% endif %}
+                                {% if publication.view_count and publication.view_count > 0 %}
+                                    <div>
+                                        {% translate "Number of views" as no_of_views_title %}
+                                        <div class="icon item-tag" title="{{ no_of_views_title }}">
+                                            {% svg_icon name="view" %}
+                                            <span class="item-tag-content">{{ publication.view_count }}</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
 
                             </div>
                             <a href="{{ publication.url }}" class="result-list-item-title">
