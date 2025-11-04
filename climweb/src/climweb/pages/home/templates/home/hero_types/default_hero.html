@@ -1,10 +1,50 @@
 {% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
 
-{% image page.hero_banner original as else_img %}
-<div id="page-hero" class="hero progressive__bg progressive--not-loaded mx-3"
-     data-progressive="{{ else_img.url }}"
-     style="position: relative;max-height:fit-content; min-height:600px; background-image: url({% lazy_image_url else_img %});background-position:center; background-repeat:no-repeat; background-size:cover">
-    <div class="hero-body pb-2" style="display: flex; align-items: center">
+{% if page.show_banner_video and page.banner_youtube_video_id %}
+    <!-- YouTube Video Banner -->
+    <div id="page-hero" class="hero mx-3"
+         style="position: relative; max-height: fit-content; min-height: 600px; overflow: hidden; {% if page.show_banner_video %}box-shadow:none{% endif %}">
+        
+        {% if page.hero_banner %}
+            <!-- Fallback image in case video fails to load -->
+            {% image page.hero_banner original as fallback_img %}
+            <div id="video-fallback" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url({% lazy_image_url fallback_img %}); background-position: center; background-repeat: no-repeat; background-size: cover; z-index: -2;"></div>
+        {% endif %}
+        
+        <!-- YouTube video background -->
+        <div id="video-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden;">
+            <iframe
+                id="hero-video"
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/{{ page.banner_youtube_video_id }}?autoplay=1&mute=1&loop=1&playlist={{ page.banner_youtube_video_id }}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&start=5"
+                title="YouTube video player"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                referrerpolicy="strict-origin-when-cross-origin"
+                style="position: absolute; top: 50%; left: 50%; width: 120%; height: 120%; transform: translate(-50%, -50%); pointer-events: none; object-fit: cover;"
+                onload="this.style.opacity='1';"
+            ></iframe>
+        </div>
+        
+        <!-- Overlay to darken video for better text readability -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
+        <div class="hero-body pb-2" style="display: flex; align-items: center; position: relative; z-index: 2;">
+{% else %}
+    <!-- Image Banner (default) -->
+    {% if page.hero_banner %}
+        {% image page.hero_banner original as else_img %}
+        <div id="page-hero" class="hero progressive__bg progressive--not-loaded mx-3"
+             data-progressive="{{ else_img.url }}"
+             style="position: relative;max-height:fit-content; min-height:600px; background-image: url({% lazy_image_url else_img %});background-position:center; background-repeat:no-repeat; background-size:cover">
+            <div class="hero-body pb-2" style="display: flex; align-items: center">
+    {% else %}
+        <!-- Fallback with no background image -->
+        <div id="page-hero" class="hero mx-3"
+             style="position: relative;max-height:fit-content; min-height:600px; background-color: #f5f5f5;">
+            <div class="hero-body pb-2" style="display: flex; align-items: center">
+    {% endif %}
+{% endif %}
         <div class="container" style="width: 100%">
             <div class="columns is-multiline is-mobile is-align-items-center py-3">
                 <div class="column is-5-desktop is-full-tablet is-full-mobile">
@@ -49,3 +89,30 @@
         </div>
     </div>
 </div>
+
+{% if page.show_banner_video and page.banner_youtube_video_id %}
+<script>
+// Handle video loading errors
+document.addEventListener('DOMContentLoaded', function() {
+    const videoContainer = document.getElementById('video-container');
+    const heroVideo = document.getElementById('hero-video');
+    
+    if (heroVideo && videoContainer) {
+        // Set a timeout to check if video loaded
+        setTimeout(function() {
+            // If iframe is not loaded or has errors, hide video container
+            if (heroVideo.style.opacity !== '1') {
+                console.log('YouTube video failed to load, falling back to image');
+                videoContainer.style.display = 'none';
+            }
+        }, 5000);
+        
+        // Additional error handling
+        heroVideo.addEventListener('error', function() {
+            console.log('YouTube video error, falling back to image');
+            videoContainer.style.display = 'none';
+        });
+    }
+});
+</script>
+{% endif %}

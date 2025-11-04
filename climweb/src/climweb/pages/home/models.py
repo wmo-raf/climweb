@@ -84,8 +84,13 @@ class HomePage(MetadataPageMixin, Page):
                                   help_text=_("Full name of the institution"))
     hero_subtitle = models.CharField(blank=True, null=True, max_length=100, verbose_name=_('Tagline'),
                                      help_text=_("Can be the tagline or slogan of the institution"))
-    hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=False,
+    hero_banner = models.ForeignKey("wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=True,
                                     related_name="+", verbose_name=_("Banner Image"))
+    show_banner_video = models.BooleanField(default=False, verbose_name=_("Use YouTube Video as Banner"),
+                                            help_text=_("If enabled, the YouTube video will be used as the banner background instead of the banner image"))
+    banner_youtube_video_id = models.CharField(max_length=100, blank=True, null=True,
+                                               verbose_name=_("YouTube Video ID"),
+                                               help_text=_("YouTube Video ID (e.g., 'dQw4w9WgXcQ' from https://www.youtube.com/watch?v=dQw4w9WgXcQ). Only used if 'Use YouTube Video as Banner' is enabled."))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
     hero_type = models.CharField(_("Banner Type"), max_length=50, choices=BANNER_TYPES, default='full')
     
@@ -126,6 +131,8 @@ class HomePage(MetadataPageMixin, Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel("hero_banner"),
+            FieldPanel('show_banner_video'),
+            FieldPanel('banner_youtube_video_id'),
             FieldPanel('pre_title'),
             FieldPanel('hero_title'),
             FieldPanel('hero_subtitle'),
