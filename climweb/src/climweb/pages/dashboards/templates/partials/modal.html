@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags i18n %}
 
 <div id="modal-{{section}}-{{index}}-{{block_index}}" class="modal">
     <div class="modal-background"></div>
@@ -9,14 +9,14 @@
             <div class="meta-table element-fullwidth">
                 {% if metadata.function %}
                 <div class="table-row columns">
-                    <div class="title-column column is-3">Function</div>
+                    <div class="title-column column is-3">{% translate "Function" %}</div>
                     <div class="description-column column">
                         <div>{{metadata.function}}</div>
                     </div>
                 </div>
                 {% endif %} {% if metadata.function %}
                 <div class="table-row columns">
-                    <div class="title-column column is-3">Resolution</div>
+                    <div class="title-column column is-3">{% translate "Resolution" %}</div>
                     <div class="description-column column">
                         <div>{{metadata.resolution}}</div>
                     </div>
@@ -24,7 +24,7 @@
                 {% endif %} {% if metadata.function %}
                 <div class="table-row columns">
                     <div class="title-column column is-3">
-                        Geographic coverage
+                        {% translate "Geographic coverage" %}
                     </div>
                     <div class="description-column column">
                         <div>{{metadata.geographic_coverage}}</div>
@@ -32,14 +32,14 @@
                 </div>
                 {% endif %} {% if metadata.function %}
                 <div class="table-row columns">
-                    <div class="title-column column is-3">Source</div>
+                    <div class="title-column column is-3">{% translate "Source" %}</div>
                     <div class="description-column column">
                         <div>{{metadata.source}}</div>
                     </div>
                 </div>
                 {% endif %} {% if metadata.function %}
                 <div class="table-row columns">
-                    <div class="title-column column is-3">License</div>
+                    <div class="title-column column is-3">{% translate "License" %}</div>
                     <div class="description-column column">
                         <div>{{metadata.license}}</div>
                     </div>
@@ -47,7 +47,7 @@
                 {% endif %} {% if metadata.function %}
                 <div class="table-row columns">
                     <div class="title-column column is-3">
-                        Frequency of Update
+                        {% translate "Frequency of Update" %}
                     </div>
                     <div class="description-column column">
                         <div>{{metadata.frequency_of_update}}</div>
@@ -57,7 +57,7 @@
             </div>
             {% if metadata.overview %}
             <div class="overview">
-                <h4>Overview</h4>
+                <h4>{% translate "Overview" %}</h4>
                 <div class="body">
                     {{ metadata.overview|richtext }}
                 </div>

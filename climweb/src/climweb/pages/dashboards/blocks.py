@@ -1,6 +1,6 @@
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail import blocks
-from climweb.base.blocks import  TextOnlyBlock, TitleOnlyBlock, TitleTextBlock, TitleTextImageBlock, TableInfoBlock, WhatWeDoBlock, WhatWeDoGroupBlock
+from climweb.base.blocks import  TextOnlyBlock, TitleOnlyBlock, TitleTextBlock, TitleTextImageBlock, TableInfoBlock, WhatWeDoGroupBlock, AccordionBlock
 from django.utils.translation import gettext_lazy as _
 
 
@@ -56,9 +56,6 @@ class MapSnippetChooser(blocks.StructBlock):
         label = _("Map")
 
 
-
-
-
 class DashboardSectionBlock(blocks.StructBlock):
     section_title = blocks.CharBlock(required=True)
 
@@ -70,13 +67,12 @@ class DashboardSectionBlock(blocks.StructBlock):
         ("chart", ChartSnippetChooser()),
         ("map", MapSnippetChooser()),
         ("table",TableInfoBlock(icon="table")),
-        ("what_we_do", WhatWeDoGroupBlock())
+        ("what_we_do", WhatWeDoGroupBlock()),
+        ("accordion", AccordionBlock(icon="layer-group")),
     ], required=True)
-
-    
 
     class Meta:
         icon = "folder-open-inverse"
-        label = "Dashboard Section"
+        label =  _("Dashboard Section")
 
 

@@ -5,9 +5,13 @@
         <div class="card" style="width: 100%">
             <div class="card-image">
                 <figure class="image">
-                    <iframe width="100%" height="100%"
-                            src="https://www.youtube.com/embed/{{ item.snippet.resourceId.videoId }}">
-                    </iframe>
+                    <iframe
+                        style="flex-grow: 1;" height="100%" width="100%"
+                        src="https://www.youtube.com/embed/{{ item.snippet.resourceId.videoId }}?&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1"
+                        frameborder="0"
+                        allow="fullscreen; picture-in-picture"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                    ></iframe>
                 </figure>
             </div>
             <div class="card-content">

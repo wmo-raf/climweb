@@ -77,11 +77,14 @@ h1 {
     height:400px;
 }
 
-.map-container,
-.chart-container {
+.map-container {
     height: 100%;
     width: 100%;
     position: absolute;
+}
+
+.chart-container{
+    min-height: 300px;
 }
 
 .card-content {
@@ -345,4 +348,8 @@ h1 {
     z-index: 10000; /* Ensure it stays above other elements */
     background-color: white; /* Optional: Add a background color to avoid transparency issues */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for better visibility */
+}
+
+.dashboard-charts .button.is-dark:hover,.dashboard-maps .button.is-dark:hover{
+    color: white!important;
 }

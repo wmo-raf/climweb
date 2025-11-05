@@ -66,6 +66,13 @@
                         </a>
                         <div class="result-list-item-detail">
                             <div class="result-list-item-tag">
+                                {% if  publication.publication_type.icon %}
+                                    <span class="icon btn-icon">
+
+                                        {% svg_icon publication.publication_type.icon %}
+                                    
+                                    </span>
+                                {% endif %}
                                 <div>
                                     <span class="item-tag">{{ publication.publication_type }}</span>
                                 </div>
@@ -75,6 +82,15 @@
                                         <div class="icon item-tag" title="{{ no_of_down_title }}">
                                             {% svg_icon name="download" %}
                                             <span class="item-tag-content">{{ publication.document.download_count }}</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if publication.view_count and publication.view_count > 0 %}
+                                    <div>
+                                        {% translate "Number of views" as no_of_views_title %}
+                                        <div class="icon item-tag" title="{{ no_of_views_title }}">
+                                            {% svg_icon name="view" %}
+                                            <span class="item-tag-content">{{ publication.view_count }}</span>
                                         </div>
                                     </div>
                                 {% endif %}

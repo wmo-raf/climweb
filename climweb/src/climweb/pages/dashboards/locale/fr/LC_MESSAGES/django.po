@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 04:47+0000\n"
+"POT-Creation-Date: 2025-10-27 14:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,14 @@ msgstr "Graphique"
 #: climweb/src/climweb/pages/dashboards/blocks.py:56
 msgid "Map"
 msgstr "Carte"
+
+#: climweb/src/climweb/pages/dashboards/blocks.py:75
+msgid "Dashboard Section"
+msgstr "Section Tableau de bord"
+
+#: climweb/src/climweb/pages/dashboards/models.py:26
+msgid "Dashboards Gallery / Atlas"
+msgstr "Galerie de tableaux de bord / Atlas"
 
 #: climweb/src/climweb/pages/dashboards/models.py:32
 msgid "Banner description"
@@ -48,6 +56,34 @@ msgstr "Une image de bannière de haute qualité"
 msgid "Additional Materials"
 msgstr "Matériel supplémentaire"
 
+#: climweb/src/climweb/pages/dashboards/snippets.py:167
+#, fuzzy
+#| msgid "Chart"
+msgid "Line Chart"
+msgstr "Graphique linéaire"
+
+#: climweb/src/climweb/pages/dashboards/snippets.py:168
+msgid "Vertical Bar Chart"
+msgstr "Graphique à barres verticales"
+
+#: climweb/src/climweb/pages/dashboards/snippets.py:169
+msgid "Horizontal Bar Chart"
+msgstr "Graphique à barres horizontales"
+
+#: climweb/src/climweb/pages/dashboards/snippets.py:170
+#, fuzzy
+#| msgid "Chart"
+msgid "Area Chart"
+msgstr "Graphique en aires"
+
+#: climweb/src/climweb/pages/dashboards/snippets.py:172
+msgid "Scatter Plot"
+msgstr "Nuage de points"
+
+#: climweb/src/climweb/pages/dashboards/snippets.py:173
+msgid "Warming stripes"
+msgstr "Rayures chauffantes"
+
 #: climweb/src/climweb/pages/dashboards/snippets.py:177
 #: climweb/src/climweb/pages/dashboards/snippets.py:286
 msgid "Level 0"
@@ -69,6 +105,14 @@ msgstr "Niveau 2"
 #: climweb/src/climweb/pages/dashboards/snippets.py:293
 msgid "Description"
 msgstr "Description"
+
+#: climweb/src/climweb/pages/dashboards/snippets.py:194
+#, fuzzy
+#| msgid "Hex color code for banner background (e.g., #ffffff)"
+msgid "Hex color code for chart color (e.g., #0b76e1)"
+msgstr ""
+"Code de couleur hexadécimal pour la couleur du graphique (par exemple, "
+"#0b76e1)"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:198
 #: climweb/src/climweb/pages/dashboards/snippets.py:228
@@ -108,6 +152,14 @@ msgstr "Généré automatiquement, ne pas modifier"
 msgid "Admin Boundary"
 msgstr "Limite d'administration"
 
+#: climweb/src/climweb/pages/dashboards/snippets.py:276
+msgid "Dashboard Chart"
+msgstr "Graphique du tableau de bord"
+
+#: climweb/src/climweb/pages/dashboards/snippets.py:277
+msgid "Dashboard Charts"
+msgstr "Graphiques du tableau de bord"
+
 #: climweb/src/climweb/pages/dashboards/snippets.py:305
 msgid "Map Layers"
 msgstr "Couches de carte"
@@ -132,3 +184,53 @@ msgstr "Une seule carte ne peut avoir qu’une seule couche cartographique."
 #: climweb/src/climweb/pages/dashboards/snippets.py:353
 msgid "A comparison map must have two map layers."
 msgstr "Une carte de comparaison doit comporter deux couches cartographiques."
+
+#: climweb/src/climweb/pages/dashboards/templates/dashboards/dashboard_gallery_page.html:67
+msgid "No dashboards available yet."
+msgstr "Aucun tableau de bord disponible pour l'instant."
+
+#: climweb/src/climweb/pages/dashboards/templates/partials/modal.html:12
+msgid "Function"
+msgstr "Fonction"
+
+#: climweb/src/climweb/pages/dashboards/templates/partials/modal.html:19
+msgid "Resolution"
+msgstr "Résolution"
+
+#: climweb/src/climweb/pages/dashboards/templates/partials/modal.html:27
+msgid "Geographic coverage"
+msgstr "Couverture géographique"
+
+#: climweb/src/climweb/pages/dashboards/templates/partials/modal.html:35
+msgid "Source"
+msgstr "Source"
+
+#: climweb/src/climweb/pages/dashboards/templates/partials/modal.html:42
+msgid "License"
+msgstr "Licence"
+
+#: climweb/src/climweb/pages/dashboards/templates/partials/modal.html:50
+msgid "Frequency of Update"
+msgstr "Fréquence de mise à jour"
+
+#: climweb/src/climweb/pages/dashboards/templates/partials/modal.html:60
+msgid "Overview"
+msgstr "Aperçu"
+
+#: climweb/src/climweb/pages/dashboards/wagtail_hooks.py:19
+#, fuzzy
+#| msgid "Chart"
+msgid "Charts"
+msgstr "Graphiques"
+
+#: climweb/src/climweb/pages/dashboards/wagtail_hooks.py:30
+msgid "Maps"
+msgstr "Cartes"
+
+#: climweb/src/climweb/pages/dashboards/wagtail_hooks.py:41
+msgid "Dashboards"
+msgstr "Tableaux de bord"
+
+#: climweb/src/climweb/pages/dashboards/wagtail_hooks.py:50
+msgid "Atlas"
+msgstr "Atlas"

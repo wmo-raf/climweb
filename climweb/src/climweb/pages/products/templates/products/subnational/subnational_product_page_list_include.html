@@ -48,6 +48,14 @@
                                 {% endif %}
                             </div>
                             <div class="result-list-item-meta">
+                                <div>
+                                    {% if product_page.view_count > 0 %}
+                                        <span class="view-count" title="{% translate 'Page views' %}">
+                                            {% svg_icon name="eye" %}
+                                            {{ product_page.view_count }}
+                                        </span>
+                                    {% endif %}
+                                </div>
                                 <a class="result-list-item-more read" href="{{ product_page.url }}">
                                     {% translate "View products" %}
                                 </a>

@@ -59,11 +59,21 @@
                                 {% endif %}
                             </div>
                             <div class="result-list-item-meta">
-                                <div>
+                                <div style="display:flex; align-items:center">
+                                     {% if product.view_count > 0 %}
+                                    <div class="mr-4" style="display:flex; align-items:center">
+                                        <span class="icon meta-icon is-small" title="Views">
+                                            {% svg_icon name="view" %}
+                                        </span>
+                                        <span> {{ product.view_count }} {% translate "views" %}</span>
+                                    </div>
+                                    {% endif %}
+
                                     <span> {{ product.date }}</span>
                                     {% if product.valid_until and product.valid_until != product.date %}
                                         <span> - {{ product.valid_until }}</span>
                                     {% endif %}
+                                   
                                 </div>
                                 <a class="result-list-item-more read" href="{{ product.url }}">
                                     {% translate "Read More" %}

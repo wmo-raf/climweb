@@ -65,6 +65,20 @@
                                             <span class="tag px-3 mr-1 mb-2" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">{{block.value.section_title|truncatechars:50}}</span>
                                            </a> 
                                     {% endfor %}
+
+                                    {% if page.latest_updates %}
+                                           <a href="#section-latest-updates">
+
+                                            <span class="tag px-3 mr-1 mb-2 is-dark" style="font-weight:600">{% translate "Latest Updates" %}</span>
+                                           </a> 
+                                    {% endif %}
+
+                                     {% if page.additional_materials %}
+                                           <a href="#section-additional-materials">
+
+                                            <span class="tag px-3 mr-1 mb-2 is-dark" style="font-weight:600">{% translate "Additional Materials" %}</span>
+                                           </a> 
+                                     {% endif %}
                             </div>
                         </div>
                     </section>
@@ -87,6 +101,8 @@
                                     {% include_block item %}
                                 {% elif item.block_type == 'title_text_image' %}
                                     {% include_block item %}
+                                {% elif item.block_type == 'accordion' %}
+                                    {% include_block item %}
                                 {% elif item.block_type == 'chart' %}
                                     {% include_block item with section=forloop.parentloop.counter %}
                                 {% elif item.block_type == 'map' %}
@@ -102,8 +118,43 @@
                         </section>
                     {% endfor %}
 
+                    {% if page.latest_updates %}
+                        <section class="climate-change-publications  py-6" id="section-latest-updates">
+                            <div class="container">
+                                <h2 class="section-title center">
+                                    {% translate "Latest Updates" %}
+                                </h2>
+                                <div class="columns is-multiline is-centered update-items">
+                                    {% for update in page.latest_updates %}
+                                        <div class="column is-one-quarter-desktop is-half-tablet is-full-mobile update-item is-centered">
+                                            {% include 'update_card_include.html' with card=update.card_props show_type=True %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="more-container has-double">
+                                    {% if settings.base.ImportantPages.all_news_page %}
+                                        <a href="{{ settings.base.ImportantPages.all_news_page.url }}" class="more">
+                                            {% translate "All News" %}
+                                            <span class="icon btn-icon">
+                                                {% svg_icon name="arrow-right-full" %}
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                    {% if settings.base.ImportantPages.all_publications_page %}
+                                        <a href="{{ settings.base.ImportantPages.all_publications_page.url }}" class="more">
+                                            {% translate "All Publications" %}
+                                            <span class="icon btn-icon">
+                                                {% svg_icon name="arrow-right-full" %}
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </section>
+                    {% endif %}
+
                      {% if page.additional_materials %}
-                        <section class="additional-materials-section py-6">
+                        <section class="additional-materials-section py-6" id="section-additional-materials">
                             <div class="container">
                                 <div class="columns is-multiline is-mobile">
                                     {% for category in page.additional_materials %}
