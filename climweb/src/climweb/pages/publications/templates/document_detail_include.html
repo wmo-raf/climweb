@@ -52,11 +52,11 @@
             <h3 class="document-detail-title">{{ card.card_title }}</h3>
             <div class="document-detail-header-meta">
                 <div class="document-detail-header-meta-item">{{ card.card_meta }}</div>
-                {% if  card.card_views %}
+                {% if card.card_views and card.card_views > 0 %}
                     <div class="document-detail-header-meta-item">
-                    <span class="icon meta-icon" title="Views">
-                        {% svg_icon name="view" %}
-                    </span>
+                        <span class="icon meta-icon" title="Views">
+                            {% svg_icon name="view" %}
+                        </span>
                         <span>{{ card.card_views }}</span>
                     </div>
                 {% endif %}

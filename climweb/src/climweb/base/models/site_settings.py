@@ -158,7 +158,7 @@ class IntegrationSettings(BaseSiteSetting):
             'Event tracking details can be specified in each button’s advanced settings options.'), )
     
     track_internally = models.BooleanField(
-        default=False,
+        default=True,
         verbose_name=_('Track pages internally'),
         help_text=_(
             'Track   all pages internally. This will enable the internal analytics dashboard, '

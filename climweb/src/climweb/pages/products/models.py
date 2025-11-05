@@ -26,6 +26,7 @@ from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import Product, ProductItemType
 from climweb.base.models import ServiceCategory, AbstractIntroPage
 from climweb.base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
+from climweb.pages.publications.models import PageView
 from .blocks import (
     ProductItemImageContentBlock,
     ProductItemDocumentContentBlock,
@@ -261,6 +262,48 @@ class ProductPage(BaseProductPage):
                 "product_type": product_type
             })
         return layers
+    
+    @property
+    def view_count(self):
+        """Get the total number of views for this product page"""
+        try:
+            from django.contrib.contenttypes.models import ContentType
+            content_type = ContentType.objects.get_for_model(self)
+            return PageView.objects.filter(content_type=content_type, object_id=self.pk).count()
+        except Exception:
+            return 0
+    
+    def record_view(self, request=None, **kwargs):
+        """Record a view of this product page"""
+        try:
+            view_record = PageView.record_view(self, request=request, **kwargs)
+            return view_record
+        except Exception as e:
+            print(f"Error in record_view for ProductPage: {e}")
+            return None
+
+    def serve(self, request, *args, **kwargs):
+        """Override serve to record page views when the product page is accessed"""
+        try:
+            # Only record views for GET requests from non-authenticated users and not in preview mode
+            if (request.method == 'GET' and 
+                not request.user.is_authenticated and 
+                not getattr(request, 'is_preview', False)):
+                
+                # Check if internal tracking is enabled in settings
+                from climweb.base.models import IntegrationSettings
+                try:
+                    integration_settings = IntegrationSettings.for_request(request)
+                    if integration_settings and integration_settings.track_internally:
+                        self.record_view(request)
+                except Exception:
+                    # If settings are not available, don't track views
+                    pass
+        except Exception as e:
+            # Log the error for debugging but continue serving the page
+            print(f"Error recording page view: {e}")
+        
+        return super().serve(request, *args, **kwargs)
 
 
 register_model_chooser(RasterFileLayer)
@@ -416,6 +459,48 @@ class ProductItemPage(MetadataPageMixin, Page):
                 meta_description = parent.get_meta_description()
         
         return meta_description
+    
+    @property
+    def view_count(self):
+        """Get the total number of views for this product item page"""
+        try:
+            from django.contrib.contenttypes.models import ContentType
+            content_type = ContentType.objects.get_for_model(self)
+            return PageView.objects.filter(content_type=content_type, object_id=self.pk).count()
+        except Exception:
+            return 0
+    
+    def record_view(self, request=None, **kwargs):
+        """Record a view of this product item page"""
+        try:
+            view_record = PageView.record_view(self, request=request, **kwargs)
+            return view_record
+        except Exception as e:
+            print(f"Error in record_view for ProductItemPage: {e}")
+            return None
+
+    def serve(self, request, *args, **kwargs):
+        """Override serve to record page views when the product item page is accessed"""
+        try:
+            # Only record views for GET requests from non-authenticated users and not in preview mode
+            if (request.method == 'GET' and 
+                not request.user.is_authenticated and 
+                not getattr(request, 'is_preview', False)):
+                
+                # Check if internal tracking is enabled in settings
+                from climweb.base.models import IntegrationSettings
+                try:
+                    integration_settings = IntegrationSettings.for_request(request)
+                    if integration_settings and integration_settings.track_internally:
+                        self.record_view(request)
+                except Exception:
+                    # If settings are not available, don't track views
+                    pass
+        except Exception as e:
+            # Log the error for debugging but continue serving the page
+            print(f"Error recording page view: {e}")
+        
+        return super().serve(request, *args, **kwargs)
 
 
 class SubNationalProductsLandingPage(AbstractIntroPage, Page):
@@ -514,3 +599,45 @@ class SubNationalProductPage(BaseProductPage):
     def listing_summary(self):
         summary = self.get_meta_description()
         return summary
+    
+    @property
+    def view_count(self):
+        """Get the total number of views for this subnational product page"""
+        try:
+            from django.contrib.contenttypes.models import ContentType
+            content_type = ContentType.objects.get_for_model(self)
+            return PageView.objects.filter(content_type=content_type, object_id=self.pk).count()
+        except Exception:
+            return 0
+    
+    def record_view(self, request=None, **kwargs):
+        """Record a view of this subnational product page"""
+        try:
+            view_record = PageView.record_view(self, request=request, **kwargs)
+            return view_record
+        except Exception as e:
+            print(f"Error in record_view for SubNationalProductPage: {e}")
+            return None
+
+    def serve(self, request, *args, **kwargs):
+        """Override serve to record page views when the subnational product page is accessed"""
+        try:
+            # Only record views for GET requests from non-authenticated users and not in preview mode
+            if (request.method == 'GET' and 
+                not request.user.is_authenticated and 
+                not getattr(request, 'is_preview', False)):
+                
+                # Check if internal tracking is enabled in settings
+                from climweb.base.models import IntegrationSettings
+                try:
+                    integration_settings = IntegrationSettings.for_request(request)
+                    if integration_settings and integration_settings.track_internally:
+                        self.record_view(request)
+                except Exception:
+                    # If settings are not available, don't track views
+                    pass
+        except Exception as e:
+            # Log the error for debugging but continue serving the page
+            print(f"Error recording page view: {e}")
+        
+        return super().serve(request, *args, **kwargs)
