@@ -391,11 +391,13 @@ function getTimeFromList(timestamps, method) {
           loadBoundaries(mapBefore, admin_path);
         });
 
+        console.log("containerId: ",containerId)
+
         // If 'after' already exists, initialize compare
         const afterId = containerId.replace('before-', 'after-');
         if (mapInstances[afterId]) {
           new maplibregl.Compare(mapBefore, mapInstances[afterId], compareContainer, {
-            orientation: "horizontal",
+            orientation: "vertical",
           });
         }
       }
