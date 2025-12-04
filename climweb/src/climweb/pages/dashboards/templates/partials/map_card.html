@@ -18,12 +18,6 @@
             {% endif %}
 
         {% elif map.map_type == 'comparison' %}
-            <!-- Info button for comparison maps - show if either layer has metadata -->
-            {% if map_layers.0.value.dataset.metadata or map_layers.1.value.dataset.metadata %}
-            <button class="card-header-icon js-modal-trigger" data-target="modal-comparison-{{ section_index }}-{{ index }}-{{ block_index }}">
-                <div class="icon is-small">{% svg_icon "info-circle" %}</div>
-            </button>
-            {% endif %}
 
             <!-- Mapviewer button for comparison maps - show if both layers are published and public -->
             {% if map_layers.0.value.dataset.published and map_layers.0.value.dataset.public and map_layers.1.value.dataset.published and map_layers.1.value.dataset.public %}
@@ -110,6 +104,7 @@
 
     <footer class="card-footer" style="position: relative;">
         {% if map.map_type == "single" %}
+            {% if map.map_layer.0.value.dataset.multi_temporal %}
             <div class="m-2" style="width: 100%">
                 <input
                     class="datepicker-input input is-small"
@@ -126,9 +121,12 @@
                 {% endif %}
                 <div class="params" id="paramsContainer-map-{{ section_index }}-{{ index }}-{{ block_index }}"></div>
             </div>
+            {% endif %}
         {% elif map.map_type == "comparison" %}
             <div class="m-2 before-date" style="width: 100%">
                 <label style="font-size: 14px; font-weight: 700; color: #4a4a4a;" for="mapdate-before-map-{{ section_index }}-{{ index }}-{{ block_index }}">{{map_layers.0.value.dataset.title}}</label>
+                
+                {% if map.map_layer.0.value.dataset.multi_temporal %}
                 <input
                     class="datepicker-input input is-small"
                     type="text"
@@ -143,10 +141,13 @@
                 </select>
                 {% endif %}
                 <div class="params" id="paramsContainer-before-map-{{ section_index }}-{{ index }}-{{ block_index }}"></div>
+                {% endif %}
+
             </div>
 
             <div class="m-2 after-date" style="width: 100%">
                 <label style="font-size: 14px; font-weight: 700; color: #4a4a4a;" for="mapdate-after-map-{{ section_index }}-{{ index }}-{{ block_index }}">{{map_layers.1.value.dataset.title}}</label>
+                {% if map.map_layer.1.value.dataset.multi_temporal %}
                 <input
                     class="datepicker-input input is-small"
                     type="text"
@@ -161,6 +162,7 @@
                 </select>
                 {% endif %}
                 <div class="params" id="paramsContainer-after-map-{{ section_index }}-{{ index }}-{{ block_index }}"></div>
+                {% endif %}
             </div>
         {% endif %}
     </footer>
