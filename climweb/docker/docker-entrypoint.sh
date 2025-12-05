@@ -84,6 +84,9 @@ run_setup_commands_if_configured() {
     # initialize geomanager
     /climweb/web/src/climweb/manage.py initialize_geomanager
 
+    # compile translations
+    /climweb/web/src/climweb/manage.py compilemessages
+
     # reset cms upgrade status
     /climweb/web/src/climweb/manage.py reset_cms_upgrade_status
 
