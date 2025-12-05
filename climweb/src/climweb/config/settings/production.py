@@ -44,3 +44,10 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = env.str("SECURE_CROSS_ORIGIN_OPENER_POLICY",
 CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', cast=None, default=[])
+
+# locales paths in production
+if 'LOCALE_PATHS' in globals():
+    LOCALE_PATHS = [
+        p.replace('climweb/', '', 1) if p.startswith('climweb/') else p
+        for p in LOCALE_PATHS
+    ]
