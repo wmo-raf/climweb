@@ -45,7 +45,6 @@ CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', cast=None, default=[])
 
-
 # locales paths in production
 if 'LOCALE_PATHS' in globals():
     LOCALE_PATHS = [
