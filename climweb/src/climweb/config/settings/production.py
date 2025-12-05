@@ -47,48 +47,8 @@ CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', cast=None, default=[])
 
 
 # locales paths in production
-_resolved_locale_paths = []
-_original_locale_paths = list(globals().get('LOCALE_PATHS', []))
-
-for p in _original_locale_paths:
-    # if already absolute and exists, keep it
-    cand = Path(p)
-    if cand.is_absolute() and cand.exists():
-        _resolved_locale_paths.append(str(cand))
-        continue
-
-    # candidate 1: BASE_DIR / p
-    cand1 = Path(BASE_DIR) / p
-    if cand1.exists():
-        _resolved_locale_paths.append(str(cand1))
-        continue
-
-    # candidate 2: if p starts with 'climweb/', try stripping it (dev -> prod fix)
-    if str(p).startswith('climweb/'):
-        cand2 = Path(BASE_DIR) / str(p).replace('climweb/', '', 1)
-        if cand2.exists():
-            _resolved_locale_paths.append(str(cand2))
-            continue
-
-    # candidate 3: try prepending 'src/' (in case p was 'climweb/src/...' vs desired 'src/...')
-    cand3 = Path(BASE_DIR) / 'src' / Path(p).relative_to('climweb') if 'climweb' in str(p) else Path(BASE_DIR) / 'src' / p
-    if cand3.exists():
-        _resolved_locale_paths.append(str(cand3))
-        continue
-
-    # candidate 4: last resort - try BASE_DIR / 'climweb' / p (handles some layouts)
-    cand4 = Path(BASE_DIR) / 'climweb' / p
-    if cand4.exists():
-        _resolved_locale_paths.append(str(cand4))
-        continue
-
-    # if none exists, keep the BASE_DIR/p candidate (helps surface path issues)
-    _resolved_locale_paths.append(str(cand1))
-
-# Deduplicate while preserving order
-seen = set()
-LOCALE_PATHS = []
-for x in _resolved_locale_paths:
-    if x not in seen:
-        LOCALE_PATHS.append(x)
-        seen.add(x)
+if 'LOCALE_PATHS' in globals():
+    LOCALE_PATHS = [
+        p.replace('climweb/', '', 1) if p.startswith('climweb/') else p
+        for p in LOCALE_PATHS
+    ]
