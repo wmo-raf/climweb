@@ -142,6 +142,41 @@
                 {% for block in settings.base.NavigationSettings.main_menu %}
                     {% include_block block %}
                 {% endfor %}
+                
+                <!-- Add mobile buttons section -->
+                <div class="navbar-item is-hidden-desktop mobile-nav-buttons">
+                    <div class="mobile-buttons-container">
+                        {% if settings.base.ImportantPages.cap_warnings_list_page %}
+                            <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
+                               class="navbar-item mobile-nav-button">
+                                <span>{% translate "Alerts" %}</span>
+                                <img src="{% static 'img/CAPLogo.jpeg' %}" alt="CAP Alerts"
+                                     style="height: 18px;width: 18px;border-radius:4px;margin-left:8px">
+                            </a>
+                        {% endif %}
+                        {% if settings.base.ImportantPages.mailing_list_signup_page %}
+                            <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
+                               class="navbar-item mobile-nav-button">
+                                <span>{% translate "Subscribe" %}</span>
+                                <span class="nav-icon">
+                                    {% svg_icon name="mail" %}
+                                </span>
+                            </a>
+                        {% endif %}
+                        {% if settings.base.ImportantPages.contact_us_page %}
+                            <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
+                               class="navbar-item mobile-nav-button nav-cta">
+                                {% translate "Contact us" %}
+                            </a>
+                        {% endif %}
+                        {% if settings.base.ImportantPages.feedback_page %}
+                            <a href="{{ settings.base.ImportantPages.feedback_page.url }}"
+                               class="navbar-item mobile-nav-button nav-cta">
+                                {% translate "Feedback" %}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

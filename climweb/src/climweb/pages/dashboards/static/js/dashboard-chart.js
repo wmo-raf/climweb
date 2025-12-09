@@ -223,15 +223,56 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
 }
 
 function initChart({ chartType, chartId, dataUnit, dateFormat }) {
+    // Determine appropriate tick interval based on date format
+    let minTickInterval;
+    let tickPixelInterval = 200;
+    
+    switch (dateFormat) {
+        case "yyyy":
+            minTickInterval = 365.25 * 24 * 3600 * 1000; // 1 year in milliseconds
+            tickPixelInterval = 150;
+            break;
+        case "yyyy-MM":
+        case "MMMM yyyy":
+            minTickInterval = 30.44 * 24 * 3600 * 1000; // ~1 month in milliseconds
+            tickPixelInterval = 120;
+            break;
+        case "yyyy-MM-dd":
+            minTickInterval = 7 * 24 * 3600 * 1000; // 1 week in milliseconds
+            tickPixelInterval = 150;
+            break;
+        case "yyyy-MM-dd HH:mm":
+            minTickInterval = 24 * 3600 * 1000; // 1 day in milliseconds
+            tickPixelInterval = 200;
+            break;
+        default:
+            minTickInterval = 7 * 24 * 3600 * 1000; // Default to 1 week
+    }
+    
     const chart = Highcharts.chart(chartId, {
         chart: { type: chartType || "line", backgroundColor: "transparent", spacingTop: 40 },
         title: { text: null },
         credits: { enabled: false },
         xAxis: {
-            labels: { formatter: function () { return Highcharts.dateFormat('%b %e, %Y %H:%M', this.value); } },
+            labels: { formatter: function () { return formatDateTimeJS(this.value, dateFormat) } },
             type: 'datetime',
-            tickPixelInterval: 200,
-            minTickInterval: 604800000,
+            tickPixelInterval: tickPixelInterval,
+            minTickInterval: minTickInterval,
+            // Add specific date formatting for different granularities
+            dateTimeLabelFormats: {
+                millisecond: '%H:%M:%S.%L',
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%H:%M',
+                day: dateFormat === "yyyy" ? '%Y' : 
+                     dateFormat === "yyyy-MM" || dateFormat === "MMMM yyyy" ? '%b %Y' : 
+                     '%b %e',
+                week: dateFormat === "yyyy" ? '%Y' : 
+                      dateFormat === "yyyy-MM" || dateFormat === "MMMM yyyy" ? '%b %Y' : 
+                      '%b %e',
+                month: dateFormat === "yyyy" ? '%Y' : '%b %Y',
+                year: '%Y'
+            }
         },
         yAxis: { title: { text: dataUnit || "Y-Axis" } },
         tooltip: {

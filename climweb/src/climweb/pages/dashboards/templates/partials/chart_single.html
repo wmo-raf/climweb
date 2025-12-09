@@ -42,7 +42,7 @@
                 {% if chart.chart_type == "stripes" %}
                 <div
                     class="warming-stripes-chart"
-                    id="stripes-{{ section_index }}-{{ index }}"
+                    id="stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
                     data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
@@ -53,7 +53,7 @@
                 {% else %}
                 <div
                     class="chart-container"
-                    id="chart-{{ section_index }}-{{ index }}"
+                    id="chart-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-title="{{ chart.title }}"
                     data-color="{{ chart.chart_color|default:'#0b76e1' }}"
@@ -77,7 +77,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="Start Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}"
+                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -86,7 +86,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="End Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}"
+                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -94,7 +94,7 @@
                    
                     <div
                         class="params"
-                        id="paramsContainer-chart-{{ section_index }}-{{ index }}"
+                        id="paramsContainer-chart-{{ section_index }}-{{ index }}-{{block_index}}"
                     ></div>
                 </div>
             </footer>
@@ -118,7 +118,7 @@
                 <button
                     class="card-header-icon js-modal-trigger"
                     aria-label="more options"
-                    data-target="modal-{{ section_index }}-{{ index }}"
+                    data-target="modal-{{ section_index }}-{{ index }}-{{block_index}}"
                 >
                     <div class="icon is-small">
                         {% svg_icon "info-circle" %}
@@ -127,9 +127,9 @@
                 {% endif %}
                 {% if chart.dataset.dataset.published and chart.dataset.dataset.public %}
              
-                            <a class="card-header-icon button is-small is-dark is-rounded" href="{{ chart.mapviewer_map_url }}" target="_blank" rel="noopener" style="border-radius: 20px !important; ">
-                                <span class="icon is-small">{% svg_icon "layer-group" %}</span><span>Mapviewer</span>
-                            </a>
+                    <a class="card-header-icon button is-small is-dark is-rounded" href="{{ chart.mapviewer_map_url }}" target="_blank" rel="noopener" style="border-radius: 20px !important; ">
+                        <span class="icon is-small">{% svg_icon "layer-group" %}</span><span>Mapviewer</span>
+                    </a>
 
                 {% endif %} 
             </header>
@@ -137,7 +137,7 @@
                 {% if chart.chart_type == "stripes" %}
                 <div
                     class="warming-stripes-chart"
-                    id="stripes-{{ section_index }}-{{ index }}"
+                    id="stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
                     data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
@@ -148,7 +148,7 @@
                 {% else %}
                 <div
                     class="chart-container"
-                    id="chart-{{ section_index }}-{{ index }}"
+                    id="chart-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-title="{{ chart.title }}"
                     data-color="{{ chart.chart_color|default:'#0b76e1' }}"
@@ -172,7 +172,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="Start Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}"
+                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -181,14 +181,14 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="End Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}"
+                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
                     </div>
                     <div
                         class="params"
-                        id="paramsContainer-chart-{{ section_index }}-{{ index }}"
+                        id="paramsContainer-chart-{{ section_index }}-{{ index }}-{{block_index}}"
                     ></div>
                 </div>
             </footer>
@@ -217,7 +217,7 @@
                 <button
                     class="card-header-icon js-modal-trigger"
                     aria-label="more options"
-                    data-target="modal-{{ section_index }}-{{ index }}"
+                    data-target="modal-{{ section_index }}-{{ index }}-{{block_index}}"
                 >
                     <div class="icon is-small">
                         {% svg_icon "info-circle" %}
@@ -236,7 +236,7 @@
                 {% if chart.chart_type == "stripes" %}
                 <div
                     class="warming-stripes-chart"
-                    id="stripes-{{ section_index }}-{{ index }}"
+                    id="stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
                     data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
@@ -247,7 +247,7 @@
                 {% else %}
                 <div
                     class="chart-container"
-                    id="chart-{{ section_index }}-{{ index }}"
+                    id="chart-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-title="{{ chart.title }}"
                     data-color="{{ chart.chart_color|default:'#0b76e1' }}"
@@ -271,7 +271,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="Start Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}"
+                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -280,14 +280,14 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="End Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}"
+                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
                     </div>
                      <div
                     class="params"
-                    id="paramsContainer-chart-{{ section_index }}-{{ index }}"
+                    id="paramsContainer-chart-{{ section_index }}-{{ index }}-{{block_index}}"
                 ></div>
                 </div>
             </footer>
@@ -295,6 +295,6 @@
     </div>
     {% endif %}
 
-    {% include "partials/modal.html" with metadata=chart.dataset.dataset.metadata section=section_index index=index %}
+    {% include "partials/modal.html" with metadata=chart.dataset.dataset.metadata section=section_index index=index block_index=block_index %}
 
 </div>

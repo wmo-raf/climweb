@@ -3,6 +3,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.views.decorators.cache import cache_page
+from django.views.decorators.http import require_GET
+from django.template.loader import render_to_string
 from forecastmanager.forecast_settings import ForecastSetting
 from forecastmanager.models import City, Forecast
 from forecastmanager.serializers import ForecastSerializer
@@ -13,7 +16,8 @@ from climweb.base.cache import wagcache
 from climweb.pages.home.models import HomeMapSettings
 from climweb.pages.weather.utils import get_city_forecast_detail_data
 
-
+@cache_page(300)  # Cache for 5 minutes
+@require_GET
 def get_home_forecast_widget(request):
     forecast_setting = ForecastSetting.for_request(request)
     

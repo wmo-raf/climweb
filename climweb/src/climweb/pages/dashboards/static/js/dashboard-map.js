@@ -395,7 +395,7 @@ function getTimeFromList(timestamps, method) {
         const afterId = containerId.replace('before-', 'after-');
         if (mapInstances[afterId]) {
           new maplibregl.Compare(mapBefore, mapInstances[afterId], compareContainer, {
-            orientation: "horizontal",
+            orientation: "vertical",
           });
         }
       }

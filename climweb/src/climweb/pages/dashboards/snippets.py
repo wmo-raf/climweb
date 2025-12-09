@@ -384,27 +384,124 @@ class DashboardMap(models.Model):
 
     @property
     def mapviewer_map_url(self):
-        base_mapviewer_url = reverse("mapview")
+        """URL for single map or first layer of comparison"""
+        if self.map_type == "single":
+            return self._generate_mapviewer_url(self.map_layer[0] if self.map_layer else None)
+        elif self.map_type == "comparison":
+            return self._generate_mapviewer_url(self.map_layer[0] if self.map_layer else None)
+        return None
 
+    @property
+    def mapviewer_map_url_before(self):
+        """URL for the first layer in comparison"""
+        if self.map_type == 'comparison' and self.map_layer:
+            return self._generate_mapviewer_url(self.map_layer[0])
+        return None
+
+    @property 
+    def mapviewer_map_url_after(self):
+        """URL for the second layer in comparison"""
+        if self.map_type == 'comparison' and len(self.map_layer) > 1:
+            return self._generate_mapviewer_url(self.map_layer[1])
+        return None
+
+    @property
+    def mapviewer_comparison_url(self):
+        """URL for comparing both layers side by side"""
+        if self.map_type == 'comparison' and len(self.map_layer) > 1:
+            first_layer = self.map_layer[0].value
+            second_layer = self.map_layer[1].value
+            
+            # Convert UUIDs to strings to avoid JSON serialization errors
+            first_dataset_id = str(first_layer.dataset.id) if hasattr(first_layer, 'dataset') and first_layer.dataset else str(first_layer.id)
+            second_dataset_id = str(second_layer.dataset.id) if hasattr(second_layer, 'dataset') and second_layer.dataset else str(second_layer.id)
+            first_layer_id = str(first_layer.id)
+            second_layer_id = str(second_layer.id)
+            
+            # Create a map config with both datasets
+            map_config = {
+                "datasets": [
+                    {
+                        "dataset": "political-boundaries", 
+                        "layers": ["political-boundaries"], 
+                        "visibility": True
+                    },
+                    {
+                        "dataset": first_dataset_id,
+                        "layers": [first_layer_id],
+                        "visibility": True,
+                        "opacity": 0.8
+                    },
+                    {
+                        "dataset": second_dataset_id,
+                        "layers": [second_layer_id],
+                        "visibility": True,
+                        "opacity": 0.8
+                    }
+                ],
+                "comparison": True
+            }
+
+            base_mapviewer_url = reverse("mapview")
+            map_str = json.dumps(map_config, separators=(',', ':'))
+            map_bytes = map_str.encode()
+            map_base64_bytes = base64.b64encode(map_bytes)
+            map_byte_str = map_base64_bytes.decode()
+
+            # Use the category from the first layer for menu
+            dataset_category_title = "Unknown"
+            if hasattr(first_layer, "dataset") and first_layer.dataset and first_layer.dataset.category:
+                dataset_category_title = first_layer.dataset.category.title
+
+            menu_config = {"menuSection": "datasets", "datasetCategory": dataset_category_title}
+            menu_str = json.dumps(menu_config, separators=(',', ':'))
+            menu_bytes = menu_str.encode()
+            menu_base64_bytes = base64.b64encode(menu_bytes)
+            menu_byte_str = menu_base64_bytes.decode()
+
+            return base_mapviewer_url + f"?map={map_byte_str}&mapMenu={menu_byte_str}&mode=comparison"
+        return None
+
+    def _generate_mapviewer_url(self, layer_block):
+        """Helper method to generate mapviewer URL for a single layer"""
+        if not layer_block:
+            return None
+            
+        base_mapviewer_url = reverse("mapview")
+        selected_layer = layer_block.value
+
+        # Create map config with political boundaries and selected layer
         map_config = {
-            "datasets": [{"dataset": "political-boundaries", "layers": ["political-boundaries"], "visibility": True}]
+            "datasets": [
+                {
+                    "dataset": "political-boundaries", 
+                    "layers": ["political-boundaries"], 
+                    "visibility": True
+                }
+            ]
         }
 
-        map_str = json.dumps(map_config, separators=(',', ':'))
+        # Add the selected layer to the config
+        if hasattr(selected_layer, 'dataset') and selected_layer.dataset:
+            # Convert UUIDs to strings to avoid JSON serialization errors
+            dataset_id = str(selected_layer.dataset.id)
+            layer_id = str(selected_layer.id)
+            
+            map_config["datasets"].append({
+                "dataset": dataset_id,
+                "layers": [layer_id],
+                "visibility": True
+            })
 
+        map_str = json.dumps(map_config, separators=(',', ':'))
         map_bytes = map_str.encode()
         map_base64_bytes = base64.b64encode(map_bytes)
         map_byte_str = map_base64_bytes.decode()
 
+        # Extract dataset category for menu
         dataset_category_title = "Unknown"
-
-        # Step 1: Get selected layer instance (already a model via UUIDModelChooserBlock)
-        selected = self.selected_layer
-
-        # Step 2: If it exists and has a dataset with a category, extract it
-        if selected and hasattr(selected, "dataset") and selected.dataset and selected.dataset.category:
-            dataset_category_title = selected.dataset.category.title
-
+        if hasattr(selected_layer, "dataset") and selected_layer.dataset and selected_layer.dataset.category:
+            dataset_category_title = selected_layer.dataset.category.title
 
         menu_config = {"menuSection": "datasets", "datasetCategory": dataset_category_title}
         menu_str = json.dumps(menu_config, separators=(',', ':'))
@@ -413,8 +510,6 @@ class DashboardMap(models.Model):
         menu_byte_str = menu_base64_bytes.decode()
 
         return base_mapviewer_url + f"?map={map_byte_str}&mapMenu={menu_byte_str}"
-
-        
 
     @property
     def geom_geojson(self):

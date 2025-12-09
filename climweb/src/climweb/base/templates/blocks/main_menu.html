@@ -18,7 +18,7 @@
                             <div class="columns is-multiline megamenu-columns">
                                 {% for sub_page in value.page.get_children %}
                                     {% if sub_page.show_in_menus and sub_page.live %}
-                                        <div class="column is-half-touch is-one-third-desktop is-one-quarter-fullhd">
+                                        <div class="column is-full-touch is-one-third-desktop is-one-quarter-fullhd">
                                             <a class="navbar-item" href="{{ sub_page.url }}">
                                                 <div class="menu-item-figure">
                                                     {% if sub_page.specific.nav_menu_icon %}
