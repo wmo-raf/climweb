@@ -674,12 +674,24 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "console",
         },
+        "null": {
+            "class": "logging.NullHandler",
+        },
     },
     "loggers": {
         "django.db.backends": {
             "handlers": ["console"],
             "level": CLIMWEB_DATABASE_LOG_LEVEL,
             "propagate": True,
+        },
+        "django.security.DisallowedHost": {
+            "handlers": ["null"],
+            "propagate": False,
+        },
+        # Keep other security errors visible
+        "django.security": {
+            "handlers": ["console"],
+            "level": "WARNING",
         },
     },
     "root": {
