@@ -646,7 +646,7 @@
                         // Set summary text
                         if (synopHoursWithMinRate.length > 0) {
                             $('#synop-summary-text').html(function(index, text) {
-                                return text + `{% trans 'Based on synoptic hours on a ' %}<b> ${chart_title} </b>{% trans ' basis for ' %}<b>${selectedDate}</b>, {% trans ' the ' %} <b>{% trans 'highest readings of ' %}${maxReceivedRate}% ${maxReceivedRate > 100 ? '<b> ({% trans "more than expected" %})</b>' : ''} </b> {% trans 'transmission rate were ' %}<b> {% trans 'recorded at ' %} ${synopHoursWithMaxRate.join(", ")} </b> {% trans ' while the ' %} <b> {% trans 'lowest transmission rate was ' %}${minReceivedRate}% </b>{% trans ' recorded at ' %}<b> ${synopHoursWithMinRate.join(", ")} </b>. `;
+                                return text + `{% trans 'Based on synoptic hours on a ' %}<b> ${chart_title} </b>{% trans ' basis for ' %}<b> ${selectedDate} </b>, {% trans ' the ' %} <b>{% trans 'highest readings of ' %} ${maxReceivedRate}% ${maxReceivedRate > 100 ? '<b> ({% trans "more than expected" %})</b>' : ''} </b> {% trans 'transmission rate were ' %}<b> {% trans 'recorded at ' %} ${synopHoursWithMaxRate.join(", ")} </b> {% trans ' while the ' %} <b> {% trans 'lowest transmission rate was ' %} ${minReceivedRate}% </b>{% trans ' recorded at ' %}<b> ${synopHoursWithMinRate.join(", ")} </b>. `;
                             });
                         }
 

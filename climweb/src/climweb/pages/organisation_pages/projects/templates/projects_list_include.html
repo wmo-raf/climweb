@@ -35,6 +35,12 @@
                                          style="object-fit: cover"
                                          data-progressive="{{ proj_img.url }}"
                                          src="{% lazy_image_url proj_img %}" alt="{{ project.short_name }}"/>
+                                {% elif not project.banner_image and project.introduction_image  %}
+                                    {% image project.introduction_image original as intro_img %}
+                                    <img class="progressive__img progressive--not-loaded"
+                                         style="object-fit: cover"
+                                         data-progressive="{{ intro_img.url }}"
+                                         src="{% lazy_image_url intro_img %}" alt="{{ project.short_name }}"/>
                                 {% endif %}
                             </figure>
                         </a>
