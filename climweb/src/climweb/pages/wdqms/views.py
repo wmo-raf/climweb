@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 def wdqms_reports(request):
     stations = Station.objects.all()
-    transmissions = Transmission.objects.filter(received_date__year__gte=2023)
+    transmissions = Transmission.objects.filter(received_date__year__gte=2020)
     variables = []
     latest_date = None
     years = []
