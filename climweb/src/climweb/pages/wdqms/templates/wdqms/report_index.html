@@ -391,7 +391,7 @@
         })
 
         // Function to render a Highcharts chart
-        function renderChart(id, chart_type, title, categories, data) {
+        function renderChart(id, chart_type, title, categories, data, color_coded=true) {
             Highcharts.chart(id, {
                 credits: {
                     enabled: false
@@ -446,7 +446,7 @@
                     name: '% {% trans 'Transmission rate' %}',
                     data: data.map(count => ({
                         y: count,
-                        color: function() {
+                        color: color_coded ? function() {
                             if (count <= 0) {
                                 return '#000000';
                             } else if (count > 0 && count < 30) {
@@ -460,7 +460,7 @@
                             } else {
                                 return 'red';
                             }
-                        }()
+                        }() : '#565656ff'
                     }))
                 }],
                 legend: {
@@ -882,7 +882,7 @@
                             $('#yearly-summary-text').html(`{% trans 'For ' %}<b> ${$('#station-select').find(':selected').text()}'s ${$('#variable-select').find(':selected').text()} </b>{% trans ' reading, Based on the analysis from ' %} ${minYear} {% trans ' to ' %} ${maxYear}, {% trans ' on average, the ' %}<b> {% trans 'highest readings of ' %} ${maxReceivedRate}%  ${maxReceivedRate > 100 ? '<b> ({% trans "more than expected" %}) </b>' : ''}</b> {% trans ' transmission rate were ' %} <b> {% trans 'recorded in ' %} ${synopYearsWithMaxRate.join(", ")} </b> {% trans ' while the ' %} <b> {% trans 'lowest transmission rate was ' %} ${minReceivedRate}% </b> {% trans ' recorded in ' %}<b> ${synopYearsWithMinRate.join(", ")} </b>. `);
                         }
 
-                        renderChart('yearly-average-graph', 'column', `{% trans 'Yearly Average ' %} ${$('#variable-select').find(':selected').text()} for  ${capitalizeText($('#station-select').find(':selected').text())}{% trans ' transmissions' %}`, periods, transmissions);
+                        renderChart('yearly-average-graph', 'column', `{% trans 'Yearly Average ' %} ${$('#variable-select').find(':selected').text()} for  ${capitalizeText($('#station-select').find(':selected').text())}{% trans ' transmissions' %}`, periods, transmissions, false);
                     } else {
                         $('#yearly-summary-text').html('')
                         $(`#yearly-average-graph`).html(`<p> <em>{% trans 'No yearly ' %}${selectedVariable}{% trans ' data found for ' %} ${selectedStation}. {% trans ' Try choosing another variable.' %}</em></p>`);
