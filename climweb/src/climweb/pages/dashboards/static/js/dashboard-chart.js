@@ -416,7 +416,7 @@ async function renderWarmingStripes(container) {
 
     const timeFromDefault = timestamps[timestamps.length - 1];
     const timeToDefault = timestamps[0];
-    const idSuffix = container.id.replace("stripes-", "");
+    const idSuffix = container.id.replace("warming-stripes-", "");
     const dateFormat = container.dataset.datetimeFormat || "yyyy-MM-dd";
 
     async function updateStripesForRange(dateRange) {
@@ -475,7 +475,7 @@ async function renderWarmingStripes(container) {
 
     // ✅ unified calendar init with DateRangePicker
     initializeCalendar(
-        `stripes-${idSuffix}`,
+        `warming-stripes-${idSuffix}`,
         updateStripesForRange,
         [new Date(timeFromDefault), new Date(timeToDefault)],
         dateFormat
@@ -484,8 +484,116 @@ async function renderWarmingStripes(container) {
     updateStripesForRange([new Date(timeFromDefault), new Date(timeToDefault)]);
 }
 
+
+// ------------------ RAINFALL STRIPES ------------------ //
+const rainfallStripesColors = [
+  "#8c510a", "#bf812d", "#dfc27d", "#f6e8c3",
+  "#f5f5f5",
+  "#c7eae5", "#80cdc1", "#35978f", "#01665e"
+];
+
+function getPercentileColor(val, sortedValues, palette) {
+  const idx = sortedValues.findIndex(v => v >= val);
+  const p = idx / (sortedValues.length - 1);
+  const colorIndex = Math.round(p * (palette.length - 1));
+  return palette[Math.max(0, Math.min(palette.length - 1, colorIndex))];
+}
+
+
+async function renderRainfallStripes(container) {
+  const layerId = container.dataset.layerId;
+  const geostoreId = container.dataset.geostoreId;
+  console.log(container.id)
+const idSuffix = container.id.replace("rainfall-stripes-", "");
+
+  if (!layerId || !geostoreId) return;
+
+  container.innerHTML = `<div style="text-align:center;padding:1em;color:#888;">Loading...</div>`;
+
+  let timestamps;
+  try {
+    const res = await fetch(`/api/raster/${layerId}/tiles.json`);
+    const tileJson = await res.json();
+    timestamps = tileJson?.timestamps || [];
+  } catch {
+    container.innerHTML = `<p style="color:red;">Error loading rainfall stripes</p>`;
+    return;
+  }
+
+  const timeFromDefault = timestamps[timestamps.length - 1];
+  const timeToDefault = timestamps[0];
+  const dateFormat = container.dataset.datetimeFormat || "yyyy";
+
+  async function updateRainfallStripes(dateRange) {
+    let timeFrom = timeFromDefault;
+    let timeTo = timeToDefault;
+
+    if (dateRange?.length === 2) {
+      timeFrom = new Date(dateRange[0]).toISOString();
+      timeTo = new Date(dateRange[1]).toISOString();
+    }
+
+    container.innerHTML = `<div style="text-align:center;padding:1em;color:#888;">Loading...</div>`;
+
+    let data;
+    try {
+      const res = await fetch(
+        `/api/raster-data/geostore/timeseries/${layerId}?geostore_id=${geostoreId}&value_type=mean&time_from=${timeFrom}&time_to=${timeTo}`
+      );
+      data = await res.json();
+    } catch {
+      container.innerHTML = `<p style="color:red;">Error loading rainfall stripes</p>`;
+      return;
+    }
+
+    data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const values = data.map(d => d.value);
+    const sorted = [...values].sort((a, b) => a - b);
+
+    const stripeWidth = (100 / values.length) + "%";
+
+    const stripesHtml = values.map(v => `
+      <div style="
+        width:${stripeWidth};
+        height:100%;
+        display:inline-block;
+        background:${getPercentileColor(v, sorted, rainfallStripesColors)};
+      "></div>
+    `).join("");
+
+    // year labels (same logic as warming stripes)
+    const years = data.map(d => new Date(d.date).getFullYear());
+    let lastYear = null;
+    const labelsHtml = years.map((y, i) => {
+      if (i === 0 || i === years.length - 1 || (y % 5 === 0 && y !== lastYear)) {
+        lastYear = y;
+        return `<div style="width:${stripeWidth};font-size:10px;color:#444;">${y}</div>`;
+      }
+      return `<div style="width:${stripeWidth};"></div>`;
+    }).join("");
+
+    container.innerHTML = `
+      <div style="height:100%;display:flex;">${stripesHtml}</div>
+      <div style="height:18px;display:flex;">${labelsHtml}</div>
+    `;
+  }
+
+  // ✅ unified calendar init with DateRangePicker
+    initializeCalendar(
+        `rainfall-stripes-${idSuffix}`,
+        updateRainfallStripes,
+        [new Date(timeFromDefault), new Date(timeToDefault)],
+        dateFormat
+    );
+
+  updateRainfallStripes([new Date(timeFromDefault), new Date(timeToDefault)]);
+}
+
+
 // ------------------ DOM INIT ------------------ //
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".chart-container").forEach(loadChart);
     document.querySelectorAll(".warming-stripes-chart").forEach(renderWarmingStripes);
+    document.querySelectorAll(".rainfall-stripes-chart").forEach(renderRainfallStripes);
 });

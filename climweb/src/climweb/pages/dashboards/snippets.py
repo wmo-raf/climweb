@@ -170,7 +170,8 @@ class ChartSnippet(models.Model):
         ("area",  _("Area Chart")),
         # ("boxplot", "Box Plot"), # TODO: Box plot not implemented in frontend yet
         ("scatter",  _("Scatter Plot")),
-        ("stripes",  _("Warming stripes")),
+        ("warm_stripes",  _("Warming stripes")),
+        ("rain_stripes",  _("Rainfall stripes")),
     ]
 
     ADMIN_LEVEL_CHOICES = (
@@ -187,7 +188,7 @@ class ChartSnippet(models.Model):
     )
     data_unit = models.CharField(max_length=255, blank=True)
 
-    chart_type = models.CharField(max_length=10, choices=CHART_TYPE_CHOICES, default="line")
+    chart_type = models.CharField(max_length=255, choices=CHART_TYPE_CHOICES, default="line")
     chart_color = models.CharField(
         max_length=7,
         default="#0b76e1",

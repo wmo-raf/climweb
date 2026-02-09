@@ -2,6 +2,7 @@
 Django settings for climweb project
 """
 
+from datetime import timedelta
 import importlib
 import json
 import os
@@ -626,8 +627,13 @@ CACHES = {
 }
 
 # Django AXES settings
+AXES_FAILURE_LIMIT = 3
+AXES_COOLOFF_TIME = timedelta(minutes=30)
+
 AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
 AXES_IPWARE_PROXY_COUNT = env.int("AXES_IPWARE_PROXY_COUNT", default=2)
+
+AXES_RESET_ON_SUCCESS = True
 AXES_LOCKOUT_TEMPLATE = "axes/lockout.html"
 
 # Wagtail 2FA settings

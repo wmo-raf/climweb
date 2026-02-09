@@ -51,6 +51,7 @@
 
     <div class="card-content">
         {% if map.map_type == "single" %}
+
             <div
                 class="map-container"
                 id="map-{{ section_index }}-{{ index }}-{{ block_index }}"
@@ -65,7 +66,27 @@
                 data-gid2="{{ map.gid2|default_if_none:'' }}"
                 data-date-format="{{ map.map_layer.0.value.date_format }}"
                 data-layer-type="{% if map.map_layer.0.block_type == 'raster_file_layer' %}raster_file{% elif map.map_layer.0.block_type == 'wms_layer' %}wms{% elif map.map_layer.0.block_type == 'vector_tile_layer' %}vector_tile{% elif map.map_layer.0.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
+            >
+            
+            </div>
+            <div
+                    class="c-legend-type-choropleth"
+                    style="
+                        position: absolute;
+                        bottom: 20px;
+                        left: 10px;
+                        background: rgb(71 71 71 / 89%);
+                        padding: 0px 40px 0px 5px;
+                        color:#e7e7e7;
+                        border-radius: 6px;
+                        font-size: 14px;
+                        z-index: 1000;
+                        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                        display: none;
+                    "
+                    id="legend-map-{{ section_index }}-{{ index }}-{{ block_index }}"
                 ></div>
+            
         {% elif map.map_type == "comparison" %}
             <div class="comparison-maps" id="comparison-map-{{ section_index }}-{{ index }}-{{ block_index }}" style="min-height: 500px;">
                 <div
@@ -82,6 +103,24 @@
                     data-gid2="{{ map.gid2|default_if_none:'' }}"
                     data-date-format="{{ map.map_layer.0.value.date_format }}"
                     data-layer-type="{% if map.map_layer.0.block_type == 'raster_file_layer' %}raster_file{% elif map.map_layer.0.block_type == 'wms_layer' %}wms{% elif map.map_layer.0.block_type == 'vector_tile_layer' %}vector_tile{% elif map.map_layer.0.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
+                >
+                </div>
+                <div
+                    class="c-legend-type-choropleth"
+                    style="
+                        position: absolute;
+                        top: 20px;
+                        left: 10px;
+                        background: rgb(71 71 71 / 89%);
+                        color:#e7e7e7;
+                        padding: 0px 40px 0px 5px;
+                        border-radius: 6px;
+                        font-size: 14px;
+                        z-index: 1000;
+                        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                        display: none;
+                    "
+                    id="legend-before-map-{{ section_index }}-{{ index }}-{{ block_index }}"
                 ></div>
                 <div
                     class="map-container"
@@ -97,6 +136,24 @@
                     data-gid2="{{ map.gid2|default_if_none:'' }}"
                     data-date-format="{{ map.map_layer.1.value.date_format }}"
                     data-layer-type="{% if map.map_layer.1.block_type == 'raster_file_layer' %}raster_file{% elif map.map_layer.1.block_type == 'wms_layer' %}wms{% elif map.map_layer.1.block_type == 'vector_tile_layer' %}vector_tile{% elif map.map_layer.1.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
+                >
+            </div>
+            <div
+                    class="c-legend-type-choropleth"
+                    style="
+                        position: absolute;
+                        top: 20px;
+                        right: 10px;
+                        background: rgb(71 71 71 / 89%);
+                        color:#e7e7e7;
+                        padding: 0px 40px 0px 5px;
+                        border-radius: 6px;
+                        font-size: 14px;
+                        z-index: 1000;
+                        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                        display: none;
+                    "
+                    id="legend-after-map-{{ section_index }}-{{ index }}-{{ block_index }}"
                 ></div>
             </div>
         {% endif %}
