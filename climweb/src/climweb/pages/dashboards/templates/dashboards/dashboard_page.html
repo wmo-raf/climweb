@@ -107,6 +107,8 @@
                                 </div>
                                 {% elif item.block_type == 'chart' %}
                                     {% include_block item with section=forloop.parentloop.counter counter=forloop.counter%}
+                                {% elif item.block_type == 'multivariable_chart' %}
+                                    {% include_block item with section=forloop.parentloop.counter counter=forloop.counter%}
                                 {% elif item.block_type == 'map' %}
                                     {% include_block item with section=forloop.parentloop.counter counter=forloop.counter %}
                                 {% elif item.block_type == 'table' %}

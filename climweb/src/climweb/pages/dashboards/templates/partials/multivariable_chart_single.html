@@ -1,0 +1,125 @@
+{% load wagtailiconchooser_tags wagtailcore_tags %}
+<div class="columns my-4">
+    {% if index|divisibleby:2 and multivariable_chart.description %}
+    <div class="column description-column mt-3">
+        <h3 class="chart-title" style="color:{{page.banner_background_color}}">{{ multivariable_chart.title|richtext }}</h3>
+        {% if multivariable_chart.area_desc %}<p class="chart-area">{{multivariable_chart.area_desc}} </p>{% endif %}
+        <p>{{ multivariable_chart.description|richtext }}</p>
+    </div>
+    <div class="column chart-column is-half">
+        <div class="card elevation-1">
+            <header class="card-header elevation-0" style="align-items:center">
+                <p class="card-header-title">
+                    {{ multivariable_chart.title }}
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="multivariable-chart-container"
+                    id="multichart-{{ section_index }}-{{ index }}-{{block_index}}"
+                    data-title="{{ multivariable_chart.title }}"
+                    data-datasets='{{ multivariable_chart.multivariable_chart_data|safe }}'
+                    data-area-desc="{{ multivariable_chart.area_desc }}"
+                    data-admin-level="{{ multivariable_chart.admin_level }}"
+                    data-geostore-id="{{ multivariable_chart.geostore_id|stringformat:"s" }}"
+                    data-gid0="{% if multivariable_chart.gid0 %}{{ multivariable_chart.gid0 }}{% else %}{% endif %}"
+                    data-gid1="{% if multivariable_chart.gid1 %}{{ multivariable_chart.gid1 }}{% else %}{% endif %}"
+                    data-gid2="{% if multivariable_chart.gid2 %}{{ multivariable_chart.gid2 }}{% else %}{% endif %}"
+                ></div>
+            </div>
+            
+            <footer class="card-footer">
+                <div style="width: 100%" class="m-2">
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <input class="datepicker-input input is-small" type="text" placeholder="Start Date" id="date-start-multichart-{{ section_index }}-{{ index }}-{{block_index}}" />
+                        </div>
+                        <div class="control">
+                            <input class="datepicker-input input is-small" type="text" placeholder="End Date" id="date-end-multichart-{{ section_index }}-{{ index }}-{{block_index}}" />
+                        </div>
+                    </div>
+                    <div class="params" id="paramsContainer-multichart-{{ section_index }}-{{ index }}-{{block_index}}"></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    {% elif multivariable_chart.description %}
+    <div class="column chart-column is-half">
+        <div class="card elevation-1">
+            <header class="card-header elevation-0" style="align-items:center">
+                <p class="card-header-title">
+                    {{ multivariable_chart.title }}
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="multivariable-chart-container"
+                    id="multichart-{{ section_index }}-{{ index }}-{{block_index}}"
+                    data-title="{{ multivariable_chart.title }}"
+                    data-datasets='{{ multivariable_chart.multivariable_chart_data|safe }}'
+                    data-area-desc="{{ multivariable_chart.area_desc }}"
+                    data-admin-level="{{ multivariable_chart.admin_level }}"
+                    data-geostore-id="{{ multivariable_chart.geostore_id|stringformat:"s" }}"
+                    data-gid0="{% if multivariable_chart.gid0 %}{{ multivariable_chart.gid0 }}{% else %}{% endif %}"
+                    data-gid1="{% if multivariable_chart.gid1 %}{{ multivariable_chart.gid1 }}{% else %}{% endif %}"
+                    data-gid2="{% if multivariable_chart.gid2 %}{{ multivariable_chart.gid2 }}{% else %}{% endif %}"
+                ></div>
+            </div>
+            
+            <footer class="card-footer">
+                <div style="width: 100%" class="m-2">
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <input class="datepicker-input input is-small" type="text" placeholder="Start Date" id="date-start-multichart-{{ section_index }}-{{ index }}-{{block_index}}" />
+                        </div>
+                        <div class="control">
+                            <input class="datepicker-input input is-small" type="text" placeholder="End Date" id="date-end-multichart-{{ section_index }}-{{ index }}-{{block_index}}" />
+                        </div>
+                    </div>
+                    <div class="params" id="paramsContainer-multichart-{{ section_index }}-{{ index }}-{{block_index}}"></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <div class="column description-column mt-3">
+        <h3 class="chart-title" style="color:{{page.banner_background_color}}">{{ multivariable_chart.title|richtext }}</h3>
+        {% if multivariable_chart.area_desc %}<p class="chart-area">{{multivariable_chart.area_desc}} </p>{% endif %}
+        <p>{{ multivariable_chart.description|richtext }}</p>
+    </div>
+    {% else %}
+    <div class="column chart-column">
+        <div class="card elevation-1">
+            <header class="card-header elevation-0" style="align-items:center">
+                <p class="card-header-title">
+                    {{ multivariable_chart.title }}
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="multivariable-chart-container"
+                    id="multichart-{{ section_index }}-{{ index }}-{{block_index}}"
+                    data-title="{{ multivariable_chart.title }}"
+                    data-datasets='{{ multivariable_chart.multivariable_chart_data|safe }}'
+                    data-area-desc="{{ multivariable_chart.area_desc }}"
+                    data-admin-level="{{ multivariable_chart.admin_level }}"
+                    data-geostore-id="{{ multivariable_chart.geostore_id|stringformat:"s" }}"
+                    data-gid0="{% if multivariable_chart.gid0 %}{{ multivariable_chart.gid0 }}{% else %}{% endif %}"
+                    data-gid1="{% if multivariable_chart.gid1 %}{{ multivariable_chart.gid1 }}{% else %}{% endif %}"
+                    data-gid2="{% if multivariable_chart.gid2 %}{{ multivariable_chart.gid2 }}{% else %}{% endif %}"
+                ></div>
+            </div>
+            
+            <footer class="card-footer">
+                <div style="width: 100%" class="m-2">
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <input class="datepicker-input input is-small" type="text" placeholder="Start Date" id="date-start-multichart-{{ section_index }}-{{ index }}-{{block_index}}" />
+                        </div>
+                        <div class="control">
+                            <input class="datepicker-input input is-small" type="text" placeholder="End Date" id="date-end-multichart-{{ section_index }}-{{ index }}-{{block_index}}" />
+                        </div>
+                    </div>
+                    <div class="params" id="paramsContainer-multichart-{{ section_index }}-{{ index }}-{{block_index}}"></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    {% endif %}
+</div>
