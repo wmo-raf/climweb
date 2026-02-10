@@ -105,7 +105,7 @@
                                 <div class="accordion-container my-5">
                                     {% include_block item %}
                                 </div>
-                                {% elif item.block_type == 'chart' %}
+                                {% elif item.block_type == 'singlevariable_chart' %}
                                     {% include_block item with section=forloop.parentloop.counter counter=forloop.counter%}
                                 {% elif item.block_type == 'multivariable_chart' %}
                                     {% include_block item with section=forloop.parentloop.counter counter=forloop.counter%}

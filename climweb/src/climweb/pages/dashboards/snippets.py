@@ -169,7 +169,7 @@ class DashboardMapValue:
         return json.loads(self.instance.boundary)
 
 @register_snippet
-class ChartSnippet(models.Model):
+class SingleVariableChartSnippet(models.Model):
     CHART_TYPE_CHOICES = [
         ("line",  _("Line Chart")),
         ("column",  _("Vertical Bar Chart")),
@@ -288,9 +288,11 @@ class MultiVariableChartSnippet(models.Model):
     title = models.CharField(max_length=255)
     description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
                                         help_text=_("Description"), null=True, blank=True)
+    
+    multiple_axes = models.BooleanField(default=False, help_text=_("Whether to use multiple axes (one per variable) or a single axis for all variables."))
     variables = StreamField([
         ("chart_variable", ChartVariableBlock())
-    ], null=True, blank=True, verbose_name=_("Chart Variables"))
+    ], null=True, blank=True, verbose_name=_("Chart Variables"), min_num=2, help_text=_("Add more variables to display in the chart. Each variable corresponds to a dataset and will be displayed as a separate series in the chart."))
 
 
     area_desc = models.TextField(max_length=50,
@@ -310,6 +312,7 @@ class MultiVariableChartSnippet(models.Model):
         ObjectList([
             FieldPanel("title"),
             FieldPanel("description"),
+            FieldPanel("multiple_axes"),
             FieldPanel("variables"),
         ], heading=_("Layer")),
         ObjectList([

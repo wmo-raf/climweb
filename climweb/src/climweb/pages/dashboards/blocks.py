@@ -6,11 +6,11 @@ from climweb.base import blocks as climweb_blocks
 from geomanager.models import RasterFileLayer
 from wagtail_color_panel.blocks import NativeColorBlock
 
-class ChartSnippetChooser(blocks.StructBlock):
-    charts_block = blocks.ListBlock(SnippetChooserBlock(target_model="dashboards.ChartSnippet"))
+class SingleVariableChartSnippetChooser(blocks.StructBlock):
+    singlevariable_charts_block = blocks.ListBlock(SnippetChooserBlock(target_model="dashboards.SingleVariableChartSnippet"))
     
     class Meta:
-        template = "streams/dashboard_chart.html"
+        template = "streams/dashboard_singlevariable_chart.html"
         icon = "chart"
         label = _("Chart")
 
@@ -56,7 +56,7 @@ class DashboardSectionBlock(blocks.StructBlock):
         ("text_only",TextOnlyBlock()),
         ("title_text",TitleTextBlock(icon="document")),
         ("title_text_image",TitleTextImageBlock(icon="image")),
-        ("chart", ChartSnippetChooser()),
+        ("singlevariable_chart", SingleVariableChartSnippetChooser()),
         ("multivariable_chart", MultiVariableChartSnippetChooser()),
         ("map", MapSnippetChooser()),
         ("table",TableInfoBlock(icon="table")),

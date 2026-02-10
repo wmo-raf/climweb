@@ -614,8 +614,11 @@ async function fetchMultiTimeseries(datasetId, geostoreId, timeFrom, timeTo, cha
 
 function initMultiChart({ chartId, datasets, dateFormat }) {
     const yAxis = datasets.map((ds, i) => ({
-        title: { text: ds.data_unit || "Y-Axis" },
-        labels: { style: { color: ds.chart_color } },
+        title: { text: ds.chart_variable || "Y-Axis" },
+        labels: { 
+            style: { color: ds.chart_color },
+            format: `{value}${ds.data_unit || ''}`,
+         },
         opposite: i % 2 === 1
     }));
     return Highcharts.chart(chartId, {
@@ -639,13 +642,6 @@ function initMultiChart({ chartId, datasets, dateFormat }) {
         yAxis,
         tooltip: {
             shared: true,
-            formatter: function () {
-                let s = `<b>${formatDateTimeJS(this.x, dateFormat)}</b><br/>`;
-                this.points.forEach(pt => {
-                    s += `<span style='color:${pt.color}'>●</span> <b>${pt.series.name}</b>: ${pt.y} ${pt.series.userOptions.unit || ''}<br/>`;
-                });
-                return s;
-            },
             backgroundColor: '#ffffff'
         },
         plotOptions: {
@@ -669,6 +665,7 @@ async function loadMultiVariableChart(container) {
     const chartId = container.id;
     const geostoreId = container.dataset.geostoreId;
     const dateFormat = datasets[0]?.dataset_dateformat || "yyyy-MM-dd";
+    const multipleAxes = container.dataset.multipleAxes === "False" ? false : true;
     let allTimestamps = [];
     for (const ds of datasets) {
         try {
@@ -703,7 +700,10 @@ async function loadMultiVariableChart(container) {
                         color: ds.chart_color,
                         type: ds.chart_type,
                         data: data,
-                        unit: ds.data_unit
+                        yAxis: multipleAxes ? i : 0,
+                        tooltip: {
+                            valueSuffix: `${ds.data_unit || ''}`,
+                        }
                     };
                 } else {
                     // Remove duplicate points by date
@@ -719,7 +719,10 @@ async function loadMultiVariableChart(container) {
                         color: ds.chart_color,
                         type: ds.chart_type,
                         data: sorted.map(d => [new Date(d.date).getTime(), Math.round(d.value * 100) / 100]),
-                        unit: ds.data_unit
+                        yAxis: multipleAxes ? i : 0,
+                        tooltip: {
+                            valueSuffix: `${ds.data_unit || ''}`,
+                        }
                     };
                 }
             } catch {
