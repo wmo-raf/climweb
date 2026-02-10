@@ -80,7 +80,7 @@
                         color:#e7e7e7;
                         border-radius: 6px;
                         font-size: 14px;
-                        z-index: 1000;
+                        z-index: 20;
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
                         display: none;
                     "
@@ -116,7 +116,7 @@
                         padding: 0px 40px 0px 5px;
                         border-radius: 6px;
                         font-size: 14px;
-                        z-index: 1000;
+                        z-index: 20;
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
                         display: none;
                     "
@@ -138,6 +138,7 @@
                     data-layer-type="{% if map.map_layer.1.block_type == 'raster_file_layer' %}raster_file{% elif map.map_layer.1.block_type == 'wms_layer' %}wms{% elif map.map_layer.1.block_type == 'vector_tile_layer' %}vector_tile{% elif map.map_layer.1.block_type == 'raster_tile_layer' %}raster_tile{% endif %}"
                 >
             </div>
+            
             <div
                     class="c-legend-type-choropleth"
                     style="
@@ -149,7 +150,7 @@
                         padding: 0px 40px 0px 5px;
                         border-radius: 6px;
                         font-size: 14px;
-                        z-index: 1000;
+                        z-index: 20;
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
                         display: none;
                     "

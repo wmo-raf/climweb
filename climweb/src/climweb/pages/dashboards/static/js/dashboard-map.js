@@ -1,3 +1,5 @@
+const comparisonGroups = {};
+
 function parseISO8601Duration(durationString) {
   const regex = /P(?:([0-9]+)Y)?(?:([0-9]+)M)?(?:([0-9]+)D)?(?:T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+(?:\.[0-9]+)?)S)?)?/;
   const matches = regex.exec(durationString);
@@ -379,21 +381,29 @@ function getTimeFromList(timestamps, method) {
     });
   }
 
-  function createMap(containerId, selected_layer, selected_dataset, layerType, admin_path, displayFormat, mapType) {
-
-    // Clean up if a map already exists for this container
+  function createMap(
+    containerId,
+    selected_layer,
+    selected_dataset,
+    layerType,
+    admin_path,
+    displayFormat,
+    mapType
+  ) {
+    // Clean up if map already exists
     if (mapInstances[containerId]) {
-      console.warn(`Removing existing map for ${containerId} to free WebGL context.`);
       mapInstances[containerId].remove();
       delete mapInstances[containerId];
     }
-    const isBefore = containerId.startsWith('before-');
-    const isAfter = containerId.startsWith('after-');
 
+    const isBefore = containerId.startsWith("before-");
+    const isAfter = containerId.startsWith("after-");
 
-    if (mapType === "single" && !isBefore && !isAfter) {
-      // Single map logic
-      map = new maplibregl.Map({
+    /* ===============================
+       SINGLE MAP
+       =============================== */
+    if (mapType === "single") {
+      const map = new maplibregl.Map({
         container: containerId,
         style: dashboardBasemapStyle,
         scrollZoom: false,
@@ -401,76 +411,87 @@ function getTimeFromList(timestamps, method) {
 
       mapInstances[containerId] = map;
 
-      updateLayer(map, containerId, selected_layer, selected_dataset, layerType, displayFormat);
+      map.on("load", () => {
+        updateLayer(
+          map,
+          containerId,
+          selected_layer,
+          selected_dataset,
+          layerType,
+          displayFormat
+        );
+        loadBoundaries(map, admin_path);
+      });
 
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
       map.addControl(new maplibregl.FullscreenControl());
 
-      loadBoundaries(map, admin_path);
+      return;
+    }
 
+    /* ===============================
+       COMPARISON MAP
+       =============================== */
+    if (mapType === "comparison") {
+      // Unique group ID (section-safe)
+      const groupId = containerId
+        .replace("before-", "")
+        .replace("after-", "");
+
+      // Create group if missing
+      if (!comparisonGroups[groupId]) {
+        comparisonGroups[groupId] = {
+          before: null,
+          after: null,
+          compare: null,
+        };
+      }
+
+      const group = comparisonGroups[groupId];
+
+      // Create map instance
+      const map = new maplibregl.Map({
+        container: containerId,
+        style: dashboardBasemapStyle,
+        scrollZoom: false,
+      });
+
+      mapInstances[containerId] = map;
+
+      map.on("load", () => {
+        updateLayer(
+          map,
+          containerId,
+          selected_layer,
+          selected_dataset,
+          layerType,
+          displayFormat
+        );
+        loadBoundaries(map, admin_path);
+
+        // Register map in comparison group
+        if (isBefore) group.before = containerId;
+        if (isAfter) group.after = containerId;
+
+        // Initialize Compare ONLY once both maps exist
+        if (
+          group.before &&
+          group.after &&
+          !group.compare &&
+          mapInstances[group.before] &&
+          mapInstances[group.after]
+        ) {
+          group.compare = new maplibregl.Compare(
+            mapInstances[group.before],
+            mapInstances[group.after],
+            `#comparison-${groupId}`,
+            { orientation: "vertical" }
+          );
+        }
+      });
 
       return;
-
     }
-    if (mapType === "comparison") {
-      const compareContainer = `#comparison-${containerId}`.replace('before-', '').replace('after-', '');
-
-
-      // Handle 'before' map
-      if (isBefore) {
-        const mapBefore = new maplibregl.Map({
-          container: containerId,
-          style: dashboardBasemapStyle,
-          scrollZoom: false,
-
-        });
-
-        mapInstances[containerId] = mapBefore;
-
-        mapBefore.on("load", () => {
-          updateLayer(mapBefore, containerId, selected_layer, selected_dataset, layerType, displayFormat);
-          loadBoundaries(mapBefore, admin_path);
-        });
-
-        // If 'after' already exists, initialize compare
-        const afterId = containerId.replace('before-', 'after-');
-        if (mapInstances[afterId]) {
-          new maplibregl.Compare(mapBefore, mapInstances[afterId], compareContainer, {
-            orientation: "vertical",
-          });
-        }
-      }
-
-
-      // Handle 'after' map
-      if (isAfter) {
-        const mapAfter = new maplibregl.Map({
-          container: containerId,
-          style: dashboardBasemapStyle,
-          scrollZoom: false,
-
-        });
-        mapInstances[containerId] = mapAfter;
-
-        mapAfter.on("load", () => {
-          updateLayer(mapAfter, containerId, selected_layer, selected_dataset, layerType, displayFormat);
-          loadBoundaries(mapAfter, admin_path);
-        });
-
-        // If 'before' already exists, initialize compare
-        const beforeId = containerId.replace('after-', 'before-');
-        if (mapInstances[beforeId]) {
-          new maplibregl.Compare(mapInstances[beforeId], mapAfter, compareContainer, {
-            orientation: "vertical",
-          });
-        }
-
-        return;
-      }
-
-    }
-
-
   }
 
 
@@ -491,7 +512,7 @@ function getTimeFromList(timestamps, method) {
     return decodeURIComponent(url.href);
   }
 
-  function updateMapLayer(map, layerConfig, withDate, tileUrlOverride) {
+  async function updateMapLayer(map, layerConfig, withDate, tileUrlOverride) {
     const { source: { id: sourceId }, layer: { id: layerId }, layerType } = layerConfig;
     if (map.getLayer(layerId)) map.removeLayer(layerId);
     if (map.getSource(sourceId)) map.removeSource(sourceId);
@@ -546,7 +567,7 @@ function getTimeFromList(timestamps, method) {
       // select.value = param.default_value || param.options[0]?.value || '';
 
       select.addEventListener('change', () => {
-        updateLayerWithParams(containerID, map, layerConfigs);
+        updateLayerWithParams(containerID, map, layerConfigs[containerID]);
       });
 
       wrapper.appendChild(label);
@@ -904,8 +925,10 @@ function getTimeFromList(timestamps, method) {
     return params;
   }
 
-  function updateLayerWithParams(containerID, map, layerConfigs) {
-    const paramsSelectorConfig = layerConfigs?.paramsSelectorConfig || [];
+  function updateLayerWithParams(containerID, map, layerConfig) {
+    if (!layerConfig) return;
+
+    const paramsSelectorConfig = layerConfig.paramsSelectorConfig || [];
     const params = getSelectedParams(paramsSelectorConfig);
 
     const picker = datepickerInstances[containerID];
@@ -921,12 +944,12 @@ function getTimeFromList(timestamps, method) {
 
     if (time) params.time = time;
 
-    let tileUrl = layerConfigs.source.tiles[0];
+    let tileUrl = layerConfig.source.tiles[0];
     Object.keys(params).forEach((key) => {
       tileUrl = tileUrl.replace(`{${key}}`, params[key]);
     });
 
-    updateMapLayer(map, layerConfigs, time, tileUrl);
+    updateMapLayer(map, layerConfig, time, tileUrl);
   }
 
   initializeMap()
