@@ -309,7 +309,7 @@ def render_chart_or_map(context, block, block_type="map", section_index=0, block
         if not current_desc and not next_desc and next_chart:
             rendered = render_to_string(
                 f"partials/{block_type}_pair.html",
-                {"maps": [current, next_chart], 
+                {f"{block_type}s": [current, next_chart], 
                 "block_type":block_type,
                  "index": i + 1,         
                  "section_index": section_index,
@@ -322,7 +322,7 @@ def render_chart_or_map(context, block, block_type="map", section_index=0, block
         else:
             rendered = render_to_string(
                 f"partials/{block_type}_single.html",
-                {"map": current, "index": i + 1,
+                {f"{block_type}": current, "index": i + 1,
                 "block_type":block_type,
                 "section_index": section_index,
                 "block_index": block_index

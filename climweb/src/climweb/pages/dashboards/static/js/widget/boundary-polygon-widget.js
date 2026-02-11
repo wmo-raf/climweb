@@ -294,7 +294,6 @@ class BoundaryIDWidget {
                     fetch(`${this.boundaryDetailUrl}/${id}`)
                     .then(res => res.json()).then(boundary => {
                         const {feature, level} = boundary
-                        console.log(boundary)
                         const name = boundary[`name_${level}`]
 
                         if (name) {

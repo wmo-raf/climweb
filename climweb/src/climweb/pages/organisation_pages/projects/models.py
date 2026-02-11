@@ -35,6 +35,7 @@ class ProjectIndexPage(AbstractBannerWithIntroPage):
     ], help_text=_("How many items should be visible on the projects landing page filter section ?"),
                                                  verbose_name=_("Items per page"))
     
+    
     content_panels = Page.content_panels + [
         *AbstractBannerWithIntroPage.content_panels,
         MultiFieldPanel(

@@ -102,9 +102,13 @@
                                 {% elif item.block_type == 'title_text_image' %}
                                     {% include_block item %}
                                 {% elif item.block_type == 'accordion' %}
+                                <div class="accordion-container my-5">
                                     {% include_block item %}
-                                {% elif item.block_type == 'chart' %}
-                                    {% include_block item with section=forloop.parentloop.counter %}
+                                </div>
+                                {% elif item.block_type == 'singlevariable_chart' %}
+                                    {% include_block item with section=forloop.parentloop.counter counter=forloop.counter%}
+                                {% elif item.block_type == 'multivariable_chart' %}
+                                    {% include_block item with section=forloop.parentloop.counter counter=forloop.counter%}
                                 {% elif item.block_type == 'map' %}
                                     {% include_block item with section=forloop.parentloop.counter counter=forloop.counter %}
                                 {% elif item.block_type == 'table' %}
@@ -117,6 +121,23 @@
                             </div>
                         </section>
                     {% endfor %}
+
+                     {% if page.additional_materials %}
+                        <section class="additional-materials-section py-6" id="section-additional-materials">
+                            <div class="container">
+                                <div class="columns is-multiline is-mobile">
+                                    {% for category in page.additional_materials %}
+                                        <div class="column is-one-third-desktop is-full-mobile" style="
+                                            justify-content: center;
+                                            display: flex;
+                                        ">
+                                            {% include_block category with theme=page.banner_background_color %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </section>
+                    {% endif %}
 
                     {% if page.latest_updates %}
                         <section class="climate-change-publications  py-6" id="section-latest-updates">
@@ -153,22 +174,7 @@
                         </section>
                     {% endif %}
 
-                     {% if page.additional_materials %}
-                        <section class="additional-materials-section py-6" id="section-additional-materials">
-                            <div class="container">
-                                <div class="columns is-multiline is-mobile">
-                                    {% for category in page.additional_materials %}
-                                        <div class="column is-one-third-desktop is-full-mobile" style="
-                                            justify-content: center;
-                                            display: flex;
-                                        ">
-                                            {% include_block category with theme=page.banner_background_color %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </section>
-                    {% endif %}
+                    
 
                 {% endif %}  
 

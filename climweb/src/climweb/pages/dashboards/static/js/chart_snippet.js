@@ -7,7 +7,7 @@
             var chartColorPanel = chartColor.closest(".w-panel__wrapper");
 
             function toggleChartColorVisibility() {
-                if (chartTypeField.value === 'stripes') {
+                if (chartTypeField.value === 'warm_stripes' || chartTypeField.value === 'rain_stripes') {
                     chartColorPanel.style.display = 'none';
                 } else {
                     chartColorPanel.style.display = '';
