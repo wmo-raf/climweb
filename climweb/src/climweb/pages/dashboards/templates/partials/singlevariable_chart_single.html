@@ -39,10 +39,21 @@
                 {% endif %} 
             </header>
             <div class="card-content">
-                {% if chart.chart_type == "stripes" %}
+                {% if chart.chart_type == "warm_stripes" %}
                 <div
                     class="warming-stripes-chart"
-                    id="stripes-{{ section_index }}-{{ index }}-{{block_index}}"
+                    id="warming-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
+                    data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
+                    data-gid1="{% if chart.gid1 %}{{ chart.gid1 }}{% else %}{% endif %}"
+                    data-gid2="{% if chart.gid2 %}{{ chart.gid2 }}{% else %}{% endif %}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div>
+                {% elif chart.chart_type == "rain_stripes" %}
+                <div
+                    class="rainfall-stripes-chart"
+                    id="rainfall-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
                     data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
@@ -77,7 +88,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="Start Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
+                                id="{% if chart.chart_type == 'warm_stripes' %}date-start-warming-stripes-{% elif chart.chart_type == 'rain_stripes' %}date-start-rainfall-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -86,7 +97,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="End Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
+                                id="{% if chart.chart_type == 'warm_stripes' %}date-end-warming-stripes-{% elif chart.chart_type == 'rain_stripes' %}date-end-rainfall-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -134,10 +145,10 @@
                 {% endif %} 
             </header>
             <div class="card-content">
-                {% if chart.chart_type == "stripes" %}
+                {% if chart.chart_type == "warm_stripes" %}
                 <div
                     class="warming-stripes-chart"
-                    id="stripes-{{ section_index }}-{{ index }}-{{block_index}}"
+                    id="warming-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
                     data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
@@ -145,6 +156,17 @@
                     data-gid2="{% if chart.gid2 %}{{ chart.gid2 }}{% else %}{% endif %}"
                     data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
                 ></div>
+                {% elif chart.chart_type == "rain_stripes" %}
+                <div
+                    class="rainfall-stripes-chart"
+                    id="rainfall-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
+                    data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
+                    data-gid1="{% if chart.gid1 %}{{ chart.gid1 }}{% else %}{% endif %}"
+                    data-gid2="{% if chart.gid2 %}{{ chart.gid2 }}{% else %}{% endif %}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div> 
                 {% else %}
                 <div
                     class="chart-container"
@@ -172,7 +194,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="Start Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
+                                id="{% if chart.chart_type == 'warm_stripes' %}date-start-warming-stripes-{% elif chart.chart_type == 'rain_stripes' %}date-start-rainfall-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -181,7 +203,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="End Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
+                                id="{% if chart.chart_type == 'warm_stripes' %}date-end-warming-stripes-{% elif chart.chart_type == 'rain_stripes' %}date-end-rainfall-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -233,10 +255,21 @@
                 {% endif %} 
             </header>
             <div class="card-content">
-                {% if chart.chart_type == "stripes" %}
+                {% if chart.chart_type == "warm_stripes" %}
                 <div
                     class="warming-stripes-chart"
-                    id="stripes-{{ section_index }}-{{ index }}-{{block_index}}"
+                    id="warming-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
+                    data-layer-id="{{ chart.dataset.id }}"
+                    data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
+                    data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
+                    data-gid1="{% if chart.gid1 %}{{ chart.gid1 }}{% else %}{% endif %}"
+                    data-gid2="{% if chart.gid2 %}{{ chart.gid2 }}{% else %}{% endif %}"
+                    data-datetime-format="{{ chart.dataset.date_format|default:'yyyy-MM-dd HH:mm' }}"
+                ></div>
+                {% elif chart.chart_type == "rain_stripes" %}
+                <div
+                    class="rainfall-stripes-chart"
+                    id="rainfall-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
                     data-gid0="{% if chart.gid0 %}{{ chart.gid0 }}{% else %}{% endif %}"
@@ -271,7 +304,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="Start Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-start-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
+                                id="{% if chart.chart_type == 'warm_stripes' %}date-start-warming-stripes-{% elif chart.chart_type == 'rain_stripes' %}date-start-rainfall-stripes-{% else %}date-start-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>
@@ -280,7 +313,7 @@
                                 class="datepicker-input input is-small"
                                 type="text"
                                 placeholder="End Date"
-                                id="{% if chart.chart_type == 'stripes' %}date-end-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
+                                id="{% if chart.chart_type == 'warm_stripes' %}date-end-warming-stripes-{% elif chart.chart_type == 'rain_stripes' %}date-end-rainfall-stripes-{% else %}date-end-chart-{% endif %}{{ section_index }}-{{ index }}-{{block_index}}"
                             />
                             
                         </div>

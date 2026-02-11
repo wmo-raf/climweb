@@ -1,3 +1,5 @@
+const comparisonGroups = {};
+
 function parseISO8601Duration(durationString) {
   const regex = /P(?:([0-9]+)Y)?(?:([0-9]+)M)?(?:([0-9]+)D)?(?:T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+(?:\.[0-9]+)?)S)?)?/;
   const matches = regex.exec(durationString);
@@ -118,7 +120,6 @@ function getTimeFromList(timestamps, method) {
   const containers = document.querySelectorAll(".map-container");
 
   const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig() || {};
-  console.log("datasetsUrl",datasetsUrl)
   const dashboardBasemapStyle = {
     version: 8,
     sources: {
@@ -197,6 +198,7 @@ function getTimeFromList(timestamps, method) {
       const dateFormat = container.dataset.dateFormat || "yyyy-MM-dd HH:mm";
       let dpFormat = "yyyy-mm-dd"; // Default format
       let pickLevel = 0;
+      let isDekadal = false;
 
       switch (dateFormat) {
         case "yyyy":
@@ -206,6 +208,11 @@ function getTimeFromList(timestamps, method) {
         case "yyyy-MM":
           dpFormat = "yyyy-mm";
           pickLevel = 1; // Month picker
+          break;
+        case "dekadal":
+          dpFormat = "yyyy-mm";
+          pickLevel = 1;
+          isDekadal = true;
           break;
         case "yyyy-MM-dd":
           dpFormat = "yyyy-mm-dd";
@@ -228,16 +235,48 @@ function getTimeFromList(timestamps, method) {
 
       datepickerInstances[containerId] = datepicker;
 
+      // Dekadal selector
+      let dekadSelectEl = null;
+      let dekadSelectElDiv = null;
+
+      if (isDekadal) {
+        dekadSelectElDiv = document.createElement('div');
+        dekadSelectElDiv.className = 'dekad-select-container select is-small';
+        dekadSelectEl = document.createElement('select')
+        dekadSelectElDiv.appendChild(dekadSelectEl);
+        dekadSelectEl.id = `dekad-${containerId}`;
+        dekadSelectEl.className = 'dekad-selector';
+        dekadSelectEl.innerHTML = `
+          <option value="1">1st Dekad (01)</option>
+          <option value="2">2nd Dekad (11)</option>
+          <option value="3">3rd Dekad (21)</option>
+        `;
+        inputEl.parentNode.insertBefore(dekadSelectElDiv, inputEl.nextSibling);
+      }
+
       // Handle date and time changes
       const handleDateTimeChange = () => {
         const selectedDate = datepicker.getDate();
         const selectedTime = timeSelectEl ? timeSelectEl.value : "00:00";
+        let dekad = dekadSelectEl ? dekadSelectEl.value : null;
 
         if (selectedDate) {
-          // Combine date and time into a single ISO string
-          const [hours, minutes] = selectedTime.split(":").map(Number);
-          selectedDate.setHours(hours || 0, minutes || 0, 0, 0);
-          const isoDateTime = selectedDate.toISOString();
+          let year = selectedDate.getFullYear();
+          let month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+          let day = selectedDate.getDate().toString().padStart(2, '0');
+          let isoDateTime;
+          if (isDekadal && dekad) {
+            // Set day based on dekad
+            if (dekad === '1') day = '01';
+            else if (dekad === '2') day = '11';
+            else if (dekad === '3') day = '21';
+            isoDateTime = `${year}-${month}-${day}T00:00:00.000Z`;
+          } else {
+            // Combine date and time into a single ISO string
+            const [hours, minutes] = selectedTime.split(":").map(Number);
+            selectedDate.setHours(hours || 0, minutes || 0, 0, 0);
+            isoDateTime = selectedDate.toISOString();
+          }
           updateMapLayerWithDate(containerId, isoDateTime);
         }
       };
@@ -246,6 +285,9 @@ function getTimeFromList(timestamps, method) {
       inputEl.addEventListener("changeDate", handleDateTimeChange);
       if (timeSelectEl) {
         timeSelectEl.addEventListener("change", handleDateTimeChange);
+      }
+      if (dekadSelectEl) {
+        dekadSelectEl.addEventListener("change", handleDateTimeChange);
       }
     });
   }
@@ -338,21 +380,29 @@ function getTimeFromList(timestamps, method) {
     });
   }
 
-  function createMap(containerId, selected_layer, selected_dataset, layerType, admin_path, displayFormat, mapType) {
-
-    // Clean up if a map already exists for this container
+  function createMap(
+    containerId,
+    selected_layer,
+    selected_dataset,
+    layerType,
+    admin_path,
+    displayFormat,
+    mapType
+  ) {
+    // Clean up if map already exists
     if (mapInstances[containerId]) {
-      console.warn(`Removing existing map for ${containerId} to free WebGL context.`);
       mapInstances[containerId].remove();
       delete mapInstances[containerId];
     }
-    const isBefore = containerId.startsWith('before-');
-    const isAfter = containerId.startsWith('after-');
 
+    const isBefore = containerId.startsWith("before-");
+    const isAfter = containerId.startsWith("after-");
 
-    if (mapType === "single" && !isBefore && !isAfter) {
-      // Single map logic
-      map = new maplibregl.Map({
+    /* ===============================
+       SINGLE MAP
+       =============================== */
+    if (mapType === "single") {
+      const map = new maplibregl.Map({
         container: containerId,
         style: dashboardBasemapStyle,
         scrollZoom: false,
@@ -360,80 +410,91 @@ function getTimeFromList(timestamps, method) {
 
       mapInstances[containerId] = map;
 
-      updateLayer(map, containerId, selected_layer, selected_dataset, layerType, displayFormat);
+      map.on("load", () => {
+        updateLayer(
+          map,
+          containerId,
+          selected_layer,
+          selected_dataset,
+          layerType,
+          displayFormat
+        );
+        loadBoundaries(map, admin_path);
+      });
 
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
       map.addControl(new maplibregl.FullscreenControl());
 
-      loadBoundaries(map, admin_path);
+      return;
+    }
 
+    /* ===============================
+       COMPARISON MAP
+       =============================== */
+    if (mapType === "comparison") {
+      // Unique group ID (section-safe)
+      const groupId = containerId
+        .replace("before-", "")
+        .replace("after-", "");
+
+      // Create group if missing
+      if (!comparisonGroups[groupId]) {
+        comparisonGroups[groupId] = {
+          before: null,
+          after: null,
+          compare: null,
+        };
+      }
+
+      const group = comparisonGroups[groupId];
+
+      // Create map instance
+      const map = new maplibregl.Map({
+        container: containerId,
+        style: dashboardBasemapStyle,
+        scrollZoom: false,
+      });
+
+      mapInstances[containerId] = map;
+
+      map.on("load", () => {
+        updateLayer(
+          map,
+          containerId,
+          selected_layer,
+          selected_dataset,
+          layerType,
+          displayFormat
+        );
+        loadBoundaries(map, admin_path);
+
+        // Register map in comparison group
+        if (isBefore) group.before = containerId;
+        if (isAfter) group.after = containerId;
+
+        // Initialize Compare ONLY once both maps exist
+        if (
+          group.before &&
+          group.after &&
+          !group.compare &&
+          mapInstances[group.before] &&
+          mapInstances[group.after]
+        ) {
+          group.compare = new maplibregl.Compare(
+            mapInstances[group.before],
+            mapInstances[group.after],
+            `#comparison-${groupId}`,
+            { orientation: "vertical" }
+          );
+        }
+      });
 
       return;
-
     }
-    if (mapType === "comparison") {
-      const compareContainer = `#comparison-${containerId}`.replace('before-', '').replace('after-', '');
-
-
-      // Handle 'before' map
-      if (isBefore) {
-        const mapBefore = new maplibregl.Map({
-          container: containerId,
-          style: dashboardBasemapStyle,
-          scrollZoom: false,
-
-        });
-
-        mapInstances[containerId] = mapBefore;
-
-        mapBefore.on("load", () => {
-          updateLayer(mapBefore, containerId, selected_layer, selected_dataset, layerType, displayFormat);
-          loadBoundaries(mapBefore, admin_path);
-        });
-
-        // If 'after' already exists, initialize compare
-        const afterId = containerId.replace('before-', 'after-');
-        if (mapInstances[afterId]) {
-          new maplibregl.Compare(mapBefore, mapInstances[afterId], compareContainer, {
-            orientation: "vertical",
-          });
-        }
-      }
-
-
-      // Handle 'after' map
-      if (isAfter) {
-        const mapAfter = new maplibregl.Map({
-          container: containerId,
-          style: dashboardBasemapStyle,
-          scrollZoom: false,
-
-        });
-        mapInstances[containerId] = mapAfter;
-
-        mapAfter.on("load", () => {
-          updateLayer(mapAfter, containerId, selected_layer, selected_dataset, layerType, displayFormat);
-          loadBoundaries(mapAfter, admin_path);
-        });
-
-        // If 'before' already exists, initialize compare
-        const beforeId = containerId.replace('after-', 'before-');
-        if (mapInstances[beforeId]) {
-          new maplibregl.Compare(mapInstances[beforeId], mapAfter, compareContainer, {
-            orientation: "vertical",
-          });
-        }
-
-        return;
-      }
-
-    }
-
-
   }
 
 
-  async function getLayerDataset(selected_layer,selected_dataset) {
+  async function getLayerDataset(selected_layer, selected_dataset) {
     if (typeof datasetsUrl !== "undefined" && selected_dataset && selected_layer) {
       if (datasets[selected_dataset]) return datasets[selected_dataset];
       const dataset = await fetch(datasetsUrl + selected_dataset).then(res => res.json());
@@ -450,7 +511,7 @@ function getTimeFromList(timestamps, method) {
     return decodeURIComponent(url.href);
   }
 
-  function updateMapLayer(map, layerConfig, withDate, tileUrlOverride) {
+  async function updateMapLayer(map, layerConfig, withDate, tileUrlOverride) {
     const { source: { id: sourceId }, layer: { id: layerId }, layerType } = layerConfig;
     if (map.getLayer(layerId)) map.removeLayer(layerId);
     if (map.getSource(sourceId)) map.removeSource(sourceId);
@@ -505,7 +566,7 @@ function getTimeFromList(timestamps, method) {
       // select.value = param.default_value || param.options[0]?.value || '';
 
       select.addEventListener('change', () => {
-        updateLayerWithParams(containerID, map, layerConfigs);
+        updateLayerWithParams(containerID, map, layerConfigs[containerID]);
       });
 
       wrapper.appendChild(label);
@@ -517,6 +578,7 @@ function getTimeFromList(timestamps, method) {
   }
 
   function getLayerConfig(layer, tileUrl, containerId) {
+
     const config = {
       layerType: layer.layerType,
       source: { id: layer.id, type: "raster", tiles: [tileUrl] },
@@ -563,15 +625,16 @@ function getTimeFromList(timestamps, method) {
       return canvas;
     }
 
+    // For vertical legend, swap width/height and adjust layout
+    const verticalWidth = 10;
+    const verticalHeight = width; // Use original width as height
     const svg = d3.create("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("viewBox", [0, 0, width, height])
+      .attr("width", verticalWidth)
+      .attr("height", verticalHeight)
+      .attr("viewBox", [0, 0, verticalWidth, verticalHeight])
       .style("overflow", "visible")
       .style("display", "block");
 
-    let tickAdjust = (g) =>
-      g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
     let x;
 
     // Continuous
@@ -580,14 +643,14 @@ function getTimeFromList(timestamps, method) {
 
       x = color
         .copy()
-        .rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), n));
+        .rangeRound(d3.quantize(d3.interpolate(marginTop, verticalHeight - marginBottom), n));
 
       svg
         .append("image")
         .attr("x", marginLeft)
         .attr("y", marginTop)
-        .attr("width", width - marginLeft - marginRight)
-        .attr("height", height - marginTop - marginBottom)
+        .attr("width", verticalWidth - marginLeft - marginRight)
+        .attr("height", verticalHeight - marginTop - marginBottom)
         .attr("preserveAspectRatio", "none")
         .attr(
           "xlink:href",
@@ -646,17 +709,17 @@ function getTimeFromList(timestamps, method) {
 
       x = d3.scaleLinear()
         .domain([-1, color.range().length - 1])
-        .rangeRound([marginLeft, width - marginRight]);
+        .rangeRound([marginTop, verticalHeight - marginBottom]);
 
       svg
         .append("g")
         .selectAll("rect")
         .data(color.range())
         .join("rect")
-        .attr("x", (d, i) => x(i - 1))
-        .attr("y", marginTop)
-        .attr("width", (d, i) => x(i) - x(i - 1))
-        .attr("height", height - marginTop - marginBottom)
+        .attr("x", marginLeft)
+        .attr("y", (d, i) => x(i - 1))
+        .attr("width", verticalWidth - marginLeft - marginRight)
+        .attr("height", (d, i) => x(i) - x(i - 1))
         .attr("fill", (d) => d)
         .attr("stroke", strokeColor);
 
@@ -682,33 +745,39 @@ function getTimeFromList(timestamps, method) {
         .attr("fill", color)
         .attr("stroke", strokeColor);
 
-      tickAdjust = () => {
-      };
     }
 
     svg
       .append("g")
-      .attr("transform", `translate(0,${height - marginBottom})`)
+      .attr("transform", `translate(${verticalWidth - marginRight},0)`)
       .call(
-        d3.axisBottom(x)
+        d3.axisRight(x)
           .ticks(ticks, typeof tickFormat === "string" ? tickFormat : undefined)
           .tickFormat(typeof tickFormat === "function" ? tickFormat : undefined)
           .tickSize(tickSize)
           .tickValues(tickValues)
       )
-      .call(tickAdjust)
-      .call((g) => g.select(".domain").remove())
-      .call((g) =>
-        g
-          .append("text")
-          .attr("x", marginLeft)
-          .attr("y", marginTop + marginBottom - height - 6)
+      .call(g => {
+        // keep legend vertical
+        // make tick marks horizontal
+        g.selectAll(".tick line")
+          .attr("x1", 0)
+          .attr("x2", tickSize)
+          .attr("y1", 0)
+          .attr("y2", 0);
+      })
+      .call(g => g.select(".domain").remove())
+      .call(g =>
+        g.append("text")
+          .attr("x", 0)
+          .attr("y", marginTop)
           .attr("fill", "currentColor")
           .attr("text-anchor", "start")
           .attr("font-weight", "bold")
           .attr("class", "title")
           .text(title)
       );
+
 
     return svg.node();
   }
@@ -727,7 +796,7 @@ function getTimeFromList(timestamps, method) {
   function updateLayer(map, containerId, selected_layer, selected_dataset, layerType, displayFormat) {
     getLayerDataset(selected_layer, selected_dataset).then(async activeLayerDataset => {
 
-      if (!activeLayerDataset) return;
+
       const layer = activeLayerDataset.layers?.[0];
       const { tileJsonUrl, getCapabilitiesLayerName, getCapabilitiesUrl, paramsSelectorConfig, layerConfig, currentTimeMethod, legendConfig } = layer;
       let layerDates, tileUrl, layerSetup;
@@ -738,14 +807,12 @@ function getTimeFromList(timestamps, method) {
         const defaultDate = layerDates?.[0];
         const isoString = new Date(defaultDate).toISOString();
         tileUrl = updateTileUrl(layer.layerConfig.source.tiles[0], { time: isoString })
+
         layerSetup = getLayerConfig(layer, tileUrl, containerId);
 
         if (layerType === "raster_tile" || layerType === "vector_tile") {
-
           setParamSelectors(containerId, paramsSelectorConfig, layerSetup, map)
-
           const placeholders = extractPlaceholders(tileUrl);
-
           // Build params from selectors
           const params = buildParams(placeholders, paramsSelectorConfig, containerId, {
             // Add any context params here, e.g. geostore_id if available
@@ -771,6 +838,7 @@ function getTimeFromList(timestamps, method) {
 
       }
 
+
       if (legendConfig?.items?.length) {
         const legend = createLegend(legendConfig);
         $("#legend-" + containerId).html(legend).show();
@@ -785,8 +853,10 @@ function getTimeFromList(timestamps, method) {
         input.addEventListener("changeDate", (ev) => {
           const selectedDate = ev.detail.date;
           if (selectedDate) {
-            const dateStrIso = new Date(selectedDate).toISOString();
-            updateMapLayer(map, layerSetup, dateStrIso);
+            // Format as yyyy-MM-dd HH:mm (local time)
+            const pad = (n) => n.toString().padStart(2, '0');
+            const localDateTime = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}T${pad(selectedDate.getHours())}:${pad(selectedDate.getMinutes())}:00:000Z`;
+            updateMapLayer(map, layerSetup, localDateTime);
           }
         });
       });
@@ -794,7 +864,7 @@ function getTimeFromList(timestamps, method) {
       const defaultDate = layerDates?.[0];
       updateMapLayer(map, layerSetup, defaultDate);
 
-    }).catch(console.log);
+    });
   }
 
 
@@ -854,25 +924,31 @@ function getTimeFromList(timestamps, method) {
     return params;
   }
 
-  function updateLayerWithParams(containerID, map, layerConfigs) {
-    const paramsSelectorConfig = layerConfigs?.paramsSelectorConfig || [];
+  function updateLayerWithParams(containerID, map, layerConfig) {
+    if (!layerConfig) return;
+
+    const paramsSelectorConfig = layerConfig.paramsSelectorConfig || [];
     const params = getSelectedParams(paramsSelectorConfig);
 
     const picker = datepickerInstances[containerID];
     let time = null;
 
     if (picker && picker.getDate()) {
-      time = new Date(picker.getDate()).toISOString();
+      const selectedDate = picker.getDate();
+      if (selectedDate) {
+        const pad = (n) => n.toString().padStart(2, '0');
+        time = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}T${pad(selectedDate.getHours())}:${pad(selectedDate.getMinutes())}:00:000Z`;
+      }
     }
 
     if (time) params.time = time;
 
-    let tileUrl = layerConfigs.source.tiles[0];
+    let tileUrl = layerConfig.source.tiles[0];
     Object.keys(params).forEach((key) => {
       tileUrl = tileUrl.replace(`{${key}}`, params[key]);
     });
 
-    updateMapLayer(map, layerConfigs, time, tileUrl);
+    updateMapLayer(map, layerConfig, time, tileUrl);
   }
 
   initializeMap()
@@ -880,7 +956,6 @@ function getTimeFromList(timestamps, method) {
   function destroyMap(containerId) {
     const map = mapInstances[containerId];
     if (map && map.remove) {
-      console.log(`Removing map for ${containerId}`);
       map.remove();
       delete mapInstances[containerId];
     }
@@ -895,7 +970,6 @@ function getTimeFromList(timestamps, method) {
         if (entry.isIntersecting) {
           // Avoid re-initializing existing maps
           if (!mapInstances[containerId]) {
-            console.log(`Initializing map for ${containerId}`);
             const mapType = entry.target.dataset.mapType || 'normal'; // optional attribute
             const selected_layer = entry.target.dataset.layer || null;
             const selected_dataset = entry.target.dataset.dataset || null;
