@@ -503,8 +503,7 @@ function getPercentileColor(val, sortedValues, palette) {
 async function renderRainfallStripes(container) {
   const layerId = container.dataset.layerId;
   const geostoreId = container.dataset.geostoreId;
-  console.log(container.id)
-const idSuffix = container.id.replace("rainfall-stripes-", "");
+  const idSuffix = container.id.replace("rainfall-stripes-", "");
 
   if (!layerId || !geostoreId) return;
 
@@ -657,7 +656,6 @@ async function loadMultiVariableChart(container) {
     let datasets;
     try {
         datasets = JSON.parse(container.dataset.datasets);
-        console.log(datasets);
     } catch {
         container.innerHTML = '<p style="color:red;">Invalid datasets</p>';
         return;

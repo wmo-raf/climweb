@@ -12,7 +12,7 @@ class SingleVariableChartSnippetChooser(blocks.StructBlock):
     class Meta:
         template = "streams/dashboard_singlevariable_chart.html"
         icon = "chart"
-        label = _("Chart")
+        label = _("Single-Variable Chart")
 
 class MultiVariableChartSnippetChooser(blocks.StructBlock):
     multivariable_charts_block = blocks.ListBlock(SnippetChooserBlock(target_model="dashboards.MultiVariableChartSnippet"))

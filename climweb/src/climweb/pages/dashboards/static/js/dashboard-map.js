@@ -120,7 +120,6 @@ function getTimeFromList(timestamps, method) {
   const containers = document.querySelectorAll(".map-container");
 
   const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig() || {};
-  console.log("datasetsUrl", datasetsUrl)
   const dashboardBasemapStyle = {
     version: 8,
     sources: {
@@ -957,7 +956,6 @@ function getTimeFromList(timestamps, method) {
   function destroyMap(containerId) {
     const map = mapInstances[containerId];
     if (map && map.remove) {
-      console.log(`Removing map for ${containerId}`);
       map.remove();
       delete mapInstances[containerId];
     }
@@ -972,7 +970,6 @@ function getTimeFromList(timestamps, method) {
         if (entry.isIntersecting) {
           // Avoid re-initializing existing maps
           if (!mapInstances[containerId]) {
-            console.log(`Initializing map for ${containerId}`);
             const mapType = entry.target.dataset.mapType || 'normal'; // optional attribute
             const selected_layer = entry.target.dataset.layer || null;
             const selected_dataset = entry.target.dataset.dataset || null;
