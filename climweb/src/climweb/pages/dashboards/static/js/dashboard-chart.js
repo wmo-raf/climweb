@@ -416,7 +416,7 @@ async function renderWarmingStripes(container) {
 
     const timeFromDefault = timestamps[timestamps.length - 1];
     const timeToDefault = timestamps[0];
-    const idSuffix = container.id.replace("stripes-", "");
+    const idSuffix = container.id.replace("warming-stripes-", "");
     const dateFormat = container.dataset.datetimeFormat || "yyyy-MM-dd";
 
     async function updateStripesForRange(dateRange) {
@@ -475,7 +475,7 @@ async function renderWarmingStripes(container) {
 
     // ✅ unified calendar init with DateRangePicker
     initializeCalendar(
-        `stripes-${idSuffix}`,
+        `warming-stripes-${idSuffix}`,
         updateStripesForRange,
         [new Date(timeFromDefault), new Date(timeToDefault)],
         dateFormat
@@ -484,8 +484,261 @@ async function renderWarmingStripes(container) {
     updateStripesForRange([new Date(timeFromDefault), new Date(timeToDefault)]);
 }
 
+
+// ------------------ RAINFALL STRIPES ------------------ //
+const rainfallStripesColors = [
+  "#8c510a", "#bf812d", "#dfc27d", "#f6e8c3",
+  "#f5f5f5",
+  "#c7eae5", "#80cdc1", "#35978f", "#01665e"
+];
+
+function getPercentileColor(val, sortedValues, palette) {
+  const idx = sortedValues.findIndex(v => v >= val);
+  const p = idx / (sortedValues.length - 1);
+  const colorIndex = Math.round(p * (palette.length - 1));
+  return palette[Math.max(0, Math.min(palette.length - 1, colorIndex))];
+}
+
+
+async function renderRainfallStripes(container) {
+  const layerId = container.dataset.layerId;
+  const geostoreId = container.dataset.geostoreId;
+  const idSuffix = container.id.replace("rainfall-stripes-", "");
+
+  if (!layerId || !geostoreId) return;
+
+  container.innerHTML = `<div style="text-align:center;padding:1em;color:#888;">Loading...</div>`;
+
+  let timestamps;
+  try {
+    const res = await fetch(`/api/raster/${layerId}/tiles.json`);
+    const tileJson = await res.json();
+    timestamps = tileJson?.timestamps || [];
+  } catch {
+    container.innerHTML = `<p style="color:red;">Error loading rainfall stripes</p>`;
+    return;
+  }
+
+  const timeFromDefault = timestamps[timestamps.length - 1];
+  const timeToDefault = timestamps[0];
+  const dateFormat = container.dataset.datetimeFormat || "yyyy";
+
+  async function updateRainfallStripes(dateRange) {
+    let timeFrom = timeFromDefault;
+    let timeTo = timeToDefault;
+
+    if (dateRange?.length === 2) {
+      timeFrom = new Date(dateRange[0]).toISOString();
+      timeTo = new Date(dateRange[1]).toISOString();
+    }
+
+    container.innerHTML = `<div style="text-align:center;padding:1em;color:#888;">Loading...</div>`;
+
+    let data;
+    try {
+      const res = await fetch(
+        `/api/raster-data/geostore/timeseries/${layerId}?geostore_id=${geostoreId}&value_type=mean&time_from=${timeFrom}&time_to=${timeTo}`
+      );
+      data = await res.json();
+    } catch {
+      container.innerHTML = `<p style="color:red;">Error loading rainfall stripes</p>`;
+      return;
+    }
+
+    data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const values = data.map(d => d.value);
+    const sorted = [...values].sort((a, b) => a - b);
+
+    const stripeWidth = (100 / values.length) + "%";
+
+    const stripesHtml = values.map(v => `
+      <div style="
+        width:${stripeWidth};
+        height:100%;
+        display:inline-block;
+        background:${getPercentileColor(v, sorted, rainfallStripesColors)};
+      "></div>
+    `).join("");
+
+    // year labels (same logic as warming stripes)
+    const years = data.map(d => new Date(d.date).getFullYear());
+    let lastYear = null;
+    const labelsHtml = years.map((y, i) => {
+      if (i === 0 || i === years.length - 1 || (y % 5 === 0 && y !== lastYear)) {
+        lastYear = y;
+        return `<div style="width:${stripeWidth};font-size:10px;color:#444;">${y}</div>`;
+      }
+      return `<div style="width:${stripeWidth};"></div>`;
+    }).join("");
+
+    container.innerHTML = `
+      <div style="height:100%;display:flex;">${stripesHtml}</div>
+      <div style="height:18px;display:flex;">${labelsHtml}</div>
+    `;
+  }
+
+  // ✅ unified calendar init with DateRangePicker
+    initializeCalendar(
+        `rainfall-stripes-${idSuffix}`,
+        updateRainfallStripes,
+        [new Date(timeFromDefault), new Date(timeToDefault)],
+        dateFormat
+    );
+
+  updateRainfallStripes([new Date(timeFromDefault), new Date(timeToDefault)]);
+}
+
+
 // ------------------ DOM INIT ------------------ //
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".chart-container").forEach(loadChart);
     document.querySelectorAll(".warming-stripes-chart").forEach(renderWarmingStripes);
+    document.querySelectorAll(".rainfall-stripes-chart").forEach(renderRainfallStripes);
+});
+
+// ----------- MULTIVARIABLE CHARTS ------------- //
+async function fetchMultiTimeseries(datasetId, geostoreId, timeFrom, timeTo, chartType) {
+    let url = `/api/raster-data/geostore/timeseries/${datasetId}?geostore_id=${geostoreId}&value_type=mean`;
+    if (timeFrom) url += `&time_from=${timeFrom}`;
+    if (timeTo) url += `&time_to=${timeTo}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (chartType === "scatter") {
+        return data.map(d => ({ x: new Date(d.date).getTime(), y: d.value }));
+    } else {
+        return data.map(d => ({ date: d.date, value: d.value }));
+    }
+}
+
+function initMultiChart({ chartId, datasets, dateFormat }) {
+    const yAxis = datasets.map((ds, i) => ({
+        title: { text: ds.chart_variable || "Y-Axis" },
+        labels: { 
+            style: { color: ds.chart_color },
+            format: `{value}${ds.data_unit || ''}`,
+         },
+        opposite: i % 2 === 1
+    }));
+    return Highcharts.chart(chartId, {
+        chart: { backgroundColor: "transparent", spacingTop: 40 },
+        title: { text: null },
+        credits: { enabled: false },
+        xAxis: {
+            type: 'datetime',
+            labels: { formatter: function () { return formatDateTimeJS(this.value, dateFormat) } },
+            dateTimeLabelFormats: {
+                millisecond: '%H:%M:%S.%L',
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%H:%M',
+                day: dateFormat === "yyyy" ? '%Y' : dateFormat === "yyyy-MM" || dateFormat === "MMMM yyyy" ? '%b %Y' : '%b %e',
+                week: dateFormat === "yyyy" ? '%Y' : dateFormat === "yyyy-MM" || dateFormat === "MMMM yyyy" ? '%b %Y' : '%b %e',
+                month: dateFormat === "yyyy" ? '%Y' : '%b %Y',
+                year: '%Y'
+            }
+        },
+        yAxis,
+        tooltip: {
+            shared: true,
+            backgroundColor: '#ffffff'
+        },
+        plotOptions: {
+            series: { turboThreshold: 0 },
+            column: { pointPadding: 0.05, groupPadding: 0.05 },
+            scatter: { opacity: 0.6, marker: { radius: 3.5, symbol: "square", lineWidth: 0.7 }, jitter: { x: 0.005 } },
+        },
+        series: [] // Will be populated after data fetch
+    });
+}
+
+async function loadMultiVariableChart(container) {
+    let datasets;
+    try {
+        datasets = JSON.parse(container.dataset.datasets);
+    } catch {
+        container.innerHTML = '<p style="color:red;">Invalid datasets</p>';
+        return;
+    }
+    const chartId = container.id;
+    const geostoreId = container.dataset.geostoreId;
+    const dateFormat = datasets[0]?.dataset_dateformat || "yyyy-MM-dd";
+    const multipleAxes = container.dataset.multipleAxes === "False" ? false : true;
+    let allTimestamps = [];
+    for (const ds of datasets) {
+        try {
+            const ts = await fetchTimestamps(ds.dataset_id);
+            allTimestamps.push(ts.map(t => new Date(t).toISOString()));
+        } catch {}
+    }
+    // Sort timestamps ascending for correct default range
+    allTimestamps = [...new Set([].concat(...allTimestamps))].sort((a, b) => new Date(a) - new Date(b));
+    const defaultDates = [new Date(allTimestamps[0]), new Date(allTimestamps[allTimestamps.length - 1])];
+
+    const chart = initMultiChart({ chartId, datasets, dateFormat });
+
+    async function updateChartForRange(dateRange) {
+        // Always clear all series before adding new
+        while (chart.series.length > 0) {
+            chart.series[0].remove(false);
+        }
+        let timeFrom = allTimestamps[0];
+        let timeTo = allTimestamps[allTimestamps.length - 1];
+        if (dateRange && dateRange.length === 2) {
+            timeFrom = new Date(dateRange[0]).toISOString();
+            timeTo = new Date(dateRange[1]).toISOString();
+        }
+        chart.showLoading("Loading data...");
+        const seriesData = await Promise.all(datasets.map(async (ds, i) => {
+            try {
+                const data = await fetchMultiTimeseries(ds.dataset_id, geostoreId, timeFrom, timeTo, ds.chart_type);
+                if (ds.chart_type === "scatter") {
+                    return {
+                        name: ds.chart_variable,
+                        color: ds.chart_color,
+                        type: ds.chart_type,
+                        data: data,
+                        yAxis: multipleAxes ? i : 0,
+                        tooltip: {
+                            valueSuffix: `${ds.data_unit || ''}`,
+                        }
+                    };
+                } else {
+                    // Remove duplicate points by date
+                    const seen = new Set();
+                    const sorted = data.filter(d => {
+                        const key = d.date;
+                        if (seen.has(key)) return false;
+                        seen.add(key);
+                        return true;
+                    }).sort((a, b) => new Date(a.date) - new Date(b.date));
+                    return {
+                        name: ds.chart_variable,
+                        color: ds.chart_color,
+                        type: ds.chart_type,
+                        data: sorted.map(d => [new Date(d.date).getTime(), Math.round(d.value * 100) / 100]),
+                        yAxis: multipleAxes ? i : 0,
+                        tooltip: {
+                            valueSuffix: `${ds.data_unit || ''}`,
+                        }
+                    };
+                }
+            } catch {
+                return null;
+            }
+        }));
+        seriesData.filter(Boolean).forEach(s => chart.addSeries(s, false));
+        chart.redraw();
+        chart.hideLoading();
+    }
+
+    initializeCalendar(chartId, updateChartForRange, defaultDates, dateFormat, allTimestamps);
+    updateChartForRange(defaultDates);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".multivariable-chart-container").forEach(loadMultiVariableChart);
+    document.querySelectorAll(".chart-container").forEach(loadChart);
+    document.querySelectorAll(".warming-stripes-chart").forEach(renderWarmingStripes);
+    document.querySelectorAll(".rainfall-stripes-chart").forEach(renderRainfallStripes);
 });

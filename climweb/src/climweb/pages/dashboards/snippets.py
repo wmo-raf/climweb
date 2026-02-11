@@ -1,6 +1,7 @@
 import base64
 import json
 import uuid
+from climweb.pages.dashboards.blocks import ChartVariableBlock
 from rest_framework.exceptions import NotFound
 from django.contrib.gis.geos import MultiPolygon
 
@@ -36,6 +37,12 @@ register_model_chooser(RasterTileLayer)
 register_model_chooser(VectorTileLayer)
 
     
+ADMIN_LEVEL_CHOICES = (
+    (0, _("Level 0")),
+    (1, _("Level 1")),
+    (2, _("Level 2")),
+)
+
 def get_by_admin(gid_0, gid_1=None, gid_2=None, simplify_thresh=None):
     abm_settings = AdminBoundarySettings.objects.first()
     if not abm_settings:
@@ -162,7 +169,7 @@ class DashboardMapValue:
         return json.loads(self.instance.boundary)
 
 @register_snippet
-class ChartSnippet(models.Model):
+class SingleVariableChartSnippet(models.Model):
     CHART_TYPE_CHOICES = [
         ("line",  _("Line Chart")),
         ("column",  _("Vertical Bar Chart")),
@@ -170,14 +177,11 @@ class ChartSnippet(models.Model):
         ("area",  _("Area Chart")),
         # ("boxplot", "Box Plot"), # TODO: Box plot not implemented in frontend yet
         ("scatter",  _("Scatter Plot")),
-        ("stripes",  _("Warming stripes")),
+        ("warm_stripes",  _("Warming stripes")),
+        ("rain_stripes",  _("Rainfall stripes")),
     ]
 
-    ADMIN_LEVEL_CHOICES = (
-        (0, _("Level 0")),
-        (1, _("Level 1")),
-        (2, _("Level 2")),
-    )
+
 
     title = models.CharField(max_length=255)
     description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
@@ -187,7 +191,7 @@ class ChartSnippet(models.Model):
     )
     data_unit = models.CharField(max_length=255, blank=True)
 
-    chart_type = models.CharField(max_length=10, choices=CHART_TYPE_CHOICES, default="line")
+    chart_type = models.CharField(max_length=255, choices=CHART_TYPE_CHOICES, default="line")
     chart_color = models.CharField(
         max_length=7,
         default="#0b76e1",
@@ -273,20 +277,90 @@ class ChartSnippet(models.Model):
 
 
     class Meta:
-        verbose_name =  _("Dashboard Chart")
-        verbose_name_plural =  _("Dashboard Charts")
+        verbose_name =  _("Single-Variable Chart")
+        verbose_name_plural =  _("Single-Variable Charts")
 
     
+@register_snippet
+class MultiVariableChartSnippet(models.Model):
+    
+     
+    title = models.CharField(max_length=255)
+    description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),
+                                        help_text=_("Description"), null=True, blank=True)
+    
+    multiple_axes = models.BooleanField(default=False, help_text=_("Whether to use multiple axes (one per variable) or a single axis for all variables."))
+    variables = StreamField([
+        ("chart_variable", ChartVariableBlock())
+    ], null=True, blank=True, verbose_name=_("Chart Variables"), min_num=2, help_text=_("Add more variables to display in the chart. Each variable corresponds to a dataset and will be displayed as a separate series in the chart."))
+
+
+    area_desc = models.TextField(max_length=50,
+                                help_text=_("Click on map to generate name"), null=True,  blank=True)
+    admin_level = models.IntegerField(choices=ADMIN_LEVEL_CHOICES, default=0, help_text=_("Administrative Level"),  null=True, blank=False )
+    
+    geom = gis_models.MultiPolygonField(srid=4326, verbose_name=_("Area"), null=True,  blank=True)
+    # hidden inputs for determining geostoreid 
+    gid0 = models.CharField(null=True, max_length=250, blank = True)
+    gid1 = models.CharField(null=True, max_length=250, blank = True)
+    gid2 = models.CharField(null=True, max_length=250, blank = True)
+    geostore_id = models.UUIDField(default=uuid.uuid4, editable=False)
+
+
+    panels = [
+        TabbedInterface([
+        ObjectList([
+            FieldPanel("title"),
+            FieldPanel("description"),
+            FieldPanel("multiple_axes"),
+            FieldPanel("variables"),
+        ], heading=_("Layer")),
+        ObjectList([
+                FieldPanel("admin_level"),
+                FieldPanel("gid0", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+                FieldPanel("gid1", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+                FieldPanel("gid2", help_text=_("Auto-generated, do not edit"), classname="hidden"),
+                FieldPanel("area_desc", help_text=_("Click on map to generate name")),
+                FieldPanel("geom", widget=BoundaryIDWidget(attrs={"resize_trigger_selector": ".w-tabs__tab.map-resize-trigger"}), help_text=_("Click on map to generate name")),
+        ], heading=_("Admin Boundary"))
+        ])
+    ]
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def multivariable_chart_data(self):
+        chart_data = []
+        for variable in self.variables:
+            var_value = variable.value
+            dataset = var_value.get("dataset")
+            if dataset:
+                chart_data.append({
+                    "chart_variable": var_value.get("chart_variable"),
+                    "data_unit": var_value.get("data_unit"),
+                    "chart_color": var_value.get("chart_color"),
+                    "chart_type": var_value.get("chart_type"),
+                    "dataset_id": str(dataset.id),
+                    "dataset_title": dataset.title,
+                    "dataset_dateformat": dataset.date_format,
+                })
+
+        
+        return json.dumps(chart_data)
+    
+    class Meta:
+        verbose_name =  _("Multi-Variable Chart")
+        verbose_name_plural =  _("Multi-Variable Charts")
+
+    def save(self, *args, **kwargs):
+        self.geostore_id = get_by_admin(self.gid0, self.gid1, self.gid2)
+        super().save(*args, **kwargs)
 
 
 @register_snippet
 class DashboardMap(models.Model):
 
-    ADMIN_LEVEL_CHOICES = (
-        (0, _("Level 0")),
-        (1, _("Level 1")),
-        (2, _("Level 2")),
-    )
 
     title = models.CharField(max_length=255)
     description = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, verbose_name=_('Description'),

@@ -1,0 +1,6 @@
+{% load wagtailcore_tags static nmhs_cms_tags %}
+
+<div class="dashboard-charts">
+    {% render_chart_or_map self.singlevariable_charts_block "singlevariable_chart" section_index=section block_index=counter %}
+</div>
+

@@ -14,8 +14,13 @@
             <p style="font-size: 14px">
                 {% if cooloff_time %}
                     {% translate "Your account has been locked due to multiple failed login attempts. Please try again later." %}
+                    <a href="{% url 'wagtailadmin_login' %}"
+                        class="button button-secondary"
+                        style="margin-top: 10px; display: block; text-align: center;">
+                            {% translate "Back to sign in" %}
+                        </a>
                 {% else %}
-                    {% translate "You account has been locked due to multiple failed login attempts. Please contact our support team for assistance." %}
+                    {% translate "Your account has been locked due to multiple failed login attempts. Please contact our support team for assistance." %}
                 {% endif %}
             </p>
             {% if settings.base.ImportantPages.contact_us_page %}
