@@ -2,6 +2,7 @@
 # release must be one of alpha, beta, rc, or final
 VERSION = (1, 0, 8, "beta", 2)
 
+
 def get_semver_version(version):
     "Returns the semver version (X.Y.Z[-(alpha|beta)]) from VERSION"
     main = ".".join(str(x) for x in version[:3])
