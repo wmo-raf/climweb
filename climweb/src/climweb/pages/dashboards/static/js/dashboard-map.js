@@ -28,7 +28,8 @@ function buildParams(placeholders, paramsSelectorConfig, containerId, context = 
 
   paramsSelectorConfig.forEach(param => {
     if (param.key === "time") return; // Skip time, handled by calendar
-    const select = document.getElementById(`param-${param.key}`);
+    const select = document.getElementById(`param-${containerId}-${param.key}`);
+
     if (select && placeholders.includes(param.key)) {
       params[param.key] = select.value;
     }
@@ -516,9 +517,12 @@ function getTimeFromList(timestamps, method) {
     if (map.getLayer(layerId)) map.removeLayer(layerId);
     if (map.getSource(sourceId)) map.removeSource(sourceId);
 
-    const tileUrl = tileUrlOverride || updateTileUrl(layerConfig.source.tiles, { time: withDate });
+    const tileUrl =
+      tileUrlOverride ||
+      updateTileUrl(layerConfig.source.tiles[0], { time: withDate });
 
     if (["raster_file", "wms", "raster_tile"].includes(layerType)) {
+      console.log(tileUrl)
       map.addSource(sourceId, { type: "raster", tiles: [tileUrl], tileSize: 256 });
       map.addLayer({ id: layerId, type: "raster", source: sourceId });
     } else if (layerType === "vector_tile") {
@@ -556,7 +560,8 @@ function getTimeFromList(timestamps, method) {
       label.setAttribute('for', `param-${param.key}`);
 
       const select = document.createElement('select');
-      select.id = `param-${param.key}`;
+      select.id = `param-${containerID}-${param.key}`;
+
       select.dataset.key = param.key;
 
       select.innerHTML = param.options
@@ -579,14 +584,20 @@ function getTimeFromList(timestamps, method) {
 
   function getLayerConfig(layer, tileUrl, containerId) {
 
+    const sourceId = `${containerId}-${layer.id}`;
+    const layerId  = `${containerId}-${layer.id}`;
+
     const config = {
+      containerId,
       layerType: layer.layerType,
-      source: { id: layer.id, type: "raster", tiles: [tileUrl] },
-      layer: { id: layer.id, type: "raster" },
+      source: { id: sourceId, type: layer.layerType === "vector_tile" ? "vector" : "raster", tiles: [tileUrl] },
+      layer: { id: layerId, type: layer.layerType === "vector_tile" ? "fill" : "raster" },
       paramsSelectorConfig: layer.paramsSelectorConfig || []
 
     };
     layerConfigs[containerId] = config;
+
+    console.log(layerConfigs)
     return config;
   }
 
@@ -797,7 +808,14 @@ function getTimeFromList(timestamps, method) {
     getLayerDataset(selected_layer, selected_dataset).then(async activeLayerDataset => {
 
 
-      const layer = activeLayerDataset.layers?.[0];
+      const layer = activeLayerDataset.layers?.find(
+        l => l.id === selected_layer
+      );
+
+      if (!layer) {
+        console.error("Layer not found:", selected_layer);
+        return;
+      }
       const { tileJsonUrl, getCapabilitiesLayerName, getCapabilitiesUrl, paramsSelectorConfig, layerConfig, currentTimeMethod, legendConfig } = layer;
       let layerDates, tileUrl, layerSetup;
 
@@ -914,11 +932,11 @@ function getTimeFromList(timestamps, method) {
       });
   }
 
-  function getSelectedParams(paramsSelectorConfig) {
+  function getSelectedParams(containerID,paramsSelectorConfig) {
     const params = {};
     paramsSelectorConfig.forEach(param => {
       if (param.key === "time") return;
-      const select = document.getElementById(`param-${param.key}`);
+      const select = document.getElementById(`param-${containerID}-${param.key}`);
       if (select) params[param.key] = select.value;
     });
     return params;
@@ -928,7 +946,7 @@ function getTimeFromList(timestamps, method) {
     if (!layerConfig) return;
 
     const paramsSelectorConfig = layerConfig.paramsSelectorConfig || [];
-    const params = getSelectedParams(paramsSelectorConfig);
+    const params = getSelectedParams(containerID,paramsSelectorConfig);
 
     const picker = datepickerInstances[containerID];
     let time = null;
