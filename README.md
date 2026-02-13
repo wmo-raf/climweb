@@ -1,4 +1,5 @@
-# 🌤️🌐 ClimWeb
+# 🌤️🌐 ClimWeb [![Digital Public Good Aligned](https://img.shields.io/badge/Digital%20Public%20Good-Aligned-blue)](https://digitalpublicgoods.net)
+
 
 Wagtail based Open Source Content Management System for National Meteorological and Hydrological Services in Africa.
 
@@ -6,6 +7,10 @@ A website template co-developed with NMHSs in Africa to support their digital tr
 practices in web design and development, data visualization and hydro meteorological and climate communications to
 ensure that NMHSs have a modern, responsive, and user-friendly website.
 
+<img width="250" height="188" alt="image" src="https://github.com/user-attachments/assets/71d7ef97-5de0-46c9-b402-05843d9f990b" />
+
+
+ClimWeb is aligned with the principles of the Digital Public Goods Alliance (DPGA), promoting open, interoperable, and reusable climate information systems for public benefit.
 ## Live Instances
 
 NMHSs that have adopted ClimWeb across Africa:
