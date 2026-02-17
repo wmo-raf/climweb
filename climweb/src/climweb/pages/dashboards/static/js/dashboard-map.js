@@ -522,7 +522,6 @@ function getTimeFromList(timestamps, method) {
       updateTileUrl(layerConfig.source.tiles[0], { time: withDate });
 
     if (["raster_file", "wms", "raster_tile"].includes(layerType)) {
-      console.log(tileUrl)
       map.addSource(sourceId, { type: "raster", tiles: [tileUrl], tileSize: 256 });
       map.addLayer({ id: layerId, type: "raster", source: sourceId });
     } else if (layerType === "vector_tile") {
@@ -596,8 +595,6 @@ function getTimeFromList(timestamps, method) {
 
     };
     layerConfigs[containerId] = config;
-
-    console.log(layerConfigs)
     return config;
   }
 
