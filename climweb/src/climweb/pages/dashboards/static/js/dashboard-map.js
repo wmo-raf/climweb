@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", function() {
 const comparisonGroups = {};
 
 function parseISO8601Duration(durationString) {
@@ -200,6 +201,7 @@ function getTimeFromList(timestamps, method) {
       let dpFormat = "yyyy-mm-dd"; // Default format
       let pickLevel = 0;
       let isDekadal = false;
+      let isPentadal = false;
 
       switch (dateFormat) {
         case "yyyy":
@@ -214,6 +216,11 @@ function getTimeFromList(timestamps, method) {
           dpFormat = "yyyy-mm";
           pickLevel = 1;
           isDekadal = true;
+          break;
+        case "pentadal":
+          dpFormat = "yyyy-mm";
+          pickLevel = 1;
+          isPentadal = true;
           break;
         case "yyyy-MM-dd":
           dpFormat = "yyyy-mm-dd";
@@ -236,9 +243,11 @@ function getTimeFromList(timestamps, method) {
 
       datepickerInstances[containerId] = datepicker;
 
-      // Dekadal selector
+      // Dekadal/pentadal selector
       let dekadSelectEl = null;
       let dekadSelectElDiv = null;
+      let pentadSelectEl = null;
+      let pentadSelectElDiv = null;
 
       if (isDekadal) {
         dekadSelectElDiv = document.createElement('div');
@@ -254,12 +263,31 @@ function getTimeFromList(timestamps, method) {
         `;
         inputEl.parentNode.insertBefore(dekadSelectElDiv, inputEl.nextSibling);
       }
+      if (isPentadal) {
+        pentadSelectElDiv = document.createElement('div');
+        pentadSelectElDiv.className = 'pentad-select-container select is-small';
+        pentadSelectEl = document.createElement('select')
+        pentadSelectElDiv.appendChild(pentadSelectEl);
+        pentadSelectEl.id = `pentad-${containerId}`;
+        pentadSelectEl.className = 'pentad-selector';
+        pentadSelectEl.innerHTML = `
+          <option value="1">1st Pentad (01)</option>
+          <option value="2">2nd Pentad (06)</option>
+          <option value="3">3rd Pentad (11)</option>
+          <option value="4">4th Pentad (16)</option>
+          <option value="5">5th Pentad (21)</option>
+          <option value="6">6th Pentad (26)</option>
+        `;
+        inputEl.parentNode.insertBefore(pentadSelectElDiv, inputEl.nextSibling);
+      }
 
       // Handle date and time changes
       const handleDateTimeChange = () => {
         const selectedDate = datepicker.getDate();
-        const selectedTime = timeSelectEl ? timeSelectEl.value : "00:00";
+        if (!selectedDate) return;
+
         let dekad = dekadSelectEl ? dekadSelectEl.value : null;
+        let pentad = pentadSelectEl ? pentadSelectEl.value : null;
 
         if (selectedDate) {
           let year = selectedDate.getFullYear();
@@ -272,11 +300,37 @@ function getTimeFromList(timestamps, method) {
             else if (dekad === '2') day = '11';
             else if (dekad === '3') day = '21';
             isoDateTime = `${year}-${month}-${day}T00:00:00.000Z`;
+          } else if (isPentadal && pentad) {
+            // Set day based on pentad
+            if (pentad === '1') day = '01';
+            else if (pentad === '2') day = '06';
+            else if (pentad === '3') day = '11';
+            else if (pentad === '4') day = '16';
+            else if (pentad === '5') day = '21';
+            else if (pentad === '6') day = '26';
+            isoDateTime = `${year}-${month}-${day}T00:00:00.000Z`;
           } else {
+            const timeSelectEl = document.querySelector(`#maptime-${containerId}`);
+            if (!timeSelectEl) return;
+
+            const selectedTime = timeSelectEl.value;
+            if (!selectedTime) return;
             // Combine date and time into a single ISO string
             const [hours, minutes] = selectedTime.split(":").map(Number);
-            selectedDate.setHours(hours || 0, minutes || 0, 0, 0);
-            isoDateTime = selectedDate.toISOString();
+
+            // Build a NEW local date (do not mutate original picker date)
+            const localDate = new Date(
+              selectedDate.getFullYear(),
+              selectedDate.getMonth(),
+              selectedDate.getDate(),
+              hours || 0,
+              minutes || 0,
+              0,
+              0
+            );
+
+            // Convert to UTC ISO string
+            isoDateTime = localDate.toISOString();
           }
           updateMapLayerWithDate(containerId, isoDateTime);
         }
@@ -289,6 +343,9 @@ function getTimeFromList(timestamps, method) {
       }
       if (dekadSelectEl) {
         dekadSelectEl.addEventListener("change", handleDateTimeChange);
+      }
+      if (pentadSelectEl) {
+        pentadSelectEl.addEventListener("change", handleDateTimeChange);
       }
     });
   }
@@ -341,12 +398,18 @@ function getTimeFromList(timestamps, method) {
       if (timeSelectEl) {
         // Function to update available times for the selected date
         const updateAvailableTimes = (selectedDate) => {
+          if (!selectedDate) return;
 
-          const availableTimes = parsedDates.filter(d =>
-            new Date(d).getFullYear() === new Date(selectedDate).getFullYear() &&
-            new Date(d).getMonth() === new Date(selectedDate).getMonth() &&
-            new Date(d).getDate() === new Date(selectedDate).getDate()
-          )
+          const selectedYear = selectedDate.getFullYear();
+          const selectedMonth = selectedDate.getMonth();
+          const selectedDay = selectedDate.getDate();
+
+          const availableTimes = parsedDates
+            .filter((d) =>
+              d.getFullYear() === selectedYear &&
+              d.getMonth() === selectedMonth &&
+              d.getDate() === selectedDay
+            )
             .sort((a, b) => a - b)
             .map((d) => {
               const hours = d.getHours().toString().padStart(2, "0");
@@ -354,16 +417,21 @@ function getTimeFromList(timestamps, method) {
               return `${hours}:${minutes}`;
             });
 
-          // Populate the time dropdown
+          // Populate dropdown
           timeSelectEl.innerHTML = availableTimes
             .map((time) => `<option value="${time}">${time}</option>`)
             .join("");
 
-          // Set the default time to the latest available time
+
+          // Default to latest available time
           if (availableTimes.length) {
             timeSelectEl.value = availableTimes[availableTimes.length - 1];
+            timeSelectEl.selectedIndex= availableTimes.length - 1;
           }
+
+          console.log(timeSelectEl.value)
         };
+
 
         // Update times for the latest date initially
         updateAvailableTimes(latestDate);
@@ -371,10 +439,42 @@ function getTimeFromList(timestamps, method) {
         // Add event listener to update times when the date changes
         picker.inputField.addEventListener("changeDate", (ev) => {
           const selectedDate = ev.detail.date;
-          if (selectedDate) {
-            updateAvailableTimes(selectedDate);
+          if (!selectedDate) return;
+
+          // 1️⃣ Update time options for this date
+          updateAvailableTimes(selectedDate);
+
+          // 2️⃣ Get currently selected time from dropdown
+          const selectedTime = timeSelectEl?.value;
+          if (!selectedTime) return;
+
+          const [hours, minutes] = selectedTime.split(":").map(Number);
+
+          // 3️⃣ Build local datetime
+          const localDateTime = new Date(
+            selectedDate.getFullYear(),
+            selectedDate.getMonth(),
+            selectedDate.getDate(),
+            hours,
+            minutes,
+            0,
+            0
+          );
+
+          // 4️⃣ Convert to UTC
+          const utcISOString = localDateTime.toISOString();
+
+          // 5️⃣ Update map
+          const mapInstance = mapInstances[containerId];
+          const layerConfig = layerConfigs[containerId];
+
+          if (mapInstance && layerConfig) {
+            updateMapLayer(mapInstance, layerConfig, utcISOString);
           }
         });
+
+
+
       }
 
       resolve();
@@ -556,7 +656,7 @@ function getTimeFromList(timestamps, method) {
 
       const label = document.createElement('label');
       label.textContent = param.label || param.key;
-      label.setAttribute('for', `param-${param.key}`);
+      label.setAttribute('for', `param-${containerID}-${param.key}`);
 
       const select = document.createElement('select');
       select.id = `param-${containerID}-${param.key}`;
@@ -570,7 +670,7 @@ function getTimeFromList(timestamps, method) {
       // select.value = param.default_value || param.options[0]?.value || '';
 
       select.addEventListener('change', () => {
-        updateLayerWithParams(containerID, map, layerConfigs[containerID]);
+        updateLayerWithParams(containerID, map, layerConfigs);
       });
 
       wrapper.appendChild(label);
@@ -584,7 +684,7 @@ function getTimeFromList(timestamps, method) {
   function getLayerConfig(layer, tileUrl, containerId) {
 
     const sourceId = `${containerId}-${layer.id}`;
-    const layerId  = `${containerId}-${layer.id}`;
+    const layerId = `${containerId}-${layer.id}`;
 
     const config = {
       containerId,
@@ -865,15 +965,8 @@ function getTimeFromList(timestamps, method) {
 
         if (!picker || !input) return;
 
-        input.addEventListener("changeDate", (ev) => {
-          const selectedDate = ev.detail.date;
-          if (selectedDate) {
-            // Format as yyyy-MM-dd HH:mm (local time)
-            const pad = (n) => n.toString().padStart(2, '0');
-            const localDateTime = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}T${pad(selectedDate.getHours())}:${pad(selectedDate.getMinutes())}:00.000Z`;
-            updateMapLayer(map, layerSetup, localDateTime);
-          }
-        });
+
+
       });
 
       const defaultDate = layerDates?.[0];
@@ -929,7 +1022,7 @@ function getTimeFromList(timestamps, method) {
       });
   }
 
-  function getSelectedParams(containerID,paramsSelectorConfig) {
+  function getSelectedParams(containerID, paramsSelectorConfig) {
     const params = {};
     paramsSelectorConfig.forEach(param => {
       if (param.key === "time") return;
@@ -943,7 +1036,7 @@ function getTimeFromList(timestamps, method) {
     if (!layerConfig) return;
 
     const paramsSelectorConfig = layerConfig.paramsSelectorConfig || [];
-    const params = getSelectedParams(containerID,paramsSelectorConfig);
+    const params = getSelectedParams(containerID, paramsSelectorConfig);
 
     const picker = datepickerInstances[containerID];
     let time = null;
@@ -951,8 +1044,17 @@ function getTimeFromList(timestamps, method) {
     if (picker && picker.getDate()) {
       const selectedDate = picker.getDate();
       if (selectedDate) {
-        const pad = (n) => n.toString().padStart(2, '0');
-        time = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}T${pad(selectedDate.getHours())}:${pad(selectedDate.getMinutes())}:00.000Z`;
+        const localDate = new Date(
+          selectedDate.getFullYear(),
+          selectedDate.getMonth(),
+          selectedDate.getDate(),
+          selectedDate.getHours(),
+          selectedDate.getMinutes(),
+          0,
+          0
+        );
+
+        time = localDate.toISOString();
       }
     }
 
@@ -968,13 +1070,6 @@ function getTimeFromList(timestamps, method) {
 
   initializeMap()
   initializeCalendar()
-  function destroyMap(containerId) {
-    const map = mapInstances[containerId];
-    if (map && map.remove) {
-      map.remove();
-      delete mapInstances[containerId];
-    }
-  }
 
   // === LAZY LOAD MAPS ===
   const observer = new IntersectionObserver(
@@ -1010,3 +1105,4 @@ function getTimeFromList(timestamps, method) {
   document.querySelectorAll('.map-container').forEach((el) => observer.observe(el));
 })()
 
+});
