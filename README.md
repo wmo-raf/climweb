@@ -10,7 +10,8 @@ ensure that NMHSs have a modern, responsive, and user-friendly website.
 <img width="250" height="188" alt="image" src="https://github.com/user-attachments/assets/71d7ef97-5de0-46c9-b402-05843d9f990b" />
 
 
-ClimWeb is aligned with the principles of the Digital Public Goods Alliance (DPGA), promoting open, interoperable, and reusable climate information systems for public benefit.
+ClimWeb is open-source software, recognised as a Digital Public Good by the Digital Public Goods Alliance. It strengthens the delivery of climate services, contributing to the Sustainable Development Goals, including SDG 13 (Climate Action). 
+
 ## Live Instances
 
 NMHSs that have adopted ClimWeb across Africa:
