@@ -870,7 +870,7 @@ function getTimeFromList(timestamps, method) {
           if (selectedDate) {
             // Format as yyyy-MM-dd HH:mm (local time)
             const pad = (n) => n.toString().padStart(2, '0');
-            const localDateTime = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}T${pad(selectedDate.getHours())}:${pad(selectedDate.getMinutes())}:00:000Z`;
+            const localDateTime = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}T${pad(selectedDate.getHours())}:${pad(selectedDate.getMinutes())}:00.000Z`;
             updateMapLayer(map, layerSetup, localDateTime);
           }
         });
@@ -952,7 +952,7 @@ function getTimeFromList(timestamps, method) {
       const selectedDate = picker.getDate();
       if (selectedDate) {
         const pad = (n) => n.toString().padStart(2, '0');
-        time = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}T${pad(selectedDate.getHours())}:${pad(selectedDate.getMinutes())}:00:000Z`;
+        time = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}T${pad(selectedDate.getHours())}:${pad(selectedDate.getMinutes())}:00.000Z`;
       }
     }
 
