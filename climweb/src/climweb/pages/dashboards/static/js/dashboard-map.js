@@ -428,8 +428,6 @@ document.addEventListener("DOMContentLoaded", function () {
               timeSelectEl.value = availableTimes[availableTimes.length - 1];
               timeSelectEl.selectedIndex = availableTimes.length - 1;
             }
-
-            console.log(timeSelectEl.value)
           };
 
 
@@ -625,6 +623,7 @@ document.addEventListener("DOMContentLoaded", function () {
         map.addSource(sourceId, { type: "raster", tiles: [tileUrl], tileSize: 256 });
         map.addLayer({ id: layerId, type: "raster", source: sourceId });
       } else if (layerType === "vector_tile") {
+        console.log(layerConfig)
         const sourceConfig = layerConfig.source;
 
         map.addSource(sourceId, {
@@ -701,6 +700,7 @@ document.addEventListener("DOMContentLoaded", function () {
         layerType: layer.layerType,
         source: { id: sourceId, type: layer.layerType === "vector_tile" ? "vector" : "raster", tiles: [tileUrl] },
         layer: { id: layerId, type: layer.layerType === "vector_tile" ? "fill" : "raster" },
+        render: layer.layerType === "vector_tile" ? layer.layerConfig.render : null,
         paramsSelectorConfig: layer.paramsSelectorConfig || []
 
       };
@@ -709,7 +709,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     async function getLayerDates(url) {
-      console.log("Fetching layer dates from URL:", url);
       const res = await fetch(url);
       const res_1 = await res.json();
       return res_1.timestamps;
@@ -925,7 +924,6 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        console.log(layer)
         const { tileJsonUrl, getCapabilitiesLayerName, getCapabilitiesUrl, paramsSelectorConfig, layerConfig, currentTimeMethod, legendConfig } = layer;
         let layerDates, tileUrl, layerSetup;
 
@@ -968,6 +966,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // No timestamp fetching
           tileUrl = layer.layerConfig.source.tiles[0];
           layerSetup = getLayerConfig(layer, tileUrl, containerId);
+          console.log(layer)
         }
 
 
