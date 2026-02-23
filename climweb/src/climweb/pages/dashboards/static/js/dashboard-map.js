@@ -625,14 +625,23 @@ document.addEventListener("DOMContentLoaded", function () {
         map.addSource(sourceId, { type: "raster", tiles: [tileUrl], tileSize: 256 });
         map.addLayer({ id: layerId, type: "raster", source: sourceId });
       } else if (layerType === "vector_tile") {
-        console.log("Adding vector tile layer with URL:", tileUrl);
-        map.addSource(sourceId, { type: "vector", tiles: [tileUrl] });
-        map.addLayer({
-          id: layerId,
-          type: "fill",
-          source: sourceId,
-          "source-layer": "default",
-          paint: { "fill-color": "#088", "fill-opacity": 0.6 },
+        const sourceConfig = layerConfig.source;
+
+        map.addSource(sourceId, {
+          type: "vector",
+          tiles: sourceConfig.tiles,
+        });
+
+        const renderLayers = layerConfig.render?.layers || [];
+
+        renderLayers.forEach((renderLayer, index) => {
+          map.addLayer({
+            id: `${layerId}-${index}`,
+            type: renderLayer.type,
+            source: sourceId,
+            "source-layer": renderLayer["source-layer"] || "default",
+            paint: renderLayer.paint || {},
+          });
         });
       }
       if (map.getLayer("admin-boundary-line") && map.getLayer("admin-boundary-line-2")) {
@@ -956,24 +965,9 @@ document.addEventListener("DOMContentLoaded", function () {
           layerSetup = getLayerConfig(layer, tileUrl, containerId);
 
         } else if (layerType === "vector_tile") {
-          const sourceConfig = layerConfig.source;
-
-          map.addSource(sourceId, {
-            type: "vector",
-            tiles: sourceConfig.tiles,
-          });
-
-          const renderLayers = layerConfig.render?.layers || [];
-
-          renderLayers.forEach((renderLayer, index) => {
-            map.addLayer({
-              id: `${layerId}-${index}`,
-              type: renderLayer.type,
-              source: sourceId,
-              "source-layer": renderLayer["source-layer"] || "default",
-              paint: renderLayer.paint || {},
-            });
-          });
+          // No timestamp fetching
+          tileUrl = layer.layerConfig.source.tiles[0];
+          layerSetup = getLayerConfig(layer, tileUrl, containerId);
         }
 
 
