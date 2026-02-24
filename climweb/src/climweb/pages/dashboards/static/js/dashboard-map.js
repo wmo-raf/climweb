@@ -310,27 +310,28 @@ document.addEventListener("DOMContentLoaded", function () {
               else if (pentad === '6') day = '26';
               isoDateTime = `${year}-${month}-${day}T00:00:00.000Z`;
             } else {
+
+              console.log("Selected date:", selectedDate);
+
               const timeSelectEl = document.querySelector(`#maptime-${containerId}`);
-              if (!timeSelectEl) return;
+              const selectedTime = timeSelectEl ? timeSelectEl.value : null;
 
-              const selectedTime = timeSelectEl.value;
-              if (!selectedTime) return;
-              // Combine date and time into a single ISO string
-              const [hours, minutes] = selectedTime.split(":").map(Number);
+              // Default to midnight if no time selector
+              const [hours, minutes] = selectedTime
+                ? selectedTime.split(":").map(Number)
+                : [0, 0];
 
-              // Build a NEW local date (do not mutate original picker date)
-              const localDate = new Date(
-                selectedDate.getFullYear(),
-                selectedDate.getMonth(),
-                selectedDate.getDate(),
-                hours || 0,
-                minutes || 0,
-                0,
-                0
-              );
+              const year = selectedDate.getFullYear();
+              const month = selectedDate.getMonth(); // already 0-based
+              const day = selectedDate.getDate();
 
-              // Convert to UTC ISO string
-              isoDateTime = localDate.toISOString();
+              // 🔥 Create UTC date directly
+              const utcDate = new Date(Date.UTC(year, month, day, hours, minutes, 0, 0));
+
+              isoDateTime = utcDate.toISOString();
+
+              console.log("UTC date:", utcDate, "=> ISO string:", isoDateTime);
+
             }
             updateMapLayerWithDate(containerId, isoDateTime);
           }
@@ -623,7 +624,6 @@ document.addEventListener("DOMContentLoaded", function () {
         map.addSource(sourceId, { type: "raster", tiles: [tileUrl], tileSize: 256 });
         map.addLayer({ id: layerId, type: "raster", source: sourceId });
       } else if (layerType === "vector_tile") {
-        console.log(layerConfig)
         const sourceConfig = layerConfig.source;
 
         map.addSource(sourceId, {
@@ -966,7 +966,6 @@ document.addEventListener("DOMContentLoaded", function () {
           // No timestamp fetching
           tileUrl = layer.layerConfig.source.tiles[0];
           layerSetup = getLayerConfig(layer, tileUrl, containerId);
-          console.log(layer)
         }
 
 
