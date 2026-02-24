@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
 
               console.log("Selected date:", selectedDate);
-
+              
               const timeSelectEl = document.querySelector(`#maptime-${containerId}`);
               const selectedTime = timeSelectEl ? timeSelectEl.value : null;
 
@@ -321,17 +321,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 ? selectedTime.split(":").map(Number)
                 : [0, 0];
 
-              const year = selectedDate.getFullYear();
-              const month = selectedDate.getMonth(); // already 0-based
-              const day = selectedDate.getDate();
+              // Build a NEW local date (do not mutate original picker date)
+              const localDate = new Date(
+                selectedDate.getFullYear(),
+                selectedDate.getMonth(),
+                selectedDate.getDate(),
+                hours || 0,
+                minutes || 0,
+                0,
+                0
+              );
 
-              // 🔥 Create UTC date directly
-              const utcDate = new Date(Date.UTC(year, month, day, hours, minutes, 0, 0));
-
-              isoDateTime = utcDate.toISOString();
-
-              console.log("UTC date:", utcDate, "=> ISO string:", isoDateTime);
-
+              // Convert to UTC ISO string
+              isoDateTime = localDate.toISOString();
+              console.log("Combined local date and time:", localDate, "=> ISO string:", isoDateTime);
             }
             updateMapLayerWithDate(containerId, isoDateTime);
           }
