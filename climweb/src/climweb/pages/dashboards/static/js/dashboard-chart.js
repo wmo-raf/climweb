@@ -15,6 +15,8 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
     let dpFormat = "yyyy-mm-dd";
     let displayFormat = "yyyy-MM-dd"; // Default display format
     let pickLevel = 0;
+    let isDekadal = false;
+    let isPentadal = false;
     switch (dateFormat) {
         case "yyyy":
             dpFormat = "yyyy";
@@ -27,6 +29,18 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
             displayFormat = "yyyy-MM";
             pickLevel = 1;
             break;
+        case "dekadal":
+            dpFormat = "yyyy-mm";
+            displayFormat = "yyyy-MM";
+            pickLevel = 1;
+            isDekadal = true;
+            break;
+        case "pentadal":
+            dpFormat = "yyyy-mm";
+            displayFormat = "yyyy-MM";
+            pickLevel = 1;
+            isPentadal = true;
+            break;
         case "yyyy-MM-dd":
             dpFormat = "yyyy-mm-dd";
             displayFormat = "yyyy-MM-dd";
@@ -38,6 +52,56 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
         default:
             dpFormat = "yyyy-mm-dd";
             displayFormat = "yyyy-MM-dd";
+    }
+    // Dekadal/pentadal selector UI
+    let startDekadSelectEl, endDekadSelectEl, startPentadSelectEl, endPentadSelectEl;
+    if (isDekadal) {
+        // Dekad dropdowns (1, 2, 3)
+        startDekadSelectEl = document.createElement("select");
+        startDekadSelectEl.id = `dekad-start-${id}`;
+        startDekadSelectEl.className = "dekad-select input is-small";
+        [1, 2, 3].forEach(d => {
+            const opt = document.createElement("option");
+            opt.value = d;
+            opt.text = `Dekad ${d}`;
+            startDekadSelectEl.appendChild(opt);
+        });
+        startInputEl.parentNode.insertBefore(startDekadSelectEl, startInputEl.nextSibling);
+
+        endDekadSelectEl = document.createElement("select");
+        endDekadSelectEl.id = `dekad-end-${id}`;
+        endDekadSelectEl.className = "dekad-select input is-small";
+        [1, 2, 3].forEach(d => {
+            const opt = document.createElement("option");
+            opt.value = d;
+            opt.text = `Dekad ${d}`;
+            endDekadSelectEl.appendChild(opt);
+        });
+        endInputEl.parentNode.insertBefore(endDekadSelectEl, endInputEl.nextSibling);
+    }
+    if (isPentadal) {
+        // Pentad dropdowns (1–6)
+        startPentadSelectEl = document.createElement("select");
+        startPentadSelectEl.id = `pentad-start-${id}`;
+        startPentadSelectEl.className = "pentad-select input is-small";
+        [1, 2, 3, 4, 5, 6].forEach(p => {
+            const opt = document.createElement("option");
+            opt.value = p;
+            opt.text = `Pentad ${p}`;
+            startPentadSelectEl.appendChild(opt);
+        });
+        startInputEl.parentNode.insertBefore(startPentadSelectEl, startInputEl.nextSibling);
+
+        endPentadSelectEl = document.createElement("select");
+        endPentadSelectEl.id = `pentad-end-${id}`;
+        endPentadSelectEl.className = "pentad-select input is-small";
+        [1, 2, 3, 4, 5, 6].forEach(p => {
+            const opt = document.createElement("option");
+            opt.value = p;
+            opt.text = `Pentad ${p}`;
+            endPentadSelectEl.appendChild(opt);
+        });
+        endInputEl.parentNode.insertBefore(endPentadSelectEl, endInputEl.nextSibling);
     }
 
     const availableDatesSet = new Set(
@@ -93,10 +157,35 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
         },
     });
 
-    // Set default dates if provided
+    // Set default dates and dekads/pentads if provided
     if (defaultDates && defaultDates.length === 2) {
         startDatepicker.setDate(defaultDates[0]);
         endDatepicker.setDate(defaultDates[1]);
+        if (isDekadal) {
+            // Set default dekad to 1 for both, or infer from date if possible
+            const getDekad = (date) => {
+                const day = new Date(date).getDate();
+                if (day <= 10) return 1;
+                if (day <= 20) return 2;
+                return 3;
+            };
+            startDekadSelectEl.value = getDekad(defaultDates[0]);
+            endDekadSelectEl.value = getDekad(defaultDates[1]);
+        }
+        if (isPentadal) {
+            // Set default pentad to 1 for both, or infer from date if possible
+            const getPentad = (date) => {
+                const day = new Date(date).getDate();
+                if (day <= 5) return 1;
+                if (day <= 10) return 2;
+                if (day <= 15) return 3;
+                if (day <= 20) return 4;
+                if (day <= 25) return 5;
+                return 6;
+            };
+            startPentadSelectEl.value = getPentad(defaultDates[0]);
+            endPentadSelectEl.value = getPentad(defaultDates[1]);
+        }
     }
 
     const updateAvailableTimes = (timeSelectEl, selectedDate, sortOrder='old_to_new') => {
@@ -165,26 +254,51 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
     }
 
     // Format the displayed date to be human-friendly
-    const formatDisplayDate = (date) => {
+    const formatDisplayDate = (date, dekad, pentad) => {
         if (!date) return "";
-        return formatDateTimeJS(date, displayFormat); // Use formatDateTimeJS for human-friendly formatting
+        let base = formatDateTimeJS(date, displayFormat);
+        if (isDekadal && dekad) {
+            base += ` (Dekad ${dekad})`;
+        }
+        if (isPentadal && pentad) {
+            base += ` (Pentad ${pentad})`;
+        }
+        return base;
     };
 
     // Update the input fields with human-friendly dates
     const updateDisplayDates = () => {
         const startDate = startDatepicker.getDate();
         const endDate = endDatepicker.getDate();
-
-        startInputEl.value = formatDisplayDate(startDate);
-        endInputEl.value = formatDisplayDate(endDate);
+        const startDekad = isDekadal ? startDekadSelectEl.value : null;
+        const endDekad = isDekadal ? endDekadSelectEl.value : null;
+        const startPentad = isPentadal ? startPentadSelectEl.value : null;
+        const endPentad = isPentadal ? endPentadSelectEl.value : null;
+        startInputEl.value = formatDisplayDate(startDate, startDekad, startPentad);
+        endInputEl.value = formatDisplayDate(endDate, endDekad, endPentad);
     };
 
     // Handle date changes
     const handleDateChange = () => {
-        const startDate = startDatepicker.getDate();
-        const endDate = endDatepicker.getDate();
+        let startDate = startDatepicker.getDate();
+        let endDate = endDatepicker.getDate();
         const startTime = startTimeSelectEl ? startTimeSelectEl.value : "00:00";
         const endTime = endTimeSelectEl ? endTimeSelectEl.value : "00:00";
+        let startDekad = isDekadal ? parseInt(startDekadSelectEl.value) : null;
+        let endDekad = isDekadal ? parseInt(endDekadSelectEl.value) : null;
+        let startPentad = isPentadal ? parseInt(startPentadSelectEl.value) : null;
+        let endPentad = isPentadal ? parseInt(endPentadSelectEl.value) : null;
+
+        if (isDekadal) {
+            // Set the date to the first day of the dekad
+            if (startDate) startDate = new Date(startDate.getFullYear(), startDate.getMonth(), (startDekad - 1) * 10 + 1);
+            if (endDate) endDate = new Date(endDate.getFullYear(), endDate.getMonth(), (endDekad - 1) * 10 + 1);
+        }
+        if (isPentadal) {
+            // Set the date to the first day of the pentad
+            if (startDate) startDate = new Date(startDate.getFullYear(), startDate.getMonth(), (startPentad - 1) * 5 + 1);
+            if (endDate) endDate = new Date(endDate.getFullYear(), endDate.getMonth(), (endPentad - 1) * 5 + 1);
+        }
 
         if (startDate && endDate) {
             // Combine date and time into a single ISO string
@@ -201,22 +315,22 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
             }
 
             // Trigger the onChange callback with the selected date range
-            // onChange && onChange([startDate, endDate]);
             onChange([startDate, endDate]);
         }
-
-
-        
-
         updateDisplayDates();
-
-
     };
 
-    // Add event listeners for date changes
+    // Add event listeners for date, dekad, and pentad changes
     startInputEl.addEventListener("changeDate", handleDateChange);
     endInputEl.addEventListener("changeDate", handleDateChange);
-
+    if (isDekadal) {
+        startDekadSelectEl.addEventListener("change", handleDateChange);
+        endDekadSelectEl.addEventListener("change", handleDateChange);
+    }
+    if (isPentadal) {
+        startPentadSelectEl.addEventListener("change", handleDateChange);
+        endPentadSelectEl.addEventListener("change", handleDateChange);
+    }
     if (startTimeSelectEl) startTimeSelectEl.addEventListener("change", handleDateChange);
     if (endTimeSelectEl) endTimeSelectEl.addEventListener("change", handleDateChange);
 
