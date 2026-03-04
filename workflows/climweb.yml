@@ -1,0 +1,34 @@
+name: Release Build Climweb
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          build-args: |
+            CLIMWEB_VERSION=${{ github.ref_name }}
+          tags: |
+            ghcr.io/wmo-raf/climweb:${{ github.ref_name }}
+            ghcr.io/wmo-raf/climweb:{{latest}}
