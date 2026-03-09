@@ -67,16 +67,30 @@
                     {% endif %}
                     {% if page.call_to_action_button_text %}
                         {% if page.call_to_action_related_page %}
-                            {% if page.call_to_action_related_page %}
-                                <a class="button is-dark has-text-white"
-                                   style=" font-weight: 600; border-radius: var(--border-radius);"
-                                   href="{{ page.call_to_action_related_page.url }}">
-                                    <span>{{ page.call_to_action_button_text }}</span>
-                                    <span class="icon btn-icon">
-                                        {% svg_icon name="arrow-right-full" %}
-                                    </span>
-                                </a>
-                            {% endif %}
+                            <a class="button is-dark has-text-white"
+                               style=" font-weight: 600; border-radius: var(--border-radius); margin-right: 10px;"
+                               href="{{ page.call_to_action_related_page.url }}">
+                                <span>{{ page.call_to_action_button_text }}</span>
+                                <span class="icon btn-icon is-small">
+                                    {% svg_icon name="arrow-right-full" %}
+                                </span>
+                            </a>
+                        {% endif %}
+                        {% if page.call_to_action_button_text_2 and page.call_to_action_related_page_2 %}
+                            <a class="button is-dark has-text-white"
+                               style=" font-weight: 600; border-radius: var(--border-radius); margin-right: 10px;"
+                               href="{{ page.call_to_action_related_page_2.url }}">
+                                <span>{{ page.call_to_action_button_text_2 }}</span>
+                            
+                            </a>
+                        {% endif %}
+                        {% if page.call_to_action_button_text_3 and page.call_to_action_related_page_3 %}
+                            <a class="button is-dark has-text-white"
+                               style=" font-weight: 600; border-radius: var(--border-radius);"
+                               href="{{ page.call_to_action_related_page_3.url }}">
+                                <span>{{ page.call_to_action_button_text_3 }}</span>
+                               
+                            </a>
                         {% endif %}
                     {% endif %}
                 </div>

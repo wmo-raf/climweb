@@ -134,7 +134,6 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "django_recaptcha",
     'wagtailcaptcha',
-    "bulma",
     "mailchimp3",
     "manifest_loader",
     "django_tables2",
