@@ -77,6 +77,8 @@
             color: #fff;
             margin-right: 20px;
             text-shadow: 0px 1px 10px #333;
+            display: flex;
+            align-items: center;
         }
 
         .forecast-widget .city-name .icon {
@@ -296,8 +298,8 @@
         <div class="columns is-multiline is-mobile">
             <div class="column is-half-desktop is-full-mobile">
                 <div class="city-name">
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-location-dot"></i>
+                    <span class="icon">
+                    {% svg_icon "location" %}
                     </span>
                     {% if city_detail_page_url %}
                         <a class="detail-link" href="{{ city_detail_page_url }}">
@@ -315,8 +317,8 @@
                     <span>
                         {% translate "Detail" %}
                     </span>
-                        <span class="icon is-small">
-                        <i class="fas fa-arrow-trend-up"></i>
+                        <span class="icon is-right is-small">
+                    {% svg_icon "info-circle" %}
                     </span>
                     </a>
                 </div>
