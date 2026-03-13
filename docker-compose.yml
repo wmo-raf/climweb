@@ -72,7 +72,7 @@ services:
     restart: no
     build:
       context: .
-      dockerfile: ./climweb/Dockerfile
+      dockerfile: Dockerfile
       target: dev
       args:
         - UID=${UID}

@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path, re_path
+from rest_framework.authtoken.views import obtain_auth_token
 from forecastmanager import urls as forecastmanager_urls
 from wagtail import views as wagtail_views
 from wagtail.admin import urls as wagtailadmin_urls
@@ -50,6 +51,7 @@ urlpatterns = [
     path("api/satellite-imagery/", include("climweb.pages.satellite_imagery.urls")),
     path("api/cityclimate/", include("climweb.pages.cityclimate.urls")),
     path("api/_health/", public_health_check),
+    path("api/token/", obtain_auth_token),
 ]
 
 if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
