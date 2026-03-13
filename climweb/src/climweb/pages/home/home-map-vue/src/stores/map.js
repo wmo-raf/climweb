@@ -28,9 +28,9 @@ export const useMapStore = defineStore('map', {
                 id: "weather-forecast",
                 homeMapLayerType: "fixed",
                 title: "Weather Forecast",
-                position: 2,
-                visible: false,
-                enabled: false,
+                position: 0,
+                visible: true,
+                enabled: true,
                 dateFormat: {
                     currentTime: "yyyy-MM-dd HH:mm",
                 },
@@ -78,6 +78,11 @@ export const useMapStore = defineStore('map', {
     actions: {
         setLoading(isLoading) {
             this.loading = isLoading;
+        },
+        setLayerOpacity(layerId, opacity) {
+            if (this.layers[layerId]) {
+                this.layers[layerId].opacity = opacity;
+            }
         },
         updateLayerState(layerId, enabled) {
             if (this.layers[layerId]) {

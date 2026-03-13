@@ -58,19 +58,7 @@ const popupComponent = shallowRef(null);
 const popupProps = ref({});
 
 
-const activeTimeLayerDates = computed(() => {
-  const activeLayerId = mapStore.activeTimeLayer;
-  return activeLayerId ? mapStore.timeLayerDates[activeLayerId] || [] : [];
-});
 
-const selectedTimeLayerDateIndex = computed(() => {
-  const activeLayerId = mapStore.activeTimeLayer;
-  return activeLayerId ? mapStore.selectedTimeLayerDateIndex[activeLayerId] || 0 : 0;
-});
-
-const selectedDate = computed(() => {
-  return activeTimeLayerDates.value[selectedTimeLayerDateIndex.value];
-});
 
 
 // Fetch map settings from API
@@ -282,20 +270,17 @@ const initializeMapLayers = async (mapSettings) => {
         "enabled": true,
         "icon": layer.icon ? `icon-${layer.icon}` : "icon-layers",
         dateFormat: dateFormat,
+        opacity: 1.0
       }
 
       handleDynamicLayer(mapStoreLayer)
+      const defaultDynamicLayer = dynamicMapLayers.find(layer => layer.show_by_default)
+
+      if (defaultDynamicLayer) {
+        toggleDynamicLayer(defaultDynamicLayer.id, true)
+        mapStore.updateLayerVisibility(defaultDynamicLayer.id, true)
+      }
     })
-
-    const defaultDynamicLayer = dynamicMapLayers.find(layer => layer.show_by_default)
-
-    // if we have a default dynamic layer and warnings/locationForecast not enabled,
-    // activate it
-    if (defaultDynamicLayer && !showWarningsLayer && !showLocationForecastLayer) {
-      toggleDynamicLayer(defaultDynamicLayer.id, true)
-      mapStore.setActiveTimeLayer(defaultDynamicLayer.id)
-      mapStore.updateLayerVisibility(defaultDynamicLayer.id, true)
-    }
   }
 };
 
@@ -472,26 +457,74 @@ const setCityForecastData = (apiResponse) => {
   const {multi_period: isMultiPeriod, data: apiForecastData} = apiResponse
   forecastData.value = apiForecastData
 
-  const now = new Date()
-  const dates = apiForecastData.reduce((all, d) => {
-    const dObj = new Date(d.datetime)
-    if (!(isMultiPeriod && dObj.toDateString() === now.toDateString() && dObj.getHours() < now.getHours())) {
-      all.push(d.datetime)
-    }
-    return all
-  }, [])
+  const nowTime = Date.now();
 
-  mapStore.setActiveTimeLayer("weather-forecast")
+const dates = apiForecastData
+  .map(d => d.datetime)
+  .filter(dt => new Date(dt).getTime() >= nowTime)
+  .sort((a,b) => new Date(a) - new Date(b));
+
+
   mapStore.setSelectedTimeLayerDateIndex("weather-forecast", 0)
   mapStore.setTimeLayerDates("weather-forecast", dates)
-}
 
-const updateMapCityForecastData = (date) => {
-  const selectedDateData = forecastData.value.find(d => d.datetime === date)
-  if (selectedDateData) {
-    map.getSource("weather-forecast").setData(selectedDateData)
+  if (dates.length) {
+    updateMapCityForecastData(dates[0]);
   }
 }
+
+const handleLayerOpacityChange = ({ layerId, opacity }) => {
+
+  mapStore.setLayerOpacity(layerId, opacity);
+
+  const layer = mapStore.getLayerById(layerId);
+  if (!layer) return;
+
+  const { layerType, mapLayerConfig } = layer;
+
+  if (layerType === "raster_file" || layerType === "wms") {
+    if (map.getLayer(layerId)) {
+      map.setPaintProperty(layerId, "raster-opacity", opacity);
+    }
+  }
+
+  if (layerType === "vector_tile") {
+    const { layers } = mapLayerConfig;
+    layers?.forEach(l => {
+      if (map.getLayer(l.id)) {
+        if (l.type === "fill") {
+          map.setPaintProperty(l.id, "fill-opacity", opacity);
+        }
+        if (l.type === "line") {
+          map.setPaintProperty(l.id, "line-opacity", opacity);
+        }
+        if (l.type === "circle") {
+          map.setPaintProperty(l.id, "circle-opacity", opacity);
+        }
+      }
+    });
+  }
+};
+
+
+const updateMapCityForecastData = (date) => {
+
+  if (!date) return;
+
+  const selectedDateTime = new Date(date).getTime();
+
+  const selectedDateData = forecastData.value.find(d =>
+    new Date(d.datetime).getTime() === selectedDateTime
+  );
+
+  if (selectedDateData) {
+    const source = map.getSource("weather-forecast");
+    if (source) {
+      source.setData(selectedDateData);
+    }
+  }
+};
+
 
 const handleDynamicLayer = (layer) => {
   const {layerType} = layer
@@ -653,43 +686,46 @@ const toggleBaseMapChooser = (event) => {
 };
 
 const handleLayerToggle = ({layerId, visible}) => {
+
   mapStore.updateLayerVisibility(layerId, visible);
-
   const layer = mapStore.getLayerById(layerId);
+  const {homeMapLayerType} = layer;
 
-  const {homeMapLayerType} = layer
-
-  // turn on/off fixed layer
+  // FIXED LAYERS (forecast, warnings, boundaries)
   if (homeMapLayerType === "fixed" && map.getLayer(layerId)) {
     map.setLayoutProperty(layerId, "visibility", visible ? "visible" : "none");
+    return;
   }
 
-  // handle time layers
-  if (layer.multiTemporal) {
-    if (visible) {
-      // if we have an active time layer, switch it off
-      if (mapStore.activeTimeLayer) {
-        mapStore.updateLayerVisibility(mapStore.activeTimeLayer, false)
-
-        if (map.getLayer(mapStore.activeTimeLayer)) {
-          map.setLayoutProperty(mapStore.activeTimeLayer, "visibility", "none");
-        }
-
-        // remove source and layer from map
-        if (mapStore.activeTimeLayer !== "weather-forecast") {
-          toggleDynamicLayer(mapStore.activeTimeLayer, false)
-        }
-      }
-      mapStore.setActiveTimeLayer(layerId)
-    } else {
-      mapStore.setActiveTimeLayer(null)
-    }
-  }
-
+  // DYNAMIC LAYERS
   if (homeMapLayerType === "dynamic") {
-    toggleDynamicLayer(layerId, visible)
+    toggleDynamicLayer(layerId, visible);
   }
 };
+
+const handleLayerTimeChange = ({layerId, newDate}) => {
+
+  const layer = mapStore.getLayerById(layerId);
+  if (!layer) return;
+
+  const dates = mapStore.timeLayerDates[layerId] || [];
+  const newIndex = dates.indexOf(newDate);
+
+  if (newIndex !== -1) {
+    mapStore.setSelectedTimeLayerDateIndex(layerId, newIndex);
+  }
+
+  // Forecast layer
+  if (layerId === "weather-forecast") {
+    updateMapCityForecastData(newDate);
+    return;
+  }
+
+  // Dynamic layers
+  handleDynamicLayerTimeChange(layer, newDate);
+};
+
+
 
 const handleDynamicLayerTimeChange = (layer, newDateStr) => {
   const {layerType, mapLayerConfig, paramsSelectorConfig} = layer
@@ -819,24 +855,6 @@ watch(() => mapStore.selectedApiBaseMap, (newSelectedApiBaseMapId) => {
 });
 
 
-watch(selectedDate, (newSelectedDate) => {
-  const activeLayerId = mapStore.activeTimeLayer;
-
-  if (activeLayerId) {
-    const layer = mapStore.getLayerById(activeLayerId)
-    const {homeMapLayerType} = layer
-
-
-    if (homeMapLayerType === "fixed") {
-      if (activeLayerId === "weather-forecast") {
-        updateMapCityForecastData(newSelectedDate)
-      }
-    } else {
-      handleDynamicLayerTimeChange(layer, newSelectedDate)
-    }
-  }
-});
-
 watch(() => mapStore.selectedBasemap, (newBasemap) => {
   const mapStyle = map.getStyle()
   const backgroundLayers = mapStyle.layers.filter(layer => layer.metadata && layer.metadata["mapbox:groups"] === "background")
@@ -903,39 +921,42 @@ onUnmounted(() => map?.remove());
 
   <!-- Fixed Layers -->
   <div class="fixed-layer-control">
-    <LayerItem
-        v-for="layer in mapStore.sortedFixedLayers"
-        :key="layer.id"
-        :title="layer.title"
-        :enabled="layer.enabled"
-        :visible="layer.visible"
-        :home-map-layer-type="layer.homeMapLayerType"
-        :position="layer.position"
-        :id="layer.id"
-        :icon="layer.icon"
-        @update:toggleLayer="handleLayerToggle"
+      <LayerItem
+      v-for="layer in mapStore.sortedFixedLayers"
+      :key="layer.id"
+      :title="layer.title"
+      :enabled="layer.enabled"
+      :visible="layer.visible"
+      :home-map-layer-type="layer.homeMapLayerType"
+      :position="layer.position"
+      :id="layer.id"
+      :icon="layer.icon"
+      :multiTemporal="layer.multiTemporal"
+      @update:toggleLayer="handleLayerToggle"
+      @update:timeChange="handleLayerTimeChange"
+      @update:opacity="handleLayerOpacityChange"
     />
   </div>
 
   <div class="dynamic-layer-control">
     <LayerItem
-        v-for="layer in mapStore.sortedDynamicLayers"
-        :key="layer.id"
-        :title="layer.title"
-        :enabled="layer.enabled"
-        :visible="layer.visible"
-        :home-map-layer-type="layer.homeMapLayerType"
-        :position="layer.position"
-        :id="layer.id"
-        :icon="layer.icon"
-        @update:toggleLayer="handleLayerToggle"
+      v-for="layer in mapStore.sortedDynamicLayers"
+      :key="layer.id"
+      :title="layer.title"
+      :enabled="layer.enabled"
+      :visible="layer.visible"
+      :home-map-layer-type="layer.homeMapLayerType"
+      :position="layer.position"
+      :id="layer.id"
+      :icon="layer.icon"
+      :multiTemporal="layer.multiTemporal"
+      @update:toggleLayer="handleLayerToggle"
+      @update:timeChange="handleLayerTimeChange"
+      @update:opacity="handleLayerOpacityChange"
     />
+
   </div>
 
-  <!-- Date Navigator -->
-  <div class="date-navigator-control">
-    <DateNavigator/>
-  </div>
 
   <div class="legend-control">
     <Legend/>

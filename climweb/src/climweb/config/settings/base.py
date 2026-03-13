@@ -114,6 +114,7 @@ INSTALLED_APPS = [
     
     "modelcluster",
     "rest_framework",
+    "rest_framework.authtoken",
     'rest_framework_xml',
     "taggit",
     "corsheaders",
@@ -134,7 +135,6 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "django_recaptcha",
     'wagtailcaptcha',
-    "bulma",
     "mailchimp3",
     "manifest_loader",
     "django_tables2",
@@ -300,6 +300,9 @@ REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
     # ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
     ),

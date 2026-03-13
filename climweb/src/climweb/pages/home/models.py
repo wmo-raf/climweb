@@ -104,6 +104,28 @@ class HomePage(MetadataPageMixin, Page):
         related_name='+',
         verbose_name=_('Call to action related page')
     )
+
+    call_to_action_button_text_2 = models.CharField(max_length=100, blank=True, null=True,
+                                                   verbose_name=_('Call to action button text 2'))
+    call_to_action_related_page_2 = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_('Call to action related page 2')
+    )
+
+    call_to_action_button_text_3 = models.CharField(max_length=100, blank=True, null=True,
+                                                   verbose_name=_('Call to action button text 3'))
+    call_to_action_related_page_3 = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_('Call to action related page 3')
+    )
     
     show_city_forecast = models.BooleanField(default=True, verbose_name=_("Show city forecast section"))
     
@@ -141,7 +163,11 @@ class HomePage(MetadataPageMixin, Page):
         MultiFieldPanel([
             FieldPanel('call_to_action_button_text'),
             FieldPanel('call_to_action_related_page'),
-        ], heading=_("Banner Call to Action Button")),
+            FieldPanel('call_to_action_button_text_2'),
+            FieldPanel('call_to_action_related_page_2'),
+            FieldPanel('call_to_action_button_text_3'),
+            FieldPanel('call_to_action_related_page_3'),
+        ], heading=_("Banner Call to Action Buttons")),
         MultiFieldPanel([
             FieldPanel('show_city_forecast'),
         ], heading=_("City Forecast Section")),
@@ -157,10 +183,9 @@ class HomePage(MetadataPageMixin, Page):
         ], heading=_("Media Section")),
         MultiFieldPanel([
             FieldPanel('feature_block'),
-        
         ], heading=_("Addditional Information")),
-    
     ]
+    
     
     class Meta:
         verbose_name = _("Home Page")

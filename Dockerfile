@@ -5,9 +5,9 @@
 FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.0 as base
 
 ARG UID
-ENV UID=${UID:-9999}
+ENV UID=${UID:-1001}
 ARG GID
-ENV GID=${GID:-9999}
+ENV GID=${GID:-1001}
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -61,10 +61,14 @@ RUN apt-get update \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOCKER_COMPOSE_WAIT_VERSION=2.12.1
+# install docker-compose wait
+ARG DOCKER_COMPOSE_WAIT_VERSION
+ENV DOCKER_COMPOSE_WAIT_VERSION=${DOCKER_COMPOSE_WAIT_VERSION:-2.12.1}
+ARG DOCKER_COMPOSE_WAIT_PLATFORM_SUFFIX
+ENV DOCKER_COMPOSE_WAIT_PLATFORM_SUFFIX=${DOCKER_COMPOSE_WAIT_PLATFORM_SUFFIX:-}
 
 # Install docker-compose wait
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$DOCKER_COMPOSE_WAIT_VERSION/wait /wait
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$DOCKER_COMPOSE_WAIT_VERSION/wait${DOCKER_COMPOSE_WAIT_PLATFORM_SUFFIX} /wait
 RUN chmod +x /wait
 
 # Create directories and set correct permissions

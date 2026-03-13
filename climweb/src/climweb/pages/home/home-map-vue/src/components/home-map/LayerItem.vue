@@ -1,86 +1,112 @@
 <script setup>
-
-import {ref, watch} from "vue";
-
+import { ref, watch, computed } from "vue";
+import { useMapStore } from "@/stores/map";
+import DateNavigator from "./DateNavigator.vue";
 
 const props = defineProps({
-  id: {
-    type: String,
-    required: true
-  },
-  homeMapLayerType: {
-    type: String,
-    required: true
-  },
-  position: {
-    type: Number,
-    required: true
-  },
-  title: {
-    type: String,
-    required: true
-  },
-  icon: {
-    type: String,
-    required: false
-  },
-  enabled: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  visible: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  multiTemporal: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
+  id: { type: String, required: true },
+  homeMapLayerType: { type: String, required: true },
+  position: { type: Number, required: true },
+  title: { type: String, required: true },
+  icon: { type: String, required: false },
+  enabled: { type: Boolean, default: false },
+  visible: { type: Boolean, default: false },
+  multiTemporal: { type: Boolean, default: false }
 });
 
-const emit = defineEmits(['update:toggleLayer']);
+const emit = defineEmits([
+  "update:toggleLayer",
+  "update:timeChange",
+  "update:opacity"
+]);
+
+const onOpacityChange = (event) => {
+  emit("update:opacity", {
+    layerId: props.id,
+    opacity: parseFloat(event.target.value)
+  });
+};
+
+
+const mapStore = useMapStore();
+
 const isVisible = ref(props.visible);
 const isEnabled = ref(props.enabled);
 
+watch(() => props.visible, val => isVisible.value = val);
+watch(() => props.enabled, val => isEnabled.value = val);
 
-watch(
-    () => props.visible,
-    (newVisibleValue) => {
-      isVisible.value = newVisibleValue;
-    }
+const dates = computed(() =>
+  mapStore.timeLayerDates[props.id] || []
 );
 
-watch(
-    () => props.enabled,
-    (newEnabledValue) => {
-      isEnabled.value = newEnabledValue;
-    }
+const selectedIndex = computed(() =>
+  mapStore.selectedTimeLayerDateIndex[props.id] || 0
 );
 
 const onToggle = () => {
   isVisible.value = !isVisible.value;
-  emit('update:toggleLayer', {layerId: props.id, visible: isVisible.value});
+  emit("update:toggleLayer", {
+    layerId: props.id,
+    visible: isVisible.value
+  });
 };
 
+const handleTimeChange = (newDate) => {
+  emit("update:timeChange", {
+    layerId: props.id,
+    newDate
+  });
+};
 </script>
 
+
 <template>
-  <div v-if="isEnabled" class="layer-control" :class="{ active: visible}" @click="onToggle">
-    <div class="layer-icon">
-      <svg>
-        <use :xlink:href="icon ? `#${icon}` : '#icon-layers'"></use>
-      </svg>
+  <div v-if="isEnabled" class="layer-wrapper">
+
+    <!-- Toggle -->
+    <div
+      class="layer-control"
+      :class="{ active: isVisible }"
+      @click="onToggle"
+    >
+      <div class="layer-icon">
+        <svg>
+          <use :xlink:href="icon ? `#${icon}` : '#icon-layers'"></use>
+        </svg>
+      </div>
+
+      <div class="layer-title">
+        {{ title }}
+      </div>
     </div>
-    <div class="layer-title">
-      {{ title }}
-    </div>
+
+    <!-- Date Navigator -->
+    <DateNavigator
+      v-if="multiTemporal && isVisible && dates.length"
+      :layerId="id"
+      :dates="dates"
+      :selectedIndex="selectedIndex"
+      :dateFormat="mapStore.getLayerById(id)?.dateFormat"
+      @change="handleTimeChange"
+    />
+
+    <input
+      v-if="homeMapLayerType === 'dynamic' && isVisible"
+      type="range"
+      min="0"
+      max="1"
+      step="0.05"
+      :value="mapStore.getLayerById(id)?.opacity ?? 1"
+      @input="onOpacityChange"
+      class="opacity-slider"
+    />
+
 
 
   </div>
 </template>
+
 
 <style scoped>
 
@@ -135,6 +161,19 @@ const onToggle = () => {
 
 .layer-title {
   padding-left: 12px;
+}
+
+.layer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.opacity-slider {
+  width: 100%;
+    accent-color: var(--primary-color);
+    height: 4px;
+
 }
 
 
