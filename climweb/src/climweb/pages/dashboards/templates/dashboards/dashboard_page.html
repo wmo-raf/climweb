@@ -12,6 +12,299 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
 <link rel="stylesheet" href="{% static 'css/maplibre-gl-compare.css' %}" type="text/css" />
 
+<style>
+/* Hide datepicker input fields in chart sections */
+.params,
+.chart-params,
+.date-params,
+input[type="text"][placeholder="Start Date"],
+input[type="text"][placeholder="End Date"],
+.datepicker-input,
+.chart-container .params,
+.multivariable-chart .params {
+    display: none !important;
+}
+
+/* Navigation tags mobile horizontal scroll */
+@media screen and (max-width: 768px) {
+    .navigation-section .section-topics {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.5rem;
+    }
+
+    .navigation-section .section-topics::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .navigation-section .section-topics::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+    }
+
+    .navigation-section .section-topics a {
+        display: inline-block;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .navigation-section .section-topics {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+}
+
+/* Sticky navbar across all devices */
+nav.navbar,
+header.navbar,
+.navbar,
+nav[role="navigation"],
+header[role="banner"],
+body > nav,
+body > header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1030 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    width: 100% !important;
+}
+
+/* Ensure sticky navbar doesn't get hidden by transforms */
+nav.navbar::before,
+header.navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Adjust body and main content to prevent overlap */
+body {
+    padding-top: 0 !important;
+}
+
+main {
+    padding-top: 0;
+}
+
+main > section:first-of-type,
+main > .hero:first-child {
+    margin-top: 0;
+}
+
+/* Fix footer button mobile responsiveness */
+@media screen and (max-width: 768px) {
+    /* Make footer buttons responsive on mobile */
+    footer .button.is-small,
+    .footer .button.is-small,
+    .button.is-small.is-black.is-inverted.is-outlined.is-rounded {
+        white-space: normal !important;
+        height: auto !important;
+        min-height: 2.5em;
+        padding: 0.5em 0.75em !important;
+        font-size: 0.75rem !important;
+        line-height: 1.3 !important;
+        text-align: center;
+        word-wrap: break-word;
+        display: inline-block;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Ensure footer columns don't overflow */
+    footer .column,
+    .footer .column {
+        overflow-x: hidden;
+        word-wrap: break-word;
+    }
+
+    /* Fix footer container to prevent horizontal scroll */
+    footer .columns.is-mobile,
+    .footer .columns.is-mobile {
+        overflow-x: hidden;
+    }
+}
+
+/* Professional Table Styling - Mobile Fully Responsive */
+/* Target ANY table in the indicators section */
+.responsive-table-wrapper,
+.feature-block-section .table-wrapper,
+.feature-block-section > .container > div:has(table) {
+    position: relative;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f7fafc;
+    width: 100%;
+    margin: 0;
+    display: block;
+}
+
+.professional-table,
+.feature-block-section table {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Center align all table cells */
+.professional-table th,
+.professional-table td,
+.feature-block-section table th,
+.feature-block-section table td {
+    text-align: center !important;
+    vertical-align: middle;
+    padding: 12px 8px;
+}
+
+/* Desktop - keep first column sticky */
+@media screen and (min-width: 769px) {
+    .professional-table th:first-child,
+    .professional-table td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 10;
+        background-color: #fff;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+        text-align: left !important;
+        padding-left: 16px !important;
+    }
+
+    .professional-table thead th:first-child {
+        z-index: 11;
+        background-color: #f5f5f5;
+    }
+}
+
+/* Mobile - COMPLETELY RESPONSIVE */
+@media screen and (max-width: 768px) {
+    /* Ensure body doesn't scroll horizontally */
+    body {
+        overflow-x: hidden !important;
+    }
+
+    /* Table container - full width within viewport - TARGET ALL TABLES */
+    .responsive-table-wrapper,
+    .table-scroll-wrapper,
+    .feature-block-section .container > div:has(table) {
+        overflow-x: auto !important;
+        max-width: 100vw;
+        margin: 0;
+        padding: 0;
+        display: block;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .professional-table,
+    .feature-block-section table {
+        font-size: 0.7rem;
+        width: 100%;
+        min-width: 700px !important;
+        table-layout: auto;
+    }
+
+    /* Sticky first column on mobile - INDICATOR COLUMN stays visible */
+    .professional-table th:first-child,
+    .professional-table td:first-child,
+    .feature-block-section table th:first-child,
+    .feature-block-section table td:first-child {
+        position: sticky !important;
+        left: 0 !important;
+        z-index: 10 !important;
+        background-color: #ffffff !important;
+        box-shadow: 3px 0 8px rgba(0, 0, 0, 0.15) !important;
+        min-width: 90px;
+        max-width: 90px;
+        width: 90px;
+        font-weight: 700;
+        text-align: left !important;
+        padding: 8px !important;
+    }
+
+    .professional-table thead th:first-child,
+    .feature-block-section table thead th:first-child {
+        z-index: 11 !important;
+        background-color: #f5f5f5 !important;
+        font-weight: 700;
+    }
+
+    /* Other columns - compact but readable */
+    .professional-table th:not(:first-child),
+    .professional-table td:not(:first-child),
+    .feature-block-section table th:not(:first-child),
+    .feature-block-section table td:not(:first-child) {
+        padding: 6px 4px;
+        white-space: nowrap;
+        min-width: 65px;
+    }
+
+    /* Header row */
+    .professional-table thead th,
+    .feature-block-section table thead th {
+        background-color: #f5f5f5;
+        font-weight: 600;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+    }
+
+    /* Scroll hint */
+    .table-scroll-hint {
+        font-size: 0.75rem;
+        padding: 8px 12px;
+    }
+}
+
+/* Navbar logo spacing - professional look */
+.navbar-brand {
+    padding-left: 1rem !important;
+}
+
+.navbar-brand .mobile-logo,
+.navbar-brand a:first-child {
+    padding-left: 0.5rem !important;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-brand {
+        padding-left: 0.75rem !important;
+    }
+    .navbar-brand .mobile-logo img,
+    .navbar-brand img {
+        margin-left: 0.25rem !important;
+    }
+}
+
+/* Navigation tabs - centered on all devices */
+.navigation-section {
+    text-align: center;
+}
+
+.navigation-section .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Use climate change hero image */
+#page-hero {
+    background-image: url('/media/images/climate-banner1.original.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+</style>
 
 {% endblock extra_css %}
 
@@ -19,10 +312,10 @@
     <main class="is-index" style="--banner-background-color: {{ page.banner_background_color }};">
         <div class="hero-header">
             {% image page.banner_image original as banner_img %}
-                <section id="page-hero" class="hero is-small progressive__bg progressive--not-loaded" 
+                <section id="page-hero" class="hero is-small progressive__bg progressive--not-loaded"
                 style="{% if page.banner_image %}background: url({% lazy_image_url banner_img %}) {{page.banner_background_color}};background-repeat:no-repeat; background-size:cover; {% else %} background: {{ page.banner_background_color }}{% endif %} "
                 data-progressive="{{ banner_img.url }}">
-               
+
                     <div class="hero-body is-align-items-center" style="display:flex">
                         <div class="container">
                             <div class="dashboards-li is-align-items-center my-3" style="display:flex; color: #fab72e;  fill:#fab72e">
@@ -31,9 +324,9 @@
                                 </span>
                                 <a href="{{ page.get_parent.url }}" style="color: #fab72e; font-weight:400">
                                     {{ page.get_parent.title }}
-                                </a>  
+                                </a>
                             </div>
-                                
+
                             {% block banner_title %}
                                 <h1 class="title page-title has-text-white"
                                     style="font-weight:300;  color: #ffffff;">
@@ -51,46 +344,48 @@
                             {% endblock %}
                         </div>
                     </div>
-    
+
                 </section>
-                
+
                 {% if page.body %}
-                    {% if page.body|length > 1 %}
-                    <section class="py-3 sticky-section" >
+                    <section class="py-3 navigation-section">
                         <div class="container">
                             <div class="section-topics">
-                                    {% for block in page.body %}
-                                           <a href="#section-{{ forloop.counter }}">
+                                <!-- MapViewer Tag -->
+                                <a href="/mapviewer/">
+                                    <span class="tag px-3 mr-1 mb-2" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">MapViewer</span>
+                                </a>
 
-                                            <span class="tag px-3 mr-1 mb-2" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">{{block.value.section_title|truncatechars:50}}</span>
-                                           </a> 
-                                    {% endfor %}
+                                <!-- StoryMap Tag -->
+                                <a href="https://storymaps.arcgis.com/stories/b5ec34b193794ee49a81c008e41c6671" target="_blank">
+                                    <span class="tag px-3 mr-1 mb-2" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">StoryMap</span>
+                                </a>
 
-                                    {% if page.latest_updates %}
-                                           <a href="#section-latest-updates">
+                                <!-- FAQ Tag (anchor link to FAQ section) -->
+                                <a href="#section-faq">
+                                    <span class="tag px-3 mr-1 mb-2" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600">FAQ</span>
+                                </a>
 
-                                            <span class="tag px-3 mr-1 mb-2 is-dark" style="font-weight:600">{% translate "Latest Updates" %}</span>
-                                           </a> 
-                                    {% endif %}
-
-                                     {% if page.additional_materials %}
-                                           <a href="#section-additional-materials">
-
-                                            <span class="tag px-3 mr-1 mb-2 is-dark" style="font-weight:600">{% translate "Additional Materials" %}</span>
-                                           </a> 
-                                     {% endif %}
+                                <!-- Download Data Tag (triggers modal) -->
+                                <a href="javascript:void(0)" class="js-modal-trigger" data-target="data-request-modal">
+                                    <span class="tag px-3 mr-1 mb-2" style="background-color:{{page.banner_background_color}}; color: white; font-weight:600; cursor: pointer;">Download Data</span>
+                                </a>
                             </div>
                         </div>
                     </section>
-                    {% endif %}
                 {% endif %}
 
                 {% if page.body %}
 
                     {% for block in page.body %}
+                        {% if block.value.section_title == "Frequently Asked Questions" %}
+                            {# Skip FAQ during main loop, will render after Table of Indicators #}
+                        {% else %}
                         <section class="feature-block-section py-6" id="section-{{ forloop.counter }}">
                             <div class="container">
-                            <h1 class="my-4" style="color:{{page.banner_background_color}}">{{ block.value.section_title }}</h1>
+                            {% if forloop.counter != 1 %}
+                            <h1 class="my-4" style="color:{{page.banner_background_color}}; font-weight: bold;">{{ block.value.section_title }}</h1>
+                            {% endif %}
 
                             {% for item in block.value.content %}
                                 {% if item.block_type == 'title_only' %}
@@ -120,6 +415,46 @@
                             {% endfor %}
                             </div>
                         </section>
+
+                        {# After Table of Indicators, render FAQ #}
+                        {% if block.value.section_title == "Table of Indicators" %}
+                            {% for faq_block in page.body %}
+                                {% if faq_block.value.section_title == "Frequently Asked Questions" %}
+                                    <section class="feature-block-section py-6" id="section-faq">
+                                        <div class="container">
+                                        <h1 class="my-4" style="color:{{page.banner_background_color}}; font-weight: bold;">{{ faq_block.value.section_title }}</h1>
+
+                                        {% for item in faq_block.value.content %}
+                                            {% if item.block_type == 'title_only' %}
+                                                {% include_block item %}
+                                            {% elif item.block_type == 'text_only' %}
+                                                {% include_block item %}
+                                            {% elif item.block_type == 'title_text' %}
+                                                {% include_block item %}
+                                            {% elif item.block_type == 'title_text_image' %}
+                                                {% include_block item %}
+                                            {% elif item.block_type == 'accordion' %}
+                                            <div class="accordion-container my-5">
+                                                {% include_block item %}
+                                            </div>
+                                            {% elif item.block_type == 'singlevariable_chart' %}
+                                                {% include_block item with section=forloop.parentloop.counter counter=forloop.counter%}
+                                            {% elif item.block_type == 'multivariable_chart' %}
+                                                {% include_block item with section=forloop.parentloop.counter counter=forloop.counter%}
+                                            {% elif item.block_type == 'map' %}
+                                                {% include_block item with section=forloop.parentloop.counter counter=forloop.counter %}
+                                            {% elif item.block_type == 'table' %}
+                                                {% include_block item %}
+                                            {% elif item.block_type == 'what_we_do' %}
+                                                {% include_block item with theme=page.banner_background_color %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </div>
+                                    </section>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% endif %}
                     {% endfor %}
 
                      {% if page.additional_materials %}
@@ -174,26 +509,584 @@
                         </section>
                     {% endif %}
 
-                    
 
-                {% endif %}  
+
+                {% endif %}
 
             </div>
-        
+
     </main>
+
+    <!-- Include Download Data Modal -->
+    {% include "../data_request_modal.html" %}
+
 {% endblock content %}
 
 {% block extra_js %}
-    <script type"text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
-    <script type"text/javascript" src="{% static 'js/d3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
+
+    <!-- Intercept map creation to make maps globally accessible -->
+    <script>
+    (function() {
+        // Create global mapInstances object before dashboard-map.js loads
+        window.mapInstances = window.mapInstances || {};
+
+        // Store original Map constructor
+        const OriginalMap = maplibregl.Map;
+
+        // Wrap the Map constructor to capture all created maps
+        maplibregl.Map = function(options) {
+            console.log('[MAP INTERCEPT] Creating map with container:', options.container);
+            const map = new OriginalMap(options);
+
+            // Store in global mapInstances
+            window.mapInstances[options.container] = map;
+            console.log('[MAP INTERCEPT] Stored map globally:', options.container);
+
+            return map;
+        };
+
+        // Preserve prototype
+        maplibregl.Map.prototype = OriginalMap.prototype;
+    })();
+    </script>
+
+    <script type="text/javascript" src="{% static 'js/d3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
     <script src="{% static 'js/datepicker.min.js' %}"></script>
     <script src="{% static 'js/date-utils.js' %}"></script>
     <script src="{% static 'js/maplibre-gl-compare.js' %}"></script>
-    <script type"text/javascript" src="{% static 'js/dashboard-map.js' %}"></script>
-    <script type"text/javascript" src="{% static 'js/dashboard-chart.js' %}"></script>
-    <script type"text/javascript" src="{% static 'js/modal.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/dashboard-map.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/dashboard-chart.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
+
+<!-- Force boundary layers to load -->
+    <script>
+    // Water GeoJSON data - loaded from static file
+    var waterGeoJSON = null;
+
+    // Fetch water areas as GeoJSON from static file
+    async function fetchWaterAreas() {
+        if (waterGeoJSON) {
+            return waterGeoJSON;
+        }
+
+        try {
+            console.log("[WATER] Fetching water areas from static file...");
+            const response = await fetch("/static/water_areas.geojson");
+
+            if (response.ok) {
+                waterGeoJSON = await response.json();
+                console.log("[WATER] Loaded", waterGeoJSON.features?.length || 0, "water features from static file");
+                return waterGeoJSON;
+            } else {
+                console.error("[WATER] Failed to fetch water areas:", response.status);
+                return null;
+            }
+        } catch (e) {
+            console.error("[WATER] Error fetching water areas:", e);
+            return null;
+        }
+    }
+
+    // Function to add boundary layers to a map
+    async function addBoundaryLayers(map, mapId) {
+        console.log("[BOUNDARY] Adding layers to map:", mapId);
+
+        // Check if source already exists
+        if (map.getSource("admin-vector-tiles-forced")) {
+            console.log("[BOUNDARY] Source already exists for map:", mapId);
+            return;
+        }
+
+        try {
+            // Add vector tile source for regions and water areas
+            var tileUrl = window.location.origin + "/api/admin-boundary/tiles/{z}/{x}/{y}";
+            map.addSource("admin-vector-tiles-forced", {
+                type: "vector",
+                tiles: [tileUrl]
+            });
+            console.log("[BOUNDARY] Added vector tile source:", tileUrl);
+
+            // Debug: Check what data is in the tiles
+            fetch(window.location.origin + "/api/admin-boundary/tiles/2/2/2")
+                .then(r => console.log("[WATER] Tile endpoint status:", r.status, r.statusText))
+                .catch(e => console.error("[WATER] Tile fetch error:", e));
+
+            // Add water areas layer - level 3 for water bodies
+            map.addLayer({
+                id: "admin-water-forced-" + mapId,
+                type: "fill",
+                source: "admin-vector-tiles-forced",
+                "source-layer": "default",
+                filter: ["==", ["get", "level"], 3],
+                paint: {
+                    "fill-color": "#0088ff",
+                    "fill-opacity": 0.5
+                }
+            });
+            console.log("[WATER] Added Ghana water areas layer (level 3) to map:", mapId);
+
+            // Add regional boundaries ONLY (level 1) - Subtle dark lines
+            map.addLayer({
+                id: "admin-regions-forced-" + mapId,
+                type: "line",
+                source: "admin-vector-tiles-forced",
+                "source-layer": "default",
+                filter: ["==", ["get", "level"], 1],
+                paint: {
+                    "line-color": "#000000",
+                    "line-width": 0.8,
+                    "line-opacity": 0.25
+                }
+            });
+            console.log("[BOUNDARY] Added regional boundaries (level 1) only - districts omitted");
+
+            // Function to move boundary layers to top
+            function moveBoundaryLayersToTop() {
+                try {
+                    // Move water first, then regions on top
+                    if (map.getLayer("admin-water-forced-" + mapId)) {
+                        map.moveLayer("admin-water-forced-" + mapId);
+                    }
+                    if (map.getLayer("admin-regions-forced-" + mapId)) {
+                        map.moveLayer("admin-regions-forced-" + mapId);
+                    }
+                    console.log("[BOUNDARY] Moved water and regional boundary layers to top");
+                } catch (e) {
+                    console.error("[BOUNDARY] Error moving layers:", e);
+                }
+            }
+
+            // Initial move after 1 second
+            setTimeout(moveBoundaryLayersToTop, 1000);
+
+            // Keep moving layers to top when raster layers are added
+            var keepOnTopInterval = setInterval(moveBoundaryLayersToTop, 2000);
+
+            // Clear interval after 30 seconds
+            setTimeout(function() {
+                clearInterval(keepOnTopInterval);
+                console.log("[BOUNDARY] Stopped keep-on-top interval");
+            }, 30000);
+
+            console.log("[BOUNDARY] Successfully added all boundary layers to map:", mapId);
+        } catch (e) {
+            console.error("[BOUNDARY] Error adding layers to map", mapId, ":", e);
+        }
+    }
+
+    // Wait for DOM and then try to add layers
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("[BOUNDARY] DOM loaded, waiting for maps to initialize...");
+
+        // Try multiple times with increasing delays to catch maps as they're created
+        var attempts = 0;
+        var maxAttempts = 50;
+        var processedMaps = {};
+
+        var checkInterval = setInterval(function() {
+            attempts++;
+            console.log("[BOUNDARY] Attempt", attempts, "- Checking for maps...");
+
+            if (typeof mapInstances !== 'undefined' && Object.keys(mapInstances).length > 0) {
+                console.log("[BOUNDARY] Found", Object.keys(mapInstances).length, "map(s)");
+
+                Object.keys(mapInstances).forEach(function(mapId) {
+                    // Skip if already processed
+                    if (processedMaps[mapId]) {
+                        return;
+                    }
+
+                    var map = mapInstances[mapId];
+                    if (map && map.loaded && map.loaded()) {
+                        console.log("[BOUNDARY] Map", mapId, "is loaded, adding layers");
+                        addBoundaryLayers(map, mapId);
+                        processedMaps[mapId] = true;
+
+                        // Also listen for sourcedata events to re-apply layers when raster loads
+                        map.on('sourcedata', function(e) {
+                            if (e.sourceId && e.sourceId.includes('map-source')) {
+                                console.log("[BOUNDARY] Raster layer loaded, moving boundaries to top");
+                                setTimeout(function() {
+                                    try {
+                                        if (map.getLayer("admin-water-forced-" + mapId)) {
+                                            map.moveLayer("admin-water-forced-" + mapId);
+                                        }
+                                        if (map.getLayer("admin-regions-forced-" + mapId)) {
+                                            map.moveLayer("admin-regions-forced-" + mapId);
+                                        }
+                                    } catch (err) {
+                                        console.error("[BOUNDARY] Error re-ordering:", err);
+                                    }
+                                }, 500);
+                            }
+                        });
+                    } else if (map) {
+                        console.log("[BOUNDARY] Map", mapId, "exists but not loaded yet, adding load listener");
+                        // Map not loaded yet, wait for load event
+                        map.on('load', function() {
+                            console.log("[BOUNDARY] Map", mapId, "load event fired");
+                            addBoundaryLayers(map, mapId);
+                            processedMaps[mapId] = true;
+                        });
+                    }
+                });
+
+            } else if (attempts >= maxAttempts) {
+                console.log("[BOUNDARY] Stopped after", maxAttempts, "attempts - no maps found");
+                clearInterval(checkInterval);
+            }
+        }, 500);
+    });
+    </script>
+
+<!-- Table modifications script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('[TABLE] Initializing table modifications...');
+
+    // Find ALL tables on the page and look for the indicators table
+    const allTables = document.querySelectorAll('table');
+    let table = null;
+
+    for (const t of allTables) {
+        // Check if this table has "Indicator" header or contains temperature/rainfall data
+        const headerText = t.querySelector('thead')?.textContent || '';
+        const bodyText = t.querySelector('tbody')?.textContent || '';
+        if (headerText.includes('Indicator') || bodyText.includes('temperature') || bodyText.includes('rainfall')) {
+            table = t;
+            console.log('[TABLE] Found indicators table');
+            break;
+        }
+    }
+
+    if (!table) {
+        console.warn('[TABLE] Indicators table not found');
+        return;
+    }
+
+    console.log('[TABLE] Found table, applying modifications...');
+
+    // CRITICAL: Wrap table in scrollable container for mobile horizontal scrolling
+    if (!table.parentElement.classList.contains('table-scroll-wrapper')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'table-scroll-wrapper';
+        wrapper.style.cssText = 'overflow-x: auto !important; -webkit-overflow-scrolling: touch; width: 100%; display: block;';
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+        console.log('[TABLE] Wrapped table in scroll container');
+    }
+
+    // Apply mobile-friendly styles to the table
+    table.style.minWidth = '700px';
+    table.style.width = '100%';
+    table.style.tableLayout = 'auto';
+
+    // 1. Change "Season" column header to "Category"
+    const allHeaders = table.querySelectorAll('th');
+    allHeaders.forEach(th => {
+        if (th.textContent.trim() === 'Season') {
+            th.textContent = 'Category';
+            console.log('[TABLE] Changed "Season" to "Category"');
+        }
+    });
+
+    // 2. Get all data rows
+    const rows = table.querySelectorAll('tbody tr');
+    console.log('[TABLE] Found', rows.length, 'rows');
+
+    // 3. Replace "0" with "N/A" in mean sea level reference column
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('th, td');
+        if (cells.length > 0) {
+            const firstCellText = cells[0].textContent.toLowerCase();
+            if (firstCellText.includes('sea level') || firstCellText.includes('mean sea')) {
+                // Reference column is index 2 (after Indicator and Season/Category)
+                if (cells[2] && cells[2].textContent.trim() === '0') {
+                    cells[2].textContent = 'N/A';
+                    console.log('[TABLE] Replaced 0 with N/A in sea level reference');
+                }
+            }
+        }
+    });
+
+    // 4. Merge indicator cells (Temperature, Rainfall, Mean sea level)
+    const indicatorGroups = {
+        'temperature': { rows: [], label: 'Temperature' },
+        'rainfall': { rows: [], label: 'Rainfall' },
+        'sea level': { rows: [], label: 'Mean Sea Level' }
+    };
+
+    // Collect rows by indicator type
+    rows.forEach((row, index) => {
+        const cells = row.querySelectorAll('th, td');
+        if (cells.length > 0) {
+            const cellText = cells[0].textContent.toLowerCase();
+            for (const key in indicatorGroups) {
+                if (cellText.includes(key)) {
+                    indicatorGroups[key].rows.push({ row, index, cell: cells[0] });
+                    break;
+                }
+            }
+        }
+    });
+
+    // Apply rowspan merging
+    for (const key in indicatorGroups) {
+        const group = indicatorGroups[key];
+        if (group.rows.length > 1) {
+            // Set rowspan on first cell
+            const firstCell = group.rows[0].cell;
+            firstCell.rowSpan = group.rows.length;
+            firstCell.textContent = group.label;
+            firstCell.style.verticalAlign = 'middle';
+            firstCell.style.fontWeight = 'bold';
+            firstCell.style.textAlign = 'left';
+
+            // Hide subsequent indicator cells
+            for (let i = 1; i < group.rows.length; i++) {
+                group.rows[i].cell.style.display = 'none';
+            }
+
+            console.log('[TABLE] Merged', group.rows.length, group.label, 'rows');
+        }
+    }
+
+    // 5. Apply sticky first column styles via JavaScript (more reliable than CSS :has)
+    const applySticky = () => {
+        const isMobile = window.innerWidth <= 768;
+        const allCells = table.querySelectorAll('th, td');
+
+        allCells.forEach(cell => {
+            const row = cell.parentElement;
+            const isFirstChild = cell === row.querySelector('th, td');
+
+            if (isFirstChild) {
+                cell.style.position = 'sticky';
+                cell.style.left = '0';
+                cell.style.zIndex = '10';
+                cell.style.backgroundColor = cell.closest('thead') ? '#f5f5f5' : '#ffffff';
+                cell.style.boxShadow = '3px 0 8px rgba(0,0,0,0.15)';
+                if (isMobile) {
+                    cell.style.minWidth = '90px';
+                    cell.style.maxWidth = '90px';
+                }
+            }
+        });
+        console.log('[TABLE] Applied sticky first column');
+    };
+
+    applySticky();
+    window.addEventListener('resize', applySticky);
+
+    // 6. Center table
+    table.style.margin = '0 auto';
+    table.style.textAlign = 'center';
+
+    console.log('[TABLE] Table modifications complete');
+});
+</script>
+
+<!-- RCPs emission text insertion and Request Data to Access Data script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('[CONTENT] Initializing content modifications...');
+
+    // Find the "Understanding the Ghana Climate Atlas" section
+    const introSection = document.querySelector('.intro-description');
+
+    if (!introSection) {
+        console.warn('[CONTENT] Understanding section not found');
+        return;
+    }
+
+    // 1. Insert RCPs emission text before "Through the Atlas, users can:"
+    const paragraphs = introSection.querySelectorAll('p');
+    let targetParagraph = null;
+
+    // Find the paragraph containing "Through the Atlas, users can:"
+    for (const p of paragraphs) {
+        if (p.textContent.includes('Through the Atlas, users can:')) {
+            targetParagraph = p;
+            break;
+        }
+    }
+
+    if (targetParagraph) {
+        // Check if RCPs text is already present
+        if (!targetParagraph.textContent.includes('RCPs emission')) {
+            // Insert RCPs emission text before "Through the Atlas, users can:"
+            const rcpText = 'The Ghana Climate Atlas uses the RCPs emission for the climate projections. The RCPs emissions scenarios include low (RCPs2.6), medium (RCPs4.5), High (RCPs8.5). ';
+            const originalHTML = targetParagraph.innerHTML;
+
+            // Replace the text, preserving HTML structure
+            targetParagraph.innerHTML = originalHTML.replace(
+                'Through the Atlas, users can:',
+                rcpText + '<br><br>Through the Atlas, users can:'
+            );
+
+            console.log('[CONTENT] RCPs emission text inserted successfully');
+        } else {
+            console.log('[CONTENT] RCPs text already present, skipping');
+        }
+    } else {
+        console.warn('[CONTENT] Target paragraph for RCPs not found');
+    }
+
+    // 2. Change "Request Data" to "Download Data" and update link to trigger modal
+    const listItems = introSection.querySelectorAll('li');
+    for (const li of listItems) {
+        // Find the list item containing "Request for datasets" or "Request Data"
+        if (li.textContent.includes('Request for datasets') || li.textContent.includes('Request Data')) {
+            // Do all replacements at once via innerHTML to avoid losing changes
+            let modifiedHTML = li.innerHTML;
+
+            // Change "Request for datasets" to "Download datasets"
+            modifiedHTML = modifiedHTML.replace('Request for datasets', 'Download datasets');
+
+            // Change "Request Data" to "Download Data"
+            modifiedHTML = modifiedHTML.replace('>Request Data<', '>Download Data<');
+
+            // Change href from /data-request/ to trigger modal
+            modifiedHTML = modifiedHTML.replace(
+                'href="/data-request/"',
+                'href="javascript:void(0)" class="js-modal-trigger" data-target="data-request-modal" style="cursor:pointer"'
+            );
+
+            li.innerHTML = modifiedHTML;
+            console.log('[CONTENT] Changed Request Data to Download Data with modal trigger');
+            break;
+        }
+    }
+
+    console.log('[CONTENT] Content modifications complete');
+});
+</script>
+
+<!-- FAQ caption removal and emission header scripts -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Update table headers with emission scenario dates (partial match)
+    console.log('[EMISSION] Finding all th elements on page');
+    const allTh = document.querySelectorAll('th');
+    console.log('[EMISSION] Found', allTh.length, 'th elements on page');
+
+    // Log ALL headers to debug
+    allTh.forEach((th, i) => {
+        console.log('[EMISSION] Header ' + i + ':', JSON.stringify(th.textContent.trim()));
+    });
+
+    allTh.forEach(th => {
+        const text = th.textContent.trim();
+        // Check for Low emission - try multiple patterns
+        if (text.includes('Low emission') || text.toLowerCase().includes('low emission') || text.includes('Low') && text.includes('emission')) {
+            console.log('[EMISSION] FOUND Low emission, changing from:', text);
+            th.textContent = 'Low emission (2021-2040)';
+            console.log('[EMISSION] Changed to: Low emission (2021-2040)');
+        } else if (text.includes('Medium emission') || text.toLowerCase().includes('medium emission')) {
+            console.log('[EMISSION] FOUND Medium emission, changing from:', text);
+            th.textContent = 'Medium emission (2041-2060)';
+            console.log('[EMISSION] Changed to: Medium emission (2041-2060)');
+        } else if (text.includes('High emission') || text.toLowerCase().includes('high emission')) {
+            console.log('[EMISSION] FOUND High emission, changing from:', text);
+            th.textContent = 'High emission (2061-2080)';
+            console.log('[EMISSION] Changed to: High emission (2061-2080)');
+        }
+    });
+
+    // 2. Replace "All year" with "Annual"
+    const allCells = document.querySelectorAll('td, th');
+    allCells.forEach(cell => {
+        if (cell.textContent.trim() === 'All year') {
+            cell.textContent = 'Annual';
+            console.log('[TABLE] Changed "All year" to "Annual"');
+        }
+    });
+
+    // 3. Simplify season for temperature rows (remove "Dry season"/"Wet season" prefix)
+    const tables = document.querySelectorAll('table');
+    tables.forEach(table => {
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const firstCell = row.querySelector('th, td');
+            if (!firstCell) return;
+
+            const isTemperatureRow = firstCell.textContent.toLowerCase().includes('temperature');
+
+            if (isTemperatureRow) {
+                const cells = row.querySelectorAll('td');
+                cells.forEach(cell => {
+                    const text = cell.textContent.trim();
+                    // Match patterns like "Dry season (DJF)" or "Wet season (AMJ)"
+                    const match = text.match(/^(?:Dry season|Wet season)\s+\(([A-Z]{3})\)$/);
+                    if (match) {
+                        cell.textContent = match[1];
+                        console.log('[TABLE] Simplified category to:', match[1]);
+                    }
+                });
+            }
+        });
+    });
+
+    // 4. Remove FAQ image captions - AGGRESSIVE approach
+    console.log('[FAQ] Removing image captions...');
+
+    // Target accordion sections and any content areas
+    const contentAreas = document.querySelectorAll('.accordion-body, .accordion-body__contents, .accordion__item, .format-text');
+    contentAreas.forEach(area => {
+        // Hide ALL italic/em elements that contain caption-like text
+        const italicElements = area.querySelectorAll('em, i');
+        italicElements.forEach(el => {
+            const text = el.textContent.trim();
+            // Caption patterns: starts with "This", "Bar chart", "Flooded", etc.
+            if (text.startsWith('This ') ||
+                text.startsWith('Bar chart') ||
+                text.startsWith('Flooded') ||
+                text.startsWith('The ') ||
+                text.includes('shows') ||
+                text.includes('illustrates') ||
+                text.includes('demonstrates')) {
+                el.style.display = 'none';
+                console.log('[FAQ] Removed caption:', text.substring(0, 30) + '...');
+            }
+        });
+
+        // Also hide paragraphs that are entirely italic (caption style)
+        const paragraphs = area.querySelectorAll('p');
+        paragraphs.forEach(p => {
+            // Check if paragraph contains only an em/i element
+            if (p.children.length === 1 && (p.children[0].tagName === 'EM' || p.children[0].tagName === 'I')) {
+                p.style.display = 'none';
+                console.log('[FAQ] Removed caption paragraph');
+            }
+            // Also check for italic text content
+            const text = p.textContent.trim();
+            if ((text.startsWith('This aerial') ||
+                 text.startsWith('Bar chart') ||
+                 text.startsWith('Flooded streets')) &&
+                 text.length < 400) {
+                p.style.display = 'none';
+                console.log('[FAQ] Removed caption text:', text.substring(0, 30) + '...');
+            }
+        });
+    });
+
+    // Also target any remaining visible captions by text content
+    document.querySelectorAll('p, em, i, span').forEach(el => {
+        const text = el.textContent.trim();
+        if (text.includes('aerial view shows a typical rural Ghanaian') ||
+            text.includes('Bar chart shows annual temperature anomalies') ||
+            text.includes('Flooded streets in Accra demonstrate')) {
+            el.style.display = 'none';
+            console.log('[FAQ] Removed specific caption');
+        }
+    });
+
+    console.log('[FAQ] Caption removal complete');
+});
+</script>
 
 {% endblock extra_js %}
