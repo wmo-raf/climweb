@@ -119,6 +119,7 @@ INSTALLED_APPS = [
     "taggit",
     "corsheaders",
     "wagtailcache",
+    "bulma",
     "allauth",
     "allauth.account",
     "wagtail_adminsortable",
