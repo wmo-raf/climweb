@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-03-23 16:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,17 +61,26 @@ msgstr ""
 "لقد تم قفل حسابك بسبب عدة محاولات تسجيل دخول فاشلة. يرجى المحاولة مرة أخرى "
 "في وقت لاحق."
 
-#: climweb/src/climweb/config/templates/axes/lockout.html:18
+#: climweb/src/climweb/config/templates/axes/lockout.html:20
+msgid "Back to sign in"
+msgstr "العودة لتسجيل الدخول"
+
+#: climweb/src/climweb/config/templates/axes/lockout.html:23
+#, fuzzy
+#| msgid ""
+#| "You account has been locked due to multiple failed login attempts. Please "
+#| "contact our support team for assistance."
 msgid ""
-"You account has been locked due to multiple failed login attempts. Please "
+"Your account has been locked due to multiple failed login attempts. Please "
 "contact our support team for assistance."
 msgstr ""
 "لقد تم قفل حسابك بسبب عدة محاولات تسجيل دخول فاشلة. يرجى الاتصال بفريق الدعم"
 " لدينا للحصول على المساعدة."
 
-#: climweb/src/climweb/config/templates/axes/lockout.html:26
+#: climweb/src/climweb/config/templates/axes/lockout.html:31
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:86
 #: climweb/src/climweb/config/templates/navigation/navbar.html:86
+#: climweb/src/climweb/config/templates/navigation/navbar.html:169
 msgid "Contact us"
 msgstr "اتصل بنا"
 
@@ -157,11 +166,13 @@ msgstr "الصفحة %(current_page)s من %(num_pages)s."
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:26
 #: climweb/src/climweb/config/templates/navigation/navbar.html:26
+#: climweb/src/climweb/config/templates/navigation/navbar.html:152
 msgid "Alerts"
 msgstr "التنبيهات"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:35
 #: climweb/src/climweb/config/templates/navigation/navbar.html:35
+#: climweb/src/climweb/config/templates/navigation/navbar.html:160
 msgid "Subscribe"
 msgstr "يشترك"
 
@@ -177,6 +188,7 @@ msgstr "يبحث"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:93
 #: climweb/src/climweb/config/templates/navigation/navbar.html:93
+#: climweb/src/climweb/config/templates/navigation/navbar.html:175
 msgid "Feedback"
 msgstr "تعليق"
 
@@ -196,12 +208,12 @@ msgstr "المزيد من المشاريع"
 msgid "Read more"
 msgstr "اقرأ أكثر"
 
-#: climweb/src/climweb/config/templates/videos_include.html:21
+#: climweb/src/climweb/config/templates/videos_include.html:25
 #, python-format
 msgid "Published on : %(updated_on)s"
 msgstr "تم النشر بتاريخ : %(updated_on)s"
 
-#: climweb/src/climweb/config/templates/videos_include.html:33
+#: climweb/src/climweb/config/templates/videos_include.html:37
 msgid "SUBSCRIBE"
 msgstr "يشترك"
 

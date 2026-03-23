@@ -77,8 +77,13 @@ copyright = f"{datetime.now().year}, WMO Regional Office For Africa"
 
 import re
 
+import subprocess
 # The full version, including alpha/beta/rc tags.
-release = re.sub('^v', '', os.popen('git describe --tags').read().strip())
+try:
+    git_describe = subprocess.check_output(['git', 'describe', '--tags'], encoding='utf-8').strip()
+    release = re.sub('^v', '', git_describe)
+except Exception:
+    release = ''
 # The short X.Y version.
 version = release
 

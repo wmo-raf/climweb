@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-03-23 16:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: climweb/src/climweb/pages/publications/models.py:27
+#: climweb/src/climweb/pages/publications/models.py:33
+msgid "IP Address"
+msgstr "Dirección IP"
+
+#: climweb/src/climweb/pages/publications/models.py:34
+msgid "User Agent"
+msgstr "Agente de usuario"
+
+#: climweb/src/climweb/pages/publications/models.py:35
+msgid "View Timestamp"
+msgstr "Ver marca de tiempo"
+
+#: climweb/src/climweb/pages/publications/models.py:36
+msgid "Session Key"
+msgstr "Clave de sesión"
+
+#: climweb/src/climweb/pages/publications/models.py:39
+msgid "Page View"
+msgstr "Vista de página"
+
+#: climweb/src/climweb/pages/publications/models.py:40
+msgid "Page Views"
+msgstr "Vistas de página"
+
+#: climweb/src/climweb/pages/publications/models.py:142
 msgid "Name"
 msgstr "Nombre"
 
-#: climweb/src/climweb/pages/publications/models.py:43
+#: climweb/src/climweb/pages/publications/models.py:158
 msgid "Publication Types"
 msgstr "Tipos de publicación"
 
-#: climweb/src/climweb/pages/publications/models.py:59
+#: climweb/src/climweb/pages/publications/models.py:174
 msgid ""
 "The year for the earliest available publication. This is used to generate "
 "the years available for filtering "
@@ -34,11 +58,11 @@ msgstr ""
 "El año de la primera publicación disponible. Esto se utiliza para generar "
 "los años disponibles para filtrar."
 
-#: climweb/src/climweb/pages/publications/models.py:60
+#: climweb/src/climweb/pages/publications/models.py:175
 msgid "Earliest Publication Year"
 msgstr "Año de publicación más temprano"
 
-#: climweb/src/climweb/pages/publications/models.py:64
+#: climweb/src/climweb/pages/publications/models.py:179
 msgid ""
 "How many publications per page should be visible on the all publications "
 "section ?"
@@ -46,67 +70,67 @@ msgstr ""
 "¿Cuántas publicaciones por página deberían estar visibles en la sección de "
 "todas las publicaciones?"
 
-#: climweb/src/climweb/pages/publications/models.py:78
+#: climweb/src/climweb/pages/publications/models.py:193
 msgid "Publications Index Page"
 msgstr "Página de índice de publicaciones"
 
-#: climweb/src/climweb/pages/publications/models.py:152
+#: climweb/src/climweb/pages/publications/models.py:267
 msgid "Publication Type"
 msgstr "Tipo de publicación"
 
-#: climweb/src/climweb/pages/publications/models.py:153
+#: climweb/src/climweb/pages/publications/models.py:268
 msgid "Services related to this publication"
 msgstr "Servicios relacionados con esta publicación"
 
-#: climweb/src/climweb/pages/publications/models.py:154
+#: climweb/src/climweb/pages/publications/models.py:269
 msgid "Relevant Projects"
 msgstr "Proyectos Relevantes"
 
-#: climweb/src/climweb/pages/publications/models.py:155
+#: climweb/src/climweb/pages/publications/models.py:270
 msgid "Summary"
 msgstr "Resumen"
 
-#: climweb/src/climweb/pages/publications/models.py:156
+#: climweb/src/climweb/pages/publications/models.py:271
 msgid "Date of Publish"
 msgstr "Fecha de publicación"
 
-#: climweb/src/climweb/pages/publications/models.py:160
+#: climweb/src/climweb/pages/publications/models.py:275
 msgid "Is visible on homepage"
 msgstr "Es visible en la página de inicio."
 
-#: climweb/src/climweb/pages/publications/models.py:162
+#: climweb/src/climweb/pages/publications/models.py:277
 msgid "Mark as featured"
 msgstr "Marcar como destacado"
 
-#: climweb/src/climweb/pages/publications/models.py:163
+#: climweb/src/climweb/pages/publications/models.py:278
 msgid "Featured publications appear on the publications landing page"
 msgstr ""
 "Las publicaciones destacadas aparecen en la página de inicio de "
 "publicaciones."
 
-#: climweb/src/climweb/pages/publications/models.py:165
+#: climweb/src/climweb/pages/publications/models.py:280
 msgid "Optional start date for which this publication is relevant"
 msgstr "Fecha de inicio opcional para la que esta publicación es relevante"
 
-#: climweb/src/climweb/pages/publications/models.py:166
+#: climweb/src/climweb/pages/publications/models.py:281
 msgid "Start date"
 msgstr "Fecha de inicio"
 
-#: climweb/src/climweb/pages/publications/models.py:169
+#: climweb/src/climweb/pages/publications/models.py:284
 msgid "End date"
 msgstr "Fecha final"
 
-#: climweb/src/climweb/pages/publications/models.py:171
+#: climweb/src/climweb/pages/publications/models.py:286
 msgid "Peer reviewed"
 msgstr "Revisado por pares"
 
-#: climweb/src/climweb/pages/publications/models.py:179
+#: climweb/src/climweb/pages/publications/models.py:294
 #, fuzzy
 #| msgid "Publication image"
 msgid "Publication Image (Thumbnail)"
 msgstr "Imagen de publicación (miniatura)"
 
-#: climweb/src/climweb/pages/publications/models.py:180
+#: climweb/src/climweb/pages/publications/models.py:295
 msgid ""
 "This can be a screenshot of the front page of the publication. If left empty"
 " and Auto-generate above is checked and the uploaded document is a PDF, an "
@@ -117,22 +141,22 @@ msgstr ""
 "cargado es un PDF, se generará automáticamente una imagen de la primera "
 "página."
 
-#: climweb/src/climweb/pages/publications/models.py:186
+#: climweb/src/climweb/pages/publications/models.py:301
 msgid ""
 "If the document is a PDF, an image of the first page will be auto-generated."
 msgstr ""
 "Si el documento es un PDF, se generará automáticamente una imagen de la "
 "primera página."
 
-#: climweb/src/climweb/pages/publications/models.py:187
+#: climweb/src/climweb/pages/publications/models.py:302
 msgid "Auto-generate thumbnail"
 msgstr "Miniatura generada automáticamente"
 
-#: climweb/src/climweb/pages/publications/models.py:196
+#: climweb/src/climweb/pages/publications/models.py:311
 msgid "Document or File"
 msgstr "Documento o Archivo"
 
-#: climweb/src/climweb/pages/publications/models.py:197
+#: climweb/src/climweb/pages/publications/models.py:312
 msgid ""
 "Here you can upload pdfs, word documents, powerpoints, zip files or any "
 "other file"
@@ -140,20 +164,20 @@ msgstr ""
 "Aquí puedes subir archivos pdf, documentos de word, powerpoints, archivos "
 "zip o cualquier otro archivo."
 
-#: climweb/src/climweb/pages/publications/models.py:201
+#: climweb/src/climweb/pages/publications/models.py:316
 msgid "External Url - *Only If published/hosted somewhere else"
 msgstr "URL externa: *Solo si está publicada/alojada en otro lugar"
 
-#: climweb/src/climweb/pages/publications/models.py:202
+#: climweb/src/climweb/pages/publications/models.py:317
 msgid "Link to published resource if external"
 msgstr "Enlace al recurso publicado si es externo"
 
-#: climweb/src/climweb/pages/publications/models.py:204
+#: climweb/src/climweb/pages/publications/models.py:319
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:116
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: climweb/src/climweb/pages/publications/models.py:222
+#: climweb/src/climweb/pages/publications/models.py:337
 msgid "Additional Details"
 msgstr "Detalles adicionales"
 
@@ -218,17 +242,18 @@ msgstr[1] ""
 msgid "Search"
 msgstr "Buscar"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:74
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:81
 msgid "Number of downloads"
 msgstr "Número de descargas"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:96
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:90
+msgid "Number of views"
+msgstr "Número de vistas"
+
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:112
 msgid "Read More"
 msgstr "Leer más"
 
 #~ msgid "This can be a screenshot of the front page of the publication"
 #~ msgstr ""
 #~ "Esta puede ser una captura de pantalla de la portada de la publicación."
-
-#~ msgid "Number of views"
-#~ msgstr "Número de vistas"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 10:51+0000\n"
+"POT-Creation-Date: 2026-03-23 16:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,104 +98,156 @@ msgid "Banner Image"
 msgstr "Imagem do banner"
 
 #: climweb/src/climweb/pages/home/models.py:89
+msgid "Use YouTube Video as Banner"
+msgstr "Use o vídeo do YouTube como banner"
+
+#: climweb/src/climweb/pages/home/models.py:90
+msgid ""
+"If enabled, the YouTube video will be used as the banner background instead "
+"of the banner image"
+msgstr ""
+"Se ativado, o vídeo do YouTube será usado como plano de fundo do banner em "
+"vez da imagem do banner"
+
+#: climweb/src/climweb/pages/home/models.py:92
+msgid "YouTube Video ID"
+msgstr "ID do vídeo do YouTube"
+
+#: climweb/src/climweb/pages/home/models.py:93
+msgid ""
+"YouTube Video ID (e.g., 'dQw4w9WgXcQ' from "
+"https://www.youtube.com/watch?v=dQw4w9WgXcQ). Only used if 'Use YouTube "
+"Video as Banner' is enabled."
+msgstr ""
+"ID do vídeo do YouTube (por exemplo, 'dQw4w9WgXcQ' de "
+"https://www.youtube.com/watch?v=dQw4w9WgXcQ). Usado apenas se 'Usar vídeo do"
+" YouTube como banner' estiver ativado."
+
+#: climweb/src/climweb/pages/home/models.py:94
 msgid "Banner Text Color"
 msgstr "Cor do texto do banner"
 
-#: climweb/src/climweb/pages/home/models.py:90
+#: climweb/src/climweb/pages/home/models.py:95
 msgid "Banner Type"
 msgstr "Tipo de banner"
 
-#: climweb/src/climweb/pages/home/models.py:93
+#: climweb/src/climweb/pages/home/models.py:98
 msgid "Call to action button text"
 msgstr "Texto do botão de apelo à ação"
 
-#: climweb/src/climweb/pages/home/models.py:100
+#: climweb/src/climweb/pages/home/models.py:105
 msgid "Call to action related page"
 msgstr "Página relacionada à frase de chamariz"
 
-#: climweb/src/climweb/pages/home/models.py:103
+#: climweb/src/climweb/pages/home/models.py:109
+#, fuzzy
+#| msgid "Call to action button text"
+msgid "Call to action button text 2"
+msgstr "Texto do botão de apelo à ação 2"
+
+#: climweb/src/climweb/pages/home/models.py:116
+#, fuzzy
+#| msgid "Call to action related page"
+msgid "Call to action related page 2"
+msgstr "Página 2 relacionada à frase de chamariz"
+
+#: climweb/src/climweb/pages/home/models.py:120
+#, fuzzy
+#| msgid "Call to action button text"
+msgid "Call to action button text 3"
+msgstr "Texto do botão de apelo à ação 3"
+
+#: climweb/src/climweb/pages/home/models.py:127
+#, fuzzy
+#| msgid "Call to action related page"
+msgid "Call to action related page 3"
+msgstr "Página relacionada à frase de chamariz 3"
+
+#: climweb/src/climweb/pages/home/models.py:130
 msgid "Show city forecast section"
 msgstr "Mostrar seção de previsão da cidade"
 
-#: climweb/src/climweb/pages/home/models.py:105
+#: climweb/src/climweb/pages/home/models.py:132
 msgid "Show weather watch section"
 msgstr "Mostrar seção de observação do tempo"
 
-#: climweb/src/climweb/pages/home/models.py:107
+#: climweb/src/climweb/pages/home/models.py:134
 msgid "Weather Watch Section header"
 msgstr "Cabeçalho da seção de observação meteorológica"
 
-#: climweb/src/climweb/pages/home/models.py:108
+#: climweb/src/climweb/pages/home/models.py:135
 msgid "Show MapViewer button"
 msgstr "Mostrar botão MapViewer"
 
-#: climweb/src/climweb/pages/home/models.py:110
+#: climweb/src/climweb/pages/home/models.py:137
 msgid "MapViewer Call to Action Title"
 msgstr "Título da frase de chamariz do MapViewer"
 
-#: climweb/src/climweb/pages/home/models.py:111
+#: climweb/src/climweb/pages/home/models.py:138
 msgid "Mapviewer URL"
-msgstr "URL do visualizador de mapas"
+msgstr "URL do visualizador de mapa"
 
-#: climweb/src/climweb/pages/home/models.py:119
+#: climweb/src/climweb/pages/home/models.py:146
 msgid "Youtube Playlist"
 msgstr "Lista de reprodução do YouTube"
 
-#: climweb/src/climweb/pages/home/models.py:124
+#: climweb/src/climweb/pages/home/models.py:151
 msgid "Feature block"
 msgstr "Bloco de recursos"
 
-#: climweb/src/climweb/pages/home/models.py:133
+#: climweb/src/climweb/pages/home/models.py:162
 msgid "Banner Section"
 msgstr "Seção de Banner"
 
-#: climweb/src/climweb/pages/home/models.py:137
-msgid "Banner Call to Action Button"
-msgstr "Botão de apelo à ação em banner"
+#: climweb/src/climweb/pages/home/models.py:170
+#, fuzzy
+#| msgid "Banner Call to Action Button"
+msgid "Banner Call to Action Buttons"
+msgstr "Botões de apelo à ação em banner"
 
-#: climweb/src/climweb/pages/home/models.py:140
+#: climweb/src/climweb/pages/home/models.py:173
 msgid "City Forecast Section"
 msgstr "Seção de previsão da cidade"
 
-#: climweb/src/climweb/pages/home/models.py:147
+#: climweb/src/climweb/pages/home/models.py:180
 msgid "Weather Watch Section"
 msgstr "Seção de observação meteorológica"
 
-#: climweb/src/climweb/pages/home/models.py:150
+#: climweb/src/climweb/pages/home/models.py:183
 msgid "Media Section"
 msgstr "Seção de mídia"
 
-#: climweb/src/climweb/pages/home/models.py:154
+#: climweb/src/climweb/pages/home/models.py:186
 msgid "Addditional Information"
 msgstr "Informações Adicionais"
 
-#: climweb/src/climweb/pages/home/models.py:159
+#: climweb/src/climweb/pages/home/models.py:191
 msgid "Home Page"
 msgstr "Página inicial"
 
-#: climweb/src/climweb/pages/home/models.py:160
+#: climweb/src/climweb/pages/home/models.py:192
 msgid "Home Pages"
 msgstr "Páginas iniciais"
 
-#: climweb/src/climweb/pages/home/models.py:295
+#: climweb/src/climweb/pages/home/models.py:327
 msgid "Icon"
 msgstr "Ícone"
 
-#: climweb/src/climweb/pages/home/models.py:297
+#: climweb/src/climweb/pages/home/models.py:329
 msgid "Name to display on the map. Leave blank to use the original layer name"
 msgstr ""
 "Nome a ser exibido no mapa. Deixe em branco para usar o nome da camada "
 "original"
 
-#: climweb/src/climweb/pages/home/models.py:299
+#: climweb/src/climweb/pages/home/models.py:331
 msgid "Enabled"
 msgstr "Habilitado"
 
-#: climweb/src/climweb/pages/home/models.py:300
+#: climweb/src/climweb/pages/home/models.py:332
 msgid "Show on map by default ?"
 msgstr "Mostrar no mapa por padrão?"
 
-#: climweb/src/climweb/pages/home/models.py:301
+#: climweb/src/climweb/pages/home/models.py:333
 msgid ""
 "You can only select one layer to be shown on the map by default. If multiple"
 " layers are selected, only the first one will be shown"
@@ -203,55 +255,55 @@ msgstr ""
 "Você só pode selecionar uma camada para ser mostrada no mapa por padrão. Se "
 "várias camadas forem selecionadas, apenas a primeira será mostrada"
 
-#: climweb/src/climweb/pages/home/models.py:320
+#: climweb/src/climweb/pages/home/models.py:352
 msgid "Hour minute:second - (E.g 2023-01-01 00:00)"
 msgstr "Hora minuto:segundo - (por exemplo, 01/01/2023 00:00)"
 
-#: climweb/src/climweb/pages/home/models.py:321
+#: climweb/src/climweb/pages/home/models.py:353
 msgid "Day of Week Day - (E.g Tue 25 08:00)"
 msgstr "Dia da semana - (por exemplo, terça-feira, 25, 08:00)"
 
-#: climweb/src/climweb/pages/home/models.py:322
+#: climweb/src/climweb/pages/home/models.py:354
 msgid "Day - (E.g 2023-01-01)"
 msgstr "Dia - (por exemplo, 01/01/2023)"
 
-#: climweb/src/climweb/pages/home/models.py:325
+#: climweb/src/climweb/pages/home/models.py:357
 msgid "Show CAP Warnings Layer"
 msgstr "Mostrar camada de avisos CAP"
 
-#: climweb/src/climweb/pages/home/models.py:326
+#: climweb/src/climweb/pages/home/models.py:358
 msgid "Weather Warnings"
 msgstr "Avisos meteorológicos"
 
-#: climweb/src/climweb/pages/home/models.py:327
+#: climweb/src/climweb/pages/home/models.py:359
 msgid "CAP Warnings Layer Display Name"
 msgstr "Nome de exibição da camada de avisos CAP"
 
-#: climweb/src/climweb/pages/home/models.py:328
+#: climweb/src/climweb/pages/home/models.py:360
 msgid "Show Location forecast Layer"
 msgstr "Mostrar camada de previsão de localização"
 
-#: climweb/src/climweb/pages/home/models.py:329
+#: climweb/src/climweb/pages/home/models.py:361
 msgid "Location Forecast"
 msgstr "Previsão de localização"
 
-#: climweb/src/climweb/pages/home/models.py:330
+#: climweb/src/climweb/pages/home/models.py:362
 msgid "Location Forecast Layer Display Name"
 msgstr "Nome de exibição da camada de previsão de localização"
 
-#: climweb/src/climweb/pages/home/models.py:333
+#: climweb/src/climweb/pages/home/models.py:365
 msgid "Location Forecast Date Display Format"
 msgstr "Formato de exibição de data de previsão de local"
 
-#: climweb/src/climweb/pages/home/models.py:334
+#: climweb/src/climweb/pages/home/models.py:366
 msgid "Cluster Location Forecast Points"
 msgstr "Pontos de previsão de localização de cluster"
 
-#: climweb/src/climweb/pages/home/models.py:336
+#: climweb/src/climweb/pages/home/models.py:368
 msgid "Cluster Minimum number of Points"
 msgstr "Número mínimo de pontos do cluster"
 
-#: climweb/src/climweb/pages/home/models.py:337
+#: climweb/src/climweb/pages/home/models.py:369
 msgid ""
 "Minimum number of points necessary to form a cluster if clustering is "
 "enabled"
@@ -259,67 +311,67 @@ msgstr ""
 "Número mínimo de pontos necessários para formar um cluster se o clustering "
 "estiver ativado"
 
-#: climweb/src/climweb/pages/home/models.py:340
+#: climweb/src/climweb/pages/home/models.py:372
 msgid "Cluster Radius"
 msgstr "Raio do Cluster"
 
-#: climweb/src/climweb/pages/home/models.py:341
+#: climweb/src/climweb/pages/home/models.py:373
 msgid "Radius of each cluster if clustering is enabled"
 msgstr "Raio de cada cluster se o clustering estiver ativado"
 
-#: climweb/src/climweb/pages/home/models.py:343
+#: climweb/src/climweb/pages/home/models.py:375
 msgid "Show Location Forecast Attribution"
 msgstr "Mostrar atribuição de previsão de localização"
 
-#: climweb/src/climweb/pages/home/models.py:345
+#: climweb/src/climweb/pages/home/models.py:377
 msgid "Admin Boundary"
 msgstr "Limite de administração"
 
-#: climweb/src/climweb/pages/home/models.py:346
+#: climweb/src/climweb/pages/home/models.py:378
 msgid "Draw Polygon"
 msgstr "Desenhar polígono"
 
-#: climweb/src/climweb/pages/home/models.py:350
+#: climweb/src/climweb/pages/home/models.py:382
 msgid "Raster Layer"
 msgstr "Camada raster"
 
-#: climweb/src/climweb/pages/home/models.py:351
+#: climweb/src/climweb/pages/home/models.py:383
 msgid "WMS Layer"
 msgstr "Camada WMS"
 
-#: climweb/src/climweb/pages/home/models.py:352
+#: climweb/src/climweb/pages/home/models.py:384
 msgid "Vector Tile Layer"
 msgstr "Camada de bloco de vetor"
 
-#: climweb/src/climweb/pages/home/models.py:353
+#: climweb/src/climweb/pages/home/models.py:385
 msgid "Map Layers"
 msgstr "Camadas do mapa"
 
-#: climweb/src/climweb/pages/home/models.py:355
+#: climweb/src/climweb/pages/home/models.py:387
 msgid "Show Level 1 Boundaries"
 msgstr "Mostrar limites de nível 1"
 
-#: climweb/src/climweb/pages/home/models.py:356
+#: climweb/src/climweb/pages/home/models.py:388
 msgid "Use Geomanager Basemaps, if set"
 msgstr "Usar mapas base do Geomanager, se definido"
 
-#: climweb/src/climweb/pages/home/models.py:363
+#: climweb/src/climweb/pages/home/models.py:395
 msgid "Boundary Settings"
 msgstr "Configurações de limite"
 
-#: climweb/src/climweb/pages/home/models.py:367
+#: climweb/src/climweb/pages/home/models.py:399
 msgid "CAP Warnings Layer"
 msgstr "Camada de avisos CAP"
 
-#: climweb/src/climweb/pages/home/models.py:377
+#: climweb/src/climweb/pages/home/models.py:409
 msgid "Location Forecast Layer"
 msgstr "Camada de previsão de localização"
 
-#: climweb/src/climweb/pages/home/models.py:380
+#: climweb/src/climweb/pages/home/models.py:412
 msgid "Map Settings"
 msgstr "Configurações do mapa"
 
-#: climweb/src/climweb/pages/home/models.py:383
+#: climweb/src/climweb/pages/home/models.py:415
 msgid "Geomanager Map Layers"
 msgstr "Camadas do mapa do Geomanager"
 
