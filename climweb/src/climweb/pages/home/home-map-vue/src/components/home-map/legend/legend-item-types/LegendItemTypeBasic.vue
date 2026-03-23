@@ -13,6 +13,7 @@ const props = defineProps({
 })
 
 const enabled = computed(() => {
+  console.log('Checking legend item type basic enabled status with config:', props.legendConfig);
   return props.legendConfig && props.legendConfig.type === 'basic' && props.legendConfig.items && props.legendConfig.items.length > 0;
 })
 
@@ -24,7 +25,7 @@ const enabled = computed(() => {
     <ul>
       <li v-for="item in props.legendConfig.items" class="item-wrapper">
         <div class="item-color" :style="{ backgroundColor: item.color }"></div>
-        <div class="item-label">{{ item.name }}</div>
+        <div class="item-label">{{ $t(item.name) }} </div>
       </li>
     </ul>
   </div>
