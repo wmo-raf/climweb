@@ -157,10 +157,10 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
         },
         "layerFilterParams": {
             "severity": [
-                {"label": "Extreme", "value": "Extreme"},
-                {"label": "Severe", "value": "Severe"},
-                {"label": "Moderate", "value": "Moderate"},
-                {"label": "Minor", "value": "Minor"},
+                {"label": _("Extreme"), "value": "Extreme"},
+                {"label": _("Severe"), "value": "Severe"},
+                {"label": _("Moderate"), "value": "Moderate"},
+                {"label": _("Minor"), "value": "Minor"},
             ],
         },
         "layerFilterParamsConfig": [
@@ -170,17 +170,17 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
                 "key": "severity",
                 "required": "true",
                 "default": [
-                    {"label": "Extreme", "value": "Extreme"},
-                    {"label": "Severe", "value": "Severe"},
-                    {"label": "Moderate", "value": "Moderate"},
+                    {"label": _("Extreme"), "value": "Extreme"},
+                    {"label": _("Severe"), "value": "Severe"},
+                    {"label": _("Moderate"), "value": "Moderate"},
                 ],
                 "sentence": "Filter by Severity {selector}",
                 "options": [
-                    {"label": "Extreme", "value": "Extreme"},
-                    {"label": "Severe", "value": "Severe"},
-                    {"label": "Moderate", "value": "Moderate"},
-                    {"label": "Minor", "value": "Minor"},
-                    {"label": "Unknown", "value": "Unknown"},
+                    {"label": _("Extreme"), "value": "Extreme"},
+                    {"label": _("Severe"), "value": "Severe"},
+                    {"label": _("Moderate"), "value": "Moderate"},
+                    {"label": _("Minor"), "value": "Minor"},
+                    {"label": _("Unknown"), "value": "Unknown"},
                 ],
             },
         ],
@@ -188,19 +188,19 @@ def create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, requ
             "items": [
                 {
                     "color": "#d72f2a",
-                    "name": "Extreme Severity",
+                    "name": _("Extreme Severity"),
                 },
                 {
                     "color": "#fe9900",
-                    "name": "Severe Severity",
+                    "name": _("Severe Severity"),
                 },
                 {
                     "color": "#ffff00",
-                    "name": "Moderate Severity",
+                    "name": _("Moderate Severity"),
                 },
                 {
                     "color": "#03ffff",
-                    "name": "Minor Severity",
+                    "name": _("Minor Severity"),
                 },
                 {
                     "color": "#3366ff",
