@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 14:16+0000\n"
+"POT-Creation-Date: 2026-03-23 16:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,17 +61,26 @@ msgstr ""
 "Sua conta foi bloqueada devido a diversas tentativas de login malsucedidas. "
 "Por favor, tente novamente mais tarde."
 
-#: climweb/src/climweb/config/templates/axes/lockout.html:18
+#: climweb/src/climweb/config/templates/axes/lockout.html:20
+msgid "Back to sign in"
+msgstr "Voltar para fazer login"
+
+#: climweb/src/climweb/config/templates/axes/lockout.html:23
+#, fuzzy
+#| msgid ""
+#| "You account has been locked due to multiple failed login attempts. Please "
+#| "contact our support team for assistance."
 msgid ""
-"You account has been locked due to multiple failed login attempts. Please "
+"Your account has been locked due to multiple failed login attempts. Please "
 "contact our support team for assistance."
 msgstr ""
-"Sua conta foi bloqueada devido a várias tentativas de login malsucedidas. "
+"Sua conta foi bloqueada devido a diversas tentativas de login malsucedidas. "
 "Entre em contato com nossa equipe de suporte para obter assistência."
 
-#: climweb/src/climweb/config/templates/axes/lockout.html:26
+#: climweb/src/climweb/config/templates/axes/lockout.html:31
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:86
 #: climweb/src/climweb/config/templates/navigation/navbar.html:86
+#: climweb/src/climweb/config/templates/navigation/navbar.html:169
 msgid "Contact us"
 msgstr "Contate-nos"
 
@@ -157,11 +166,13 @@ msgstr "Página %(current_page)s de %(num_pages)s."
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:26
 #: climweb/src/climweb/config/templates/navigation/navbar.html:26
+#: climweb/src/climweb/config/templates/navigation/navbar.html:152
 msgid "Alerts"
 msgstr "Alertas"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:35
 #: climweb/src/climweb/config/templates/navigation/navbar.html:35
+#: climweb/src/climweb/config/templates/navigation/navbar.html:160
 msgid "Subscribe"
 msgstr "Inscrever-se"
 
@@ -177,6 +188,7 @@ msgstr "Procurar"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:93
 #: climweb/src/climweb/config/templates/navigation/navbar.html:93
+#: climweb/src/climweb/config/templates/navigation/navbar.html:175
 msgid "Feedback"
 msgstr "Opinião"
 
@@ -196,12 +208,12 @@ msgstr "Mais projetos"
 msgid "Read more"
 msgstr "Leia mais"
 
-#: climweb/src/climweb/config/templates/videos_include.html:21
+#: climweb/src/climweb/config/templates/videos_include.html:25
 #, python-format
 msgid "Published on : %(updated_on)s"
 msgstr "Publicado em: %(updated_on)s"
 
-#: climweb/src/climweb/config/templates/videos_include.html:33
+#: climweb/src/climweb/config/templates/videos_include.html:37
 msgid "SUBSCRIBE"
 msgstr "ASSINAR"
 

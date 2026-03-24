@@ -1,7 +1,12 @@
+
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 import {createI18n} from 'vue-i18n'
 import DjangoUtilsPlugin, {convertDatasetToProps} from 'vue-plugin-django-utils'
+
+import en from './locales/en.json'
+import fr from './locales/fr.json'
+import pt from './locales/pt.json'
 
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
@@ -22,11 +27,14 @@ if (homeMapEl) {
     })
 
     let defaultLocale = props?.languageCode || 'en'
+    console.log("Default locale set to:", defaultLocale)
 
+    const messages = { en, fr, pt }
     const i18n = createI18n({
         legacy: false,
         locale: defaultLocale,
         fallbackLocale: 'en',
+        messages,
     })
 
     const app = createApp(HomeMap, props)

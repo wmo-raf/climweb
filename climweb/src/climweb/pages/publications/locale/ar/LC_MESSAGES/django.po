@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-03-23 16:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,90 +18,114 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: climweb/src/climweb/pages/publications/models.py:27
+#: climweb/src/climweb/pages/publications/models.py:33
+msgid "IP Address"
+msgstr "عنوان IP"
+
+#: climweb/src/climweb/pages/publications/models.py:34
+msgid "User Agent"
+msgstr "وكيل المستخدم"
+
+#: climweb/src/climweb/pages/publications/models.py:35
+msgid "View Timestamp"
+msgstr "عرض الطابع الزمني"
+
+#: climweb/src/climweb/pages/publications/models.py:36
+msgid "Session Key"
+msgstr "مفتاح الجلسة"
+
+#: climweb/src/climweb/pages/publications/models.py:39
+msgid "Page View"
+msgstr "عرض الصفحة"
+
+#: climweb/src/climweb/pages/publications/models.py:40
+msgid "Page Views"
+msgstr "مشاهدات الصفحة"
+
+#: climweb/src/climweb/pages/publications/models.py:142
 msgid "Name"
 msgstr "اسم"
 
-#: climweb/src/climweb/pages/publications/models.py:43
+#: climweb/src/climweb/pages/publications/models.py:158
 msgid "Publication Types"
 msgstr "أنواع المنشورات"
 
-#: climweb/src/climweb/pages/publications/models.py:59
+#: climweb/src/climweb/pages/publications/models.py:174
 msgid ""
 "The year for the earliest available publication. This is used to generate "
 "the years available for filtering "
 msgstr ""
 "السنة لأقدم منشور متاح. يتم استخدام هذا لإنشاء السنوات المتاحة للتصفية"
 
-#: climweb/src/climweb/pages/publications/models.py:60
+#: climweb/src/climweb/pages/publications/models.py:175
 msgid "Earliest Publication Year"
 msgstr "أقدم سنة للنشر"
 
-#: climweb/src/climweb/pages/publications/models.py:64
+#: climweb/src/climweb/pages/publications/models.py:179
 msgid ""
 "How many publications per page should be visible on the all publications "
 "section ?"
 msgstr "كم عدد المنشورات في كل صفحة يجب أن تكون مرئية في قسم جميع المنشورات؟"
 
-#: climweb/src/climweb/pages/publications/models.py:78
+#: climweb/src/climweb/pages/publications/models.py:193
 msgid "Publications Index Page"
 msgstr "صفحة فهرس المنشورات"
 
-#: climweb/src/climweb/pages/publications/models.py:152
+#: climweb/src/climweb/pages/publications/models.py:267
 msgid "Publication Type"
 msgstr "نوع النشر"
 
-#: climweb/src/climweb/pages/publications/models.py:153
+#: climweb/src/climweb/pages/publications/models.py:268
 msgid "Services related to this publication"
 msgstr "الخدمات المتعلقة بهذا المنشور"
 
-#: climweb/src/climweb/pages/publications/models.py:154
+#: climweb/src/climweb/pages/publications/models.py:269
 msgid "Relevant Projects"
 msgstr "المشاريع ذات الصلة"
 
-#: climweb/src/climweb/pages/publications/models.py:155
+#: climweb/src/climweb/pages/publications/models.py:270
 msgid "Summary"
 msgstr "ملخص"
 
-#: climweb/src/climweb/pages/publications/models.py:156
+#: climweb/src/climweb/pages/publications/models.py:271
 msgid "Date of Publish"
 msgstr "تاريخ النشر"
 
-#: climweb/src/climweb/pages/publications/models.py:160
+#: climweb/src/climweb/pages/publications/models.py:275
 msgid "Is visible on homepage"
 msgstr "مرئي على الصفحة الرئيسية"
 
-#: climweb/src/climweb/pages/publications/models.py:162
+#: climweb/src/climweb/pages/publications/models.py:277
 msgid "Mark as featured"
 msgstr "وضع علامة على أنها مميزة"
 
-#: climweb/src/climweb/pages/publications/models.py:163
+#: climweb/src/climweb/pages/publications/models.py:278
 msgid "Featured publications appear on the publications landing page"
 msgstr "تظهر المنشورات المميزة على الصفحة المقصودة للمنشورات"
 
-#: climweb/src/climweb/pages/publications/models.py:165
+#: climweb/src/climweb/pages/publications/models.py:280
 msgid "Optional start date for which this publication is relevant"
 msgstr "تاريخ البدء الاختياري الذي يكون هذا المنشور ذو صلة به"
 
-#: climweb/src/climweb/pages/publications/models.py:166
+#: climweb/src/climweb/pages/publications/models.py:281
 msgid "Start date"
 msgstr "تاريخ البدء"
 
-#: climweb/src/climweb/pages/publications/models.py:169
+#: climweb/src/climweb/pages/publications/models.py:284
 msgid "End date"
 msgstr "تاريخ الانتهاء"
 
-#: climweb/src/climweb/pages/publications/models.py:171
+#: climweb/src/climweb/pages/publications/models.py:286
 msgid "Peer reviewed"
 msgstr "تمت مراجعة النظراء"
 
-#: climweb/src/climweb/pages/publications/models.py:179
+#: climweb/src/climweb/pages/publications/models.py:294
 #, fuzzy
 #| msgid "Publication image"
 msgid "Publication Image (Thumbnail)"
 msgstr "صورة المنشور (صورة مصغرة)"
 
-#: climweb/src/climweb/pages/publications/models.py:180
+#: climweb/src/climweb/pages/publications/models.py:295
 msgid ""
 "This can be a screenshot of the front page of the publication. If left empty"
 " and Auto-generate above is checked and the uploaded document is a PDF, an "
@@ -111,20 +135,20 @@ msgstr ""
 "الإنشاء التلقائي أعلاه وكان المستند الذي تم تحميله عبارة عن ملف PDF، فسيتم "
 "إنشاء صورة الصفحة الأولى تلقائيًا."
 
-#: climweb/src/climweb/pages/publications/models.py:186
+#: climweb/src/climweb/pages/publications/models.py:301
 msgid ""
 "If the document is a PDF, an image of the first page will be auto-generated."
 msgstr "إذا كان المستند بتنسيق PDF، فسيتم إنشاء صورة للصفحة الأولى تلقائيًا."
 
-#: climweb/src/climweb/pages/publications/models.py:187
+#: climweb/src/climweb/pages/publications/models.py:302
 msgid "Auto-generate thumbnail"
 msgstr "إنشاء صورة مصغرة تلقائيًا"
 
-#: climweb/src/climweb/pages/publications/models.py:196
+#: climweb/src/climweb/pages/publications/models.py:311
 msgid "Document or File"
 msgstr "مستند أو ملف"
 
-#: climweb/src/climweb/pages/publications/models.py:197
+#: climweb/src/climweb/pages/publications/models.py:312
 msgid ""
 "Here you can upload pdfs, word documents, powerpoints, zip files or any "
 "other file"
@@ -132,20 +156,20 @@ msgstr ""
 "هنا يمكنك تحميل ملفات PDF أو مستندات Word أو PowerPoint أو ملفات مضغوطة أو "
 "أي ملف آخر"
 
-#: climweb/src/climweb/pages/publications/models.py:201
+#: climweb/src/climweb/pages/publications/models.py:316
 msgid "External Url - *Only If published/hosted somewhere else"
 msgstr "عنوان URL الخارجي - *فقط إذا تم نشره/استضافته في مكان آخر"
 
-#: climweb/src/climweb/pages/publications/models.py:202
+#: climweb/src/climweb/pages/publications/models.py:317
 msgid "Link to published resource if external"
 msgstr "رابط إلى الموارد المنشورة إذا كانت خارجية"
 
-#: climweb/src/climweb/pages/publications/models.py:204
+#: climweb/src/climweb/pages/publications/models.py:319
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:116
 msgid "Tags"
 msgstr "العلامات"
 
-#: climweb/src/climweb/pages/publications/models.py:222
+#: climweb/src/climweb/pages/publications/models.py:337
 msgid "Additional Details"
 msgstr "تفاصيل اضافية"
 
@@ -214,16 +238,17 @@ msgstr[5] ""
 msgid "Search"
 msgstr "يبحث"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:74
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:81
 msgid "Number of downloads"
 msgstr "عدد التنزيلات"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:96
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:90
+msgid "Number of views"
+msgstr "عدد المشاهدات"
+
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:112
 msgid "Read More"
 msgstr "اقرأ أكثر"
 
 #~ msgid "This can be a screenshot of the front page of the publication"
 #~ msgstr "يمكن أن تكون هذه لقطة شاشة للصفحة الأولى للمنشور"
-
-#~ msgid "Number of views"
-#~ msgstr "عدد المشاهدات"

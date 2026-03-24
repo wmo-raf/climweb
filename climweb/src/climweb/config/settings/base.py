@@ -355,9 +355,12 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
+    'docs/locale',
     'climweb/src/climweb/base/locale',    
     'climweb/src/climweb/config/locale',    
     'climweb/src/climweb/pages/cap/locale',
+    'capcomposer/src/capcomposer/capeditor/locale', 
+    'capcomposer/src/capcomposer/cap/locale',
     'climweb/src/climweb/pages/cityclimate/locale',
     'climweb/src/climweb/pages/contact/locale',
     'climweb/src/climweb/pages/data_request/locale',
