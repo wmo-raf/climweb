@@ -101,7 +101,6 @@ version = release
 # language = 'en'
 # gettext_uuid = True
 gettext_compact = True
-print("LOCALE DIR EXISTS:", os.path.exists("locale"))
 # locales_dirs = ['locale']
 locale_dirs = [os.path.abspath("locale")]
 
