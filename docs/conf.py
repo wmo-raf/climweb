@@ -100,8 +100,10 @@ version = release
 # for a list of supported languages.
 # language = 'en'
 # gettext_uuid = True
-# gettext_compact = False
-locales_dirs = ['locale']
+gettext_compact = True
+print("LOCALE DIR EXISTS:", os.path.exists("locale"))
+# locales_dirs = ['locale']
+locale_dirs = [os.path.abspath("locale")]
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:

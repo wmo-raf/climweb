@@ -18,7 +18,7 @@
                         </div>
                         <div class="alert-item-info">
                             <div class="alert-item-title">
-                                {% translate alert_info.status %}: {{alert_info.event }} ({{ alert_info.area }})
+                                {% translate alert_info.status %}: {% translate alert_info.event|truncatechars:20 %} ({{ alert_info.area_desc }})
                             </div>
                             <div class="alert-severity-label">
                                 {{ alert_info.severity.label }}

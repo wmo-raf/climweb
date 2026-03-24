@@ -80,7 +80,7 @@ The sections of a service page include:
   to [Create Services Categories Section](./Manage-Services#step-1-create-an-agromet-service-category) to create service
   categories.
 
-- **Projects Section** - select from previously prepared projects. Please refer [Manage Projects](./Manage-Projects) to
+- **Projects Section** - select from previously prepared projects. Please refer [Manage Projects](manage_organisation/Manage-Projects) to
   guide on creation of projects.
 
 - **Publication Image** - This can be a screenshot of the front page of the publication

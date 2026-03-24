@@ -23,7 +23,7 @@ Repeat this process to list more partners
 
 ## 2. Create a partners page
 
-The creation of this page assumes you have already created an organisation index page which is the parent page of this page. To create an organisation index page, please refer to [Managing Organisation Page](./Manage-Organisation).
+The creation of this page assumes you have already created an organisation index page which is the parent page of this page. To create an organisation index page, please refer to [Managing Organisation Page](Manage-Organisation).
 
 To create a partner page, navigate to organisation page and create a child page from it selecting the about page.
 
