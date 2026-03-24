@@ -1,7 +1,7 @@
 :hidetoc: 1
 
-Welcome to NMHS ClimWeb documentation
-=======================================
+Welcome to ClimWeb documentation
+==================================
 
 .. image:: _static/images/home/cms_responsive.png
 
@@ -14,8 +14,8 @@ Downloadable pdf versions can be found at:
    * :download:`ClimWeb Manual (Swahili) <https://climweb.readthedocs.io/_/downloads/sw/latest/pdf/>`
 
 
-NMHS ClimWeb
--------------
+ClimWeb
+---------
 
 .. toctree::
    :maxdepth: 2
