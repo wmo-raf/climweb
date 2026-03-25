@@ -15,7 +15,10 @@ jobs:
 
       - name: Install Crowdin CLI
         run: |
-          curl -L https://github.com/crowdin/crowdin-cli/releases/latest/download/crowdin-cli.zip -o crowdin.zip
+          CROWDIN_CLI_VERSION="3.17.1"
+          curl -L "https://github.com/crowdin/crowdin-cli/releases/download/v${CROWDIN_CLI_VERSION}/crowdin-cli.zip" -o crowdin.zip
+          curl -L "https://github.com/crowdin/crowdin-cli/releases/download/v${CROWDIN_CLI_VERSION}/crowdin-cli.zip.sha256" -o crowdin.zip.sha256
+          sha256sum -c crowdin.zip.sha256
           unzip crowdin.zip
           sudo mv crowdin /usr/local/bin/
 
