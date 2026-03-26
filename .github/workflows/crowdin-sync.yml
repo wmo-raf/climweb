@@ -20,12 +20,14 @@ jobs:
         run: |
           curl -L https://github.com/crowdin/crowdin-cli/releases/latest/download/crowdin-cli.zip -o crowdin.zip
           unzip crowdin.zip
-          sudo mv */crowdin /usr/local/bin/
-          sudo mv */crowdin-cli.jar /usr/local/bin/
-          chmod +x /usr/local/bin/crowdin
+          sudo mv */crowdin-cli.jar /usr/local/bin/crowdin-cli.jar
+
+      - name: Check jar exists
+        run: ls -l /usr/local/bin/
           
       - name: Download translations
-        run: crowdin download
+        run: |
+          java -jar /usr/local/bin/crowdin-cli.jar download
         env:
           CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
