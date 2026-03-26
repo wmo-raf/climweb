@@ -1,6 +1,6 @@
 # City Forecasts
 
-![Preview Home](../_static/images/city_forecasts/preview_home.png "Preview Home")
+![City Forecast Preview](../_static/images/city_forecasts/City_forecast_Banner_Image.png "City Forecast Preview")
 
 City forecasts displayed on the homepage, and forecasts page can be added through the ClimWeb in two ways:
 1. Manually adding daily forecasts
