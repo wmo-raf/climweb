@@ -24,6 +24,10 @@ jobs:
 
       - name: Check jar exists
         run: ls -l /usr/local/bin/
+
+      - name: Debug files
+        run: |
+          ls -R
           
       - name: Download translations
         run: |
