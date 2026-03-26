@@ -51,7 +51,7 @@ jobs:
         run: |
           curl -s \
             -H "Authorization: Bearer $CROWDIN_TOKEN" \
-            "https://api.crowdin.com/api/v2/projects/YOUR_PROJECT_ID/files?limit=500" \
+            "https://api.crowdin.com/api/v2/projects/nmhs-cms/files?limit=500" \
             > files.json
 
       # -------------------------------
@@ -93,7 +93,7 @@ jobs:
 
             curl -s \
               -H "Authorization: Bearer $CROWDIN_TOKEN" \
-              "https://api.crowdin.com/api/v2/projects/YOUR_PROJECT_ID/translations?fileId=$fid&limit=500" \
+              "https://api.crowdin.com/api/v2/projects/nmhs-cms/translations?fileId=$fid&limit=500" \
               >> translations.json
           done < file_ids.txt
 
