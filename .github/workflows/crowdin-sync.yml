@@ -20,8 +20,7 @@ jobs:
         run: |
           curl -L https://github.com/crowdin/crowdin-cli/releases/latest/download/crowdin-cli.zip -o crowdin.zip
           unzip crowdin.zip
-          sudo mv */crowdin /usr/local/bin/
-          chmod +x /usr/local/bin/crowdin
+          cd */ && sudo bash install-crowdin-cli.sh
 
       - name: Download translations
         run: crowdin download
