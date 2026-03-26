@@ -181,8 +181,8 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: locale_community
           base: main
+          head: locale_community
           title: "Update translations from Crowdin"
           body: |
             Automated translation update from Crowdin.
