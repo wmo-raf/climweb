@@ -29,7 +29,7 @@ jobs:
         run: |
           java -jar /usr/local/bin/crowdin-cli.jar download \
             --token $CROWDIN_TOKEN \
-            --project-id nmhs-cms
+            --project-id 672958
         env:
           CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
@@ -57,7 +57,7 @@ jobs:
         run: |
           curl -s \
             -H "Authorization: Bearer $CROWDIN_TOKEN" \
-            "https://api.crowdin.com/api/v2/projects/nmhs-cms/files?limit=500" \
+            "https://api.crowdin.com/api/v2/projects/672958/files?limit=500" \
             > files.json
 
       # -------------------------------
@@ -99,7 +99,7 @@ jobs:
 
             curl -s \
               -H "Authorization: Bearer $CROWDIN_TOKEN" \
-              "https://api.crowdin.com/api/v2/projects/nmhs-cms/translations?fileId=$fid&limit=500" \
+              "https://api.crowdin.com/api/v2/projects/672958/translations?fileId=$fid&limit=500" \
               >> translations.json
           done < file_ids.txt
 
