@@ -177,3 +177,13 @@ jobs:
 
           git commit -m "$MESSAGE"
           git push origin locale_community
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: locale_community
+          base: main
+          title: "Update translations from Crowdin"
+          body: |
+            Automated translation update from Crowdin.
+          commit-message: "Update translations from Crowdin"
