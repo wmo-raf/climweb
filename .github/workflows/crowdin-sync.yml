@@ -27,7 +27,9 @@ jobs:
           
       - name: Download translations
         run: |
-          java -jar /usr/local/bin/crowdin-cli.jar download
+          java -jar /usr/local/bin/crowdin-cli.jar download \
+            --token $CROWDIN_TOKEN \
+            --project-id YOUR_PROJECT_ID
         env:
           CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
