@@ -17,7 +17,7 @@ The city forecast explorer menu can be accessed on the left sidebar.
 ![Forecast explorer](../_static/images/city_forecasts/forecast_explorer.png "Forecast explorer")
 
 Here you have the ability to:
-- Add/Edit/Delete a city (city name and location)
+- Add/Edit/Delete a city (city name and location).
 
     ![Add city](../_static/images/city_forecasts/add_city.png "Add city")
 
