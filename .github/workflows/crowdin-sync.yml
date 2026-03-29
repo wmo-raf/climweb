@@ -164,36 +164,15 @@ jobs:
 
           sort -u coauthors.txt -o coauthors.txt
 
-      # -------------------------------
-      # STEP 6: Commit + push
-      # -------------------------------
-      - name: Commit and push
-        run: |
-          git config user.name "crowdin-bot"
-          git config user.email "crowdin@users.noreply.github.com"
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-
-          MESSAGE="Update translations from Crowdin"
-
-          if [ -s coauthors.txt ]; then
-            MESSAGE="$MESSAGE
-
-            $(cat coauthors.txt)"
-          fi
-
-          git commit -m "$MESSAGE"
-          git push origin locale_community
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          base: main
-          head: locale_community
+          base: locale_community
+          branch: patch
           title: "Update translations from Crowdin"
           body: |
             Automated translation update from Crowdin.
-          commit-message: "Update translations from Crowdin"
+          commit-message: |
+            Update translations from Crowdin
+      
+            $(cat coauthors.txt)
