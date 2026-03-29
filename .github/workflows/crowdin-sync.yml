@@ -63,6 +63,8 @@ jobs:
             -H "Authorization: Bearer $CROWDIN_TOKEN" \
             "https://api.crowdin.com/api/v2/projects/672958/files?limit=500" \
             > files.json
+        env:
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
       # -------------------------------
       # STEP 2: Map local file → Crowdin fileId
@@ -106,6 +108,8 @@ jobs:
               "https://api.crowdin.com/api/v2/projects/672958/translations?fileId=$fid&limit=500" \
               >> translations.json
           done < file_ids.txt
+        env:
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
       # -------------------------------
       # STEP 4: Extract unique user IDs
@@ -163,6 +167,8 @@ jobs:
           done < user_ids.txt
 
           sort -u coauthors.txt -o coauthors.txt
+        env:
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
