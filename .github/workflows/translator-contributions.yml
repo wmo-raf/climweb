@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TARGET_BRANCH: patch
+      TARGET_BRANCH: locale_community
 
     steps:
       # ── 1. Checkout ──────────────────────────────────────────────────────────
@@ -98,11 +98,13 @@ jobs:
 
           PREV="${{ steps.sync_time.outputs.prev_sha }}"
           if [ -z "$PREV" ]; then
-            CHANGED_FILES=$(git diff --name-only "origin/$TARGET_BRANCH" HEAD -- \
-              'translations/' 'locales/' 'i18n/' 2>/dev/null || echo "")
+            # Brand-new branch — match any .po or .pot file anywhere in the repo
+            CHANGED_FILES=$(git diff --name-only "origin/$TARGET_BRANCH" HEAD \
+              2>/dev/null | grep -E '\.(po|pot)$' || echo "")
           else
-            CHANGED_FILES=$(git diff --name-only "$PREV" "origin/$TARGET_BRANCH" -- \
-              'translations/' 'locales/' 'i18n/')
+            # Diff between last sync SHA and current tip
+            CHANGED_FILES=$(git diff --name-only "$PREV" "origin/$TARGET_BRANCH" \
+              | grep -E '\.(po|pot)$' || echo "")
           fi
 
           if [ -z "$CHANGED_FILES" ]; then
