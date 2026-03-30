@@ -53,7 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
-          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
       # ── 4. Detect whether any translation files actually changed ─────────────
       - name: Check for translation changes
@@ -118,7 +118,7 @@ jobs:
             sleep 5
             STATUS=$(curl -sf \
               "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports/${REPORT_ID}" \
-              -H "Authorization: Bearer ${CROWDIN_PERSONAL_TOKEN}" \
+              -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
               | jq -r '.data.status')
             echo "  poll $i: $STATUS"
             [ "$STATUS" = "finished" ] && break
@@ -155,7 +155,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
         env:
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
-          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
       # ── 6. Amend the commit with Co-authored-by trailers ─────────────────────
       - name: Amend commit with Co-authored-by
