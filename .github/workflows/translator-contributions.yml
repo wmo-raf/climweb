@@ -195,6 +195,15 @@ jobs:
       - name: Amend commit with Co-authored-by
         if: steps.changed.outputs.has_changes == 'true'
         run: |
+          # The Crowdin action runs as a different user inside its Docker container,
+          # which leaves .git owned by that user. Reclaim ownership so git commands
+          # in this step can write to .git/COMMIT_EDITMSG and friends.
+          sudo chown -R "$(id -u):$(id -g)" .git
+          git config --global safe.directory "$GITHUB_WORKSPACE"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git fetch origin "$PATCH_BRANCH"
           git checkout "$PATCH_BRANCH"
 
