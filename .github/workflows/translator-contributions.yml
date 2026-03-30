@@ -51,18 +51,19 @@ jobs:
           echo "date_to=$DATE_TO"     >> "$GITHUB_OUTPUT"
           echo "Sync window: $DATE_FROM → $DATE_TO"
 
-          # Note: we do NOT write the timestamp here.
-          # It is only written after a fully successful run (step 8).
+          # Snapshot current SHA of locale_community for diff check
+          if git ls-remote --exit-code --heads origin "$TARGET_BRANCH"; then
+            echo "prev_sha=$(git rev-parse origin/$TARGET_BRANCH)" >> "$GITHUB_OUTPUT"
+          else
+            echo "prev_sha=" >> "$GITHUB_OUTPUT"
+          fi
 
       # ── 3. Prepare the patch branch ───────────────────────────────────────────
-      # Cut `patch` from the tip of `locale_community` so the PR diff shows
-      # only what changed in this sync — nothing else.
       - name: Prepare patch branch
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Make sure locale_community exists remotely — create it from main if not
           if git ls-remote --exit-code --heads origin "$TARGET_BRANCH"; then
             git fetch origin "$TARGET_BRANCH"
             git checkout -B "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
@@ -72,7 +73,6 @@ jobs:
             git push origin "$TARGET_BRANCH"
           fi
 
-          # Reset patch branch on top of locale_community's current tip
           git checkout -B "$PATCH_BRANCH" "$TARGET_BRANCH"
           git push --force origin "$PATCH_BRANCH"
 
@@ -99,7 +99,6 @@ jobs:
         run: |
           git fetch origin "$TARGET_BRANCH" "$PATCH_BRANCH"
 
-          # Diff patch vs locale_community — only .po / .pot files
           CHANGED_FILES=$(git diff --name-only \
             "origin/$TARGET_BRANCH" "origin/$PATCH_BRANCH" \
             | grep -E '\.(po|pot)$' || echo "")
@@ -111,7 +110,6 @@ jobs:
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
             echo "Changed files:"
             echo "$CHANGED_FILES"
-            # Store the list for the PR body
             {
               echo "changed_files<<EOF"
               echo "$CHANGED_FILES"
@@ -119,59 +117,91 @@ jobs:
             } >> "$GITHUB_OUTPUT"
           fi
 
-      # ── 6. Fetch contributors active in this sync window ─────────────────────
-      - name: Fetch active contributors from Crowdin
+      # ── 6. Fetch contributors for the changed files only ─────────────────────
+      # 1. Map each changed .po file back to its Crowdin source path (/en/ version)
+      # 2. Look up the Crowdin file ID for each source path
+      # 3. Query approvals scoped to those file IDs + sync date window
+      # 4. Only people who approved strings in the changed files are listed
+      - name: Fetch contributors for changed files
         id: contributors
         if: steps.changed.outputs.has_changes == 'true'
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
+          DATE_FROM: ${{ steps.sync_time.outputs.date_from }}
+          DATE_TO: ${{ steps.sync_time.outputs.date_to }}
+          CHANGED_FILES: ${{ steps.changed.outputs.changed_files }}
         run: |
-          DATE_FROM="${{ steps.sync_time.outputs.date_from }}"
-          DATE_TO="${{ steps.sync_time.outputs.date_to }}"
-
           echo "Fetching contributors between $DATE_FROM and $DATE_TO"
 
-          REPORT_RESPONSE=$(curl -sf -X POST \
-            "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports" \
-            -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"name\": \"top-members\",
-              \"schema\": {
-                \"unit\": \"words\",
-                \"format\": \"json\",
-                \"dateFrom\": \"$DATE_FROM\",
-                \"dateTo\":   \"$DATE_TO\"
-              }
-            }")
+          # ── A: Map changed translation paths → source (en) paths ───────────────
+          # e.g. climweb/.../locale/fr/LC_MESSAGES/django.po
+          #   →  /climweb/.../locale/en/LC_MESSAGES/django.po  (Crowdin absolute path)
+          SOURCE_PATHS=()
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            src=$(echo "$f" | sed 's|/locale/[^/]*/LC_MESSAGES/|/locale/en/LC_MESSAGES/|g')
+            SOURCE_PATHS+=("/$src")
+          done <<< "$CHANGED_FILES"
 
-          REPORT_ID=$(echo "$REPORT_RESPONSE" | jq -r '.data.identifier')
-          echo "Report ID: $REPORT_ID"
+          # Deduplicate — multiple languages changed from the same source file
+          # should only result in one file ID lookup
+          mapfile -t SOURCE_PATHS < <(printf '%s\n' "${SOURCE_PATHS[@]}" | sort -u)
 
-          for i in $(seq 1 18); do
-            sleep 5
-            STATUS=$(curl -sf \
-              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports/${REPORT_ID}" \
-              -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
-              | jq -r '.data.status')
-            echo "  poll $i: $STATUS"
-            [ "$STATUS" = "finished" ] && break
+          echo "Source paths to look up (${#SOURCE_PATHS[@]}):"
+          printf '  %s\n' "${SOURCE_PATHS[@]}"
+
+          # ── B: Fetch all Crowdin file IDs ───────────────────────────────────────
+          ALL_FILES=$(curl -sf \
+            "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/files?limit=500" \
+            -H "Authorization: Bearer ${CROWDIN_TOKEN}")
+
+          # ── C: Match source paths → Crowdin file IDs ────────────────────────────
+          FILE_IDS=()
+          for src_path in "${SOURCE_PATHS[@]}"; do
+            file_id=$(echo "$ALL_FILES" | jq -r \
+              --arg p "$src_path" \
+              '.data[] | select(.data.path == $p) | .data.id')
+            if [ -n "$file_id" ] && [ "$file_id" != "null" ]; then
+              FILE_IDS+=("$file_id")
+              echo "  Matched: $src_path → file ID $file_id"
+            else
+              echo "  No match for: $src_path"
+            fi
           done
 
-          DOWNLOAD_URL=$(curl -sf \
-            "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports/${REPORT_ID}/download" \
-            -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
-            | jq -r '.data.url')
+          # ── D: Fetch approvals per file, collect unique approvers ───────────────
+          # Only approvals whose createdAt falls within the sync window are included.
+          declare -A SEEN_USERS
+          CO_AUTHORS=""
 
-          curl -sf "$DOWNLOAD_URL" -o contributors_report.json
+          for file_id in "${FILE_IDS[@]}"; do
+            echo "Fetching approvals for file ID: $file_id"
+            APPROVALS=$(curl -sf \
+              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/approvals?fileId=${file_id}&limit=500" \
+              -H "Authorization: Bearer ${CROWDIN_TOKEN}")
 
-          CO_AUTHORS=$(jq -r '
-            .data[]
-            | select(.user != null)
-            | (.user.fullName // .user.username) as $name
-            | .user.username as $user
-            | "Co-authored-by: \($name) <\($user)@users.noreply.github.com>"
-          ' contributors_report.json | sort -u)
+            while IFS=$'\t' read -r fullname username; do
+              [ -z "$username" ] && continue
+              if [ -z "${SEEN_USERS[$username]+_}" ]; then
+                SEEN_USERS[$username]=1
+                name="${fullname:-$username}"
+                CO_AUTHORS+="Co-authored-by: $name <${username}@users.noreply.github.com>"$'\n'
+              fi
+            done < <(echo "$APPROVALS" | jq -r \
+              --arg from "$DATE_FROM" \
+              --arg to   "$DATE_TO" \
+              '.data[]
+               | select(.data.createdAt >= $from and .data.createdAt <= $to)
+               | select(.data.user != null)
+               | [(.data.user.fullName // .data.user.username), .data.user.username]
+               | @tsv')
+          done
+
+          CO_AUTHORS=$(echo "$CO_AUTHORS" | sort -u | sed '/^$/d')
 
           if [ -z "$CO_AUTHORS" ]; then
+            echo "No approvers found in window for the changed files."
             CO_AUTHORS="Co-authored-by: Crowdin Community <crowdin@noreply.com>"
           fi
 
@@ -183,20 +213,13 @@ jobs:
             echo "$CO_AUTHORS"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
-        env:
-          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
-          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
       # ── 7. Amend the commit on patch with Co-authored-by trailers ────────────
       - name: Amend commit with Co-authored-by
         if: steps.changed.outputs.has_changes == 'true'
         run: |
-          # The Crowdin action runs as a different user inside its Docker container,
-          # which leaves .git owned by that user. Reclaim ownership so git commands
-          # in this step can write to .git/COMMIT_EDITMSG and friends.
           sudo chown -R "$(id -u):$(id -g)" .git
           git config --global safe.directory "$GITHUB_WORKSPACE"
-
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
@@ -211,8 +234,6 @@ jobs:
           git push --force-with-lease origin "$PATCH_BRANCH"
 
       # ── 8. Open PR from patch → locale_community ─────────────────────────────
-      # The diff in the PR shows exactly what changed in this sync batch.
-      # Translators appear as co-authors on the commit and are listed in the body.
       - name: Create or update Pull Request
         if: steps.changed.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v6
@@ -234,9 +255,8 @@ jobs:
 
             ### 👥 Translators in this batch
 
-            The following contributors worked on translations during this period.
-            They are credited via `Co-authored-by:` in the commit so they appear
-            as co-authors in the GitHub UI:
+            Only contributors who approved strings in the changed files during
+            this window are credited via `Co-authored-by:` in the commit:
 
             ```
             ${{ steps.contributors.outputs.co_authors }}
@@ -252,28 +272,24 @@ jobs:
           draft: false
 
       # ── 9. Persist timestamp — only on full success ───────────────────────────
-      # Runs after the PR is created, so a failure at any earlier step
-      # (download, amend, PR) leaves the old timestamp in place and the
-      # next run will re-cover the same window rather than skipping it.
-      - name: Save last-run timestamp to cache
+      - name: Write last-run timestamp
         if: steps.changed.outputs.has_changes == 'true'
         run: |
           mkdir -p .crowdin-last-run
           echo "${{ steps.sync_time.outputs.date_to }}" > .crowdin-last-run/timestamp
-      - name: Upload last-run timestamp cache
+      - name: Save last-run timestamp cache
         if: steps.changed.outputs.has_changes == 'true'
         uses: actions/cache/save@v4
         with:
           path: .crowdin-last-run
           key: crowdin-last-run-timestamp-${{ github.run_id }}
 
-      # Also save when there are no changes — window still advanced cleanly
-      - name: Save last-run timestamp (no changes case)
+      - name: Write last-run timestamp (no changes)
         if: steps.changed.outputs.has_changes == 'false'
         run: |
           mkdir -p .crowdin-last-run
           echo "${{ steps.sync_time.outputs.date_to }}" > .crowdin-last-run/timestamp
-      - name: Upload last-run timestamp cache (no changes case)
+      - name: Save last-run timestamp cache (no changes)
         if: steps.changed.outputs.has_changes == 'false'
         uses: actions/cache/save@v4
         with:
