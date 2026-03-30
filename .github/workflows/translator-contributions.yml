@@ -15,7 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TARGET_BRANCH: translation_patch
+      TARGET_BRANCH: locale_community   # stable base — PR merges INTO this
+      PATCH_BRANCH: patch               # short-lived — PR is opened FROM this
 
     steps:
       # ── 1. Checkout ──────────────────────────────────────────────────────────
@@ -25,11 +26,7 @@ jobs:
           fetch-depth: 0
 
       # ── 2. Restore last-run timestamp from cache ──────────────────────────────
-      # The cache holds the ISO timestamp written at the end of the previous run.
-      # Using this as dateFrom means we catch every approval since the last sync,
-      # not just the few seconds since this run started.
       - name: Restore last-run timestamp
-        id: cache_restore
         uses: actions/cache/restore@v4
         with:
           path: .crowdin-last-run
@@ -38,42 +35,52 @@ jobs:
       - name: Resolve sync window timestamps
         id: sync_time
         run: |
-          # dateFrom — use cached value if it exists, otherwise fall back to 7 days ago
           if [ -f .crowdin-last-run/timestamp ]; then
             DATE_FROM=$(cat .crowdin-last-run/timestamp)
             echo "Using cached last-run timestamp: $DATE_FROM"
           else
-            # GNU date (Linux) / BSD date (macOS) compatible fallback
             DATE_FROM=$(date -u -d "7 days ago" +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null \
               || date -u -v-7d +"%Y-%m-%dT%H:%M:%SZ")
             echo "No cache found — defaulting to 7 days ago: $DATE_FROM"
           fi
 
           DATE_TO=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
           echo "date_from=$DATE_FROM" >> "$GITHUB_OUTPUT"
           echo "date_to=$DATE_TO"     >> "$GITHUB_OUTPUT"
           echo "Sync window: $DATE_FROM → $DATE_TO"
 
-          # Persist current time so the next run uses it as dateFrom
           mkdir -p .crowdin-last-run
           echo "$DATE_TO" > .crowdin-last-run/timestamp
 
-          # Snapshot the current SHA of locale_community for the diff check later
-          if git ls-remote --exit-code --heads origin "$TARGET_BRANCH"; then
-            echo "prev_sha=$(git rev-parse origin/$TARGET_BRANCH)" >> "$GITHUB_OUTPUT"
-          else
-            echo "prev_sha=" >> "$GITHUB_OUTPUT"
-          fi
-
-      # Save the updated timestamp immediately so it persists even if later steps fail
       - name: Save last-run timestamp to cache
         uses: actions/cache/save@v4
         with:
           path: .crowdin-last-run
           key: crowdin-last-run-timestamp
 
-      # ── 3. Download translations via the official Crowdin action ─────────────
+      # ── 3. Prepare the patch branch ───────────────────────────────────────────
+      # Cut `patch` from the tip of `locale_community` so the PR diff shows
+      # only what changed in this sync — nothing else.
+      - name: Prepare patch branch
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Make sure locale_community exists remotely — create it from main if not
+          if git ls-remote --exit-code --heads origin "$TARGET_BRANCH"; then
+            git fetch origin "$TARGET_BRANCH"
+            git checkout -B "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
+          else
+            echo "locale_community does not exist yet — creating from main"
+            git checkout -B "$TARGET_BRANCH" origin/main
+            git push origin "$TARGET_BRANCH"
+          fi
+
+          # Reset patch branch on top of locale_community's current tip
+          git checkout -B "$PATCH_BRANCH" "$TARGET_BRANCH"
+          git push --force origin "$PATCH_BRANCH"
+
+      # ── 4. Download translations from Crowdin onto the patch branch ───────────
       - name: Download translations from Crowdin
         uses: crowdin/github-action@v2
         with:
@@ -81,7 +88,7 @@ jobs:
           upload_translations: false
           download_translations: true
           create_pull_request: false
-          localization_branch_name: ${{ env.TARGET_BRANCH }}
+          localization_branch_name: ${{ env.PATCH_BRANCH }}
           commit_message: 'chore(i18n): sync translations from Crowdin'
           github_user_name: 'crowdin-bot'
           github_user_email: 'support+bot@crowdin.com'
@@ -90,22 +97,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── 4. Detect whether any translation files actually changed ─────────────
+      # ── 5. Check whether anything actually changed ────────────────────────────
       - name: Check for translation changes
         id: changed
         run: |
-          git fetch origin "$TARGET_BRANCH"
+          git fetch origin "$TARGET_BRANCH" "$PATCH_BRANCH"
 
-          PREV="${{ steps.sync_time.outputs.prev_sha }}"
-          if [ -z "$PREV" ]; then
-            # Brand-new branch — match any .po or .pot file anywhere in the repo
-            CHANGED_FILES=$(git diff --name-only "origin/$TARGET_BRANCH" HEAD \
-              2>/dev/null | grep -E '\.(po|pot)$' || echo "")
-          else
-            # Diff between last sync SHA and current tip
-            CHANGED_FILES=$(git diff --name-only "$PREV" "origin/$TARGET_BRANCH" \
-              | grep -E '\.(po|pot)$' || echo "")
-          fi
+          # Diff patch vs locale_community — only .po / .pot files
+          CHANGED_FILES=$(git diff --name-only \
+            "origin/$TARGET_BRANCH" "origin/$PATCH_BRANCH" \
+            | grep -E '\.(po|pot)$' || echo "")
 
           if [ -z "$CHANGED_FILES" ]; then
             echo "No translation files changed. Skipping PR."
@@ -114,11 +115,15 @@ jobs:
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
             echo "Changed files:"
             echo "$CHANGED_FILES"
+            # Store the list for the PR body
+            {
+              echo "changed_files<<EOF"
+              echo "$CHANGED_FILES"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
           fi
 
-      # ── 5. Fetch ONLY contributors active in this sync window ─────────────────
-      # dateFrom = last run's timestamp, dateTo = now.
-      # Only translators who did work between those two points appear in results.
+      # ── 6. Fetch contributors active in this sync window ─────────────────────
       - name: Fetch active contributors from Crowdin
         id: contributors
         if: steps.changed.outputs.has_changes == 'true'
@@ -128,9 +133,6 @@ jobs:
 
           echo "Fetching contributors between $DATE_FROM and $DATE_TO"
 
-          # Request the top-members report scoped to this sync window.
-          # top-members is available on all Crowdin plans including free/open-source.
-          # It supports dateFrom/dateTo so we only get contributors active this period.
           REPORT_RESPONSE=$(curl -sf -X POST \
             "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports" \
             -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
@@ -148,7 +150,6 @@ jobs:
           REPORT_ID=$(echo "$REPORT_RESPONSE" | jq -r '.data.identifier')
           echo "Report ID: $REPORT_ID"
 
-          # Poll until finished (max ~90 s)
           for i in $(seq 1 18); do
             sleep 5
             STATUS=$(curl -sf \
@@ -159,7 +160,6 @@ jobs:
             [ "$STATUS" = "finished" ] && break
           done
 
-          # Download the report
           DOWNLOAD_URL=$(curl -sf \
             "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports/${REPORT_ID}/download" \
             -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
@@ -167,9 +167,6 @@ jobs:
 
           curl -sf "$DOWNLOAD_URL" -o contributors_report.json
 
-          # Build Co-authored-by lines from top-members report.
-          # top-members response shape: .data[].user.{ fullName, username }
-          # Only users present in the date-scoped report are included.
           CO_AUTHORS=$(jq -r '
             .data[]
             | select(.user != null)
@@ -194,50 +191,55 @@ jobs:
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
 
-      # ── 6. Amend the commit with Co-authored-by trailers ─────────────────────
+      # ── 7. Amend the commit on patch with Co-authored-by trailers ────────────
       - name: Amend commit with Co-authored-by
         if: steps.changed.outputs.has_changes == 'true'
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin "$PATCH_BRANCH"
+          git checkout "$PATCH_BRANCH"
 
-          git fetch origin "$TARGET_BRANCH"
-          git checkout "$TARGET_BRANCH"
-
-          # Git trailer spec: subject line, blank line, then Co-authored-by lines
-          COMMIT_MSG="chore(i18n): sync Crowdin translations [locale_community]
+          COMMIT_MSG="chore(i18n): sync Crowdin translations
 
           ${{ steps.contributors.outputs.co_authors }}"
 
           git commit --allow-empty --amend -m "$COMMIT_MSG"
-          git push --force-with-lease origin "$TARGET_BRANCH"
+          git push --force-with-lease origin "$PATCH_BRANCH"
 
-      # ── 7. Open / update the Pull Request ────────────────────────────────────
+      # ── 8. Open PR from patch → locale_community ─────────────────────────────
+      # The diff in the PR shows exactly what changed in this sync batch.
+      # Translators appear as co-authors on the commit and are listed in the body.
       - name: Create or update Pull Request
         if: steps.changed.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.TARGET_BRANCH }}
-          base: main                          # ← change if your default branch differs
+          branch: ${{ env.PATCH_BRANCH }}
+          base: ${{ env.TARGET_BRANCH }}
           title: '🌐 Crowdin translation sync – community contributions'
           body: |
             ## 🌐 Crowdin Translation Sync
 
-            This PR contains translations approved in Crowdin between
-            `${{ steps.sync_time.outputs.date_from }}` and `${{ steps.sync_time.outputs.date_to }}`.
+            **Sync window:** `${{ steps.sync_time.outputs.date_from }}` → `${{ steps.sync_time.outputs.date_to }}`
 
-            ### Active translators in this batch
+            ### 📄 Changed translation files
 
-            Only contributors who made changes in this window are credited via
-            `Co-authored-by:` in the commit:
+            ```
+            ${{ steps.changed.outputs.changed_files }}
+            ```
+
+            ### 👥 Translators in this batch
+
+            The following contributors worked on translations during this period.
+            They are credited via `Co-authored-by:` in the commit so they appear
+            as co-authors in the GitHub UI:
 
             ```
             ${{ steps.contributors.outputs.co_authors }}
             ```
 
             ---
-            *Generated by the **Crowdin Translations** workflow · branch `locale_community`*
+            *Merge this PR into `locale_community` to accept the translations.*
+            *Generated by the **Crowdin Translations** workflow.*
           labels: |
             translations
             community
