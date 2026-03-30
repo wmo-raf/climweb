@@ -1,0 +1,207 @@
+name: Crowdin – Download Translations & Open PR
+
+on:
+  # schedule:
+  #   - cron: '0 6 * * 1'   # Every Monday 06:00 UTC — adjust to your cadence
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  crowdin-sync:
+    name: Sync translations from Crowdin
+    runs-on: ubuntu-latest
+
+    env:
+      TARGET_BRANCH: locale_community
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── 2. Record the timestamp BEFORE the sync ───────────────────────────────
+      # We'll use this as dateFrom when querying the Crowdin report, so we only
+      # capture contributors who made changes in THIS sync window.
+      - name: Record sync start time
+        id: sync_time
+        run: |
+          echo "date_from=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_OUTPUT"
+
+          if git ls-remote --exit-code --heads origin "$TARGET_BRANCH"; then
+            echo "prev_sha=$(git rev-parse origin/$TARGET_BRANCH)" >> "$GITHUB_OUTPUT"
+          else
+            echo "prev_sha=" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── 3. Download translations via the official Crowdin action ─────────────
+      - name: Download translations from Crowdin
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: false
+          upload_translations: false
+          download_translations: true
+          create_pull_request: false
+          localization_branch_name: ${{ env.TARGET_BRANCH }}
+          commit_message: 'chore(i18n): sync translations from Crowdin'
+          github_user_name: 'crowdin-bot'
+          github_user_email: 'support+bot@crowdin.com'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+      # ── 4. Detect whether any translation files actually changed ─────────────
+      - name: Check for translation changes
+        id: changed
+        run: |
+          git fetch origin "$TARGET_BRANCH"
+
+          PREV="${{ steps.sync_time.outputs.prev_sha }}"
+          if [ -z "$PREV" ]; then
+            CHANGED_FILES=$(git diff --name-only "origin/$TARGET_BRANCH" HEAD -- \
+              'translations/' 'locales/' 'i18n/' 2>/dev/null || echo "")
+          else
+            CHANGED_FILES=$(git diff --name-only "$PREV" "origin/$TARGET_BRANCH" -- \
+              'translations/' 'locales/' 'i18n/')
+          fi
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No translation files changed. Skipping PR."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "Changed files:"
+            echo "$CHANGED_FILES"
+          fi
+
+      # ── 5. Fetch ONLY contributors active in this sync window ─────────────────
+      # The translation-costs report accepts dateFrom/dateTo, so only people who
+      # did real work between sync-start and now appear in the results.
+      - name: Fetch active contributors from Crowdin
+        id: contributors
+        if: steps.changed.outputs.has_changes == 'true'
+        run: |
+          DATE_FROM="${{ steps.sync_time.outputs.date_from }}"
+          DATE_TO="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+          echo "Fetching contributors between $DATE_FROM and $DATE_TO"
+
+          # Request the translation-costs report grouped by user
+          REPORT_RESPONSE=$(curl -sf -X POST \
+            "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports" \
+            -H "Authorization: Bearer ${CROWDIN_PERSONAL_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"name\": \"translation-costs\",
+              \"schema\": {
+                \"unit\": \"words\",
+                \"currency\": \"USD\",
+                \"languageId\": \"all\",
+                \"userIds\": [],
+                \"format\": \"json\",
+                \"dateFrom\": \"$DATE_FROM\",
+                \"dateTo\":   \"$DATE_TO\",
+                \"groupBy\":  \"user\"
+              }
+            }")
+
+          REPORT_ID=$(echo "$REPORT_RESPONSE" | jq -r '.data.identifier')
+          echo "Report ID: $REPORT_ID"
+
+          # Poll until finished (max ~90 s)
+          for i in $(seq 1 18); do
+            sleep 5
+            STATUS=$(curl -sf \
+              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports/${REPORT_ID}" \
+              -H "Authorization: Bearer ${CROWDIN_PERSONAL_TOKEN}" \
+              | jq -r '.data.status')
+            echo "  poll $i: $STATUS"
+            [ "$STATUS" = "finished" ] && break
+          done
+
+          # Download the report
+          DOWNLOAD_URL=$(curl -sf \
+            "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports/${REPORT_ID}/download" \
+            -H "Authorization: Bearer ${CROWDIN_PERSONAL_TOKEN}" \
+            | jq -r '.data.url')
+
+          curl -sf "$DOWNLOAD_URL" -o contributors_report.json
+
+          # Build Co-authored-by lines from users in this window only
+          CO_AUTHORS=$(jq -r '
+            .data[]
+            | select(.user != null)
+            | .user.fullName as $name
+            | .user.username  as $user
+            | "Co-authored-by: \($name) <\($user)@users.noreply.github.com>"
+          ' contributors_report.json | sort -u)
+
+          if [ -z "$CO_AUTHORS" ]; then
+            CO_AUTHORS="Co-authored-by: Crowdin Community <crowdin@noreply.com>"
+          fi
+
+          echo "Contributors:"
+          echo "$CO_AUTHORS"
+
+          {
+            echo "co_authors<<EOF"
+            echo "$CO_AUTHORS"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+      # ── 6. Amend the commit with Co-authored-by trailers ─────────────────────
+      - name: Amend commit with Co-authored-by
+        if: steps.changed.outputs.has_changes == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin "$TARGET_BRANCH"
+          git checkout "$TARGET_BRANCH"
+
+          # Git trailer spec: subject line, blank line, then Co-authored-by lines
+          COMMIT_MSG="chore(i18n): sync Crowdin translations [locale_community]
+
+${{ steps.contributors.outputs.co_authors }}"
+
+          git commit --allow-empty --amend -m "$COMMIT_MSG"
+          git push --force-with-lease origin "$TARGET_BRANCH"
+
+      # ── 7. Open / update the Pull Request ────────────────────────────────────
+      - name: Create or update Pull Request
+        if: steps.changed.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.TARGET_BRANCH }}
+          base: locale_community                          # ← change if your default branch differs
+          title: '🌐 Crowdin translation sync – community contributions'
+          body: |
+            ## 🌐 Crowdin Translation Sync
+
+            This PR contains only translations approved in Crowdin **since this sync started**.
+
+            ### Active translators in this batch
+
+            Only contributors who made changes in this window are credited via
+            `Co-authored-by:` in the commit:
+
+            ```
+            ${{ steps.contributors.outputs.co_authors }}
+            ```
+
+            ---
+            *Generated by the **Crowdin Translations** workflow · branch `locale_community`*
+          labels: |
+            translations
+            community
+            crowdin
+          draft: false
