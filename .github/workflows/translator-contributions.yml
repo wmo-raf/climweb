@@ -170,7 +170,7 @@ jobs:
           # Git trailer spec: subject line, blank line, then Co-authored-by lines
           COMMIT_MSG="chore(i18n): sync Crowdin translations [locale_community]
 
-${{ steps.contributors.outputs.co_authors }}"
+          ${{ steps.contributors.outputs.co_authors }}"
 
           git commit --allow-empty --amend -m "$COMMIT_MSG"
           git push --force-with-lease origin "$TARGET_BRANCH"
