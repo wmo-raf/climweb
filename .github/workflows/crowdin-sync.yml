@@ -69,78 +69,78 @@ jobs:
       - name: Build contributors and co-authors
         run: |
           python3 <<'EOF'
-            import json, re
-            
-            data = json.load(open("members.json"))
-            
-            coauthors = set()
-            contributors = {}
-            
-            def generate_candidates(name):
-                base = name.lower()
-                base = re.sub(r'[^a-z0-9 ]', '', base)
-                parts = base.split()
-            
-                if not parts:
-                    return []
-            
-                candidates = set()
-            
-                if len(parts) == 1:
-                    candidates.add(parts[0])
-                else:
-                    candidates.add("".join(parts))      # graceamondi
-                    candidates.add("-".join(parts))     # grace-amondi
-                    candidates.add("_".join(parts))     # grace_amondi
-            
-                return list(candidates)
-            
-            for m in data.get("data", []):
-                d = m.get("data", {})
-                role = d.get("role")
-            
-                if role != "translator":
-                    continue
-            
-                user = d.get("user", {})
-                name = user.get("fullName")
-                uid = user.get("id")
-            
-                if not name:
-                    continue
-            
-                # Guess GitHub username
-                candidates = generate_candidates(name)
-            
-                gh_username = None
-                for c in candidates:
-                    if "-" in c:
-                        gh_username = c
-                        break
-            
-                if not gh_username and candidates:
-                    gh_username = candidates[0]
-            
-                if gh_username:
-                    email = f"{gh_username}@users.noreply.github.com"
-                else:
-                    email = f"{uid}+crowdin@users.noreply.github.com"
-            
-                coauthors.add(f"Co-authored-by: {name} <{email}>")
-            
-                # Add to contributors list
-                contributors[name] = True
-            
-            # Write co-authors
-            with open("coauthors.txt", "w") as f:
-                f.write("\n".join(sorted(coauthors)))
-            
-            # Write PR contributors
-            with open("contributors.md", "w") as f:
-                f.write("### 🌍 Translation Contributors\n\n")
-                for name in sorted(contributors.keys()):
-                    f.write(f"- {name}\n")
-            EOF
+          import json, re
+          
+          data = json.load(open("members.json"))
+          
+          coauthors = set()
+          contributors = {}
+          
+          def generate_candidates(name):
+              base = name.lower()
+              base = re.sub(r'[^a-z0-9 ]', '', base)
+              parts = base.split()
+          
+              if not parts:
+                  return []
+          
+              candidates = set()
+          
+              if len(parts) == 1:
+                  candidates.add(parts[0])
+              else:
+                  candidates.add("".join(parts))      # graceamondi
+                  candidates.add("-".join(parts))     # grace-amondi
+                  candidates.add("_".join(parts))     # grace_amondi
+          
+              return list(candidates)
+          
+          for m in data.get("data", []):
+              d = m.get("data", {})
+              role = d.get("role")
+          
+              if role != "translator":
+                  continue
+          
+              user = d.get("user", {})
+              name = user.get("fullName")
+              uid = user.get("id")
+          
+              if not name:
+                  continue
+          
+              # Guess GitHub username
+              candidates = generate_candidates(name)
+          
+              gh_username = None
+              for c in candidates:
+                  if "-" in c:
+                      gh_username = c
+                      break
+          
+              if not gh_username and candidates:
+                  gh_username = candidates[0]
+          
+              if gh_username:
+                  email = f"{gh_username}@users.noreply.github.com"
+              else:
+                  email = f"{uid}+crowdin@users.noreply.github.com"
+          
+              coauthors.add(f"Co-authored-by: {name} <{email}>")
+          
+              # Add to contributors list
+              contributors[name] = True
+          
+          # Write co-authors
+          with open("coauthors.txt", "w") as f:
+              f.write("\n".join(sorted(coauthors)))
+          
+          # Write PR contributors
+          with open("contributors.md", "w") as f:
+              f.write("### 🌍 Translation Contributors\n\n")
+              for name in sorted(contributors.keys()):
+                  f.write(f"- {name}\n")
+          EOF
 
 
       # -------------------------------
