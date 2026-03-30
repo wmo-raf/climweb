@@ -134,51 +134,43 @@ jobs:
         run: |
           echo "Fetching contributors between $DATE_FROM and $DATE_TO"
 
-          # ── A: Map changed translation paths → source (en) paths ───────────────
-          # e.g. climweb/.../locale/fr/LC_MESSAGES/django.po
-          #   →  /climweb/.../locale/en/LC_MESSAGES/django.po  (Crowdin absolute path)
-          SOURCE_PATHS=()
-          while IFS= read -r f; do
-            [ -z "$f" ] && continue
-            src=$(echo "$f" | sed 's|/locale/[^/]*/LC_MESSAGES/|/locale/en/LC_MESSAGES/|g')
-            SOURCE_PATHS+=("/$src")
-          done <<< "$CHANGED_FILES"
-
-          # Deduplicate — multiple languages changed from the same source file
-          # should only result in one file ID lookup
-          mapfile -t SOURCE_PATHS < <(printf '%s\n' "${SOURCE_PATHS[@]}" | sort -u)
-
-          echo "Source paths to look up (${#SOURCE_PATHS[@]}):"
-          printf '  %s\n' "${SOURCE_PATHS[@]}"
-
-          # ── B: Fetch all Crowdin file IDs ───────────────────────────────────────
+          # ── A: Fetch all Crowdin file IDs once — matched per changed file below ───
           ALL_FILES=$(curl -sf \
             "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/files?limit=500" \
             -H "Authorization: Bearer ${CROWDIN_TOKEN}")
 
-          # ── C: Match source paths → Crowdin file IDs ────────────────────────────
-          FILE_IDS=()
-          for src_path in "${SOURCE_PATHS[@]}"; do
+          # ── B: Fetch approvals per file+language, collect unique approvers ────────
+          # The approvals endpoint requires both fileId AND languageId.
+          # We extract the language code from each changed file path directly
+          # e.g. locale/fr/LC_MESSAGES/django.po → "fr"
+          # Then query approvals for each unique file+language combination.
+          declare -A SEEN_USERS
+          declare -A SEEN_FILE_LANG   # avoid duplicate file+lang lookups
+          CO_AUTHORS=""
+
+          while IFS= read -r changed_file; do
+            [ -z "$changed_file" ] && continue
+
+            # Extract language code from path e.g. locale/fr/LC_MESSAGES → fr
+            lang_code=$(echo "$changed_file" | grep -oP '(?<=/locale/)[^/]+(?=/LC_MESSAGES)')
+            [ -z "$lang_code" ] && continue
+
+            # Map to source path to get file ID
+            src_path="/$(echo "$changed_file" | sed 's|/locale/[^/]*/LC_MESSAGES/|/locale/en/LC_MESSAGES/|g')"
             file_id=$(echo "$ALL_FILES" | jq -r \
               --arg p "$src_path" \
               '.data[] | select(.data.path == $p) | .data.id')
-            if [ -n "$file_id" ] && [ "$file_id" != "null" ]; then
-              FILE_IDS+=("$file_id")
-              echo "  Matched: $src_path → file ID $file_id"
-            else
-              echo "  No match for: $src_path"
-            fi
-          done
 
-          # ── D: Fetch approvals per file, collect unique approvers ───────────────
-          # Only approvals whose createdAt falls within the sync window are included.
-          declare -A SEEN_USERS
-          CO_AUTHORS=""
+            [ -z "$file_id" ] || [ "$file_id" = "null" ] && continue
 
-          for file_id in "${FILE_IDS[@]}"; do
-            echo "Fetching approvals for file ID: $file_id"
+            # Skip if we already fetched this file+language combination
+            key="${file_id}:${lang_code}"
+            [ -n "${SEEN_FILE_LANG[$key]+_}" ] && continue
+            SEEN_FILE_LANG[$key]=1
+
+            echo "Fetching approvals for file ID $file_id, language $lang_code"
             APPROVALS=$(curl -sf \
-              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/approvals?fileId=${file_id}&limit=500" \
+              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/approvals?fileId=${file_id}&languageId=${lang_code}&limit=500" \
               -H "Authorization: Bearer ${CROWDIN_TOKEN}")
 
             while IFS=$'\t' read -r fullname username; do
@@ -196,7 +188,7 @@ jobs:
                | select(.data.user != null)
                | [(.data.user.fullName // .data.user.username), .data.user.username]
                | @tsv')
-          done
+          done <<< "$CHANGED_FILES"
 
           CO_AUTHORS=$(echo "$CO_AUTHORS" | sort -u | sed '/^$/d')
 
