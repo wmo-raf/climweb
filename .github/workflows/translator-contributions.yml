@@ -128,22 +128,21 @@ jobs:
 
           echo "Fetching contributors between $DATE_FROM and $DATE_TO"
 
-          # Request the translation-costs report scoped to this window
+          # Request the top-members report scoped to this sync window.
+          # top-members is available on all Crowdin plans including free/open-source.
+          # It supports dateFrom/dateTo so we only get contributors active this period.
           REPORT_RESPONSE=$(curl -sf -X POST \
             "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports" \
             -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
             -H "Content-Type: application/json" \
             -d "{
-              \"name\": \"translation-costs\",
+              \"name\": \"top-members\",
               \"schema\": {
                 \"unit\": \"words\",
-                \"currency\": \"USD\",
                 \"languageId\": \"all\",
-                \"userIds\": [],
                 \"format\": \"json\",
                 \"dateFrom\": \"$DATE_FROM\",
-                \"dateTo\":   \"$DATE_TO\",
-                \"groupBy\":  \"user\"
+                \"dateTo\":   \"$DATE_TO\"
               }
             }")
 
@@ -169,12 +168,14 @@ jobs:
 
           curl -sf "$DOWNLOAD_URL" -o contributors_report.json
 
-          # Build Co-authored-by lines — only users in this date window
+          # Build Co-authored-by lines from top-members report.
+          # top-members response shape: .data[].user.{ fullName, username }
+          # Only users present in the date-scoped report are included.
           CO_AUTHORS=$(jq -r '
             .data[]
             | select(.user != null)
-            | .user.fullName as $name
-            | .user.username  as $user
+            | (.user.fullName // .user.username) as $name
+            | .user.username as $user
             | "Co-authored-by: \($name) <\($user)@users.noreply.github.com>"
           ' contributors_report.json | sort -u)
 
