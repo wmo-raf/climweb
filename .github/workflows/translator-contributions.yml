@@ -24,19 +24,54 @@ jobs:
         with:
           fetch-depth: 0
 
-      # ── 2. Record the timestamp BEFORE the sync ───────────────────────────────
-      # We'll use this as dateFrom when querying the Crowdin report, so we only
-      # capture contributors who made changes in THIS sync window.
-      - name: Record sync start time
+      # ── 2. Restore last-run timestamp from cache ──────────────────────────────
+      # The cache holds the ISO timestamp written at the end of the previous run.
+      # Using this as dateFrom means we catch every approval since the last sync,
+      # not just the few seconds since this run started.
+      - name: Restore last-run timestamp
+        id: cache_restore
+        uses: actions/cache/restore@v4
+        with:
+          path: .crowdin-last-run
+          key: crowdin-last-run-timestamp
+
+      - name: Resolve sync window timestamps
         id: sync_time
         run: |
-          echo "date_from=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_OUTPUT"
+          # dateFrom — use cached value if it exists, otherwise fall back to 7 days ago
+          if [ -f .crowdin-last-run/timestamp ]; then
+            DATE_FROM=$(cat .crowdin-last-run/timestamp)
+            echo "Using cached last-run timestamp: $DATE_FROM"
+          else
+            # GNU date (Linux) / BSD date (macOS) compatible fallback
+            DATE_FROM=$(date -u -d "7 days ago" +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null \
+              || date -u -v-7d +"%Y-%m-%dT%H:%M:%SZ")
+            echo "No cache found — defaulting to 7 days ago: $DATE_FROM"
+          fi
 
+          DATE_TO=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          echo "date_from=$DATE_FROM" >> "$GITHUB_OUTPUT"
+          echo "date_to=$DATE_TO"     >> "$GITHUB_OUTPUT"
+          echo "Sync window: $DATE_FROM → $DATE_TO"
+
+          # Persist current time so the next run uses it as dateFrom
+          mkdir -p .crowdin-last-run
+          echo "$DATE_TO" > .crowdin-last-run/timestamp
+
+          # Snapshot the current SHA of locale_community for the diff check later
           if git ls-remote --exit-code --heads origin "$TARGET_BRANCH"; then
             echo "prev_sha=$(git rev-parse origin/$TARGET_BRANCH)" >> "$GITHUB_OUTPUT"
           else
             echo "prev_sha=" >> "$GITHUB_OUTPUT"
           fi
+
+      # Save the updated timestamp immediately so it persists even if later steps fail
+      - name: Save last-run timestamp to cache
+        uses: actions/cache/save@v4
+        with:
+          path: .crowdin-last-run
+          key: crowdin-last-run-timestamp
 
       # ── 3. Download translations via the official Crowdin action ─────────────
       - name: Download translations from Crowdin
@@ -80,18 +115,18 @@ jobs:
           fi
 
       # ── 5. Fetch ONLY contributors active in this sync window ─────────────────
-      # The translation-costs report accepts dateFrom/dateTo, so only people who
-      # did real work between sync-start and now appear in the results.
+      # dateFrom = last run's timestamp, dateTo = now.
+      # Only translators who did work between those two points appear in results.
       - name: Fetch active contributors from Crowdin
         id: contributors
         if: steps.changed.outputs.has_changes == 'true'
         run: |
           DATE_FROM="${{ steps.sync_time.outputs.date_from }}"
-          DATE_TO="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          DATE_TO="${{ steps.sync_time.outputs.date_to }}"
 
           echo "Fetching contributors between $DATE_FROM and $DATE_TO"
 
-          # Request the translation-costs report grouped by user
+          # Request the translation-costs report scoped to this window
           REPORT_RESPONSE=$(curl -sf -X POST \
             "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/reports" \
             -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
@@ -132,7 +167,7 @@ jobs:
 
           curl -sf "$DOWNLOAD_URL" -o contributors_report.json
 
-          # Build Co-authored-by lines from users in this window only
+          # Build Co-authored-by lines — only users in this date window
           CO_AUTHORS=$(jq -r '
             .data[]
             | select(.user != null)
@@ -182,12 +217,13 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.TARGET_BRANCH }}
-          base: locale_community                          # ← change if your default branch differs
+          base: main                          # ← change if your default branch differs
           title: '🌐 Crowdin translation sync – community contributions'
           body: |
             ## 🌐 Crowdin Translation Sync
 
-            This PR contains only translations approved in Crowdin **since this sync started**.
+            This PR contains translations approved in Crowdin between
+            `${{ steps.sync_time.outputs.date_from }}` and `${{ steps.sync_time.outputs.date_to }}`.
 
             ### Active translators in this batch
 
