@@ -30,7 +30,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .crowdin-last-run
-          key: crowdin-last-run-timestamp
+          key: crowdin-last-run-timestamp-${{ github.run_id }}
+          restore-keys: |
+            crowdin-last-run-timestamp-
 
       - name: Resolve sync window timestamps
         id: sync_time
@@ -49,14 +51,8 @@ jobs:
           echo "date_to=$DATE_TO"     >> "$GITHUB_OUTPUT"
           echo "Sync window: $DATE_FROM → $DATE_TO"
 
-          mkdir -p .crowdin-last-run
-          echo "$DATE_TO" > .crowdin-last-run/timestamp
-
-      - name: Save last-run timestamp to cache
-        uses: actions/cache/save@v4
-        with:
-          path: .crowdin-last-run
-          key: crowdin-last-run-timestamp
+          # Note: we do NOT write the timestamp here.
+          # It is only written after a fully successful run (step 8).
 
       # ── 3. Prepare the patch branch ───────────────────────────────────────────
       # Cut `patch` from the tip of `locale_community` so the PR diff shows
@@ -254,3 +250,32 @@ jobs:
             community
             crowdin
           draft: false
+
+      # ── 9. Persist timestamp — only on full success ───────────────────────────
+      # Runs after the PR is created, so a failure at any earlier step
+      # (download, amend, PR) leaves the old timestamp in place and the
+      # next run will re-cover the same window rather than skipping it.
+      - name: Save last-run timestamp to cache
+        if: steps.changed.outputs.has_changes == 'true'
+        run: |
+          mkdir -p .crowdin-last-run
+          echo "${{ steps.sync_time.outputs.date_to }}" > .crowdin-last-run/timestamp
+      - name: Upload last-run timestamp cache
+        if: steps.changed.outputs.has_changes == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .crowdin-last-run
+          key: crowdin-last-run-timestamp-${{ github.run_id }}
+
+      # Also save when there are no changes — window still advanced cleanly
+      - name: Save last-run timestamp (no changes case)
+        if: steps.changed.outputs.has_changes == 'false'
+        run: |
+          mkdir -p .crowdin-last-run
+          echo "${{ steps.sync_time.outputs.date_to }}" > .crowdin-last-run/timestamp
+      - name: Upload last-run timestamp cache (no changes case)
+        if: steps.changed.outputs.has_changes == 'false'
+        uses: actions/cache/save@v4
+        with:
+          path: .crowdin-last-run
+          key: crowdin-last-run-timestamp-${{ github.run_id }}
