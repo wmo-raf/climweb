@@ -1,8 +1,8 @@
 name: Crowdin – Download Translations & Open PR
 
 on:
-  # schedule:
-  #   - cron: '0 6 * * 1'   # Every Monday 06:00 UTC — adjust to your cadence
+  schedule:
+    - cron: '0 6 * * 1'   # Every Monday 06:00 UTC — adjust to your cadence
   workflow_dispatch:
 
 permissions:
@@ -74,6 +74,11 @@ jobs:
           fi
 
           git checkout -B "$PATCH_BRANCH" "$TARGET_BRANCH"
+
+          # Ensure the timestamp cache file never ends up in the PR diff.
+          # Add it to .git/info/exclude (local gitignore, not committed).
+          echo ".crowdin-last-run/" >> .git/info/exclude
+
           git push --force origin "$PATCH_BRANCH"
 
       # ── 4. Download translations from Crowdin onto the patch branch ───────────
@@ -134,28 +139,56 @@ jobs:
         run: |
           echo "Fetching contributors between $DATE_FROM and $DATE_TO"
 
-          # ── A: Fetch all Crowdin file IDs once — matched per changed file below ───
+          # ── A: Load translator map if it exists ────────────────────────────────────
+          # .github/translator-map.json maps Crowdin username → { name, github }
+          # allowing correct GitHub display name and username per translator.
+          TRANSLATOR_MAP=""
+          if [ -f ".github/translator-map.json" ]; then
+            # Strip the _comment key so jq doesn't choke on it
+            TRANSLATOR_MAP=$(jq 'del(._comment)' .github/translator-map.json)
+            echo "Loaded translator map with $(echo "$TRANSLATOR_MAP" | jq 'keys | length') entries"
+          else
+            echo "No translator map found — using Crowdin usernames as-is"
+          fi
+
+          # Helper: resolve a Crowdin username to "Display Name <github@users.noreply.github.com>"
+          # Falls back to "crowdin_username <crowdin_username@users.noreply.github.com>" if not mapped
+          resolve_author() {
+            local crowdin_user="$1"
+            local gh_name gh_username
+
+            if [ -n "$TRANSLATOR_MAP" ]; then
+              gh_name=$(echo "$TRANSLATOR_MAP" | jq -r --arg u "$crowdin_user" '.[$u].github_display_name // empty')
+              gh_username=$(echo "$TRANSLATOR_MAP" | jq -r --arg u "$crowdin_user" '.[$u].github_user_name // empty')
+            fi
+
+            # Fall back to Crowdin username for both if not in map
+            gh_name="${gh_name:-$crowdin_user}"
+            gh_username="${gh_username:-$crowdin_user}"
+
+            echo "Co-authored-by: $gh_name <${gh_username}@users.noreply.github.com>"
+          }
+
+          # ── B: Fetch all Crowdin file IDs once — matched per changed file below ───
           ALL_FILES=$(curl -sf \
             "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/files?limit=500" \
             -H "Authorization: Bearer ${CROWDIN_TOKEN}")
 
-          # ── B: Fetch approvals per file+language, collect unique approvers ────────
+          # ── C: Fetch approvals per file+language, collect unique approvers ────────
           # The approvals endpoint requires both fileId AND languageId.
-          # We extract the language code from each changed file path directly
-          # e.g. locale/fr/LC_MESSAGES/django.po → "fr"
-          # Then query approvals for each unique file+language combination.
+          # We extract the language code from each changed file path directly.
           declare -A SEEN_USERS
-          declare -A SEEN_FILE_LANG   # avoid duplicate file+lang lookups
+          declare -A SEEN_FILE_LANG
           CO_AUTHORS=""
 
           while IFS= read -r changed_file; do
             [ -z "$changed_file" ] && continue
 
-            # Extract language code from path e.g. locale/fr/LC_MESSAGES → fr
+            # Extract language code e.g. locale/fr/LC_MESSAGES → fr
             lang_code=$(echo "$changed_file" | grep -oP '(?<=/locale/)[^/]+(?=/LC_MESSAGES)')
             [ -z "$lang_code" ] && continue
 
-            # Map to source path to get file ID
+            # Map to source path to get Crowdin file ID
             src_path="/$(echo "$changed_file" | sed 's|/locale/[^/]*/LC_MESSAGES/|/locale/en/LC_MESSAGES/|g')"
             file_id=$(echo "$ALL_FILES" | jq -r \
               --arg p "$src_path" \
@@ -163,7 +196,7 @@ jobs:
 
             [ -z "$file_id" ] || [ "$file_id" = "null" ] && continue
 
-            # Skip if we already fetched this file+language combination
+            # Skip duplicate file+language combinations
             key="${file_id}:${lang_code}"
             [ -n "${SEEN_FILE_LANG[$key]+_}" ] && continue
             SEEN_FILE_LANG[$key]=1
@@ -173,12 +206,11 @@ jobs:
               "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/approvals?fileId=${file_id}&languageId=${lang_code}&limit=500" \
               -H "Authorization: Bearer ${CROWDIN_TOKEN}")
 
-            while IFS=$'\t' read -r fullname username; do
-              [ -z "$username" ] && continue
-              if [ -z "${SEEN_USERS[$username]+_}" ]; then
-                SEEN_USERS[$username]=1
-                name="${fullname:-$username}"
-                CO_AUTHORS+="Co-authored-by: $name <${username}@users.noreply.github.com>"$'\n'
+            while IFS= read -r crowdin_username; do
+              [ -z "$crowdin_username" ] && continue
+              if [ -z "${SEEN_USERS[$crowdin_username]+_}" ]; then
+                SEEN_USERS[$crowdin_username]=1
+                CO_AUTHORS+="$(resolve_author "$crowdin_username")"$'\n'
               fi
             done < <(echo "$APPROVALS" | jq -r \
               --arg from "$DATE_FROM" \
@@ -186,8 +218,7 @@ jobs:
               '.data[]
                | select(.data.createdAt >= $from and .data.createdAt <= $to)
                | select(.data.user != null)
-               | [(.data.user.fullName // .data.user.username), .data.user.username]
-               | @tsv')
+               | .data.user.username')
           done <<< "$CHANGED_FILES"
 
           CO_AUTHORS=$(echo "$CO_AUTHORS" | sort -u | sed '/^$/d')
@@ -218,12 +249,16 @@ jobs:
           git fetch origin "$PATCH_BRANCH"
           git checkout "$PATCH_BRANCH"
 
+          # Remove timestamp file from the commit if Crowdin action staged it
+          git rm --cached .crowdin-last-run/timestamp 2>/dev/null || true
+          echo ".crowdin-last-run/" >> .git/info/exclude
+
           COMMIT_MSG="chore(i18n): sync Crowdin translations
 
           ${{ steps.contributors.outputs.co_authors }}"
-
-          git commit --allow-empty --amend -m "$COMMIT_MSG"
-          git push --force-with-lease origin "$PATCH_BRANCH"
+          
+                    git commit --allow-empty --amend -m "$COMMIT_MSG"
+                    git push --force-with-lease origin "$PATCH_BRANCH"
 
       # ── 8. Open PR from patch → locale_community via GitHub API ────────────────
       # peter-evans/create-pull-request works on local workspace changes, not
@@ -263,81 +298,81 @@ jobs:
           ---
           *Merge this PR into \`locale_community\` to accept the translations.*
           *Generated by the **Crowdin Translations** workflow.*"
-
-          # Check if a PR from patch → locale_community already exists
-          EXISTING_PR=$(gh pr list             --repo "$REPO"             --head "$PATCH_BRANCH"             --base "$TARGET_BRANCH"             --json number,body             --jq '.[0]')
-
-          EXISTING_PR_NUMBER=$(echo "$EXISTING_PR" | jq -r '.number // empty')
-
-          if [ -n "$EXISTING_PR_NUMBER" ]; then
-            echo "PR #$EXISTING_PR_NUMBER already open — merging co-authors"
-
-            # Extract existing Co-authored-by lines from the current PR body
-            EXISTING_BODY=$(gh pr view "$EXISTING_PR_NUMBER"               --repo "$REPO"               --json body               --jq '.body')
-
-            EXISTING_CO_AUTHORS=$(echo "$EXISTING_BODY"               | grep -oP 'Co-authored-by: .+' || echo "")
-
-            # Merge existing + new co-authors, deduplicate by username
-            ALL_CO_AUTHORS=$(printf '%s
-            %s
-            ' "$EXISTING_CO_AUTHORS" "$CO_AUTHORS"               | grep -v '^$'               | sort -u               | awk -F'[<>]' '!seen[$2]++')  # dedupe by email (username part)
-            
-                        echo "Merged co-authors:"
-                        echo "$ALL_CO_AUTHORS"
-            
-                        # Also merge the changed files lists
-                        EXISTING_FILES=$(echo "$EXISTING_BODY"               | grep -oP '(?<=```
-            )(.|
-            )*?(?=
-            ```)' | head -1 || echo "")
-            
-                        ALL_CHANGED_FILES=$(printf '%s
-            %s
-            ' "$EXISTING_FILES" "$CHANGED_FILES"               | grep -v '^$' | sort -u)
-
-            # Rebuild PR body with merged data
-            PR_BODY="## 🌐 Crowdin Translation Sync
-
-            **Last sync:** \`$DATE_FROM\` → \`$DATE_TO\`
-            
-            ### 📄 Changed translation files
-            
-            \`\`\`
-            $ALL_CHANGED_FILES
-            \`\`\`
-            
-            ### 👥 Translators in this batch
-            
-            Only contributors who approved strings in the changed files are credited
-            via \`Co-authored-by:\` in the commit:
-            
-            \`\`\`
-            $ALL_CO_AUTHORS
-            \`\`\`
-            
-            ---
-            *Merge this PR into \`locale_community\` to accept the translations.*
-            *Generated by the **Crowdin Translations** workflow.*"
-
-            gh pr edit "$EXISTING_PR_NUMBER"               --repo "$REPO"               --title "$PR_TITLE"               --body "$PR_BODY"
-
-            # Also amend the commit to include all co-authors
-            sudo chown -R "$(id -u):$(id -g)" .git
-            git config --global safe.directory "$GITHUB_WORKSPACE"
-            git config user.name  "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git fetch origin "$PATCH_BRANCH"
-            git checkout "$PATCH_BRANCH"
-            COMMIT_MSG="chore(i18n): sync Crowdin translations
-
-            $ALL_CO_AUTHORS"
-                        git commit --allow-empty --amend -m "$COMMIT_MSG"
-                        git push --force-with-lease origin "$PATCH_BRANCH"
-            
-                      else
-                        echo "Creating new PR"
-                        gh pr create               --repo "$REPO"               --head "$PATCH_BRANCH"               --base "$TARGET_BRANCH"               --title "$PR_TITLE"               --body "$PR_BODY"               --label "translations"               --label "community"               --label "crowdin"
-                      fi
+          
+                    # Check if a PR from patch → locale_community already exists
+                    EXISTING_PR=$(gh pr list             --repo "$REPO"             --head "$PATCH_BRANCH"             --base "$TARGET_BRANCH"             --json number,body             --jq '.[0]')
+          
+                    EXISTING_PR_NUMBER=$(echo "$EXISTING_PR" | jq -r '.number // empty')
+          
+                    if [ -n "$EXISTING_PR_NUMBER" ]; then
+                      echo "PR #$EXISTING_PR_NUMBER already open — merging co-authors"
+          
+                      # Extract existing Co-authored-by lines from the current PR body
+                      EXISTING_BODY=$(gh pr view "$EXISTING_PR_NUMBER"               --repo "$REPO"               --json body               --jq '.body')
+          
+                      EXISTING_CO_AUTHORS=$(echo "$EXISTING_BODY"               | grep -oP 'Co-authored-by: .+' || echo "")
+          
+                      # Merge existing + new co-authors, deduplicate by username
+                      ALL_CO_AUTHORS=$(printf '%s
+          %s
+          ' "$EXISTING_CO_AUTHORS" "$CO_AUTHORS"               | grep -v '^$'               | sort -u               | awk -F'[<>]' '!seen[$2]++')  # dedupe by email (username part)
+          
+                      echo "Merged co-authors:"
+                      echo "$ALL_CO_AUTHORS"
+          
+                      # Also merge the changed files lists
+                      EXISTING_FILES=$(echo "$EXISTING_BODY"               | grep -oP '(?<=```
+          )(.|
+          )*?(?=
+          ```)' | head -1 || echo "")
+          
+                      ALL_CHANGED_FILES=$(printf '%s
+          %s
+          ' "$EXISTING_FILES" "$CHANGED_FILES"               | grep -v '^$' | sort -u)
+          
+                      # Rebuild PR body with merged data
+                      PR_BODY="## 🌐 Crowdin Translation Sync
+          
+          **Last sync:** \`$DATE_FROM\` → \`$DATE_TO\`
+          
+          ### 📄 Changed translation files
+          
+          \`\`\`
+          $ALL_CHANGED_FILES
+          \`\`\`
+          
+          ### 👥 Translators in this batch
+          
+          Only contributors who approved strings in the changed files are credited
+          via \`Co-authored-by:\` in the commit:
+          
+          \`\`\`
+          $ALL_CO_AUTHORS
+          \`\`\`
+          
+          ---
+          *Merge this PR into \`locale_community\` to accept the translations.*
+          *Generated by the **Crowdin Translations** workflow.*"
+          
+                      gh pr edit "$EXISTING_PR_NUMBER"               --repo "$REPO"               --title "$PR_TITLE"               --body "$PR_BODY"
+          
+                      # Also amend the commit to include all co-authors
+                      sudo chown -R "$(id -u):$(id -g)" .git
+                      git config --global safe.directory "$GITHUB_WORKSPACE"
+                      git config user.name  "github-actions[bot]"
+                      git config user.email "github-actions[bot]@users.noreply.github.com"
+                      git fetch origin "$PATCH_BRANCH"
+                      git checkout "$PATCH_BRANCH"
+                      COMMIT_MSG="chore(i18n): sync Crowdin translations
+          
+          $ALL_CO_AUTHORS"
+                      git commit --allow-empty --amend -m "$COMMIT_MSG"
+                      git push --force-with-lease origin "$PATCH_BRANCH"
+          
+                    else
+                      echo "Creating new PR"
+                      gh pr create               --repo "$REPO"               --head "$PATCH_BRANCH"               --base "$TARGET_BRANCH"               --title "$PR_TITLE"               --body "$PR_BODY"               --label "translations"               --label "community"               --label "crowdin"
+                    fi
 
       # ── 9. Persist timestamp — only on full success ───────────────────────────
       - name: Write last-run timestamp
