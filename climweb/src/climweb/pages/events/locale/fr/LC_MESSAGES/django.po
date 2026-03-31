@@ -1,22 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"PO-Revision-Date: 2026-03-30 15:33\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /climweb/src/climweb/pages/events/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 1348\n"
 
 #: climweb/src/climweb/pages/events/models.py:49
 msgid "Event type"
@@ -33,9 +32,7 @@ msgstr "Type d'événement"
 
 #: climweb/src/climweb/pages/events/models.py:83
 msgid "How many events should be visible on the all events section ?"
-msgstr ""
-"Combien d'événements doivent être visibles dans la section tous les "
-"événements ?"
+msgstr "Combien d'événements doivent être visibles dans la section tous les événements ?"
 
 #: climweb/src/climweb/pages/events/models.py:84
 msgid "Events per page"
@@ -63,14 +60,11 @@ msgstr "Date de début de l'événement"
 
 #: climweb/src/climweb/pages/events/models.py:200
 msgid "Day of the event. If multi-day, then this should be the first day"
-msgstr ""
-"Jour de l'événement. S'il s'agit de plusieurs jours, cela devrait être le "
-"premier jour"
+msgstr "Jour de l'événement. S'il s'agit de plusieurs jours, cela devrait être le premier jour"
 
 #: climweb/src/climweb/pages/events/models.py:202
 msgid "End date - Note: Not Required if this is a one day Event"
-msgstr ""
-"Date de fin - Remarque : Non requis s'il s'agit d'un événement d'une journée"
+msgstr "Date de fin - Remarque : Non requis s'il s'agit d'un événement d'une journée"
 
 #: climweb/src/climweb/pages/events/models.py:203
 msgid "Not required if this is a one day event"
@@ -93,8 +87,7 @@ msgstr "Emplacement"
 
 #: climweb/src/climweb/pages/events/models.py:213
 msgid "What is the cost for participating in this event ? Leave blank if free"
-msgstr ""
-"Quel est le coût pour participer à cet événement ? Laisser vide si gratuit"
+msgstr "Quel est le coût pour participer à cet événement ? Laisser vide si gratuit"
 
 #: climweb/src/climweb/pages/events/models.py:214
 #: climweb/src/climweb/pages/events/templates/event_meta_include.html:102
@@ -103,7 +96,7 @@ msgstr "Coût"
 
 #: climweb/src/climweb/pages/events/models.py:216
 msgid "Description"
-msgstr "Description"
+msgstr ""
 
 #: climweb/src/climweb/pages/events/models.py:219
 msgid "Downloadable agenda document"
@@ -119,9 +112,7 @@ msgstr "Image de l'événement"
 
 #: climweb/src/climweb/pages/events/models.py:229
 msgid "An image for this event, can be a poster or any relevant image"
-msgstr ""
-"Une image pour cet événement, peut être une affiche ou toute image "
-"pertinente"
+msgstr "Une image pour cet événement, peut être une affiche ou toute image pertinente"
 
 #: climweb/src/climweb/pages/events/models.py:236
 msgid "Image Placement"
@@ -133,8 +124,7 @@ msgstr "Modèle de formulaire"
 
 #: climweb/src/climweb/pages/events/models.py:242
 msgid "Show this event in the events landing page as featured ?"
-msgstr ""
-"Afficher cet événement sur la page d'accueil des événements comme présenté ?"
+msgstr "Afficher cet événement sur la page d'accueil des événements comme présenté ?"
 
 #: climweb/src/climweb/pages/events/models.py:242
 msgid "Featured"
@@ -255,14 +245,8 @@ msgid "Validation Field"
 msgstr "Champ de validation"
 
 #: climweb/src/climweb/pages/events/models.py:513
-msgid ""
-"A field on the form to check if is already submitted so as to prevent "
-"multiple submissions by one person. This is usually the email address field "
-"in snake casing format"
-msgstr ""
-"Un champ sur le formulaire pour vérifier s'il est déjà soumis afin d'éviter "
-"des soumissions multiples par une seule personne. Il s'agit généralement du "
-"champ de l'adresse e-mail au format serpent."
+msgid "A field on the form to check if is already submitted so as to prevent multiple submissions by one person. This is usually the email address field in snake casing format"
+msgstr "Un champ sur le formulaire pour vérifier s'il est déjà soumis afin d'éviter des soumissions multiples par une seule personne. Il s'agit généralement du champ de l'adresse e-mail au format serpent."
 
 #: climweb/src/climweb/pages/events/models.py:519
 msgid "Should we send a confirmation/follow up email ?"
@@ -273,12 +257,8 @@ msgid "Send confirmation Email"
 msgstr "Envoyer un e-mail de confirmation"
 
 #: climweb/src/climweb/pages/events/models.py:522
-msgid ""
-"The field in the form that corresponds to the email to use. Should be "
-"snake_cased"
-msgstr ""
-"Le champ du formulaire qui correspond à l'email à utiliser. Devrait être en "
-"forme de serpent"
+msgid "The field in the form that corresponds to the email to use. Should be snake_cased"
+msgstr "Le champ du formulaire qui correspond à l'email à utiliser. Devrait être en forme de serpent"
 
 #: climweb/src/climweb/pages/events/models.py:523
 msgid "Email Field"
@@ -293,17 +273,12 @@ msgid "Message to send to the user. For example zoom links"
 msgstr "Message à envoyer à l'utilisateur. Par exemple des liens de zoom"
 
 #: climweb/src/climweb/pages/events/models.py:528
-msgid ""
-"Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
-"registrations"
-msgstr ""
-"Enregistrement du zoom par lots activé - Laisser décoché pour les "
-"enregistrements de zoom directs"
+msgid "Batch Zoom Registration Enabled - Leave unchecked for direct zoom registrations"
+msgstr "Enregistrement du zoom par lots activé - Laisser décoché pour les enregistrements de zoom directs"
 
 #: climweb/src/climweb/pages/events/models.py:531
 msgid "Enable batch option for adding registrants to zoom later"
-msgstr ""
-"Activer l'option par lots pour ajouter des inscrits pour zoomer plus tard"
+msgstr "Activer l'option par lots pour ajouter des inscrits pour zoomer plus tard"
 
 #: climweb/src/climweb/pages/events/models.py:548
 msgid "Event Registration Page"
@@ -329,8 +304,8 @@ msgstr "Ajouté à Zoom"
 #, python-format
 msgid "Starts in %(counter)s day"
 msgid_plural "Starts in %(counter)s days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Commence dans la journée %(counter)s"
+msgstr[1] "Commence dans %(counter)s jours"
 
 #: climweb/src/climweb/pages/events/templates/event_header.html:154
 msgid "Download Agenda"
@@ -359,7 +334,7 @@ msgstr "Date de début"
 #: climweb/src/climweb/pages/events/templates/event_meta_include.html:57
 #, python-format
 msgid "%(start_date)s"
-msgstr "%(start_date)s"
+msgstr ""
 
 #: climweb/src/climweb/pages/events/templates/event_meta_include.html:72
 msgid "End Date"
@@ -368,7 +343,7 @@ msgstr "Date de fin"
 #: climweb/src/climweb/pages/events/templates/event_meta_include.html:74
 #, python-format
 msgid "%(end_date)s"
-msgstr "%(end_date)s"
+msgstr ""
 
 #: climweb/src/climweb/pages/events/templates/event_meta_include.html:116
 #: climweb/src/climweb/pages/events/templates/event_registration_page.html:57
@@ -419,10 +394,10 @@ msgstr "Passé"
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Affichage du résultat %(counter)s"
+msgstr[1] "Affichage du résultat %(counter)s"
 
-#: climweb/src/climweb/pages/events/templates/events_list_include.html:63
+#: climweb/src/climweb/pages/events/templates/events_list_include.html:65
 msgid " Read More"
 msgstr "En savoir plus"
 
@@ -439,27 +414,26 @@ msgid "Sponsors"
 msgstr "Commanditaires"
 
 #~ msgid " Registration closed"
-#~ msgstr "Inscription clôturée"
+#~ msgstr "Registration closed"
 
 #~ msgid "Banner Image"
-#~ msgstr "Image de la bannière"
+#~ msgstr "Banner Image"
 
 #~ msgid "A high quality image related to your organisation events/trainings"
-#~ msgstr ""
-#~ "Une image de haute qualité liée aux événements/formations de votre "
-#~ "organisation"
+#~ msgstr "A high quality image related to your organisation events/trainings"
 
 #~ msgid "Banner Title"
-#~ msgstr "Titre de la bannière"
+#~ msgstr "Banner Title"
 
 #~ msgid "Banner Subtitle"
-#~ msgstr "Sous-titre de la bannière"
+#~ msgstr "Banner Subtitle"
 
 #~ msgid "Call to action button text"
-#~ msgstr "Texte du bouton d'appel à l'action"
+#~ msgstr "Call to action button text"
 
 #~ msgid "Call to action related page"
-#~ msgstr "Page relative à l'appel à l'action"
+#~ msgstr "Call to action related page"
 
 #~ msgid "Banner Section"
-#~ msgstr "Section bannière"
+#~ msgstr "Banner Section"
+

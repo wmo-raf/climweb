@@ -68,3 +68,29 @@ body.theme-dark .btn-light:hover, body.theme-dark .btn-light:focus, body.theme-d
 .page-toc a:hover, .page-toc a:focus {
     color: #49a9ff;
 }
+
+/* Apply ONLY when language is Arabic */
+html[lang="ar"] {
+  direction: rtl;
+}
+
+html[lang="ar"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Fix common theme elements (ReadTheDocs theme example) */
+html[lang="ar"] .wy-nav-side {
+  direction: rtl;
+  right: 0;
+  left: auto;
+}
+
+html[lang="ar"] .wy-nav-content {
+  direction: rtl;
+}
+
+html[lang="ar"] .wy-nav-content-wrap {
+  margin-right: 300px;
+  margin-left: 0;
+}

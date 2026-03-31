@@ -1,22 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 14:49+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"PO-Revision-Date: 2026-03-30 15:33\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /climweb/src/climweb/config/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 1296\n"
 
 #: climweb/src/climweb/config/templates/404.html:20
 msgid "Page not found"
@@ -24,7 +23,7 @@ msgstr "Page non trouvée"
 
 #: climweb/src/climweb/config/templates/404.html:24
 msgid "Sorry, this page could not be found"
-msgstr "Désolé, cette page est introuvable"
+msgstr "Désolé, cette publication est introuvable"
 
 #: climweb/src/climweb/config/templates/404.html:28
 #: climweb/src/climweb/config/templates/500.html:26
@@ -54,25 +53,24 @@ msgid "Account Locked"
 msgstr "Compte verrouillé"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:16
-msgid ""
-"Your account has been locked due to multiple failed login attempts. Please "
-"try again later."
-msgstr ""
-"Votre compte a été verrouillé en raison de plusieurs tentatives de connexion"
-" infructueuses. Veuillez réessayer plus tard."
+msgid "Your account has been locked due to multiple failed login attempts. Please try again later."
+msgstr "Votre compte a été verrouillé en raison de plusieurs tentatives de connexion infructueuses. Veuillez réessayer plus tard."
 
-#: climweb/src/climweb/config/templates/axes/lockout.html:18
-msgid ""
-"You account has been locked due to multiple failed login attempts. Please "
-"contact our support team for assistance."
-msgstr ""
-"Votre compte a été verrouillé en raison de plusieurs tentatives de connexion"
-" infructueuses. Veuillez contacter notre équipe d'assistance pour obtenir de"
-" l'aide."
+#: climweb/src/climweb/config/templates/axes/lockout.html:20
+msgid "Back to sign in"
+msgstr "Retour pour vous connecter"
 
-#: climweb/src/climweb/config/templates/axes/lockout.html:26
+#: climweb/src/climweb/config/templates/axes/lockout.html:23
+#| msgid ""
+#| "You account has been locked due to multiple failed login attempts. Please "
+#| "contact our support team for assistance."
+msgid "Your account has been locked due to multiple failed login attempts. Please contact our support team for assistance."
+msgstr "Votre compte a été verrouillé en raison de plusieurs tentatives de connexion infructueuses. Veuillez réessayer plus tard."
+
+#: climweb/src/climweb/config/templates/axes/lockout.html:31
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:86
 #: climweb/src/climweb/config/templates/navigation/navbar.html:86
+#: climweb/src/climweb/config/templates/navigation/navbar.html:169
 msgid "Contact us"
 msgstr "Contactez-nous"
 
@@ -130,12 +128,8 @@ msgstr "Filtre"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:74
 #, python-format
-msgid ""
-"No %(name)s have been created yet. One of the following must be created "
-"before you can add any %(name)s:"
-msgstr ""
-"Aucun %(name)s n'a encore été créé. L'un des éléments suivants doit être "
-"créé avant de pouvoir ajouter des %(name)s:"
+msgid "No %(name)s have been created yet. One of the following must be created before you can add any %(name)s:"
+msgstr "Aucun %(name)s n'a encore été créé. L'un des éléments suivants doit être créé avant de pouvoir ajouter des %(name)s:"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:79
 #, python-format
@@ -158,11 +152,13 @@ msgstr "Page %(current_page)s sur %(num_pages)s."
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:26
 #: climweb/src/climweb/config/templates/navigation/navbar.html:26
+#: climweb/src/climweb/config/templates/navigation/navbar.html:152
 msgid "Alerts"
 msgstr "Alertes"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:35
 #: climweb/src/climweb/config/templates/navigation/navbar.html:35
+#: climweb/src/climweb/config/templates/navigation/navbar.html:160
 msgid "Subscribe"
 msgstr "S'abonner"
 
@@ -178,6 +174,7 @@ msgstr "Recherche"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:93
 #: climweb/src/climweb/config/templates/navigation/navbar.html:93
+#: climweb/src/climweb/config/templates/navigation/navbar.html:175
 msgid "Feedback"
 msgstr "Retour"
 
@@ -197,12 +194,12 @@ msgstr "Plus de projets"
 msgid "Read more"
 msgstr "En savoir plus"
 
-#: climweb/src/climweb/config/templates/videos_include.html:21
+#: climweb/src/climweb/config/templates/videos_include.html:25
 #, python-format
 msgid "Published on : %(updated_on)s"
 msgstr "Publié le : %(updated_on)s"
 
-#: climweb/src/climweb/config/templates/videos_include.html:33
+#: climweb/src/climweb/config/templates/videos_include.html:37
 msgid "SUBSCRIBE"
 msgstr "S'ABONNER"
 
@@ -232,19 +229,20 @@ msgstr "Connectez-vous à"
 
 #, python-format
 #~ msgid "Download - %(file_size)s"
-#~ msgstr "Télécharger - %(file_size)s"
+#~ msgstr "Download - %(file_size)s"
 
 #~ msgid "Go to publication"
-#~ msgstr "Aller à la publication"
+#~ msgstr "Go to publication"
 
 #~ msgid "Additional Materials"
-#~ msgstr "Matériel supplémentaire"
+#~ msgstr "Additional Materials"
 
 #~ msgid "Download document"
-#~ msgstr "Télécharger le document"
+#~ msgstr "Download document"
 
 #~ msgid "NMHS ClimWeb"
-#~ msgstr "SMHN ClimWeb"
+#~ msgstr "NMHS ClimWeb"
 
 #~ msgid "What we do"
-#~ msgstr "Ce que nous faisons"
+#~ msgstr "What we do"
+

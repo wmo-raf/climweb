@@ -1,6 +1,6 @@
 # City Forecasts
 
-![Preview Home](../_static/images/city_forecasts/preview_home.png "Preview Home")
+![City Forecast Preview](../_static/images/city_forecasts/City_forecast_Banner_Image.png "City Forecast Preview")
 
 City forecasts displayed on the homepage, and forecasts page can be added through the ClimWeb in two ways:
 1. Manually adding daily forecasts
@@ -17,7 +17,7 @@ The city forecast explorer menu can be accessed on the left sidebar.
 ![Forecast explorer](../_static/images/city_forecasts/forecast_explorer.png "Forecast explorer")
 
 Here you have the ability to:
-- Add/Edit/Delete a city (city name and location)
+- Add/Edit/Delete a city (city name and location).
 
     ![Add city](../_static/images/city_forecasts/add_city.png "Add city")
 

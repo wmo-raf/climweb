@@ -72,7 +72,7 @@ The sections of a service page include:
 
 - **Relevant Service** - selected from previously prepared service categories. Refer to [Create Services Categories Section](./Manage-Services#step-1-create-an-agromet-service-category) to create service categories.
 
-- **Relevant Projects** - select from previously prepared projects. Please refer [Manage Projects](./Manage-Projects) to guide on creation of projects.
+- **Relevant Projects** - select from previously prepared projects. Please refer [Manage Projects](manage_organisation/Manage-Projects) to guide on creation of projects.
 
 - **Post date** - the date the news was published
 

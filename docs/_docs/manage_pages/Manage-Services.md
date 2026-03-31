@@ -82,7 +82,7 @@ The sections of a service page include:
 
     ![What we do Sections](../../_static/images/services/what_we_do_section.png "What we do Sections")
 
-- **Projects Section** - This contains a description of the projects linked to the service being edited. Please refer [Manage Projects](./Manage-Projects) to guide on creation of projects and linking them to services.
+- **Projects Section** - This contains a description of the projects linked to the service being edited. Please refer [Manage Projects](manage_organisation/Manage-Projects) to guide on creation of projects and linking them to services.
 
     ![Projects Sections](../../_static/images/services/projects_section.png "Projects Sections")
 

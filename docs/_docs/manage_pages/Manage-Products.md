@@ -103,6 +103,7 @@ Save draft / Publish page.
 
 ---
 
+(step-5-creation-of-one-or-more-product-items-for-a-product-page)=
 ### Step 5: Creation of one or more product items for a product page
 
 Add a product item by hovering over Dekadal Agromet Bulletin and selecting 'add child page'.
@@ -129,7 +130,7 @@ An example of a product based on Document/Bulletin product would be the type 'Do
 ![Add Product Options](../../_static/images/products/product_options_document.png "Add Product Options")
 
 ```{note}
-When adding a new bulletin, you will only need to begin from Step 5: [Creation of one or more product items for a product page](Manage-Products#step-5-creation-of-one-or-more-product-items-for-a-product-page) section above to upload the document or any related text and images about a new period.
+When adding a new bulletin, you will only need to begin from {ref}`step-5-creation-of-one-or-more-product-items-for-a-product-page` section above to upload the document or any related text and images about a new period.
 ```
 
 ## Automatic generation of thumbnails

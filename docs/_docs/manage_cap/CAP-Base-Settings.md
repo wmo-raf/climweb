@@ -18,7 +18,7 @@ These include:
 
 ---
 
-## Hazard Types
+## Hazard Type
 
 Here the NMHSs input the different types of hazards they monitor. They can select the hazards from a WMO predefined list
 of hazards or create a new custom hazard/event type. Each hazard type can be associated with an Icon
