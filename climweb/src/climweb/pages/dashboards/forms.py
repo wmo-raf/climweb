@@ -1,8 +1,6 @@
 from django.contrib.gis.forms import BaseGeometryWidget
 from django.forms import Widget, Media
 from django.urls import reverse
-from wagtail.telepath import register
-from wagtail.widget_adapters import WidgetAdapter
 from django.contrib.gis.forms import GeometryField as BaseGeometryField
 from django.contrib.gis.geometry import json_regex
 

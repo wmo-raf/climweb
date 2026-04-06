@@ -520,7 +520,7 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                                                   verbose_name=_("Send confirmation Email"))
     email_field = models.CharField(max_length=100, blank=True,
                                    help_text=_("The field in the form that corresponds to the email to use. "
-                                               "Should be snake_cased"), verbose_name=_("Email Field"))
+                                               "Should be snake_cased"), verbose_name=_("Email Field"), default="email_address")
     email_confirmation_message = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, blank=True,
                                                verbose_name=_("Email Confirmation message"),
                                                help_text=_("Message to send to the user. For example zoom links"))
@@ -542,6 +542,9 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         ], "Staff Email Notification Settings - When someone registers"),
         
         FieldPanel('thank_you_text', heading="Message to show on website after successful submission"),
+        FieldPanel('send_confirmation_email'),
+        FieldPanel('email_field'),
+        FieldPanel('email_confirmation_message'),
     ]
     
     class Meta:
@@ -570,6 +573,8 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         return self.get_parent().specific
     
     def serve(self, request, *args, **kwargs):
+        # Set self.request so wagtailzoom and other mixins can access it
+        self.request = request
         if request.method == "POST":
             form = self.get_form(
                 request.POST, request.FILES, page=self, user=request.user
@@ -578,6 +583,11 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                 # check for email duplication
                 if self.should_process_form(request, form_data=form.data):
                     form_submission = self.process_form_submission(form)
+                    # Send confirmation email to submitter if enabled
+                    try:
+                        self.send_confirmation_email_to_submitter(form.cleaned_data)
+                    except Exception as e:
+                        logger.error(f"[EVENT_REGISTRATION_PAGE] Error sending confirmation email: {e}")
                     return self.render_landing_page(request, form_submission, *args, **kwargs)
         else:
             form = self.get_form(page=self, user=request.user)
@@ -585,6 +595,53 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         context = self.get_context(request)
         context["form"] = form
         return TemplateResponse(request, self.get_template(request), context)
+
+    def send_confirmation_email_to_submitter(self, cleaned_data):
+        """
+        Send a confirmation email to the submitter if enabled and email is present.
+        Sends as HTML if email_confirmation_message is RichText/HTML.
+        """
+        if not self.send_confirmation_email:
+            return
+
+        from django.core.mail import EmailMultiAlternatives
+        from django.conf import settings
+        from django.utils.html import strip_tags
+        from wagtail.rich_text import expand_db_html  # ← key import
+
+        email_field = self.email_field or 'email_address'
+        email = (
+            cleaned_data.get(email_field)
+            or cleaned_data.get('email')
+            or cleaned_data.get('email_address')
+        )
+        if not email:
+            return
+
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'no-reply@example.com'
+        subject = self.subject or "Registration Confirmation"
+        raw_message = self.email_confirmation_message or "Thank you for registering!"
+
+        html_message = None
+
+        # Case 1: Already a RichText wrapper object (has __html__)
+        if hasattr(raw_message, '__html__'):
+            html_message = expand_db_html(raw_message.source)
+
+        # Case 2: Raw DB string from a RichTextField (most common in page/snippet models)
+        elif isinstance(raw_message, str) and raw_message.strip().startswith('<'):
+            html_message = expand_db_html(raw_message)
+
+        # Case 3: Plain text fallback
+        if html_message:
+            text_message = strip_tags(html_message)
+        else:
+            text_message = str(raw_message)
+
+        msg = EmailMultiAlternatives(subject, text_message, from_email, [email])
+        if html_message:
+            msg.attach_alternative(html_message, "text/html")
+        msg.send(fail_silently=True)
     
     @cached_classmethod
     def get_edit_handler(cls):
