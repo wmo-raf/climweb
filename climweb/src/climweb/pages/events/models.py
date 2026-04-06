@@ -570,6 +570,8 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         return self.get_parent().specific
     
     def serve(self, request, *args, **kwargs):
+        # Set self.request so wagtailzoom and other mixins can access it
+        self.request = request
         if request.method == "POST":
             form = self.get_form(
                 request.POST, request.FILES, page=self, user=request.user
