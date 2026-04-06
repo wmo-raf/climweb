@@ -583,6 +583,11 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                 # check for email duplication
                 if self.should_process_form(request, form_data=form.data):
                     form_submission = self.process_form_submission(form)
+                    # Send confirmation email to submitter if enabled
+                    try:
+                        self.send_confirmation_email_to_submitter(form.cleaned_data)
+                    except Exception as e:
+                        logger.error(f"[EVENT_REGISTRATION_PAGE] Error sending confirmation email: {e}")
                     return self.render_landing_page(request, form_submission, *args, **kwargs)
         else:
             form = self.get_form(page=self, user=request.user)
@@ -590,6 +595,35 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         context = self.get_context(request)
         context["form"] = form
         return TemplateResponse(request, self.get_template(request), context)
+
+    def send_confirmation_email_to_submitter(self, cleaned_data):
+        """
+        Send a confirmation email to the submitter if enabled and email is present.
+        Sends as HTML if email_confirmation_message is RichText/HTML.
+        """
+        if not self.send_confirmation_email:
+            return
+        from django.core.mail import EmailMultiAlternatives
+        from django.conf import settings
+        from django.utils.html import strip_tags
+        email_field = self.email_field or 'email_address'
+        email = cleaned_data.get(email_field) or cleaned_data.get('email') or cleaned_data.get('email_address')
+        if not email:
+            return
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'no-reply@example.com'
+        subject = self.subject or "Registration Confirmation"
+        message = self.email_confirmation_message or "Thank you for registering!"
+        html_message = None
+        # If message is a RichText object, get HTML and plain text
+        if hasattr(message, 'source'):
+            html_message = message.source
+            text_message = strip_tags(html_message)
+        else:
+            text_message = str(message)
+        msg = EmailMultiAlternatives(subject, text_message, from_email, [email])
+        if html_message:
+            msg.attach_alternative(html_message, "text/html")
+        msg.send(fail_silently=True)
     
     @cached_classmethod
     def get_edit_handler(cls):
