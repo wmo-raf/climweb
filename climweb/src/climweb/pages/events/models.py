@@ -615,7 +615,10 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         message = self.email_confirmation_message or "Thank you for registering!"
         html_message = None
         # If message is a RichText object, get HTML and plain text
-        if hasattr(message, 'source'):
+        if hasattr(message, '__html__'):
+            html_message = message.__html__()
+            text_message = strip_tags(html_message)
+        elif hasattr(message, 'source'):
             html_message = message.source
             text_message = strip_tags(html_message)
         else:
