@@ -603,26 +603,41 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         """
         if not self.send_confirmation_email:
             return
+
         from django.core.mail import EmailMultiAlternatives
         from django.conf import settings
         from django.utils.html import strip_tags
+        from wagtail.rich_text import expand_db_html  # ← key import
+
         email_field = self.email_field or 'email_address'
-        email = cleaned_data.get(email_field) or cleaned_data.get('email') or cleaned_data.get('email_address')
+        email = (
+            cleaned_data.get(email_field)
+            or cleaned_data.get('email')
+            or cleaned_data.get('email_address')
+        )
         if not email:
             return
+
         from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'no-reply@example.com'
         subject = self.subject or "Registration Confirmation"
-        message = self.email_confirmation_message or "Thank you for registering!"
+        raw_message = self.email_confirmation_message or "Thank you for registering!"
+
         html_message = None
-        # If message is a RichText object, get HTML and plain text
-        if hasattr(message, '__html__'):
-            html_message = message.__html__()
-            text_message = strip_tags(html_message)
-        elif hasattr(message, 'source'):
-            html_message = message.source
+
+        # Case 1: Already a RichText wrapper object (has __html__)
+        if hasattr(raw_message, '__html__'):
+            html_message = expand_db_html(raw_message.source)
+
+        # Case 2: Raw DB string from a RichTextField (most common in page/snippet models)
+        elif isinstance(raw_message, str) and raw_message.strip().startswith('<'):
+            html_message = expand_db_html(raw_message)
+
+        # Case 3: Plain text fallback
+        if html_message:
             text_message = strip_tags(html_message)
         else:
-            text_message = str(message)
+            text_message = str(raw_message)
+
         msg = EmailMultiAlternatives(subject, text_message, from_email, [email])
         if html_message:
             msg.attach_alternative(html_message, "text/html")
