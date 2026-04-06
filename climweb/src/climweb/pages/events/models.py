@@ -520,7 +520,7 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                                                   verbose_name=_("Send confirmation Email"))
     email_field = models.CharField(max_length=100, blank=True,
                                    help_text=_("The field in the form that corresponds to the email to use. "
-                                               "Should be snake_cased"), verbose_name=_("Email Field"))
+                                               "Should be snake_cased"), verbose_name=_("Email Field"), default="email_address")
     email_confirmation_message = RichTextField(features=SUMMARY_RICHTEXT_FEATURES, blank=True,
                                                verbose_name=_("Email Confirmation message"),
                                                help_text=_("Message to send to the user. For example zoom links"))
@@ -542,6 +542,9 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         ], "Staff Email Notification Settings - When someone registers"),
         
         FieldPanel('thank_you_text', heading="Message to show on website after successful submission"),
+        FieldPanel('send_confirmation_email'),
+        FieldPanel('email_field'),
+        FieldPanel('email_confirmation_message'),
     ]
     
     class Meta:
