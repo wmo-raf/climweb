@@ -229,7 +229,7 @@
                                                 <div class="format-text">{{ session.value.detail|richtext }}</div>
                                             </div>
                                             {% if session.value.roles %}
-                                                <div class="session-roles columns">
+                                                <div class="session-roles columns is-multiline is-mobile">
                                                     {% for role in session.value.roles %}
                                                         <div class="column is-one-third-desktop is-full-mobile session-role">
                                                             {% if role.image %}
