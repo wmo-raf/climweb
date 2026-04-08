@@ -12,7 +12,7 @@
 
 Contributors are encouraged to sign in to Crowdin using GitHub. If you don't have a GitHub account yet, here's how to create one:
 
-1. Go to **github.com** and click **Sign up** in the top-right corner.
+1. Go to **[github.com](https://github.com)** and click **Sign up** in the top-right corner.
 
 ![Github Home](../_static/images/translation_guide/github_home.png "GitHub Home")
 
@@ -22,7 +22,7 @@ Contributors are encouraged to sign in to Crowdin using GitHub. If you don't hav
 5. Complete the short verification puzzle to confirm you're human.
 6. Click **Create account**. GitHub will send a **verification code** to your email — enter it to activate your account.
 
-![Github Sign Up](../_static/images/translation_guide/github_home.png "GitHub Sign Up")
+![Github Sign Up](../_static/images/translation_guide/github_signup.png "GitHub Sign Up")
 
 7. On the welcome screen, you can skip the optional setup questions by scrolling down and clicking **Skip personalisation**.
 
@@ -34,7 +34,7 @@ You now have a GitHub account and are ready to sign in to Crowdin!
 
 ### Step 2: Create a Crowdin Account via GitHub
 
-Go to **crowdin.com** and click **Sign Up**. On the signup page, select **Continue with GitHub** instead of filling in the email form.
+Go to **[crowdin.com](https://crowdin.com)** and click **Sign Up**. On the signup page, select **Continue with GitHub** instead of filling in the email form.
 
 ![Crowdin Home](../_static/images/translation_guide/crowdin_home.png "Crowdin Home")
 
@@ -83,32 +83,23 @@ Click on your language, then select a file or click **Translate All** to open th
 
 The Crowdin editor has three main panels:
 
-```
-┌─────────────────┬───────────────────────────┬─────────────────┐
-│   String List   │     Translation Area      │   Suggestions   │
-│                 │                           │                 │
-│ ▶ Welcome msg   │  Source (English):        │  TM Match 95%   │
-│   Nav menu      │  "Welcome to ClimWeb"     │  ─────────────  │
-│   Error msg     │                           │  Machine Trans. │
-│   Submit btn    │  Your translation:        │  ─────────────  │
-│                 │  [                    ]   │  Glossary Terms │
-│                 │              [Save ↵]    │                 │
-└─────────────────┴───────────────────────────┴─────────────────┘
-```
+![Crowdin Translation Editor](../_static/images/translation_guide/crowdin_translations_editor.png "Crowdin Translation Editor")
 
 ---
 
 ### Step 5: Understand the Editor Layout
 
-- **Left panel** — The list of strings (phrases or sentences) waiting to be translated. Untranslated strings are shown first.
-- **Centre panel** — The active string. You'll see the original English text at the top, and a text field below where you type your translation.
-- **Right panel** — Suggestions from Translation Memory (TM), Machine Translation, and the Glossary to help guide you.
+- **Left panel** — The files for translation showing the progress of translation and approval progress in percentage
+- **Centre panel** — The list of strings (phrases or sentences) waiting to be translated. Untranslated strings are shown first. **(Red means untranslated, Blue means translated but not approved, Green means translated and approved)**
+![Crowdin Translate Colors](../_static/images/translation_guide/crowdin_translation_colorcode.png "Crowdin Translate Colors")
+
+- **Right panel** — The active string. You'll see the original English text at the top, and a text field below where you type your translation. It also contains suggestions from Translation Memory (TM), Machine Translation, and the Glossary to help guide you.
 
 ---
 
 ### Step 6: Translate a String
 
-1. Click on a string in the left panel to select it.
+1. For the selected file, click on a string in the centre panel to select it.
 2. Read the English source text carefully in the centre panel.
 3. Type your translation in the text field below it.
 4. Press **Enter** or click the green **Save** button to submit and move to the next string.
@@ -129,27 +120,22 @@ Crowdin offers several aids to help you translate faster and more consistently:
 
 ---
 
-### Step 8: Vote on Others' Translations
-
-If a string already has a translation submitted by another contributor, you can vote on it:
-
-- Click **+** (thumbs up) if the translation is accurate and natural.
-- Click **−** (thumbs down) if the translation is incorrect or unclear.
-
-Translations with the most positive votes rise to the top and are more likely to be approved. This peer-review system is at the heart of the community contribution model.
-
----
-
-### Step 9: Working with Tasks
+### Step 8: Working with Tasks
 
 Project managers may assign you specific **Tasks** — these are focused batches of strings that need to be translated or proofread by a set deadline. Tasks help the team coordinate effort and prioritise what gets done first.
+
+![Crowdin Tasks](../_static/images/translation_guide/crowdin_tasks.png "Crowdin Tasks")
 
 To find your tasks:
 
 1. Go to the **Tasks** tab on the project Dashboard.
 2. Click on a task to see its details — the assigned language, deadline, and the specific files or strings included.
-3. Click **Open in Editor** to start working on the strings within that task.
+3. Click **Open in Editor** or **View Strings** button to start working on the strings within that task.
 4. Your progress is tracked separately per task, so the team can see how much has been completed.
+
+![Crowdin Tasks Preview](../_static/images/translation_guide/crowdin_tasks_preview.png "Crowdin Tasks Preview")
+
+![Crowdin Tasks Preview](../_static/images/translation_guide/crowdin_tasks_editing.png "Crowdin Tasks Preview")
 
 > 💡 **Tip:** Always check the Tasks tab first when you log in. Assigned tasks usually have deadlines and should be prioritised over general open contributions.
 
@@ -163,9 +149,9 @@ If you have not been assigned a task yet, you can still contribute freely by sel
 
 ---
 
-### Step 10: What Proofreaders Do
+### Step 9: What Proofreaders Do
 
-Proofreaders review translations submitted by translators and give them the final **approval** to be used on the ClimWeb platform. As a proofreader, you:
+Proofreaders review translations submitted by translators and give them the final **approval** to be used on the ClimWeb platform. One can have both translator and proofreader previlleges. As a proofreader, you:
 
 - Review completed translations for accuracy, grammar, and naturalness.
 - Click **Approve** (✓) on strings that are correct.
@@ -174,11 +160,14 @@ Proofreaders review translations submitted by translators and give them the fina
 
 ---
 
-### Step 11: Approving & Editing Strings
+### Step 10: Approving & Editing Strings
 
 1. Switch to **Proofreading mode** in the editor using the mode selector at the top.
 2. Strings awaiting approval will be highlighted — read each translation carefully against the English source.
 3. If correct, click the **Approve** button (✓). The string turns green.
+
+![Crowdin Approval](../_static/images/translation_guide/crowdin_approval.png "Crowdin Approval")
+
 4. If the translation needs a fix, click on the translation text to edit it directly, make your changes, then approve.
 5. Use the **Comments** tab on the right to leave notes for translators — this keeps feedback transparent and constructive.
 
@@ -201,5 +190,4 @@ Proofreaders review translations submitted by translators and give them the fina
 
 ---
 
-*ClimWeb Community · Translators & Proofreaders Training · Wed 8th August, 10:00am UTC*
 *Project: [crowdin.com/project/nmhs-cms](https://crowdin.com/project/nmhs-cms)*
