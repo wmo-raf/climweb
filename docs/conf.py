@@ -21,7 +21,7 @@ html_theme = 'sphinx_wagtail_theme'
 html_theme_options = {
     "project_name": "ClimWeb Documentation",
     "github_url": "https://github.com/wmo-raf/climweb/blob/main/docs/",
-    "header_links": "En|https://climweb.readthedocs.io/en, Fr|https://climweb.readthedocs.io/fr, Sw|https://climweb.readthedocs.io/sw",
+    "header_links": "En|https://climweb.readthedocs.io/en, Fr|https://climweb.readthedocs.io/fr, Sw|https://climweb.readthedocs.io/sw, Es|https://climweb.readthedocs.io/es, Pt|https://climweb.readthedocs.io/pt, Am|https://climweb.readthedocs.io/am, Ar|https://climweb.readthedocs.io/ar,",
     "footer_links": ",".join([
         "Demo|http://20.56.94.119/cms/",
         "Packages|https://github.com/wmo-raf",

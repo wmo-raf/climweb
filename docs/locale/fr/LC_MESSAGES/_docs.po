@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ClimWeb Documentation 1.0.9-8-gce74c2a4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-24 11:56+0300\n"
+"POT-Creation-Date: 2026-04-08 12:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -19,6 +19,818 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 2.18.0\n"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:1
+msgid "ClimWeb Community Translation Contribution Guide"
+msgstr "Guide de contribution à la traduction de la communauté ClimWeb"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:3
+msgid ""
+"A step-by-step guide for contributors helping make climate information "
+"accessible in multiple languages."
+msgstr ""
+"Un guide étape par étape pour les contributeurs contribuant à rendre les "
+"informations climatiques accessibles dans plusieurs langues."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:5
+msgid ""
+"**Project link:** [crowdin.com/project/nmhs-"
+"cms](https://crowdin.com/project/nmhs-cms)"
+msgstr ""
+"**Lien du projet :** [crowdin.com/project/nmhs-"
+"cms](https://crowdin.com/project/nmhs-cms)"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:9
+msgid "Part 1 — Getting Started"
+msgstr "Partie 1 — Commencer"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:11
+#, fuzzy
+msgid "Step 1: Create a GitHub Account"
+msgstr "Étape 1 : Créer un compte GitHub"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:13
+msgid ""
+"Contributors are encouraged to sign in to Crowdin using GitHub. If you don't"
+" have a GitHub account yet, here's how to create one:"
+msgstr ""
+"Les contributeurs sont encouragés à se connecter à Crowdin en utilisant "
+"GitHub. Si vous n'avez pas encore de compte GitHub, voici comment en créer "
+"un :"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:15
+msgid ""
+"Go to **[github.com](https://github.com)** and click **Sign up** in the top-"
+"right corner."
+msgstr ""
+"Accédez à **[github.com](https://github.com)** et cliquez sur **S'inscrire**"
+" dans le coin supérieur droit."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:17
+#, fuzzy
+msgid ""
+"![Github Home](../_static/images/translation_guide/github_home.png \"GitHub "
+"Home\")"
+msgstr ""
+"![Accueil Github](../_static/images/translation_guide/github_home.png "
+"\"Accueil GitHub\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:17
+msgid "Github Home"
+msgstr "Accueil GitHub"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:19
+msgid "Enter your **email address** and click **Continue**."
+msgstr "Entrez votre **adresse e-mail** et cliquez sur **Continuer**."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:20
+#, fuzzy
+msgid "Create a **password** and click **Continue**."
+msgstr "Créez un **mot de passe** et cliquez sur **Continuer**."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:21
+msgid "Choose a **username** — this will be your public identity on GitHub."
+msgstr ""
+"Choisissez un **nom d'utilisateur** : ce sera votre identité publique sur "
+"GitHub."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:22
+msgid "Complete the short verification puzzle to confirm you're human."
+msgstr ""
+"Complétez le court puzzle de vérification pour confirmer que vous êtes "
+"humain."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:23
+msgid ""
+"Click **Create account**. GitHub will send a **verification code** to your "
+"email — enter it to activate your account."
+msgstr ""
+"Cliquez sur **Créer un compte**. GitHub enverra un **code de vérification** "
+"à votre adresse e-mail — saisissez-le pour activer votre compte."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:25
+#, fuzzy
+msgid ""
+"![Github Sign Up](../_static/images/translation_guide/github_signup.png "
+"\"GitHub Sign Up\")"
+msgstr ""
+"![Inscription Github](../_static/images/translation_guide/github_signup.png "
+"\"Inscription GitHub\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:25
+msgid "Github Sign Up"
+msgstr "S'inscrire sur Github"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:27
+msgid ""
+"On the welcome screen, you can skip the optional setup questions by "
+"scrolling down and clicking **Skip personalisation**."
+msgstr ""
+"Sur l'écran d'accueil, vous pouvez ignorer les questions de configuration "
+"facultatives en faisant défiler vers le bas et en cliquant sur **Ignorer la "
+"personnalisation**."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:29
+msgid ""
+"**Tip:** Choose a username that represents you professionally — it will be "
+"visible to other contributors on the ClimWeb project."
+msgstr ""
+"**Astuce :** Choisissez un nom d'utilisateur qui vous représente "
+"professionnellement — il sera visible par les autres contributeurs du projet"
+" ClimWeb."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:31
+msgid "You now have a GitHub account and are ready to sign in to Crowdin!"
+msgstr ""
+"Vous avez maintenant un compte GitHub et êtes prêt à vous connecter à "
+"Crowdin !"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:35
+msgid "Step 2: Create a Crowdin Account via GitHub"
+msgstr "Étape 2 : Créez un compte Crowdin via GitHub"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:37
+msgid ""
+"Go to **[crowdin.com](https://crowdin.com)** and click **Sign Up**. On the "
+"signup page, select **Continue with GitHub** instead of filling in the email"
+" form."
+msgstr ""
+"Accédez à **[crowdin.com](https://crowdin.com)** et cliquez sur "
+"**S'inscrire**. Sur la page d'inscription, sélectionnez **Continuer avec "
+"GitHub** au lieu de remplir le formulaire de courrier électronique."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:39
+#, fuzzy
+msgid ""
+"![Crowdin Home](../_static/images/translation_guide/crowdin_home.png "
+"\"Crowdin Home\")"
+msgstr ""
+"![Accueil Crowdin](../_static/images/translation_guide/crowdin_home.png "
+"\"Accueil Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:39
+msgid "Crowdin Home"
+msgstr "Accueil Crowdin"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:41
+#, fuzzy
+msgid ""
+"![Crowdin Signup](../_static/images/translation_guide/crowdin_signup.png "
+"\"Crowdin Signup\")"
+msgstr ""
+"![Inscription "
+"Crowdin](../_static/images/translation_guide/crowdin_signup.png "
+"\"Inscription Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:41
+msgid "Crowdin Signup"
+msgstr "Inscription participative"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:43
+msgid ""
+"GitHub will ask you to authorise Crowdin — click **Authorize crowdin** to "
+"allow the connection. You'll be redirected back to Crowdin with your account"
+" ready to use."
+msgstr ""
+"GitHub vous demandera d'autoriser Crowdin — cliquez sur **Autoriser "
+"crowdin** pour autoriser la connexion. Vous serez redirigé vers Crowdin avec"
+" votre compte prêt à être utilisé."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:45
+msgid ""
+"Once signed in, go to your **Account Settings** (click your profile picture "
+"in the top-right corner) to set your preferred languages — this helps "
+"Crowdin show you relevant projects."
+msgstr ""
+"Une fois connecté, accédez à vos **Paramètres de compte** (cliquez sur votre"
+" photo de profil dans le coin supérieur droit) pour définir vos langues "
+"préférées. Cela aide Crowdin à vous montrer des projets pertinents."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:49
+msgid "Step 3: Join the ClimWeb Project"
+msgstr "Étape 3 : Rejoignez le projet ClimWeb"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:51
+msgid ""
+"Visit the ClimWeb Community project directly at: **crowdin.com/project/nmhs-"
+"cms**"
+msgstr ""
+"Visitez le projet communautaire ClimWeb directement sur : "
+"**crowdin.com/project/nmhs-cms**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:54
+msgid ""
+"On the project **Dashboard**, you'll see all available languages and their "
+"current translation progress. Click on your language to get started."
+msgstr ""
+"Sur le **Dashboard** du projet, vous verrez toutes les langues disponibles "
+"et leur progression actuelle en matière de traduction. Cliquez sur votre "
+"langue pour commencer."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:56
+#, fuzzy
+msgid ""
+"![Crowdin Project](../_static/images/translation_guide/crowdin_project.png "
+"\"Crowdin Project\")"
+msgstr ""
+"![Projet Crowdin](../_static/images/translation_guide/crowdin_project.png "
+"\"Projet Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:56
+#, fuzzy
+msgid "Crowdin Project"
+msgstr "Projet Crowdin"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:58
+msgid ""
+"![Crowdin Translate "
+"All](../_static/images/translation_guide/crowdin_translate_all.png \"Crowdin"
+" Translate All\")"
+msgstr ""
+"![Crowdin Traduire "
+"tout](../_static/images/translation_guide/crowdin_translate_all.png "
+"\"Crowdin Traduire tout\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:58
+msgid "Crowdin Translate All"
+msgstr "Crowdin Traduire tout"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:60
+msgid ""
+"**Note:** Some languages may require you to click **Join** and wait for a "
+"project manager to approve your request before you can begin translating."
+msgstr ""
+"**Remarque :** Certaines langues peuvent nécessiter que vous cliquiez sur "
+"**Rejoindre** et que vous attendiez qu'un chef de projet approuve votre "
+"demande avant de pouvoir commencer la traduction."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:64
+msgid "Step 4: Explore the Project Dashboard"
+msgstr "Étape 4 : Explorez le tableau de bord du projet"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:66
+msgid "The project Dashboard has several tabs you should know:"
+msgstr ""
+"Le tableau de bord du projet comporte plusieurs onglets que vous devez "
+"connaître :"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Tab"
+msgstr "Languette"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "What it's for"
+msgstr "A quoi ça sert"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "**Dashboard**"
+msgstr "**Tableau de bord**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Overview of languages, progress, and project details"
+msgstr "Aperçu des langues, de la progression et des détails du projet"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "**Tasks**"
+msgstr "**Tâches**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Any specific translation tasks assigned to you"
+msgstr "Toute tâche de traduction spécifique qui vous est confiée"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "**Reports**"
+msgstr "**Rapports**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Your personal contribution statistics"
+msgstr "Vos statistiques de cotisations personnelles"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "**Activity**"
+msgstr "**Activité**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "A live feed of what's happening across the project"
+msgstr "Un flux en direct de ce qui se passe dans le projet"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "**Discussions**"
+msgstr "**Discussions**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "A space to ask questions and collaborate with other translators"
+msgstr ""
+"Un espace pour poser des questions et collaborer avec d'autres traducteurs"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:76
+#, fuzzy
+msgid ""
+"![Crowdin "
+"Dashboard](../_static/images/translation_guide/crowdin_dashboard.png "
+"\"Crowdin Dashboard\")"
+msgstr ""
+"![Tableau de bord "
+"Crowdin](../_static/images/translation_guide/crowdin_dashboard.png \"Tableau"
+" de bord Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:76
+#, fuzzy
+msgid "Crowdin Dashboard"
+msgstr "Tableau de bord Crowdin"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:78
+msgid ""
+"Click on your language, then select a file or click **Translate All** to "
+"open the editor."
+msgstr ""
+"Cliquez sur votre langue, puis sélectionnez un fichier ou cliquez sur "
+"**Traduire tout** pour ouvrir l'éditeur."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:82
+msgid "Part 2 — Translating in the Editor"
+msgstr "Partie 2 — Traduire dans l'éditeur"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:84
+msgid "The Crowdin editor has three main panels:"
+msgstr "L'éditeur Crowdin comporte trois panneaux principaux :"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:86
+#, fuzzy
+msgid ""
+"![Crowdin Translation "
+"Editor](../_static/images/translation_guide/crowdin_translations_editor.png "
+"\"Crowdin Translation Editor\")"
+msgstr ""
+"![Éditeur de traduction "
+"Crowdin](../_static/images/translation_guide/crowdin_translations_editor.png"
+" \"Éditeur de traduction Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:86
+msgid "Crowdin Translation Editor"
+msgstr "Éditeur de traduction Crowdin"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:90
+msgid "Step 5: Understand the Editor Layout"
+msgstr "Étape 5 : Comprendre la disposition de l'éditeur"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:92
+msgid ""
+"**Left panel** — The files for translation showing the progress of "
+"translation and approval progress in percentage"
+msgstr ""
+"**Panneau de gauche** — Les fichiers à traduire affichant la progression de "
+"la traduction et la progression de l'approbation en pourcentage"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:93
+msgid ""
+"**Centre panel** — The list of strings (phrases or sentences) waiting to be "
+"translated. Untranslated strings are shown first. **(Red means untranslated,"
+" Blue means translated but not approved, Green means translated and "
+"approved)** ![Crowdin Translate "
+"Colors](../_static/images/translation_guide/crowdin_translation_colorcode.png"
+" \"Crowdin Translate Colors\")"
+msgstr ""
+"**Panneau central** — La liste des chaînes (expressions ou phrases) en "
+"attente de traduction. Les chaînes non traduites sont affichées en premier. "
+"**(Le rouge signifie non traduit, le bleu signifie traduit mais non "
+"approuvé, le vert signifie traduit et approuvé)** ![Crowdin Translate "
+"Colors](../_static/images/translation_guide/crowdin_translation_colorcode.png"
+" \"Crowdin Translate Colors\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:93
+msgid "Crowdin Translate Colors"
+msgstr "Crowdin Traduire les couleurs"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:96
+msgid ""
+"**Right panel** — The active string. You'll see the original English text at"
+" the top, and a text field below where you type your translation. It also "
+"contains suggestions from Translation Memory (TM), Machine Translation, and "
+"the Glossary to help guide you."
+msgstr ""
+"**Panneau de droite** — La chaîne active. Vous verrez le texte anglais "
+"original en haut et un champ de texte en dessous dans lequel vous saisissez "
+"votre traduction. Il contient également des suggestions issues de la mémoire"
+" de traduction (TM), de la traduction automatique et du glossaire pour vous "
+"guider."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:100
+#, fuzzy
+msgid "Step 6: Translate a String"
+msgstr "Étape 6 : Traduire une chaîne"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:102
+msgid ""
+"For the selected file, click on a string in the centre panel to select it."
+msgstr ""
+"Pour le fichier sélectionné, cliquez sur une chaîne dans le panneau central "
+"pour la sélectionner."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:103
+msgid "Read the English source text carefully in the centre panel."
+msgstr ""
+"Lisez attentivement le texte source en anglais dans le panneau central."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:104
+msgid "Type your translation in the text field below it."
+msgstr "Tapez votre traduction dans le champ de texte en dessous."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:105
+msgid ""
+"Press **Enter** or click the green **Save** button to submit and move to the"
+" next string."
+msgstr ""
+"Appuyez sur **Entrée** ou cliquez sur le bouton vert **Enregistrer** pour "
+"soumettre et passer à la chaîne suivante."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:107
+#, python-brace-format
+msgid ""
+"**Tip:** Watch for variables like `%1`, `{name}`, or `0` — do **not** "
+"translate these. Copy them exactly as-is into the correct position in your "
+"translation."
+msgstr ""
+"**Conseil :** Surveillez les variables telles que `%1`, `{name}` ou `0` — ne"
+" les traduisez **pas**. Copiez-les exactement tels quels à la bonne position"
+" dans votre traduction."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:109
+msgid ""
+"You can also click a **TM suggestion** on the right panel to pre-fill your "
+"translation field, then edit as needed."
+msgstr ""
+"Vous pouvez également cliquer sur une **suggestion de MT** dans le panneau "
+"de droite pour pré-remplir votre champ de traduction, puis le modifier si "
+"nécessaire."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:113
+msgid "Step 7: Use Suggestions Wisely"
+msgstr "Étape 7 : Utilisez judicieusement les suggestions"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:115
+msgid ""
+"Crowdin offers several aids to help you translate faster and more "
+"consistently:"
+msgstr ""
+"Crowdin propose plusieurs aides pour vous aider à traduire plus rapidement "
+"et de manière plus cohérente :"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:117
+msgid ""
+"**Translation Memory (TM)** — Shows how similar strings have been translated"
+" before. A 100% match means the exact same string was translated previously."
+" Use these as a starting point but always review them."
+msgstr ""
+"**Mémoire de traduction (TM)** : montre comment des chaînes similaires ont "
+"déjà été traduites. Une correspondance à 100 % signifie que la même chaîne a"
+" été traduite précédemment. Utilisez-les comme point de départ, mais "
+"examinez-les toujours."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:118
+msgid ""
+"**Machine Translation (MT)** — Automatic suggestions from engines like "
+"Google Translate or DeepL. These can be helpful but always need human review"
+" and editing."
+msgstr ""
+"**Traduction automatique (MT)** — Suggestions automatiques provenant de "
+"moteurs comme Google Translate ou DeepL. Ceux-ci peuvent être utiles mais "
+"nécessitent toujours un examen et une modification humains."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:119
+msgid ""
+"**Glossary** — Highlighted key terms with approved translations. Always use "
+"glossary terms for consistency across the project (e.g., specific climate or"
+" weather terminology)."
+msgstr ""
+"**Glossaire** — Termes clés mis en évidence avec traductions approuvées. "
+"Utilisez toujours les termes du glossaire pour assurer la cohérence dans "
+"l’ensemble du projet (par exemple, terminologie climatique ou météorologique"
+" spécifique)."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:123
+msgid "Step 8: Working with Tasks"
+msgstr "Étape 8 : Travailler avec des tâches"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:125
+msgid ""
+"Project managers may assign you specific **Tasks** — these are focused "
+"batches of strings that need to be translated or proofread by a set "
+"deadline. Tasks help the team coordinate effort and prioritise what gets "
+"done first."
+msgstr ""
+"Les chefs de projet peuvent vous attribuer des **tâches** spécifiques : il "
+"s'agit de lots ciblés de chaînes qui doivent être traduites ou relues dans "
+"un délai déterminé. Les tâches aident l'équipe à coordonner les efforts et à"
+" prioriser ce qui est fait en premier."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:127
+#, fuzzy
+msgid ""
+"![Crowdin Tasks](../_static/images/translation_guide/crowdin_tasks.png "
+"\"Crowdin Tasks\")"
+msgstr ""
+"![Tâches Crowdin](../_static/images/translation_guide/crowdin_tasks.png "
+"\"Tâches Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:127
+#, fuzzy
+msgid "Crowdin Tasks"
+msgstr "Tâches participatives"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:129
+msgid "To find your tasks:"
+msgstr "Pour trouver vos tâches :"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:131
+msgid "Go to the **Tasks** tab on the project Dashboard."
+msgstr "Accédez à l'onglet **Tâches** du tableau de bord du projet."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:132
+msgid ""
+"Click on a task to see its details — the assigned language, deadline, and "
+"the specific files or strings included."
+msgstr ""
+"Cliquez sur une tâche pour voir ses détails : la langue attribuée, la date "
+"limite et les fichiers ou chaînes spécifiques inclus."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:133
+msgid ""
+"Click **Open in Editor** or **View Strings** button to start working on the "
+"strings within that task."
+msgstr ""
+"Cliquez sur le bouton **Ouvrir dans l'éditeur** ou **Afficher les chaînes** "
+"pour commencer à travailler sur les chaînes de cette tâche."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:134
+msgid ""
+"Your progress is tracked separately per task, so the team can see how much "
+"has been completed."
+msgstr ""
+"Vos progrès sont suivis séparément par tâche, afin que l'équipe puisse voir "
+"ce qui a été accompli."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:136
+#, fuzzy
+msgid ""
+"![Crowdin Tasks "
+"Preview](../_static/images/translation_guide/crowdin_tasks_preview.png "
+"\"Crowdin Tasks Preview\")"
+msgstr ""
+"![Aperçu des tâches "
+"Crowdin](../_static/images/translation_guide/crowdin_tasks_preview.png "
+"\"Aperçu des tâches Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:136
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:138
+msgid "Crowdin Tasks Preview"
+msgstr "Aperçu des tâches Crowdin"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:138
+#, fuzzy
+msgid ""
+"![Crowdin Tasks "
+"Preview](../_static/images/translation_guide/crowdin_tasks_editing.png "
+"\"Crowdin Tasks Preview\")"
+msgstr ""
+"![Aperçu des tâches "
+"Crowdin](../_static/images/translation_guide/crowdin_tasks_editing.png "
+"\"Aperçu des tâches Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:140
+msgid ""
+"**Tip:** Always check the Tasks tab first when you log in. Assigned tasks "
+"usually have deadlines and should be prioritised over general open "
+"contributions."
+msgstr ""
+"**Conseil :** Vérifiez toujours l'onglet Tâches en premier lorsque vous vous"
+" connectez. Les tâches assignées ont généralement des délais et doivent "
+"avoir la priorité sur les contributions générales ouvertes."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:142
+msgid ""
+"If you have not been assigned a task yet, you can still contribute freely by"
+" selecting a language and translating any untranslated strings — every "
+"contribution counts!"
+msgstr ""
+"Si aucune tâche ne vous a encore été assignée, vous pouvez toujours "
+"contribuer librement en sélectionnant une langue et en traduisant toutes les"
+" chaînes non traduites — chaque contribution compte !"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:146
+msgid "Part 3 — Proofreading"
+msgstr "Partie 3 — Relecture"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:148
+msgid ""
+"**Note:** Proofreader access is granted by project managers. If you'd like "
+"this role, reach out to the ClimWeb community coordinators."
+msgstr ""
+"**Remarque :** L'accès au correcteur est accordé par les chefs de projet. Si"
+" vous souhaitez ce rôle, contactez les coordinateurs de la communauté "
+"ClimWeb."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:152
+msgid "Step 9: What Proofreaders Do"
+msgstr "Étape 9 : Ce que font les correcteurs"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:154
+msgid ""
+"Proofreaders review translations submitted by translators and give them the "
+"final **approval** to be used on the ClimWeb platform. One can have both "
+"translator and proofreader previlleges. As a proofreader, you:"
+msgstr ""
+"Les correcteurs examinent les traductions soumises par les traducteurs et "
+"leur donnent l'**approbation** finale à utiliser sur la plateforme ClimWeb. "
+"On peut avoir à la fois des prévilles de traducteur et de correcteur. En "
+"tant que correcteur, vous :"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:156
+msgid "Review completed translations for accuracy, grammar, and naturalness."
+msgstr ""
+"Vérifiez les traductions terminées pour en vérifier l'exactitude, la "
+"grammaire et le naturel."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:157
+msgid "Click **Approve** (✓) on strings that are correct."
+msgstr "Cliquez sur **Approuver** ( ✓) sur les chaînes correctes."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:158
+msgid "Edit and correct strings that are inaccurate before approving."
+msgstr "Modifiez et corrigez les chaînes inexactes avant de les approuver."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:159
+msgid ""
+"Leave **comments** on strings to explain changes or ask the translator a "
+"question."
+msgstr ""
+"Laissez des **commentaires** sur les chaînes pour expliquer les "
+"modifications ou poser une question au traducteur."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:163
+msgid "Step 10: Approving & Editing Strings"
+msgstr "Étape 10 : Approuver et modifier les chaînes"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:165
+msgid ""
+"Switch to **Proofreading mode** in the editor using the mode selector at the"
+" top."
+msgstr ""
+"Passez en **Mode relecture** dans l'éditeur à l'aide du sélecteur de mode en"
+" haut."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:166
+msgid ""
+"Strings awaiting approval will be highlighted — read each translation "
+"carefully against the English source."
+msgstr ""
+"Les chaînes en attente d’approbation seront mises en évidence – lisez "
+"attentivement chaque traduction par rapport à la source anglaise."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:167
+msgid "If correct, click the **Approve** button (✓). The string turns green."
+msgstr ""
+"Si c'est correct, cliquez sur le bouton **Approuver** ( ✓). La chaîne "
+"devient verte."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:169
+#, fuzzy
+msgid ""
+"![Crowdin Approval](../_static/images/translation_guide/crowdin_approval.png"
+" \"Crowdin Approval\")"
+msgstr ""
+"![Approbation "
+"Crowdin](../_static/images/translation_guide/crowdin_approval.png "
+"\"Approbation Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:169
+msgid "Crowdin Approval"
+msgstr "Approbation publique"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:171
+msgid ""
+"If the translation needs a fix, click on the translation text to edit it "
+"directly, make your changes, then approve."
+msgstr ""
+"Si la traduction nécessite une correction, cliquez sur le texte traduit pour"
+" le modifier directement, apportez vos modifications, puis approuvez."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:172
+msgid ""
+"Use the **Comments** tab on the right to leave notes for translators — this "
+"keeps feedback transparent and constructive."
+msgstr ""
+"Utilisez l'onglet **Commentaires** sur la droite pour laisser des notes aux "
+"traducteurs : cela permet de conserver des commentaires transparents et "
+"constructifs."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:176
+msgid "Best Practices"
+msgstr "Meilleures pratiques"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Tip"
+msgstr "Conseil"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "1"
+msgstr "1"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Keep climate terms consistent.** Always refer to the Glossary for weather "
+"and climate-specific vocabulary."
+msgstr ""
+"**Gardez la cohérence des termes climatiques.** Référez-vous toujours au "
+"glossaire pour connaître le vocabulaire spécifique à la météo et au climat."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "2"
+msgstr "2"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, python-brace-format
+msgid ""
+"**Don't translate variables.** Placeholders like `%1`, `{count}`, or `0` are"
+" dynamic values — copy them exactly as-is."
+msgstr ""
+"**Ne traduisez pas les variables.** Les espaces réservés comme `%1`, "
+"`{count}` ou `0` sont des valeurs dynamiques — copiez-les exactement telles "
+"quelles."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "3"
+msgstr "3"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Use the Discussion tab.** Not sure how to translate something? Post in "
+"Discussions to get input from the community."
+msgstr ""
+"**Utilisez l'onglet Discussion.** Vous ne savez pas comment traduire quelque"
+" chose ? Publiez dans les discussions pour obtenir l’avis de la communauté."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "4"
+msgstr "4"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Sound natural.** Translate the meaning, not word-for-word. Your "
+"translation should read as if it were originally written in your language."
+msgstr ""
+"**Cela semble naturel.** Traduisez le sens, pas mot à mot. Votre traduction "
+"doit être lue comme si elle avait été rédigée à l'origine dans votre langue."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "5"
+msgstr "5"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Check screenshots.** Screenshots show where a string appears in the UI — "
+"use them to understand context before translating."
+msgstr ""
+"**Vérifiez les captures d'écran.** Les captures d'écran montrent où une "
+"chaîne apparaît dans l'interface utilisateur : utilisez-les pour comprendre "
+"le contexte avant de traduire."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "6"
+msgstr "6"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Review your work.** After saving a translation, re-read it once more. "
+"Quality matters more than speed."
+msgstr ""
+"**Révisez votre travail.** Après avoir enregistré une traduction, relisez-la"
+" une fois de plus. La qualité compte plus que la rapidité."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:189
+msgid ""
+"**You're all set!** Every string you translate or proofread helps make "
+"ClimWeb accessible to more people around the world. Thank you for being a "
+"contributor to the community — your language skills make a real difference."
+msgstr ""
+"**Vous êtes prêt !** Chaque chaîne que vous traduisez ou relisez contribue à"
+" rendre ClimWeb accessible à davantage de personnes dans le monde. Merci de "
+"contribuer à la communauté – vos compétences linguistiques font une réelle "
+"différence."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:193
+msgid ""
+"*Project: [crowdin.com/project/nmhs-cms](https://crowdin.com/project/nmhs-"
+"cms)*"
+msgstr ""
+"*Projet : [crowdin.com/project/nmhs-cms](https://crowdin.com/project/nmhs-"
+"cms)*"
 
 #: ../../_docs/Find-Your-Way-Around.md:1
 msgid "Find Your Way Around"
@@ -1574,16 +2386,20 @@ msgid "City Forecasts"
 msgstr "Prévisions de la ville"
 
 #: ../../_docs/Manage-City-Forecasts.md:3
+#, fuzzy
 msgid ""
-"![Preview Home](../_static/images/city_forecasts/preview_home.png \"Preview "
-"Home\")"
+"![City Forecast "
+"Preview](../_static/images/city_forecasts/City_forecast_Banner_Image.png "
+"\"City Forecast Preview\")"
 msgstr ""
-"![Accueil de l'aperçu](../_static/images/city_forecasts/preview_home.png "
-"\"Accueil de l'aperçu\")"
+"![Aperçu des prévisions de la "
+"ville](../_static/images/city_forecasts/City_forecast_Banner_Image.png "
+"\"Aperçu des prévisions de la ville\")"
 
 #: ../../_docs/Manage-City-Forecasts.md:3
-msgid "Preview Home"
-msgstr "Aperçu Accueil"
+#, fuzzy
+msgid "City Forecast Preview"
+msgstr "Aperçu des prévisions de la ville"
 
 #: ../../_docs/Manage-City-Forecasts.md:5
 msgid ""
@@ -1647,8 +2463,10 @@ msgid "Here you have the ability to:"
 msgstr "Ici, vous avez la possibilité de :"
 
 #: ../../_docs/Manage-City-Forecasts.md:20
-msgid "Add/Edit/Delete a city (city name and location)"
-msgstr "Ajouter/Modifier/Supprimer une ville (nom de la ville et emplacement)"
+#, fuzzy
+msgid "Add/Edit/Delete a city (city name and location)."
+msgstr ""
+"Ajouter/Modifier/Supprimer une ville (nom de la ville et emplacement)."
 
 #: ../../_docs/Manage-City-Forecasts.md:22
 msgid "![Add city](../_static/images/city_forecasts/add_city.png \"Add city\")"
@@ -3577,8 +4395,9 @@ msgid "CAP Sender Details"
 msgstr "Détails de l'expéditeur du CAP"
 
 #: ../../_docs/manage_cap/CAP-Base-Settings.md:21
-msgid "Hazard Types"
-msgstr "Types de dangers"
+#, fuzzy
+msgid "Hazard Type"
+msgstr "Type de danger"
 
 #: ../../_docs/manage_cap/CAP-Base-Settings.md:23
 msgid ""
@@ -9154,7 +9973,7 @@ msgstr "**Durée** - la durée de travail de l'emploi"
 #: ../../_docs/manage_pages/manage_organisation/Manage-Tenders.md:42
 #: ../../_docs/manage_pages/manage_organisation/Manage-Vacancies.md:42
 msgid "**Job Description** - long text describing the job"
-msgstr ""
+msgstr "**Description du poste** - texte long décrivant le poste"
 
 #: ../../_docs/manage_pages/manage_organisation/Manage-Tenders.md:44
 #: ../../_docs/manage_pages/manage_organisation/Manage-Vacancies.md:44
@@ -9331,7 +10150,7 @@ msgstr ""
 
 #: ../../_docs/manage_settings/Configuring-workflows-for-moderation.md:15
 msgid "Worklow interface"
-msgstr ""
+msgstr "Interface de flux de travail"
 
 #: ../../_docs/manage_settings/Configuring-workflows-for-moderation.md:17
 msgid "Edit workflows"
@@ -9578,7 +10397,7 @@ msgstr "2FA"
 
 #: ../../_docs/manage_settings/Manage-2FA.md:22
 msgid "Linking Your Authenticator App"
-msgstr ""
+msgstr "Lier votre application d'authentification"
 
 #: ../../_docs/manage_settings/Manage-2FA.md:24
 msgid "Open your preferred authenticator app."
@@ -11048,6 +11867,12 @@ msgid ""
 "awesome-svg), a Wagtail package that allows us to use Font Awesome icons in "
 "Wagtail projects."
 msgstr ""
+"Nous utilisons principalement Font Awesome pour les icônes SVG. Font Awesome"
+" est une bibliothèque d'icônes populaire qui propose une large gamme "
+"d'icônes vectorielles évolutives. Nous utilisons [wagtail-font-awesome-"
+"svg](https://github.com/wagtail-nest/wagtail-font-awesome-svg), un package "
+"Wagtail qui nous permet d'utiliser les icônes Font Awesome dans les projets "
+"Wagtail."
 
 #: ../../_docs/technical/development/development-tools.md:83
 msgid "[https://fontawesome.com](https://fontawesome.com)"
@@ -12999,3 +13824,13 @@ msgid ""
 msgstr ""
 "`climweb axes_reset` exécute la commande `axes_reset` dans le conteneur "
 "Climweb."
+
+#~ msgid ""
+#~ "![Preview Home](../_static/images/city_forecasts/preview_home.png \"Preview "
+#~ "Home\")"
+#~ msgstr ""
+#~ "![Accueil de l'aperçu](../_static/images/city_forecasts/preview_home.png "
+#~ "\"Accueil de l'aperçu\")"
+
+#~ msgid "Preview Home"
+#~ msgstr "Aperçu Accueil"

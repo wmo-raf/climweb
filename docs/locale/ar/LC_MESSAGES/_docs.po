@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ClimWeb Documentation 1.0.9-8-gce74c2a4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 18:35+0300\n"
+"POT-Creation-Date: 2026-04-08 12:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ar <LL@li.org>\n"
@@ -19,6 +19,776 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=0 && n%100<=2 ? 4 : 5);\n"
 "Generated-By: Babel 2.18.0\n"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:1
+msgid "ClimWeb Community Translation Contribution Guide"
+msgstr "دليل المساهمة في ترجمة مجتمع ClimWeb"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:3
+msgid ""
+"A step-by-step guide for contributors helping make climate information "
+"accessible in multiple languages."
+msgstr ""
+"دليل خطوة بخطوة للمساهمين يساعد في جعل المعلومات المناخية متاحة بلغات "
+"متعددة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:5
+msgid ""
+"**Project link:** [crowdin.com/project/nmhs-"
+"cms](https://crowdin.com/project/nmhs-cms)"
+msgstr ""
+"**رابط المشروع:** [crowdin.com/project/nmhs-"
+"cms](https://crowdin.com/project/nmhs-cms)"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:9
+msgid "Part 1 — Getting Started"
+msgstr "الجزء 1 – البدء"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:11
+#, fuzzy
+msgid "Step 1: Create a GitHub Account"
+msgstr "الخطوة 1: إنشاء حساب جيثب"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:13
+msgid ""
+"Contributors are encouraged to sign in to Crowdin using GitHub. If you don't"
+" have a GitHub account yet, here's how to create one:"
+msgstr ""
+"يتم تشجيع المساهمين على تسجيل الدخول إلى Crowdin باستخدام GitHub. إذا لم يكن"
+" لديك حساب على GitHub حتى الآن، فإليك كيفية إنشاء حساب:"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:15
+msgid ""
+"Go to **[github.com](https://github.com)** and click **Sign up** in the top-"
+"right corner."
+msgstr ""
+"انتقل إلى **[github.com](https://github.com)** وانقر على **Sign up** في "
+"الزاوية العلوية اليمنى."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:17
+#, fuzzy
+msgid ""
+"![Github Home](../_static/images/translation_guide/github_home.png \"GitHub "
+"Home\")"
+msgstr ""
+"![صفحة Github الرئيسية](../_static/images/translation_guide/github_home.png "
+"\"صفحة GitHub الرئيسية\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:17
+msgid "Github Home"
+msgstr "جيثب الرئيسية"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:19
+msgid "Enter your **email address** and click **Continue**."
+msgstr "أدخل **عنوان بريدك الإلكتروني** وانقر على **متابعة**."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:20
+#, fuzzy
+msgid "Create a **password** and click **Continue**."
+msgstr "أنشئ **كلمة المرور** وانقر على **متابعة**."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:21
+msgid "Choose a **username** — this will be your public identity on GitHub."
+msgstr "اختر **اسم مستخدم** — سيكون هذا هو هويتك العامة على GitHub."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:22
+msgid "Complete the short verification puzzle to confirm you're human."
+msgstr "أكمل لغز التحقق القصير لتأكيد أنك إنسان."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:23
+msgid ""
+"Click **Create account**. GitHub will send a **verification code** to your "
+"email — enter it to activate your account."
+msgstr ""
+"انقر **إنشاء حساب**. سيرسل GitHub **رمز التحقق** إلى بريدك الإلكتروني — "
+"أدخله لتنشيط حسابك."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:25
+#, fuzzy
+msgid ""
+"![Github Sign Up](../_static/images/translation_guide/github_signup.png "
+"\"GitHub Sign Up\")"
+msgstr ""
+"![تسجيل Github](../_static/images/translation_guide/github_signup.png "
+"\"تسجيل GitHub\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:25
+msgid "Github Sign Up"
+msgstr "تسجيل جيثب"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:27
+msgid ""
+"On the welcome screen, you can skip the optional setup questions by "
+"scrolling down and clicking **Skip personalisation**."
+msgstr ""
+"في شاشة الترحيب، يمكنك تخطي أسئلة الإعداد الاختيارية عن طريق التمرير لأسفل "
+"والنقر فوق **تخطي التخصيص**."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:29
+msgid ""
+"**Tip:** Choose a username that represents you professionally — it will be "
+"visible to other contributors on the ClimWeb project."
+msgstr ""
+"**نصيحة:** اختر اسم مستخدم يمثلك بشكل احترافي، وسيكون مرئيًا للمساهمين "
+"الآخرين في مشروع ClimWeb."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:31
+msgid "You now have a GitHub account and are ready to sign in to Crowdin!"
+msgstr "لديك الآن حساب GitHub وأنت جاهز لتسجيل الدخول إلى Crowdin!"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:35
+msgid "Step 2: Create a Crowdin Account via GitHub"
+msgstr "الخطوة 2: إنشاء حساب Crowdin عبر GitHub"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:37
+msgid ""
+"Go to **[crowdin.com](https://crowdin.com)** and click **Sign Up**. On the "
+"signup page, select **Continue with GitHub** instead of filling in the email"
+" form."
+msgstr ""
+"انتقل إلى **[crowdin.com](https://crowdin.com)** وانقر على **الاشتراك**. في "
+"صفحة التسجيل، حدد **متابعة مع GitHub** بدلاً من ملء نموذج البريد الإلكتروني."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:39
+#, fuzzy
+msgid ""
+"![Crowdin Home](../_static/images/translation_guide/crowdin_home.png "
+"\"Crowdin Home\")"
+msgstr ""
+"![صفحة Crowdin "
+"الرئيسية](../_static/images/translation_guide/crowdin_home.png \"صفحة "
+"Crowdin الرئيسية\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:39
+msgid "Crowdin Home"
+msgstr "منزل كراودين"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:41
+#, fuzzy
+msgid ""
+"![Crowdin Signup](../_static/images/translation_guide/crowdin_signup.png "
+"\"Crowdin Signup\")"
+msgstr ""
+"![اشتراك Crowdin](../_static/images/translation_guide/crowdin_signup.png "
+"\"اشتراك Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:41
+msgid "Crowdin Signup"
+msgstr "تسجيل كراودين"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:43
+msgid ""
+"GitHub will ask you to authorise Crowdin — click **Authorize crowdin** to "
+"allow the connection. You'll be redirected back to Crowdin with your account"
+" ready to use."
+msgstr ""
+"سيطلب منك GitHub تفويض Crowdin — انقر فوق **تفويض الحشد** للسماح بالاتصال. "
+"ستتم إعادة توجيهك مرة أخرى إلى Crowdin مع أن حسابك جاهز للاستخدام."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:45
+msgid ""
+"Once signed in, go to your **Account Settings** (click your profile picture "
+"in the top-right corner) to set your preferred languages — this helps "
+"Crowdin show you relevant projects."
+msgstr ""
+"بمجرد تسجيل الدخول، انتقل إلى **إعدادات الحساب** (انقر فوق صورة ملفك الشخصي "
+"في الزاوية العلوية اليمنى) لتعيين لغاتك المفضلة - وهذا يساعد Crowdin في عرض "
+"المشاريع ذات الصلة لك."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:49
+msgid "Step 3: Join the ClimWeb Project"
+msgstr "الخطوة 3: انضم إلى مشروع ClimWeb"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:51
+msgid ""
+"Visit the ClimWeb Community project directly at: **crowdin.com/project/nmhs-"
+"cms**"
+msgstr ""
+"قم بزيارة مشروع مجتمع ClimWeb مباشرة على: **crowdin.com/project/nmhs-cms**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:54
+msgid ""
+"On the project **Dashboard**, you'll see all available languages and their "
+"current translation progress. Click on your language to get started."
+msgstr ""
+"في المشروع **لوحة المعلومات**، سترى جميع اللغات المتاحة وتقدم الترجمة الحالي"
+" الخاص بها. انقر على لغتك للبدء."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:56
+#, fuzzy
+msgid ""
+"![Crowdin Project](../_static/images/translation_guide/crowdin_project.png "
+"\"Crowdin Project\")"
+msgstr ""
+"![مشروع Crowdin](../_static/images/translation_guide/crowdin_project.png "
+"\"مشروع Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:56
+#, fuzzy
+msgid "Crowdin Project"
+msgstr "مشروع كراودين"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:58
+msgid ""
+"![Crowdin Translate "
+"All](../_static/images/translation_guide/crowdin_translate_all.png \"Crowdin"
+" Translate All\")"
+msgstr ""
+"![Crowdin ترجمة "
+"الكل](../_static/images/translation_guide/crowdin_translate_all.png "
+"\"Crowdin ترجمة الكل\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:58
+msgid "Crowdin Translate All"
+msgstr "كراودين ترجمة الكل"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:60
+msgid ""
+"**Note:** Some languages may require you to click **Join** and wait for a "
+"project manager to approve your request before you can begin translating."
+msgstr ""
+"**ملاحظة:** قد تتطلب منك بعض اللغات النقر على **انضمام** والانتظار حتى يوافق"
+" مدير المشروع على طلبك قبل أن تتمكن من البدء في الترجمة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:64
+msgid "Step 4: Explore the Project Dashboard"
+msgstr "الخطوة 4: استكشاف لوحة تحكم المشروع"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:66
+msgid "The project Dashboard has several tabs you should know:"
+msgstr "تحتوي لوحة تحكم المشروع على عدة علامات تبويب يجب أن تعرفها:"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Tab"
+msgstr "فاتورة غير مدفوعة"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "What it's for"
+msgstr "ما الغرض منه"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "**Dashboard**"
+msgstr "** لوحة التحكم **"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Overview of languages, progress, and project details"
+msgstr "نظرة عامة على اللغات والتقدم وتفاصيل المشروع"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "**Tasks**"
+msgstr "**المهام**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Any specific translation tasks assigned to you"
+msgstr "أي مهام ترجمة محددة يتم تكليفك بها"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "**Reports**"
+msgstr "** التقارير **"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Your personal contribution statistics"
+msgstr "إحصائيات المساهمة الشخصية الخاصة بك"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "**Activity**"
+msgstr "**نشاط**"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "A live feed of what's happening across the project"
+msgstr "بث مباشر لما يحدث في المشروع"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "**Discussions**"
+msgstr "** المناقشات **"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "A space to ask questions and collaborate with other translators"
+msgstr "مساحة لطرح الأسئلة والتعاون مع المترجمين الآخرين"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:76
+#, fuzzy
+msgid ""
+"![Crowdin "
+"Dashboard](../_static/images/translation_guide/crowdin_dashboard.png "
+"\"Crowdin Dashboard\")"
+msgstr ""
+"![لوحة تحكم "
+"Crowdin](../_static/images/translation_guide/crowdin_dashboard.png \"لوحة "
+"تحكم Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:76
+#, fuzzy
+msgid "Crowdin Dashboard"
+msgstr "لوحة القيادة كراودين"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:78
+msgid ""
+"Click on your language, then select a file or click **Translate All** to "
+"open the editor."
+msgstr "انقر على لغتك، ثم حدد ملفًا أو انقر على **ترجمة الكل** لفتح المحرر."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:82
+msgid "Part 2 — Translating in the Editor"
+msgstr "الجزء الثاني – الترجمة في المحرر"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:84
+msgid "The Crowdin editor has three main panels:"
+msgstr "يحتوي محرر Crowdin على ثلاث لوحات رئيسية:"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:86
+#, fuzzy
+msgid ""
+"![Crowdin Translation "
+"Editor](../_static/images/translation_guide/crowdin_translations_editor.png "
+"\"Crowdin Translation Editor\")"
+msgstr ""
+"![محرر الترجمة "
+"Crowdin](../_static/images/translation_guide/crowdin_translations_editor.png"
+" \"محرر الترجمة Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:86
+msgid "Crowdin Translation Editor"
+msgstr "محرر الترجمة كراودين"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:90
+msgid "Step 5: Understand the Editor Layout"
+msgstr "الخطوة 5: فهم تخطيط المحرر"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:92
+msgid ""
+"**Left panel** — The files for translation showing the progress of "
+"translation and approval progress in percentage"
+msgstr ""
+"**اللوحة اليسرى** — تعرض ملفات الترجمة تقدم الترجمة وتقدم الموافقة بالنسبة "
+"المئوية"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:93
+msgid ""
+"**Centre panel** — The list of strings (phrases or sentences) waiting to be "
+"translated. Untranslated strings are shown first. **(Red means untranslated,"
+" Blue means translated but not approved, Green means translated and "
+"approved)** ![Crowdin Translate "
+"Colors](../_static/images/translation_guide/crowdin_translation_colorcode.png"
+" \"Crowdin Translate Colors\")"
+msgstr ""
+"**اللوحة المركزية** — قائمة السلاسل (العبارات أو الجمل) التي تنتظر ترجمتها. "
+"يتم عرض السلاسل غير المترجمة أولاً. **(الأحمر يعني غير مترجم، الأزرق يعني "
+"مترجم لكن غير معتمد، الأخضر يعني مترجم ومعتمد)** ![Crowdin ترجمة "
+"الألوان](../_static/images/translation_guide/crowdin_translation_colorcode.png"
+" \"Crowdin ترجمة الألوان\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:93
+msgid "Crowdin Translate Colors"
+msgstr "Crowdin ترجمة الألوان"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:96
+msgid ""
+"**Right panel** — The active string. You'll see the original English text at"
+" the top, and a text field below where you type your translation. It also "
+"contains suggestions from Translation Memory (TM), Machine Translation, and "
+"the Glossary to help guide you."
+msgstr ""
+"**اللوحة اليمنى** — السلسلة النشطة. سترى النص الإنجليزي الأصلي في الأعلى، "
+"بالإضافة إلى حقل نصي أدناه حيث تكتب ترجمتك. ويحتوي أيضًا على اقتراحات من "
+"ذاكرة الترجمة (TM)، والترجمة الآلية، والمسرد للمساعدة في إرشادك."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:100
+#, fuzzy
+msgid "Step 6: Translate a String"
+msgstr "الخطوة 6: ترجمة سلسلة"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:102
+msgid ""
+"For the selected file, click on a string in the centre panel to select it."
+msgstr "بالنسبة للملف المحدد، انقر فوق سلسلة في اللوحة المركزية لتحديده."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:103
+msgid "Read the English source text carefully in the centre panel."
+msgstr "اقرأ النص المصدر باللغة الإنجليزية بعناية في اللوحة المركزية."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:104
+msgid "Type your translation in the text field below it."
+msgstr "اكتب ترجمتك في حقل النص الموجود أسفلها."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:105
+msgid ""
+"Press **Enter** or click the green **Save** button to submit and move to the"
+" next string."
+msgstr ""
+"اضغط على **Enter** أو انقر فوق الزر **Save** الأخضر للإرسال والانتقال إلى "
+"السلسلة التالية."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:107
+#, python-brace-format
+msgid ""
+"**Tip:** Watch for variables like `%1`, `{name}`, or `0` — do **not** "
+"translate these. Copy them exactly as-is into the correct position in your "
+"translation."
+msgstr ""
+"**نصيحة:** انتبه للمتغيرات مثل `%1`، أو `{name}`، أو `0` — **لا**** تترجمها."
+" انسخها تمامًا كما هي في الموضع الصحيح في ترجمتك."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:109
+msgid ""
+"You can also click a **TM suggestion** on the right panel to pre-fill your "
+"translation field, then edit as needed."
+msgstr ""
+"يمكنك أيضًا النقر فوق **اقتراح TM** على اللوحة اليمنى لملء حقل الترجمة "
+"مسبقًا، ثم التعديل حسب الحاجة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:113
+msgid "Step 7: Use Suggestions Wisely"
+msgstr "الخطوة 7: استخدم الاقتراحات بحكمة"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:115
+msgid ""
+"Crowdin offers several aids to help you translate faster and more "
+"consistently:"
+msgstr ""
+"يقدم Crowdin العديد من الوسائل المساعدة لمساعدتك في الترجمة بشكل أسرع وأكثر "
+"اتساقًا:"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:117
+msgid ""
+"**Translation Memory (TM)** — Shows how similar strings have been translated"
+" before. A 100% match means the exact same string was translated previously."
+" Use these as a starting point but always review them."
+msgstr ""
+"**ذاكرة الترجمة (TM)** — تعرض كيفية ترجمة سلاسل مماثلة من قبل. المطابقة "
+"بنسبة 100% تعني أن نفس السلسلة تمت ترجمتها مسبقًا. استخدمها كنقطة بداية ولكن"
+" قم بمراجعتها دائمًا."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:118
+msgid ""
+"**Machine Translation (MT)** — Automatic suggestions from engines like "
+"Google Translate or DeepL. These can be helpful but always need human review"
+" and editing."
+msgstr ""
+"**الترجمة الآلية (MT)** — اقتراحات تلقائية من محركات مثل Google Translate أو"
+" DeepL. يمكن أن تكون هذه مفيدة ولكنها تحتاج دائمًا إلى المراجعة والتحرير "
+"البشري."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:119
+msgid ""
+"**Glossary** — Highlighted key terms with approved translations. Always use "
+"glossary terms for consistency across the project (e.g., specific climate or"
+" weather terminology)."
+msgstr ""
+"**المسرد** — المصطلحات الرئيسية المميزة مع الترجمات المعتمدة. استخدم دائمًا "
+"مصطلحات المصطلحات لتحقيق الاتساق عبر المشروع (على سبيل المثال، مصطلحات "
+"مناخية أو طقس محددة)."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:123
+msgid "Step 8: Working with Tasks"
+msgstr "الخطوة 8: العمل مع المهام"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:125
+msgid ""
+"Project managers may assign you specific **Tasks** — these are focused "
+"batches of strings that need to be translated or proofread by a set "
+"deadline. Tasks help the team coordinate effort and prioritise what gets "
+"done first."
+msgstr ""
+"يمكن لمديري المشاريع أن يعينوا لك **مهام** محددة — وهي عبارة عن مجموعات "
+"مركزة من السلاسل التي تحتاج إلى ترجمتها أو تدقيقها بحلول موعد نهائي محدد. "
+"تساعد المهام الفريق على تنسيق الجهود وتحديد أولويات ما يتم إنجازه أولاً."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:127
+#, fuzzy
+msgid ""
+"![Crowdin Tasks](../_static/images/translation_guide/crowdin_tasks.png "
+"\"Crowdin Tasks\")"
+msgstr ""
+"![مهام الحشود](../_static/images/translation_guide/crowdin_tasks.png \"مهام "
+"الحشود\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:127
+#, fuzzy
+msgid "Crowdin Tasks"
+msgstr "مهام الحشد"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:129
+msgid "To find your tasks:"
+msgstr "للعثور على المهام الخاصة بك:"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:131
+msgid "Go to the **Tasks** tab on the project Dashboard."
+msgstr "انتقل إلى علامة التبويب **المهام** في لوحة تحكم المشروع."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:132
+msgid ""
+"Click on a task to see its details — the assigned language, deadline, and "
+"the specific files or strings included."
+msgstr ""
+"انقر فوق مهمة لرؤية تفاصيلها - اللغة المخصصة والموعد النهائي والملفات أو "
+"السلاسل المحددة المضمنة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:133
+msgid ""
+"Click **Open in Editor** or **View Strings** button to start working on the "
+"strings within that task."
+msgstr ""
+"انقر فوق الزر **فتح في المحرر** أو **عرض السلاسل** لبدء العمل على السلاسل "
+"ضمن تلك المهمة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:134
+msgid ""
+"Your progress is tracked separately per task, so the team can see how much "
+"has been completed."
+msgstr ""
+"يتم تتبع تقدمك بشكل منفصل لكل مهمة، حتى يتمكن الفريق من معرفة مقدار ما تم "
+"إنجازه."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:136
+#, fuzzy
+msgid ""
+"![Crowdin Tasks "
+"Preview](../_static/images/translation_guide/crowdin_tasks_preview.png "
+"\"Crowdin Tasks Preview\")"
+msgstr ""
+"![معاينة مهام "
+"Crowdin](../_static/images/translation_guide/crowdin_tasks_preview.png "
+"\"معاينة مهام Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:136
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:138
+msgid "Crowdin Tasks Preview"
+msgstr "معاينة مهام Crowdin"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:138
+#, fuzzy
+msgid ""
+"![Crowdin Tasks "
+"Preview](../_static/images/translation_guide/crowdin_tasks_editing.png "
+"\"Crowdin Tasks Preview\")"
+msgstr ""
+"![معاينة مهام "
+"Crowdin](../_static/images/translation_guide/crowdin_tasks_editing.png "
+"\"معاينة مهام Crowdin\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:140
+msgid ""
+"**Tip:** Always check the Tasks tab first when you log in. Assigned tasks "
+"usually have deadlines and should be prioritised over general open "
+"contributions."
+msgstr ""
+"**نصيحة:** تحقق دائمًا من علامة التبويب \"المهام\" أولاً عند تسجيل الدخول. "
+"عادةً ما يكون للمهام المعينة مواعيد نهائية ويجب منحها الأولوية على المساهمات"
+" العامة المفتوحة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:142
+msgid ""
+"If you have not been assigned a task yet, you can still contribute freely by"
+" selecting a language and translating any untranslated strings — every "
+"contribution counts!"
+msgstr ""
+"إذا لم يتم تكليفك بمهمة بعد، فلا يزال بإمكانك المساهمة بحرية عن طريق تحديد "
+"لغة وترجمة أي سلاسل غير مترجمة - كل مساهمة لها أهميتها!"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:146
+msgid "Part 3 — Proofreading"
+msgstr "الجزء 3 – التدقيق اللغوي"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:148
+msgid ""
+"**Note:** Proofreader access is granted by project managers. If you'd like "
+"this role, reach out to the ClimWeb community coordinators."
+msgstr ""
+"**ملاحظة:** يتم منح حق الوصول للمصحح من قبل مديري المشاريع. إذا كنت ترغب في "
+"هذا الدور، تواصل مع منسقي مجتمع ClimWeb."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:152
+msgid "Step 9: What Proofreaders Do"
+msgstr "الخطوة 9: ما يفعله المراجعون"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:154
+msgid ""
+"Proofreaders review translations submitted by translators and give them the "
+"final **approval** to be used on the ClimWeb platform. One can have both "
+"translator and proofreader previlleges. As a proofreader, you:"
+msgstr ""
+"يقوم المراجعون بمراجعة الترجمات المقدمة من المترجمين ومنحهم **الموافقة** "
+"النهائية لاستخدامها على منصة ClimWeb. يمكن للمرء أن يحصل على كل من المترجم "
+"والمصحح. كمدقق لغوي، أنت:"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:156
+msgid "Review completed translations for accuracy, grammar, and naturalness."
+msgstr "قم بمراجعة الترجمات المكتملة للتأكد من دقتها وقواعدها وطبيعتها."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:157
+msgid "Click **Approve** (✓) on strings that are correct."
+msgstr "انقر **موافقة** (✓) على السلاسل الصحيحة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:158
+msgid "Edit and correct strings that are inaccurate before approving."
+msgstr "قم بتحرير وتصحيح السلاسل غير الدقيقة قبل الموافقة عليها."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:159
+msgid ""
+"Leave **comments** on strings to explain changes or ask the translator a "
+"question."
+msgstr ""
+"اترك **تعليقات** على النصوص لشرح التغييرات أو اطرح سؤالاً على المترجم."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:163
+msgid "Step 10: Approving & Editing Strings"
+msgstr "الخطوة 10: الموافقة على السلاسل وتحريرها"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:165
+msgid ""
+"Switch to **Proofreading mode** in the editor using the mode selector at the"
+" top."
+msgstr ""
+"قم بالتبديل إلى **وضع التدقيق اللغوي** في المحرر باستخدام محدد الوضع في "
+"الأعلى."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:166
+msgid ""
+"Strings awaiting approval will be highlighted — read each translation "
+"carefully against the English source."
+msgstr ""
+"سيتم تسليط الضوء على السلاسل التي تنتظر الموافقة - اقرأ كل ترجمة بعناية "
+"مقابل المصدر الإنجليزي."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:167
+msgid "If correct, click the **Approve** button (✓). The string turns green."
+msgstr ""
+"إذا كان هذا صحيحًا، فانقر فوق الزر **موافقة** (✓). يتحول الخيط إلى اللون "
+"الأخضر."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:169
+#, fuzzy
+msgid ""
+"![Crowdin Approval](../_static/images/translation_guide/crowdin_approval.png"
+" \"Crowdin Approval\")"
+msgstr ""
+"![موافقة الجمهور](../_static/images/translation_guide/crowdin_approval.png "
+"\"موافقة الجمهور\")"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:169
+msgid "Crowdin Approval"
+msgstr "موافقة الحشود"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:171
+msgid ""
+"If the translation needs a fix, click on the translation text to edit it "
+"directly, make your changes, then approve."
+msgstr ""
+"إذا كانت الترجمة بحاجة إلى إصلاح، فانقر على نص الترجمة لتحريره مباشرة، "
+"وإجراء التغييرات، ثم الموافقة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:172
+msgid ""
+"Use the **Comments** tab on the right to leave notes for translators — this "
+"keeps feedback transparent and constructive."
+msgstr ""
+"استخدم علامة التبويب **التعليقات** الموجودة على اليمين لترك ملاحظات "
+"للمترجمين — وهذا يحافظ على التعليقات الشفافة والبناءة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:176
+msgid "Best Practices"
+msgstr "أفضل الممارسات"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "Tip"
+msgstr "نصيحة"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "1"
+msgstr "1"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Keep climate terms consistent.** Always refer to the Glossary for weather "
+"and climate-specific vocabulary."
+msgstr ""
+"**حافظ على اتساق مصطلحات المناخ.** ارجع دائمًا إلى مسرد المصطلحات الخاصة "
+"بالطقس والمناخ."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "2"
+msgstr "2"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, python-brace-format
+msgid ""
+"**Don't translate variables.** Placeholders like `%1`, `{count}`, or `0` are"
+" dynamic values — copy them exactly as-is."
+msgstr ""
+"**لا تترجم المتغيرات.** العناصر النائبة مثل `%1`، أو `{count}`، أو `0` هي "
+"قيم ديناميكية - انسخها كما هي تمامًا."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "3"
+msgstr "3"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Use the Discussion tab.** Not sure how to translate something? Post in "
+"Discussions to get input from the community."
+msgstr ""
+"**استخدم علامة التبويب \"مناقشة\".** هل أنت غير متأكد من كيفية ترجمة شيء ما؟"
+" انشر في المناقشات للحصول على مدخلات من المجتمع."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "4"
+msgstr "4"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Sound natural.** Translate the meaning, not word-for-word. Your "
+"translation should read as if it were originally written in your language."
+msgstr ""
+"**الصوت طبيعي.** ترجم المعنى وليس كلمة بكلمة. يجب أن تقرأ ترجمتك كما لو كانت"
+" مكتوبة في الأصل بلغتك."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+#, fuzzy
+msgid "5"
+msgstr "5"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Check screenshots.** Screenshots show where a string appears in the UI — "
+"use them to understand context before translating."
+msgstr ""
+"**التحقق من لقطات الشاشة.** توضح لقطات الشاشة مكان ظهور السلسلة في واجهة "
+"المستخدم — استخدمها لفهم السياق قبل الترجمة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid "6"
+msgstr "6"
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md
+msgid ""
+"**Review your work.** After saving a translation, re-read it once more. "
+"Quality matters more than speed."
+msgstr ""
+"**راجع عملك.** بعد حفظ الترجمة، أعد قراءتها مرة أخرى. الجودة أهم من السرعة."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:189
+msgid ""
+"**You're all set!** Every string you translate or proofread helps make "
+"ClimWeb accessible to more people around the world. Thank you for being a "
+"contributor to the community — your language skills make a real difference."
+msgstr ""
+"**أنت جاهز!** كل سلسلة تترجمها أو تصححها تساعد في جعل ClimWeb في متناول عدد "
+"أكبر من الأشخاص حول العالم. شكرًا لك على كونك مساهمًا في المجتمع - فمهاراتك "
+"اللغوية تُحدث فرقًا حقيقيًا."
+
+#: ../../_docs/Climweb-Translations-Contribution-Guide.md:193
+msgid ""
+"*Project: [crowdin.com/project/nmhs-cms](https://crowdin.com/project/nmhs-"
+"cms)*"
+msgstr ""
+"*المشروع: [crowdin.com/project/nmhs-cms](https://crowdin.com/project/nmhs-"
+"cms)*"
 
 #: ../../_docs/Find-Your-Way-Around.md:1
 msgid "Find Your Way Around"
@@ -1470,16 +2240,20 @@ msgid "City Forecasts"
 msgstr "توقعات المدينة"
 
 #: ../../_docs/Manage-City-Forecasts.md:3
+#, fuzzy
 msgid ""
-"![Preview Home](../_static/images/city_forecasts/preview_home.png \"Preview "
-"Home\")"
+"![City Forecast "
+"Preview](../_static/images/city_forecasts/City_forecast_Banner_Image.png "
+"\"City Forecast Preview\")"
 msgstr ""
-"![صفحة المعاينة الرئيسية](../_static/images/city_forecasts/preview_home.png "
-"\"صفحة المعاينة الرئيسية\")"
+"![معاينة توقعات "
+"المدينة](../_static/images/city_forecasts/City_forecast_Banner_Image.png "
+"\"معاينة توقعات المدينة\")"
 
 #: ../../_docs/Manage-City-Forecasts.md:3
-msgid "Preview Home"
-msgstr "معاينة الصفحة الرئيسية"
+#, fuzzy
+msgid "City Forecast Preview"
+msgstr "معاينة توقعات المدينة"
 
 #: ../../_docs/Manage-City-Forecasts.md:5
 msgid ""
@@ -1538,8 +2312,9 @@ msgid "Here you have the ability to:"
 msgstr "هنا لديك القدرة على:"
 
 #: ../../_docs/Manage-City-Forecasts.md:20
-msgid "Add/Edit/Delete a city (city name and location)"
-msgstr "إضافة/تحرير/حذف مدينة (اسم المدينة وموقعها)"
+#, fuzzy
+msgid "Add/Edit/Delete a city (city name and location)."
+msgstr "إضافة/تحرير/حذف مدينة (اسم المدينة وموقعها)."
 
 #: ../../_docs/Manage-City-Forecasts.md:22
 msgid "![Add city](../_static/images/city_forecasts/add_city.png \"Add city\")"
@@ -3351,8 +4126,9 @@ msgid "CAP Sender Details"
 msgstr "تفاصيل مرسل CAP"
 
 #: ../../_docs/manage_cap/CAP-Base-Settings.md:21
-msgid "Hazard Types"
-msgstr "أنواع المخاطر"
+#, fuzzy
+msgid "Hazard Type"
+msgstr "نوع الخطر"
 
 #: ../../_docs/manage_cap/CAP-Base-Settings.md:23
 msgid ""
@@ -3390,6 +4166,8 @@ msgid ""
 "**Hazard Type**: The name of the hazard type. You can select from the WMO "
 "predefined list or create a new one."
 msgstr ""
+"**نوع الخطر**: اسم نوع الخطر. يمكنك الاختيار من القائمة المحددة مسبقًا "
+"للمنظمة (WMO) أو إنشاء قائمة جديدة."
 
 #: ../../_docs/manage_cap/CAP-Base-Settings.md:33
 msgid ""
@@ -6185,12 +6963,15 @@ msgstr ""
 "لإنشاء فئات الخدمة."
 
 #: ../../_docs/manage_pages/Manage-News.md:75
+#, fuzzy
 msgid ""
 "**Relevant Projects** - select from previously prepared projects. Please "
-"refer [Manage Projects](./Manage-Projects) to guide on creation of projects."
+"refer [Manage Projects](manage_organisation/Manage-Projects) to guide on "
+"creation of projects."
 msgstr ""
 "**المشاريع ذات الصلة** - اختر من المشاريع المعدة مسبقًا. يرجى الرجوع إلى "
-"[إدارة المشاريع](./Manage-Projects) لتوجيهك حول إنشاء المشاريع."
+"[إدارة المشاريع](manage_organisation/Manage-Projects) لتوجيهك حول إنشاء "
+"المشاريع."
 
 #: ../../_docs/manage_pages/Manage-News.md:77
 msgid "**Post date** - the date the news was published"
@@ -6511,7 +7292,7 @@ msgstr ""
 "\"إضافة عنصر منتج\")"
 
 #: ../../_docs/manage_pages/Manage-Products.md:78
-#: ../../_docs/manage_pages/Manage-Products.md:110
+#: ../../_docs/manage_pages/Manage-Products.md:111
 msgid "Add Product Item"
 msgstr "إضافة عنصر المنتج"
 
@@ -6595,11 +7376,11 @@ msgstr ""
 msgid "Save draft / Publish page."
 msgstr "حفظ المسودة / نشر الصفحة."
 
-#: ../../_docs/manage_pages/Manage-Products.md:106
+#: ../../_docs/manage_pages/Manage-Products.md:107
 msgid "Step 5: Creation of one or more product items for a product page"
 msgstr "الخطوة 5: إنشاء عنصر منتج واحد أو أكثر لصفحة المنتج"
 
-#: ../../_docs/manage_pages/Manage-Products.md:108
+#: ../../_docs/manage_pages/Manage-Products.md:109
 msgid ""
 "Add a product item by hovering over Dekadal Agromet Bulletin and selecting "
 "'add child page'."
@@ -6607,7 +7388,7 @@ msgstr ""
 "قم بإضافة عنصر منتج عن طريق المرور فوق نشرة Dekadal Agromet واختيار \"إضافة "
 "صفحة فرعية\"."
 
-#: ../../_docs/manage_pages/Manage-Products.md:110
+#: ../../_docs/manage_pages/Manage-Products.md:111
 msgid ""
 "![Add Product Item](../../_static/images/products/product_item.png \"Add "
 "Product Item\")"
@@ -6615,7 +7396,7 @@ msgstr ""
 "![إضافة عنصر منتج](../../_static/images/products/product_item.png \"إضافة "
 "عنصر منتج\")"
 
-#: ../../_docs/manage_pages/Manage-Products.md:112
+#: ../../_docs/manage_pages/Manage-Products.md:113
 msgid ""
 "For example, you can add a product item for **1 - 10 June 2023** , by "
 "specifying the date, valid until and products."
@@ -6623,7 +7404,7 @@ msgstr ""
 "على سبيل المثال، يمكنك إضافة عنصر منتج لـ **1 - 10 يونيو 2023**، عن طريق "
 "تحديد التاريخ، الصالح حتى، والمنتجات."
 
-#: ../../_docs/manage_pages/Manage-Products.md:114
+#: ../../_docs/manage_pages/Manage-Products.md:115
 msgid ""
 "![Add Product Item Page](../../_static/images/products/product_item_page.png"
 " \"Add Product Item Page\")"
@@ -6632,23 +7413,23 @@ msgstr ""
 "المنتج](../../_static/images/products/product_item_page.png \"إضافة صفحة "
 "عنصر المنتج\")"
 
-#: ../../_docs/manage_pages/Manage-Products.md:114
+#: ../../_docs/manage_pages/Manage-Products.md:115
 msgid "Add Product Item Page"
 msgstr "إضافة صفحة عنصر المنتج"
 
-#: ../../_docs/manage_pages/Manage-Products.md:116
+#: ../../_docs/manage_pages/Manage-Products.md:117
 msgid "The 'products' input accepts two options:"
 msgstr "يقبل إدخال \"المنتجات\" خيارين:"
 
-#: ../../_docs/manage_pages/Manage-Products.md:118
+#: ../../_docs/manage_pages/Manage-Products.md:119
 msgid "Map/Image Product"
 msgstr "منتج الخريطة/الصورة"
 
-#: ../../_docs/manage_pages/Manage-Products.md:119
+#: ../../_docs/manage_pages/Manage-Products.md:120
 msgid "Document/Bulletin Product"
 msgstr "منتج الوثيقة/النشرة"
 
-#: ../../_docs/manage_pages/Manage-Products.md:121
+#: ../../_docs/manage_pages/Manage-Products.md:122
 msgid ""
 "![Add Product Options](../../_static/images/products/product_options.png "
 "\"Add Product Options\")"
@@ -6656,19 +7437,19 @@ msgstr ""
 "![إضافة خيارات المنتج](../../_static/images/products/product_options.png "
 "\"إضافة خيارات المنتج\")"
 
-#: ../../_docs/manage_pages/Manage-Products.md:121
-#: ../../_docs/manage_pages/Manage-Products.md:125
-#: ../../_docs/manage_pages/Manage-Products.md:129
+#: ../../_docs/manage_pages/Manage-Products.md:122
+#: ../../_docs/manage_pages/Manage-Products.md:126
+#: ../../_docs/manage_pages/Manage-Products.md:130
 msgid "Add Product Options"
 msgstr "إضافة خيارات المنتج"
 
-#: ../../_docs/manage_pages/Manage-Products.md:123
+#: ../../_docs/manage_pages/Manage-Products.md:124
 msgid ""
 "An example of a product based on Map/Image product would be the type "
 "'Rainfall Amount'"
 msgstr "مثال على منتج يعتمد على منتج الخريطة/الصورة سيكون النوع \"كمية الأمطار\""
 
-#: ../../_docs/manage_pages/Manage-Products.md:125
+#: ../../_docs/manage_pages/Manage-Products.md:126
 msgid ""
 "![Add Product "
 "Options](../../_static/images/products/product_options_map_image.png \"Add "
@@ -6678,13 +7459,13 @@ msgstr ""
 "المنتج](../../_static/images/products/product_options_map_image.png \"إضافة "
 "خيارات المنتج\")"
 
-#: ../../_docs/manage_pages/Manage-Products.md:127
+#: ../../_docs/manage_pages/Manage-Products.md:128
 msgid ""
 "An example of a product based on Document/Bulletin product would be the type"
 " 'Document'"
 msgstr "مثال على منتج يعتمد على منتج المستند/النشرة سيكون النوع \"مستند\""
 
-#: ../../_docs/manage_pages/Manage-Products.md:129
+#: ../../_docs/manage_pages/Manage-Products.md:130
 msgid ""
 "![Add Product "
 "Options](../../_static/images/products/product_options_document.png \"Add "
@@ -6694,30 +7475,29 @@ msgstr ""
 "المنتج](../../_static/images/products/product_options_document.png \"إضافة "
 "خيارات المنتج\")"
 
-#: ../../_docs/manage_pages/Manage-Products.md:132
+#: ../../_docs/manage_pages/Manage-Products.md:133
+#, fuzzy, python-brace-format
 msgid ""
-"When adding a new bulletin, you will only need to begin from Step 5: "
-"[Creation of one or more product items for a product page](Manage-"
-"Products#step-5-creation-of-one-or-more-product-items-for-a-product-page) "
+"When adding a new bulletin, you will only need to begin from "
+"{ref}`step-5-creation-of-one-or-more-product-items-for-a-product-page` "
 "section above to upload the document or any related text and images about a "
 "new period."
 msgstr ""
-"عند إضافة نشرة جديدة، ستحتاج فقط إلى البدء من الخطوة 5: قسم [إنشاء عنصر منتج"
-" واحد أو أكثر لصفحة منتج](Manage-Products#step-5-creation-of-one-or-more-"
-"product-items-for-a-product-page) أعلاه لتحميل المستند أو أي نصوص وصور ذات "
-"صلة حول فترة جديدة."
+"عند إضافة نشرة جديدة، لن تحتاج إلا إلى البدء من القسم {ref}`step-5-creation-"
+"of-one-or-more-product-items-for-a-product-page` أعلاه لتحميل المستند أو أي "
+"نصوص وصور ذات صلة حول فترة جديدة."
 
-#: ../../_docs/manage_pages/Manage-Products.md:135
+#: ../../_docs/manage_pages/Manage-Products.md:136
 msgid "Automatic generation of thumbnails"
 msgstr "الإنشاء التلقائي للصور المصغرة"
 
-#: ../../_docs/manage_pages/Manage-Products.md:137
+#: ../../_docs/manage_pages/Manage-Products.md:138
 msgid ""
 "When a product item of type `Document` is created, a thumbnail is "
 "automatically generated."
 msgstr "عند إنشاء عنصر منتج من النوع `مستند`، يتم إنشاء صورة مصغرة تلقائيًا."
 
-#: ../../_docs/manage_pages/Manage-Products.md:139
+#: ../../_docs/manage_pages/Manage-Products.md:140
 msgid ""
 "Previously, the thumbnail had to be manually uploaded, but now it is "
 "automatically generated from the first page of the document."
@@ -6725,7 +7505,7 @@ msgstr ""
 "في السابق، كان يجب تحميل الصورة المصغرة يدويًا، ولكن الآن يتم إنشاؤها "
 "تلقائيًا من الصفحة الأولى من المستند."
 
-#: ../../_docs/manage_pages/Manage-Products.md:142
+#: ../../_docs/manage_pages/Manage-Products.md:143
 msgid ""
 "This feature simplifies the process of managing product items and ensures "
 "that each item has a visual representation without requiring additional "
@@ -6734,7 +7514,7 @@ msgstr ""
 "تعمل هذه الميزة على تبسيط عملية إدارة عناصر المنتج وتضمن أن كل عنصر له تمثيل"
 " مرئي دون الحاجة إلى خطوات يدوية إضافية."
 
-#: ../../_docs/manage_pages/Manage-Products.md:145
+#: ../../_docs/manage_pages/Manage-Products.md:146
 msgid ""
 "![Product Item Thumbnail "
 "Check](../../_static/images/products/product_generate_thumbnail.png "
@@ -6744,11 +7524,11 @@ msgstr ""
 "المنتج](../../_static/images/products/product_generate_thumbnail.png "
 "\"التحقق من الصورة المصغرة لعنصر المنتج\")"
 
-#: ../../_docs/manage_pages/Manage-Products.md:145
+#: ../../_docs/manage_pages/Manage-Products.md:146
 msgid "Product Item Thumbnail Check"
 msgstr "التحقق من الصورة المصغرة لعنصر المنتج"
 
-#: ../../_docs/manage_pages/Manage-Products.md:147
+#: ../../_docs/manage_pages/Manage-Products.md:148
 msgid ""
 "After the product item is published, the thumbnail is generated "
 "automatically and used for previews and listings."
@@ -6756,7 +7536,7 @@ msgstr ""
 "بعد نشر عنصر المنتج، يتم إنشاء الصورة المصغرة تلقائيًا واستخدامها للمعاينات "
 "والقوائم."
 
-#: ../../_docs/manage_pages/Manage-Products.md:149
+#: ../../_docs/manage_pages/Manage-Products.md:150
 msgid ""
 "![Product Item "
 "Thumbnail](../../_static/images/products/product_thumbnail_on_save.png "
@@ -6766,11 +7546,11 @@ msgstr ""
 "المنتج](../../_static/images/products/product_thumbnail_on_save.png \"صورة "
 "مصغرة لعنصر المنتج\")"
 
-#: ../../_docs/manage_pages/Manage-Products.md:149
+#: ../../_docs/manage_pages/Manage-Products.md:150
 msgid "Product Item Thumbnail"
 msgstr "صورة مصغرة لعنصر المنتج"
 
-#: ../../_docs/manage_pages/Manage-Products.md:152
+#: ../../_docs/manage_pages/Manage-Products.md:153
 #: ../../_docs/manage_pages/Manage-Publications.md:119
 msgid ""
 "This feature is currently only available for PDF files. If you upload a non-"
@@ -6996,12 +7776,14 @@ msgstr ""
 " فئات الخدمة."
 
 #: ../../_docs/manage_pages/Manage-Publications.md:83
+#, fuzzy
 msgid ""
 "**Projects Section** - select from previously prepared projects. Please "
-"refer [Manage Projects](./Manage-Projects) to guide on creation of projects."
+"refer [Manage Projects](manage_organisation/Manage-Projects) to guide on "
+"creation of projects."
 msgstr ""
 "**قسم المشاريع** - اختر من المشاريع المعدة مسبقاً. يرجى الرجوع إلى [إدارة "
-"المشاريع](./Manage-Projects) لتوجيهك حول إنشاء المشاريع."
+"المشاريع](manage_organisation/Manage-Projects) لتوجيهك حول إنشاء المشاريع."
 
 #: ../../_docs/manage_pages/Manage-Publications.md:86
 msgid ""
@@ -7343,14 +8125,16 @@ msgid "What we do Sections"
 msgstr "ماذا نفعل الأقسام"
 
 #: ../../_docs/manage_pages/Manage-Services.md:85
+#, fuzzy
 msgid ""
 "**Projects Section** - This contains a description of the projects linked to"
-" the service being edited. Please refer [Manage Projects](./Manage-Projects)"
-" to guide on creation of projects and linking them to services."
+" the service being edited. Please refer [Manage "
+"Projects](manage_organisation/Manage-Projects) to guide on creation of "
+"projects and linking them to services."
 msgstr ""
 "**قسم المشاريع** - يحتوي على وصف للمشاريع المرتبطة بالخدمة التي يتم تحريرها."
-" يرجى الرجوع إلى [إدارة المشاريع](./Manage-Projects) للاسترشاد بها حول إنشاء"
-" المشاريع وربطها بالخدمات."
+" يرجى الرجوع إلى [إدارة المشاريع](manage_organisation/Manage-Projects) "
+"لتوجيهك حول إنشاء المشاريع وربطها بالخدمات."
 
 #: ../../_docs/manage_pages/Manage-Services.md:87
 msgid ""
@@ -7896,15 +8680,16 @@ msgstr "إنشاء صفحة حول"
 #: ../../_docs/manage_pages/manage_organisation/Manage-Projects.md:5
 #: ../../_docs/manage_pages/manage_organisation/Manage-Tenders.md:5
 #: ../../_docs/manage_pages/manage_organisation/Manage-Vacancies.md:5
+#, fuzzy
 msgid ""
 "The creation of this page assumes you have already created an organisation "
 "index page which is the parent page of this page. To create an organisation "
-"index page, please refer to [Managing Organisation Page](./Manage-"
+"index page, please refer to [Managing Organisation Page](Manage-"
 "Organisation)."
 msgstr ""
 "يفترض إنشاء هذه الصفحة أنك قمت بالفعل بإنشاء صفحة فهرس المؤسسة وهي الصفحة "
 "الرئيسية لهذه الصفحة. لإنشاء صفحة فهرس مؤسسة، يرجى الرجوع إلى [إدارة صفحة "
-"المؤسسة](./Manage-Organisation)."
+"المؤسسة](إدارة المؤسسة)."
 
 #: ../../_docs/manage_pages/manage_organisation/Manage-About.md:7
 msgid ""
@@ -12229,3 +13014,13 @@ msgstr ""
 msgid ""
 "`climweb axes_reset` runs the `axes_reset` command in the Climweb container."
 msgstr "يقوم `climweb axes_reset` بتشغيل الأمر `axes_reset` في حاوية Climweb."
+
+#~ msgid ""
+#~ "![Preview Home](../_static/images/city_forecasts/preview_home.png \"Preview "
+#~ "Home\")"
+#~ msgstr ""
+#~ "![صفحة المعاينة الرئيسية](../_static/images/city_forecasts/preview_home.png "
+#~ "\"صفحة المعاينة الرئيسية\")"
+
+#~ msgid "Preview Home"
+#~ msgstr "معاينة الصفحة الرئيسية"
