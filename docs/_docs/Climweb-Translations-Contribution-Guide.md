@@ -2,7 +2,7 @@
 
 > A step-by-step guide for contributors helping make climate information accessible in multiple languages.
 
-🌍 **Project link:** [crowdin.com/project/nmhs-cms](https://crowdin.com/project/nmhs-cms)
+**Project link:** [crowdin.com/project/nmhs-cms](https://crowdin.com/project/nmhs-cms)
 
 ---
 
@@ -26,7 +26,7 @@ Contributors are encouraged to sign in to Crowdin using GitHub. If you don't hav
 
 7. On the welcome screen, you can skip the optional setup questions by scrolling down and clicking **Skip personalisation**.
 
-> 💡 **Tip:** Choose a username that represents you professionally — it will be visible to other contributors on the ClimWeb project.
+> **Tip:** Choose a username that represents you professionally — it will be visible to other contributors on the ClimWeb project.
 
 You now have a GitHub account and are ready to sign in to Crowdin!
 
@@ -57,7 +57,7 @@ On the project **Dashboard**, you'll see all available languages and their curre
 
 ![Crowdin Translate All](../_static/images/translation_guide/crowdin_translate_all.png "Crowdin Translate All")
 
-> ⚠️ **Note:** Some languages may require you to click **Join** and wait for a project manager to approve your request before you can begin translating.
+> **Note:** Some languages may require you to click **Join** and wait for a project manager to approve your request before you can begin translating.
 
 ---
 
@@ -104,7 +104,7 @@ The Crowdin editor has three main panels:
 3. Type your translation in the text field below it.
 4. Press **Enter** or click the green **Save** button to submit and move to the next string.
 
-> 💡 **Tip:** Watch for variables like `%1`, `{name}`, or `0` — do **not** translate these. Copy them exactly as-is into the correct position in your translation.
+> **Tip:** Watch for variables like `%1`, `{name}`, or `0` — do **not** translate these. Copy them exactly as-is into the correct position in your translation.
 
 You can also click a **TM suggestion** on the right panel to pre-fill your translation field, then edit as needed.
 
@@ -137,7 +137,7 @@ To find your tasks:
 
 ![Crowdin Tasks Preview](../_static/images/translation_guide/crowdin_tasks_editing.png "Crowdin Tasks Preview")
 
-> 💡 **Tip:** Always check the Tasks tab first when you log in. Assigned tasks usually have deadlines and should be prioritised over general open contributions.
+> **Tip:** Always check the Tasks tab first when you log in. Assigned tasks usually have deadlines and should be prioritised over general open contributions.
 
 If you have not been assigned a task yet, you can still contribute freely by selecting a language and translating any untranslated strings — every contribution counts!
 
@@ -145,7 +145,7 @@ If you have not been assigned a task yet, you can still contribute freely by sel
 
 ## Part 3 — Proofreading
 
-> ⚠️ **Note:** Proofreader access is granted by project managers. If you'd like this role, reach out to the ClimWeb community coordinators.
+> **Note:** Proofreader access is granted by project managers. If you'd like this role, reach out to the ClimWeb community coordinators.
 
 ---
 
@@ -177,16 +177,16 @@ Proofreaders review translations submitted by translators and give them the fina
 
 | | Tip |
 |---|---|
-| 🌡️ | **Keep climate terms consistent.** Always refer to the Glossary for weather and climate-specific vocabulary. |
-| 🔤 | **Don't translate variables.** Placeholders like `%1`, `{count}`, or `0` are dynamic values — copy them exactly as-is. |
-| 💬 | **Use the Discussion tab.** Not sure how to translate something? Post in Discussions to get input from the community. |
-| ✍️ | **Sound natural.** Translate the meaning, not word-for-word. Your translation should read as if it were originally written in your language. |
-| 📸 | **Check screenshots.** Screenshots show where a string appears in the UI — use them to understand context before translating. |
-| 🔁 | **Review your work.** After saving a translation, re-read it once more. Quality matters more than speed. |
+| 1 | **Keep climate terms consistent.** Always refer to the Glossary for weather and climate-specific vocabulary. |
+| 2 | **Don't translate variables.** Placeholders like `%1`, `{count}`, or `0` are dynamic values — copy them exactly as-is. |
+| 3 | **Use the Discussion tab.** Not sure how to translate something? Post in Discussions to get input from the community. |
+| 4 | **Sound natural.** Translate the meaning, not word-for-word. Your translation should read as if it were originally written in your language. |
+| 5 | **Check screenshots.** Screenshots show where a string appears in the UI — use them to understand context before translating. |
+| 6 | **Review your work.** After saving a translation, re-read it once more. Quality matters more than speed. |
 
 ---
 
-> 🎉 **You're all set!** Every string you translate or proofread helps make ClimWeb accessible to more people around the world. Thank you for being a contributor to the community — your language skills make a real difference.
+> **You're all set!** Every string you translate or proofread helps make ClimWeb accessible to more people around the world. Thank you for being a contributor to the community — your language skills make a real difference.
 
 ---
 
