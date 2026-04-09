@@ -21,7 +21,7 @@ the [Norwegian Refugee Council](https://www.nrc.no/), with guidance of the WMO R
 The technical support provided to NMHSs at the WMO Regional Office for Africa include:
 
 - Focal Points verification and updates for different WMO Programmes including OSCAR Surface, WIGOS, WDQMS and CAP
-- [OSCAR Surface](https://oscar.wmo.int/surface/#/about) verification and updates Station Metadata Update
+- [OSCAR Surface](https://oscar.wmo.int/surface/#/about) verification and Station Metadata Update
 - Data transmission challenges identification, troubleshooting and resolution
 - WMO Country Profile Database updates
 - Website and Content Management System (ClimWeb) development and support
@@ -60,11 +60,11 @@ Content Management System that would improve the efficiency of management.
 
 It factored in:
 
-- Well **defined content structure** and pages management,
+- Well **defined content structure** and pages management
 - **User-friendly interface** with a modern look and feel
 - Great **user experience and ease** in locating content
 - A **decentralized ClimWeb architecture** was adopted to allow management of departmental sections by different user roles
-  and allow for content moderation and publishing **workflows**
+  and allow for content moderation and publishing **workflows**.
 
 Currently, most of the NMHSs website's management is not decentralized. This means that the website is managed by one
 staff, usually from the IT department. This is not very efficient as every department has its own content, but the
