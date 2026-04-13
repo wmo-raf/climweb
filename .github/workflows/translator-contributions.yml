@@ -184,6 +184,16 @@ jobs:
             # Extract language code e.g. locale/fr/LC_MESSAGES → fr
             lang_code=$(echo "$changed_file" | grep -oP '(?<=/locale/)[^/]+(?=/LC_MESSAGES)')
             [ -z "$lang_code" ] && continue
+            
+            # Build a map of short code → full Crowdin language ID once
+            LANG_MAP=$(curl -sf \
+              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}" \
+              -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
+              | jq -r '.data.targetLanguages[] | "\(.twoLettersCode) \(.id)"')
+            
+            # Then resolve lang_code from path to Crowdin ID
+            crowdin_lang_id=$(echo "$LANG_MAP" | awk -v code="$lang_code" '$1 == code {print $2}')
+            [ -z "$crowdin_lang_id" ] && echo "Skipping $lang_code — not found in Crowdin" && continue
 
             # Map to source path to get Crowdin file ID
             src_path="/$(echo "$changed_file" | sed 's|/locale/[^/]*/LC_MESSAGES/|/locale/en/LC_MESSAGES/|g')"
