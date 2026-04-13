@@ -154,7 +154,8 @@ jobs:
             local gh_name gh_username
 
             if [ -n "$TRANSLATOR_MAP" ]; then
-              gh_name=$(echo "$TRANSLATOR_MAP" | jq -r --arg u "$crowdin_user" '.[$u].github_display_name // empty')
+              gh_name=$(echo "$TRANSLATOR_MAP" | jq -r --arg u "$crowdin_user" \
+                '.[$u].github_display_name // .[$u].github_user_name // empty')
               gh_username=$(echo "$TRANSLATOR_MAP" | jq -r --arg u "$crowdin_user" '.[$u].github_user_name // empty')
             fi
 
