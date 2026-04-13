@@ -178,18 +178,20 @@ jobs:
           declare -A SEEN_FILE_LANG
           CO_AUTHORS=""
 
+
+          # Build a map of short code → full Crowdin language ID once
+          LANG_MAP=$(curl -sf \
+            "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}" \
+            -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
+            | jq -r '.data.targetLanguages[] | "\(.twoLettersCode) \(.id)"')
+              
           while IFS= read -r changed_file; do
             [ -z "$changed_file" ] && continue
 
             # Extract language code e.g. locale/fr/LC_MESSAGES → fr
             lang_code=$(echo "$changed_file" | grep -oP '(?<=/locale/)[^/]+(?=/LC_MESSAGES)')
             [ -z "$lang_code" ] && continue
-            
-            # Build a map of short code → full Crowdin language ID once
-            LANG_MAP=$(curl -sf \
-              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}" \
-              -H "Authorization: Bearer ${CROWDIN_TOKEN}" \
-              | jq -r '.data.targetLanguages[] | "\(.twoLettersCode) \(.id)"')
+
             
             # Then resolve lang_code from path to Crowdin ID
             crowdin_lang_id=$(echo "$LANG_MAP" | awk -v code="$lang_code" '$1 == code {print $2}')
@@ -208,9 +210,9 @@ jobs:
             [ -n "${SEEN_FILE_LANG[$key]+_}" ] && continue
             SEEN_FILE_LANG[$key]=1
 
-            echo "Fetching approvals for file ID $file_id, language $lang_code"
+            echo "Fetching approvals for file ID $file_id, language $lang_code ($crowdin_lang_id)""
             APPROVALS=$(curl -sf \
-              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/approvals?fileId=${file_id}&languageId=${lang_code}&limit=500" \
+              "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/approvals?fileId=${file_id}&languageId=${crowdin_lang_id}&limit=500" \
               -H "Authorization: Bearer ${CROWDIN_TOKEN}")
 
             while IFS= read -r crowdin_username; do
