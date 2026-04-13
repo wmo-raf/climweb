@@ -1,4 +1,4 @@
-# ClimWeb Community Translation Contribution Guide
+# Translations Contribution Guide
 
 > A step-by-step guide for contributors helping make climate information accessible in multiple languages.
 
@@ -155,6 +155,12 @@ Proofreaders review translations submitted by translators and give them the fina
 
 - Review completed translations for accuracy, grammar, and naturalness.
 - Click **Approve** (✓) on strings that are correct.
+
+![Crowdin Approval](../_static/images/translation_guide/crowdin_approve_translation.png "Crowdin Approval")
+
+Approved tasks will have a green tick and tasks awaiting approval will have a blue square dot.
+![Crowdin Approval](../_static/images/translation_guide/crowdin_status.png "Crowdin Approval")
+
 - Edit and correct strings that are inaccurate before approving.
 - Leave **comments** on strings to explain changes or ask the translator a question.
 
@@ -168,7 +174,7 @@ Proofreaders review translations submitted by translators and give them the fina
 
 ![Crowdin Approval](../_static/images/translation_guide/crowdin_approval.png "Crowdin Approval")
 
-4. If the translation needs a fix, click on the translation text to edit it directly, make your changes, then approve.
+4. If the translation needs a fix (usually appears under QA Issues), click on the translation text to edit it directly, make your changes, then approve.
 5. Use the **Comments** tab on the right to leave notes for translators — this keeps feedback transparent and constructive.
 
 ---
