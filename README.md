@@ -46,20 +46,23 @@ NMHSs that have adopted ClimWeb across Africa:
 28. 🇲🇿 [Mozambique](https://inam.gov.mz/)
 29. 🇿🇲 [Mauritania](https://meteomauritanie.mr/)
 30. 🇨🇫 [Central African Republic](https://meteocentrafrique.com/)
-31. 🇲🇿 [Mozambique Hydrology Department]
+31. 🇲🇿 Mozambique Hydrology Department
 
 #### In progress
 
-- 🇺🇬 Uganda
-- 🇳🇦 Namibia
-- 🇸🇹 Sao Tome Principe
-- 🇲🇬 Madagascar
-- 🇸🇿 Eswatini
-- 🇱🇸 Lesotho
-- 🇬🇦 Gabon
-- 🇸🇩 Sudan Hydrology Department
-- 🇲🇺 Mauritius
-- 🇲🇺 Mauritius Hydrology Department
+33. 🇺🇬 Uganda
+34. 🇳🇦 Namibia
+35. 🇸🇹 Sao Tome Principe
+36. 🇲🇬 Madagascar
+37. 🇸🇿 Eswatini
+38. 🇱🇸 Lesotho
+40. 🇸🇩 Sudan Hydrology Department
+41. 🇨🇲 Cameroon
+42. 🇨🇲 RCC Douala
+43. 🇨🇲 RSMC Yaounde
+
+## 🌍 Other regions
+44. Syria 
 
 ## 🌟 Core Features
 
