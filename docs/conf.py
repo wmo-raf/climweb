@@ -233,7 +233,61 @@ html_show_sphinx = True
 htmlhelp_basename = "Climwebdoc"
 
 # -- Options for LaTeX output ---------------------------------------------
+language = os.environ.get("READTHEDOCS_LANGUAGE", "en")
 
+if language == "ar":
+    latex_engine = "xelatex"
+    latex_elements = {
+        "preamble": r"""
+            \usepackage{fontspec}
+            \usepackage{polyglossia}
+            \usepackage{bidi}
+            \usepackage{graphicx}
+            \usepackage{adjustbox}
+            \usepackage{etoolbox}
+
+            \setmainlanguage{arabic}
+            \setotherlanguage{english}
+
+            \setmainfont{FreeSerif}
+            \newfontfamily\arabicfont[Script=Arabic]{FreeSerif}
+
+            \geometry{a4paper, margin=1in, twoside}
+
+            % FIX IMAGES (KEY PART)
+            \setkeys{Gin}{width=\linewidth,keepaspectratio}
+
+            \AtBeginEnvironment{figure}{\begin{LTR}\centering}
+            \AtEndEnvironment{figure}{\end{LTR}}
+
+            \AtBeginEnvironment{figure*}{\begin{LTR}\centering}
+            \AtEndEnvironment{figure*}{\end{LTR}}
+        """
+    }
+elif language == "am":
+        latex_engine = "xelatex"
+        latex_elements = {
+        "preamble": r"""
+            \usepackage{fontspec}
+            \usepackage{polyglossia}
+            \usepackage{graphicx}
+            \usepackage{adjustbox}
+            \usepackage{geometry}
+
+            \setmainlanguage{amharic}
+            \setotherlanguage{english}
+
+            % Ethiopic font (VERY important)
+            \setmainfont{FreeSerif}
+            \newfontfamily\ethiopicfont{FreeSerif}
+
+            \geometry{a4paper, margin=1in}
+
+            % Fix images
+            \setkeys{Gin}{width=\linewidth,keepaspectratio}
+            \AtBeginEnvironment{figure}{\centering}
+        """
+    }
 # latex_elements = {
 # The paper size ('letterpaper' or 'a4paper').
 # 'papersize': 'a4paper',
