@@ -210,7 +210,7 @@ jobs:
             [ -n "${SEEN_FILE_LANG[$key]+_}" ] && continue
             SEEN_FILE_LANG[$key]=1
 
-            echo "Fetching approvals for file ID $file_id, language $lang_code ($crowdin_lang_id)""
+            echo "Fetching approvals for file ID $file_id, language $lang_code ($crowdin_lang_id)"
             APPROVALS=$(curl -sf \
               "https://api.crowdin.com/api/v2/projects/${CROWDIN_PROJECT_ID}/approvals?fileId=${file_id}&languageId=${crowdin_lang_id}&limit=500" \
               -H "Authorization: Bearer ${CROWDIN_TOKEN}")
