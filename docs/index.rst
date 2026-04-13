@@ -34,6 +34,7 @@ ClimWeb
    _docs/Manage-Mapviewer
    _docs/manage_atlas/index
    _docs/Mailing-Integrations
+   _docs/Climweb-Translations-Contribution-Guide
    _docs/Frequently-Asked-Questions
    _docs/technical/index
    
