@@ -62,7 +62,7 @@ NMHSs that have adopted ClimWeb across Africa:
 43. 🇨🇲 RSMC Yaounde
 
 ## 🌍 Other regions
-44. Syria 
+44. 🇸🇾 Syria (https://climweb.med.gov.sy)
 
 ## 🌟 Core Features
 
