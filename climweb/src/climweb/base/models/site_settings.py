@@ -220,7 +220,7 @@ class Theme(models.Model):
                                      help_text=_("Enable if this is the default theme"))
     name = models.CharField(blank=False, verbose_name=_("Theme Name"), max_length=250, null=True)
     primary_color = ColorField(blank=True, null=True, default="#363636",
-                               help_text=_("Primary color (use color picker)"))
+                               help_text=_("Primary color (use color picker)"), verbose_name=_("Primary color"))
     primary_hover_color = ColorField(blank=True, null=True, default="#176c9c",
                                      help_text=_("Primary Hover color (use color picker)"))
     secondary_color = ColorField(blank=True, null=True, default="#ffffff",

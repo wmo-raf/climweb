@@ -97,7 +97,7 @@
                 {% if page.show_city_forecast %}
                     <div class="column is-7-desktop is-full-tablet is-full-mobile weather-widget-column"
                          id="weather-widget-wrapper">
-                        {% include "weather/forecast_widget_skeleton_include.html" %}
+                        {% if home_weather_widget_url %}{% include "weather/forecast_widget_skeleton_include.html" %}{% endif %}
                     </div>
                 {% endif %}
             </div>

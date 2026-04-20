@@ -22,6 +22,7 @@ const enabled = computed(() => {
 <template>
   <div v-if="enabled" class="m-legend-item">
     <div class="legend-title">{{ props.title }}</div>
+  
     <ul>
       <li v-for="item in props.legendConfig.items" class="item-wrapper">
         <div class="item-color" :style="{ backgroundColor: item.color }"></div>
@@ -58,8 +59,8 @@ const enabled = computed(() => {
 }
 
 .item-color {
-  height: 12px;
-  width: 12px;
+  height: 8px;
+  width: 8px;
   border-radius: 50%;
   margin-right: 4px;
 }

@@ -1,4 +1,5 @@
 from adminboundarymanager.models import AdminBoundarySettings
+from django.conf import settings
 from django.http import JsonResponse
 from django.urls import reverse
 from geomanager.models import Category, VectorLayerIcon, VectorTileLayerIcon, GeomanagerSettings
@@ -25,48 +26,56 @@ def home_map_settings(request):
     config.update({
         "bounds": abm_extents,
         "boundaryTilesUrl": boundary_tiles_url,
-        "weatherIconsUrl": get_full_url(request, reverse("weather-icons")),
-        "forecastSettingsUrl": get_full_url(request, reverse("forecast-settings")),
-        "homeMapAlertsUrl": get_full_url(request, reverse("home_map_alerts")),
-        "homeForecastDataUrl": get_full_url(request, reverse("home-weather-forecast")),
-        "capGeojsonUrl": get_full_url(request, reverse("cap_alerts_geojson")),
     })
+
+    if "forecastmanager" in settings.INSTALLED_APPS:
+        config.update({
+            "weatherIconsUrl": get_full_url(request, reverse("weather-icons")),
+            "forecastSettingsUrl": get_full_url(request, reverse("forecast-settings")),
+            "homeForecastDataUrl": get_full_url(request, reverse("home-weather-forecast")),
+        })
+
+    if "capcomposer.cap" in settings.INSTALLED_APPS:
+        config.update({
+            "homeMapAlertsUrl": get_full_url(request, reverse("home_map_alerts")),
+            "capGeojsonUrl": get_full_url(request, reverse("cap_alerts_geojson")),
+        })
     
     if org_settings.country_info:
         config["countryInfo"] = org_settings.country_info
     
-    settings = HomeMapSettings.for_request(request)
-    
-    for location in settings.zoom_locations:
+    map_settings = HomeMapSettings.for_request(request)
+
+    for location in map_settings.zoom_locations:
         config["zoomLocations"].append({
             "id": location.id,
             "name": location.value.name,
             "bounds": location.value.bounds,
             "default": location.value.default
         })
-    
-    if settings.forecast_cluster:
+
+    if map_settings.forecast_cluster:
         config["forecastClusterConfig"] = {
             "cluster": True
         }
-        
-        if settings.forecast_cluster_min_points:
-            config["forecastClusterConfig"]["clusterMinPoints"] = settings.forecast_cluster_min_points
-        
-        if settings.forecast_cluster_radius:
-            config["forecastClusterConfig"]["clusterRadius"] = settings.forecast_cluster_radius
-    
+
+        if map_settings.forecast_cluster_min_points:
+            config["forecastClusterConfig"]["clusterMinPoints"] = map_settings.forecast_cluster_min_points
+
+        if map_settings.forecast_cluster_radius:
+            config["forecastClusterConfig"]["clusterRadius"] = map_settings.forecast_cluster_radius
+
     config.update({
-        "showWarningsLayer": settings.show_warnings_layer,
-        "capWarningsLayerDisplayName": settings.warnings_layer_display_name,
-        "showLocationForecastLayer": settings.show_location_forecast_layer,
-        "locationForecastLayerDisplayName": settings.location_forecast_layer_display_name,
-        "locationForecastDateDisplayFormat": settings.location_forecat_date_display_format,
+        "showWarningsLayer": map_settings.show_warnings_layer,
+        "capWarningsLayerDisplayName": map_settings.warnings_layer_display_name,
+        "showLocationForecastLayer": map_settings.show_location_forecast_layer and settings.IS_METEOROLOGICAL,
+        "locationForecastLayerDisplayName": map_settings.location_forecast_layer_display_name,
+        "locationForecastDateDisplayFormat": map_settings.location_forecat_date_display_format,
     })
-    
+
     # boundaries
-    config["showLevel1Boundaries"] = settings.show_level_1_boundaries
-    if settings.use_geomanager_basemaps:
+    config["showLevel1Boundaries"] = map_settings.show_level_1_boundaries
+    if map_settings.use_geomanager_basemaps:
         gm_settings = GeomanagerSettings.for_request(request)
         base_maps_data = []
         tile_gl_source = gm_settings.tile_gl_source
@@ -86,7 +95,7 @@ def home_map_settings(request):
             config["basemaps"] = base_maps_data
     
     dynamic_map_layers = []
-    for index, block in enumerate(settings.map_layers):
+    for index, block in enumerate(map_settings.map_layers):
         
         # check if the layer is enabled
         enabled = block.value.get("enabled")

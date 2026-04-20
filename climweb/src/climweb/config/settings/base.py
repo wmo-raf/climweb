@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "climweb.pages.home",
     "climweb.pages.services",
     "climweb.pages.products",
-    "climweb.pages.weather",
     "climweb.pages.mediacenter",
     "climweb.pages.news",
     "climweb.pages.videos",
@@ -62,18 +61,12 @@ INSTALLED_APPS = [
     "climweb.pages.flex_page",
     "climweb.pages.stations",
     "climweb.pages.satellite_imagery",
-    "climweb.pages.cityclimate",
     "climweb.pages.glossary",
     "climweb.pages.webstories",
-    "climweb.pages.wdqms",
     "climweb.pages.dashboards",
-    
+
     "adminboundarymanager",
     "geomanager",
-    "capcomposer.capeditor",
-    "capcomposer.cap",
-    "forecastmanager",
-    "climweb_wdqms",
     
     "wagtailmautic",
     "wagtailzoom",
@@ -156,6 +149,25 @@ INSTALLED_APPS = [
     'wagtail_newsletter',
     'markdownify',
 ]
+
+IS_METEOROLOGICAL = env.bool("IS_METEOROLOGICAL", default=True)
+
+if IS_METEOROLOGICAL:
+    INSTALLED_APPS += [
+        *([
+            "forecastmanager",
+            "climweb.pages.weather",
+            "climweb.pages.cityclimate",
+        ] if importlib.util.find_spec("forecastmanager") else []),
+        *([
+            "climweb_wdqms",
+            "climweb.pages.wdqms",
+        ] if importlib.util.find_spec("climweb_wdqms") else []),
+        *([
+            "capcomposer.capeditor",
+            "capcomposer.cap",
+        ] if importlib.util.find_spec("capcomposer") else []),
+    ]
 
 ## Plugins loading logic start
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])

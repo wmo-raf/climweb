@@ -33,6 +33,10 @@ const props = defineProps({
     type: String,
     required: false
   },
+  primaryHoverColor: {
+    type: String,
+    required: false
+  }
 });
 
 const mapStore = useMapStore();
@@ -198,6 +202,8 @@ const initializeMapLayers = async (mapSettings) => {
     showLevel1Boundaries
   } = mapSettings;
 
+  console.log("Map settings loaded:", mapSettings)
+
   if (basemaps && !!basemaps.length) {
     const defaultBasemap = basemaps.find(basemap => basemap.default) || basemaps[0]
 
@@ -237,6 +243,7 @@ const initializeMapLayers = async (mapSettings) => {
 
   addBoundaryLayer(boundaryTilesUrl, showLevel1Boundaries);
 
+  console.log(showWarningsLayer, capGeojsonUrl)
   if (showWarningsLayer) {
     mapStore.updateLayerTitle("weather-warnings", capWarningsLayerDisplayName);
     addWarningsLayer(capGeojsonUrl);
@@ -255,6 +262,8 @@ const initializeMapLayers = async (mapSettings) => {
     } catch (e) {
       console.log("Error fetching forecast settings", e)
     }
+  } else {
+    mapStore.updateLayerState("weather-forecast", false);
   }
 
   if (dynamicMapLayers && !!dynamicMapLayers.length) {
@@ -315,8 +324,8 @@ const addBoundaryLayer = (boundaryTilesUrl, showLevel1Boundaries) => {
     "source-layer": "default",
     "filter": ["==", "level", 0],
     'paint': {
-      "line-color": "#C0FF24",
-      "line-width": 1,
+      "line-color": "#faffa0",
+      "line-width": 2,
       "line-offset": 1,
     },
     'metadata': {
@@ -332,7 +341,7 @@ const addBoundaryLayer = (boundaryTilesUrl, showLevel1Boundaries) => {
     "source-layer": "default",
     "filter": ["==", "level", 0],
     'paint': {
-      "line-color": "#000",
+      "line-color": props.primaryHoverColor,
       "line-width": 1.5,
     },
     'metadata': {
@@ -1063,6 +1072,7 @@ onUnmounted(() => map?.remove());
   flex-direction: column;
   gap: 10px;
 }
+
 
 .date-navigator-control {
   position: absolute;

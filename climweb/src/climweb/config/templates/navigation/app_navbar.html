@@ -120,7 +120,8 @@
 </header>
 {% block extra_js %}
     <script>
-        const latestActiveAlertUrl = {% url 'latest_active_alert' %};
+        {% url 'latest_active_alert' as latest_active_alert_url %}
+        const latestActiveAlertUrl = "{{ latest_active_alert_url }}";
 
         document.addEventListener('DOMContentLoaded', () => {
             const navbarBurgerEl = document.getElementById('navBurger')

@@ -58,20 +58,22 @@ const isDesktop = breakpoints.greater("md");
 
 
 <style scoped>
+
 .time-picker {
-  display: flex;
-  align-items: center;
-  background: rgba(0, 0, 0, .6);
-  color: white;
-  border-radius: 4px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    color: var(--primary-hover-color);
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    border: solid 0.05rem var(--primary-hover-color);
+    font-size: 12px;
+  }
 
 .nav-button {
   background: none;
   border: none;
-  color: white;
+  color: var(--primary-hover-color);
   cursor: pointer;
   padding: 5px;
 }

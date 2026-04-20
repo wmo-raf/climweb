@@ -27,7 +27,10 @@
         {% include 'home/section/hero_include.html' %}
     </div>
     <main class="is-index">
-        {% include 'home/section/weather_watch_include.html' %}
+        {% if IS_METEOROLOGICAL %}
+        {% include 'home/section/met_weather_section.html' %}
+        {% endif %}
+
         {% include 'home/section/services_include.html' %}
         {% include 'home/section/updates_include.html' %}
 
@@ -48,42 +51,58 @@
             </section>
         {% endif %}
         {% if page.partners %}
-            <section>
-                <div class="container">
-                    <h2 class="section-title has-text-centered"> {% translate "Our Partners" %}</h2>
-                    <div class="columns is-multiline is-mobile is-centered partners-list">
-                        {% for partner in page.partners %}
-                            {% if partner.visible_on_homepage and partner.logo %}
-                                <div class="column is-4-mobile is-4-tablet is-2-desktop  partner-item">
-                                    <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
-                                       target="{% if partner.link %}_blank{% else %}_self{% endif %}"
-                                       rel="noopener">
-                                        <div class="partner-img-wrapper" title="{{ partner.name }}">
-                                            <figure class="image">
-                                                {% image partner.logo original as p_logo %}
-                                                <img class="progressive__img progressive--not-loaded"
-                                                     data-progressive="{{ p_logo.url }}"
-                                                     src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"/>
-                                            </figure>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+            {% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n %}
 
-                    {% if settings.base.ImportantPages.all_partners_page %}
-                        <div class="more-container" style="justify-content: center">
-                            <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}" }>
-                                {% translate "More Partners" %}
-                                <span class="icon btn-icon">
-                                    {% svg_icon name="arrow-right-full" %}
-                                </span>
-                            </a>
-                        </div>
-                    {% endif %}
+            {% if page.partners %}
+            <section class="section" style="background: var(--color-background-secondary, #f8f9fb);">
+            <div class="container py-5">
+
+                <div class="mb-5">
+                <p class="is-uppercase has-text-weight-bold is-size-8 mb-1"
+                    style="color:{{ primary_hover_color }}; letter-spacing:0.08em;">
+                    {% translate "Collaborators" %}
+                </p>
+                <h2 class="title is-3">{% translate "Our Partners" %}</h2>
+                <p class="subtitle is-6 has-text-grey">
+                    {% translate "Working alongside leading institutions to advance climate science and resilience." %}
+                </p>
                 </div>
+
+                <div class="columns is-multiline is-mobile is-centered partners-list">
+                {% for partner in page.partners %}
+                    {% if partner.visible_on_homepage and partner.logo %}
+                    <div class="column is-4-mobile is-3-tablet is-2-desktop">
+                        <a href="{% if partner.link %}{{ partner.link }}{% endif %}"
+                        target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                        rel="noopener"
+                        class="partner-card"
+                        title="{{ partner.name }}">
+                        <figure class="image partner-logo-figure">
+                            {% image partner.logo original as p_logo %}
+                            <img class="progressive__img progressive--not-loaded partner-logo-img"
+                                data-progressive="{{ p_logo.url }}"
+                                src="{% lazy_image_url p_logo %}"
+                                alt="{{ partner.name }}" />
+                        </figure>
+                        </a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+
+                {% if settings.base.ImportantPages.all_partners_page %}
+                <div class="has-text-centered mt-5">
+                    <a href="{{ settings.base.ImportantPages.all_partners_page.url }}"
+                    class="button is-outlined is-link is-small">
+                    <span>{% translate "More Partners" %}</span>
+                    <span class="icon is-small">{% svg_icon name="arrow-right-full" %}</span>
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
             </section>
+        {% endif %}
         {% endif %}
     </main>
 {% endblock content %}
@@ -128,19 +147,19 @@
 
         const initMultiForecastSlider = (sliderElId) => {
             return new Glide(`#${sliderElId}`, {
-                perView: 4,
+                perView: 6,
                 bound: true,
-                gap: 20,
+                gap: 10,
                 peek: {
-                    before: 40,
+                    before: 20,
                     after: 40
                 },
                 breakpoints: {
                     1440: {
-                        perView: 3
+                        perView: 6
                     },
                     800: {
-                        perView: 3
+                        perView: 2
                     },
                     480: {
                         perView: 1

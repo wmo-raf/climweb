@@ -106,7 +106,6 @@ class WeatherWatch {
                     forecastClusterConfig,
                 } = settings
 
-
                 // add country boundary layer
                 this.addBoundaryLayer(boundaryTilesUrl)
 
@@ -185,7 +184,7 @@ class WeatherWatch {
             "source-layer": "default",
             "filter": ["==", "level", 0],
             'paint': {
-                'fill-color': "#fff", 'fill-opacity': 0,
+                'fill-color': "#red=", 'fill-opacity': 0,
             }
         });
 

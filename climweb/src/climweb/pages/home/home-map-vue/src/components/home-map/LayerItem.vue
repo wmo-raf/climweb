@@ -128,10 +128,12 @@ const handleTimeChange = (newDate) => {
   max-width: 100%;
   white-space: nowrap;
   cursor: pointer;
+  font-size: 12px;
 }
 
 .layer-control.active {
-  background-color: var(--primary-color);
+  background-color: var(--primary-hover-color);
+  font-size: 12px;
 }
 
 .layer-control.mobile {
@@ -155,8 +157,8 @@ const handleTimeChange = (newDate) => {
 .layer-icon svg {
   height: 18px;
   width: 18px;
-  fill: var(--primary-color);
-  color: var(--primary-color);
+  fill: var(--primary-hover-color);
+  color: var(--primary-hover-color);
 }
 
 .layer-title {
@@ -171,7 +173,7 @@ const handleTimeChange = (newDate) => {
 
 .opacity-slider {
   width: 100%;
-    accent-color: var(--primary-color);
+    accent-color: var(--primary-hover-color);
     height: 4px;
 
 }
