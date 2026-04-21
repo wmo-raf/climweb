@@ -145,8 +145,8 @@ const {t} = useI18n({
 
 <style>
 .p-checkbox-checked .p-checkbox-box, .p-radiobutton-checked .p-radiobutton-box {
-  border-color: var(--primary-color);
-  background: var(--primary-color);
+  border-color: var(--text-color);
+  background: var(--text-color);
 }
 
 </style>

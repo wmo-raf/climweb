@@ -35,10 +35,15 @@
         {% include 'home/section/updates_include.html' %}
 
         {% if page.youtube_playlist %}
-            <section class="has-text-centered videos" id="videoSection">
+            <section class="videos" id="videoSection">
                 <div class="container is-align-content-center">
-                    <h2 class="section-title has-text-centered">{% translate 'Latest Media' %}  </h2>
-                    {% include 'videos_skeleton.html' %}
+                    <div class="my-6">
+                        <p class="is-uppercase has-text-weight-bold is-size-8 mb-1" style="color:var(--primary-color); letter-spacing:0.08em;">
+                            {% translate "Latest Media" %}
+                        </p>
+                        <h2 class="title is-3">{% translate "Highlights & Videos" %}</h2>
+                        </div>                    
+                        {% include 'videos_skeleton.html' %}
                 </div>
             </section>
         {% endif %}
@@ -54,12 +59,12 @@
             {% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n %}
 
             {% if page.partners %}
-            <section class="section" style="background: var(--color-background-secondary, #f8f9fb);">
+            <section class="section">
             <div class="container py-5">
 
                 <div class="mb-5">
                 <p class="is-uppercase has-text-weight-bold is-size-8 mb-1"
-                    style="color:{{ primary_hover_color }}; letter-spacing:0.08em;">
+                    style="color:var(--primary-color) ; letter-spacing:0.08em;">
                     {% translate "Collaborators" %}
                 </p>
                 <h2 class="title is-3">{% translate "Our Partners" %}</h2>
@@ -157,6 +162,9 @@
                 breakpoints: {
                     1440: {
                         perView: 6
+                    },
+                    1240 : {
+                        perView: 4
                     },
                     800: {
                         perView: 2

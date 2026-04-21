@@ -156,7 +156,7 @@ const collapsed = ref(false)
 .legend-expand-icon {
   height: 14px;
   width: 14px;
-  fill: var(--primary-color);
+  fill: var(--text-color);
 }
 
 .m-legend.m-legend-collapsed.mobile {

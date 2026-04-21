@@ -219,12 +219,12 @@ class Theme(models.Model):
     is_default = models.BooleanField(default=False, verbose_name=_("Is Default Theme"),
                                      help_text=_("Enable if this is the default theme"))
     name = models.CharField(blank=False, verbose_name=_("Theme Name"), max_length=250, null=True)
-    primary_color = ColorField(blank=True, null=True, default="#363636",
-                               help_text=_("Primary color (use color picker)"), verbose_name=_("Primary color"))
     primary_hover_color = ColorField(blank=True, null=True, default="#176c9c",
-                                     help_text=_("Primary Hover color (use color picker)"))
+                                     help_text=_("Primary Hover color (use color picker)"), verbose_name=_("Primary color"))
+    primary_color = ColorField(blank=True, null=True, default="#363636",
+                               help_text=_("Primary color (use color picker)"), verbose_name=_("Headings color"))
     secondary_color = ColorField(blank=True, null=True, default="#ffffff",
-                                 help_text=_("Secondary color (use color picker)"))
+                                 help_text=_("Secondary color (use color picker)"), verbose_name=_("Background color"))
     border_radius = models.IntegerField(validators=[MinValueValidator(0),
                                                     MaxValueValidator(20)], verbose_name=_("Border radius (px)"),
                                         help_text=_("Minimum 0 and Maximum 20 pixels"), default=6)
@@ -242,9 +242,6 @@ class Theme(models.Model):
                 NativeColorPanel('primary_color'),
                 NativeColorPanel('primary_hover_color'),
             ]),
-            FieldRowPanel([
-                NativeColorPanel('secondary_color'),
-            ])
         ], heading=_("Theme Colors")),
         ObjectList([
             FieldPanel('border_radius'),

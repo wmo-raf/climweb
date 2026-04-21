@@ -45,7 +45,7 @@
   .cf-skeleton-tab:last-child { border-right: none; }
 
   .cf-skeleton-tab.active {
-    border-bottom-color: {{ primary_hover_color }};
+    border-bottom-color: var(--primary-color);
     background: #f0f6ff;
   }
 
@@ -74,7 +74,7 @@
   .cf-skeleton-slide-hdr {
     width: 100%;
     height: 24px;
-    background: {{ secondary_color }}33;
+    background: var(--background-color) 33;
   }
 
   .cf-skeleton-slide-body {
@@ -90,7 +90,7 @@
     width: 36px;
     height: 36px;
     border-radius: 8px;
-    background: {{ secondary_color }}33;
+    background: var(--background-color) 33;
   }
 
   .cf-skeleton-label {
@@ -121,7 +121,7 @@
   }
 
   .shimmer-blue {
-    background: linear-gradient(90deg, {{ secondary_color }}33 25%, {{ secondary_color }}66 50%, {{ secondary_color }}33 75%);
+    background: linear-gradient(90deg, var(--background-color) 33 25%, var(--background-color) 66 50%, var(--background-color) 33 75%);
     background-size: 200% 100%;
     animation: shimmer 1.4s infinite;
   }

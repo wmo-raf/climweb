@@ -27,7 +27,7 @@ function fetchPlaylistVideos(nextPageToken = '') {
 
                 document.getElementById('youtube_playlist').innerHTML = ''
 
-                data.items.slice(Math.max(data.items.length - 3, 1)).sort((a, b) => b.snippet.position - a.snippet.position).forEach(video => {
+                data.items.slice(Math.max(data.items.length - 4, 1)).sort((a, b) => b.snippet.position - a.snippet.position).forEach(video => {
                     // const videoTitle = item.snippet.title;
                     // const videoId = item.snippet.resourceId.videoId;
                     // const position = item.snippet.position;

@@ -33,7 +33,7 @@ const props = defineProps({
     type: String,
     required: false
   },
-  primaryHoverColor: {
+  primaryColor: {
     type: String,
     required: false
   }
@@ -341,7 +341,7 @@ const addBoundaryLayer = (boundaryTilesUrl, showLevel1Boundaries) => {
     "source-layer": "default",
     "filter": ["==", "level", 0],
     'paint': {
-      "line-color": props.primaryHoverColor,
+      "line-color": props.primaryColor,
       "line-width": 1.5,
     },
     'metadata': {

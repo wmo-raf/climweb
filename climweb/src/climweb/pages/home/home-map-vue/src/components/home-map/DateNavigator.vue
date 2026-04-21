@@ -63,17 +63,17 @@ const isDesktop = breakpoints.greater("md");
     display: flex;
     align-items: center;
     background: #f5f5f5;
-    color: var(--primary-hover-color);
+    color: var(--primary-color);
     border-radius: 20px;
     font-family: Arial, sans-serif;
-    border: solid 0.05rem var(--primary-hover-color);
+    border: solid 0.05rem var(--primary-color);
     font-size: 12px;
   }
 
 .nav-button {
   background: none;
   border: none;
-  color: var(--primary-hover-color);
+  color: var(--primary-color);
   cursor: pointer;
   padding: 5px;
 }

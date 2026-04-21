@@ -17,6 +17,34 @@ from .constants import COUNTRIES
 
 CMS_UPGRADE_HOOK_URL = getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
 
+import colorsys
+
+
+def hex_to_rgb(hex_color):
+    hex_color = hex_color.lstrip('#')
+    return tuple(int(hex_color[i:i+2], 16) / 255 for i in (0, 2, 4))
+
+
+def rgb_to_hex(rgb):
+    return '#%02x%02x%02x' % tuple(int(c * 255) for c in rgb)
+
+
+def mix_with_white(hex_color, amount=0.9):
+    """
+    amount = 0.0 → original color
+    amount = 1.0 → white
+    """
+    hex_color = hex_color.lstrip('#')
+
+    r = int(hex_color[0:2], 16)
+    g = int(hex_color[2:4], 16)
+    b = int(hex_color[4:6], 16)
+
+    r = int(r + (255 - r) * amount)
+    g = int(g + (255 - g) * amount)
+    b = int(b + (255 - b) * amount)
+
+    return f'#{r:02x}{g:02x}{b:02x}'
 
 def validate_svg(f):
     # Find "start" word in file and get "tag" from there

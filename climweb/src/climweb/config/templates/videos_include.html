@@ -1,49 +1,108 @@
 {% load nmhs_cms_tags i18n wagtailiconchooser_tags %}
 
-{% for item in videos %}
-    <div class="column is-one-third-desktop is-half-tablet is-full-mobile video-item" style="display: flex;">
-        <div class="card" style="width: 100%">
-            <div class="card-image">
-                <figure class="image">
-                    <iframe
-                        style="flex-grow: 1;" height="100%" width="100%"
-                        src="https://www.youtube.com/embed/{{ item.snippet.resourceId.videoId }}?&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1"
-                        frameborder="0"
-                        allow="fullscreen; picture-in-picture"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                    ></iframe>
-                </figure>
-            </div>
-            <div class="card-content">
-                <span class="card-tag-float">{{ playlist.title|truncatechars:35 }}</span>
-                <a class="card-title" href="https://youtu.be/{{ item.contentDetails.videoId }}" target="_blank"
-                   rel="noreferrer noreferrer">
-                    <h4>{{ item.snippet.title }}</h4>
-                </a>
-                <div class="card-video-stats">
-                    <span>
-                        {% blocktranslate trimmed with updated_on=item.contentDetails.videoPublishedAt|date:'d M Y' %}
-                            Published on : {{ updated_on }}
-                        {% endblocktranslate %}
-                    </span>
-                </div>
+{% if videos %}
+<div class="media-grid">
 
-                <div class="card-video-meta">
-                    <a href="https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
-                       target="_blank"
-                       rel="noopener"
-                    >
+  {% for item in videos %}
 
-                        {% translate "SUBSCRIBE" %}
-                    </a>
-                    <a href="https://youtu.be/{{ item.contentDetails.videoId }}" target="_blank"
-                       rel="noreferrer noreferrer">
-                        <span class="icon btn-icon">
-                            {% svg_icon name="arrow-right-full" %}
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
+    {% if forloop.first %}
+    <!-- FEATURED — first video, large left -->
+    <div class="media-featured">
+      <div class="feat-thumb">
+        <iframe
+          src="https://www.youtube.com/embed/{{ item.snippet.resourceId.videoId }}?&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1"
+          frameborder="0"
+          allow="fullscreen; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="{{ item.snippet.title }}"
+        ></iframe>
+        <span class="feat-tag">{{ playlist.title|truncatechars:25 }}</span>
+      </div>
+      <div class="feat-body">
+        <a class="feat-title"
+           href="https://youtu.be/{{ item.contentDetails.videoId }}"
+           target="_blank"
+           rel="noreferrer">
+          {{ item.snippet.title }}
+        </a>
+        <span class="feat-date">
+          {% blocktranslate trimmed with updated_on=item.contentDetails.videoPublishedAt|date:'d M Y' %}
+            Published on: {{ updated_on }}
+          {% endblocktranslate %}
+        </span>
+      </div>
+      <div class="feat-footer">
+        <a class="feat-subscribe"
+           href="https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
+           target="_blank"
+           rel="noopener">
+          {% translate "Subscribe" %}
+        </a>
+        <a class="feat-arrow"
+           href="https://youtu.be/{{ item.contentDetails.videoId }}"
+           target="_blank"
+           rel="noreferrer">
+          {% svg_icon name="arrow-right-full" %}
+        </a>
+      </div>
     </div>
-{% endfor %}
+
+    <!-- RIGHT ROWS WRAPPER — opens on second item -->
+    <div class="media-rows">
+    {% endif %}
+
+    {% if not forloop.first %}
+    <!-- SMALL ROW — items 2, 3, 4 -->
+    <div class="media-row">
+
+      <div class="row-thumb">
+        <iframe
+          src="https://www.youtube.com/embed/{{ item.snippet.resourceId.videoId }}?&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1"
+          frameborder="0"
+          allow="fullscreen; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="{{ item.snippet.title }}"
+        ></iframe>
+      </div>
+
+      <div class="row-body">
+        <span class="row-tag">{{ playlist.title|truncatechars:20 }}</span>
+        <a class="row-title"
+           href="https://youtu.be/{{ item.contentDetails.videoId }}"
+           target="_blank"
+           rel="noreferrer">
+          {{ item.snippet.title|truncatechars:55 }}
+        </a>
+        <span class="row-date">
+          {% blocktranslate trimmed with updated_on=item.contentDetails.videoPublishedAt|date:'d M Y' %}
+            Published on: {{ updated_on }}
+          {% endblocktranslate %}
+        </span>
+      </div>
+
+      <div class="row-right">
+        <a class="row-subscribe"
+           href="https://www.youtube.com/channel/{{ item.snippet.channelId }}?sub_confirmation=1"
+           target="_blank"
+           rel="noopener">
+          {% translate "Subscribe" %}
+        </a>
+        <a class="row-arrow"
+           href="https://youtu.be/{{ item.contentDetails.videoId }}"
+           target="_blank"
+           rel="noreferrer">
+          {% svg_icon name="arrow-right-full" %}
+        </a>
+      </div>
+
+    </div>
+    {% endif %}
+
+    {% if forloop.last %}
+    </div><!-- close .media-rows -->
+    {% endif %}
+
+  {% endfor %}
+
+</div>
+{% endif %}

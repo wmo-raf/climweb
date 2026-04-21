@@ -417,7 +417,7 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
             MultiFieldPanel([
                 FieldPanel("show_warnings_layer"),
                 FieldPanel("warnings_layer_display_name"),
-            ], heading=_("CAP Warnings Layer"), ),
+            ], heading=_("CAP Warnings Layer")) if settings.IS_METEOROLOGICAL else MultiFieldPanel(),
             
             MultiFieldPanel([
                 FieldPanel("show_forecast_attribution"),
@@ -427,11 +427,14 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
                 FieldPanel("forecast_cluster"),
                 FieldPanel("forecast_cluster_min_points"),
                 FieldPanel("forecast_cluster_radius"),
-            ], heading=_("Location Forecast Layer"), ),
+            ], heading=_("Location Forecast Layer")) if settings.IS_METEOROLOGICAL else MultiFieldPanel(),
             
-            FieldPanel("zoom_locations"),
+            FieldPanel("zoom_locations") if settings.IS_METEOROLOGICAL else MultiFieldPanel(),
         ], heading=_("Map Settings")),
         ObjectList([
             FieldPanel("map_layers"),
         ], heading=_("Geomanager Map Layers")),
     ])
+
+
+    

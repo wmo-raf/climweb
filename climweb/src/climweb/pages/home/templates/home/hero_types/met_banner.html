@@ -9,7 +9,7 @@
     padding: 10px 22px;
     font-size: 14px;
     font-weight: 600;
-    background: {{ primary_hover_color }};
+    background: var(--primary-color);
     color: #fff;
     border-radius: 8px;
     text-decoration: none;
@@ -19,8 +19,8 @@
 
   .rcc-btn-primary:hover {
     background: transparent;
-    border-color: {{ primary_hover_color }};
-    color: {{ primary_hover_color }};
+    border-color: var(--primary-color);
+    color: var(--primary-color);
   }
 
   .rcc-btn-secondary {
@@ -31,15 +31,15 @@
     font-size: 14px;
     font-weight: 600;
     background: transparent;
-    color: {{ primary_hover_color }};
-    border: 1.5px solid {{ primary_hover_color }};
+    color: var(--primary-color);
+    border: 1.5px solid var(--primary-color);
     border-radius: 8px;
     text-decoration: none;
     transition: background 0.15s;
   }
 
   .rcc-btn-secondary:hover {
-    background: {{ secondary_color }};
+    background: var(--background-color);
   }
 
   /* ── Met Banner ───────────────────────────────────────────────── */
@@ -48,7 +48,7 @@
     min-height: 110px;
     padding: 3rem 4rem;
     position: relative;
-    background: linear-gradient(135deg, {{ secondary_color }} 0%, #f8f9fb 100%);
+    background: linear-gradient(135deg, var(--background-color) 0%, #f8f9fb 100%);
   }
 
   .met-banner-bg {
@@ -60,35 +60,22 @@
     z-index: 0;
   }
 
-  .met-banner.has-image::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.52);
-    z-index: 1;
-  }
-
-  .met-banner-left,
-  .met-banner-right {
-    position: relative;
-    z-index: 2;
-  }
-
+  /* ── No image: existing styles unchanged ── */
   .met-pre-title {
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: {{ primary_hover_color }};
+    color: var(--primary-color);
     margin-bottom: 0.4rem;
   }
 
   .met-title {
-    font-size: 40px;
-    font-weight: 400;
+    font-size: 34px;
+    font-weight: 700;
     line-height: 1.25;
     color: #1a1a1a;
-    margin: 0 0 0.4rem;
+    margin-bottom: 1rem;
   }
 
   .met-title p { margin: 0; }
@@ -99,11 +86,6 @@
     line-height: 1.6;
     margin: 0;
   }
-
-  /* Text on image background */
-  .met-banner.has-image .met-pre-title { color: #B5D4F4; }
-  .met-banner.has-image .met-title     { color: #fff; }
-  .met-banner.has-image .met-subtitle  { color: #B5D4F4; }
 
   .met-banner-right {
     width: 160px;
@@ -119,14 +101,69 @@
     padding: 9px 12px;
   }
 
-  /* Secondary buttons go white on image backgrounds */
-  .met-banner.has-image .rcc-btn-secondary {
-    border-color: rgba(255, 255, 255, 0.6);
+  /* ── Has image: Variant B — left-to-right gradient fade ── */
+  .met-banner.has-image {
+    background: none;
+  }
+
+  .met-banner.has-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--primary-color) 100%, transparent) 0%,
+      color-mix(in srgb, var(--primary-color) 88%, transparent) 30%,
+      color-mix(in srgb, var(--primary-color) 55%, transparent) 58%,
+      transparent 100%
+    );
+    z-index: 1;
+  }
+
+  .met-banner.has-image .met-banner-left,
+  .met-banner.has-image .met-banner-right,
+  .met-banner.has-image .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Text colours on image */
+  .met-banner.has-image .met-pre-title { color: rgba(255, 255, 255, 0.75); }
+  .met-banner.has-image .met-title     { color: #fff; }
+  .met-banner.has-image .met-subtitle  { color: rgba(255, 255, 255, 0.72); }
+
+  /* Badge on image — frosted glass pill */
+  .met-banner.has-image .rcc-badge {
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Primary button on image — solid white */
+  .met-banner.has-image .rcc-btn-primary {
+    background: #fff;
+    color: #0a2240;
+    border-color: transparent;
+    border-radius: 20px;
+  }
+
+  .met-banner.has-image .rcc-btn-primary:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0a2240;
+  }
+
+  /* Secondary buttons on image — frosted glass pill matching badge */
+  .met-banner.has-image .rcc-btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
   }
 
   .met-banner.has-image .rcc-btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.22);
   }
 
   /* ── Met Weather Section ──────────────────────────────────────── */
@@ -135,7 +172,6 @@
     padding: 1rem 0 4rem 0;
   }
 
-  /* City forecast panel */
   .cf-panel {
     background: #fff;
     border: 1px solid #f0f0f0;
@@ -169,7 +205,7 @@
 
   .cf-top-bar-link {
     font-size: 13px;
-    color: {{ primary_hover_color }};
+    color: var(--primary-color);
     font-weight: 600;
     text-decoration: none;
     display: inline-flex;
@@ -178,7 +214,6 @@
     white-space: nowrap;
   }
 
-  /* Bottom row: map + alerts */
   .bottom-row {
     display: grid;
     grid-template-columns: 1fr 700px;
@@ -186,7 +221,6 @@
     align-items: start;
   }
 
-  /* Map panel */
   .met-map-panel {
     background: #fff;
     border: 1px solid #f0f0f0;
@@ -209,7 +243,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: {{ primary_hover_color }};
+    background: var(--primary-color);
     display: inline-block;
     flex-shrink: 0;
   }
@@ -235,13 +269,13 @@
     padding: 3px 8px;
     border-radius: 4px;
     background: #f0f6ff;
-    color: {{ primary_hover_color }};
+    color: var(--primary-color);
   }
 
   .met-map-discover {
     margin-left: auto;
     font-size: 12px;
-    color: {{ primary_hover_color }};
+    color: var(--primary-color);
     font-weight: 600;
     text-decoration: none;
     display: inline-flex;
@@ -249,7 +283,6 @@
     gap: 4px;
   }
 
-  /* Alerts panel */
   .alerts-panel {
     background: #fff;
     border: 1px solid #f0f0f0;
@@ -292,7 +325,6 @@
     max-height: 380px;
   }
 
-  /* Tighten existing alert-item rows inside the new panel */
   .alerts-panel .alerts-item-wrapper {
     overflow-y: visible;
     height: auto;
@@ -314,40 +346,48 @@
   .alerts-panel-footer a {
     font-size: 13px;
     font-weight: 600;
-    color: {{ primary_hover_color }};
+    color: var(--primary-color);
     text-decoration: none;
   }
 
   /* ── Stats Bar ────────────────────────────────────────────────── */
+  /* ── Stats bar ── */
   .rcc-stats-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    background: {{ primary_hover_color }};
-    padding: 2rem 20rem;
-    gap: 1rem;
+    background: #fff;
+    padding: 1rem 20rem;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
   }
 
   .rcc-stat-item {
     text-align: center;
-    padding: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-right: 1px solid #eee;
   }
 
+  .rcc-stat-item:last-child { border-right: none; }
+
   .rcc-stat-num {
-    font-size: 32px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.1;
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+    letter-spacing: -1.5px;
   }
 
   .rcc-stat-lbl {
-    font-size: 12px;
-    color: {{ secondary_color }};
+    font-size: 11px;
+    color: #919191;
     margin-top: 6px;
-    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
   }
 
   .met-section .layer-control.active {
-    background-color: {{ primary_hover_color }};
+    background-color: var(--primary-color);
     font-size: 12px;
   }
 
@@ -364,15 +404,13 @@
     display: flex;
     align-items: center;
     background: #f5f5f5;
-    color: {{ primary_hover_color }};
+    color: var(--primary-color);
     border-radius: 20px;
     font-family: Arial, sans-serif;
-    border: solid 0.05rem {{ primary_hover_color }};
+    border: solid 0.05rem var(--primary-color);
     font-size: 12px;
   }
 
-  /* ── Forecast widget overrides (light card context) ─────────── */
-  /* The widget templates style for a dark hero banner; override for white .cf-panel */
   .cf-panel .forecast-widget,
   .cf-panel .forecast-widget-skeleton {
     color: #1a1a1a;
@@ -389,54 +427,35 @@
     opacity: 1;
   }
 
-  .cf-panel .forecast-widget .city-search .search-icon svg {
-    fill: #555;
-  }
+  .cf-panel .forecast-widget .city-search .search-icon svg { fill: #555; }
+  .cf-panel .forecast-content { background-color: #f8f9fb; border-color: #e8e8e8; }
 
-  .cf-panel .forecast-content {
-    background-color: #f8f9fb;
-    border-color: #e8e8e8;
-  }
+  .cf-panel .forecast-widget-skeleton .tabs li { background-color: #e8ecf0; border-color: #d0d5db; }
+  .cf-panel .forecast-widget-skeleton .tabs.is-boxed li.is-active { background-color: #fff; border-color: #d0d5db; }
+  .cf-panel .forecast-widget-skeleton .tabs-content { background-color: #f0f2f5; border-color: #d0d5db; }
+  .cf-panel .forecast-widget-skeleton .forecast-item { background-color: #e8ecf0; }
+  .cf-panel .forecast-widget .tabs.is-boxed li { background-color: #f0f4f8; border-bottom-color: #d0d5db; }
+  .cf-panel .forecast-widget .tabs.is-boxed li.is-active { background-color: #fff; border-bottom-color: transparent; }
+  .cf-panel .forecast-widget .detail-link { color: var(--primary-color); }
 
-  .cf-panel .forecast-widget-skeleton .tabs li {
-    background-color: #e8ecf0;
-    border-color: #d0d5db;
-  }
-
-  .cf-panel .forecast-widget-skeleton .tabs.is-boxed li.is-active {
-    background-color: #fff;
-    border-color: #d0d5db;
-  }
-
-  .cf-panel .forecast-widget-skeleton .tabs-content {
-    background-color: #f0f2f5;
-    border-color: #d0d5db;
-  }
-
-  .cf-panel .forecast-widget-skeleton .forecast-item {
-    background-color: #e8ecf0;
-  }
-
-  .cf-panel .forecast-widget .tabs.is-boxed li {
-    background-color: #f0f4f8;
-    border-bottom-color: #d0d5db;
-  }
-
-  .cf-panel .forecast-widget .tabs.is-boxed li.is-active {
-    background-color: #fff;
-    border-bottom-color: transparent;
-  }
-
-  .cf-panel .forecast-widget .detail-link {
-    color: {{ primary_hover_color }};
+  .rcc-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--primary-color-light);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.04em;
   }
 
   /* ── Responsive ───────────────────────────────────────────────── */
   @media (max-width: 1024px) {
-    .met-banner     { padding: 2rem 2rem; }
-    .bottom-row     { grid-template-columns: 1fr 240px; }
-    .rcc-stats-bar  { padding: 1.5rem 1rem; }
-    .rcc-stat-num   { font-size: 26px; }
+    .met-banner    { padding: 2rem 2rem; }
+    .bottom-row    { grid-template-columns: 1fr 240px; }
+    .rcc-stats-bar { padding: 1.5rem 10rem; }
+    .rcc-stat-num  { font-size: 26px; }
   }
 
   @media (max-width: 768px) {
@@ -444,6 +463,16 @@
       grid-template-columns: 1fr;
       padding: 1.5rem 1.25rem;
       min-height: unset;
+    }
+
+    /* on mobile the gradient goes top-to-bottom instead of left-to-right */
+    .met-banner.has-image::after {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--primary-color) 92%, transparent) 0%,
+        color-mix(in srgb, var(--primary-color) 80%, transparent) 60%,
+        color-mix(in srgb, var(--primary-color) 40%, transparent) 100%
+      );
     }
 
     .met-banner-right {
@@ -459,105 +488,147 @@
     }
 
     .met-title { font-size: 20px; }
-
     .bottom-row { grid-template-columns: 1fr; }
-
     .alerts-panel { order: -1; }
-
     .met-map-panel #home-map { height: 300px; }
 
     .rcc-stats-bar {
-      grid-template-columns: repeat(2, 1fr);
-      padding: 1.5rem 1rem;
-      gap: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: #fff;
+      padding: 2rem 6rem;
+      border-top: 1px solid #f0f0f0;
+      border-bottom: 1px solid #f0f0f0;
     }
 
     .rcc-stat-item {
-      padding: 1.25rem 0.5rem;
-      border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      padding: 1rem 1.5rem;
+      border-right: 1px solid #eee;
     }
 
-    .rcc-stat-item:nth-child(odd) {
-      border-right: 0.5px solid rgba(255, 255, 255, 0.1);
+    .rcc-stat-item:last-child {
+      border-right: none;
     }
 
-    .rcc-stat-num { font-size: 28px; }
-    .rcc-stat-lbl { font-size: 11px; }
-  }
-
-  @media (max-width: 480px) {
-    .met-title    { font-size: 18px; }
-    .rcc-stat-num { font-size: 24px; }
-  }
-
-  .rcc-badge {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 500;
-    background: {{ primary_hover_color }}2b;
-    color: {{ primary_hover_color }};
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-bottom: 1rem;
-    letter-spacing: 0.04em;
-  }
-
-  /* Small mobile */
-  @media (max-width: 480px) {
-    .rcc-badge {
-      font-size: 10px;
+    .rcc-stat-num {
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--primary-color);
+      line-height: 1;
+      letter-spacing: -1.5px;
     }
-  }
+
+    .rcc-stat-lbl {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 600;
+    }
+
+    /* Tablet */
+    @media (max-width: 1024px) {
+      .rcc-stats-bar {
+        padding: 1.5rem 10rem;
+      }
+      .rcc-stat-num {
+        font-size: 30px;
+        letter-spacing: -1px;
+      }
+    }
+
+    /* Mobile — 2x2 */
+    @media (max-width: 768px) {
+      .rcc-stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 1rem;
+        gap: 0;
+      }
+      .rcc-stat-item {
+        padding: 1.25rem 0.5rem;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+      }
+      .rcc-stat-item:nth-child(odd) {
+        border-right: 1px solid #eee;
+      }
+      .rcc-stat-item:nth-child(3),
+      .rcc-stat-item:nth-child(4) {
+        border-bottom: none;
+      }
+      .rcc-stat-num {
+        font-size: 28px;
+      }
+    }
+
+    /* Small mobile */
+    @media (max-width: 480px) {
+      .met-banner { padding: 1.5rem 1rem; }
+
+    .met-title  { font-size: 22px; }
+    .met-badge  { font-size: 10px; }
+      .rcc-stat-num {
+        font-size: 24px;
+        letter-spacing: -0.5px;
+      }
+      .rcc-stat-lbl {
+        font-size: 10px;
+      }
+    }
+
+   
 </style>
-
 
 {% if page.hero_banner %}
   {% image page.hero_banner original as banner_img %}
   <section class="section met-banner has-image">
-    <div class="met-banner-bg" style="background-image: url('{{ banner_img.url }}');">
-    </div>
+    <div class="met-banner-bg"
+         style="background-image: url('{{ banner_img.url }}');"></div>
 {% else %}
   <section class="section met-banner">
 {% endif %}
-    <div class="container">
 
-      <div class="columns">
-        <div class="column is-7">
-            <!-- Left: pre-title + title + subtitle -->
-            {% if self.pre_title %}
-              <div class="rcc-badge has-text-weight-semibold">{{ self.pre_title }}</div>
+  <div class="container">
+    <div class="columns">
+      <div class="column is-7">
+
+        {% if self.pre_title %}
+          <div class="rcc-badge has-text-weight-semibold">{{ self.pre_title }}</div>
+        {% endif %}
+
+        <div class="met-title">{{ self.hero_title|richtext }}</div>
+
+        {% if self.hero_subtitle %}
+          <p class="met-subtitle">{{ self.hero_subtitle }}</p>
+        {% endif %}
+
+        {% if page.call_to_action_button_text %}
+          <div class="buttons mt-2">
+            {% if page.call_to_action_related_page %}
+              <a href="{{ page.call_to_action_related_page.url }}"
+                 class="rcc-btn-primary button">
+                <span>{{ page.call_to_action_button_text }}</span>
+              </a>
             {% endif %}
-            
-            <div class="met-title">{{ self.hero_title|richtext }}</div>
-            {% if self.hero_subtitle %}
-              <p class="met-subtitle">{{ self.hero_subtitle }}</p>
+            {% if page.call_to_action_button_text_2 and page.call_to_action_related_page_2 %}
+              <a href="{{ page.call_to_action_related_page_2.url }}"
+                 class="rcc-btn-secondary button">
+                <span>{{ page.call_to_action_button_text_2 }}</span>
+              </a>
             {% endif %}
-
-            {% if page.call_to_action_button_text %}
-          <div class="buttons">
-              {% if page.call_to_action_related_page %}
-                <a href="{{ page.call_to_action_related_page.url }}" class="rcc-btn-primary button">
-                  <span>{{ page.call_to_action_button_text }}</span>
-                </a>
-              {% endif %}
-              {% if page.call_to_action_button_text_2 and page.call_to_action_related_page_2 %}
-                <a href="{{ page.call_to_action_related_page_2.url }}" class="rcc-btn-secondary button">
-                  <span>{{ page.call_to_action_button_text_2 }}</span>
-                </a>
-              {% endif %}
-              {% if page.call_to_action_button_text_3 and page.call_to_action_related_page_3 %}
-                <a href="{{ page.call_to_action_related_page_3.url }}" class="rcc-btn-secondary button">
-                  <span>{{ page.call_to_action_button_text_3 }}</span>
-                </a>
-              {% endif %}
-              </div>
+            {% if page.call_to_action_button_text_3 and page.call_to_action_related_page_3 %}
+              <a href="{{ page.call_to_action_related_page_3.url }}"
+                 class="rcc-btn-secondary button">
+                <span>{{ page.call_to_action_button_text_3 }}</span>
+              </a>
             {% endif %}
-        </div>
-        </div>
+          </div>
+        {% endif %}
 
-
-  <!-- Right: stacked CTA buttons (fixed 160px column) -->
-  
-</div>
+      </div>
+    </div>
+  </div>
 
 </section>

@@ -1,5 +1,5 @@
 <template>
-  <Map :initialBounds="initialBounds" :mapSettingsUrl="mapSettingsUrl" :locationForecastDetailUrl="locationForecastDetailUrl" :primaryHoverColor="primaryHoverColor"/>
+  <Map :initialBounds="initialBounds" :mapSettingsUrl="mapSettingsUrl" :locationForecastDetailUrl="locationForecastDetailUrl" :primaryColor="primaryColor"/>
 </template>
 
 <script setup>
@@ -28,7 +28,7 @@ const props = defineProps({
     type: String,
     required: false
   },
-  primaryHoverColor: {
+  primaryColor: {
     type: String,
     required: false,
     default: '#000000'

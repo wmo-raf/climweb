@@ -45,7 +45,7 @@
   .cf-city-name .icon svg {
     width: 13px;
     height: 13px;
-    fill: {{primary_hover_color}};
+    fill: var(--primary-color);
   }
 
   .cf-detail-btn {
@@ -54,8 +54,8 @@
     gap: 4px;
     font-size: 11px;
     font-weight: 600;
-    color: {{primary_hover_color}};
-    border: 1px solid {{primary_hover_color}};
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
     border-radius: 6px;
     padding: 3px 8px;
     text-decoration: none;
@@ -67,7 +67,7 @@
   .cf-detail-btn .icon svg {
     width: 10px;
     height: 10px;
-    fill: {{primary_hover_color}};
+    fill: var(--primary-color);
   }
 
   .cf-search-wrap {
@@ -106,7 +106,7 @@
     gap: 4px;
     font-size: 11px;
     font-weight: 600;
-    color: {{primary_hover_color}};
+    color: var(--primary-color);
     text-decoration: none;
     white-space: nowrap;
     flex-shrink: 0;
@@ -149,7 +149,7 @@
     display: flex;
     align-items: stretch;
     justify-content: center;
-    border-bottom: 1px solid {{primary_hover_color}}4f !important;
+    border-bottom: 1px solid var(--primary-color-medium) !important;
     border-right: 1px solid #f5f5f5;
     border-top: none !important;
     border-left: none !important;
@@ -165,12 +165,12 @@
   }
 
   .cf-card .forecast-widget .tabs.is-boxed li.is-active {
-    background: {{secondary_color}}1A !important;
+    background: var(--primary-color-lightest) !important;
     height: auto !important;
     border-radius: 5px !important;
-    border-top: 1px solid {{primary_hover_color}}4f !important;
-    border-left: 1px solid {{primary_hover_color}}4f !important;
-    border-right: 1px solid {{primary_hover_color}}4f !important;
+    border-top: 1px solid var(--primary-color-medium) !important;
+    border-left: 1px solid var(--primary-color-medium) !important;
+    border-right: 1px solid var(--primary-color-medium) !important;
     border-bottom-left-radius: 0 !important;
     border-bottom: none !important;
     border-bottom-right-radius: 0 !important;
@@ -195,7 +195,7 @@
   .cf-card .forecast-widget .tabs.is-boxed li a:hover {
     background: #5c595912;
     border: none !important;
-    color: {{primary_color}} !important;
+    color: var(--primary-color) !important;
   }
 
   .cf-card .forecast-widget .tabs li .day-name {
@@ -214,17 +214,17 @@
 
   .cf-card .forecast-widget .tabs.is-boxed li.is-active .day-name {
     font-size: 11px !important;
-    color: {{primary_color}};
+    color: var(--primary-color);
   }
 
   .cf-card .forecast-widget .tabs.is-boxed li.is-active .month-name {
-    color: {{primary_color}};
+    color: var(--primary-color);
     opacity: 0.7;
   }
 
   /* ── TABS CONTENT ── */
   .cf-card .forecast-widget .tabs-content {
-    background-color: {{secondary_color}}1A !important;
+    background-color: var(--primary-color-lightest) !important;
     backdrop-filter: none !important;
     padding: 10px 12px !important;
     border: none !important;
@@ -248,7 +248,7 @@
 
   /* Time header */
   .cf-card .forecast-widget .forecast-item .forecast-time {
-    background-color: {{primary_hover_color}} !important;
+    background-color: var(--primary-color)!important;
     color: #fff !important;
     font-size: 11px !important;
     font-weight: 700 !important;
@@ -299,13 +299,13 @@
 
     /* Params — 2x2 grid */
     .cf-card .forecast-widget .forecast-item .forecast-params {
-    padding: 4px 6px 6px !important;
-    width: 100%;
-    flex: 1;
-    display: grid !important;
-    grid-template-columns: 1fr 1fr;
-    gap: 3px;
-    align-content: start;
+      padding: 4px 6px 6px !important;
+      width: 100%;
+      flex: 1;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      align-content: start;
     }
 
     .cf-card .forecast-widget .forecast-item .forecast-condition {
@@ -322,7 +322,7 @@
     padding: 12px 4px !important;
     font-size: 11px !important;
     color: #555 !important;
-    background: {{ primary_hover_color }}1A !important;
+    background: #f7f7f7 !important;
     border-radius: 5px;
     width: 100%;
   }
@@ -366,7 +366,7 @@
 
   /* ── SLIDER ARROWS ── */
   .cf-card .forecast-widget .slider-arrow {
-    background-color: {{primary_hover_color}} !important;
+    background-color: var(--primary-color)!important;
     border: none;
     opacity: 0.9;
   }

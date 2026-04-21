@@ -260,7 +260,7 @@ const alert = computed(() => {
 }
 
 .alert-link {
-  background: var(--primary-color);
+  background: var(--text-color);
   color: #fff;
   padding: 5px 12px;
   border-radius: 12px;
