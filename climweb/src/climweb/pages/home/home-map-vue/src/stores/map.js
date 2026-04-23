@@ -17,10 +17,10 @@ export const useMapStore = defineStore('map', {
                     type: "basic",
                     title: "Weather Warnings",
                     items: [
-                        {name: "legend.extreme", color: "#d72f2a"},
-                        {name: "legend.severe", color: "#fe9900"},
-                        {name: "legend.moderate", color: "#ff0"},
-                        {name: "legend.minor", color: "#03ffff"},
+                        {name: "legend.extreme", color: "#d42d41"},
+                        {name: "legend.severe", color: "#f08c11"},
+                        {name: "legend.moderate", color: "#f4cf00"},
+                        {name: "legend.minor", color: "#399cc7"},
                     ],
                 }
             },

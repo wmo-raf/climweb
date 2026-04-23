@@ -35,7 +35,7 @@
         {% include 'home/section/updates_include.html' %}
 
         {% if page.youtube_playlist %}
-            <section class="videos" id="videoSection">
+            <section class="section videos" id="videoSection">
                 <div class="container is-align-content-center">
                     <div class="my-6">
                         <p class="is-uppercase has-text-weight-bold is-size-8 mb-1" style="color:var(--primary-color); letter-spacing:0.08em;">
@@ -48,16 +48,19 @@
             </section>
         {% endif %}
 
-        {% if page.feature_block %}
-            <section class="feature-block-section">
-                {% for block in page.feature_block %}
-                    {% include_block block with is_even=forloop.counter|divisibleby:2 %}
-                {% endfor %}
-            </section>
+       {% if page.feature_block %}
+        <section class="section">
+        <div class="container">
+            <div class="feature-blocks">
+            {% for block in page.feature_block %}
+                {% include_block block with is_even=forloop.counter0|divisibleby:2 %}
+            {% endfor %}
+            </div>
+        </div>
+        </section>
         {% endif %}
-        {% if page.partners %}
-            {% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n %}
-
+        
+ 
             {% if page.partners %}
             <section class="section">
             <div class="container py-5">
@@ -97,17 +100,16 @@
 
                 {% if settings.base.ImportantPages.all_partners_page %}
                 <div class="has-text-centered mt-5">
-                    <a href="{{ settings.base.ImportantPages.all_partners_page.url }}"
-                    class="button is-outlined is-link is-small">
-                    <span>{% translate "More Partners" %}</span>
-                    <span class="icon is-small">{% svg_icon name="arrow-right-full" %}</span>
-                    </a>
+                    
+
+                    <a class="more-partners" href="{{ settings.base.ImportantPages.all_partners_page.url }}">
+                        {% translate "More Partners" %}
+                        </a>
                 </div>
                 {% endif %}
 
             </div>
             </section>
-        {% endif %}
         {% endif %}
     </main>
 {% endblock content %}

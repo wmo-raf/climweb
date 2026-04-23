@@ -310,8 +310,6 @@ document.addEventListener("DOMContentLoaded", function () {
               else if (pentad === '6') day = '26';
               isoDateTime = `${year}-${month}-${day}T00:00:00.000Z`;
             } else {
-
-              console.log("Selected date:", selectedDate);
               
               const timeSelectEl = document.querySelector(`#maptime-${containerId}`);
               const selectedTime = timeSelectEl ? timeSelectEl.value : null;
@@ -334,7 +332,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
               // Convert to UTC ISO string
               isoDateTime = localDate.toISOString();
-              console.log("Combined local date and time:", localDate, "=> ISO string:", isoDateTime);
             }
             updateMapLayerWithDate(containerId, isoDateTime);
           }

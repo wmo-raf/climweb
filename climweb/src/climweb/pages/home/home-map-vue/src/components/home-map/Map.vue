@@ -202,8 +202,6 @@ const initializeMapLayers = async (mapSettings) => {
     showLevel1Boundaries
   } = mapSettings;
 
-  console.log("Map settings loaded:", mapSettings)
-
   if (basemaps && !!basemaps.length) {
     const defaultBasemap = basemaps.find(basemap => basemap.default) || basemaps[0]
 
@@ -243,7 +241,6 @@ const initializeMapLayers = async (mapSettings) => {
 
   addBoundaryLayer(boundaryTilesUrl, showLevel1Boundaries);
 
-  console.log(showWarningsLayer, capGeojsonUrl)
   if (showWarningsLayer) {
     mapStore.updateLayerTitle("weather-warnings", capWarningsLayerDisplayName);
     addWarningsLayer(capGeojsonUrl);
@@ -397,9 +394,9 @@ const addWarningsLayer = (capGeojsonUrl) => {
         type: "fill",
         source: "weather-warnings",
         paint: {
-          "fill-color": ["case", ["==", ["get", "severity"], "Extreme"], "#d72f2a", ["==", ["get", "severity"], "Severe"], "#f89904", ["==", ["get", "severity"], "Moderate"], "#e4e616", ["==", ["get", "severity"], "Minor"], "#53ffff", ["==", ["get", "severity"], "Unknown"], "#3366ff", "black",],
-          "fill-opacity": 0.7,
-          "fill-outline-color": "#000",
+          "fill-color": ["case", ["==", ["get", "severity"], "Extreme"], "#d42d41", ["==", ["get", "severity"], "Severe"], "#f08c11", ["==", ["get", "severity"], "Moderate"], "#f4cf00", ["==", ["get", "severity"], "Minor"], "#399cc7", ["==", ["get", "severity"], "Unknown"], "#82a8df", "black",],
+          "fill-opacity": 1,
+          "fill-outline-color": ["case", ["==", ["get", "severity"], "Extreme"], "#DC2626", ["==", ["get", "severity"], "Severe"], "#C2600A", ["==", ["get", "severity"], "Moderate"], "#A16207", ["==", ["get", "severity"], "Minor"], "#0E7490", ["==", ["get", "severity"], "Unknown"], "#4B6CB7", "black",],
         },
       }, beforeLayer);
 

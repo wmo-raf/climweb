@@ -13,7 +13,6 @@ const props = defineProps({
 })
 
 const enabled = computed(() => {
-  console.log('Checking legend item type basic enabled status with config:', props.legendConfig);
   return props.legendConfig && props.legendConfig.type === 'basic' && props.legendConfig.items && props.legendConfig.items.length > 0;
 })
 

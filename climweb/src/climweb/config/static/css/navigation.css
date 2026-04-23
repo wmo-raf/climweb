@@ -42,12 +42,18 @@ header {
 
 
 .top-nav-item {
-    font-size: 14px;
+    font-size: 13px;
     margin-left: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+
 }
+
+
 
 .top-nav-dropdown {
     min-width: 140px;
@@ -73,10 +79,6 @@ header {
 
 .nav-cta:hover, .nav-cta:focus {
     color: #fff !important;
-}
-
-.top-nav-item {
-    cursor: pointer;
 }
 
 .nav-icon {
@@ -429,3 +431,28 @@ header {
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
 }
+
+.top-nav-item.button {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 12px;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 20px;
+    transition: background 0.15s, color 0.15s;
+    background-color: transparent;
+}
+
+.top-nav-item.button:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.top-nav-item.button.admin{
+    background-color: var(--primary-color);
+    color: #fff;
+}
+

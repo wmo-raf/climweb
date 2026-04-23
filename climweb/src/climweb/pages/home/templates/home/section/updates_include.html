@@ -22,23 +22,22 @@
       {% endfor %}
     </div>
 
-    <div class="columns is-vcentered mt-4">
+    <div class="columns is-vcentered mt-4" style="justify-content: space-between">
       <div class="column is-narrow">
         {% if settings.base.ImportantPages.all_news_page %}
-          <a href="{{ settings.base.ImportantPages.all_news_page.url }}"
-             class="button is-outlined is-link is-small">
-            <span>{% translate "All News" %}</span>
-            <span class="icon is-small">{% svg_icon name="arrow-right-full" %}</span>
-          </a>
+         
+          <a class="more-partners" href="{{ settings.base.ImportantPages.all_partners_page.url }}">
+            {% translate "All News" %}
+            </a>
         {% endif %}
+        
       </div>
       <div class="column is-narrow">
         {% if settings.base.ImportantPages.all_publications_page %}
-          <a href="{{ settings.base.ImportantPages.all_publications_page.url }}"
-             class="button is-outlined is-link is-small">
-            <span>{% translate "All Publications" %}</span>
-            <span class="icon is-small">{% svg_icon name="arrow-right-full" %}</span>
-          </a>
+         
+          <a class="more-partners" href="{{ settings.base.ImportantPages.all_partners_page.url }}">
+            {% translate "All Publications" %}
+            </a>
         {% endif %}
       </div>
     </div>

@@ -1,26 +1,40 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags i18n %}
 
-<div class="columns is-centered is-align-items-center">
-    <div class="column is-4 has-text-left">
-        <h2 class="section-subheader">
-            {{ page.org_struct_heading }}
-        </h2>
-        <div class="intro-description format-text">
-            {{ page.org_struct_description|richtext }}
-        </div>
-    </div>
-    <div class="column is-8">
-        <figure class="image">
-            {% if page.org_struct_img %}
-                {% if page.org_struct_img.url %}
-                    {% svg page.org_struct_img.file.name %}
-                {% else %}
-                    {% image page.org_struct_img original as struct_img %}
-                    <img class="progressive__img progressive--not-loaded"
-                         data-progressive="{{ struct_img.url }}"
-                         src="{% lazy_image_url struct_img %}" alt=""/>
-                {% endif %}
+<section class="org-section" id="organisation_structure">
+  <div class="container">
+    <div class="columns is-centered is-vcentered">
+
+      <!-- LEFT: image (wider — is-7) -->
+      <div class="column is-7 org-image-col">
+        <figure class="org-figure">
+          {% if page.org_struct_img %}
+            {% if page.org_struct_img.url %}
+              {% svg page.org_struct_img.file.name %}
+            {% else %}
+              {% image page.org_struct_img original as struct_img %}
+              <img class="progressive__img progressive--not-loaded org-img"
+                   data-progressive="{{ struct_img.url }}"
+                   src="{% lazy_image_url struct_img %}"
+                   alt="{{ page.org_struct_heading }}" />
             {% endif %}
+          {% endif %}
         </figure>
+      </div>
+
+      <!-- RIGHT: text (is-5) -->
+      <div class="column is-5 org-text-col">
+        <div class="org-accent"></div>
+        <p class="org-eyebrow">{% translate "Structure" %}</p>
+        {% if page.org_struct_heading %}
+          <h2 class="org-title">{{ page.org_struct_heading }}</h2>
+        {% endif %}
+        {% if page.org_struct_description %}
+          <div class="org-body format-text">
+            {{ page.org_struct_description|richtext }}
+          </div>
+        {% endif %}
+      </div>
+
     </div>
-</div>
+  </div>
+</section>
