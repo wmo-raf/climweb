@@ -134,7 +134,7 @@
 .mv-icon {
   width: 44px;
   height: 44px;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   background: #E6F1FB;
   display: flex;
   align-items: center;
@@ -227,7 +227,7 @@
   margin: 0;
   background: #f8f9fb;
   border: 1px solid #eee;
-  border-radius: 14px;
+  border-radius: var(--border-radius);
   padding: 1.5rem;
   display: flex;
   align-items: center;
@@ -241,7 +241,7 @@
   max-height: 460px;
   object-fit: contain;
   display: block;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 /* SVG fills figure naturally */
@@ -385,7 +385,7 @@
   font-size: 14px;
   font-weight: 700;
   padding: 5px 22px;
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   border: 1px solid rgba(255, 255, 255, 0.15);
   letter-spacing: 0.04em;
 }
@@ -411,9 +411,9 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #4a90c4;
-  border: 2px solid #0a1f3c;
-  box-shadow: 0 0 0 2px #4a90c4;
+  background: var(--background-color);
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 0 2px var(--background-color);
   flex-shrink: 0;
 }
 
@@ -439,7 +439,7 @@
 .tl-period {
   font-size: 11px;
   font-weight: 700;
-  color: #4a90c4;
+  color: var(--background-color);
   text-transform: uppercase;
   letter-spacing: 0.07em;
   margin-bottom: 5px;
@@ -524,7 +524,7 @@
 /* ── CARD ── */
 .cta-card {
   background: var(--primary-color);
-  border-radius: 16px;
+  border-radius: var(--border-radius);
   padding: 4rem 2rem;
   text-align: center;
   position: relative;
@@ -610,7 +610,7 @@
   padding: 11px 24px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   border: none;
   background: #fff;
   color: var(--primary-color);
@@ -635,7 +635,7 @@
 
   .cta-card {
     padding: 3rem 1.5rem;
-    border-radius: 12px;
+    border-radius: var(--border-radius);
   }
 
   .cta-title { font-size: 24px; }

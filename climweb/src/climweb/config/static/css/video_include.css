@@ -10,7 +10,7 @@
 .media-featured {
   background: #fff;
   border: 1px solid #eee;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@
   color: #fff;
   background: var(--primary-color);
   padding: 3px 9px;
-  border-radius: 6px;
+  border-radius: calc(var(--border-radius) / 2);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   z-index: 1;
@@ -102,7 +102,7 @@
   letter-spacing: 0.06em;
   padding: 5px 12px;
   border: 1.5px solid var(--primary-color);
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   transition: background 0.15s, color 0.15s;
 }
 
@@ -151,7 +151,7 @@
 .media-row {
   background: #fff;
   border: 1px solid #eee;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -242,7 +242,7 @@
   letter-spacing: 0.05em;
   padding: 4px 10px;
   border: 1.5px solid var(--primary-color);
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   transition: background 0.15s, color 0.15s;
   white-space: nowrap;
 }
