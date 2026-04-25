@@ -1,114 +1,101 @@
-{% load static i18n wagtailiconchooser_tags %}
+{% load static i18n wagtailiconchooser_tags wagtailcore_tags %}
 
-<div class="results-filter">
-    <div class="accordion js-accordion" id="publications-filter-accordion">
-        {% if filters.publication_types %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>
-                        {% translate "Filter by Publication Type" %}
-                    </span>
-                    <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for pub_type in filters.publication_types %}
-                            <label class="checkbox-container" for="{{ pub_type.name }}">
-                                <span class="filter-sub-item">{{ pub_type.name }}</span>
-                                <input type="checkbox" id="{{ pub_type.name }}"
-                                       name="publication_type"
-                                       value="{{ pub_type.pk }}"
-                                       class="publication-filter publication_type"
-                                >
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
+<div class="pub-filter">
 
-        {% if filters.service_categories %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>
-                        {% translate "Filter by Service" %}
-                    </span>
-                    <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for service in filters.service_categories %}
-                            <label class="checkbox-container" for="{{ service.name }}">
-                                <span class="filter-sub-item">{{ service.name }}</span>
-                                <input type="checkbox" id="{{ service.name }}" name="service" value="{{ service.pk }}"
-                                       class="publication-filter service">
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if filters.projects %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>{% translate "Filter by Projects" %} </span>
-                    <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for project in filters.projects %}
-                            <label class="checkbox-container" for="{{ project.label }}">
-                                <span class="filter-sub-item">{{ project.label }}</span>
-                                <input
-                                        type="checkbox"
-                                        id="{{ project.label }}"
-                                        name="project"
-                                        value="{{ project.pk }}"
-                                        class="publication-filter project">
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if filters.year %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span> {% translate "Filter by Year" %}  </span>
-                    <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for date in filters.year reversed %}
-                            <label class="checkbox-container" for="{{ date.year }}">
-                                <span class="filter-sub-item">{{ date.year }}</span>
-                                <input type="checkbox" id="{{ date.year }}" name="year" value="{{ date.year }}"
-                                       class="publication-filter year">
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                new Accordion("publications-filter-accordion");
-            });
-        </script>
+  {% if filters.publication_types %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "Publication Type" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for pub_type in filters.publication_types %}
+          <label class="pub-filter-check" for="pt-{{ pub_type.pk }}">
+            <input type="checkbox"
+                   id="pt-{{ pub_type.pk }}"
+                   name="publication_type"
+                   value="{{ pub_type.pk }}"
+                   class="publication-filter publication_type">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ pub_type.name }}</span>
+          </label>
+        {% endfor %}
+      </div>
     </div>
+  {% endif %}
+
+  {% if filters.service_categories %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "Service" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for service in filters.service_categories %}
+          <label class="pub-filter-check" for="svc-{{ service.pk }}">
+            <input type="checkbox"
+                   id="svc-{{ service.pk }}"
+                   name="service"
+                   value="{{ service.pk }}"
+                   class="publication-filter service">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ service.name }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if filters.projects %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "Projects" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for project in filters.projects %}
+          <label class="pub-filter-check" for="proj-{{ project.pk }}">
+            <input type="checkbox"
+                   id="proj-{{ project.pk }}"
+                   name="project"
+                   value="{{ project.pk }}"
+                   class="publication-filter project">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ project.label }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if filters.year %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "Year" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for date in filters.year reversed %}
+          <label class="pub-filter-check" for="yr-{{ date.year }}">
+            <input type="checkbox"
+                   id="yr-{{ date.year }}"
+                   name="year"
+                   value="{{ date.year }}"
+                   class="publication-filter year">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ date.year }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
 </div>
