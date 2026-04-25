@@ -1,18 +1,26 @@
-<section class="breadcrumb center">
-    <div class="container">
-        <nav class="breadcrumb" aria-label="breadcrumbs" style="overflow: hidden">
-            <ul>
-                {% for page in self.get_ancestors %}
-                    {% if page.is_root == False %}
-                        <li>
-                            <a href={{ page.url }}> {{ page.title }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-                <li class=”active”>
-                    <b style="padding-left: 8px"> {{ self.title }}</b>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</section>
+{% if self.get_ancestors %}
+<nav class="bc-nav" aria-label="breadcrumbs">
+  <div class="container">
+    <ol class="bc-list">
+
+      {% for page in self.get_ancestors %}
+        {% if page.is_root == False %}
+          <li class="bc-item">
+            <a href="{{ page.url }}" class="bc-link">{{ page.title }}</a>
+            <span class="bc-sep" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </span>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      <li class="bc-item bc-item--active" aria-current="page">
+        {{ self.title }}
+      </li>
+
+    </ol>
+  </div>
+</nav>
+{% endif %}

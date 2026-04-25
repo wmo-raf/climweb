@@ -2563,3 +2563,90 @@ input[type='checkbox'] {
   .app-card { width: 140px; }
   .app-img  { height: 140px; }
 }
+
+/* ── BREADCRUMB NAV ── */
+.bc-nav {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+/* ── LIST ── */
+.bc-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── ITEM ── */
+.bc-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* ── LINK ── */
+.bc-link {
+  color: #888;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.12s;
+  padding: 2px 0;
+}
+
+.bc-link:hover {
+  color: var(--primary-color);
+}
+
+/* ── SEPARATOR ── */
+.bc-sep {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 4px;
+  color: #ccc;
+  flex-shrink: 0;
+}
+
+.bc-sep svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── ACTIVE (current page) ── */
+.bc-item--active {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .bc-nav { padding: 0.6rem 0; }
+
+  .bc-item     { font-size: 11px; }
+  .bc-item--active {
+    font-size: 11px;
+    max-width: 180px;
+  }
+
+  .bc-sep svg  { width: 10px; height: 10px; }
+}
+
+@media (max-width: 480px) {
+  /* on very small screens only show parent + current */
+  .bc-item:not(:nth-last-child(-n+2)) {
+    display: none;
+  }
+
+  .bc-item--active { max-width: 140px; }
+}
