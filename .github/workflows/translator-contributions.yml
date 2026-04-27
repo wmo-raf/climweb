@@ -126,6 +126,34 @@ jobs:
             git commit -m "chore(i18n): restore translations lost in Crowdin sync"
             git push origin "$PATCH_BRANCH"
           fi
+
+      - name: Revert files with only header changes
+        run: |
+          git fetch origin "$TARGET_BRANCH" "$PATCH_BRANCH"
+          git checkout "$PATCH_BRANCH"
+      
+          for file in $(git diff --name-only "origin/$TARGET_BRANCH" | grep -E '\.(po|pot)$'); do
+            # Get the diff ignoring PO header lines
+            REAL_DIFF=$(git diff "origin/$TARGET_BRANCH" -- "$file" \
+              | grep '^[+-]' \
+              | grep -v '^[+-][+-][+-]' \
+              | grep -vE '^[+-]("PO-Revision-Date:|"POT-Creation-Date:|"X-Crowdin-)' \
+              | grep -vE '^[+-]#')
+      
+            if [ -z "$REAL_DIFF" ]; then
+              echo "↩️  $file — only header changes, reverting."
+              git checkout "origin/$TARGET_BRANCH" -- "$file"
+            else
+              echo "✅  $file — has real translation changes, keeping."
+            fi
+          done
+      
+          # Commit if anything was reverted
+          if ! git diff --quiet; then
+            git add -A
+            git commit -m "chore(i18n): revert files with header-only changes"
+            git push origin "$PATCH_BRANCH"
+          fi
     
       # ── 5. Check whether anything actually changed ────────────────────────────
       - name: Check for translation changes
