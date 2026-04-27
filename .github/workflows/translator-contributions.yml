@@ -105,6 +105,8 @@ jobs:
 
       - name: Guard against empty-string regressions
         run: |
+          sudo chown -R "$(id -u):$(id -g)" .git
+          git config --global safe.directory "$GITHUB_WORKSPACE"
           git fetch origin "$TARGET_BRANCH" "$PATCH_BRANCH"
           git checkout "$PATCH_BRANCH"   # ← make sure we're on the right branch
       
@@ -128,6 +130,9 @@ jobs:
 
       - name: Revert files with only header changes
         run: |
+          sudo chown -R "$(id -u):$(id -g)" .git
+          git config --global safe.directory "$GITHUB_WORKSPACE"
+          
           for file in $(git diff --name-only "origin/$TARGET_BRANCH" | grep -E '\.(po|pot)$'); do
             # Get the diff ignoring PO header lines
             REAL_DIFF=$(git diff "origin/$TARGET_BRANCH" -- "$file" \
