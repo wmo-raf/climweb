@@ -106,10 +106,10 @@ jobs:
 
       - name: Guard against empty-string regressions
         run: |
-          git fetch origin "$TARGET_BRANCH"
+          git fetch origin "$TARGET_BRANCH" "$PATCH_BRANCH"
+          git checkout "$PATCH_BRANCH"   # ← make sure we're on the right branch
       
           for file in $(git diff --name-only "origin/$TARGET_BRANCH" | grep -E '\.(po|pot)$'); do
-            # Count non-empty msgstr in main vs patch branch
             MAIN_COUNT=$(git show "origin/$TARGET_BRANCH:$file" \
               | grep -c 'msgstr "[^"]' || echo 0)
             PATCH_COUNT=$(grep -c 'msgstr "[^"]' "$file" || echo 0)
@@ -119,6 +119,13 @@ jobs:
               git checkout "origin/$TARGET_BRANCH" -- "$file"
             fi
           done
+      
+          # Commit any restorations
+          if ! git diff --quiet; then
+            git add -A
+            git commit -m "chore(i18n): restore translations lost in Crowdin sync"
+            git push origin "$PATCH_BRANCH"
+          fi
     
       # ── 5. Check whether anything actually changed ────────────────────────────
       - name: Check for translation changes
