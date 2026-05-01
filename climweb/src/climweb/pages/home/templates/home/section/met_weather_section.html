@@ -7,7 +7,7 @@
     {% if page.show_city_forecast and home_weather_widget_url %}
     <div class="cf-panel">
       
-      <div id="weather-widget-wrapper" style="background-image: url({% static 'images/weather_widget_placeholder.png' %}); background-size: cover; background-position: center; min-height: 300px;">
+      <div id="weather-widget-wrapper" style="background-position: center; min-height: 300px;">
         {% if home_weather_widget_url %}{% include "weather/forecast_widget_skeleton_include.html" %}{% endif %}
       </div>
     </div>
