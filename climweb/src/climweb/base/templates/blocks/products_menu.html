@@ -1,6 +1,6 @@
 {% load wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
 
-<div class="megamenu-grid">
+<div class="megamenu-grid is-hidden-touch">
   {% for product in products_index.get_children %}
     {% if product.show_in_menus and product.live %}
       <a class="megamenu-item" href="{{ product.url }}">

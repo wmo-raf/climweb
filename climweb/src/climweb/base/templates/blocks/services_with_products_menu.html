@@ -1,22 +1,56 @@
 {% load wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
 
-<div class="megamenu-grid">
+<div class="svc-menu">
   {% for sub_page in value.page.get_children %}
     {% if sub_page.show_in_menus and sub_page.live %}
-      <a class="megamenu-item" href="{{ sub_page.url }}">
-        <div class="megamenu-item-icon">
-          {% if sub_page.specific.nav_menu_icon %}
-            {% svg_icon sub_page.specific.nav_menu_icon %}
-          {% elif sub_page.specific.banner_image %}
-            {% image sub_page.specific.banner_image original as subpage_image %}
-            <img src="{{ subpage_image.url }}" alt="{{ sub_page.title }}">
-          {% elif sub_page.specific.introduction_image %}
-            {% image sub_page.specific.introduction_image original as subpage_image %}
-            <img src="{{ subpage_image.url }}" alt="{{ sub_page.title }}">
-          {% endif %}
-        </div>
-        <span class="megamenu-item-label">{{ sub_page.title }}</span>
-      </a>
+      {% with service_page=sub_page.specific %}
+      <div class="svc-menu-col">
+
+        <!-- SERVICE HEADER -->
+        <a class="svc-menu-hdr" href="{{ sub_page.url }}">
+          <div class="svc-menu-icon">
+            {% if service_page.nav_menu_icon %}
+              {% svg_icon service_page.nav_menu_icon %}
+            {% elif service_page.banner_image %}
+              {% image service_page.banner_image original as subpage_image %}
+              <img src="{{ subpage_image.url }}" alt="{{ sub_page.title }}">
+            {% elif service_page.introduction_image %}
+              {% image service_page.introduction_image original as subpage_image %}
+              <img src="{{ subpage_image.url }}" alt="{{ sub_page.title }}">
+            {% endif %}
+          </div>
+          <span class="svc-menu-title">{{ sub_page.title }}</span>
+        </a>
+
+        <!-- CORE PRODUCTS -->
+        {% if service_page.core_products %}
+          <div class="svc-menu-products">
+            {% for product_page in service_page.core_products %}
+              {% if product_page.show_in_menus %}
+                <a class="svc-menu-product" href="{{ product_page.url }}">
+                  {{ product_page.title }}
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- FLEX PAGES -->
+        {% if service_page.flex_pages %}
+          <div class="svc-menu-products svc-menu-flex">
+            {% for flex_page in service_page.flex_pages %}
+              {% if flex_page.show_in_menus %}
+                <a class="svc-menu-product svc-menu-product--flex"
+                   href="{{ flex_page.url }}">
+                  {{ flex_page.title }}
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      </div>
+      {% endwith %}
     {% endif %}
   {% endfor %}
 </div>

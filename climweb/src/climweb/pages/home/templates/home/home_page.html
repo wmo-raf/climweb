@@ -179,7 +179,7 @@
         }
         const weatherWidgetWrapper = $("#weather-widget-wrapper")
 
-        weatherWidgetWrapper.hide()
+        
         let singleForecastSlider
         let activeMultiForecastSlider
 
@@ -211,7 +211,11 @@
                 .then(data => {
                     if(data){
                         weatherWidgetWrapper.show()
+                    }else{
+                        weatherWidgetWrapper.hide()
                     }
+                    
+
                     weatherWidgetWrapper.html(data)
 
                     const citySearch = $('#city-search')
