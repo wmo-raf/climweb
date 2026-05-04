@@ -1,6 +1,6 @@
 # 🌤️🌐 ClimWeb 
 
-<a href="https://digitalpublicgoods.net/r/dpg-slug"><img src="https://github.com/DPGAlliance/dpg-resources/blob/main/docs/assets/dpg-badge/dpg-badge.png?raw=true" width="100" alt="Digital Public Goods Badge"></a>
+<a href="https://new.digitalpublicgoods.net/r/climweb-httpsclimtechafricaclimweb"><img src="https://github.com/DPGAlliance/dpg-resources/blob/main/docs/assets/dpg-badge/dpg-badge.png?raw=true" width="100" alt="Digital Public Goods Badge"></a>
 
 Wagtail based Open Source Content Management System for National Meteorological and Hydrological Services in Africa.
 
