@@ -46,7 +46,7 @@ NMHSs that have adopted ClimWeb across Africa:
 29. 🇿🇲 [Mauritania](https://meteomauritanie.mr/)
 30. 🇨🇫 [Central African Republic](https://meteocentrafrique.com/)
 31. 🇱🇸 [Lesotho](https://lesmet.gov.ls)
-32. 🇸🇩 [General Administration for Nile Waters Affairs](https://wre.gov.sd/)
+32. 🇸🇩 General Administration for Nile Waters Affairs
 33. 🇲🇿 Mozambique Hydrology Department
 
 #### In progress
