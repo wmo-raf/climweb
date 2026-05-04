@@ -1,229 +1,226 @@
 {% extends "base.html" %}
-{% load static geomanager_tags i18n  wagtailiconchooser_tags %}
+{% load static geomanager_tags i18n wagtailiconchooser_tags %}
 
 {% block body_class %}station-detail-page{% endblock %}
 
 {% block extra_css %}
-    {{ block.super }}
-    <link href="{% static 'css/maplibre-gl.css' %}" rel="stylesheet"/>
-    <link href="{% static 'stations/css/stations_detail_page.css' %}" rel="stylesheet"/>
+  {{ block.super }}
+  <link href="{% static 'css/maplibre-gl.css' %}" rel="stylesheet"/>
+  <link href="{% static 'stations/css/stations_detail_page.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block content %}
-    <main>
-        {% include "breadcrumbs_include.html" %}
-        <section class="container">
-            {% if station %}
-                <div style="padding: 20px 0;">
-                    <a href="{{ page.url }}" class="more">
-                        <span class="icon btn-icon">
-                            {% svg_icon name="arrow-left" %}
-                        </span>
-                        {% translate "Back to stations list" %}
-                    </a>
-                </div>
-                <h3 class="title">
-                    {% translate "Station Detail" %}
-                </h3>
-                {% if station_name_column %}
-                    {% get_object_attr station station_name_column as attr_val %}
+<main>
+  {% include "breadcrumbs_include.html" %}
 
-                    {% if attr_val %}
-                        <div style="margin-bottom: 20px;font-weight: 600">
-                            {% translate "Station Name" %}: {{ attr_val }}</div>
-                    {% endif %}
+  <section class="std-section">
+    <div class="container">
+
+      <!-- BACK LINK -->
+      <a href="{{ page.url }}" class="std-back">
+        <span class="icon btn-icon">{% svg_icon name="arrow-left" %}</span>
+        {% translate "Back to stations list" %}
+      </a>
+
+      {% if station %}
+
+        <div class="std-card">
+          <div class="std-layout">
+
+            <!-- ── LEFT: MAP + STAT CARDS ── -->
+            <div class="std-sidebar">
+
+              <!-- MAP -->
+              <div class="std-map-wrap">
+                {% if station.geom %}
+                  <div id="station-map" class="std-map"></div>
+                {% else %}
+                  <div class="std-map-empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="10" r="3"/>
+                      <path d="M12 2a8 8 0 00-8 8c0 5.25 8 14 8 14s8-8.75 8-14a8 8 0 00-8-8z"/>
+                    </svg>
+                    <span>{% translate "No location data" %}</span>
+                  </div>
                 {% endif %}
-                <div class="columns is-multiline is-mobile">
-                    <div class="column is-two-thirds-desktop is-full-mobile">
-                        <div class="table-container">
-                            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-                                <tbody>
-                                {% for column in columns %}
-                                    <tr>
-                                        <th>{{ column.label }}</th>
-                                        {% get_object_attr station column.name as attr_val %}
-                                        <td> {% if attr_val %} {{ attr_val }} {% else %}--{% endif %} </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+              </div>
+
+              <!-- STATION NAME + STATUS -->
+              <div class="std-sidebar-body">
+                {% if station_name_column %}
+                  {% get_object_attr station station_name_column as station_name %}
+                  {% if station_name %}
+                    <div class="std-station-name">{{ station_name }}</div>
+                  {% endif %}
+                {% endif %}
+
+                <div class="std-divider"></div>
+
+                <!-- KEY STAT CARDS -->
+                <div class="std-stat-grid">
+                  {% for column in columns %}
+                    {% get_object_attr station column.name as attr_val %}
+                    {% if forloop.counter <= 3 %}
+                      <div class="std-stat">
+                        <div class="std-stat-lbl">{{ column.label }}</div>
+                        <div class="std-stat-val">
+                          {% if attr_val %}{{ attr_val }}{% else %}—{% endif %}
                         </div>
-                    </div>
-                    <div class="column is-one-third-desktop is-full-mobile ">
-                        <div id="station-map" class="elevation-2" style="height: 400px;width: 100%"></div>
-                    </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
                 </div>
 
-            {% else %}
-                <article class="message is-danger">
-                    <div class="message-header">
-                        <p>{% translate "Station Not Found" %} </p>
-                    </div>
-                    <div class="message-body">
-                        {% translate "Station with provided ID can not be found" %}
-                    </div>
-                </article>
-            {% endif %}
-        </section>
-    </main>
+              </div>
+            </div>
 
+            <!-- ── RIGHT: DETAIL LIST ── -->
+            <div class="std-detail">
+
+              <div class="std-detail-header">
+                <p class="std-eyebrow">{% translate "Station information" %}</p>
+              </div>
+
+              <div class="std-rows">
+                {% for column in columns %}
+                  {% get_object_attr station column.name as attr_val %}
+                  <div class="std-row">
+                    <span class="std-row-lbl">{{ column.label }}</span>
+                    <span class="std-row-val">
+                      {% if attr_val %}{{ attr_val }}{% else %}—{% endif %}
+                    </span>
+                  </div>
+                {% endfor %}
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      {% else %}
+
+        <!-- STATION NOT FOUND -->
+        <div class="std-not-found">
+          <div class="std-not-found-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <h3 class="std-not-found-title">{% translate "Station not found" %}</h3>
+          <p class="std-not-found-desc">
+            {% translate "The station with the provided ID could not be found." %}
+          </p>
+          <a href="{{ page.url }}" class="std-back-btn">
+            {% translate "Back to stations list" %}
+          </a>
+        </div>
+
+      {% endif %}
+
+    </div>
+  </section>
+</main>
 {% endblock content %}
 
 {% block extra_js %}
-    {{ block.super }}
-    {% if station and station.geom %}
-        <script src="{% static 'js/maplibre-gl.js' %}"></script>
-        <script>
-            const stationJson = {{ station.geom.json|safe}};
-            const stationBounds = {{ bounds|safe|default_if_none:""}};
-            const centroid = {{ station.geom.centroid.json|safe }};
+  {{ block.super }}
+  {% if station and station.geom %}
+    <script src="{% static 'js/maplibre-gl.js' %}"></script>
+    <script>
+      const stationJson      = {{ station.geom.json|safe }};
+      const stationBounds    = {{ bounds|safe|default_if_none:"" }};
+      const centroid         = {{ station.geom.centroid.json|safe }};
+      const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
 
-            const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+      const defaultStyle = {
+        version: 8,
+        sources: {
+          'carto-light': {
+            type: 'raster',
+            tiles: [
+              "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+              "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+              "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+              "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+            ],
+          },
+        },
+        layers: [{
+          id: 'carto-light-layer',
+          source: 'carto-light',
+          type: 'raster',
+          minzoom: 0,
+          maxzoom: 22,
+        }],
+      };
 
-            const defaultStyle = {
-                'version': 8,
-                'sources': {
-                    'carto-dark': {
-                        'type': 'raster',
-                        'tiles': [
-                            "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                            "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                            "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                            "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
-                        ]
-                    },
-                    'carto-light': {
-                        'type': 'raster',
-                        'tiles': [
-                            "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                            "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                            "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                            "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
-                        ]
-                    },
-                    'wikimedia': {
-                        'type': 'raster',
-                        'tiles': [
-                            "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
-                        ]
-                    }
-                },
-                'layers': [{
-                    'id': 'carto-light-layer',
-                    'source': 'carto-light',
-                    'type': 'raster',
-                    'minzoom': 0,
-                    'maxzoom': 22
-                }]
-            }
+      $(document).ready(async function () {
+        const map = new maplibregl.Map({
+          container: "station-map",
+          style: defaultStyle,
+          doubleClickZoom: false,
+        });
 
-            $(document).ready(async function () {
-                const map = new maplibregl.Map({
-                    container: "station-map",
-                    style: defaultStyle,
-                    doubleClickZoom: false,
-                });
+        map.scrollZoom.disable();
+        map.addControl(new maplibregl.NavigationControl({
+          visualizePitch: true,
+          showZoom: true,
+          showCompass: true,
+        }), "bottom-right");
 
-                map.scrollZoom.disable();
+        await new Promise((resolve) => map.on("load", resolve));
 
-                map.addControl(
-                    new maplibregl.NavigationControl({
-                        visualizePitch: true,
-                        showZoom: true,
-                        showCompass: true,
-                    })
-                );
+        if (stationBounds) {
+          map.fitBounds(
+            [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]],
+            { padding: 40 }
+          );
+        }
 
+        if (boundaryTilesUrl) {
+          map.addSource("admin-boundary-source", {
+            type: "vector", tiles: [boundaryTilesUrl],
+          });
+          map.addLayer({
+            id: 'admin-boundary-fill', type: 'fill',
+            source: 'admin-boundary-source', "source-layer": "default",
+            filter: ["==", "level", 0],
+            paint: { 'fill-color': "#fff", 'fill-opacity': 0 },
+          });
+          map.addLayer({
+            id: 'admin-boundary-line', type: 'line',
+            source: 'admin-boundary-source', "source-layer": "default",
+            filter: ["==", "level", 0],
+            paint: { "line-color": "#C0FF24", "line-width": 1, "line-offset": 1 },
+          });
+          map.addLayer({
+            id: 'admin-boundary-line-2', type: 'line',
+            source: 'admin-boundary-source', "source-layer": "default",
+            filter: ["==", "level", 0],
+            paint: { "line-color": "#000", "line-width": 1.5 },
+          });
+        }
 
-                await new Promise((resolve) => map.on("load", resolve));
+        map.addSource("station-source", { type: 'geojson', data: stationJson });
+        map.addLayer({
+          id: 'station-circle',
+          type: 'circle',
+          source: 'station-source',
+          paint: {
+            'circle-color': "#ADEFD1FF",
+            'circle-radius': 10,
+            'circle-stroke-width': 4,
+            'circle-stroke-color': "#00203FFF",
+          },
+        });
 
-                if (stationBounds) {
-                    const bounds = [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]]
-
-                    map.fitBounds(bounds, {padding: 20})
-                }
-
-                // add country boundary layer
-                if (boundaryTilesUrl) {
-                    // add source
-                    map.addSource("admin-boundary-source", {
-                            type: "vector",
-                            tiles: [boundaryTilesUrl],
-                        }
-                    )
-                    // add layer
-                    map.addLayer({
-                        'id': 'admin-boundary-fill',
-                        'type': 'fill',
-                        'source': 'admin-boundary-source',
-                        "source-layer": "default",
-                        "filter": ["==", "level", 0],
-                        'paint': {
-                            'fill-color': "#fff",
-                            'fill-opacity': 0,
-                        }
-                    });
-
-                    map.addLayer({
-                        'id': 'admin-boundary-line',
-                        'type': 'line',
-                        'source': 'admin-boundary-source',
-                        "source-layer": "default",
-                        "filter": ["==", "level", 0],
-                        'paint': {
-                            "line-color": "#C0FF24",
-                            "line-width": 1,
-                            "line-offset": 1,
-                        }
-                    });
-                    map.addLayer({
-                        'id': 'admin-boundary-line-2',
-                        'type': 'line',
-                        'source': 'admin-boundary-source',
-                        "source-layer": "default",
-                        "filter": ["==", "level", 0],
-                        'paint': {
-                            "line-color": "#000",
-                            "line-width": 1.5,
-                        }
-                    });
-                }
-
-
-                // add source
-                map.addSource("station-source", {
-                        'type': 'geojson',
-                        data: stationJson
-                    }
-                )
-
-                // add layer
-                map.addLayer({
-                    'id': 'station-circle',
-                    'type': 'circle',
-                    'source': 'station-source',
-                    'paint': {
-                        'circle-color': "#ADEFD1FF",
-                        'circle-radius': 8,
-                        "circle-stroke-width": 4,
-                        "circle-stroke-color": "#00203FFF",
-                    }
-                });
-
-
-                map.once("idle", () => {
-                    const coords = centroid.coordinates
-                    map.flyTo({
-                        center: coords
-                    });
-                })
-            })
-
-        </script>
-    {% endif %}
+        map.once("idle", () => {
+          map.flyTo({ center: centroid.coordinates, zoom: 7 });
+        });
+      });
+    </script>
+  {% endif %}
 {% endblock %}
-
-
-
-
-

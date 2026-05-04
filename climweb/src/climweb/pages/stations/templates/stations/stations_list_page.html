@@ -43,20 +43,37 @@
 
       <!-- ── MAP HEADER ── -->
       <div class="stn-map-header">
-        <div>
-          <p class="stn-eyebrow">{% translate "Network Overview" %}</p>
-          <h1 class="stn-title">{% translate "Stations Map" %}</h1>
-        </div>
-        <div class="stn-controls">
-          <span class="stn-controls-label">{% translate "Colour by" %}:</span>
-          <div class="stn-toggle-group">
-            <button class="stn-toggle-btn active" data-scheme="operating_status">
-              {% translate "Operating Status" %}
-            </button>
-            <button class="stn-toggle-btn" data-scheme="station_type">
-              {% translate "Station Type" %}
-            </button>
+        <div class="stn-map-title-row">
+          <div>
+            <p class="stn-eyebrow">{% translate "Network Overview" %}</p>
+            <h1 class="stn-title">{% translate "Stations Map" %}</h1>
           </div>
+          <div class="stn-controls">
+            <span class="stn-controls-label">{% translate "Colour by" %}:</span>
+            <div class="stn-toggle-group">
+              <button class="stn-toggle-btn active" data-scheme="operating_status">
+                {% translate "Operating Status" %}
+              </button>
+              <button class="stn-toggle-btn" data-scheme="station_type">
+                {% translate "Station Type" %}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="stn-search-row">
+          <div class="stn-search-box">
+            <svg class="stn-search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8.5" cy="8.5" r="5.5" stroke="#aaa" stroke-width="1.6"/>
+              <path d="M13 13l3.5 3.5" stroke="#aaa" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="stn-search-input"
+                   placeholder="{% translate 'Search by station name or WIGOS ID…' %}"
+                   autocomplete="off">
+            <button class="stn-search-clear" id="stn-search-clear" aria-label="{% translate 'Clear' %}" hidden>&#x2715;</button>
+          </div>
+          <ul class="stn-search-results" id="stn-search-results" hidden></ul>
         </div>
       </div>
 
@@ -106,12 +123,16 @@
     const countryBounds    = {{ bounds|safe|default_if_none:"" }};
     const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
 
+    // Prefer station bounds (tighter fit); fall back to country bounds
     let bounds = null;
-    if (countryBounds && !!countryBounds.length) {
-      bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]];
-    } else if (stationBounds && !!stationBounds.length) {
+    if (stationBounds && !!stationBounds.length) {
       bounds = [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]];
+    } else if (countryBounds && !!countryBounds.length) {
+      bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]];
     }
+
+    const searchDataUrl  = "{{ page.url }}search-data/";
+    const stationBaseUrl = "{{ page.url }}";
 
     const COLOR_SCHEMES = {
       operating_status: {
@@ -188,39 +209,26 @@
       });
     }
 
-    /* populate stats bar from feature data */
-    function updateStatsBar(map) {
-      const features = map.querySourceFeatures("stations-source", {
-        sourceLayer: "default"
+    /* Stats are computed from the search-data fetch (full DB result),
+       not from querySourceFeatures which only sees viewport tiles. */
+    function updateStatsBar(stations) {
+      const counts = { operational: 0, partlyOperational: 0, closed: 0, planned: 0 };
+      stations.forEach(s => {
+        const status = s.operating_status;
+        if (status === "Operational")      counts.operational++;
+        if (status === "Partly operational") counts.partlyOperational++;
+        if (status === "Closed")           counts.closed++;
+        if (status === "Planned")          counts.planned++;
       });
-
-      const counts = {
-        total: features.length,
-        operational: 0,
-        partlyOperational: 0,
-        closed: 0,
-        planned: 0,
-      };
-
-      features.forEach(f => {
-        const s = f.properties.operating_status;
-        console.log(s);
-        if (s === "Operational")        counts.operational++;
-        if (s === "Partly operational") counts.partlyOperational++;
-        if (s === "Closed")   counts.closed++;
-        if (s === "Planned")            counts.planned++;
-      });
-
       const set = (id, val) => {
         const el = document.querySelector(`#${id} .stn-stat-num`);
-        if (el) el.textContent = val > 0 || id === "stat-total" ? val : "0";
+        if (el) el.textContent = val;
       };
-
-      set("stat-total",       counts.total);
-      set("stat-operational", counts.operational);
-      set("stat-partly-operational", counts.partlyOperational);
-      set("stat-closed",      counts.closed);
-      set("stat-planned",     counts.planned);
+      set("stat-total",               stations.length);
+      set("stat-operational",         counts.operational);
+      set("stat-partly-operational",  counts.partlyOperational);
+      set("stat-closed",              counts.closed);
+      set("stat-planned",             counts.planned);
     }
 
     const defaultStyle = {
@@ -305,12 +313,6 @@
 
       renderLegend(COLOR_SCHEMES[initialScheme]);
 
-      /* update stats once tiles load */
-      map.on("sourcedata", (e) => {
-        if (e.sourceId === "stations-source" && e.isSourceLoaded) {
-          updateStatsBar(map);
-        }
-      });
 
       document.querySelectorAll(".stn-toggle-btn").forEach(btn => {
         btn.addEventListener("click", () => applyColorScheme(map, btn.dataset.scheme));
@@ -334,6 +336,9 @@
                     <span class="stn-popup-val">${popupProps[k]}</span>
                   </div>`;
           }
+          if (p.gid) {
+            h += `<a class="stn-popup-detail-btn" href="${stationBaseUrl}${p.gid}/">{% translate "View Detail" %}</a>`;
+          }
           h += "</div>";
           return h;
         }
@@ -348,6 +353,77 @@
             .setHTML(popContent)
             .addTo(map);
         }
+      });
+
+      // ── SEARCH ──────────────────────────────────────────────────────────
+      let allStations = [];
+
+      fetch(searchDataUrl)
+        .then(r => r.json())
+        .then(data => {
+          allStations = data.stations || [];
+          updateStatsBar(allStations);
+        })
+        .catch(() => {});
+
+      const searchInput   = document.getElementById("stn-search-input");
+      const searchResults = document.getElementById("stn-search-results");
+      const searchClear   = document.getElementById("stn-search-clear");
+
+      function showResults(matches) {
+        searchResults.innerHTML = "";
+        if (!matches.length) {
+          searchResults.hidden = true;
+          return;
+        }
+        matches.slice(0, 10).forEach(s => {
+          const li = document.createElement("li");
+          li.className = "stn-search-result-item";
+          li.innerHTML =
+            `<span class="stn-result-name">${s.name || "—"}</span>` +
+            `<span class="stn-result-wigos">${s.wigos_id || ""}</span>`;
+          li.addEventListener("click", () => {
+            map.flyTo({ center: [s.lon, s.lat], zoom: 12, essential: true });
+            new maplibregl.Popup({ maxWidth: '280px' })
+              .setLngLat([s.lon, s.lat])
+              .setHTML(
+                `<div class="stn-popup">` +
+                `<div class="stn-popup-row"><span class="stn-popup-key">Station Name</span><span class="stn-popup-val">${s.name || "—"}</span></div>` +
+                `<div class="stn-popup-row"><span class="stn-popup-key">WIGOS ID</span><span class="stn-popup-val">${s.wigos_id || "—"}</span></div>` +
+                `<a class="stn-popup-detail-btn" href="${stationBaseUrl}${s.gid}/">{% translate "View Detail" %}</a>` +
+                `</div>`
+              )
+              .addTo(map);
+            searchInput.value = s.name;
+            searchResults.hidden = true;
+            searchClear.hidden = false;
+          });
+          searchResults.appendChild(li);
+        });
+        searchResults.hidden = false;
+      }
+
+      searchInput.addEventListener("input", () => {
+        const q = searchInput.value.trim().toLowerCase();
+        searchClear.hidden = !q;
+        if (!q) { searchResults.hidden = true; return; }
+        const matches = allStations.filter(s =>
+          (s.name    && s.name.toLowerCase().includes(q)) ||
+          (s.wigos_id && s.wigos_id.toLowerCase().includes(q))
+        );
+        showResults(matches);
+      });
+
+      searchClear.addEventListener("click", () => {
+        searchInput.value = "";
+        searchClear.hidden = true;
+        searchResults.hidden = true;
+        searchInput.focus();
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".stn-search-row")) searchResults.hidden = true;
       });
     });
   </script>
