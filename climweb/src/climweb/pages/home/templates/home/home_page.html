@@ -209,6 +209,7 @@
                     return response.text();
                 })
                 .then(data => {
+                    console.log(data)
                     if(data){
                         weatherWidgetWrapper.show()
                     }else{

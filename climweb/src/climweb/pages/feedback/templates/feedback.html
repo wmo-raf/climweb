@@ -4,48 +4,76 @@
 {% block body_class %}feedback_page{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'feedback/css/feedback.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'feedback/css/feedback.css' %}">
 {% endblock %}
 
 {% block content %}
-    <section style="padding:8em 0">
-        <div class="container">
-            <div class="columns is-centered feedback-columns">
-                <div class="column is-5-desktop is-full-mobile">
-                    <h1 class="title" style="font-weight:600; font-size:40px">{{ page.introduction_title }}</h1>
-                    <p>
-                        {{ page.introduction_subtitle }}
-                    </p>
-                    {% if page.illustration %}
-                        <figure class="image">
-                            {% if page.illustration.url %}
-                                {% svg page.illustration.file.name %}
-                            {% else %}
-                                {% image page.illustration original as img %}
-                                <img class="progressive__img progressive--not-loaded"
-                                     data-progressive="{{ img.url }}"
-                                     src="{% lazy_image_url img %}" alt=""/>
-                            {% endif %}
-                        </figure>
-                    {% endif %}
-                </div>
-                <div class="column is-half-desktop is-offset-1-desktop is-full-mobile feedback-form box">
-                    {% if form.fields %}
-                        <form action="{% pageurl page %}" method="POST">
-                            {% csrf_token %}
-                            {{ form|bulma }}
-                            <div class="field">
-                                <button type="submit"
-                                        class="button feedback-submit-button submit-button has-no-border">
-                                    {% translate "Submit" %}
-                                </button>
-                            </div>
-                        </form>
-                    {% endif %}
-                </div>
+<main class="fb-page">
+
+  {% include "breadcrumbs_include.html" %}
+
+  <section class="fb-section">
+    <div class="container">
+      <div class="fb-layout">
+
+        <!-- ── LEFT: INTRO + ILLUSTRATION ── -->
+        <div class="fb-intro-col">
+
+          <div class="fb-intro-header">
+            <p class="fb-eyebrow">{% translate "Your voice matters" %}</p>
+            <h1 class="fb-title">{{ page.introduction_title }}</h1>
+            {% if page.introduction_subtitle %}
+              <p class="fb-subtitle">{{ page.introduction_subtitle }}</p>
+            {% endif %}
+          </div>
+
+          <!-- ILLUSTRATION -->
+          {% if page.illustration %}
+            <div class="fb-illustration">
+              {% if page.illustration.url %}
+                {% svg page.illustration.file.name %}
+              {% else %}
+                {% image page.illustration original as img %}
+                <img class="progressive__img progressive--not-loaded fb-illust-img"
+                     data-progressive="{{ img.url }}"
+                     src="{% lazy_image_url img %}"
+                     alt="" />
+              {% endif %}
             </div>
+          {% endif %}
+
         </div>
-    </section>
+
+        <!-- ── RIGHT: FORM ── -->
+        <div class="fb-form-col">
+          <div class="fb-form-card">
+
+            <div class="fb-form-card-header">
+              <p class="fb-form-eyebrow">{% translate "Feedback form" %}</p>
+              <h2 class="fb-form-title">{% translate "Share your thoughts" %}</h2>
+            </div>
+
+            {% if form.fields %}
+              <form action="{% pageurl page %}" method="POST" class="fb-form">
+                {% csrf_token %}
+                {{ form|bulma }}
+                <div class="fb-form-footer">
+                  <button type="submit" class="fb-submit-btn">
+                    {% translate "Submit feedback" %}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </button>
+                </div>
+              </form>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
 {% endblock %}
-
-
