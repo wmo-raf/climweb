@@ -493,3 +493,24 @@ a.result-list-item-title:hover {
   .pub-thumb { width: 70px; }
   .pub-title { font-size: 12px; }
 }
+
+/* keep news-filter JS hook working alongside pub-view-btn */
+.pub-view-btn.news-filter.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.pub-view-btn.news-filter.active .icon svg {
+  fill: #fff;
+}
+
+/* Read More link — matches pub-read-more style */
+.pub-read-more {
+  color: var(--primary-color);
+}
+
+.pub-read-more:hover {
+  gap: 7px;
+  color: var(--primary-color);
+  opacity: 0.8;
+}
