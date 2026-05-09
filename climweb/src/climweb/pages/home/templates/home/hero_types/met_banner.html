@@ -177,7 +177,6 @@
     border: 1px solid #f0f0f0;
     border-radius: var(--border-radius);
     overflow: hidden;
-    margin-bottom: 1.25rem;
   }
 
   .cf-top-bar {
@@ -438,6 +437,28 @@
   .cf-panel .forecast-widget .tabs.is-boxed li.is-active { background-color: #fff; border-bottom-color: transparent; }
   .cf-panel .forecast-widget .detail-link { color: var(--primary-color); }
 
+  .cf-no-data{
+    padding: 2em;
+  }
+  .cf-no-data-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f4f6f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.cf-no-data-icon svg {
+  width: 24px !important;
+  height: 24px !important;
+  stroke: #bbb;
+  flex-shrink: 0;
+}
+
   .rcc-badge {
     display: inline-block;
     font-size: 11px;
@@ -445,7 +466,7 @@
     background: var(--primary-color-light);
     color: var(--primary-color);
     padding: 4px 12px;
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     margin-bottom: 1rem;
     letter-spacing: 0.04em;
   }

@@ -3,21 +3,24 @@
 
 <div class="cf-card">
 
-  <!-- ── TOP BAR ── -->
-  <div class="cf-topbar">
-    <div class="cf-topbar-left">
+  <!-- ── SHARED TOP BAR ── -->
+  <div class="cf-top-bar">
+    <div class="cf-top-left">
       <span class="cf-location-icon">{% svg_icon "location" %}</span>
       {% if city_detail_page_url %}
-        <span class="cf-city-name">{{ city.name }}</span>
-        <a class="cf-detail-btn" href="{{ city_detail_page_url }}">
-          {% translate "Detail" %}
-          <span class="cf-detail-icon">{% svg_icon "info-circle" %}</span>
-        </a>
+        <a class="cf-city-name" href="{{ city_detail_page_url }}">{{ city.name }}</a>
       {% else %}
         <span class="cf-city-name">{{ city.name }}</span>
       {% endif %}
+      {% if city_detail_page_url %}
+        <a class="cf-detail-btn" href="{{ city_detail_page_url }}">
+          <span class="is-hidden-mobile">{% translate "Detail" %}</span>
+          <span class="cf-detail-icon">{% svg_icon "info-circle" %}</span>
+        </a>
+      {% endif %}
     </div>
-    <div class="cf-topbar-right">
+
+    <div class="cf-search-wrap">
       <div class="dropdown cf-search-wrap">
         <div class="dropdown-trigger">
           <div class="control has-icons-left cf-search-control">
@@ -40,10 +43,8 @@
 
   <!-- ── DAILY SLIDER ── -->
   <div class="cf-panel">
-
     <div class="glide cf-glide" id="single-forecast-slider">
 
-      <!-- TRACK -->
       <div class="glide__track" data-glide-el="track">
         <div class="glide__slides">
           {% for date, forecasts in city_forecasts_by_date.items %}
@@ -51,38 +52,29 @@
               <div class="glide__slide">
                 <div class="cf-slot-card {% if date|date_is_today %}cf-slot-card--today{% endif %}">
 
-                  <!-- DAY HEADER -->
                   <div class="cf-slot-hdr {% if not date|date_is_today %}cf-slot-hdr--muted{% endif %}">
                     <div class="cf-slot-day">
-                      {% if date|date_is_today %}
-                        {% translate "TODAY" %}
-                      {% else %}
-                        {{ date|date:"D"|upper }}
-                      {% endif %}
+                      {% if date|date_is_today %}{% translate "TODAY" %}
+                      {% else %}{{ date|date:"D"|upper }}{% endif %}
                     </div>
                     <div class="cf-slot-date">{{ date|date:"d M" }}</div>
                   </div>
 
-                  <!-- CONDITION ICON -->
                   <div class="cf-slot-icon">
                     <img src="{{ forecast.condition.icon_url }}"
                          alt="{{ forecast.condition.label }}"
                          title="{{ forecast.condition.label }}">
                   </div>
 
-                  <!-- CONDITION LABEL -->
                   {% if show_condition_label %}
                     <div class="cf-slot-condition">{{ forecast.condition.label }}</div>
                   {% endif %}
 
-                  <!-- PARAMETERS -->
                   <div class="cf-slot-params">
                     {% for param in weather_parameters %}
                       <div class="cf-slot-param {% if param.parameter_info and param.parameter_info.icon %}cf-slot-param--icon{% endif %}">
                         {% if param.parameter_info and param.parameter_info.icon %}
-                          <span class="cf-param-icon">
-                            {% svg_icon param.parameter_info.icon %}
-                          </span>
+                          <span class="cf-param-icon">{% svg_icon param.parameter_info.icon %}</span>
                         {% else %}
                           <span class="cf-param-name">{{ param.name }}:</span>
                         {% endif %}
@@ -106,23 +98,18 @@
         </div>
       </div>
 
-      <!-- ARROWS — must be inside .glide wrapper -->
       <div class="glide__arrows cf-arrows-wrap" data-glide-el="controls">
-        <button class="cf-arrow cf-arrow--left glide__arrow glide__arrow--left"
-                data-glide-dir="<">
+        <button class="cf-arrow cf-arrow--left glide__arrow glide__arrow--left" data-glide-dir="<">
           {% svg_icon "arrow-left" %}
         </button>
-        <button class="cf-arrow cf-arrow--right glide__arrow glide__arrow--right"
-                data-glide-dir=">">
+        <button class="cf-arrow cf-arrow--right glide__arrow glide__arrow--right" data-glide-dir=">">
           {% svg_icon "arrow-right" %}
         </button>
       </div>
 
     </div>
-
   </div>
 
-  <!-- ── ATTRIBUTION ── -->
   {% if external_source_attribution and external_source_url %}
     <div class="cf-attribution">
       <span class="cf-attr-icon">{% svg_icon "info-circle" %}</span>
@@ -132,233 +119,11 @@
     </div>
   {% endif %}
 
-  <!-- LOADER -->
   <div class="loader-wrapper cf-loader-wrap">
     <div class="loader is-loading cf-loader"></div>
   </div>
 
 </div>
-
-<style>
-.cf-card {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
-
-.cf-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 10px 16px;
-  border-bottom: 1px solid #eee;
-  flex-wrap: wrap;
-}
-
-.cf-topbar-left { display: flex; align-items: center; gap: 8px; }
-
-.cf-location-icon { display: inline-flex; align-items: center; width: 16px; height: 16px; }
-.cf-location-icon svg { width: 16px; height: 16px; fill: var(--primary-color); }
-
-.cf-city-name { font-size: 16px; font-weight: 700; color: #1a1a1a; }
-
-.cf-detail-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 1.5px solid var(--primary-color);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--primary-color);
-  text-decoration: none;
-  transition: background 0.12s, color 0.12s;
-}
-.cf-detail-btn:hover { background: var(--primary-color); color: #fff; }
-.cf-detail-icon { display: inline-flex; align-items: center; width: 13px; height: 13px; }
-.cf-detail-icon svg { width: 13px; height: 13px; fill: currentColor; }
-
-.cf-topbar-right { flex-shrink: 0; }
-.cf-search-wrap { width: 220px; }
-
-.cf-search-input {
-  border: 1px solid #eee !important;
-  border-radius: 20px !important;
-  font-size: 12px !important;
-  background: #f8f9fb !important;
-  height: 34px !important;
-  padding-left: 32px !important;
-  transition: border-color 0.15s !important;
-}
-.cf-search-input:focus {
-  border-color: var(--primary-color) !important;
-  box-shadow: none !important;
-  background: #fff !important;
-}
-.cf-search-icon svg { width: 13px; height: 13px; fill: #aaa; }
-
-/* ── PANEL ── */
-.cf-panel {
-  padding: 14px 0;
-  background: #f8f9fb;
-}
-
-/* ── GLIDE WRAPPER ── */
-.cf-glide {
-  position: relative;
-  padding: 0 44px;
-}
-
-/* ── ARROWS ── */
-.cf-arrows-wrap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-}
-
-.cf-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: all;
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
-  background: var(--primary-color);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.15s;
-  padding: 0;
-}
-
-.cf-arrow:hover { opacity: 0.85; }
-.cf-arrow--left  { left: 8px; }
-.cf-arrow--right { right: 8px; }
-.cf-arrow svg { width: 14px; height: 14px; fill: #fff; }
-
-/* hide disabled arrows */
-.cf-arrow.glide__arrow--disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-
-/* ── SLOT CARD ── */
-.cf-slot-card {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.cf-slot-hdr {
-  background: var(--primary-color);
-  color: #fff;
-  padding: 10px 8px;
-  text-align: center;
-}
-.cf-slot-hdr--muted { background: #1a3a5a; }
-.cf-slot-day { font-size: 14px; font-weight: 700; letter-spacing: 0.04em; }
-.cf-slot-date { font-size: 12px; opacity: 0.8; margin-top: 2px; }
-
-.cf-slot-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 8px 6px;
-}
-.cf-slot-icon img { width: 64px; height: 64px; object-fit: contain; }
-
-.cf-slot-condition {
-  font-size: 12px;
-  color: #666;
-  text-align: center;
-  padding: 0 10px 10px;
-  line-height: 1.35;
-}
-
-.cf-slot-params {
-  display: flex;
-  flex-direction: column;
-  padding: 0 10px 12px;
-  border-top: 1px solid #f0f0f0;
-  flex: 1;
-  align-items: center;
-}
-
-.cf-slot-param {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 0;
-  font-size: 13px;
-  color: #333;
-}
-.cf-slot-param:last-child { border-bottom: none; }
-
-.cf-param-icon { display: inline-flex; align-items: center; width: 14px; height: 14px; flex-shrink: 0; }
-.cf-param-icon svg { width: 14px; height: 14px; fill: var(--primary-color); }
-.cf-param-name { font-size: 12px; color: #888; }
-.cf-param-val { font-size: 13px; font-weight: 600; color: #1a1a1a; }
-
-.cf-attribution {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
-  font-size: 11px;
-  padding: 8px 16px;
-  border-top: 1px solid #f0f0f0;
-  color: #aaa;
-}
-.cf-attr-icon { display: inline-flex; align-items: center; width: 13px; height: 13px; }
-.cf-attr-icon svg { width: 13px; height: 13px; fill: #bbb; }
-.cf-attribution a { color: #888; text-decoration: none; }
-.cf-attribution a:hover { color: var(--primary-color); text-decoration: underline; }
-
-.cf-loader-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0; left: 0;
-  height: 100%; width: 100%;
-  opacity: 0;
-  z-index: -1;
-  background: rgba(255,255,255,0.8);
-}
-.cf-loader-wrap.is-active { opacity: 1; z-index: 9999; }
-.cf-loader { width: 40px; height: 40px; }
-
-@media (max-width: 768px) {
-  .cf-glide { padding: 0 38px; }
-  .cf-city-name { font-size: 14px; }
-  .cf-slot-icon img { width: 52px; height: 52px; }
-  .cf-slot-day { font-size: 13px; }
-  .cf-param-val { font-size: 12px; }
-}
-
-@media (max-width: 480px) {
-  .cf-topbar { flex-direction: column; align-items: flex-start; }
-  .cf-search-wrap { width: 100%; }
-  .cf-glide { padding: 0 34px; }
-  .cf-arrow { width: 26px; height: 26px; }
-  .cf-arrow svg { width: 12px; height: 12px; }
-}
-</style>
 
 <script>
 (function () {
@@ -374,58 +139,27 @@
   function initSlider() {
     var el = document.getElementById('single-forecast-slider');
     if (!el) return;
+    if (typeof Glide === 'undefined') { setTimeout(initSlider, 100); return; }
 
-    if (typeof Glide === 'undefined') {
-      setTimeout(initSlider, 100);
-      return;
-    }
-
-    /* use the panel width — more reliable than the card */
-    var panel = el.parentElement;
-    var trackWidth = panel ? panel.offsetWidth : window.innerWidth;
-    var currentPerView = getPerView(trackWidth);
+    var panel          = el.parentElement;
+    var currentPerView = getPerView(panel ? panel.offsetWidth : window.innerWidth);
 
     var glide = new Glide(el, {
-      type:        'slider',
-      perView:     currentPerView,
-      gap:         8,
-      bound:       true,
-      rewind:      false,
-      breakpoints: {},
+      type: 'slider', perView: currentPerView, gap: 8, bound: true, rewind: false, breakpoints: {},
     }).mount();
 
-    /* watch the panel for width changes */
     if (window.ResizeObserver) {
       var ro = new ResizeObserver(function (entries) {
-        var w = entries[0].contentRect.width;
-        var next = getPerView(w);
-        if (next !== currentPerView) {
-          currentPerView = next;
-          glide.update({ perView: next });
-        }
+        var next = getPerView(entries[0].contentRect.width);
+        if (next !== currentPerView) { currentPerView = next; glide.update({ perView: next }); }
       });
       ro.observe(panel || el);
-    } else {
-      /* fallback: listen to window resize */
-      window.addEventListener('resize', function () {
-        var w = panel ? panel.offsetWidth : window.innerWidth;
-        var next = getPerView(w);
-        if (next !== currentPerView) {
-          currentPerView = next;
-          glide.update({ perView: next });
-        }
-      });
     }
   }
 
-  /* wait for full page load so offsetWidth is correct */
-  if (document.readyState === 'complete') {
-    initSlider();
-  } else {
-    window.addEventListener('load', initSlider);
-  }
+  if (document.readyState === 'complete') { initSlider(); }
+  else { window.addEventListener('load', initSlider); }
 
-  /* ── CITY SEARCH ── */
   document.addEventListener('DOMContentLoaded', function () {
     var searchInput = document.getElementById('city-search');
     var searchMenu  = document.getElementById('city-search-menu');
@@ -442,25 +176,21 @@
         .then(function (r) { return r.json(); })
         .then(function (data) {
           if (data && data.length) {
-            searchMenu.innerHTML =
-              '<div class="dropdown-content">' +
+            searchMenu.innerHTML = '<div class="dropdown-content">' +
               data.map(function (c) {
                 return '<a class="dropdown-item" href="?city=' + c.id + '">' + c.name + '</a>';
-              }).join('') +
-              '</div>';
+              }).join('') + '</div>';
             searchMenu.closest('.dropdown').classList.add('is-active');
           } else {
             searchMenu.innerHTML = '';
             searchMenu.closest('.dropdown').classList.remove('is-active');
           }
-        })
-        .catch(function () {});
+        }).catch(function () {});
     });
 
     document.addEventListener('click', function (e) {
-      if (!searchInput.contains(e.target)) {
+      if (!searchInput.contains(e.target))
         searchMenu.closest('.dropdown').classList.remove('is-active');
-      }
     });
   });
 

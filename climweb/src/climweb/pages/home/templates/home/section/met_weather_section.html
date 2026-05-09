@@ -5,9 +5,9 @@
 
     <!-- City Forecast Panel -->
     {% if page.show_city_forecast and home_weather_widget_url %}
-    <div class="cf-panel">
+    <div class="">
       
-      <div id="weather-widget-wrapper" style="background-position: center; min-height: 300px;">
+      <div id="weather-widget-wrapper" style="background-position: center; min-height: 300px; padding-bottom:1em">
         {% if home_weather_widget_url %}{% include "weather/forecast_widget_skeleton_include.html" %}{% endif %}
       </div>
     </div>

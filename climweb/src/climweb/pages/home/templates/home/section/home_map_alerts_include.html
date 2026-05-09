@@ -50,7 +50,13 @@
                 {% translate alert_info.status %}
               </div>
 
-              {% if alert_info.properties.sent %}
+              {% if alert_info.expires %}
+                <div class="alert-time-info">
+                  <span class="time-icon">{% svg_icon name="calendar-alt" %}</span>
+                  <span class="time-em">{% translate "Expires:" %}</span>
+                  <span>{{ alert_info.expires|date:"d M Y H:i" }}</span>
+                </div>
+              {% elif alert_info.properties.sent %}
                 <div class="alert-time-info">
                   <span class="time-icon">{% svg_icon name="calendar-alt" %}</span>
                   <span class="time-em">{% translate "Issued:" %}</span>
@@ -60,12 +66,7 @@
                     {% endblocktranslate %}
                   </span>
                 </div>
-              {% elif alert_info.expires %}
-                <div class="alert-time-info">
-                  <span class="time-icon">{% svg_icon name="calendar-alt" %}</span>
-                  <span class="time-em">{% translate "Expires:" %}</span>
-                  <span>{{ alert_info.expires|date:"d M Y H:i" }}</span>
-                </div>
+              
               {% endif %}
 
             </div>

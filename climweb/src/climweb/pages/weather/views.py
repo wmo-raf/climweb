@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
 from django.template.loader import render_to_string
 from forecastmanager.forecast_settings import ForecastSetting
@@ -16,14 +15,19 @@ from climweb.base.cache import wagcache
 from climweb.pages.home.models import HomeMapSettings
 from climweb.pages.weather.utils import get_city_forecast_detail_data
 
-@cache_page(300)  # Cache for 5 minutes
 @require_GET
 def get_home_forecast_widget(request):
-    forecast_setting = ForecastSetting.for_request(request)
-    
     city_slug = request.GET.get('city')
+
+    # Early cache check for slug-based requests — skips all DB queries on a hit.
+    if city_slug and wagtailcache_settings.WAGTAIL_CACHE:
+        cached = wagcache.get(f"city_forecast_widget_data_{city_slug}")
+        if cached is not None:
+            return cached
+
+    forecast_setting = ForecastSetting.for_request(request)
     context = {}
-    
+
     home_settings = HomeMapSettings.for_request(request)
     show_forecast_attribution = home_settings.show_forecast_attribution
     external_source = forecast_setting.enable_auto_forecast
@@ -36,30 +40,37 @@ def get_home_forecast_widget(request):
             ) % {"forecast_source": source_name},
             "external_source_url": source_url,
         })
-    
+
     if city_slug:
         city = City.objects.filter(slug=city_slug).first()
         if city is None:
-            context.update({
-                "error": True,
-                "error_message": _("Location not found. Please search for a different location.")
-            })
-            return JsonResponse(context, status=404)
+            # Return empty template response so JS detects no widget content
+            # and shows the no-data state without triggering !response.ok
+            return render(
+                request,
+                'weather/widgets/location_forecast_single_slider.html',
+                {}   # empty context — city_forecasts_by_date missing → template renders nothing
+            )
     else:
         city = forecast_setting.default_city
         if not city:
             city = City.objects.first()
-    
+
     if city is None:
         context.update({
             "error": True,
             "error_message": _("No location set in the system. Please contact the administrator."),
         })
-        
         return render(request, 'weather/widgets/location_forecast_single_slider.html', context)
-    
+
+    # Cache check for default-city requests (slug wasn't in the query string).
+    if not city_slug and wagtailcache_settings.WAGTAIL_CACHE:
+        cached = wagcache.get(f"city_forecast_widget_data_{city.slug}")
+        if cached is not None:
+            return cached
+
     city_detail_page = forecast_setting.weather_detail_page
-    
+
     if city_detail_page:
         # Try getting the city detail page URL. If it fails, ignore it.
         # this is here because a different page than what is expected might be set
@@ -72,46 +83,38 @@ def get_home_forecast_widget(request):
             })
         except Exception:
             pass
-    
+
     city_search_url = get_full_url(request, reverse("cities-list"))
     context.update({
         "city_search_url": city_search_url,
     })
-    
+
     if forecast_setting.weather_reports_page:
         context.update({
             "weather_reports_page_url": forecast_setting.weather_reports_page.get_full_url(request)
         })
-    
-    if wagtailcache_settings.WAGTAIL_CACHE:
-        response = wagcache.get(f"city_forecast_widget_data_{city.slug}")
+
+    forecast_periods_count = forecast_setting.periods.count()
+    multi_period = forecast_periods_count > 1
+
+    data = get_city_forecast_detail_data(city, multi_period=multi_period, request=request,
+                                         for_home_widget=True)
+
+    context.update({
+        "city": city,
+        "show_condition_label": forecast_setting.show_conditions_label_on_widget,
+        "use_period_labels": forecast_setting.use_period_labels,
+        **data,
+    })
+
+    if multi_period:
+        response = render(request, 'weather/widgets/location_forecast_multiple_slider.html', context)
     else:
-        response = None
-    
-    if response is None:
-        forecast_periods_count = forecast_setting.periods.count()
-        
-        multi_period = forecast_periods_count > 1
-        
-        data = get_city_forecast_detail_data(city, multi_period=multi_period, request=request,
-                                             for_home_widget=True)
-        
-        context.update({
-            "city": city,
-            "show_condition_label": forecast_setting.show_conditions_label_on_widget,
-            "use_period_labels": forecast_setting.use_period_labels,
-            **data,
-        })
-        
-        if multi_period:
-            response = render(request, 'weather/widgets/location_forecast_multiple_slider.html', context)
-        else:
-            response = render(request, 'weather/widgets/location_forecast_single_slider.html', context)
-        
-        if wagtailcache_settings.WAGTAIL_CACHE:
-            # Cache the response for 20 minutes
-            wagcache.set(f"city_forecast_widget_data_{city.slug}", response, 60 * 20)
-    
+        response = render(request, 'weather/widgets/location_forecast_single_slider.html', context)
+
+    if wagtailcache_settings.WAGTAIL_CACHE:
+        wagcache.set(f"city_forecast_widget_data_{city.slug}", response, 60 * 20)
+
     return response
 
 

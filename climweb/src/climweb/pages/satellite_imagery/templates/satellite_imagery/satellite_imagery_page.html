@@ -1,140 +1,184 @@
 {% extends 'base.html' %}
-
 {% load static wagtailiconchooser_tags i18n %}
 
 {% block extra_css %}
-    {{ block.super }}
-
-
-              <link rel="stylesheet" href="{% static 'css/leaflet.css' %}">
-              <link rel="stylesheet" href="{% static 'css/leaflet.fullscreen.css' %}">
-              <link rel="stylesheet" href="{% static 'css/leaflet.timedimension.control.min.css' %}">
-              <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
-
-    <link rel="stylesheet" href="{% static 'satellite_imagery/css/satellite_imagery.css' %}">
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/leaflet.css' %}">
+  <link rel="stylesheet" href="{% static 'css/leaflet.fullscreen.css' %}">
+  <link rel="stylesheet" href="{% static 'css/leaflet.timedimension.control.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'satellite_imagery/css/satellite_imagery.css' %}">
 {% endblock %}
 
 {% block content %}
-    <main>
-        {% include "breadcrumbs_include.html" %}
-        {% if msg_layers %}
-            <section class="container" style="margin-top: 50px">
-                <div id="sat-map" class="sat-map" style="position: relative">
-                    <div class="menu-control" style="position: absolute">
-                        <div class="map-menu">
-                            {% for msg_layer in msg_layers %}
-                                <div class="menu-category {% if forloop.first %}active{% endif %}">
-                                    <div class="category-icon">
-                                        <div class="c-icon">
-                                            {% svg_icon name="layer-group" %}
-                                        </div>
-                                    </div>
+<main>
+  {% include "breadcrumbs_include.html" %}
 
-                                    <div class="layer-title" data-layer="{{ msg_layer.name }}">
-                                        <div class="layer-label">{{ msg_layer.label }}</div>
-                                        {% if msg_layer.abstract %}
-                                            <div class="layer-info-modal-trigger layer-info-icon"
-                                                 data-layer="{{ msg_layer.name }}">
-                                                {% svg_icon name="info-circle" %}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="layer-controls-wrapper">
-                        <div class="layer-control">
-                            <input type="checkbox" id="auto_update" name="auto_update" checked style="height:12px;width: 12px">
-                            <label for="auto_update">
-                              {% translate "Auto-update" %}
-                             </label>
-                        </div>
-                        <div class="layer-control anim-modal-trigger-control" style="display: none">
-                            <button class="anim-modal-trigger button is-small is-primary is-light"
-                                    data-target="modal-animation">
-                                    {% translate "View Today's animation" %}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="legend-control" style="display: none">
-                        <div class="legend-title">
-                        {% translate "Legend" %}
-                        </div>
-                        <div class="legend-layer-title"></div>
-                        <div class="legend-layer-image">
-                            <img src="" alt="Legend">
-                        </div>
-                    </div>
-                </div>
-            </section>
+  {% if msg_layers %}
+  <section class="si-section">
+    <div class="container">
 
+      <div class="si-layout">
+
+        <!-- ── SIDEBAR ── -->
+        <div class="si-sidebar">
+
+          <!-- HEADER -->
+          <div class="si-sidebar-header">
+            <p class="si-eyebrow">{% translate "Satellite imagery" %}</p>
+            <h1 class="si-title">{% translate "Live layers" %}</h1>
+          </div>
+
+          <!-- SEARCH -->
+          <div class="si-search-wrap">
+            <span class="si-search-icon">{% svg_icon name="search" %}</span>
+            <input type="text"
+                   id="si-layer-search"
+                   class="si-search-input"
+                   placeholder="{% translate 'Search layers…' %}"
+                   autocomplete="off">
+          </div>
+
+          <!-- LAYER LIST -->
+          <div class="si-layer-list" id="si-layer-list">
             {% for msg_layer in msg_layers %}
-                <div class="modal modal-layer-info" id="modal-{{ msg_layer.name }}"
-                     style="z-index: 10000000">
-                    <div class="modal-background"></div>
-                    <div class="modal-card">
-                        <header class="modal-card-head">
-                            <p class="modal-card-title">{{ msg_layer.label }}</p>
-                            <button class="delete" aria-label="close"></button>
-                        </header>
-                        <section class="modal-card-body">
-                            <div>
-                                {{ msg_layer.abstract }}
-                            </div>
-                            <div style="padding: 20px 0">
-                                <a href="https://view.eumetsat.int/productviewer/productDetails/{{ msg_layer.name }}?v=default"
-                                   target="_blank" rel="noopener noreferrer">{% translate "Source" %}: EUMETView</a>
-                            </div>
-                        </section>
-                        <footer class="modal-card-foot"
-                                style="display: flex;justify-content: flex-end">
-                            <button class="button is-danger is-light">
-                            {% translate "Close" %}
-                            </button>
-                        </footer>
-                    </div>
+              <div class="si-layer-item menu-category {% if forloop.first %}active{% endif %}"
+                   data-label="{{ msg_layer.label|lower }}">
+
+                <div class="si-layer-dot"></div>
+
+                <div class="si-layer-info layer-title"
+                     data-layer="{{ msg_layer.name }}"
+                     {% if msg_layer.legend_url %}data-legend="{{ msg_layer.legend_url }}"{% endif %}>
+                  <span class="si-layer-name layer-label">{{ msg_layer.label }}</span>
                 </div>
+
+                {% if msg_layer.abstract %}
+                  <button class="si-layer-info-btn layer-info-modal-trigger"
+                          data-layer="{{ msg_layer.name }}"
+                          title="{% translate 'Layer info' %}"
+                          aria-label="{% translate 'Layer info' %}">
+                    {% svg_icon name="info-circle" %}
+                  </button>
+                {% endif %}
+
+              </div>
             {% endfor %}
 
-            <div class="modal" id="modal-animation" style="z-index: 9999999">
-                <div class="modal-background"></div>
-                <div class="modal-card modal-animation">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title" id="anim-modal-title"></p>
-                        <button class="delete" aria-label="close"></button>
-                    </header>
-                    <section class="modal-card-body" id="layer-animation-container">
-                    </section>
-                    <footer class="modal-card-foot" style="display: flex;justify-content: flex-end">
-                        <button class="button is-danger is-light">
-                        {% translate "Close" %}
-                        </button>
-                    </footer>
-                </div>
+            <!-- empty search state -->
+            <div class="si-no-results" id="si-no-results" style="display:none;">
+              {% translate "No layers match your search." %}
             </div>
-        {% endif %}
-    </main>
+          </div>
+
+          <!-- PLAYBACK FOOTER -->
+          <div class="si-playback">
+
+            <div class="si-playback-time" id="si-playback-time">—</div>
+
+            <div class="si-auto-row">
+              <label class="si-auto-label" for="auto_update">
+                <input type="checkbox" id="auto_update" name="auto_update" checked>
+                <span class="si-auto-toggle-track">
+                  <span class="si-auto-toggle-thumb"></span>
+                </span>
+                <span class="si-auto-text">{% translate "Auto-update" %}</span>
+              </label>
+
+              {% if msg_layers %}
+                <button class="si-anim-btn anim-modal-trigger-control"
+                        id="si-anim-btn"
+                        data-target="modal-animation"
+                        style="display:none;">
+                  {% translate "Today's animation" %}
+                  {% svg_icon name="player-play" %}
+                </button>
+              {% endif %}
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ── MAP ── -->
+        <div class="si-map-wrap">
+          <div id="sat-map" class="si-map">
+
+            <!-- legend -->
+            <div class="si-legend legend-control" style="display:none;">
+              <div class="si-legend-title">{% translate "Legend" %}</div>
+              <div class="legend-layer-title si-legend-layer-name"></div>
+              <div class="legend-layer-image si-legend-img">
+                <img src="" alt="{% translate 'Legend' %}">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── LAYER INFO MODALS ── -->
+  {% for msg_layer in msg_layers %}
+    <div class="modal modal-layer-info" id="modal-{{ msg_layer.name }}" style="z-index:10000000;">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">{{ msg_layer.label }}</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div>{{ msg_layer.abstract }}</div>
+          <div style="padding:20px 0;">
+            <a href="https://view.eumetsat.int/productviewer/productDetails/{{ msg_layer.name }}?v=default"
+               target="_blank" rel="noopener noreferrer">
+              {% translate "Source" %}: EUMETView
+            </a>
+          </div>
+        </section>
+        <footer class="modal-card-foot" style="display:flex;justify-content:flex-end;">
+          <button class="button is-danger is-light">{% translate "Close" %}</button>
+        </footer>
+      </div>
+    </div>
+  {% endfor %}
+
+  <!-- ── ANIMATION MODAL ── -->
+  <div class="modal" id="modal-animation" style="z-index:9999999;">
+    <div class="modal-background"></div>
+    <div class="modal-card modal-animation">
+      <header class="modal-card-head">
+        <p class="modal-card-title" id="anim-modal-title"></p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body" id="layer-animation-container"></section>
+      <footer class="modal-card-foot" style="display:flex;justify-content:flex-end;">
+        <button class="button is-danger is-light">{% translate "Close" %}</button>
+      </footer>
+    </div>
+  </div>
+
+  {% endif %}
+</main>
 {% endblock content %}
 
 {% block extra_js %}
-    {{ block.super }}
-    {% if msg_layers %}
-            <script src="{% static 'js/leaflet.js' %}"></script>
-            <script src="{% static 'js/iso8601.min.js' %}"></script>
-            <script src="{% static 'js/leaflet.timedimension.min.js' %}"></script>
-            <script src="{% static 'js/Leaflet.fullscreen.min.js' %}"></script>
-            <script src="{% static 'satellite_imagery/js/animate-images.min.js' %}"></script>
-            <script src="{% static 'js/jquery-ui.min.js' %}"></script>
-            <script src="{% static 'satellite_imagery/js/Leaflet.VectorGrid.bundled.min.js' %}"></script>
+  {{ block.super }}
+  {% if msg_layers %}
+    <script src="{% static 'js/leaflet.js' %}"></script>
+    <script src="{% static 'js/iso8601.min.js' %}"></script>
+    <script src="{% static 'js/leaflet.timedimension.min.js' %}"></script>
+    <script src="{% static 'js/Leaflet.fullscreen.min.js' %}"></script>
+    <script src="{% static 'satellite_imagery/js/animate-images.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'satellite_imagery/js/Leaflet.VectorGrid.bundled.min.js' %}"></script>
+    <script src="{% static 'satellite_imagery/js/layer-animation.js' %}"></script>
 
-
-
-
-
-        <script src="{% static 'satellite_imagery/js/layer-animation.js' %}"></script>
-        <script>
-            const layerDatesUrl = "{{ layer_dates_url }}";
+    <script>
+        const layerDatesUrl = "{{ layer_dates_url }}";
             const layerImagesUrl = "{{ layer_images_url }}";
             const eumetViewWmsBaseUrl = "{{ eumetview_wms_base_url }}";
             const country_info = {{settings.base.OrganisationSetting.country_info|safe}}
@@ -478,6 +522,6 @@
                     }))
                 }
             })
-        </script>
-    {% endif %}
+    </script>
+  {% endif %}
 {% endblock %}
