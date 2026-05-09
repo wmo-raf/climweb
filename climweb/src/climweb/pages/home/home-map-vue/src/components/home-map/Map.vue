@@ -1009,7 +1009,7 @@ onUnmounted(() => map?.remove());
   width: 30px;
   height: 30px;
   border: none;
-  border-radius: 50%;
+  border-radius: var(--border-radius);
   background: gray;
   color: #fff;
   font-size: 20px;
@@ -1035,7 +1035,7 @@ onUnmounted(() => map?.remove());
 .basemap-icon {
   width: 30px;
   height: 30px;
-  border-radius: 50%;
+  border-radius: var(--border-radius);
   background: gray;
   cursor: pointer;
 }

@@ -257,9 +257,11 @@
         {% endif %}
 
         {% if page.accordion %}
+        <section class="ac-section">
             {% for block in page.accordion %}
                     {% include_block block %}
             {% endfor %}
+        </section>
         {% endif %}
 
         {% if page.bottom_call_to_action_heading %}

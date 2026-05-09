@@ -119,12 +119,12 @@
 }
 
 .srch-item:hover {
-  border-color: #d0e4f7;
+  border-color: var(--background-color);
   box-shadow: 0 2px 12px rgba(24, 95, 165, 0.07);
 }
 
 .srch-item--promoted {
-  border-color: #d0e4f7;
+  border-color: var(--background-color);
   background: #f8fbff;
 }
 
@@ -150,7 +150,7 @@
   align-self: flex-start;
   padding: 2px 8px;
   border-radius: 20px;
-  background: #E6F1FB;
+  background: var(--background-color);
   color: var(--primary-color);
   font-size: 10px;
   font-weight: 700;

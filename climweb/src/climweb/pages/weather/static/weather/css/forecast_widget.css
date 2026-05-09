@@ -334,7 +334,7 @@
   border-left: 1px solid var(--primary-color-medium, #b0c9e8) !important;
   border-right: 1px solid var(--primary-color-medium, #b0c9e8) !important;
   border-bottom: none !important;
-  border-radius: 4px 4px 0 0 !important;
+  border-radius: calc(var(--border-radius)/3) calc(var(--border-radius)/3) 0 0 !important;
 }
 
 .cf-card .forecast-widget .tabs li a {
@@ -396,7 +396,7 @@
 .cf-card .forecast-widget .forecast-item {
   background: #fff !important;
   border: 1px solid #eee !important;
-  border-radius: 8px !important;
+  border-radius: calc(var(--border-radius)/2) !important;
   overflow: hidden;
   min-height: unset !important;
   height: 100%;
@@ -517,7 +517,7 @@
   background: var(--primary-color) !important;
   border: none;
   opacity: 0.9;
-  border-radius: 6px;
+  border-radius: calc(var(--border-radius)/2);
   display: flex;
   align-items: center;
   justify-content: center;

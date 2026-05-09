@@ -1713,7 +1713,7 @@ input[type='checkbox'] {
 }
 
 .about-nav-btn:hover {
-  background: #E6F1FB;
+  background: var(--background-color);
   color: var(--primary-color);
 }
 
@@ -1787,13 +1787,10 @@ input[type='checkbox'] {
 .page-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(4, 22, 50, 0.95) 0%,
-    rgba(4, 22, 50, 0.85) 35%,
-    rgba(4, 22, 50, 0.50) 60%,
-    rgba(4, 22, 50, 0.00) 100%
-  );
+  background: linear-gradient(90deg,
+ color-mix(in srgb, var(--primary-color) 100%, transparent) 0%,
+ color-mix(in srgb, var(--primary-color) 88%, transparent) 30%,
+ color-mix(in srgb, var(--primary-color) 55%, transparent) 58%, transparent 100%);
   z-index: 1;
 }
 
@@ -1941,7 +1938,7 @@ input[type='checkbox'] {
 
 /* left border accent */
 .pcta-text-border {
-  border-left: 3px solid var(--primary-color);
+  border-left: 0.05em solid var(--primary-color);
   padding-left: 1.75rem;
   display: flex;
   flex-direction: column;
@@ -2691,7 +2688,7 @@ input[type='checkbox'] {
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background: #E6F1FB;
+  background: var(--background-color);
   display: flex;
   align-items: center;
   justify-content: center;

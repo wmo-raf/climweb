@@ -51,7 +51,7 @@
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: #E6F1FB;
+  background: var(--background-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,7 +97,7 @@
 
 .pd-tab.active {
   color: var(--primary-color);
-  background: #E6F1FB;
+  background: var(--background-color);
   border-left-color: var(--primary-color);
   font-weight: 600;
 }
@@ -141,8 +141,8 @@
 }
 
 .pd-date-pill:hover {
-  border-color: #d0e4f7;
-  background: #f0f6ff;
+  border-color: var(--background-color);
+  background: var(--primary-color-light);
   color: var(--primary-color);
 }
 
@@ -333,7 +333,6 @@
 .pd-btn-dl .icon svg {
   width: 13px;
   height: 13px;
-  fill: #fff;
 }
 
 .pd-panel-foot .button {
@@ -406,7 +405,7 @@
   .pd-tab.active {
     border-left: none;
     border-bottom-color: var(--primary-color);
-    background: #E6F1FB;
+    background: var(--background-color);
   }
 
   .pd-page-title { font-size: 18px; }
