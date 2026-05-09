@@ -18,36 +18,30 @@
 
       <div class="pd-layout">
 
-       <!-- ── WHITE SIDEBAR ── -->
+        <!-- ── SIDEBAR ── -->
+        <!-- ── SIDEBAR ── -->
         <div class="pd-sidebar">
-        {% for category_id, category in categories.items %}
+          {% for category_id, category in categories.items %}
             <div class="pd-cat">
-
-            <!-- category header -->
-            <div class="pd-cat-hdr">
-                <div class="pd-cat-icon">
-                {% svg_icon name=category.icon %}
-                </div>
+              <div class="pd-cat-hdr">
+                <div class="pd-cat-icon">{% svg_icon name=category.icon %}</div>
                 <span class="pd-cat-name">{{ category.name }}</span>
-            </div>
-
-            <!-- tab links -->
-            <div class="pd-cat-tabs">
+              </div>
+              <div class="pd-cat-tabs">
                 {% for slug, item in products.items %}
-                {% if item.item_type.category.id == category_id %}
+                  {% if item.category_id == category_id %}
                     <a class="pd-tab"
-                    id="tab-label-{{ slug }}"
-                    href="#tab-{{ slug }}"
-                    role="tab"
-                    aria-controls="tab-{{ slug }}">
-                    {{ item.item_type.name }}
+                      id="tab-label-{{ slug }}"
+                      href="#tab-{{ slug }}"
+                      role="tab"
+                      aria-controls="tab-{{ slug }}">
+                      {{ item.item_type.name }}
                     </a>
-                {% endif %}
+                  {% endif %}
                 {% endfor %}
+              </div>
             </div>
-
-            </div>
-        {% endfor %}
+          {% endfor %}
         </div>
 
         <!-- ── CONTENT AREA ── -->
@@ -55,12 +49,12 @@
           {% for slug, item_products_dict in products.items %}
             <div class="pd-content" id="tab-{{ slug }}">
 
-              <!-- DATE PILLS -->
+              <!-- DATE PILLS — use slug + counter for guaranteed unique targets -->
               {% if item_products_dict.products|length > 1 %}
                 <div class="pd-date-pills">
                   {% for product_item in item_products_dict.products %}
                     <button class="pd-date-pill {% if forloop.first %}active{% endif %}"
-                            data-target="{{ slug }}-{{ product_item.value.product_type }}-{{ product_item.value.product_date_str }}">
+                            data-target="pditem-{{ slug }}-{{ forloop.counter }}">
                       <span class="icon">{% svg_icon name="calendar-alt" %}</span>
                       <span>{{ product_item.value.date }}</span>
                       {% if product_item.value.valid_until %}
@@ -71,16 +65,14 @@
                 </div>
               {% endif %}
 
-              <!-- PRODUCT ITEMS -->
+              <!-- PRODUCT ITEMS — matching unique IDs -->
               {% for product_item in item_products_dict.products %}
                 <div class="pd-item {% if forloop.first %}is-active{% endif %}"
-                     id="{{ slug }}-{{ product_item.value.product_type }}-{{ product_item.value.product_date_str }}">
+                     id="pditem-{{ slug }}-{{ forloop.counter }}">
 
                   <div class="pd-panel">
 
                     {% if product_item.block_type == "image_product" %}
-
-                      <!-- IMAGE PRODUCT -->
                       <div class="pd-panel-img">
                         {% image product_item.value.image height-600 width-600 as product_item_image %}
                         <img class="progressive__img progressive--not-loaded"
@@ -91,8 +83,7 @@
                       <div class="pd-panel-foot share-buttons">
                         <a class="pd-btn-view"
                            href="{{ product_item_image.url }}"
-                           target="_blank"
-                           rel="noopener noreferrer">
+                           target="_blank" rel="noopener noreferrer">
                           <span class="icon">{% svg_icon name="view" %}</span>
                           <span>{% translate "View" %}</span>
                         </a>
@@ -106,8 +97,6 @@
                       </div>
 
                     {% elif product_item.block_type == "document_product" %}
-
-                      <!-- DOCUMENT PRODUCT -->
                       <div class="pd-panel-doc">
                         <div class="pd-doc-thumb">
                           {% if product_item.value.thumbnail %}
@@ -146,8 +135,6 @@
                       </div>
 
                     {% elif product_item.block_type == "content_block" %}
-
-                      <!-- CONTENT BLOCK -->
                       <div class="pd-panel-text">
                         {% for block in product_item.value.content %}
                           {% if block.block_type == 'table' %}
@@ -157,7 +144,6 @@
                           {% endif %}
                         {% endfor %}
                       </div>
-
                     {% endif %}
 
                     {% if product_item.value.description %}
@@ -180,76 +166,91 @@
 </main>
 {% endblock content %}
 
+
 {% block extra_js %}
 <script type="text/javascript">
-  $(document).ready(function () {
-    const tabs        = $(".pd-tab");
-    const contents    = $(".pd-content");
-    const datePills   = $(".pd-date-pill");
-    const productItems = $(".pd-item");
+$(document).ready(function () {
 
-    const setDefault = () => {
-      const firstTab = tabs.first();
-      const contentId = firstTab.attr("aria-controls");
-      if (contentId) {
-        $("#" + contentId).addClass("active");
-        firstTab.addClass("active");
-      }
-    };
+  const tabs         = $(".pd-tab");
+  const contents     = $(".pd-content");
+  const datePills    = $(".pd-date-pill");
+  const productItems = $(".pd-item");
 
-    const hash = window.location.hash;
-    if (hash) {
-      const hashId = hash.split("#")[1];
-      try {
-        const $content = $("#" + hashId);
-        if ($content.length) {
-          $content.addClass("active");
-          $("[aria-controls=" + hashId + "]").addClass("active");
-        } else {
-          setDefault();
-        }
-      } catch (e) {
-        setDefault();
-      }
-    } else {
-      setDefault();
-    }
+  /* ── activate a content panel and its first date pill + product item ── */
+  function activateContent($content) {
+    if (!$content || !$content.length) return;
 
-    const removeActive = () => {
-      tabs.removeClass("active");
-      contents.removeClass("active");
-    };
+    /* show this content panel */
+    contents.removeClass("active");
+    $content.addClass("active");
 
-    tabs.each(function () {
-      const tab = $(this);
-      const contentId = tab.attr("aria-controls");
-      tab.click(function (e) {
-        e.preventDefault();
-        removeActive();
-        tab.addClass("active");
-        if (contentId) {
-          const content = $("#" + contentId);
-          content.addClass("active");
-          const dateTabs = content.find(".pd-date-pill");
-          dateTabs.removeClass("active");
-          const firstDateTab = dateTabs.first();
-          firstDateTab.addClass("active");
-          productItems.removeClass("is-active");
-          const dataTarget = firstDateTab.data("target");
-          if (dataTarget) $("#" + dataTarget).addClass("is-active");
-        }
-      });
-    });
+    /* reset date pills within this panel — activate first */
+    const $pills = $content.find(".pd-date-pill");
+    $pills.removeClass("active");
+    $pills.first().addClass("active");
 
-    datePills.click(function () {
-      const $this = $(this);
-      const dataTarget = $this.data("target");
-      // only deactivate siblings in the same date-pills group
-      $this.closest(".pd-date-pills").find(".pd-date-pill").removeClass("active");
-      $this.addClass("active");
-      productItems.removeClass("is-active");
-      if (dataTarget) $("#" + dataTarget).addClass("is-active");
-    });
+    /* reset ALL product items — then activate the first in this panel */
+    productItems.removeClass("is-active");
+    const $items = $content.find(".pd-item");
+    $items.first().addClass("is-active");
+  }
+
+  /* ── activate a specific product item via date pill ── */
+  function activateItem($pill) {
+    const target = $pill.data("target");
+    if (!target) return;
+
+    /* deactivate siblings only */
+    $pill.closest(".pd-date-pills").find(".pd-date-pill").removeClass("active");
+    $pill.addClass("active");
+
+    /* deactivate items in this content panel only, then activate target */
+    const $panel = $pill.closest(".pd-content");
+    $panel.find(".pd-item").removeClass("is-active");
+    $("#" + target).addClass("is-active");
+  }
+
+  /* ── TAB CLICKS ── */
+  tabs.on("click", function (e) {
+    e.preventDefault();
+    const contentId = $(this).attr("aria-controls");
+    tabs.removeClass("active");
+    $(this).addClass("active");
+    if (contentId) activateContent($("#" + contentId));
   });
+
+  /* ── DATE PILL CLICKS ── */
+  datePills.on("click", function () {
+    activateItem($(this));
+  });
+
+  /* ── INITIAL STATE ── */
+  /* check for hash in URL first */
+  const hash = window.location.hash;
+  let activated = false;
+
+  if (hash) {
+    const hashId = hash.replace("#", "");
+    const $target = $("#" + hashId);
+    if ($target.length) {
+      /* find the tab that controls this content */
+      const $tab = $("[aria-controls=" + hashId + "]");
+      if ($tab.length) {
+        $tab.addClass("active");
+        activateContent($target);
+        activated = true;
+      }
+    }
+  }
+
+  if (!activated) {
+    /* activate first tab and its content */
+    const $firstTab = tabs.first();
+    $firstTab.addClass("active");
+    const firstContentId = $firstTab.attr("aria-controls");
+    if (firstContentId) activateContent($("#" + firstContentId));
+  }
+
+});
 </script>
 {% endblock %}
