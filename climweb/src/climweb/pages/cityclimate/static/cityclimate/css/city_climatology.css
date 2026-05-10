@@ -1,0 +1,251 @@
+/* ── SECTION ── */
+.cc-section {
+  padding: 1.5rem 0 4rem;
+}
+
+/* ── PAGE HEADER ── */
+.cc-page-header {
+  margin-bottom: 1.25rem;
+}
+
+.cc-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.cc-page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* ── MAIN CARD ── */
+.cc-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* ══════════════════════════════
+   CONTROLS STRIP
+══════════════════════════════ */
+.cc-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #f8f9fb;
+  flex-wrap: wrap;
+}
+
+/* CONTROL GROUP */
+.cc-control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+.cc-control-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.cc-control-label svg {
+  width: 13px;
+  height: 13px;
+  fill: #aaa;
+}
+
+/* SELECT */
+.cc-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cc-select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  padding: 5px 28px 5px 12px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.cc-select:focus {
+  border-color: var(--primary-color);
+}
+
+.cc-select-arrow {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cc-select-arrow svg {
+  width: 12px;
+  height: 12px;
+  stroke: #aaa;
+}
+
+/* PARAMS GROUP */
+.cc-params-group {
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.cc-param-pills {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+/* PARAMETER PILL — checkbox disguised as toggle pill */
+.cc-param-pill {
+  cursor: pointer;
+  user-select: none;
+}
+
+.cc-param-pill input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cc-pill-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 20px;
+  border: 1px solid #eee;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+}
+
+.cc-param-pill:hover .cc-pill-inner {
+  border-color: #ccc;
+  color: #555;
+}
+
+.cc-param-pill.checked .cc-pill-inner {
+  border-color: var(--primary-color);
+  background: var(--background-color);
+  color: var(--primary-color);
+}
+
+.cc-pill-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ccc;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+
+.cc-pill-label {
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════
+   MAP + CHART BODY
+══════════════════════════════ */
+.cc-body {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+}
+
+/* MAP */
+.cc-map-col {
+  border-right: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.cc-map {
+  height: 460px;
+  width: 100%;
+  display: block;
+}
+
+/* CHART */
+.cc-chart-col {
+  padding: 16px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cc-chart {
+  flex: 1;
+  min-height: 428px;
+  width: 100%;
+}
+
+/* ── DESCRIPTION ── */
+.cc-description {
+  margin-top: 1.5rem;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #444;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .cc-body { grid-template-columns: 260px 1fr; }
+  .cc-map  { height: 400px; }
+  .cc-chart { min-height: 368px; }
+}
+
+@media (max-width: 768px) {
+  .cc-section    { padding: 1rem 0 3rem; }
+  .cc-page-title { font-size: 18px; }
+
+  .cc-body {
+    grid-template-columns: 1fr;
+  }
+
+  .cc-map-col {
+    border-right: none;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .cc-map   { height: 280px; }
+  .cc-chart { min-height: 320px; }
+
+  .cc-controls  { gap: 10px; }
+  .cc-params-group { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .cc-page-title { font-size: 16px; }
+  .cc-controls   { padding: 8px 12px; }
+  .cc-chart-col  { padding: 10px; }
+}
