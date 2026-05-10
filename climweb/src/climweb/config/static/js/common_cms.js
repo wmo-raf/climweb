@@ -355,7 +355,7 @@ $(document).ready(function () {
         });
         const default_lang = "en-us"
 
-        $(".languages a").on("click", function () {
+        $(".util-dropdown-item[data-lang-prefix]").on("click", function () {
 
             const lang_text = $(this).attr("data-lang")
 

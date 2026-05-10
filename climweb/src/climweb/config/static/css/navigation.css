@@ -569,6 +569,16 @@ header {
   padding: 4px 0;
 }
 
+/* Bridge the 8px gap so hovering into the menu doesn't dismiss it */
+.util-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
 .util-dropdown:hover .util-dropdown-menu { display: block; }
 
 .util-dropdown-item {
