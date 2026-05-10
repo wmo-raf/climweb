@@ -407,9 +407,6 @@ LOCALE_PATHS = [
 ]
 
 
-# Add additional apps to locale paths
-if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
-    LOCALE_PATHS.append('climweb/src/climweb/pages/aviation/locale')
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 

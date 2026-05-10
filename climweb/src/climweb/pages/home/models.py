@@ -62,8 +62,6 @@ if "forecastmanager" in settings.INSTALLED_APPS:
 if "capcomposer.cap" in settings.INSTALLED_APPS:
     HOME_SUBPAGE_TYPES.append('cap.CapAlertListPage')
 
-if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
-    HOME_SUBPAGE_TYPES.append('aviation.AviationPage')
 
 
 class HomePage(MetadataPageMixin, Page):

@@ -58,8 +58,6 @@ urlpatterns = [
     path("api/token/", obtain_auth_token),
 ]
 
-if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
-    urlpatterns += path("", include("climweb.pages.aviation.urls")),
 
 if ADMIN_URL_PATH:
     ADMIN_URL_PATH = ADMIN_URL_PATH.strip("/")
