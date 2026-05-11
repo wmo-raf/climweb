@@ -227,7 +227,7 @@ class Theme(models.Model):
                                  help_text=_("Secondary color (use color picker)"), verbose_name=_("Background color"))
     border_radius = models.IntegerField(validators=[MinValueValidator(0),
                                                     MaxValueValidator(20)], verbose_name=_("Border radius (px)"),
-                                        help_text=_("Minimum 0 and Maximum 20 pixels"), default=6)
+                                        help_text=_("Minimum 0 and Maximum 20 pixels"), default=12)
     box_shadow = models.IntegerField(validators=[MinValueValidator(1),
                                                  MaxValueValidator(24)], verbose_name=_("Box shadow"),
                                      help_text=_("Elevation value minimum 1 and maximum 24"), default=6)

@@ -195,9 +195,10 @@ class HomePage(MetadataPageMixin, Page):
         MultiFieldPanel([
             FieldPanel('feature_block'),
         ], heading=_("Addditional Information")),
-        *([MultiFieldPanel([
+        MultiFieldPanel([
             FieldPanel('stats_bar'),
-        ], heading=_("Stats Bar"))] if not settings.IS_METEOROLOGICAL else []),
+        ], heading=_("Stats Bar"))
+        
     ]
     
     
