@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:46+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Swahili\n"
@@ -11,17 +12,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: sw\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/news/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1408\n"
+"X-Crowdin-Language: sw\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/news/models.py:35
 msgid "Name"
 msgstr "Jina"
 
 #: climweb/src/climweb/pages/news/models.py:47
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:8
 msgid "News Type"
 msgstr "Aina ya Habari"
 
@@ -34,8 +36,11 @@ msgid "Items per page"
 msgstr "Vipengee kwa kila ukurasa"
 
 #: climweb/src/climweb/pages/news/models.py:60
-msgid "How many items should be visible on the news landing page filter section ?"
-msgstr "Ni vipengee vingapi vinapaswa kuonekana kwenye sehemu ya kichujio cha ukurasa wa kutua wa habari ?"
+msgid ""
+"How many items should be visible on the news landing page filter section ?"
+msgstr ""
+"Ni vipengee vingapi vinapaswa kuonekana kwenye sehemu ya kichujio cha "
+"ukurasa wa kutua wa habari ?"
 
 #: climweb/src/climweb/pages/news/models.py:69
 msgid "Other settings"
@@ -74,8 +79,11 @@ msgid "Relevant Projects"
 msgstr "Miradi Husika"
 
 #: climweb/src/climweb/pages/news/models.py:159
-msgid "Should this news appear on the news landing paging as the featured one ?"
-msgstr "Je, habari hii inapaswa kuonekana kwenye ukurasa wa kutua kama ile iliyoangaziwa?"
+msgid ""
+"Should this news appear on the news landing paging as the featured one ?"
+msgstr ""
+"Je, habari hii inapaswa kuonekana kwenye ukurasa wa kutua kama ile "
+"iliyoangaziwa?"
 
 #: climweb/src/climweb/pages/news/models.py:161
 msgid "Is featured"
@@ -91,7 +99,9 @@ msgstr "Yuko macho"
 
 #: climweb/src/climweb/pages/news/models.py:164
 msgid "Should this appear in the homepage as an alert/latest update ?"
-msgstr "Je, hii inapaswa kuonekana katika ukurasa wa nyumbani kama arifa/sasisho la hivi punde ?"
+msgstr ""
+"Je, hii inapaswa kuonekana katika ukurasa wa nyumbani kama arifa/sasisho la "
+"hivi punde ?"
 
 #: climweb/src/climweb/pages/news/models.py:166
 msgid "Is visible on homepage"
@@ -106,7 +116,7 @@ msgid "Extra links"
 msgstr "Viungo vya ziada"
 
 #: climweb/src/climweb/pages/news/models.py:173
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:42
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:98
 msgid "Tags"
 msgstr "Lebo"
 
@@ -118,41 +128,63 @@ msgstr "Viungo vya Ziada"
 msgid "News Page"
 msgstr "Ukurasa wa Habari"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:58
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:56
 msgid "Find out more"
 msgstr "Pata maelezo zaidi"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:9
-msgid "Filter by News Type"
-msgstr "Chuja kwa Aina ya Habari"
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:74
+msgid "Article info"
+msgstr "Habari ya kifungu"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:36
-msgid "Filter by Service"
-msgstr "Chuja kwa Huduma"
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:91
+msgid "Share"
+msgstr "Shiriki"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:60
-msgid "Filter by Year"
-msgstr "Chuja kwa Mwaka"
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:32
+msgid "Service"
+msgstr "Huduma"
 
-#: climweb/src/climweb/pages/news/templates/news_index_page.html:17
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:56
+msgid "Year"
+msgstr "Mwaka"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:20
+#, fuzzy
+#| msgid "Featured News"
+msgid "Featured"
+msgstr "Iliyoangaziwa"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:21
 msgid "Featured News"
 msgstr "Habari Zilizoangaziwa"
 
-#: climweb/src/climweb/pages/news/templates/news_index_page.html:26
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:33
+msgid "Latest"
+msgstr "Karibuni"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:34
 msgid "All News Updates"
 msgstr "Taarifa Zote za Habari"
 
-#: climweb/src/climweb/pages/news/templates/news_list_include.html:6
+#: climweb/src/climweb/pages/news/templates/news_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: climweb/src/climweb/pages/news/templates/news_list_include.html:66
+#: climweb/src/climweb/pages/news/templates/news_list_include.html:77
 msgid "Read More"
 msgstr "Soma zaidi"
 
-#~ msgid "Feature Image"
-#~ msgstr "Feature Image"
+#~ msgid "Filter by News Type"
+#~ msgstr "Chuja kwa Aina ya Habari"
 
+#~ msgid "Filter by Service"
+#~ msgstr "Chuja kwa Huduma"
+
+#~ msgid "Filter by Year"
+#~ msgstr "Chuja kwa Mwaka"
+
+#~ msgid "Feature Image"
+#~ msgstr "Picha ya Kipengele"

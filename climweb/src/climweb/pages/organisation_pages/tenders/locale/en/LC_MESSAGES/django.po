@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,29 +87,36 @@ msgstr "Additional Documents"
 msgid "Tender Detail Page"
 msgstr "Tender Detail Page"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:27
-msgid "Note: This tender has been closed"
-msgstr "Note: This tender has been closed"
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:28
+#, fuzzy
+#| msgid "Note: This tender has been closed"
+msgid "This tender has been closed."
+msgstr "This tender has been closed."
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:38
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:26
-msgid "Posted On"
-msgstr "Posted On"
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:39
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:28
+#, fuzzy
+#| msgid "Posted On"
+msgid "Posted"
+msgstr "Posted"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:49
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:36
-msgid "Closing On"
-msgstr "Closing On"
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:45
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:34
+#, fuzzy
+#| msgid "Closed"
+msgid "Closes"
+msgstr "Closes"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:63
-msgid "Reference number"
-msgstr "Reference number"
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:52
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:41
+msgid "Ref"
+msgstr "Ref"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:76
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:70
 msgid "Documents"
 msgstr "Documents"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:91
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:82
 msgid "Download Tender Notice"
 msgstr "Download Tender Notice"
 
@@ -118,17 +125,24 @@ msgid "Filter by Availability"
 msgstr "Filter by Availability"
 
 #: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_filter_include.html:16
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:16
 msgid "Closed"
 msgstr "Closed"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:10
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:13
 msgid "New"
 msgstr "New"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:50
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:57
 msgid "View details"
 msgstr "View details"
 
 #: climweb/src/climweb/pages/organisation_pages/tenders/templates/tenders_index_page.html:35
 msgid "Open Tenders"
 msgstr "Open Tenders"
+
+#~ msgid "Closing On"
+#~ msgstr "Closing On"
+
+#~ msgid "Reference number"
+#~ msgstr "Reference number"

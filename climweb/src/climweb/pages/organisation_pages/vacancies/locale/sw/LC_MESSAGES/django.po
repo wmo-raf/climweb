@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:46+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Swahili\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: sw\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/organisation_pages/vacancies/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1470\n"
+"X-Crowdin-Language: sw\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:29
 msgid "Banner Image"
@@ -27,7 +28,9 @@ msgstr "Picha ya ubora wa juu inayohusiana na Nafasi za Kazi"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:40
 msgid "How many items should be visible on the landing page filter section ?"
-msgstr "Ni vitu vingapi vinapaswa kuonekana kwenye sehemu ya kichujio cha ukurasa wa kutua?"
+msgstr ""
+"Ni vitu vingapi vinapaswa kuonekana kwenye sehemu ya kichujio cha ukurasa wa"
+" kutua?"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:41
 msgid "Items per page"
@@ -42,8 +45,12 @@ msgid "No vacancies header text"
 msgstr "Hakuna maandishi ya kichwa cha nafasi"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:49
-msgid "Additional text to appear when there are no vacancies,below the no vacancies header text"
-msgstr "Maandishi ya ziada ya kuonekana wakati hakuna nafasi, chini ya maandishi ya kichwa cha hakuna nafasi"
+msgid ""
+"Additional text to appear when there are no vacancies,below the no vacancies"
+" header text"
+msgstr ""
+"Maandishi ya ziada ya kuonekana wakati hakuna nafasi, chini ya maandishi ya "
+"kichwa cha hakuna nafasi"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:51
 msgid "No vacancies description text"
@@ -62,8 +69,6 @@ msgid "Date of Posting"
 msgstr "Tarehe ya Kuchapisha"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:127
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:65
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:45
 msgid "Duty Station"
 msgstr "Kituo cha Ushuru"
 
@@ -76,7 +81,6 @@ msgid "Job Description"
 msgstr "Maelezo ya Kazi"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:131
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:79
 msgid "Duration"
 msgstr "Muda"
 
@@ -97,36 +101,47 @@ msgid "Open Vacancies"
 msgstr "Fungua Nafasi za Kazi"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:28
-msgid "Note: This opening has been closed."
-msgstr "Kumbuka: Ufunguzi huu umefungwa."
+#, fuzzy
+#| msgid "Note: This opening has been closed."
+msgid "This opening has been closed."
+msgstr "Ufunguzi huu umefungwa."
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:39
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:25
-msgid "Posted On"
-msgstr "Imechapishwa kwenye"
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:28
+#, fuzzy
+#| msgid "Posted On"
+msgid "Posted"
+msgstr "Iliyotumwa"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:52
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:45
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:34
-msgid "Closing On"
-msgstr "Kufunga On"
+#, fuzzy
+#| msgid "Closed"
+msgid "Closes"
+msgstr "Hufunga"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:101
-msgid "Download pdf"
-msgstr "Pakua pdf"
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:78
+#, fuzzy
+#| msgid "Download pdf"
+msgid "Download PDF"
+msgstr "Pakua PDF"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:8
 msgid "Filter by Availability"
 msgstr "Chuja kulingana na Upatikanaji"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:18
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:16
 msgid "Closed"
 msgstr "Imefungwa"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:10
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:13
 msgid "New"
 msgstr "Mpya"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:49
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:59
 msgid "View details"
 msgstr "Tazama maelezo"
 
+#~ msgid "Closing On"
+#~ msgstr "Kufunga On"

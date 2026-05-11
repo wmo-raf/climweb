@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,12 +31,11 @@ msgid "Measurement"
 msgstr "Measurement"
 
 #: climweb/src/climweb/pages/weather/models.py:52
-#: climweb/src/climweb/pages/weather/views.py:45
 msgid "Location not found. Please search for a different location."
 msgstr "Location not found. Please search for a different location."
 
 #: climweb/src/climweb/pages/weather/models.py:64
-#: climweb/src/climweb/pages/weather/views.py:56
+#: climweb/src/climweb/pages/weather/views.py:62
 msgid "No location set in the system. Please contact the administrator."
 msgstr "No location set in the system. Please contact the administrator."
 
@@ -130,38 +129,48 @@ msgstr[1] ""
 msgid "Read More"
 msgstr "Read More"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:16
-msgid "Search Location"
-msgstr "Search Location"
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:23
+#, fuzzy
+#| msgid "Weather"
+msgid "Weather detail"
+msgstr "Weather detail"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:64
-msgid "Time"
-msgstr "Time"
-
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:65
-msgid "Weather"
-msgstr "Weather"
-
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:318
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:417
-msgid "Detail"
-msgstr "Detail"
-
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:331
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:336
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:37
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:31
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:63
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:30
 msgid "Search location"
 msgstr "Search location"
 
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:354
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:358
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:435
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:68
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:80
 msgid "Today"
 msgstr "Today"
 
-#: climweb/src/climweb/pages/weather/views.py:35
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:88
+msgid "Time"
+msgstr "Time"
+
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:89
+msgid "Weather"
+msgstr "Weather"
+
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:18
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:17
+msgid "Detail"
+msgstr "Detail"
+
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:57
+msgid "TODAY"
+msgstr "TODAY"
+
+#: climweb/src/climweb/pages/weather/views.py:39
 #, python-format
 msgid "Forecast Data Source: %(forecast_source)s"
 msgstr "Forecast Data Source: %(forecast_source)s"
+
+#~ msgid "Search Location"
+#~ msgstr "Search Location"
 
 #~ msgid "No data found"
 #~ msgstr "No data found"

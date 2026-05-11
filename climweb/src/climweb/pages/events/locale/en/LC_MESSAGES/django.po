@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,7 @@ msgstr "Thumbnail/image for this type of event."
 
 #: climweb/src/climweb/pages/events/models.py:70
 #: climweb/src/climweb/pages/events/models.py:196
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:8
 msgid "Event Type"
 msgstr "Event Type"
 
@@ -196,12 +197,12 @@ msgid "Enable Mailchimp Integration in registration form"
 msgstr "Enable Mailchimp Integration in registration form"
 
 #: climweb/src/climweb/pages/events/models.py:315
-#: climweb/src/climweb/pages/events/models.py:596
+#: climweb/src/climweb/pages/events/models.py:653
 msgid "Content"
 msgstr "Content"
 
 #: climweb/src/climweb/pages/events/models.py:316
-#: climweb/src/climweb/pages/events/models.py:597
+#: climweb/src/climweb/pages/events/models.py:654
 msgid "SEO"
 msgstr "SEO"
 
@@ -296,23 +297,23 @@ msgstr ""
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr "Enable batch option for adding registrants to zoom later"
 
-#: climweb/src/climweb/pages/events/models.py:548
+#: climweb/src/climweb/pages/events/models.py:551
 msgid "Event Registration Page"
 msgstr "Event Registration Page"
 
-#: climweb/src/climweb/pages/events/models.py:598
+#: climweb/src/climweb/pages/events/models.py:655
 msgid "Settings"
 msgstr "Settings"
 
-#: climweb/src/climweb/pages/events/models.py:599
+#: climweb/src/climweb/pages/events/models.py:656
 msgid "Zoom Events Settings"
 msgstr "Zoom Events Settings"
 
-#: climweb/src/climweb/pages/events/models.py:600
+#: climweb/src/climweb/pages/events/models.py:657
 msgid "MailChimp Settings"
 msgstr "MailChimp Settings"
 
-#: climweb/src/climweb/pages/events/models.py:613
+#: climweb/src/climweb/pages/events/models.py:670
 msgid "Added to Zoom"
 msgstr "Added to Zoom"
 
@@ -327,11 +328,19 @@ msgstr[1] ""
 msgid "Download Agenda"
 msgstr "Download Agenda"
 
-#: climweb/src/climweb/pages/events/templates/event_index_page.html:17
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:20
+msgid "Spotlight"
+msgstr "Spotlight"
+
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:21
 msgid "Featured Event"
 msgstr "Featured Event"
 
-#: climweb/src/climweb/pages/events/templates/event_index_page.html:26
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:32
+msgid "Calendar"
+msgstr "Calendar"
+
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:33
 msgid "All Events"
 msgstr "All Events"
 
@@ -390,31 +399,29 @@ msgstr "Submit"
 msgid "ended"
 msgstr "ended"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:9
-msgid "Filter by Event Type"
-msgstr "Filter by Event Type"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:32
+msgid "Year"
+msgstr "Year"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:37
-msgid "Filter by Year"
-msgstr "Filter by Year"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:56
+msgid "Status"
+msgstr "Status"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:61
-msgid "Filter by Status"
-msgstr "Filter by Status"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:69
+msgid "Past events"
+msgstr "Past events"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:71
-msgid "Past"
-msgstr "Past"
-
-#: climweb/src/climweb/pages/events/templates/events_list_include.html:6
+#: climweb/src/climweb/pages/events/templates/events_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: climweb/src/climweb/pages/events/templates/events_list_include.html:65
-msgid " Read More"
+#: climweb/src/climweb/pages/events/templates/events_list_include.html:84
+#, fuzzy
+#| msgid " Read More"
+msgid "Read More"
 msgstr "Read More"
 
 #: climweb/src/climweb/pages/events/templates/panelists_include.html:90
@@ -428,6 +435,18 @@ msgstr "Speakers"
 #: climweb/src/climweb/pages/events/templates/zoom_events_details_include.html:316
 msgid "Sponsors"
 msgstr "Sponsors"
+
+#~ msgid "Filter by Event Type"
+#~ msgstr "Filter by Event Type"
+
+#~ msgid "Filter by Year"
+#~ msgstr "Filter by Year"
+
+#~ msgid "Filter by Status"
+#~ msgstr "Filter by Status"
+
+#~ msgid "Past"
+#~ msgstr "Past"
 
 #~ msgid " Registration closed"
 #~ msgstr "Registration closed"

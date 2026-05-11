@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,6 +75,7 @@ msgid "Publications Index Page"
 msgstr "Publications Index Page"
 
 #: climweb/src/climweb/pages/publications/models.py:267
+#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:8
 msgid "Publication Type"
 msgstr "Publication Type"
 
@@ -169,7 +170,7 @@ msgid "Link to published resource if external"
 msgstr "Link to published resource if external"
 
 #: climweb/src/climweb/pages/publications/models.py:319
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:116
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:137
 msgid "Tags"
 msgstr "Tags"
 
@@ -177,25 +178,44 @@ msgstr "Tags"
 msgid "Additional Details"
 msgstr "Additional Details"
 
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:32
-#, python-format
-msgid "Download - %(file_size)s"
-msgstr "Download - %(file_size)s"
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:21
+#, fuzzy
+#| msgid "Download document"
+msgid "Download"
+msgstr "Download"
 
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:40
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:148
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:34
+#, fuzzy, python-format
+#| msgid "Download - %(file_size)s"
+msgid "Download — %(file_size)s"
+msgstr "Download — %(file_size)s"
+
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:44
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:163
 #, fuzzy
 #| msgid "All Publications"
 msgid "Go to publication"
 msgstr "Go to publication"
 
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:76
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:54
+#, fuzzy
+#| msgid "Page Views"
+msgid "Views"
+msgstr "Views"
+
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:64
+#, fuzzy
+#| msgid "Download document"
+msgid "Downloads"
+msgstr "Downloads"
+
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:96
 #, fuzzy
 #| msgid "Additional Details"
 msgid "Additional Materials"
 msgstr "Additional Materials"
 
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:138
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:155
 msgid "Download document"
 msgstr "Download document"
 
@@ -203,21 +223,19 @@ msgstr "Download document"
 msgid "Other Recent Publications"
 msgstr "Other Recent Publications"
 
-#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:9
-msgid "Filter by Publication Type"
-msgstr "Filter by Publication Type"
+#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:32
+msgid "Service"
+msgstr "Service"
 
-#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:37
-msgid "Filter by Service"
-msgstr "Filter by Service"
+#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:56
+#, fuzzy
+#| msgid "Relevant Projects"
+msgid "Projects"
+msgstr "Projects"
 
-#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:61
-msgid "Filter by Projects"
-msgstr "Filter by Projects"
-
-#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:88
-msgid "Filter by Year"
-msgstr "Filter by Year"
+#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:80
+msgid "Year"
+msgstr "Year"
 
 #: climweb/src/climweb/pages/publications/templates/publications_index_page.html:17
 msgid "Featured Publications"
@@ -227,28 +245,48 @@ msgstr "Featured Publications"
 msgid "All Publications"
 msgstr "All Publications"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:6
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
-msgid_plural "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:37
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:31
+msgid "Search by title"
+msgstr "Search by title"
+
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:34
 msgid "Search"
 msgstr "Search"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:81
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:36
+msgid "Clear"
+msgstr "Clear"
+
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:95
+msgid "Read More"
+msgstr "Read More"
+
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:106
 msgid "Number of downloads"
 msgstr "Number of downloads"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:90
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:113
 msgid "Number of views"
 msgstr "Number of views"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:112
-msgid "Read More"
-msgstr "Read More"
+#~ msgid "Filter by Publication Type"
+#~ msgstr "Filter by Publication Type"
+
+#~ msgid "Filter by Service"
+#~ msgstr "Filter by Service"
+
+#~ msgid "Filter by Projects"
+#~ msgstr "Filter by Projects"
+
+#~ msgid "Filter by Year"
+#~ msgstr "Filter by Year"
 
 #~ msgid "This can be a screenshot of the front page of the publication"
 #~ msgstr "This can be a screenshot of the front page of the publication"

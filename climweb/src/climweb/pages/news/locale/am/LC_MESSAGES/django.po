@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,17 +12,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/news/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1408\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/news/models.py:35
 msgid "Name"
 msgstr "ስም"
 
 #: climweb/src/climweb/pages/news/models.py:47
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:8
 msgid "News Type"
 msgstr "የዜና ዓይነት"
 
@@ -34,7 +36,8 @@ msgid "Items per page"
 msgstr "እቃዎች በገጽ"
 
 #: climweb/src/climweb/pages/news/models.py:60
-msgid "How many items should be visible on the news landing page filter section ?"
+msgid ""
+"How many items should be visible on the news landing page filter section ?"
 msgstr "በዜና ማረፊያ ገጽ ማጣሪያ ክፍል ላይ ምን ያህል እቃዎች መታየት አለባቸው?"
 
 #: climweb/src/climweb/pages/news/models.py:69
@@ -74,7 +77,8 @@ msgid "Relevant Projects"
 msgstr "ተዛማጅ ፕሮጀክቶች"
 
 #: climweb/src/climweb/pages/news/models.py:159
-msgid "Should this news appear on the news landing paging as the featured one ?"
+msgid ""
+"Should this news appear on the news landing paging as the featured one ?"
 msgstr "ይህ ዜና በዜና ማረፊያ ገጽ ላይ እንደ ተለይቶ መታየት አለበት?"
 
 #: climweb/src/climweb/pages/news/models.py:161
@@ -106,7 +110,7 @@ msgid "Extra links"
 msgstr "ተጨማሪ ማገናኛዎች"
 
 #: climweb/src/climweb/pages/news/models.py:173
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:42
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:98
 msgid "Tags"
 msgstr "መለያዎች"
 
@@ -118,41 +122,63 @@ msgstr "ተጨማሪ ማገናኛዎች"
 msgid "News Page"
 msgstr "የዜና ገጽ"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:58
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:56
 msgid "Find out more"
 msgstr "ተጨማሪ ለማወቅ"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:9
-msgid "Filter by News Type"
-msgstr "በዜና ዓይነት አጣራ"
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:74
+msgid "Article info"
+msgstr "የጽሑፍ መረጃ"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:36
-msgid "Filter by Service"
-msgstr "በአገልግሎት አጣራ"
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:91
+msgid "Share"
+msgstr "አጋራ"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:60
-msgid "Filter by Year"
-msgstr "በአመት አጣራ"
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:32
+msgid "Service"
+msgstr "አገልግሎት"
 
-#: climweb/src/climweb/pages/news/templates/news_index_page.html:17
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:56
+msgid "Year"
+msgstr "አመት"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:20
+#, fuzzy
+#| msgid "Featured News"
+msgid "Featured"
+msgstr "ተለይቶ የቀረበ"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:21
 msgid "Featured News"
 msgstr "ተለይተው የቀረቡ ዜናዎች"
 
-#: climweb/src/climweb/pages/news/templates/news_index_page.html:26
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:33
+msgid "Latest"
+msgstr "የቅርብ ጊዜ"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:34
 msgid "All News Updates"
 msgstr "ሁሉም የዜና ማሻሻያዎች"
 
-#: climweb/src/climweb/pages/news/templates/news_list_include.html:6
+#: climweb/src/climweb/pages/news/templates/news_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: climweb/src/climweb/pages/news/templates/news_list_include.html:66
+#: climweb/src/climweb/pages/news/templates/news_list_include.html:77
 msgid "Read More"
 msgstr "ተጨማሪ ያንብቡ"
 
-#~ msgid "Feature Image"
-#~ msgstr "Feature Image"
+#~ msgid "Filter by News Type"
+#~ msgstr "በዜና ዓይነት አጣራ"
 
+#~ msgid "Filter by Service"
+#~ msgstr "በአገልግሎት አጣራ"
+
+#~ msgid "Filter by Year"
+#~ msgstr "በአመት አጣራ"
+
+#~ msgid "Feature Image"
+#~ msgstr "የባህሪ ምስል"

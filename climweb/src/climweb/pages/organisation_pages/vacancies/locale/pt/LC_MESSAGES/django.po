@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/organisation_pages/vacancies/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1470\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:29
 msgid "Banner Image"
@@ -27,7 +28,8 @@ msgstr "Uma imagem de alta qualidade relacionada às vagas"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:40
 msgid "How many items should be visible on the landing page filter section ?"
-msgstr "Quantos itens devem estar visíveis na seção de filtro da página de destino?"
+msgstr ""
+"Quantos itens devem estar visíveis na seção de filtro da página de destino?"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:41
 msgid "Items per page"
@@ -42,8 +44,12 @@ msgid "No vacancies header text"
 msgstr "Nenhum texto de cabeçalho de vagas"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:49
-msgid "Additional text to appear when there are no vacancies,below the no vacancies header text"
-msgstr "Texto adicional a aparecer quando não houver vagas, abaixo do texto do cabeçalho sem vagas"
+msgid ""
+"Additional text to appear when there are no vacancies,below the no vacancies"
+" header text"
+msgstr ""
+"Texto adicional a aparecer quando não houver vagas, abaixo do texto do "
+"cabeçalho sem vagas"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:51
 msgid "No vacancies description text"
@@ -62,8 +68,6 @@ msgid "Date of Posting"
 msgstr "Data de postagem"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:127
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:65
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:45
 msgid "Duty Station"
 msgstr "Posto de serviço"
 
@@ -76,7 +80,6 @@ msgid "Job Description"
 msgstr "Descrição do trabalho"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:131
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:79
 msgid "Duration"
 msgstr "Duração"
 
@@ -97,21 +100,29 @@ msgid "Open Vacancies"
 msgstr "Vagas abertas"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:28
-msgid "Note: This opening has been closed."
-msgstr "Nota: Esta abertura foi fechada."
+#, fuzzy
+#| msgid "Note: This opening has been closed."
+msgid "This opening has been closed."
+msgstr "Esta abertura foi fechada."
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:39
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:25
-msgid "Posted On"
-msgstr "Publicado em"
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:28
+#, fuzzy
+#| msgid "Posted On"
+msgid "Posted"
+msgstr "Publicado"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:52
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:45
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:34
-msgid "Closing On"
-msgstr "Fechando"
+#, fuzzy
+#| msgid "Closed"
+msgid "Closes"
+msgstr "Fecha"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:101
-msgid "Download pdf"
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:78
+#, fuzzy
+#| msgid "Download pdf"
+msgid "Download PDF"
 msgstr "Baixar PDF"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:8
@@ -119,14 +130,17 @@ msgid "Filter by Availability"
 msgstr "Filtrar por disponibilidade"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:18
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:16
 msgid "Closed"
 msgstr "Fechado"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:10
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:13
 msgid "New"
 msgstr "Novo"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:49
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:59
 msgid "View details"
 msgstr "Ver detalhes"
 
+#~ msgid "Closing On"
+#~ msgstr "Fechando"

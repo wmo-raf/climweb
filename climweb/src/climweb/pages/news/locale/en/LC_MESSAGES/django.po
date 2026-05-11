@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,7 @@ msgid "Name"
 msgstr "Name"
 
 #: climweb/src/climweb/pages/news/models.py:47
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:8
 msgid "News Type"
 msgstr "News Type"
 
@@ -111,7 +112,7 @@ msgid "Extra links"
 msgstr "Extra links"
 
 #: climweb/src/climweb/pages/news/models.py:173
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:42
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:98
 msgid "Tags"
 msgstr "Tags"
 
@@ -123,40 +124,63 @@ msgstr "Extra Links"
 msgid "News Page"
 msgstr "News Page"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:58
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:56
 msgid "Find out more"
 msgstr "Find out more"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:9
-msgid "Filter by News Type"
-msgstr "Filter by News Type"
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:74
+msgid "Article info"
+msgstr "Article info"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:36
-msgid "Filter by Service"
-msgstr "Filter by Service"
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:91
+msgid "Share"
+msgstr "Share"
 
-#: climweb/src/climweb/pages/news/templates/news_filter_include.html:60
-msgid "Filter by Year"
-msgstr "Filter by Year"
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:32
+msgid "Service"
+msgstr "Service"
 
-#: climweb/src/climweb/pages/news/templates/news_index_page.html:17
+#: climweb/src/climweb/pages/news/templates/news_filter_include.html:56
+msgid "Year"
+msgstr "Year"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:20
+#, fuzzy
+#| msgid "Featured News"
+msgid "Featured"
+msgstr "Featured"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:21
 msgid "Featured News"
 msgstr "Featured News"
 
-#: climweb/src/climweb/pages/news/templates/news_index_page.html:26
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:33
+msgid "Latest"
+msgstr "Latest"
+
+#: climweb/src/climweb/pages/news/templates/news_index_page.html:34
 msgid "All News Updates"
 msgstr "All News Updates"
 
-#: climweb/src/climweb/pages/news/templates/news_list_include.html:6
+#: climweb/src/climweb/pages/news/templates/news_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: climweb/src/climweb/pages/news/templates/news_list_include.html:66
+#: climweb/src/climweb/pages/news/templates/news_list_include.html:77
 msgid "Read More"
 msgstr "Read More"
+
+#~ msgid "Filter by News Type"
+#~ msgstr "Filter by News Type"
+
+#~ msgid "Filter by Service"
+#~ msgstr "Filter by Service"
+
+#~ msgid "Filter by Year"
+#~ msgstr "Filter by Year"
 
 #~ msgid "Feature Image"
 #~ msgstr "Feature Image"

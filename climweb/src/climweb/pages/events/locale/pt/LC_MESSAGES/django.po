@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/events/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1348\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/events/models.py:49
 msgid "Event type"
@@ -27,6 +28,7 @@ msgstr "Miniatura/imagem para este tipo de evento."
 
 #: climweb/src/climweb/pages/events/models.py:70
 #: climweb/src/climweb/pages/events/models.py:196
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:8
 msgid "Event Type"
 msgstr "Tipo de Evento"
 
@@ -60,11 +62,14 @@ msgstr "Data de início do evento"
 
 #: climweb/src/climweb/pages/events/models.py:200
 msgid "Day of the event. If multi-day, then this should be the first day"
-msgstr "Dia do evento. Se for de vários dias, então este deverá ser o primeiro dia"
+msgstr ""
+"Dia do evento. Se for de vários dias, então este deverá ser o primeiro dia"
 
 #: climweb/src/climweb/pages/events/models.py:202
 msgid "End date - Note: Not Required if this is a one day Event"
-msgstr "Data de término - Observação: não é obrigatório se este for um evento de um dia"
+msgstr ""
+"Data de término - Observação: não é obrigatório se este for um evento de um "
+"dia"
 
 #: climweb/src/climweb/pages/events/models.py:203
 msgid "Not required if this is a one day event"
@@ -87,7 +92,8 @@ msgstr "Localização"
 
 #: climweb/src/climweb/pages/events/models.py:213
 msgid "What is the cost for participating in this event ? Leave blank if free"
-msgstr "Qual é o custo para participar deste evento? Deixe em branco se for gratuito"
+msgstr ""
+"Qual é o custo para participar deste evento? Deixe em branco se for gratuito"
 
 #: climweb/src/climweb/pages/events/models.py:214
 #: climweb/src/climweb/pages/events/templates/event_meta_include.html:102
@@ -112,7 +118,8 @@ msgstr "Imagem do Evento"
 
 #: climweb/src/climweb/pages/events/models.py:229
 msgid "An image for this event, can be a poster or any relevant image"
-msgstr "Uma imagem para este evento, pode ser um pôster ou qualquer imagem relevante"
+msgstr ""
+"Uma imagem para este evento, pode ser um pôster ou qualquer imagem relevante"
 
 #: climweb/src/climweb/pages/events/models.py:236
 msgid "Image Placement"
@@ -194,12 +201,12 @@ msgid "Enable Mailchimp Integration in registration form"
 msgstr "Habilite a integração do Mailchimp no formulário de registro"
 
 #: climweb/src/climweb/pages/events/models.py:315
-#: climweb/src/climweb/pages/events/models.py:596
+#: climweb/src/climweb/pages/events/models.py:653
 msgid "Content"
 msgstr "Contente"
 
 #: climweb/src/climweb/pages/events/models.py:316
-#: climweb/src/climweb/pages/events/models.py:597
+#: climweb/src/climweb/pages/events/models.py:654
 msgid "SEO"
 msgstr "SEO"
 
@@ -245,8 +252,14 @@ msgid "Validation Field"
 msgstr "Campo de validação"
 
 #: climweb/src/climweb/pages/events/models.py:513
-msgid "A field on the form to check if is already submitted so as to prevent multiple submissions by one person. This is usually the email address field in snake casing format"
-msgstr "Um campo no formulário para verificar se já foi enviado, evitando vários envios por uma mesma pessoa. Este é geralmente o campo de endereço de e-mail em formato de caixa de cobra"
+msgid ""
+"A field on the form to check if is already submitted so as to prevent "
+"multiple submissions by one person. This is usually the email address field "
+"in snake casing format"
+msgstr ""
+"Um campo no formulário para verificar se já foi enviado, evitando vários "
+"envios por uma mesma pessoa. Este é geralmente o campo de endereço de e-mail"
+" em formato de caixa de cobra"
 
 #: climweb/src/climweb/pages/events/models.py:519
 msgid "Should we send a confirmation/follow up email ?"
@@ -257,8 +270,12 @@ msgid "Send confirmation Email"
 msgstr "Enviar e-mail de confirmação"
 
 #: climweb/src/climweb/pages/events/models.py:522
-msgid "The field in the form that corresponds to the email to use. Should be snake_cased"
-msgstr "O campo do formulário que corresponde ao e-mail a ser utilizado. Deveria ser cobra_cased"
+msgid ""
+"The field in the form that corresponds to the email to use. Should be "
+"snake_cased"
+msgstr ""
+"O campo do formulário que corresponde ao e-mail a ser utilizado. Deveria ser"
+" cobra_cased"
 
 #: climweb/src/climweb/pages/events/models.py:523
 msgid "Email Field"
@@ -273,30 +290,35 @@ msgid "Message to send to the user. For example zoom links"
 msgstr "Mensagem a ser enviada ao usuário. Por exemplo, links de zoom"
 
 #: climweb/src/climweb/pages/events/models.py:528
-msgid "Batch Zoom Registration Enabled - Leave unchecked for direct zoom registrations"
-msgstr "Registro de zoom em lote ativado - Deixe desmarcado para registros de zoom direto"
+msgid ""
+"Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
+"registrations"
+msgstr ""
+"Registro de zoom em lote ativado - Deixe desmarcado para registros de zoom "
+"direto"
 
 #: climweb/src/climweb/pages/events/models.py:531
 msgid "Enable batch option for adding registrants to zoom later"
-msgstr "Habilite a opção em lote para adicionar registrantes para ampliar mais tarde"
+msgstr ""
+"Habilite a opção em lote para adicionar registrantes para ampliar mais tarde"
 
-#: climweb/src/climweb/pages/events/models.py:548
+#: climweb/src/climweb/pages/events/models.py:551
 msgid "Event Registration Page"
 msgstr "Página de registro de evento"
 
-#: climweb/src/climweb/pages/events/models.py:598
+#: climweb/src/climweb/pages/events/models.py:655
 msgid "Settings"
 msgstr "Configurações"
 
-#: climweb/src/climweb/pages/events/models.py:599
+#: climweb/src/climweb/pages/events/models.py:656
 msgid "Zoom Events Settings"
 msgstr "Configurações de eventos de zoom"
 
-#: climweb/src/climweb/pages/events/models.py:600
+#: climweb/src/climweb/pages/events/models.py:657
 msgid "MailChimp Settings"
 msgstr "Configurações do MailChimp"
 
-#: climweb/src/climweb/pages/events/models.py:613
+#: climweb/src/climweb/pages/events/models.py:670
 msgid "Added to Zoom"
 msgstr "Adicionado ao Zoom"
 
@@ -311,11 +333,19 @@ msgstr[1] ""
 msgid "Download Agenda"
 msgstr "Baixar agenda"
 
-#: climweb/src/climweb/pages/events/templates/event_index_page.html:17
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:20
+msgid "Spotlight"
+msgstr "Destaque"
+
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:21
 msgid "Featured Event"
 msgstr "Evento em destaque"
 
-#: climweb/src/climweb/pages/events/templates/event_index_page.html:26
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:32
+msgid "Calendar"
+msgstr "Calendário"
+
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:33
 msgid "All Events"
 msgstr "Todos os eventos"
 
@@ -374,31 +404,29 @@ msgstr "Enviar"
 msgid "ended"
 msgstr "terminou"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:9
-msgid "Filter by Event Type"
-msgstr "Filtrar por tipo de evento"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:32
+msgid "Year"
+msgstr "Ano"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:37
-msgid "Filter by Year"
-msgstr "Filtrar por ano"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:56
+msgid "Status"
+msgstr "Status"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:61
-msgid "Filter by Status"
-msgstr "Filtrar por status"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:69
+msgid "Past events"
+msgstr "Eventos anteriores"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:71
-msgid "Past"
-msgstr "Passado"
-
-#: climweb/src/climweb/pages/events/templates/events_list_include.html:6
+#: climweb/src/climweb/pages/events/templates/events_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: climweb/src/climweb/pages/events/templates/events_list_include.html:65
-msgid " Read More"
+#: climweb/src/climweb/pages/events/templates/events_list_include.html:84
+#, fuzzy
+#| msgid " Read More"
+msgid "Read More"
 msgstr "Leia mais"
 
 #: climweb/src/climweb/pages/events/templates/panelists_include.html:90
@@ -413,27 +441,40 @@ msgstr "Alto-falantes"
 msgid "Sponsors"
 msgstr "Patrocinadores"
 
+#~ msgid "Filter by Event Type"
+#~ msgstr "Filtrar por tipo de evento"
+
+#~ msgid "Filter by Year"
+#~ msgstr "Filtrar por ano"
+
+#~ msgid "Filter by Status"
+#~ msgstr "Filtrar por status"
+
+#~ msgid "Past"
+#~ msgstr "Passado"
+
 #~ msgid " Registration closed"
-#~ msgstr "Registration closed"
+#~ msgstr "Inscrições encerradas"
 
 #~ msgid "Banner Image"
-#~ msgstr "Banner Image"
+#~ msgstr "Imagem do banner"
 
 #~ msgid "A high quality image related to your organisation events/trainings"
-#~ msgstr "A high quality image related to your organisation events/trainings"
+#~ msgstr ""
+#~ "Uma imagem de alta qualidade relacionada aos eventos/treinamentos da sua "
+#~ "organização"
 
 #~ msgid "Banner Title"
-#~ msgstr "Banner Title"
+#~ msgstr "Título do banner"
 
 #~ msgid "Banner Subtitle"
-#~ msgstr "Banner Subtitle"
+#~ msgstr "Legenda do Banner"
 
 #~ msgid "Call to action button text"
-#~ msgstr "Call to action button text"
+#~ msgstr "Texto do botão de apelo à ação"
 
 #~ msgid "Call to action related page"
-#~ msgstr "Call to action related page"
+#~ msgstr "Página relacionada à frase de chamariz"
 
 #~ msgid "Banner Section"
-#~ msgstr "Banner Section"
-
+#~ msgstr "Seção de Banner"

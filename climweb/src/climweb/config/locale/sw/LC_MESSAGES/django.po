@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:46+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Swahili\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: sw\n"
 "X-Crowdin-File: /climweb/src/climweb/config/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1296\n"
+"X-Crowdin-Language: sw\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/config/templates/404.html:20
 msgid "Page not found"
@@ -36,11 +37,22 @@ msgstr "Hitilafu ya seva ya ndani"
 
 #: climweb/src/climweb/config/templates/500.html:22
 msgid "Sorry, there seems to be an error. Please try again soon"
-msgstr "Samahani, inaonekana kuna hitilafu. Tafadhali jaribu tena hivi karibuni"
+msgstr ""
+"Samahani, inaonekana kuna hitilafu. Tafadhali jaribu tena hivi karibuni"
 
-#: climweb/src/climweb/config/templates/applications_include.html:19
-msgid "View"
-msgstr "Tazama"
+#: climweb/src/climweb/config/templates/applications_include.html:6
+msgid "Tools & Apps"
+msgstr "Zana na Programu"
+
+#: climweb/src/climweb/config/templates/applications_include.html:7
+#, fuzzy
+#| msgid "Go to publication"
+msgid "Applications"
+msgstr "Maombi"
+
+#: climweb/src/climweb/config/templates/applications_include.html:37
+msgid "Open App"
+msgstr "Fungua Programu"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:4
 #: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:4
@@ -53,24 +65,29 @@ msgid "Account Locked"
 msgstr "Akaunti imefungwa"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:16
-msgid "Your account has been locked due to multiple failed login attempts. Please try again later."
-msgstr "Akaunti yako imefungwa kwa sababu ya majaribio mengi ya kuingia yaliyoshindwa. Tafadhali jaribu tena baadaye."
+msgid ""
+"Your account has been locked due to multiple failed login attempts. Please "
+"try again later."
+msgstr ""
+"Akaunti yako imefungwa kwa sababu ya majaribio mengi ya kuingia "
+"yaliyoshindwa. Tafadhali jaribu tena baadaye."
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:20
 msgid "Back to sign in"
 msgstr "Rudi ili kuingia"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:23
-#| msgid ""
-#| "You account has been locked due to multiple failed login attempts. Please "
-#| "contact our support team for assistance."
-msgid "Your account has been locked due to multiple failed login attempts. Please contact our support team for assistance."
+msgid ""
+"Your account has been locked due to multiple failed login attempts. Please "
+"contact our support team for assistance."
 msgstr ""
+"Akaunti yako imefungwa kwa sababu ya majaribio mengi yasiyofanikiwa ya "
+"kuingia. Tafadhali wasiliana na timu yetu ya usaidizi kwa usaidizi."
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:31
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:86
-#: climweb/src/climweb/config/templates/navigation/navbar.html:86
-#: climweb/src/climweb/config/templates/navigation/navbar.html:169
+#: climweb/src/climweb/config/templates/navigation/navbar.html:84
+#: climweb/src/climweb/config/templates/navigation/navbar.html:168
 msgid "Contact us"
 msgstr "Wasiliana nasi"
 
@@ -90,9 +107,19 @@ msgstr "Hakuna kilichoorodheshwa kwa sasa"
 msgid "No data found"
 msgstr "Hakuna data iliyopatikana"
 
-#: climweb/src/climweb/config/templates/events_include.html:44
-msgid "More Events"
-msgstr "Matukio Zaidi"
+#: climweb/src/climweb/config/templates/events_include.html:8
+msgid "Upcoming"
+msgstr "Ijayo"
+
+#: climweb/src/climweb/config/templates/events_include.html:9
+#, fuzzy
+#| msgid "More Events"
+msgid "Events"
+msgstr "Matukio"
+
+#: climweb/src/climweb/config/templates/events_include.html:13
+msgid "All events"
+msgstr "Matukio yote"
 
 #: climweb/src/climweb/config/templates/featured_item_include.html:28
 msgid "Featured"
@@ -128,8 +155,12 @@ msgstr "Chuja"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:74
 #, python-format
-msgid "No %(name)s have been created yet. One of the following must be created before you can add any %(name)s:"
-msgstr "Bado hakuna %(name)s zilizoundwa. Moja ya yafuatayo lazima iundwe kabla ya kuongeza %(name)s yoyote:"
+msgid ""
+"No %(name)s have been created yet. One of the following must be created "
+"before you can add any %(name)s:"
+msgstr ""
+"Bado hakuna %(name)s zilizoundwa. Moja ya yafuatayo lazima iundwe kabla ya "
+"kuongeza %(name)s yoyote:"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:79
 #, python-format
@@ -143,7 +174,7 @@ msgstr "Kwa nini <a href=\"%(url)s\">usiongeze moja</a>?"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:96
 msgid "Pagination"
-msgstr ""
+msgstr "Pagination"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:97
 #, python-format
@@ -151,34 +182,37 @@ msgid "Page %(current_page)s of %(num_pages)s."
 msgstr "Ukurasa %(current_page)s wa %(num_pages)s."
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:26
-#: climweb/src/climweb/config/templates/navigation/navbar.html:26
-#: climweb/src/climweb/config/templates/navigation/navbar.html:152
+#: climweb/src/climweb/config/templates/navigation/navbar.html:32
+#: climweb/src/climweb/config/templates/navigation/navbar.html:156
 msgid "Alerts"
 msgstr "Tahadhari"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:35
-#: climweb/src/climweb/config/templates/navigation/navbar.html:35
-#: climweb/src/climweb/config/templates/navigation/navbar.html:160
+#: climweb/src/climweb/config/templates/navigation/navbar.html:41
+#: climweb/src/climweb/config/templates/navigation/navbar.html:162
+#: climweb/src/climweb/config/templates/videos_include.html:39
+#: climweb/src/climweb/config/templates/videos_include.html:88
 msgid "Subscribe"
 msgstr "Jisajili"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:45
-#: climweb/src/climweb/config/templates/navigation/navbar.html:45
+#: climweb/src/climweb/config/templates/navigation/navbar.html:49
 msgid "Language"
 msgstr "Lugha"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:76
+#: climweb/src/climweb/config/templates/navigation/navbar.html:72
 #: climweb/src/climweb/config/templates/navigation/navbar.html:76
 msgid "Search"
 msgstr "Tafuta"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:93
-#: climweb/src/climweb/config/templates/navigation/navbar.html:93
-#: climweb/src/climweb/config/templates/navigation/navbar.html:175
+#: climweb/src/climweb/config/templates/navigation/navbar.html:91
+#: climweb/src/climweb/config/templates/navigation/navbar.html:174
 msgid "Feedback"
 msgstr "Maoni"
 
-#: climweb/src/climweb/config/templates/navigation/footer.html:37
+#: climweb/src/climweb/config/templates/navigation/footer.html:98
 msgid "Powered by Climweb"
 msgstr "Inaendeshwa na ClimWeb"
 
@@ -190,18 +224,16 @@ msgstr "Miradi"
 msgid "More Projects"
 msgstr "Miradi Zaidi"
 
-#: climweb/src/climweb/config/templates/update_card_include.html:58
+#: climweb/src/climweb/config/templates/update_card_include.html:75
 msgid "Read more"
 msgstr "Soma zaidi"
 
-#: climweb/src/climweb/config/templates/videos_include.html:25
-#, python-format
-msgid "Published on : %(updated_on)s"
-msgstr "Ilichapishwa mnamo : %(updated_on)s"
-
-#: climweb/src/climweb/config/templates/videos_include.html:37
-msgid "SUBSCRIBE"
-msgstr ""
+#: climweb/src/climweb/config/templates/videos_include.html:29
+#: climweb/src/climweb/config/templates/videos_include.html:77
+#, fuzzy, python-format
+#| msgid "Published on : %(updated_on)s"
+msgid "Published on: %(updated_on)s"
+msgstr "Ilichapishwa mnamo: %(updated_on)s"
 
 #: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:12
 msgid "Enter your two-factor authentication code"
@@ -227,22 +259,21 @@ msgstr "Karibu"
 msgid "Sign in to"
 msgstr "Ingia"
 
+#~ msgid "View"
+#~ msgstr "Tazama"
+
 #, python-format
 #~ msgid "Download - %(file_size)s"
-#~ msgstr "Download - %(file_size)s"
-
-#~ msgid "Go to publication"
-#~ msgstr "Go to publication"
+#~ msgstr "Pakua - %(file_size)s"
 
 #~ msgid "Additional Materials"
-#~ msgstr "Additional Materials"
+#~ msgstr "Nyenzo za Ziada"
 
 #~ msgid "Download document"
-#~ msgstr "Download document"
+#~ msgstr "Pakua hati"
 
 #~ msgid "NMHS ClimWeb"
 #~ msgstr "NMHS ClimWeb"
 
 #~ msgid "What we do"
-#~ msgstr "What we do"
-
+#~ msgstr "Tunachofanya"

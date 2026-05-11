@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:46+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/satellite_imagery/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1520\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/satellite_imagery/models.py:24
 msgid "Layer name"
@@ -27,7 +28,8 @@ msgstr "Etiqueta de capa"
 
 #: climweb/src/climweb/pages/satellite_imagery/models.py:26
 msgid "Leave blank to use default label title from EUMetView"
-msgstr "Déjelo en blanco para usar el título de etiqueta predeterminado de EUMetView"
+msgstr ""
+"Déjelo en blanco para usar el título de etiqueta predeterminado de EUMetView"
 
 #: climweb/src/climweb/pages/satellite_imagery/models.py:27
 msgid "Enabled"
@@ -53,24 +55,51 @@ msgstr "Capas de glutamato monosódico"
 msgid "Satellite Imagery Page"
 msgstr "Página de imágenes satelitales"
 
-#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:50
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:28
+#, fuzzy
+#| msgid "Satellite Imagery Page"
+msgid "Satellite imagery"
+msgstr "Imágenes de satélite"
+
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:29
+msgid "Live layers"
+msgstr "Capas vivas"
+
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:38
+msgid "Search layers…"
+msgstr "Buscar capas…"
+
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:59
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:60
+#, fuzzy
+#| msgid "Layer name"
+msgid "Layer info"
+msgstr "Información de capa"
+
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:70
+msgid "No layers match your search."
+msgstr "Ninguna capa coincide con su búsqueda."
+
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:85
 msgid "Auto-update"
 msgstr "Actualización automática"
 
-#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:56
-msgid "View Today's animation"
-msgstr "Ver la animación de hoy"
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:93
+#, fuzzy
+#| msgid "View Today's animation"
+msgid "Today's animation"
+msgstr "la animacion de hoy"
 
-#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:62
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:109
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:112
 msgid "Legend"
 msgstr "Leyenda"
 
-#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:87
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:138
 msgid "Source"
 msgstr "Fuente"
 
-#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:93
-#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:111
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:143
+#: climweb/src/climweb/pages/satellite_imagery/templates/satellite_imagery/satellite_imagery_page.html:159
 msgid "Close"
 msgstr "Cerca"
-

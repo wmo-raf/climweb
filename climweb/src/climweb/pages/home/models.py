@@ -92,7 +92,7 @@ class HomePage(MetadataPageMixin, Page):
                                             help_text=_("If enabled, the YouTube video will be used as the banner background instead of the banner image"))
     banner_youtube_video_id = models.CharField(max_length=100, blank=True, null=True,
                                                verbose_name=_("YouTube Video ID"),
-                                               help_text=_("YouTube Video ID (e.g., 'dQw4w9WgXcQ' from https://www.youtube.com/watch?v=dQw4w9WgXcQ). Only used if 'Use YouTube Video as Banner' is enabled."))
+                                               help_text=_("YouTube Video ID. Only used if 'Use YouTube Video as Banner' is enabled."))
     hero_text_color = ColorField(blank=True, null=True, default="#f0f0f0", verbose_name=_("Banner Text Color"))
     hero_type = models.CharField(_("Banner Type"), max_length=50, choices=BANNER_TYPES, default='full')
     

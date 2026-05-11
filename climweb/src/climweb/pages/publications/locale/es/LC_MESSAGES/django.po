@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:46+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/publications/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1510\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/publications/models.py:33
 msgid "IP Address"
@@ -50,22 +51,31 @@ msgid "Publication Types"
 msgstr "Tipos de publicación"
 
 #: climweb/src/climweb/pages/publications/models.py:174
-msgid "The year for the earliest available publication. This is used to generate the years available for filtering "
-msgstr "El año de la primera publicación disponible. Esto se utiliza para generar los años disponibles para filtrar."
+msgid ""
+"The year for the earliest available publication. This is used to generate "
+"the years available for filtering "
+msgstr ""
+"El año de la primera publicación disponible. Esto se utiliza para generar "
+"los años disponibles para filtrar."
 
 #: climweb/src/climweb/pages/publications/models.py:175
 msgid "Earliest Publication Year"
 msgstr "Año de publicación más temprano"
 
 #: climweb/src/climweb/pages/publications/models.py:179
-msgid "How many publications per page should be visible on the all publications section ?"
-msgstr "¿Cuántas publicaciones por página deberían estar visibles en la sección de todas las publicaciones?"
+msgid ""
+"How many publications per page should be visible on the all publications "
+"section ?"
+msgstr ""
+"¿Cuántas publicaciones por página deberían estar visibles en la sección de "
+"todas las publicaciones?"
 
 #: climweb/src/climweb/pages/publications/models.py:193
 msgid "Publications Index Page"
 msgstr "Página de índice de publicaciones"
 
 #: climweb/src/climweb/pages/publications/models.py:267
+#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:8
 msgid "Publication Type"
 msgstr "Tipo de publicación"
 
@@ -95,7 +105,9 @@ msgstr "Marcar como destacado"
 
 #: climweb/src/climweb/pages/publications/models.py:278
 msgid "Featured publications appear on the publications landing page"
-msgstr "Las publicaciones destacadas aparecen en la página de inicio de publicaciones."
+msgstr ""
+"Las publicaciones destacadas aparecen en la página de inicio de "
+"publicaciones."
 
 #: climweb/src/climweb/pages/publications/models.py:280
 msgid "Optional start date for which this publication is relevant"
@@ -114,17 +126,26 @@ msgid "Peer reviewed"
 msgstr "Revisado por pares"
 
 #: climweb/src/climweb/pages/publications/models.py:294
-#| msgid "Publication image"
 msgid "Publication Image (Thumbnail)"
-msgstr ""
+msgstr "Imagen de publicación (miniatura)"
 
 #: climweb/src/climweb/pages/publications/models.py:295
-msgid "This can be a screenshot of the front page of the publication. If left empty and Auto-generate above is checked and the uploaded document is a PDF, an image of the first page will be auto-generated."
-msgstr "Esta puede ser una captura de pantalla de la portada de la publicación. Si se deja vacío y se marca Generar automáticamente arriba y el documento cargado es un PDF, se generará automáticamente una imagen de la primera página."
+msgid ""
+"This can be a screenshot of the front page of the publication. If left empty"
+" and Auto-generate above is checked and the uploaded document is a PDF, an "
+"image of the first page will be auto-generated."
+msgstr ""
+"Esta puede ser una captura de pantalla de la portada de la publicación. Si "
+"se deja vacío y se marca Generar automáticamente arriba y el documento "
+"cargado es un PDF, se generará automáticamente una imagen de la primera "
+"página."
 
 #: climweb/src/climweb/pages/publications/models.py:301
-msgid "If the document is a PDF, an image of the first page will be auto-generated."
-msgstr "Si el documento es un PDF, se generará automáticamente una imagen de la primera página."
+msgid ""
+"If the document is a PDF, an image of the first page will be auto-generated."
+msgstr ""
+"Si el documento es un PDF, se generará automáticamente una imagen de la "
+"primera página."
 
 #: climweb/src/climweb/pages/publications/models.py:302
 msgid "Auto-generate thumbnail"
@@ -135,8 +156,12 @@ msgid "Document or File"
 msgstr "Documento o Archivo"
 
 #: climweb/src/climweb/pages/publications/models.py:312
-msgid "Here you can upload pdfs, word documents, powerpoints, zip files or any other file"
-msgstr "Aquí puedes subir archivos pdf, documentos de word, powerpoints, archivos zip o cualquier otro archivo."
+msgid ""
+"Here you can upload pdfs, word documents, powerpoints, zip files or any "
+"other file"
+msgstr ""
+"Aquí puedes subir archivos pdf, documentos de word, powerpoints, archivos "
+"zip o cualquier otro archivo."
 
 #: climweb/src/climweb/pages/publications/models.py:316
 msgid "External Url - *Only If published/hosted somewhere else"
@@ -147,7 +172,7 @@ msgid "Link to published resource if external"
 msgstr "Enlace al recurso publicado si es externo"
 
 #: climweb/src/climweb/pages/publications/models.py:319
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:116
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:137
 msgid "Tags"
 msgstr "Etiquetas"
 
@@ -155,23 +180,40 @@ msgstr "Etiquetas"
 msgid "Additional Details"
 msgstr "Detalles adicionales"
 
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:32
-#, python-format
-msgid "Download - %(file_size)s"
-msgstr "Descargar - %(file_size)s"
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:21
+#, fuzzy
+#| msgid "Download document"
+msgid "Download"
+msgstr "Descargar"
 
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:40
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:148
-#| msgid "All Publications"
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:34
+#, fuzzy, python-format
+#| msgid "Download - %(file_size)s"
+msgid "Download — %(file_size)s"
+msgstr "Descargar: %(file_size)s"
+
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:44
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:163
 msgid "Go to publication"
-msgstr ""
+msgstr "Ir a publicación"
 
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:76
-#| msgid "Additional Details"
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:54
+#, fuzzy
+#| msgid "Page Views"
+msgid "Views"
+msgstr "Vistas"
+
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:64
+#, fuzzy
+#| msgid "Download document"
+msgid "Downloads"
+msgstr "Descargas"
+
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:96
 msgid "Additional Materials"
-msgstr ""
+msgstr "Materiales adicionales"
 
-#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:138
+#: climweb/src/climweb/pages/publications/templates/document_detail_include.html:155
 msgid "Download document"
 msgstr "Descargar documento"
 
@@ -179,21 +221,19 @@ msgstr "Descargar documento"
 msgid "Other Recent Publications"
 msgstr "Otras publicaciones recientes"
 
-#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:9
-msgid "Filter by Publication Type"
-msgstr "Filtrar por tipo de publicación"
+#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:32
+msgid "Service"
+msgstr "Servicio"
 
-#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:37
-msgid "Filter by Service"
-msgstr "Filtrar por servicio"
+#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:56
+#, fuzzy
+#| msgid "Relevant Projects"
+msgid "Projects"
+msgstr "Proyectos"
 
-#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:61
-msgid "Filter by Projects"
-msgstr "Filtrar por Proyectos"
-
-#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:88
-msgid "Filter by Year"
-msgstr "Filtrar por año"
+#: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:80
+msgid "Year"
+msgstr "Año"
 
 #: climweb/src/climweb/pages/publications/templates/publications_index_page.html:17
 msgid "Featured Publications"
@@ -203,29 +243,49 @@ msgstr "Publicaciones destacadas"
 msgid "All Publications"
 msgstr "Todas las publicaciones"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:6
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
-msgid_plural "Showing %(counter)s result"
+msgid_plural "Showing %(counter)s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:37
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:31
+msgid "Search by title"
+msgstr "Buscar por título"
+
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:34
 msgid "Search"
 msgstr "Buscar"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:81
-msgid "Number of downloads"
-msgstr "Número de descargas"
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:36
+msgid "Clear"
+msgstr "Claro"
 
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:90
-msgid "Number of views"
-msgstr "Número de vistas"
-
-#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:112
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:95
 msgid "Read More"
 msgstr "Leer más"
 
-#~ msgid "This can be a screenshot of the front page of the publication"
-#~ msgstr "This can be a screenshot of the front page of the publication"
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:106
+msgid "Number of downloads"
+msgstr "Número de descargas"
 
+#: climweb/src/climweb/pages/publications/templates/publications_list_include.html:113
+msgid "Number of views"
+msgstr "Número de vistas"
+
+#~ msgid "Filter by Publication Type"
+#~ msgstr "Filtrar por tipo de publicación"
+
+#~ msgid "Filter by Service"
+#~ msgstr "Filtrar por servicio"
+
+#~ msgid "Filter by Projects"
+#~ msgstr "Filtrar por Proyectos"
+
+#~ msgid "Filter by Year"
+#~ msgstr "Filtrar por año"
+
+#~ msgid "This can be a screenshot of the front page of the publication"
+#~ msgstr ""
+#~ "Esta puede ser una captura de pantalla de la portada de la publicación."

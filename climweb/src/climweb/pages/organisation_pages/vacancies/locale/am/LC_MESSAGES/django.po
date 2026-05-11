@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/organisation_pages/vacancies/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1470\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:29
 msgid "Banner Image"
@@ -42,7 +43,9 @@ msgid "No vacancies header text"
 msgstr "ምንም ክፍት የስራ ቦታዎች ርዕስ ጽሑፍ የለም።"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:49
-msgid "Additional text to appear when there are no vacancies,below the no vacancies header text"
+msgid ""
+"Additional text to appear when there are no vacancies,below the no vacancies"
+" header text"
 msgstr "ክፍት የስራ መደቦች በሌሉበት ጊዜ ተጨማሪ ጽሑፍ እንዲታይ፣ ከምንም ክፍት የስራ መደቦች ራስጌ ጽሑፍ በታች"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:51
@@ -62,8 +65,6 @@ msgid "Date of Posting"
 msgstr "የተለጠፈበት ቀን"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:127
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:65
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:45
 msgid "Duty Station"
 msgstr "ተረኛ ጣቢያ"
 
@@ -76,7 +77,6 @@ msgid "Job Description"
 msgstr "የሥራ መግለጫ"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:131
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:79
 msgid "Duration"
 msgstr "ቆይታ"
 
@@ -97,36 +97,47 @@ msgid "Open Vacancies"
 msgstr "ክፍት የስራ ቦታዎች"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:28
-msgid "Note: This opening has been closed."
-msgstr "ማስታወሻ፡ ይህ መክፈቻ ተዘግቷል።"
+#, fuzzy
+#| msgid "Note: This opening has been closed."
+msgid "This opening has been closed."
+msgstr "ይህ መክፈቻ ተዘግቷል።"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:39
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:25
-msgid "Posted On"
-msgstr "ላይ ተለጠፈ"
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:28
+#, fuzzy
+#| msgid "Posted On"
+msgid "Posted"
+msgstr "ተለጠፈ"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:52
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:45
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:34
-msgid "Closing On"
-msgstr "በመዝጋት ላይ"
+#, fuzzy
+#| msgid "Closed"
+msgid "Closes"
+msgstr "ይዘጋል።"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:101
-msgid "Download pdf"
-msgstr "pdf አውርድ"
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:78
+#, fuzzy
+#| msgid "Download pdf"
+msgid "Download PDF"
+msgstr "ፒዲኤፍ አውርድ"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:8
 msgid "Filter by Availability"
 msgstr "በተገኝነት አጣራ"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:18
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:16
 msgid "Closed"
 msgstr "ዝግ"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:10
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:13
 msgid "New"
 msgstr "አዲስ"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:49
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:59
 msgid "View details"
 msgstr "ዝርዝሮችን ይመልከቱ"
 
+#~ msgid "Closing On"
+#~ msgstr "በመዝጋት ላይ"
