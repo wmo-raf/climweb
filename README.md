@@ -1,6 +1,6 @@
 # 🌤️🌐 ClimWeb 
 
-<a href="https://digitalpublicgoods.net/r/dpg-slug"><img src="https://github.com/DPGAlliance/dpg-resources/blob/main/docs/assets/dpg-badge/dpg-badge.png?raw=true" width="100" alt="Digital Public Goods Badge"></a>
+<a href="https://new.digitalpublicgoods.net/r/climweb-httpsclimtechafricaclimweb"><img src="https://github.com/DPGAlliance/dpg-resources/blob/main/docs/assets/dpg-badge/dpg-badge.png?raw=true" width="100" alt="Digital Public Goods Badge"></a>
 
 Wagtail based Open Source Content Management System for National Meteorological and Hydrological Services in Africa.
 
@@ -45,7 +45,9 @@ NMHSs that have adopted ClimWeb across Africa:
 28. 🇲🇿 [Mozambique](https://inam.gov.mz/)
 29. 🇿🇲 [Mauritania](https://meteomauritanie.mr/)
 30. 🇨🇫 [Central African Republic](https://meteocentrafrique.com/)
-31. 🇲🇿 Mozambique Hydrology Department
+31. 🇱🇸 [Lesotho](https://lesmet.gov.ls)
+32. 🇸🇩 General Administration for Nile Waters Affairs
+33. 🇲🇿 Mozambique Hydrology Department
 
 #### In progress
 
@@ -54,8 +56,6 @@ NMHSs that have adopted ClimWeb across Africa:
 35. 🇸🇹 Sao Tome Principe
 36. 🇲🇬 Madagascar
 37. 🇸🇿 Eswatini
-38. 🇱🇸 Lesotho
-40. 🇸🇩 Sudan Hydrology Department
 41. 🇨🇲 Cameroon
 42. 🇨🇲 RCC Douala
 43. 🇨🇲 RSMC Yaounde

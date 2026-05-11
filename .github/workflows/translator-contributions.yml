@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 6 * * 1'   # Every Monday 06:00 UTC — adjust to your cadence
   workflow_dispatch:
+    inputs:
+        date_from:
+          description: 'Override DATE_FROM (e.g. 2024-01-01T00:00:00Z)'
+          required: false
+          default: ''
 
 permissions:
   contents: write
@@ -37,7 +42,10 @@ jobs:
       - name: Resolve sync window timestamps
         id: sync_time
         run: |
-          if [ -f .crowdin-last-run/timestamp ]; then
+          if [ -n "${{ github.event.inputs.date_from }}" ]; then
+            DATE_FROM="${{ github.event.inputs.date_from }}"
+            echo "Using manually provided DATE_FROM: $DATE_FROM"
+          elif [ -f .crowdin-last-run/timestamp ]; then
             DATE_FROM=$(cat .crowdin-last-run/timestamp)
             echo "Using cached last-run timestamp: $DATE_FROM"
           else
@@ -85,6 +93,7 @@ jobs:
           upload_translations: false
           download_translations: true
           create_pull_request: false
+          skip_untranslated_strings: true
           localization_branch_name: ${{ env.PATCH_BRANCH }}
           commit_message: 'chore(i18n): sync translations from Crowdin'
           github_user_name: 'crowdin-bot'
@@ -94,6 +103,59 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Guard against empty-string regressions
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" .git
+          git config --global safe.directory "$GITHUB_WORKSPACE"
+          git fetch origin "$TARGET_BRANCH" "$PATCH_BRANCH"
+          git checkout "$PATCH_BRANCH"   # ← make sure we're on the right branch
+      
+          for file in $(git diff --name-only "origin/$TARGET_BRANCH" | grep -E '\.(po|pot)$'); do
+            MAIN_COUNT=$(git show "origin/$TARGET_BRANCH:$file" \
+              | grep -c 'msgstr "[^"]' || echo 0)
+            PATCH_COUNT=$(grep -c 'msgstr "[^"]' "$file" || echo 0)
+      
+            if [ "$PATCH_COUNT" -lt "$MAIN_COUNT" ]; then
+              echo "⚠️  $file lost translations ($MAIN_COUNT → $PATCH_COUNT). Restoring from main."
+              git checkout "origin/$TARGET_BRANCH" -- "$file"
+            fi
+          done
+      
+          # Commit any restorations
+          if ! git diff --cached --quiet; then
+            git add -A
+            git commit -m "chore(i18n): restore translations lost in Crowdin sync"
+            git push origin "$PATCH_BRANCH"
+          fi
+
+      - name: Revert files with only header changes
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" .git
+          git config --global safe.directory "$GITHUB_WORKSPACE"
+          
+          for file in $(git diff --name-only "origin/$TARGET_BRANCH" | grep -E '\.(po|pot)$'); do
+            # Get the diff ignoring PO header lines
+            REAL_DIFF=$(git diff "origin/$TARGET_BRANCH" -- "$file" \
+              | grep '^[+-]' \
+              | grep -v '^[+-][+-][+-]' \
+              | grep -vE '^[+-]("PO-Revision-Date:|"POT-Creation-Date:|"X-Crowdin-)' \
+              | grep -vE '^[+-]#' || true)  # ← || true prevents grep exit code 1 from failing the step
+      
+            if [ -z "$REAL_DIFF" ]; then
+              echo "↩️  $file — only header changes, reverting."
+              git checkout "origin/$TARGET_BRANCH" -- "$file"
+            else
+              echo "✅  $file — has real translation changes, keeping."
+            fi
+          done
+      
+          # Commit if anything was reverted
+          if ! git diff --cached --quiet; then
+            git add -A
+            git commit -m "chore(i18n): revert files with header-only changes"
+            git push origin "$PATCH_BRANCH"
+          fi
+    
       # ── 5. Check whether anything actually changed ────────────────────────────
       - name: Check for translation changes
         id: changed
