@@ -67,6 +67,44 @@
     background: rgba(255, 255, 255, 0.15);
     border-bottom-color: rgba(255, 255, 255, 0.12);
     color: #fff;
+    justify-content: space-between;
+  }
+
+
+  .rcc-map-header .cf-detail-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1.5px solid var(--primary-color);
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    background: var(--primary-color);
+    color: #fff;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.12s, color 0.12s;
+  }
+
+  .rcc-map-header .cf-detail-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+  }
+
+  .rcc-map-header .cf-detail-btn .icon svg,
+  .rcc-map-header .cf-detail-icon svg {
+    width: 11px;
+    height: 11px;
+    fill: currentColor;
+  }
+
+  .rcc-map-header .cf-detail-icon {
+    display: inline-flex;
+    align-items: center;
+    width: 11px;
+    height: 11px;
   }
 
   .rcc-map-dot {
@@ -423,8 +461,16 @@
   <!-- Right / Bottom on mobile: Map Card -->
   <div class="rcc-hero-map">
     <div class="rcc-map-header">
-      <span class="rcc-map-dot"></span>
-      <span class="has-text-weight-semibold">{{ page.weather_watch_header }}</span>
+      <div>
+        <span class="rcc-map-dot"></span>
+        <span class="has-text-weight-semibold">{{ page.weather_watch_header }}</span>
+      </div>
+      <div>
+        <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}">
+          <span class="is-hidden-mobile">{{ page.mapviewer_cta_title }}</span>
+          <span class="cf-detail-icon">{% svg_icon "globe" %}</span>
+        </a>
+      </div>
     </div>
     <div
       id="home-map"

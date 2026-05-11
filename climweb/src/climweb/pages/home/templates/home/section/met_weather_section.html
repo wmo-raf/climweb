@@ -56,8 +56,16 @@
       <!-- Map panel -->
       <div class="met-map-panel">
         <div class="met-map-header">
-          <span class="met-live-dot"></span>
-          <span>{{ page.weather_watch_header }}</span>
+          <div>
+            <span class="met-live-dot"></span>
+            <span>{{ page.weather_watch_header }}</span>
+          </div>
+          <div>
+            <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}">
+              <span class="is-hidden-mobile">{{ page.mapviewer_cta_title }}</span>
+              <span class="cf-detail-icon">{% svg_icon "globe" %}</span>
+            </a>
+          </div>
         </div>
         <div
           id="home-map"
