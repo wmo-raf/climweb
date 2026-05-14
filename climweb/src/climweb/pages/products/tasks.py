@@ -98,16 +98,31 @@ def _create_wagtail_document(file_path, title):
     return doc
 
 
+def _get_products_raw(page):
+    """
+    Return the products StreamField as a plain list of block dicts.
+    stream_data was removed in Wagtail 6+; use stream_block.get_prep_value()
+    which serialises the StreamValue back to the list format used by JSONField.
+    """
+    from climweb.pages.products.models import ProductItemPage
+    page_obj = ProductItemPage.objects.get(pk=page.pk)
+    return page_obj.products.stream_block.get_prep_value(page_obj.products) or []
+
+
+def _save_products_raw(page, raw):
+    """
+    Write the raw block list back to the products StreamField.
+    Django's JSONField (use_json_field=True) serialises the list automatically.
+    """
+    from climweb.pages.products.models import ProductItemPage
+    ProductItemPage.objects.filter(pk=page.pk).update(products=raw)
+
+
 def _append_image_block(page, item_type_pk, effective_date, image_pk):
     """Append an image_product block to the page's products StreamField."""
-    from climweb.pages.products.models import ProductItemPage
-
-    raw = json.loads(
-        ProductItemPage.objects.filter(pk=page.pk).values_list('products', flat=True).first() or '[]'
-    )
-
-    # Skip if this item_type already has a block for this date on this page
+    raw = _get_products_raw(page)
     date_str = effective_date.isoformat()
+
     for block in raw:
         if (block.get('type') == 'image_product'
                 and str(block.get('value', {}).get('product_type')) == str(item_type_pk)
@@ -125,25 +140,20 @@ def _append_image_block(page, item_type_pk, effective_date, image_pk):
             'description': '',
         },
     })
-    ProductItemPage.objects.filter(pk=page.pk).update(products=json.dumps(raw))
+    _save_products_raw(page, raw)
 
 
 def _append_document_block(page, item_type_pk, effective_date, doc):
     """Append a document_product block to the page's products StreamField."""
-    from climweb.pages.products.models import ProductItemPage
-
-    raw = json.loads(
-        ProductItemPage.objects.filter(pk=page.pk).values_list('products', flat=True).first() or '[]'
-    )
-
+    raw = _get_products_raw(page)
     date_str = effective_date.isoformat()
+
     for block in raw:
         if (block.get('type') == 'document_product'
                 and str(block.get('value', {}).get('product_type')) == str(item_type_pk)
                 and block.get('value', {}).get('date') == date_str):
             return
 
-    # Generate thumbnail from first PDF page if not already present
     thumbnail = doc.get_thumbnail()
 
     raw.append({
@@ -159,7 +169,7 @@ def _append_document_block(page, item_type_pk, effective_date, doc):
             'description': '',
         },
     })
-    ProductItemPage.objects.filter(pk=page.pk).update(products=json.dumps(raw))
+    _save_products_raw(page, raw)
 
 
 def _resolve_watch_root(watch_root):
