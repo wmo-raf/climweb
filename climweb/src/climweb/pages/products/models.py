@@ -526,6 +526,34 @@ class ProductItemPage(MetadataPageMixin, Page):
         return super().serve(request, *args, **kwargs)
 
 
+class ProductIngestedFile(models.Model):
+    """Tracks files that have already been auto-ingested to prevent duplicates."""
+    product = models.ForeignKey(
+        'base.Product',
+        on_delete=models.CASCADE,
+        related_name='ingested_files',
+        verbose_name=_("Product"),
+    )
+    file_path = models.CharField(max_length=1000, verbose_name=_("File Path"))
+    file_mtime = models.FloatField(verbose_name=_("File Modification Time"))
+    product_item_page = models.ForeignKey(
+        ProductItemPage,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='ingested_files',
+        verbose_name=_("Product Item Page"),
+    )
+    ingested_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Ingested At"))
+
+    class Meta:
+        unique_together = [('product', 'file_path')]
+        verbose_name = _("Product Ingested File")
+        verbose_name_plural = _("Product Ingested Files")
+
+    def __str__(self):
+        return self.file_path
+
+
 class SubNationalProductsLandingPage(AbstractIntroPage, Page):
     parent_page_types = ['products.ProductIndexPage']
     subpage_types = ['products.SubNationalProductPage']
