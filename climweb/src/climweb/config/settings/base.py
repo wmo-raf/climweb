@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "climweb.pages.home",
     "climweb.pages.services",
     "climweb.pages.products",
-    "climweb.pages.weather",
     "climweb.pages.mediacenter",
     "climweb.pages.news",
     "climweb.pages.videos",
@@ -62,18 +61,12 @@ INSTALLED_APPS = [
     "climweb.pages.flex_page",
     "climweb.pages.stations",
     "climweb.pages.satellite_imagery",
-    "climweb.pages.cityclimate",
     "climweb.pages.glossary",
     "climweb.pages.webstories",
-    "climweb.pages.wdqms",
     "climweb.pages.dashboards",
-    
+
     "adminboundarymanager",
     "geomanager",
-    "capcomposer.capeditor",
-    "capcomposer.cap",
-    "forecastmanager",
-    "climweb_wdqms",
     
     "wagtailmautic",
     "wagtailzoom",
@@ -156,6 +149,25 @@ INSTALLED_APPS = [
     'wagtail_newsletter',
     'markdownify',
 ]
+
+IS_METEOROLOGICAL = env.bool("IS_METEOROLOGICAL", default=True)
+
+if IS_METEOROLOGICAL:
+    INSTALLED_APPS += [
+        *([
+            "forecastmanager",
+            "climweb.pages.weather",
+            "climweb.pages.cityclimate",
+        ] if importlib.util.find_spec("forecastmanager") else []),
+        *([
+            "climweb_wdqms",
+            "climweb.pages.wdqms",
+        ] if importlib.util.find_spec("climweb_wdqms") else []),
+        *([
+            "capcomposer.capeditor",
+            "capcomposer.cap",
+        ] if importlib.util.find_spec("capcomposer") else []),
+    ]
 
 ## Plugins loading logic start
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -355,49 +367,44 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    'docs/locale',
-    # 'climweb/src/climweb/base/locale',    
-    # 'climweb/src/climweb/config/locale',    
-    # 'climweb/src/climweb/pages/cap/locale',
-    # 'capcomposer/src/capcomposer/capeditor/locale', 
-    # 'capcomposer/src/capcomposer/cap/locale',
-    # 'climweb/src/climweb/pages/cityclimate/locale',
-    # 'climweb/src/climweb/pages/contact/locale',
-    # 'climweb/src/climweb/pages/data_request/locale',
-    # 'climweb/src/climweb/pages/email_subscription/locale',
-    # 'climweb/src/climweb/pages/events/locale',
-    # 'climweb/src/climweb/pages/feedback/locale',
-    # 'climweb/src/climweb/pages/flex_page/locale',
-    # 'climweb/src/climweb/pages/glossary/locale',
-    # 'climweb/src/climweb/pages/home/locale',
-    # 'climweb/src/climweb/pages/mediacenter/locale',
-    # 'climweb/src/climweb/pages/news/locale',
-    # 'climweb/src/climweb/pages/organisation_pages/about/locale',
-    # 'climweb/src/climweb/pages/organisation_pages/organisation/locale',
-    # 'climweb/src/climweb/pages/organisation_pages/partners/locale',
-    # 'climweb/src/climweb/pages/organisation_pages/projects/locale',
-    # 'climweb/src/climweb/pages/organisation_pages/tenders/locale',
-    # 'climweb/src/climweb/pages/organisation_pages/vacancies/locale',
-    # 'climweb/src/climweb/pages/organisation_pages/staff/locale',
+    # 'docs/locale',
+    'climweb/src/climweb/base/locale',    
+    'climweb/src/climweb/config/locale',    
+    'climweb/src/climweb/pages/cap/locale',
+    'climweb/src/climweb/pages/cityclimate/locale',
+    'climweb/src/climweb/pages/contact/locale',
+    'climweb/src/climweb/pages/data_request/locale',
+    'climweb/src/climweb/pages/email_subscription/locale',
+    'climweb/src/climweb/pages/events/locale',
+    'climweb/src/climweb/pages/feedback/locale',
+    'climweb/src/climweb/pages/flex_page/locale',
+    'climweb/src/climweb/pages/glossary/locale',
+    'climweb/src/climweb/pages/home/locale',
+    'climweb/src/climweb/pages/mediacenter/locale',
+    'climweb/src/climweb/pages/news/locale',
+    'climweb/src/climweb/pages/organisation_pages/about/locale',
+    'climweb/src/climweb/pages/organisation_pages/organisation/locale',
+    'climweb/src/climweb/pages/organisation_pages/partners/locale',
+    'climweb/src/climweb/pages/organisation_pages/projects/locale',
+    'climweb/src/climweb/pages/organisation_pages/tenders/locale',
+    'climweb/src/climweb/pages/organisation_pages/vacancies/locale',
+    'climweb/src/climweb/pages/organisation_pages/staff/locale',
     
-    # 'climweb/src/climweb/pages/products/locale',
-    # 'climweb/src/climweb/pages/dashboards/locale',
-    # 'climweb/src/climweb/pages/publications/locale',
-    # 'climweb/src/climweb/pages/satellite_imagery/locale',
-    # 'climweb/src/climweb/pages/search/locale',
-    # 'climweb/src/climweb/pages/services/locale',
-    # 'climweb/src/climweb/pages/stations/locale',
-    # 'climweb/src/climweb/pages/surveys/locale',
-    # 'climweb/src/climweb/pages/videos/locale',
-    # 'climweb/src/climweb/pages/wdqms/locale',
-    # 'climweb/src/climweb/pages/weather/locale',
-    # 'climweb/src/climweb/pages/webstories/locale',
+    'climweb/src/climweb/pages/products/locale',
+    'climweb/src/climweb/pages/dashboards/locale',
+    'climweb/src/climweb/pages/publications/locale',
+    'climweb/src/climweb/pages/satellite_imagery/locale',
+    'climweb/src/climweb/pages/search/locale',
+    'climweb/src/climweb/pages/services/locale',
+    'climweb/src/climweb/pages/stations/locale',
+    'climweb/src/climweb/pages/surveys/locale',
+    'climweb/src/climweb/pages/videos/locale',
+    'climweb/src/climweb/pages/wdqms/locale',
+    'climweb/src/climweb/pages/weather/locale',
+    'climweb/src/climweb/pages/webstories/locale',
 ]
 
 
-# Add additional apps to locale paths
-if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
-    LOCALE_PATHS.append('climweb/src/climweb/pages/aviation/locale')
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 

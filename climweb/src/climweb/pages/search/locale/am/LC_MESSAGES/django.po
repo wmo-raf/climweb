@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,27 +12,69 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/search/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1530\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
-#: climweb/src/climweb/pages/search/templates/search/search.html:27
+#: climweb/src/climweb/pages/search/templates/search/search.html:4
+#: climweb/src/climweb/pages/search/templates/search/search.html:19
+#: climweb/src/climweb/pages/search/templates/search/search.html:50
 msgid "Search"
 msgstr "ፈልግ"
 
-#: climweb/src/climweb/pages/search/templates/search/search.html:53
-#: climweb/src/climweb/pages/search/templates/search/search.html:75
-#: climweb/src/climweb/pages/search/templates/search/search.html:80
-msgid "More"
-msgstr "ተጨማሪ"
+#: climweb/src/climweb/pages/search/templates/search/search.html:22
+#, python-format
+msgid "Results for \"%(q)s\""
+msgstr "ለ\"%(q)s\" ውጤቶች"
 
-#: climweb/src/climweb/pages/search/templates/search/search.html:87
+#: climweb/src/climweb/pages/search/templates/search/search.html:26
+msgid "What are you looking for?"
+msgstr "ምን ፈልገህ ነው?"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:45
+msgid "Type to search…"
+msgstr "ለመፈለግ ይተይቡ…"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:64
+#, fuzzy, python-format
+#| msgid "No results found"
+msgid "%(counter)s result found"
+msgid_plural "%(counter)s results found"
+msgstr[0] "ምንም ውጤቶች አልተገኙም።"
+msgstr[1] "ምንም ውጤቶች አልተገኙም።"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:79
+msgid "Featured"
+msgstr "ተለይቶ የቀረበ"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:88
+#: climweb/src/climweb/pages/search/templates/search/search.html:125
+msgid "View"
+msgstr "ይመልከቱ"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:147
 msgid "No results found"
 msgstr "ምንም ውጤቶች አልተገኙም።"
 
-#: climweb/src/climweb/pages/search/templates/search/search.html:89
-msgid "Please type something into the search box"
-msgstr "እባክዎ በፍለጋ ሳጥኑ ውስጥ የሆነ ነገር ይተይቡ"
+#: climweb/src/climweb/pages/search/templates/search/search.html:149
+#, python-format
+msgid ""
+"We couldn't find anything for \"%(q)s\". Try different keywords or check "
+"your spelling."
+msgstr "ለ\"%(q)s\" ምንም ነገር ማግኘት አልቻልንም። የተለያዩ ቁልፍ ቃላትን ይሞክሩ ወይም አጻጻፍዎን ያረጋግጡ።"
 
+#: climweb/src/climweb/pages/search/templates/search/search.html:165
+msgid "Start searching"
+msgstr "መፈለግ ጀምር"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:167
+msgid "Type a keyword above to search across all content."
+msgstr "በሁሉም ይዘቶች ላይ ለመፈለግ ከላይ ቁልፍ ቃል ይተይቡ።"
+
+#~ msgid "More"
+#~ msgstr "ተጨማሪ"
+
+#~ msgid "Please type something into the search box"
+#~ msgstr "እባክዎ በፍለጋ ሳጥኑ ውስጥ የሆነ ነገር ይተይቡ"

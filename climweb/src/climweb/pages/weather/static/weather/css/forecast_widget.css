@@ -1,0 +1,678 @@
+/* ══════════════════════════════════════════════════════════
+   SHARED FORECAST WIDGET CSS
+   Used by: location_forecast_multiple_slider.html
+            location_forecast_single_slider.html
+   ══════════════════════════════════════════════════════════ */
+
+/* ── CARD ── */
+.cf-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: var(--border-radius, 10px);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* ══════════════════════════════
+   SHARED TOP BAR
+   (identical in both widgets)
+══════════════════════════════ */
+.cf-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #fff;
+}
+
+.cf-top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.cf-location-icon {
+  display: inline-flex;
+  align-items: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.cf-location-icon svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--primary-color);
+}
+
+.cf-city-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-decoration: none;
+  text-shadow: none;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cf-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1.5px solid var(--primary-color);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+  background: transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+
+.cf-detail-btn:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.cf-detail-btn .icon svg,
+.cf-detail-icon svg {
+  width: 11px;
+  height: 11px;
+  fill: currentColor;
+}
+
+.cf-detail-icon {
+  display: inline-flex;
+  align-items: center;
+  width: 11px;
+  height: 11px;
+}
+
+/* SEARCH */
+.cf-search-wrap {
+  flex-shrink: 0;
+  max-width: 200px;
+  width: 100%;
+}
+
+.cf-search-wrap .city-search,
+.cf-search-wrap.dropdown {
+  width: 100%;
+}
+
+.cf-search-wrap .dropdown-trigger {
+  width: 100%;
+}
+
+.cf-search-wrap input.input,
+.cf-search-input {
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  background: #f8f9fb !important;
+  color: #1a1a1a !important;
+  height: 30px !important;
+  width: 100% !important;
+  padding-left: 28px !important;
+  transition: border-color 0.15s !important;
+  backdrop-filter: none !important;
+}
+
+.cf-search-wrap input.input:focus,
+.cf-search-input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: none !important;
+  background: #fff !important;
+}
+
+.cf-search-wrap input.input::placeholder,
+.cf-search-input::placeholder {
+  color: #aaa !important;
+  opacity: 1 !important;
+}
+
+.cf-search-control {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* icon inside search — override Bulma positioning */
+.cf-search-wrap .icon.is-left,
+.cf-search-icon {
+  top: unset !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.cf-search-wrap .icon.is-left svg,
+.cf-search-icon svg {
+  width: 12px;
+  height: 12px;
+  fill: #aaa;
+}
+
+/* dropdown results */
+.cf-card .dropdown-menu {
+  z-index: 99999;
+}
+
+/* ══════════════════════════════
+   ATTRIBUTION
+══════════════════════════════ */
+.cf-attribution {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  font-size: 11px;
+  padding: 6px 14px;
+  border-top: 1px solid #f0f0f0;
+  color: #aaa;
+}
+
+.cf-attr-icon,
+.cf-attribution .icon {
+  display: inline-flex;
+  align-items: center;
+  width: 13px;
+  height: 13px;
+}
+
+.cf-attr-icon svg,
+.cf-attribution .icon svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--primary-color);
+}
+
+.cf-attribution a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.cf-attribution a:hover {
+  text-decoration: underline;
+}
+
+/* ══════════════════════════════
+   LOADER
+══════════════════════════════ */
+.cf-loader-wrap,
+.cf-card .loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%; width: 100%;
+  opacity: 0;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.cf-loader-wrap.is-active,
+.cf-card .loader-wrapper.is-active {
+  opacity: 1;
+  z-index: 9999;
+}
+
+/* ══════════════════════════════
+   NO-DATA STATE
+══════════════════════════════ */
+.cf-no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  gap: 8px;
+}
+
+.cf-no-data-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f4f6f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.cf-no-data-icon svg {
+  width: 22px !important;
+  height: 22px !important;
+  stroke: #bbb;
+  flex-shrink: 0;
+}
+
+.cf-no-data-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  margin: 0;
+}
+
+.cf-no-data-desc {
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MULTIPLE SLIDER — hourly tabs widget
+   (.cf-card .forecast-widget .*)
+   ══════════════════════════════════════════════════════════ */
+
+/* hide original city/search columns — moved to shared top bar */
+.cf-card .forecast-widget > .columns {
+  display: none !important;
+}
+
+/* ── DAY TABS ── */
+.cf-card .forecast-widget .tabs {
+  margin-bottom: 0 !important;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d0d8e8 #f5f5f5;
+}
+
+.cf-card .forecast-widget .tabs::-webkit-scrollbar       { height: 3px; }
+.cf-card .forecast-widget .tabs::-webkit-scrollbar-track { background: #f5f5f5; }
+.cf-card .forecast-widget .tabs::-webkit-scrollbar-thumb { background: #d0d8e8; border-radius: 3px; }
+
+.cf-card .forecast-widget .tabs ul {
+  border-bottom: none;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+
+.cf-card .forecast-widget .tabs li {
+  background: #fff !important;
+  backdrop-filter: none !important;
+  width: auto !important;
+  flex: 1;
+  min-width: 72px;
+  height: auto !important;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  border-bottom: 1px solid var(--primary-color-medium, #b0c9e8) !important;
+  border-right: 1px solid #f5f5f5;
+  border-top: none !important;
+  border-left: none !important;
+  transition: background 0.12s;
+}
+
+.cf-card .forecast-widget .tabs li:last-child { border-right: none; }
+.cf-card .forecast-widget .tabs li:hover { background: #f1f1f1 !important; }
+
+.cf-card .forecast-widget .tabs.is-boxed li.is-active {
+  background: var(--primary-color-lightest, #E6F1FB) !important;
+  height: auto !important;
+  border-top: 1px solid var(--primary-color-medium, #b0c9e8) !important;
+  border-left: 1px solid var(--primary-color-medium, #b0c9e8) !important;
+  border-right: 1px solid var(--primary-color-medium, #b0c9e8) !important;
+  border-bottom: none !important;
+  border-radius: calc(var(--border-radius)/3) calc(var(--border-radius)/3) 0 0 !important;
+}
+
+.cf-card .forecast-widget .tabs li a {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #999 !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  padding: 7px 6px !important;
+  width: 100% !important;
+  gap: 2px;
+  border: none !important;
+  background: transparent !important;
+}
+
+.cf-card .forecast-widget .tabs.is-boxed li.is-active a,
+.cf-card .forecast-widget .tabs.is-boxed li a:hover {
+  background: transparent !important;
+  border: none !important;
+  color: var(--primary-color) !important;
+}
+
+.cf-card .forecast-widget .tabs li .day-name {
+  font-size: 11px !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cf-card .forecast-widget .tabs li .month-name {
+  font-size: 11px;
+  font-weight: 400;
+  color: #ccc;
+}
+
+.cf-card .forecast-widget .tabs.is-boxed li.is-active .day-name {
+  font-size: 12px !important;
+  color: var(--primary-color);
+}
+
+.cf-card .forecast-widget .tabs.is-boxed li.is-active .month-name {
+  color: var(--primary-color);
+  opacity: 0.7;
+}
+
+/* ── TABS CONTENT ── */
+.cf-card .forecast-widget .tabs-content {
+  background-color: #f8f9fb !important;
+  backdrop-filter: none !important;
+  padding: 10px 12px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  border-top: 1px solid #f0f0f0 !important;
+}
+
+/* ── FORECAST ITEMS ── */
+.cf-card .forecast-widget .forecast-item {
+  background: #fff !important;
+  border: 1px solid #eee !important;
+  border-radius: calc(var(--border-radius)/2) !important;
+  overflow: hidden;
+  min-height: unset !important;
+  height: 100%;
+  color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* time header */
+.cf-card .forecast-widget .forecast-item .forecast-time {
+  background: var(--primary-color) !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 6px 8px !important;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 0.03em;
+}
+
+/* condition */
+.cf-card .forecast-widget .forecast-item .forecast-condition {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 0 4px !important;
+  width: 100%;
+}
+
+.cf-card .forecast-widget .forecast-item .forecast-condition .condition-img {
+  width: 64px !important;
+  height: 64px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto;
+}
+
+.cf-card .forecast-widget .forecast-item .forecast-condition .condition-img img {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain;
+  display: block;
+}
+
+.cf-card .forecast-widget .forecast-item .condition-label {
+  font-size: 9px !important;
+  color: #666 !important;
+  font-weight: 500 !important;
+  text-align: center;
+  padding: 2px 4px !important;
+  line-height: 1.2;
+}
+
+/* params — 2×2 grid */
+.cf-card .forecast-widget .forecast-item .forecast-params {
+  padding: 4px 6px 8px !important;
+  width: 100%;
+  flex: 1;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  align-content: start;
+}
+
+.cf-card .forecast-widget .forecast-item .forecast-condition {
+  grid-column: 1 / -1;
+}
+
+.cf-card .forecast-widget .forecast-item .forecast-param {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px;
+  padding: 6px 4px !important;
+  font-size: 11px !important;
+  color: #555 !important;
+  background: #f7f7f7 !important;
+  border-radius: 4px !important;
+  width: 100%;
+}
+
+.cf-card .forecast-widget .forecast-item .forecast-param-label {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cf-card .forecast-widget .forecast-item .forecast-parameter-icon {
+  margin-right: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+.cf-card .forecast-widget .forecast-item .forecast-parameter-icon svg {
+  height: 11px !important;
+  width: 11px !important;
+  fill: var(--primary-color) !important;
+}
+
+.cf-card .forecast-widget .forecast-item .forecast-param-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* hide text label when icon present */
+.cf-card .forecast-widget .forecast-item .forecast-param-label > span {
+  display: none;
+}
+
+/* ── SLIDER ARROWS (multiple slider) ── */
+.cf-card .forecast-widget .slider-arrow {
+  background: var(--primary-color) !important;
+  border: none;
+  opacity: 0.9;
+  border-radius: calc(var(--border-radius)/2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cf-card .forecast-widget .slider-arrow:hover { opacity: 1; }
+
+.cf-card .forecast-widget .slider-arrow svg {
+  fill: #fff !important;
+  height: 14px !important;
+  width: 14px !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SINGLE SLIDER — daily widget
+   (.cf-panel .cf-glide .cf-slot-card .*)
+   ══════════════════════════════════════════════════════════ */
+
+.cf-panel {
+  padding: 12px 0;
+  background: #f8f9fb;
+}
+
+/* glide wrapper — padding makes room for arrows */
+.cf-glide {
+  position: relative;
+  padding: 0 42px;
+}
+
+/* arrows container */
+.cf-arrows-wrap {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+
+.cf-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: all;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--primary-color);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s;
+  padding: 0;
+}
+
+.cf-arrow:hover { opacity: 0.85; }
+.cf-arrow--left  { left: 7px; }
+.cf-arrow--right { right: 7px; }
+.cf-arrow svg { width: 13px; height: 13px; fill: #fff; }
+.cf-arrow.glide__arrow--disabled { opacity: 0.3; cursor: default; }
+
+/* day card */
+.cf-slot-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* day header */
+.cf-slot-hdr {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 8px;
+  text-align: center;
+}
+
+.cf-slot-hdr--muted { background: #1a3a5a; }
+
+.cf-slot-day  { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; }
+.cf-slot-date { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+
+/* condition icon */
+.cf-slot-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px 4px;
+}
+
+.cf-slot-icon img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* condition label */
+.cf-slot-condition {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  padding: 0 8px 8px;
+  line-height: 1.3;
+}
+
+/* params — single column */
+.cf-slot-params {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 8px 10px;
+  border-top: 1px solid #f4f4f4;
+  flex: 1;
+}
+
+.cf-slot-param {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 0;
+  font-size: 12px;
+  color: #333;
+  border-bottom: 1px solid #f8f8f8;
+}
+
+.cf-slot-param:last-child { border-bottom: none; }
+
+.cf-param-icon {
+  display: inline-flex;
+  align-items: center;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.cf-param-icon svg { width: 13px; height: 13px; fill: var(--primary-color); }
+.cf-param-name    { font-size: 11px; color: #888; }
+.cf-param-val     { font-size: 12px; font-weight: 600; color: #1a1a1a; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .cf-top-bar     { padding: 8px 10px; gap: 8px; }
+  .cf-city-name   { font-size: 13px; }
+  .cf-search-wrap { max-width: 160px; }
+  .cf-glide       { padding: 0 36px; }
+  .cf-slot-icon img  { width: 48px; height: 48px; }
+  .cf-slot-day    { font-size: 12px; }
+  .cf-param-val   { font-size: 11px; }
+}
+
+@media (max-width: 480px) {
+  .cf-top-bar       { flex-direction: column; align-items: flex-start; }
+  .cf-search-wrap   { max-width: 100%; width: 100%; }
+  .cf-glide         { padding: 0 32px; }
+  .cf-arrow         { width: 24px; height: 24px; }
+  .cf-arrow svg     { width: 11px; height: 11px; }
+}

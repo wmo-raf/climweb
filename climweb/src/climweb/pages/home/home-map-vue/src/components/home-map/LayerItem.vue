@@ -118,8 +118,8 @@ const handleTimeChange = (newDate) => {
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, .3);
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
   font-weight: 700;
   color: #fff;
   padding: 0 12px;
@@ -128,10 +128,12 @@ const handleTimeChange = (newDate) => {
   max-width: 100%;
   white-space: nowrap;
   cursor: pointer;
+  font-size: 12px;
 }
 
 .layer-control.active {
   background-color: var(--primary-color);
+  font-size: 12px;
 }
 
 .layer-control.mobile {
@@ -140,7 +142,7 @@ const handleTimeChange = (newDate) => {
 
 .layer-icon {
   background: #fff;
-  border-radius: 2em;
+  border-radius: var(--border-radius);
   width: 32px;
   height: 32px;
   position: absolute;

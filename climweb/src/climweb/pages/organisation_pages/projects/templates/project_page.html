@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailimages_tags wagtailsettings_tags i18n wagtailiconchooser_tags %}
+{% load static wagtailcore_tags wagtailimages_tags wagtailsettings_tags lazyimages_tags i18n wagtailiconchooser_tags %}
 {% get_settings use_default_site=True %}
 {% wagtail_site as current_site %}
 
@@ -7,6 +7,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/services_common.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+     {% if page.youtube_playlist %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
+    {% endif %}
 {% endblock %}
 
 {% block body_class %}project-page"{% endblock %}
@@ -23,7 +26,7 @@
         {% else %}
             <section class="nmhs-work introduction-section">
                 <div class="work container">
-                    <h2 class="section-subheader">
+                    <h2 class="title is-3">
                         {{ page.introduction_title }}
                     </h2>
 
@@ -34,32 +37,32 @@
             </section>
         {% endif %}
         {% if page.goals_block %}
-            <section class="project-goals-">
-                <h2 class="section-title has-text-centered">
-                    {% if page.goals_title %}
-                        {{ page.goals_title }}
-                    {% else %}
-                        {% translate "Our Areas of Work" %}
-                    {% endif %}
-                </h2>
-                <div class="container">
-                    <div class="columns is-mobile is-centered project-goals">
-                        <div class="column is-three-quarters-desktop is-full-mobile">
-                            <div class="accordion js-accordion" id="goals-accordion">
-                                {% for goal_block in page.goals_block %}
-                                    {% include_block goal_block with is_first=forloop.first %}
-                                {% endfor %}
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        new Accordion("goals-accordion");
-                                    });
-                                </script>
-                            </div>
-                        </div>
-                    </div>
 
+        <section class="ac-section">
+           
+        <div class="container">
+            <div class="columns is-centered">
+            <div class="column is-three-quarters-desktop is-full-mobile">
+
+                {% if page.goals_title %}
+                <h2 class="ac-title has-text-centered">{{ page.goals_title }}</h2>
+                {% endif %}
+
+                <div class="ac-wrap" id="{{ block.id }}">
+                {% for block in page.goals_block %}
+                    {% if forloop.first %}
+                    {% include_block block with is_first=True %}
+                    {% else %}
+                    {% include_block block with is_first=False %}
+                    {% endif %}
+                {% endfor %}
                 </div>
-            </section>
+
+            </div>
+            </div>
+        </div>
+        </section>
+           
         {% endif %}
 
         {% if page.news %}
@@ -76,45 +79,45 @@
         {% if page.project_materials %}
             <section class="section">
                 <div class="container">
-                    <h2 class="section-title">
-                        {% translate "Project Materials" %}
-                    </h2>
-                    <div class="columns is-multiline is-mobile is-centered project-goals">
-                        {% for category in page.project_materials %}
-                            <div class="column is-full">
-                                {% include_block category %}
-                            </div>
-                        {% endfor %}
+
+                    <div class="mat-header has-text-centered">
+                    <p class="mat-eyebrow">{% translate "Resources" %}</p>
+                    <h2 class="mat-title">{% translate "Additional Materials" %}</h2>
                     </div>
+
+                    <div class="columns is-multiline">
+                    {% for category in page.project_materials %}
+                        <div class="column is-half-desktop is-full-mobile">
+                        {% include_block category %}
+                        </div>
+                    {% endfor %}
+                    </div>
+
                 </div>
             </section>
         {% endif %}
 
+
         {% if page.feature_block %}
-            <section class="feature-block-section">
-                {% for block in page.feature_block %}
-                    {% include_block block with is_even=forloop.counter|divisibleby:2 %}
-                {% endfor %}
+            <section class="feature-blocks-section">
+                <div class="container">
+                {% include 'feature_block_section.html' with feature_blocks=page.feature_block %}
+
+                </div>
+
             </section>
         {% endif %}
 
         {% if page.youtube_playlist %}
-            <section id="videoSection" class="videos">
-                <div class="container">
-                    <h2 class="section-title center">
-                        {% translate "Videos" %}
-                    </h2>
-                    {% include 'videos_skeleton.html' %}
-                    {% if  settings.base.ImportantPages.all_videos_page %}
-                        <div class="more-container">
-                            <a href="{{ settings.base.ImportantPages.all_videos_page.url }}" class="more">
-                                {% translate "More Videos" %}
-                                <span class="icon btn-icon">
-                                    {% svg_icon name="arrow-right-full" %}
-                                </span>
-                            </a>
-                        </div>
-                    {% endif %}
+            <section class="section videos" id="videoSection">
+                <div class="container is-align-content-center">
+                    <div class="my-6">
+                        <p class="is-uppercase has-text-weight-bold is-size-8 mb-1" style="color:var(--primary-color); letter-spacing:0.08em;">
+                            {% translate "Latest Media" %}
+                        </p>
+                        <h2 class="title is-3">{% translate "Highlights & Videos" %}</h2>
+                        </div>                    
+                        {% include 'videos_skeleton.html' %}
                 </div>
             </section>
         {% endif %}
@@ -123,7 +126,7 @@
         {% if page.events.all %}
             <section>
                 <div class="container">
-                    <h2 class="section-subheader">
+                    <h2 class="title is-3">
                         {% translate "Latest Events" %}
                     </h2>
                     {% include 'events_include.html' with events=page.events %}
@@ -149,35 +152,51 @@
         {% endif %}
 
         {% if page.partners.all %}
-            <section class="partners">
-                <div class="container">
-                    <h2 class="section-title has-text-centered">
-                        {% translate "Partners" %}
-                    </h2>
-                    <div class="columns is-multiline is-mobile is-centered">
-                        {% for partner in page.partners.all %}
-                            <a href="{% if partner.link %}{{ partner.link }}{% else %}#{% endif %}"
-                               target="_blank"
-                               rel="noopener"
-                               class="column is-one-fifth-desktop is-one-third-mobile"
-                               style="display: flex;justify-content: center">
-                                <figure class="image is-96x96">
-                                    {% image partner.logo original class="partner-logo" style="height:100%;width:100%;object-fit:contain" %}
-                                </figure>
-                            </a>
-                        {% endfor %}
-                    </div>
-                    {% if settings.base.ImportantPages.all_partners_page %}
-                        <div class="more-container">
-                            <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}">
-                                {% translate "More Partners" %}
-                                <span class="icon btn-icon">
-                                    {% svg_icon name="arrow-right-full" %}
-                                </span>
-                            </a>
-                        </div>
-                    {% endif %}
+            <section class="section">
+            <div class="container py-5">
+
+                <div class="mb-5">
+                <p class="is-uppercase has-text-weight-bold is-size-8 mb-1"
+                    style="color:var(--primary-color) ; letter-spacing:0.08em;">
+                    {% translate "Collaborators" %}
+                </p>
+                <h2 class="title is-3">{% translate "Our Partners" %}</h2>
+                <p class="subtitle is-6 has-text-grey">
+                    {% translate "Working alongside leading institutions to advance climate science and resilience." %}
+                </p>
                 </div>
+
+                <div class="columns is-multiline is-mobile partners-list">
+                {% for partner in page.partners.all %}
+                    <div class="column is-4-mobile is-3-tablet is-2-desktop">
+                        <a href="{% if partner.link %}{{ partner.link }}{% endif %}"
+                        target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                        rel="noopener"
+                        class="partner-card"
+                        title="{{ partner.name }}">
+                        <figure class="image partner-logo-figure">
+                            {% image partner.logo original as p_logo %}
+                            <img class="progressive__img progressive--not-loaded partner-logo-img"
+                                data-progressive="{{ p_logo.url }}"
+                                src="{% lazy_image_url p_logo %}"
+                                alt="{{ partner.name }}" />
+                        </figure>
+                        </a>
+                    </div>
+                {% endfor %}
+                </div>
+
+                {% if settings.base.ImportantPages.all_partners_page %}
+                <div class="has-text-centered mt-5">
+                    
+
+                    <a class="more-partners" href="{{ settings.base.ImportantPages.all_partners_page.url }}">
+                        {% translate "More Partners" %}
+                        </a>
+                </div>
+                {% endif %}
+
+            </div>
             </section>
         {% endif %}
     </main>
@@ -187,14 +206,30 @@
     <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
     <script src="{% static 'js/jquery.event.move.js' %}"></script>
     <script src="{% static 'js/jquery.twentytwenty.js' %}"></script>
+    
     <script>
         // If on smaller screens, collapse all filter items
         const windowWidth = $(window).width();
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.ac-wrap').forEach(function (wrap) {
+                wrap.querySelectorAll('.ac-header').forEach(function (header) {
+                header.addEventListener('click', function () {
+                    const item = header.closest('.ac-item');
+                    const isOpen = item.classList.contains('ac-item--open');
 
-        if (windowWidth <= 768) {
-            //for  smaller devices
-            $('.js-accordion-item').removeClass('active');
-        }
+                    // close all items in this wrap
+                    wrap.querySelectorAll('.ac-item').forEach(function (i) {
+                    i.classList.remove('ac-item--open');
+                    });
+
+                    // open clicked if it was closed
+                    if (!isOpen) {
+                    item.classList.add('ac-item--open');
+                    }
+                });
+                });
+            });
+        });
         
         const page_youtube_playlist =
             {{ page.youtube_playlist|yesno:'true,false' }}
@@ -221,6 +256,34 @@
                 }
             });
         }
+
+         if (page_youtube_playlist) {
+                const url = "{{ youtube_playlist_url }}";
+                console.log("Fetching videos from URL:", url);
+                const $videoWrapper = $('#videoWrapper');
+
+                if ($videoWrapper.length) {
+                    $videoWrapper.scheletrone({
+                        onComplete: function () {
+                            $.ajax({
+                                url: url,
+                                dataType: "html",
+                                success: function (data) {
+                                    // if we have videos append them, else hide whole section
+                                    if (data) {
+                                        $('#videoWrapper').html('').append(data).ready();
+                                    } else {
+                                        $('#videoSection').remove()
+                                    }
+                                },
+                                error: function () {
+                                    $('#videoSection').remove()
+                                }
+                            });
+                        }
+                    });
+                }
+            }
 
 
     </script>

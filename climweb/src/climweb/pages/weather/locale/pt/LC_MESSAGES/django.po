@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/weather/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1590\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/weather/blocks.py:14
 msgid "Weather Parameter"
@@ -30,14 +31,14 @@ msgid "Measurement"
 msgstr "Medição"
 
 #: climweb/src/climweb/pages/weather/models.py:52
-#: climweb/src/climweb/pages/weather/views.py:45
 msgid "Location not found. Please search for a different location."
 msgstr "Localização não encontrada. Por favor procure um local diferente."
 
 #: climweb/src/climweb/pages/weather/models.py:64
-#: climweb/src/climweb/pages/weather/views.py:56
+#: climweb/src/climweb/pages/weather/views.py:62
 msgid "No location set in the system. Please contact the administrator."
-msgstr "Nenhum local definido no sistema. Entre em contato com o administrador."
+msgstr ""
+"Nenhum local definido no sistema. Entre em contato com o administrador."
 
 #: climweb/src/climweb/pages/weather/models.py:95
 msgid "Weather summary section heading"
@@ -56,8 +57,11 @@ msgid "Products per page"
 msgstr "Produtos por página"
 
 #: climweb/src/climweb/pages/weather/models.py:107
-msgid "Number of items to show in the list section. Default is 6. Maximum is 20."
-msgstr "Número de itens a serem exibidos na seção da lista. O padrão é 6. O máximo é 20."
+msgid ""
+"Number of items to show in the list section. Default is 6. Maximum is 20."
+msgstr ""
+"Número de itens a serem exibidos na seção da lista. O padrão é 6. O máximo é"
+" 20."
 
 #: climweb/src/climweb/pages/weather/models.py:164
 #: climweb/src/climweb/pages/weather/templates/weather/dailyreports_list_include.html:49
@@ -127,39 +131,48 @@ msgstr[1] ""
 msgid "Read More"
 msgstr "Leia mais"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:16
-msgid "Search Location"
-msgstr "Local de pesquisa"
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:23
+#, fuzzy
+#| msgid "Weather"
+msgid "Weather detail"
+msgstr "Detalhe do tempo"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:64
-msgid "Time"
-msgstr "Tempo"
-
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:65
-msgid "Weather"
-msgstr "Clima"
-
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:318
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:417
-msgid "Detail"
-msgstr "Detalhe"
-
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:331
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:336
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:37
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:31
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:63
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:30
 msgid "Search location"
 msgstr "Local de pesquisa"
 
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:354
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:358
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:435
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:68
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:80
 msgid "Today"
 msgstr "Hoje"
 
-#: climweb/src/climweb/pages/weather/views.py:35
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:88
+msgid "Time"
+msgstr "Tempo"
+
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:89
+msgid "Weather"
+msgstr "Clima"
+
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:18
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:17
+msgid "Detail"
+msgstr "Detalhe"
+
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:57
+msgid "TODAY"
+msgstr "HOJE"
+
+#: climweb/src/climweb/pages/weather/views.py:39
 #, python-format
 msgid "Forecast Data Source: %(forecast_source)s"
 msgstr "Fonte de dados de previsão: %(forecast_source)s"
 
-#~ msgid "No data found"
-#~ msgstr "No data found"
+#~ msgid "Search Location"
+#~ msgstr "Local de pesquisa"
 
+#~ msgid "No data found"
+#~ msgstr "Nenhum dado encontrado"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,9 +39,19 @@ msgstr "Internal server error"
 msgid "Sorry, there seems to be an error. Please try again soon"
 msgstr "Sorry, there seems to be an error. Please try again soon"
 
-#: climweb/src/climweb/config/templates/applications_include.html:19
-msgid "View"
-msgstr "View"
+#: climweb/src/climweb/config/templates/applications_include.html:6
+msgid "Tools & Apps"
+msgstr "Tools & Apps"
+
+#: climweb/src/climweb/config/templates/applications_include.html:7
+#, fuzzy
+#| msgid "Go to publication"
+msgid "Applications"
+msgstr "Applications"
+
+#: climweb/src/climweb/config/templates/applications_include.html:37
+msgid "Open App"
+msgstr "Open App"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:4
 #: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:4
@@ -79,8 +89,8 @@ msgstr ""
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:31
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:86
-#: climweb/src/climweb/config/templates/navigation/navbar.html:86
-#: climweb/src/climweb/config/templates/navigation/navbar.html:169
+#: climweb/src/climweb/config/templates/navigation/navbar.html:84
+#: climweb/src/climweb/config/templates/navigation/navbar.html:168
 msgid "Contact us"
 msgstr "Contact us"
 
@@ -100,9 +110,19 @@ msgstr "Nothing listed at the moment"
 msgid "No data found"
 msgstr "No data found"
 
-#: climweb/src/climweb/config/templates/events_include.html:44
-msgid "More Events"
-msgstr "More Events"
+#: climweb/src/climweb/config/templates/events_include.html:8
+msgid "Upcoming"
+msgstr "Upcoming"
+
+#: climweb/src/climweb/config/templates/events_include.html:9
+#, fuzzy
+#| msgid "More Events"
+msgid "Events"
+msgstr "Events"
+
+#: climweb/src/climweb/config/templates/events_include.html:13
+msgid "All events"
+msgstr "All events"
 
 #: climweb/src/climweb/config/templates/featured_item_include.html:28
 msgid "Featured"
@@ -165,34 +185,37 @@ msgid "Page %(current_page)s of %(num_pages)s."
 msgstr "Page %(current_page)s of %(num_pages)s."
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:26
-#: climweb/src/climweb/config/templates/navigation/navbar.html:26
-#: climweb/src/climweb/config/templates/navigation/navbar.html:152
+#: climweb/src/climweb/config/templates/navigation/navbar.html:32
+#: climweb/src/climweb/config/templates/navigation/navbar.html:156
 msgid "Alerts"
 msgstr "Alerts"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:35
-#: climweb/src/climweb/config/templates/navigation/navbar.html:35
-#: climweb/src/climweb/config/templates/navigation/navbar.html:160
+#: climweb/src/climweb/config/templates/navigation/navbar.html:41
+#: climweb/src/climweb/config/templates/navigation/navbar.html:162
+#: climweb/src/climweb/config/templates/videos_include.html:39
+#: climweb/src/climweb/config/templates/videos_include.html:88
 msgid "Subscribe"
 msgstr "Subscribe"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:45
-#: climweb/src/climweb/config/templates/navigation/navbar.html:45
+#: climweb/src/climweb/config/templates/navigation/navbar.html:49
 msgid "Language"
 msgstr "Language"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:76
+#: climweb/src/climweb/config/templates/navigation/navbar.html:72
 #: climweb/src/climweb/config/templates/navigation/navbar.html:76
 msgid "Search"
 msgstr "Search"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:93
-#: climweb/src/climweb/config/templates/navigation/navbar.html:93
-#: climweb/src/climweb/config/templates/navigation/navbar.html:175
+#: climweb/src/climweb/config/templates/navigation/navbar.html:91
+#: climweb/src/climweb/config/templates/navigation/navbar.html:174
 msgid "Feedback"
 msgstr "Feedback"
 
-#: climweb/src/climweb/config/templates/navigation/footer.html:37
+#: climweb/src/climweb/config/templates/navigation/footer.html:98
 msgid "Powered by Climweb"
 msgstr "Powered by Climweb"
 
@@ -204,18 +227,16 @@ msgstr "Projects"
 msgid "More Projects"
 msgstr "More Projects"
 
-#: climweb/src/climweb/config/templates/update_card_include.html:58
+#: climweb/src/climweb/config/templates/update_card_include.html:75
 msgid "Read more"
 msgstr "Read more"
 
-#: climweb/src/climweb/config/templates/videos_include.html:25
-#, python-format
-msgid "Published on : %(updated_on)s"
-msgstr "Published on : %(updated_on)s"
-
-#: climweb/src/climweb/config/templates/videos_include.html:37
-msgid "SUBSCRIBE"
-msgstr "SUBSCRIBE"
+#: climweb/src/climweb/config/templates/videos_include.html:29
+#: climweb/src/climweb/config/templates/videos_include.html:77
+#, fuzzy, python-format
+#| msgid "Published on : %(updated_on)s"
+msgid "Published on: %(updated_on)s"
+msgstr "Published on: %(updated_on)s"
 
 #: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:12
 msgid "Enter your two-factor authentication code"
@@ -241,12 +262,15 @@ msgstr "Welcome to"
 msgid "Sign in to"
 msgstr "Sign in to"
 
+#~ msgid "View"
+#~ msgstr "View"
+
+#~ msgid "SUBSCRIBE"
+#~ msgstr "SUBSCRIBE"
+
 #, python-format
 #~ msgid "Download - %(file_size)s"
 #~ msgstr "Download - %(file_size)s"
-
-#~ msgid "Go to publication"
-#~ msgstr "Go to publication"
 
 #~ msgid "Additional Materials"
 #~ msgstr "Additional Materials"

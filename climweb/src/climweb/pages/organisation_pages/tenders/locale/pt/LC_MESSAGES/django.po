@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/organisation_pages/tenders/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1460\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/organisation_pages/tenders/models.py:28
 msgid "Text to appear when there are no tenders"
@@ -26,8 +27,12 @@ msgid "No tenders header text"
 msgstr "Nenhum texto de cabeçalho de propostas"
 
 #: climweb/src/climweb/pages/organisation_pages/tenders/models.py:32
-msgid "Additional text to appear when there are no tenders,below the no tenders header text"
-msgstr "Texto adicional a aparecer quando não houver propostas, abaixo do texto do cabeçalho sem propostas"
+msgid ""
+"Additional text to appear when there are no tenders,below the no tenders "
+"header text"
+msgstr ""
+"Texto adicional a aparecer quando não houver propostas, abaixo do texto do "
+"cabeçalho sem propostas"
 
 #: climweb/src/climweb/pages/organisation_pages/tenders/models.py:34
 msgid "No tenders description text"
@@ -35,7 +40,8 @@ msgstr "Nenhum texto de descrição das propostas"
 
 #: climweb/src/climweb/pages/organisation_pages/tenders/models.py:39
 msgid "How many items should be visible on the landing page filter section ?"
-msgstr "Quantos itens devem estar visíveis na seção de filtro da página de destino?"
+msgstr ""
+"Quantos itens devem estar visíveis na seção de filtro da página de destino?"
 
 #: climweb/src/climweb/pages/organisation_pages/tenders/models.py:40
 msgid "Items per page"
@@ -82,29 +88,36 @@ msgstr "Documentos Adicionais"
 msgid "Tender Detail Page"
 msgstr "Página de detalhes da proposta"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:27
-msgid "Note: This tender has been closed"
-msgstr "Nota: Este concurso foi encerrado"
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:28
+#, fuzzy
+#| msgid "Note: This tender has been closed"
+msgid "This tender has been closed."
+msgstr "Este concurso foi encerrado."
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:38
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:26
-msgid "Posted On"
-msgstr "Publicado em"
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:39
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:28
+#, fuzzy
+#| msgid "Posted On"
+msgid "Posted"
+msgstr "Publicado"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:49
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:36
-msgid "Closing On"
-msgstr "Fechando"
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:45
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:34
+#, fuzzy
+#| msgid "Closed"
+msgid "Closes"
+msgstr "Fecha"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:63
-msgid "Reference number"
-msgstr "Número de referência"
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:52
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:41
+msgid "Ref"
+msgstr "Referência"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:76
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:70
 msgid "Documents"
 msgstr "Documentos"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:91
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_detail_page.html:82
 msgid "Download Tender Notice"
 msgstr "Baixar Edital de Concurso"
 
@@ -113,14 +126,15 @@ msgid "Filter by Availability"
 msgstr "Filtrar por disponibilidade"
 
 #: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_filter_include.html:16
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:16
 msgid "Closed"
 msgstr "Fechado"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:10
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:13
 msgid "New"
 msgstr "Novo"
 
-#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:50
+#: climweb/src/climweb/pages/organisation_pages/tenders/templates/tender_list_include.html:57
 msgid "View details"
 msgstr "Ver detalhes"
 
@@ -128,3 +142,8 @@ msgstr "Ver detalhes"
 msgid "Open Tenders"
 msgstr "Concursos Abertos"
 
+#~ msgid "Closing On"
+#~ msgstr "Fechando"
+
+#~ msgid "Reference number"
+#~ msgstr "Número de referência"

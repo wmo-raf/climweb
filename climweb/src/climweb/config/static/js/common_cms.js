@@ -311,45 +311,51 @@ $(document).ready(function () {
             }
         });
 
-        // Header search
-        const inputContainer = $('#search-input')
-        const trigger = $('#search-trigger')
-        const inputEl = $('#input-el')
+        /* ── SEARCH TOGGLE ── */
+        const searchTrigger = document.getElementById('search-trigger');
+        const searchInput   = document.getElementById('search-input');
+        const inputEl       = document.getElementById('input-el');
 
-        trigger.on('click', function () {
-            $(this).hide()
-            inputContainer.removeClass('is-hidden')
-            inputEl.focus()
-        })
+        if (searchTrigger && searchInput) {
+        searchTrigger.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const isVisible = searchInput.style.display !== 'none';
+            searchInput.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible && inputEl) inputEl.focus();
+        });
 
-
-        inputEl.on('focusout', function () {
-            const $this = $(this)
-
-            const value = $this.val()
-
-            if (!value) {
-                trigger.show()
-                inputContainer.addClass('is-hidden')
+        /* close when clicking outside the search area */
+        document.addEventListener('click', function (e) {
+            if (
+            searchInput.style.display !== 'none' &&
+            !searchInput.contains(e.target) &&
+            !searchTrigger.contains(e.target)
+            ) {
+            searchInput.style.display = 'none';
             }
-        })
+        });
+        }
 
-        inputEl.keypress(function (event) {
-            if (event.keyCode === 13) {
-                const value = $(this).val()
-                if (value) {
-                    // tract on search
-                    ga_reg_event('search', {
-                        "event_category": "Search",
-                        "event_label": "Header Search",
-                        "value": value,
-                    })
-                }
+        /* submit on Enter */
+        if (inputEl) {
+        inputEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+            e.preventDefault();
+            const q = this.value.trim();
+            if (q) this.closest('form').submit();
             }
+        });
+        }
+
+        /* close search on Escape */
+        document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && searchInput && searchInput.style.display !== 'none') {
+            searchInput.style.display = 'none';
+        }
         });
         const default_lang = "en-us"
 
-        $(".languages a").on("click", function () {
+        $(".util-dropdown-item[data-lang-prefix]").on("click", function () {
 
             const lang_text = $(this).attr("data-lang")
 

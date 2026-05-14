@@ -1,0 +1,497 @@
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+
+<style>
+  .rcc-hero {
+    display: grid;
+    grid-template-columns: 1fr 550px;
+    gap: 2rem;
+    align-items: center;
+    padding: 4rem 8rem 3.5rem;
+    background: linear-gradient(160deg, var(--background-color) 0%, #f8f9fb 60%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Background image support ── */
+  .rcc-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+  }
+
+  /* Variant B — left-to-right gradient fade */
+  .rcc-hero.has-image {
+    background: none;
+  }
+
+  .rcc-hero.has-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--primary-color) 94%, transparent) 0%,
+      color-mix(in srgb, var(--primary-color) 88%, transparent) 30%,
+      color-mix(in srgb, var(--primary-color) 55%, transparent) 58%,
+      transparent 100%
+    );
+    z-index: 1;
+  }
+
+  .rcc-hero-text,
+  .rcc-hero-map {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── Map card ── */
+  .rcc-hero-map {
+    border: 0.5px solid rgba(0,0,0,0.1);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin: 1rem 1rem 1rem 0;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .rcc-map-header {
+    padding: 10px var(--border-radius);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    justify-content: space-between;
+  }
+
+
+  .rcc-map-header .cf-detail-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1.5px solid var(--primary-color);
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    background: var(--primary-color);
+    color: #fff;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.12s, color 0.12s;
+  }
+
+  .rcc-map-header .cf-detail-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+  }
+
+  .rcc-map-header .cf-detail-btn .icon svg,
+  .rcc-map-header .cf-detail-icon svg {
+    width: 11px;
+    height: 11px;
+    fill: currentColor;
+  }
+
+  .rcc-map-header .cf-detail-icon {
+    display: inline-flex;
+    align-items: center;
+    width: 11px;
+    height: 11px;
+  }
+
+  .rcc-map-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  #home-map {
+    position: relative;
+    height: 480px;
+    width: 100%;
+  }
+
+  /* ── Badge ── */
+  .rcc-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--primary-color-light);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    letter-spacing: 0.04em;
+    transition: background 0.15s, color 0.15s, border 0.15s;
+  }
+
+  .rcc-hero.has-image .rcc-badge {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── Title & subtitle ── */
+  .rcc-title {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+  }
+
+  .rcc-title p { margin: 0; }
+
+  .rcc-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: #2e2e2e;
+    line-height: 1.7;
+    margin-bottom: 0.4rem;
+  }
+
+  .rcc-hero.has-image .rcc-title    { color: #fff; }
+  .rcc-hero.has-image .rcc-subtitle { color: rgba(255, 255, 255, 0.75); }
+
+  /* ── CTA group ── */
+  .rcc-cta-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  /* ── Buttons default ── */
+  .rcc-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--primary-color);
+    color: #fff;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  .rcc-btn-primary:hover {
+    background: transparent;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  .rcc-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+    color: var(--primary-color);
+    border: 1.5px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .rcc-btn-secondary:hover {
+    background: var(--background-color);
+  }
+
+  .rcc-btn-tertiary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+    color: #555;
+    border: 1.5px solid #ccc;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  /* ── Buttons on image ── */
+  .rcc-hero.has-image .rcc-btn-primary {
+    background: #fff;
+    color: #0a2240;
+    border-color: transparent;
+    border-radius: var(--border-radius);
+  }
+
+  .rcc-hero.has-image .rcc-btn-primary:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0a2240;
+    border-color: transparent;
+  }
+
+  .rcc-hero.has-image .rcc-btn-secondary,
+  .rcc-hero.has-image .rcc-btn-tertiary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(4px);
+  }
+
+  .rcc-hero.has-image .rcc-btn-secondary:hover,
+  .rcc-hero.has-image .rcc-btn-tertiary:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  /* ── Map layer controls & time picker ── */
+  .rcc-hero .layer-control { font-size: 12px; }
+  .rcc-hero .layer-control.active { background-color: var(--primary-color); font-size: 12px; }
+
+  .rcc-hero .dynamic-layer-control {
+    position: absolute;
+    top: 30px;
+    left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rcc-hero-map .time-picker {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    color: var(--primary-color);
+    border-radius: var(--border-radius);
+    font-family: Arial, sans-serif;
+    border: solid 0.05rem var(--primary-color);
+    font-size: 12px;
+  }
+
+  /* ── Stats bar ── */
+  .rcc-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: #fff;
+    padding: 1rem 20rem;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .rcc-stat-item {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border-right: 1px solid #eee;
+  }
+
+  .rcc-stat-item:last-child { border-right: none; }
+
+  .rcc-stat-num {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+    letter-spacing: -1.5px;
+  }
+
+  .rcc-stat-lbl {
+    font-size: 11px;
+    color: #919191;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+  }
+
+  /* ── Tablet ── */
+  @media (max-width: 1024px) {
+    .rcc-hero {
+      grid-template-columns: 1fr 340px;
+      padding: 3rem 2rem;
+      gap: 1.5rem;
+    }
+
+    .rcc-title { font-size: 28px; }
+
+    .rcc-stats-bar { padding: 1rem 10rem; }
+    .rcc-stat-num  { font-size: 30px; letter-spacing: -1px; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .rcc-hero {
+      grid-template-columns: 1fr;
+      padding: 2rem 1.25rem;
+      gap: 1.5rem;
+    }
+
+    /* on mobile gradient goes top-to-bottom */
+    .rcc-hero.has-image::after {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--primary-color) 90%, transparent) 0%,
+        color-mix(in srgb, var(--primary-color) 75%, transparent) 55%,
+        color-mix(in srgb, var(--primary-color) 30%, transparent) 100%
+      );
+    }
+
+    /* text on top, map below */
+    .rcc-hero-text { order: 1; }
+    .rcc-hero-map  { order: 2; margin: 0; }
+
+    .rcc-title    { font-size: 26px; }
+    .rcc-subtitle { font-size: 15px; }
+
+    .rcc-cta-group {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .rcc-btn-primary,
+    .rcc-btn-secondary,
+    .rcc-btn-tertiary {
+      justify-content: center;
+      width: 100%;
+    }
+
+    #home-map { height: 300px; }
+
+    .rcc-hero-map { margin: 0; }
+
+    /* stats 2x2 */
+    .rcc-stats-bar {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 1rem;
+      gap: 0;
+    }
+
+    .rcc-stat-item {
+      padding: 1.25rem 0.5rem;
+      border-right: none;
+      border-bottom: 1px solid #eee;
+    }
+
+    .rcc-stat-item:nth-child(odd)  { border-right: 1px solid #eee; }
+    .rcc-stat-item:nth-child(3),
+    .rcc-stat-item:nth-child(4)    { border-bottom: none; }
+
+    .rcc-stat-num { font-size: 28px; }
+  }
+
+  /* ── Small mobile ── */
+  @media (max-width: 480px) {
+    .rcc-hero { padding: 1.5rem 1rem; }
+
+    .rcc-title  { font-size: 22px; }
+    .rcc-badge  { font-size: 10px; }
+
+    #home-map { height: 260px; }
+
+    .rcc-stat-num { font-size: 24px; letter-spacing: -0.5px; }
+    .rcc-stat-lbl { font-size: 10px; }
+  }
+</style>
+
+{% if page.hero_banner %}
+  {% image page.hero_banner original as banner_img %}
+  <section class="rcc-hero has-image">
+    <div class="rcc-hero-bg"
+         style="background-image: url('{{ banner_img.url }}');"></div>
+{% else %}
+  <section class="rcc-hero">
+{% endif %}
+
+  <!-- Left / Top on mobile: Hero Text -->
+  <div class="rcc-hero-text container">
+
+    {% if self.pre_title %}
+      <div class="rcc-badge has-text-weight-semibold">{{ self.pre_title }}</div>
+    {% endif %}
+
+    <div class="rcc-title">{{ self.hero_title|richtext }}</div>
+
+    {% if self.hero_subtitle %}
+      <p class="rcc-subtitle">{{ self.hero_subtitle }}</p>
+    {% endif %}
+
+    {% if page.call_to_action_button_text %}
+      <div class="rcc-cta-group">
+
+        {% if page.call_to_action_related_page %}
+          <a href="{{ page.call_to_action_related_page.url }}"
+             class="rcc-btn-primary button">
+            <span>{{ page.call_to_action_button_text }}</span>
+            <span class="icon is-small">{% svg_icon name="arrow-right-full" %}</span>
+          </a>
+        {% endif %}
+
+        {% if page.call_to_action_button_text_2 and page.call_to_action_related_page_2 %}
+          <a href="{{ page.call_to_action_related_page_2.url }}"
+             class="rcc-btn-secondary button">
+            <span>{{ page.call_to_action_button_text_2 }}</span>
+          </a>
+        {% endif %}
+
+        {% if page.call_to_action_button_text_3 and page.call_to_action_related_page_3 %}
+          <a href="{{ page.call_to_action_related_page_3.url }}"
+             class="rcc-btn-secondary button">
+            <span>{{ page.call_to_action_button_text_3 }}</span>
+          </a>
+        {% endif %}
+
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Right / Bottom on mobile: Map Card -->
+  <div class="rcc-hero-map">
+    <div class="rcc-map-header">
+      <div>
+        <span class="rcc-map-dot"></span>
+        <span class="has-text-weight-semibold">{{ page.weather_watch_header }}</span>
+      </div>
+      <div>
+        <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}">
+          <span class="is-hidden-mobile">{{ page.mapviewer_cta_title }}</span>
+          <span class="cf-detail-icon">{% svg_icon "globe" %}</span>
+        </a>
+      </div>
+    </div>
+    <div
+      id="home-map"
+      data-map-settings-url="{{ home_map_settings_url }}"
+      data-initial-bounds="{{ country_bounds }}"
+      data-location-forecast-detail-url="{{ city_detail_page_url }}"
+      data-language-code="{{ LANGUAGE_CODE }}"
+      data-home-map-alerts-url="{{ home_map_alerts_url }}"
+      data-primary-color="{{ primary_color }}"
+    ></div>
+  </div>
+
+</section>
+
+{% if page.stats_bar %}
+<div class="rcc-stats-bar">
+  {% for block in page.stats_bar %}
+    <div class="rcc-stat-item">
+      <p class="rcc-stat-num">{{ block.value.value }}</p>
+      <p class="rcc-stat-lbl">{{ block.value.label }}</p>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}

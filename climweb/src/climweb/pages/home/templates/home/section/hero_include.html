@@ -1,4 +1,8 @@
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
-{% include 'home/hero_types/default_hero.html' %}
+{% if IS_METEOROLOGICAL %}
+{% include 'home/hero_types/met_banner.html' %}
+{% else %}
+{% include 'home/hero_types/non_meteo_hero.html' %}
+{% endif %}

@@ -5,221 +5,426 @@
 {% block body_class %}stations-page{% endblock %}
 
 {% block extra_css %}
-    {{ block.super }}
-    <link href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css" rel="stylesheet"/>
-    <link href="{% static 'stations/css/stations_list_page.css' %}" rel="stylesheet"/>
+  {{ block.super }}
+  <link href="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css" rel="stylesheet"/>
+  <link href="{% static 'stations/css/stations_list_page.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block content %}
-    <main>
-        {% include "breadcrumbs_include.html" %}
-        <section class="container">
-            <div id="stations-map" class="stations-map elevation-2"></div>
-        </section>
-        <section class="container stations-list" style="padding-top: 0">
-            <h2 class="title">
-                {% translate "Stations List" %}
-            </h2>
-            {% if stations_table %}
-                {% render_table stations_table %}
-            {% endif %}
-        </section>
-    </main>
+<main>
+  {% include "breadcrumbs_include.html" %}
+
+  <section class="stn-section">
+    <div class="container">
+
+      <!-- ── STATS BAR ── -->
+      <div class="stn-stats-bar" id="stn-stats-bar">
+        <div class="stn-stat-card" id="stat-total">
+          <span class="stn-stat-num">—</span>
+          <span class="stn-stat-lbl">{% translate "Total stations" %}</span>
+        </div>
+        <div class="stn-stat-card" id="stat-operational">
+          <span class="stn-stat-num stn-stat-num--green">—</span>
+          <span class="stn-stat-lbl">{% translate "Operational" %}</span>
+        </div>
+        <div class="stn-stat-card" id="stat-partly-operational">
+          <span class="stn-stat-num stn-stat-num--lightgreen">—</span>
+          <span class="stn-stat-lbl">{% translate "Partly Operational" %}</span>
+        </div>
+        <div class="stn-stat-card" id="stat-closed">
+          <span class="stn-stat-num stn-stat-num--red">—</span>
+          <span class="stn-stat-lbl">{% translate "Closed" %}</span>
+        </div>
+        <div class="stn-stat-card" id="stat-planned">
+          <span class="stn-stat-num stn-stat-num--blue">—</span>
+          <span class="stn-stat-lbl">{% translate "Planned" %}</span>
+        </div>
+      </div>
+
+      <!-- ── MAP HEADER ── -->
+      <div class="stn-map-header">
+        <div class="stn-map-title-row">
+          <div>
+            <p class="stn-eyebrow">{% translate "Network Overview" %}</p>
+            <h1 class="stn-title">{% translate "Stations Map" %}</h1>
+          </div>
+          <div class="stn-controls">
+            <span class="stn-controls-label">{% translate "Colour by" %}:</span>
+            <div class="stn-toggle-group">
+              <button class="stn-toggle-btn active" data-scheme="operating_status">
+                {% translate "Operating Status" %}
+              </button>
+              <button class="stn-toggle-btn" data-scheme="station_type">
+                {% translate "Station Type" %}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="stn-search-row">
+          <div class="stn-search-box">
+            <svg class="stn-search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8.5" cy="8.5" r="5.5" stroke="#aaa" stroke-width="1.6"/>
+              <path d="M13 13l3.5 3.5" stroke="#aaa" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="stn-search-input"
+                   placeholder="{% translate 'Search by station name or WIGOS ID…' %}"
+                   autocomplete="off">
+            <button class="stn-search-clear" id="stn-search-clear" aria-label="{% translate 'Clear' %}" hidden>&#x2715;</button>
+          </div>
+          <ul class="stn-search-results" id="stn-search-results" hidden></ul>
+        </div>
+      </div>
+
+      <!-- ── MAP + LEGEND ROW ── -->
+      <div class="stn-map-row">
+
+        <!-- MAP -->
+        <div class="stn-map-wrap">
+          <div id="stations-map" class="stn-map"></div>
+        </div>
+
+        <!-- LEGEND PANEL -->
+        <div class="stn-legend-panel">
+          <div id="stations-legend" class="stn-legend"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── STATIONS TABLE ── -->
+  <section class="stn-list-section">
+    <div class="container">
+      <div class="stn-list-header">
+        <p class="stn-eyebrow">{% translate "Directory" %}</p>
+        <h2 class="stn-list-title">{% translate "Stations List" %}</h2>
+      </div>
+      {% if stations_table %}
+        <div class="stn-table-wrap">
+          {% render_table stations_table %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+</main>
 {% endblock content %}
 
 {% block extra_js %}
-    {{ block.super }}
+  {{ block.super }}
+  <script src="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js"></script>
+  <script>
+    const mapConfigObj     = {{ mapConfig | safe }};
+    const popupFields      = {{ popup_fields | safe }};
+    const { stationBounds, stationsVectorTilesUrl } = mapConfigObj;
+    const countryBounds    = {{ bounds|safe|default_if_none:"" }};
+    const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
 
-    <script src="https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js"></script>
-    <script>
+    // Prefer station bounds (tighter fit); fall back to country bounds
+    let bounds = null;
+    if (stationBounds && !!stationBounds.length) {
+      bounds = [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]];
+    } else if (countryBounds && !!countryBounds.length) {
+      bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]];
+    }
 
-        const mapConfigObj = {{ mapConfig | safe }};
-        const popupFields = {{ popup_fields | safe }};
-        const {stationBounds, stationsVectorTilesUrl} = mapConfigObj
-        const countryBounds = {{ bounds|safe|default_if_none:""}};
-        const boundaryTilesUrl = "{{ boundary_tiles_url|default_if_none:'' }}";
+    const searchDataUrl  = "{{ page.url }}search-data/";
+    const stationBaseUrl = "{{ page.url }}";
 
-        let bounds = null;
+    const COLOR_SCHEMES = {
+      operating_status: {
+        label: "{% translate 'Operating Status' %}",
+        field: "operating_status",
+        colors: {
+          "Operational":       "#2ECC71",
+          "Partly operational":"#A9DFBF",
+          "Non-reporting":     "#F39C12",
+          "Pre-operational":   "#3498DB",
+          "Planned":           "#5DADE2",
+          "Stand-by":          "#F7DC6F",
+          "Closed":            "#E74C3C",
+          "unknown":           "#95A5A6",
+        },
+        defaultColor: "#BDC3C7",
+      },
+      station_type: {
+        label: "{% translate 'Station Type' %}",
+        field: "station_type",
+        colors: {
+          "Land (fixed)":        "#2980B9",
+          "Land (mobile)":       "#5DADE2",
+          "Land (on ice)":       "#AED6F1",
+          "Sea (fixed)":         "#1ABC9C",
+          "Sea (mobile)":        "#76D7C4",
+          "Sea (on ice)":        "#A2D9CE",
+          "Lake/River (fixed)":  "#27AE60",
+          "Lake/River (mobile)": "#82E0AA",
+          "Air (fixed)":         "#E67E22",
+          "Air (mobile)":        "#F0B27A",
+          "Underwater (fixed)":  "#8E44AD",
+          "Underwater (mobile)": "#C39BD3",
+        },
+        defaultColor: "#BDC3C7",
+      },
+    };
 
-        if (countryBounds && !!countryBounds.length) {
-            bounds = [[countryBounds[0], countryBounds[1]], [countryBounds[2], countryBounds[3]]]
-        } else if (stationBounds && !!stationBounds.length) {
-            bounds = [[stationBounds[0], stationBounds[1]], [stationBounds[2], stationBounds[3]]]
+    function buildColorExpression(scheme) {
+      const expr = ["match", ["get", scheme.field]];
+      for (const [value, color] of Object.entries(scheme.colors)) {
+        expr.push(value, color);
+      }
+      expr.push(scheme.defaultColor);
+      return expr;
+    }
+
+    function renderLegend(scheme) {
+      const container = document.getElementById("stations-legend");
+      container.innerHTML = "";
+
+      const title = document.createElement("p");
+      title.className = "stn-legend-title";
+      title.textContent = scheme.label;
+      container.appendChild(title);
+
+      const entries = { ...scheme.colors, "Other": scheme.defaultColor };
+      for (const [label, color] of Object.entries(entries)) {
+        const item = document.createElement("div");
+        item.className = "stn-legend-item";
+        item.innerHTML =
+          `<span class="stn-legend-dot" style="background:${color};"></span>` +
+          `<span class="stn-legend-label">${label}</span>`;
+        container.appendChild(item);
+      }
+    }
+
+    function applyColorScheme(map, schemeKey) {
+      const scheme = COLOR_SCHEMES[schemeKey];
+      map.setPaintProperty("stations-circle", "circle-color", buildColorExpression(scheme));
+      renderLegend(scheme);
+      document.querySelectorAll(".stn-toggle-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.scheme === schemeKey);
+      });
+    }
+
+    /* Stats are computed from the search-data fetch (full DB result),
+       not from querySourceFeatures which only sees viewport tiles. */
+    function updateStatsBar(stations) {
+      const counts = { operational: 0, partlyOperational: 0, closed: 0, planned: 0 };
+      stations.forEach(s => {
+        const status = s.operating_status;
+        if (status === "Operational")      counts.operational++;
+        if (status === "Partly operational") counts.partlyOperational++;
+        if (status === "Closed")           counts.closed++;
+        if (status === "Planned")          counts.planned++;
+      });
+      const set = (id, val) => {
+        const el = document.querySelector(`#${id} .stn-stat-num`);
+        if (el) el.textContent = val;
+      };
+      set("stat-total",               stations.length);
+      set("stat-operational",         counts.operational);
+      set("stat-partly-operational",  counts.partlyOperational);
+      set("stat-closed",              counts.closed);
+      set("stat-planned",             counts.planned);
+    }
+
+    const defaultStyle = {
+      version: 8,
+      sources: {
+        'carto-light': {
+          type: 'raster',
+          tiles: [
+            "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+            "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+            "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+            "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
+          ],
+        },
+      },
+      layers: [{
+        id: 'carto-light-layer',
+        source: 'carto-light',
+        type: 'raster',
+        minzoom: 0,
+        maxzoom: 22,
+      }],
+    };
+
+    $(document).ready(async function () {
+      const map = new maplibregl.Map({
+        container: "stations-map",
+        style: defaultStyle,
+        doubleClickZoom: false,
+      });
+
+      map.scrollZoom.disable();
+      map.addControl(new maplibregl.NavigationControl({
+        visualizePitch: true, showZoom: true, showCompass: true,
+      }), "bottom-right");
+      map.addControl(new maplibregl.FullscreenControl());
+
+      await new Promise((resolve) => map.on("load", resolve));
+
+      if (bounds) map.fitBounds(bounds, { padding: 50 });
+
+      if (boundaryTilesUrl) {
+        map.addSource("admin-boundary-source", { type: "vector", tiles: [boundaryTilesUrl] });
+        map.addLayer({
+          id: 'admin-boundary-fill', type: 'fill',
+          source: 'admin-boundary-source', "source-layer": "default",
+          filter: ["==", "level", 0],
+          paint: { 'fill-color': "#fff", 'fill-opacity': 0 },
+        });
+        map.addLayer({
+          id: 'admin-boundary-line', type: 'line',
+          source: 'admin-boundary-source', "source-layer": "default",
+          filter: ["==", "level", 0],
+          paint: { "line-color": "#C0FF24", "line-width": 1, "line-offset": 1 },
+        });
+        map.addLayer({
+          id: 'admin-boundary-line-2', type: 'line',
+          source: 'admin-boundary-source', "source-layer": "default",
+          filter: ["==", "level", 0],
+          paint: { "line-color": "#000", "line-width": 1.5 },
+        });
+      }
+
+      map.addSource("stations-source", {
+        type: "vector",
+        tiles: [stationsVectorTilesUrl]
+      });
+
+      const initialScheme = "operating_status";
+      map.addLayer({
+        id: 'stations-circle',
+        type: 'circle',
+        source: 'stations-source',
+        "source-layer": "default",
+        paint: {
+          'circle-color': buildColorExpression(COLOR_SCHEMES[initialScheme]),
+          'circle-radius': 8,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': "rgba(0,0,0,0.3)",
+        },
+      });
+
+      renderLegend(COLOR_SCHEMES[initialScheme]);
+
+
+      document.querySelectorAll(".stn-toggle-btn").forEach(btn => {
+        btn.addEventListener("click", () => applyColorScheme(map, btn.dataset.scheme));
+      });
+
+      map.on('mouseenter', 'stations-circle', () => map.getCanvas().style.cursor = 'pointer');
+      map.on('mouseleave', 'stations-circle', () => map.getCanvas().style.cursor = '');
+
+      function featureHtml(f) {
+        const p = f.properties;
+        const popupProps = Object.keys(p).reduce((all, key) => {
+          if (popupFields.find(f => f.name === key)) all[key] = p[key];
+          return all;
+        }, {});
+        if (popupProps && !!Object.keys(popupProps).length) {
+          let h = "<div class='stn-popup'>";
+          for (let k in popupProps) {
+            const col = popupFields.find(f => f.name === k);
+            h += `<div class="stn-popup-row">
+                    <span class="stn-popup-key">${col.label ? col.label : k}</span>
+                    <span class="stn-popup-val">${popupProps[k]}</span>
+                  </div>`;
+          }
+          if (p.gid) {
+            h += `<a class="stn-popup-detail-btn" href="${stationBaseUrl}${p.gid}/">{% translate "View Detail" %}</a>`;
+          }
+          h += "</div>";
+          return h;
         }
+        return null;
+      }
 
-
-        const defaultStyle = {
-            'version': 8,
-            'sources': {
-                'carto-dark': {
-                    'type': 'raster',
-                    'tiles': [
-                        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
-                    ]
-                },
-                'carto-light': {
-                    'type': 'raster',
-                    'tiles': [
-                        "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                        "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                        "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                        "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
-                    ]
-                },
-                'wikimedia': {
-                    'type': 'raster',
-                    'tiles': [
-                        "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
-                    ]
-                }
-            },
-            'layers': [{
-                'id': 'carto-light-layer',
-                'source': 'carto-light',
-                'type': 'raster',
-                'minzoom': 0,
-                'maxzoom': 22
-            }]
+      map.on('click', "stations-circle", function (e) {
+        const popContent = featureHtml(e.features[0]);
+        if (popContent) {
+          new maplibregl.Popup({ maxWidth: '280px' })
+            .setLngLat(e.lngLat)
+            .setHTML(popContent)
+            .addTo(map);
         }
+      });
 
-        $(document).ready(async function () {
-            const map = new maplibregl.Map({
-                container: "stations-map",
-                style: defaultStyle,
-                doubleClickZoom: false,
-            });
+      // ── SEARCH ──────────────────────────────────────────────────────────
+      let allStations = [];
 
-            map.scrollZoom.disable();
-
-            map.addControl(
-                new maplibregl.NavigationControl({
-                    visualizePitch: true,
-                    showZoom: true,
-                    showCompass: true,
-                }), "bottom-right"
-            );
-
-            map.addControl(new maplibregl.FullscreenControl());
-
-            await new Promise((resolve) => map.on("load", resolve));
-
-
-            if (bounds) {
-                map.fitBounds(bounds, {padding: 50})
-            }
-
-            // add country boundary layer
-            if (boundaryTilesUrl) {
-                // add source
-                map.addSource("admin-boundary-source", {
-                        type: "vector",
-                        tiles: [boundaryTilesUrl],
-                    }
-                )
-                // add layer
-                map.addLayer({
-                    'id': 'admin-boundary-fill',
-                    'type': 'fill',
-                    'source': 'admin-boundary-source',
-                    "source-layer": "default",
-                    "filter": ["==", "level", 0],
-                    'paint': {
-                        'fill-color': "#fff",
-                        'fill-opacity': 0,
-                    }
-                });
-
-                map.addLayer({
-                    'id': 'admin-boundary-line',
-                    'type': 'line',
-                    'source': 'admin-boundary-source',
-                    "source-layer": "default",
-                    "filter": ["==", "level", 0],
-                    'paint': {
-                        "line-color": "#C0FF24",
-                        "line-width": 1,
-                        "line-offset": 1,
-                    }
-                });
-                map.addLayer({
-                    'id': 'admin-boundary-line-2',
-                    'type': 'line',
-                    'source': 'admin-boundary-source',
-                    "source-layer": "default",
-                    "filter": ["==", "level", 0],
-                    'paint': {
-                        "line-color": "#000",
-                        "line-width": 1.5,
-                    }
-                });
-            }
-
-            // add source
-            map.addSource("stations-source", {
-                    type: "vector",
-                    tiles: [stationsVectorTilesUrl],
-                }
-            )
-
-            // add layer
-            map.addLayer({
-                'id': 'stations-circle',
-                'type': 'circle',
-                'source': 'stations-source',
-                "source-layer": "default",
-                'paint': {
-                    'circle-color': "#ADEFD1FF",
-                    'circle-radius': 8,
-                    "circle-stroke-width": 4,
-                    "circle-stroke-color": "#00203FFF",
-                }
-            });
-
-            map.on('mouseenter', 'stations-circle', () => {
-                map.getCanvas().style.cursor = 'pointer'
-            })
-            map.on('mouseleave', 'stations-circle', () => {
-                map.getCanvas().style.cursor = ''
-            })
-
-
-            function featureHtml(f) {
-                const p = f.properties;
-
-                const popupProps = Object.keys(p).reduce((all, key) => {
-                    if (popupFields.find(f => f.name === key)) {
-                        all[key] = p[key]
-                    }
-                    return all
-                }, {})
-
-                if (popupProps && !!Object.keys(popupProps).length) {
-                    let h = "<div class='station-popup-content'>";
-                    for (let k in popupProps) {
-                        const column = popupFields.find(f => f.name === k)
-                        h += "<p><b>" + `${column.label ? column.label : k}` + ":</b> " + popupProps[k] + "<br/></p>"
-                    }
-                    h += "</div>";
-                    return h
-                }
-                return null
-            }
-
-
-            map.on('click', "stations-circle", function (e) {
-                let popContent = featureHtml(e.features[0])
-
-                if (popContent) {
-                    new maplibregl.Popup()
-                        .setLngLat(e.lngLat)
-                        .setHTML(popContent)
-                        .addTo(map);
-                }
-            });
+      fetch(searchDataUrl)
+        .then(r => r.json())
+        .then(data => {
+          allStations = data.stations || [];
+          updateStatsBar(allStations);
         })
+        .catch(() => {});
 
-    </script>
+      const searchInput   = document.getElementById("stn-search-input");
+      const searchResults = document.getElementById("stn-search-results");
+      const searchClear   = document.getElementById("stn-search-clear");
+
+      function showResults(matches) {
+        searchResults.innerHTML = "";
+        if (!matches.length) {
+          searchResults.hidden = true;
+          return;
+        }
+        matches.slice(0, 10).forEach(s => {
+          const li = document.createElement("li");
+          li.className = "stn-search-result-item";
+          li.innerHTML =
+            `<span class="stn-result-name">${s.name || "—"}</span>` +
+            `<span class="stn-result-wigos">${s.wigos_id || ""}</span>`;
+          li.addEventListener("click", () => {
+            map.flyTo({ center: [s.lon, s.lat], zoom: 12, essential: true });
+            new maplibregl.Popup({ maxWidth: '280px' })
+              .setLngLat([s.lon, s.lat])
+              .setHTML(
+                `<div class="stn-popup">` +
+                `<div class="stn-popup-row"><span class="stn-popup-key">Station Name</span><span class="stn-popup-val">${s.name || "—"}</span></div>` +
+                `<div class="stn-popup-row"><span class="stn-popup-key">WIGOS ID</span><span class="stn-popup-val">${s.wigos_id || "—"}</span></div>` +
+                `<a class="stn-popup-detail-btn" href="${stationBaseUrl}${s.gid}/">{% translate "View Detail" %}</a>` +
+                `</div>`
+              )
+              .addTo(map);
+            searchInput.value = s.name;
+            searchResults.hidden = true;
+            searchClear.hidden = false;
+          });
+          searchResults.appendChild(li);
+        });
+        searchResults.hidden = false;
+      }
+
+      searchInput.addEventListener("input", () => {
+        const q = searchInput.value.trim().toLowerCase();
+        searchClear.hidden = !q;
+        if (!q) { searchResults.hidden = true; return; }
+        const matches = allStations.filter(s =>
+          (s.name    && s.name.toLowerCase().includes(q)) ||
+          (s.wigos_id && s.wigos_id.toLowerCase().includes(q))
+        );
+        showResults(matches);
+      });
+
+      searchClear.addEventListener("click", () => {
+        searchInput.value = "";
+        searchClear.hidden = true;
+        searchResults.hidden = true;
+        searchInput.focus();
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".stn-search-row")) searchResults.hidden = true;
+      });
+    });
+  </script>
 {% endblock %}

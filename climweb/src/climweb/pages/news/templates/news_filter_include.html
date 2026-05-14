@@ -1,88 +1,77 @@
 {% load static i18n wagtailiconchooser_tags %}
 
-<div class="results-filter">
-    <div class="accordion js-accordion" id="news-filter-accordion">
-        {% if filters.news_types %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>
-                        {% translate "Filter by News Type" %}
-                    </span>
-                    <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for news_type in filters.news_types %}
-                            <label class="checkbox-container" for="{{ news_type.name }}">
-                                <span class="filter-sub-item">{{ news_type.name }}</span>
-                                <input type="checkbox" id="{{ news_type.name }}"
-                                       name="news_type"
-                                       value="{{ news_type.pk }}"
-                                       class="news-filter news_type"
-                                >
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-        {% if filters.service_categories %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>
-                        {% translate "Filter by Service" %}
-                    </span>
-                    <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for service in filters.service_categories %}
-                            <label class="checkbox-container" for="{{ service.name }}">
-                                <span class="filter-sub-item">{{ service.name }}</span>
-                                <input type="checkbox" id="{{ service.name }}" name="service" value="{{ service.pk }}"
-                                       class="news-filter service">
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-        {% if filters.year %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>
-                        {% translate "Filter by Year" %}
-                    </span>
-                    <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for date in filters.year reversed %}
-                            <label class="checkbox-container" for="{{ date.year }}">
-                                <span class="filter-sub-item">{{ date.year }}</span>
-                                <input type="checkbox" id="{{ date.year }}" name="year" value="{{ date.year }}"
-                                       class="news-filter year">
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
+<div class="pub-filter">
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                new Accordion("news-filter-accordion");
-            });
-        </script>
+  {% if filters.news_types %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "News Type" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for news_type in filters.news_types %}
+          <label class="pub-filter-check" for="nt-{{ news_type.pk }}">
+            <input type="checkbox"
+                   id="nt-{{ news_type.pk }}"
+                   name="news_type"
+                   value="{{ news_type.pk }}"
+                   class="news-filter news_type">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ news_type.name }}</span>
+          </label>
+        {% endfor %}
+      </div>
     </div>
-</div>
+  {% endif %}
 
+  {% if filters.service_categories %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "Service" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for service in filters.service_categories %}
+          <label class="pub-filter-check" for="svc-{{ service.pk }}">
+            <input type="checkbox"
+                   id="svc-{{ service.pk }}"
+                   name="service"
+                   value="{{ service.pk }}"
+                   class="news-filter service">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ service.name }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if filters.year %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "Year" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for date in filters.year reversed %}
+          <label class="pub-filter-check" for="yr-{{ date.year }}">
+            <input type="checkbox"
+                   id="yr-{{ date.year }}"
+                   name="year"
+                   value="{{ date.year }}"
+                   class="news-filter year">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ date.year }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+</div>

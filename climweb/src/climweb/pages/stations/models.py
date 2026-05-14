@@ -1,5 +1,7 @@
 from adminboundarymanager.models import AdminBoundarySettings
 from django.contrib.gis.db import models
+from django.db import connection
+from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.html import format_html
@@ -194,6 +196,26 @@ class StationsPage(MetadataPageMixin, RoutablePageMixin, Page):
         })
 
         return self.render(request, context_overrides={**context})
+
+    @path('search-data/')
+    def station_search_data(self, request):
+        station_settings = StationSettings.for_request(request)
+        stations = []
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"SELECT gid, name, wigos_id, operating_status, ST_X(geom), ST_Y(geom) "
+                    f"FROM {station_settings.full_table_name} "
+                    f"WHERE geom IS NOT NULL ORDER BY name"
+                )
+                stations = [
+                    {"gid": r[0], "name": r[1] or "", "wigos_id": r[2] or "",
+                     "operating_status": r[3] or "", "lon": r[4], "lat": r[5]}
+                    for r in cursor.fetchall()
+                ]
+        except Exception:
+            pass
+        return JsonResponse({"stations": stations})
 
     @path('<int:station_pk>/')
     def station_detail(self, request, station_pk):

@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:46+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Swahili\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: sw\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/cityclimate/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1308\n"
+"X-Crowdin-Language: sw\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/cityclimate/blocks.py:17
 msgid "Line Color"
@@ -31,6 +32,7 @@ msgstr "Rangi ya Kujaza Eneo"
 
 #: climweb/src/climweb/pages/cityclimate/forms.py:15
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:111
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:33
 msgid "City"
 msgstr "Jiji"
 
@@ -39,9 +41,8 @@ msgid "CSV File"
 msgstr "Faili ya CSV"
 
 #: climweb/src/climweb/pages/cityclimate/forms.py:18
-#| msgid "Time Format"
 msgid "File Date Format"
-msgstr ""
+msgstr "Umbizo la Tarehe ya Faili"
 
 #: climweb/src/climweb/pages/cityclimate/models.py:55
 msgid "Description"
@@ -99,11 +100,15 @@ msgstr "Usanidi wa Chati"
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:4
 #, python-format
 msgid "%(title)s"
-msgstr ""
+msgstr "%(title)s"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:55
-msgid "No city has been created. Please add a city first then return here to upload data"
-msgstr "Hakuna jiji lililoundwa. Tafadhali ongeza jiji kwanza kisha urudi hapa ili kupakia data"
+msgid ""
+"No city has been created. Please add a city first then return here to upload"
+" data"
+msgstr ""
+"Hakuna jiji lililoundwa. Tafadhali ongeza jiji kwanza kisha urudi hapa ili "
+"kupakia data"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:64
 msgid "Add City"
@@ -120,9 +125,8 @@ msgid "Cities with data loaded: %(counter)s"
 msgstr "Miji iliyo na data iliyopakiwa: %(counter)s"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:94
-#| msgid "Data Parameters"
 msgid "Edit Data Parameters"
-msgstr ""
+msgstr "Hariri Vigezo vya Data"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:103
 msgid "View live page"
@@ -149,17 +153,21 @@ msgstr "Tazama data"
 msgid "Delete Data"
 msgstr "Futa data"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:46
-msgid "Choose a city"
-msgstr "Chagua jiji"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:20
+#, fuzzy
+#| msgid "Load Climate Data"
+msgid "Climate Data"
+msgstr "Takwimu za Hali ya Hewa"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:66
-msgid "Select Month"
-msgstr "Chagua Mwezi"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:57
+msgid "Month"
+msgstr "Mwezi"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:84
-msgid "Select Parameter"
-msgstr "Chagua Kigezo"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:81
+#, fuzzy
+#| msgid "Data Parameters"
+msgid "Parameters"
+msgstr "Vigezo"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/confirm_delete_city_climate_data.html:4
 msgid "Confirm delete"
@@ -186,14 +194,12 @@ msgid "Load Climate Data"
 msgstr "Pakia Data ya Hali ya Hewa"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:55
-#| msgid "Select Month"
 msgid "Select Date Column"
-msgstr ""
+msgstr "Chagua Safu Wima ya Tarehe"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:71
-#| msgid "Select Month"
 msgid "Select"
-msgstr ""
+msgstr "Chagua"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:73
 msgid "Column"
@@ -213,17 +219,24 @@ msgid "Back to list"
 msgstr "Rudi kwenye orodha"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/view_city_climate_data.html:27
-#| msgid "Update data"
 msgid "Update Data"
-msgstr ""
+msgstr "Sasisha Data"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/view_city_climate_data.html:44
 msgid "Date"
 msgstr "Tarehe"
 
+#~ msgid "Choose a city"
+#~ msgstr "Chagua jiji"
+
+#~ msgid "Select Month"
+#~ msgstr "Chagua Mwezi"
+
+#~ msgid "Select Parameter"
+#~ msgstr "Chagua Kigezo"
+
 #~ msgid "Last Updated"
-#~ msgstr "Last Updated"
+#~ msgstr "Ilisasishwa Mwisho"
 
 #~ msgid "Date Field"
-#~ msgstr "Date Field"
-
+#~ msgstr "Uwanja wa Tarehe"

@@ -5,7 +5,7 @@ from wagtail.admin.menu import MenuItem
 
 from .models import StationSettings
 from .utils import create_stations_geomanager_dataset
-from .views import load_stations, preview_stations
+from .views import load_stations, preview_stations, sync_stations_from_oscar
 
 
 @hooks.register('register_admin_urls')
@@ -13,6 +13,7 @@ def urlconf_stations():
     return [
         path('load-stations/', load_stations, name='load_stations'),
         path('preview-stations/', preview_stations, name='preview_stations'),
+        path('sync-stations-oscar/', sync_stations_from_oscar, name='sync_stations_from_oscar'),
     ]
 
 

@@ -1,0 +1,252 @@
+/* ── FOOTER WRAPPER ── */
+.site-footer {
+  background: var(--primary-color);
+}
+
+/* ── TOP SECTION ── */
+.site-footer-top {
+  padding: 2.5rem 1.5rem 2rem;
+}
+
+/* ── TOP INNER GRID: brand left fixed, nav right flexible ── */
+.site-footer-top .container > .columns {
+  display: grid !important;
+  grid-template-columns: 400px 1fr !important;
+    justify-items: center
+}
+
+/* brand column — first child of the columns div */
+.site-footer-top .container > .columns > .column:first-child {
+  width: auto !important;
+  padding: 0 !important;
+}
+
+/* nav columns wrapper — all nav columns sit inside a sub-grid */
+.site-footer-top .container > .columns > .column:not(:first-child) {
+  padding: 0 !important;
+}
+
+/* wrap nav columns into a 3-column auto-wrapping grid */
+.site-footer-top .container > .columns {
+  grid-template-columns: 400px repeat(auto-fit, minmax(140px, 1fr)) !important;
+}
+
+/* ── BRAND ── */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 1rem;
+}
+
+.footer-logo-link {
+  display: inline-block;
+}
+
+.footer-logo-img {
+  max-height: 80px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+.footer-brand-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+}
+
+/* socials under brand on desktop */
+.footer-brand-socials {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.footer-brand-social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.15s;
+  text-decoration: none;
+}
+
+.footer-brand-social-icon:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.footer-brand-social-icon .icon svg {
+  width: 13px;
+  height: 13px;
+  fill: #fff;
+}
+
+/* ── NAV COLUMNS ── */
+.footer-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.footer-nav-link {
+  display: block;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  transition: color 0.12s;
+  font-weight: 700;
+}
+
+.footer-nav-link:hover {
+  color: #fff !important;
+}
+
+.footer-nav-action {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  background: transparent !important;
+  margin-top: 6px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.footer-nav-action:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: #fff !important;
+}
+
+/* ── BOTTOM BAR ── */
+.site-footer-bottom {
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-bottom-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.footer-powered {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.12s;
+}
+
+.footer-powered:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── SOCIAL ICONS — bottom bar (mobile only, hidden on desktop) ── */
+.footer-socials {
+  display: none; /* hidden on desktop — socials moved under brand */
+}
+
+.footer-social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.15s;
+  text-decoration: none;
+}
+
+.footer-social-icon:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.footer-social-icon .icon svg {
+  width: 13px;
+  height: 13px;
+  fill: #fff;
+}
+
+/* ── DPG BADGE ── */
+.footer-dpg-badge {
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.footer-dpg-badge:hover {
+  opacity: 1;
+}
+
+/* ── RESPONSIVE ── */
+
+/* Tablet — 2 col nav grid */
+@media (max-width: 1024px) {
+  .site-footer-top .container > .columns {
+    grid-template-columns: 180px repeat(auto-fit, minmax(130px, 1fr)) !important;
+    gap: 1.5rem !important;
+  }
+
+  .site-footer-top { padding: 2rem 1rem 1.5rem; }
+}
+
+/* Mobile — stack everything */
+@media (max-width: 768px) {
+  .site-footer-top .container > .columns {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  .site-footer-top .container > .columns > .column:first-child {
+    margin-bottom: 1.5rem;
+  }
+
+  /* on mobile show socials in bottom bar, hide from brand */
+  .footer-brand-socials { display: none; }
+  .footer-socials {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.5rem;
+  }
+
+  /* nav columns wrap to 2 per row on mobile */
+  .site-footer-top .container > .columns > .column:not(:first-child) {
+    display: inline-block;
+    width: 50% !important;
+    vertical-align: top;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-col-title { margin-top: 0; }
+
+  .site-footer-top { padding: 1.5rem 1rem 1rem; }
+  .site-footer-bottom { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .site-footer-top .container > .columns > .column:not(:first-child) {
+    width: 100% !important;
+    display: block;
+  }
+}

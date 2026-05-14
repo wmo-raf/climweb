@@ -45,22 +45,28 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/google-translate.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/navigation.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/cms_style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/override.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sections.css' %}">
     <link rel="stylesheet" href="{% static 'css/services_common.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/nmhs_cms.css' %}">
 
     {# Global stylesheets #}
     <style>
         :root {
-            --primary-color: {{ primary_color }};
-            --primary-color-background: {{ primary_color }}25;
-            --secondary-color: {{ secondary_color }};
+            --text-color: {{ text_color }};
+            --text-color-background: {{ text_color }}25;
+            --background-color: {{ background_color }} ;
+            --primary-color-lightest: {{ primary_color }}0d; 
+            --primary-color-light: {{ primary_color }}1A; 
+            --primary-color-medium: {{ primary_color }}4f; 
             --border-radius: {{ border_radius }};
-            --primary-hover-color: {{ primary_hover_color }};
+            --primary-color: {{ primary_color }};
         }
 
         {% if settings.base.LanguageSettings.default_language|slice:":2" == "ar" %}
-            .section-subheader{
+            .title is-3{
                 text-align:right !important;
             }
             h1,h2,h3,h4,h5,p{

@@ -1,117 +1,193 @@
 {% extends "base.html" %}
 {% load static wagtailcore_tags wagtailsearchpromotions_tags i18n %}
 
-{% block title %} Search {% endblock %}
+{% block title %}{% translate "Search" %}{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+  <link rel="stylesheet" href="{% static 'css/search.css' %}">
 {% endblock %}
 
 {% block content %}
-    {% include 'hero.html' %}
-    <main>
-        <section>
-            <div class="container">
-                <div class="columns is-centered">
-                    <div class="column is-half-desktop is-full-mobile">
-                        <form action="{% url 'search' %}" method="get" id="search-form">
-                            <div class="field is-fullwidth has-addons" style="align-items: center">
-                                <div class="control is-expanded">
-                                    <input class="input is-fullwidth is-rounded" id="search-form-input" type="text"
-                                           placeholder="Search"
-                                           name="query"
-                                            {% if search_query %} value="{{ search_query }}"{% endif %}>
-                                </div>
-                                <div class="control">
-                                    <button class="button submit-button is-rounded" type="submit">
-                                        {% translate "Search" %}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+<main>
+  {% include 'breadcrumbs_include.html' %}
+
+  <section class="srch-section">
+    <div class="container">
+
+      <!-- ── HEADER ── -->
+      <div class="srch-header">
+        <p class="srch-eyebrow">{% translate "Search" %}</p>
+        <h1 class="srch-title">
+          {% if search_query %}
+            {% blocktranslate with q=search_query trimmed %}
+              Results for "{{ q }}"
+            {% endblocktranslate %}
+          {% else %}
+            {% translate "What are you looking for?" %}
+          {% endif %}
+        </h1>
+      </div>
+
+      <!-- ── SEARCH FORM ── -->
+      <div class="srch-form-wrap">
+        <form action="{% url 'search' %}" method="get" id="search-form">
+          <div class="srch-form-inner">
+            <span class="srch-form-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </span>
+            <input class="srch-form-input"
+                   id="search-form-input"
+                   type="text"
+                   name="query"
+                   placeholder="{% translate 'Type to search…' %}"
+                   autocomplete="off"
+                   autofocus
+                   {% if search_query %}value="{{ search_query }}"{% endif %}>
+            <button class="srch-form-btn" type="submit">
+              {% translate "Search" %}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── RESULTS ── -->
+      {% get_search_promotions search_query as search_promotions %}
+
+      {% if search_promotions or search_results %}
+
+        <!-- RESULT COUNT -->
+        <div class="srch-count">
+          {% with total=search_results|length %}
+            {% blocktranslate count counter=total trimmed %}
+              {{ counter }} result found
+            {% plural %}
+              {{ counter }} results found
+            {% endblocktranslate %}
+          {% endwith %}
+        </div>
+
+        <div class="srch-results">
+
+          <!-- PROMOTED RESULTS -->
+          {% for promo in search_promotions %}
+            <div class="srch-item srch-item--promoted">
+              <div class="srch-item-inner">
+                <div class="srch-item-body">
+                  <span class="srch-promoted-badge">{% translate "Featured" %}</span>
+                  <a href="{% pageurl promo.page %}" class="srch-item-title">
+                    {{ promo.page.title }}
+                  </a>
+                  {% if promo.description %}
+                    <p class="srch-item-desc">{{ promo.description }}</p>
+                  {% endif %}
                 </div>
-                <div class="results">
-                    <div class="columns is-centered">
-                        <div class="column is-half-desktop is-full-mobile">
-                            {% get_search_promotions search_query as search_promotions %}
-                            {% if search_promotions or search_results %}
-
-                                <ul>
-                                    {% for search_promotion in search_promotions %}
-                                        <li class="search-result-item">
-                                            <h4 class="search-result-item-header">
-                                                <a href="{% pageurl search_promotion.page %}">{{ search_promotion.page.title }}</a>
-                                            </h4>
-                                            {% if search_promotion.description %}
-                                                <p class="search-result-item-desc">
-                                                    {{ search_promotion.description }}
-                                                </p>
-                                            {% endif %}
-                                            <a class="button is-rounded is-small search-result-item-more"
-                                               href="{% pageurl search_promotion.page %}">
-                                                {% translate "More" %}
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-
-                                    {% for result in search_results %}
-                                        <li class="search-result-item">
-                                            <h4 class="search-result-item-header">
-                                                {% if result.search_result_title and result.search_result_url %}
-                                                    <a href="{{ result.search_result_url }}">{{ result.search_result_title }}</a>
-                                                {% else %}
-                                                    <a href="{% pageurl result %}">{{ result.title }}</a>
-                                                {% endif %}
-                                            </h4>
-                                            {% if result.search_description %}
-                                                <p class="search-result-item-desc format-text">
-                                                    {{ result.search_description|safe|richtext|truncatechars_html:200 }}
-                                                </p>
-                                            {% endif %}
-                                            {% if result.search_result_url %}
-                                                <a class="button is-rounded is-small search-result-item-more"
-                                                   href="{{ result.search_result_url }}">
-                                                    {% translate "More" %}
-                                                </a>
-                                            {% else %}
-                                                <a class="button is-rounded is-small search-result-item-more"
-                                                   href="{% pageurl result %}">
-                                                    {% translate "More" %}
-                                                </a>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% elif search_query %}
-                                {% translate "No results found" %}
-                            {% else %}
-                                {% translate "Please type something into the search box" %}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-
+                <a class="srch-item-more" href="{% pageurl promo.page %}">
+                  {% translate "View" %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
             </div>
-        </section>
-    </main>
+          {% endfor %}
+
+          <!-- STANDARD RESULTS -->
+          {% for result in search_results %}
+            <div class="srch-item">
+              <div class="srch-item-inner">
+                <div class="srch-item-body">
+                  <a href="{% if result.search_result_url %}{{ result.search_result_url }}{% else %}{% pageurl result %}{% endif %}"
+                     class="srch-item-title">
+                    {% if result.search_result_title %}
+                      {{ result.search_result_title }}
+                    {% else %}
+                      {{ result.title }}
+                    {% endif %}
+                  </a>
+                  {% if result.search_description %}
+                    <p class="srch-item-desc format-text">
+                      {{ result.search_description|safe|richtext|truncatechars_html:200 }}
+                    </p>
+                  {% endif %}
+                  <span class="srch-item-url">
+                    {% if result.search_result_url %}
+                      {{ result.search_result_url }}
+                    {% else %}
+                      {% pageurl result %}
+                    {% endif %}
+                  </span>
+                </div>
+                <a class="srch-item-more"
+                   href="{% if result.search_result_url %}{{ result.search_result_url }}{% else %}{% pageurl result %}{% endif %}">
+                  {% translate "View" %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+
+      {% elif search_query %}
+
+        <!-- NO RESULTS -->
+        <div class="srch-empty">
+          <div class="srch-empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              <line x1="8" y1="11" x2="14" y2="11"/>
+            </svg>
+          </div>
+          <h3 class="srch-empty-title">{% translate "No results found" %}</h3>
+          <p class="srch-empty-desc">
+            {% blocktranslate with q=search_query trimmed %}
+              We couldn't find anything for "{{ q }}". Try different keywords or check your spelling.
+            {% endblocktranslate %}
+          </p>
+        </div>
+
+      {% else %}
+
+        <!-- PROMPT -->
+        <div class="srch-empty">
+          <div class="srch-empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <h3 class="srch-empty-title">{% translate "Start searching" %}</h3>
+          <p class="srch-empty-desc">
+            {% translate "Type a keyword above to search across all content." %}
+          </p>
+        </div>
+
+      {% endif %}
+
+    </div>
+  </section>
+</main>
 {% endblock %}
 
 {% block extra_js %}
-    <script>
-        /*** Tracking ***/
-        if (typeof cr_track_clicks !== 'undefined' && cr_track_clicks) {
-            $('#search-form').submit(function () {
-                const query = $('#search-form-input').val()
-                if (query) {
-                    ga_reg_event('search', {
-                        "event_category": "Search",
-                        "event_label": "Search Page",
-                        "value": query,
-                    });
-                }
-            });
-        }
-    </script>
-
+<script>
+  if (typeof cr_track_clicks !== 'undefined' && cr_track_clicks) {
+    $('#search-form').submit(function () {
+      const query = $('#search-form-input').val();
+      if (query) {
+        ga_reg_event('search', {
+          event_category: 'Search',
+          event_label: 'Search Page',
+          value: query,
+        });
+      }
+    });
+  }
+</script>
 {% endblock %}

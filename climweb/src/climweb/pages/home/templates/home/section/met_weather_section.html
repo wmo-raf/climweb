@@ -1,0 +1,110 @@
+{% load static wagtailcore_tags wagtailiconchooser_tags i18n %}
+
+<section class="met-section section">
+  <div class="container">
+
+    <!-- City Forecast Panel -->
+    {% if page.show_city_forecast and home_weather_widget_url %}
+    <div class="">
+      
+      <div id="weather-widget-wrapper" style="background-position: center; min-height: 300px; padding-bottom:1em">
+        {% if home_weather_widget_url %}{% include "weather/forecast_widget_skeleton_include.html" %}{% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Bottom Row: Map + Alerts -->
+    <div class="bottom-row">
+
+      {% if home_map_layer_svg_sprite %}
+        <div id="django-svg-data-sprite" style="display: none;">
+          {{ home_map_layer_svg_sprite|safe }}
+        </div>
+      {% endif %}
+
+      {% if home_map_alerts_url %}
+      <div class="alerts-panel">
+
+        <div class="alerts-panel-header">
+          <div class="alerts-panel-header-left">
+            <span class="alerts-panel-title">{% translate "CAP Alerts" %}</span>
+          </div>
+          <span class="alerts-count-badge is-zero" id="alerts-count-badge">0</span>
+        </div>
+
+        <div class="alerts-panel-body">
+          <div class="alerts-container" id="alerts-container">
+            <!-- populated by map Vue component reading data-home-map-alerts-url -->
+          </div>
+        </div>
+
+        {% if settings.base.ImportantPages.cap_warnings_list_page %}
+        <div class="alerts-panel-footer">
+          <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
+            class="alerts-see-all">
+            {% translate "See all alerts" %}
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+        {% endif %}
+
+      </div>
+      {% endif %}
+      <!-- Map panel -->
+      <div class="met-map-panel">
+        <div class="met-map-header">
+          <div>
+            <span class="met-live-dot"></span>
+            <span>{{ page.weather_watch_header }}</span>
+          </div>
+          <div>
+            <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}">
+              <span class="is-hidden-mobile">{{ page.mapviewer_cta_title }}</span>
+              <span class="cf-detail-icon">{% svg_icon "globe" %}</span>
+            </a>
+          </div>
+        </div>
+        <div
+          id="home-map"
+          data-map-settings-url="{{ home_map_settings_url }}"
+          data-initial-bounds="{{ country_bounds }}"
+          data-location-forecast-detail-url="{{ city_detail_page_url|default_if_none:'' }}"
+          data-language-code="{{ LANGUAGE_CODE }}"
+          data-home-map-alerts-url="{{ home_map_alerts_url|default_if_none:'' }}"
+          data-primary-color="{{ primary_color }}"
+        ></div>
+        <div class="met-map-footer">
+          <span class="met-map-tag">{% translate "Location forecast" %}</span>
+          {% if home_map_alerts_url %}
+            <span class="met-map-tag">{% translate "Alerts/Warnings" %}</span>
+          {% endif %}
+          {% if page.show_mapviewer_cta and page.mapviewer_cta_url %}
+            <a href="{{ page.mapviewer_cta_url }}" class="met-map-discover">
+              {% translate "Discover more" %}
+              <span class="icon is-small">{% svg_icon name="arrow-right-full" %}</span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      
+
+    </div>
+    <!-- /bottom-row -->
+
+  </div>
+</section>
+
+{% if page.stats_bar %}
+<div class="rcc-stats-bar">
+  {% for block in page.stats_bar %}
+    <div class="rcc-stat-item">
+      <p class="rcc-stat-num">{{ block.value.value }}</p>
+      <p class="rcc-stat-lbl">{{ block.value.label }}</p>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}

@@ -1,245 +1,271 @@
 {% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
 {% wagtail_site as current_site %}
-<header class="header-nav">
-    <div id="google_language_translator"></div>
-    <div class="nav-top-scroll-active-alert"></div>
-    <div class="top-nav-wrapper is-hidden-touch container is-widescreen">
-        <div class="level top-nav">
-            <div class="level-left">
-                <a class="level-item main-logo" href="{{ current_site.root_url }}"
-                   style="font-weight: 600; font-size: 30px; letter-spacing: 0.2em;color: black;">
-                    {% if settings.base.OrganisationSetting.logo %}
-                        {% image settings.base.OrganisationSetting.logo original as logo %}
-                        <img src="{{ logo.url }}" alt="Logo">
-                    {% else %}
-                        CLIMWEB
-                    {% endif %}
-                </a>
 
-            </div>
-            <div class="level-right is-hidden-mobile">
-                {% if settings.base.ImportantPages.cap_warnings_list_page %}
-                    <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
-                       class="level-item top-nav-item"
-                    >
-                        <span style="margin-right: 4px"> {% translate "Alerts" %} </span>
-                        <img src="{% static 'img/CAPLogo.jpeg' %}" alt="CAP Alerts"
-                             style="height: 18px;width: 18px;border-radius:4px">
-                    </a>
-                {% endif %}
-                {% if settings.base.ImportantPages.mailing_list_signup_page %}
-                    <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
-                       class="level-item top-nav-item"
-                    >
-                        <span>{% translate "Subscribe" %}</span>
-                        <span class="nav-icon">
-                            {% svg_icon name="mail" %}
-                        </span>
-                    </a>
-                {% endif %}
-                {% if settings.base.LanguageSettings.google_languages %}
-                    <div class="level-item dropdown is-hoverable">
-                        <div class="dropdown-trigger">
-                            <div class="top-nav-item">
-                                <span>{% translate "Language" %}</span>
-                                <span class="nav-icon">
-                                    {% svg_icon name="site" %}
-                                </span>
+<header class="site-header">
 
-                            </div>
-                        </div>
-                        <div class="dropdown-menu top-nav-dropdown" role="menu">
-                            <div class="dropdown-content languages" translate="no">
-                                {% for lang in settings.base.LanguageSettings.google_languages %}
-                                    <a class="dropdown-item" data-lang="{{ lang.name }}"
-                                       data-lang-prefix="{{ lang.language }}">
-                                        {{ lang.name }}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-                <div class="level-item top-nav-item">
-                    <div id="search-input" class="field is-hidden search-input">
-                        <form action="{% url 'search' %}">
-                            <div class="control is-small">
-                                <input id="input-el"
-                                       class="input is-small is-rounded" type="text" name="query"
-                                       value="{{ request.GET.query }}"
-                                       placeholder="Search">
-                            </div>
-                        </form>
-                    </div>
-                    <div id="search-trigger" class="search-trigger">
-                        <span>{% translate "Search" %}</span>
-                        <span class="nav-icon">
-                            {% svg_icon name="search" %}
-                        </span>
-                    </div>
-                </div>
-                {% if settings.base.ImportantPages.contact_us_page %}
-                    <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
-                       class="level-item top-nav-item button is-small nav-cta"
-                    >
-                        {% translate "Contact us" %}
-                    </a>
-                {% endif %}
-                {% if settings.base.ImportantPages.feedback_page %}
-                    <a href="{{ settings.base.ImportantPages.feedback_page.url }}"
-                       class="level-item top-nav-item button is-small nav-cta"
-                    >
-                        {% translate "Feedback" %}
-                    </a>
-                {% endif %}
-                {% if user.is_authenticated %}
-                    <a href="{{ wagtail_admin_url }}"
-                       class="level-item top-nav-item button is-small nav-cta"
-                    >
-                        {{ user.username }}, ClimWeb
-                    </a>
-                {% endif %}
-                {% if settings.base.OrganisationSetting.country_flag %}
-                    <a class="level-item main-logo" href="{{ current_site.root_url }}">
-                        {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                        <img src="{{ country_flag.url }}" alt="Logo">
-                    </a>
-                {% endif %}
-                <div class="nav-left-circle-active-alert"></div>
+  <!-- ── TOP UTILITY BAR ── -->
+  <div class="site-header-top">
+    <div class="container site-header-top-inner">
 
-            </div>
+      <!-- LOGO -->
+      <a class="site-logo" href="{{ current_site.root_url }}">
+        {% if settings.base.OrganisationSetting.logo %}
+          {% image settings.base.OrganisationSetting.logo original as logo %}
+          <img src="{{ logo.url }}" alt="Logo" class="site-logo-img">
+        {% else %}
+          <span class="site-logo-text">CLIMWEB</span>
+        {% endif %}
+        {% if settings.base.OrganisationSetting.country_flag %}
+          {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+          <img src="{{ country_flag.url }}" alt="Flag" class="site-logo-flag">
+        {% endif %}
+      </a>
 
-        </div>
-    </div>
+      <!-- UTILITY LINKS -->
+        <div class="site-header-utils">
+        <div id="google_language_translator"></div>
 
-    <nav class="navbar is-justify-content-center is-align-content-center bottom-nav" role="navigation"
-         aria-label="main navigation">
-        <div class="navbar-brand is-hidden-desktop">
-            <a class="mobile-logo" href="{{ current_site.root_url }}">
-                {% if settings.base.OrganisationSetting.logo or settings.base.OrganisationSetting.country_flag %}
-                    {% if settings.base.OrganisationSetting.country_flag %}
-                        {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                        <img src="{{ country_flag.url }}" alt="Logo">
-
-                    {% endif %}
-                    {% if settings.base.OrganisationSetting.logo %}
-                        {% image settings.base.OrganisationSetting.logo original as logo %}
-                        <img src="{{ logo.url }}" alt="Logo">
-                    {% endif %}
-                {% else %}
-                    CLIMWEB
-                {% endif %}
+        {% if settings.base.ImportantPages.cap_warnings_list_page %}
+            <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
+            class="util-link util-link--alert">
+            <span>{% translate "Alerts" %}</span>
+            <img src="{% static 'img/CAPLogo.jpeg' %}" alt="CAP Alerts"
+                style="height:16px;width:16px;border-radius:3px;">
             </a>
-            <div id="navBurger" class="main-nav navbar-burger burger" data-target="mainNav">
-                <span></span>
-                <span></span>
-                <span></span>
+        {% endif %}
+
+        {% if settings.base.ImportantPages.mailing_list_signup_page %}
+            <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
+            class="util-link">
+            <span>{% translate "Subscribe" %}</span>
+            <span class="util-icon">{% svg_icon name="mail" %}</span>
+            </a>
+        {% endif %}
+
+        {% if settings.base.LanguageSettings.google_languages %}
+            <div class="util-dropdown">
+            <div class="util-link util-dropdown-trigger">
+                <span>{% translate "Language" %}</span>
+                <span class="util-icon">{% svg_icon name="site" %}</span>
             </div>
-        </div>
-        <div id="mainNav" class="main-nav navbar-menu">
-            <div class="navbar-start">
-                {% for block in settings.base.NavigationSettings.main_menu %}
-                    {% include_block block %}
+            <div class="util-dropdown-menu" translate="no">
+                {% for lang in settings.base.LanguageSettings.google_languages %}
+                <a class="util-dropdown-item"
+                    data-lang="{{ lang.name }}"
+                    data-lang-prefix="{{ lang.language }}">
+                    {{ lang.name }}
+                </a>
                 {% endfor %}
-                
-                <!-- Add mobile buttons section -->
-                <div class="navbar-item is-hidden-desktop mobile-nav-buttons">
-                    <div class="mobile-buttons-container">
-                        {% if settings.base.ImportantPages.cap_warnings_list_page %}
-                            <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
-                               class="navbar-item mobile-nav-button">
-                                <span>{% translate "Alerts" %}</span>
-                                <img src="{% static 'img/CAPLogo.jpeg' %}" alt="CAP Alerts"
-                                     style="height: 18px;width: 18px;border-radius:4px;margin-left:8px">
-                            </a>
-                        {% endif %}
-                        {% if settings.base.ImportantPages.mailing_list_signup_page %}
-                            <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
-                               class="navbar-item mobile-nav-button">
-                                <span>{% translate "Subscribe" %}</span>
-                                <span class="nav-icon">
-                                    {% svg_icon name="mail" %}
-                                </span>
-                            </a>
-                        {% endif %}
-                        {% if settings.base.ImportantPages.contact_us_page %}
-                            <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
-                               class="navbar-item mobile-nav-button nav-cta">
-                                {% translate "Contact us" %}
-                            </a>
-                        {% endif %}
-                        {% if settings.base.ImportantPages.feedback_page %}
-                            <a href="{{ settings.base.ImportantPages.feedback_page.url }}"
-                               class="navbar-item mobile-nav-button nav-cta">
-                                {% translate "Feedback" %}
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
+            </div>
+            </div>
+        {% endif %}
+
+        <div class="util-search">
+            <div class="util-search-input" id="search-input" style="display:none;">
+            <form action="{% url 'search' %}">
+                <input id="input-el"
+                    class="util-search-field"
+                    type="text"
+                    name="query"
+                    value="{{ request.GET.query }}"
+                    placeholder="{% translate 'Search' %}">
+            </form>
+            </div>
+            <div class="util-link" id="search-trigger">
+            <span>{% translate "Search" %}</span>
+            <span class="util-icon">{% svg_icon name="search" %}</span>
             </div>
         </div>
-    </nav>
-    <div class="is-hidden-desktop nav-left-circle-active-alert">
+
+        {% if settings.base.ImportantPages.contact_us_page %}
+            <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
+            class="header-cta">
+            {% translate "Contact us" %}
+            </a>
+        {% endif %}
+
+        {% if settings.base.ImportantPages.feedback_page %}
+            <a href="{{ settings.base.ImportantPages.feedback_page.url }}"
+            class="header-cta">
+            {% translate "Feedback" %}
+            </a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <a href="{{ wagtail_admin_url }}"
+            class="header-cta header-cta--solid">
+            {{ user.username }}, ClimWeb
+            </a>
+        {% endif %}
+
+        <!-- ACTIVE ALERT — injected here as last item -->
+        <div class="nav-left-circle-active-alert nav-alert-inline"></div>
+
+        </div>
     </div>
+  </div>
+
+  <!-- ── MAIN NAV ── -->
+  <nav class="site-nav" role="navigation" aria-label="main navigation">
+    <div class="container site-nav-inner">
+
+      <!-- MOBILE BRAND -->
+      <div class="site-nav-brand">
+        <a class="mobile-logo" href="{{ current_site.root_url }}">
+          {% if settings.base.OrganisationSetting.country_flag %}
+            {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
+            <img src="{{ country_flag.url }}" alt="Flag" style="height:32px;">
+          {% endif %}
+          {% if settings.base.OrganisationSetting.logo %}
+            {% image settings.base.OrganisationSetting.logo original as logo %}
+            <img src="{{ logo.url }}" alt="Logo" style="height:32px;">
+          {% endif %}
+        </a>
+        <button id="navBurger"
+                class="nav-burger navbar-burger"
+                data-target="mainNav"
+                aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+        </button>
+      </div>
+
+      <!-- NAV LINKS -->
+      <div id="mainNav" class="site-nav-menu navbar-menu">
+        <!-- MOBILE CLOSE BUTTON -->
+        <div class="mobile-nav-close-row">
+            <button class="mobile-nav-close" id="navClose" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            </button>
+        </div>
+        <div class="navbar-start">
+          {% for block in settings.base.NavigationSettings.main_menu %}
+            {% include_block block %}
+          {% endfor %}
+
+          <!-- MOBILE UTILITY BUTTONS -->
+          <div class="mobile-utils buttons">
+            {% if settings.base.ImportantPages.cap_warnings_list_page %}
+              <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
+                 class="button is-fullwidth mobile-util-link">
+                {% translate "Alerts" %}
+              </a>
+            {% endif %}
+            {% if settings.base.ImportantPages.mailing_list_signup_page %}
+              <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
+                 class="button is-fullwidth mobile-util-link">
+                {% translate "Subscribe" %}
+              </a>
+            {% endif %}
+            {% if settings.base.ImportantPages.contact_us_page %}
+              <a href="{{ settings.base.ImportantPages.contact_us_page.url }}"
+                 class="button is-fullwidth mobile-util-link mobile-util-link--cta">
+                {% translate "Contact us" %}
+              </a>
+            {% endif %}
+            {% if settings.base.ImportantPages.feedback_page %}
+              <a href="{{ settings.base.ImportantPages.feedback_page.url }}"
+                 class=" button is-fullwidth mobile-util-link mobile-util-link--cta">
+                {% translate "Feedback" %}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- alert containers -->
+  <div class="nav-top-scroll-active-alert"></div>
 
 </header>
+
+
+
 {% block extra_js %}
-    <script>
-        const latestActiveAlertUrl = {% url 'latest_active_alert' %};
+<script>
+  {% url 'latest_active_alert' as latest_active_alert_url %}
+  const latestActiveAlertUrl = "{{ latest_active_alert_url }}";
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const navbarBurgerEl = document.getElementById('navBurger')
+  document.addEventListener('DOMContentLoaded', () => {
 
-            // Add a click event
-            navbarBurgerEl.addEventListener('click', (e) => {
+    /* ── BURGER TOGGLE ── */
+    const burger  = document.getElementById('navBurger');
+    const menu    = document.getElementById('mainNav');
+    const navClose = document.getElementById('navClose');
 
-                e.stopImmediatePropagation()
+    const openMenu = () => {
+    burger.classList.add('is-active');
+    menu.classList.add('is-active');
+    document.body.classList.add('mobile-nav-open');
+    };
 
-                // Get the target from the "data-target" attribute
-                const target = navbarBurgerEl.dataset.target;
-                const targetEl = document.getElementById(target);
+    const closeMenu = () => {
+    burger.classList.remove('is-active');
+    menu.classList.remove('is-active');
+    document.body.classList.remove('mobile-nav-open');
+    };
 
-                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                navbarBurgerEl.classList.toggle('is-active');
-                targetEl.classList.toggle('is-active');
-            });
+    if (burger && menu) {
+    burger.addEventListener('click', (e) => {
+        e.stopImmediatePropagation();
+        menu.classList.contains('is-active') ? closeMenu() : openMenu();
+    });
+    }
 
-            if (latestActiveAlertUrl) {
-                fetch(latestActiveAlertUrl)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error fetching navbar latest active alert');
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        if (data) {
-                            const $alert = $(data);
-                            const $alertContainer = $alert.filter("div").first();
+    if (navClose) {
+    navClose.addEventListener('click', closeMenu);
+    }
 
-                            if ($alertContainer.length > 0) {
-                                const alertStyle = $alertContainer.data('alertStyle');
-                                if (alertStyle) {
-                                    if (alertStyle === 'nav_left') {
-                                        const navCircleAlertContainer = $('.nav-left-circle-active-alert')
-                                        navCircleAlertContainer.html(data);
+    // close on click outside
+    document.addEventListener('click', (e) => {
+    if (menu &&
+        menu.classList.contains('is-active') &&
+        !menu.contains(e.target) &&
+        !burger.contains(e.target)) {
+        closeMenu();
+    }
+    });
 
-                                    } else if (alertStyle === 'nav_top') {
-                                        const navTopScrollActiveAlertContainer = $('.nav-top-scroll-active-alert')
-                                        navTopScrollActiveAlertContainer.html(data);
-                                    }
-                                }
-                            }
-                        }
-                    }).catch(error => {
-                    console.error("NAVBAR_LATEST_ACTIVE_ALERT_ERROR:", error);
-                });
+    // close on Escape
+    document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu && menu.classList.contains('is-active')) {
+        closeMenu();
+    }
+    });
+
+    /* ── ACTIVE ALERT FETCH ── */
+    if (latestActiveAlertUrl) {
+      fetch(latestActiveAlertUrl)
+        .then(response => {
+          if (!response.ok) throw new Error('Error fetching navbar latest active alert');
+          return response.text();
+        })
+        .then(data => {
+          if (data) {
+            const $alert = $(data);
+            const $alertContainer = $alert.filter("div").first();
+            if ($alertContainer.length > 0) {
+              const alertStyle = $alertContainer.data('alertStyle');
+              if (alertStyle === 'nav_left') {
+                $('.nav-left-circle-active-alert').html(data);
+              } else if (alertStyle === 'nav_top') {
+                $('.nav-top-scroll-active-alert').html(data);
+              }
             }
-
+          }
+        })
+        .catch(error => {
+          console.error("NAVBAR_LATEST_ACTIVE_ALERT_ERROR:", error);
         });
+    }
 
-
-    </script>
-
+  });
+</script>
 {% endblock extra_js %}

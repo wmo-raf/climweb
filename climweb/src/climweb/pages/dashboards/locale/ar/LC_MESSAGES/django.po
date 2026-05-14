@@ -1,9 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
-"PO-Revision-Date: 2026-04-27 10:52\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: ar\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/dashboards/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1500\n"
+"X-Crowdin-Language: ar\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:15
 #: climweb/src/climweb/pages/dashboards/snippets.py:280
@@ -37,7 +38,6 @@ msgstr "قسم لوحة القيادة"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:75
 #: climweb/src/climweb/pages/dashboards/snippets.py:174
-#| msgid "Chart"
 msgid "Line Chart"
 msgstr "رسم بياني خطي"
 
@@ -53,7 +53,6 @@ msgstr "مخطط شريطي أفقي"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:78
 #: climweb/src/climweb/pages/dashboards/snippets.py:177
-#| msgid "Chart"
 msgid "Area Chart"
 msgstr "رسم بياني مساحي"
 
@@ -67,12 +66,10 @@ msgid "Chart variable name"
 msgstr "اسم متغير الرسم البياني"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:83
-#| msgid "Chart"
 msgid "Chart color"
 msgstr "لون الرسم البياني"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:84
-#| msgid "Chart"
 msgid "Chart type"
 msgstr "نوع الرسم البياني"
 
@@ -105,13 +102,16 @@ msgid "A high quality banner image"
 msgstr "صورة لافتة عالية الجودة"
 
 #: climweb/src/climweb/pages/dashboards/models.py:52
-#| msgid "Overview"
 msgid "Service"
 msgstr "خدمة"
 
 #: climweb/src/climweb/pages/dashboards/models.py:52
-msgid "The service this dashboard is associated with. This is useful in fetching the latest updates i.e publications, news, articles related to this service."
-msgstr "الخدمة التي ترتبط بها لوحة المعلومات هذه. وهذا مفيد في جلب آخر التحديثات مثل المنشورات والأخبار والمقالات المتعلقة بهذه الخدمة."
+msgid ""
+"The service this dashboard is associated with. This is useful in fetching "
+"the latest updates i.e publications, news, articles related to this service."
+msgstr ""
+"الخدمة التي ترتبط بها لوحة المعلومات هذه. وهذا مفيد في جلب آخر التحديثات مثل"
+" المنشورات والأخبار والمقالات المتعلقة بهذه الخدمة."
 
 #: climweb/src/climweb/pages/dashboards/models.py:60
 #: climweb/src/climweb/pages/dashboards/templates/dashboards/dashboard_page.html:79
@@ -135,7 +135,6 @@ msgid "Warming stripes"
 msgstr "خطوط التحذير"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:181
-#| msgid "Warming stripes"
 msgid "Rainfall stripes"
 msgstr "شرائط الأمطار"
 
@@ -149,7 +148,6 @@ msgid "Description"
 msgstr "وصف"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:198
-#| msgid "Hex color code for banner background (e.g., #ffffff)"
 msgid "Hex color code for chart color (e.g., #0b76e1)"
 msgstr "رمز لون الست عشري للون الرسم البياني (مثل #0b76e1)"
 
@@ -207,16 +205,24 @@ msgid "Single-Variable Charts"
 msgstr "الرسوم البيانية ذات المتغير الواحد"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:292
-msgid "Whether to use multiple axes (one per variable) or a single axis for all variables."
-msgstr "ما إذا كان سيتم استخدام محاور متعددة (واحد لكل متغير) أو محور واحد لجميع المتغيرات."
+msgid ""
+"Whether to use multiple axes (one per variable) or a single axis for all "
+"variables."
+msgstr ""
+"ما إذا كان سيتم استخدام محاور متعددة (واحد لكل متغير) أو محور واحد لجميع "
+"المتغيرات."
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:295
 msgid "Chart Variables"
 msgstr "متغيرات الرسم البياني"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:295
-msgid "Add more variables to display in the chart. Each variable corresponds to a dataset and will be displayed as a separate series in the chart."
-msgstr "إضافة المزيد من المتغيرات لعرضها في المخطط. يتوافق كل متغير مع مجموعة بيانات وسيتم عرضه كسلسلة منفصلة في المخطط."
+msgid ""
+"Add more variables to display in the chart. Each variable corresponds to a "
+"dataset and will be displayed as a separate series in the chart."
+msgstr ""
+"إضافة المزيد من المتغيرات لعرضها في المخطط. يتوافق كل متغير مع مجموعة بيانات"
+" وسيتم عرضه كسلسلة منفصلة في المخطط."
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:354
 #: climweb/src/climweb/pages/dashboards/wagtail_hooks.py:29
@@ -305,12 +311,11 @@ msgid "Atlas"
 msgstr "أطلس"
 
 #~ msgid "Dashboard Chart"
-#~ msgstr "Dashboard Chart"
+#~ msgstr "مخطط لوحة القيادة"
 
 #~ msgid "Dashboard Charts"
-#~ msgstr "Dashboard Charts"
+#~ msgstr "مخططات لوحة القيادة"
 
 #, fuzzy
 #~ msgid "Charts"
-#~ msgstr "Charts"
-
+#~ msgstr "الرسوم البيانية"

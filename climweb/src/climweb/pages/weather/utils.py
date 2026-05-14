@@ -7,7 +7,9 @@ from wagtail.models import Site
 def get_city_forecast_detail_data(city, multi_period=False, request=None, for_home_widget=False):
     localtime = timezone.localtime()
 
-    city_forecasts = CityForecast.objects.filter(city=city, parent__forecast_date__gte=localtime.date())
+    city_forecasts = CityForecast.objects.filter(
+        city=city, parent__forecast_date__gte=localtime.date()
+    ).select_related('parent', 'condition').prefetch_related('data_values__parameter')
 
     city_forecasts_by_date = {}
 

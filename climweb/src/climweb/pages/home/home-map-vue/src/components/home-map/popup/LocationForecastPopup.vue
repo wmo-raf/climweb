@@ -50,7 +50,6 @@ const forecastContent = computed(() => {
 
   for (const parameter in forecastDataParameters.value) {
     const parameterData = props.properties[parameter];
-
     if (parameterData) {
       const value = parameterData
       const unit = forecastDataParameters.value[parameter].parameter_unit;
@@ -105,29 +104,25 @@ const forecastContent = computed(() => {
   padding: 8px;
   min-width: 100px;
   max-width: 250px;
+  display: flex;
+    flex-direction: column;
+    align-items: center
 }
 
 .location-name {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
-  position: absolute;
-  top: 8px;
-  left: 20px;
-}
-
-.location-detail-url {
-  text-decoration: underline;
 }
 
 .condition {
   display: flex;
   align-items: center;
+  flex-direction: column;
 }
 
 .condition-icon {
-  height: 80px;
-  margin-right: 5px;
+  height: 50px;
 }
 
 .condition-icon img {
@@ -148,11 +143,10 @@ const forecastContent = computed(() => {
 
 .forecast-data-table td {
   padding: 2px;
-  border: 1px solid #ccc;
 }
 
-.forecast-value {
-  font-weight: 500;
+.forecast-data-table td.forecast-name  {
+  font-weight: 600;
 }
 
 

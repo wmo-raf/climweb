@@ -33,6 +33,10 @@ const props = defineProps({
     type: String,
     required: false
   },
+  primaryColor: {
+    type: String,
+    required: false
+  }
 });
 
 const mapStore = useMapStore();
@@ -255,6 +259,8 @@ const initializeMapLayers = async (mapSettings) => {
     } catch (e) {
       console.log("Error fetching forecast settings", e)
     }
+  } else {
+    mapStore.updateLayerState("weather-forecast", false);
   }
 
   if (dynamicMapLayers && !!dynamicMapLayers.length) {
@@ -315,8 +321,8 @@ const addBoundaryLayer = (boundaryTilesUrl, showLevel1Boundaries) => {
     "source-layer": "default",
     "filter": ["==", "level", 0],
     'paint': {
-      "line-color": "#C0FF24",
-      "line-width": 1,
+      "line-color": "#faffa0",
+      "line-width": 2,
       "line-offset": 1,
     },
     'metadata': {
@@ -332,7 +338,7 @@ const addBoundaryLayer = (boundaryTilesUrl, showLevel1Boundaries) => {
     "source-layer": "default",
     "filter": ["==", "level", 0],
     'paint': {
-      "line-color": "#000",
+      "line-color": props.primaryColor,
       "line-width": 1.5,
     },
     'metadata': {
@@ -388,9 +394,9 @@ const addWarningsLayer = (capGeojsonUrl) => {
         type: "fill",
         source: "weather-warnings",
         paint: {
-          "fill-color": ["case", ["==", ["get", "severity"], "Extreme"], "#d72f2a", ["==", ["get", "severity"], "Severe"], "#f89904", ["==", ["get", "severity"], "Moderate"], "#e4e616", ["==", ["get", "severity"], "Minor"], "#53ffff", ["==", ["get", "severity"], "Unknown"], "#3366ff", "black",],
-          "fill-opacity": 0.7,
-          "fill-outline-color": "#000",
+          "fill-color": ["case", ["==", ["get", "severity"], "Extreme"], "#d42d41", ["==", ["get", "severity"], "Severe"], "#f08c11", ["==", ["get", "severity"], "Moderate"], "#f4cf00", ["==", ["get", "severity"], "Minor"], "#399cc7", ["==", ["get", "severity"], "Unknown"], "#82a8df", "black",],
+          "fill-opacity": 1,
+          "fill-outline-color": ["case", ["==", ["get", "severity"], "Extreme"], "#DC2626", ["==", ["get", "severity"], "Severe"], "#C2600A", ["==", ["get", "severity"], "Moderate"], "#A16207", ["==", ["get", "severity"], "Minor"], "#0E7490", ["==", ["get", "severity"], "Unknown"], "#4B6CB7", "black",],
         },
       }, beforeLayer);
 
@@ -1003,7 +1009,7 @@ onUnmounted(() => map?.remove());
   width: 30px;
   height: 30px;
   border: none;
-  border-radius: 50%;
+  border-radius: var(--border-radius);
   background: gray;
   color: #fff;
   font-size: 20px;
@@ -1029,7 +1035,7 @@ onUnmounted(() => map?.remove());
 .basemap-icon {
   width: 30px;
   height: 30px;
-  border-radius: 50%;
+  border-radius: var(--border-radius);
   background: gray;
   cursor: pointer;
 }
@@ -1063,6 +1069,7 @@ onUnmounted(() => map?.remove());
   flex-direction: column;
   gap: 10px;
 }
+
 
 .date-navigator-control {
   position: absolute;

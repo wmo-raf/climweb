@@ -1,5 +1,7 @@
-from capcomposer.cap.utils import get_currently_active_alerts
 from django.conf import settings
+
+if "capcomposer.cap" in settings.INSTALLED_APPS:
+    from capcomposer.cap.utils import get_currently_active_alerts
 from django.contrib.auth.models import Permission
 from django.core.cache import cache
 from django.templatetags.static import static
@@ -181,7 +183,6 @@ def hide_menu_items(request, menu_items):
     custom_menu_permissions = {
         "geo-manager": "base.can_view_geomanager_menu",
         "city_forecast": "base.can_view_forecast_menu",
-        "aviation_editor": "base.can_view_aviation_editor_menu",
     }
     
     hidden = []
@@ -199,20 +200,21 @@ def hide_menu_items(request, menu_items):
 #     menu_items[:] = [item for item in menu_items if item.name not in hidden_settings]
 
 
-@hooks.register('register_geomanager_datasets')
-def add_geomanager_datasets(request):
-    datasets = []
-    cap_geomanager_settings = CAPGeomanagerSettings.for_request(request)
-    if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
-        
-        # check if we have any active alerts
-        has_live_alerts = get_currently_active_alerts().exists()
-        
-        # create dataset
-        dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)
-        
-        # add dataset to list
-        if dataset:
-            datasets.append(dataset)
-    
-    return datasets
+if "capcomposer.cap" in settings.INSTALLED_APPS:
+    @hooks.register('register_geomanager_datasets')
+    def add_geomanager_datasets(request):
+        datasets = []
+        cap_geomanager_settings = CAPGeomanagerSettings.for_request(request)
+        if cap_geomanager_settings.show_on_mapviewer and cap_geomanager_settings.geomanager_subcategory:
+
+            # check if we have any active alerts
+            has_live_alerts = get_currently_active_alerts().exists()
+
+            # create dataset
+            dataset = create_cap_geomanager_dataset(cap_geomanager_settings, has_live_alerts, request)
+
+            # add dataset to list
+            if dataset:
+                datasets.append(dataset)
+
+        return datasets

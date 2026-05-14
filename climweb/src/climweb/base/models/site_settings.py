@@ -142,7 +142,7 @@ class OrganisationSetting(BaseSiteSetting):
 @register_setting(icon="cogs")
 class IntegrationSettings(BaseSiteSetting):
     youtube_api = models.CharField(verbose_name=_("Youtube API Key"), max_length=50, blank=True, help_text=_(
-        "To set up Youtube API Key refer to https://developers.google.com/youtube/v3/getting-started"))
+        "To set up Youtube API Key refer to ")+"https://developers.google.com/youtube/v3/getting-started")
     
     ga_tracking_id = models.CharField(
         blank=True,
@@ -219,15 +219,15 @@ class Theme(models.Model):
     is_default = models.BooleanField(default=False, verbose_name=_("Is Default Theme"),
                                      help_text=_("Enable if this is the default theme"))
     name = models.CharField(blank=False, verbose_name=_("Theme Name"), max_length=250, null=True)
-    primary_color = ColorField(blank=True, null=True, default="#363636",
-                               help_text=_("Primary color (use color picker)"))
     primary_hover_color = ColorField(blank=True, null=True, default="#176c9c",
-                                     help_text=_("Primary Hover color (use color picker)"))
+                                     help_text=_("Primary Hover color (use color picker)"), verbose_name=_("Primary color"))
+    primary_color = ColorField(blank=True, null=True, default="#363636",
+                               help_text=_("Primary color (use color picker)"), verbose_name=_("Headings color"))
     secondary_color = ColorField(blank=True, null=True, default="#ffffff",
-                                 help_text=_("Secondary color (use color picker)"))
+                                 help_text=_("Secondary color (use color picker)"), verbose_name=_("Background color"))
     border_radius = models.IntegerField(validators=[MinValueValidator(0),
                                                     MaxValueValidator(20)], verbose_name=_("Border radius (px)"),
-                                        help_text=_("Minimum 0 and Maximum 20 pixels"), default=6)
+                                        help_text=_("Minimum 0 and Maximum 20 pixels"), default=12)
     box_shadow = models.IntegerField(validators=[MinValueValidator(1),
                                                  MaxValueValidator(24)], verbose_name=_("Box shadow"),
                                      help_text=_("Elevation value minimum 1 and maximum 24"), default=6)
@@ -242,9 +242,6 @@ class Theme(models.Model):
                 NativeColorPanel('primary_color'),
                 NativeColorPanel('primary_hover_color'),
             ]),
-            FieldRowPanel([
-                NativeColorPanel('secondary_color'),
-            ])
         ], heading=_("Theme Colors")),
         ObjectList([
             FieldPanel('border_radius'),

@@ -1,80 +1,218 @@
-<div class="columns is-multiline video-items" id="videoWrapper">
-    <div class="column is-one-third-desktop is-full-mobile video-item">
-        <div class="card">
-            <div class="card-image">
-                <figure class="image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <a class="card-tag-float">
-                    <h6></h6>
-                </a>
-                <a class="card-title">
-                    <h4></h4>
-                </a>
+<style>
+  .media-skeleton-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: stretch;
+  }
 
-                <div class="card-video-stats">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="card-video-meta">
-                    <a></a>
-                    <a></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="column is-one-third-desktop is-full-mobile video-item">
-        <div class="card">
-            <div class="card-image">
-                <figure class="image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <a class="card-tag-float">
-                    <h6></h6>
-                </a>
-                <a class="card-title">
-                    <h4></h4>
-                </a>
+  /* ── FEATURED SKELETON ── */
+  .media-skel-featured {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
 
-                <div class="card-video-stats">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="card-video-meta">
-                    <a></a>
-                    <a></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="column is-one-third-desktop is-full-mobile video-item">
-        <div class="card">
-            <div class="card-image">
-                <figure class="image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <a class="card-tag-float">
-                    <h6></h6>
-                </a>
-                <a class="card-title">
-                    <h4></h4>
-                </a>
+  .media-skel-feat-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
 
-                <div class="card-video-stats">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="card-video-meta">
-                    <a></a>
-                    <a></a>
-                </div>
-            </div>
-        </div>
+  .media-skel-feat-body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .media-skel-feat-footer {
+    padding: 10px 1.25rem;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  /* ── ROWS SKELETON ── */
+  .media-skel-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .media-skel-row {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    height: 120px;
+  }
+
+  .media-skel-row-thumb {
+    width: 150px;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .media-skel-row-body {
+    flex: 1;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    border-right: 1px solid #f0f0f0;
+  }
+
+  .media-skel-row-right {
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ── SHIMMER ── */
+  .skel {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e4e9f0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: calc(var(--border-radius) / 3);
+  }
+
+  .skel-dark {
+    background: linear-gradient(90deg, #d0d8e4 25%, #bcc8d8 50%, #d0d8e4 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: calc(var(--border-radius) / 3);
+  }
+
+  .skel-circle {
+    border-radius: 50% !important;
+  }
+
+  .skel-pill {
+    border-radius: 20px !important;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .media-skeleton-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .media-skel-row { flex-direction: column; height: auto; }
+    .media-skel-row-thumb { width: 100%; height: 160px; }
+    .media-skel-row-body { border-right: none; border-bottom: 1px solid #f0f0f0; }
+    .media-skel-row-right { padding: 10px 14px; justify-content: space-between; }
+  }
+</style>
+
+<div class="is-multiline video-items" id="videoWrapper">
+    <div class="media-skeleton-grid">
+  <!-- FEATURED LEFT SKELETON -->
+  <div class="media-skel-featured">
+
+    <!-- thumbnail shimmer -->
+    <div class="media-skel-feat-thumb">
+      <div class="skel-dark" style="position:absolute;inset:0;border-radius:0;"></div>
+      <!-- tag badge placeholder -->
+      <div class="skel-pill" style="
+        position:absolute; bottom:10px; left:12px;
+        width:80px; height:20px;
+        background: linear-gradient(90deg,rgba(24,95,165,0.4) 25%,rgba(24,95,165,0.25) 50%,rgba(24,95,165,0.4) 75%);
+        background-size:200% 100%;
+        animation: shimmer 1.4s infinite;
+      "></div>
     </div>
+
+    <!-- body -->
+    <div class="media-skel-feat-body">
+      <div class="skel" style="height:10px;width:50%;"></div>
+      <div class="skel" style="height:14px;width:90%;"></div>
+      <div class="skel" style="height:14px;width:75%;"></div>
+      <div class="skel" style="height:10px;width:35%;margin-top:4px;"></div>
+    </div>
+
+    <!-- footer -->
+    <div class="media-skel-feat-footer">
+      <div class="skel skel-pill" style="width:90px;height:28px;"></div>
+      <div class="skel skel-circle" style="width:32px;height:32px;"></div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT ROWS SKELETON -->
+  <div class="media-skel-rows">
+
+    <!-- row 1 -->
+    <div class="media-skel-row">
+      <div class="media-skel-row-thumb">
+        <div class="skel-dark" style="position:absolute;inset:0;border-radius:0;"></div>
+      </div>
+      <div class="media-skel-row-body">
+        <div class="skel" style="height:8px;width:40%;"></div>
+        <div class="skel" style="height:11px;width:90%;"></div>
+        <div class="skel" style="height:11px;width:70%;"></div>
+        <div class="skel" style="height:8px;width:45%;"></div>
+      </div>
+      <div class="media-skel-row-right">
+        <div class="skel skel-pill" style="width:70px;height:24px;"></div>
+        <div class="skel skel-circle" style="width:28px;height:28px;"></div>
+      </div>
+    </div>
+
+    <!-- row 2 -->
+    <div class="media-skel-row">
+      <div class="media-skel-row-thumb">
+        <div class="skel-dark" style="position:absolute;inset:0;border-radius:0;"></div>
+      </div>
+      <div class="media-skel-row-body">
+        <div class="skel" style="height:8px;width:35%;"></div>
+        <div class="skel" style="height:11px;width:85%;"></div>
+        <div class="skel" style="height:11px;width:60%;"></div>
+        <div class="skel" style="height:8px;width:40%;"></div>
+      </div>
+      <div class="media-skel-row-right">
+        <div class="skel skel-pill" style="width:70px;height:24px;"></div>
+        <div class="skel skel-circle" style="width:28px;height:28px;"></div>
+      </div>
+    </div>
+
+    <!-- row 3 -->
+    <div class="media-skel-row">
+      <div class="media-skel-row-thumb">
+        <div class="skel-dark" style="position:absolute;inset:0;border-radius:0;"></div>
+      </div>
+      <div class="media-skel-row-body">
+        <div class="skel" style="height:8px;width:45%;"></div>
+        <div class="skel" style="height:11px;width:95%;"></div>
+        <div class="skel" style="height:11px;width:65%;"></div>
+        <div class="skel" style="height:8px;width:38%;"></div>
+      </div>
+      <div class="media-skel-row-right">
+        <div class="skel skel-pill" style="width:70px;height:24px;"></div>
+        <div class="skel skel-circle" style="width:28px;height:28px;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
 </div>

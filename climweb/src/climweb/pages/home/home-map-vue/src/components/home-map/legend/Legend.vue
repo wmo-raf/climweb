@@ -109,8 +109,7 @@ const collapsed = ref(false)
 .m-legend-wrapper {
   z-index: 1000;
   background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 4px 0 4px 4px;
+  border-radius: 10px;
 }
 
 .m-legend-item {
@@ -157,7 +156,7 @@ const collapsed = ref(false)
 .legend-expand-icon {
   height: 14px;
   width: 14px;
-  fill: var(--primary-color);
+  fill: var(--text-color);
 }
 
 .m-legend.m-legend-collapsed.mobile {

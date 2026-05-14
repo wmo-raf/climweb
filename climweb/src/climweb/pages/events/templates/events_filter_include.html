@@ -1,91 +1,74 @@
 {% load static i18n wagtailiconchooser_tags %}
 
-<div class="results-filter">
-    <div class="accordion js-accordion" id="events-filter-accordion">
-        {% if filters.event_types %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>
-                        {% translate "Filter by Event Type" %}
-                    </span>
-                    <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for event_type in filters.event_types %}
-                            <label class="checkbox-container" for="{{ event_type.event_type }}">
-                                <span class="filter-sub-item">{{ event_type.event_type }}</span>
-                                <input type="checkbox" id="{{ event_type.event_type }}"
-                                       name="event_type"
-                                       value="{{ event_type.pk }}"
-                                       class="event-filter event_type"
-                                >
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
+<div class="pub-filter">
 
-        {% if filters.year %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>
-                        {% translate "Filter by Year" %}
-                    </span>
-                    <span class="icon">
-                            {% svg_icon name="arrow-down" %}
-                    </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for date in filters.year reversed %}
-                            <label class="checkbox-container" for="{{ date.year }}">
-                                <span class="filter-sub-item">{{ date.year }}</span>
-                                <input type="checkbox" id="{{ date.year }}" name="year" value="{{ date.year }}"
-                                       class="event-filter year">
-                                <span class="checkmark"></span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        <div class="accordion__item js-accordion-item active">
-            <h6 class="accordion-header js-accordion-header filter-item-header">
-                <span>
-                    {% translate "Filter by Status" %}
-                </span>
-                <span class="icon">
-                        {% svg_icon name="arrow-down" %}
-                </span>
-            </h6>
-            <div class="accordion-body js-accordion-body">
-                <div class="accordion-body__contents">
-                    <label class="checkbox-container" for="status">
-                        <span class="filter-sub-item">
-                            {% translate "Past" %}
-                        </span>
-                        <input type="checkbox" id="status" name="archive" value="True"
-                               class="event-filter archive">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                new Accordion("events-filter-accordion");
-            });
-        </script>
+  {% if filters.event_types %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "Event Type" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for event_type in filters.event_types %}
+          <label class="pub-filter-check" for="et-{{ event_type.pk }}">
+            <input type="checkbox"
+                   id="et-{{ event_type.pk }}"
+                   name="event_type"
+                   value="{{ event_type.pk }}"
+                   class="event-filter event_type">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ event_type.event_type }}</span>
+          </label>
+        {% endfor %}
+      </div>
     </div>
+  {% endif %}
+
+  {% if filters.year %}
+    <div class="pub-filter-group">
+      <div class="pub-filter-header">
+        <span>{% translate "Year" %}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="pub-filter-body">
+        {% for date in filters.year reversed %}
+          <label class="pub-filter-check" for="yr-{{ date.year }}">
+            <input type="checkbox"
+                   id="yr-{{ date.year }}"
+                   name="year"
+                   value="{{ date.year }}"
+                   class="event-filter year">
+            <span class="pub-checkmark"></span>
+            <span class="pub-filter-label">{{ date.year }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- STATUS (Past events) -->
+  <div class="pub-filter-group">
+    <div class="pub-filter-header">
+      <span>{% translate "Status" %}</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="pub-filter-body">
+      <label class="pub-filter-check" for="status-past">
+        <input type="checkbox"
+               id="status-past"
+               name="archive"
+               value="True"
+               class="event-filter archive">
+        <span class="pub-checkmark"></span>
+        <span class="pub-filter-label">{% translate "Past events" %}</span>
+      </label>
+    </div>
+  </div>
+
 </div>
-
-
-
-

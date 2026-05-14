@@ -1,5 +1,5 @@
 <template>
-  <Map :initialBounds :mapSettingsUrl :locationForecastDetailUrl/>
+  <Map :initialBounds="initialBounds" :mapSettingsUrl="mapSettingsUrl" :locationForecastDetailUrl="locationForecastDetailUrl" :primaryColor="primaryColor"/>
 </template>
 
 <script setup>
@@ -27,6 +27,11 @@ const props = defineProps({
   homeMapAlertsUrl: {
     type: String,
     required: false
+  },
+  primaryColor: {
+    type: String,
+    required: false,
+    default: '#000000'
   }
 });
 
@@ -47,6 +52,12 @@ const loadAlerts = () => {
           const html = new DOMParser().parseFromString(alertsHTML, 'text/html').body
           if (html) {
             alertsContainer.append(html)
+            const badge = document.getElementById('alerts-count-badge');
+            if (badge) {
+              const count = alertsContainer.querySelectorAll('.alert-item').length;
+              badge.textContent = count;
+              badge.classList.toggle('is-zero', count === 0);
+            }
           }
         })
         .catch(error => {

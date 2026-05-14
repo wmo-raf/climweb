@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:46+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Swahili\n"
@@ -11,63 +12,141 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: sw\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/stations/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1550\n"
+"X-Crowdin-Language: sw\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/stations/forms.py:6
 msgid "Stations Shapefile ZIP"
-msgstr ""
+msgstr "Stations Shapefile ZIP"
 
 #: climweb/src/climweb/pages/stations/forms.py:12
 msgid "Station name field"
 msgstr "Sehemu ya jina la kituo"
 
-#: climweb/src/climweb/pages/stations/models.py:31
+#: climweb/src/climweb/pages/stations/models.py:33
 msgid "Show on Mapviewer"
 msgstr "Onyesha kwenye Mapviewer"
 
-#: climweb/src/climweb/pages/stations/models.py:32
+#: climweb/src/climweb/pages/stations/models.py:34
 msgid "Check to show stations data on Mapviewer"
 msgstr "Angalia ili kuonyesha data ya vituo kwenye Mapviewer"
 
-#: climweb/src/climweb/pages/stations/models.py:34
+#: climweb/src/climweb/pages/stations/models.py:36
 msgid "Stations Layer Title"
 msgstr "Kichwa cha Tabaka la Vituo"
 
-#: climweb/src/climweb/pages/stations/models.py:36
+#: climweb/src/climweb/pages/stations/models.py:38
 msgid "Stations Layer SubCategory"
 msgstr "Kitengo Kidogo cha Tabaka la Vituo"
 
-#: climweb/src/climweb/pages/stations/models.py:39
+#: climweb/src/climweb/pages/stations/models.py:41
 msgid "Stations Layer Metadata"
 msgstr "Metadata ya Safu ya Vituo"
 
 #: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:22
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:117
 msgid "Back to stations list"
 msgstr "Rudi kwenye orodha ya vituo"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:26
-msgid "Station Detail"
-msgstr "Maelezo ya kituo"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:43
+#, fuzzy
+#| msgid "load station data"
+msgid "No location data"
+msgstr "Hakuna data ya eneo"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:33
-msgid "Station Name"
-msgstr "Jina la Kituo"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:81
+#, fuzzy
+#| msgid "Station Not Found"
+msgid "Station information"
+msgstr "Taarifa za kituo"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:60
-msgid "Station Not Found"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:112
+#, fuzzy
+#| msgid "Station Not Found"
+msgid "Station not found"
 msgstr "Kituo hakijapatikana"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:63
-msgid "Station with provided ID can not be found"
-msgstr "Kituo kilicho na kitambulisho kilichotolewa hakipatikani"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:114
+#, fuzzy
+#| msgid "Station with provided ID can not be found"
+msgid "The station with the provided ID could not be found."
+msgstr "Kituo kilicho na kitambulisho kilichotolewa hakikuweza kupatikana."
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:21
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:24
+#, fuzzy
+#| msgid "Load Stations"
+msgid "Total stations"
+msgstr "Jumla ya vituo"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:28
+msgid "Operational"
+msgstr "Uendeshaji"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:32
+msgid "Partly Operational"
+msgstr "Sehemu ya Uendeshaji"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:36
+msgid "Closed"
+msgstr "Imefungwa"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:40
+msgid "Planned"
+msgstr "Imepangwa"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:48
+#, fuzzy
+#| msgid "to preview"
+msgid "Network Overview"
+msgstr "Muhtasari wa Mtandao"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:49
+#, fuzzy
+#| msgid "Stations Data"
+msgid "Stations Map"
+msgstr "Ramani ya Vituo"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:52
+msgid "Colour by"
+msgstr "Rangi kwa"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:55
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:139
+msgid "Operating Status"
+msgstr "Hali ya Uendeshaji"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:58
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:154
+#, fuzzy
+#| msgid "Station Name"
+msgid "Station Type"
+msgstr "Aina ya Kituo"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:72
+msgid "Search by station name or WIGOS ID…"
+msgstr "Tafuta kwa jina la kituo au kitambulisho cha WIGOS..."
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:74
+msgid "Clear"
+msgstr "Wazi"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:102
+msgid "Directory"
+msgstr "Orodha"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:103
 msgid "Stations List"
 msgstr "Orodha ya Vituo"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:340
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:393
+#, fuzzy
+#| msgid "Station Detail"
+msgid "View Detail"
+msgstr "Tazama Maelezo"
 
 #: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:6
 #, python-format
@@ -75,7 +154,7 @@ msgid "Stations Data %(title)s"
 msgstr "Data ya Vituo %(title)s"
 
 #: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:17
-#: climweb/src/climweb/pages/stations/wagtail_hooks.py:27
+#: climweb/src/climweb/pages/stations/wagtail_hooks.py:28
 msgid "Stations Data"
 msgstr "Data ya Vituo"
 
@@ -83,43 +162,49 @@ msgstr "Data ya Vituo"
 msgid "Load Stations"
 msgstr "Vituo vya Kupakia"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:29
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:27
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:24
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:31
+msgid "Sync from OSCAR Surface"
+msgstr "Sawazisha kutoka kwa Uso wa OSCAR"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:39
 msgid "Data Fields"
 msgstr "Sehemu za Data"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:35
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:45
 msgid "Field"
 msgstr "Shamba"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:38
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:48
 msgid "Label"
 msgstr "Lebo"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:41
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:51
 msgid "Show in Table"
 msgstr "Onyesha kwenye Jedwali"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:44
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:54
 msgid "Show in Map Popup"
 msgstr "Onyesha kwenye Dirisha Ibukizi la Ramani"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:95
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:105
 msgid "Save"
 msgstr "Hifadhi"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:109
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:119
 msgid "No station data loaded."
 msgstr "Hakuna data ya kituo iliyopakiwa."
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:110
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:120
 msgid "Please "
 msgstr "Tafadhali"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:112
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:122
 msgid "load station data"
 msgstr "pakia data ya kituo"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:114
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:124
 msgid "to preview"
 msgstr "kuhakiki"
 
@@ -128,23 +213,72 @@ msgstr "kuhakiki"
 msgid "Stations Loader %(title)s"
 msgstr "Kipakiaji cha Vituo %(title)s"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:18
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:17
 msgid "Stations Loader"
 msgstr "Vituo vya Loader"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:43
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:26
+msgid ""
+"Automatically fetch station data from the WMO OSCAR Surface API for the "
+"country configured in Organisation Settings."
+msgstr ""
+"Leta data ya kituo kiotomatiki kutoka kwa API ya Uso ya WMO OSCAR ya nchi "
+"iliyosanidiwa katika Mipangilio ya Shirika."
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:40
+msgid "Or upload a Shapefile"
+msgstr "Au pakia Faili ya Umbo"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:42
+msgid ""
+"Upload a ZIP file containing a Point shapefile as a fallback data source."
+msgstr ""
+"Pakia faili ya ZIP iliyo na faili ya umbo la Pointi kama chanzo mbadala cha "
+"data."
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:62
 msgid "Upload"
 msgstr "Pakia"
 
-#: climweb/src/climweb/pages/stations/views.py:80
+#: climweb/src/climweb/pages/stations/views.py:161
 msgid "Stations data loaded successfully"
 msgstr "Data ya vituo imepakiwa"
 
-#: climweb/src/climweb/pages/stations/views.py:132
+#: climweb/src/climweb/pages/stations/views.py:213
 msgid "Stations columns updated successfully"
 msgstr "Safu wima za vituo zimesasishwa"
 
-#: climweb/src/climweb/pages/stations/wagtail_hooks.py:35
+#: climweb/src/climweb/pages/stations/views.py:239
+msgid ""
+"No country set in Organisation Settings. Please configure it before syncing."
+msgstr ""
+"Hakuna nchi iliyowekwa katika Mipangilio ya Shirika. Tafadhali isanidi kabla"
+" ya kusawazisha."
+
+#: climweb/src/climweb/pages/stations/views.py:246
+#, python-brace-format
+msgid "Failed to reach OSCAR Surface API: {}"
+msgstr "Imeshindwa kufikia API ya Uso ya OSCAR: {}"
+
+#: climweb/src/climweb/pages/stations/views.py:252
+#, python-brace-format
+msgid "No stations returned from OSCAR Surface for country code: {}"
+msgstr ""
+"Hakuna stesheni zilizorejeshwa kutoka kwa Uso wa OSCAR kwa msimbo wa nchi: "
+"{}"
+
+#: climweb/src/climweb/pages/stations/views.py:259
+#, fuzzy, python-brace-format
+#| msgid "load station data"
+msgid "Error saving station data: {}"
+msgstr "Hitilafu katika kuhifadhi data ya kituo: {}"
+
+#: climweb/src/climweb/pages/stations/views.py:277
+#, python-brace-format
+msgid "{count} stations synced from OSCAR Surface (country: {code})."
+msgstr ""
+"{count} stesheni zilizosawazishwa kutoka kwa Uso wa OSCAR (nchi: {code})."
+
+#: climweb/src/climweb/pages/stations/wagtail_hooks.py:36
 msgid "Station Settings"
 msgstr "Mipangilio ya Kituo"
-

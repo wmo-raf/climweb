@@ -1,5 +1,6 @@
 import tempfile
 
+import requests
 from django.conf import settings
 from django.db import connection, close_old_connections
 from django.http import Http404, HttpResponse
@@ -14,8 +15,88 @@ from wagtail.admin.auth import user_passes_test, user_has_any_page_permission
 from wagtail.api.v2.utils import get_full_url
 from wagtailcache.cache import clear_cache, cache_page
 
+from climweb.base.models import OrganisationSetting
 from .forms import StationsUploadForm, StationColumnsForm
 from .models import StationSettings
+
+OSCAR_API_URL = "https://oscar.wmo.int/surface/rest/api/search/station"
+
+# data_type values must match keys in geomanager's POSTGRES_DATA_TYPES_DJANGO_FIELDS_MAPPING
+OSCAR_STATION_COLUMNS = [
+    {"name": "gid", "label": "ID", "data_type": "integer", "table": False, "popup": False},
+    {"name": "name", "label": "Station Name", "data_type": "character varying", "table": True, "popup": True},
+    {"name": "wigos_id", "label": "WIGOS ID", "data_type": "character varying", "table": True, "popup": True},
+    {"name": "elevation", "label": "Elevation (m)", "data_type": "double precision", "table": False, "popup": True},
+    {"name": "station_type", "label": "Station Type", "data_type": "character varying", "table": False, "popup": True},
+    {"name": "operating_status", "label": "Declared Status", "data_type": "character varying", "table": False, "popup": True},
+]
+
+
+def _fetch_oscar_stations(country_code):
+    """Fetch all stations for a country from the OSCAR Surface API, handling pagination."""
+    params = {"territoryName": country_code, "page": 1}
+
+    response = requests.get(OSCAR_API_URL, params=params, timeout=60)
+    response.raise_for_status()
+    data = response.json()
+
+    stations = data.get("stationSearchResults", [])
+    pageCount = data.get("pageCount", 1)
+
+    page = 1
+    while page < pageCount:
+        params["page"] = page
+        r = requests.get(OSCAR_API_URL, params=params, timeout=60)
+        r.raise_for_status()
+        batch = r.json().get("stationSearchResults", [])
+        if not batch:
+            break
+        stations.extend(batch)
+        page += 1
+
+    return stations
+
+
+def _create_oscar_stations_table(stations, station_settings):
+    """Drop and recreate the stations table, then insert OSCAR station records."""
+    table_name = station_settings.full_table_name
+
+    with connection.cursor() as cursor:
+        cursor.execute(f"DROP TABLE IF EXISTS {table_name} CASCADE")
+        cursor.execute(f"""
+            CREATE TABLE {table_name} (
+                gid              SERIAL PRIMARY KEY,
+                name             VARCHAR(255),
+                wigos_id         VARCHAR(100),
+                elevation        DOUBLE PRECISION,
+                station_type     VARCHAR(100),
+                operating_status VARCHAR(100),
+                geom             GEOMETRY(Point, 4326)
+            )
+        """)
+        cursor.execute(f"CREATE INDEX ON {table_name} USING GIST (geom)")
+
+        for station in stations:
+            lon = station.get("longitude")
+            lat = station.get("latitude")
+            if lon is None or lat is None:
+                continue
+            cursor.execute(
+                f"""
+                INSERT INTO {table_name}
+                    (name, wigos_id, elevation, station_type, operating_status, geom)
+                VALUES (%s, %s, %s, %s, %s, ST_SetSRID(ST_MakePoint(%s, %s), 4326))
+                """,
+                [
+                    station.get("name"),
+                    station.get("wigosId"),
+                    station.get("elevation"),
+                    station.get("stationTypeName"),
+                    station.get("declaredStatus"),
+                    lon,
+                    lat,
+                ],
+            )
 
 
 @user_passes_test(user_has_any_page_permission)
@@ -141,6 +222,63 @@ def preview_stations(request):
         context["form"] = form
 
     return render(request, template, context=context)
+
+
+@user_passes_test(user_has_any_page_permission)
+def sync_stations_from_oscar(request):
+    if request.method != "POST":
+        return redirect(reverse("load_stations"))
+
+    station_settings = StationSettings.for_request(request)
+    org_settings = OrganisationSetting.for_request(request)
+    country_code = org_settings.country
+
+    if not country_code:
+        messages.error(
+            request,
+            _("No country set in Organisation Settings. Please configure it before syncing."),
+        )
+        return redirect(reverse("preview_stations"))
+
+    try:
+        stations = _fetch_oscar_stations(country_code)
+    except requests.exceptions.RequestException as e:
+        messages.error(request, _("Failed to reach OSCAR Surface API: {}").format(str(e)))
+        return redirect(reverse("preview_stations"))
+
+    if not stations:
+        messages.warning(
+            request,
+            _("No stations returned from OSCAR Surface for country code: {}").format(country_code),
+        )
+        return redirect(reverse("preview_stations"))
+
+    try:
+        _create_oscar_stations_table(stations, station_settings)
+    except Exception as e:
+        messages.error(request, _("Error saving station data: {}").format(str(e)))
+        return redirect(reverse("preview_stations"))
+
+    lons = [s["longitude"] for s in stations if s.get("longitude") is not None]
+    lats = [s["latitude"] for s in stations if s.get("latitude") is not None]
+    bounds = [min(lons), min(lats), max(lons), max(lats)] if lons and lats else None
+
+    station_settings.columns = OSCAR_STATION_COLUMNS
+    station_settings.geom_type = "Point"
+    station_settings.name_column = "name"
+    if bounds:
+        station_settings.bounds = bounds
+    station_settings.save()
+
+    clear_cache()
+
+    messages.success(
+        request,
+        _("{count} stations synced from OSCAR Surface (country: {code}).").format(
+            count=len(stations), code=country_code
+        ),
+    )
+    return redirect(reverse("preview_stations"))
 
 
 @method_decorator(cache_page, name='get')

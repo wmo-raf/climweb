@@ -10,18 +10,37 @@
 
 {% block extra_css %}
     {{ block.super }}
-
     {{ form_media.css }}
 {% endblock %}
 
 {% block content %}
     {% trans "Stations Loader" as header_str %}
-
     {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" %}
 
     <div class="nice-padding">
-        <div style="margin-top: 40px;"
-             id="upload_form_wrapper">
+
+        {# ── OSCAR sync (primary) ─────────────────────────────────────────── #}
+        <div style="margin-top: 40px;">
+            <h2 class="title">{% translate "Sync from OSCAR Surface" %}</h2>
+            <p>
+                {% translate "Automatically fetch station data from the WMO OSCAR Surface API for the country configured in Organisation Settings." %}
+            </p>
+            <form action="{% url 'sync_stations_from_oscar' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="button">
+                    {% translate "Sync from OSCAR Surface" %}
+                </button>
+            </form>
+        </div>
+
+        <hr style="margin: 40px 0;">
+
+        {# ── Shapefile upload (fallback) ──────────────────────────────────── #}
+        <div id="upload_form_wrapper">
+            <h2 class="title">{% translate "Or upload a Shapefile" %}</h2>
+            <p>
+                {% translate "Upload a ZIP file containing a Point shapefile as a fallback data source." %}
+            </p>
             <form action="{% url 'load_stations' %}" method="POST"
                   enctype="multipart/form-data">
                 {% if form.non_field_errors %}
@@ -39,13 +58,14 @@
                         {% endif %}
                     {% endfor %}
                     <li>
-                        <button type="submit" class="button">
+                        <button type="submit" class="button button-secondary">
                             {% translate "Upload" %}
                         </button>
                     </li>
                 </ul>
             </form>
         </div>
+
     </div>
 {% endblock %}
 

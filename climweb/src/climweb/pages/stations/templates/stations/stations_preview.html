@@ -19,6 +19,16 @@
 
     {% include "wagtailadmin/shared/header.html" with title=header_str icon="map" action_url=load_stations_url action_text=action_text_trans %}
 
+    {# Quick OSCAR sync button, available from the preview page too #}
+    <div class="nice-padding" style="padding-bottom: 0;">
+        <form action="{% url 'sync_stations_from_oscar' %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="button button-secondary">
+                {% translate "Sync from OSCAR Surface" %}
+            </button>
+        </form>
+    </div>
+
     <div class="nice-padding">
         {% if station_columns %}
             <div style="margin-top: 40px;">

@@ -1,12 +1,40 @@
-a.result-list-item-more {
-    color: orange;
+/* ── FEATURED SECTION ── */
+.ni-featured-section {
+  background: #f8f9fb;
+  padding: 3rem 0;
+  border-bottom: 1px solid #eee;
 }
 
-
-a.result-list-item-more:hover {
-    color: var(--primary-color);
+/* ── LISTING SECTION ── */
+.ni-listing-section {
+  padding: 3rem 0 5rem;
 }
 
-a.result-list-item-title:hover {
-    opacity: 0.8;
+/* ── SECTION HEADERS ── */
+.ni-featured-header,
+.ni-listing-header {
+  margin-bottom: 1.75rem;
+}
+
+.ni-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.ni-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .ni-featured-section { padding: 2rem 0; }
+  .ni-listing-section  { padding: 2rem 0 3rem; }
+  .ni-section-title    { font-size: 18px; }
 }

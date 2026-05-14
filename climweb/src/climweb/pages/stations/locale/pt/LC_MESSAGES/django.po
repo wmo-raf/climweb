@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/stations/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1550\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/stations/forms.py:6
 msgid "Stations Shapefile ZIP"
@@ -25,57 +26,135 @@ msgstr "Estações Shapefile ZIP"
 msgid "Station name field"
 msgstr "Campo de nome da estação"
 
-#: climweb/src/climweb/pages/stations/models.py:31
+#: climweb/src/climweb/pages/stations/models.py:33
 msgid "Show on Mapviewer"
 msgstr "Mostrar no Mapviewer"
 
-#: climweb/src/climweb/pages/stations/models.py:32
+#: climweb/src/climweb/pages/stations/models.py:34
 msgid "Check to show stations data on Mapviewer"
 msgstr "Marque para mostrar os dados das estações no Mapviewer"
 
-#: climweb/src/climweb/pages/stations/models.py:34
+#: climweb/src/climweb/pages/stations/models.py:36
 msgid "Stations Layer Title"
 msgstr "Título da camada de estações"
 
-#: climweb/src/climweb/pages/stations/models.py:36
+#: climweb/src/climweb/pages/stations/models.py:38
 msgid "Stations Layer SubCategory"
 msgstr "Subcategoria da camada de estações"
 
-#: climweb/src/climweb/pages/stations/models.py:39
+#: climweb/src/climweb/pages/stations/models.py:41
 msgid "Stations Layer Metadata"
 msgstr "Metadados da Camada de Estações"
 
 #: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:22
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:117
 msgid "Back to stations list"
 msgstr "Voltar à lista de estações"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:26
-msgid "Station Detail"
-msgstr "Detalhe da estação"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:43
+#, fuzzy
+#| msgid "load station data"
+msgid "No location data"
+msgstr "Nenhum dado de localização"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:33
-msgid "Station Name"
-msgstr "Nome da estação"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:81
+#, fuzzy
+#| msgid "Station Not Found"
+msgid "Station information"
+msgstr "Informações da estação"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:60
-msgid "Station Not Found"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:112
+#, fuzzy
+#| msgid "Station Not Found"
+msgid "Station not found"
 msgstr "Estação não encontrada"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:63
-msgid "Station with provided ID can not be found"
-msgstr "A estação com o ID fornecido não foi encontrada"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:114
+#, fuzzy
+#| msgid "Station with provided ID can not be found"
+msgid "The station with the provided ID could not be found."
+msgstr "A estação com o ID fornecido não foi encontrada."
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:21
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:24
+#, fuzzy
+#| msgid "Load Stations"
+msgid "Total stations"
+msgstr "Total de estações"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:28
+msgid "Operational"
+msgstr "Operacional"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:32
+msgid "Partly Operational"
+msgstr "Parcialmente Operacional"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:36
+msgid "Closed"
+msgstr "Fechado"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:40
+msgid "Planned"
+msgstr "Planejado"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:48
+#, fuzzy
+#| msgid "to preview"
+msgid "Network Overview"
+msgstr "Visão geral da rede"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:49
+#, fuzzy
+#| msgid "Stations Data"
+msgid "Stations Map"
+msgstr "Mapa de Estações"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:52
+msgid "Colour by"
+msgstr "Colorir por"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:55
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:139
+msgid "Operating Status"
+msgstr "Status operacional"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:58
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:154
+#, fuzzy
+#| msgid "Station Name"
+msgid "Station Type"
+msgstr "Tipo de estação"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:72
+msgid "Search by station name or WIGOS ID…"
+msgstr "Pesquise por nome da estação ou ID WIGOS…"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:74
+msgid "Clear"
+msgstr "Claro"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:102
+msgid "Directory"
+msgstr "Diretório"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:103
 msgid "Stations List"
 msgstr "Lista de estações"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:340
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:393
+#, fuzzy
+#| msgid "Station Detail"
+msgid "View Detail"
+msgstr "Ver detalhes"
 
 #: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:6
 #, python-format
 msgid "Stations Data %(title)s"
-msgstr "Dados de estações %(título)s"
+msgstr "Dados de estações %(title)s"
 
 #: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:17
-#: climweb/src/climweb/pages/stations/wagtail_hooks.py:27
+#: climweb/src/climweb/pages/stations/wagtail_hooks.py:28
 msgid "Stations Data"
 msgstr "Dados das Estações"
 
@@ -83,68 +162,120 @@ msgstr "Dados das Estações"
 msgid "Load Stations"
 msgstr "Estações de carga"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:29
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:27
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:24
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:31
+msgid "Sync from OSCAR Surface"
+msgstr "Sincronizar do OSCAR Surface"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:39
 msgid "Data Fields"
 msgstr "Campos de dados"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:35
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:45
 msgid "Field"
 msgstr "Campo"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:38
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:48
 msgid "Label"
 msgstr "Rótulo"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:41
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:51
 msgid "Show in Table"
 msgstr "Mostrar na tabela"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:44
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:54
 msgid "Show in Map Popup"
 msgstr "Mostrar no pop-up do mapa"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:95
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:105
 msgid "Save"
 msgstr "Salvar"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:109
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:119
 msgid "No station data loaded."
 msgstr "Nenhum dado de estação carregado."
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:110
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:120
 msgid "Please "
 msgstr "Por favor"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:112
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:122
 msgid "load station data"
 msgstr "dados da estação de carga"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:114
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:124
 msgid "to preview"
 msgstr "visualizar"
 
 #: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:6
 #, python-format
 msgid "Stations Loader %(title)s"
-msgstr "Carregador de estações %(título)s"
+msgstr "Carregador de estações %(title)s"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:18
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:17
 msgid "Stations Loader"
 msgstr "Carregador de estações"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:43
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:26
+msgid ""
+"Automatically fetch station data from the WMO OSCAR Surface API for the "
+"country configured in Organisation Settings."
+msgstr ""
+"Busque automaticamente dados da estação da API WMO OSCAR Surface para o país"
+" configurado nas Configurações da Organização."
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:40
+msgid "Or upload a Shapefile"
+msgstr "Ou carregue um Shapefile"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:42
+msgid ""
+"Upload a ZIP file containing a Point shapefile as a fallback data source."
+msgstr ""
+"Faça upload de um arquivo ZIP contendo um shapefile de ponto como fonte de "
+"dados substituta."
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:62
 msgid "Upload"
 msgstr "Carregar"
 
-#: climweb/src/climweb/pages/stations/views.py:80
+#: climweb/src/climweb/pages/stations/views.py:161
 msgid "Stations data loaded successfully"
 msgstr "Dados das estações carregados com sucesso"
 
-#: climweb/src/climweb/pages/stations/views.py:132
+#: climweb/src/climweb/pages/stations/views.py:213
 msgid "Stations columns updated successfully"
 msgstr "Colunas de estações atualizadas com sucesso"
 
-#: climweb/src/climweb/pages/stations/wagtail_hooks.py:35
+#: climweb/src/climweb/pages/stations/views.py:239
+msgid ""
+"No country set in Organisation Settings. Please configure it before syncing."
+msgstr ""
+"Nenhum país definido nas configurações da organização. Configure-o antes de "
+"sincronizar."
+
+#: climweb/src/climweb/pages/stations/views.py:246
+#, python-brace-format
+msgid "Failed to reach OSCAR Surface API: {}"
+msgstr "Falha ao acessar a API OSCAR Surface: {}"
+
+#: climweb/src/climweb/pages/stations/views.py:252
+#, python-brace-format
+msgid "No stations returned from OSCAR Surface for country code: {}"
+msgstr "Nenhuma estação retornada do OSCAR Surface para o código do país: {}"
+
+#: climweb/src/climweb/pages/stations/views.py:259
+#, fuzzy, python-brace-format
+#| msgid "load station data"
+msgid "Error saving station data: {}"
+msgstr "Erro ao salvar os dados da estação: {}"
+
+#: climweb/src/climweb/pages/stations/views.py:277
+#, python-brace-format
+msgid "{count} stations synced from OSCAR Surface (country: {code})."
+msgstr "{count} estações sincronizadas do OSCAR Surface (país: {code})."
+
+#: climweb/src/climweb/pages/stations/wagtail_hooks.py:36
 msgid "Station Settings"
 msgstr "Configurações da estação"
-

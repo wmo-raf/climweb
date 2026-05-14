@@ -1,10 +1,14 @@
-from climweb_wdqms import urls as climweb_wdqms_urls
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path, re_path
 from rest_framework.authtoken.views import obtain_auth_token
-from forecastmanager import urls as forecastmanager_urls
+
+if "forecastmanager" in settings.INSTALLED_APPS:
+    from forecastmanager import urls as forecastmanager_urls
+
+if "climweb_wdqms" in settings.INSTALLED_APPS:
+    from climweb_wdqms import urls as climweb_wdqms_urls
 from wagtail import views as wagtail_views
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
@@ -28,17 +32,17 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     
     path("", include("climweb.pages.home.urls")),
-    path("", include("climweb.pages.wdqms.urls")),
-    path("", include("capcomposer.cap.urls")),
+    *([path("", include("climweb.pages.wdqms.urls"))] if "climweb.pages.wdqms" in settings.INSTALLED_APPS else []),
+    *([path("", include("capcomposer.cap.urls"))] if "capcomposer.cap" in settings.INSTALLED_APPS else []),
     path("", include("climweb.pages.stations.urls"), name="stations"),
     path("", include("climweb.pages.videos.urls")),
-    path("weather/", include("climweb.pages.weather.urls")),
+    *([path("weather/", include("climweb.pages.weather.urls"))] if "climweb.pages.weather" in settings.INSTALLED_APPS else []),
     
     path("", include("geomanager.urls"), name="geomanager"),
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
-    path("", include(forecastmanager_urls), name="forecast_api"),
-    path("", include(climweb_wdqms_urls), name="climweb_wdqms_api"),
+    *([path("", include(forecastmanager_urls), name="forecast_api")] if "forecastmanager" in settings.INSTALLED_APPS else []),
+    *([path("", include(climweb_wdqms_urls), name="climweb_wdqms_api")] if "climweb_wdqms" in settings.INSTALLED_APPS else []),
     
     path("sitemap.xml", sitemap),
     path("humans.txt", humans),
@@ -49,13 +53,11 @@ urlpatterns = [
     path('api/v2/', api_router.urls, name="wagtailapi"),
     
     path("api/satellite-imagery/", include("climweb.pages.satellite_imagery.urls")),
-    path("api/cityclimate/", include("climweb.pages.cityclimate.urls")),
+    *([path("api/cityclimate/", include("climweb.pages.cityclimate.urls"))] if "climweb.pages.cityclimate" in settings.INSTALLED_APPS else []),
     path("api/_health/", public_health_check),
     path("api/token/", obtain_auth_token),
 ]
 
-if "climweb.pages.aviation" in CLIMWEB_ADDITIONAL_APPS:
-    urlpatterns += path("", include("climweb.pages.aviation.urls")),
 
 if ADMIN_URL_PATH:
     ADMIN_URL_PATH = ADMIN_URL_PATH.strip("/")

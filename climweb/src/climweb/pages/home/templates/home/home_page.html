@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="{% static 'css/glide.core.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/glide.theme.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/forecast_widget.css' %}">
+    <link rel="stylesheet" href="{% static 'weather/css/forecast_widget.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
@@ -27,62 +27,88 @@
         {% include 'home/section/hero_include.html' %}
     </div>
     <main class="is-index">
-        {% include 'home/section/weather_watch_include.html' %}
+        {% if IS_METEOROLOGICAL %}
+        {% include 'home/section/met_weather_section.html' %}
+        {% endif %}
+
         {% include 'home/section/services_include.html' %}
         {% include 'home/section/updates_include.html' %}
 
         {% if page.youtube_playlist %}
-            <section class="has-text-centered videos" id="videoSection">
+            <section class="section videos" id="videoSection">
                 <div class="container is-align-content-center">
-                    <h2 class="section-title has-text-centered">{% translate 'Latest Media' %}  </h2>
-                    {% include 'videos_skeleton.html' %}
+                    <div class="my-6">
+                        <p class="is-uppercase has-text-weight-bold is-size-8 mb-1" style="color:var(--primary-color); letter-spacing:0.08em;">
+                            {% translate "Latest Media" %}
+                        </p>
+                        <h2 class="title is-3">{% translate "Highlights & Videos" %}</h2>
+                        </div>                    
+                        {% include 'videos_skeleton.html' %}
                 </div>
             </section>
         {% endif %}
 
-        {% if page.feature_block %}
-            <section class="feature-block-section">
-                {% for block in page.feature_block %}
-                    {% include_block block with is_even=forloop.counter|divisibleby:2 %}
-                {% endfor %}
-            </section>
+       {% if page.feature_block %}
+        <section class="section">
+        <div class="container">
+            <div class="feature-blocks">
+            {% for block in page.feature_block %}
+                {% include_block block with is_even=forloop.counter0|divisibleby:2 %}
+            {% endfor %}
+            </div>
+        </div>
+        </section>
         {% endif %}
-        {% if page.partners %}
-            <section>
-                <div class="container">
-                    <h2 class="section-title has-text-centered"> {% translate "Our Partners" %}</h2>
-                    <div class="columns is-multiline is-mobile is-centered partners-list">
-                        {% for partner in page.partners %}
-                            {% if partner.visible_on_homepage and partner.logo %}
-                                <div class="column is-4-mobile is-4-tablet is-2-desktop  partner-item">
-                                    <a href="{% if partner.link %}{{ partner.link }} {% else %}{% endif %}"
-                                       target="{% if partner.link %}_blank{% else %}_self{% endif %}"
-                                       rel="noopener">
-                                        <div class="partner-img-wrapper" title="{{ partner.name }}">
-                                            <figure class="image">
-                                                {% image partner.logo original as p_logo %}
-                                                <img class="progressive__img progressive--not-loaded"
-                                                     data-progressive="{{ p_logo.url }}"
-                                                     src="{% lazy_image_url p_logo %}" alt="{{ partner.name }}"/>
-                                            </figure>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+        
+ 
+            {% if page.partners %}
+            <section class="section">
+            <div class="container py-5">
+
+                <div class="mb-5">
+                <p class="is-uppercase has-text-weight-bold is-size-8 mb-1"
+                    style="color:var(--primary-color) ; letter-spacing:0.08em;">
+                    {% translate "Collaborators" %}
+                </p>
+                <h2 class="title is-3">{% translate "Our Partners" %}</h2>
+                <p class="subtitle is-6 has-text-grey">
+                    {% translate "Working alongside leading institutions to advance climate science and resilience." %}
+                </p>
+                </div>
+
+                <div class="columns is-multiline is-mobile partners-list">
+                {% for partner in page.partners %}
+                    {% if partner.visible_on_homepage and partner.logo %}
+                    <div class="column is-4-mobile is-3-tablet is-2-desktop">
+                        <a href="{% if partner.link %}{{ partner.link }}{% endif %}"
+                        target="{% if partner.link %}_blank{% else %}_self{% endif %}"
+                        rel="noopener"
+                        class="partner-card"
+                        title="{{ partner.name }}">
+                        <figure class="image partner-logo-figure">
+                            {% image partner.logo original as p_logo %}
+                            <img class="progressive__img progressive--not-loaded partner-logo-img"
+                                data-progressive="{{ p_logo.url }}"
+                                src="{% lazy_image_url p_logo %}"
+                                alt="{{ partner.name }}" />
+                        </figure>
+                        </a>
                     </div>
-
-                    {% if settings.base.ImportantPages.all_partners_page %}
-                        <div class="more-container" style="justify-content: center">
-                            <a class="center more" href="{{ settings.base.ImportantPages.all_partners_page.url }}" }>
-                                {% translate "More Partners" %}
-                                <span class="icon btn-icon">
-                                    {% svg_icon name="arrow-right-full" %}
-                                </span>
-                            </a>
-                        </div>
                     {% endif %}
+                {% endfor %}
                 </div>
+
+                {% if settings.base.ImportantPages.all_partners_page %}
+                <div class="has-text-centered mt-5">
+                    
+
+                    <a class="more-partners" href="{{ settings.base.ImportantPages.all_partners_page.url }}">
+                        {% translate "More Partners" %}
+                        </a>
+                </div>
+                {% endif %}
+
+            </div>
             </section>
         {% endif %}
     </main>
@@ -98,219 +124,253 @@
     {% if page.youtube_playlist %}
         <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
     {% endif %}
+
     <script type="text/javascript" src="{% static 'js/glide.min.js' %}"></script>
+
     <script>
-        const homeMapSettingsUrl = "{{ home_map_settings_url|default_if_none:"" }}"
-        const homeWeatherWidgetUrl = "{{ home_weather_widget_url|default_if_none:"" }}"
+    const homeMapSettingsUrl    = "{{ home_map_settings_url|default_if_none:'' }}";
+    const homeWeatherWidgetUrl  = "{{ home_weather_widget_url|default_if_none:'' }}";
+    const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
+    const citySearchUrl         = "{{ city_search_url }}";
+    const cityDetailUrl         = "{{ city_detail_page_url|default_if_none:'' }}";
+    const countryBounds         = {{ country_bounds|default_if_none:'[]' }};
 
-        const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
+    /* ── safe translation helper ── */
+    const _t = (str) => (typeof gettext === 'function' ? gettext(str) : str);
 
-        const citySearchUrl = "{{ city_search_url }}"
-        const cityDetailUrl = "{{ city_detail_page_url|default_if_none:"" }}"
+    const weatherWidgetWrapper = $("#weather-widget-wrapper");
 
+    let singleForecastSlider;
 
-        const countryBounds = {{ country_bounds|default_if_none:'[]' }}
+    /* ── city select callback — triggers a full widget re-render ── */
+    const onSelectCity = ({ label, value }) => {
+      renderWeatherWidgetForCity(value);
+    };
 
+    /* ── no-data state — preserves the topbar if possible ── */
+    const showNoData = (message, description) => {
+      const noDataHtml = `
+        <div class="cf-no-data">
+          <div class="cf-no-data-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" width="24" height="24">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <p class="cf-no-data-title">${message}</p>
+          <p class="cf-no-data-desc">${description}</p>
+        </div>`;
 
-        const getMatchingCity = (name) => {
-            return fetch(`${citySearchUrl}?name=${name}`)
-                .then(response => response.json())
-                .then(data => {
-                    return data.map(city => {
-                        return {
-                            label: city.name,
-                            value: city.slug
-                        }
-                    })
-                })
-        }
+      /* 1. single slider — replace the panel area only */
+      const $panel = weatherWidgetWrapper.find('.cf-panel');
+      if ($panel.length) {
+        $panel.html(noDataHtml);
+        return;
+      }
 
+      /* 2. multiple slider — replace tabs-content area only */
+      const $tabsContent = weatherWidgetWrapper.find('.tabs-content');
+      if ($tabsContent.length) {
+        weatherWidgetWrapper.find('.cf-no-data').remove();
+        $tabsContent.html(noDataHtml);
+        return;
+      }
 
-        const initMultiForecastSlider = (sliderElId) => {
-            return new Glide(`#${sliderElId}`, {
-                perView: 4,
-                bound: true,
-                gap: 20,
-                peek: {
-                    before: 40,
-                    after: 40
-                },
-                breakpoints: {
-                    1440: {
-                        perView: 3
-                    },
-                    800: {
-                        perView: 3
-                    },
-                    480: {
-                        perView: 1
-                    }
-                }
-            }).mount()
-        }
-        const weatherWidgetWrapper = $("#weather-widget-wrapper")
-        let singleForecastSlider
-        let activeMultiForecastSlider
+      /* 3. topbar exists but no known content area — insert after topbar */
+      const $topbar = weatherWidgetWrapper.find('.cf-top-bar');
+      if ($topbar.length) {
+        weatherWidgetWrapper.find('.cf-no-data').remove();
+        $topbar.after(noDataHtml);
+        return;
+      }
 
+      /* 4. wrapper has children but no recognisable structure — append */
+      if (weatherWidgetWrapper.children().length > 0) {
+        weatherWidgetWrapper.find('.cf-no-data').remove();
+        weatherWidgetWrapper.append(noDataHtml);
+        return;
+      }
 
-        const onSelectCity = ({label, value}) => {
-            renderWeatherWidgetForCity(value)
-        }
+      /* 5. wrapper is completely empty — build a minimal card */
+      weatherWidgetWrapper.html(`
+        <div class="cf-card">
+          <div class="cf-top-bar">
+            <div class="cf-top-left">
+              <span class="cf-city-name">${_t('Forecast')}</span>
+            </div>
+          </div>
+          ${noDataHtml}
+        </div>`);
+    };
 
-        const renderWeatherWidgetForCity = (citySlug) => {
-            let url = `${homeWeatherWidgetUrl}`
+    /* ── main render ── */
+    const renderWeatherWidgetForCity = (citySlug) => {
+
+      let url = homeWeatherWidgetUrl;
+      if (citySlug) url = url + '?city=' + citySlug;
+
+      const loader           = $('#weather-widget-loader');
+      const forecastSkeleton = $('.forecast-widget-skeleton');
+
+      if (loader.length) loader.addClass('is-active');
+
+      /* clean up previous single slider */
+      if (singleForecastSlider) {
+        singleForecastSlider.destroy();
+        singleForecastSlider = null;
+      }
+
+      if (window._singleSliderRO) {
+        window._singleSliderRO.disconnect();
+        window._singleSliderRO = null;
+      }
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) throw new Error('Error fetching weather widget data');
+          return response.text();
+        })
+        .then(data => {
+
+          /* detect whether the response contains a usable widget */
+          const $parsed   = $(data);
+          const hasWidget = $parsed.find('#single-forecast-slider').length > 0
+                         || $parsed.find('.day-forecast-slider').length   > 0
+                         || $parsed.find('.forecast-widget').length        > 0
+                         || $parsed.find('.cf-top-bar').length             > 0;
+
+          if (!hasWidget) {
             if (citySlug) {
-                url = `${url}?city=${citySlug}`
+              showNoData(
+                _t('No forecast data available'),
+                _t('We could not find forecast data for the selected location. Please try a different city.')
+              );
+            }
+            if (loader.length) loader.removeClass('is-active');
+            if (forecastSkeleton.length) forecastSkeleton.hide();
+            return;
+          }
+
+          /* inject */
+          weatherWidgetWrapper.html(data);
+
+          /* ── SINGLE SLIDER (daily) ── */
+          const $single = $('#single-forecast-slider');
+          if ($single.length) {
+
+            function getSinglePerView(w) {
+              if (w < 320) return 1;
+              if (w < 480) return 2;
+              if (w < 640) return 3;
+              if (w < 900) return 4;
+              return 5;
             }
 
-            const loader = $('#weather-widget-loader')
-            if (loader.length) {
-                loader.addClass('is-active')
-            }
+            const container    = $single.closest('.cf-card')[0] || $single[0];
+            let currentPerView = getSinglePerView(
+              container ? container.offsetWidth : window.innerWidth
+            );
 
-            const forecastSkeleton = $(".forecast-widget-skeleton")
+            singleForecastSlider = new Glide('#single-forecast-slider', {
+              type: 'slider', perView: currentPerView,
+              gap: 8, bound: true, rewind: false, breakpoints: {},
+            }).mount();
 
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error fetching weather widget data');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    weatherWidgetWrapper.html(data)
-
-                    const citySearch = $('#city-search')
-                    if (citySearch.length) {
-                        bulmaHead('city-search', 'city-search-menu', getMatchingCity, onSelectCity, 200, 0);
-                    }
-
-                    if (singleForecastSlider) {
-                        singleForecastSlider.destroy()
-                    }
-
-                    const $singlerForecastSlider = $("#single-forecast-slider")
-                    if ($singlerForecastSlider.length) {
-                        singleForecastSlider = new Glide('#single-forecast-slider', {
-                            perView: 3,
-                            bound: true,
-                            gap: 20,
-                            peek: {
-                                before: 50,
-                                after: 50
-                            },
-                            breakpoints: {
-                                1440: {
-                                    perView: 2
-                                },
-                                800: {
-                                    perView: 2
-                                },
-                                480: {
-                                    perView: 1
-                                }
-                            }
-                        })
-                        singleForecastSlider.mount()
-                    }
-
-                    const $activeMultiForecastSlider = $(".day-forecast-slider.initial-active")
-                    if ($activeMultiForecastSlider.length) {
-                        const sliderId = $activeMultiForecastSlider.attr('id')
-                        activeMultiForecastSlider = initMultiForecastSlider(sliderId).mount()
-                    }
-
-                    const tabs = document.querySelectorAll('.forecast-widget .tabs li')
-                    const tabContentBoxes = document.querySelectorAll('.forecast-widget .tab-content')
-
-                    tabs.forEach((tab) => {
-                        tab.addEventListener('click', () => {
-                            tabs.forEach(item => item.classList.remove('is-active'))
-                            tab.classList.add('is-active')
-
-                            const target = tab.dataset.target;
-                            tabContentBoxes.forEach(box => {
-                                const boxId = box.getAttribute('id')
-
-                                if (boxId === target) {
-                                    const sliderId = box.dataset.slider;
-
-                                    // Destroy the active slider if it exists
-                                    if (activeMultiForecastSlider) {
-                                        activeMultiForecastSlider.destroy()
-                                    }
-                                    box.classList.remove('is-hidden')
-
-                                    // Initialize the new slider
-                                    activeMultiForecastSlider = initMultiForecastSlider(sliderId).mount()
-
-                                } else {
-                                    box.classList.add('is-hidden')
-                                }
-                            })
-                        })
-                    })
-
-                    if (loader.length) {
-                        loader.removeClass('is-active')
-                    }
-
-                    if (forecastSkeleton.length) {
-                        forecastSkeleton.hide()
-                    }
-                })
-                .catch(error => {
-                    console.error('HOME_WEATHER_WIDGET_ERROR:', error);
-
-                    if (loader.length) {
-                        loader.removeClass('is-active')
-                    }
-
-                    if (forecastSkeleton.length) {
-                        forecastSkeleton.hide()
-                    }
-                });
-        }
-
-
-        $(document).ready(function () {
-
-            if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
-                renderWeatherWidgetForCity()
-            } else {
-                const forecastSkeleton = $(".forecast-widget-skeleton")
-                if (forecastSkeleton.length) {
-                    forecastSkeleton.hide()
+            if (window.ResizeObserver && container) {
+              window._singleSliderRO = new ResizeObserver(entries => {
+                if (!singleForecastSlider) {
+                  window._singleSliderRO.disconnect();
+                  window._singleSliderRO = null;
+                  return;
                 }
-            }
-
-            if (page_youtube_playlist) {
-                const url = "{{ youtube_playlist_url }}";
-                const $videoWrapper = $('#videoWrapper');
-
-                if ($videoWrapper.length) {
-                    $videoWrapper.scheletrone({
-                        onComplete: function () {
-                            $.ajax({
-                                url: url,
-                                dataType: "html",
-                                success: function (data) {
-                                    // if we have videos append them, else hide whole section
-                                    if (data) {
-                                        $('#videoWrapper').html('').append(data).ready();
-                                    } else {
-                                        $('#videoSection').remove()
-                                    }
-                                },
-                                error: function () {
-                                    $('#videoSection').remove()
-                                }
-                            });
-                        }
-                    });
+                const next = getSinglePerView(entries[0].contentRect.width);
+                if (next !== currentPerView) {
+                  currentPerView = next;
+                  try { singleForecastSlider.update({ perView: next }); } catch (e) {}
                 }
+              });
+              window._singleSliderRO.observe(container);
             }
+
+            /* city search for single slider */
+            if (typeof bulmaHead === 'function') {
+              bulmaHead('city-search', 'city-search-menu',
+                name => fetch(citySearchUrl + '?name=' + encodeURIComponent(name))
+                  .then(r => r.json())
+                  .then(d => d.map(c => ({ label: c.name, value: c.slug }))),
+                onSelectCity, 200, 0
+              );
+            }
+
+          /* ── MULTIPLE SLIDER (hourly tabs) ── */
+          } else if ($('.day-forecast-slider').length > 0) {
+
+            /* delegate entirely to the template's own boot function */
+            if (typeof window.initMultiWidget === 'function') {
+              window.initMultiWidget({
+                citySearchUrl: citySearchUrl,
+                onCitySelect:  onSelectCity,
+              });
+            }
+
+          /* ── NEITHER slider found after a city search = no data ── */
+          } else if (citySlug) {
+            showNoData(
+              _t('No forecast data available'),
+              _t('We could not find forecast data for the selected location. Please try a different city.')
+            );
+          }
+
+          if (loader.length) loader.removeClass('is-active');
+          if (forecastSkeleton.length) forecastSkeleton.hide();
+
+        })
+        .catch(error => {
+          console.error('HOME_WEATHER_WIDGET_ERROR:', error);
+          if (citySlug) {
+            showNoData(
+              _t('Could not load forecast'),
+              _t('There was a problem loading the forecast. Please try again.')
+            );
+          }
+          if (loader.length) loader.removeClass('is-active');
+          if (forecastSkeleton.length) forecastSkeleton.hide();
         });
-    </script>
+    };
 
+    /* ── boot ── */
+    $(document).ready(function () {
+
+      if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
+        console.log('Rendering home weather widget with URL:', homeWeatherWidgetUrl);
+        renderWeatherWidgetForCity();
+      } else {
+        const forecastSkeleton = $('.forecast-widget-skeleton');
+        if (forecastSkeleton.length) forecastSkeleton.hide();
+      }
+
+      if (page_youtube_playlist) {
+        const url        = "{{ youtube_playlist_url }}";
+        const $videoWrap = $('#videoWrapper');
+        if ($videoWrap.length) {
+          $videoWrap.scheletrone({
+            onComplete: function () {
+              $.ajax({
+                url,
+                dataType: 'html',
+                success: function (data) {
+                  if (data) { $('#videoWrapper').html('').append(data).ready(); }
+                  else      { $('#videoSection').remove(); }
+                },
+                error: function () { $('#videoSection').remove(); },
+              });
+            },
+          });
+        }
+      }
+
+    });
+    </script>
 {% endblock %}

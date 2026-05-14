@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:33+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: fr\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/cityclimate/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1308\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/cityclimate/blocks.py:17
 msgid "Line Color"
@@ -31,6 +32,7 @@ msgstr "Couleur de remplissage de la zone"
 
 #: climweb/src/climweb/pages/cityclimate/forms.py:15
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:111
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:33
 msgid "City"
 msgstr "Ville"
 
@@ -39,7 +41,6 @@ msgid "CSV File"
 msgstr "Fichier CSV"
 
 #: climweb/src/climweb/pages/cityclimate/forms.py:18
-#| msgid "Time Format"
 msgid "File Date Format"
 msgstr "Format de date du fichier"
 
@@ -53,7 +54,9 @@ msgstr "Format de l'heure"
 
 #: climweb/src/climweb/pages/cityclimate/models.py:58
 msgid "In none selected,the default format e.g '2023-01-01' will be used"
-msgstr "Si aucun n'est sélectionné, le format par défaut, par exemple \"2023-01-01\", sera utilisé"
+msgstr ""
+"Si aucun n'est sélectionné, le format par défaut, par exemple "
+"\"2023-01-01\", sera utilisé"
 
 #: climweb/src/climweb/pages/cityclimate/models.py:61
 msgid "Filter by Month"
@@ -102,8 +105,12 @@ msgid "%(title)s"
 msgstr "%(title)s"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:55
-msgid "No city has been created. Please add a city first then return here to upload data"
-msgstr "Aucune ville n'a été créée. Veuillez d'abord ajouter une ville, puis revenir ici pour télécharger les données"
+msgid ""
+"No city has been created. Please add a city first then return here to upload"
+" data"
+msgstr ""
+"Aucune ville n'a été créée. Veuillez d'abord ajouter une ville, puis revenir"
+" ici pour télécharger les données"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:64
 msgid "Add City"
@@ -120,7 +127,6 @@ msgid "Cities with data loaded: %(counter)s"
 msgstr "Villes avec des données chargées : %(counter)s"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:94
-#| msgid "Data Parameters"
 msgid "Edit Data Parameters"
 msgstr "Paramètres de données"
 
@@ -149,17 +155,21 @@ msgstr "Afficher les données"
 msgid "Delete Data"
 msgstr "Supprimer les données"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:46
-msgid "Choose a city"
-msgstr "Choisissez une ville"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:20
+#, fuzzy
+#| msgid "Load Climate Data"
+msgid "Climate Data"
+msgstr "Données climatiques"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:66
-msgid "Select Month"
-msgstr "Sélectionnez un mois"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:57
+msgid "Month"
+msgstr "Mois"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:84
-msgid "Select Parameter"
-msgstr "Sélectionner un paramètre"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:81
+#, fuzzy
+#| msgid "Data Parameters"
+msgid "Parameters"
+msgstr "Paramètres"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/confirm_delete_city_climate_data.html:4
 msgid "Confirm delete"
@@ -186,12 +196,10 @@ msgid "Load Climate Data"
 msgstr "Charger les données climatiques"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:55
-#| msgid "Select Month"
 msgid "Select Date Column"
 msgstr "Sélectionnez la colonne de date"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:71
-#| msgid "Select Month"
 msgid "Select"
 msgstr "Sélectionner"
 
@@ -213,7 +221,6 @@ msgid "Back to list"
 msgstr "Retour à la liste"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/view_city_climate_data.html:27
-#| msgid "Update data"
 msgid "Update Data"
 msgstr "Mettre à jour les données"
 
@@ -221,9 +228,17 @@ msgstr "Mettre à jour les données"
 msgid "Date"
 msgstr "Date"
 
+#~ msgid "Choose a city"
+#~ msgstr "Choisissez une ville"
+
+#~ msgid "Select Month"
+#~ msgstr "Sélectionnez le mois"
+
+#~ msgid "Select Parameter"
+#~ msgstr "Sélectionner un paramètre"
+
 #~ msgid "Last Updated"
-#~ msgstr "Last Updated"
+#~ msgstr "Dernière mise à jour"
 
 #~ msgid "Date Field"
-#~ msgstr "Date Field"
-
+#~ msgstr "Champ de date"

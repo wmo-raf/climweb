@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/dashboards/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1500\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:15
 #: climweb/src/climweb/pages/dashboards/snippets.py:280
@@ -37,9 +38,8 @@ msgstr "ዳሽቦርድ ክፍል"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:75
 #: climweb/src/climweb/pages/dashboards/snippets.py:174
-#| msgid "Chart"
 msgid "Line Chart"
-msgstr ""
+msgstr "የመስመር ገበታ"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:76
 #: climweb/src/climweb/pages/dashboards/snippets.py:175
@@ -53,9 +53,8 @@ msgstr "አግድም አሞሌ ገበታ"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:78
 #: climweb/src/climweb/pages/dashboards/snippets.py:177
-#| msgid "Chart"
 msgid "Area Chart"
-msgstr ""
+msgstr "የአካባቢ ገበታ"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:79
 #: climweb/src/climweb/pages/dashboards/snippets.py:179
@@ -67,14 +66,12 @@ msgid "Chart variable name"
 msgstr "የገበታ ተለዋዋጭ ስም"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:83
-#| msgid "Chart"
 msgid "Chart color"
-msgstr ""
+msgstr "የገበታ ቀለም"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:84
-#| msgid "Chart"
 msgid "Chart type"
-msgstr ""
+msgstr "የገበታ አይነት"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:86
 msgid "Data unit"
@@ -105,13 +102,16 @@ msgid "A high quality banner image"
 msgstr "ከፍተኛ ጥራት ያለው ሰንደቅ ምስል"
 
 #: climweb/src/climweb/pages/dashboards/models.py:52
-#| msgid "Overview"
 msgid "Service"
-msgstr ""
+msgstr "አገልግሎት"
 
 #: climweb/src/climweb/pages/dashboards/models.py:52
-msgid "The service this dashboard is associated with. This is useful in fetching the latest updates i.e publications, news, articles related to this service."
-msgstr "ይህ ዳሽቦርድ የተገናኘው አገልግሎት። ይህ የቅርብ ጊዜ ዝመናዎችን ማለትም ህትመቶችን ፣ ዜናዎችን ፣ ከዚህ አገልግሎት ጋር የሚዛመዱ መጣጥፎችን ለማምጣት ጠቃሚ ነው።"
+msgid ""
+"The service this dashboard is associated with. This is useful in fetching "
+"the latest updates i.e publications, news, articles related to this service."
+msgstr ""
+"ይህ ዳሽቦርድ የተገናኘው አገልግሎት። ይህ የቅርብ ጊዜ ዝመናዎችን ማለትም ህትመቶችን ፣ ዜናዎችን ፣ ከዚህ አገልግሎት "
+"ጋር የሚዛመዱ መጣጥፎችን ለማምጣት ጠቃሚ ነው።"
 
 #: climweb/src/climweb/pages/dashboards/models.py:60
 #: climweb/src/climweb/pages/dashboards/templates/dashboards/dashboard_page.html:79
@@ -135,9 +135,8 @@ msgid "Warming stripes"
 msgstr "የሚሞቁ ምልክቶች"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:181
-#| msgid "Warming stripes"
 msgid "Rainfall stripes"
-msgstr ""
+msgstr "የዝናብ መስመሮች"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:187
 #: climweb/src/climweb/pages/dashboards/snippets.py:188
@@ -149,9 +148,8 @@ msgid "Description"
 msgstr "መግለጫ"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:198
-#| msgid "Hex color code for banner background (e.g., #ffffff)"
 msgid "Hex color code for chart color (e.g., #0b76e1)"
-msgstr ""
+msgstr "የሄክስ ቀለም ኮድ ለገበታ ቀለም (ለምሳሌ፡ #0b76e1)"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:202
 #: climweb/src/climweb/pages/dashboards/snippets.py:232
@@ -207,7 +205,9 @@ msgid "Single-Variable Charts"
 msgstr "ነጠላ-ተለዋዋጭ ገበታዎች"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:292
-msgid "Whether to use multiple axes (one per variable) or a single axis for all variables."
+msgid ""
+"Whether to use multiple axes (one per variable) or a single axis for all "
+"variables."
 msgstr "ብዙ መጥረቢያዎችን (በአንድ ተለዋዋጭ) ወይም ለሁሉም ተለዋዋጮች አንድ ዘንግ ለመጠቀም።"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:295
@@ -215,8 +215,12 @@ msgid "Chart Variables"
 msgstr "የገበታ ተለዋዋጮች"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:295
-msgid "Add more variables to display in the chart. Each variable corresponds to a dataset and will be displayed as a separate series in the chart."
-msgstr "በገበታው ላይ የሚታዩ ተጨማሪ ተለዋዋጮችን ያክሉ። እያንዳንዱ ተለዋዋጭ ከዳታ ስብስብ ጋር ይዛመዳል እና በገበታው ውስጥ እንደ የተለየ ተከታታይ ይታያል።"
+msgid ""
+"Add more variables to display in the chart. Each variable corresponds to a "
+"dataset and will be displayed as a separate series in the chart."
+msgstr ""
+"በገበታው ላይ የሚታዩ ተጨማሪ ተለዋዋጮችን ያክሉ። እያንዳንዱ ተለዋዋጭ ከዳታ ስብስብ ጋር ይዛመዳል እና በገበታው ውስጥ "
+"እንደ የተለየ ተከታታይ ይታያል።"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:354
 #: climweb/src/climweb/pages/dashboards/wagtail_hooks.py:29
@@ -305,12 +309,11 @@ msgid "Atlas"
 msgstr "አትላስ"
 
 #~ msgid "Dashboard Chart"
-#~ msgstr "Dashboard Chart"
+#~ msgstr "ዳሽቦርድ ገበታ"
 
 #~ msgid "Dashboard Charts"
-#~ msgstr "Dashboard Charts"
+#~ msgstr "ዳሽቦርድ ገበታዎች"
 
 #, fuzzy
 #~ msgid "Charts"
-#~ msgstr "Charts"
-
+#~ msgstr "ገበታዎች"

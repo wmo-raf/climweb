@@ -27,7 +27,6 @@ if (homeMapEl) {
     })
 
     let defaultLocale = props?.languageCode || 'en'
-    console.log("Default locale set to:", defaultLocale)
 
     const messages = { en, fr, pt }
     const i18n = createI18n({

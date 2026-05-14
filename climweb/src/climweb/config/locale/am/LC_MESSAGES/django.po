@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/config/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1296\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/config/templates/404.html:20
 msgid "Page not found"
@@ -38,9 +39,19 @@ msgstr "የውስጥ መቆጣጠርያ ችግር"
 msgid "Sorry, there seems to be an error. Please try again soon"
 msgstr "ይቅርታ፣ ስህተት ያለ ይመስላል። እባክዎ በቅርቡ እንደገና ይሞክሩ"
 
-#: climweb/src/climweb/config/templates/applications_include.html:19
-msgid "View"
-msgstr "ይመልከቱ"
+#: climweb/src/climweb/config/templates/applications_include.html:6
+msgid "Tools & Apps"
+msgstr "መሳሪያዎች እና መተግበሪያዎች"
+
+#: climweb/src/climweb/config/templates/applications_include.html:7
+#, fuzzy
+#| msgid "Go to publication"
+msgid "Applications"
+msgstr "መተግበሪያዎች"
+
+#: climweb/src/climweb/config/templates/applications_include.html:37
+msgid "Open App"
+msgstr "መተግበሪያን ክፈት"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:4
 #: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:4
@@ -53,24 +64,27 @@ msgid "Account Locked"
 msgstr "መለያ ተቆል .ል"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:16
-msgid "Your account has been locked due to multiple failed login attempts. Please try again later."
-msgstr "የእርስዎ መለያ በተካሄደ በብዙ የተሳሳቱ የመግቢያ ሙከራዎች ምክንያት ተቆል has ል. እባክዎ ቆይተው እንደገና ይሞክሩ."
+msgid ""
+"Your account has been locked due to multiple failed login attempts. Please "
+"try again later."
+msgstr ""
+"የእርስዎ መለያ በተካሄደ በብዙ የተሳሳቱ የመግቢያ ሙከራዎች ምክንያት ተቆል has ል. እባክዎ ቆይተው እንደገና ይሞክሩ."
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:20
 msgid "Back to sign in"
 msgstr "ለመግባት ተመለስ"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:23
-#| msgid ""
-#| "You account has been locked due to multiple failed login attempts. Please "
-#| "contact our support team for assistance."
-msgid "Your account has been locked due to multiple failed login attempts. Please contact our support team for assistance."
+msgid ""
+"Your account has been locked due to multiple failed login attempts. Please "
+"contact our support team for assistance."
 msgstr ""
+"በብዙ ያልተሳኩ የመግባት ሙከራዎች ምክንያት መለያህ ተቆልፏል። እባክዎን ለእርዳታ የድጋፍ ቡድናችንን ያነጋግሩ።"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:31
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:86
-#: climweb/src/climweb/config/templates/navigation/navbar.html:86
-#: climweb/src/climweb/config/templates/navigation/navbar.html:169
+#: climweb/src/climweb/config/templates/navigation/navbar.html:84
+#: climweb/src/climweb/config/templates/navigation/navbar.html:168
 msgid "Contact us"
 msgstr "አግኙን"
 
@@ -90,9 +104,19 @@ msgstr "በአሁኑ ጊዜ ምንም የተዘረዘረ የለም።"
 msgid "No data found"
 msgstr "ምንም ውሂብ አልተገኘም።"
 
-#: climweb/src/climweb/config/templates/events_include.html:44
-msgid "More Events"
-msgstr "ተጨማሪ ክስተቶች"
+#: climweb/src/climweb/config/templates/events_include.html:8
+msgid "Upcoming"
+msgstr "መጪ"
+
+#: climweb/src/climweb/config/templates/events_include.html:9
+#, fuzzy
+#| msgid "More Events"
+msgid "Events"
+msgstr "ክስተቶች"
+
+#: climweb/src/climweb/config/templates/events_include.html:13
+msgid "All events"
+msgstr "ሁሉም ክስተቶች"
 
 #: climweb/src/climweb/config/templates/featured_item_include.html:28
 msgid "Featured"
@@ -128,8 +152,12 @@ msgstr "አጣራ"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:74
 #, python-format
-msgid "No %(name)s have been created yet. One of the following must be created before you can add any %(name)s:"
-msgstr "እስካሁን ምንም %(name)s አልተፈጠሩም። ማንኛውንም %(name)s ከማከልዎ በፊት ከሚከተሉት ውስጥ አንዱ መፈጠር አለበት፡"
+msgid ""
+"No %(name)s have been created yet. One of the following must be created "
+"before you can add any %(name)s:"
+msgstr ""
+"እስካሁን ምንም %(name)s አልተፈጠሩም። ማንኛውንም %(name)s ከማከልዎ በፊት ከሚከተሉት ውስጥ አንዱ መፈጠር "
+"አለበት፡"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:79
 #, python-format
@@ -151,34 +179,37 @@ msgid "Page %(current_page)s of %(num_pages)s."
 msgstr "ገጽ %(current_page)s ከ%(num_pages)s ዎች።"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:26
-#: climweb/src/climweb/config/templates/navigation/navbar.html:26
-#: climweb/src/climweb/config/templates/navigation/navbar.html:152
+#: climweb/src/climweb/config/templates/navigation/navbar.html:32
+#: climweb/src/climweb/config/templates/navigation/navbar.html:156
 msgid "Alerts"
 msgstr "ማንቂያዎች"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:35
-#: climweb/src/climweb/config/templates/navigation/navbar.html:35
-#: climweb/src/climweb/config/templates/navigation/navbar.html:160
+#: climweb/src/climweb/config/templates/navigation/navbar.html:41
+#: climweb/src/climweb/config/templates/navigation/navbar.html:162
+#: climweb/src/climweb/config/templates/videos_include.html:39
+#: climweb/src/climweb/config/templates/videos_include.html:88
 msgid "Subscribe"
 msgstr "ሰብስክራይብ ያድርጉ"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:45
-#: climweb/src/climweb/config/templates/navigation/navbar.html:45
+#: climweb/src/climweb/config/templates/navigation/navbar.html:49
 msgid "Language"
 msgstr "ቋንቋ"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:76
+#: climweb/src/climweb/config/templates/navigation/navbar.html:72
 #: climweb/src/climweb/config/templates/navigation/navbar.html:76
 msgid "Search"
 msgstr "ፈልግ"
 
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:93
-#: climweb/src/climweb/config/templates/navigation/navbar.html:93
-#: climweb/src/climweb/config/templates/navigation/navbar.html:175
+#: climweb/src/climweb/config/templates/navigation/navbar.html:91
+#: climweb/src/climweb/config/templates/navigation/navbar.html:174
 msgid "Feedback"
 msgstr "ግብረ መልስ"
 
-#: climweb/src/climweb/config/templates/navigation/footer.html:37
+#: climweb/src/climweb/config/templates/navigation/footer.html:98
 msgid "Powered by Climweb"
 msgstr "በ Crueweb የተጎለበተ"
 
@@ -190,18 +221,16 @@ msgstr "ፕሮጀክቶች"
 msgid "More Projects"
 msgstr "ተጨማሪ ፕሮጀክቶች"
 
-#: climweb/src/climweb/config/templates/update_card_include.html:58
+#: climweb/src/climweb/config/templates/update_card_include.html:75
 msgid "Read more"
 msgstr "ተጨማሪ ያንብቡ"
 
-#: climweb/src/climweb/config/templates/videos_include.html:25
-#, python-format
-msgid "Published on : %(updated_on)s"
-msgstr "የታተመው በ:%(updated_on)s ላይ ነው።"
-
-#: climweb/src/climweb/config/templates/videos_include.html:37
-msgid "SUBSCRIBE"
-msgstr "ሰብስክራይብ ያድርጉ"
+#: climweb/src/climweb/config/templates/videos_include.html:29
+#: climweb/src/climweb/config/templates/videos_include.html:77
+#, fuzzy, python-format
+#| msgid "Published on : %(updated_on)s"
+msgid "Published on: %(updated_on)s"
+msgstr "የታተመው በ %(የዘመነ_ላይ)s"
 
 #: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:12
 msgid "Enter your two-factor authentication code"
@@ -227,22 +256,24 @@ msgstr "እንኩአን ደህና መጡ"
 msgid "Sign in to"
 msgstr "በመለያ ይግቡ"
 
+#~ msgid "View"
+#~ msgstr "ይመልከቱ"
+
+#~ msgid "SUBSCRIBE"
+#~ msgstr "ሰብስክራይብ ያድርጉ"
+
 #, python-format
 #~ msgid "Download - %(file_size)s"
-#~ msgstr "Download - %(file_size)s"
-
-#~ msgid "Go to publication"
-#~ msgstr "Go to publication"
+#~ msgstr "አውርድ - %(ፋይል_መጠን) s"
 
 #~ msgid "Additional Materials"
-#~ msgstr "Additional Materials"
+#~ msgstr "ተጨማሪ ቁሳቁሶች"
 
 #~ msgid "Download document"
-#~ msgstr "Download document"
+#~ msgstr "ሰነድ አውርድ"
 
 #~ msgid "NMHS ClimWeb"
 #~ msgstr "NMHS ClimWeb"
 
 #~ msgid "What we do"
-#~ msgstr "What we do"
-
+#~ msgstr "የምንሰራው"

@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:33+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
@@ -11,27 +12,72 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: fr\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/search/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1530\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
-#: climweb/src/climweb/pages/search/templates/search/search.html:27
+#: climweb/src/climweb/pages/search/templates/search/search.html:4
+#: climweb/src/climweb/pages/search/templates/search/search.html:19
+#: climweb/src/climweb/pages/search/templates/search/search.html:50
 msgid "Search"
 msgstr "Recherche"
 
-#: climweb/src/climweb/pages/search/templates/search/search.html:53
-#: climweb/src/climweb/pages/search/templates/search/search.html:75
-#: climweb/src/climweb/pages/search/templates/search/search.html:80
-msgid "More"
-msgstr "Plus"
+#: climweb/src/climweb/pages/search/templates/search/search.html:22
+#, python-format
+msgid "Results for \"%(q)s\""
+msgstr "Résultats pour \"%(q)s\""
 
-#: climweb/src/climweb/pages/search/templates/search/search.html:87
+#: climweb/src/climweb/pages/search/templates/search/search.html:26
+msgid "What are you looking for?"
+msgstr "Qu'est-ce que tu cherches?"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:45
+msgid "Type to search…"
+msgstr "Tapez pour rechercher…"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:64
+#, fuzzy, python-format
+#| msgid "No results found"
+msgid "%(counter)s result found"
+msgid_plural "%(counter)s results found"
+msgstr[0] "Aucun résultat trouvé"
+msgstr[1] "Aucun résultat trouvé"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:79
+msgid "Featured"
+msgstr "En vedette"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:88
+#: climweb/src/climweb/pages/search/templates/search/search.html:125
+msgid "View"
+msgstr "Voir"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:147
 msgid "No results found"
 msgstr "Aucun résultat trouvé"
 
-#: climweb/src/climweb/pages/search/templates/search/search.html:89
-msgid "Please type something into the search box"
-msgstr "Veuillez saisir quelque chose dans le champ de recherche"
+#: climweb/src/climweb/pages/search/templates/search/search.html:149
+#, python-format
+msgid ""
+"We couldn't find anything for \"%(q)s\". Try different keywords or check "
+"your spelling."
+msgstr ""
+"Nous n'avons rien trouvé pour \"%(q)s\". Essayez différents mots-clés ou "
+"vérifiez votre orthographe."
 
+#: climweb/src/climweb/pages/search/templates/search/search.html:165
+msgid "Start searching"
+msgstr "Commencer la recherche"
+
+#: climweb/src/climweb/pages/search/templates/search/search.html:167
+msgid "Type a keyword above to search across all content."
+msgstr ""
+"Tapez un mot-clé ci-dessus pour effectuer une recherche sur tout le contenu."
+
+#~ msgid "More"
+#~ msgstr "Plus"
+
+#~ msgid "Please type something into the search box"
+#~ msgstr "Veuillez saisir quelque chose dans le champ de recherche"

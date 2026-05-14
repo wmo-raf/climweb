@@ -241,6 +241,14 @@ class ProjectPage(AbstractBannerWithIntroPage):
             meta_description = super().get_meta_description()
         
         return meta_description
+    
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        
+        if self.youtube_playlist:
+            context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
+        
+        return context
 
 
 class ServiceProject(models.Model):

@@ -1,102 +1,152 @@
-{% load wagtailimages_tags wagtailiconchooser_tags %}
+{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
 
 {% if value.has_sub_items %}
-    <div class="navbar-item has-dropdown is-hoverable {% if value.large_submenu %}is-mega{% endif %}">
-        <a class="navbar-item nav-item-title" {% if value.page.url %}href="{{ value.page.url }}" {% endif %}>
-            {{ value.label }}
-        </a>
-        {% if value.large_submenu %}
-            <div class="navbar-dropdown megamenu">
-                <div class="container megamenu-container">
-                    {% if value.page %}
-                        {% if value.page.specific.is_services_index %}
-                            {% include "blocks/services_with_products_menu.html" %}
+  <div class="navbar-item nav-item has-dropdown is-hoverable {% if value.large_submenu %}is-mega{% endif %}">
 
-                        {% elif value.page.specific.is_products_index %}
-                            {% include "blocks/products_menu.html" with products_index=value.page %}
-                        {% else %}
-                            <div class="columns is-multiline megamenu-columns">
-                                {% for sub_page in value.page.get_children %}
-                                    {% if sub_page.show_in_menus and sub_page.live %}
-                                        <div class="column is-full-touch is-one-third-desktop is-one-quarter-fullhd">
-                                            <a class="navbar-item" href="{{ sub_page.url }}">
-                                                <div class="menu-item-figure">
-                                                    {% if sub_page.specific.nav_menu_icon %}
-                                                        {% svg_icon sub_page.specific.nav_menu_icon %}
-                                                    {% elif sub_page.specific.banner_image %}
-                                                        {% image sub_page.specific.banner_image original as subpage_image %}
-                                                        <img src="{{ subpage_image.url }}" alt="">
-                                                    {% elif sub_page.specific.introduction_image %}
-                                                        {% image sub_page.specific.introduction_image original as subpage_image %}
-                                                        <img src="{{ subpage_image.url }}" alt="">
-                                                    {% endif %}
-                                                </div>
-                                                <div class="menu-item-label">
-                                                    {{ sub_page.title }}
-                                                </div>
-                                            </a>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+    <a class="navbar-item nav-item-link"
+       {% if value.page.url %}href="{{ value.page.url }}"{% endif %}>
+      {{ value.label }}
+      <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </a>
 
+    {% if value.large_submenu %}
 
-                        {% if value.sub_items %}
-                            <div class="columns is-multiline sub-items-list">
-                                {% for item in value.sub_items %}
-                                    <div class="column is-half">
-                                        <a class="navbar-item"
-                                           {% if item.value.page.url %}href="{{ item.value.page.url }}" {% else %}
-                                           href="{{ item.value.external_url }}"
-                                           target="_blank"
-                                           rel="noopener norefferer" {% endif %}>
-                                            <div class="menu-item-figure">
-                                            </div>
-                                            <div class="menu-item-label">
-                                                {{ item.value.label }}
-                                            </div>
-                                        </a>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
+      <!-- ── MEGAMENU ── -->
+      <div class="navbar-dropdown megamenu">
+        <div class="container megamenu-inner">
+          <div class="megamenu-2col">
 
-        {% else %}
-            <div class="navbar-dropdown">
+            <!-- DARK LEFT PANEL -->
+            <div class="megamenu-left">
+              <div>
+                <p class="megamenu-eyebrow">{{ value.label }}</p>
                 {% if value.page %}
-                    {% for sub_page in value.page.get_children %}
-                        {% if sub_page.show_in_menus and sub_page.live %}
-                            <a class="navbar-item" href="{{ sub_page.url }}">
-                                {{ sub_page.title }}
-                            </a>
-                        {% endif %}
-                    {% endfor %}
+                  <h3 class="megamenu-left-title">{{ value.page.title }}</h3>
+                  {% if value.page.specific.listing_heading %}
+                    <p class="megamenu-left-desc">
+                      {{ value.page.specific.listing_heading|truncatechars:120 }}
+                    </p>
+                  {% endif %}
                 {% endif %}
-                {% if value.sub_items %}
-                    {% for item in value.sub_items %}
-                        <a class="navbar-item"
-                           {% if item.value.page.url %}href="{{ item.value.page.url }}" {% else %}
-                           href="{{ item.value.external_url }}"
-                           target="_blank"
-                           rel="noopener norefferer" {% endif %}>
-                            {{ item.value.label }}
-                        </a>
-                    {% endfor %}
-                {% endif %}
+              </div>
+              {% if value.page.url %}
+                <a href="{{ value.page.url }}" class="megamenu-view-all">
+                  {% blocktranslate with label=value.label %}
+                    View all {{ label }}
+                  {% endblocktranslate %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              {% endif %}
             </div>
+
+            <!-- RIGHT CONTENT -->
+            <div class="megamenu-right">
+
+              {% if value.page %}
+
+                {% if value.page.specific.is_services_index %}
+                  <!-- SERVICES: icon grid -->
+                  {% include "blocks/services_with_products_menu.html" %}
+
+                {% elif value.page.specific.is_products_index %}
+                  <!-- PRODUCTS: thumbnail list -->
+                  {% include "blocks/products_menu.html" with products_index=value.page %}
+
+                {% else %}
+                  <!-- GENERIC: icon grid -->
+                  <div class="megamenu-grid">
+                    {% for sub_page in value.page.get_children %}
+                      {% if sub_page.show_in_menus and sub_page.live %}
+                        <a class="megamenu-item" href="{{ sub_page.url }}">
+                          <div class="megamenu-item-icon">
+                            {% if sub_page.specific.nav_menu_icon %}
+                              {% svg_icon sub_page.specific.nav_menu_icon %}
+                            {% elif sub_page.specific.banner_image %}
+                              {% image sub_page.specific.banner_image original as subpage_image %}
+                              <img src="{{ subpage_image.url }}" alt="">
+                            {% elif sub_page.specific.introduction_image %}
+                              {% image sub_page.specific.introduction_image original as subpage_image %}
+                              <img src="{{ subpage_image.url }}" alt="">
+                            {% endif %}
+                          </div>
+                          <span class="megamenu-item-label">{{ sub_page.title }}</span>
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+              {% endif %}
+
+              <!-- SUB ITEMS as pills -->
+              {% if value.sub_items %}
+                <div class="megamenu-sub-row">
+                  {% for item in value.sub_items %}
+                    <a class="megamenu-pill"
+                       {% if item.value.page.url %}href="{{ item.value.page.url }}"
+                       {% else %}href="{{ item.value.external_url }}" target="_blank" rel="noopener noreferrer"
+                       {% endif %}>
+                      {{ item.value.label }}
+                    </a>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+
+      <!-- ── SIMPLE DROPDOWN ── -->
+      <div class="navbar-dropdown nav-dropdown">
+        {% if value.page %}
+          {% for sub_page in value.page.get_children %}
+            {% if sub_page.show_in_menus and sub_page.live %}
+              <a class="navbar-item nav-dropdown-item" href="{{ sub_page.url }}">
+                <span class="nav-dropdown-label">{{ sub_page.title }}</span>
+                <span class="nav-dropdown-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
+              </a>
+            {% endif %}
+          {% endfor %}
         {% endif %}
-    </div>
-{% else %}
-    {% if value.page.url or value.external_url %}
-        <a class="navbar-item nav-item-title"
-           {% if value.page.url %}href="{{ value.page.url }}" {% else %} href="{{ value.external_url }}"
-           target="_blank"
-           rel="noopener norefferer" {% endif %}>
-            {{ value.label }}
-        </a>
+        {% if value.sub_items %}
+          {% for item in value.sub_items %}
+            <a class="navbar-item nav-dropdown-item"
+               {% if item.value.page.url %}href="{{ item.value.page.url }}"
+               {% else %}href="{{ item.value.external_url }}" target="_blank" rel="noopener noreferrer"
+               {% endif %}>
+              <span class="nav-dropdown-label">{{ item.value.label }}</span>
+              <span class="nav-dropdown-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
+            </a>
+          {% endfor %}
+        {% endif %}
+      </div>
+
     {% endif %}
+
+  </div>
+
+{% else %}
+  {% if value.page.url or value.external_url %}
+    <a class="navbar-item nav-item-link"
+       {% if value.page.url %}href="{{ value.page.url }}"
+       {% else %}href="{{ value.external_url }}" target="_blank" rel="noopener noreferrer"
+       {% endif %}>
+      {{ value.label }}
+    </a>
+  {% endif %}
 {% endif %}

@@ -25,7 +25,7 @@
         {% else %}
             <section class="nmhs-work">
                 <div class="work container">
-                    <h2 class="section-subheader">
+                    <h2 class="title is-3">
                         {{ page.introduction_title }}
                     </h2>
                     <div class="intro-description format-text">
@@ -96,7 +96,7 @@
         {% if page.latest_news %}
             <section class="news-inline">
                 <div class="container">
-                    <h2 class="section-subheader">
+                    <h2 class="title is-3">
                         {% translate "Latest News Updates" %}
                     </h2>
                     {% include 'news_include.html' with news=page.latest_news %}

@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/weather/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1590\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/weather/blocks.py:14
 msgid "Weather Parameter"
@@ -30,12 +31,11 @@ msgid "Measurement"
 msgstr "መለኪያ"
 
 #: climweb/src/climweb/pages/weather/models.py:52
-#: climweb/src/climweb/pages/weather/views.py:45
 msgid "Location not found. Please search for a different location."
 msgstr "አካባቢ አልተገኘም። እባክህ የተለየ ቦታ ፈልግ።"
 
 #: climweb/src/climweb/pages/weather/models.py:64
-#: climweb/src/climweb/pages/weather/views.py:56
+#: climweb/src/climweb/pages/weather/views.py:62
 msgid "No location set in the system. Please contact the administrator."
 msgstr "በስርዓቱ ውስጥ ምንም ቦታ አልተዘጋጀም. እባክዎ አስተዳዳሪውን ያግኙ።"
 
@@ -56,7 +56,8 @@ msgid "Products per page"
 msgstr "ምርቶች በገጽ"
 
 #: climweb/src/climweb/pages/weather/models.py:107
-msgid "Number of items to show in the list section. Default is 6. Maximum is 20."
+msgid ""
+"Number of items to show in the list section. Default is 6. Maximum is 20."
 msgstr "በዝርዝሩ ክፍል ውስጥ የሚታዩ የንጥሎች ብዛት። ነባሪው 6 ነው። ከፍተኛው 20 ነው።"
 
 #: climweb/src/climweb/pages/weather/models.py:164
@@ -127,39 +128,48 @@ msgstr[1] ""
 msgid "Read More"
 msgstr "ተጨማሪ ያንብቡ"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:16
-msgid "Search Location"
-msgstr "አካባቢን ፈልግ"
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:23
+#, fuzzy
+#| msgid "Weather"
+msgid "Weather detail"
+msgstr "የአየር ሁኔታ ዝርዝር"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:64
-msgid "Time"
-msgstr "ጊዜ"
-
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:65
-msgid "Weather"
-msgstr "የአየር ሁኔታ"
-
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:318
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:417
-msgid "Detail"
-msgstr "ዝርዝር"
-
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:331
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:336
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:37
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:31
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:63
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:30
 msgid "Search location"
 msgstr "አካባቢን ፈልግ"
 
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:354
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:358
-#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:435
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:68
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:80
 msgid "Today"
 msgstr "ዛሬ"
 
-#: climweb/src/climweb/pages/weather/views.py:35
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:88
+msgid "Time"
+msgstr "ጊዜ"
+
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:89
+msgid "Weather"
+msgstr "የአየር ሁኔታ"
+
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:18
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:17
+msgid "Detail"
+msgstr "ዝርዝር"
+
+#: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:57
+msgid "TODAY"
+msgstr "ዛሬ"
+
+#: climweb/src/climweb/pages/weather/views.py:39
 #, python-format
 msgid "Forecast Data Source: %(forecast_source)s"
-msgstr "ትንበያ የመረጃ ምንጭ-% (ትንበያ_የሙሩስ) s"
+msgstr "ትንበያ የመረጃ ምንጭ- %(forecast_source) s"
+
+#~ msgid "Search Location"
+#~ msgstr "አካባቢን ፈልግ"
 
 #~ msgid "No data found"
-#~ msgstr "No data found"
-
+#~ msgstr "ምንም ውሂብ አልተገኘም።"

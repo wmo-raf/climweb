@@ -1,46 +1,100 @@
-{% load wagtailiconchooser_tags i18n %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n %}
 
-<div class="alerts-item-wrapper" data-alerts-available="{{ has_alerts|yesno:"true,false" }}">
-    {% if has_alerts %}
-        {% for alert_info in active_alert_info %}
-            <a href="{{ alert_info.url }}" class="alert-link">
-                <div class="alert-item"
-                     style="background-color: {{ alert_info.severity.background_color }};border: 1px solid {{ alert_info.severity.border_color }}">
-                    <div class="alert-item-left">
-                        <div class="alert-item-icon">
-                            <div class="alert-icon-wrapper"
-                                 style="background-color: {{ alert_info.severity.color }};border-color: {{ alert_info.severity.border_color }};
-                                         {% if alert_info.severity.icon_color %}color:{{ alert_info.severity.icon_color }};{% endif %} ">
-                                {% if alert_info.event_icon %}
-                                    {% svg_icon name=alert_info.event_icon %}
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="alert-item-info">
-                            <div class="alert-item-title">
-                                {% translate alert_info.status %}: {% translate alert_info.event|truncatechars:20 %} ({{ alert_info.area_desc }})
-                            </div>
-                            <div class="alert-severity-label">
-                                {{ alert_info.severity.label }}
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="icon btn-icon">
-                            {% svg_icon name="arrow-right-full" %}
-                        </span>
-                    </div>
+<div class="alerts-item-wrapper"
+     data-alerts-available="{{ has_alerts|yesno:"true,false" }}">
+
+  {% if has_alerts %}
+    {% for alert_info in active_alert_info %}
+      <a href="{{ alert_info.url }}" class="alert-link">
+        <div class="alert-item"
+             data-severity="{{ alert_info.severity.severity }}"
+             data-event="{{ alert_info.event }}"
+             style="border-left-color: {{ alert_info.severity.border_color }} !important;">
+
+          <div class="alert-item-left">
+
+            <!-- ICON -->
+            <div class="alert-item-icon">
+              <div class="alert-icon-wrapper"
+                   style="background-color: {{ alert_info.severity.background_color }};
+                          --svg-fill: {{ alert_info.severity.color }};
+                          --svg-stroke: {{ alert_info.severity.border_color }};
+                          {% if alert_info.severity.icon_color %}
+                            color: {{ alert_info.severity.icon_color }};
+                          {% endif %}">
+                {% if alert_info.event_icon %}
+                  {% svg_icon name=alert_info.event_icon %}
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- INFO -->
+            <div class="alert-item-info">
+
+              <div class="alert-item-title">
+                {% if alert_info.event_with_area %}
+                  {{ alert_info.status }}: {{ alert_info.event_with_area|truncatechars:60 }}
+                {% else %}
+                  {% translate alert_info.event|truncatechars:30 %} ({{ alert_info.area_desc }})
+                {% endif %}
+              </div>
+
+              {% if alert_info.properties.headline %}
+                <div class="alert-info-headline">
+                  {{ alert_info.properties.headline|truncatechars:60 }}
                 </div>
-            </a>
-        {% endfor %}
-    {% else %}
-        <div class="empty-alerts-state">
-            <div class="empty-alerts-icon">
-                {% svg_icon name="alert" %}
+              {% endif %}
+
+              <div class="alert-severity-label"
+                   style="color: {{ alert_info.severity.border_color }};">
+                {% translate alert_info.status %}
+              </div>
+
+              {% if alert_info.expires %}
+                <div class="alert-time-info">
+                  <span class="time-icon">{% svg_icon name="calendar-alt" %}</span>
+                  <span class="time-em">{% translate "Expires:" %}</span>
+                  <span>{{ alert_info.expires|date:"d M Y H:i" }}</span>
+                </div>
+              {% elif alert_info.properties.sent %}
+                <div class="alert-time-info">
+                  <span class="time-icon">{% svg_icon name="calendar-alt" %}</span>
+                  <span class="time-em">{% translate "Issued:" %}</span>
+                  <span>
+                    {% blocktranslate trimmed with issued_on=alert_info.properties.sent|date:"d M Y h:i a" %}
+                      {{ issued_on }}
+                    {% endblocktranslate %}
+                  </span>
+                </div>
+              
+              {% endif %}
+
             </div>
-            <div>
-                {% translate "No active alerts currently" %}
-            </div>
+          </div>
+
+          <!-- SEVERITY PILL -->
+          <span class="alert-severity-pill"
+                style="background-color: {{ alert_info.severity.background_color }};
+                       color: {{ alert_info.severity.border_color }};">
+            {{ alert_info.severity.severity }}
+          </span>
+
+          <!-- ARROW -->
+          <span class="alert-arrow">
+            {% svg_icon name="arrow-right-full" %}
+          </span>
+
         </div>
-    {% endif %}
+      </a>
+    {% endfor %}
+
+  {% else %}
+    <div class="empty-alerts-state">
+      <div class="empty-alerts-icon">
+        {% svg_icon name="alert" %}
+      </div>
+      <div>{% translate "No active alerts currently" %}</div>
+    </div>
+  {% endif %}
+
 </div>

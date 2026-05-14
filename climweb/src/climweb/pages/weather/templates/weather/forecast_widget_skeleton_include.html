@@ -1,156 +1,205 @@
 <style>
-    .forecast-widget-skeleton {
-        color: #fff;
-        position: relative;
-    }
+  .cf-skeleton {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+  }
 
-    .forecast-widget-skeleton .loader-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        opacity: 0;
-        z-index: -1;
-    }
+  /* TOP BAR SKELETON */
+  .cf-skeleton-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 12px;
+  }
 
-    .forecast-widget-skeleton .loader {
-        width: 50px;
-        height: 50px;
-    }
+  .cf-skeleton-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
 
+  /* DAY TABS SKELETON */
+  .cf-skeleton-tabs {
+    display: flex;
+    border-bottom: 1px solid #f0f0f0;
+    overflow: hidden;
+  }
 
-    .forecast-widget-skeleton .loader-wrapper.is-active {
-        opacity: 1;
-        z-index: 9999;
-    }
+  .cf-skeleton-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 7px 6px;
+    border-right: 1px solid #f5f5f5;
+    border-bottom: 2px solid transparent;
+  }
 
-    .forecast-widget-skeleton .loader.is-loading {
-        position: absolute;
-    }
+  .cf-skeleton-tab:last-child { border-right: none; }
 
-    .forecast-widget-skeleton .tabs ul {
-        align-items: flex-end;
-    }
+  .cf-skeleton-tab.active {
+    border-bottom-color: var(--primary-color);
+    background: #f0f6ff;
+  }
 
-    .forecast-widget-skeleton .tabs li {
-        background-color: #ffffff40;
-        backdrop-filter: blur(10px);
-        width: 130px;
-        height: 60px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        border-bottom: 1px solid #ffffff50;
-    }
+  /* SLIDES SKELETON */
+  .cf-skeleton-slides {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #f8f9fb;
+    border-top: 1px solid #f0f0f0;
+    overflow: hidden;
+  }
 
-    .forecast-widget-skeleton .tabs.is-boxed li.is-active {
-        height: 90px;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-        border: 1px solid #ffffff50;
-        border-bottom: none;
-        background-color: #ffffff10;
-    }
+  .cf-skeleton-slide {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+  }
 
+  .cf-skeleton-slide-hdr {
+    width: 100%;
+    height: 24px;
+    background: var(--background-color) 33;
+  }
 
-    .forecast-widget-skeleton .tabs:not(:last-child) {
-        margin-bottom: 0;
-    }
+  .cf-skeleton-slide-body {
+    padding: 8px 6px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+  }
 
+  .cf-skeleton-icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--background-color) 33;
+  }
 
-    .forecast-widget-skeleton .tabs-content {
-        background-color: #ffffff10;
-        backdrop-filter: blur(10px);
-        padding: 20px;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
-        border: 1px solid #ffffff50;
-        border-top: none;
-    }
+  .cf-skeleton-label {
+    width: 60%;
+    height: 7px;
+    border-radius: 3px;
+    background: #f0f0f0;
+  }
 
-    .forecast-widget-skeleton .forecast-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 100%;
-        min-height: 300px;
-        background-color: #ffffff20;
-        border-radius: 8px;
-        overflow: hidden;
-    }
+  .cf-skeleton-params {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    width: 100%;
+  }
 
-    /* Width and height of the scrollbar */
-    .forecast-widget-skeleton .tabs::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
-    }
+  .cf-skeleton-param {
+    height: 18px;
+    border-radius: 4px;
+    background: #f4f6f9;
+  }
 
-    /* Track */
-    .forecast-widget-skeleton.tabs::-webkit-scrollbar-track {
-        background: #f1f1f110;
-    }
+  /* SHIMMER ANIMATION */
+  .shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e8f0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
 
-    /* Handle */
-    .forecast-widget-skeleton .tabs::-webkit-scrollbar-thumb {
-        background: #ffffff;
-        border-radius: 10px;
-    }
+  .shimmer-blue {
+    background: linear-gradient(90deg, var(--background-color) 33 25%, var(--background-color) 66 50%, var(--background-color) 33 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
 
-    /* Handle on hover */
-    .forecast-widget-skeleton .tabs::-webkit-scrollbar-thumb:hover {
-        background: var(--primary-color);
-    }
-
-    /* Firefox */
-    .forecast-widget-skeleton .tabs {
-        scrollbar-width: thin;
-        scrollbar-color: #ffffff #f1f1f110;
-    }
-
-
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
 </style>
 
-<div class="forecast-widget-skeleton">
-    <div class="loader-wrapper is-active">
-        <div class="loader is-loading"></div>
-    </div>
-    <div class="columns is-multiline is-mobile mx-1 mb-5" style="background: #ffffff20; backdrop-filter: blur(10px);">
-        <div class="column is-half-desktop is-full-mobile my-2">
-        </div>
+<div class="cf-skeleton">
 
+  <!-- TOP BAR SKELETON -->
+  <div class="cf-skeleton-topbar">
+    <div class="cf-skeleton-topbar-left">
+      <!-- city name -->
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="shimmer-blue" style="width:12px;height:12px;border-radius:50%;flex-shrink:0;"></div>
+        <div class="shimmer" style="width:80px;height:10px;border-radius:4px;"></div>
+      </div>
+      <!-- detail btn -->
+      <div class="shimmer" style="width:50px;height:22px;border-radius:6px;"></div>
     </div>
-    <div class="tabs is-boxed is-fullwidth">
-        <ul>
-            <li class="is-active" data-target="tab-forecast-1" style="border: 1px solid #ffffff50; border-bottom: none">
-            </li>
-            <li class="" data-target="tab-forecast-2"></li>
-            <li class="" data-target="tab-forecast-3"></li>
-            <li class="" data-target="tab-forecast-4"></li>
-            <li class="" data-target="tab-forecast-5"></li>
-        </ul>
+    <!-- search -->
+    <div class="shimmer" style="flex:1;max-width:220px;height:30px;border-radius:8px;"></div>
+    <!-- full forecast link -->
+    <div class="shimmer" style="width:80px;height:10px;border-radius:4px;flex-shrink:0;"></div>
+  </div>
+
+  <!-- DAY TABS SKELETON -->
+  <div class="cf-skeleton-tabs">
+    <div class="cf-skeleton-tab active">
+      <div class="shimmer-blue" style="width:28px;height:8px;border-radius:3px;"></div>
+      <div class="shimmer-blue" style="width:36px;height:7px;border-radius:3px;opacity:0.6;"></div>
     </div>
-    <div class="tabs-content elevation-1" style="border: 1px solid #ffffff50; border-top: none">
-        <div class="tab-content" id="tab-forecast-1" style="display: flex">
-            <div class="forecast-item mr-4" style="width: 100%">
-                <div class="forecast-time" style="height: 2.5em"></div>
-                <div class="forecast-condition"></div>
-            </div>
-            <div class="forecast-item mr-4" style="width: 100%">
-                <div class="forecast-time" style="height: 2.5em"></div>
-                <div class="forecast-condition"></div>
-            </div>
-            <div class="forecast-item mr-4" style="width: 100%">
-                <div class="forecast-time" style="height: 2.5em"></div>
-                <div class="forecast-condition"></div>
-            </div>
-            <div class="forecast-item" style="width: 100%">
-                <div class="forecast-time" style="height: 2.5em"></div>
-                <div class="forecast-condition"></div>
-            </div>
+    <div class="cf-skeleton-tab">
+      <div class="shimmer" style="width:20px;height:8px;border-radius:3px;"></div>
+      <div class="shimmer" style="width:36px;height:7px;border-radius:3px;"></div>
+    </div>
+    <div class="cf-skeleton-tab">
+      <div class="shimmer" style="width:20px;height:8px;border-radius:3px;"></div>
+      <div class="shimmer" style="width:36px;height:7px;border-radius:3px;"></div>
+    </div>
+    <div class="cf-skeleton-tab">
+      <div class="shimmer" style="width:20px;height:8px;border-radius:3px;"></div>
+      <div class="shimmer" style="width:36px;height:7px;border-radius:3px;"></div>
+    </div>
+    <div class="cf-skeleton-tab">
+      <div class="shimmer" style="width:20px;height:8px;border-radius:3px;"></div>
+      <div class="shimmer" style="width:36px;height:7px;border-radius:3px;"></div>
+    </div>
+    <div class="cf-skeleton-tab">
+      <div class="shimmer" style="width:20px;height:8px;border-radius:3px;"></div>
+      <div class="shimmer" style="width:36px;height:7px;border-radius:3px;"></div>
+    </div>
+    <div class="cf-skeleton-tab">
+      <div class="shimmer" style="width:20px;height:8px;border-radius:3px;"></div>
+      <div class="shimmer" style="width:36px;height:7px;border-radius:3px;"></div>
+    </div>
+  </div>
+
+  <!-- HOURLY SLIDES SKELETON -->
+  <div class="cf-skeleton-slides">
+    {% for i in "123456" %}
+    <div class="cf-skeleton-slide">
+      <div class="cf-skeleton-slide-hdr shimmer-blue"></div>
+      <div class="cf-skeleton-slide-body">
+        <div class="cf-skeleton-icon-wrap shimmer"></div>
+        <div class="cf-skeleton-label shimmer"></div>
+        <div class="cf-skeleton-params">
+          <div class="cf-skeleton-param shimmer"></div>
+          <div class="cf-skeleton-param shimmer"></div>
+          <div class="cf-skeleton-param shimmer"></div>
+          <div class="cf-skeleton-param shimmer"></div>
         </div>
+      </div>
     </div>
+    {% endfor %}
+  </div>
+
 </div>

@@ -1,57 +1,104 @@
-{% load i18n static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags nmhs_cms_tags %}
-{% get_settings use_default_site=True %}
+{% load i18n static wagtailimages_tags wagtailsettings_tags wagtailcore_tags wagtailiconchooser_tags nmhs_cms_tags %} 
+{% get_settings use_default_site=True%} 
 {% wagtail_site as current_site %}
 
-<footer>
-    <div id="footer" class="footer is-desktop">
-        <div class="container">
-            <div class="columns is-mobile is-multiline" style="margin: 0">
-                <div class="column is-half-mobile is-one-quarter-desktop" style="margin-bottom: 20px">
-                    <div>
-                        <a class="footer-logo" href="{{ current_site.root_url }}">
-                            <figure class="image">
-                                {% if settings.base.OrganisationSetting.footer_logo %}
-                                    {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}
-                                    <img src="{{ footer_logo.url }}" alt="Logo">
-                                {% endif %}
-                            </figure>
+<footer class="site-footer">
+    <div class="site-footer-top container">
+        <div class="">
+            <div class="columns is-multiline is-mobile">
+                <div class="column is-full-mobile is-one-quarter-desktop">
+                    <div class="footer-brand">
+                        <a
+                            class="footer-logo-link"
+                            href="{{ current_site.root_url }}"
+                        >
+                            {% if settings.base.OrganisationSetting.footer_logo%} {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}
+                            <img
+                                src="{{ footer_logo.url }}"
+                                alt="Logo"
+                                class="footer-logo-img"
+                            />
+                            {% endif %}
                         </a>
+
+                        {% if settings.base.OrganisationSetting.name %}
+                        <p class="footer-brand-name">
+                            {{ settings.base.OrganisationSetting.name }}
+                        </p>
+                        {% endif %}
+
+                        <div class="footer-bottom-left">
+                            {% if settings.base.OrganisationSetting.name %}
+                            <p class="footer-copy">
+                                &copy; {{ settings.base.OrganisationSetting.name }} {% now 'Y' %}
+                            </p>
+                            {% endif %}
+                            <a
+                                href="https://digitalpublicgoods.net/r/dpg-slug"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <img
+                                    src="https://github.com/DPGAlliance/dpg-resources/blob/main/docs/assets/dpg-badge/dpg-badge-w.png?raw=true"
+                                    width="80"
+                                    alt="Digital Public Goods Badge"
+                                    class="footer-dpg-badge"
+                                />
+                            </a>
+                        </div>
+
+                        <!-- socials under brand on desktop -->
+                        <div class="footer-brand-socials">
+                            {% for account in settings.base.OrganisationSetting.social_media_accounts %}
+                            <a
+                                class="footer-brand-social-icon"
+                                title="{{ account.value.name }}"
+                                href="{{ account.value.full_url }}"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <span class="icon">
+                                    {% svg_icon name=account.value.icon %}
+                                </span>
+                            </a>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-                {% for block in settings.base.NavigationSettings.footer_menu %}
-                    {% include_block block %}
-                {% endfor %}
+                <div class="column">
+                    <div class="columns is-multiline is-mobile">
+                        <!-- NAV COLUMNS — rendered by footer_menu.html -->
+                        {% for block in settings.base.NavigationSettings.footer_menu %} 
+                        {% include_block block %} {% endfor %}
+                    </div>
+                </div>
             </div>
-            <div class="columns is-mobile" style="margin-top: 40px">
-                <div class="column is-half">
-                    {% if settings.base.OrganisationSetting.name %}
-                        <p class="has-text-white footer-text">
-                            &copy; {{ settings.base.OrganisationSetting.name }} {% now 'Y' %}</p>
-                    {% endif %}
-                    <a
+        </div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="site-footer-bottom container">
+        <div>
+            <div class="columns is-mobile is-vcentered">
+                <!-- LEFT: copyright + powered by -->
+                <div class="column">
+                    <div class="footer-bottom-left">
+                        {% if settings.base.OrganisationSetting.name %}
+                        <p class="footer-copy">
+                            &copy; {{ settings.base.OrganisationSetting.name }}
+                            {% now 'Y' %}
+                        </p>
+                        {% endif %}
+                        <a
+                            class="footer-powered"
                             href="https://github.com/wmo-raf/nmhs-cms"
                             target="_blank"
                             rel="noopener noreferrer"
-                            style="color:#ababab; font-size: 12px;  font-weight:600">
-                        <span>
-                            {% translate "Powered by Climweb" %} v{% cms_version %}
-                        </span>
-                    </a>
-                </div>
-                <div class="column is-half" style="display: flex;justify-content: flex-end;">
-                    {% for account in settings.base.OrganisationSetting.social_media_accounts %}
-                        <a title="{{ account.value.name }}" href="{{ account.value.full_url }}" target="_blank"
-                           rel="noopener"
-                           class="footer-social"
                         >
-                            <span class="social-icon">{% svg_icon name=account.value.icon %}</span>
+                            {% translate "Powered by Climweb" %} v{% cms_version %}
                         </a>
-                    {% endfor %}
+                    </div>
                 </div>
-            </div>
-            <div class="columns is-mobile">
-                    <div class="column is-full">
-                        <a href="https://digitalpublicgoods.net/r/dpg-slug"><img src="https://github.com/DPGAlliance/dpg-resources/blob/main/docs/assets/dpg-badge/dpg-badge-w.png?raw=true" width="100" alt="Digital Public Goods Badge"></a>
             </div>
         </div>
     </div>

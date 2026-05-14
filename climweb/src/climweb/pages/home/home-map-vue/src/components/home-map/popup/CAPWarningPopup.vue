@@ -215,6 +215,10 @@ const alert = computed(() => {
   align-items: center;
 }
 
+.maplibregl-popup-content {
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+}
+
 .alert-icon {
   display: flex;
   justify-content: center;
@@ -233,6 +237,7 @@ const alert = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  padding-bottom: 20px
 }
 
 .alert-meta-item {
@@ -257,13 +262,15 @@ const alert = computed(() => {
 
 .alert-headline {
   margin-bottom: 10px;
+  font-size:12px;
 }
 
 .alert-link {
-  background: var(--primary-color);
-  color: #fff;
+  background: var(--text-color);
+  color: #fff !important;
   padding: 5px 12px;
   border-radius: 12px;
+  text-align: center
 }
 
 .alert-link:hover {

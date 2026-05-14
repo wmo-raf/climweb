@@ -1,9 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
-"PO-Revision-Date: 2026-04-27 10:52\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: ar\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/organisation_pages/vacancies/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1470\n"
+"X-Crowdin-Language: ar\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:29
 msgid "Banner Image"
@@ -42,8 +43,11 @@ msgid "No vacancies header text"
 msgstr "لا يوجد نص رأس الوظائف الشاغرة"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:49
-msgid "Additional text to appear when there are no vacancies,below the no vacancies header text"
-msgstr "نص إضافي يظهر في حالة عدم وجود وظائف شاغرة، أسفل نص رأس عدم وجود وظائف شاغرة"
+msgid ""
+"Additional text to appear when there are no vacancies,below the no vacancies"
+" header text"
+msgstr ""
+"نص إضافي يظهر في حالة عدم وجود وظائف شاغرة، أسفل نص رأس عدم وجود وظائف شاغرة"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:51
 msgid "No vacancies description text"
@@ -62,8 +66,6 @@ msgid "Date of Posting"
 msgstr "تاريخ النشر"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:127
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:65
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:45
 msgid "Duty Station"
 msgstr "مقر العمل"
 
@@ -76,7 +78,6 @@ msgid "Job Description"
 msgstr "الوصف الوظيفي"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/models.py:131
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:79
 msgid "Duration"
 msgstr "مدة"
 
@@ -97,18 +98,24 @@ msgid "Open Vacancies"
 msgstr "الوظائف الشاغرة المفتوحة"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:28
-msgid "Note: This opening has been closed."
-msgstr "ملاحظة: تم إغلاق هذا الافتتاح."
+#, fuzzy
+#| msgid "Note: This opening has been closed."
+msgid "This opening has been closed."
+msgstr "لقد تم إغلاق هذا الافتتاح."
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:39
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:25
-msgid "Posted On"
-msgstr "نشر على"
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:28
+#, fuzzy
+#| msgid "Posted On"
+msgid "Posted"
+msgstr "نشر"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:52
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:45
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:34
-msgid "Closing On"
-msgstr "إغلاق على"
+#, fuzzy
+#| msgid "Closed"
+msgid "Closes"
+msgstr "يغلق"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_detail_page.html:101
 msgid "Download pdf"
@@ -119,14 +126,17 @@ msgid "Filter by Availability"
 msgstr "التوفر"
 
 #: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_filter_include.html:18
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:16
 msgid "Closed"
 msgstr "مغلق"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:10
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:13
 msgid "New"
 msgstr "جديد"
 
-#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:49
+#: climweb/src/climweb/pages/organisation_pages/vacancies/templates/vacancy_list_include.html:59
 msgid "View details"
 msgstr "عرض التفاصيل"
 
+#~ msgid "Closing On"
+#~ msgstr "إغلاق على"

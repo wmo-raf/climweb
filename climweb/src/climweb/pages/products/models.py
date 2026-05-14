@@ -367,34 +367,57 @@ class ProductItemPage(MetadataPageMixin, Page):
     
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        
+
         parent_page = self.get_parent().specific
-        categories = parent_page.product.categories.all()
+        categories = list(parent_page.product.categories.all())
+
+        # build a complete map: item_type_id → list of category ids
+        # (one item type can belong to multiple categories)
+        item_type_to_categories = {}
+        for category in categories:
+            for item_type in category.product_item_types.all():
+                if item_type.pk not in item_type_to_categories:
+                    item_type_to_categories[item_type.pk] = []
+                item_type_to_categories[item_type.pk].append(category.id)
+
         product_categories = {}
-        
         products_dict = {}
-        products = self.products
-        for product in products:
+
+        for product in self.products:
             item_type = product.value.product_item_type()
-            if not products_dict.get(item_type.slug):
-                products_dict[item_type.slug] = {"item_type": item_type, "products": []}
-            products_dict[item_type.slug].get("products").append(product)
-        context.update({"products": products_dict})
-        
-        for product_type in products_dict.keys():
-            # sort by date
-            products_dict[product_type]["products"].sort(key=lambda r: r.value.get("date"))
-            
-            for category in categories:
-                if product_categories.get(category.id):
-                    continue
-                product_item_types = category.product_item_types.all()
-                for item_type in product_item_types:
-                    if item_type.slug == product_type:
-                        product_categories[category.pk] = category
-        
-        context.update({"categories": product_categories})
-        
+
+            # find which category this item type belongs to
+            category_ids = item_type_to_categories.get(item_type.pk, [])
+            # use the first matching category — or None
+            category_id = category_ids[0] if category_ids else None
+
+            # composite key guarantees uniqueness across categories
+            composite_key = f"{category_id}-{item_type.pk}" if category_id else str(item_type.pk)
+
+            if composite_key not in products_dict:
+                products_dict[composite_key] = {
+                    "item_type": item_type,
+                    "category_id": category_id,
+                    "products": [],
+                }
+            products_dict[composite_key]["products"].append(product)
+
+            # collect categories that have products
+            if category_id and category_id not in product_categories:
+                for cat in categories:
+                    if cat.id == category_id:
+                        product_categories[cat.id] = cat
+                        break
+
+        # sort each group by date
+        for key in products_dict:
+            products_dict[key]["products"].sort(key=lambda r: r.value.get("date"))
+
+        context.update({
+            "products": products_dict,
+            "categories": product_categories,
+        })
+
         return context
     
     @cached_property

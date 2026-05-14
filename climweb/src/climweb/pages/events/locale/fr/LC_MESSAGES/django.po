@@ -1,9 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
-"PO-Revision-Date: 2026-05-04 08:21\n"
+"POT-Creation-Date: 2026-05-11 07:33+0300\n"
+"PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: fr\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/events/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1348\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/events/models.py:49
 msgid "Event type"
@@ -27,6 +28,7 @@ msgstr "Vignette / image pour ce type d’événement."
 
 #: climweb/src/climweb/pages/events/models.py:70
 #: climweb/src/climweb/pages/events/models.py:196
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:8
 msgid "Event Type"
 msgstr "Type d'événement"
 
@@ -64,7 +66,8 @@ msgstr "Jour de l’événement. S’il dure plusieurs jours, ce sera le premier
 
 #: climweb/src/climweb/pages/events/models.py:202
 msgid "End date - Note: Not Required if this is a one day Event"
-msgstr "Date de fin - Remarque : Non requis s'il s'agit d'un événement d'une journée"
+msgstr ""
+"Date de fin - Remarque : Non requis s'il s'agit d'un événement d'une journée"
 
 #: climweb/src/climweb/pages/events/models.py:203
 msgid "Not required if this is a one day event"
@@ -194,12 +197,12 @@ msgid "Enable Mailchimp Integration in registration form"
 msgstr "Activer l'intégration Mailchimp dans le formulaire d'inscription"
 
 #: climweb/src/climweb/pages/events/models.py:315
-#: climweb/src/climweb/pages/events/models.py:596
+#: climweb/src/climweb/pages/events/models.py:653
 msgid "Content"
 msgstr "Contenu"
 
 #: climweb/src/climweb/pages/events/models.py:316
-#: climweb/src/climweb/pages/events/models.py:597
+#: climweb/src/climweb/pages/events/models.py:654
 msgid "SEO"
 msgstr "SEO"
 
@@ -280,23 +283,23 @@ msgstr "Inscription Zoom par lot activée - Laissez non coché pour des inscript
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr "Activer l'option par lot pour ajouter des inscrits à Zoom plus tard"
 
-#: climweb/src/climweb/pages/events/models.py:548
+#: climweb/src/climweb/pages/events/models.py:551
 msgid "Event Registration Page"
 msgstr "Page d'enregistrement a l'événement"
 
-#: climweb/src/climweb/pages/events/models.py:598
+#: climweb/src/climweb/pages/events/models.py:655
 msgid "Settings"
 msgstr "Paramètres"
 
-#: climweb/src/climweb/pages/events/models.py:599
+#: climweb/src/climweb/pages/events/models.py:656
 msgid "Zoom Events Settings"
 msgstr "Paramètres des événements Zoom"
 
-#: climweb/src/climweb/pages/events/models.py:600
+#: climweb/src/climweb/pages/events/models.py:657
 msgid "MailChimp Settings"
 msgstr "Paramètres de MailChimp"
 
-#: climweb/src/climweb/pages/events/models.py:613
+#: climweb/src/climweb/pages/events/models.py:670
 msgid "Added to Zoom"
 msgstr "Ajouté à Zoom"
 
@@ -309,13 +312,17 @@ msgstr[1] "Commence dans %(counter)s jours"
 
 #: climweb/src/climweb/pages/events/templates/event_header.html:154
 msgid "Download Agenda"
-msgstr "Télécharger l'agenda"
+msgstr "Télécharger l'ordre du jour"
 
 #: climweb/src/climweb/pages/events/templates/event_index_page.html:17
 msgid "Featured Event"
 msgstr "Événement en vedette"
 
-#: climweb/src/climweb/pages/events/templates/event_index_page.html:26
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:32
+msgid "Calendar"
+msgstr "Calendrier"
+
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:33
 msgid "All Events"
 msgstr "Tous les évènements"
 
@@ -374,23 +381,19 @@ msgstr "Soumettre"
 msgid "ended"
 msgstr "terminé"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:9
-msgid "Filter by Event Type"
-msgstr "Filtrer par type d'événement"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:32
+msgid "Year"
+msgstr "Année"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:37
-msgid "Filter by Year"
-msgstr "Filtrer par année"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:56
+msgid "Status"
+msgstr "Statut"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:61
-msgid "Filter by Status"
-msgstr "Filtrer par statut"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:69
+msgid "Past events"
+msgstr "Événements passés"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:71
-msgid "Past"
-msgstr "Passé"
-
-#: climweb/src/climweb/pages/events/templates/events_list_include.html:6
+#: climweb/src/climweb/pages/events/templates/events_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
@@ -414,26 +417,27 @@ msgid "Sponsors"
 msgstr "Sponsors"
 
 #~ msgid " Registration closed"
-#~ msgstr "Registration closed"
+#~ msgstr "Inscription clôturée"
 
 #~ msgid "Banner Image"
-#~ msgstr "Banner Image"
+#~ msgstr "Image de la bannière"
 
 #~ msgid "A high quality image related to your organisation events/trainings"
-#~ msgstr "A high quality image related to your organisation events/trainings"
+#~ msgstr ""
+#~ "Une image de haute qualité liée aux événements/formations de votre "
+#~ "organisation"
 
 #~ msgid "Banner Title"
-#~ msgstr "Banner Title"
+#~ msgstr "Titre de la bannière"
 
 #~ msgid "Banner Subtitle"
-#~ msgstr "Banner Subtitle"
+#~ msgstr "Sous-titre de la bannière"
 
 #~ msgid "Call to action button text"
-#~ msgstr "Call to action button text"
+#~ msgstr "Texte du bouton d'appel à l'action"
 
 #~ msgid "Call to action related page"
-#~ msgstr "Call to action related page"
+#~ msgstr "Page relative à l'appel à l'action"
 
 #~ msgid "Banner Section"
-#~ msgstr "Banner Section"
-
+#~ msgstr "Section bannière"

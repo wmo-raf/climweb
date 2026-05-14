@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,14 +12,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/organisation_pages/projects/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1450\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/organisation_pages/projects/models.py:35
-msgid "How many items should be visible on the projects landing page filter section ?"
+msgid ""
+"How many items should be visible on the projects landing page filter section"
+" ?"
 msgstr "በፕሮጀክቶቹ ላይ ምን ያህል እቃዎች መታየት አለባቸው ማረፊያ ገጽ ማጣሪያ ክፍል ?"
 
 #: climweb/src/climweb/pages/organisation_pages/projects/models.py:36
@@ -62,7 +65,6 @@ msgid "End date"
 msgstr "የመጨረሻ ቀን"
 
 #: climweb/src/climweb/pages/organisation_pages/projects/models.py:120
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:155
 msgid "Partners"
 msgstr "አጋሮች"
 
@@ -83,7 +85,6 @@ msgid "Feature block"
 msgstr "የባህሪ እገዳ"
 
 #: climweb/src/climweb/pages/organisation_pages/projects/models.py:134
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:80
 msgid "Project Materials"
 msgstr "የፕሮጀክት እቃዎች"
 
@@ -115,31 +116,53 @@ msgstr "ተጠናቀቀ"
 msgid "All Projects"
 msgstr "ሁሉም ፕሮጀክቶች"
 
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:42
-msgid "Our Areas of Work"
-msgstr "የእኛ የስራ ቦታዎች"
-
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:69
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:72
 msgid "Latest News"
 msgstr "አዳዲስ ዜናዎች"
 
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:105
-msgid "Videos"
-msgstr "ቪዲዮዎች"
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:84
+msgid "Resources"
+msgstr "መርጃዎች"
 
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:111
-msgid "More Videos"
-msgstr "ተጨማሪ ቪዲዮዎች"
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:85
+msgid "Additional Materials"
+msgstr "ተጨማሪ ቁሳቁሶች"
 
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:127
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:116
+#, fuzzy
+#| msgid "Latest News"
+msgid "Latest Media"
+msgstr "የቅርብ ጊዜ ሚዲያ"
+
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:118
+msgid "Highlights & Videos"
+msgstr "ዋና ዋና ዜናዎች እና ቪዲዮዎች"
+
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:130
 msgid "Latest Events"
 msgstr "የቅርብ ጊዜ ክስተቶች"
 
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:137
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:140
 msgid "Latest Updates"
 msgstr "የቅርብ ጊዜ ዝመናዎች"
 
-#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:173
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:161
+msgid "Collaborators"
+msgstr "ተባባሪዎች"
+
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:163
+#, fuzzy
+#| msgid "More Partners"
+msgid "Our Partners"
+msgstr "አጋሮቻችን"
+
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:165
+msgid ""
+"Working alongside leading institutions to advance climate science and "
+"resilience."
+msgstr "የአየር ንብረት ሳይንስን እና የመቋቋም አቅምን ለማሳደግ ከመሪ ተቋማት ጋር አብሮ መስራት።"
+
+#: climweb/src/climweb/pages/organisation_pages/projects/templates/project_page.html:194
 msgid "More Partners"
 msgstr "ተጨማሪ አጋሮች"
 
@@ -162,6 +185,14 @@ msgstr[1] ""
 msgid "Read More"
 msgstr "ተጨማሪ ያንብቡ"
 
-#~ msgid "Goals"
-#~ msgstr "Goals"
+#~ msgid "Our Areas of Work"
+#~ msgstr "የእኛ የስራ ቦታዎች"
 
+#~ msgid "Videos"
+#~ msgstr "ቪዲዮዎች"
+
+#~ msgid "More Videos"
+#~ msgstr "ተጨማሪ ቪዲዮዎች"
+
+#~ msgid "Goals"
+#~ msgstr "ግቦች"

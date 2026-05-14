@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:06+0300\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/stations/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1550\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/stations/forms.py:6
 msgid "Stations Shapefile ZIP"
@@ -25,49 +26,127 @@ msgstr "ጣቢያዎች ቅርጽ ዚፕ"
 msgid "Station name field"
 msgstr "የጣቢያ ስም መስክ"
 
-#: climweb/src/climweb/pages/stations/models.py:31
+#: climweb/src/climweb/pages/stations/models.py:33
 msgid "Show on Mapviewer"
 msgstr "በ Mapviewer ላይ አሳይ"
 
-#: climweb/src/climweb/pages/stations/models.py:32
+#: climweb/src/climweb/pages/stations/models.py:34
 msgid "Check to show stations data on Mapviewer"
 msgstr "የጣቢያዎች ውሂብ በ Mapviewer ላይ ለማሳየት ያረጋግጡ"
 
-#: climweb/src/climweb/pages/stations/models.py:34
+#: climweb/src/climweb/pages/stations/models.py:36
 msgid "Stations Layer Title"
 msgstr "ጣቢያዎች ንብርብር ርዕስ"
 
-#: climweb/src/climweb/pages/stations/models.py:36
+#: climweb/src/climweb/pages/stations/models.py:38
 msgid "Stations Layer SubCategory"
 msgstr "ጣቢያዎች ንብርብር ንዑስ ምድብ"
 
-#: climweb/src/climweb/pages/stations/models.py:39
+#: climweb/src/climweb/pages/stations/models.py:41
 msgid "Stations Layer Metadata"
 msgstr "የጣቢያዎች ንብርብር ሜታዳታ"
 
 #: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:22
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:117
 msgid "Back to stations list"
 msgstr "ወደ ጣቢያዎች ዝርዝር ተመለስ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:26
-msgid "Station Detail"
-msgstr "የጣቢያ ዝርዝር"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:43
+#, fuzzy
+#| msgid "load station data"
+msgid "No location data"
+msgstr "ምንም የአካባቢ ውሂብ የለም።"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:33
-msgid "Station Name"
-msgstr "የጣቢያ ስም"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:81
+#, fuzzy
+#| msgid "Station Not Found"
+msgid "Station information"
+msgstr "የጣቢያ መረጃ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:60
-msgid "Station Not Found"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:112
+#, fuzzy
+#| msgid "Station Not Found"
+msgid "Station not found"
 msgstr "ጣቢያ አልተገኘም።"
 
-#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:63
-msgid "Station with provided ID can not be found"
-msgstr "የተሰጠ መታወቂያ ያለው ጣቢያ ሊገኝ አልቻለም"
+#: climweb/src/climweb/pages/stations/templates/stations/station_detail_page.html:114
+#, fuzzy
+#| msgid "Station with provided ID can not be found"
+msgid "The station with the provided ID could not be found."
+msgstr "የቀረበው መታወቂያ ያለው ጣቢያ ሊገኝ አልቻለም።"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:21
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:24
+#, fuzzy
+#| msgid "Load Stations"
+msgid "Total stations"
+msgstr "ጠቅላላ ጣቢያዎች"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:28
+msgid "Operational"
+msgstr "የሚሰራ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:32
+msgid "Partly Operational"
+msgstr "በከፊል የሚሰራ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:36
+msgid "Closed"
+msgstr "ዝግ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:40
+msgid "Planned"
+msgstr "የታቀደ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:48
+#, fuzzy
+#| msgid "to preview"
+msgid "Network Overview"
+msgstr "የአውታረ መረብ አጠቃላይ እይታ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:49
+#, fuzzy
+#| msgid "Stations Data"
+msgid "Stations Map"
+msgstr "የጣቢያዎች ካርታ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:52
+msgid "Colour by"
+msgstr "ቀለም በ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:55
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:139
+msgid "Operating Status"
+msgstr "የአሠራር ሁኔታ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:58
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:154
+#, fuzzy
+#| msgid "Station Name"
+msgid "Station Type"
+msgstr "የጣቢያ አይነት"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:72
+msgid "Search by station name or WIGOS ID…"
+msgstr "በጣቢያው ስም ወይም በWIGOS መታወቂያ ይፈልጉ…"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:74
+msgid "Clear"
+msgstr "ግልጽ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:102
+msgid "Directory"
+msgstr "ማውጫ"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:103
 msgid "Stations List"
 msgstr "የጣቢያዎች ዝርዝር"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:340
+#: climweb/src/climweb/pages/stations/templates/stations/stations_list_page.html:393
+#, fuzzy
+#| msgid "Station Detail"
+msgid "View Detail"
+msgstr "ዝርዝር ይመልከቱ"
 
 #: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:6
 #, python-format
@@ -75,7 +154,7 @@ msgid "Stations Data %(title)s"
 msgstr "የጣቢያዎች ውሂብ %(title)s"
 
 #: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:17
-#: climweb/src/climweb/pages/stations/wagtail_hooks.py:27
+#: climweb/src/climweb/pages/stations/wagtail_hooks.py:28
 msgid "Stations Data"
 msgstr "የጣቢያዎች ውሂብ"
 
@@ -83,43 +162,49 @@ msgstr "የጣቢያዎች ውሂብ"
 msgid "Load Stations"
 msgstr "የመጫኛ ጣቢያዎች"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:29
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:27
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:24
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:31
+msgid "Sync from OSCAR Surface"
+msgstr "ከOSCAR ወለል አመሳስል።"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:39
 msgid "Data Fields"
 msgstr "የውሂብ መስኮች"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:35
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:45
 msgid "Field"
 msgstr "መስክ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:38
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:48
 msgid "Label"
 msgstr "መለያ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:41
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:51
 msgid "Show in Table"
 msgstr "በሰንጠረዡ ውስጥ አሳይ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:44
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:54
 msgid "Show in Map Popup"
 msgstr "በካርታ ብቅ ባይ ውስጥ አሳይ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:95
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:105
 msgid "Save"
 msgstr "አስቀምጥ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:109
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:119
 msgid "No station data loaded."
 msgstr "ምንም የጣቢያ ውሂብ አልተጫነም።"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:110
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:120
 msgid "Please "
 msgstr "አባክሽን"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:112
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:122
 msgid "load station data"
 msgstr "የመጫኛ ጣቢያ ውሂብ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:114
+#: climweb/src/climweb/pages/stations/templates/stations/stations_preview.html:124
 msgid "to preview"
 msgstr "በቅድመ-እይታ"
 
@@ -128,23 +213,64 @@ msgstr "በቅድመ-እይታ"
 msgid "Stations Loader %(title)s"
 msgstr "የጣቢያዎች ጫኝ %(title)s"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:18
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:17
 msgid "Stations Loader"
 msgstr "ጣቢያዎች ጫኚ"
 
-#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:43
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:26
+msgid ""
+"Automatically fetch station data from the WMO OSCAR Surface API for the "
+"country configured in Organisation Settings."
+msgstr ""
+"በድርጅት ቅንብሮች ውስጥ ለተዋቀረው ሀገር የጣቢያ ውሂብን ከWMO OSCAR Surface API በራስ-ሰር ያውጡ።"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:40
+msgid "Or upload a Shapefile"
+msgstr "ወይም የቅርጽ ፋይል ይስቀሉ።"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:42
+msgid ""
+"Upload a ZIP file containing a Point shapefile as a fallback data source."
+msgstr "የPoint shapefile እንደ የመመለሻ ውሂብ ምንጭ የያዘ ዚፕ ፋይል ይስቀሉ።"
+
+#: climweb/src/climweb/pages/stations/templates/stations/stations_upload.html:62
 msgid "Upload"
 msgstr "ስቀል"
 
-#: climweb/src/climweb/pages/stations/views.py:80
+#: climweb/src/climweb/pages/stations/views.py:161
 msgid "Stations data loaded successfully"
 msgstr "የጣቢያዎች ውሂብ በተሳካ ሁኔታ ተጭኗል"
 
-#: climweb/src/climweb/pages/stations/views.py:132
+#: climweb/src/climweb/pages/stations/views.py:213
 msgid "Stations columns updated successfully"
 msgstr "የጣቢያዎች አምዶች በተሳካ ሁኔታ ተዘምነዋል"
 
-#: climweb/src/climweb/pages/stations/wagtail_hooks.py:35
+#: climweb/src/climweb/pages/stations/views.py:239
+msgid ""
+"No country set in Organisation Settings. Please configure it before syncing."
+msgstr "በድርጅት ቅንብሮች ውስጥ ምንም አገር አልተቀመጠም። እባክዎ ከማመሳሰልዎ በፊት ያዋቅሩት።"
+
+#: climweb/src/climweb/pages/stations/views.py:246
+#, python-brace-format
+msgid "Failed to reach OSCAR Surface API: {}"
+msgstr "OSCAR Surface API መድረስ አልተሳካም፡ {}"
+
+#: climweb/src/climweb/pages/stations/views.py:252
+#, python-brace-format
+msgid "No stations returned from OSCAR Surface for country code: {}"
+msgstr "ለሀገር ኮድ ከOSCAR Surface የተመለሱ ምንም ጣቢያዎች የሉም፡ {}"
+
+#: climweb/src/climweb/pages/stations/views.py:259
+#, fuzzy, python-brace-format
+#| msgid "load station data"
+msgid "Error saving station data: {}"
+msgstr "የጣቢያ ውሂብ በማስቀመጥ ላይ ስህተት፡ {}"
+
+#: climweb/src/climweb/pages/stations/views.py:277
+#, python-brace-format
+msgid "{count} stations synced from OSCAR Surface (country: {code})."
+msgstr "ከOSCAR Surface (ሀገር፡ {code}) የተሰመሩ {count} ጣቢያዎች።"
+
+#: climweb/src/climweb/pages/stations/wagtail_hooks.py:36
 msgid "Station Settings"
 msgstr "የጣቢያ ቅንብሮች"
-
