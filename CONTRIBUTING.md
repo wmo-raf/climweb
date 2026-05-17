@@ -121,41 +121,122 @@ All code contributions go through pull requests. Before writing code, please:
 ### Prerequisites
 
 - Python 3.10 or higher
+- PostgreSQL with PostGIS extension
+- Redis
 - Node.js (for frontend assets)
-- Docker and Docker Compose
 - Git
 
-### Local Setup
+### 1. Clone the Repository
 
 ```bash
-# Clone the repository
-git clone https://github.com/wmo-raf/climweb.git
+git clone --depth 1 https://github.com/wmo-raf/climweb.git
 cd climweb
+```
 
-# Create and activate a virtual environment
+### 2. Create and Activate a Virtual Environment
+
+```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-# Install dependencies
+### 3. Install Dependencies
+
+```bash
 pip install -e climweb
+```
 
-# Copy and configure environment variables
-cp .env.sample .env
-# Edit .env with your local settings
+### 4. Configure Environment Variables
 
-# Apply database migrations
+```bash
+cp .env.dev.sample .env
+```
+
+At minimum, update these values in your `.env`:
+
+```dotenv
+DATABASE_URL=postgis://postgres:postgres@localhost:5432/climweb
+REDIS_HOST=localhost
+REDIS_PORT=6379
+```
+
+### 5. Set Up the Database
+
+Make sure PostgreSQL with PostGIS is running, then create the database:
+
+```bash
+psql -U postgres -c "CREATE DATABASE climweb;"
+psql -U postgres -d climweb -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+```
+
+### 6. Start Redis
+
+```bash
+# macOS
+brew services start redis
+
+# Linux
+sudo systemctl start redis
+```
+
+### 7. Run Migrations
+
+```bash
 climweb migrate
+```
 
-# Create a superuser
-climweb createsuperuser
+### 8. Setting Up Development Data
 
-# Run the development server
+Download the latest seed data:
+
+```bash
+curl -L -O https://github.com/wmo-raf/climweb/releases/download/initial-data/climweb_dump.dump
+curl -L -O https://github.com/wmo-raf/climweb/releases/download/initial-data/media_backup.tar.gz
+```
+
+Restore the database dump:
+
+```bash
+pg_restore -U postgres -d climweb --no-owner --no-acl climweb_dump.dump
+```
+
+> **Note:** If you get a version mismatch error with `pg_restore`, use the version that matches your PostgreSQL server:
+> ```bash
+> # macOS with Postgres.app
+> /Applications/Postgres.app/Contents/Versions/18/bin/pg_restore \
+>   -U postgres -d climweb --no-owner --no-acl climweb_dump.dump
+> ```
+
+Extract media files:
+
+```bash
+tar -xzf media_backup.tar.gz -C climweb/src/climweb/
+```
+
+Rebuild search index:
+
+```bash
+climweb update_index
+
+climweb generate_forecast
+```
+
+### 9. Run the Development Server
+
+```bash
 climweb runserver
 ```
 
-For Docker-based local development, refer to the [Technical Guide](https://climweb.readthedocs.io/en/stable/_docs/Technology.html) in the documentation.
+The website will be available at http://localhost:8000
+
+Admin interface: http://localhost:8000/cms-admin
+- Username: `admin`
+- Password: `admin1234`
 
 ---
+
+> For Docker-based local development, refer to the [Technical Guide](https://climweb.readthedocs.io/en/stable/_docs/Technology.html) in the documentation.
+
 
 ## Tech Stack
 
