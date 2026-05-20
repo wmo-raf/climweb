@@ -1,8 +1,9 @@
 import json
 import os
 import re
+import unicodedata
 import uuid
-from datetime import datetime
+from datetime import date, datetime, timedelta
 
 from celery_singleton import Singleton
 from django.core.files import File
@@ -23,7 +24,7 @@ def _convention_to_regex(convention):
     named capturing group and subsequent ones become backreferences so the
     same value must appear in both positions.
     """
-    pattern = re.escape(convention)
+    pattern = re.escape(unicodedata.normalize('NFC', convention))
     seen = set()
     for var, name, digits in [
         (r'\{yyyy\}', 'yyyy', r'\d{4}'),
@@ -50,15 +51,20 @@ def _parse_datetime(match):
     return datetime(year, month, day, hour, 0, 0)
 
 
-def _datetime_slug(variable_name, dt):
-    return f"{variable_name}_{dt.strftime('%Y_%m_%d_%H_00_00')}"
+def _datetime_slug(variable_name, dt, has_time=False):
+    if has_time:
+        return f"{variable_name}_{dt.strftime('%Y_%m_%d_%H_00_00')}"
+    return f"{variable_name}_{dt.strftime('%Y_%m_%d')}"
 
 
-def _get_or_create_product_item_page(product_page, variable_name, dt):
+def _get_or_create_product_item_page(product_page, variable_name, dt, has_time=False):
     from climweb.pages.products.models import ProductItemPage
 
-    slug = _datetime_slug(variable_name, dt)
-    title = slug.replace('_', ' ').title()
+    slug = _datetime_slug(variable_name, dt, has_time)
+    if has_time:
+        title = f"{variable_name.replace('_', ' ').title()} {dt.strftime('%Y-%m-%d %H:00')}"
+    else:
+        title = f"{variable_name.replace('_', ' ').title()} {dt.strftime('%Y-%m-%d')}"
 
     existing = ProductItemPage.objects.filter(
         slug=slug,
@@ -118,7 +124,23 @@ def _save_products_raw(page, raw):
     ProductItemPage.objects.filter(pk=page.pk).update(products=raw)
 
 
-def _append_image_block(page, item_type_pk, effective_date, image_pk):
+def _sync_page_valid_until(page):
+    """Set page.valid_until to the latest valid_until across all product blocks."""
+    from climweb.pages.products.models import ProductItemPage
+    raw = _get_products_raw(page)
+    dates = []
+    for block in raw:
+        vu = block.get('value', {}).get('valid_until')
+        if vu:
+            try:
+                dates.append(date.fromisoformat(vu))
+            except (ValueError, TypeError):
+                pass
+    new_valid_until = max(dates) if dates else None
+    ProductItemPage.objects.filter(pk=page.pk).update(valid_until=new_valid_until)
+
+
+def _append_image_block(page, item_type_pk, effective_date, image_pk, valid_until=None):
     """Append an image_product block to the page's products StreamField."""
     raw = _get_products_raw(page)
     date_str = effective_date.isoformat()
@@ -135,7 +157,7 @@ def _append_image_block(page, item_type_pk, effective_date, image_pk):
         'value': {
             'product_type': str(item_type_pk),
             'date': date_str,
-            'valid_until': None,
+            'valid_until': valid_until.isoformat() if valid_until else None,
             'image': image_pk,
             'description': '',
         },
@@ -143,7 +165,7 @@ def _append_image_block(page, item_type_pk, effective_date, image_pk):
     _save_products_raw(page, raw)
 
 
-def _append_document_block(page, item_type_pk, effective_date, doc):
+def _append_document_block(page, item_type_pk, effective_date, doc, valid_until=None):
     """Append a document_product block to the page's products StreamField."""
     raw = _get_products_raw(page)
     date_str = effective_date.isoformat()
@@ -162,7 +184,7 @@ def _append_document_block(page, item_type_pk, effective_date, doc):
         'value': {
             'product_type': str(item_type_pk),
             'date': date_str,
-            'valid_until': None,
+            'valid_until': valid_until.isoformat() if valid_until else None,
             'document': doc.pk,
             'auto_generate_thumbnail': False,
             'thumbnail': thumbnail.pk if thumbnail else None,
@@ -217,11 +239,15 @@ def _ingest_product(product):
             if not convention:
                 continue
 
+            has_time = '{hh}' in convention
+
             try:
                 pattern = _convention_to_regex(convention)
             except re.error as exc:
                 logger.error(f"[INGESTION] Invalid convention pattern '{convention}': {exc}")
                 continue
+
+            valid_for_days = item_type.valid_for_days
 
             for dirpath, _, filenames in os.walk(format_dir):
               for filename in filenames:
@@ -234,6 +260,7 @@ def _ingest_product(product):
                 # so conventions like {yyyy}/prefix_{dd}-{mm}-{yyyy} work correctly.
                 rel_stem = os.path.relpath(file_path, format_dir)
                 rel_stem = os.path.splitext(rel_stem)[0].replace(os.sep, '/')
+                rel_stem = unicodedata.normalize('NFC', rel_stem)
 
                 match = pattern.match(rel_stem)
                 if not match:
@@ -253,18 +280,27 @@ def _ingest_product(product):
                     continue
 
                 product_item_page, _ = _get_or_create_product_item_page(
-                    product_page, product.variable_name, dt
+                    product_page, product.variable_name, dt, has_time=has_time
                 )
 
-                title = f"{product.name} {dt.strftime('%Y-%m-%d %H:00')}"
+                if has_time:
+                    title = f"{product.name} {dt.strftime('%Y-%m-%d %H:00')}"
+                else:
+                    title = f"{product.name} {dt.strftime('%Y-%m-%d')}"
+
+                valid_until = (
+                    dt.date() + timedelta(days=valid_for_days - 1)
+                    if valid_for_days else None
+                )
                 is_image = fmt in IMAGE_FORMATS
 
                 if is_image:
                     media_obj = _create_wagtail_image(file_path, title)
-                    _append_image_block(product_item_page, item_type.pk, dt.date(), media_obj.pk)
+                    _append_image_block(product_item_page, item_type.pk, dt.date(), media_obj.pk, valid_until)
                 else:
                     media_obj = _create_wagtail_document(file_path, title)
-                    _append_document_block(product_item_page, item_type.pk, dt.date(), media_obj)
+                    _append_document_block(product_item_page, item_type.pk, dt.date(), media_obj, valid_until)
+                _sync_page_valid_until(product_item_page)
 
                 ProductIngestedFile.objects.update_or_create(
                     product=product,
