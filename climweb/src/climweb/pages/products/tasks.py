@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import unicodedata
 import uuid
 from datetime import datetime
 
@@ -23,7 +24,7 @@ def _convention_to_regex(convention):
     named capturing group and subsequent ones become backreferences so the
     same value must appear in both positions.
     """
-    pattern = re.escape(convention)
+    pattern = re.escape(unicodedata.normalize('NFC', convention))
     seen = set()
     for var, name, digits in [
         (r'\{yyyy\}', 'yyyy', r'\d{4}'),
@@ -234,6 +235,7 @@ def _ingest_product(product):
                 # so conventions like {yyyy}/prefix_{dd}-{mm}-{yyyy} work correctly.
                 rel_stem = os.path.relpath(file_path, format_dir)
                 rel_stem = os.path.splitext(rel_stem)[0].replace(os.sep, '/')
+                rel_stem = unicodedata.normalize('NFC', rel_stem)
 
                 match = pattern.match(rel_stem)
                 if not match:
