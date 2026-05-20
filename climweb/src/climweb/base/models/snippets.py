@@ -161,6 +161,15 @@ class ProductItemType(Orderable):
             "You may add a prefix or suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
         ),
     )
+    valid_for_days = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Valid for (days)"),
+        help_text=_(
+            "How many days this product remains effective after its issue date. "
+            "Leave blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
+        ),
+    )
 
     class Meta:
         constraints = [
