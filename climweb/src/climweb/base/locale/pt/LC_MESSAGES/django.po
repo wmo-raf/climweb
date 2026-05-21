@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"POT-Creation-Date: 2026-05-21 11:00+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
@@ -39,7 +39,7 @@ msgid "Title, Text and Image"
 msgstr "Título, Texto e Imagem"
 
 #: climweb/src/climweb/base/blocks.py:68
-#: climweb/src/climweb/base/models/snippets.py:110
+#: climweb/src/climweb/base/models/snippets.py:222
 msgid "Title"
 msgstr "Título"
 
@@ -86,8 +86,8 @@ msgstr "Acordeão"
 
 #: climweb/src/climweb/base/blocks.py:155
 #: climweb/src/climweb/base/blocks.py:285
-#: climweb/src/climweb/base/models/snippets.py:50
-#: climweb/src/climweb/base/models/snippets.py:86
+#: climweb/src/climweb/base/models/snippets.py:117
+#: climweb/src/climweb/base/models/snippets.py:198
 msgid "Icon"
 msgstr "Ícone"
 
@@ -423,8 +423,7 @@ msgstr "Rastrear cliques em botões"
 #: climweb/src/climweb/base/models/site_settings.py:157
 msgid ""
 "Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings "
-"options."
+"tracking details can be specified in each button’s advanced settings options."
 msgstr ""
 "Rastreie todos os cliques de botão usando o rastreamento de eventos do "
 "Google Analytics. Os detalhes do rastreamento de eventos podem ser "
@@ -611,72 +610,173 @@ msgstr "Página da lista de avisos CAP"
 msgid "Important Pages"
 msgstr "Páginas importantes"
 
-#: climweb/src/climweb/base/models/snippets.py:18
+#: climweb/src/climweb/base/models/snippets.py:22
+msgid "Yearly"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:23
+msgid "Monthly"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:24
+msgid "Weekly"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:25
+msgid "Daily"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:26
+msgid "Hourly"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:27
+msgid "Dekadal"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:28
+msgid "Pentadal"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:51
 msgid "Product Name"
 msgstr "Nome do produto"
 
-#: climweb/src/climweb/base/models/snippets.py:22
-#: climweb/src/climweb/base/models/snippets.py:60
+#: climweb/src/climweb/base/models/snippets.py:55
+msgid "Variable Name"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:56
+msgid ""
+"Folder name for this product, e.g. 'daily_forecast'. Used as the top-level "
+"folder in the watch root path."
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:63
+msgid "Temporal Resolution"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:64
+msgid "Determines the default filename date convention for product item types."
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:69
+msgid "Watch Root Path"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:70
+#, python-brace-format
+msgid ""
+"Path containing the {variable_name} folder. Relative paths are resolved from "
+"MEDIA_ROOT (e.g. 'products'). Full scan path: {watch_root}/{variable_name}/"
+"{format}/{name_convention}.{format}"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:76
+msgid "Enable Auto-Ingestion"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:77
+msgid ""
+"When enabled, the system will periodically scan the watch root for new files."
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:86
+#: climweb/src/climweb/base/models/snippets.py:135
 msgid "Product Categories"
 msgstr "Categorias de produtos"
 
-#: climweb/src/climweb/base/models/snippets.py:22
+#: climweb/src/climweb/base/models/snippets.py:86
 msgid "Product Category"
 msgstr "Categoria de produto"
 
-#: climweb/src/climweb/base/models/snippets.py:26
-#: climweb/src/climweb/base/models/snippets.py:48
+#: climweb/src/climweb/base/models/snippets.py:90
+#: climweb/src/climweb/base/models/snippets.py:115
 msgid "Product"
 msgstr "Produto"
 
-#: climweb/src/climweb/base/models/snippets.py:27
+#: climweb/src/climweb/base/models/snippets.py:91
 msgid "Products"
 msgstr "Produtos"
 
-#: climweb/src/climweb/base/models/snippets.py:49
-#: climweb/src/climweb/base/models/snippets.py:67
-#: climweb/src/climweb/base/models/snippets.py:69
-#: climweb/src/climweb/base/models/snippets.py:85
+#: climweb/src/climweb/base/models/snippets.py:116
+#: climweb/src/climweb/base/models/snippets.py:150
+#: climweb/src/climweb/base/models/snippets.py:152
+#: climweb/src/climweb/base/models/snippets.py:197
 msgid "Name"
 msgstr "Nome"
 
-#: climweb/src/climweb/base/models/snippets.py:56
+#: climweb/src/climweb/base/models/snippets.py:121
+msgid "File Format"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:122
+#, python-brace-format
+msgid ""
+"The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This "
+"also determines the subfolder name: {variable_name}/{format}/"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:131
 msgid "Product Item Types"
 msgstr "Tipos de itens de produto"
 
-#: climweb/src/climweb/base/models/snippets.py:56
+#: climweb/src/climweb/base/models/snippets.py:131
 msgid "Product Item Type"
 msgstr "Tipo de item de produto"
 
-#: climweb/src/climweb/base/models/snippets.py:104
+#: climweb/src/climweb/base/models/snippets.py:156
+msgid "Filename Convention"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:158
+#, python-brace-format
+msgid ""
+"Filename pattern used to match and parse product files (without extension). "
+"Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-"
+"populated from the product temporal resolution. You may add a prefix or "
+"suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:167
+msgid "Valid for (days)"
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:169
+msgid ""
+"How many days this product remains effective after its issue date. Leave "
+"blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
+msgstr ""
+
+#: climweb/src/climweb/base/models/snippets.py:216
 msgid "Service Category"
 msgstr "Categoria de serviço"
 
-#: climweb/src/climweb/base/models/snippets.py:105
+#: climweb/src/climweb/base/models/snippets.py:217
 msgid "Service Categories"
 msgstr "Categorias de serviço"
 
-#: climweb/src/climweb/base/models/snippets.py:117
+#: climweb/src/climweb/base/models/snippets.py:229
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: climweb/src/climweb/base/models/snippets.py:119
+#: climweb/src/climweb/base/models/snippets.py:231
 msgid "URL"
 msgstr "URI"
 
-#: climweb/src/climweb/base/models/snippets.py:120
+#: climweb/src/climweb/base/models/snippets.py:232
 msgid "Order"
 msgstr "Ordem"
 
-#: climweb/src/climweb/base/models/snippets.py:124
+#: climweb/src/climweb/base/models/snippets.py:236
 msgid "Application"
 msgstr "Aplicativo"
 
-#: climweb/src/climweb/base/models/snippets.py:154
+#: climweb/src/climweb/base/models/snippets.py:266
 msgid "GIS Application"
 msgstr "Aplicação SIG"
 
-#: climweb/src/climweb/base/models/snippets.py:155
+#: climweb/src/climweb/base/models/snippets.py:267
 msgid "GIS Applications"
 msgstr "Aplicações SIG"
 
@@ -733,8 +833,11 @@ msgstr "Atualize agora"
 
 #: climweb/src/climweb/base/templates/blocks/main_menu.html:36
 #, python-format
-msgid "View all %(label)s\n"
-msgstr "Ver todos os %(label)s\n"
+msgid ""
+"\n"
+"                    View all %(label)s\n"
+"                  "
+msgstr ""
 
 #: climweb/src/climweb/base/views.py:42
 msgid "Error fetching latest version. Please try again later."
@@ -749,12 +852,16 @@ msgstr "Erro ao extrair o número da versão mais recente do lançamento"
 msgid "Themes"
 msgstr "Temas"
 
+#, python-format
+#~ msgid "View all %(label)s\n"
+#~ msgstr "Ver todos os %(label)s\n"
+
 #~ msgid ""
-#~ "To set up Youtube API Key refer to "
-#~ "https://developers.google.com/youtube/v3/getting-started"
+#~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
+#~ "v3/getting-started"
 #~ msgstr ""
-#~ "Para configurar a chave de API do YouTube, consulte "
-#~ "https://developers.google.com/youtube/v3/getting-started"
+#~ "Para configurar a chave de API do YouTube, consulte https://"
+#~ "developers.google.com/youtube/v3/getting-started"
 
 #~ msgid "What we do"
 #~ msgstr "O que fazemos"
