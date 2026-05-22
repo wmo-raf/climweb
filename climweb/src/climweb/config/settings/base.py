@@ -175,7 +175,7 @@ if CLIMWEB_ADDITIONAL_APPS:
     print(f"Loaded ClimWeb additional apps: {','.join(CLIMWEB_ADDITIONAL_APPS)}")
     INSTALLED_APPS += CLIMWEB_ADDITIONAL_APPS
 
-CLIMWEB_PLUGIN_DIRS = env.list("CLIMWEB_PLUGIN_DIRS", default=["/climweb/plugins", ])
+CLIMWEB_PLUGIN_DIRS = env.list("CLIMWEB_PLUGIN_DIRS", default=["/climweb/user-plugins", ])
 CLIMWEB_PLUGIN_PACKAGE_FOLDERS = []
 
 for plugin_dir in CLIMWEB_PLUGIN_DIRS:
