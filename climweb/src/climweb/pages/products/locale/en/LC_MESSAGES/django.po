@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"POT-Creation-Date: 2026-05-21 11:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: climweb/src/climweb/pages/products/blocks.py:40
 #: climweb/src/climweb/pages/products/blocks.py:44
-#: climweb/src/climweb/pages/products/models.py:583
+#: climweb/src/climweb/pages/products/models.py:611
 msgid "Name"
 msgstr "Name"
 
@@ -73,8 +73,7 @@ msgstr "Summary of the map/image information"
 #: climweb/src/climweb/pages/products/blocks.py:70
 #: climweb/src/climweb/pages/products/blocks.py:103
 #: climweb/src/climweb/pages/products/blocks.py:146
-msgid ""
-"The effective until date cannot be earlier than the effective from date"
+msgid "The effective until date cannot be earlier than the effective from date"
 msgstr ""
 "The effective until date cannot be earlier than the effective from date"
 
@@ -98,12 +97,12 @@ msgstr "Thumbnail of the document"
 
 #: climweb/src/climweb/pages/products/blocks.py:88
 msgid ""
-"For example a screen grab of the cover page. If left empty and Auto-generate"
-" above is checked and the uploaded document is a PDF, an image of the first "
+"For example a screen grab of the cover page. If left empty and Auto-generate "
+"above is checked and the uploaded document is a PDF, an image of the first "
 "page will be auto-generated."
 msgstr ""
-"For example a screen grab of the cover page. If left empty and Auto-generate"
-" above is checked and the uploaded document is a PDF, an image of the first "
+"For example a screen grab of the cover page. If left empty and Auto-generate "
+"above is checked and the uploaded document is a PDF, an image of the first "
 "page will be auto-generated."
 
 #: climweb/src/climweb/pages/products/blocks.py:91
@@ -160,18 +159,19 @@ msgstr "Default Listing Thumbnail"
 
 #: climweb/src/climweb/pages/products/models.py:137
 msgid ""
-"An image that will be used as a thumbnail for in the products listing, if no"
-" image can be extracted from product items"
+"An image that will be used as a thumbnail for in the products listing, if no "
+"image can be extracted from product items"
 msgstr ""
-"An image that will be used as a thumbnail for in the products listing, if no"
-" image can be extracted from product items"
+"An image that will be used as a thumbnail for in the products listing, if no "
+"image can be extracted from product items"
 
 #: climweb/src/climweb/pages/products/models.py:144
 msgid "Menu Order"
 msgstr "Menu Order"
 
 #: climweb/src/climweb/pages/products/models.py:204
-#: climweb/src/climweb/pages/products/models.py:600
+#: climweb/src/climweb/pages/products/models.py:535
+#: climweb/src/climweb/pages/products/models.py:628
 msgid "Product"
 msgstr "Product"
 
@@ -184,7 +184,7 @@ msgid "Map Layers"
 msgstr "Map Layers"
 
 #: climweb/src/climweb/pages/products/models.py:222
-#: climweb/src/climweb/pages/products/models.py:613
+#: climweb/src/climweb/pages/products/models.py:641
 msgid "Other settings"
 msgstr "Other settings"
 
@@ -216,35 +216,65 @@ msgstr ""
 msgid "Product Item"
 msgstr "Product Item"
 
-#: climweb/src/climweb/pages/products/models.py:539
+#: climweb/src/climweb/pages/products/models.py:537
+msgid "File Path"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:538
+msgid "File Modification Time"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:544
+#, fuzzy
+#| msgid "Product Index Page"
+msgid "Product Item Page"
+msgstr "Product Index Page"
+
+#: climweb/src/climweb/pages/products/models.py:546
+msgid "Ingested At"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:550
+#, fuzzy
+#| msgid "Product Index Page"
+msgid "Product Ingested File"
+msgstr "Product Index Page"
+
+#: climweb/src/climweb/pages/products/models.py:551
+#, fuzzy
+#| msgid "Product Index Pages"
+msgid "Product Ingested Files"
+msgstr "Product Index Pages"
+
+#: climweb/src/climweb/pages/products/models.py:567
 #, fuzzy
 #| msgid "Subnational Product Page"
 msgid "Subnational Product Landing Page"
 msgstr "Subnational Product Landing Page"
 
-#: climweb/src/climweb/pages/products/models.py:540
+#: climweb/src/climweb/pages/products/models.py:568
 #, fuzzy
 #| msgid "Subnational Product Pages"
 msgid "Subnational Product Landing Pages"
 msgstr "Subnational Product Landing Pages"
 
-#: climweb/src/climweb/pages/products/models.py:589
+#: climweb/src/climweb/pages/products/models.py:617
 msgid "Subnational Region"
 msgstr "Subnational Region"
 
-#: climweb/src/climweb/pages/products/models.py:590
+#: climweb/src/climweb/pages/products/models.py:618
 msgid "Subnational Regions"
 msgstr "Subnational Regions"
 
-#: climweb/src/climweb/pages/products/models.py:599
+#: climweb/src/climweb/pages/products/models.py:627
 msgid "Region"
 msgstr "Region"
 
-#: climweb/src/climweb/pages/products/models.py:618
+#: climweb/src/climweb/pages/products/models.py:646
 msgid "Subnational Product Page"
 msgstr "Subnational Product Page"
 
-#: climweb/src/climweb/pages/products/models.py:619
+#: climweb/src/climweb/pages/products/models.py:647
 msgid "Subnational Product Pages"
 msgstr "Subnational Product Pages"
 

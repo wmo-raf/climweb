@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:46+0300\n"
+"POT-Creation-Date: 2026-05-21 11:00+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Swahili\n"
@@ -12,7 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-File: /climweb/src/climweb/pages/products/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File: /climweb/src/climweb/pages/products/locale/en/LC_MESSAGES/"
+"django.po\n"
 "X-Crowdin-File-ID: 1490\n"
 "X-Crowdin-Language: sw\n"
 "X-Crowdin-Project: nmhs-cms\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: climweb/src/climweb/pages/products/blocks.py:40
 #: climweb/src/climweb/pages/products/blocks.py:44
-#: climweb/src/climweb/pages/products/models.py:583
+#: climweb/src/climweb/pages/products/models.py:611
 msgid "Name"
 msgstr "Jina"
 
@@ -60,8 +61,7 @@ msgstr "Inatumika hadi"
 msgid ""
 "The last day this product remains effective. Leave blank if not applicable"
 msgstr ""
-"Siku ya mwisho bidhaa hii inabakia kuwa na ufanisi. Acha wazi ikiwa "
-"haitumiki"
+"Siku ya mwisho bidhaa hii inabakia kuwa na ufanisi. Acha wazi ikiwa haitumiki"
 
 #: climweb/src/climweb/pages/products/blocks.py:57
 msgid "Image"
@@ -74,8 +74,7 @@ msgstr "Muhtasari wa maelezo ya ramani/picha"
 #: climweb/src/climweb/pages/products/blocks.py:70
 #: climweb/src/climweb/pages/products/blocks.py:103
 #: climweb/src/climweb/pages/products/blocks.py:146
-msgid ""
-"The effective until date cannot be earlier than the effective from date"
+msgid "The effective until date cannot be earlier than the effective from date"
 msgstr ""
 "Kutumika hadi tarehe haiwezi kuwa mapema kuliko kuanza kutumika kuanzia "
 "tarehe"
@@ -100,8 +99,8 @@ msgstr "Kijipicha cha hati"
 
 #: climweb/src/climweb/pages/products/blocks.py:88
 msgid ""
-"For example a screen grab of the cover page. If left empty and Auto-generate"
-" above is checked and the uploaded document is a PDF, an image of the first "
+"For example a screen grab of the cover page. If left empty and Auto-generate "
+"above is checked and the uploaded document is a PDF, an image of the first "
 "page will be auto-generated."
 msgstr ""
 "Kwa mfano kunyakua kwa skrini ya ukurasa wa jalada. Ikiwa kushoto bila kitu "
@@ -162,8 +161,8 @@ msgstr "Kijipicha Chaguomsingi cha Kuorodhesha"
 
 #: climweb/src/climweb/pages/products/models.py:137
 msgid ""
-"An image that will be used as a thumbnail for in the products listing, if no"
-" image can be extracted from product items"
+"An image that will be used as a thumbnail for in the products listing, if no "
+"image can be extracted from product items"
 msgstr ""
 "Picha ambayo itatumika kama kijipicha katika orodha ya bidhaa, ikiwa hakuna "
 "picha inayoweza kutolewa kutoka kwa bidhaa."
@@ -173,7 +172,8 @@ msgid "Menu Order"
 msgstr "Agizo la Menyu"
 
 #: climweb/src/climweb/pages/products/models.py:204
-#: climweb/src/climweb/pages/products/models.py:600
+#: climweb/src/climweb/pages/products/models.py:535
+#: climweb/src/climweb/pages/products/models.py:628
 msgid "Product"
 msgstr "Bidhaa"
 
@@ -186,7 +186,7 @@ msgid "Map Layers"
 msgstr "Tabaka za Ramani"
 
 #: climweb/src/climweb/pages/products/models.py:222
-#: climweb/src/climweb/pages/products/models.py:613
+#: climweb/src/climweb/pages/products/models.py:641
 msgid "Other settings"
 msgstr "Mipangilio mingine"
 
@@ -218,31 +218,61 @@ msgstr ""
 msgid "Product Item"
 msgstr "Kipengee cha Bidhaa"
 
-#: climweb/src/climweb/pages/products/models.py:539
+#: climweb/src/climweb/pages/products/models.py:537
+msgid "File Path"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:538
+msgid "File Modification Time"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:544
+#, fuzzy
+#| msgid "Product Index Page"
+msgid "Product Item Page"
+msgstr "Ukurasa wa Kielezo cha Bidhaa"
+
+#: climweb/src/climweb/pages/products/models.py:546
+msgid "Ingested At"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:550
+#, fuzzy
+#| msgid "Product Index Page"
+msgid "Product Ingested File"
+msgstr "Ukurasa wa Kielezo cha Bidhaa"
+
+#: climweb/src/climweb/pages/products/models.py:551
+#, fuzzy
+#| msgid "Product Index Pages"
+msgid "Product Ingested Files"
+msgstr "Kurasa za Fahirisi za Bidhaa"
+
+#: climweb/src/climweb/pages/products/models.py:567
 msgid "Subnational Product Landing Page"
 msgstr "Ukurasa wa Kutua wa Bidhaa za Kitaifa"
 
-#: climweb/src/climweb/pages/products/models.py:540
+#: climweb/src/climweb/pages/products/models.py:568
 msgid "Subnational Product Landing Pages"
 msgstr "Kurasa za Kutua za Bidhaa za Kitaifa"
 
-#: climweb/src/climweb/pages/products/models.py:589
+#: climweb/src/climweb/pages/products/models.py:617
 msgid "Subnational Region"
 msgstr "Mkoa wa Kitaifa"
 
-#: climweb/src/climweb/pages/products/models.py:590
+#: climweb/src/climweb/pages/products/models.py:618
 msgid "Subnational Regions"
 msgstr "Mikoa Ndogo"
 
-#: climweb/src/climweb/pages/products/models.py:599
+#: climweb/src/climweb/pages/products/models.py:627
 msgid "Region"
 msgstr "Mkoa"
 
-#: climweb/src/climweb/pages/products/models.py:618
+#: climweb/src/climweb/pages/products/models.py:646
 msgid "Subnational Product Page"
 msgstr "Ukurasa wa Bidhaa za Kitaifa"
 
-#: climweb/src/climweb/pages/products/models.py:619
+#: climweb/src/climweb/pages/products/models.py:647
 msgid "Subnational Product Pages"
 msgstr "Kurasa za Bidhaa za Kitaifa"
 
@@ -288,7 +318,7 @@ msgstr "Vinjari Masasisho ya Bidhaa"
 #: climweb/src/climweb/pages/products/templates/products/product_layer_integration.html:6
 #, python-format
 msgid "%(title)s"
-msgstr "%(kichwa)s"
+msgstr "%(title)s"
 
 #: climweb/src/climweb/pages/products/templates/products/product_layer_integration.html:15
 msgid "Product Layers Integration"
