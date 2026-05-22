@@ -149,7 +149,7 @@ if [[ ! "$folder" -ef "$plugin_install_dir" ]]; then
   fi
   folder="$CLIMWEB_PLUGIN_DIR/$plugin_name"
 fi
-chown -R "$DOCKER_USER": "$folder"
+chown -R "$DOCKER_USER": "$folder" || true
 
 # Now we've copied the plugin into the plugin dir we can delete the tmp download dir
 # if we used it.
@@ -220,6 +220,6 @@ if [[ -d "$folder" ]]; then
 fi
 
 log "Fixing ownership of plugins from $(id -u) to $DOCKER_USER in $CLIMWEB_PLUGIN_DIR"
-chown -R "$DOCKER_USER": "$CLIMWEB_PLUGIN_DIR"
-chown -R "$DOCKER_USER": /climweb/container_markers/
+chown -R "$DOCKER_USER": "$CLIMWEB_PLUGIN_DIR" || true
+chown -R "$DOCKER_USER": /climweb/container_markers/ || true
 log_success "Finished setting up ${plugin_name} successfully."
