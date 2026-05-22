@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"POT-Creation-Date: 2026-05-21 11:00+0300\n"
 "PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
@@ -11,8 +11,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
-"X-Crowdin-File: /climweb/src/climweb/pages/products/locale/en/LC_MESSAGES/django.po\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Crowdin-File: /climweb/src/climweb/pages/products/locale/en/LC_MESSAGES/"
+"django.po\n"
 "X-Crowdin-File-ID: 1490\n"
 "X-Crowdin-Language: ar\n"
 "X-Crowdin-Project: nmhs-cms\n"
@@ -20,7 +22,7 @@ msgstr ""
 
 #: climweb/src/climweb/pages/products/blocks.py:40
 #: climweb/src/climweb/pages/products/blocks.py:44
-#: climweb/src/climweb/pages/products/models.py:583
+#: climweb/src/climweb/pages/products/models.py:611
 msgid "Name"
 msgstr "اسم"
 
@@ -73,8 +75,7 @@ msgstr "ملخص معلومات الخريطة/الصورة"
 #: climweb/src/climweb/pages/products/blocks.py:70
 #: climweb/src/climweb/pages/products/blocks.py:103
 #: climweb/src/climweb/pages/products/blocks.py:146
-msgid ""
-"The effective until date cannot be earlier than the effective from date"
+msgid "The effective until date cannot be earlier than the effective from date"
 msgstr "لا يمكن أن يكون تاريخ السريان حتى أقدم من تاريخ السريان"
 
 #: climweb/src/climweb/pages/products/blocks.py:82
@@ -96,8 +97,8 @@ msgstr "صورة مصغرة للوثيقة"
 
 #: climweb/src/climweb/pages/products/blocks.py:88
 msgid ""
-"For example a screen grab of the cover page. If left empty and Auto-generate"
-" above is checked and the uploaded document is a PDF, an image of the first "
+"For example a screen grab of the cover page. If left empty and Auto-generate "
+"above is checked and the uploaded document is a PDF, an image of the first "
 "page will be auto-generated."
 msgstr ""
 "على سبيل المثال، لقطة شاشة لصفحة الغلاف. إذا تركت فارغة وتم تحديد الإنشاء "
@@ -157,8 +158,8 @@ msgstr "الصورة المصغرة للقائمة الافتراضية"
 
 #: climweb/src/climweb/pages/products/models.py:137
 msgid ""
-"An image that will be used as a thumbnail for in the products listing, if no"
-" image can be extracted from product items"
+"An image that will be used as a thumbnail for in the products listing, if no "
+"image can be extracted from product items"
 msgstr ""
 "صورة سيتم استخدامها كصورة مصغرة في قائمة المنتجات، إذا لم يكن من الممكن "
 "استخراج صورة من عناصر المنتج"
@@ -168,7 +169,8 @@ msgid "Menu Order"
 msgstr "ترتيب القائمة"
 
 #: climweb/src/climweb/pages/products/models.py:204
-#: climweb/src/climweb/pages/products/models.py:600
+#: climweb/src/climweb/pages/products/models.py:535
+#: climweb/src/climweb/pages/products/models.py:628
 msgid "Product"
 msgstr "منتج"
 
@@ -181,7 +183,7 @@ msgid "Map Layers"
 msgstr "طبقات الخريطة"
 
 #: climweb/src/climweb/pages/products/models.py:222
-#: climweb/src/climweb/pages/products/models.py:613
+#: climweb/src/climweb/pages/products/models.py:641
 msgid "Other settings"
 msgstr "اعدادات اخرى"
 
@@ -213,31 +215,61 @@ msgstr ""
 msgid "Product Item"
 msgstr "البند المنتج"
 
-#: climweb/src/climweb/pages/products/models.py:539
+#: climweb/src/climweb/pages/products/models.py:537
+msgid "File Path"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:538
+msgid "File Modification Time"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:544
+#, fuzzy
+#| msgid "Product Index Page"
+msgid "Product Item Page"
+msgstr "صفحة فهرس المنتج"
+
+#: climweb/src/climweb/pages/products/models.py:546
+msgid "Ingested At"
+msgstr ""
+
+#: climweb/src/climweb/pages/products/models.py:550
+#, fuzzy
+#| msgid "Product Index Page"
+msgid "Product Ingested File"
+msgstr "صفحة فهرس المنتج"
+
+#: climweb/src/climweb/pages/products/models.py:551
+#, fuzzy
+#| msgid "Product Index Pages"
+msgid "Product Ingested Files"
+msgstr "صفحات فهرس المنتج"
+
+#: climweb/src/climweb/pages/products/models.py:567
 msgid "Subnational Product Landing Page"
 msgstr "صفحة الهبوط للمنتج على المستوى دون الوطني"
 
-#: climweb/src/climweb/pages/products/models.py:540
+#: climweb/src/climweb/pages/products/models.py:568
 msgid "Subnational Product Landing Pages"
 msgstr "صفحات الهبوط للمنتج على المستوى دون الوطني"
 
-#: climweb/src/climweb/pages/products/models.py:589
+#: climweb/src/climweb/pages/products/models.py:617
 msgid "Subnational Region"
 msgstr "المنطقة دون الوطنية"
 
-#: climweb/src/climweb/pages/products/models.py:590
+#: climweb/src/climweb/pages/products/models.py:618
 msgid "Subnational Regions"
 msgstr "المناطق دون الوطنية"
 
-#: climweb/src/climweb/pages/products/models.py:599
+#: climweb/src/climweb/pages/products/models.py:627
 msgid "Region"
 msgstr "منطقة"
 
-#: climweb/src/climweb/pages/products/models.py:618
+#: climweb/src/climweb/pages/products/models.py:646
 msgid "Subnational Product Page"
 msgstr "صفحة المنتج الفرعية"
 
-#: climweb/src/climweb/pages/products/models.py:619
+#: climweb/src/climweb/pages/products/models.py:647
 msgid "Subnational Product Pages"
 msgstr "صفحات المنتجات الفرعية"
 
