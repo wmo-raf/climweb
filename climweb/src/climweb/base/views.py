@@ -112,6 +112,10 @@ def cms_version_view(request):
 
 
 def plugin_manager_view(request):
+    if not request.user.is_superuser:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied
+
     template_name = "admin/plugin_manager.html"
     plugin_manage_hook_url = getattr(settings, "CMS_PLUGIN_MANAGE_HOOK_URL", None)
 
