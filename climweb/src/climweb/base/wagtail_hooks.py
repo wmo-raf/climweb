@@ -22,7 +22,7 @@ from climweb.utils.version import get_main_version, check_version_greater_than_c
 from .cap import create_cap_geomanager_dataset
 from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
-from .views import cms_version_view
+from .views import cms_version_view, plugin_manager_view
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
@@ -45,7 +45,19 @@ def global_admin_css():
 def urlconf_base():
     return [
         path('cms-version', cms_version_view, name='cms-version'),
+        path('plugins', plugin_manager_view, name='plugin-manager'),
     ]
+
+
+@hooks.register('register_settings_menu_item')
+def register_plugin_manager_menu_item():
+    from wagtail.admin.menu import MenuItem
+    return MenuItem(
+        _('Plugins'),
+        reverse('plugin-manager'),
+        icon_name='plug',
+        order=960,
+    )
 
 
 class ServiceViewSet(SnippetViewSet):

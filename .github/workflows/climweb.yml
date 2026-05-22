@@ -26,9 +26,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          target: base
           push: true
           build-args: |
             CLIMWEB_VERSION=${{ github.ref_name }}
           tags: |
             ghcr.io/wmo-raf/climweb:${{ github.ref_name }}
-            ghcr.io/wmo-raf/climweb:latest
+            ${{ !github.event.release.prerelease && 'ghcr.io/wmo-raf/climweb:latest' || '' }}

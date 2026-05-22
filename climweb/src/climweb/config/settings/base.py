@@ -574,6 +574,7 @@ ADMIN_URL_PATH = env.str("ADMIN_URL_PATH", "cms-admin")
 DJANGO_ADMIN_URL_PATH = env.str("DJANGO_ADMIN_URL_PATH", default="dj-ad-admin")
 
 CMS_UPGRADE_HOOK_URL = env.str("CMS_UPGRADE_HOOK_URL", default="")
+CMS_PLUGIN_MANAGE_HOOK_URL = env.str("CMS_PLUGIN_MANAGE_HOOK_URL", default="")
 
 WAGTAIL_WEBSTORIES_EDITOR_LISTING_PAGE_MODEL = "webstories.WebStoryListPage"
 

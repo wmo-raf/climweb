@@ -16,6 +16,7 @@ from wagtail.images import get_image_model
 from .constants import COUNTRIES
 
 CMS_UPGRADE_HOOK_URL = getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
+CMS_PLUGIN_MANAGE_HOOK_URL = getattr(settings, "CMS_PLUGIN_MANAGE_HOOK_URL", None)
 
 import colorsys
 
@@ -189,14 +190,68 @@ def get_latest_cms_release():
 def send_upgrade_command(latest_version):
     if CMS_UPGRADE_HOOK_URL:
         payload = {"latest_version": latest_version}
-        request = requests.Request('POST', CMS_UPGRADE_HOOK_URL, json=payload, headers={})
-        
+        headers = {
+            "X-Webhook-Secret": settings.SECRET_KEY,
+        }
+        request = requests.Request('POST', CMS_UPGRADE_HOOK_URL, json=payload, headers=headers)
+
         prepped = request.prepare()
-        # signature = hmac.new(codecs.encode(GSKY_WEBHOOK_SECRET), codecs.encode(prepped.body), digestmod=hashlib.sha256)
-        # prepped.headers['X-ClimWeb-Signature'] = signature.hexdigest()
-        
+
         with requests.Session() as session:
-            response = session.send(prepped)
+            session.send(prepped)
+
+
+def send_plugin_command(action, repo_url, plugin_name):
+    """Send an install / update / remove command to the plugin-manage webhook."""
+    if CMS_PLUGIN_MANAGE_HOOK_URL:
+        payload = {
+            "action": action,
+            "repo_url": repo_url or "",
+            "plugin_name": plugin_name,
+        }
+        headers = {
+            "X-Webhook-Secret": settings.SECRET_KEY,
+        }
+        request = requests.Request('POST', CMS_PLUGIN_MANAGE_HOOK_URL, json=payload, headers=headers)
+        prepped = request.prepare()
+        with requests.Session() as session:
+            session.send(prepped)
+
+
+def get_installed_plugins():
+    """Return a list of dicts describing each installed plugin, read from climweb_plugin_info.json."""
+    import json
+    import os
+
+    plugin_dirs = getattr(settings, "CLIMWEB_PLUGIN_DIRS", ["/climweb/plugins"])
+    plugins = []
+
+    for base_dir in plugin_dirs:
+        if not os.path.isdir(base_dir):
+            continue
+        for entry in sorted(os.scandir(base_dir), key=lambda e: e.name):
+            if not entry.is_dir():
+                continue
+            info_file = os.path.join(entry.path, "climweb_plugin_info.json")
+            if os.path.isfile(info_file):
+                try:
+                    with open(info_file) as f:
+                        info = json.load(f)
+                except Exception:
+                    info = {}
+            else:
+                info = {}
+
+            plugins.append({
+                "folder_name": entry.name,
+                "name": info.get("name", entry.name),
+                "version": info.get("version", "—"),
+                "description": info.get("description", ""),
+                "author": info.get("author", ""),
+                "url": info.get("url", ""),
+            })
+
+    return plugins
 
 
 def get_first_page_of_pdf_as_image(file_path, title, file_name):
