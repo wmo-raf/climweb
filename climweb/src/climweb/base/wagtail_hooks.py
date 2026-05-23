@@ -56,7 +56,7 @@ def register_plugin_manager_menu_item():
     return MenuItem(
         _('Plugins'),
         reverse('plugin-manager'),
-        icon_name='plug',
+        icon_name='cog',
         order=960,
     )
 
