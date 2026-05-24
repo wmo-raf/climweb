@@ -17,37 +17,6 @@ class CMSUpgradeForm(forms.Form):
     latest_version = forms.CharField(max_length=100, required=True, widget=forms.HiddenInput)
 
 
-class PluginInstallForm(forms.Form):
-    repo_url = forms.URLField(
-        label=_("Git repository URL"),
-        help_text=_("Public GitHub/GitLab URL of the plugin repository, "
-                    "e.g. https://github.com/org/my-plugin"),
-        widget=forms.URLInput(attrs={
-            "placeholder": "https://github.com/org/my-plugin",
-            "style": "width:100%;max-width:600px",
-        }),
-    )
-    plugin_name = forms.SlugField(
-        label=_("Plugin folder name"),
-        help_text=_("The name of the directory that will be created inside the plugins folder, "
-                    "e.g. my_plugin. Must be a valid Python identifier."),
-        widget=forms.TextInput(attrs={
-            "placeholder": "my_plugin",
-            "style": "width:100%;max-width:300px",
-        }),
-    )
-
-
-class PluginActionForm(forms.Form):
-    """Hidden form submitted for update and remove actions on an already-installed plugin."""
-    plugin_name = forms.CharField(max_length=200, required=True, widget=forms.HiddenInput)
-    repo_url = forms.CharField(max_length=500, required=False, widget=forms.HiddenInput)
-    action = forms.ChoiceField(
-        choices=[("update", "update"), ("remove", "remove")],
-        required=True,
-        widget=forms.HiddenInput,
-    )
-
 
 class FormImageField(WagtailImageField):
     def __init__(self, *args, **kwargs):
