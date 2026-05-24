@@ -242,6 +242,17 @@ def get_installed_plugins():
             else:
                 info = {}
 
+            # Read the git repo URL saved at install time (by plugin-manage.sh)
+            repo_url_file = os.path.join(entry.path, ".plugin_repo_url")
+            if os.path.isfile(repo_url_file):
+                try:
+                    with open(repo_url_file) as f:
+                        repo_url = f.read().strip()
+                except Exception:
+                    repo_url = ""
+            else:
+                repo_url = ""
+
             plugins.append({
                 "folder_name": entry.name,
                 "name": info.get("name", entry.name),
@@ -249,6 +260,7 @@ def get_installed_plugins():
                 "description": info.get("description", ""),
                 "author": info.get("author", ""),
                 "url": info.get("url", ""),
+                "repo_url": repo_url,
             })
 
     return plugins

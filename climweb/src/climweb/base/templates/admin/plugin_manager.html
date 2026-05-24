@@ -55,6 +55,16 @@
         color: var(--w-color-text-meta);
         font-style: italic;
     }
+
+    .plugin-actions button{
+        display: flex;
+        align-items: center;
+    }
+
+    .plugin-actions button svg.icon{
+        width: 15px;
+        height: 15px;
+    }
 </style>
 {% endblock %}
 
@@ -111,7 +121,7 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="action" value="update">
                                             <input type="hidden" name="plugin_name" value="{{ plugin.folder_name }}">
-                                            <input type="hidden" name="repo_url" value="{{ plugin.url }}">
+                                            <input type="hidden" name="repo_url" value="{{ plugin.repo_url }}">
                                             <button type="submit" class="button button-secondary button-small"
                                                 onclick="return confirm('{% blocktranslate with name=plugin.name %}Update plugin {{ name }}?{% endblocktranslate %}')">
                                                 {% icon name="rotate" %}

@@ -22,7 +22,7 @@ from climweb.utils.version import get_main_version, check_version_greater_than_c
 from .cap import create_cap_geomanager_dataset
 from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
-from .views import cms_version_view, plugin_manager_view
+from .views import cms_version_view, plugin_manager_view, cms_upgrade_status_view
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
@@ -45,6 +45,7 @@ def global_admin_css():
 def urlconf_base():
     return [
         path('cms-version', cms_version_view, name='cms-version'),
+        path('cms-upgrade-status', cms_upgrade_status_view, name='cms-upgrade-status'),
         path('plugins', plugin_manager_view, name='plugin-manager'),
     ]
 
@@ -55,7 +56,7 @@ def register_plugin_manager_menu_item():
     return MenuItem(
         _('Plugins'),
         reverse('plugin-manager'),
-        icon_name='plug',
+        icon_name='cog',
         order=960,
     )
 

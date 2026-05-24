@@ -1,3 +1,6 @@
+import json
+import os
+
 from django.conf import settings
 from django.core.cache import cache
 from django.http import JsonResponse
@@ -179,3 +182,29 @@ def public_health_check(request):
     return JsonResponse({
         "version": __version__,
     })
+
+
+def cms_upgrade_status_view(request):
+    """
+    JSON endpoint polled by the frontend to show live upgrade progress.
+    Reads upgrade-status.json written by cms-upgrade.sh into the backup volume.
+    """
+    backup_dir = settings.DBBACKUP_STORAGE_OPTIONS.get("location", "")
+    status_file = os.path.join(backup_dir, "upgrade-status.json")
+
+    status_data = {}
+    if os.path.exists(status_file):
+        try:
+            with open(status_file, "r") as f:
+                status_data = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            status_data = {"status": "unknown", "step": "Could not read status file."}
+
+    # If the upgrade finished (success or failed), clear the pending flag from cache
+    terminal = status_data.get("status") in ("success", "failed")
+    if terminal:
+        cache.set("cms_upgrade_pending", False)
+
+    status_data["cms_upgrade_pending"] = cache.get("cms_upgrade_pending", False)
+
+    return JsonResponse(status_data)
