@@ -169,7 +169,10 @@ def add_climweb_trace_attrs(**kwargs):
 
 
 def otel_is_enabled():
-    env_var_set = bool(os.getenv("CLIMWEB_ENABLE_OTEL", False))
+    # os.getenv() returns a string, so bool("false") would be True.
+    # Explicitly treat "false", "0", and "" as disabled.
+    raw = os.getenv("CLIMWEB_ENABLE_OTEL", "").strip().lower()
+    env_var_set = raw not in ("", "false", "0", "no")
     not_in_tests = (
             os.getenv("DJANGO_SETTINGS_MODULE", "").strip()
             != "climweb.config.settings.test"
