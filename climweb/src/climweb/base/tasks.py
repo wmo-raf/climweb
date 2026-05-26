@@ -1,6 +1,6 @@
 from celery.schedules import crontab
-from celery.signals import task_prerun, worker_process_init
-from celery_singleton import Singleton
+from celery.signals import task_prerun, worker_process_init, worker_ready
+from celery_singleton import Singleton, clear_locks
 from django.core.management import call_command
 from loguru import logger
 from opentelemetry import baggage, context
@@ -26,6 +26,14 @@ def before_task(task_id, task, *args, **kwargs):
         context.attach(baggage.set_baggage(TASK_NAME_KEY, task.name))
 
 
+@worker_ready.connect
+def unlock_all(**kwargs):
+    # Clear any singleton locks left behind by a previous worker crash.
+    # Without this, a task killed mid-run (e.g. by CELERY_WORKER_MAX_MEMORY_PER_CHILD)
+    # would leave its Redis lock open and all subsequent scheduled runs would be skipped.
+    clear_locks(app)
+
+
 @app.task(
     base=Singleton,
     bind=True
@@ -41,23 +49,40 @@ def run_backup(self):
 
 
 if "forecastmanager" in settings.INSTALLED_APPS:
+    # lock_expiry prevents the singleton lock from persisting indefinitely if the
+    # worker is killed (e.g. by CELERY_WORKER_MAX_MEMORY_PER_CHILD) before the
+    # task completes and can release the lock normally.  Set to slightly longer
+    # than the worst-case runtime so a legitimately-running task is never evicted,
+    # but a stuck lock is cleared within a reasonable window.
+    _FORECAST_LOCK_EXPIRY = 1800  # 30 minutes
+
     @app.task(
         base=Singleton,
-        bind=True
+        bind=True,
+        lock_expiry=_FORECAST_LOCK_EXPIRY,
     )
     def download_forecast(self):
         # Run the `generate_forecast` command
         logger.info("[FORECAST] Running generate_forecast")
-        call_command('generate_forecast')
+        try:
+            call_command('generate_forecast')
+        except Exception as exc:
+            logger.error(f"[FORECAST] generate_forecast failed: {exc}")
+            raise  # re-raise so Celery records the failure and releases the lock
 
     @app.task(
         base=Singleton,
-        bind=True
+        bind=True,
+        lock_expiry=_FORECAST_LOCK_EXPIRY,
     )
     def clear_old_forecasts(self):
         # Run the `clear_old_forecasts` command
         logger.info("[FORECAST] Running clear_old_forecasts")
-        call_command('clear_old_forecasts')
+        try:
+            call_command('clear_old_forecasts')
+        except Exception as exc:
+            logger.error(f"[FORECAST] clear_old_forecasts failed: {exc}")
+            raise
 
 
 if "climweb_wdqms" in settings.INSTALLED_APPS:
