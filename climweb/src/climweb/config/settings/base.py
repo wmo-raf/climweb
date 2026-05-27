@@ -282,6 +282,9 @@ DB_CONNECTION_MAX_AGE = env.int("DB_CONNECTION_MAX_AGE", default=0)
 DB_CONN_HEALTH_CHECKS = env.bool("DB_CONN_HEALTH_CHECKS", default=False)
 DB_DISABLE_SERVER_SIDE_CURSORS = env.bool("DB_DISABLE_SERVER_SIDE_CURSORS", default=False)
 DB_SSL_REQUIRE = env.bool("DB_SSL_REQUIRE", default=False)
+# Statement timeout in milliseconds (0 = disabled). Prevents runaway queries from
+# blocking indefinitely, e.g. when a PgBouncer connection goes stale mid-transaction.
+DB_STATEMENT_TIMEOUT = env.int("DB_STATEMENT_TIMEOUT", default=0)
 
 DATABASES = {
     "default": dj_database_url.config(
@@ -292,6 +295,10 @@ DATABASES = {
         ssl_require=DB_SSL_REQUIRE,
     )
 }
+
+if DB_STATEMENT_TIMEOUT:
+    DATABASES["default"].setdefault("OPTIONS", {})
+    DATABASES["default"]["OPTIONS"]["options"] = f"-c statement_timeout={DB_STATEMENT_TIMEOUT}"
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
