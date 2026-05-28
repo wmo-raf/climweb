@@ -9,9 +9,9 @@ from django.utils.translation import gettext as _
 from wagtail.admin import messages
 
 from climweb import __version__
-from climweb.base.utils import get_latest_cms_release, send_upgrade_command, send_plugin_command, get_installed_plugins
+from climweb.base.utils import get_latest_cms_release, send_upgrade_command, send_plugin_remove, get_installed_plugins
 from climweb.utils.version import check_version_greater_than_current, get_main_version
-from .forms import CMSUpgradeForm, PluginInstallForm, PluginActionForm
+from .forms import CMSUpgradeForm
 
 
 def handler500(request):
@@ -121,61 +121,29 @@ def plugin_manager_view(request):
 
     template_name = "admin/plugin_manager.html"
     plugin_manage_hook_url = getattr(settings, "CMS_PLUGIN_MANAGE_HOOK_URL", None)
-
     plugins = get_installed_plugins()
-    install_form = PluginInstallForm()
-
-    context = {
-        "plugins": plugins,
-        "install_form": install_form,
-        "plugin_manage_hook_url": plugin_manage_hook_url,
-    }
 
     if request.method == "POST":
-        action = request.POST.get("action")
-
-        # --- Install ---------------------------------------------------------
-        if action == "install":
-            install_form = PluginInstallForm(request.POST)
-            if install_form.is_valid():
-                repo_url = install_form.cleaned_data["repo_url"]
-                plugin_name = install_form.cleaned_data["plugin_name"]
-                if not plugin_manage_hook_url:
-                    messages.error(request, _("CMS_PLUGIN_MANAGE_HOOK_URL is not configured."))
-                else:
-                    try:
-                        send_plugin_command("install", repo_url, plugin_name)
-                        messages.success(
-                            request,
-                            _("Plugin '%(name)s' installation initiated. The server will restart shortly.") % {"name": plugin_name},
-                        )
-                        return redirect("plugin-manager")
-                    except Exception:
-                        messages.error(request, _("Error sending install command. Check that CMS_PLUGIN_MANAGE_HOOK_URL is reachable."))
-            context["install_form"] = install_form
-
-        # --- Update / Remove -------------------------------------------------
+        plugin_name = request.POST.get("plugin_name", "").strip()
+        if not plugin_name:
+            messages.error(request, _("No plugin name provided."))
+        elif not plugin_manage_hook_url:
+            messages.error(request, _("CMS_PLUGIN_MANAGE_HOOK_URL is not configured."))
         else:
-            action_form = PluginActionForm(request.POST)
-            if action_form.is_valid():
-                plugin_name = action_form.cleaned_data["plugin_name"]
-                repo_url = action_form.cleaned_data.get("repo_url", "")
-                action = action_form.cleaned_data["action"]
-                if not plugin_manage_hook_url:
-                    messages.error(request, _("CMS_PLUGIN_MANAGE_HOOK_URL is not configured."))
-                else:
-                    try:
-                        send_plugin_command(action, repo_url, plugin_name)
-                        verb = _("update") if action == "update" else _("removal")
-                        messages.success(
-                            request,
-                            _("Plugin '%(name)s' %(verb)s initiated. The server will restart shortly.") % {"name": plugin_name, "verb": verb},
-                        )
-                        return redirect("plugin-manager")
-                    except Exception:
-                        messages.error(request, _("Error sending %(action)s command.") % {"action": action})
+            try:
+                send_plugin_remove(plugin_name)
+                messages.success(
+                    request,
+                    _("Plugin '%(name)s' removal initiated. The server will restart shortly.") % {"name": plugin_name},
+                )
+                return redirect("plugin-manager")
+            except Exception:
+                messages.error(request, _("Error sending remove command. Check that CMS_PLUGIN_MANAGE_HOOK_URL is reachable."))
 
-    return render(request, template_name, context=context)
+    return render(request, template_name, context={
+        "plugins": plugins,
+        "plugin_manage_hook_url": plugin_manage_hook_url,
+    })
 
 
 def public_health_check(request):

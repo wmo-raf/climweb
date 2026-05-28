@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load wagtailadmin_tags static %}
 
-{% block titletag %}{% translate "Plugin Manager" %}{% endblock %}
+{% block titletag %}{% translate "Plugins" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -35,33 +35,33 @@
         font-size: 12px;
         margin-top: 2px;
     }
-    .plugin-actions {
-        display: flex;
-        gap: 8px;
-        justify-content: flex-end;
-    }
-    .install-section {
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 2px solid var(--w-color-border-furniture);
-    }
-    .install-section h2 {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 16px;
-    }
     .no-plugins {
         padding: 24px 0;
         color: var(--w-color-text-meta);
         font-style: italic;
     }
-
-    .plugin-actions button{
+    .plugin-info-box {
+        margin-top: 30px;
+        padding: 16px 20px;
+        background: var(--w-color-surface-menus);
+        border-left: 4px solid var(--w-color-border-furniture);
+        border-radius: 4px;
+        font-size: 13px;
+        color: var(--w-color-text-meta);
+    }
+    .plugin-info-box code {
+        background: var(--w-color-surface-page);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: monospace;
+        font-size: 12px;
+    }
+    .plugin-table button{
         display: flex;
         align-items: center;
     }
 
-    .plugin-actions button svg.icon{
+    .plugin-table button svg.icon{
         width: 15px;
         height: 15px;
     }
@@ -69,23 +69,12 @@
 {% endblock %}
 
 {% block content %}
-    {% translate "Plugin Manager" as header_str %}
+    {% translate "Plugins" as header_str %}
     {% include "wagtailadmin/shared/header.html" with title=header_str icon="plug" %}
 
     <div class="nice-padding">
 
-        {% if not plugin_manage_hook_url %}
-            <div class="help-block help-warning">
-                {% icon name="warning" %}
-                {% translate "CMS_PLUGIN_MANAGE_HOOK_URL is not set. Plugin install, update and remove actions are disabled." %}
-            </div>
-        {% endif %}
-
         {# ---- Installed plugins ------------------------------------------ #}
-        <h2 style="font-size:18px;font-weight:600;margin-bottom:16px">
-            {% translate "Installed Plugins" %}
-        </h2>
-
         {% if plugins %}
             <table class="plugin-table">
                 <thead>
@@ -115,32 +104,15 @@
                             <td>{{ plugin.author|default:"—" }}</td>
                             <td>
                                 {% if plugin_manage_hook_url %}
-                                    <div class="plugin-actions">
-                                        {# Update #}
-                                        <form method="POST">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="action" value="update">
-                                            <input type="hidden" name="plugin_name" value="{{ plugin.folder_name }}">
-                                            <input type="hidden" name="repo_url" value="{{ plugin.repo_url }}">
-                                            <button type="submit" class="button button-secondary button-small"
-                                                onclick="return confirm('{% blocktranslate with name=plugin.name %}Update plugin {{ name }}?{% endblocktranslate %}')">
-                                                {% icon name="rotate" %}
-                                                {% translate "Update" %}
-                                            </button>
-                                        </form>
-                                        {# Remove #}
-                                        <form method="POST">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="action" value="remove">
-                                            <input type="hidden" name="plugin_name" value="{{ plugin.folder_name }}">
-                                            <input type="hidden" name="repo_url" value="">
-                                            <button type="submit" class="button no button-small"
-                                                onclick="return confirm('{% blocktranslate with name=plugin.name %}Remove plugin {{ name }}? This will also reverse its database migrations.{% endblocktranslate %}')">
-                                                {% icon name="bin" %}
-                                                {% translate "Remove" %}
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="plugin_name" value="{{ plugin.folder_name }}">
+                                        <button type="submit" class="button no button-small"
+                                            onclick="return confirm('{% blocktranslate with name=plugin.name %}Remove plugin {{ name }}? This will reverse its database migrations and restart the server.{% endblocktranslate %}')">
+                                            {% icon name="bin" %}
+                                            {% translate "Remove" %}
+                                        </button>
+                                    </form>
                                 {% endif %}
                             </td>
                         </tr>
@@ -151,34 +123,13 @@
             <p class="no-plugins">{% translate "No plugins are currently installed." %}</p>
         {% endif %}
 
-        {# ---- Install new plugin ----------------------------------------- #}
-        {% if plugin_manage_hook_url %}
-            <div class="install-section">
-                <h2>{% translate "Install a New Plugin" %}</h2>
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="install">
-
-                    {% if install_form.non_field_errors %}
-                        {% include "wagtailadmin/shared/non_field_errors.html" with form=install_form %}
-                    {% endif %}
-
-                    <ul class="fields">
-                        {% for field in install_form %}
-                            {% include "wagtailadmin/shared/field.html" %}
-                        {% endfor %}
-                        <li>
-                            <button class="button bicolor button--icon" type="submit">
-                                <span class="icon-wrapper">
-                                    {% icon name="plus" %}
-                                </span>
-                                {% translate "Install plugin" %}
-                            </button>
-                        </li>
-                    </ul>
-                </form>
-            </div>
-        {% endif %}
+        <div class="plugin-info-box">
+            {% blocktranslate trimmed %}
+                Plugins are managed via the <code>CLIMWEB_PLUGIN_GIT_REPOS</code> setting in your
+                <code>.env</code> file. To install, update, or remove a plugin, edit that value
+                and restart the containers.
+            {% endblocktranslate %}
+        </div>
 
     </div>
 {% endblock %}

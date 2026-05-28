@@ -18,6 +18,17 @@ from .constants import COUNTRIES
 CMS_UPGRADE_HOOK_URL = getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
 CMS_PLUGIN_MANAGE_HOOK_URL = getattr(settings, "CMS_PLUGIN_MANAGE_HOOK_URL", None)
 
+
+def send_plugin_remove(plugin_name):
+    """Send a remove command to the plugin-remove webhook."""
+    if CMS_PLUGIN_MANAGE_HOOK_URL:
+        payload = {"plugin_name": plugin_name}
+        headers = {"X-Webhook-Secret": settings.SECRET_KEY}
+        request = requests.Request("POST", CMS_PLUGIN_MANAGE_HOOK_URL, json=payload, headers=headers)
+        prepped = request.prepare()
+        with requests.Session() as session:
+            session.send(prepped)
+
 import colorsys
 
 
@@ -200,22 +211,6 @@ def send_upgrade_command(latest_version):
         with requests.Session() as session:
             session.send(prepped)
 
-
-def send_plugin_command(action, repo_url, plugin_name):
-    """Send an install / update / remove command to the plugin-manage webhook."""
-    if CMS_PLUGIN_MANAGE_HOOK_URL:
-        payload = {
-            "action": action,
-            "repo_url": repo_url or "",
-            "plugin_name": plugin_name,
-        }
-        headers = {
-            "X-Webhook-Secret": settings.SECRET_KEY,
-        }
-        request = requests.Request('POST', CMS_PLUGIN_MANAGE_HOOK_URL, json=payload, headers=headers)
-        prepped = request.prepare()
-        with requests.Session() as session:
-            session.send(prepped)
 
 
 def get_installed_plugins():
