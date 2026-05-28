@@ -171,6 +171,11 @@ if IS_METEOROLOGICAL:
 
 ## Plugins loading logic start
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
+
+# climweb.pages.aviation has been discontinued and will cause the site to crash
+DISCONTINUED_APPS = ["climweb.pages.aviation"]
+CLIMWEB_ADDITIONAL_APPS = [app for app in CLIMWEB_ADDITIONAL_APPS if app not in DISCONTINUED_APPS]
+
 if CLIMWEB_ADDITIONAL_APPS:
     print(f"Loaded ClimWeb additional apps: {','.join(CLIMWEB_ADDITIONAL_APPS)}")
     INSTALLED_APPS += CLIMWEB_ADDITIONAL_APPS
