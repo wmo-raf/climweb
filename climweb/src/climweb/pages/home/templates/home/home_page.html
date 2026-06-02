@@ -19,7 +19,10 @@
 
     <link rel="stylesheet" href="{% static 'css/glide.core.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/glide.theme.min.css' %}">
+
+    {% if IS_METEOROLOGICAL %}
     <link rel="stylesheet" href="{% static 'weather/css/forecast_widget.css' %}">
+    {% endif %}
 {% endblock extra_css %}
 
 {% block content %}
