@@ -1,23 +1,21 @@
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 11:00+0300\n"
-"PO-Revision-Date: 2026-04-13 12:55\n"
+"POT-Creation-Date: 2025-10-25 10:52+0000\n"
+"PO-Revision-Date: 2026-05-18 09:45\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
-"X-Crowdin-File: /climweb/src/climweb/base/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-File-ID: 1286\n"
-"X-Crowdin-Language: ar\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Crowdin-Project: nmhs-cms\n"
 "X-Crowdin-Project-ID: 672958\n"
+"X-Crowdin-Language: ar\n"
+"X-Crowdin-File: /climweb/src/climweb/base/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 1286\n"
 
 #: climweb/src/climweb/base/blocks.py:49 climweb/src/climweb/base/blocks.py:50
 #: climweb/src/climweb/base/blocks.py:62 climweb/src/climweb/base/blocks.py:63
@@ -40,7 +38,7 @@ msgid "Title, Text and Image"
 msgstr "العنوان والنص والصورة"
 
 #: climweb/src/climweb/base/blocks.py:68
-#: climweb/src/climweb/base/models/snippets.py:222
+#: climweb/src/climweb/base/models/snippets.py:110
 msgid "Title"
 msgstr "عنوان"
 
@@ -65,12 +63,8 @@ msgid "Action Link Internal"
 msgstr "رابط العمل داخلي"
 
 #: climweb/src/climweb/base/blocks.py:110
-msgid ""
-"An external link to a detailed resource on the internet.If provided, the "
-"internal link will be ignored"
-msgstr ""
-"رابط خارجي لمورد تفصيلي على الإنترنت. إذا تم توفيره، سيتم تجاهل الرابط "
-"الداخلي"
+msgid "An external link to a detailed resource on the internet.If provided, the internal link will be ignored"
+msgstr "رابط خارجي لمورد تفصيلي على الإنترنت. إذا تم توفيره، سيتم تجاهل الرابط الداخلي"
 
 #: climweb/src/climweb/base/blocks.py:116
 msgid "Feature Block"
@@ -86,8 +80,8 @@ msgstr "الأكورديون"
 
 #: climweb/src/climweb/base/blocks.py:155
 #: climweb/src/climweb/base/blocks.py:285
-#: climweb/src/climweb/base/models/snippets.py:117
-#: climweb/src/climweb/base/models/snippets.py:198
+#: climweb/src/climweb/base/models/snippets.py:50
+#: climweb/src/climweb/base/models/snippets.py:86
 msgid "Icon"
 msgstr "أيقونة"
 
@@ -155,10 +149,12 @@ msgid "Card"
 msgstr "بطاقة"
 
 #: climweb/src/climweb/base/blocks.py:297
+#| msgid "Introduction button text"
 msgid "Card button text"
 msgstr "نص زر البطاقة"
 
 #: climweb/src/climweb/base/blocks.py:298
+#| msgid "Introduction button link"
 msgid "Card button link"
 msgstr "رابط زر البطاقة"
 
@@ -172,21 +168,13 @@ msgstr "انتقل إلى قائمة التحذيرات"
 
 #: climweb/src/climweb/base/forms.py:27
 #, python-format
-msgid ""
-"Supported formats: %(supported_formats)s. Maximum filesize: "
-"%(max_upload_size)s."
-msgstr ""
-"التنسيقات المدعومة: %(supported_formats)s. الحد الأقصى لحجم الملف: "
-"%(max_upload_size)s."
+msgid "Supported formats: %(supported_formats)s. Maximum filesize: %(max_upload_size)s."
+msgstr "التنسيقات المدعومة: %(supported_formats)s. الحد الأقصى لحجم الملف: %(max_upload_size)s."
 
 #: climweb/src/climweb/base/forms.py:42
 #, python-format
-msgid ""
-"File size must be under %(max_upload_size)s. Current file size is "
-"%(current_file_size)s"
-msgstr ""
-"يجب أن يكون حجم الملف أقل من %(max_upload_size)s. حجم الملف الحالي هو "
-"%(current_file_size)s"
+msgid "File size must be under %(max_upload_size)s. Current file size is %(current_file_size)s"
+msgstr "يجب أن يكون حجم الملف أقل من %(max_upload_size)s. حجم الملف الحالي هو %(current_file_size)s"
 
 #: climweb/src/climweb/base/forms.py:59
 #, python-format
@@ -298,12 +286,8 @@ msgid "Auto Refresh interval in minutes"
 msgstr "الفاصل الزمني للتحديث التلقائي في دقائق"
 
 #: climweb/src/climweb/base/models/cap_settings.py:26
-msgid ""
-"Refresh cap alerts on the map after this minutes. Leave blank to disable "
-"auto refreshing"
-msgstr ""
-"قم بتحديث تنبيهات الحد الأقصى على الخريطة بعد هذه الدقائق. اتركه فارغًا "
-"لتعطيل التحديث التلقائي"
+msgid "Refresh cap alerts on the map after this minutes. Leave blank to disable auto refreshing"
+msgstr "قم بتحديث تنبيهات الحد الأقصى على الخريطة بعد هذه الدقائق. اتركه فارغًا لتعطيل التحديث التلقائي"
 
 #: climweb/src/climweb/base/models/site_settings.py:31
 msgid "Country"
@@ -355,11 +339,8 @@ msgid "CMS Logo"
 msgstr "شعار نظام إدارة المحتوى"
 
 #: climweb/src/climweb/base/models/site_settings.py:79
-msgid ""
-"Logo that appears on the CMS. Should be a whit transparent logo preferably"
-msgstr ""
-"الشعار الذي يظهر على نظام إدارة المحتوى، يجب أن يكون شعارًا أبيض شفافًا ويفضل "
-"أن يكون شعارًا عاديًا."
+msgid "Logo that appears on the CMS. Should be a whit transparent logo preferably"
+msgstr "الشعار الذي يظهر على نظام إدارة المحتوى، يجب أن يكون شعارًا أبيض شفافًا ويفضل أن يكون شعارًا عاديًا."
 
 #: climweb/src/climweb/base/models/site_settings.py:88
 msgid "Page not Found Image"
@@ -402,10 +383,8 @@ msgid "Youtube API Key"
 msgstr "مفتاح API الخاص بـ Youtube"
 
 #: climweb/src/climweb/base/models/site_settings.py:145
-#, fuzzy
-#| msgid "Youtube API Key"
-msgid "To set up Youtube API Key refer to "
-msgstr "لإعداد مفتاح Youtube API، راجع"
+msgid "To set up Youtube API Key refer to https://developers.google.com/youtube/v3/getting-started"
+msgstr "لإعداد مفتاح واجهة برمجة تطبيقات Youtube، راجع https://developers.google.com/youtube/v3/getting-started"
 
 #: climweb/src/climweb/base/models/site_settings.py:150
 msgid "GA Tracking ID"
@@ -420,24 +399,16 @@ msgid "Track button clicks"
 msgstr "نقرات زر المسار"
 
 #: climweb/src/climweb/base/models/site_settings.py:157
-msgid ""
-"Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
-msgstr ""
-"تتبع جميع نقرات الأزرار باستخدام مِيزة تتبع أحداث Google Analytics. يمكن "
-"تحديد تفاصيل تتبع الأحداث في خيارات الإعدادات المتقدمة الخاصة بكل زر."
+msgid "Track all button clicks using Google Analytics event tracking, Event tracking details can be specified in each button’s advanced settings options."
+msgstr "تتبع جميع نقرات الأزرار باستخدام مِيزة تتبع أحداث Google Analytics. يمكن تحديد تفاصيل تتبع الأحداث في خيارات الإعدادات المتقدمة الخاصة بكل زر."
 
 #: climweb/src/climweb/base/models/site_settings.py:162
 msgid "Track pages internally"
 msgstr "تتبع الصفحات داخليًا"
 
 #: climweb/src/climweb/base/models/site_settings.py:164
-msgid ""
-"Track   all pages internally. This will enable the internal analytics "
-"dashboard, alongside Google Analytics, if also enabled"
-msgstr ""
-"تتبع كافة الصفحات داخليا. سيؤدي هذا إلى تمكين لوحة تحكم التحليلات الداخلية، "
-"إلى جانب Google Analytics، إذا تم تمكينها أيضًا"
+msgid "Track   all pages internally. This will enable the internal analytics dashboard, alongside Google Analytics, if also enabled"
+msgstr "تتبع كافة الصفحات داخليا. سيؤدي هذا إلى تمكين لوحة تحكم التحليلات الداخلية، إلى جانب Google Analytics، إذا تم تمكينها أيضًا"
 
 #: climweb/src/climweb/base/models/site_settings.py:168
 msgid "Google Site Verification Key"
@@ -484,28 +455,16 @@ msgid "Theme Name"
 msgstr "اسم السمة"
 
 #: climweb/src/climweb/base/models/site_settings.py:223
-msgid "Primary Hover color (use color picker)"
-msgstr "لون التمرير الأساسي (استخدم منتقي الألوان)"
-
-#: climweb/src/climweb/base/models/site_settings.py:223
-msgid "Primary color"
-msgstr "اللون الأساسي"
-
-#: climweb/src/climweb/base/models/site_settings.py:225
 msgid "Primary color (use color picker)"
 msgstr "اللون الأساسي (استخدم منتقي الألوان)"
 
 #: climweb/src/climweb/base/models/site_settings.py:225
-msgid "Headings color"
-msgstr "لون العناوين"
+msgid "Primary Hover color (use color picker)"
+msgstr "لون التمرير الأساسي (استخدم منتقي الألوان)"
 
 #: climweb/src/climweb/base/models/site_settings.py:227
 msgid "Secondary color (use color picker)"
 msgstr "اللون الثانوي (استخدم منتقي الألوان)"
-
-#: climweb/src/climweb/base/models/site_settings.py:227
-msgid "Background color"
-msgstr "لون الخلفية"
 
 #: climweb/src/climweb/base/models/site_settings.py:229
 msgid "Border radius (px)"
@@ -527,254 +486,153 @@ msgstr "قيمة الارتفاع الدنيا 1 والحد الأقصى 24"
 msgid "Information"
 msgstr "معلومة"
 
-#: climweb/src/climweb/base/models/site_settings.py:245
+#: climweb/src/climweb/base/models/site_settings.py:248
 msgid "Theme Colors"
 msgstr "ألوان الموضوع"
 
-#: climweb/src/climweb/base/models/site_settings.py:249
+#: climweb/src/climweb/base/models/site_settings.py:252
 msgid "Borders and Box Shadow"
 msgstr "الحدود وصندوق الظل"
 
-#: climweb/src/climweb/base/models/site_settings.py:254
+#: climweb/src/climweb/base/models/site_settings.py:257
 msgid "Theme"
 msgstr "سمة"
 
-#: climweb/src/climweb/base/models/site_settings.py:286
+#: climweb/src/climweb/base/models/site_settings.py:289
 msgid "Navigation Setting"
 msgstr "إعداد الملاحة"
 
-#: climweb/src/climweb/base/models/site_settings.py:287
+#: climweb/src/climweb/base/models/site_settings.py:290
 msgid "Navigation Settings"
 msgstr "إعدادات الملاحة"
 
-#: climweb/src/climweb/base/models/site_settings.py:294
+#: climweb/src/climweb/base/models/site_settings.py:297
 msgid "Mailing list sign up page"
 msgstr "صفحة التسجيل في القائمة البريدية"
 
-#: climweb/src/climweb/base/models/site_settings.py:297
+#: climweb/src/climweb/base/models/site_settings.py:300
 msgid "Contact us page"
 msgstr "اتصل بنا الصفحة"
 
-#: climweb/src/climweb/base/models/site_settings.py:300
+#: climweb/src/climweb/base/models/site_settings.py:303
 msgid "All products page"
 msgstr "صفحة جميع المنتجات"
 
-#: climweb/src/climweb/base/models/site_settings.py:303
+#: climweb/src/climweb/base/models/site_settings.py:306
 msgid "All projects page"
 msgstr "صفحة كافة المشاريع"
 
-#: climweb/src/climweb/base/models/site_settings.py:306
+#: climweb/src/climweb/base/models/site_settings.py:309
 msgid "All news page"
 msgstr "صفحة كل الأخبار"
 
-#: climweb/src/climweb/base/models/site_settings.py:309
+#: climweb/src/climweb/base/models/site_settings.py:312
 msgid "All publications page"
 msgstr "صفحة جميع المنشورات"
 
-#: climweb/src/climweb/base/models/site_settings.py:312
+#: climweb/src/climweb/base/models/site_settings.py:315
 msgid "All videos page"
 msgstr "صفحة جميع الفيديوهات"
 
-#: climweb/src/climweb/base/models/site_settings.py:315
+#: climweb/src/climweb/base/models/site_settings.py:318
 msgid "All applications page"
 msgstr "صفحة جميع التطبيقات"
 
-#: climweb/src/climweb/base/models/site_settings.py:318
+#: climweb/src/climweb/base/models/site_settings.py:321
 msgid "All events page"
 msgstr "صفحة جميع الأحداث"
 
-#: climweb/src/climweb/base/models/site_settings.py:321
+#: climweb/src/climweb/base/models/site_settings.py:324
 msgid "All partners page"
 msgstr "صفحة جميع الشركاء"
 
-#: climweb/src/climweb/base/models/site_settings.py:324
+#: climweb/src/climweb/base/models/site_settings.py:327
 msgid "All tenders page"
 msgstr "صفحة كافة المناقصات"
 
-#: climweb/src/climweb/base/models/site_settings.py:327
+#: climweb/src/climweb/base/models/site_settings.py:330
 msgid "All vacancies page"
 msgstr "صفحة جميع الوظائف الشاغرة"
 
-#: climweb/src/climweb/base/models/site_settings.py:330
+#: climweb/src/climweb/base/models/site_settings.py:333
 msgid "Feedback page"
 msgstr "صفحة ردود الفعل"
 
-#: climweb/src/climweb/base/models/site_settings.py:333
+#: climweb/src/climweb/base/models/site_settings.py:336
 msgid "CAP Warnings List page"
 msgstr "صفحة قائمة تحذيرات CAP"
 
-#: climweb/src/climweb/base/models/site_settings.py:353
-#: climweb/src/climweb/base/models/site_settings.py:354
+#: climweb/src/climweb/base/models/site_settings.py:356
+#: climweb/src/climweb/base/models/site_settings.py:357
 msgid "Important Pages"
 msgstr "صفحات مهمة"
 
-#: climweb/src/climweb/base/models/snippets.py:22
-msgid "Yearly"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:23
-msgid "Monthly"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:24
-msgid "Weekly"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:25
-msgid "Daily"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:26
-msgid "Hourly"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:27
-msgid "Dekadal"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:28
-msgid "Pentadal"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:51
+#: climweb/src/climweb/base/models/snippets.py:18
 msgid "Product Name"
 msgstr "اسم المنتج"
 
-#: climweb/src/climweb/base/models/snippets.py:55
-msgid "Variable Name"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:56
-msgid ""
-"Folder name for this product, e.g. 'daily_forecast'. Used as the top-level "
-"folder in the watch root path."
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:63
-msgid "Temporal Resolution"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:64
-msgid "Determines the default filename date convention for product item types."
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:69
-msgid "Watch Root Path"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:70
-#, python-brace-format
-msgid ""
-"Path containing the {variable_name} folder. Relative paths are resolved from "
-"MEDIA_ROOT (e.g. 'products'). Full scan path: {watch_root}/{variable_name}/"
-"{format}/{name_convention}.{format}"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:76
-msgid "Enable Auto-Ingestion"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:77
-msgid ""
-"When enabled, the system will periodically scan the watch root for new files."
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:86
-#: climweb/src/climweb/base/models/snippets.py:135
+#: climweb/src/climweb/base/models/snippets.py:22
+#: climweb/src/climweb/base/models/snippets.py:60
 msgid "Product Categories"
 msgstr "فئات المنتجات"
 
-#: climweb/src/climweb/base/models/snippets.py:86
+#: climweb/src/climweb/base/models/snippets.py:22
 msgid "Product Category"
 msgstr "فئة المنتج"
 
-#: climweb/src/climweb/base/models/snippets.py:90
-#: climweb/src/climweb/base/models/snippets.py:115
+#: climweb/src/climweb/base/models/snippets.py:26
+#: climweb/src/climweb/base/models/snippets.py:48
 msgid "Product"
 msgstr "منتج"
 
-#: climweb/src/climweb/base/models/snippets.py:91
+#: climweb/src/climweb/base/models/snippets.py:27
 msgid "Products"
 msgstr "منتجات"
 
-#: climweb/src/climweb/base/models/snippets.py:116
-#: climweb/src/climweb/base/models/snippets.py:150
-#: climweb/src/climweb/base/models/snippets.py:152
-#: climweb/src/climweb/base/models/snippets.py:197
+#: climweb/src/climweb/base/models/snippets.py:49
+#: climweb/src/climweb/base/models/snippets.py:67
+#: climweb/src/climweb/base/models/snippets.py:69
+#: climweb/src/climweb/base/models/snippets.py:85
 msgid "Name"
 msgstr "اسم"
 
-#: climweb/src/climweb/base/models/snippets.py:121
-msgid "File Format"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:122
-#, python-brace-format
-msgid ""
-"The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This "
-"also determines the subfolder name: {variable_name}/{format}/"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:131
+#: climweb/src/climweb/base/models/snippets.py:56
 msgid "Product Item Types"
 msgstr "أنواع عناصر المنتج"
 
-#: climweb/src/climweb/base/models/snippets.py:131
+#: climweb/src/climweb/base/models/snippets.py:56
 msgid "Product Item Type"
 msgstr "نوع السلعة المنتج"
 
-#: climweb/src/climweb/base/models/snippets.py:156
-msgid "Filename Convention"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:158
-#, python-brace-format
-msgid ""
-"Filename pattern used to match and parse product files (without extension). "
-"Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-"
-"populated from the product temporal resolution. You may add a prefix or "
-"suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:167
-msgid "Valid for (days)"
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:169
-msgid ""
-"How many days this product remains effective after its issue date. Leave "
-"blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
-msgstr ""
-
-#: climweb/src/climweb/base/models/snippets.py:216
+#: climweb/src/climweb/base/models/snippets.py:104
 msgid "Service Category"
 msgstr "فئة الخدمة"
 
-#: climweb/src/climweb/base/models/snippets.py:217
+#: climweb/src/climweb/base/models/snippets.py:105
 msgid "Service Categories"
 msgstr "فئات الخدمة"
 
-#: climweb/src/climweb/base/models/snippets.py:229
+#: climweb/src/climweb/base/models/snippets.py:117
 msgid "Thumbnail"
 msgstr "صورة مصغّرة"
 
-#: climweb/src/climweb/base/models/snippets.py:231
+#: climweb/src/climweb/base/models/snippets.py:119
 msgid "URL"
 msgstr "عنوان URL"
 
-#: climweb/src/climweb/base/models/snippets.py:232
+#: climweb/src/climweb/base/models/snippets.py:120
 msgid "Order"
 msgstr "طلب"
 
-#: climweb/src/climweb/base/models/snippets.py:236
+#: climweb/src/climweb/base/models/snippets.py:124
 msgid "Application"
 msgstr "تطبيق"
 
-#: climweb/src/climweb/base/models/snippets.py:266
+#: climweb/src/climweb/base/models/snippets.py:154
 msgid "GIS Application"
 msgstr "تطبيق نظم المعلومات الجغرافية"
 
-#: climweb/src/climweb/base/models/snippets.py:267
+#: climweb/src/climweb/base/models/snippets.py:155
 msgid "GIS Applications"
 msgstr "تطبيقاتGIS"
 
@@ -793,7 +651,7 @@ msgstr "يرقي"
 #: climweb/src/climweb/base/templates/admin/cms_version.html:6
 #, python-format
 msgid "%(title)s"
-msgstr ""
+msgstr "%(title)s"
 
 #: climweb/src/climweb/base/templates/admin/cms_version.html:34
 msgid "ClimWeb Version Check"
@@ -812,8 +670,7 @@ msgid "Your ClimWeb version is up to date."
 msgstr "الإصدار الخاص بك من برنامج Climate Web محدث."
 
 #: climweb/src/climweb/base/templates/admin/cms_version.html:73
-msgid ""
-"A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
+msgid "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
 msgstr "بدأت عملية ترقية ClimWeb. الرجاء الانتظار حتى تكتمل الترقية"
 
 #: climweb/src/climweb/base/templates/admin/cms_version.html:78
@@ -828,14 +685,6 @@ msgstr "ملاحظات الإصدار"
 msgid "Upgrade now"
 msgstr "تحديث الآن"
 
-#: climweb/src/climweb/base/templates/blocks/main_menu.html:36
-#, python-format
-msgid ""
-"\n"
-"                    View all %(label)s\n"
-"                  "
-msgstr ""
-
 #: climweb/src/climweb/base/views.py:42
 msgid "Error fetching latest version. Please try again later."
 msgstr "حدث خطأ أثناء جلب أحدث إصدار. الرجاء معاودة المحاولة في وقت لاحق."
@@ -844,64 +693,61 @@ msgstr "حدث خطأ أثناء جلب أحدث إصدار. الرجاء معا
 msgid "Error in extracting latest version number from the release"
 msgstr "خطأ في استخراج رقم الإصدار الأحدث من الإصدار"
 
-#: climweb/src/climweb/base/wagtail_hooks.py:60
+#: climweb/src/climweb/base/wagtail_hooks.py:58
 msgid "Themes"
-msgstr "السمات"
-
-#, python-format
-#~ msgid "View all %(label)s\n"
-#~ msgstr "عرض جميع %(label)s\n"
+msgstr "المظاهر"
 
 #~ msgid "What we do"
-#~ msgstr "ماذا نفعل"
+#~ msgstr "What we do"
 
 #~ msgid "ClimWeb Logo"
-#~ msgstr "شعار كليم ويب"
+#~ msgstr "ClimWeb Logo"
 
 #~ msgid "Introduction Heading"
-#~ msgstr "عنوان المقدمة"
+#~ msgstr "Introduction Heading"
 
 #~ msgid "Introduction section heading"
-#~ msgstr "عنوان قسم المقدمة"
+#~ msgstr "Introduction section heading"
 
 #~ msgid "Staff"
-#~ msgstr "طاقم عمل"
+#~ msgstr "Staff"
 
 #~ msgid "Staff Page"
-#~ msgstr "صفحة الموظفين"
+#~ msgstr "Staff Page"
 
 #~ msgid "Staff member's name"
-#~ msgstr "اسم الموظف"
+#~ msgstr "Staff member's name"
 
 #~ msgid "First and Last names of Staff member"
-#~ msgstr "الأسماء الأولى والأخيرة لعضو فريق العمل"
+#~ msgstr "First and Last names of Staff member"
 
 #~ msgid "Staff member's role"
-#~ msgstr "دور عضو فريق العمل"
+#~ msgstr "Staff member's role"
 
 #~ msgid "The role/position of the Staff member"
-#~ msgstr "دور/ منصب الموظف"
+#~ msgstr "The role/position of the Staff member"
 
 #~ msgid "Staff member Biography"
-#~ msgstr "السيرة الذاتية لعضو هيئة التدريس"
+#~ msgstr "Staff member Biography"
 
 #~ msgid "Optional Summary biography of the Staff member"
-#~ msgstr "ملخص اختياري للسيرة الذاتية للموظف"
+#~ msgstr "Optional Summary biography of the Staff member"
 
 #~ msgid "Staff member's Department"
-#~ msgstr "قسم شؤون الموظفين"
+#~ msgstr "Staff member's Department"
 
 #~ msgid "Staff member's Profile Image"
-#~ msgstr "صورة الملف الشخصي للموظف"
+#~ msgstr "Staff member's Profile Image"
 
 #~ msgid "A high quality square image"
-#~ msgstr "صورة مربعة عالية الجودة"
+#~ msgstr "A high quality square image"
 
 #~ msgid "Staff Member"
-#~ msgstr "عضو فريق العمل"
+#~ msgstr "Staff Member"
 
 #~ msgid "Staff Members"
-#~ msgstr "أعضاء هيئة التدريس"
+#~ msgstr "Staff Members"
 
 #~ msgid "All good. You are running on the latest version"
-#~ msgstr "كل شيء جيد. أنت تعمل على أحدث إصدار"
+#~ msgstr "All good. You are running on the latest version"
+
