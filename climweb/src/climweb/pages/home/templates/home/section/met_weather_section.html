@@ -4,11 +4,15 @@
   <div class="container">
 
     <!-- City Forecast Panel -->
-    {% if page.show_city_forecast and home_weather_widget_url %}
+    {% if page.show_city_forecast and home_weather_widget_url and not home_weather_widget_no_data %}
     <div class="">
       
       <div id="weather-widget-wrapper" style="background-position: center; min-height: 300px; padding-bottom:1em">
-        {% if home_weather_widget_url %}{% include "weather/forecast_widget_skeleton_include.html" %}{% endif %}
+        {% if home_weather_widget_html %}
+          {{ home_weather_widget_html|safe }}
+        {% elif home_weather_widget_url %}
+          {% include "weather/forecast_widget_skeleton_include.html" %}
+        {% endif %}
       </div>
     </div>
     {% endif %}
