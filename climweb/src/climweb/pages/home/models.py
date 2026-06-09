@@ -21,7 +21,7 @@ from wagtail.models import Page
 from wagtail_color_panel.fields import ColorField
 from wagtailiconchooser.blocks import IconChooserBlock
 from wagtailiconchooser.utils import get_svg_sprite_for_icons
-from wagtailmodelchooser import register_model_chooser
+from climweb.base.choosers import register_searchable_chooser
 
 from climweb.base import blocks as climweb_blocks
 from climweb.base.mixins import MetadataPageMixin
@@ -400,8 +400,8 @@ class HomePage(MetadataPageMixin, Page):
         return services
 
 
-register_model_chooser(WmsLayer)
-register_model_chooser(VectorTileLayer)
+register_searchable_chooser(WmsLayer)
+register_searchable_chooser(VectorTileLayer)
 
 
 class BaseLayerBlock(blocks.StructBlock):

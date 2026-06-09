@@ -19,7 +19,7 @@ from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtail.rich_text import RichText
 from wagtail.snippets.models import register_snippet
-from wagtailmodelchooser import register_model_chooser
+from climweb.base.choosers import register_searchable_chooser
 
 from climweb.base.blocks import UUIDModelChooserBlock
 from climweb.base.mixins import MetadataPageMixin
@@ -306,7 +306,7 @@ class ProductPage(BaseProductPage):
         return super().serve(request, *args, **kwargs)
 
 
-register_model_chooser(RasterFileLayer)
+register_searchable_chooser(RasterFileLayer)
 
 
 class ProductPageTag(TaggedItemBase):
