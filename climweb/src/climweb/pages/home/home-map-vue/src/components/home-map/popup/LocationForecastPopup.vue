@@ -1,6 +1,7 @@
 <script setup>
 import {useMapStore} from "@/stores/map";
 import {computed} from "vue";
+import {useI18n} from "vue-i18n";
 
 const props = defineProps({
   properties: {
@@ -14,6 +15,19 @@ const props = defineProps({
 });
 
 const mapStore = useMapStore();
+
+const {t} = useI18n({
+  inheritLocale: true,
+  messages: {
+    en: { viewForecast: 'View Forecast' },
+    fr: { viewForecast: 'Voir les prévisions' },
+    pt: { viewForecast: 'Ver previsão' },
+    es: { viewForecast: 'Ver pronóstico' },
+    ar: { viewForecast: 'عرض التوقعات' },
+    am: { viewForecast: 'የተንቀሳቃሽ እቅድ እይ' },
+    sw: { viewForecast: 'Tazama Utabiri' },
+  }
+});
 
 const forecastDataParameters = computed(() => {
   return mapStore.forecastSettings?.parameters.reduce((acc, parameter) => {
@@ -34,7 +48,7 @@ const forecastContent = computed(() => {
   const condition = props.properties.condition_label;
 
   if (props.locationForecastDetailUrl && citySlug) {
-    forecastData.detailUrl = cityDetailUrl + citySlug
+    forecastData.detailUrl = props.locationForecastDetailUrl + citySlug
   }
 
   if (condition) {
@@ -69,14 +83,7 @@ const forecastContent = computed(() => {
 
 <template>
   <div class="popup" v-if="forecastContent">
-    <div class="location-name">
-      <a v-if="forecastContent.detailUrl" :href="forecastContent.detailUrl" target="_blank" class="location-detail-url">
-        {{ forecastContent.city }}
-      </a>
-      <span v-else>
-        {{ forecastContent.city }}
-      </span>
-    </div>
+    <div class="location-name">{{ forecastContent.city }}</div>
 
     <div v-if="forecastContent.condition" class="condition">
       <figure class="condition-icon">
@@ -94,6 +101,10 @@ const forecastContent = computed(() => {
         </tbody>
       </table>
     </div>
+
+    <a v-if="forecastContent.detailUrl" :href="forecastContent.detailUrl" class="detail-btn">
+      {{ t('viewForecast') }}
+    </a>
 
   </div>
 </template>
@@ -149,5 +160,23 @@ const forecastContent = computed(() => {
   font-weight: 600;
 }
 
+.detail-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  background-color: var(--primary-color, #2563eb);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.detail-btn:hover {
+  opacity: 0.85;
+}
 
 </style>
