@@ -2,11 +2,13 @@ from adminboundarymanager.models import AdminBoundarySettings
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.template.defaultfilters import truncatechars
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 if "forecastmanager" in settings.INSTALLED_APPS:
     from forecastmanager.forecast_settings import ForecastSetting
+    from forecastmanager.models import City
 from geomanager.models import RasterFileLayer, WmsLayer, VectorTileLayer
 from modelcluster.models import ClusterableModel
 from wagtail import blocks
@@ -275,6 +277,66 @@ class HomePage(MetadataPageMixin, Page):
 
         if "forecastmanager" in settings.INSTALLED_APPS:
             context["home_weather_widget_url"] = get_full_url(request, reverse("home-weather-widget"))
+
+            if self.show_city_forecast:
+                from climweb.pages.weather.utils import get_city_forecast_detail_data
+
+                default_city = forecast_setting.default_city
+                if not default_city:
+                    default_city = City.objects.first()
+
+                if default_city:
+                    forecast_periods_count = forecast_setting.periods.count()
+                    multi_period = forecast_periods_count > 1
+                    widget_data = get_city_forecast_detail_data(
+                        default_city, multi_period=multi_period, request=request, for_home_widget=True
+                    )
+
+                    widget_context = {
+                        "city": default_city,
+                        "show_condition_label": forecast_setting.show_conditions_label_on_widget,
+                        "use_period_labels": forecast_setting.use_period_labels,
+                        "city_search_url": context.get("city_search_url"),
+                        **widget_data,
+                    }
+
+                    if city_detail_page:
+                        try:
+                            widget_context["city_detail_page_url"] = (
+                                city_detail_page.get_full_url(request)
+                                + city_detail_page.reverse_subpage(
+                                    "daily_table_for_city", kwargs={"city_slug": default_city.slug}
+                                )
+                            )
+                        except Exception:
+                            pass
+
+                    home_map_settings = HomeMapSettings.for_request(request)
+                    if home_map_settings.show_forecast_attribution and forecast_setting.enable_auto_forecast:
+                        widget_context.update({
+                            "external_source_attribution": str(
+                                _("Forecast Data Source: %(forecast_source)s") % {"forecast_source": "Yr.no"}
+                            ),
+                            "external_source_url": "https://www.yr.no",
+                        })
+
+                    if forecast_setting.weather_reports_page:
+                        widget_context["weather_reports_page_url"] = forecast_setting.weather_reports_page.get_full_url(request)
+
+                    if not widget_data.get("city_forecasts_by_date"):
+                        context["home_weather_widget_no_data"] = True
+                    else:
+                        template_name = (
+                            'weather/widgets/location_forecast_multiple_slider.html'
+                            if multi_period
+                            else 'weather/widgets/location_forecast_single_slider.html'
+                        )
+                        try:
+                            context["home_weather_widget_html"] = render_to_string(
+                                template_name, widget_context, request=request
+                            )
+                        except Exception:
+                            pass
         
         if self.youtube_playlist:
             context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
