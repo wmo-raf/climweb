@@ -472,6 +472,11 @@
         </a>
       </div>
     </div>
+    {% if home_map_layer_svg_sprite %}
+      <div id="django-svg-data-sprite" style="display: none;">
+        {{ home_map_layer_svg_sprite|safe }}
+      </div>
+    {% endif %}
     <div
       id="home-map"
       data-map-settings-url="{{ home_map_settings_url }}"

@@ -471,6 +471,9 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
     
     edit_handler = TabbedInterface([
         ObjectList([
+            FieldPanel("map_layers"),
+        ], heading=_("Geomanager Map Layers")),
+        ObjectList([
             MultiFieldPanel([
                 FieldPanel("show_level_1_boundaries"),
                 FieldPanel("use_geomanager_basemaps"),
@@ -492,9 +495,7 @@ class HomeMapSettings(BaseSiteSetting, ClusterableModel):
             
             FieldPanel("zoom_locations") if settings.IS_METEOROLOGICAL else MultiFieldPanel(),
         ], heading=_("Map Settings")),
-        ObjectList([
-            FieldPanel("map_layers"),
-        ], heading=_("Geomanager Map Layers")),
+        
     ])
 
 
