@@ -27,7 +27,8 @@
         {% translate "Load Climate Data" as header_str %}
     {% endif %}
 
-    {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" %}
+    {% url 'download_csv_template' page.pk as template_download_url %}
+    {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" action_url=template_download_url action_text=_("Download CSV Template") action_icon="download" %}
 
     <div class="nice-padding">
 
