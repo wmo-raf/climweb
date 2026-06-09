@@ -181,7 +181,7 @@ class HomePage(MetadataPageMixin, Page):
         ], heading=_("Banner Call to Action Buttons")),
         MultiFieldPanel([
             FieldPanel('show_city_forecast'),
-        ], heading=_("City Forecast Section")),
+        ], heading=_("City Forecast Section")) if settings.IS_METEOROLOGICAL else MultiFieldPanel(),
         MultiFieldPanel([
             FieldPanel('show_weather_watch'),
             FieldPanel('weather_watch_header'),
@@ -197,7 +197,7 @@ class HomePage(MetadataPageMixin, Page):
         ], heading=_("Addditional Information")),
         MultiFieldPanel([
             FieldPanel('stats_bar'),
-        ], heading=_("Stats Bar"))
+        ], heading=_("Stats Bar")) if not settings.IS_METEOROLOGICAL else MultiFieldPanel(),
         
     ]
     
