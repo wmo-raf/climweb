@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     "climweb.pages.glossary",
     "climweb.pages.webstories",
     "climweb.pages.dashboards",
-
+    
     "adminboundarymanager",
     "geomanager",
     
@@ -155,18 +155,18 @@ IS_METEOROLOGICAL = env.bool("IS_METEOROLOGICAL", default=True)
 if IS_METEOROLOGICAL:
     INSTALLED_APPS += [
         *([
-            "forecastmanager",
-            "climweb.pages.weather",
-            "climweb.pages.cityclimate",
-        ] if importlib.util.find_spec("forecastmanager") else []),
+              "forecastmanager",
+              "climweb.pages.weather",
+              "climweb.pages.cityclimate",
+          ] if importlib.util.find_spec("forecastmanager") else []),
         *([
-            "climweb_wdqms",
-            "climweb.pages.wdqms",
-        ] if importlib.util.find_spec("climweb_wdqms") else []),
+              "climweb_wdqms",
+              "climweb.pages.wdqms",
+          ] if importlib.util.find_spec("climweb_wdqms") else []),
         *([
-            "capcomposer.capeditor",
-            "capcomposer.cap",
-        ] if importlib.util.find_spec("capcomposer") else []),
+              "capcomposer.capeditor",
+              "capcomposer.cap",
+          ] if importlib.util.find_spec("capcomposer") else []),
     ]
 
 ## Plugins loading logic start
@@ -180,7 +180,7 @@ if CLIMWEB_ADDITIONAL_APPS:
     print(f"Loaded ClimWeb additional apps: {','.join(CLIMWEB_ADDITIONAL_APPS)}")
     INSTALLED_APPS += CLIMWEB_ADDITIONAL_APPS
 
-CLIMWEB_PLUGIN_DIR = env.list("CLIMWEB_PLUGIN_DIR", default=["/climweb/user-plugins", ])
+CLIMWEB_PLUGIN_DIR = env.list("CLIMWEB_PLUGIN_DIR", default=["/climweb/plugins", ])
 CLIMWEB_PLUGIN_PACKAGE_FOLDERS = []
 
 for plugin_dir in CLIMWEB_PLUGIN_DIR:
@@ -415,8 +415,6 @@ LOCALE_PATHS = [
     'climweb/src/climweb/pages/weather/locale',
     'climweb/src/climweb/pages/webstories/locale',
 ]
-
-
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 
