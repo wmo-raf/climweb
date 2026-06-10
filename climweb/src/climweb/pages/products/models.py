@@ -30,6 +30,7 @@ from climweb.pages.publications.models import PageView
 from .blocks import (
     ProductItemImageContentBlock,
     ProductItemDocumentContentBlock,
+    ProductItemGifContentBlock,
     ProductItemStreamContentBlock
 )
 
@@ -348,6 +349,7 @@ class ProductItemPage(MetadataPageMixin, Page):
                                                "Leave blank if not applicable"))
     products = StreamField([
         ("image_product", ProductItemImageContentBlock(label="Map/Image Product")),
+        ("gif_product", ProductItemGifContentBlock(label="GIF Product")),
         ("document_product", ProductItemDocumentContentBlock(label="Document/Bulletin Product")),
         ("content_block", ProductItemStreamContentBlock(label="Text/Tabular Product"))
     ], use_json_field=True)
