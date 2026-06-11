@@ -1,0 +1,47 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load wagtailadmin_tags i18n static %}
+{% block titletag %}{% trans "Reset password" %}{% endblock %}
+{% block bodyclass %}login{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin_auth.css' %}" />
+{% endblock %}
+
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+
+        {% include "wagtailadmin/includes/climweb_auth_brand.html" %}
+
+        <h1>{% trans "Reset your password" %}</h1>
+        <p class="climweb-auth-sub">{% trans "Enter your account email and we'll send you a link to set a new password." %}</p>
+
+        {% include "wagtailadmin/shared/non_field_errors.html" %}
+
+        {% block above_form %}{% endblock %}
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% formattedfield form.email %}
+
+            {% block extra_fields %}
+                {% for field_name, field in form.extra_fields %}
+                    {% formattedfield field %}
+                {% endfor %}
+            {% endblock extra_fields %}
+
+            <footer class="form-actions">
+                {% block submit_buttons %}
+                    <button type="submit" class="button">{% trans 'Send reset link' %}</button>
+                {% endblock %}
+            </footer>
+        </form>
+
+        <p class="climweb-auth-foot">
+            <a href="{% url 'wagtailadmin_login' %}">{% trans "Back to sign in" %}</a>
+        </p>
+
+        {% block below_form %}{% endblock %}
+    </main>
+{% endblock %}
