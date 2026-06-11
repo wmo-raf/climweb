@@ -1,0 +1,50 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load wagtailadmin_tags i18n static %}
+{% block titletag %}
+    {% if validlink %}
+        {% trans "Set your new password" %}
+    {% else %}
+        {% trans "Invalid password reset link" %}
+    {% endif %}
+{% endblock %}
+{% block bodyclass %}login{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin_auth.css' %}" />
+{% endblock %}
+
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+
+        {% include "wagtailadmin/includes/climweb_auth_brand.html" %}
+
+        {% if validlink %}
+            <h1>{% trans "Set your new password" %}</h1>
+            <p class="climweb-auth-sub">{% trans "Choose a strong password you don't use anywhere else." %}</p>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                {% formattedfield form.new_password1 %}
+                {% formattedfield form.new_password2 %}
+
+                <footer class="form-actions">
+                    <button type="submit" class="button">{% trans 'Reset password' %}</button>
+                </footer>
+            </form>
+        {% else %}
+            <div class="climweb-auth-status">
+                <span class="cw-status-icon" aria-hidden="true" style="background:rgba(161,29,29,.1);color:#a11d1d;">
+                    <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 8v5"/><circle cx="12" cy="16.5" r="1.2" fill="currentColor" stroke="none"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 3 2 21h20z"/></svg>
+                </span>
+                <h1>{% trans "Invalid reset link" %}</h1>
+                <p>{% trans "The password reset link was invalid, possibly because it has already been used." %}</p>
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'wagtailadmin_password_reset' %}" class="button">{% trans 'Request a new reset link' %}</a>
+            </div>
+        {% endif %}
+    </main>
+{% endblock %}
