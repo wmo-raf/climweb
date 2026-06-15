@@ -8,10 +8,14 @@ from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from wagtail.admin import messages
 
+from django.core.exceptions import ObjectDoesNotExist
+
 from climweb import __version__
-from climweb.base.utils import get_latest_cms_release, send_upgrade_command, send_plugin_remove, get_installed_plugins
+from climweb.base.utils import get_latest_cms_release, send_upgrade_command, send_plugin_remove, get_installed_plugins, \
+    mix_with_white
 from climweb.utils.version import check_version_greater_than_current, get_main_version
 from .forms import CMSUpgradeForm
+from .models import Theme, OrganisationSetting
 
 
 def handler500(request):
@@ -118,11 +122,11 @@ def plugin_manager_view(request):
     if not request.user.is_superuser:
         from django.core.exceptions import PermissionDenied
         raise PermissionDenied
-
+    
     template_name = "admin/plugin_manager.html"
     plugin_manage_hook_url = getattr(settings, "CMS_PLUGIN_MANAGE_HOOK_URL", None)
     plugins = get_installed_plugins()
-
+    
     if request.method == "POST":
         plugin_name = request.POST.get("plugin_name", "").strip()
         if not plugin_name:
@@ -138,12 +142,66 @@ def plugin_manager_view(request):
                 )
                 return redirect("plugin-manager")
             except Exception:
-                messages.error(request, _("Error sending remove command. Check that CMS_PLUGIN_MANAGE_HOOK_URL is reachable."))
-
+                messages.error(request,
+                               _("Error sending remove command. Check that CMS_PLUGIN_MANAGE_HOOK_URL is reachable."))
+    
     return render(request, template_name, context={
         "plugins": plugins,
         "plugin_manage_hook_url": plugin_manage_hook_url,
     })
+
+
+_DEFAULT_TOKENS = {
+    "primary": "#0C447C",
+    "primary-light": mix_with_white("#0C447C", 0.75),
+    "primary-medium": mix_with_white("#0C447C", 0.50),
+    "background": mix_with_white("#0C447C", 0.80),
+    "text": "#363636",
+    "border-radius": "0.72em",
+    "box-shadow-elevation": "6",
+}
+
+
+def _build_tokens():
+    try:
+        theme = Theme.objects.get(is_default=True)
+        primary = theme.primary_hover_color
+        return {
+            "primary": primary,
+            "primary-light": mix_with_white(primary, 0.75),
+            "primary-medium": mix_with_white(primary, 0.50),
+            "background": mix_with_white(primary, 0.80),
+            "text": theme.primary_color,
+            "border-radius": f"{theme.border_radius * 0.06}em",
+            "box-shadow-elevation": str(theme.box_shadow),
+        }
+    except ObjectDoesNotExist:
+        return _DEFAULT_TOKENS
+
+
+def style_guide(request):
+    try:
+        org_setting = OrganisationSetting.for_request(request)
+    except Exception:
+        org_setting = None
+    tokens = _build_tokens()
+    context = {
+        "tokens": tokens,
+        # Flattened aliases so the template avoids hyphenated key access
+        "token_primary": tokens["primary"],
+        "token_primary_light": tokens["primary-light"],
+        "token_primary_medium": tokens["primary-medium"],
+        "token_background": tokens["background"],
+        "token_text": tokens["text"],
+        "token_border_radius": tokens["border-radius"],
+        "token_box_shadow": tokens["box-shadow-elevation"],
+        "org_setting": org_setting,
+    }
+    return render(request, "base/style_guide.html", context)
+
+
+def style_guide_tokens(request):
+    return JsonResponse(_build_tokens())
 
 
 def public_health_check(request):
@@ -159,7 +217,7 @@ def cms_upgrade_status_view(request):
     """
     backup_dir = settings.DBBACKUP_STORAGE_OPTIONS.get("location", "")
     status_file = os.path.join(backup_dir, "upgrade-status.json")
-
+    
     status_data = {}
     if os.path.exists(status_file):
         try:
@@ -167,12 +225,12 @@ def cms_upgrade_status_view(request):
                 status_data = json.load(f)
         except (json.JSONDecodeError, OSError):
             status_data = {"status": "unknown", "step": "Could not read status file."}
-
+    
     # If the upgrade finished (success or failed), clear the pending flag from cache
     terminal = status_data.get("status") in ("success", "failed")
     if terminal:
         cache.set("cms_upgrade_pending", False)
-
+    
     status_data["cms_upgrade_pending"] = cache.get("cms_upgrade_pending", False)
-
+    
     return JsonResponse(status_data)
