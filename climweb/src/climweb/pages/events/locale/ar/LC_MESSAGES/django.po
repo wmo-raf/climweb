@@ -1,9 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 16:59+0300\n"
-"PO-Revision-Date: 2026-06-15 11:50\n"
+"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: ar\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/events/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1348\n"
+"X-Crowdin-Language: ar\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/events/models.py:49
 msgid "Event type"
@@ -27,6 +28,7 @@ msgstr "صورة مصغرة/صورة لهذا النوع من الأحداث."
 
 #: climweb/src/climweb/pages/events/models.py:70
 #: climweb/src/climweb/pages/events/models.py:196
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:8
 msgid "Event Type"
 msgstr "نوع الحدث"
 
@@ -194,12 +196,12 @@ msgid "Enable Mailchimp Integration in registration form"
 msgstr "تمكين تكامل Mailchimp في نموذج التسجيل"
 
 #: climweb/src/climweb/pages/events/models.py:315
-#: climweb/src/climweb/pages/events/models.py:596
+#: climweb/src/climweb/pages/events/models.py:653
 msgid "Content"
 msgstr "محتوى"
 
 #: climweb/src/climweb/pages/events/models.py:316
-#: climweb/src/climweb/pages/events/models.py:597
+#: climweb/src/climweb/pages/events/models.py:654
 msgid "SEO"
 msgstr "تحسين محركات البحث"
 
@@ -245,8 +247,14 @@ msgid "Validation Field"
 msgstr "مجال التحقق"
 
 #: climweb/src/climweb/pages/events/models.py:513
-msgid "A field on the form to check if is already submitted so as to prevent multiple submissions by one person. This is usually the email address field in snake casing format"
-msgstr "حقل في النموذج للتحقق مما إذا كان قد تم إرساله بالفعل وذلك لمنع عمليات الإرسال المتعددة من قبل شخص واحد. عادةً ما يكون هذا هو حقل عنوان البريد الإلكتروني بتنسيق غلاف الثعبان"
+msgid ""
+"A field on the form to check if is already submitted so as to prevent "
+"multiple submissions by one person. This is usually the email address field "
+"in snake casing format"
+msgstr ""
+"حقل في النموذج للتحقق مما إذا كان قد تم إرساله بالفعل وذلك لمنع عمليات "
+"الإرسال المتعددة من قبل شخص واحد. عادةً ما يكون هذا هو حقل عنوان البريد "
+"الإلكتروني بتنسيق غلاف الثعبان"
 
 #: climweb/src/climweb/pages/events/models.py:519
 msgid "Should we send a confirmation/follow up email ?"
@@ -257,8 +265,12 @@ msgid "Send confirmation Email"
 msgstr "إرسال تأكيد البريد الإلكتروني"
 
 #: climweb/src/climweb/pages/events/models.py:522
-msgid "The field in the form that corresponds to the email to use. Should be snake_cased"
-msgstr "الحقل في النموذج الذي يتوافق مع البريد الإلكتروني المراد استخدامه. ينبغي أن يكون الثعبان"
+msgid ""
+"The field in the form that corresponds to the email to use. Should be "
+"snake_cased"
+msgstr ""
+"الحقل في النموذج الذي يتوافق مع البريد الإلكتروني المراد استخدامه. ينبغي أن "
+"يكون الثعبان"
 
 #: climweb/src/climweb/pages/events/models.py:523
 msgid "Email Field"
@@ -273,30 +285,34 @@ msgid "Message to send to the user. For example zoom links"
 msgstr "رسالة لإرسالها إلى المستخدم. على سبيل المثال روابط زووم"
 
 #: climweb/src/climweb/pages/events/models.py:528
-msgid "Batch Zoom Registration Enabled - Leave unchecked for direct zoom registrations"
-msgstr "تم تمكين تسجيل دفعة التكبير/التصغير - اتركه بدون تحديد لتسجيلات التكبير/التصغير المباشرة"
+msgid ""
+"Batch Zoom Registration Enabled - Leave unchecked for direct zoom "
+"registrations"
+msgstr ""
+"تم تمكين تسجيل دفعة التكبير/التصغير - اتركه بدون تحديد لتسجيلات "
+"التكبير/التصغير المباشرة"
 
 #: climweb/src/climweb/pages/events/models.py:531
 msgid "Enable batch option for adding registrants to zoom later"
 msgstr "تمكين خيار زووم لإضافة المسجلين زووم لاحقًا"
 
-#: climweb/src/climweb/pages/events/models.py:548
+#: climweb/src/climweb/pages/events/models.py:551
 msgid "Event Registration Page"
 msgstr "صفحة تسجيل الحدث"
 
-#: climweb/src/climweb/pages/events/models.py:598
+#: climweb/src/climweb/pages/events/models.py:655
 msgid "Settings"
 msgstr "إعدادات"
 
-#: climweb/src/climweb/pages/events/models.py:599
+#: climweb/src/climweb/pages/events/models.py:656
 msgid "Zoom Events Settings"
 msgstr "إعدادات زووم الأحداث"
 
-#: climweb/src/climweb/pages/events/models.py:600
+#: climweb/src/climweb/pages/events/models.py:657
 msgid "MailChimp Settings"
 msgstr "إعدادات MailChimp "
 
-#: climweb/src/climweb/pages/events/models.py:613
+#: climweb/src/climweb/pages/events/models.py:670
 msgid "Added to Zoom"
 msgstr "تمت إضافته إلى زووم"
 
@@ -315,11 +331,19 @@ msgstr[5] ""
 msgid "Download Agenda"
 msgstr "تحميل جدول الأعمال"
 
-#: climweb/src/climweb/pages/events/templates/event_index_page.html:17
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:20
+msgid "Spotlight"
+msgstr "تسليط الضوء"
+
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:21
 msgid "Featured Event"
 msgstr "حدث مميز"
 
-#: climweb/src/climweb/pages/events/templates/event_index_page.html:26
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:32
+msgid "Calendar"
+msgstr "تقويم"
+
+#: climweb/src/climweb/pages/events/templates/event_index_page.html:33
 msgid "All Events"
 msgstr "كل الأحداث"
 
@@ -378,23 +402,19 @@ msgstr "يُقدِّم"
 msgid "ended"
 msgstr "انتهى"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:9
-msgid "Filter by Event Type"
-msgstr "التصفية حسب نوع الحدث"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:32
+msgid "Year"
+msgstr "سنة"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:37
-msgid "Filter by Year"
-msgstr "التصفية حسب السنة"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:56
+msgid "Status"
+msgstr "حالة"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:61
-msgid "Filter by Status"
-msgstr "التصفية حسب الحالة"
+#: climweb/src/climweb/pages/events/templates/events_filter_include.html:69
+msgid "Past events"
+msgstr "الأحداث الماضية"
 
-#: climweb/src/climweb/pages/events/templates/events_filter_include.html:71
-msgid "Past"
-msgstr "ماضي"
-
-#: climweb/src/climweb/pages/events/templates/events_list_include.html:6
+#: climweb/src/climweb/pages/events/templates/events_list_include.html:8
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
@@ -405,9 +425,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: climweb/src/climweb/pages/events/templates/events_list_include.html:65
-msgid " Read More"
-msgstr "اقرأ أكثر"
+#: climweb/src/climweb/pages/events/templates/events_list_include.html:84
+#, fuzzy
+#| msgid " Read More"
+msgid "Read More"
+msgstr "اقرأ المزيد"
 
 #: climweb/src/climweb/pages/events/templates/panelists_include.html:90
 msgid "Topic"
@@ -421,27 +443,38 @@ msgstr "مكبرات الصوت"
 msgid "Sponsors"
 msgstr "الرعاة"
 
+#~ msgid "Filter by Event Type"
+#~ msgstr "التصفية حسب نوع الحدث"
+
+#~ msgid "Filter by Year"
+#~ msgstr "التصفية حسب السنة"
+
+#~ msgid "Filter by Status"
+#~ msgstr "التصفية حسب الحالة"
+
+#~ msgid "Past"
+#~ msgstr "ماضي"
+
 #~ msgid " Registration closed"
-#~ msgstr "Registration closed"
+#~ msgstr "التسجيل مغلق"
 
 #~ msgid "Banner Image"
-#~ msgstr "Banner Image"
+#~ msgstr "صورة البانر"
 
 #~ msgid "A high quality image related to your organisation events/trainings"
-#~ msgstr "A high quality image related to your organisation events/trainings"
+#~ msgstr "صورة عالية الجودة تتعلق بفعاليات/تدريبات مؤسستك"
 
 #~ msgid "Banner Title"
-#~ msgstr "Banner Title"
+#~ msgstr "عنوان البانر"
 
 #~ msgid "Banner Subtitle"
-#~ msgstr "Banner Subtitle"
+#~ msgstr "عنوان فرعي للشعار"
 
 #~ msgid "Call to action button text"
-#~ msgstr "Call to action button text"
+#~ msgstr "نص زر الحث على اتخاذ إجراء"
 
 #~ msgid "Call to action related page"
-#~ msgstr "Call to action related page"
+#~ msgstr "صفحة ذات صلة بالدعوة إلى اتخاذ إجراء"
 
 #~ msgid "Banner Section"
-#~ msgstr "Banner Section"
-
+#~ msgstr "قسم البانر"
