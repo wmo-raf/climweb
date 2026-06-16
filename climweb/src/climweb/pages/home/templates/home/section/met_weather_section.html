@@ -8,9 +8,15 @@
     <div class="">
       
       <div id="weather-widget-wrapper" style="background-position: center; min-height: 300px; padding-bottom:1em">
-        {% if home_weather_widget_html %}
-          {{ home_weather_widget_html|safe }}
-        {% elif home_weather_widget_url %}
+        {% comment %}
+          Always render the skeleton first. The widget is then fetched and
+          rendered client-side (renderWeatherWidgetForCity in home_page.html),
+          which mounts the Glide sliders before revealing it. Injecting the
+          pre-rendered (SSR) widget here instead makes the page paint the widget
+          with its sliders un-mounted, so the first forecast shows stretched out
+          until JS mounts it. We want the skeleton shown during loading.
+        {% endcomment %}
+        {% if home_weather_widget_url %}
           {% include "weather/forecast_widget_skeleton_include.html" %}
         {% endif %}
       </div>
