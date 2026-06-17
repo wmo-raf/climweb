@@ -29,7 +29,7 @@ NMHSs that have adopted ClimWeb across Africa:
 12. 🇸🇩 [Sudan](https://meteosudan.sd/)
 13. 🇹🇬 [Togo](https://meteotogo.tg/)
 14. 🇿🇼 [Zimbabwe](https://www.weatherzw.org.zw/)
-15. 🇬🇲 [The Gambia](https://meteogambia.org/)
+15. 🇬🇲 [The Gambia](https://meteogambia.gm/)
 16. 🇬🇼 [Guinea Bissau](https://meteoguinebissau.gw/)
 17. 🇨🇩 [Democratic Republic of Congo](https://www.meteordcongo.cd/)
 18. 🇨🇬 [Republic of Congo](http://dirmet.cg/)
