@@ -1,6 +1,6 @@
 # 🌤️🌐 ClimWeb 
 
-<a href="https://new.digitalpublicgoods.net/r/climweb-httpsclimtechafricaclimweb"><img src="https://github.com/DPGAlliance/dpg-resources/blob/main/docs/assets/dpg-badge/dpg-badge.png?raw=true" width="100" alt="Digital Public Goods Badge"></a>
+<a href="https://digitalpublicgoods.net/r/climweb"><img src="https://github.com/DPGAlliance/dpg-resources/blob/main/docs/assets/dpg-badge/dpg-badge.png?raw=true" width="100" alt="Digital Public Goods Badge"></a>
 
 Wagtail based Open Source Content Management System for National Meteorological and Hydrological Services in Africa.
 
@@ -27,10 +27,10 @@ NMHSs that have adopted ClimWeb across Africa:
 10. 🇸🇨 [Seychelles](https://www.meteo.sc/)
 11. 🇸🇸 [South Sudan](https://meteosouthsudan.com.ss/)
 12. 🇸🇩 [Sudan](https://meteosudan.sd/)
-13. 🇹🇬 [Togo](https://www.anamet-togo.com/)
+13. 🇹🇬 [Togo](https://meteotogo.tg/)
 14. 🇿🇼 [Zimbabwe](https://www.weatherzw.org.zw/)
-15. 🇬🇲 [The Gambia](https://meteogambia.org/)
-16. 🇬🇼 [Guinea Bissau](https://www.meteoguinebissau.org/)
+15. 🇬🇲 [The Gambia](https://meteogambia.gm/)
+16. 🇬🇼 [Guinea Bissau](https://meteoguinebissau.gw/)
 17. 🇨🇩 [Democratic Republic of Congo](https://www.meteordcongo.cd/)
 18. 🇨🇬 [Republic of Congo](http://dirmet.cg/)
 19. 🇧🇫 [Hydrology Department of Burkina Faso](https://dgre.gov.bf/)

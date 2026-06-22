@@ -1,17 +1,26 @@
 {% extends "wagtailadmin/admin_base.html" %}
-{% load i18n wagtailadmin_tags wagtailimages_tags %}
-{% block titletag %}
-    {% trans "Sign in" %}
-{% endblock %}
+{% load i18n wagtailadmin_tags wagtailsettings_tags static %}
+{% get_settings use_default_site=True %}
+
+{% block titletag %}{% trans "Sign in" %}{% endblock %}
 {% block bodyclass %}login{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin_auth.css' %}" />
+{% endblock %}
 
 {% block furniture %}
     <main class="content-wrapper" id="main">
+
+        {% include "wagtailadmin/includes/climweb_auth_brand.html" %}
+
         <h1>
             {% block branding_login %}
-                {% trans "Enter your two-factor authentication code" %}
+                {% trans "Two-factor authentication" %}
             {% endblock %}
         </h1>
+        <p class="climweb-auth-sub">{% trans "Enter the verification code from your authenticator app." %}</p>
 
         <div class="messages" role="status">
             {# Always show messages div so it can be appended to by JS #}
@@ -60,23 +69,5 @@
         </form>
 
         {% block below_login %}{% endblock %}
-
-        {% block branding_logo %}
-            <div class="login-logo">
-                <figure style="max-height: 90px;max-width: 90px;">
-                    {% if settings.base.OrganisationSetting.cms_logo %}
-                        {% image settings.base.OrganisationSetting.cms_logo original as logo_image %}
-                        <img src="{{ logo_image.url }}" alt="ClimWeb Login Logo"
-                             style="height: 100%;width: 100%;object-fit: contain"/>
-                    {% else %}
-                        <style>
-                            .login-logo {
-                                display: none
-                            }
-                        </style>
-                    {% endif %}
-                </figure>
-            </div>
-        {% endblock %}
     </main>
 {% endblock %}

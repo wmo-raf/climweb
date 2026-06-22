@@ -26,15 +26,15 @@ from adminboundarymanager.models import AdminBoundarySettings
 from geomanager.models import RasterFileLayer, WmsLayer, RasterTileLayer, VectorTileLayer
 from shapely.geometry import shape
 from shapely import Polygon
-from wagtailmodelchooser import register_model_chooser
+from climweb.base.choosers import register_searchable_chooser
 from adminboundarymanager.models import AdminBoundary
 from geomanager.models import Geostore
 
 
-register_model_chooser(RasterFileLayer)
-register_model_chooser(WmsLayer)
-register_model_chooser(RasterTileLayer)
-register_model_chooser(VectorTileLayer)
+register_searchable_chooser(RasterFileLayer)
+register_searchable_chooser(WmsLayer)
+register_searchable_chooser(RasterTileLayer)
+register_searchable_chooser(VectorTileLayer)
 
     
 ADMIN_LEVEL_CHOICES = (

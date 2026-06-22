@@ -1,0 +1,1167 @@
+{% load static wagtailimages_tags i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{% trans "Style Guide" %}{% if org_setting.name %} — {{ org_setting.name }}{% endif %}</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --sg-primary: {{ token_primary }};
+            --sg-primary-light: {{ token_primary_light }};
+            --sg-primary-medium: {{ token_primary_medium }};
+            --sg-bg: {{ token_background }};
+            --sg-text: {{ token_text }};
+            --sg-radius: {{ token_border_radius }};
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--sg-text);
+            background: #f7f8fa;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* ── Layout ── */
+        .sg-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sg-sidebar {
+            width: 240px;
+            min-width: 240px;
+            background: #fff;
+            border-right: 1px solid #e8e8e8;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 24px 0;
+        }
+
+        .sg-main {
+            flex: 1;
+            padding: 40px 48px;
+            max-width: 960px;
+        }
+
+        /* ── Sidebar ── */
+        .sg-sidebar-logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #e8e8e8;
+            margin-bottom: 16px;
+        }
+
+        .sg-sidebar-logo a {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--sg-primary);
+            text-decoration: none;
+        }
+
+        .sg-nav-group {
+            padding: 8px 20px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #aaa;
+        }
+
+        .sg-nav a {
+            display: block;
+            padding: 6px 20px;
+            font-size: 13.5px;
+            color: #444;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .sg-nav a:hover, .sg-nav a.active {
+            color: var(--sg-primary);
+            border-left-color: var(--sg-primary);
+            background: var(--sg-bg);
+        }
+
+        /* ── Section ── */
+        .sg-section {
+            margin-bottom: 64px;
+            scroll-margin-top: 24px;
+        }
+
+        .sg-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--sg-primary);
+            border-bottom: 2px solid var(--sg-primary);
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+        }
+
+        .sg-sub-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin: 24px 0 12px;
+        }
+
+        /* ── Badges ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            vertical-align: middle;
+            cursor: default;
+            position: relative;
+        }
+
+        .badge-core {
+            background: #ececec;
+            color: #666;
+        }
+
+        .badge-custom {
+            background: #e6f4ea;
+            color: #2e7d32;
+        }
+
+        .badge[data-tip]:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 6px;
+            background: #333;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            z-index: 10;
+            font-weight: 400;
+        }
+
+        /* ── Swatch grid ── */
+        .sg-swatches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .sg-swatch {
+            width: 140px;
+        }
+
+        .sg-swatch-color {
+            height: 72px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, .08);
+            margin-bottom: 8px;
+        }
+
+        .sg-swatch-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .sg-swatch-value {
+            font-size: 12px;
+            color: #666;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .copy-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--sg-primary);
+            font-size: 13px;
+            line-height: 1;
+        }
+
+        .copy-btn:hover {
+            opacity: .7;
+        }
+
+        /* ── Typography table ── */
+        table.sg-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .sg-table th {
+            text-align: left;
+            padding: 8px 12px;
+            background: #f4f4f4;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #555;
+        }
+
+        .sg-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #efefef;
+            vertical-align: middle;
+        }
+
+        .sg-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ── Token reference table ── */
+        .sg-token-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .sg-token-table th {
+            text-align: left;
+            padding: 8px 12px;
+            background: #f4f4f4;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #555;
+        }
+
+        .sg-token-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #efefef;
+            vertical-align: top;
+        }
+
+        .sg-token-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .sg-token-table code {
+            font-family: monospace;
+            background: #f4f4f4;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .sg-token-table .token-value {
+            font-family: monospace;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* ── Component preview ── */
+        .sg-component-wrap {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .sg-component-preview {
+            padding: 24px;
+            background: #fff;
+        }
+
+        .sg-component-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: #f9f9f9;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .sg-component-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .sg-copy-html-btn {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--sg-primary);
+            background: none;
+            border: 1px solid var(--sg-primary);
+            border-radius: 4px;
+            padding: 3px 10px;
+            cursor: pointer;
+        }
+
+        .sg-copy-html-btn:hover {
+            background: var(--sg-bg);
+        }
+
+        details.sg-source {
+            border-top: 1px solid #e0e0e0;
+        }
+
+        details.sg-source summary {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            background: #f9f9f9;
+        }
+
+        details.sg-source pre {
+            margin: 0;
+            padding: 16px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+
+        /* ── Logo assets ── */
+        .sg-assets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .sg-asset-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            width: 200px;
+            background: #fff;
+        }
+
+        .sg-asset-preview {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f4f4f4;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .sg-asset-preview img {
+            max-width: 100%;
+            max-height: 70px;
+            object-fit: contain;
+        }
+
+        .sg-asset-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .sg-asset-meta {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .sg-asset-download {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--sg-primary);
+            text-decoration: none;
+            border: 1px solid var(--sg-primary);
+            border-radius: 4px;
+            padding: 3px 10px;
+        }
+
+        .sg-asset-download:hover {
+            background: var(--sg-bg);
+        }
+
+        .sg-asset-empty {
+            font-size: 12px;
+            color: #bbb;
+        }
+
+        /* ── Elevation demo ── */
+        .sg-elevation-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .sg-elevation-box {
+            width: 120px;
+            height: 80px;
+            border-radius: var(--sg-radius);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            box-shadow: 0 {{ token_box_shadow }}px {{ token_box_shadow }}px rgba(0, 0, 0, .1);
+        }
+
+        /* ── Radius demo ── */
+        .sg-radius-demo {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .sg-radius-box {
+            width: 80px;
+            height: 80px;
+            background: var(--sg-primary);
+            border-radius: var(--sg-radius);
+            opacity: .85;
+        }
+
+        /* ── Inline component samples ── */
+        .sg-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: var(--sg-radius);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .sg-btn-primary {
+            background: var(--sg-primary);
+            color: #fff;
+        }
+
+        .sg-btn-secondary {
+            background: #fff;
+            color: var(--sg-primary);
+            border: 2px solid var(--sg-primary);
+        }
+
+        .sg-btn-ghost {
+            background: transparent;
+            color: var(--sg-primary);
+            border: 1px solid currentColor;
+        }
+
+        .sg-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--sg-radius);
+            padding: 20px;
+        }
+
+        .sg-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--sg-primary);
+            margin-bottom: 8px;
+        }
+
+        .sg-card-body {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .sg-alert {
+            padding: 12px 16px;
+            border-radius: var(--sg-radius);
+            font-size: 14px;
+            font-weight: 500;
+            background: var(--sg-bg);
+            color: var(--sg-primary);
+            border-left: 4px solid var(--sg-primary);
+        }
+
+        /* ── RTL note ── */
+        .sg-note {
+            background: #fffbea;
+            border: 1px solid #ffe58f;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #555;
+            margin-top: 16px;
+        }
+
+        /* ── JSON export button ── */
+        .sg-export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--sg-primary);
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--sg-radius);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .sg-export-btn:hover {
+            opacity: .9;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .sg-layout {
+                flex-direction: column;
+            }
+
+            .sg-sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .sg-main {
+                padding: 24px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sg-layout">
+
+    <!-- ── Sidebar ── -->
+    <aside class="sg-sidebar">
+        <div class="sg-sidebar-logo">
+            <a href="#colors">{% trans "Style Guide" %}</a>
+        </div>
+        <nav class="sg-nav">
+            <a href="#legend">{% trans "How to Read" %}</a>
+            <div class="sg-nav-group">{% trans "Core" %}</div>
+            <a href="#colors">{% trans "Colors" %}</a>
+            <a href="#typography">{% trans "Typography" %}</a>
+            <a href="#elevation">{% trans "Elevation & Radius" %}</a>
+
+            <div class="sg-nav-group">{% trans "Your Brand" %}</div>
+            <a href="#brand-colors">{% trans "Brand Colors" %}</a>
+            <a href="#logos">{% trans "Logos & Assets" %}</a>
+
+            <div class="sg-nav-group">{% trans "Components" %}</div>
+            <a href="#components">{% trans "Buttons" %}</a>
+            <a href="#cards">{% trans "Cards & Alerts" %}</a>
+
+            <div class="sg-nav-group">{% trans "Developers" %}</div>
+            <a href="#for-developers">{% trans "CSS Variables" %}</a>
+        </nav>
+    </aside>
+
+    <!-- ── Main ── -->
+    <main class="sg-main">
+
+        <!-- Header -->
+        <div style="margin-bottom:40px;">
+            <h1 style="font-size:28px;font-weight:800;color:var(--sg-primary);margin-bottom:8px;">
+                {% if org_setting.name %}{{ org_setting.name }} — {% endif %}{% trans "Style Guide" %}
+            </h1>
+            <p style="color:#666;font-size:14px;">
+                {% trans "Live reference for designers and developers. Values reflect the active theme for this deployment." %}
+            </p>
+            <div style="margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                <a href="{% url 'style-guide-tokens' %}" class="sg-export-btn"
+                   download="tokens.json">&#8595; {% trans "Export tokens.json" %}</a>
+                <span style="font-size:12px;color:#999;">
+                    {% trans "Tokens update when the theme changes in Admin → Settings → Theme" %}
+                </span>
+            </div>
+        </div>
+
+        <!-- ══ LEGEND ══ -->
+        <section class="sg-section" id="legend">
+            <h2 class="sg-section-title">{% trans "How to Read This Guide" %}</h2>
+            <p style="font-size:14px;color:#666;margin-bottom:24px;">
+                {% trans "Every item in this guide is labelled with one of two badges indicating whether it can be changed per-instance or is fixed across all deployments." %}
+            </p>
+            <table class="sg-table">
+                <thead>
+                <tr>
+                    <th style="width:150px;">
+                        {% trans "Badge" %}
+                    </th>
+                    <th style="width:180px;">
+                        {% trans "Meaning" %}
+                    </th>
+                    <th>
+                        {% trans "Description" %}
+                    </th>
+                    <th>
+                        {% trans "Examples" %}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span class="badge badge-core">&#128274; {% trans "CORE" %}</span></td>
+                    <td style="font-weight:700;color:#333;">
+                        {% trans "Fixed across all deployments" %}
+                    </td>
+                    <td style="font-size:13px;color:#666;">
+                        {% trans "Part of the shared ClimWeb design system. Cannot be changed through the admin panel" %}
+                    </td>
+                    <td style="font-size:12px;color:#888;">
+                        {% trans "Open Sans font, type scale, component markup structure" %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="badge badge-custom">&#9998; {% trans "CUSTOMIZABLE" %}
+                        </span></td>
+                    <td style="font-weight:700;color:#333;">
+                        {% trans "Configurable per depolyment" %}
+                    </td>
+                    <td style="font-size:13px;color:#666;">{% trans "Set by the instance admin through the admin panel. Each deployment can have a different value." %}</td>
+                    <td style="font-size:12px;color:#888;">
+                        {% trans "Primary color, logos, country flag, border radius" %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="sg-note" style="margin-top:24px;">
+                {% trans "Values marked CUSTOMIZABLE will differ between deployments. Retrieve them from the live" %}
+                <code>/style-guide/tokens.json</code>
+                {% trans "endpoint of the specific country instance you are targeting." %}
+            </div>
+        </section>
+
+        <!-- ══ CORE SECTION ══ -->
+
+        <!-- Colors -->
+        <section class="sg-section" id="colors">
+            <h2 class="sg-section-title">{% trans "Colors" %} <span
+                    class="badge badge-core">&#128274; {% trans "CORE" %}</span></h2>
+            <p style="font-size:14px;color:#666;margin-bottom:20px;">{% trans "Base palette derived from the active theme. Light and medium variants are computed by blending the primary color toward white." %}</p>
+            <div class="sg-swatches">
+                {% with swatches=tokens %}
+                    <div class="sg-swatch">
+                        <div class="sg-swatch-color" style="background:{{ token_primary }}"></div>
+                        <div class="sg-swatch-name">{% trans "Primary" %}</div>
+                        <div class="sg-swatch-value">
+                            <span id="val-primary">{{ token_primary }}</span>
+                            <button class="copy-btn" onclick="copyText('val-primary')" title="{% trans "Copy" %}">
+                                &#9638;
+                            </button>
+                        </div>
+                        <div style="margin-top:4px;">
+                            <span class="badge badge-custom"
+                                  data-tip="Admin → Settings → Theme → Primary Color">&#9998; {% trans "CUSTOMIZABLE" %}</span>
+                        </div>
+                    </div>
+                    <div class="sg-swatch">
+                        <div class="sg-swatch-color" style="background:{{ token_primary_light }}"></div>
+                        <div class="sg-swatch-name">{% trans "Primary Light" %}</div>
+                        <div class="sg-swatch-value">
+                            <span id="val-primary-light">{{ token_primary_light }}</span>
+                            <button class="copy-btn" onclick="copyText('val-primary-light')" title="{% trans "Copy" %}">
+                                &#9638;
+                            </button>
+                        </div>
+                        <div style="margin-top:4px;"><span class="badge badge-core">&#128274; {% trans "CORE" %}</span>
+                            <span style="font-size:11px;color:#888">{% trans "mix 75% white" %}</span></div>
+                    </div>
+                    <div class="sg-swatch">
+                        <div class="sg-swatch-color" style="background:{{ token_primary_medium }}"></div>
+                        <div class="sg-swatch-name">{% trans "Primary Medium" %}</div>
+                        <div class="sg-swatch-value">
+                            <span id="val-primary-medium">{{ token_primary_medium }}</span>
+                            <button class="copy-btn" onclick="copyText('val-primary-medium')"
+                                    title="{% trans "Copy" %}">&#9638;
+                            </button>
+                        </div>
+                        <div style="margin-top:4px;"><span class="badge badge-core">&#128274; {% trans "CORE" %}</span>
+                            <span style="font-size:11px;color:#888">{% trans "mix 50% white" %}</span></div>
+                    </div>
+                    <div class="sg-swatch">
+                        <div class="sg-swatch-color" style="background:{{ token_background }}"></div>
+                        <div class="sg-swatch-name">{% trans "Background" %}</div>
+                        <div class="sg-swatch-value">
+                            <span id="val-background">{{ token_background }}</span>
+                            <button class="copy-btn" onclick="copyText('val-background')" title="{% trans "Copy" %}">
+                                &#9638;
+                            </button>
+                        </div>
+                        <div style="margin-top:4px;"><span class="badge badge-core">&#128274; {% trans "CORE" %}</span>
+                            <span style="font-size:11px;color:#888">{% trans "mix 80% white" %}</span></div>
+                    </div>
+                    <div class="sg-swatch">
+                        <div class="sg-swatch-color"
+                             style="background:{{ token_text }};border:1px solid #e0e0e0;"></div>
+                        <div class="sg-swatch-name">{% trans "Text" %}</div>
+                        <div class="sg-swatch-value">
+                            <span id="val-text">{{ token_text }}</span>
+                            <button class="copy-btn" onclick="copyText('val-text')" title="{% trans "Copy" %}">&#9638;
+                            </button>
+                        </div>
+                        <div style="margin-top:4px;">
+                            <span class="badge badge-custom" data-tip="Admin → Settings → Theme → Primary Color field">&#9998; {% trans "CUSTOMIZABLE" %}</span>
+                        </div>
+                    </div>
+                {% endwith %}
+            </div>
+        </section>
+
+        <!-- Typography -->
+        <section class="sg-section" id="typography">
+            <h2 class="sg-section-title">{% trans "Typography" %} <span
+                    class="badge badge-core">&#128274; {% trans "CORE" %}</span></h2>
+            <p style="font-size:14px;color:#666;margin-bottom:20px;">{% trans "Font family and type scale are fixed across all deployments." %}</p>
+
+            <div class="sg-sub-title">{% trans "Font Family" %}</div>
+            <div style="font-size:24px;font-weight:400;color:#333;margin-bottom:4px;">Open Sans</div>
+            <div style="font-size:13px;color:#888;margin-bottom:24px;">{% trans "Weights: 300 · 400 · 500 · 600 · 700 · 800 — loaded from Google Fonts" %}</div>
+
+            <div class="sg-sub-title">{% trans "Type Scale" %}</div>
+            <table class="sg-table">
+                <thead>
+                <tr>
+                    <th>{% trans "Level" %}</th>
+                    <th>{% trans "Web Size" %}</th>
+                    <th>{% trans "Mobile Guidance" %}</th>
+                    <th>{% trans "Weight" %}</th>
+                    <th>{% trans "Role" %}</th>
+                    <th>{% trans "Preview" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>H1</td>
+                    <td>42px</td>
+                    <td>28px</td>
+                    <td>700</td>
+                    <td>{% trans "Hero headlines" %}</td>
+                    <td><span
+                            style="font-size:28px;font-weight:700;color:var(--sg-primary)">{% trans "Heading 1" %}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>H2</td>
+                    <td>40px</td>
+                    <td>26px</td>
+                    <td>700</td>
+                    <td>{% trans "Section titles" %}</td>
+                    <td><span
+                            style="font-size:24px;font-weight:700;color:var(--sg-primary)">{% trans "Heading 2" %}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>H3</td>
+                    <td>28px</td>
+                    <td>22px</td>
+                    <td>700</td>
+                    <td>{% trans "Card titles" %}</td>
+                    <td><span style="font-size:20px;font-weight:700;">{% trans "Heading 3" %}</span></td>
+                </tr>
+                <tr>
+                    <td>H4</td>
+                    <td>20px</td>
+                    <td>18px</td>
+                    <td>600</td>
+                    <td>{% trans "Labels" %}</td>
+                    <td><span style="font-size:17px;font-weight:600;">{% trans "Heading 4" %}</span></td>
+                </tr>
+                <tr>
+                    <td>{% trans "Body" %}</td>
+                    <td>16px</td>
+                    <td>15px</td>
+                    <td>400</td>
+                    <td>{% trans "All prose" %}</td>
+                    <td><span style="font-size:16px;">{% trans "Body text sample" %}</span></td>
+                </tr>
+                <tr>
+                    <td>{% trans "Small" %}</td>
+                    <td>14px</td>
+                    <td>13px</td>
+                    <td>400</td>
+                    <td>{% trans "Captions, meta" %}</td>
+                    <td><span style="font-size:14px;color:#666;">{% trans "Small / caption text" %}</span></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="sg-sub-title" style="margin-top:32px;">{% trans "RTL Support" %}</div>
+            <table class="sg-table">
+                <thead>
+                <tr>
+                    <th>{% trans "Property" %}</th>
+                    <th>{% trans "Value" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{% trans "Triggered by" %}</td>
+                    <td>{% trans "Arabic language prefix" %} (<code>/ar/...</code>)</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Applied via" %}</td>
+                    <td><code>dir="rtl"</code> {% trans "on the" %}
+                        <code>&lt;html&gt;</code> {% trans "element — handle directionality at document root in mobile apps" %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{% trans "Affected" %}</td>
+                    <td>{% trans "Text alignment, flex direction, navigation layout" %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Not affected" %}</td>
+                    <td>{% trans "Colors, font family, type scale, spacing" %}</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Elevation & Radius -->
+        <section class="sg-section" id="elevation">
+            <h2 class="sg-section-title">{% trans "Elevation & Radius" %}
+                <span class="badge badge-custom" data-tip="Admin → Settings → Theme → Box Shadow / Border Radius">&#9998; {% trans "CUSTOMIZABLE" %}</span>
+            </h2>
+
+            <div class="sg-sub-title">{% trans "Border Radius" %} — <code>{{ token_border_radius }}</code></div>
+            <div class="sg-radius-demo">
+                <div class="sg-radius-box"></div>
+                <span style="font-size:13px;color:#666;">{% blocktrans with radius=token_border_radius %}Applied to
+                    cards, buttons, and form inputs via <code>--sg-radius: {{ radius }}</code>{% endblocktrans %}</span>
+            </div>
+
+            <div class="sg-sub-title" style="margin-top:28px;">{% blocktrans with elevation=token_box_shadow %}BoxShadow
+                — elevation {{ elevation }}{% endblocktrans %}</div>
+            <div class="sg-elevation-demo">
+                <div class="sg-elevation-box">elevation-{{ token_box_shadow }}</div>
+            </div>
+        </section>
+
+        <!-- ══ YOUR BRAND ══ -->
+
+        <!-- Brand Colors -->
+        <section class="sg-section" id="brand-colors">
+            <h2 class="sg-section-title">{% trans "Brand Colors" %}
+                <span class="badge badge-custom"
+                      data-tip="Admin → Settings → Theme → Primary Color">&#9998; {% trans "CUSTOMIZABLE" %}</span>
+            </h2>
+            <p style="font-size:14px;color:#666;margin-bottom:16px;">{% trans "The active primary color drives the entire palette above. Change it in Admin → Settings → Theme → Primary Color to update all swatches, components, and the tokens.json export at once." %}</p>
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                <div style="width:48px;height:48px;border-radius:8px;background:var(--sg-primary);"></div>
+                <div>
+                    <div style="font-size:14px;font-weight:700;">{% trans "Active primary:" %} <span
+                            id="val-primary-brand">{{ token_primary }}</span>
+                        <button class="copy-btn" onclick="copyText('val-primary-brand')">&#9638;</button>
+                    </div>
+                    <div style="font-size:12px;color:#888;">Admin → Settings → Theme → Primary Color
+                        (primary_hover_color field)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logos & Assets -->
+        <section class="sg-section" id="logos">
+            <h2 class="sg-section-title">{% trans "Logos & Assets" %}
+                <span class="badge badge-custom"
+                      data-tip="Admin → Settings → Organisation">&#9998; {% trans "CUSTOMIZABLE" %}</span>
+            </h2>
+            <p style="font-size:14px;color:#666;margin-bottom:20px;">{% trans "All assets are uploaded per-country in Admin → Settings → Organisation." %}</p>
+            <div class="sg-assets">
+
+                <!-- Primary Logo -->
+                <div class="sg-asset-card">
+                    <div class="sg-asset-preview">
+                        {% if org_setting.logo %}
+                            {% image org_setting.logo max-160x70 as logo_img %}
+                            <img src="{{ logo_img.url }}" alt="Logo">
+                        {% else %}
+                            <span class="sg-asset-empty">{% trans "No logo set" %}</span>
+                        {% endif %}
+                    </div>
+                    <div class="sg-asset-name">{% trans "Primary Logo" %}</div>
+                    <div class="sg-asset-meta">{% trans "PNG or SVG · transparent bg · min 240px wide" %}</div>
+                    {% if org_setting.logo %}
+                        <a href="{{ org_setting.logo.file.url }}" class="sg-asset-download"
+                           download>&#8595; {% trans "Download" %}</a>
+                    {% else %}
+                        <span style="font-size:12px;color:#bbb;">Admin → Settings → Organisation → Logo</span>
+                    {% endif %}
+                </div>
+
+                <!-- Footer Logo -->
+                <div class="sg-asset-card">
+                    <div class="sg-asset-preview">
+                        {% if org_setting.footer_logo %}
+                            {% image org_setting.footer_logo max-160x70 as footer_logo_img %}
+                            <img src="{{ footer_logo_img.url }}" alt="Footer Logo">
+                        {% else %}
+                            <span class="sg-asset-empty">{% trans "No footer logo set" %}</span>
+                        {% endif %}
+                    </div>
+                    <div class="sg-asset-name">{% trans "Footer Logo" %}</div>
+                    <div class="sg-asset-meta">{% trans "PNG or SVG · white/light variant preferred" %}</div>
+                    {% if org_setting.footer_logo %}
+                        <a href="{{ org_setting.footer_logo.file.url }}" class="sg-asset-download"
+                           download>&#8595; {% trans "Download" %}</a>
+                    {% else %}
+                        <span style="font-size:12px;color:#bbb;">Admin → Settings → Organisation → Footer Logo</span>
+                    {% endif %}
+                </div>
+
+                <!-- Favicon -->
+                <div class="sg-asset-card">
+                    <div class="sg-asset-preview">
+                        {% if org_setting.favicon %}
+                            {% image org_setting.favicon max-64x64 as favicon_img %}
+                            <img src="{{ favicon_img.url }}" alt="Favicon">
+                        {% else %}
+                            <span class="sg-asset-empty">{% trans "No favicon set" %}</span>
+                        {% endif %}
+                    </div>
+                    <div class="sg-asset-name">{% trans "Favicon" %}</div>
+                    <div class="sg-asset-meta">{% trans "PNG · square · max 200×200px" %}</div>
+                    {% if org_setting.favicon %}
+                        <a href="{{ org_setting.favicon.file.url }}" class="sg-asset-download"
+                           download>&#8595; {% trans "Download" %}</a>
+                    {% else %}
+                        <span style="font-size:12px;color:#bbb;">Admin → Settings → Organisation → Favicon</span>
+                    {% endif %}
+                </div>
+
+                <!-- Country Flag -->
+                <div class="sg-asset-card">
+                    <div class="sg-asset-preview">
+                        {% if org_setting.country_flag %}
+                            {% image org_setting.country_flag max-120x80 as flag_img %}
+                            <img src="{{ flag_img.url }}" alt="Country Flag">
+                        {% else %}
+                            <span class="sg-asset-empty">{% trans "No flag set" %}</span>
+                        {% endif %}
+                    </div>
+                    <div class="sg-asset-name">{% trans "Country Flag" %}</div>
+                    <div class="sg-asset-meta">{% trans "PNG or GIF · standard flag ratio" %}</div>
+                    {% if org_setting.country_flag %}
+                        <a href="{{ org_setting.country_flag.file.url }}" class="sg-asset-download"
+                           download>&#8595; {% trans "Download" %}</a>
+                    {% else %}
+                        <span style="font-size:12px;color:#bbb;">Admin → Settings → Organisation → Country Flag</span>
+                    {% endif %}
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ══ COMPONENTS ══ -->
+
+        <section class="sg-section" id="components">
+            <h2 class="sg-section-title">{% trans "Buttons" %} <span
+                    class="badge badge-core">&#128274; {% trans "CORE" %}</span></h2>
+
+            <!-- Primary button -->
+            <div class="sg-sub-title">{% trans "Primary Button" %}</div>
+            <div class="sg-component-wrap">
+                <div class="sg-component-preview" id="preview-btn-primary">
+                    <button class="sg-btn sg-btn-primary">{% trans "Primary Action" %}</button>
+                </div>
+                <div class="sg-component-toolbar">
+                    <span class="sg-component-label">{% trans "Button / Primary" %}</span>
+                    <button class="sg-copy-html-btn"
+                            onclick="copyHtml('preview-btn-primary')">{% trans "Copy HTML" %}</button>
+                </div>
+                <details class="sg-source">
+                    <summary>{% trans "View source" %}</summary>
+                    <pre>&lt;button class="button is-primary"&gt;Primary Action&lt;/button&gt;</pre>
+                </details>
+            </div>
+
+            <!-- Secondary button -->
+            <div class="sg-sub-title">{% trans "Secondary Button" %}</div>
+            <div class="sg-component-wrap">
+                <div class="sg-component-preview" id="preview-btn-secondary">
+                    <button class="sg-btn sg-btn-secondary">{% trans "Secondary Action" %}</button>
+                </div>
+                <div class="sg-component-toolbar">
+                    <span class="sg-component-label">{% trans "Button / Secondary" %}</span>
+                    <button class="sg-copy-html-btn"
+                            onclick="copyHtml('preview-btn-secondary')">{% trans "Copy HTML" %}</button>
+                </div>
+                <details class="sg-source">
+                    <summary>{% trans "View source" %}</summary>
+                    <pre>&lt;button class="button is-outlined"&gt;Secondary Action&lt;/button&gt;</pre>
+                </details>
+            </div>
+        </section>
+
+        <!-- Cards & Alerts -->
+        <section class="sg-section" id="cards">
+            <h2 class="sg-section-title">{% trans "Cards & Alerts" %} <span
+                    class="badge badge-core">&#128274; {% trans "CORE" %}</span></h2>
+
+            <div class="sg-sub-title">{% trans "Card" %}</div>
+            <div class="sg-component-wrap">
+                <div class="sg-component-preview" id="preview-card">
+                    <div class="sg-card" style="max-width:320px;">
+                        <div class="sg-card-title">{% trans "Card Title" %}</div>
+                        <div class="sg-card-body">{% trans "Supporting text goes here. Cards use the active border radius and a 1px border." %}</div>
+                    </div>
+                </div>
+                <div class="sg-component-toolbar">
+                    <span class="sg-component-label">{% trans "Card" %}</span>
+                    <button class="sg-copy-html-btn" onclick="copyHtml('preview-card')">{% trans "Copy HTML" %}</button>
+                </div>
+                <details class="sg-source">
+                    <summary>{% trans "View source" %}</summary>
+                    <pre>&lt;div class="card"&gt;
+  &lt;div class="card-content"&gt;
+    &lt;p class="title"&gt;Card Title&lt;/p&gt;
+    &lt;p&gt;Supporting text goes here.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </details>
+            </div>
+
+            <div class="sg-sub-title">{% trans "Alert / Info Banner" %}</div>
+            <div class="sg-component-wrap">
+                <div class="sg-component-preview" id="preview-alert">
+                    <div class="sg-alert">{% trans "This is an informational alert using the primary color." %}</div>
+                </div>
+                <div class="sg-component-toolbar">
+                    <span class="sg-component-label">{% trans "Alert / Info" %}</span>
+                    <button class="sg-copy-html-btn"
+                            onclick="copyHtml('preview-alert')">{% trans "Copy HTML" %}</button>
+                </div>
+                <details class="sg-source">
+                    <summary>{% trans "View source" %}</summary>
+                    <pre>&lt;div class="notification is-info"&gt;
+  Informational message.
+&lt;/div&gt;</pre>
+                </details>
+            </div>
+        </section>
+
+        <!-- ══ FOR DEVELOPERS ══ -->
+
+        <section class="sg-section" id="for-developers">
+            <h2 class="sg-section-title">{% trans "CSS Variables Reference" %} <span
+                    class="badge badge-core">&#128274; {% trans "CORE" %}</span></h2>
+            <p style="font-size:14px;color:#666;margin-bottom:20px;">
+                {% trans "All variables are injected on every page via the theme context processor. Use them directly in any custom CSS — no import needed." %}
+            </p>
+            <table class="sg-token-table">
+                <thead>
+                <tr>
+                    <th>{% trans "Variable" %}</th>
+                    <th>{% trans "Current Value" %}</th>
+                    <th>{% trans "How Derived" %}</th>
+                    <th>{% trans "Used In" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>--primary-color</code></td>
+                    <td class="token-value">{{ token_primary }}</td>
+                    <td>{% trans "Theme.primary_hover_color (set in admin)" %}</td>
+                    <td>{% trans "Buttons, links, navbar background, active states" %}</td>
+                </tr>
+                <tr>
+                    <td><code>--primary-color-light</code></td>
+                    <td class="token-value">{{ token_primary }}1A</td>
+                    <td>{% blocktrans %}Primary + hex alpha <code>1A</code> (≈10% opacity overlay){% endblocktrans %}
+                    </td>
+                    <td>{% trans "Hover backgrounds, subtle highlights" %}</td>
+                </tr>
+                <tr>
+                    <td><code>--primary-color-medium</code></td>
+                    <td class="token-value">{{ token_primary }}4f</td>
+                    <td>{% blocktrans %}Primary + hex alpha <code>4F</code> (≈31% opacity overlay){% endblocktrans %}
+                    </td>
+                    <td>{% trans "Active tab indicators, mid-weight tints" %}</td>
+                </tr>
+                <tr>
+                    <td><code>--background-color</code></td>
+                    <td class="token-value">{{ token_background }}</td>
+                    <td>{% blocktrans %}<code>mix_with_white(primary, 0.80)</code> — blends 80% toward
+                        white{% endblocktrans %}</td>
+                    <td>{% trans "Page background, section fills" %}</td>
+                </tr>
+                <tr>
+                    <td><code>--text-color</code></td>
+                    <td class="token-value">{{ token_text }}</td>
+                    <td>{% trans "Theme.primary_color (set in admin)" %}</td>
+                    <td>{% trans "Body text, headings, labels" %}</td>
+                </tr>
+                <tr>
+                    <td><code>--border-radius</code></td>
+                    <td class="token-value">{{ token_border_radius }}</td>
+                    <td>{% blocktrans %}<code>border_radius × 0.06em</code> (admin value 0–20 → em
+                        scale){% endblocktrans %}</td>
+                    <td>{% trans "All cards, buttons, form inputs, modals" %}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="sg-note" style="margin-top:16px;">
+                {% blocktrans %}<strong>Note:</strong> <code>--primary-color-light</code> and
+                    <code>--primary-color-medium</code> in base.html are hex+alpha composites (the primary color hexwith
+                    an alpha suffix), different from the <code>primary-light</code> / <code>primary-medium</code>values
+                    in <code>tokens.json</code> which are fully opaque mixed colors. Use the opaque mix variantsfor
+                    mobile apps where alpha compositing behaves differently over non-white
+                    backgrounds.{% endblocktrans %}
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    function copyText(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        navigator.clipboard.writeText(el.textContent.trim());
+    }
+
+    function copyHtml(previewId) {
+        const el = document.getElementById(previewId);
+        if (!el) return;
+        navigator.clipboard.writeText(el.innerHTML.trim());
+    }
+
+    // Highlight active sidebar link on scroll
+    const sections = document.querySelectorAll('.sg-section');
+    const navLinks = document.querySelectorAll('.sg-nav a');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(a => a.classList.remove('active'));
+                const link = document.querySelector(`.sg-nav a[href="#${entry.target.id}"]`);
+                if (link) link.classList.add('active');
+            }
+        });
+    }, {rootMargin: '-30% 0px -60% 0px'});
+    sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

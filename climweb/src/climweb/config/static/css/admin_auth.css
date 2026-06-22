@@ -1,0 +1,228 @@
+/* ClimWeb — branded admin authentication pages
+   Applies to the Wagtail admin sign-in, password-reset and two-factor pages.
+   Scoped entirely under `body.login`, so the rest of the admin is untouched. */
+
+body.login {
+    --cw-primary: #0C447C;
+    --cw-secondary: #0080cc;
+    --cw-ink: #15233b;
+    --cw-muted: #5b6b82;
+    --cw-line: #e6ebf2;
+}
+
+/* ---------- backdrop ---------- */
+body.login .wrapper {
+    background:
+        radial-gradient(900px 480px at 12% -10%, rgba(0, 128, 204, 0.16), transparent 60%),
+        radial-gradient(820px 460px at 100% 110%, rgba(12, 68, 124, 0.20), transparent 62%),
+        linear-gradient(160deg, #eef4fb 0%, #e3edf7 100%);
+}
+
+/* ---------- card ---------- */
+body.login .content-wrapper {
+    position: relative;
+    overflow: hidden;
+    max-width: 27rem;
+    padding: 2.75rem 2.85rem 2.5rem;
+    background: #fff;
+    border: 1px solid rgba(12, 68, 124, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 28px 64px -30px rgba(8, 40, 75, 0.55);
+}
+
+body.login .content-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--cw-primary), var(--cw-secondary));
+}
+
+/* ---------- brand header ---------- */
+.climweb-auth-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.climweb-auth-brand img {
+    max-height: 66px;
+    max-width: 140px;
+    object-fit: contain;
+}
+
+.climweb-auth-brand .cw-name {
+    font-size: 1.02rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: var(--cw-primary);
+}
+
+/* ---------- headings & helper text ---------- */
+body.login h1 {
+    margin-bottom: 0.4rem;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    color: var(--cw-ink);
+}
+
+.climweb-auth-sub {
+    margin: 0 0 1.75rem;
+    text-align: center;
+    font-size: 0.93rem;
+    line-height: 1.45;
+    color: var(--cw-muted);
+}
+
+/* ---------- fields ---------- */
+body.login .w-field__label {
+    color: var(--cw-ink);
+}
+
+body.login .w-field input[type="text"],
+body.login .w-field input[type="email"],
+body.login .w-field input[type="password"],
+body.login .w-field input[type="number"],
+body.login .w-field input[type="tel"] {
+    border-radius: 9px;
+}
+
+body.login .w-field input:focus {
+    border-color: var(--cw-secondary);
+    box-shadow: 0 0 0 3px rgba(0, 128, 204, 0.18);
+    outline: none;
+}
+
+/* ---------- primary button ---------- */
+body.login .button,
+body.login button.button {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    background-image: linear-gradient(135deg, var(--cw-primary) 0%, var(--cw-secondary) 100%);
+    background-color: var(--cw-primary);
+    color: #fff;
+    box-shadow: 0 12px 24px -14px rgba(12, 68, 124, 0.8);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+body.login .button:hover,
+body.login button.button:hover {
+    transform: translateY(-1px);
+    opacity: 0.96;
+    box-shadow: 0 16px 28px -14px rgba(12, 68, 124, 0.9);
+}
+
+body.login .button:active,
+body.login button.button:active {
+    transform: translateY(0);
+}
+
+/* secondary / outline button (e.g. sign-out, request new link) */
+body.login .button.button-secondary,
+body.login a.button-secondary {
+    background: #fff;
+    background-image: none;
+    color: var(--cw-primary);
+    border: 1px solid rgba(12, 68, 124, 0.35);
+    box-shadow: none;
+}
+
+body.login .button.button-secondary:hover,
+body.login a.button-secondary:hover {
+    background: rgba(12, 68, 124, 0.05);
+    transform: none;
+}
+
+/* ---------- links ---------- */
+body.login .reset-password,
+body.login .climweb-auth-link {
+    display: block;
+    margin: -0.5rem 0 1.5rem;
+    color: var(--cw-secondary);
+    font-weight: 600;
+    text-align: right;
+    text-decoration: none;
+}
+
+body.login .reset-password:hover,
+body.login .climweb-auth-link:hover {
+    text-decoration: underline;
+}
+
+.climweb-auth-foot {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--cw-muted);
+}
+
+.climweb-auth-foot a {
+    color: var(--cw-secondary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.climweb-auth-foot a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- status / messages ---------- */
+body.login .messages ul li.error {
+    background: #fdecec;
+    color: #a11d1d;
+    padding: 0.6rem 0.85rem;
+}
+
+body.login .messages ul li.success {
+    background: #e8f6ee;
+    color: #1c6b3f;
+    padding: 0.6rem 0.85rem;
+}
+
+/* confirmation / info icon for done & complete states */
+.climweb-auth-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.climweb-auth-status .cw-status-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(0, 128, 204, 0.1);
+    color: var(--cw-primary);
+}
+
+.climweb-auth-status .cw-status-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.climweb-auth-status p {
+    margin: 0;
+    color: var(--cw-muted);
+    line-height: 1.5;
+}
+
+/* hide the default wagtail wordmark logo block if present, we render our own */
+body.login .login-logo {
+    display: none;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 480px) {
+    body.login .content-wrapper {
+        padding: 2.25rem 1.6rem 2rem;
+        border-radius: 14px;
+    }
+}

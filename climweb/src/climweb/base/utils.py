@@ -29,12 +29,10 @@ def send_plugin_remove(plugin_name):
         with requests.Session() as session:
             session.send(prepped)
 
-import colorsys
-
 
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
-    return tuple(int(hex_color[i:i+2], 16) / 255 for i in (0, 2, 4))
+    return tuple(int(hex_color[i:i + 2], 16) / 255 for i in (0, 2, 4))
 
 
 def rgb_to_hex(rgb):
@@ -47,16 +45,17 @@ def mix_with_white(hex_color, amount=0.9):
     amount = 1.0 → white
     """
     hex_color = hex_color.lstrip('#')
-
+    
     r = int(hex_color[0:2], 16)
     g = int(hex_color[2:4], 16)
     b = int(hex_color[4:6], 16)
-
+    
     r = int(r + (255 - r) * amount)
     g = int(g + (255 - g) * amount)
     b = int(b + (255 - b) * amount)
-
+    
     return f'#{r:02x}{g:02x}{b:02x}'
+
 
 def validate_svg(f):
     # Find "start" word in file and get "tag" from there
@@ -205,22 +204,21 @@ def send_upgrade_command(latest_version):
             "X-Webhook-Secret": settings.SECRET_KEY,
         }
         request = requests.Request('POST', CMS_UPGRADE_HOOK_URL, json=payload, headers=headers)
-
+        
         prepped = request.prepare()
-
+        
         with requests.Session() as session:
             session.send(prepped)
-
 
 
 def get_installed_plugins():
     """Return a list of dicts describing each installed plugin, read from climweb_plugin_info.json."""
     import json
     import os
-
-    plugin_dirs = getattr(settings, "CLIMWEB_PLUGIN_DIRS", ["/climweb/plugins"])
+    
+    plugin_dirs = getattr(settings, "CLIMWEB_PLUGIN_DIR", ["/climweb/plugins"])
     plugins = []
-
+    
     for base_dir in plugin_dirs:
         if not os.path.isdir(base_dir):
             continue
@@ -236,7 +234,7 @@ def get_installed_plugins():
                     info = {}
             else:
                 info = {}
-
+            
             # Read the git repo URL saved at install time (by plugin-manage.sh)
             repo_url_file = os.path.join(entry.path, ".plugin_repo_url")
             if os.path.isfile(repo_url_file):
@@ -247,7 +245,7 @@ def get_installed_plugins():
                     repo_url = ""
             else:
                 repo_url = ""
-
+            
             plugins.append({
                 "folder_name": entry.name,
                 "name": info.get("name", entry.name),
@@ -257,7 +255,7 @@ def get_installed_plugins():
                 "url": info.get("url", ""),
                 "repo_url": repo_url,
             })
-
+    
     return plugins
 
 

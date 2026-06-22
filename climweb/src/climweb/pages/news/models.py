@@ -24,7 +24,7 @@ from climweb.base.utils import (
     query_param_to_list,
     get_first_non_empty_p_string
 )
-from .blocks import ExternalLinkBlock
+from .blocks import ExternalLinkBlock, MosaicImageGalleryBlock
 
 NEWS_ALLOWED_RICHTEXT_FEATURES = ['bold', 'italic', 'h4', 'h5', 'h6', 'ol', 'ul', 'hr', 'link', 'image',
                                   'document-link', 'embed', ]
@@ -166,6 +166,10 @@ class NewsPage(MetadataPageMixin, Page):
                                                  verbose_name=_("Is visible on homepage"))
     extra_links_heading = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Extra links heading"))
     
+    media_gallery = StreamField([
+        ('gallery', MosaicImageGalleryBlock()),
+    ], blank=True, null=True, use_json_field=True, verbose_name=_("Image Gallery"))
+
     external_links = StreamField([
         ('link', ExternalLinkBlock())
     ], blank=True, null=True, use_json_field=True, verbose_name=_("Extra links"))
@@ -177,6 +181,7 @@ class NewsPage(MetadataPageMixin, Page):
         FieldPanel('date'),
         FieldPanel('subtitle'),
         FieldPanel('body'),
+        FieldPanel('media_gallery'),
         FieldPanel('services', widget=CheckboxSelectMultiple),
         FieldPanel('projects', widget=CheckboxSelectMultiple),
         FieldPanel('tags'),

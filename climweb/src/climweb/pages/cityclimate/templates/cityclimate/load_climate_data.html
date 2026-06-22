@@ -27,7 +27,8 @@
         {% translate "Load Climate Data" as header_str %}
     {% endif %}
 
-    {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" %}
+    {% url 'download_csv_template' page.pk as template_download_url %}
+    {% include "wagtailadmin/shared/header.html" with title=header_str icon="upload" action_url=template_download_url action_text=_("Download CSV Template") action_icon="download" %}
 
     <div class="nice-padding">
 
@@ -136,9 +137,7 @@
                 }
 
                 // remove all options from the select
-                if ($fieldsSelect.children().length > 1) {
-                    $fieldsSelect.children().remove()
-                }
+                $fieldsSelect.children().remove()
 
                 $('input[type=file]').parse({
                     config: {
@@ -217,18 +216,23 @@
 
                 data = inputData
 
+                // Re-add the empty option first, then the column headers
+                $fieldsSelect.append(createOption("", "-----"))
                 fields.forEach(val => {
                     const option = createOption(val, val)
                     $fieldsSelect.append(option)
                 })
 
-                // for each select, set the next field as the selected option, starting from index 0
+                // Auto-select each column by position, skipping the leading "-----" (index 0)
                 $fieldsSelect.each(function (index) {
                     const $this = $(this)
-                    $this.find("option").eq(index).prop("selected", true)
+                    $this.find("option").eq(index + 1).prop("selected", true)
                 })
 
                 $fieldsMatchContainer.show()
+
+                // Evaluate the mapping immediately so the button is enabled if auto-selection is valid
+                $fieldsSelect.first().trigger("change")
 
                 hot = new Handsontable(tableElement, {
                     width: '100%',

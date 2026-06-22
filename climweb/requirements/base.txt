@@ -13,7 +13,7 @@ affine==2.4.0
     # via rasterio
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.13.4
+aiohttp==3.14.1
     # via django-nextjs
 aiosignal==1.4.0
     # via aiohttp
@@ -53,6 +53,8 @@ beautifulsoup4==4.9.3
     # via
     #   deep-translator
     #   wagtail
+better-profanity==0.7.0
+    # via -r base.in
 billiard==4.2.1
     # via celery
 bleach[css]==6.3.0
@@ -67,7 +69,7 @@ cairocffi==1.7.1
     # via cairosvg
 cairosvg==2.9.0
     # via geomanager
-cap-composer==1.3.0
+cap-composer==1.3.2
     # via -r base.in
 capvalidator==0.1.0.dev4
     # via cap-composer
@@ -140,7 +142,7 @@ contourpy==1.3.0
     # via matplotlib
 cron-descriptor==2.0.8
     # via django-celery-beat
-cryptography==46.0.6
+cryptography==46.0.7
     # via
     #   -r base.in
     #   autobahn
@@ -171,7 +173,7 @@ deprecated==1.2.18
     #   opentelemetry-semantic-conventions
 dj-database-url==2.3.0
     # via -r base.in
-django==5.2.12
+django==5.2.14
     # via
     #   -r base.in
     #   channels
@@ -215,7 +217,7 @@ django==5.2.12
     #   wagtail-2fa-v6
     #   wagtail-newsletter
     #   wagtailmedia
-django-allauth==65.8.1
+django-allauth==65.14.1
     # via
     #   -r base.in
     #   geomanager
@@ -336,7 +338,7 @@ et-xmlfile==2.0.0
     # via openpyxl
 feedparser==6.0.11
     # via cap-composer
-filelock==3.18.0
+filelock==3.29.1
     # via django-large-image
 filetype==1.2.0
     # via willow
@@ -349,15 +351,15 @@ fonttools[woff]==4.62.1
     #   -r base.in
     #   matplotlib
     #   weasyprint
-forecastmanager==0.6.0
+forecastmanager==0.6.2
     # via -r base.in
 frozenlist==1.5.0
     # via
     #   aiohttp
     #   aiosignal
-geomanager==0.6.2
+geomanager==0.6.3
     # via -r base.in
-geopandas==1.0.1
+geopandas==1.1.3
     # via adm-boundary-manager
 google-api-core==2.24.0
     # via google-api-python-client
@@ -391,7 +393,7 @@ hyperlink==21.0.0
     # via
     #   autobahn
     #   twisted
-idna==3.10
+idna==3.18
     # via
     #   anyio
     #   hyperlink
@@ -427,7 +429,7 @@ large-image-source-rasterio==1.34.0
     # via geomanager
 loguru==0.7.3
     # via cap-composer
-lxml==5.4.0
+lxml==6.1.0
     # via
     #   -r base.in
     #   cap-composer
@@ -440,7 +442,7 @@ mailchimp3==3.0.21
     # via
     #   -r base.in
     #   wagtail-mailchimp-integration
-markdown==3.8
+markdown==3.10.2
     # via
     #   cap-composer
     #   django-markdownify
@@ -602,7 +604,7 @@ pdf2image==1.17.0
     # via
     #   -r base.in
     #   cap-composer
-pillow==12.1.1
+pillow==12.2.0
     # via
     #   cairosvg
     #   large-image
@@ -651,7 +653,7 @@ pydantic-core==2.33.2
     # via pydantic
 pydyf==0.11.0
     # via weasyprint
-pygments==2.19.2
+pygments==2.20.0
     # via cap-composer
 pyjwt==2.12.1
     # via djangorestframework-simplejwt
@@ -688,7 +690,7 @@ python-dateutil==2.9.0.post0
     #   owslib
     #   pandas
     #   python-crontab
-python-dotenv==1.0.1
+python-dotenv==1.2.2
     # via uvicorn
 python-ipware==3.0.0
     # via django-ipware
@@ -799,6 +801,7 @@ txaio==23.1.1
     # via autobahn
 typing-extensions==4.15.0
     # via
+    #   aiohttp
     #   aiosignal
     #   anyio
     #   cron-descriptor
@@ -825,7 +828,7 @@ uritemplate==4.1.1
     # via
     #   drf-spectacular
     #   google-api-python-client
-urllib3==2.6.3
+urllib3==2.7.0
     # via
     #   -r base.in
     #   mailchimp-marketing
@@ -839,7 +842,7 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-wagtail==7.3
+wagtail==7.3.2
     # via
     #   -r base.in
     #   adm-boundary-manager
@@ -891,7 +894,7 @@ wagtail-humanitarian-icons==2.0.0
     #   -r base.in
     #   cap-composer
     #   geomanager
-wagtail-icon-chooser==0.3.2
+wagtail-icon-chooser==0.3.3
     # via
     #   -r base.in
     #   cap-composer
@@ -921,7 +924,7 @@ wagtail-modelchooser==4.0.1
     #   cap-composer
 wagtail-newsletter==0.2.2
     # via cap-composer
-wagtail-surveyjs==0.3.0
+wagtail-surveyjs==0.3.1
     # via -r base.in
 wagtail-webstories-editor==0.3.0
     # via -r base.in

@@ -2,13 +2,18 @@ from django.conf import settings
 
 if "capcomposer.cap" in settings.INSTALLED_APPS:
     from capcomposer.cap.utils import get_currently_active_alerts
+from django.contrib import messages
 from django.contrib.auth.models import Permission
 from django.core.cache import cache
+from django.db.models import CharField, TextField
+from django.http import HttpResponseRedirect
 from django.templatetags.static import static
 from django.urls import path, reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+from better_profanity import profanity
 from wagtail import hooks
+from wagtail.fields import RichTextField, StreamField
 from wagtail.admin.ui.components import Component
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
@@ -95,6 +100,51 @@ def clear_wagtailcache(request, page):
 def clear_cache_after_snippet_edit(request, snippet):
     clear_cache()
     cache.clear()
+
+
+# Optional extra terms for this platform (e.g. domain-specific abuse).
+# better-profanity's built-in list already covers common profanity and
+# leet-speak variants; add words here that are specific to ClimWeb.
+_EXTRA_TERMS = getattr(settings, "CLIMWEB_BLOCKED_TERMS", [
+    "kill yourself", "go die", "you should die",
+    "bomb threat", "death threat",
+])
+
+profanity.load_censor_words()
+if _EXTRA_TERMS:
+    profanity.add_censor_words(_EXTRA_TERMS)
+
+
+def _page_text(page):
+    """Collect all text from every CharField, TextField, RichTextField, and StreamField on the specific page type."""
+    specific = page.specific
+    parts = [specific.title or ""]
+    for field in specific._meta.get_fields():
+        if not isinstance(field, (CharField, TextField, RichTextField, StreamField)):
+            continue
+        if field.name == "title":
+            continue
+        value = getattr(specific, field.name, None)
+        if value:
+            parts.append(str(value))
+    return " ".join(parts)
+
+
+@hooks.register("before_publish_page")
+def block_harmful_content_on_publish(request, page):
+    text = _page_text(page)
+    if profanity.contains_profanity(text):
+        messages.error(
+            request,
+            _(
+                "This page could not be published because it contains content "
+                "that violates the ClimWeb Harassment Protection Policy. "
+                "Please review and edit the page before publishing."
+            ),
+        )
+        return HttpResponseRedirect(
+            request.headers.get("Referer", reverse("wagtailadmin_home"))
+        )
 
 
 @hooks.register("register_icons")

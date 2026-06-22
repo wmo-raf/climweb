@@ -24,13 +24,13 @@ charset-normalizer==3.4.1
     # via
     #   -c base.txt
     #   requests
-coverage==7.6.10
+coverage==7.14.1
     # via -r dev.in
 defusedxml==0.7.1
     # via
     #   -c base.txt
     #   willow
-django==5.2.12
+django==5.2.14
     # via
     #   -c base.txt
     #   django-filter
@@ -42,12 +42,13 @@ django==5.2.12
     #   django-treebeard
     #   djangorestframework
     #   laces
+    #   modelsearch
     #   wagtail
 django-filter==24.3
     # via
     #   -c base.txt
     #   wagtail
-django-modelcluster==6.4
+django-modelcluster==6.4.1
     # via
     #   -c base.txt
     #   wagtail
@@ -63,9 +64,10 @@ django-taggit==6.1.0
     # via
     #   -c base.txt
     #   wagtail
-django-tasks==0.7.0
+django-tasks==0.9.0
     # via
     #   -c base.txt
+    #   modelsearch
     #   wagtail
 django-treebeard==4.7.1
     # via
@@ -91,7 +93,7 @@ filetype==1.2.0
     # via
     #   -c base.txt
     #   willow
-idna==3.10
+idna==3.18
     # via
     #   -c base.txt
     #   requests
@@ -99,11 +101,15 @@ laces==0.1.2
     # via
     #   -c base.txt
     #   wagtail
+modelsearch==1.1.1
+    # via
+    #   -c base.txt
+    #   wagtail
 openpyxl==3.1.5
     # via
     #   -c base.txt
     #   wagtail
-pillow==11.1.0
+pillow==12.2.0
     # via
     #   -c base.txt
     #   pillow-heif
@@ -128,7 +134,7 @@ soupsieve==2.6
     # via
     #   -c base.txt
     #   beautifulsoup4
-sqlparse==0.5.3
+sqlparse==0.5.5
     # via
     #   -c base.txt
     #   django
@@ -136,21 +142,21 @@ telepath==0.3.1
     # via
     #   -c base.txt
     #   wagtail
-typing-extensions==4.12.2
+typing-extensions==4.15.0
     # via
     #   -c base.txt
     #   django-stubs-ext
     #   django-tasks
     #   faker
-urllib3==2.6.3
+urllib3==2.7.0
     # via
     #   -c base.txt
     #   requests
-wagtail==7.0
+wagtail==7.3.2
     # via
     #   -c base.txt
     #   wagtail-factories
-wagtail-factories==4.2.1
+wagtail-factories==4.5.0
     # via -r dev.in
 willow[heif]==1.11.0
     # via

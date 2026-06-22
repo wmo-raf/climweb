@@ -19,7 +19,10 @@
 
     <link rel="stylesheet" href="{% static 'css/glide.core.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/glide.theme.min.css' %}">
+
+    {% if IS_METEOROLOGICAL %}
     <link rel="stylesheet" href="{% static 'weather/css/forecast_widget.css' %}">
+    {% endif %}
 {% endblock extra_css %}
 
 {% block content %}
@@ -205,6 +208,81 @@
         </div>`);
     };
 
+    /* ── slider + search init (shared by SSR and AJAX paths) ── */
+    const initWeatherWidget = (citySlug) => {
+      const loader           = $('#weather-widget-loader');
+      const forecastSkeleton = $('.forecast-widget-skeleton');
+
+      /* ── SINGLE SLIDER (daily) ── */
+      const $single = $('#single-forecast-slider');
+      if ($single.length) {
+
+        function getSinglePerView(w) {
+          if (w < 320) return 1;
+          if (w < 480) return 2;
+          if (w < 640) return 3;
+          if (w < 900) return 4;
+          return 5;
+        }
+
+        const container    = $single.closest('.cf-card')[0] || $single[0];
+        let currentPerView = getSinglePerView(
+          container ? container.offsetWidth : window.innerWidth
+        );
+
+        singleForecastSlider = new Glide('#single-forecast-slider', {
+          type: 'slider', perView: currentPerView,
+          gap: 8, bound: true, rewind: false, breakpoints: {},
+        }).mount();
+
+        if (window.ResizeObserver && container) {
+          window._singleSliderRO = new ResizeObserver(entries => {
+            if (!singleForecastSlider) {
+              window._singleSliderRO.disconnect();
+              window._singleSliderRO = null;
+              return;
+            }
+            const next = getSinglePerView(entries[0].contentRect.width);
+            if (next !== currentPerView) {
+              currentPerView = next;
+              try { singleForecastSlider.update({ perView: next }); } catch (e) {}
+            }
+          });
+          window._singleSliderRO.observe(container);
+        }
+
+        /* city search for single slider */
+        if (typeof bulmaHead === 'function') {
+          bulmaHead('city-search', 'city-search-menu',
+            name => fetch(citySearchUrl + '?name=' + encodeURIComponent(name))
+              .then(r => r.json())
+              .then(d => d.map(c => ({ label: c.name, value: c.slug }))),
+            onSelectCity, 200, 0
+          );
+        }
+
+      /* ── MULTIPLE SLIDER (hourly tabs) ── */
+      } else if ($('.day-forecast-slider').length > 0) {
+
+        if (typeof window.initMultiWidget === 'function') {
+          window.initMultiWidget({
+            citySearchUrl: citySearchUrl,
+            onCitySelect:  onSelectCity,
+          });
+        }
+
+      /* ── NEITHER slider found after a city search = no data ── */
+      } else if (citySlug) {
+        showNoData(
+          _t('No forecast data available'),
+          _t('We could not find forecast data for the selected location. Please try a different city.')
+        );
+      }
+
+      if (loader.length) loader.removeClass('is-active');
+      if (forecastSkeleton.length) forecastSkeleton.hide();
+    };
+
     /* ── main render ── */
     const renderWeatherWidgetForCity = (citySlug) => {
 
@@ -247,6 +325,8 @@
                 _t('No forecast data available'),
                 _t('We could not find forecast data for the selected location. Please try a different city.')
               );
+            } else {
+              weatherWidgetWrapper.parent().hide();
             }
             if (loader.length) loader.removeClass('is-active');
             if (forecastSkeleton.length) forecastSkeleton.hide();
@@ -255,76 +335,7 @@
 
           /* inject */
           weatherWidgetWrapper.html(data);
-
-          /* ── SINGLE SLIDER (daily) ── */
-          const $single = $('#single-forecast-slider');
-          if ($single.length) {
-
-            function getSinglePerView(w) {
-              if (w < 320) return 1;
-              if (w < 480) return 2;
-              if (w < 640) return 3;
-              if (w < 900) return 4;
-              return 5;
-            }
-
-            const container    = $single.closest('.cf-card')[0] || $single[0];
-            let currentPerView = getSinglePerView(
-              container ? container.offsetWidth : window.innerWidth
-            );
-
-            singleForecastSlider = new Glide('#single-forecast-slider', {
-              type: 'slider', perView: currentPerView,
-              gap: 8, bound: true, rewind: false, breakpoints: {},
-            }).mount();
-
-            if (window.ResizeObserver && container) {
-              window._singleSliderRO = new ResizeObserver(entries => {
-                if (!singleForecastSlider) {
-                  window._singleSliderRO.disconnect();
-                  window._singleSliderRO = null;
-                  return;
-                }
-                const next = getSinglePerView(entries[0].contentRect.width);
-                if (next !== currentPerView) {
-                  currentPerView = next;
-                  try { singleForecastSlider.update({ perView: next }); } catch (e) {}
-                }
-              });
-              window._singleSliderRO.observe(container);
-            }
-
-            /* city search for single slider */
-            if (typeof bulmaHead === 'function') {
-              bulmaHead('city-search', 'city-search-menu',
-                name => fetch(citySearchUrl + '?name=' + encodeURIComponent(name))
-                  .then(r => r.json())
-                  .then(d => d.map(c => ({ label: c.name, value: c.slug }))),
-                onSelectCity, 200, 0
-              );
-            }
-
-          /* ── MULTIPLE SLIDER (hourly tabs) ── */
-          } else if ($('.day-forecast-slider').length > 0) {
-
-            /* delegate entirely to the template's own boot function */
-            if (typeof window.initMultiWidget === 'function') {
-              window.initMultiWidget({
-                citySearchUrl: citySearchUrl,
-                onCitySelect:  onSelectCity,
-              });
-            }
-
-          /* ── NEITHER slider found after a city search = no data ── */
-          } else if (citySlug) {
-            showNoData(
-              _t('No forecast data available'),
-              _t('We could not find forecast data for the selected location. Please try a different city.')
-            );
-          }
-
-          if (loader.length) loader.removeClass('is-active');
-          if (forecastSkeleton.length) forecastSkeleton.hide();
+          initWeatherWidget(citySlug);
 
         })
         .catch(error => {
@@ -343,8 +354,13 @@
     /* ── boot ── */
     $(document).ready(function () {
 
-      if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
-        console.log('Rendering home weather widget with URL:', homeWeatherWidgetUrl);
+      const isSsrRendered = weatherWidgetWrapper.length
+        && weatherWidgetWrapper.children().length > 0
+        && !$('.forecast-widget-skeleton').length;
+
+      if (isSsrRendered) {
+        initWeatherWidget(null);
+      } else if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
         renderWeatherWidgetForCity();
       } else {
         const forecastSkeleton = $('.forecast-widget-skeleton');
