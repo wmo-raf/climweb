@@ -103,18 +103,18 @@ ClimWeb maps external API JSON fields to its internal database schema using **Fo
 You can fetch data manually or test your connection mapping via the command line using the Django management command wrapper.
 * **Dry Run (Test Connection):** Validate the API payload and mapping without writing to the database:
 ```bash
-python manage.py fetch_open_meteo --dry-run
+climweb fetch_open_meteo --dry-run
 ```
 
 * **Targeted Run:** Fetch data for a single city to verify parsing:
 ```bash
-python manage.py fetch_open_meteo --city "Nairobi"
+climweb fetch_open_meteo --city "Nairobi"
 
 ```
 
 * **Live Run:** Fetch and save forecasts for all configured cities:
 ```bash
-python manage.py fetch_open_meteo
+climweb fetch_open_meteo
 
 ```
 
