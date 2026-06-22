@@ -55,6 +55,10 @@ extensions = [
 if not on_rtd:
     extensions.append("sphinxcontrib.spelling")
 
+# Generate HTML anchors for headings up to level 3 (###), so markdown links
+# like "Other-Page.md#some-heading" between doc pages resolve correctly.
+myst_heading_anchors = 3
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
