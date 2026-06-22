@@ -225,18 +225,38 @@ To correct a forecast, upload a new CSV for the same date and period with **Repl
 
 ## Fetching from an external source
 
-The Norwegian Meteorological Institute provides Yr.no as a free weather forecast API. It uses each city's coordinates (set in Step 2) to request temperature, wind speed, and weather condition data. When enabled, ClimWeb automatically fetches this data for all your cities and publishes it.
+ClimWeb automatically fetches forecasts — temperature, wind speed, and weather conditions — from Yr.no (a free global forecast service) and publishes them for all your cities. ClimWeb uses each city's map location (set in [Step 2](#step-2-add-cities)) to request the data. At least one city must have a map location set before automated fetching will work — any city you add later is included on the next scheduled fetch, as long as it has a map location.
 
-To enable automated fetching, go to **Settings → Forecast setting** and open the **Forecast Source** tab. Tick **Enable automated forecasts** and click **Save**. The only required action is ticking **Enable automated forecasts**. Other fields visible in the tab are pre-configured and do not need to be changed unless your administrator instructs you to.
+To enable automated fetching, go to **Settings → Forecast setting** and open the **Forecast Source** tab. Tick **Enable automated forecasts** and click **Save**. No other settings are needed. Disabling this setting stops new fetches — but any forecasts already published remain visible. Re-enabling resumes fetches; gaps are not backfilled.
 
-After enabling, the first fetch may take up to 60 minutes. After that, forecasts update every hour.
+![Forecast Source tab showing the Enable automated forecasts checkbox, which is checked](../_static/images/city_forecasts/autoforecast.png "Forecast setting: Forecast Source tab")
 
-![Forecast Source tab in Forecast settings showing the Enable automated forecasts checkbox, which is ticked](../_static/images/city_forecasts/autoforecast.png "Forecast Source: Enable automated forecasts")
+The first fetch runs **within 60 minutes**. After that, forecasts update **every hour** and retrieve up to **7 calendar days** of data per city.
+
+Automated fetches cover the standard forecast variables — temperature, wind, pressure, and precipitation — but ClimWeb does not store relative humidity from the Yr.no data. To include humidity values, enter them manually or via the [CSV upload method](#uploading-a-csv-forecast-manually).
+
+If Yr.no returns a weather condition not listed in the **Forecast Weather Conditions** tab, ClimWeb adds it and assigns a default icon.
+
+ClimWeb also creates **Forecast Periods** automatically — no advance setup is required. Yr.no provides hourly data, so ClimWeb creates one forecast period for each hour in the **Forecast Periods** tab — for example, `9:00` and `14:00` — alongside any existing periods, such as `Day`.
+
+You can use both Yr.no automated forecasts and CSV uploads at the same time. Because they use different forecast periods, **they do not overwrite each other**.
+
+The first fetch adds entries in bulk: one forecast per hour for approximately the first 48 hours, then one every six hours, plus any new periods and weather conditions.
+
+> **Note:** This bulk addition of entries is expected. Leave these forecast entries in place — ClimWeb uses all of them.
+
+**To verify:** Go to **City Forecast → Load Forecasts** and confirm new entries have appeared. ClimWeb does not automatically remove forecasts older than 7 days. You can delete them from **City Forecast → Load Forecasts** without affecting current or future fetches.
 
 **If automated forecasts are not updating:**
 
 | Problem | Likely cause | What to do |
 |---|---|---|
-| No data appears after enabling | Server cannot reach the Yr.no API | Contact your system administrator to confirm the server has internet access |
-| Forecasts stopped updating | Checkbox was unticked, or a server-side job stopped | Confirm **Enable automated forecasts** is still ticked in **Settings → Forecast setting → Forecast Source**. If ticked and still not updating, ask your administrator to check the server logs. |
-| Data appears stale | Fetch runs once per hour | Wait up to 60 minutes. If still stale after that, confirm the checkbox is still enabled. |
+| Forecasts stopped updating | The automated forecasts setting was turned off, or a scheduled task on the server stopped running | Confirm **Enable automated forecasts** is still ticked in **Settings → Forecast setting** (open the **Forecast Source** tab). If it is ticked and forecasts are still not updating, ask your system administrator to verify that the Celery beat scheduler (a background process that runs scheduled tasks on the server) is running and that the hourly forecast fetch task has not failed. |
+| No forecast data appears after setup (check site address) | The site's web address is still set to the temporary default `localhost` instead of your real site address | Ask your system administrator to check **Settings → Sites** and set the site's web address to your real site address (most common when ClimWeb has just been set up for the first time). If the site address is still set to `localhost`, ClimWeb cannot correctly generate the internal URLs it needs to process fetched data. |
+| No forecast data appears after setup (check network access) | Server cannot reach the Yr.no API | Ask your system administrator to confirm that outbound HTTPS connections to `api.met.no` are not blocked by a firewall or proxy (that is, the server is allowed to make requests to external websites). |
+| Data is not up to date | Updates happen once per hour | Wait up to 60 minutes. If still not updated, confirm the **Enable automated forecasts** checkbox is still ticked. If it is ticked and data is still not updating, ask your system administrator to verify that the Celery beat scheduler (a background process that runs scheduled tasks on the server) is running. |
+| Some cities show no forecast | The city has no location set | Go to **City Forecast → Cities** and confirm the city has a map location set (see Step 2). |
+| Forecast data has gaps after a connection outage | Fetches were skipped during the outage | No action needed. Published forecasts remain visible. Fetches resume automatically once the connection is restored. |
+| A city shows a wrong or missing condition icon | ClimWeb created a new weather condition automatically and used a default icon | Go to **Settings → Forecast setting** and open the **Forecast Weather Conditions** tab. Find the condition with the default or missing icon and assign the correct icon. |
+
+Once forecasts appear in **City Forecast → Load Forecasts**, no further action is needed.

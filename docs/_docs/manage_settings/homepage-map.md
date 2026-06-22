@@ -45,7 +45,8 @@ Click on (1)Settings > (2) Homepage map settings
   the map. By default, it is set to `Location Forecast`. You can change it, for example, to the corresponding language
   of your Climweb Instance.
 - **Show Location Forecast Attribution**: Check this box to show the attribution for the location forecast data, if you
-  are pulling forecast data from [YR.no](https://yr.no/) api. By default, this is disabled.
+  are pulling forecast data from [YR.no](https://yr.no/) api. By default, this is disabled. To enable automated Yr.no
+  forecasts, see [Fetching from an external source](../Manage-City-Forecasts.md#fetching-from-an-external-source).
 - **Location Forecast date display format**: This is the format in which the date will be displayed on the map for the
   location forecast layer. You can select the correct format from the dropdown list.
 - **Cluster Location Forecast Points**: Check this box to cluster the location forecast points on the map. This is
