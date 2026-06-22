@@ -65,7 +65,7 @@ if "forecastmanager" in settings.INSTALLED_APPS:
         # Run the `generate_forecast` command
         logger.info("[FORECAST] Running generate_forecast")
         try:
-            call_command('generate_forecast')
+            call_command('generate_auto_forecast')
         except Exception as exc:
             logger.error(f"[FORECAST] generate_forecast failed: {exc}")
             raise  # re-raise so Celery records the failure and releases the lock
