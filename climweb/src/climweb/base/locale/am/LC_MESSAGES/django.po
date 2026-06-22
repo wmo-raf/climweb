@@ -1,10 +1,9 @@
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-21 11:00+0300\n"
-"PO-Revision-Date: 2026-04-13 13:25\n"
+"PO-Revision-Date: 2026-06-22 11:39\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
 "Language: am_ET\n"
@@ -12,11 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-File: /climweb/src/climweb/base/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-File-ID: 1286\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-Project: nmhs-cms\n"
 "X-Crowdin-Project-ID: 672958\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-File: /climweb/src/climweb/base/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 1286\n"
 
 #: climweb/src/climweb/base/blocks.py:49 climweb/src/climweb/base/blocks.py:50
 #: climweb/src/climweb/base/blocks.py:62 climweb/src/climweb/base/blocks.py:63
@@ -64,9 +63,7 @@ msgid "Action Link Internal"
 msgstr "የድርጊት ማገናኛ ውስጣዊ"
 
 #: climweb/src/climweb/base/blocks.py:110
-msgid ""
-"An external link to a detailed resource on the internet.If provided, the "
-"internal link will be ignored"
+msgid "An external link to a detailed resource on the internet.If provided, the internal link will be ignored"
 msgstr "በበይነመረቡ ላይ ላለ ዝርዝር መገልገያ ውጫዊ አገናኝ.ከቀረበ, የውስጥ ማገናኛው ችላ ይባላል"
 
 #: climweb/src/climweb/base/blocks.py:116
@@ -152,10 +149,12 @@ msgid "Card"
 msgstr "ካርድ"
 
 #: climweb/src/climweb/base/blocks.py:297
+#| msgid "Introduction button text"
 msgid "Card button text"
 msgstr "የካርድ አዝራር ጽሑፍ"
 
 #: climweb/src/climweb/base/blocks.py:298
+#| msgid "Introduction button link"
 msgid "Card button link"
 msgstr "የካርድ አዝራር አገናኝ"
 
@@ -169,20 +168,13 @@ msgstr "ወደ ማስጠንቀቂያዎች ዝርዝር ይሂዱ"
 
 #: climweb/src/climweb/base/forms.py:27
 #, python-format
-msgid ""
-"Supported formats: %(supported_formats)s. Maximum filesize: "
-"%(max_upload_size)s."
-msgstr ""
-"የሚደገፉ ቅርጸቶች፡ %(supported_formats)s። ከፍተኛው የፋይል መጠን፡ %(max_upload_size)s።"
+msgid "Supported formats: %(supported_formats)s. Maximum filesize: %(max_upload_size)s."
+msgstr "የሚደገፉ ቅርጸቶች፡ %(supported_formats)s። ከፍተኛው የፋይል መጠን፡ %(max_upload_size)s።"
 
 #: climweb/src/climweb/base/forms.py:42
 #, python-format
-msgid ""
-"File size must be under %(max_upload_size)s. Current file size is "
-"%(current_file_size)s"
-msgstr ""
-"የፋይል መጠን ከ%(max_upload_size) s በታች መሆን አለበት። የአሁኑ የፋይል መጠን "
-"%(current_file_size)s ነው።"
+msgid "File size must be under %(max_upload_size)s. Current file size is %(current_file_size)s"
+msgstr "የፋይል መጠን ከ%(max_upload_size) s በታች መሆን አለበት። የአሁኑ የፋይል መጠን %(current_file_size)s ነው።"
 
 #: climweb/src/climweb/base/forms.py:59
 #, python-format
@@ -294,9 +286,7 @@ msgid "Auto Refresh interval in minutes"
 msgstr "በደቂቃዎች ውስጥ የጊዜ ክፍተት ውስጥ የጊዜ ክፍተት ያድሳል"
 
 #: climweb/src/climweb/base/models/cap_settings.py:26
-msgid ""
-"Refresh cap alerts on the map after this minutes. Leave blank to disable "
-"auto refreshing"
+msgid "Refresh cap alerts on the map after this minutes. Leave blank to disable auto refreshing"
 msgstr "ከዚህ ደቂቃዎች በኋላ በካርታው ላይ አድስ ማዳን ያስቀራል. ራስ-ሰር መንፈስን ለማሰናከል ባዶ ይተው"
 
 #: climweb/src/climweb/base/models/site_settings.py:31
@@ -349,8 +339,7 @@ msgid "CMS Logo"
 msgstr "የሲኤምኤስ አርማ"
 
 #: climweb/src/climweb/base/models/site_settings.py:79
-msgid ""
-"Logo that appears on the CMS. Should be a whit transparent logo preferably"
+msgid "Logo that appears on the CMS. Should be a whit transparent logo preferably"
 msgstr "በሲኤምኤስ ላይ የሚታየው አርማ ነጭ ግልጽ አርማ መሆን ይሻላል"
 
 #: climweb/src/climweb/base/models/site_settings.py:88
@@ -394,10 +383,9 @@ msgid "Youtube API Key"
 msgstr "የዩቲዩብ ኤፒአይ ቁልፍ"
 
 #: climweb/src/climweb/base/models/site_settings.py:145
-#, fuzzy
 #| msgid "Youtube API Key"
 msgid "To set up Youtube API Key refer to "
-msgstr "የዩቲዩብ ኤፒአይ ቁልፍን ለማዋቀር ይመልከቱ"
+msgstr ""
 
 #: climweb/src/climweb/base/models/site_settings.py:150
 msgid "GA Tracking ID"
@@ -412,21 +400,15 @@ msgid "Track button clicks"
 msgstr "የትራክ ቁልፍ ጠቅታዎች"
 
 #: climweb/src/climweb/base/models/site_settings.py:157
-msgid ""
-"Track all button clicks using Google Analytics event tracking, Event "
-"tracking details can be specified in each button’s advanced settings options."
-msgstr ""
-"ጉግል አናሌቲክስ የክስተት ክትትልን በመጠቀም ሁሉንም የአዝራር ጠቅታዎች ይከታተሉ፣ የክስተት መከታተያ ዝርዝሮች "
-"በእያንዳንዱ አዝራር የላቀ የቅንጅቶች አማራጮች ውስጥ ሊገለጹ ይችላሉ።"
+msgid "Track all button clicks using Google Analytics event tracking, Event tracking details can be specified in each button’s advanced settings options."
+msgstr "ጉግል አናሌቲክስ የክስተት ክትትልን በመጠቀም ሁሉንም የአዝራር ጠቅታዎች ይከታተሉ፣ የክስተት መከታተያ ዝርዝሮች በእያንዳንዱ አዝራር የላቀ የቅንጅቶች አማራጮች ውስጥ ሊገለጹ ይችላሉ።"
 
 #: climweb/src/climweb/base/models/site_settings.py:162
 msgid "Track pages internally"
 msgstr "ገጾችን ከውስጥ ይከታተሉ"
 
 #: climweb/src/climweb/base/models/site_settings.py:164
-msgid ""
-"Track   all pages internally. This will enable the internal analytics "
-"dashboard, alongside Google Analytics, if also enabled"
+msgid "Track   all pages internally. This will enable the internal analytics dashboard, alongside Google Analytics, if also enabled"
 msgstr "ሁሉንም ገጾች ከውስጥ ይከታተሉ። ይህ ከነቃ ከ Google ትንታኔዎች ጋር የውስጣዊ ትንታኔ ዳሽቦርድን ያነቃል።"
 
 #: climweb/src/climweb/base/models/site_settings.py:168
@@ -635,9 +617,7 @@ msgid "Variable Name"
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:56
-msgid ""
-"Folder name for this product, e.g. 'daily_forecast'. Used as the top-level "
-"folder in the watch root path."
+msgid "Folder name for this product, e.g. 'daily_forecast'. Used as the top-level folder in the watch root path."
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:63
@@ -654,10 +634,7 @@ msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:70
 #, python-brace-format
-msgid ""
-"Path containing the {variable_name} folder. Relative paths are resolved from "
-"MEDIA_ROOT (e.g. 'products'). Full scan path: {watch_root}/{variable_name}/"
-"{format}/{name_convention}.{format}"
+msgid "Path containing the {variable_name} folder. Relative paths are resolved from MEDIA_ROOT (e.g. 'products'). Full scan path: {watch_root}/{variable_name}/{format}/{name_convention}.{format}"
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:76
@@ -665,8 +642,7 @@ msgid "Enable Auto-Ingestion"
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:77
-msgid ""
-"When enabled, the system will periodically scan the watch root for new files."
+msgid "When enabled, the system will periodically scan the watch root for new files."
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:86
@@ -700,9 +676,7 @@ msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:122
 #, python-brace-format
-msgid ""
-"The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This "
-"also determines the subfolder name: {variable_name}/{format}/"
+msgid "The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This also determines the subfolder name: {variable_name}/{format}/"
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:131
@@ -719,11 +693,7 @@ msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:158
 #, python-brace-format
-msgid ""
-"Filename pattern used to match and parse product files (without extension). "
-"Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-"
-"populated from the product temporal resolution. You may add a prefix or "
-"suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
+msgid "Filename pattern used to match and parse product files (without extension). Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-populated from the product temporal resolution. You may add a prefix or suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:167
@@ -731,9 +701,7 @@ msgid "Valid for (days)"
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:169
-msgid ""
-"How many days this product remains effective after its issue date. Leave "
-"blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
+msgid "How many days this product remains effective after its issue date. Leave blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
 msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:216
@@ -750,7 +718,7 @@ msgstr "ድንክዬ"
 
 #: climweb/src/climweb/base/models/snippets.py:231
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: climweb/src/climweb/base/models/snippets.py:232
 msgid "Order"
@@ -783,7 +751,7 @@ msgstr "አሻሽል።"
 #: climweb/src/climweb/base/templates/admin/cms_version.html:6
 #, python-format
 msgid "%(title)s"
-msgstr "%(title)s"
+msgstr ""
 
 #: climweb/src/climweb/base/templates/admin/cms_version.html:34
 msgid "ClimWeb Version Check"
@@ -802,8 +770,7 @@ msgid "Your ClimWeb version is up to date."
 msgstr "የእርስዎ ClimWeb ስሪት ዘምኗል።"
 
 #: climweb/src/climweb/base/templates/admin/cms_version.html:73
-msgid ""
-"A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
+msgid "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
 msgstr "የሲኤምኤስ ማሻሻያ ተጀመረ። እባክዎ ማሻሻያው እስኪጠናቀቅ ይጠብቁ"
 
 #: climweb/src/climweb/base/templates/admin/cms_version.html:78
@@ -820,12 +787,10 @@ msgstr "አሁን አሻሽል።"
 
 #: climweb/src/climweb/base/templates/blocks/main_menu.html:36
 #, python-format
-msgid ""
-"\n"
+msgid "\n"
 "                    View all %(label)s\n"
 "                  "
-msgstr ""
-"\n"
+msgstr "\n"
 " ሁሉንም %(label)s\n"
 " "
 
@@ -841,63 +806,68 @@ msgstr "የቅርብ ጊዜውን የስሪት ቁጥር ከልቀት ማውጣ�
 msgid "Themes"
 msgstr "ገጽታዎች"
 
+#, python-format
+#~ msgid "View all %(label)s\n"
+#~ msgstr "View all %(label)s\n"
+
 #~ msgid ""
 #~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
 #~ "v3/getting-started"
 #~ msgstr ""
-#~ "የዩቲዩብ ኤፒአይ ቁልፍን ለማዋቀር https://developers.google.com/youtube/v3/getting-"
-#~ "started ይመልከቱ"
+#~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
+#~ "v3/getting-started"
 
 #~ msgid "What we do"
-#~ msgstr "የምንሰራው"
+#~ msgstr "What we do"
 
 #~ msgid "ClimWeb Logo"
-#~ msgstr "ClimWeb አርማ"
+#~ msgstr "ClimWeb Logo"
 
 #~ msgid "Introduction Heading"
-#~ msgstr "የመግቢያ ርዕስ"
+#~ msgstr "Introduction Heading"
 
 #~ msgid "Introduction section heading"
-#~ msgstr "የመግቢያ ክፍል ርዕስ"
+#~ msgstr "Introduction section heading"
 
 #~ msgid "Staff"
-#~ msgstr "ሰራተኞች"
+#~ msgstr "Staff"
 
 #~ msgid "Staff Page"
-#~ msgstr "የሰራተኞች ገጽ"
+#~ msgstr "Staff Page"
 
 #~ msgid "Staff member's name"
-#~ msgstr "የሰራተኛ ስም"
+#~ msgstr "Staff member's name"
 
 #~ msgid "First and Last names of Staff member"
-#~ msgstr "የሰራተኞች የመጀመሪያ እና የመጨረሻ ስሞች"
+#~ msgstr "First and Last names of Staff member"
 
 #~ msgid "Staff member's role"
-#~ msgstr "የሰራተኞች ሚና"
+#~ msgstr "Staff member's role"
 
 #~ msgid "The role/position of the Staff member"
-#~ msgstr "የሰራተኛ አባል ሚና / አቋም"
+#~ msgstr "The role/position of the Staff member"
 
 #~ msgid "Staff member Biography"
-#~ msgstr "የሰራተኛ አባል የህይወት ታሪክ"
+#~ msgstr "Staff member Biography"
 
 #~ msgid "Optional Summary biography of the Staff member"
-#~ msgstr "አማራጭ ማጠቃለያ የሰራተኛው አባል የህይወት ታሪክ"
+#~ msgstr "Optional Summary biography of the Staff member"
 
 #~ msgid "Staff member's Department"
-#~ msgstr "የሰራተኞች ክፍል"
+#~ msgstr "Staff member's Department"
 
 #~ msgid "Staff member's Profile Image"
-#~ msgstr "የሰራተኛ አባል መገለጫ ምስል"
+#~ msgstr "Staff member's Profile Image"
 
 #~ msgid "A high quality square image"
-#~ msgstr "ከፍተኛ ጥራት ያለው ካሬ ምስል"
+#~ msgstr "A high quality square image"
 
 #~ msgid "Staff Member"
-#~ msgstr "የሰራተኛ አባል"
+#~ msgstr "Staff Member"
 
 #~ msgid "Staff Members"
-#~ msgstr "የሰራተኞች አባላት"
+#~ msgstr "Staff Members"
 
 #~ msgid "All good. You are running on the latest version"
-#~ msgstr "ሁሉም ጥሩ። በአዲሱ ስሪት ላይ እያሄዱ ነው።"
+#~ msgstr "All good. You are running on the latest version"
+
