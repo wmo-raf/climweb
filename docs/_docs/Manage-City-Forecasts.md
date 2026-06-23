@@ -18,52 +18,6 @@ You need a ClimWeb admin account with staff access. Go to your site's admin URL 
 
 For the CSV upload method, you also need a spreadsheet application such as Microsoft Excel or LibreOffice Calc.
 
-## Manually adding forecasts
-
-The **City Forecast** menu in the left sidebar has five items: Cities, Daily Weather, Add Forecasts, Load Forecasts, and Settings.
-
-![City Forecast menu in the left sidebar, expanded to show five items: Cities, Daily Weather, Add Forecasts, Load Forecasts, and Settings](../_static/images/city_forecasts/forecast_explorer.png "City Forecast menu")
-
-You can:
-
-- Add/Edit/Delete a city (city name and location).
-
-    ![Add City form showing City Name set to Gondar, coordinates filled in as 12.60417, 37.46833, and a map pin placed over northern Ethiopia](../_static/images/city_forecasts/add_city.png "Add City form with geocoded location")
-
-- Import city forecasts in CSV format, or type values into the data grid.
-
-    ![City Forecast menu with Add Forecasts highlighted, showing the Forecast Manager page with a CSV upload area and an empty data grid](../_static/images/city_forecasts/add_forecast_explorer.png "City Forecast menu: Add Forecasts selected")
-
-    Import city forecasts from a CSV file or type values into the data grid. To enter data manually, click any cell in the grid and type the value. When you are finished entering data, fill in the **Forecasts Date** and **Effective period** fields and click **Save**. For step-by-step CSV upload instructions, see [Uploading a CSV forecast](#uploading-a-csv-forecast-manually).
-
-    ![Add Forecast page with a CSV file selected, Forecasts Date set to 2023-07-10, Match Fields dropdowns for City, Min Temp, Max Temp, and Condition, and a data grid showing three sample cities](../_static/images/city_forecasts/add_forecast.png "Add Forecast page with CSV uploaded and fields matched")
-
-    Forecasts you enter manually (or upload by CSV, or push through the API) are **published immediately** and are marked as forecaster-authored, so automated runs will not overwrite them.
-
-- Preview previously added city forecasts (last 7 days).
-
-    ![City Forecast menu with Load Forecasts highlighted, showing a forecast data table and weather map of East Africa side by side](../_static/images/city_forecasts/load_forecast_explorer.png "City Forecast menu: Load Forecasts selected")
-
-    Switch between available dates and view data in either table or map format.
-
-    ![Load Forecasts page showing a date selector set to July 19, 2023, a table of 17 cities with Min Temp, Max Temp, and Condition columns, and a weather icon map of East Africa](../_static/images/city_forecasts/load_forecast.png "Load Forecasts: date selector, data table, and weather map")
-
-- Add a daily weather summary.
-
-    ![City Forecast menu with Daily Weather highlighted, showing the Daily Weathers list with one entry and an Add daily weather button](../_static/images/city_forecasts/daily_weather_explorer.png "City Forecast menu: Daily Weather selected")
-
-    ![New Daily Weather form with three sections: Weather Summary with a date field and rich text editor, Weather Forecast with a date field and rich text editor, and Extremes with a date field](../_static/images/city_forecasts/daily_weather.png "New Daily Weather form")
-
-    The daily weather summary form has three sections:
-
-    - **Weather Summary**: set the summary date and describe observed conditions using the rich text editor.
-    - **Weather Forecast**: set the forecast date and describe expected conditions.
-    - **Extremes**: add records of extreme station readings from the previous day (for example, the hottest or coldest station). Each entry requires a title, location name, and numeric value.
-
-    Here is how it appears on the website:
-
-    ![Public Daily Weather Report page showing a Stations with Extreme Measurements section listing the hottest and coldest stations, a Forecast Summary paragraph, and a Past Weather Summary paragraph](../_static/images/city_forecasts/daily_weather_preview.png "Daily Weather Report as it appears on the public website")
-
 ## Uploading a CSV forecast manually
 
 Prepare forecast data offline in a spreadsheet, then upload it here.
