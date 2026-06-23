@@ -37,9 +37,8 @@
   direction: rtl;
 }
 
-.fb-row--flip > * {
-  direction: ltr;
-}
+[dir="rtl"] .fb-row--flip { direction: ltr; }
+[dir="rtl"] .fb-row--flip > * { direction: rtl; }
 
 /* ── FIGURE ── */
 .fb-figure {
@@ -136,7 +135,6 @@
   .fb-row,
   .fb-row--flip {
     grid-template-columns: 1fr;
-    direction: ltr;
     border-radius: 12px !important;
   }
 
