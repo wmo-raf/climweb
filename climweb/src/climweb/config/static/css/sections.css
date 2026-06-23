@@ -37,6 +37,10 @@
   direction: rtl;
 }
 
+.fb-row--flip > * {
+  direction: ltr;
+}
+
 [dir="rtl"] .fb-row--flip { direction: ltr; }
 [dir="rtl"] .fb-row--flip > * { direction: rtl; }
 
