@@ -1,7 +1,6 @@
 # City Forecasts
 
 City forecasts on the homepage and forecasts page can be added in three ways:
-City forecasts on the homepage and forecasts page can be added in three ways:
 
 1. Manually adding daily forecasts
 2. Uploading a CSV file prepared offline
