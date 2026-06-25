@@ -1,10 +1,9 @@
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
-"PO-Revision-Date: 2026-04-13 12:55\n"
+"POT-Creation-Date: 2026-03-23 16:59+0300\n"
+"PO-Revision-Date: 2026-06-22 11:39\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -12,11 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-File: /climweb/src/climweb/pages/dashboards/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-File-ID: 1500\n"
-"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-Project: nmhs-cms\n"
 "X-Crowdin-Project-ID: 672958\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-File: /climweb/src/climweb/pages/dashboards/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 1500\n"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:15
 #: climweb/src/climweb/pages/dashboards/snippets.py:280
@@ -38,6 +37,7 @@ msgstr "Seção do painel"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:75
 #: climweb/src/climweb/pages/dashboards/snippets.py:174
+#| msgid "Chart"
 msgid "Line Chart"
 msgstr "Gráfico de linhas"
 
@@ -53,6 +53,7 @@ msgstr "Gráfico de barras horizontais"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:78
 #: climweb/src/climweb/pages/dashboards/snippets.py:177
+#| msgid "Chart"
 msgid "Area Chart"
 msgstr "Gráfico de área"
 
@@ -66,10 +67,12 @@ msgid "Chart variable name"
 msgstr "Nome da variável do gráfico"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:83
+#| msgid "Chart"
 msgid "Chart color"
 msgstr "Cor do gráfico"
 
 #: climweb/src/climweb/pages/dashboards/blocks.py:84
+#| msgid "Chart"
 msgid "Chart type"
 msgstr "Tipo de gráfico"
 
@@ -102,17 +105,13 @@ msgid "A high quality banner image"
 msgstr "Uma imagem de banner de alta qualidade"
 
 #: climweb/src/climweb/pages/dashboards/models.py:52
+#| msgid "Overview"
 msgid "Service"
 msgstr "Serviço"
 
 #: climweb/src/climweb/pages/dashboards/models.py:52
-msgid ""
-"The service this dashboard is associated with. This is useful in fetching "
-"the latest updates i.e publications, news, articles related to this service."
-msgstr ""
-"O serviço ao qual este painel está associado. Isto é útil para obter as "
-"atualizações mais recentes, ou seja, publicações, notícias, artigos "
-"relacionados a este serviço."
+msgid "The service this dashboard is associated with. This is useful in fetching the latest updates i.e publications, news, articles related to this service."
+msgstr "O serviço ao qual este painel está associado. Isto é útil para obter as atualizações mais recentes, ou seja, publicações, notícias, artigos relacionados a este serviço."
 
 #: climweb/src/climweb/pages/dashboards/models.py:60
 #: climweb/src/climweb/pages/dashboards/templates/dashboards/dashboard_page.html:79
@@ -136,6 +135,7 @@ msgid "Warming stripes"
 msgstr "Listras de aquecimento"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:181
+#| msgid "Warming stripes"
 msgid "Rainfall stripes"
 msgstr "Listras de chuva"
 
@@ -149,9 +149,9 @@ msgid "Description"
 msgstr "Descrição"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:198
+#| msgid "Hex color code for banner background (e.g., #ffffff)"
 msgid "Hex color code for chart color (e.g., #0b76e1)"
-msgstr ""
-"Código de cor hexadecimal para a cor do gráfico (por exemplo, #0b76e1)"
+msgstr "Código de cor hexadecimal para a cor do gráfico (por exemplo, #0b76e1)"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:202
 #: climweb/src/climweb/pages/dashboards/snippets.py:232
@@ -207,24 +207,16 @@ msgid "Single-Variable Charts"
 msgstr "Gráficos de variável única"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:292
-msgid ""
-"Whether to use multiple axes (one per variable) or a single axis for all "
-"variables."
-msgstr ""
-"Seja para usar vários eixos (um por variável) ou um único eixo para todas as"
-" variáveis."
+msgid "Whether to use multiple axes (one per variable) or a single axis for all variables."
+msgstr "Seja para usar vários eixos (um por variável) ou um único eixo para todas as variáveis."
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:295
 msgid "Chart Variables"
 msgstr "Variáveis ​​do gráfico"
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:295
-msgid ""
-"Add more variables to display in the chart. Each variable corresponds to a "
-"dataset and will be displayed as a separate series in the chart."
-msgstr ""
-"Adicione mais variáveis ​​para exibir no gráfico. Cada variável corresponde "
-"a um conjunto de dados e será exibida como uma série separada no gráfico."
+msgid "Add more variables to display in the chart. Each variable corresponds to a dataset and will be displayed as a separate series in the chart."
+msgstr "Adicione mais variáveis ​​para exibir no gráfico. Cada variável corresponde a um conjunto de dados e será exibida como uma série separada no gráfico."
 
 #: climweb/src/climweb/pages/dashboards/snippets.py:354
 #: climweb/src/climweb/pages/dashboards/wagtail_hooks.py:29
@@ -310,14 +302,15 @@ msgstr "Painéis"
 
 #: climweb/src/climweb/pages/dashboards/wagtail_hooks.py:59
 msgid "Atlas"
-msgstr "Atlas"
+msgstr ""
 
 #~ msgid "Dashboard Chart"
-#~ msgstr "Gráfico do painel"
+#~ msgstr "Dashboard Chart"
 
 #~ msgid "Dashboard Charts"
-#~ msgstr "Gráficos do painel"
+#~ msgstr "Dashboard Charts"
 
 #, fuzzy
 #~ msgid "Charts"
-#~ msgstr "Gráficos"
+#~ msgstr "Charts"
+
