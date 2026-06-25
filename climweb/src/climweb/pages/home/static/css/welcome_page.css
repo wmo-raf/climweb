@@ -1,0 +1,348 @@
+/* ClimWeb default-root welcome / landing page
+   Self-contained: does not depend on the site navbar, footer or menus,
+   so it renders correctly even on a freshly deployed, unconfigured site. */
+
+:root {
+    --climweb-primary: #0C447C;
+    --climweb-secondary: #0080cc;
+    --climweb-ink: #15233b;
+    --climweb-muted: #5b6b82;
+    --climweb-line: #e6ebf2;
+    --climweb-bg: #f5f8fc;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--climweb-ink);
+    background:
+        radial-gradient(1100px 520px at 85% -10%, rgba(0, 128, 204, 0.10), transparent 60%),
+        var(--climweb-bg);
+    font-family: 'Open Sans', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.welcome {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ---------- top bar ---------- */
+.welcome-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+}
+
+.welcome-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+}
+
+.welcome-brand-logo {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+}
+
+.welcome-brand-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--climweb-primary);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.welcome-flag {
+    height: 24px;
+    width: auto;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- hero ---------- */
+.welcome-hero {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.35fr 0.65fr;
+    align-items: center;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, var(--climweb-primary) 0%, var(--climweb-secondary) 100%);
+    border-radius: 20px;
+    padding: 2.75rem 2.75rem;
+    color: #fff;
+    box-shadow: 0 20px 45px -25px rgba(12, 68, 124, 0.65);
+}
+
+.welcome-hero::before {
+    content: "";
+    position: absolute;
+    top: -90px;
+    right: -60px;
+    width: 280px;
+    height: 280px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.welcome-hero-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-eyebrow {
+    margin: 0 0 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.welcome-title {
+    margin: 0 0 0.85rem;
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    font-weight: 800;
+    color: #fff;
+}
+
+.welcome-lead {
+    margin: 0 0 1.75rem;
+    max-width: 46ch;
+    font-size: 1.02rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.welcome-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.welcome-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.7rem 1.3rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.welcome-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.welcome-btn-primary {
+    background: #fff;
+    color: var(--climweb-primary);
+}
+
+.welcome-btn-primary:hover {
+    transform: translateY(-1px);
+    background: #f0f6ff;
+}
+
+.welcome-btn-ghost {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: #fff;
+}
+
+.welcome-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+/* ---------- hero artwork ---------- */
+.welcome-hero-art {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.welcome-art-svg {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    color: #fff;
+}
+
+.welcome-art-sun {
+    fill: #ffd166;
+}
+
+.welcome-art-rays line {
+    stroke: #ffd166;
+    stroke-width: 4;
+    stroke-linecap: round;
+    transform-origin: 135px 68px;
+    animation: welcome-spin 18s linear infinite;
+}
+
+.welcome-art-cloud {
+    fill: #fff;
+}
+
+.welcome-art-rain line {
+    stroke: #bfe3ff;
+    stroke-width: 4;
+    stroke-linecap: round;
+    animation: welcome-rain 1.6s ease-in-out infinite;
+}
+
+.welcome-art-rain line:nth-child(2) { animation-delay: 0.25s; }
+.welcome-art-rain line:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes welcome-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes welcome-rain {
+    0%, 100% { opacity: 0.25; transform: translateY(-2px); }
+    50% { opacity: 1; transform: translateY(2px); }
+}
+
+/* ---------- feature cards ---------- */
+.welcome-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.welcome-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1.1rem 1.15rem;
+    background: #fff;
+    border: 1px solid var(--climweb-line);
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.welcome-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(12, 68, 124, 0.25);
+    box-shadow: 0 16px 30px -22px rgba(12, 68, 124, 0.5);
+}
+
+.welcome-card-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(12, 68, 124, 0.08);
+    color: var(--climweb-primary);
+}
+
+.welcome-card-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.welcome-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.welcome-card-text strong {
+    font-size: 1rem;
+    color: var(--climweb-ink);
+}
+
+.welcome-card-text span {
+    font-size: 0.86rem;
+    color: var(--climweb-muted);
+}
+
+/* ---------- footer ---------- */
+.welcome-footer {
+    margin-top: auto;
+    padding-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--climweb-muted);
+}
+
+.welcome-footer-powered {
+    opacity: 0.8;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 820px) {
+    .welcome-hero {
+        grid-template-columns: 1fr;
+        padding: 2.25rem 1.75rem;
+    }
+
+    .welcome-hero-art {
+        display: none;
+    }
+
+    .welcome-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-brand-name {
+        font-size: 0.95rem;
+    }
+
+    .welcome-cta {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .welcome-btn {
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .welcome-art-rays line,
+    .welcome-art-rain line {
+        animation: none;
+    }
+}

@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     "climweb.pages.glossary",
     "climweb.pages.webstories",
     "climweb.pages.dashboards",
-
+    
     "adminboundarymanager",
     "geomanager",
     
@@ -155,30 +155,35 @@ IS_METEOROLOGICAL = env.bool("IS_METEOROLOGICAL", default=True)
 if IS_METEOROLOGICAL:
     INSTALLED_APPS += [
         *([
-            "forecastmanager",
-            "climweb.pages.weather",
-            "climweb.pages.cityclimate",
-        ] if importlib.util.find_spec("forecastmanager") else []),
+              "forecastmanager",
+              "climweb.pages.weather",
+              "climweb.pages.cityclimate",
+          ] if importlib.util.find_spec("forecastmanager") else []),
         *([
-            "climweb_wdqms",
-            "climweb.pages.wdqms",
-        ] if importlib.util.find_spec("climweb_wdqms") else []),
+              "climweb_wdqms",
+              "climweb.pages.wdqms",
+          ] if importlib.util.find_spec("climweb_wdqms") else []),
         *([
-            "capcomposer.capeditor",
-            "capcomposer.cap",
-        ] if importlib.util.find_spec("capcomposer") else []),
+              "capcomposer.capeditor",
+              "capcomposer.cap",
+          ] if importlib.util.find_spec("capcomposer") else []),
     ]
 
 ## Plugins loading logic start
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
+
+# climweb.pages.aviation has been discontinued and will cause the site to crash
+DISCONTINUED_APPS = ["climweb.pages.aviation"]
+CLIMWEB_ADDITIONAL_APPS = [app for app in CLIMWEB_ADDITIONAL_APPS if app not in DISCONTINUED_APPS]
+
 if CLIMWEB_ADDITIONAL_APPS:
     print(f"Loaded ClimWeb additional apps: {','.join(CLIMWEB_ADDITIONAL_APPS)}")
     INSTALLED_APPS += CLIMWEB_ADDITIONAL_APPS
 
-CLIMWEB_PLUGIN_DIRS = env.list("CLIMWEB_PLUGIN_DIRS", default=["/climweb/user-plugins", ])
+CLIMWEB_PLUGIN_DIR = env.list("CLIMWEB_PLUGIN_DIR", default=["/climweb/plugins", ])
 CLIMWEB_PLUGIN_PACKAGE_FOLDERS = []
 
-for plugin_dir in CLIMWEB_PLUGIN_DIRS:
+for plugin_dir in CLIMWEB_PLUGIN_DIR:
     plugin_package = Path(plugin_dir)
     if plugin_package.exists():
         plugin_package_folders = [file for file in plugin_package.iterdir() if file.is_dir()]
@@ -282,6 +287,9 @@ DB_CONNECTION_MAX_AGE = env.int("DB_CONNECTION_MAX_AGE", default=0)
 DB_CONN_HEALTH_CHECKS = env.bool("DB_CONN_HEALTH_CHECKS", default=False)
 DB_DISABLE_SERVER_SIDE_CURSORS = env.bool("DB_DISABLE_SERVER_SIDE_CURSORS", default=False)
 DB_SSL_REQUIRE = env.bool("DB_SSL_REQUIRE", default=False)
+# Statement timeout in milliseconds (0 = disabled). Prevents runaway queries from
+# blocking indefinitely, e.g. when a PgBouncer connection goes stale mid-transaction.
+DB_STATEMENT_TIMEOUT = env.int("DB_STATEMENT_TIMEOUT", default=0)
 
 DATABASES = {
     "default": dj_database_url.config(
@@ -292,6 +300,10 @@ DATABASES = {
         ssl_require=DB_SSL_REQUIRE,
     )
 }
+
+if DB_STATEMENT_TIMEOUT:
+    DATABASES["default"].setdefault("OPTIONS", {})
+    DATABASES["default"]["OPTIONS"]["options"] = f"-c statement_timeout={DB_STATEMENT_TIMEOUT}"
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, "backup")}
@@ -368,17 +380,17 @@ LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = WAGTAILADMIN_PERMITTED_LANGUAGES = [
 
 LOCALE_PATHS = [
     # 'docs/locale',
-    # 'climweb/src/climweb/base/locale',    
-    # 'climweb/src/climweb/config/locale',    
-    # 'climweb/src/climweb/pages/cap/locale',
-    # 'climweb/src/climweb/pages/cityclimate/locale',
-    # 'climweb/src/climweb/pages/contact/locale',
-    # 'climweb/src/climweb/pages/data_request/locale',
-    # 'climweb/src/climweb/pages/email_subscription/locale',
-    # 'climweb/src/climweb/pages/events/locale',
-    # 'climweb/src/climweb/pages/feedback/locale',
-    # 'climweb/src/climweb/pages/flex_page/locale',
-    # 'climweb/src/climweb/pages/glossary/locale',
+    'climweb/src/climweb/base/locale',    
+    'climweb/src/climweb/config/locale',    
+    'climweb/src/climweb/pages/cap/locale',
+    'climweb/src/climweb/pages/cityclimate/locale',
+    'climweb/src/climweb/pages/contact/locale',
+    'climweb/src/climweb/pages/data_request/locale',
+    'climweb/src/climweb/pages/email_subscription/locale',
+    'climweb/src/climweb/pages/events/locale',
+    'climweb/src/climweb/pages/feedback/locale',
+    'climweb/src/climweb/pages/flex_page/locale',
+    'climweb/src/climweb/pages/glossary/locale',
     'climweb/src/climweb/pages/home/locale',
     'climweb/src/climweb/pages/mediacenter/locale',
     'climweb/src/climweb/pages/news/locale',
@@ -403,8 +415,6 @@ LOCALE_PATHS = [
     'climweb/src/climweb/pages/weather/locale',
     'climweb/src/climweb/pages/webstories/locale',
 ]
-
-
 
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 

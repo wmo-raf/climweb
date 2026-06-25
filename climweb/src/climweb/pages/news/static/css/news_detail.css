@@ -281,6 +281,112 @@
   .nd-title { font-size: 18px; }
 }
 
+/* ══════════════════════════════
+   IMAGE GALLERY (mosaic block)
+══════════════════════════════ */
+
+.nd-gallery-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.ng-gallery {
+  width: 100%;
+}
+
+.ng-gallery-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.85rem;
+}
+
+/* ── UNIFORM GRID ── */
+.ng-gallery-grid--grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ng-cols, 3), 1fr);
+  gap: 10px;
+}
+
+.ng-gallery-grid--grid .ng-gallery-item {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f4f4f4;
+}
+
+.ng-gallery-grid--grid .ng-gallery-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+/* ── MASONRY ── */
+.ng-gallery-grid--masonry {
+  columns: var(--ng-cols, 3);
+  column-gap: 10px;
+}
+
+.ng-gallery-grid--masonry .ng-gallery-item {
+  break-inside: avoid;
+  margin: 0 0 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f4f4f4;
+}
+
+.ng-gallery-grid--masonry .ng-gallery-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+/* ── SHARED ITEM STYLES ── */
+.ng-gallery-item {
+  position: relative;
+}
+
+.ng-gallery-link {
+  display: block;
+  overflow: hidden;
+}
+
+.ng-gallery-link:hover .ng-gallery-img {
+  transform: scale(1.03);
+}
+
+.ng-gallery-caption {
+  font-size: 12px;
+  color: #777;
+  padding: 5px 8px 6px;
+  line-height: 1.4;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .ng-gallery-grid--grid    { grid-template-columns: repeat(min(var(--ng-cols, 3), 3), 1fr); }
+}
+
+@media (max-width: 768px) {
+  .ng-gallery-grid--grid    { grid-template-columns: repeat(2, 1fr); }
+  .ng-gallery-grid--masonry { columns: 2; }
+
+  .ng-gallery-grid--grid .ng-gallery-img { height: 160px; }
+}
+
+@media (max-width: 480px) {
+  .ng-gallery-grid--grid    { grid-template-columns: 1fr; }
+  .ng-gallery-grid--masonry { columns: 1; }
+
+  .ng-gallery-grid--grid .ng-gallery-img { height: 220px; }
+}
+
 /* ── RICHTEXT IMAGE FORMATS ── */
 
 /* base — applies to all richtext images */

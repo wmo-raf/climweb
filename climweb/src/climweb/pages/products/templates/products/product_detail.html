@@ -96,6 +96,27 @@
                         {% share_buttons url=page.get_full_url text=product_item.value.product_item_type.name %}
                       </div>
 
+                    {% elif product_item.block_type == "gif_product" %}
+                      <div class="pd-panel-img">
+                        <img src="{{ product_item.value.gif.file.url }}"
+                             alt="{{ product_item.value.product_item_type.name }}" />
+                      </div>
+                      <div class="pd-panel-foot share-buttons">
+                        <a class="pd-btn-view"
+                           href="{{ product_item.value.gif.file.url }}"
+                           target="_blank" rel="noopener noreferrer">
+                          <span class="icon">{% svg_icon name="view" %}</span>
+                          <span>{% translate "View" %}</span>
+                        </a>
+                        <a class="pd-btn-dl"
+                           href="{{ product_item.value.gif.file.url }}"
+                           download="{{ product_item.value.product_item_type.name }}">
+                          <span class="icon">{% svg_icon name="download" %}</span>
+                          <span>{% translate "Download" %}</span>
+                        </a>
+                        {% share_buttons url=page.get_full_url text=product_item.value.product_item_type.name %}
+                      </div>
+
                     {% elif product_item.block_type == "document_product" %}
                       <div class="pd-panel-doc">
                         <div class="pd-doc-thumb">

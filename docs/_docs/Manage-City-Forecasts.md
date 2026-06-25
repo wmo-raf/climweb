@@ -4,7 +4,9 @@ City forecasts on the homepage and forecasts page can be added in three ways:
 
 1. Manually adding daily forecasts
 2. Uploading a CSV file prepared offline
-3. Fetching city forecasts automatically from an external source
+3. Fetching city forecasts automatically from an external weather API (yr.no or Open-Meteo)
+
+These methods work together. A common setup is to let an external API fill in a draft forecast automatically, then have a forecaster review, adjust a few cities, and publish. Forecaster edits are never overwritten by later automated runs.
 
 For step-by-step instructions on CSV uploads, see [Uploading a CSV forecast](#uploading-a-csv-forecast-manually).
 
@@ -15,51 +17,6 @@ For step-by-step instructions on CSV uploads, see [Uploading a CSV forecast](#up
 You need a ClimWeb admin account with staff access. Go to your site's admin URL (for example, `https://your-nmhs-site.org/cms-admin/`) and sign in with your credentials. Your system administrator should have given you this URL when your account was created. If you do not have it, ask them. It typically ends in `/cms-admin/` or `/admin/`. If you do not have an account, contact your system administrator.
 
 For the CSV upload method, you also need a spreadsheet application such as Microsoft Excel or LibreOffice Calc.
-
-## Manually adding forecasts
-
-The **City Forecast** menu in the left sidebar has five items: Cities, Daily Weather, Add Forecasts, Load Forecasts, and Settings.
-
-![City Forecast menu in the left sidebar, expanded to show five items: Cities, Daily Weather, Add Forecasts, Load Forecasts, and Settings](../_static/images/city_forecasts/forecast_explorer.png "City Forecast menu")
-
-You can:
-- Add/Edit/Delete a city (city name and location).
-
-    ![Add City form showing City Name set to Gondar, coordinates filled in as 12.60417, 37.46833, and a map pin placed over northern Ethiopia](../_static/images/city_forecasts/add_city.png "Add City form with geocoded location")
-
-- Import city forecasts in CSV format.
-
-    ![City Forecast menu with Add Forecasts highlighted, showing the Forecast Manager page with a CSV upload area and an empty data grid](../_static/images/city_forecasts/add_forecast_explorer.png "City Forecast menu: Add Forecasts selected")
-
-
-    Import city forecasts from a CSV file or type values into the data grid. To enter data manually, click any cell in the grid and type the value. When you are finished entering data, fill in the **Forecasts Date** and **Effective period** fields and click **Save**. For step-by-step CSV upload instructions, see [Uploading a CSV forecast](#uploading-a-csv-forecast-manually).
-
-    ![Add Forecast page with a CSV file selected, Forecasts Date set to 2023-07-10, Match Fields dropdowns for City, Min Temp, Max Temp, and Condition, and a data grid showing three sample cities](../_static/images/city_forecasts/add_forecast.png "Add Forecast page with CSV uploaded and fields matched")
-
-- Preview previously added city forecasts (last 7 days).
-
-    ![City Forecast menu with Load Forecasts highlighted, showing a forecast data table and weather map of East Africa side by side](../_static/images/city_forecasts/load_forecast_explorer.png "City Forecast menu: Load Forecasts selected")
-
-    Switch between available dates and view data in either table or map format.
-
-    ![Load Forecasts page showing a date selector set to July 19, 2023, a table of 17 cities with Min Temp, Max Temp, and Condition columns, and a weather icon map of East Africa](../_static/images/city_forecasts/load_forecast.png "Load Forecasts: date selector, data table, and weather map")
-
-- Add a daily weather summary.
-
-    ![City Forecast menu with Daily Weather highlighted, showing the Daily Weathers list with one entry and an Add daily weather button](../_static/images/city_forecasts/daily_weather_explorer.png "City Forecast menu: Daily Weather selected")
-
-    ![New Daily Weather form with three sections: Weather Summary with a date field and rich text editor, Weather Forecast with a date field and rich text editor, and Extremes with a date field](../_static/images/city_forecasts/daily_weather.png "New Daily Weather form")
-
-    The daily weather summary form has three sections:
-
-    - **Weather Summary**: set the summary date and describe observed conditions using the rich text editor.
-    - **Weather Forecast**: set the forecast date and describe expected conditions.
-    - **Extremes**: add records of extreme station readings from the previous day (for example, the hottest or coldest station). Each entry requires a title, location name, and numeric value.
-
-    Here is how it appears on the website:
-
-    ![Public Daily Weather Report page showing a Stations with Extreme Measurements section listing the hottest and coldest stations, a Forecast Summary paragraph, and a Past Weather Summary paragraph](../_static/images/city_forecasts/daily_weather_preview.png "Daily Weather Report as it appears on the public website")
-
 
 ## Uploading a CSV forecast manually
 
@@ -85,7 +42,7 @@ Click **Save**.
 
 #### Forecast Data Parameters
 
-Click the **Forecast Data Parameters** tab. Each parameter you add here becomes a column in your CSV template.
+Click the **Forecast Data Parameters** tab. Each parameter you add here becomes a column in your CSV template, and is also the target you map automated-forecast fields onto (see [Fetching automated forecasts](#fetching-automated-forecasts-from-an-external-source)).
 
 Click **+ Add Data Parameter** for each of the following parameters. Leave **Use predefined parameters** ticked. Set **Parameter Type** to `Number` for all four.
 
@@ -121,7 +78,7 @@ Click an icon. Add these four conditions.
 
 Click **Save**.
 
-> **Note:** **Forecast Source** and **Other Settings** are for the automated Yr.no integration. Skip them for CSV uploads.
+> **Note:** The **Forecast Source** tab is for the automated weather-API integration, covered in [Fetching automated forecasts](#fetching-automated-forecasts-from-an-external-source). You can skip it for CSV uploads.
 
 ### Step 2: Add cities
 
@@ -205,7 +162,7 @@ On the left side of the page, fill in the remaining fields:
 
 ![Add Forecast page with Forecasts Date set to 2026-05-26, Effective period set to Day, and the data grid showing all five city rows](../_static/images/city_forecasts/csv_upload/08_date_period_filled.png "Add Forecast: date and period set, ready to save")
 
-Click **Save**. ClimWeb publishes the forecast immediately and takes you back to the Forecasts list. There is no separate publish step. To confirm, go to your site's homepage (for example, `https://your-nmhs-site.org/`), click **Forecasts** in the navigation, and check that the forecast appears.
+Click **Save**. ClimWeb publishes the forecast immediately and takes you back to the Forecasts list. There is no separate publish step for manual uploads. To confirm, go to your site's homepage (for example, `https://your-nmhs-site.org/`), click **Forecasts** in the navigation, and check that the forecast appears.
 
 ![Forecasts list showing one saved entry: 2026-05-26, Day period, updated 2 hours ago](../_static/images/city_forecasts/csv_upload/09_forecast_list.png "Forecasts list after saving")
 
@@ -223,40 +180,121 @@ To correct a forecast, upload a new CSV for the same date and period with **Repl
 > - **Columns matched to the wrong parameters:** Correct the **Match Fields** dropdowns before saving. If you have already saved with wrong mappings, upload again with **Replace existing data if found** ticked and the dropdowns set correctly.
 > - **Some rows show blank values in the data grid:** A cell in your CSV was left empty. Fill in every cell, save the file, and upload again.
 
-## Fetching from an external source
+## Fetching automated forecasts from an external source
 
-ClimWeb automatically fetches forecasts — temperature, wind speed, and weather conditions — from Yr.no (a free global forecast service) and publishes them for all your cities. ClimWeb uses each city's map location (set in [Step 2](#step-2-add-cities)) to request the data. At least one city must have a map location set before automated fetching will work — any city you add later is included on the next scheduled fetch, as long as it has a map location.
+ClimWeb can fetch 7-day city forecasts automatically from a free weather API, using each city's coordinates (set in Step 2 above). Two providers are built in and need no API key:
 
-To enable automated fetching, go to **Settings → Forecast setting** and open the **Forecast Source** tab. Tick **Enable automated forecasts** and click **Save**. No other settings are needed. Disabling this setting stops new fetches — but any forecasts already published remain visible. Re-enabling resumes fetches; gaps are not backfilled.
+- **yr.no** — the Norwegian Meteorological Institute (Met Norway) locationforecast API.
+- **Open-Meteo** — an open weather API that aggregates many national models.
 
-![Forecast Source tab showing the Enable automated forecasts checkbox, which is checked](../_static/images/city_forecasts/autoforecast.png "Forecast setting: Forecast Source tab")
+You choose one provider, map its data fields onto your forecast parameters, and decide whether fetched forecasts are published automatically or saved as drafts for review.
 
-The first fetch runs **within 60 minutes**. After that, forecasts update **every hour** and retrieve up to **7 calendar days** of data per city.
+### Step 1: Choose the provider and enable fetching
 
-Automated fetches cover the standard forecast variables — temperature, wind, pressure, and precipitation — but ClimWeb does not store relative humidity from the Yr.no data. To include humidity values, enter them manually or via the [CSV upload method](#uploading-a-csv-forecast-manually).
+Go to **Settings → Forecast setting** and open the **Forecast Source** tab.
 
-If Yr.no returns a weather condition not listed in the **Forecast Weather Conditions** tab, ClimWeb adds it and assigns a default icon.
+1. Tick **Enable automated forecasts**.
+2. Choose your **Automated forecast provider** (yr.no or Open-Meteo).
+3. Decide on **Auto-publish automated forecasts**:
+   - **On** — fetched forecasts go live immediately.
+   - **Off** — fetched forecasts are saved as **drafts** for a forecaster to review and publish. Use this if you want a human to check the data before it appears on the public site.
+4. Click **Save**.
 
-ClimWeb also creates **Forecast Periods** automatically — no advance setup is required. Yr.no provides hourly data, so ClimWeb creates one forecast period for each hour in the **Forecast Periods** tab — for example, `9:00` and `14:00` — alongside any existing periods, such as `Day`.
+![Forecast Source tab in Forecast settings showing the Enable automated forecasts checkbox, which is ticked](../_static/images/city_forecasts/autoforecast.png "Forecast Source: Enable automated forecasts")
 
-You can use both Yr.no automated forecasts and CSV uploads at the same time. Because they use different forecast periods, **they do not overwrite each other**.
+### Step 2: Map provider fields to your parameters
 
-The first fetch adds entries in bulk: one forecast per hour for approximately the first 48 hours, then one every six hours, plus any new periods and weather conditions.
+In the same **Forecast Source** tab, use the **Provider Parameter Mapping** section to tell ClimWeb which field from the API feeds each of your forecast parameters.
 
-> **Note:** This bulk addition of entries is expected. Leave these forecast entries in place — ClimWeb uses all of them.
+Click **+ Add Parameter Mapping** and, for each value you want to capture:
 
-**To verify:** Go to **City Forecast → Load Forecasts** and confirm new entries have appeared. ClimWeb does not automatically remove forecasts older than 7 days. You can delete them from **City Forecast → Load Forecasts** without affecting current or future fetches.
+1. Choose the **Provider** (the same one you selected above).
+2. Choose the **Provider source field** — the dropdown lists only the fields that provider offers (for example, Open-Meteo's *Temperature (2 m)* or yr.no's *Air Temperature*).
+3. Choose the **Database parameter** — one of your Forecast Data Parameters from Step 1 of the CSV setup (for example, *Air Temperature*).
 
-**If automated forecasts are not updating:**
+Add one row per parameter you want populated, then click **Save**.
+
+> **Note:** If you leave the mapping empty, ClimWeb falls back to a sensible built-in default mapping (see the [field reference](#open-meteo-default-field-reference) below). Add your own rows only when you want to capture different fields or map them differently.
+
+Weather conditions are handled separately: ClimWeb maps each provider's condition code to the icons you configured under **Forecast Weather Conditions**, creating any it doesn't yet have.
+
+### Step 3: Run the fetch
+
+Forecasts are fetched by a scheduled job on your server (typically hourly). Your administrator can also run it on demand from the command line.
+
+Use the unified command, which reads the provider and mapping you configured:
+
+```bash
+# Fetch for all cities using the configured provider and mapping
+climweb generate_auto_forecast
+
+# Test the connection and mapping without writing anything
+climweb generate_auto_forecast --dry-run
+
+# Fetch a single city to verify parsing
+climweb generate_auto_forecast --city "Nairobi"
+
+# Open-Meteo only: limit to specific hours of day (e.g. morning/afternoon/evening)
+climweb generate_auto_forecast --hours 6 12 18
+```
+
+![Python script output](../_static/images/city_forecasts/python_script_output.png "Command output")
+
+> **For administrators (scheduling):** schedule `generate_auto_forecast` with your task runner (e.g. Celery Beat). If you keep **Auto-publish** off, also schedule `publish_forecasts` for your review window so approved/untouched drafts go live automatically:
+>
+> ```bash
+> climweb publish_forecasts            # publish all drafts
+> climweb publish_forecasts --date 2026-06-23
+> ```
+>
+> The older provider-specific commands (`generate_forecast` for yr.no, `fetch_open_meteo` for Open-Meteo) still exist, but `generate_auto_forecast` is preferred because it honours the provider and mapping chosen in the admin.
+
+### Step 4: Review, edit, and publish
+
+If **Auto-publish** is off, fetched forecasts appear in **City Forecast → Forecasts** with a **Draft** status. The list shows a **Status** column and can be filtered by status and source.
+
+You have three ways to act on drafts:
+
+- **Publish as-is** — tick the forecasts in the list and choose **Publish** from the bulk-action bar. (Use **Unpublish (make draft)** to take one back down.)
+- **Edit values, then publish** — click **Edit values** on a forecast row (or the button on the forecast's page) to open a spreadsheet-style grid pre-filled with the current values. Change any cities you need to, optionally tick **Publish after saving**, and click **Save**.
+- **Leave it** — drafts stay internal until published; only **Published** forecasts appear on the public website and API.
+
+**How edits are protected:** when you change a city's values in the grid (or enter it manually / by CSV / via the API), that city is marked as *forecaster-authored*. Later automated runs **skip** forecaster-authored cities, so your edits are never overwritten — while cities you left untouched keep refreshing automatically from the API.
+
+### Open-Meteo default field reference
+
+When no custom mapping is configured, the Open-Meteo connector uses this default mapping. You can override any of it in the **Provider Parameter Mapping** section.
+
+| ClimWeb parameter | Description | Open-Meteo source field | Unit |
+|---|---|---|---|
+| `air_temperature` | Air temperature | `temperature_2m` | °C |
+| `relative_humidity` | Relative humidity | `relative_humidity_2m` | % |
+| `precipitation_amount` | Precipitation | `precipitation` | mm |
+| `wind_speed` | Wind speed | `wind_speed_10m` | km/h |
+| `wind_from_direction` | Wind direction | `wind_direction_10m` | ° (degrees) |
+| `air_pressure_at_sea_level` | Surface pressure | `surface_pressure` | hPa |
+| (weather condition) | WMO weather code → icon | `weathercode` | Mapped icon & label |
+
+### Verify
+
+1. **Admin data:** go to **City Forecast → Forecasts** and confirm new entries exist (and are **Published** once you've approved them).
+2. **Public page:** open the public site and check the forecast widget and charts render correctly.
+
+![Forecast overview](../_static/images/city_forecasts/forecast_overview.png "Forecast overview")
+
+![Daily forecast](../_static/images/city_forecasts/forecast_daily.png "Daily forecast")
+
+## Troubleshooting automated forecasts
 
 | Problem | Likely cause | What to do |
 |---|---|---|
-| Forecasts stopped updating | The automated forecasts setting was turned off, or a scheduled task on the server stopped running | Confirm **Enable automated forecasts** is still ticked in **Settings → Forecast setting** (open the **Forecast Source** tab). If it is ticked and forecasts are still not updating, ask your system administrator to verify that the Celery beat scheduler (a background process that runs scheduled tasks on the server) is running and that the hourly forecast fetch task has not failed. |
-| No forecast data appears after setup (check site address) | The site's web address is still set to the temporary default `localhost` instead of your real site address | Ask your system administrator to check **Settings → Sites** and set the site's web address to your real site address (most common when ClimWeb has just been set up for the first time). If the site address is still set to `localhost`, ClimWeb cannot correctly generate the internal URLs it needs to process fetched data. |
-| No forecast data appears after setup (check network access) | Server cannot reach the Yr.no API | Ask your system administrator to confirm that outbound HTTPS connections to `api.met.no` are not blocked by a firewall or proxy (that is, the server is allowed to make requests to external websites). |
-| Data is not up to date | Updates happen once per hour | Wait up to 60 minutes. If still not updated, confirm the **Enable automated forecasts** checkbox is still ticked. If it is ticked and data is still not updating, ask your system administrator to verify that the Celery beat scheduler (a background process that runs scheduled tasks on the server) is running. |
-| Some cities show no forecast | The city has no location set | Go to **City Forecast → Cities** and confirm the city has a map location set (see Step 2). |
-| Forecast data has gaps after a connection outage | Fetches were skipped during the outage | No action needed. Published forecasts remain visible. Fetches resume automatically once the connection is restored. |
-| A city shows a wrong or missing condition icon | ClimWeb created a new weather condition automatically and used a default icon | Go to **Settings → Forecast setting** and open the **Forecast Weather Conditions** tab. Find the condition with the default or missing icon and assign the correct icon. |
+| No data appears after enabling | Server cannot reach the external API, or the scheduled job hasn't run yet | Wait for the next scheduled run (up to ~60 minutes), then confirm the server has internet access with your administrator. |
+| Fetched forecasts don't show on the site | They are saved as **drafts** | Publish them: tick them in the Forecasts list and choose **Publish**, or turn on **Auto-publish automated forecasts** in **Forecast Source**. |
+| A city never updates from the API | It was edited by a forecaster (or added manually/CSV/API) and is therefore protected | This is expected. To let the API manage it again, delete that city's forecast for the slot so the next run recreates it. |
+| Some parameters are empty | No mapping row for that field, or the provider doesn't supply it | Add a row in **Provider Parameter Mapping** linking the provider field to your parameter. |
+| Wrong values in a parameter | The mapping points at the wrong source field | Correct the row in **Provider Parameter Mapping** and re-run. |
+| Forecasts stopped updating | The scheduled job stopped, or **Enable automated forecasts** was unticked | Confirm the checkbox is ticked in **Settings → Forecast setting → Forecast Source**; if it is, ask your administrator to check the server logs. |
 
-Once forecasts appear in **City Forecast → Load Forecasts**, no further action is needed.
+## Using the City Forecast API (push)
+
+External systems can push forecasts into ClimWeb over its REST API instead of (or alongside) the built-in providers. Forecasts pushed this way are treated as authoritative: they are **published** and marked as forecaster-authored, so automated runs will not overwrite them. Ask your administrator for the API endpoint and authentication details for your instance.

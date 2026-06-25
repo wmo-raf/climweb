@@ -17,7 +17,7 @@ from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtailcache.cache import cache_page
 
 from climweb.base.registries import plugin_registry
-from climweb.base.views import humans, public_health_check
+from climweb.base.views import humans, public_health_check, style_guide, style_guide_tokens
 from climweb.pages.search import views as search_views
 from .api import api_router
 
@@ -44,6 +44,8 @@ urlpatterns = [
     *([path("", include(forecastmanager_urls), name="forecast_api")] if "forecastmanager" in settings.INSTALLED_APPS else []),
     *([path("", include(climweb_wdqms_urls), name="climweb_wdqms_api")] if "climweb_wdqms" in settings.INSTALLED_APPS else []),
     
+    path("style-guide/", style_guide, name="style-guide"),
+    path("style-guide/tokens.json", style_guide_tokens, name="style-guide-tokens"),
     path("sitemap.xml", sitemap),
     path("humans.txt", humans),
     

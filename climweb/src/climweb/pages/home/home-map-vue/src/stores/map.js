@@ -29,8 +29,8 @@ export const useMapStore = defineStore('map', {
                 homeMapLayerType: "fixed",
                 title: "Weather Forecast",
                 position: 0,
-                visible: true,
-                enabled: true,
+                visible: false,
+                enabled: false,
                 dateFormat: {
                     currentTime: "yyyy-MM-dd HH:mm",
                 },

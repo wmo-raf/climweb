@@ -1,6 +1,7 @@
+import csv
 import datetime
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from forecastmanager.models import City
@@ -67,9 +68,10 @@ def load_city_climate_data(request, page_id, city_id):
     context = {}
     
     context.update({
-        "city": selected_city
+        "city": selected_city,
+        "page": page,
     })
-    
+
     parameters = page.data_parameters.all()
     context.update({"parameters": parameters})
     
@@ -193,6 +195,22 @@ def delete_city_climate_date(request, page_id, city_id):
     messages.success(request, "Data deleted successfully")
     
     return redirect(reverse("cityclimate_data_checklist", args=(page_id,)))
+
+
+@user_passes_test(user_has_any_page_permission)
+def download_csv_template(request, page_id):
+    page = get_object_or_404(CityClimateDataPage, pk=page_id).specific
+    parameters = page.data_parameters.filter(enabled=True)
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="city_climatology_template.csv"'
+
+    writer = csv.writer(response)
+    headers = ["date"] + [param.slug for param in parameters]
+    writer.writerow(headers)
+    writer.writerow(["yyyy-mm-dd"] + ["" for _ in parameters])
+
+    return response
 
 
 def climate_data(request, page_id):

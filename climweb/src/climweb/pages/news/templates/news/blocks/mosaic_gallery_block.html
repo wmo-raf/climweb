@@ -1,0 +1,31 @@
+{% load wagtailimages_tags i18n %}
+
+<div class="ng-gallery ng-gallery--{{ value.grid_style }}"
+     style="--ng-cols: {{ value.columns }}">
+
+  {% if value.title %}
+    <h3 class="ng-gallery-title">{{ value.title }}</h3>
+  {% endif %}
+
+  <div class="ng-gallery-grid ng-gallery-grid--{{ value.grid_style }}">
+    {% for item in value.images %}
+      <figure class="ng-gallery-item">
+        <a class="ng-gallery-link"
+           href="{% image item.image original as orig %}{{ orig.url }}"
+           target="_blank"
+           rel="noopener"
+           aria-label="{% trans 'View full image' %}">
+          {% if value.grid_style == "grid" %}
+            {% image item.image fill-600x400 class="ng-gallery-img" loading="lazy" %}
+          {% else %}
+            {% image item.image width-800 class="ng-gallery-img" loading="lazy" %}
+          {% endif %}
+        </a>
+        {% if item.caption %}
+          <figcaption class="ng-gallery-caption">{{ item.caption }}</figcaption>
+        {% endif %}
+      </figure>
+    {% endfor %}
+  </div>
+
+</div>

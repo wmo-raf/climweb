@@ -19,7 +19,7 @@ from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtail.rich_text import RichText
 from wagtail.snippets.models import register_snippet
-from wagtailmodelchooser import register_model_chooser
+from climweb.base.choosers import register_searchable_chooser
 
 from climweb.base.blocks import UUIDModelChooserBlock
 from climweb.base.mixins import MetadataPageMixin
@@ -30,6 +30,7 @@ from climweb.pages.publications.models import PageView
 from .blocks import (
     ProductItemImageContentBlock,
     ProductItemDocumentContentBlock,
+    ProductItemGifContentBlock,
     ProductItemStreamContentBlock
 )
 
@@ -306,7 +307,7 @@ class ProductPage(BaseProductPage):
         return super().serve(request, *args, **kwargs)
 
 
-register_model_chooser(RasterFileLayer)
+register_searchable_chooser(RasterFileLayer)
 
 
 class ProductPageTag(TaggedItemBase):
@@ -348,6 +349,7 @@ class ProductItemPage(MetadataPageMixin, Page):
                                                "Leave blank if not applicable"))
     products = StreamField([
         ("image_product", ProductItemImageContentBlock(label="Map/Image Product")),
+        ("gif_product", ProductItemGifContentBlock(label="GIF Product")),
         ("document_product", ProductItemDocumentContentBlock(label="Document/Bulletin Product")),
         ("content_block", ProductItemStreamContentBlock(label="Text/Tabular Product"))
     ], use_json_field=True)

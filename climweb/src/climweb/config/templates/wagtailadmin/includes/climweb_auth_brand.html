@@ -1,0 +1,16 @@
+{% comment %}
+    Shared brand header for ClimWeb admin auth pages.
+    Renders the organisation CMS logo + name. Falls back gracefully when
+    no logo / name has been configured yet.
+    Include it with: include "wagtailadmin/includes/climweb_auth_brand.html"
+{% endcomment %}
+{% load wagtailimages_tags wagtailsettings_tags i18n %}
+{% get_settings use_default_site=True %}
+<div class="climweb-auth-brand">
+    {% if settings.base.OrganisationSetting.cms_logo %}
+        {% image settings.base.OrganisationSetting.cms_logo height-132 as cw_logo %}
+        <img src="{{ cw_logo.url }}"
+             alt="{{ settings.base.OrganisationSetting.name|default:'ClimWeb' }}" />
+    {% endif %}
+    <span class="cw-name">{{ settings.base.OrganisationSetting.name|default:'ClimWeb' }}</span>
+</div>

@@ -25,6 +25,64 @@
             font-weight: bold;
         }
 
+        /* --- Live upgrade progress panel --- */
+        #upgrade-progress {
+            margin-top: 24px;
+            border: 1px solid var(--color-input-border);
+            border-radius: 4px;
+            background: var(--color-surface-menus);
+            padding: 20px 24px;
+        }
+
+        #upgrade-progress h3 {
+            margin: 0 0 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upgrade-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--color-input-border);
+            border-top-color: var(--color-interactive);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #upgrade-step {
+            font-size: 14px;
+            color: var(--color-text-meta);
+            margin-bottom: 6px;
+        }
+
+        #upgrade-meta {
+            font-size: 12px;
+            color: var(--color-text-meta);
+        }
+
+        .upgrade-status-success {
+            color: var(--color-positive);
+            font-weight: bold;
+        }
+
+        .upgrade-status-failed {
+            color: var(--color-critical);
+            font-weight: bold;
+        }
+
+        .upgrade-status-rolling_back {
+            color: var(--color-warning);
+            font-weight: bold;
+        }
+
     </style>
 
 {% endblock %}
@@ -66,11 +124,14 @@
                         </div>
                     {% else %}
                         {% if cms_upgrade_pending %}
-                            <div class="help-block help-warning">
-                                <svg class="icon icon-warning icon" aria-hidden="true">
-                                    <use href="#icon-warning"></use>
-                                </svg>
-                                {% translate "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete" %}
+                            {# --- Live progress panel (shown while upgrade is running) --- #}
+                            <div id="upgrade-progress">
+                                <h3>
+                                    <span class="upgrade-spinner" id="upgrade-spinner"></span>
+                                    {% translate "Upgrade in progress…" %}
+                                </h3>
+                                <div id="upgrade-step">{% translate "Connecting to upgrade service…" %}</div>
+                                <div id="upgrade-meta"></div>
                             </div>
                         {% else %}
                             <div class="upgrade-info">
@@ -127,4 +188,64 @@
             {% endif %}
         {% endif %}
     </div>
+
+    {% if cms_upgrade_pending %}
+    <script>
+    (function () {
+        const statusUrl = "{% url 'cms-upgrade-status' %}";
+        const stepEl    = document.getElementById('upgrade-step');
+        const metaEl    = document.getElementById('upgrade-meta');
+        const headingEl = document.querySelector('#upgrade-progress h3');
+        const spinnerEl = document.getElementById('upgrade-spinner');
+
+        let interval = setInterval(poll, 3000);
+
+        async function poll() {
+            try {
+                const resp = await fetch(statusUrl);
+                if (!resp.ok) return;
+                const data = await resp.json();
+
+                const status  = data.status  || 'in_progress';
+                const step    = data.step    || '';
+                const fromVer = data.from_version || '';
+                const toVer   = data.to_version   || '';
+                const updated = data.updated_at   || '';
+
+                stepEl.textContent = step;
+                if (fromVer && toVer) {
+                    metaEl.textContent = 'v' + fromVer + ' → v' + toVer +
+                        (updated ? '  ·  ' + new Date(updated).toLocaleTimeString() : '');
+                }
+
+                if (status === 'success') {
+                    clearInterval(interval);
+                    spinnerEl.style.display = 'none';
+                    headingEl.innerHTML = '<span class="upgrade-status-success">✓ {% translate "Upgrade complete" %}</span>';
+                    stepEl.textContent = step;
+                    setTimeout(() => location.reload(), 3000);
+                } else if (status === 'failed') {
+                    clearInterval(interval);
+                    spinnerEl.style.display = 'none';
+                    headingEl.innerHTML = '<span class="upgrade-status-failed">✗ {% translate "Upgrade failed" %}</span>';
+                    stepEl.style.color = 'var(--color-critical)';
+                    stepEl.style.fontWeight = 'bold';
+                } else if (status === 'rolling_back') {
+                    headingEl.querySelector('.upgrade-spinner') && (headingEl.querySelector('span:not(.upgrade-spinner)') || headingEl).innerHTML;
+                    const textNode = headingEl.lastChild;
+                    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+                        textNode.textContent = ' {% translate "Rolling back…" %}';
+                    }
+                }
+            } catch (e) {
+                // network blip during restart is expected — keep polling
+            }
+        }
+
+        // First poll immediately so the user sees something right away
+        poll();
+    })();
+    </script>
+    {% endif %}
+
 {% endblock %}

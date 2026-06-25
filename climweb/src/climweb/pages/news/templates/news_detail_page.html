@@ -45,6 +45,15 @@
                   {{ page.body|richtext }}
                 </div>
 
+                <!-- IMAGE GALLERY -->
+                {% if page.media_gallery %}
+                  <div class="nd-gallery-section">
+                    {% for block in page.media_gallery %}
+                      {% include_block block %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
                 <!-- EXTERNAL LINKS -->
                 {% if page.external_links %}
                   <div class="nd-external-links">

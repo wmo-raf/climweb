@@ -56,14 +56,40 @@ class ProductItemImageContentBlock(blocks.StructBlock):
                                                "Leave blank if not applicable"))
     image = ImageChooserBlock(required=True, label=_("Image"))
     description = blocks.RichTextBlock(required=False, label=_("Summary of the map/image information"))
-    
+
     class Meta:
         value_class = ProductItemStructValue
-    
+
     def clean(self, value):
         result = super().clean(value)
         valid_until = result.get('valid_until')
-        
+
+        if valid_until and valid_until < result['date']:
+            raise StructBlockValidationError(block_errors={
+                "valid_until": ValidationError(
+                    _("The effective until date cannot be earlier than the effective from date"))
+            })
+        return result
+
+
+class ProductItemGifContentBlock(blocks.StructBlock):
+    product_type = blocks.CharBlock(required=True, label=_("Product Type"))
+    date = blocks.DateBlock(required=True, label=_("Effective from"),
+                            help_text=_("The date when this product becomes effective"))
+    valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
+                                   help_text=_("The last day this product remains effective. "
+                                               "Leave blank if not applicable"))
+    gif = ImageChooserBlock(required=True, label=_("GIF file"),
+                            help_text=_("Upload a GIF file. Animated GIFs are supported."))
+    description = blocks.RichTextBlock(required=False, label=_("Summary of the GIF information"))
+
+    class Meta:
+        value_class = ProductItemStructValue
+
+    def clean(self, value):
+        result = super().clean(value)
+        valid_until = result.get('valid_until')
+
         if valid_until and valid_until < result['date']:
             raise StructBlockValidationError(block_errors={
                 "valid_until": ValidationError(

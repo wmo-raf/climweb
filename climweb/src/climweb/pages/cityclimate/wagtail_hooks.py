@@ -8,7 +8,8 @@ from .views import (
     pre_load_climate_data,
     confirm_delete_city_climate_data,
     delete_city_climate_date,
-    view_city_climate_data
+    view_city_climate_data,
+    download_csv_template,
 )
 
 
@@ -23,6 +24,8 @@ def urlconf_boundarymanager():
              name='delete_city_climate_date'),
         path('cityclimate/delete/<int:page_id>/<uuid:city_id>/', confirm_delete_city_climate_data,
              name='confirm_delete_city_climate_data'),
+        path('cityclimate/download-template/<int:page_id>/', download_csv_template,
+             name='download_csv_template'),
     ]
 
 

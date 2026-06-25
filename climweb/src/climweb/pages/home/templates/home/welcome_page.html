@@ -1,0 +1,129 @@
+{% load i18n static wagtailsettings_tags wagtailimages_tags %}
+{% get_settings use_default_site=True %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% with org=settings.base.OrganisationSetting site_name=settings.base.OrganisationSetting.name|default:'ClimWeb' %}
+    <title>{% blocktrans %}Welcome to {{ site_name }}{% endblocktrans %}</title>
+    {% if org.favicon %}
+        {% image org.favicon original as favicon %}
+        <link rel="icon" href="{{ favicon.url }}" />
+    {% endif %}
+    {# Brand color from the site Theme, with a climate-blue fallback #}
+    <style>
+        :root {
+            --climweb-primary: {{ primary_color|default:'#0C447C' }};
+            --climweb-secondary: {{ secondary_color|default:'#0080cc' }};
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/welcome_page.css' %}" />
+</head>
+<body>
+    <div class="welcome">
+
+        <header class="welcome-topbar">
+            <div class="welcome-brand">
+                {% if org.logo %}
+                    {% image org.logo height-56 as brand_logo %}
+                    <img class="welcome-brand-logo" src="{{ brand_logo.url }}"
+                         alt="{{ site_name }}" />
+                {% endif %}
+                <span class="welcome-brand-name">{{ site_name }}</span>
+            </div>
+            {% if org.country_flag %}
+                {% image org.country_flag height-28 as flag %}
+                <img class="welcome-flag" src="{{ flag.url }}" alt="{{ org.country }}" />
+            {% endif %}
+        </header>
+
+        <main class="welcome-hero">
+            <div class="welcome-hero-inner">
+                <p class="welcome-eyebrow">
+                    {% trans "National Meteorological &amp; Hydrological Service" %}
+                </p>
+                <h1 class="welcome-title">
+                    {% blocktrans %}Welcome to {{ site_name }}{% endblocktrans %}
+                </h1>
+                <p class="welcome-lead">
+                    {% trans "Trusted weather forecasts, early warnings and climate services — built to keep our communities safe and informed." %}
+                </p>
+
+                <div class="welcome-cta">
+                    <a class="welcome-btn welcome-btn-primary" href="/">
+                        {% trans "Explore the site" %}
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 12h12.17l-5.59-5.59L13 5l8 8-8 8-1.41-1.41L17.17 14H5z"/></svg>
+                    </a>
+                    <a class="welcome-btn welcome-btn-ghost" href="{% url 'wagtailadmin_home' %}">
+                        {% trans "Go to dashboard" %}
+                    </a>
+                </div>
+            </div>
+
+            <div class="welcome-hero-art" aria-hidden="true">
+                <svg viewBox="0 0 200 200" class="welcome-art-svg">
+                    <circle class="welcome-art-sun" cx="135" cy="68" r="26" />
+                    <g class="welcome-art-rays">
+                        <line x1="135" y1="22" x2="135" y2="34"/>
+                        <line x1="135" y1="102" x2="135" y2="114"/>
+                        <line x1="89" y1="68" x2="101" y2="68"/>
+                        <line x1="169" y1="68" x2="181" y2="68"/>
+                        <line x1="102" y1="35" x2="110" y2="43"/>
+                        <line x1="160" y1="93" x2="168" y2="101"/>
+                        <line x1="168" y1="35" x2="160" y2="43"/>
+                        <line x1="110" y1="93" x2="102" y2="101"/>
+                    </g>
+                    <path class="welcome-art-cloud" d="M58 150a26 26 0 0 1 1-52 34 34 0 0 1 65 6 22 22 0 0 1-4 46z"/>
+                    <g class="welcome-art-rain">
+                        <line x1="70" y1="158" x2="64" y2="172"/>
+                        <line x1="96" y1="158" x2="90" y2="172"/>
+                        <line x1="122" y1="158" x2="116" y2="172"/>
+                    </g>
+                </svg>
+            </div>
+        </main>
+
+        <section class="welcome-cards">
+            <a class="welcome-card" href="/">
+                <span class="welcome-card-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 19a5 5 0 0 1-1-9.9 7 7 0 0 1 13.5-1.3A4.5 4.5 0 0 1 18 19H6z"/></svg>
+                </span>
+                <span class="welcome-card-text">
+                    <strong>{% trans "Forecasts" %}</strong>
+                    <span>{% trans "Daily and multi-day outlooks for your region" %}</span>
+                </span>
+            </a>
+            <a class="welcome-card" href="/">
+                <span class="welcome-card-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2 2 21h20L12 2zm0 5 6.5 12h-13L12 7zm-1 4v4h2v-4h-2zm0 5v2h2v-2h-2z"/></svg>
+                </span>
+                <span class="welcome-card-text">
+                    <strong>{% trans "Early warnings" %}</strong>
+                    <span>{% trans "Timely alerts for hazardous weather" %}</span>
+                </span>
+            </a>
+            <a class="welcome-card" href="/">
+                <span class="welcome-card-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 20V10h4v10H4zm6 0V4h4v16h-4zm6 0v-7h4v7h-4z"/></svg>
+                </span>
+                <span class="welcome-card-text">
+                    <strong>{% trans "Climate data" %}</strong>
+                    <span>{% trans "Trends, dashboards and historical records" %}</span>
+                </span>
+            </a>
+        </section>
+
+        <footer class="welcome-footer">
+            <span>
+                &copy; {% now "Y" %} {{ site_name }}{% if org.country %} &middot; {{ org.country }}{% endif %}
+            </span>
+            <span class="welcome-footer-powered">
+                {% trans "Powered by" %} ClimWeb
+            </span>
+        </footer>
+
+    </div>
+    {% endwith %}
+</body>
+</html>

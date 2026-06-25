@@ -521,10 +521,6 @@ figure.work {
 }
 
 
-.results-view .results-list .result-list-item {
-    /*padding: 20px;*/
-}
-
 .results-view .results-list .result-list-item-tag {
     display: flex;
     flex-direction: row;
@@ -1479,8 +1475,15 @@ figure.work {
 
 .button {
     border-radius: var(--border-radius) !important;
+    height: auto !important;
+    white-space: unset !important;
 }
 
 .tag {
     border-radius: var(--border-radius) !important
+}
+
+
+.banner-alert-item-icon {
+            margin: 0 10px !important;
 }

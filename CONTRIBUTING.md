@@ -1,6 +1,6 @@
 # Contributing to ClimWeb
 
-Thank you for your interest in contributing to **ClimWeb**, an open-source Content Management System built for National Meteorological and Hydrological Services (NMHSs) across Africa. ClimWeb is recognised as a [Digital Public Good](https://digitalpublicgoods.net/) and your contributions directly support climate action and early warning systems for vulnerable communities.
+Thank you for your interest in contributing to **ClimWeb**, an open-source Content Management System built for National Meteorological and Hydrological Services (NMHSs) across Africa. ClimWeb is recognised as a [Digital Public Good](https://digitalpublicgoods.net/r/climweb) and your contributions directly support climate action and early warning systems for vulnerable communities.
 
 ---
 

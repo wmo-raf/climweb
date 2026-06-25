@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
+
 from loguru import logger
 from wagtail.admin.panels import (
     PageChooserPanel,
@@ -346,8 +348,12 @@ class ImportantPages(BaseSiteSetting):
         PageChooserPanel('all_applications_page'),
         PageChooserPanel('all_events_page'),
         PageChooserPanel('all_partners_page'),
-        PageChooserPanel('cap_warnings_list_page'),
     ]
+
+    if settings.IS_METEOROLOGICAL:
+        panels += [
+            PageChooserPanel('cap_warnings_list_page'),
+        ]
     
     class Meta:
         verbose_name = _("Important Pages")

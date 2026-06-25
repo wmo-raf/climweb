@@ -1,0 +1,28 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load wagtailadmin_tags i18n static %}
+{% block titletag %}{% trans "Reset password" %}{% endblock %}
+{% block bodyclass %}login{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin_auth.css' %}" />
+{% endblock %}
+
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+
+        {% include "wagtailadmin/includes/climweb_auth_brand.html" %}
+
+        <div class="climweb-auth-status">
+            <span class="cw-status-icon" aria-hidden="true" style="background:rgba(28,107,63,.1);color:#1c6b3f;">
+                <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m4 12.5 5 5 11-11"/></svg>
+            </span>
+            <h1>{% trans "Password updated" %}</h1>
+            <p>{% trans "Your password has been changed successfully. You can now sign in with your new password." %}</p>
+        </div>
+
+        <footer class="form-actions">
+            <a href="{% url 'wagtailadmin_login' %}" class="button">{% trans "Sign in" %}</a>
+        </footer>
+    </main>
+{% endblock %}

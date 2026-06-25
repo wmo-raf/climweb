@@ -1,30 +1,89 @@
-{% extends "wagtailadmin/login.html" %}
-{% load nmhs_cms_tags wagtailimages_tags wagtailsettings_tags i18n %}
+{% extends "wagtailadmin/admin_base.html" %}
+{% load nmhs_cms_tags wagtailadmin_tags wagtailsettings_tags i18n static %}
 {% get_settings use_default_site=True %}
 
-{% block branding_login %}
-    {% translate "Sign in to" %}
-    {% if 'WAGTAIL_SITE_NAME'|django_settings %}
-        {{ 'WAGTAIL_SITE_NAME'|django_settings }}
-    {% else %}
-        CLIMWEB
-    {% endif %}
+{% block titletag %}{% trans "Sign in" %}{% endblock %}
+{% block bodyclass %}login{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin_auth.css' %}" />
 {% endblock %}
 
-{% block branding_logo %}
-    <div class="login-logo">
-        <figure style="max-height: 90px;max-width: 90px;">
-            {% if settings.base.OrganisationSetting.cms_logo %}
-                {% image settings.base.OrganisationSetting.cms_logo original as logo_image %}
-                <img src="{{ logo_image.url }}" alt="ClimWeb Login Logo"
-                     style="height: 100%;width: 100%;object-fit: contain"/>
-            {% else %}
-                <style>
-                    .login-logo {
-                        display: none
-                    }
-                </style>
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+
+        {% include "wagtailadmin/includes/climweb_auth_brand.html" %}
+
+        <h1>
+            {% block branding_login %}
+                {% trans "Sign in to" %}
+                {% if 'WAGTAIL_SITE_NAME'|django_settings %}
+                    {{ 'WAGTAIL_SITE_NAME'|django_settings }}
+                {% else %}
+                    {{ settings.base.OrganisationSetting.name|default:"ClimWeb" }}
+                {% endif %}
+            {% endblock %}
+        </h1>
+        <p class="climweb-auth-sub">{% trans "Welcome back. Please enter your details to continue." %}</p>
+
+        <div class="messages" role="status">
+            {% if messages or form.errors %}
+                <ul>
+                    {% if form.errors %}
+                        {% for error in form.non_field_errors %}
+                            <li class="error">{{ error }}</li>
+                        {% endfor %}
+                    {% endif %}
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
             {% endif %}
-        </figure>
-    </div>
+        </div>
+
+        {% block above_login %}{% endblock %}
+
+        <form class="login-form" action="{% url 'wagtailadmin_login' %}" method="post" autocomplete="off" novalidate>
+            {% block login_form %}
+                {% csrf_token %}
+
+                {% url 'wagtailadmin_home' as home_url %}
+                <input type="hidden" name="next" value="{{ next|default:home_url }}" />
+
+                {% block fields %}
+                    {% formattedfield form.username %}
+                    {% formattedfield form.password %}
+
+                    {% if show_password_reset %}
+                        <a class="reset-password" href="{% url 'wagtailadmin_password_reset' %}">{% trans "Forgotten password?" %}</a>
+                    {% endif %}
+
+                    {% block extra_fields %}
+                        {% for field_name, field in form.extra_fields %}
+                            {% formattedfield field %}
+                        {% endfor %}
+                    {% endblock extra_fields %}
+
+                    {% include "wagtailadmin/shared/forms/single_checkbox.html" with label_classname="remember-me" name="remember" text=_("Remember me") %}
+                {% endblock %}
+            {% endblock %}
+            <footer class="form-actions">
+                {% block submit_buttons %}
+                    <button
+                        type="submit"
+                        class="button button-longrunning"
+                        data-controller="w-progress"
+                        data-action="w-progress#activate"
+                        data-w-progress-active-value="{% trans 'Signing in…' %}"
+                    >
+                        {% icon name="spinner" %}
+                        <em data-w-progress-target="label">{% trans 'Sign in' %}</em>
+                    </button>
+                {% endblock %}
+            </footer>
+        </form>
+
+        {% block below_login %}{% endblock %}
+    </main>
 {% endblock %}
