@@ -18,8 +18,26 @@ from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import AbstractIntroPage
 from climweb.base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
 from .blocks import ExtremeWeatherBlock
-from .utils import get_city_forecast_detail_data
+from .utils import get_city_forecast_detail_data, extract_forecast_metric
 
+
+TEMPERATURE_MAX_SLUG = "air_temperature_max"
+TEMPERATURE_MIN_SLUG = "air_temperature_min"
+WIND_SPEED_SLUG = "wind_speed"
+WIND_DIRECTION_SLUG = "wind_from_direction"
+PRECIPITATION_SLUG = "precipitation_amount"
+AIR_PRESSURE_SLUG = "air_pressure_at_sea_level"
+HUMIDITY_SLUG = "relative_humidity"
+
+GRAPH_PARAMETER_SLUGS = (
+    TEMPERATURE_MAX_SLUG,
+    TEMPERATURE_MIN_SLUG,
+    WIND_SPEED_SLUG,
+    WIND_DIRECTION_SLUG,
+    PRECIPITATION_SLUG,
+    AIR_PRESSURE_SLUG,
+    HUMIDITY_SLUG,
+)
 
 class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
     template = "weather/weather_detail_page_summary.html"
@@ -69,10 +87,74 @@ class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
         forecast_periods_count = fm_settings.periods.count()
         multi_period = forecast_periods_count > 1
         detail_data = get_city_forecast_detail_data(city, multi_period=multi_period, request=request)
+
+        # fetch city condition
+        city_condition = ''
+
+        # prepare graph payloads for each day and parameter
+        graph_payloads = {}
+
+        for day, forecasts in detail_data.get("city_forecasts_by_date", {}).items():
+            day_key = day.strftime('%Y-%m-%d')
+            
+            time_data = []
+            graph_values = {param_slug: [] for param_slug in GRAPH_PARAMETER_SLUGS}
+
+            for forecast in forecasts:
+                if not city_condition:
+                    city_condition = forecast.condition.label if forecast.condition else ''
+
+                time_data.append(forecast.effective_period.label)
+
+                for param_slug in GRAPH_PARAMETER_SLUGS:
+                    value = extract_forecast_metric(forecast, param_slug, default=None)
+                    graph_values[param_slug].append(value)
+
+            # flags to indicate if the graph should be rendered or not
+            day_has_temperature_data = any(
+                value is not None
+                for value in graph_values[TEMPERATURE_MAX_SLUG]
+                + graph_values[TEMPERATURE_MIN_SLUG]
+            )
+            day_has_wind_data = any(
+                value is not None
+                for value in graph_values[WIND_SPEED_SLUG]
+            )
+            day_has_precipitation_data = any(
+                value is not None
+                for value in graph_values[PRECIPITATION_SLUG]
+            )
+            day_has_air_pressure_data = any(
+                value is not None
+                for value in graph_values[AIR_PRESSURE_SLUG]
+            )
+            day_has_humidity_data = any(
+                value is not None
+                for value in graph_values[HUMIDITY_SLUG]
+            )
+
+            graph_payloads[day_key] = {
+                "time_data": time_data,
+                "has_temperature_data": day_has_temperature_data,
+                "has_wind_data": day_has_wind_data,
+                "has_precipitation_data": day_has_precipitation_data,
+                "has_air_pressure_data": day_has_air_pressure_data,
+                "has_humidity_data": day_has_humidity_data,
+                **graph_values                
+            }
+
+        city_map_payload = {
+            "city_y": city.y,
+            "city_x": city.x,
+            "city_name": city.name,
+            "city_condition": city_condition
+        }
         
         context_overrides.update({
             "city": city,
             "today": timezone.localtime().date(),
+            "graph_payloads": graph_payloads,
+            "city_map_payload": city_map_payload,
             **detail_data
         })
         

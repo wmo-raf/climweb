@@ -5,6 +5,7 @@
 
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'weather/css/weather_detail_page.css' %}">
+  <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
@@ -126,9 +127,13 @@
                   </table>
                 </div>
 
+                
+
               </div>
             {% endfor %}
           </div>
+          
+          
 
         {% endif %}
 
@@ -136,11 +141,66 @@
 
     </div>
   </section>
+  <section class="wd-section">
+    <div class="container">
+      <div class="wd-card">
+
+        <!-- ── HEADER: graphs ── -->
+        <div class="wd-header">
+          <div >
+              <p class="wd-section-header">{% trans "Weather Graphs" %}</p>
+              <p class="wd-section-subheader">{% trans "Shows forecast values for the currently selected day tab." %}</p>
+          </div>
+        </div>
+        <!-- GRAPHS -->
+         <div class="wd-day-graphs">
+            {{ graph_payloads|json_script:"graph-forecast-data" }}
+            {% if graph_payloads %}
+              <div class="wd-graph" id="temperature-graph"></div>
+              <div class="wd-graph" id="precipitation-graph"></div>
+              <div class="wd-graph" id="wind-graph"></div>
+              <div class="wd-graph" id="air-pressure-graph"></div>
+              <div class="wd-graph" id="humidity-graph"></div>
+            {% else %}
+                <p class="wd-graph-text">{% trans "No weather data to showcase at the moment." %}</p>
+            {% endif %}
+          </div>
+  </section>
+  <section class="wd-section">
+    <div class="container">
+      <div class="wd-card">
+
+        <!-- ── HEADER: map ── -->
+        <div class="wd-header">
+          <div>
+              <p class="wd-section-header">{% trans "City Map" %}</p>
+              <p class="wd-section-subheader">{% trans "Shows the city location and live condition, independent of the selected day tab." %}</p>
+          </div>
+        </div>
+
+        <!-- MAP -->
+        <div id="city-map" class="wd-map">
+          {{ city_map_payload | json_script:"city-map-data" }}
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
 </main>
 {% endblock content %}
 
 {% block extra_js %}
+<script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/exporting.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/export-data.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/datagrouping.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/windbarb.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bulmahead.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <script>
 const citySearchUrl = "{{ city_search_url }}";
 const cityDetailUrl = "{{ city_detail_page_url|default_if_none:'' }}";
@@ -151,13 +211,28 @@ $(document).ready(function () {
   const tabs   = document.querySelectorAll('.wd-day-tab');
   const panels = document.querySelectorAll('.wd-panel');
 
+  function getDayKeyFromTab(tab) {
+    return tab ? tab.dataset.target.replace('wd-day-', '') : '';
+  }
+
+  // Activates tab panel for given dayKey, and renders graphs for that day
+  function setActiveDayTab(dayKey) {
+    tabs.forEach(function (t) {
+      const tabDay = getDayKeyFromTab(t);
+      t.classList.toggle('active', tabDay === dayKey);
+    });
+
+    panels.forEach(function (p) {
+      p.classList.toggle('wd-hidden', p.id !== 'wd-day-' + dayKey);
+    });
+
+    renderGraphsForDay(dayKey);
+  }
+
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
-      tabs.forEach(function (t) { t.classList.remove('active'); });
-      panels.forEach(function (p) { p.classList.add('wd-hidden'); });
-      tab.classList.add('active');
-      var target = document.getElementById(tab.dataset.target);
-      if (target) target.classList.remove('wd-hidden');
+      const dayKey = getDayKeyFromTab(tab);
+      setActiveDayTab(dayKey);
     });
   });
 
@@ -186,6 +261,483 @@ $(document).ready(function () {
     bulmaHead('city-search', 'city-search-menu', getMatchingCity, onSelectCity, 200, 0);
   }
 
+  /* ── HIGHCHARTS GRAPH STYLES ── */
+  const CHART_TITLE_STYLE = {
+    fontSize: '18px'
+  };
+
+  const CHART_RESPONSIVE_RULES = [{
+    condition: {
+      maxWidth: 500,
+      maxHeight: 400
+    },
+    chartOptions: {
+      title: {
+        style: {
+          fontSize: '14px'
+        }
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom'
+      }
+    }
+  }];
+
+
+  /* ── TEMPERATURE LINE GRAPH ── */
+  function renderTemperatureGraph(dayData, dayKey) {
+    const singlePoint = dayData.time_data.length === 1;
+
+    return Highcharts.chart('temperature-graph', {
+      chart: {
+        spacingTop: 20,
+        type: singlePoint ? 'column' : 'line'
+      },
+      title: {
+        text: 'Temperature',
+        align: 'center',
+        style: CHART_TITLE_STYLE
+      },
+      yAxis: {
+        title: {
+          text: 'Temperature (°C)'
+        },
+        labels: {
+          format: '{value}°C'
+        }
+      },
+      xAxis: {
+        type: 'category',
+        categories: dayData.time_data,
+        min: singlePoint ? 0 : null,
+        max: singlePoint ? 0 : null,
+        tickPixelInterval: 80,
+        
+      },
+      tooltip: {
+        valueSuffix: '°C',
+        shared: true
+      },
+      legend: {
+        enabled: true
+      },
+      plotOptions: {
+        series: {
+          marker: {
+            enabled: true,
+            radius: 4
+          },
+          label: {
+            connectorAllowed: false
+          }
+        },
+        column: {
+          pointWidth: singlePoint ? 50 : null,
+          borderRadius: 4
+        }
+      },
+      series: [
+        {
+          name: 'Maximum',
+          data: dayData.air_temperature_max.map(Number),
+          color: '#FF3333'
+        },
+        {
+          name: 'Minimum',
+          data: dayData.air_temperature_min.map(Number),
+          color: '#3333FF'
+        }
+      ],
+      responsive: {
+        rules: CHART_RESPONSIVE_RULES
+      },
+      credits: { enabled: false }
+    });
+  }
+
+  /* ── WIND BARB GRAPH ── */
+  function renderWindGraph(dayData, dayKey) {
+    const singlePoint = dayData.time_data.length === 1;
+    const windSpeeds = dayData.wind_speed.map(Number);
+    const windDirs = dayData.wind_from_direction.map(Number);
+
+    let windSpeedSeries = [];
+    let windBarbSeries = [];
+
+    if (singlePoint) {
+      windSpeedSeries = [[0, windSpeeds[0]]];
+      windBarbSeries = [{
+        x: 0,
+        value: windSpeeds[0],
+        direction: windDirs[0]
+      }];
+    } else {
+      windSpeedSeries = windSpeeds.map((speed, i) => [speed]);
+      windBarbSeries = windSpeeds.map((speed, i) => [speed, windDirs[i]]);
+    }
+
+    return Highcharts.chart('wind-graph', {
+      chart: {
+        spacingTop: 20
+      },
+      title: {
+        text: 'Wind',
+        align: 'center',
+        style: CHART_TITLE_STYLE
+      },
+      yAxis: {
+        title: {
+          text: 'Wind Speed (m/s)'
+        }
+      },
+      xAxis: {
+        type: 'category',
+        categories: dayData.time_data,
+        min: singlePoint ? 0 : null,
+        max: singlePoint ? 0 : null,
+        tickPixelInterval: 80,
+        offset: 40 
+      },
+      tooltip: {
+        valueSuffix: ' m/s',
+        shared: true
+      },
+      legend: {
+        enabled: true
+      },
+      series: [{
+        type: singlePoint ? 'column' : 'area',
+        name: 'Wind speed',
+        data: windSpeedSeries,
+        color: '#2caffe',
+        fillColor: singlePoint ? null : {
+          linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+          stops: [
+            [0, 'var(--highcharts-color-0, #2caffe)'],
+            [1, 'color-mix(in srgb, var(--highcharts-color-0, #2caffe) 25%, transparent)']
+          ]
+        },
+        pointWidth: singlePoint ? 50 : null,
+        fillColor: {
+          linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+          stops: [
+            [0, 'var(--highcharts-color-0, #2caffe)'],
+            [
+              1,
+              `color-mix(
+                in srgb,
+                var(--highcharts-color-0, #2caffe) 25%,
+                transparent
+              )`
+            ]
+          ]
+        },
+        tooltip: {
+          shared: true,
+          valueSuffix: ' m/s'
+        },
+        states: {
+          inactive: {
+            opacity: 1
+          }
+        }
+      }, {
+        type: 'windbarb',
+        name: 'Wind',
+        data: windBarbSeries,
+        showInLegend: false,
+        tooltip: {
+          pointFormat: '{beaufort}, {direction:.0f}°'
+        }
+      }],
+      responsive: {
+        rules: CHART_RESPONSIVE_RULES
+      },
+      credits: { enabled: false }
+    });
+  }
+
+  /* ── PRECIPITATION BAR CHART ── */
+  function renderPrecipitationGraph(dayData, dayKey) {
+    const singlePoint = dayData.time_data.length === 1;
+    const precipitationData = dayData.precipitation_amount.map(Number);
+
+    return Highcharts.chart('precipitation-graph', {
+      chart: {
+        spacingTop: 20,
+        type: 'column'
+      },
+      title: {
+        text: 'Precipitation',
+        align: 'center',
+        style: CHART_TITLE_STYLE
+      },
+      yAxis: {
+        title: {
+          text: 'Precipitation (mm)'
+        },
+        labels: {
+          format: '{value} mm'
+        }
+      },
+      xAxis: {
+        type: 'category',
+        categories: dayData.time_data,
+        min: singlePoint ? 0 : null,
+        max: singlePoint ? 0 : null,
+        tickPixelInterval: 80,
+      },
+      tooltip: {
+        valueSuffix: ' mm',
+        shared: true
+      },
+      legend: {
+        enabled: true
+      },
+      plotOptions: {
+        column: {
+          pointWidth: singlePoint ? 50 : null,
+          borderRadius: 4
+        }
+      },
+      series: [
+        {
+          name: 'Precipitation',
+          data: precipitationData,
+          color: '#3b82f6'
+        }
+      ],
+      responsive: {
+        rules: CHART_RESPONSIVE_RULES
+      },
+      credits: { enabled: false }
+    });
+  }
+
+  /* ── AIR PRESSURE BAR CHART ── */
+  function renderAirPressureGraph(dayData, dayKey) {
+    const singlePoint = dayData.time_data.length === 1;
+    const airPressureData = dayData.air_pressure_at_sea_level.map(Number);
+
+    return Highcharts.chart('air-pressure-graph', {
+      chart: {
+        spacingTop: 20,
+        type: 'column'
+      },
+      title: {
+        text: 'Air Pressure',
+        align: 'center',
+        style: CHART_TITLE_STYLE
+      },
+      yAxis: {
+        title: {
+          text: 'Air Pressure (hPa)'
+        },
+        labels: {
+          format: '{value} hPa'
+        }
+      },
+      xAxis: {
+        type: 'category',
+        categories: dayData.time_data,
+        min: singlePoint ? 0 : null,
+        max: singlePoint ? 0 : null,
+        tickPixelInterval: 80,
+      },
+      tooltip: {
+        valueSuffix: ' hPa',
+        shared: true
+      },
+      legend: {
+        enabled: true
+      },
+      plotOptions: {
+        column: {
+          pointWidth: singlePoint ? 50 : null,
+          borderRadius: 4
+        }
+      },
+      series: [
+        {
+          name: 'Air Pressure',
+          data: airPressureData,
+          color: '#f97316'
+        }
+      ],
+      responsive: {
+        rules: CHART_RESPONSIVE_RULES
+      },
+      credits: { enabled: false }
+    });
+  }
+
+  /* ── RELATIVE HUMIDITY BAR CHART ── */
+  function renderHumidityGraph(dayData, dayKey) {
+    const singlePoint = dayData.time_data.length === 1;
+    const humidityData = dayData.relative_humidity.map(Number);
+
+    return Highcharts.chart('humidity-graph', {
+      chart: {
+        spacingTop: 20,
+        type: 'column'
+      },
+      title: {
+        text: 'Relative Humidity',
+        align: 'center',
+        style: CHART_TITLE_STYLE
+      },
+      yAxis: {
+        title: {
+          text: 'Relative Humidity (%)'
+        },
+        labels: {
+          format: '{value} %'
+        }
+      },
+      xAxis: {
+        type: 'category',
+        categories: dayData.time_data,
+        min: singlePoint ? 0 : null,
+        max: singlePoint ? 0 : null,
+        tickPixelInterval: 80,
+      },
+      tooltip: {
+        valueSuffix: ' %',
+        shared: true
+      },
+      legend: {
+        enabled: true
+      },
+      plotOptions: {
+        column: {
+          pointWidth: singlePoint ? 50 : null,
+          borderRadius: 4
+        }
+      },
+      series: [
+        {
+          name: 'Relative Humidity',
+          data: humidityData,
+          color: '#10b981'
+        }
+      ],
+      responsive: {
+        rules: CHART_RESPONSIVE_RULES
+      },
+      credits: { enabled: false }
+    });
+  }
+
+  /* ── MAP (MapLibre GL using OpenStreetMap tiles) ── */
+  function renderMap() {
+    const cityData = JSON.parse(document.getElementById('city-map-data').textContent);
+    if (!cityData || cityData.city_y == null || cityData.city_x == null) return;
+
+    const style = {
+      version: 8,
+      sources: {
+        'osm-tiles': {
+          type: 'raster',
+          tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+          tileSize: 256
+        }
+      },
+      layers: [
+        {
+          id: 'osm-tiles-layer',
+          type: 'raster',
+          source: 'osm-tiles'
+        }
+      ]
+    };
+
+    // Initialize the map
+    const map = new maplibregl.Map({
+      container: 'city-map',
+      style: style,
+      center: [cityData.city_x, cityData.city_y],
+      zoom: 7,
+      scrollZoom: false
+    });
+
+    // Add navigation control (zoom buttons)
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+
+    map.on('load', function () {
+      // pop-up and marker
+      const popupHtml = `<strong>${cityData.city_name || ''}</strong>` + 
+                        (cityData.city_condition ? ` <br> <span class="tag is-info">${cityData.city_condition}</span>` : '');
+      
+      const popup = new maplibregl.Popup({offset: 35}).setHTML(popupHtml);
+
+      const marker = new maplibregl.Marker({
+        color: 'var(--primary-color, #185FA5)'
+      })
+      .setLngLat([cityData.city_x, cityData.city_y])
+      .setPopup(popup)
+      .addTo(map);
+
+      marker.addClassName('wd-map-marker');
+    });
+
+  }
+
+  /* ── HANDLE RESPONSIVENESS FOR HIGHCHARTS GRAPHS ── */
+  window.addEventListener('resize', function() {
+    if (typeof Highcharts !== 'undefined' && Highcharts.charts) {
+      Highcharts.charts.forEach(function(chart) {
+        if (chart) {
+          chart.reflow(); // Instantly recalculated sizing arrays to match fluid container boundaries
+        }
+      });
+    }
+  });
+
+  /* ── RENDER GRAPHS based on active tab if weather data present ── */ 
+  const graphPayloads = JSON.parse(document.getElementById('graph-forecast-data').textContent); 
+
+  function renderGraphsForDay(dayKey) {
+    if (!dayKey) {
+      return;
+    }
+
+    const dayData = graphPayloads[dayKey];
+    if (!dayData || !dayData.time_data || !dayData.time_data.length) {
+      return;
+    }
+
+    if (dayData.has_temperature_data) {
+      renderTemperatureGraph(dayData, dayKey);
+    }
+
+    if (dayData.has_wind_data) {
+      renderWindGraph(dayData, dayKey);
+    }
+
+    if (dayData.has_precipitation_data) {
+      renderPrecipitationGraph(dayData, dayKey);
+    }
+
+    if (dayData.has_air_pressure_data) {
+      renderAirPressureGraph(dayData, dayKey);
+    }
+
+    if (dayData.has_humidity_data) {
+      renderHumidityGraph(dayData, dayKey);
+    }
+  }
+  
+  /* ── INITIALIZE ACTIVE TAB ── */
+  const activeTab = document.querySelector('.wd-day-tab.active') || tabs[0];
+  if (activeTab) {
+    setActiveDayTab(getDayKeyFromTab(activeTab));
+  }
+
+  /* ── RENDER MAP ── */
+  renderMap();
+  
 });
 </script>
 {% endblock %}
