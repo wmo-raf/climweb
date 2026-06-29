@@ -180,6 +180,7 @@ django==5.2.14
     #   dj-database-url
     #   django-allauth
     #   django-axes
+    #   django-background-tasks
     #   django-bulma
     #   django-celery-beat
     #   django-celery-results
@@ -223,6 +224,10 @@ django-allauth==65.14.1
     #   geomanager
 django-axes==8.0.0
     # via -r base.in
+django-background-tasks==1.2.8
+    # via
+    #   -r base.in
+    #   forecastmanager
 django-bulma==0.9.0
     # via -r base.in
 django-celery-beat==2.8.1
@@ -351,7 +356,7 @@ fonttools[woff]==4.62.1
     #   -r base.in
     #   matplotlib
     #   weasyprint
-forecastmanager==0.6.4
+forecastmanager==0.6.5
     # via -r base.in
 frozenlist==1.5.0
     # via
@@ -769,6 +774,7 @@ signxml==4.4.0
     #   capvalidator
 six==1.17.0
     # via
+    #   django-background-tasks
     #   django-deep-translator
     #   mailchimp-marketing
     #   python-dateutil

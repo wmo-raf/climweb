@@ -148,6 +148,7 @@ INSTALLED_APPS = [
     'django_vue_utilities',
     'wagtail_newsletter',
     'markdownify',
+    'background_task'
 ]
 
 IS_METEOROLOGICAL = env.bool("IS_METEOROLOGICAL", default=True)
