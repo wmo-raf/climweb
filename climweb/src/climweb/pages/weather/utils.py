@@ -6,7 +6,6 @@ from wagtail.models import Site
 
 def get_city_forecast_detail_data(city, multi_period=False, request=None, for_home_widget=False):
     localtime = timezone.localtime()
-
     city_forecasts = CityForecast.objects.filter(
         city=city, parent__forecast_date__gte=localtime.date()
     ).select_related('parent', 'condition').prefetch_related('data_values__parameter')
@@ -36,3 +35,13 @@ def get_city_forecast_detail_data(city, multi_period=False, request=None, for_ho
         "city_forecasts_by_date": city_forecasts_by_date,
         "weather_parameters": weather_parameters,
     }
+
+def extract_forecast_metric(forecast, param_slug, default=0.0):
+    """
+    Extract a CityForecast metric from its data values dictionary.
+    """
+    params_dict = forecast.data_values_dict
+
+    if param_slug in params_dict and params_dict[param_slug]["value"] not in (None, ''):
+        return float(params_dict[param_slug]["value"])
+    return default
