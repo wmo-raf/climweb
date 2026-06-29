@@ -225,7 +225,9 @@ django-allauth==65.14.1
 django-axes==8.0.0
     # via -r base.in
 django-background-tasks==1.2.8
-    # via -r base.in
+    # via
+    #   -r base.in
+    #   forecastmanager
 django-bulma==0.9.0
     # via -r base.in
 django-celery-beat==2.8.1
@@ -354,7 +356,7 @@ fonttools[woff]==4.62.1
     #   -r base.in
     #   matplotlib
     #   weasyprint
-forecastmanager==0.6.4
+forecastmanager==0.6.5
     # via -r base.in
 frozenlist==1.5.0
     # via
