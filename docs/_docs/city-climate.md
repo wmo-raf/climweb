@@ -52,7 +52,7 @@ From the list of existing cities, you can:
 2. View the uploaded data of an existing city
 3. Modify the uploaded data of an existing city
 
-![Manage Data Page](../_static/images/city_climate/load_data.png)
+![Manage Data Page](../_static/images/city_climate/manage_data.png)
 
 
 ### Step 2: Upload City Climate data for a city
@@ -67,9 +67,8 @@ Assume you would like to publish monthly climate normals for one city, including
 1. Select *Load Data* for an existing city
 > To add a new city:  Navigate to **City Forecast -> Cities** and create one city, for example **Lamu**.
 
-> ![Add City](../_static/images/city_climate/add_city.png)
-
 2. Select your CSV file
+
 3. Configure the data fields and file date format according to your data
 
 ![Upload Data](../_static/images/city_climate/upload_data.png)
