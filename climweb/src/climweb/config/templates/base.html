@@ -8,7 +8,7 @@
 
 <!DOCTYPE html>
 <html lang="{{ settings.base.LanguageSettings.default_language }}" 
-      dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+      dir="{% if settings.base.LanguageSettings.default_language|slice:":2" == "ar" %}rtl{% else %}ltr{% endif %}">
     <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
