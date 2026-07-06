@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-21 11:00+0300\n"
-"PO-Revision-Date: 2026-06-22 11:39\n"
+"PO-Revision-Date: 2026-07-06 10:01\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -385,7 +385,7 @@ msgstr "Chave API do Youtube"
 #: climweb/src/climweb/base/models/site_settings.py:145
 #| msgid "Youtube API Key"
 msgid "To set up Youtube API Key refer to "
-msgstr ""
+msgstr "Para configurar a Chave API do YouTube "
 
 #: climweb/src/climweb/base/models/site_settings.py:150
 msgid "GA Tracking ID"
@@ -582,31 +582,31 @@ msgstr "Páginas importantes"
 
 #: climweb/src/climweb/base/models/snippets.py:22
 msgid "Yearly"
-msgstr ""
+msgstr "Anual"
 
 #: climweb/src/climweb/base/models/snippets.py:23
 msgid "Monthly"
-msgstr ""
+msgstr "Mensalmente"
 
 #: climweb/src/climweb/base/models/snippets.py:24
 msgid "Weekly"
-msgstr ""
+msgstr "Semanal"
 
 #: climweb/src/climweb/base/models/snippets.py:25
 msgid "Daily"
-msgstr ""
+msgstr "Diariamente"
 
 #: climweb/src/climweb/base/models/snippets.py:26
 msgid "Hourly"
-msgstr ""
+msgstr "Horário"
 
 #: climweb/src/climweb/base/models/snippets.py:27
 msgid "Dekadal"
-msgstr ""
+msgstr "Dekadal"
 
 #: climweb/src/climweb/base/models/snippets.py:28
 msgid "Pentadal"
-msgstr ""
+msgstr "Pedalada"
 
 #: climweb/src/climweb/base/models/snippets.py:51
 msgid "Product Name"
@@ -614,36 +614,36 @@ msgstr "Nome do produto"
 
 #: climweb/src/climweb/base/models/snippets.py:55
 msgid "Variable Name"
-msgstr ""
+msgstr "Nome da Variável"
 
 #: climweb/src/climweb/base/models/snippets.py:56
 msgid "Folder name for this product, e.g. 'daily_forecast'. Used as the top-level folder in the watch root path."
-msgstr ""
+msgstr "Nome da pasta para este produto, por exemplo, 'daily_forecast'. Usado como o diretório de nível superior no caminho do relógio raiz."
 
 #: climweb/src/climweb/base/models/snippets.py:63
 msgid "Temporal Resolution"
-msgstr ""
+msgstr "Resolução temporal"
 
 #: climweb/src/climweb/base/models/snippets.py:64
 msgid "Determines the default filename date convention for product item types."
-msgstr ""
+msgstr "Determina a convenção de data de nome padrão para os Apagar itens do produto."
 
 #: climweb/src/climweb/base/models/snippets.py:69
 msgid "Watch Root Path"
-msgstr ""
+msgstr "Ver caminho raiz"
 
 #: climweb/src/climweb/base/models/snippets.py:70
 #, python-brace-format
 msgid "Path containing the {variable_name} folder. Relative paths are resolved from MEDIA_ROOT (e.g. 'products'). Full scan path: {watch_root}/{variable_name}/{format}/{name_convention}.{format}"
-msgstr ""
+msgstr "Caminho que contém a pasta {variable_name}. Caminhos relativos são resolvidos em MEDIA_ROOT (por exemplo, 'products'). Caminho de escaneamento completo: {watch_root}/{variable_name}/{format}/{name_convention}.{format}"
 
 #: climweb/src/climweb/base/models/snippets.py:76
 msgid "Enable Auto-Ingestion"
-msgstr ""
+msgstr "Ativar Autossugestionar"
 
 #: climweb/src/climweb/base/models/snippets.py:77
 msgid "When enabled, the system will periodically scan the watch root for new files."
-msgstr ""
+msgstr "Quando ativado, o sistema irá escançar periodicamente a raiz do relógio por novos arquivos."
 
 #: climweb/src/climweb/base/models/snippets.py:86
 #: climweb/src/climweb/base/models/snippets.py:135
@@ -672,12 +672,12 @@ msgstr "Nome"
 
 #: climweb/src/climweb/base/models/snippets.py:121
 msgid "File Format"
-msgstr ""
+msgstr "Formato do ficheiro"
 
 #: climweb/src/climweb/base/models/snippets.py:122
 #, python-brace-format
 msgid "The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This also determines the subfolder name: {variable_name}/{format}/"
-msgstr ""
+msgstr "O formato do arquivo/extensão para esta categoria, por exemplo, 'png', 'pdf', 'jpg'. Isto também determina o nome da subpasta: {variable_name}/{format}/"
 
 #: climweb/src/climweb/base/models/snippets.py:131
 msgid "Product Item Types"
@@ -689,20 +689,20 @@ msgstr "Tipo de item de produto"
 
 #: climweb/src/climweb/base/models/snippets.py:156
 msgid "Filename Convention"
-msgstr ""
+msgstr "ArquivoConvenção de Nome"
 
 #: climweb/src/climweb/base/models/snippets.py:158
 #, python-brace-format
 msgid "Filename pattern used to match and parse product files (without extension). Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-populated from the product temporal resolution. You may add a prefix or suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
-msgstr ""
+msgstr "Padrão de nome de arquivo usado para corresponder e analisar arquivos de produto (sem extensão). Use {yyyy} para ano, {mm} para o mês, {dd} para dia, {hh} para hora. Auto-preencher a partir da resolução temporária do produto. Você pode adicionar um prefixo ou sufixo, por exemplo, 'temp_{yyyy}_{mm}_{dd}_00_00_00_00'."
 
 #: climweb/src/climweb/base/models/snippets.py:167
 msgid "Valid for (days)"
-msgstr ""
+msgstr "Válido por (dias)"
 
 #: climweb/src/climweb/base/models/snippets.py:169
 msgid "How many days this product remains effective after its issue date. Leave blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
-msgstr ""
+msgstr "Quantos dias este produto permanece em vigor após a data de emissão. Deixe em branco se não se aplicável. Por exemplo, 1 por dia, 7 por semana, 30 por mês."
 
 #: climweb/src/climweb/base/models/snippets.py:216
 msgid "Service Category"
@@ -790,7 +790,9 @@ msgstr "Atualize agora"
 msgid "\n"
 "                    View all %(label)s\n"
 "                  "
-msgstr ""
+msgstr "\n"
+"                    Ver todos os %(label)s\n"
+"                  "
 
 #: climweb/src/climweb/base/views.py:42
 msgid "Error fetching latest version. Please try again later."
