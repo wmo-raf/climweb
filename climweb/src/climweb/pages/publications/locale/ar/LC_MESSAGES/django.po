@@ -1,21 +1,24 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
-"PO-Revision-Date: 2026-06-22 11:39\n"
+"POT-Creation-Date: 2026-05-21 11:00+0300\n"
+"PO-Revision-Date: 2026-04-13 12:55\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Crowdin-File: /climweb/src/climweb/pages/publications/locale/en/"
+"LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 1510\n"
+"X-Crowdin-Language: ar\n"
 "X-Crowdin-Project: nmhs-cms\n"
 "X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: ar\n"
-"X-Crowdin-File: /climweb/src/climweb/pages/publications/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-File-ID: 1510\n"
 
 #: climweb/src/climweb/pages/publications/models.py:33
 msgid "IP Address"
@@ -50,7 +53,9 @@ msgid "Publication Types"
 msgstr "أنواع المنشورات"
 
 #: climweb/src/climweb/pages/publications/models.py:174
-msgid "The year for the earliest available publication. This is used to generate the years available for filtering "
+msgid ""
+"The year for the earliest available publication. This is used to generate "
+"the years available for filtering "
 msgstr "السنة لأقدم منشور متاح. يتم استخدام هذا لإنشاء السنوات المتاحة للتصفية"
 
 #: climweb/src/climweb/pages/publications/models.py:175
@@ -58,7 +63,9 @@ msgid "Earliest Publication Year"
 msgstr "أقدم سنة للنشر"
 
 #: climweb/src/climweb/pages/publications/models.py:179
-msgid "How many publications per page should be visible on the all publications section ?"
+msgid ""
+"How many publications per page should be visible on the all publications "
+"section ?"
 msgstr "كم عدد المنشورات في كل صفحة يجب أن تكون مرئية في قسم جميع المنشورات؟"
 
 #: climweb/src/climweb/pages/publications/models.py:193
@@ -115,16 +122,22 @@ msgid "Peer reviewed"
 msgstr "تمت مراجعة النظراء"
 
 #: climweb/src/climweb/pages/publications/models.py:294
-#| msgid "Publication image"
 msgid "Publication Image (Thumbnail)"
 msgstr "صورة النشر (صورة مصغرة)"
 
 #: climweb/src/climweb/pages/publications/models.py:295
-msgid "This can be a screenshot of the front page of the publication. If left empty and Auto-generate above is checked and the uploaded document is a PDF, an image of the first page will be auto-generated."
-msgstr "يمكن أن تكون هذه لقطة شاشة للصفحة الأولى للمنشور. إذا تركت فارغة وتم تحديد الإنشاء التلقائي أعلاه وكان المستند الذي تم تحميله عبارة عن ملف PDF، فسيتم إنشاء صورة الصفحة الأولى تلقائيًا."
+msgid ""
+"This can be a screenshot of the front page of the publication. If left empty "
+"and Auto-generate above is checked and the uploaded document is a PDF, an "
+"image of the first page will be auto-generated."
+msgstr ""
+"يمكن أن تكون هذه لقطة شاشة للصفحة الأولى للمنشور. إذا تركت فارغة وتم تحديد "
+"الإنشاء التلقائي أعلاه وكان المستند الذي تم تحميله عبارة عن ملف PDF، فسيتم "
+"إنشاء صورة الصفحة الأولى تلقائيًا."
 
 #: climweb/src/climweb/pages/publications/models.py:301
-msgid "If the document is a PDF, an image of the first page will be auto-generated."
+msgid ""
+"If the document is a PDF, an image of the first page will be auto-generated."
 msgstr "إذا كان المستند بتنسيق PDF، فسيتم إنشاء صورة للصفحة الأولى تلقائيًا."
 
 #: climweb/src/climweb/pages/publications/models.py:302
@@ -136,8 +149,12 @@ msgid "Document or File"
 msgstr "مستند أو ملف"
 
 #: climweb/src/climweb/pages/publications/models.py:312
-msgid "Here you can upload pdfs, word documents, powerpoints, zip files or any other file"
-msgstr "هنا يمكنك تحميل ملفات PDF أو مستندات Word أو PowerPoint أو ملفات مضغوطة أو أي ملف آخر"
+msgid ""
+"Here you can upload pdfs, word documents, powerpoints, zip files or any "
+"other file"
+msgstr ""
+"هنا يمكنك تحميل ملفات PDF أو مستندات Word أو PowerPoint أو ملفات مضغوطة أو "
+"أي ملف آخر"
 
 #: climweb/src/climweb/pages/publications/models.py:316
 msgid "External Url - *Only If published/hosted somewhere else"
@@ -157,33 +174,35 @@ msgid "Additional Details"
 msgstr "تفاصيل اضافية"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:21
+#, fuzzy
 #| msgid "Download document"
 msgid "Download"
-msgstr ""
+msgstr "تحميل"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:34
+#, fuzzy, python-format
 #| msgid "Download - %(file_size)s"
 msgid "Download — %(file_size)s"
-msgstr ""
+msgstr "تنزيل — %(file_size)s"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:44
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:163
-#| msgid "All Publications"
 msgid "Go to publication"
 msgstr "انتقل إلى النشر"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:54
+#, fuzzy
 #| msgid "Page Views"
 msgid "Views"
-msgstr ""
+msgstr "وجهات النظر"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:64
+#, fuzzy
 #| msgid "Download document"
 msgid "Downloads"
-msgstr ""
+msgstr "التنزيلات"
 
 #: climweb/src/climweb/pages/publications/templates/document_detail_include.html:96
-#| msgid "Additional Details"
 msgid "Additional Materials"
 msgstr "مواد إضافية"
 
@@ -200,9 +219,10 @@ msgid "Service"
 msgstr "خدمة"
 
 #: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:56
+#, fuzzy
 #| msgid "Relevant Projects"
 msgid "Projects"
-msgstr ""
+msgstr "المشاريع"
 
 #: climweb/src/climweb/pages/publications/templates/publications_filter_include.html:80
 msgid "Year"
@@ -217,7 +237,9 @@ msgid "All Publications"
 msgstr "جميع المنشورات"
 
 #: climweb/src/climweb/pages/publications/templates/publications_list_include.html:8
-#, python-format
+#, fuzzy, python-format
+#| msgid "Showing %(counter)s result"
+#| msgid_plural "Showing %(counter)s result"
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
 msgstr[0] "عرض نتيجة %(counter)s"
@@ -252,17 +274,16 @@ msgid "Number of views"
 msgstr "عدد المشاهدات"
 
 #~ msgid "Filter by Publication Type"
-#~ msgstr "Filter by Publication Type"
+#~ msgstr "التصفية حسب نوع المنشور"
 
 #~ msgid "Filter by Service"
-#~ msgstr "Filter by Service"
+#~ msgstr "التصفية حسب الخدمة"
 
 #~ msgid "Filter by Projects"
-#~ msgstr "Filter by Projects"
+#~ msgstr "تصفية حسب المشاريع"
 
 #~ msgid "Filter by Year"
-#~ msgstr "Filter by Year"
+#~ msgstr "التصفية حسب السنة"
 
 #~ msgid "This can be a screenshot of the front page of the publication"
-#~ msgstr "This can be a screenshot of the front page of the publication"
-
+#~ msgstr "يمكن أن تكون هذه لقطة شاشة للصفحة الأولى للمنشور"
