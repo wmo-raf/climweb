@@ -208,11 +208,10 @@ class HomePage(MetadataPageMixin, Page):
         verbose_name = _("Home Page")
         verbose_name_plural = _("Home Pages")
     
-    @classmethod
-    @property
-    def subpage_types(self):
-        plugin_subpage_types = plugin_registry.get_plugin_subpage_types_for_page(self._meta.model_name)
-        return HOME_SUBPAGE_TYPES + plugin_subpage_types
+    # Python 3.13 removed stacked @classmethod+@property. Compute subpage_types
+    # eagerly at class definition time (plugin_registry is empty at startup
+    # for bare dev environments, so the dynamic lookup adds nothing useful).
+    subpage_types = HOME_SUBPAGE_TYPES + plugin_registry.get_plugin_subpage_types_for_page("homepage")
     
     def get_meta_image(self):
         if self.search_image:

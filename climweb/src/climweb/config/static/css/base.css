@@ -5,6 +5,10 @@ html, body {
     top: 0 !important;
 }
 
+[dir="rtl"] body {
+    font-family: "Noto Sans Arabic", sans-serif;
+}
+
 .page-container {
     min-height: 100%;
     display: flex;
@@ -174,7 +178,7 @@ label:not(:empty).required:after {
 
 
 .checkbox > input {
-    margin-right: 10px;
+    margin-inline-end: 10px;
 }
 
 input[type='checkbox'] {

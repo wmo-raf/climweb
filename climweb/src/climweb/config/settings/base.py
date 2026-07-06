@@ -420,7 +420,7 @@ LOCALE_PATHS = [
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 
 USE_I18N = True
-# WAGTAIL_I18N_ENABLED = True
+# WAGTAIL_I18N_ENABLED = True  # Enabled for Arabic/RTL track (issue #542)
 
 USE_L10N = True
 

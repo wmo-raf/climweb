@@ -1,0 +1,205 @@
+/* RTL overrides for Bulma offset classes.
+   Flips margin-left offsets to margin-right so columns align correctly
+   when dir="rtl" is set on the html element. */
+
+/* ── is-mobile context (no media query) ── */
+[dir="rtl"] .columns.is-mobile > .column.is-offset-three-quarters { margin-left: 0; margin-right: 75%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-two-thirds     { margin-left: 0; margin-right: 66.6666%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-half           { margin-left: 0; margin-right: 50%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-one-third      { margin-left: 0; margin-right: 33.3333%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-one-quarter    { margin-left: 0; margin-right: 25%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-one-fifth      { margin-left: 0; margin-right: 20%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-two-fifths     { margin-left: 0; margin-right: 40%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-three-fifths   { margin-left: 0; margin-right: 60%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-four-fifths    { margin-left: 0; margin-right: 80%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-0  { margin-left: 0; margin-right: 0%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-1  { margin-left: 0; margin-right: 8.33333%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-2  { margin-left: 0; margin-right: 16.66667%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-3  { margin-left: 0; margin-right: 25%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-4  { margin-left: 0; margin-right: 33.33333%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-5  { margin-left: 0; margin-right: 41.66667%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-6  { margin-left: 0; margin-right: 50%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-7  { margin-left: 0; margin-right: 58.33333%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-8  { margin-left: 0; margin-right: 66.66667%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-9  { margin-left: 0; margin-right: 75%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-10 { margin-left: 0; margin-right: 83.33333%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-11 { margin-left: 0; margin-right: 91.66667%; }
+[dir="rtl"] .columns.is-mobile > .column.is-offset-12 { margin-left: 0; margin-right: 100%; }
+
+/* ── mobile breakpoint ── */
+@media screen and (max-width: 768px) {
+  [dir="rtl"] .column.is-offset-three-quarters-mobile { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-two-thirds-mobile     { margin-left: 0; margin-right: 66.6666%; }
+  [dir="rtl"] .column.is-offset-half-mobile           { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-one-third-mobile      { margin-left: 0; margin-right: 33.3333%; }
+  [dir="rtl"] .column.is-offset-one-quarter-mobile    { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-one-fifth-mobile      { margin-left: 0; margin-right: 20%; }
+  [dir="rtl"] .column.is-offset-two-fifths-mobile     { margin-left: 0; margin-right: 40%; }
+  [dir="rtl"] .column.is-offset-three-fifths-mobile   { margin-left: 0; margin-right: 60%; }
+  [dir="rtl"] .column.is-offset-four-fifths-mobile    { margin-left: 0; margin-right: 80%; }
+  [dir="rtl"] .column.is-offset-0-mobile  { margin-left: 0; margin-right: 0%; }
+  [dir="rtl"] .column.is-offset-1-mobile  { margin-left: 0; margin-right: 8.33333%; }
+  [dir="rtl"] .column.is-offset-2-mobile  { margin-left: 0; margin-right: 16.66667%; }
+  [dir="rtl"] .column.is-offset-3-mobile  { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-4-mobile  { margin-left: 0; margin-right: 33.33333%; }
+  [dir="rtl"] .column.is-offset-5-mobile  { margin-left: 0; margin-right: 41.66667%; }
+  [dir="rtl"] .column.is-offset-6-mobile  { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-7-mobile  { margin-left: 0; margin-right: 58.33333%; }
+  [dir="rtl"] .column.is-offset-8-mobile  { margin-left: 0; margin-right: 66.66667%; }
+  [dir="rtl"] .column.is-offset-9-mobile  { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-10-mobile { margin-left: 0; margin-right: 83.33333%; }
+  [dir="rtl"] .column.is-offset-11-mobile { margin-left: 0; margin-right: 91.66667%; }
+  [dir="rtl"] .column.is-offset-12-mobile { margin-left: 0; margin-right: 100%; }
+}
+
+/* ── tablet+ (default) ── */
+@media screen and (min-width: 769px), print {
+  [dir="rtl"] .column.is-offset-three-quarters,
+  [dir="rtl"] .column.is-offset-three-quarters-tablet { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-two-thirds,
+  [dir="rtl"] .column.is-offset-two-thirds-tablet     { margin-left: 0; margin-right: 66.6666%; }
+  [dir="rtl"] .column.is-offset-half,
+  [dir="rtl"] .column.is-offset-half-tablet           { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-one-third,
+  [dir="rtl"] .column.is-offset-one-third-tablet      { margin-left: 0; margin-right: 33.3333%; }
+  [dir="rtl"] .column.is-offset-one-quarter,
+  [dir="rtl"] .column.is-offset-one-quarter-tablet    { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-one-fifth,
+  [dir="rtl"] .column.is-offset-one-fifth-tablet      { margin-left: 0; margin-right: 20%; }
+  [dir="rtl"] .column.is-offset-two-fifths,
+  [dir="rtl"] .column.is-offset-two-fifths-tablet     { margin-left: 0; margin-right: 40%; }
+  [dir="rtl"] .column.is-offset-three-fifths,
+  [dir="rtl"] .column.is-offset-three-fifths-tablet   { margin-left: 0; margin-right: 60%; }
+  [dir="rtl"] .column.is-offset-four-fifths,
+  [dir="rtl"] .column.is-offset-four-fifths-tablet    { margin-left: 0; margin-right: 80%; }
+  [dir="rtl"] .column.is-offset-0,
+  [dir="rtl"] .column.is-offset-0-tablet  { margin-left: 0; margin-right: 0%; }
+  [dir="rtl"] .column.is-offset-1,
+  [dir="rtl"] .column.is-offset-1-tablet  { margin-left: 0; margin-right: 8.33333%; }
+  [dir="rtl"] .column.is-offset-2,
+  [dir="rtl"] .column.is-offset-2-tablet  { margin-left: 0; margin-right: 16.66667%; }
+  [dir="rtl"] .column.is-offset-3,
+  [dir="rtl"] .column.is-offset-3-tablet  { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-4,
+  [dir="rtl"] .column.is-offset-4-tablet  { margin-left: 0; margin-right: 33.33333%; }
+  [dir="rtl"] .column.is-offset-5,
+  [dir="rtl"] .column.is-offset-5-tablet  { margin-left: 0; margin-right: 41.66667%; }
+  [dir="rtl"] .column.is-offset-6,
+  [dir="rtl"] .column.is-offset-6-tablet  { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-7,
+  [dir="rtl"] .column.is-offset-7-tablet  { margin-left: 0; margin-right: 58.33333%; }
+  [dir="rtl"] .column.is-offset-8,
+  [dir="rtl"] .column.is-offset-8-tablet  { margin-left: 0; margin-right: 66.66667%; }
+  [dir="rtl"] .column.is-offset-9,
+  [dir="rtl"] .column.is-offset-9-tablet  { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-10,
+  [dir="rtl"] .column.is-offset-10-tablet { margin-left: 0; margin-right: 83.33333%; }
+  [dir="rtl"] .column.is-offset-11,
+  [dir="rtl"] .column.is-offset-11-tablet { margin-left: 0; margin-right: 91.66667%; }
+  [dir="rtl"] .column.is-offset-12,
+  [dir="rtl"] .column.is-offset-12-tablet { margin-left: 0; margin-right: 100%; }
+}
+
+/* ── touch (max 1023px) ── */
+@media screen and (max-width: 1023px) {
+  [dir="rtl"] .column.is-offset-three-quarters-touch { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-two-thirds-touch     { margin-left: 0; margin-right: 66.6666%; }
+  [dir="rtl"] .column.is-offset-half-touch           { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-one-third-touch      { margin-left: 0; margin-right: 33.3333%; }
+  [dir="rtl"] .column.is-offset-one-quarter-touch    { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-one-fifth-touch      { margin-left: 0; margin-right: 20%; }
+  [dir="rtl"] .column.is-offset-two-fifths-touch     { margin-left: 0; margin-right: 40%; }
+  [dir="rtl"] .column.is-offset-three-fifths-touch   { margin-left: 0; margin-right: 60%; }
+  [dir="rtl"] .column.is-offset-four-fifths-touch    { margin-left: 0; margin-right: 80%; }
+  [dir="rtl"] .column.is-offset-0-touch  { margin-left: 0; margin-right: 0%; }
+  [dir="rtl"] .column.is-offset-1-touch  { margin-left: 0; margin-right: 8.33333%; }
+  [dir="rtl"] .column.is-offset-2-touch  { margin-left: 0; margin-right: 16.66667%; }
+  [dir="rtl"] .column.is-offset-3-touch  { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-4-touch  { margin-left: 0; margin-right: 33.33333%; }
+  [dir="rtl"] .column.is-offset-5-touch  { margin-left: 0; margin-right: 41.66667%; }
+  [dir="rtl"] .column.is-offset-6-touch  { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-7-touch  { margin-left: 0; margin-right: 58.33333%; }
+  [dir="rtl"] .column.is-offset-8-touch  { margin-left: 0; margin-right: 66.66667%; }
+  [dir="rtl"] .column.is-offset-9-touch  { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-10-touch { margin-left: 0; margin-right: 83.33333%; }
+  [dir="rtl"] .column.is-offset-11-touch { margin-left: 0; margin-right: 91.66667%; }
+  [dir="rtl"] .column.is-offset-12-touch { margin-left: 0; margin-right: 100%; }
+}
+
+/* ── desktop (min 1024px) ── */
+@media screen and (min-width: 1024px) {
+  [dir="rtl"] .column.is-offset-three-quarters-desktop { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-two-thirds-desktop     { margin-left: 0; margin-right: 66.6666%; }
+  [dir="rtl"] .column.is-offset-half-desktop           { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-one-third-desktop      { margin-left: 0; margin-right: 33.3333%; }
+  [dir="rtl"] .column.is-offset-one-quarter-desktop    { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-one-fifth-desktop      { margin-left: 0; margin-right: 20%; }
+  [dir="rtl"] .column.is-offset-two-fifths-desktop     { margin-left: 0; margin-right: 40%; }
+  [dir="rtl"] .column.is-offset-three-fifths-desktop   { margin-left: 0; margin-right: 60%; }
+  [dir="rtl"] .column.is-offset-four-fifths-desktop    { margin-left: 0; margin-right: 80%; }
+  [dir="rtl"] .column.is-offset-0-desktop  { margin-left: 0; margin-right: 0%; }
+  [dir="rtl"] .column.is-offset-1-desktop  { margin-left: 0; margin-right: 8.33333%; }
+  [dir="rtl"] .column.is-offset-2-desktop  { margin-left: 0; margin-right: 16.66667%; }
+  [dir="rtl"] .column.is-offset-3-desktop  { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-4-desktop  { margin-left: 0; margin-right: 33.33333%; }
+  [dir="rtl"] .column.is-offset-5-desktop  { margin-left: 0; margin-right: 41.66667%; }
+  [dir="rtl"] .column.is-offset-6-desktop  { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-7-desktop  { margin-left: 0; margin-right: 58.33333%; }
+  [dir="rtl"] .column.is-offset-8-desktop  { margin-left: 0; margin-right: 66.66667%; }
+  [dir="rtl"] .column.is-offset-9-desktop  { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-10-desktop { margin-left: 0; margin-right: 83.33333%; }
+  [dir="rtl"] .column.is-offset-11-desktop { margin-left: 0; margin-right: 91.66667%; }
+  [dir="rtl"] .column.is-offset-12-desktop { margin-left: 0; margin-right: 100%; }
+}
+
+/* ── widescreen (min 1216px) ── */
+@media screen and (min-width: 1216px) {
+  [dir="rtl"] .column.is-offset-three-quarters-widescreen { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-two-thirds-widescreen     { margin-left: 0; margin-right: 66.6666%; }
+  [dir="rtl"] .column.is-offset-half-widescreen           { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-one-third-widescreen      { margin-left: 0; margin-right: 33.3333%; }
+  [dir="rtl"] .column.is-offset-one-quarter-widescreen    { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-one-fifth-widescreen      { margin-left: 0; margin-right: 20%; }
+  [dir="rtl"] .column.is-offset-two-fifths-widescreen     { margin-left: 0; margin-right: 40%; }
+  [dir="rtl"] .column.is-offset-three-fifths-widescreen   { margin-left: 0; margin-right: 60%; }
+  [dir="rtl"] .column.is-offset-four-fifths-widescreen    { margin-left: 0; margin-right: 80%; }
+  [dir="rtl"] .column.is-offset-0-widescreen  { margin-left: 0; margin-right: 0%; }
+  [dir="rtl"] .column.is-offset-1-widescreen  { margin-left: 0; margin-right: 8.33333%; }
+  [dir="rtl"] .column.is-offset-2-widescreen  { margin-left: 0; margin-right: 16.66667%; }
+  [dir="rtl"] .column.is-offset-3-widescreen  { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-4-widescreen  { margin-left: 0; margin-right: 33.33333%; }
+  [dir="rtl"] .column.is-offset-5-widescreen  { margin-left: 0; margin-right: 41.66667%; }
+  [dir="rtl"] .column.is-offset-6-widescreen  { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-7-widescreen  { margin-left: 0; margin-right: 58.33333%; }
+  [dir="rtl"] .column.is-offset-8-widescreen  { margin-left: 0; margin-right: 66.66667%; }
+  [dir="rtl"] .column.is-offset-9-widescreen  { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-10-widescreen { margin-left: 0; margin-right: 83.33333%; }
+  [dir="rtl"] .column.is-offset-11-widescreen { margin-left: 0; margin-right: 91.66667%; }
+  [dir="rtl"] .column.is-offset-12-widescreen { margin-left: 0; margin-right: 100%; }
+}
+
+/* ── fullhd (min 1408px) ── */
+@media screen and (min-width: 1408px) {
+  [dir="rtl"] .column.is-offset-three-quarters-fullhd { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-two-thirds-fullhd     { margin-left: 0; margin-right: 66.6666%; }
+  [dir="rtl"] .column.is-offset-half-fullhd           { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-one-third-fullhd      { margin-left: 0; margin-right: 33.3333%; }
+  [dir="rtl"] .column.is-offset-one-quarter-fullhd    { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-one-fifth-fullhd      { margin-left: 0; margin-right: 20%; }
+  [dir="rtl"] .column.is-offset-two-fifths-fullhd     { margin-left: 0; margin-right: 40%; }
+  [dir="rtl"] .column.is-offset-three-fifths-fullhd   { margin-left: 0; margin-right: 60%; }
+  [dir="rtl"] .column.is-offset-four-fifths-fullhd    { margin-left: 0; margin-right: 80%; }
+  [dir="rtl"] .column.is-offset-0-fullhd  { margin-left: 0; margin-right: 0%; }
+  [dir="rtl"] .column.is-offset-1-fullhd  { margin-left: 0; margin-right: 8.33333%; }
+  [dir="rtl"] .column.is-offset-2-fullhd  { margin-left: 0; margin-right: 16.66667%; }
+  [dir="rtl"] .column.is-offset-3-fullhd  { margin-left: 0; margin-right: 25%; }
+  [dir="rtl"] .column.is-offset-4-fullhd  { margin-left: 0; margin-right: 33.33333%; }
+  [dir="rtl"] .column.is-offset-5-fullhd  { margin-left: 0; margin-right: 41.66667%; }
+  [dir="rtl"] .column.is-offset-6-fullhd  { margin-left: 0; margin-right: 50%; }
+  [dir="rtl"] .column.is-offset-7-fullhd  { margin-left: 0; margin-right: 58.33333%; }
+  [dir="rtl"] .column.is-offset-8-fullhd  { margin-left: 0; margin-right: 66.66667%; }
+  [dir="rtl"] .column.is-offset-9-fullhd  { margin-left: 0; margin-right: 75%; }
+  [dir="rtl"] .column.is-offset-10-fullhd { margin-left: 0; margin-right: 83.33333%; }
+  [dir="rtl"] .column.is-offset-11-fullhd { margin-left: 0; margin-right: 91.66667%; }
+  [dir="rtl"] .column.is-offset-12-fullhd { margin-left: 0; margin-right: 100%; }
+}
