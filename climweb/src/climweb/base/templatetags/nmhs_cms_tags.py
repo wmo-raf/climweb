@@ -278,7 +278,7 @@ def render_charts(context, charts_block, section_index=0):
                  "index": i + 1,         
                  "section_index": section_index,
                 },
-                request=context["request"]
+                request=context.get("request")
             )
             rendered_output += rendered
             i += 2
@@ -288,7 +288,7 @@ def render_charts(context, charts_block, section_index=0):
                 {"chart": current, "index": i + 1,
                 "section_index": section_index,
                 },
-                request=context["request"]
+                request=context.get("request")
             )
             rendered_output += rendered
             i += 1
@@ -315,7 +315,7 @@ def render_chart_or_map(context, block, block_type="map", section_index=0, block
                  "section_index": section_index,
                  "block_index":block_index
                 },
-                request=context["request"]
+                request=context.get("request")
             )
             rendered_output += rendered
             i += 2
@@ -327,7 +327,7 @@ def render_chart_or_map(context, block, block_type="map", section_index=0, block
                 "section_index": section_index,
                 "block_index": block_index
                 },
-                request=context["request"]
+                request=context.get("request")
             )
             rendered_output += rendered
             i += 1
