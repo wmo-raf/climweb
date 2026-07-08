@@ -27,7 +27,8 @@ from climweb.utils.version import get_main_version, check_version_greater_than_c
 from .cap import create_cap_geomanager_dataset
 from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
-from .views import cms_version_view, plugin_manager_view, cms_upgrade_status_view, create_alert_from_geometry
+from .views import cms_version_view, plugin_manager_view, cms_upgrade_status_view
+from .cap_views import create_alert_from_geometry
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
