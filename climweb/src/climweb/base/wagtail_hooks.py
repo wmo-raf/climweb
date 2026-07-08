@@ -28,6 +28,7 @@ from .cap import create_cap_geomanager_dataset
 from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
 from .views import cms_version_view, plugin_manager_view, cms_upgrade_status_view
+from .cap_views import create_alert_from_geometry
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
@@ -48,11 +49,19 @@ def global_admin_css():
 
 @hooks.register('register_admin_urls')
 def urlconf_base():
-    return [
+    urls = [
         path('cms-version', cms_version_view, name='cms-version'),
         path('cms-upgrade-status', cms_upgrade_status_view, name='cms-upgrade-status'),
         path('plugins', plugin_manager_view, name='plugin-manager'),
     ]
+
+    if "capcomposer.cap" in settings.INSTALLED_APPS:
+        urls.append(
+            path('cap/create-from-geometry/', create_alert_from_geometry,
+                 name='cap_alert_create_from_geometry'),
+        )
+
+    return urls
 
 
 @hooks.register('register_settings_menu_item')
