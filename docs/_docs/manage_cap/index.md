@@ -19,4 +19,5 @@ Setting-Boundaries
 Composer-and-Approver
 Creating-Alerts
 cap-png-pdf
+CAP-Statistics
 ```
