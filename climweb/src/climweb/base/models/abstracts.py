@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import truncatechars
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel, PageChooserPanel
 from wagtail.fields import RichTextField
@@ -147,8 +148,63 @@ class AbstractIntroPage(MetadataPageMixin, Page):
 class AbstractBannerWithIntroPage(AbstractBannerPage, AbstractIntroPage):
     class Meta:
         abstract = True
-    
+
     content_panels = [
         *AbstractBannerPage.content_panels,
         *AbstractIntroPage.content_panels,
     ]
+
+
+class AbstractApplicationPage(models.Model):
+    """
+    Mixin that adds "Apply" button functionality to a page, e.g. a vacancy or tender
+    detail page. Editors point the Apply button at another page (for example, a
+    Flexible Form page set up to collect applications) or, failing that, an external
+    URL (e.g. a link to an external HR/procurement system).
+    """
+    class Meta:
+        abstract = True
+
+    apply_button_text = models.CharField(max_length=50, blank=True, null=True,
+                                         default=_("Apply Now"), verbose_name=_("Apply button text"))
+    application_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Application Page"),
+        help_text=_("Select the page where applicants should submit their application, e.g. a Flexible Form page "
+                    "set up to collect applications. If left blank, the external link below is used instead."),
+    )
+    external_application_url = models.URLField(
+        max_length=500, blank=True, null=True,
+        verbose_name=_("External Application Link"),
+        help_text=_("External link to apply, e.g. a link to an external HR or procurement system. Ignored if an "
+                    "application page is chosen above."),
+    )
+
+    content_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel('apply_button_text'),
+                PageChooserPanel('application_page'),
+                FieldPanel('external_application_url'),
+            ],
+            heading=_("Application"),
+        ),
+    ]
+
+    @cached_property
+    def apply_url(self):
+        if self.application_page_id:
+            return self.application_page.url
+
+        if self.external_application_url:
+            return self.external_application_url
+
+        return None
+
+    @cached_property
+    def apply_url_is_external(self):
+        return bool(self.apply_url) and not self.application_page_id

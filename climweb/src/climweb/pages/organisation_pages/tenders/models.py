@@ -12,7 +12,7 @@ from wagtail.models import Page
 
 from climweb.base import blocks
 from climweb.base.mixins import MetadataPageMixin
-from climweb.base.models import AbstractBannerWithIntroPage
+from climweb.base.models import AbstractBannerWithIntroPage, AbstractApplicationPage
 from climweb.base.utils import paginate, get_first_non_empty_p_string
 from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
 
@@ -107,7 +107,7 @@ class TendersPage(AbstractBannerWithIntroPage):
         return None
 
 
-class TenderDetailPage(MetadataPageMixin, Page):
+class TenderDetailPage(MetadataPageMixin, AbstractApplicationPage, Page):
     template = 'tender_detail_page.html'
     parent_page_types = ['tenders.TendersPage']
     subpage_types = []
@@ -135,13 +135,16 @@ class TenderDetailPage(MetadataPageMixin, Page):
         FieldPanel("description"),
         FieldPanel('tender_document'),
         FieldPanel('additional_documents', heading=_("Additional Documents")),
+        *AbstractApplicationPage.content_panels,
     ]
-    
+
     api_fields = [
         APIField('posting_date'),
         APIField('deadline'),
         APIField('tender_document'),
         APIField('closed', serializer=BooleanField(source='is_closed')),
+        APIField('apply_button_text'),
+        APIField('apply_url'),
     ]
     
     class Meta:

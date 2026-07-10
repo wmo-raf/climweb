@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "climweb.pages.search",
     "climweb.pages.data_request",
     "climweb.pages.flex_page",
+    "climweb.pages.flexible_forms",
     "climweb.pages.stations",
     "climweb.pages.satellite_imagery",
     "climweb.pages.glossary",
