@@ -9,7 +9,7 @@
 {% endblock extra_css %}
 
 {% block content %}
-<main>
+<main id="wd-page">
   {% include "breadcrumbs_include.html" %}
 
   <section class="wd-section">
@@ -45,6 +45,7 @@
                 </div>
               </div>
               <div class="dropdown-menu" id="city-search-menu" role="menu"></div>
+              <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-pdf">{% trans "Download PDF" %}</a>
             </div>
           </div>
         </div>
@@ -737,6 +738,19 @@ $(document).ready(function () {
 
   /* ── RENDER MAP ── */
   renderMap();
+
+  /* ── GENERATE PDF ── */
+  $('#export-pdf').on('click', function() {
+            const element = document.getElementById('wd-page');
+            const opt = {
+                margin:       0.5,
+                filename:     'myfile.pdf',
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
+            };
+            html2pdf().from(element).set(opt).save();
+  });
   
 });
 </script>
