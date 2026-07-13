@@ -86,6 +86,14 @@ header {
 .mobile-logo {
     height: 40px;
     margin-top: 8px;
+    gap: 4px;
+  display: flex;
+}
+
+.mobile-logo .site-logo-append {
+    max-width: 200px;
+    color: var(--primary-color);
+    font-size: 10px;
 }
 
 .mobile-logo img {
@@ -247,9 +255,11 @@ header {
 .site-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  /* gap: 10px; */
   text-decoration: none;
   flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .site-logo-img {
@@ -265,10 +275,16 @@ header {
 }
 
 .site-logo-text {
-  font-size: 20px;
-  font-weight: 700;
+  
   color: #1a1a1a;
   letter-spacing: 0.1em;
+}
+
+.site-logo-append{
+  max-width:200px;
+  color:var(--primary-color);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 /* UTILITY LINKS */
@@ -304,21 +320,21 @@ header {
 .util-link--alert:hover { color: #B91C1C; opacity: 0.85; }
 
 .util-link--anticipatory {
-  background: #1c46b9;
+  background: var(--primary-color);
   color: #fff;
   padding: 5px 12px;
   border-radius: 5px;
   font-weight: 700;
   font-size: 12px;
-  border: 2px solid #1c46b9;
+  border: 2px solid var(--primary-color);
   box-shadow: 0 2px 8px rgba(28, 70, 185, 0.35);
   animation: anticipatory-pulse 2.5s ease-in-out infinite;
 }
 
 .util-link--anticipatory:hover {
   color: #fff;
-  background: #1538a0;
-  border-color: #1538a0;
+  background: var(--primary-color);
+  border-color: var(--primary-color);
   opacity: 1;
   box-shadow: 0 4px 14px rgba(28, 70, 185, 0.5);
   animation: none;
