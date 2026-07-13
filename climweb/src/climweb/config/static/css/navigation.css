@@ -303,6 +303,32 @@ header {
 
 .util-link--alert:hover { color: #B91C1C; opacity: 0.85; }
 
+.util-link--anticipatory {
+  background: #1c46b9;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 12px;
+  border: 2px solid #1c46b9;
+  box-shadow: 0 2px 8px rgba(28, 70, 185, 0.35);
+  animation: anticipatory-pulse 2.5s ease-in-out infinite;
+}
+
+.util-link--anticipatory:hover {
+  color: #fff;
+  background: #1538a0;
+  border-color: #1538a0;
+  opacity: 1;
+  box-shadow: 0 4px 14px rgba(28, 70, 185, 0.5);
+  animation: none;
+}
+
+@keyframes anticipatory-pulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(28, 70, 185, 0.35); }
+  50%       { box-shadow: 0 2px 16px rgba(28, 70, 185, 0.65); }
+}
+
 .util-icon {
   display: inline-flex;
   align-items: center;
@@ -715,6 +741,18 @@ header {
 
   .mobile-util-link--cta {
     color: var(--primary-color);
+  }
+
+  .mobile-util-link--anticipatory {
+    background: #1c46b9 !important;
+    color: #fff !important;
+    font-weight: 700;
+    border-color: #1c46b9 !important;
+  }
+
+  .mobile-util-link--anticipatory:hover {
+    background: #1538a0 !important;
+    color: #fff !important;
   }
 
   /* hide desktop-only nav elements */

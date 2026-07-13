@@ -35,6 +35,15 @@
             </a>
         {% endif %}
 
+        {% if settings.base.ImportantPages.anticipatory_action_page %}
+                    <a href="{{ settings.base.ImportantPages.anticipatory_action_page.url }}"
+            class="util-link util-link--anticipatory">
+            <span>{% translate "Anticipatory Action" %}</span>
+            <img src="{% static 'img/CAPLogo.jpeg' %}" alt="Anticipatory Action"
+                style="height:16px;width:16px;border-radius:3px;">
+            </a>
+        {% endif %}
+
         {% if settings.base.ImportantPages.mailing_list_signup_page %}
             <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
             class="util-link">
@@ -154,6 +163,12 @@
               <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
                  class="button is-fullwidth mobile-util-link">
                 {% translate "Alerts" %}
+              </a>
+            {% endif %}
+            {% if settings.base.ImportantPages.anticipatory_action_page %}
+              <a href="{{ settings.base.ImportantPages.anticipatory_action_page.url }}"
+                 class="button is-fullwidth mobile-util-link mobile-util-link--anticipatory">
+                {% translate "Anticipatory Action" %}
               </a>
             {% endif %}
             {% if settings.base.ImportantPages.mailing_list_signup_page %}
