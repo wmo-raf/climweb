@@ -132,6 +132,9 @@
             {% image settings.base.OrganisationSetting.logo original as logo %}
             <img src="{{ logo.url }}" alt="Logo" style="height:32px;">
           {% endif %}
+          {% if settings.base.OrganisationSetting.logo_append %}
+            <span class="site-logo-append">{{ settings.base.OrganisationSetting.logo_append }}</span>
+          {% endif %}
         </a>
         <button id="navBurger"
                 class="nav-burger navbar-burger"

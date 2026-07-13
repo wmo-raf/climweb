@@ -103,9 +103,14 @@
                 {% if settings.base.OrganisationSetting.country_flag %}
                     <a class="level-item main-logo" href="{{ current_site.root_url }}">
                         {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
-                        <img src="{{ country_flag.url }}" alt="Logo">
+                        <img src="{{ country_flag.url }}" alt="Logo"> 
+                        {% if settings.base.OrganisationSetting.logo_append %}
+                        <span class="site-logo-append">{{ settings.base.OrganisationSetting.logo_append }}</span>
+                        {% endif %}                       
                     </a>
+
                 {% endif %}
+                
                 <div class="nav-left-circle-active-alert"></div>
 
             </div>

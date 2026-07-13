@@ -86,6 +86,14 @@ header {
 .mobile-logo {
     height: 40px;
     margin-top: 8px;
+    gap: 4px;
+  display: flex;
+}
+
+.mobile-logo .site-logo-append {
+    max-width: 200px;
+    color: var(--primary-color);
+    font-size: 10px;
 }
 
 .mobile-logo img {
@@ -267,15 +275,16 @@ header {
 }
 
 .site-logo-text {
-  font-size: 20px;
-  font-weight: 700;
+  
   color: #1a1a1a;
   letter-spacing: 0.1em;
 }
 
 .site-logo-append{
   max-width:200px;
-  color:var(--primary-color)
+  color:var(--primary-color);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 /* UTILITY LINKS */
