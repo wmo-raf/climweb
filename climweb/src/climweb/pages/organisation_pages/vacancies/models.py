@@ -11,7 +11,7 @@ from wagtail.fields import RichTextField
 from wagtail.models import Page
 
 from climweb.base.mixins import MetadataPageMixin
-from climweb.base.models import AbstractBannerWithIntroPage
+from climweb.base.models import AbstractBannerWithIntroPage, AbstractApplicationPage
 from climweb.base.utils import paginate, get_first_non_empty_p_string
 from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
 
@@ -118,11 +118,11 @@ class VacanciesPage(AbstractBannerWithIntroPage):
         verbose_name = _("Vacancy Page")
 
 
-class VacancyDetailPage(MetadataPageMixin, Page):
+class VacancyDetailPage(MetadataPageMixin, AbstractApplicationPage, Page):
     template = 'vacancy_detail_page.html'
     parent_page_types = ['vacancies.VacanciesPage']
     subpage_types = []
-    
+
     posting_date = models.DateTimeField(default=timezone.now, verbose_name=_("Date of Posting"))
     duty_station = models.CharField(max_length=100, verbose_name=_("Duty Station"))
     deadline = models.DateTimeField(_("Application Deadline"))
@@ -138,7 +138,7 @@ class VacancyDetailPage(MetadataPageMixin, Page):
         related_name='+',
         help_text=_("Optional downloadable job description document")
     )
-    
+
     content_panels = Page.content_panels + [
         FieldPanel('posting_date'),
         FieldPanel('duty_station'),
@@ -146,6 +146,7 @@ class VacancyDetailPage(MetadataPageMixin, Page):
         FieldPanel('description'),
         FieldPanel('deadline'),
         FieldPanel('document'),
+        *AbstractApplicationPage.content_panels,
     ]
     
     api_fields = [
@@ -155,6 +156,8 @@ class VacancyDetailPage(MetadataPageMixin, Page):
         APIField('deadline'),
         APIField('document'),
         APIField('closed', serializer=BooleanField(source='is_closed')),
+        APIField('apply_button_text'),
+        APIField('apply_url'),
     ]
     
     class Meta:

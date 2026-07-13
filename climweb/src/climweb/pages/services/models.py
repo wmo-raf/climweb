@@ -71,7 +71,7 @@ class ServiceIndexPage(MetadataPageMixin, Page):
 class ServicePage(AbstractBannerWithIntroPage):
     template = 'services/service_page.html'
     parent_page_types = ['services.ServiceIndexPage']
-    subpage_types = ['flex_page.FlexPage', ]
+    subpage_types = ['flex_page.FlexPage', 'flexible_forms.FlexibleFormPage', ]
     show_in_menus_default = True
     
     service = models.OneToOneField(ServiceCategory, on_delete=models.PROTECT, verbose_name=_("Service"))

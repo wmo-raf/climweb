@@ -135,7 +135,8 @@
   margin-bottom: 1.75rem;
 }
 
-/* download button */
+/* apply button — stands out as the primary CTA */
+.vd-apply-btn,
 .vd-dl-btn {
   display: inline-flex;
   align-items: center;
@@ -148,15 +149,27 @@
   color: #fff;
   text-decoration: none;
   border: none;
-  transition: opacity 0.15s;
+  transition: opacity 0.15s, transform 0.15s;
   white-space: nowrap;
 }
 
+.vd-apply-btn {
+  background: #f7a600;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(247, 166, 0, 0.35);
+}
+
+.vd-apply-btn:hover,
 .vd-dl-btn:hover {
   opacity: 0.9;
   color: #fff !important;
 }
 
+.vd-apply-btn:hover {
+  transform: translateY(-1px);
+}
+
+.vd-apply-btn .icon svg,
 .vd-dl-btn .icon svg {
   width: 14px;
   height: 14px;
@@ -232,6 +245,7 @@
   .vd-pills  { gap: 6px; }
   .vd-pill   { font-size: 11px; padding: 4px 10px; }
 
+  .vd-apply-btn,
   .vd-dl-btn { width: 100%; justify-content: center; }
 
   .vd-actions { flex-direction: column; align-items: flex-start; }

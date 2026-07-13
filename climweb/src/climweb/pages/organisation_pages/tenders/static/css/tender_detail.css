@@ -134,6 +134,37 @@
   margin-bottom: 1.75rem;
 }
 
+/* apply button — stands out as the primary CTA */
+.td-apply-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  background: #f7a600;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(247, 166, 0, 0.35);
+}
+
+.td-apply-btn:hover {
+  opacity: 0.9;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.td-apply-btn .icon svg {
+  width: 14px;
+  height: 14px;
+  fill: #fff;
+}
+
 /* ── DOCUMENTS ── */
 .td-docs {
   display: flex;
@@ -287,6 +318,7 @@
     gap: 1rem;
   }
 
+  .td-apply-btn,
   .td-dl-btn  { width: 100%; justify-content: center; }
 }
 

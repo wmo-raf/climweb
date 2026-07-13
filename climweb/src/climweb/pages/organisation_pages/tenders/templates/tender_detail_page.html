@@ -63,6 +63,19 @@
                 <!-- ACTIONS -->
                 <div class="td-actions">
 
+                  {% if page.apply_url and not page.is_closed %}
+                    <a class="td-apply-btn"
+                       href="{{ page.apply_url }}"
+                       {% if page.apply_url_is_external %}target="_blank" rel="noopener"{% endif %}
+                       data-ga-action="apply"
+                       data-ga-event-category="Tender Apply"
+                       data-ga-event-label="{{ page.tender_title }}"
+                       data-ga-value="{{ page.apply_url }}">
+                      <span>{% if page.apply_button_text %}{{ page.apply_button_text }}{% else %}{% translate "Apply Now" %}{% endif %}</span>
+                      <span class="icon">{% svg_icon name="arrow-right-full" %}</span>
+                    </a>
+                  {% endif %}
+
                   <!-- DOCUMENTS -->
                   <div class="td-docs">
                     <span class="td-docs-label">

@@ -51,6 +51,7 @@ HOME_SUBPAGE_TYPES = [
     'email_subscription.MauticMailingListSubscriptionPage',
     'data_request.DataRequestPage',
     'flex_page.FlexPage',
+    'flexible_forms.FlexibleFormPage',
     'stations.StationsPage',
     'satellite_imagery.SatelliteImageryPage',
     'glossary.GlossaryIndexPage',
