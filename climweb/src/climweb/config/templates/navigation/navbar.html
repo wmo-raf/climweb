@@ -20,6 +20,9 @@
           {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
           <img src="{{ country_flag.url }}" alt="Flag" class="site-logo-flag">
         {% endif %}
+        {% if settings.base.OrganisationSetting.logo_append %}
+          <span class="site-logo-append">{{ settings.base.OrganisationSetting.logo_append }}</span>
+        {% endif %}
       </a>
 
       <!-- UTILITY LINKS -->
@@ -39,8 +42,7 @@
                     <a href="{{ settings.base.ImportantPages.anticipatory_action_page.url }}"
             class="util-link util-link--anticipatory">
             <span>{% translate "Anticipatory Action" %}</span>
-            <img src="{% static 'img/CAPLogo.jpeg' %}" alt="Anticipatory Action"
-                style="height:16px;width:16px;border-radius:3px;">
+            <span class="util-icon">{% svg_icon name="advocacy" %}</span>
             </a>
         {% endif %}
 
