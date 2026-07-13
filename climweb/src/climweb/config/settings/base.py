@@ -567,6 +567,17 @@ ONLINE_SHARE_CONFIG = [
         "svg_icon": "telegram",
         "enabled": True,
     },
+    {
+        # TikTok has no public web "share this link" intent like the platforms
+        # above, so the share button instead copies the link to the
+        # clipboard and opens TikTok, ready for the user to paste it in.
+        "name": "TikTok",
+        "base_url": "https://www.tiktok.com/",
+        "fa_icon": "tiktok",
+        "svg_icon": "tiktok",
+        "copy_link": True,
+        "enabled": True,
+    },
 
 ]
 

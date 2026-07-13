@@ -170,6 +170,7 @@ def register_icons(icons):
         'wagtailfontawesomesvg/brands/flickr.svg',
         'wagtailfontawesomesvg/brands/telegram.svg',
         'wagtailfontawesomesvg/brands/whatsapp.svg',
+        'wagtailfontawesomesvg/brands/tiktok.svg',
         'wagtailfontawesomesvg/solid/phone.svg',
         'wagtailfontawesomesvg/solid/box-archive.svg',
         'wagtailfontawesomesvg/solid/hourglass-start.svg',

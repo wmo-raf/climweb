@@ -1,6 +1,7 @@
 import csv
 import datetime
 
+from django.core.cache import cache
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -13,7 +14,10 @@ from wagtail_modeladmin.helpers import AdminURLHelper
 from .constants import DATE_FORMAT_CHOICES_PARSE_PARAMS
 from .forms import ClimateDataForm
 from .models import CityClimateDataPage, DataValue
-from .utils import get_climatology_page_data
+from .utils import get_climatology_page_data, render_climate_chart_thumbnail
+
+# how long a rendered thumbnail is cached for before being regenerated
+THUMBNAIL_CACHE_SECONDS = 60 * 60 * 6
 
 
 @user_passes_test(user_has_any_page_permission)
@@ -215,12 +219,41 @@ def download_csv_template(request, page_id):
 
 def climate_data(request, page_id):
     city_id = request.GET.get("city_id")
-    
+
     page = CityClimateDataPage.objects.filter(pk=page_id)
-    
+
     if page.exists():
         page = page.first().specific
-    
+
     page_data = get_climatology_page_data(page, city_id, date_as_str=False)
-    
+
     return JsonResponse(page_data, safe=False)
+
+
+def city_climate_chart_thumbnail(request, page_id):
+    """
+    Server-rendered PNG of a city's climate chart, used as the og:image /
+    twitter:image when a specific city's graph is shared on social media
+    (see CityClimateDataPage.get_meta_image_url).
+    """
+    page = get_object_or_404(CityClimateDataPage, pk=page_id).specific
+
+    city_id = request.GET.get("city")
+    city = get_object_or_404(City, pk=city_id) if city_id else None
+
+    month = request.GET.get("month") or None
+    params = request.GET.get("params") or ""
+    parameter_slugs = [slug for slug in params.split(",") if slug] or None
+
+    cache_key = f"cityclimate-thumbnail:{page.pk}:{city_id}:{month}:{params}"
+    image_bytes = cache.get(cache_key)
+
+    if image_bytes is None:
+        image_bytes = render_climate_chart_thumbnail(
+            page, city, month=month, parameter_slugs=parameter_slugs
+        )
+        cache.set(cache_key, image_bytes, THUMBNAIL_CACHE_SECONDS)
+
+    response = HttpResponse(image_bytes, content_type="image/png")
+    response["Cache-Control"] = f"public, max-age={THUMBNAIL_CACHE_SECONDS}"
+    return response

@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from adminboundarymanager.models import AdminBoundarySettings
 from django.db import models
 from django.template.defaultfilters import truncatechars
@@ -19,6 +21,10 @@ from .blocks import LineChartBlock, BarChartBlock, AreaChartBlock
 from ...base.utils import get_first_non_empty_p_string
 
 tracer = trace.get_tracer(__name__)
+
+# standard og:image dimensions used for the dynamic per-chart share thumbnail
+# rendered in utils.render_climate_chart_thumbnail
+THUMBNAIL_SIZE = (1200, 630)
 
 MONTHS = [
     {"name": "January", "num": 1},
@@ -95,7 +101,19 @@ class CityClimateDataPage(MetadataPageMixin, Page):
         abm_settings = AdminBoundarySettings.for_request(request)
         abm_extents = abm_settings.combined_countries_bounds
         boundary_tiles_url = get_full_url(request, abm_settings.boundary_tiles_url)
-        
+
+        # Placeholder tokens (__CITY_ID__, __MONTH__, __PARAMS__,
+        # __CITY_NAME__) let the page's JS rewrite the share links/text to
+        # match whichever city, month and parameters are currently selected,
+        # without duplicating the share URL building logic from
+        # `share_buttons` on the client side. The same __CITY_ID__/__MONTH__/
+        # __PARAMS__ query params are read back by get_meta_image_url() below
+        # to render a matching thumbnail for the shared link.
+        share_url = f"{self.get_full_url(request)}?city=__CITY_ID__&params=__PARAMS__"
+        if self.filter_by_month:
+            share_url += "&month=__MONTH__"
+        share_text = f"{self.title} — __CITY_NAME__"
+
         context.update({
             "cities": cities,
             "cities_with_data_ids": [str(city.pk) for city in cities],
@@ -104,8 +122,10 @@ class CityClimateDataPage(MetadataPageMixin, Page):
             "months": MONTHS,
             "bounds": abm_extents,
             "boundary_tiles_url": boundary_tiles_url,
+            "share_url": share_url,
+            "share_text": share_text,
         })
-        
+
         return context
     
     @cached_property
@@ -132,14 +152,53 @@ class CityClimateDataPage(MetadataPageMixin, Page):
     
     def get_meta_image(self):
         meta_image = super().get_meta_image()
-        
+
         if not meta_image:
             parent = self.get_parent()
             if hasattr(parent, 'get_meta_image'):
                 meta_image = parent.get_meta_image()
-        
+
         return meta_image
-    
+
+    def get_meta_image_url(self, request):
+        """
+        When a specific city's graph is shared (a `?city=` query param is on
+        the URL - see the __CITY_ID__ token in get_context above), point
+        og:image/twitter:image at a server-rendered snapshot of that exact
+        chart instead of the page's static search image, so link previews on
+        Facebook/WhatsApp/Telegram/LinkedIn/X show the actual graph. Falls
+        back to the normal static image when no city is selected or the city
+        has no data.
+        """
+        self._dynamic_meta_image = False
+
+        city_id = request.GET.get("city") if request else None
+        if city_id:
+            has_data = DataValue.objects.filter(
+                city_id=city_id, parameter__page_id=self.pk, parameter__enabled=True
+            ).exists()
+
+            if has_data:
+                self._dynamic_meta_image = True
+
+                query = {"city": city_id}
+                month = request.GET.get("month")
+                if month:
+                    query["month"] = month
+                params = request.GET.get("params")
+                if params:
+                    query["params"] = params
+
+                path = reverse("city_climate_chart_thumbnail", args=(self.pk,))
+                return f"{get_full_url(request, path)}?{urlencode(query)}"
+
+        return super().get_meta_image_url(request)
+
+    def get_meta_image_dimensions(self):
+        if getattr(self, "_dynamic_meta_image", False):
+            return THUMBNAIL_SIZE
+        return super().get_meta_image_dimensions()
+
     def get_meta_description(self):
         meta_description = super().get_meta_description()
         
