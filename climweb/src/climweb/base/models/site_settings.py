@@ -333,8 +333,12 @@ class ImportantPages(BaseSiteSetting):
     cap_warnings_list_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
         verbose_name=_("CAP Warnings List page"))
+    anticipatory_action_page = models.ForeignKey(
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
+        verbose_name=_("Anticipatory Action page"))
     
     panels = [
+        PageChooserPanel('anticipatory_action_page'),
         PageChooserPanel('mailing_list_signup_page'),
         PageChooserPanel('contact_us_page'),
         PageChooserPanel('feedback_page'),
