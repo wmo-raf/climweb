@@ -20,6 +20,18 @@ def generate_short_code(length=SHORT_CODE_LENGTH):
 
 
 class ShortLink(models.Model):
+    class Source(models.TextChoices):
+        ADMIN = "admin", _("Created in admin")
+        PUBLIC = "public", _("Submitted via public form")
+
+    source = models.CharField(
+        max_length=10,
+        choices=Source.choices,
+        default=Source.ADMIN,
+        editable=False,
+        verbose_name=_("Source"),
+        help_text=_("Whether this link was created by a logged-in editor or submitted anonymously via the public form."),
+    )
     short_code = models.CharField(
         max_length=15,
         unique=True,
@@ -125,7 +137,10 @@ class ShortLinkViewSet(SnippetViewSet):
     menu_name = "shortlinks"
     add_to_admin_menu = True
     edit_view_class = ShortLinkEditView
-    list_display = ("short_code", "full_short_url", "target_url", "label", "click_count", "is_active", "created_at")
+    list_display = (
+        "short_code", "full_short_url", "target_url", "label", "source", "click_count", "is_active", "created_at",
+    )
+    list_filter = ("source", "is_active")
     search_fields = ("short_code", "target_url", "label")
 
 
