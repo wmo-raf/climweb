@@ -1,0 +1,40 @@
+{% extends "wagtailsnippets/snippets/edit.html" %}
+{% load i18n %}
+
+{% block before_form %}
+    {{ block.super }}
+    <div class="nice-padding" style="padding-bottom: 0;">
+        <div class="w-field" style="max-width: 480px;">
+            <label for="id_full_short_url">{% trans "Short URL" %}</label>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+                <input type="text" id="id_full_short_url" value="{{ full_short_url }}" readonly
+                       onclick="this.select();"
+                       style="flex: 1; font-family: monospace;">
+                <button type="button" class="button button-secondary" id="copy-short-url-btn">
+                    {% trans "Copy" %}
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    <script>
+        (function () {
+            var button = document.getElementById('copy-short-url-btn');
+            var input = document.getElementById('id_full_short_url');
+            if (!button || !input) return;
+
+            var defaultLabel = button.textContent;
+            button.addEventListener('click', function () {
+                navigator.clipboard.writeText(input.value).then(function () {
+                    button.textContent = '{% trans "Copied!" %}';
+                    setTimeout(function () {
+                        button.textContent = defaultLabel;
+                    }, 1500);
+                });
+            });
+        })();
+    </script>
+{% endblock %}
