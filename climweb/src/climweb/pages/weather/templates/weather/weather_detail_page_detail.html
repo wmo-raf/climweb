@@ -286,6 +286,17 @@ $(document).ready(function () {
     }
   }];
 
+  const CHART_COLORS = {
+    primary: 'var(--primary-color, #185FA5)',
+    primaryLight: 'var(--primary-color-light, #185FA51A)',
+    primaryMedium: 'var(--primary-color-medium, #185FA54F)',
+    background: 'var(--background-color, #E8EFF6)',
+    text: 'var(--text-color, #2F4858)',
+    precipitation: 'color-mix(in srgb, var(--primary-color, #185FA5) 65%, var(--background-color, #E8EFF6))',
+    airPressure: 'color-mix(in srgb, var(--primary-color, #185FA5) 78%, var(--text-color, #2F4858))',
+    humidity: 'color-mix(in srgb, var(--primary-color, #185FA5) 50%, var(--background-color, #E8EFF6))'
+  };
+
 
   /* ── TEMPERATURE LINE GRAPH ── */
   function renderTemperatureGraph(dayData, dayKey) {
@@ -343,12 +354,12 @@ $(document).ready(function () {
         {
           name: 'Maximum',
           data: dayData.air_temperature_max.map(Number),
-          color: '#FF3333'
+          color: CHART_COLORS.primary
         },
         {
           name: 'Minimum',
           data: dayData.air_temperature_min.map(Number),
-          color: '#3333FF'
+          color: CHART_COLORS.primaryMedium
         }
       ],
       responsive: {
@@ -412,24 +423,24 @@ $(document).ready(function () {
         type: singlePoint ? 'column' : 'area',
         name: 'Wind speed',
         data: windSpeedSeries,
-        color: '#2caffe',
+        color: CHART_COLORS.primary,
         fillColor: singlePoint ? null : {
           linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
           stops: [
-            [0, 'var(--highcharts-color-0, #2caffe)'],
-            [1, 'color-mix(in srgb, var(--highcharts-color-0, #2caffe) 25%, transparent)']
+            [0, CHART_COLORS.primary],
+            [1, 'color-mix(in srgb, var(--primary-color, #185FA5) 25%, transparent)']
           ]
         },
         pointWidth: singlePoint ? 50 : null,
         fillColor: {
           linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
           stops: [
-            [0, 'var(--highcharts-color-0, #2caffe)'],
+            [0, CHART_COLORS.primary],
             [
               1,
               `color-mix(
                 in srgb,
-                var(--highcharts-color-0, #2caffe) 25%,
+                var(--primary-color, #185FA5) 25%,
                 transparent
               )`
             ]
@@ -507,7 +518,7 @@ $(document).ready(function () {
         {
           name: 'Precipitation',
           data: precipitationData,
-          color: '#3b82f6'
+          color: CHART_COLORS.precipitation
         }
       ],
       responsive: {
@@ -564,7 +575,7 @@ $(document).ready(function () {
         {
           name: 'Air Pressure',
           data: airPressureData,
-          color: '#f97316'
+          color: CHART_COLORS.airPressure
         }
       ],
       responsive: {
@@ -621,7 +632,7 @@ $(document).ready(function () {
         {
           name: 'Relative Humidity',
           data: humidityData,
-          color: '#10b981'
+          color: CHART_COLORS.humidity
         }
       ],
       responsive: {
