@@ -9,11 +9,11 @@
     </p>
     <p>
       {% if enabled %}
-        <a class="button button-primary" href="{{ run_now_url }}">
+        <a class="button button-primary" href="{{ run_now_url }}" style="color:white">
           {% trans "Back up now" %}
         </a>
       {% else %}
-        <span class="button button-primary" style="opacity:.5;pointer-events:none;"
+        <span class="button button-primary" style="opacity:.5;pointer-events:none;color:white"
               title="{% trans 'Enable cloud backups and save before running a backup.' %}">
           {% trans "Back up now" %}
         </span>
@@ -31,7 +31,7 @@
     {% if oauth_configured %}
       <p>
         {% trans "1. One click:" %}
-        <a class="button button-primary" href="{{ connect_url }}">
+        <a class="button button-primary" href="{{ connect_url }}" style="color:white">
           {% trans "Connect Google Drive" %}
         </a>
       </p>
