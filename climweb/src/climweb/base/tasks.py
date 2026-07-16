@@ -42,10 +42,50 @@ def run_backup(self):
     # Run the `dbbackup` command
     logger.info("[BACKUP] Running backup")
     call_command('dbbackup', '--clean', '--noinput')
-    
+
     # Run the `mediabackup` command
     logger.info("[BACKUP] Running mediabackup")
     call_command('mediabackup', '--clean', '--noinput')
+
+    # Upload the fresh dumps to any cloud destinations configured in the CMS admin
+    # (Settings -> Backup). Failures here must not fail the local backup.
+    try:
+        upload_cloud_backups()
+    except Exception:
+        logger.exception("[BACKUP] Cloud upload step failed")
+
+
+def upload_cloud_backups():
+    """Upload local backups to Google Drive for every site that has enabled and
+    connected cloud backups from the CMS admin."""
+    import os
+    from django.utils import timezone
+
+    from climweb.base.backups.google_drive import upload_backups
+    from climweb.base.models.backup_settings import BackupSettings, BackupStatus
+
+    backup_dir = settings.DBBACKUP_STORAGE_OPTIONS.get("location")
+    if not backup_dir or not os.path.isdir(backup_dir):
+        logger.warning("[BACKUP] Backup directory not found; skipping cloud upload")
+        return
+
+    for backup_settings in BackupSettings.objects.filter(enabled=True):
+        if not backup_settings.is_connected:
+            continue
+        try:
+            message = upload_backups(backup_settings, backup_dir)
+            backup_settings.last_backup_status = BackupStatus.SUCCESS
+            backup_settings.last_backup_message = message
+            logger.info(f"[BACKUP] Cloud upload complete: {message}")
+        except Exception as exc:
+            backup_settings.last_backup_status = BackupStatus.FAILED
+            backup_settings.last_backup_message = str(exc)
+            logger.exception("[BACKUP] Cloud upload failed for a site")
+        finally:
+            backup_settings.last_backup_at = timezone.now()
+            backup_settings.save(update_fields=[
+                "last_backup_at", "last_backup_status", "last_backup_message",
+            ])
 
 
 if "forecastmanager" in settings.INSTALLED_APPS:

@@ -324,6 +324,15 @@ DBBACKUP_CONNECTOR_MAPPING = {
     DB_ENGINE: "dbbackup.db.postgresql.PgDumpBinaryConnector",
 }
 
+# Google Drive cloud-backup OAuth application.
+# OPTIONAL fallback only — the Client ID/Secret are normally entered in the CMS
+# admin (Settings -> Backup) and stored in the database, so no env changes are
+# required. These env vars, if set, are used only when the admin fields are left
+# blank. Create one "Web application" OAuth client in Google Cloud Console with
+# the authorised redirect URI: <WAGTAILADMIN_BASE_URL>/<admin>/backup/google/callback
+GOOGLE_DRIVE_OAUTH_CLIENT_ID = env.str("GOOGLE_DRIVE_OAUTH_CLIENT_ID", default="")
+GOOGLE_DRIVE_OAUTH_CLIENT_SECRET = env.str("GOOGLE_DRIVE_OAUTH_CLIENT_SECRET", default="")
+
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
