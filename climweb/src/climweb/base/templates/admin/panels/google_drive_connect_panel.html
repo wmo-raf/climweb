@@ -1,0 +1,53 @@
+{% load i18n %}
+<div class="help-block help-info" style="margin-bottom:1.5em;">
+  {% if is_connected %}
+    <p>
+      ✅ {% blocktrans %}Connected as <strong>{{ account_email }}</strong>.{% endblocktrans %}
+    </p>
+    <p>
+      {% if enabled %}
+        <a class="button button-primary" href="{{ run_now_url }}">
+          {% trans "Back up now" %}
+        </a>
+      {% else %}
+        <span class="button button-primary" style="opacity:.5;pointer-events:none;"
+              title="{% trans 'Enable cloud backups and save before running a backup.' %}">
+          {% trans "Back up now" %}
+        </span>
+      {% endif %}
+      <a class="button button-secondary no" href="{{ disconnect_url }}">
+        {% trans "Disconnect" %}
+      </a>
+    </p>
+    {% if not enabled %}
+      <p><small>{% trans "Tick 'Enable cloud backups' and save to activate scheduled and manual uploads." %}</small></p>
+    {% endif %}
+  {% else %}
+    <p><strong>{% trans "No Google account connected." %}</strong>
+       {% trans "Backups will not be uploaded until you connect one. You have two options:" %}</p>
+    {% if oauth_configured %}
+      <p>
+        {% trans "1. One click:" %}
+        <a class="button button-primary" href="{{ connect_url }}">
+          {% trans "Connect Google Drive" %}
+        </a>
+      </p>
+    {% else %}
+      <p>
+        {% blocktrans %}<strong>1.</strong> Enter your OAuth <strong>Client ID</strong> and <strong>Client Secret</strong> below and save — the one-click Connect button will then appear here.{% endblocktrans %}
+      </p>
+    {% endif %}
+    <p>
+      {% blocktrans %}<strong>2.</strong> Or paste a refresh token in the "Paste a token" field below and save.{% endblocktrans %}
+    </p>
+  {% endif %}
+
+  {% if last_backup_at %}
+    <hr>
+    <p style="margin-top:1em;">
+      <strong>{% trans "Last upload:" %}</strong>
+      {{ last_backup_at }} — {{ last_backup_status }}
+      {% if last_backup_message %}<br><small>{{ last_backup_message }}</small>{% endif %}
+    </p>
+  {% endif %}
+</div>
