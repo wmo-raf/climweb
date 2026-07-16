@@ -1,0 +1,123 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n %}
+
+{% block titletag %}{% trans "Google Drive backup — setup guide" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .backup-help { max-width: 60em; padding: 1.5em 2em; line-height: 1.55; }
+    .backup-help h2 { margin-top: 1.6em; }
+    .backup-help h3 { margin-top: 1.2em; }
+    .backup-help code { background: #f2f2f2; padding: 1px 4px; border-radius: 3px; }
+    .backup-help table { border-collapse: collapse; width: 100%; margin-top: 1em; }
+    .backup-help th, .backup-help td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+    .backup-help th { background: #f7f7f7; }
+    .backup-help .note { background: #eef6ff; border-left: 4px solid #2e7cd6; padding: .6em 1em; margin: 1em 0; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include "wagtailadmin/shared/header.html" with title="Google Drive backup — setup guide" icon="download" %}
+
+<div class="backup-help">
+
+  <p>ClimWeb uploads its nightly database and media backups to Google Drive,
+     configured from <strong>Settings → Backup</strong>. There are two parts: a
+     <strong>one-time central setup</strong> (create one Google OAuth app, done once
+     for all countries) and a <strong>per-site setup</strong> (each site connects its
+     own Google account in the browser).</p>
+
+  <h2>Part 1 — One-time central setup (Google Cloud)</h2>
+  <p>Do this once. The same OAuth client can serve every ClimWeb deployment.</p>
+  <ol>
+    <li><strong>Create / pick a project</strong> at
+        <a href="https://console.cloud.google.com" target="_blank" rel="noopener">console.cloud.google.com</a>.</li>
+    <li><strong>Enable the Drive API</strong>: APIs &amp; Services → Enable APIs →
+        search <em>Google Drive API</em> → Enable.</li>
+    <li><strong>Configure the consent screen</strong>: APIs &amp; Services → OAuth
+        consent screen. User type <em>External</em>; fill in app name and support
+        email. Under <em>Data access → Add scopes</em>, add
+        <code>.../auth/drive.file</code> (plus <code>openid</code> and
+        <code>.../auth/userinfo.email</code>). <code>drive.file</code> gives per-file
+        access — the app only ever sees files it created.</li>
+    <li><strong>Publish to Production</strong> (under <em>Publishing status</em>).
+        <div class="note">Important: while an app is in <strong>Testing</strong>,
+        Google refresh tokens <strong>expire after 7 days</strong>, which would
+        silently break backups a week later. <code>drive.file</code> is
+        non-sensitive, so publishing needs <strong>no</strong> verification review —
+        you can publish immediately.</div></li>
+    <li><strong>Create the OAuth client</strong>: APIs &amp; Services → Credentials →
+        Create Credentials → <em>OAuth client ID</em> → application type
+        <strong>Web application</strong>. Add the
+        <strong>Authorised redirect URI</strong>:
+        <code>https://YOUR-CMS-DOMAIN/&lt;admin-path&gt;/backup/google/callback</code>
+        (this is <code>WAGTAILADMIN_BASE_URL</code> + <code>/backup/google/callback</code>).</li>
+    <li>Copy the generated <strong>Client ID</strong> and <strong>Client Secret</strong>.</li>
+  </ol>
+
+  <h2>Part 2 — Per-site setup (this page)</h2>
+  <ol>
+    <li>Under <strong>Google credentials</strong>, paste the <strong>Client ID</strong>
+        and <strong>Client Secret</strong>, then <strong>Save</strong>. (The secret is
+        stored encrypted and never shown again.)</li>
+    <li>Click <strong>Connect Google Drive</strong>. On Google's consent screen, sign
+        in with the site's Google account and <strong>make sure the Google Drive
+        permission checkbox is ticked</strong> before continuing — skipping it is the
+        most common connection failure.
+        <br><em>Alternative:</em> paste a refresh token into the
+        <strong>Paste a token</strong> field instead, then Save.</li>
+    <li>Once it shows <strong>Connected as …</strong>, tick <strong>Enable cloud
+        backups</strong> and Save.</li>
+    <li>Set the options: remote folder, DB copies to keep, media copies to keep, and
+        which weekday the media archive uploads.</li>
+    <li>Click <strong>Back up now</strong>, wait a minute, refresh — <strong>Last
+        upload</strong> should show <em>Success</em> with the uploaded filenames.</li>
+  </ol>
+  <div class="note">Recommended: use a <strong>dedicated Google account per site</strong>,
+     not someone's personal account. Drive's free 15&nbsp;GB is shared with that
+     account's Gmail/Photos.</div>
+
+  <h2>Verify recovery</h2>
+  <p>A backup you haven't restored isn't a backup yet. After the first successful
+     upload, download the <code>.psql.bin</code> from Drive and test-restore it into a
+     throwaway database before relying on it.</p>
+
+  <h2>How it runs</h2>
+  <p>The nightly task dumps the database and media locally, then uploads the newest
+     files: the <strong>database snapshot every day</strong>, and the <strong>media
+     archive only on the configured weekday</strong>. Old copies are pruned per the
+     retention settings. <strong>Back up now</strong> triggers the same task on demand.</p>
+
+  <h2>Troubleshooting</h2>
+  <table>
+    <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Access blocked: … has not completed the Google verification process</strong></td>
+        <td>App is in <em>Testing</em>. <strong>Publish to Production</strong> (Part 1,
+            step 4). Don't just add a test user — Testing-mode tokens expire in 7 days.</td>
+      </tr>
+      <tr>
+        <td><strong>(insecure_transport) OAuth 2 MUST utilize https</strong></td>
+        <td>Django behind a TLS-terminating proxy sees the callback as <code>http</code>.
+            The callback forces <code>https</code>, so ensure the updated code is deployed.
+            App-wide fix: set
+            <code>SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")</code>
+            and have nginx send <code>X-Forwarded-Proto</code>.</td>
+      </tr>
+      <tr>
+        <td><strong>Scope has changed … to "… openid"</strong> (drive.file dropped)</td>
+        <td>The Drive permission wasn't granted. Re-Connect and <strong>tick the Drive
+            checkbox</strong>. Also confirm <code>drive.file</code> is added under the
+            consent screen's <em>Data access</em> scopes.</td>
+      </tr>
+      <tr>
+        <td><strong>Back up now</strong> does nothing visible</td>
+        <td>It runs in the background — refresh after a minute. Requires an account
+            connected <strong>and</strong> "Enable cloud backups" ticked + saved.</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}

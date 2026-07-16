@@ -37,6 +37,7 @@ from .backups.views import (
     google_drive_callback,
     google_drive_disconnect,
     run_backup_now,
+    backup_help,
 )
 
 
@@ -66,6 +67,7 @@ def urlconf_base():
         path('backup/google/callback', google_drive_callback, name='backup-google-callback'),
         path('backup/google/disconnect', google_drive_disconnect, name='backup-google-disconnect'),
         path('backup/run-now', run_backup_now, name='backup-run-now'),
+        path('backup/help', backup_help, name='backup-help'),
     ]
 
     if "capcomposer.cap" in settings.INSTALLED_APPS:

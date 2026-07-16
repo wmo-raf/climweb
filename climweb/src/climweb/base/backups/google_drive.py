@@ -10,6 +10,12 @@ only see files it created — never the rest of the user's Drive.
 import os
 from datetime import datetime
 
+# Google frequently returns granted scopes in a different order/set than
+# requested (e.g. adding/removing "openid"), which makes oauthlib raise a
+# "Scope has changed" error even on success. Relax that strict comparison; we
+# verify the important scope (drive.file) explicitly after the exchange.
+os.environ.setdefault("OAUTHLIB_RELAX_TOKEN_SCOPE", "1")
+
 from django.conf import settings
 from django.urls import reverse
 from google.auth.transport.requests import Request
@@ -19,13 +25,28 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from loguru import logger
 
+DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file"
+
 # drive.file: per-file access to files created by this app only.
 # openid/email: so we can display which account was connected.
 SCOPES = [
-    "https://www.googleapis.com/auth/drive.file",
+    DRIVE_SCOPE,
     "openid",
     "https://www.googleapis.com/auth/userinfo.email",
 ]
+
+
+def granted_scopes(flow):
+    """The scopes Google actually granted, from the token response."""
+    scope = {}
+    try:
+        scope = flow.oauth2session.token or {}
+    except Exception:
+        pass
+    granted = scope.get("scope", [])
+    if isinstance(granted, str):
+        granted = granted.split()
+    return granted
 
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 AUTH_URI = "https://accounts.google.com/o/oauth2/auth"
@@ -94,10 +115,31 @@ def _get_or_create_folder(service, name, parent_id=None):
     return folder["id"]
 
 
+def _find_file(service, name, folder_id):
+    """Return the id of an existing file with this exact name in the folder, or None.
+    Drive allows duplicate names, so re-uploading would otherwise create copies."""
+    safe_name = name.replace("'", "\\'")
+    resp = service.files().list(
+        q=f"name='{safe_name}' and '{folder_id}' in parents and trashed=false",
+        fields="files(id)",
+        orderBy="createdTime desc",
+        spaces="drive",
+    ).execute()
+    files = resp.get("files", [])
+    return files[0]["id"] if files else None
+
+
 def _upload_file(service, local_path, remote_name, folder_id):
+    """Upload the file, replacing an existing file of the same name in-place so
+    repeated runs (e.g. two backups the same day) never leave duplicates."""
     media = MediaFileUpload(local_path, resumable=True)
-    metadata = {"name": remote_name, "parents": [folder_id]}
-    service.files().create(body=metadata, media_body=media, fields="id").execute()
+    existing_id = _find_file(service, remote_name, folder_id)
+    if existing_id:
+        service.files().update(fileId=existing_id, media_body=media, fields="id").execute()
+        logger.info(f"[BACKUP] Replaced existing remote backup {remote_name}")
+    else:
+        metadata = {"name": remote_name, "parents": [folder_id]}
+        service.files().create(body=metadata, media_body=media, fields="id").execute()
 
 
 def _prune(service, folder_id, name_prefix, keep):

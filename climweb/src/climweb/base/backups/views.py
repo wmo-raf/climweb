@@ -10,7 +10,7 @@ Flow:
   3. ``google_drive_disconnect`` -> forget the stored token.
 """
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from loguru import logger
 from wagtail.admin import messages
@@ -19,6 +19,12 @@ from climweb.base.backups import google_drive as gd
 from climweb.base.models.backup_settings import BackupSettings
 
 SESSION_STATE_KEY = "backup_gdrive_oauth_state"
+
+
+@login_required
+def backup_help(request):
+    """Render the Google Drive backup setup guide inside the CMS admin."""
+    return render(request, "admin/backup_help.html")
 
 
 def _settings_url():
@@ -77,6 +83,15 @@ def google_drive_callback(request):
 
         flow.fetch_token(authorization_response=authorization_response)
         credentials = flow.credentials
+
+        if gd.DRIVE_SCOPE not in gd.granted_scopes(flow):
+            messages.error(
+                request,
+                "Google Drive access was not granted. Please click Connect again "
+                "and make sure the Google Drive permission checkbox is ticked on "
+                "the consent screen before continuing.",
+            )
+            return redirect(settings_url)
 
         if not credentials.refresh_token:
             messages.error(

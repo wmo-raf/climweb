@@ -23,6 +23,7 @@ class GoogleDriveConnectPanel(Panel):
                 "connect_url": reverse("backup-google-connect"),
                 "disconnect_url": reverse("backup-google-disconnect"),
                 "run_now_url": reverse("backup-run-now"),
+                "help_url": reverse("backup-help"),
                 "enabled": instance.enabled,
             })
             return context

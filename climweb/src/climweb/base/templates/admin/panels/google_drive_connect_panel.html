@@ -1,5 +1,8 @@
 {% load i18n %}
 <div class="help-block help-info" style="margin-bottom:1.5em;">
+  <p style="margin-top:0;">
+    📖 <a href="{{ help_url }}">{% trans "Read the Google Drive backup setup guide" %}</a>
+  </p>
   {% if is_connected %}
     <p>
       ✅ {% blocktrans %}Connected as <strong>{{ account_email }}</strong>.{% endblocktrans %}
