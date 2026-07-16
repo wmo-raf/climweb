@@ -65,7 +65,17 @@ def google_drive_callback(request):
     try:
         client_id, client_secret = backup_settings.resolved_client_credentials()
         flow = gd.build_flow(client_id, client_secret, state=state)
-        flow.fetch_token(authorization_response=request.build_absolute_uri())
+
+        # Behind a TLS-terminating proxy (nginx) Django sees the request as http,
+        # so build_absolute_uri() yields an http:// URL and oauthlib rejects it
+        # with "(insecure_transport) OAuth 2 MUST utilize https". The public
+        # callback is always https, so force the scheme before handing it to
+        # oauthlib.
+        authorization_response = request.build_absolute_uri()
+        if authorization_response.startswith("http://"):
+            authorization_response = "https://" + authorization_response[len("http://"):]
+
+        flow.fetch_token(authorization_response=authorization_response)
         credentials = flow.credentials
 
         if not credentials.refresh_token:
