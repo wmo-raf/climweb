@@ -61,7 +61,7 @@ def upload_cloud_backups():
     import os
     from django.utils import timezone
 
-    from climweb.base.backup.google_drive import upload_backups
+    from climweb.base.backups.google_drive import upload_backups
     from climweb.base.models.backup_settings import BackupSettings, BackupStatus
 
     backup_dir = settings.DBBACKUP_STORAGE_OPTIONS.get("location")

@@ -32,8 +32,8 @@ from wagtail.admin.panels import (
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
 
-from climweb.base.backup.crypto import decrypt_text, encrypt_text
-from climweb.base.backup.panels import GoogleDriveConnectPanel
+from climweb.base.backups.crypto import decrypt_text, encrypt_text
+from climweb.base.backups.panels import GoogleDriveConnectPanel
 
 
 class BackupStatus(models.TextChoices):

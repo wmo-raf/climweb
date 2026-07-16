@@ -32,7 +32,7 @@ from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
 from .views import cms_version_view, plugin_manager_view, cms_upgrade_status_view
 from .cap_views import create_alert_from_geometry
-from .backup.views import (
+from .backups.views import (
     google_drive_connect,
     google_drive_callback,
     google_drive_disconnect,
