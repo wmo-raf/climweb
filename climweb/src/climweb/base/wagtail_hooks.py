@@ -57,6 +57,35 @@ def global_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static('css/admin.css'))
 
 
+@hooks.register('insert_global_admin_css')
+def hide_content_feedback_for_claude():
+    """Hide Wagtail AI's content-feedback panel when the site is on Claude.
+
+    Content feedback requests JSON-mode structured output, which the agent
+    library (any_llm) doesn't support for Anthropic, so it errors on a Claude
+    key. Hide its UI (the `wai-feedback` Stimulus controller) so editors don't
+    hit that error. It stays visible for OpenAI, where it works.
+    """
+    from django.utils.safestring import mark_safe
+
+    try:
+        from wagtail.models import Site
+
+        from climweb.base.models.ai_settings import AISettings
+
+        site = Site.objects.filter(is_default_site=True).first() or Site.objects.first()
+        if site is None:
+            return ""
+        ai_settings = AISettings.for_site(site)
+        if ai_settings.enabled and ai_settings.provider == "anthropic":
+            return mark_safe(
+                '<style>[data-controller~="wai-feedback"]{display:none !important;}</style>'
+            )
+    except Exception:
+        pass
+    return ""
+
+
 @hooks.register('register_admin_urls')
 def urlconf_base():
     urls = [

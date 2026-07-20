@@ -5,6 +5,15 @@ from wagtail.api.v2.utils import get_full_url
 from wagtailcache.cache import WagtailCacheMixin
 from wagtailmetadata.models import MetadataPageMixin as BaseMetadataPageMixin
 
+# AI-powered meta description suggestions, when wagtail-ai is installed. Falls
+# back to a plain FieldPanel otherwise. The generation runs through wagtail-ai's
+# agent path, which we point at the per-site CMS key (see
+# climweb.base.ai.agent_provider).
+try:
+    from wagtail_ai.panels import AIDescriptionFieldPanel
+except Exception:
+    AIDescriptionFieldPanel = FieldPanel
+
 
 class MetadataPageMixin(BaseMetadataPageMixin, WagtailCacheMixin):
     class Meta:
@@ -15,7 +24,7 @@ class MetadataPageMixin(BaseMetadataPageMixin, WagtailCacheMixin):
             [
                 FieldPanel("slug", widget=SlugInput),
                 FieldPanel("seo_title"),
-                FieldPanel("search_description"),
+                AIDescriptionFieldPanel("search_description"),
                 FieldPanel('search_image'),
             ],
             gettext_lazy("For search engines"),
