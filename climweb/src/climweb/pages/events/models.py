@@ -31,6 +31,7 @@ from wagtailmailchimp.models import AbstractMailchimpIntegrationForm
 from wagtailzoom.models import AbstractZoomIntegrationForm
 
 from climweb.base import blocks
+from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import (
@@ -580,6 +581,11 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
                 request.POST, request.FILES, page=self, user=request.user
             )
             if form.is_valid():
+                # honeypot / timing / link-flood checks on top of the captcha
+                spam_reason = get_spam_reason(request, form)
+                if spam_reason:
+                    logger.warning(f"[EVENT_REGISTRATION_PAGE] Possible spam ({spam_reason}) blocked")
+                    return self.render_landing_page(request, None, *args, **kwargs)
                 # check for email duplication
                 if self.should_process_form(request, form_data=form.data):
                     form_submission = self.process_form_submission(form)

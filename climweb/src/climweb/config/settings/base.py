@@ -589,6 +589,13 @@ if RECAPTCHA_VERIFY_REQUEST_TIMEOUT:
     except ValueError:
         RECAPTCHA_VERIFY_REQUEST_TIMEOUT = 60
 
+# ANTI-SPAM Settings (layered on top of reCAPTCHA for public form pages)
+# Minimum seconds between a form rendering and its submission. Faster = bot.
+ANTISPAM_MIN_SUBMIT_SECONDS = env.int('ANTISPAM_MIN_SUBMIT_SECONDS', default=3)
+# Max number of link-like tokens allowed across all text fields before a
+# submission is treated as spam.
+ANTISPAM_MAX_LINKS = env.int('ANTISPAM_MAX_LINKS', default=0)
+
 # EMAIL SETTINGS
 # Default email address used to send messages from the website.
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="")
