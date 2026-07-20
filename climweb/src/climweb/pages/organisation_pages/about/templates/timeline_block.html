@@ -1,0 +1,38 @@
+{% comment %}
+Renders a single TimelineBlock (one year and its milestones).
+Wrapper markup (tl-section / tl-body / tl-line) is provided by the
+including template, e.g. about_page.html.
+{% endcomment %}
+
+<!-- YEAR HEADER -->
+<div class="tl-year-row">
+    <span class="tl-year-tag">{{ value.year }}</span>
+</div>
+
+{% for milestone in value.milestones %}
+    {% if forloop.counter|divisibleby:2 %}
+        <!-- RIGHT SIDE -->
+        <div class="tl-item tl-item--right">
+            <div class="tl-spacer"></div>
+            <div class="tl-node">
+                <div class="tl-dot"></div>
+            </div>
+            <div class="tl-content">
+                <p class="tl-period">{{ milestone.period }}</p>
+                <p class="tl-desc">{{ milestone.description }}</p>
+            </div>
+        </div>
+    {% else %}
+        <!-- LEFT SIDE -->
+        <div class="tl-item tl-item--left">
+            <div class="tl-content">
+                <p class="tl-period">{{ milestone.period }}</p>
+                <p class="tl-desc">{{ milestone.description }}</p>
+            </div>
+            <div class="tl-node">
+                <div class="tl-dot"></div>
+            </div>
+            <div class="tl-spacer"></div>
+        </div>
+    {% endif %}
+{% endfor %}
