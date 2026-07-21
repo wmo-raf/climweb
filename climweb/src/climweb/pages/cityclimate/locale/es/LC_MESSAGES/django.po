@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:46+0300\n"
+"POT-Creation-Date: 2026-07-21 12:29+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -32,7 +32,7 @@ msgstr "Color de relleno del área"
 
 #: climweb/src/climweb/pages/cityclimate/forms.py:15
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:111
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:33
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:42
 msgid "City"
 msgstr "Ciudad"
 
@@ -44,57 +44,57 @@ msgstr "Archivo CSV"
 msgid "File Date Format"
 msgstr "Formato de fecha de archivo"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:55
+#: climweb/src/climweb/pages/cityclimate/models.py:62
 msgid "Description"
 msgstr "Descripción"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:57
+#: climweb/src/climweb/pages/cityclimate/models.py:65
 msgid "Time Format"
 msgstr "Formato de tiempo"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:58
+#: climweb/src/climweb/pages/cityclimate/models.py:66
 msgid "In none selected,the default format e.g '2023-01-01' will be used"
 msgstr ""
 "Si no se selecciona ninguno, se utilizará el formato predeterminado, por "
 "ejemplo, '2023-01-01'."
 
-#: climweb/src/climweb/pages/cityclimate/models.py:61
+#: climweb/src/climweb/pages/cityclimate/models.py:69
 msgid "Filter by Month"
 msgstr "Filtrar por mes"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:67
+#: climweb/src/climweb/pages/cityclimate/models.py:75
 msgid "Data Parameters"
 msgstr "Parámetros de datos"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:67
+#: climweb/src/climweb/pages/cityclimate/models.py:75
 msgid "Data Parameter"
 msgstr "Parámetro de datos"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:157
+#: climweb/src/climweb/pages/cityclimate/models.py:218
 msgid "Parameter name"
 msgstr "Nombre del parámetro"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:158
+#: climweb/src/climweb/pages/cityclimate/models.py:219
 msgid "Units"
 msgstr "Unidades"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:160
+#: climweb/src/climweb/pages/cityclimate/models.py:221
 msgid "Enabled"
 msgstr "Activado"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:163
+#: climweb/src/climweb/pages/cityclimate/models.py:224
 msgid "Line Chart"
 msgstr "Gráfico de linea"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:164
+#: climweb/src/climweb/pages/cityclimate/models.py:225
 msgid "Bar Chart"
 msgstr "Gráfico de barras"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:165
+#: climweb/src/climweb/pages/cityclimate/models.py:226
 msgid "Area Chart"
 msgstr "Gráfico de área"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:168
+#: climweb/src/climweb/pages/cityclimate/models.py:229
 msgid "Chart Configuration"
 msgstr "Configuración del gráfico"
 
@@ -155,17 +155,21 @@ msgstr "Ver datos"
 msgid "Delete Data"
 msgstr "Eliminar datos"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:20
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:21
 #, fuzzy
 #| msgid "Load Climate Data"
 msgid "Climate Data"
 msgstr "Datos climáticos"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:57
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:26
+msgid "Share"
+msgstr "Compartir"
+
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:66
 msgid "Month"
 msgstr "Mes"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:81
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:90
 #, fuzzy
 #| msgid "Data Parameters"
 msgid "Parameters"
@@ -195,23 +199,27 @@ msgstr "Cargar datos climáticos para"
 msgid "Load Climate Data"
 msgstr "Cargar datos climáticos"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:55
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:31
+msgid "Download CSV Template"
+msgstr "Descargar plantilla CSV"
+
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:56
 msgid "Select Date Column"
 msgstr "Seleccionar columna de fecha"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:71
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:72
 msgid "Select"
 msgstr "Seleccionar"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:73
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:74
 msgid "Column"
 msgstr "Columna"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:88
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:89
 msgid "Upload"
 msgstr "Subir"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:95
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:96
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/view_city_climate_data.html:4
 msgid "Data Preview"
 msgstr "Vista previa de datos"

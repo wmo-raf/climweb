@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"POT-Creation-Date: 2026-07-21 12:29+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -32,7 +32,7 @@ msgstr "የቦታ መሙላት ቀለም"
 
 #: climweb/src/climweb/pages/cityclimate/forms.py:15
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:111
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:33
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:42
 msgid "City"
 msgstr "ከተማ"
 
@@ -44,55 +44,55 @@ msgstr "CSV ፋይል"
 msgid "File Date Format"
 msgstr "የፋይል ቀን ቅርጸት"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:55
+#: climweb/src/climweb/pages/cityclimate/models.py:62
 msgid "Description"
 msgstr "መግለጫ"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:57
+#: climweb/src/climweb/pages/cityclimate/models.py:65
 msgid "Time Format"
 msgstr "የጊዜ ቅርጸት"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:58
+#: climweb/src/climweb/pages/cityclimate/models.py:66
 msgid "In none selected,the default format e.g '2023-01-01' will be used"
 msgstr "በማንም አልተመረጠም፣ ነባሪው ቅርጸት ለምሳሌ '2023-01-01' ስራ ላይ ይውላል"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:61
+#: climweb/src/climweb/pages/cityclimate/models.py:69
 msgid "Filter by Month"
 msgstr "በወር አጣራ"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:67
+#: climweb/src/climweb/pages/cityclimate/models.py:75
 msgid "Data Parameters"
 msgstr "የውሂብ መለኪያዎች"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:67
+#: climweb/src/climweb/pages/cityclimate/models.py:75
 msgid "Data Parameter"
 msgstr "የውሂብ መለኪያ"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:157
+#: climweb/src/climweb/pages/cityclimate/models.py:218
 msgid "Parameter name"
 msgstr "የመለኪያ ስም"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:158
+#: climweb/src/climweb/pages/cityclimate/models.py:219
 msgid "Units"
 msgstr "ክፍሎች"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:160
+#: climweb/src/climweb/pages/cityclimate/models.py:221
 msgid "Enabled"
 msgstr "ነቅቷል"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:163
+#: climweb/src/climweb/pages/cityclimate/models.py:224
 msgid "Line Chart"
 msgstr "የመስመር ገበታ"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:164
+#: climweb/src/climweb/pages/cityclimate/models.py:225
 msgid "Bar Chart"
 msgstr "የአሞሌ ገበታ"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:165
+#: climweb/src/climweb/pages/cityclimate/models.py:226
 msgid "Area Chart"
 msgstr "የአካባቢ ገበታ"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:168
+#: climweb/src/climweb/pages/cityclimate/models.py:229
 msgid "Chart Configuration"
 msgstr "የገበታ ውቅር"
 
@@ -151,17 +151,21 @@ msgstr "ውሂብን ይመልከቱ"
 msgid "Delete Data"
 msgstr "ውሂብ ሰርዝ"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:20
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:21
 #, fuzzy
 #| msgid "Load Climate Data"
 msgid "Climate Data"
 msgstr "የአየር ንብረት መረጃ"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:57
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:26
+msgid "Share"
+msgstr "አጋራ"
+
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:66
 msgid "Month"
 msgstr "ወር"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:81
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:90
 #, fuzzy
 #| msgid "Data Parameters"
 msgid "Parameters"
@@ -191,23 +195,27 @@ msgstr "የአየር ንብረት ውሂብን ጫን ለ"
 msgid "Load Climate Data"
 msgstr "የአየር ንብረት ውሂብን ጫን"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:55
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:31
+msgid "Download CSV Template"
+msgstr "የCSV አብነት አውርድ"
+
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:56
 msgid "Select Date Column"
 msgstr "የቀን አምድ ይምረጡ"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:71
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:72
 msgid "Select"
 msgstr "ይምረጡ"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:73
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:74
 msgid "Column"
 msgstr "አምድ"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:88
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:89
 msgid "Upload"
 msgstr "ስቀል"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:95
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:96
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/view_city_climate_data.html:4
 msgid "Data Preview"
 msgstr "የውሂብ ቅድመ እይታ"

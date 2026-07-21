@@ -1,0 +1,147 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-21 12:32+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: climweb/src/climweb/pages/shortlinks/forms.py:25
+msgid "URL to shorten"
+msgstr "عنوان URL للاختصار"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:24
+msgid "Created in admin"
+msgstr "تم إنشاؤها في المشرف"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:25
+msgid "Submitted via public form"
+msgstr "تم تقديمه عبر النموذج العام"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:32
+msgid "Source"
+msgstr "مصدر"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:33
+msgid ""
+"Whether this link was created by a logged-in editor or submitted anonymously"
+" via the public form."
+msgstr ""
+"ما إذا كان هذا الرابط قد تم إنشاؤه بواسطة محرر مسجل الدخول أو تم إرساله بشكل"
+" مجهول عبر النموذج العام."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:39
+msgid "Short code"
+msgstr "رمز قصير"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:41
+msgid ""
+"Leave blank to auto-generate. Only letters, numbers, - and _ are allowed. "
+"This is the part that appears after /s/ in the short link."
+msgstr ""
+"اتركه فارغًا للإنشاء التلقائي. يُسمح فقط بالأحرف والأرقام - و_. هذا هو الجزء"
+" الذي يظهر بعد /s/ في الرابط القصير."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:47
+msgid "Target URL"
+msgstr "عنوان URL المستهدف"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:48
+msgid "The full URL this short link should redirect visitors to."
+msgstr ""
+"عنوان URL الكامل الذي يجب أن يعيد هذا الرابط القصير توجيه الزائرين إليه."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:53
+msgid "Label"
+msgstr "ملصق"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:54
+msgid "Optional note to help editors remember what this link is for."
+msgstr "ملاحظة اختيارية لمساعدة المحررين على تذكر غرض هذا الرابط."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:58
+msgid "Active"
+msgstr "نشيط"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:59
+msgid "Untick to disable this short link without deleting it."
+msgstr "قم بإلغاء التحديد لتعطيل هذا الارتباط القصير دون حذفه."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:61
+msgid "Click count"
+msgstr "عدد النقرات"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:62
+msgid "Created at"
+msgstr "تم الإنشاء في"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:70
+msgid "Created by"
+msgstr "تم إنشاؤها بواسطة"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:81
+msgid "Short Link"
+msgstr "رابط قصير"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:82
+#: climweb/src/climweb/pages/shortlinks/models.py:136
+msgid "Short Links"
+msgstr "روابط قصيرة"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:121
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/shortlink_edit.html:8
+msgid "Short URL"
+msgstr "عنوان URL قصير"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:18
+msgid "Link shortener"
+msgstr "أداة اختصار الروابط"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:19
+msgid "Shorten a link"
+msgstr "تقصير الرابط"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:21
+msgid ""
+"Paste a long URL below to get a short link on our domain that's easy to "
+"share."
+msgstr ""
+"الصق عنوان URL طويلًا أدناه للحصول على رابط قصير على نطاقنا يسهل مشاركته."
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:31
+msgid "Your short link is ready"
+msgstr "الرابط القصير الخاص بك جاهز"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:37
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/shortlink_edit.html:14
+msgid "Copy"
+msgstr "ينسخ"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:49
+msgid "Shorten link"
+msgstr "اختصار الرابط"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:75
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/shortlink_edit.html:32
+msgid "Copied!"
+msgstr "منسوخ!"
+
+#: climweb/src/climweb/pages/shortlinks/views.py:70
+msgid ""
+"You've reached the limit for creating short links from this location. Please"
+" try again later."
+msgstr ""
+"لقد وصلت إلى الحد الأقصى المسموح به لإنشاء روابط قصيرة من هذا الموقع. يرجى "
+"المحاولة مرة أخرى في وقت لاحق."
