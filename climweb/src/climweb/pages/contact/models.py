@@ -16,6 +16,7 @@ from wagtailgeowidget import geocoders
 from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.panels import LeafletPanel, GeoAddressPanel
 
+from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mail import send_mail, get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
@@ -92,8 +93,13 @@ class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                 except Exception as e:
                     logger.warning("[CONTACT_US_PAGE] Error checking for duplicate fields: {}".format(e))
                     duplicate_fields = []
-                
-                if not duplicate_fields:
+
+                # honeypot / timing / link-flood checks on top of the captcha
+                spam_reason = get_spam_reason(request, form)
+                if spam_reason:
+                    logger.warning("[CONTACT_US_PAGE] Possible spam ({}) blocked".format(spam_reason))
+
+                if not duplicate_fields and not spam_reason:
                     # remove_wagtail_key_field(form)
                     form_submission = self.process_form_submission(form)
                     

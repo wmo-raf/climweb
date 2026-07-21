@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags bulma_tags i18n %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags bulma_tags i18n antispam %}
 
 {% block body_class %}flexible_form_page{% endblock %}
 
@@ -36,6 +36,7 @@
                         {% if form.fields %}
                             <form action="{% pageurl page %}" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
+                                {% antispam_protect %}
                                 {{ form|bulma }}
                                 <div class="field">
                                     <button type="submit"
