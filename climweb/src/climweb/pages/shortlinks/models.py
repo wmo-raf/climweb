@@ -22,7 +22,7 @@ def generate_short_code(length=SHORT_CODE_LENGTH):
 class ShortLink(models.Model):
     class Source(models.TextChoices):
         ADMIN = "admin", _("Created in admin")
-        PUBLIC = "public", _("Submitted via public form")
+        PUBLIC = "public", _("Created by a site visitor")
 
     source = models.CharField(
         max_length=10,
@@ -30,7 +30,7 @@ class ShortLink(models.Model):
         default=Source.ADMIN,
         editable=False,
         verbose_name=_("Source"),
-        help_text=_("Whether this link was created by a logged-in editor or submitted anonymously via the public form."),
+        help_text=_("Whether this link was created by a logged-in editor or by a visitor using the share button."),
     )
     short_code = models.CharField(
         max_length=15,

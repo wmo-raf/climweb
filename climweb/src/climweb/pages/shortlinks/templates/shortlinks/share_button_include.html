@@ -1,0 +1,229 @@
+{% load i18n %}
+{% comment %}
+    Floating "share / shorten this page" button, included site-wide from base.html.
+    Self-contained (inline CSS + JS) so it needs no collectstatic step.
+    Clicking it asks the server for a short link to the current page (reusing an
+    existing one if this URL was already shortened) and shows it with a copy button.
+{% endcomment %}
+
+<div id="sl-share" class="sl-share">
+  <button type="button" class="sl-share-btn" id="sl-share-btn"
+          aria-label="{% translate 'Get a short link to this page' %}"
+          title="{% translate 'Get a short link to this page' %}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+    </svg>
+  </button>
+
+  <div class="sl-share-panel" id="sl-share-panel" hidden>
+    <div class="sl-share-panel-head">
+      <span class="sl-share-panel-title">{% translate "Short link" %}</span>
+      <button type="button" class="sl-share-close" id="sl-share-close"
+              aria-label="{% translate 'Close' %}">&times;</button>
+    </div>
+    <div class="sl-share-row">
+      <input type="text" id="sl-share-url" class="sl-share-input" readonly
+             onclick="this.select();" placeholder="{% translate 'Generating…' %}">
+      <button type="button" class="sl-share-copy" id="sl-share-copy">{% translate "Copy" %}</button>
+    </div>
+    <p class="sl-share-msg" id="sl-share-msg" hidden></p>
+  </div>
+</div>
+
+<style>
+  .sl-share {
+    position: fixed;
+    right: 35px;
+    bottom: 35px;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .sl-share-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-color, #185FA5);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  }
+  .sl-share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+  }
+  .sl-share-btn svg { width: 22px; height: 22px; }
+  .sl-share-btn.is-loading { opacity: 0.7; cursor: default; }
+  .sl-share-btn.is-loading svg { animation: sl-spin 0.7s linear infinite; }
+  @keyframes sl-spin { to { transform: rotate(360deg); } }
+
+  .sl-share-panel {
+    width: 320px;
+    max-width: calc(100vw - 40px);
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: var(--border-radius, 12px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+    padding: 14px;
+    order: -1;
+  }
+  .sl-share-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .sl-share-panel-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .sl-share-close {
+    border: none;
+    background: none;
+    font-size: 20px;
+    line-height: 1;
+    color: #999;
+    cursor: pointer;
+    padding: 0 2px;
+  }
+  .sl-share-close:hover { color: #555; }
+
+  .sl-share-row { display: flex; gap: 8px; }
+  .sl-share-input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
+    color: #1a1a1a;
+    background: #fafafa;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+  }
+  .sl-share-input:focus {
+    outline: none;
+    border-color: var(--primary-color, #185FA5);
+    background: #fff;
+  }
+  .sl-share-copy {
+    padding: 0 14px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #fff;
+    background: var(--primary-color, #185FA5);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .sl-share-copy:hover { opacity: 0.9; }
+
+  .sl-share-msg {
+    margin: 8px 0 0;
+    font-size: 12px;
+    color: #888;
+  }
+  .sl-share-msg.is-error { color: #d64545; }
+
+</style>
+
+<script>
+  (function () {
+    var root   = document.getElementById('sl-share');
+    if (!root) return;
+    var btn    = document.getElementById('sl-share-btn');
+    var panel  = document.getElementById('sl-share-panel');
+    var input  = document.getElementById('sl-share-url');
+    var copy   = document.getElementById('sl-share-copy');
+    var close  = document.getElementById('sl-share-close');
+    var msg    = document.getElementById('sl-share-msg');
+    var endpoint = "{% url 'create_short_link' %}";
+    var csrftoken = "{{ csrf_token }}";
+    var fetched = false;
+
+    function getCookie(name) {
+      var m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return m ? m.pop() : '';
+    }
+
+    function showMessage(text, isError) {
+      msg.textContent = text;
+      msg.classList.toggle('is-error', !!isError);
+      msg.hidden = !text;
+    }
+
+    function openPanel() {
+      panel.hidden = false;
+      if (fetched) { input.select(); return; }
+
+      btn.classList.add('is-loading');
+      showMessage('', false);
+
+      var body = new URLSearchParams();
+      body.append('url', window.location.href);
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken || getCookie('csrftoken'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: body.toString(),
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+        .then(function (res) {
+          btn.classList.remove('is-loading');
+          if (!res.ok) {
+            showMessage(res.data.error || '{% translate "Could not create a short link." %}', true);
+            return;
+          }
+          fetched = true;
+          input.value = res.data.short_url;
+          input.select();
+          showMessage(
+            res.data.created
+              ? '{% translate "Short link created." %}'
+              : '{% translate "Reusing an existing short link for this page." %}',
+            false
+          );
+        })
+        .catch(function () {
+          btn.classList.remove('is-loading');
+          showMessage('{% translate "Could not create a short link." %}', true);
+        });
+    }
+
+    function closePanel() { panel.hidden = true; }
+
+    btn.addEventListener('click', function () {
+      if (panel.hidden) { openPanel(); } else { closePanel(); }
+    });
+    close.addEventListener('click', closePanel);
+
+    copy.addEventListener('click', function () {
+      if (!input.value) return;
+      navigator.clipboard.writeText(input.value).then(function () {
+        var label = copy.textContent;
+        copy.textContent = '{% translate "Copied!" %}';
+        setTimeout(function () { copy.textContent = label; }, 1500);
+      });
+    });
+
+    // Close when clicking outside the widget
+    document.addEventListener('click', function (e) {
+      if (!panel.hidden && !root.contains(e.target)) closePanel();
+    });
+  })();
+</script>

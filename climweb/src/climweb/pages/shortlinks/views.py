@@ -1,19 +1,22 @@
+from urllib.parse import urlparse
+
 from django.core.cache import cache
 from django.db.models import F
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect
-from django.utils.translation import gettext_lazy as _
-from django.views.decorators.http import require_GET
-from django.views.generic import FormView
+from django.utils.translation import gettext as _
+from django.views.decorators.http import require_GET, require_POST
+from wagtail.models import Site
 
-from .forms import PublicShortLinkForm
 from .models import ShortLink
 
-# Simple, dependency-free IP-based throttle for the public form, backed by
-# whatever CACHES["default"] already is (Redis in this project). Avoids
-# pulling in django-ratelimit just for this one view.
-PUBLIC_FORM_RATE_LIMIT = 5
-PUBLIC_FORM_RATE_LIMIT_WINDOW = 60 * 60  # seconds (1 hour)
+# Simple, dependency-free IP-based throttle for the share endpoint, backed by
+# whatever CACHES["default"] already is (Redis in this project). Avoids pulling
+# in django-ratelimit just for this. The limit is generous because the endpoint
+# only ever shortens URLs on our own domain (see _is_allowed_url), so the abuse
+# surface is small - this is really just to stop runaway DB spam.
+SHORTEN_RATE_LIMIT = 60
+SHORTEN_RATE_LIMIT_WINDOW = 60 * 60  # seconds (1 hour)
 
 
 @require_GET
@@ -37,51 +40,61 @@ def _get_client_ip(request):
     return request.META.get("REMOTE_ADDR", "unknown")
 
 
-class PublicShortenLinkView(FormView):
-    """
-    Public, unauthenticated page that lets any visitor submit a URL and get
-    a short link back. Protected against automated abuse with a CAPTCHA
-    (on the form itself) and a per-IP rate limit (below), since anything
-    submitted here is publicly reachable at /s/<code>/ on our own domain.
-    """
+def _allowed_hosts(request):
+    """Hostnames we're willing to create short links for: the current request
+    host plus every configured Wagtail Site hostname."""
+    hosts = {request.get_host().split(":")[0]}
+    hosts.update(Site.objects.values_list("hostname", flat=True))
+    return hosts
 
-    template_name = "shortlinks/public_shorten.html"
-    form_class = PublicShortLinkForm
 
-    def _rate_limit_cache_key(self):
-        return f"shortlinks:public-submit:{_get_client_ip(self.request)}"
+def _is_allowed_url(request, url):
+    """Only allow shortening of same-site http(s) URLs. Because the button
+    always shortens the page the visitor is currently on, a well-behaved client
+    only ever submits our own URLs; this check stops the endpoint being abused
+    to mint short links pointing at arbitrary external (e.g. phishing) sites."""
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.hostname:
+        return False
+    return parsed.hostname in _allowed_hosts(request)
 
-    def _is_rate_limited(self):
-        return cache.get(self._rate_limit_cache_key(), 0) >= PUBLIC_FORM_RATE_LIMIT
 
-    def _register_submission(self):
-        cache_key = self._rate_limit_cache_key()
+@require_POST
+def create_short_link(request):
+    url = (request.POST.get("url") or "").strip()
+
+    if not url:
+        return JsonResponse({"error": _("No URL provided.")}, status=400)
+
+    if not _is_allowed_url(request, url):
+        return JsonResponse(
+            {"error": _("Only links on this website can be shortened.")}, status=400
+        )
+
+    # Reuse an existing short link for this exact URL if we already have one,
+    # so the same page always maps to the same short link.
+    link = ShortLink.objects.filter(target_url=url).order_by("created_at").first()
+    created = False
+
+    if link is None:
+        # Only rate-limit actual creation - repeat requests for an
+        # already-shortened URL are cheap lookups and shouldn't count.
+        cache_key = f"shortlinks:shorten:{_get_client_ip(request)}"
+        if cache.get(cache_key, 0) >= SHORTEN_RATE_LIMIT:
+            return JsonResponse(
+                {"error": _("Too many short links created from this location. "
+                            "Please try again later.")},
+                status=429,
+            )
+
+        link = ShortLink.objects.create(target_url=url, source=ShortLink.Source.PUBLIC)
+        created = True
+
         try:
             cache.incr(cache_key)
         except ValueError:
-            # Key doesn't exist yet (or already expired) - start a fresh window
-            cache.set(cache_key, 1, timeout=PUBLIC_FORM_RATE_LIMIT_WINDOW)
+            cache.set(cache_key, 1, timeout=SHORTEN_RATE_LIMIT_WINDOW)
 
-    def post(self, request, *args, **kwargs):
-        if self._is_rate_limited():
-            form = self.get_form()
-            form.add_error(
-                None,
-                _("You've reached the limit for creating short links from this location. "
-                  "Please try again later."),
-            )
-            return self.form_invalid(form)
-        return super().post(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        self._register_submission()
-        self.created_link = form.save()
-        # Re-render the same page with the result rather than redirecting,
-        # so we can show the generated short link inline.
-        return self.render_to_response(self.get_context_data(form=self.get_form_class()(), success=True))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if getattr(self, "created_link", None):
-            context["short_url"] = self.created_link.full_short_url
-        return context
+    return JsonResponse(
+        {"short_url": link.get_short_url(request), "created": created}
+    )
