@@ -38,6 +38,9 @@ from .backups.views import (
     google_drive_disconnect,
     run_backup_now,
     backup_help,
+    sftp_generate_key,
+    sftp_clear_key,
+    sftp_clear_hostkey,
 )
 
 
@@ -97,6 +100,9 @@ def urlconf_base():
         path('backup/google/disconnect', google_drive_disconnect, name='backup-google-disconnect'),
         path('backup/run-now', run_backup_now, name='backup-run-now'),
         path('backup/help', backup_help, name='backup-help'),
+        path('backup/sftp/generate-key', sftp_generate_key, name='backup-sftp-generate-key'),
+        path('backup/sftp/clear-key', sftp_clear_key, name='backup-sftp-clear-key'),
+        path('backup/sftp/clear-hostkey', sftp_clear_hostkey, name='backup-sftp-clear-hostkey'),
     ]
 
     if "capcomposer.cap" in settings.INSTALLED_APPS:

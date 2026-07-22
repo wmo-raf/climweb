@@ -39,13 +39,33 @@ def unlock_all(**kwargs):
     bind=True
 )
 def run_backup(self):
-    # Run the `dbbackup` command
-    logger.info("[BACKUP] Running backup")
-    call_command('dbbackup', '--clean', '--noinput')
+    from django.utils import timezone
+    from climweb.base.models.backup_settings import BackupSettings, BackupStatus
+    from climweb.base.backups.notify import notify_failure
 
-    # Run the `mediabackup` command
-    logger.info("[BACKUP] Running mediabackup")
-    call_command('mediabackup', '--clean', '--noinput')
+    # Run the local dump commands. If these fail (e.g. a pg_dump version
+    # mismatch), record the failure against every enabled destination so it
+    # shows in the CMS panel and triggers a notification — otherwise the failure
+    # would only appear in the logs.
+    try:
+        logger.info("[BACKUP] Running backup")
+        call_command('dbbackup', '--clean', '--noinput')
+        logger.info("[BACKUP] Running mediabackup")
+        call_command('mediabackup', '--clean', '--noinput')
+    except Exception as exc:
+        logger.exception("[BACKUP] Local backup dump failed")
+        message = f"Local backup dump failed: {exc}"
+        for backup_settings in BackupSettings.objects.filter(enabled=True):
+            if not backup_settings.provider_ready():
+                continue
+            backup_settings.last_backup_status = BackupStatus.FAILED
+            backup_settings.last_backup_message = message
+            backup_settings.last_backup_at = timezone.now()
+            backup_settings.save(update_fields=[
+                "last_backup_at", "last_backup_status", "last_backup_message",
+            ])
+            notify_failure(backup_settings, message)
+        return
 
     # Upload the fresh dumps to any cloud destinations configured in the CMS admin
     # (Settings -> Backup). Failures here must not fail the local backup.
@@ -56,13 +76,14 @@ def run_backup(self):
 
 
 def upload_cloud_backups():
-    """Upload local backups to Google Drive for every site that has enabled and
-    connected cloud backups from the CMS admin."""
+    """Upload local backups to each site's configured destination (Google Drive
+    or a remote server over SFTP), for every site that has enabled and configured
+    backups from the CMS admin."""
     import os
     from django.utils import timezone
 
-    from climweb.base.backups.google_drive import upload_backups
     from climweb.base.models.backup_settings import BackupSettings, BackupStatus
+    from climweb.base.backups.notify import notify_failure
 
     backup_dir = settings.DBBACKUP_STORAGE_OPTIONS.get("location")
     if not backup_dir or not os.path.isdir(backup_dir):
@@ -70,8 +91,14 @@ def upload_cloud_backups():
         return
 
     for backup_settings in BackupSettings.objects.filter(enabled=True):
-        if not backup_settings.is_connected:
+        if not backup_settings.provider_ready():
             continue
+
+        if backup_settings.provider == "sftp":
+            from climweb.base.backups.sftp import upload_backups
+        else:
+            from climweb.base.backups.google_drive import upload_backups
+
         try:
             message = upload_backups(backup_settings, backup_dir)
             backup_settings.last_backup_status = BackupStatus.SUCCESS
@@ -81,6 +108,7 @@ def upload_cloud_backups():
             backup_settings.last_backup_status = BackupStatus.FAILED
             backup_settings.last_backup_message = str(exc)
             logger.exception("[BACKUP] Cloud upload failed for a site")
+            notify_failure(backup_settings, str(exc))
         finally:
             backup_settings.last_backup_at = timezone.now()
             backup_settings.save(update_fields=[

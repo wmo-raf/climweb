@@ -33,7 +33,7 @@ from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
 
 from climweb.base.backups.crypto import decrypt_text, encrypt_text
-from climweb.base.backups.panels import GoogleDriveConnectPanel
+from climweb.base.backups.panels import BackupConnectionPanel
 
 
 class BackupStatus(models.TextChoices):
@@ -95,6 +95,25 @@ class BackupSettingsForm(WagtailAdminModelForm):
                 "to connect without the button. Cleared after saving."
             )
 
+        # SFTP secrets — same write-only treatment.
+        self._stored_sftp_password = getattr(self.instance, "sftp_password", "")
+        if "sftp_password" in self.fields:
+            f = self.fields["sftp_password"]
+            f.required = False
+            f.initial = ""
+            f.widget = forms.PasswordInput(render_value=False)
+            f.help_text = _("Paste to set or change. Leave blank to keep the current password.")
+
+        if "paste_private_key" in self.fields:
+            f = self.fields["paste_private_key"]
+            f.required = False
+            f.initial = ""
+            f.widget = forms.Textarea(attrs={"rows": 4})
+            f.help_text = _(
+                "Optional: paste an existing OpenSSH private key instead of generating "
+                "one. Cleared after saving."
+            )
+
     def save(self, commit=True):
         instance = super().save(commit=False)
 
@@ -112,6 +131,20 @@ class BackupSettingsForm(WagtailAdminModelForm):
             instance.set_refresh_token(token, email=instance.google_account_email or "")
         instance.paste_refresh_token = ""
 
+        # SFTP password: encrypt new value, otherwise keep the stored one.
+        submitted_pw = self.cleaned_data.get("sftp_password", "")
+        if submitted_pw:
+            instance.sftp_password = encrypt_text(submitted_pw)
+        else:
+            instance.sftp_password = self._stored_sftp_password
+
+        # Pasted SSH private key: store encrypted + derive the public line, never persist raw.
+        pasted_key = (self.cleaned_data.get("paste_private_key") or "").strip()
+        if pasted_key:
+            from climweb.base.backups.sftp import public_line_from_private
+            instance.set_sftp_private_key(pasted_key, public_line_from_private(pasted_key))
+        instance.paste_private_key = ""
+
         if commit:
             instance.save()
         return instance
@@ -123,6 +156,12 @@ class BackupSettings(BaseSiteSetting):
 
     PROVIDER_CHOICES = (
         ("gdrive", _("Google Drive")),
+        ("sftp", _("Remote server (SFTP)")),
+    )
+
+    SFTP_AUTH_CHOICES = (
+        ("key", _("SSH key (recommended)")),
+        ("password", _("Password")),
     )
 
     enabled = models.BooleanField(
@@ -167,6 +206,13 @@ class BackupSettings(BaseSiteSetting):
         help_text=_("Day of the week the (larger) media archive is uploaded."),
     )
 
+    notify_email = models.EmailField(
+        blank=True,
+        verbose_name=_("Failure notification email"),
+        help_text=_("Where to email if a backup fails. Leave blank to use the "
+                    "server's admin addresses."),
+    )
+
     # --- OAuth application credentials (entered here, not in env) ---
     oauth_client_id = models.CharField(
         max_length=255,
@@ -189,6 +235,29 @@ class BackupSettings(BaseSiteSetting):
         blank=True,
         verbose_name=_("Paste a token (fallback)"),
     )
+
+    # --- Remote server (SFTP) settings ---
+    sftp_host = models.CharField(
+        max_length=255, blank=True, verbose_name=_("Host"),
+        help_text=_("Destination server hostname or IP."))
+    sftp_port = models.PositiveIntegerField(default=22, verbose_name=_("Port"))
+    sftp_username = models.CharField(max_length=255, blank=True, verbose_name=_("Username"))
+    sftp_remote_path = models.CharField(
+        max_length=512, default="climweb-backups", verbose_name=_("Remote directory"),
+        help_text=_("Directory on the destination server (relative to the login "
+                    "home, or an absolute path). Created if missing."))
+    sftp_auth_method = models.CharField(
+        max_length=10, choices=SFTP_AUTH_CHOICES, default="key",
+        verbose_name=_("Authentication"))
+    # Stored ENCRYPTED at rest; edited via write-only form fields.
+    sftp_password = models.CharField(max_length=512, blank=True, verbose_name=_("Password"))
+    sftp_private_key = models.TextField(blank=True, editable=False)
+    # Transient input only — never persisted with a value (see the form's save()).
+    paste_private_key = models.TextField(blank=True, verbose_name=_("Paste an SSH private key (fallback)"))
+    # Public key to add to the destination's authorized_keys (display only).
+    sftp_public_key = models.TextField(blank=True, editable=False)
+    # Pinned server host key (trust-on-first-use), display/verify only.
+    sftp_host_key = models.TextField(blank=True, editable=False)
 
     # --- connection state (managed by the OAuth flow / paste, not edited directly) ---
     google_account_email = models.CharField(
@@ -258,21 +327,78 @@ class BackupSettings(BaseSiteSetting):
         self.encrypted_token = ""
         self.google_account_email = ""
 
+    # ------------------------------------------------------------------ #
+    # SFTP helpers.
+    # ------------------------------------------------------------------ #
+    def get_sftp_password(self):
+        if not self.sftp_password:
+            return ""
+        try:
+            return decrypt_text(self.sftp_password)
+        except Exception:
+            return ""
+
+    def get_sftp_private_key(self):
+        if not self.sftp_private_key:
+            return ""
+        try:
+            return decrypt_text(self.sftp_private_key)
+        except Exception:
+            return ""
+
+    def set_sftp_private_key(self, pem, public_line=""):
+        self.sftp_private_key = encrypt_text(pem) if pem else ""
+        self.sftp_public_key = public_line or self.sftp_public_key
+        # A new key invalidates any pinned host key context only if host changes;
+        # leave host key pinning as-is.
+
+    def clear_sftp_key(self):
+        self.sftp_private_key = ""
+        self.sftp_public_key = ""
+
+    def is_sftp_configured(self):
+        if not (self.sftp_host and self.sftp_username and self.sftp_remote_path):
+            return False
+        if self.sftp_auth_method == "password":
+            return bool(self.sftp_password)
+        return bool(self.sftp_private_key)
+
+    # ------------------------------------------------------------------ #
+    # Provider-agnostic readiness (used by the task and the admin panel).
+    # ------------------------------------------------------------------ #
+    def provider_ready(self):
+        if self.provider == "sftp":
+            return self.is_sftp_configured()
+        return self.is_connected  # gdrive
+
     edit_handler = TabbedInterface([
         ObjectList([
-            GoogleDriveConnectPanel(),
+            BackupConnectionPanel(),
+            FieldPanel("provider"),
+            # These two groups are shown/hidden by JS based on the provider
+            # dropdown (see backup_connection_panel.html). The classname is the
+            # JS hook.
             MultiFieldPanel([
                 FieldPanel("oauth_client_id"),
                 FieldPanel("oauth_client_secret"),
                 FieldPanel("paste_refresh_token"),
-            ], heading=_("Google credentials")),
+            ], heading=_("Google Drive credentials"), classname="backup-provider-gdrive"),
+            MultiFieldPanel([
+                FieldPanel("sftp_host"),
+                FieldPanel("sftp_port"),
+                FieldPanel("sftp_username"),
+                FieldPanel("sftp_remote_path"),
+                FieldPanel("sftp_auth_method"),
+                FieldPanel("sftp_password"),
+                FieldPanel("paste_private_key"),
+            ], heading=_("Remote server (SFTP)"), classname="backup-provider-sftp"),
             FieldPanel("enabled"),
         ], heading=_("Connection")),
         ObjectList([
-            FieldPanel("provider"),
             FieldPanel("remote_folder"),
             FieldPanel("db_retention_days"),
             FieldPanel("media_retention_days"),
             FieldPanel("media_upload_weekday"),
+            FieldPanel("notify_email"),
         ], heading=_("Options")),
     ])
