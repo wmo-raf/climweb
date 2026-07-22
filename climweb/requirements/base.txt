@@ -57,6 +57,8 @@ autobahn==24.4.2
     # via daphne
 automat==24.8.1
     # via twisted
+bcrypt==5.0.0
+    # via paramiko
 beautifulsoup4==4.9.3
     # via
     #   deep-translator
@@ -107,6 +109,7 @@ cffi==2.0.0
     # via
     #   cairocffi
     #   cryptography
+    #   pynacl
     #   weasyprint
 cftime==1.6.4.post1
     # via
@@ -166,6 +169,7 @@ cryptography==46.0.7
     #   -r base.in
     #   autobahn
     #   capvalidator
+    #   paramiko
     #   pyopenssl
     #   service-identity
     #   signxml
@@ -664,6 +668,8 @@ pandas==2.2.3
     #   climweb-wdqms
     #   geopandas
     #   xarray
+paramiko==3.5.1
+    # via -r base.in
 pdf2image==1.17.0
     # via
     #   -r base.in
@@ -733,6 +739,8 @@ pygments==2.20.0
     #   rich
 pyjwt==2.12.1
     # via djangorestframework-simplejwt
+pynacl==1.6.2
+    # via paramiko
 pyogrio==0.10.0
     # via geopandas
 pyopenssl==26.0.0

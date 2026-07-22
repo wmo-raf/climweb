@@ -1,0 +1,112 @@
+{% load i18n %}
+<style>
+  .backup-conn-panel a.button.button-primary { color: #fff !important; }
+</style>
+<div class="help-block help-info backup-conn-panel" style="margin-bottom:1.5em;">
+  <p style="margin-top:0;">
+    📖 <a href="{{ help_url }}">{% trans "Read the backup setup guide" %}</a>
+  </p>
+
+  {% if provider == "sftp" %}
+    {# ---------------- Remote server (SFTP) ---------------- #}
+    {% if sftp_configured %}
+      <p>✅ {% blocktrans %}Configured to back up to <strong>{{ sftp_host }}</strong>.{% endblocktrans %}</p>
+      <p>
+        {% if enabled %}
+          <a class="button button-primary" href="{{ run_now_url }}">{% trans "Back up now" %}</a>
+        {% else %}
+          <span class="button button-primary" style="opacity:.5;pointer-events:none;">{% trans "Back up now" %}</span>
+        {% endif %}
+      </p>
+      {% if not enabled %}
+        <p><small>{% trans "Tick 'Enable cloud backups' and save to activate scheduled and manual uploads." %}</small></p>
+      {% endif %}
+    {% else %}
+      <p><strong>{% trans "Remote server not fully configured yet." %}</strong>
+         {% trans "Fill in host, username, directory and an auth method on the Remote server tab, then save." %}</p>
+    {% endif %}
+
+    <hr>
+    <p><strong>{% trans "SSH key" %}</strong></p>
+    {% if sftp_public_key %}
+      <p>{% trans "Add this public key to the destination server's ~/.ssh/authorized_keys:" %}</p>
+      <textarea readonly rows="2" style="width:100%;font-family:monospace;">{{ sftp_public_key }}</textarea>
+      <p><a class="button button-small button-secondary no" href="{{ sftp_clear_key_url }}">{% trans "Delete key" %}</a></p>
+    {% else %}
+      <p>{% trans "Generate a key here, then copy the public half onto your server. Or paste an existing private key on the Remote server tab." %}</p>
+      <p><a class="button button-small" href="{{ sftp_generate_url }}">{% trans "Generate SSH key" %}</a></p>
+    {% endif %}
+
+    {% if sftp_host_key %}
+      <p style="margin-top:1em;"><small>
+        {% trans "Pinned host key:" %} <code>{{ sftp_host_key|truncatechars:48 }}</code>
+        — <a href="{{ sftp_clear_hostkey_url }}">{% trans "reset" %}</a>
+        {% trans "(do this only if the destination server legitimately changed)." %}
+      </small></p>
+    {% endif %}
+
+  {% else %}
+    {# ---------------- Google Drive ---------------- #}
+    {% if is_connected %}
+      <p>✅ {% blocktrans %}Connected as <strong>{{ account_email }}</strong>.{% endblocktrans %}</p>
+      <p>
+        {% if enabled %}
+          <a class="button button-primary" href="{{ run_now_url }}">{% trans "Back up now" %}</a>
+        {% else %}
+          <span class="button button-primary" style="opacity:.5;pointer-events:none;">{% trans "Back up now" %}</span>
+        {% endif %}
+        <a class="button button-secondary no" href="{{ disconnect_url }}">{% trans "Disconnect" %}</a>
+      </p>
+      {% if not enabled %}
+        <p><small>{% trans "Tick 'Enable cloud backups' and save to activate scheduled and manual uploads." %}</small></p>
+      {% endif %}
+    {% else %}
+      <p><strong>{% trans "No Google account connected." %}</strong>
+         {% trans "You have two options:" %}</p>
+      {% if oauth_configured %}
+        <p>{% trans "1. One click:" %}
+          <a class="button button-primary" href="{{ connect_url }}">{% trans "Connect Google Drive" %}</a>
+        </p>
+      {% else %}
+        <p>{% blocktrans %}<strong>1.</strong> Enter your OAuth <strong>Client ID</strong> and <strong>Client Secret</strong> on the Google Drive tab and save — the Connect button will then appear here.{% endblocktrans %}</p>
+      {% endif %}
+      <p>{% blocktrans %}<strong>2.</strong> Or paste a refresh token on the Google Drive tab and save.{% endblocktrans %}</p>
+    {% endif %}
+  {% endif %}
+
+  {% if last_backup_at %}
+    <hr>
+    <p style="margin-top:1em;">
+      <strong>{% trans "Last upload:" %}</strong>
+      {{ last_backup_at }} — {{ last_backup_status }}
+      {% if last_backup_message %}<br><small>{{ last_backup_message }}</small>{% endif %}
+    </p>
+  {% endif %}
+</div>
+
+<script>
+(function () {
+  function apply() {
+    var select = document.querySelector('select[name="provider"]');
+    if (!select) return;
+    var value = select.value;
+    document.querySelectorAll('.backup-provider-gdrive').forEach(function (el) {
+      el.style.display = (value === 'gdrive') ? '' : 'none';
+    });
+    document.querySelectorAll('.backup-provider-sftp').forEach(function (el) {
+      el.style.display = (value === 'sftp') ? '' : 'none';
+    });
+  }
+  function init() {
+    var select = document.querySelector('select[name="provider"]');
+    if (!select) return;
+    select.addEventListener('change', apply);
+    apply();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

@@ -127,13 +127,58 @@ def google_drive_disconnect(request):
 
 
 @login_required
+def sftp_generate_key(request):
+    """Generate an Ed25519 keypair; store the private half encrypted and show the
+    public half to add to the destination server."""
+    from climweb.base.backups import sftp as sftp_mod
+
+    backup_settings = BackupSettings.for_request(request)
+    try:
+        private_pem, public_line = sftp_mod.generate_keypair()
+        backup_settings.set_sftp_private_key(private_pem, public_line)
+        backup_settings.sftp_auth_method = "key"
+        backup_settings.save()
+        messages.success(
+            request,
+            "SSH key generated. Copy the public key shown below into the destination "
+            "server's ~/.ssh/authorized_keys, then run a backup to test.",
+        )
+    except Exception as exc:
+        logger.exception("[BACKUP] SSH key generation failed")
+        messages.error(request, f"Could not generate SSH key: {exc}")
+    return redirect(_settings_url())
+
+
+@login_required
+def sftp_clear_key(request):
+    backup_settings = BackupSettings.for_request(request)
+    backup_settings.clear_sftp_key()
+    backup_settings.save()
+    messages.success(request, "SSH key removed.")
+    return redirect(_settings_url())
+
+
+@login_required
+def sftp_clear_hostkey(request):
+    backup_settings = BackupSettings.for_request(request)
+    backup_settings.sftp_host_key = ""
+    backup_settings.save()
+    messages.success(
+        request,
+        "Pinned host key cleared. The destination's host key will be re-pinned on "
+        "the next connection.",
+    )
+    return redirect(_settings_url())
+
+
+@login_required
 def run_backup_now(request):
     """Trigger the full backup + cloud upload immediately, in the background."""
     backup_settings = BackupSettings.for_request(request)
-    if not (backup_settings.enabled and backup_settings.is_connected):
+    if not (backup_settings.enabled and backup_settings.provider_ready()):
         messages.error(
             request,
-            "Connect a Google account and enable cloud backups before running a backup.",
+            "Configure and enable a backup destination before running a backup.",
         )
         return redirect(_settings_url())
 

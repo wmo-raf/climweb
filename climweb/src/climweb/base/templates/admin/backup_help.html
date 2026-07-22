@@ -77,6 +77,27 @@
      not someone's personal account. Drive's free 15&nbsp;GB is shared with that
      account's Gmail/Photos.</div>
 
+  <h2>Alternative — back up to your own remote server (SFTP)</h2>
+  <p>Instead of Google Drive, you can push backups to another server over SSH.
+     On the <strong>Provider</strong> field choose <em>Remote server (SFTP)</em>,
+     then on the <strong>Remote server</strong> tab enter the host, port, username
+     and remote directory, and pick an auth method:</p>
+  <ol>
+    <li><strong>SSH key (recommended)</strong> — click <strong>Generate SSH key</strong>
+        on the Connection tab. ClimWeb keeps the private key encrypted and shows you
+        the <strong>public</strong> key. Add that public key to the destination
+        server's <code>~/.ssh/authorized_keys</code>. (Or paste an existing OpenSSH
+        private key on the Remote server tab.)</li>
+    <li><strong>Password</strong> — enter the SSH password (stored encrypted).</li>
+  </ol>
+  <p>Then tick <strong>Enable cloud backups</strong>, Save, and <strong>Back up
+     now</strong>. On the first connection ClimWeb pins the server's host key; if it
+     ever changes, the backup aborts and you can reset the pin from the Connection tab.</p>
+  <div class="note">The one step that isn't in the CMS: the destination server
+     itself — you need SSH access, the public key added to
+     <code>authorized_keys</code> (or a password), and the target directory writable
+     by that user.</div>
+
   <h2>Verify recovery</h2>
   <p>A backup you haven't restored isn't a backup yet. After the first successful
      upload, download the <code>.psql.bin</code> from Drive and test-restore it into a
