@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 11:00+0300\n"
+"POT-Creation-Date: 2026-07-21 12:29+0300\n"
 "PO-Revision-Date: 2026-06-22 11:39\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
@@ -11,15 +12,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: fr\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/products/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1490\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/products/blocks.py:40
 #: climweb/src/climweb/pages/products/blocks.py:44
-#: climweb/src/climweb/pages/products/models.py:611
+#: climweb/src/climweb/pages/products/models.py:613
 msgid "Name"
 msgstr "Nom"
 
@@ -29,35 +30,42 @@ msgstr "Icône"
 
 #: climweb/src/climweb/pages/products/blocks.py:51
 #: climweb/src/climweb/pages/products/blocks.py:76
-#: climweb/src/climweb/pages/products/blocks.py:128
+#: climweb/src/climweb/pages/products/blocks.py:102
+#: climweb/src/climweb/pages/products/blocks.py:154
 msgid "Product Type"
 msgstr "type de produit"
 
 #: climweb/src/climweb/pages/products/blocks.py:52
 #: climweb/src/climweb/pages/products/blocks.py:77
-#: climweb/src/climweb/pages/products/blocks.py:129
-#: climweb/src/climweb/pages/products/models.py:344
+#: climweb/src/climweb/pages/products/blocks.py:103
+#: climweb/src/climweb/pages/products/blocks.py:155
+#: climweb/src/climweb/pages/products/models.py:345
 msgid "Effective from"
 msgstr "À compter de"
 
 #: climweb/src/climweb/pages/products/blocks.py:53
 #: climweb/src/climweb/pages/products/blocks.py:78
-#: climweb/src/climweb/pages/products/blocks.py:130
+#: climweb/src/climweb/pages/products/blocks.py:104
+#: climweb/src/climweb/pages/products/blocks.py:156
 msgid "The date when this product becomes effective"
 msgstr "La date à laquelle ce produit entre en vigueur"
 
 #: climweb/src/climweb/pages/products/blocks.py:54
 #: climweb/src/climweb/pages/products/blocks.py:79
-#: climweb/src/climweb/pages/products/blocks.py:131
-#: climweb/src/climweb/pages/products/models.py:346
+#: climweb/src/climweb/pages/products/blocks.py:105
+#: climweb/src/climweb/pages/products/blocks.py:157
+#: climweb/src/climweb/pages/products/models.py:347
 msgid "Effective until"
 msgstr "En vigueur jusqu'à"
 
 #: climweb/src/climweb/pages/products/blocks.py:55
 #: climweb/src/climweb/pages/products/blocks.py:80
-#: climweb/src/climweb/pages/products/blocks.py:132
-msgid "The last day this product remains effective. Leave blank if not applicable"
-msgstr "Le dernier jour ce produit reste efficace. Laissez un vide si non applicable"
+#: climweb/src/climweb/pages/products/blocks.py:106
+#: climweb/src/climweb/pages/products/blocks.py:158
+msgid ""
+"The last day this product remains effective. Leave blank if not applicable"
+msgstr ""
+"Le dernier jour ce produit reste efficace. Laissez un vide si non applicable"
 
 #: climweb/src/climweb/pages/products/blocks.py:57
 msgid "Image"
@@ -68,201 +76,235 @@ msgid "Summary of the map/image information"
 msgstr "Résumé des informations sur la carte/image"
 
 #: climweb/src/climweb/pages/products/blocks.py:70
-#: climweb/src/climweb/pages/products/blocks.py:103
-#: climweb/src/climweb/pages/products/blocks.py:146
-msgid "The effective until date cannot be earlier than the effective from date"
+#: climweb/src/climweb/pages/products/blocks.py:96
+#: climweb/src/climweb/pages/products/blocks.py:129
+#: climweb/src/climweb/pages/products/blocks.py:172
+msgid ""
+"The effective until date cannot be earlier than the effective from date"
 msgstr "La date d'effet ne peut pas être antérieure à la date d'effet"
 
 #: climweb/src/climweb/pages/products/blocks.py:82
+msgid "GIF file"
+msgstr "Fichier GIF"
+
+#: climweb/src/climweb/pages/products/blocks.py:83
+msgid "Upload a GIF file. Animated GIFs are supported."
+msgstr "Téléchargez un fichier GIF. Les GIF animés sont pris en charge."
+
+#: climweb/src/climweb/pages/products/blocks.py:84
+#, fuzzy
+#| msgid "Summary of the document information"
+msgid "Summary of the GIF information"
+msgstr "Résumé des informations GIF"
+
+#: climweb/src/climweb/pages/products/blocks.py:108
 msgid "Document"
 msgstr "Document"
 
-#: climweb/src/climweb/pages/products/blocks.py:84
+#: climweb/src/climweb/pages/products/blocks.py:110
 msgid "Auto-generate thumbnail"
 msgstr "Générer automatiquement une vignette"
 
-#: climweb/src/climweb/pages/products/blocks.py:85
-msgid "If the document is a PDF, an image of the first page will be auto-generated."
-msgstr "Si le document est un PDF, une image de la première page sera générée automatiquement."
+#: climweb/src/climweb/pages/products/blocks.py:111
+msgid ""
+"If the document is a PDF, an image of the first page will be auto-generated."
+msgstr ""
+"Si le document est un PDF, une image de la première page sera générée "
+"automatiquement."
 
-#: climweb/src/climweb/pages/products/blocks.py:87
+#: climweb/src/climweb/pages/products/blocks.py:113
 msgid "Thumbnail of the document"
 msgstr "Miniature du document"
 
-#: climweb/src/climweb/pages/products/blocks.py:88
-msgid "For example a screen grab of the cover page. If left empty and Auto-generate above is checked and the uploaded document is a PDF, an image of the first page will be auto-generated."
-msgstr "Par exemple, une capture d'écran de la page de garde. Si laissé vide et que Générer automatiquement ci-dessus est coché et que le document téléchargé est un PDF, une image de la première page sera générée automatiquement."
+#: climweb/src/climweb/pages/products/blocks.py:114
+msgid ""
+"For example a screen grab of the cover page. If left empty and Auto-generate"
+" above is checked and the uploaded document is a PDF, an image of the first "
+"page will be auto-generated."
+msgstr ""
+"Par exemple, une capture d'écran de la page de garde. Si laissé vide et que "
+"Générer automatiquement ci-dessus est coché et que le document téléchargé "
+"est un PDF, une image de la première page sera générée automatiquement."
 
-#: climweb/src/climweb/pages/products/blocks.py:91
+#: climweb/src/climweb/pages/products/blocks.py:117
 msgid "Summary of the document information"
 msgstr "Résumé des informations du document"
 
-#: climweb/src/climweb/pages/products/blocks.py:123
+#: climweb/src/climweb/pages/products/blocks.py:149
 msgid "Table"
 msgstr "Tableau"
 
-#: climweb/src/climweb/pages/products/blocks.py:124
+#: climweb/src/climweb/pages/products/blocks.py:150
 msgid "Text"
 msgstr "Texte"
 
-#: climweb/src/climweb/pages/products/blocks.py:134
+#: climweb/src/climweb/pages/products/blocks.py:160
 msgid "Content"
 msgstr "Contenu"
 
-#: climweb/src/climweb/pages/products/models.py:49
+#: climweb/src/climweb/pages/products/models.py:50
 msgid "Products listing Heading"
 msgstr "Liste des produits Rubrique"
 
-#: climweb/src/climweb/pages/products/models.py:50
+#: climweb/src/climweb/pages/products/models.py:51
 msgid "Group menu items by service"
 msgstr "Regrouper les éléments de menu par service"
 
-#: climweb/src/climweb/pages/products/models.py:58
+#: climweb/src/climweb/pages/products/models.py:59
 msgid "Product Index Page"
 msgstr "Page d'index des produits"
 
-#: climweb/src/climweb/pages/products/models.py:59
+#: climweb/src/climweb/pages/products/models.py:60
 msgid "Product Index Pages"
 msgstr "Pages d'index des produits"
 
-#: climweb/src/climweb/pages/products/models.py:126
+#: climweb/src/climweb/pages/products/models.py:127
 msgid "Primary Service"
 msgstr "Service primaire"
 
-#: climweb/src/climweb/pages/products/models.py:131
-msgid "How many of this products should be visible on the landing page filter section ?"
-msgstr "Combien de ces produits doivent être visibles dans la section de filtre de la page de destination ?"
-
 #: climweb/src/climweb/pages/products/models.py:132
+msgid ""
+"How many of this products should be visible on the landing page filter "
+"section ?"
+msgstr ""
+"Combien de ces produits doivent être visibles dans la section de filtre de "
+"la page de destination ?"
+
+#: climweb/src/climweb/pages/products/models.py:133
 msgid "Products per page"
 msgstr "Produits par page"
 
-#: climweb/src/climweb/pages/products/models.py:136
+#: climweb/src/climweb/pages/products/models.py:137
 msgid "Default Listing Thumbnail"
 msgstr "Miniature de liste par défaut"
 
-#: climweb/src/climweb/pages/products/models.py:137
-msgid "An image that will be used as a thumbnail for in the products listing, if no image can be extracted from product items"
-msgstr "Une image qui sera utilisée comme miniature dans la liste des produits, si aucune image ne peut être extraite des éléments du produit"
+#: climweb/src/climweb/pages/products/models.py:138
+msgid ""
+"An image that will be used as a thumbnail for in the products listing, if no"
+" image can be extracted from product items"
+msgstr ""
+"Une image qui sera utilisée comme miniature dans la liste des produits, si "
+"aucune image ne peut être extraite des éléments du produit"
 
-#: climweb/src/climweb/pages/products/models.py:144
+#: climweb/src/climweb/pages/products/models.py:145
 msgid "Menu Order"
 msgstr "Ordre du menu"
 
-#: climweb/src/climweb/pages/products/models.py:204
-#: climweb/src/climweb/pages/products/models.py:535
-#: climweb/src/climweb/pages/products/models.py:628
+#: climweb/src/climweb/pages/products/models.py:205
+#: climweb/src/climweb/pages/products/models.py:537
+#: climweb/src/climweb/pages/products/models.py:630
 msgid "Product"
 msgstr "Produit"
 
-#: climweb/src/climweb/pages/products/models.py:205
+#: climweb/src/climweb/pages/products/models.py:206
 msgid "Other relevant Services"
 msgstr "Autres services pertinents"
 
-#: climweb/src/climweb/pages/products/models.py:209
+#: climweb/src/climweb/pages/products/models.py:210
 msgid "Map Layers"
 msgstr "Couches de carte"
 
-#: climweb/src/climweb/pages/products/models.py:222
-#: climweb/src/climweb/pages/products/models.py:641
+#: climweb/src/climweb/pages/products/models.py:223
+#: climweb/src/climweb/pages/products/models.py:643
 msgid "Other settings"
 msgstr "Autres réglages"
 
-#: climweb/src/climweb/pages/products/models.py:227
+#: climweb/src/climweb/pages/products/models.py:228
 msgid "National Product Page"
 msgstr "Page nationale des produits"
 
-#: climweb/src/climweb/pages/products/models.py:228
+#: climweb/src/climweb/pages/products/models.py:229
 msgid "National Product Pages"
 msgstr "Pages nationales de produits"
 
-#: climweb/src/climweb/pages/products/models.py:314
+#: climweb/src/climweb/pages/products/models.py:315
 msgid "Product Tag"
 msgstr "Étiquette du produit"
 
-#: climweb/src/climweb/pages/products/models.py:345
+#: climweb/src/climweb/pages/products/models.py:346
 msgid "The first day when products added below become effective"
 msgstr "Le premier jour où les produits ajoutés ci-dessous entrent en vigueur"
 
-#: climweb/src/climweb/pages/products/models.py:347
-msgid "The last day when products added below remain effective. Leave blank if not applicable"
-msgstr "Dernier jour où les produits ajoutés ci-dessous restent efficaces. Laissez un vide si non applicable"
+#: climweb/src/climweb/pages/products/models.py:348
+msgid ""
+"The last day when products added below remain effective. Leave blank if not "
+"applicable"
+msgstr ""
+"Dernier jour où les produits ajoutés ci-dessous restent efficaces. Laissez "
+"un vide si non applicable"
 
-#: climweb/src/climweb/pages/products/models.py:362
+#: climweb/src/climweb/pages/products/models.py:364
 msgid "Product Item"
 msgstr "Article du produit"
 
-#: climweb/src/climweb/pages/products/models.py:537
+#: climweb/src/climweb/pages/products/models.py:539
 msgid "File Path"
-msgstr ""
+msgstr "Chemin du fichier"
 
-#: climweb/src/climweb/pages/products/models.py:538
+#: climweb/src/climweb/pages/products/models.py:540
 msgid "File Modification Time"
-msgstr ""
-
-#: climweb/src/climweb/pages/products/models.py:544
-#| msgid "Product Index Page"
-msgid "Product Item Page"
-msgstr ""
+msgstr "Heure de modification du fichier"
 
 #: climweb/src/climweb/pages/products/models.py:546
+msgid "Product Item Page"
+msgstr "Page de l'article du produit"
+
+#: climweb/src/climweb/pages/products/models.py:548
 msgid "Ingested At"
-msgstr ""
+msgstr "Ingéré à"
 
-#: climweb/src/climweb/pages/products/models.py:550
-#| msgid "Product Index Page"
+#: climweb/src/climweb/pages/products/models.py:552
 msgid "Product Ingested File"
-msgstr ""
+msgstr "Fichier ingéré par le produit"
 
-#: climweb/src/climweb/pages/products/models.py:551
-#| msgid "Product Index Pages"
+#: climweb/src/climweb/pages/products/models.py:553
 msgid "Product Ingested Files"
-msgstr ""
+msgstr "Fichiers ingérés par le produit"
 
-#: climweb/src/climweb/pages/products/models.py:567
-#| msgid "Subnational Product Page"
+#: climweb/src/climweb/pages/products/models.py:569
 msgid "Subnational Product Landing Page"
 msgstr "Page d'accueil des produits régionaux"
 
-#: climweb/src/climweb/pages/products/models.py:568
-#| msgid "Subnational Product Pages"
+#: climweb/src/climweb/pages/products/models.py:570
 msgid "Subnational Product Landing Pages"
 msgstr "Page d'accueil des produits régionaux"
 
-#: climweb/src/climweb/pages/products/models.py:617
+#: climweb/src/climweb/pages/products/models.py:619
 msgid "Subnational Region"
 msgstr "Région infranationale"
 
-#: climweb/src/climweb/pages/products/models.py:618
+#: climweb/src/climweb/pages/products/models.py:620
 msgid "Subnational Regions"
 msgstr "Régions infranationales"
 
-#: climweb/src/climweb/pages/products/models.py:627
+#: climweb/src/climweb/pages/products/models.py:629
 msgid "Region"
 msgstr "Région"
 
-#: climweb/src/climweb/pages/products/models.py:646
+#: climweb/src/climweb/pages/products/models.py:648
 msgid "Subnational Product Page"
 msgstr "Page de produit infranationale"
 
-#: climweb/src/climweb/pages/products/models.py:647
+#: climweb/src/climweb/pages/products/models.py:649
 msgid "Subnational Product Pages"
 msgstr "Pages de produits infranationales"
 
 #: climweb/src/climweb/pages/products/templates/products/product_detail.html:88
+#: climweb/src/climweb/pages/products/templates/products/product_detail.html:109
 msgid "View"
 msgstr "Voir"
 
 #: climweb/src/climweb/pages/products/templates/products/product_detail.html:94
+#: climweb/src/climweb/pages/products/templates/products/product_detail.html:115
 msgid "Download"
 msgstr "Télécharger"
 
-#: climweb/src/climweb/pages/products/templates/products/product_detail.html:120
-#| msgid "Download document  - %(file_size)s"
+#: climweb/src/climweb/pages/products/templates/products/product_detail.html:141
+#, python-format
 msgid "Download document — %(file_size)s"
-msgstr ""
+msgstr "Télécharger le document — %(file_size)s"
 
-#: climweb/src/climweb/pages/products/templates/products/product_detail.html:132
+#: climweb/src/climweb/pages/products/templates/products/product_detail.html:153
 msgid "Download document"
 msgstr "Télécharger le document"
 
@@ -325,26 +367,22 @@ msgid "Page views"
 msgstr "Pages vues"
 
 #: climweb/src/climweb/pages/products/templates/products/subnational/subnational_product_page_list_include.html:60
-#| msgid "Product"
 msgid "View products"
 msgstr "Voir les produits"
 
 #: climweb/src/climweb/pages/products/templates/products/subnational/subnational_products_landing.html:32
-#| msgid "Browse Product Updates"
 msgid "Browse Products"
 msgstr "Parcourir les produits"
 
 #: climweb/src/climweb/pages/products/templates/products/subnational/subnational_products_landing_filter_include.html:9
-#| msgid "Filter by Month"
 msgid "Filter by Region"
 msgstr "Filtrer par région"
 
 #~ msgid "Filter by Year"
-#~ msgstr "Filter by Year"
+#~ msgstr "Filtrer par année"
 
 #~ msgid "Filter by Month"
-#~ msgstr "Filter by Month"
+#~ msgstr "Filtrer par mois"
 
 #~ msgid "For example a screen grab of the cover page"
-#~ msgstr "For example a screen grab of the cover page"
-
+#~ msgstr "Par exemple, une capture d'écran de la page de garde"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"POT-Creation-Date: 2026-07-21 12:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,67 +30,67 @@ msgstr "Units"
 msgid "Measurement"
 msgstr "Measurement"
 
-#: climweb/src/climweb/pages/weather/models.py:52
+#: climweb/src/climweb/pages/weather/models.py:70
 msgid "Location not found. Please search for a different location."
 msgstr "Location not found. Please search for a different location."
 
-#: climweb/src/climweb/pages/weather/models.py:64
+#: climweb/src/climweb/pages/weather/models.py:82
 #: climweb/src/climweb/pages/weather/views.py:62
 msgid "No location set in the system. Please contact the administrator."
 msgstr "No location set in the system. Please contact the administrator."
 
-#: climweb/src/climweb/pages/weather/models.py:95
+#: climweb/src/climweb/pages/weather/models.py:177
 msgid "Weather summary section heading"
 msgstr "Weather summary section heading"
 
-#: climweb/src/climweb/pages/weather/models.py:98
+#: climweb/src/climweb/pages/weather/models.py:180
 msgid "Extreme weather observations section title"
 msgstr "Extreme weather observations section title"
 
-#: climweb/src/climweb/pages/weather/models.py:101
+#: climweb/src/climweb/pages/weather/models.py:183
 msgid "Weather forecast section heading"
 msgstr "Weather forecast section heading"
 
-#: climweb/src/climweb/pages/weather/models.py:106
+#: climweb/src/climweb/pages/weather/models.py:188
 msgid "Products per page"
 msgstr "Products per page"
 
-#: climweb/src/climweb/pages/weather/models.py:107
+#: climweb/src/climweb/pages/weather/models.py:189
 msgid ""
 "Number of items to show in the list section. Default is 6. Maximum is 20."
 msgstr ""
 "Number of items to show in the list section. Default is 6. Maximum is 20."
 
-#: climweb/src/climweb/pages/weather/models.py:164
+#: climweb/src/climweb/pages/weather/models.py:246
 #: climweb/src/climweb/pages/weather/templates/weather/dailyreports_list_include.html:49
 msgid "Issued on"
 msgstr "Issued on"
 
-#: climweb/src/climweb/pages/weather/models.py:165
+#: climweb/src/climweb/pages/weather/models.py:247
 msgid "The date the report was issued."
 msgstr "The date the report was issued."
 
-#: climweb/src/climweb/pages/weather/models.py:167
+#: climweb/src/climweb/pages/weather/models.py:249
 msgid "Summary Date"
 msgstr "Summary Date"
 
-#: climweb/src/climweb/pages/weather/models.py:168
+#: climweb/src/climweb/pages/weather/models.py:250
 msgid "Weather Summary Description"
 msgstr "Weather Summary Description"
 
-#: climweb/src/climweb/pages/weather/models.py:170
+#: climweb/src/climweb/pages/weather/models.py:252
 msgid "Forecast Date"
 msgstr "Forecast Date"
 
-#: climweb/src/climweb/pages/weather/models.py:171
+#: climweb/src/climweb/pages/weather/models.py:253
 msgid "Weather Forecast Description"
 msgstr "Weather Forecast Description"
 
-#: climweb/src/climweb/pages/weather/models.py:174
+#: climweb/src/climweb/pages/weather/models.py:256
 msgid "Extreme Weather Observation"
 msgstr "Extreme Weather Observation"
 
-#: climweb/src/climweb/pages/weather/models.py:175
+#: climweb/src/climweb/pages/weather/models.py:257
 msgid "Extreme weather observations from previous day"
 msgstr "Extreme weather observations from previous day"
 
@@ -129,31 +129,57 @@ msgstr[1] ""
 msgid "Read More"
 msgstr "Read More"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:23
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:24
 #, fuzzy
 #| msgid "Weather"
 msgid "Weather detail"
 msgstr "Weather detail"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:37
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:38
 #: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:31
 #: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:63
 #: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:30
 msgid "Search location"
 msgstr "Search location"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:68
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:69
 #: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:80
 msgid "Today"
 msgstr "Today"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:88
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:89
 msgid "Time"
 msgstr "Time"
 
-#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:89
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:90
 msgid "Weather"
 msgstr "Weather"
+
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:151
+#, fuzzy
+#| msgid "Weather"
+msgid "Weather Graphs"
+msgstr "Weather Graphs"
+
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:152
+msgid "Shows forecast values for the currently selected day tab."
+msgstr "Shows forecast values for the currently selected day tab."
+
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:165
+msgid "No weather data to showcase at the moment."
+msgstr "No weather data to showcase at the moment."
+
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:176
+msgid "City Map"
+msgstr "City Map"
+
+#: climweb/src/climweb/pages/weather/templates/weather/weather_detail_page_detail.html:177
+msgid ""
+"Shows the city location and live condition, independent of the selected day "
+"tab."
+msgstr ""
+"Shows the city location and live condition, independent of the selected day "
+"tab."
 
 #: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_multiple_slider.html:18
 #: climweb/src/climweb/pages/weather/templates/weather/widgets/location_forecast_single_slider.html:17

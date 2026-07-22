@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"POT-Creation-Date: 2026-07-21 12:29+0300\n"
 "PO-Revision-Date: 2026-07-06 10:01\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-File: /climweb/src/climweb/pages/cityclimate/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1308\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/pages/cityclimate/blocks.py:17
 msgid "Line Color"
@@ -31,7 +32,7 @@ msgstr "Cor de preenchimento da área"
 
 #: climweb/src/climweb/pages/cityclimate/forms.py:15
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:111
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:33
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:42
 msgid "City"
 msgstr "Cidade"
 
@@ -40,59 +41,60 @@ msgid "CSV File"
 msgstr "Arquivo CSV"
 
 #: climweb/src/climweb/pages/cityclimate/forms.py:18
-#| msgid "Time Format"
 msgid "File Date Format"
 msgstr "Formato de data do arquivo"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:55
+#: climweb/src/climweb/pages/cityclimate/models.py:62
 msgid "Description"
 msgstr "Descrição"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:57
+#: climweb/src/climweb/pages/cityclimate/models.py:65
 msgid "Time Format"
 msgstr "Formato de hora"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:58
+#: climweb/src/climweb/pages/cityclimate/models.py:66
 msgid "In none selected,the default format e.g '2023-01-01' will be used"
-msgstr "Em nenhum selecionado, o formato padrão, por exemplo, '2023-01-01' será usado"
+msgstr ""
+"Em nenhum selecionado, o formato padrão, por exemplo, '2023-01-01' será "
+"usado"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:61
+#: climweb/src/climweb/pages/cityclimate/models.py:69
 msgid "Filter by Month"
 msgstr "Filtrar por mês"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:67
+#: climweb/src/climweb/pages/cityclimate/models.py:75
 msgid "Data Parameters"
 msgstr "Parâmetros de dados"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:67
+#: climweb/src/climweb/pages/cityclimate/models.py:75
 msgid "Data Parameter"
 msgstr "Parâmetro de dados"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:157
+#: climweb/src/climweb/pages/cityclimate/models.py:218
 msgid "Parameter name"
 msgstr "Nome do parâmetro"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:158
+#: climweb/src/climweb/pages/cityclimate/models.py:219
 msgid "Units"
 msgstr "Unidades"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:160
+#: climweb/src/climweb/pages/cityclimate/models.py:221
 msgid "Enabled"
 msgstr "Habilitado"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:163
+#: climweb/src/climweb/pages/cityclimate/models.py:224
 msgid "Line Chart"
 msgstr "Gráfico de linhas"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:164
+#: climweb/src/climweb/pages/cityclimate/models.py:225
 msgid "Bar Chart"
 msgstr "Gráfico de barras"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:165
+#: climweb/src/climweb/pages/cityclimate/models.py:226
 msgid "Area Chart"
 msgstr "Gráfico de área"
 
-#: climweb/src/climweb/pages/cityclimate/models.py:168
+#: climweb/src/climweb/pages/cityclimate/models.py:229
 msgid "Chart Configuration"
 msgstr "Configuração do gráfico"
 
@@ -100,11 +102,15 @@ msgstr "Configuração do gráfico"
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:4
 #, python-format
 msgid "%(title)s"
-msgstr "%(título)s"
+msgstr "%(title)s"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:55
-msgid "No city has been created. Please add a city first then return here to upload data"
-msgstr "Nenhuma cidade foi criada. Adicione uma cidade primeiro e depois volte aqui para fazer upload dos dados"
+msgid ""
+"No city has been created. Please add a city first then return here to upload"
+" data"
+msgstr ""
+"Nenhuma cidade foi criada. Adicione uma cidade primeiro e depois volte aqui "
+"para fazer upload dos dados"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:64
 msgid "Add City"
@@ -121,7 +127,6 @@ msgid "Cities with data loaded: %(counter)s"
 msgstr "Cidades com dados carregados: %(counter)s"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/cities_climate_data_checklist.html:94
-#| msgid "Data Parameters"
 msgid "Edit Data Parameters"
 msgstr "Editar parâmetros de dados"
 
@@ -150,17 +155,19 @@ msgstr "Ver dados"
 msgid "Delete Data"
 msgstr "Excluir dados"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:20
-#| msgid "Load Climate Data"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:21
 msgid "Climate Data"
 msgstr "Dados climáticos"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:57
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:26
+msgid "Share"
+msgstr "Compartilhar"
+
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:66
 msgid "Month"
 msgstr "Mês"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:81
-#| msgid "Data Parameters"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/city_climate_data_page.html:90
 msgid "Parameters"
 msgstr "Parâmetros"
 
@@ -188,25 +195,27 @@ msgstr "Carregar dados climáticos para"
 msgid "Load Climate Data"
 msgstr "Carregar dados climáticos"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:55
-#| msgid "Select Month"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:31
+msgid "Download CSV Template"
+msgstr "Baixe o modelo CSV"
+
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:56
 msgid "Select Date Column"
 msgstr "Selecione a coluna de data"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:71
-#| msgid "Select Month"
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:72
 msgid "Select"
 msgstr "Selecione"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:73
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:74
 msgid "Column"
 msgstr "Coluna"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:88
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:89
 msgid "Upload"
 msgstr "Carregar"
 
-#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:95
+#: climweb/src/climweb/pages/cityclimate/templates/cityclimate/load_climate_data.html:96
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/view_city_climate_data.html:4
 msgid "Data Preview"
 msgstr "Visualização de dados"
@@ -216,7 +225,6 @@ msgid "Back to list"
 msgstr "Voltar à lista"
 
 #: climweb/src/climweb/pages/cityclimate/templates/cityclimate/view_city_climate_data.html:27
-#| msgid "Update data"
 msgid "Update Data"
 msgstr "Atualizar dados"
 
@@ -225,17 +233,16 @@ msgid "Date"
 msgstr "Data"
 
 #~ msgid "Choose a city"
-#~ msgstr "Choose a city"
+#~ msgstr "Escolha uma cidade"
 
 #~ msgid "Select Month"
-#~ msgstr "Select Month"
+#~ msgstr "Selecione o mês"
 
 #~ msgid "Select Parameter"
-#~ msgstr "Select Parameter"
+#~ msgstr "Selecione o parâmetro"
 
 #~ msgid "Last Updated"
-#~ msgstr "Last Updated"
+#~ msgstr "Última atualização"
 
 #~ msgid "Date Field"
-#~ msgstr "Date Field"
-
+#~ msgstr "Campo de data"

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"POT-Creation-Date: 2026-07-21 12:29+0300\n"
 "PO-Revision-Date: 2026-04-13 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -18,119 +18,181 @@ msgstr ""
 "X-Crowdin-Project: nmhs-cms\n"
 "X-Crowdin-Project-ID: 672958\n"
 
-#: climweb/src/climweb/pages/news/models.py:35
+#: climweb/src/climweb/pages/news/blocks.py:16
+#: climweb/src/climweb/pages/news/blocks.py:26
+msgid "Image"
+msgstr "ምስል"
+
+#: climweb/src/climweb/pages/news/blocks.py:20
+msgid "Caption"
+msgstr "መግለጫ ጽሑፍ"
+
+#: climweb/src/climweb/pages/news/blocks.py:21
+msgid "Optional caption or image source credit"
+msgstr "አማራጭ መግለጫ ጽሑፍ ወይም የምስል ምንጭ ክሬዲት"
+
+#: climweb/src/climweb/pages/news/blocks.py:33
+msgid "Gallery title"
+msgstr "የጋለሪ ርዕስ"
+
+#: climweb/src/climweb/pages/news/blocks.py:34
+msgid "Optional heading displayed above the gallery"
+msgstr "ከማዕከለ-ስዕላቱ በላይ ያለው አማራጭ ርዕስ ይታያል"
+
+#: climweb/src/climweb/pages/news/blocks.py:38
+msgid "Uniform Grid – all images same height"
+msgstr "ዩኒፎርም ፍርግርግ - ሁሉም ምስሎች ተመሳሳይ ቁመት"
+
+#: climweb/src/climweb/pages/news/blocks.py:39
+msgid "Masonry – images keep natural proportions"
+msgstr "ሜሶነሪ - ምስሎች ተፈጥሯዊ ምጣኔዎችን ይይዛሉ"
+
+#: climweb/src/climweb/pages/news/blocks.py:42
+msgid "Layout style"
+msgstr "የአቀማመጥ ዘይቤ"
+
+#: climweb/src/climweb/pages/news/blocks.py:46
+msgid "2 columns"
+msgstr "2 አምዶች"
+
+#: climweb/src/climweb/pages/news/blocks.py:47
+msgid "3 columns"
+msgstr "3 አምዶች"
+
+#: climweb/src/climweb/pages/news/blocks.py:48
+msgid "4 columns"
+msgstr "4 አምዶች"
+
+#: climweb/src/climweb/pages/news/blocks.py:51
+msgid "Columns"
+msgstr "አምዶች"
+
+#: climweb/src/climweb/pages/news/blocks.py:53
+msgid "Images"
+msgstr "ምስሎች"
+
+#: climweb/src/climweb/pages/news/blocks.py:59
+#: climweb/src/climweb/pages/news/models.py:177
+msgid "Image Gallery"
+msgstr "የምስል ጋለሪ"
+
+#: climweb/src/climweb/pages/news/models.py:41
 msgid "Name"
 msgstr "ስም"
 
-#: climweb/src/climweb/pages/news/models.py:47
+#: climweb/src/climweb/pages/news/models.py:53
 #: climweb/src/climweb/pages/news/templates/news_filter_include.html:8
 msgid "News Type"
 msgstr "የዜና ዓይነት"
 
-#: climweb/src/climweb/pages/news/models.py:48
+#: climweb/src/climweb/pages/news/models.py:54
 msgid "News Types"
 msgstr "የዜና ዓይነቶች"
 
-#: climweb/src/climweb/pages/news/models.py:59
+#: climweb/src/climweb/pages/news/models.py:65
 msgid "Items per page"
 msgstr "እቃዎች በገጽ"
 
-#: climweb/src/climweb/pages/news/models.py:60
+#: climweb/src/climweb/pages/news/models.py:66
 msgid ""
 "How many items should be visible on the news landing page filter section ?"
 msgstr "በዜና ማረፊያ ገጽ ማጣሪያ ክፍል ላይ ምን ያህል እቃዎች መታየት አለባቸው?"
 
-#: climweb/src/climweb/pages/news/models.py:69
+#: climweb/src/climweb/pages/news/models.py:75
 msgid "Other settings"
 msgstr "ሌሎች ቅንብሮች"
 
-#: climweb/src/climweb/pages/news/models.py:74
+#: climweb/src/climweb/pages/news/models.py:80
 msgid "News Index Page"
 msgstr "የዜና ማውጫ ገጽ"
 
-#: climweb/src/climweb/pages/news/models.py:153
+#: climweb/src/climweb/pages/news/models.py:159
 msgid "News type"
 msgstr "የዜና ዓይነት"
 
-#: climweb/src/climweb/pages/news/models.py:154
+#: climweb/src/climweb/pages/news/models.py:160
 msgid "Post date"
 msgstr "የተለጠፈበት ቀን"
 
-#: climweb/src/climweb/pages/news/models.py:155
+#: climweb/src/climweb/pages/news/models.py:161
 msgid "Optional subtitle"
 msgstr "አማራጭ ንዑስ ርዕስ"
 
-#: climweb/src/climweb/pages/news/models.py:155
+#: climweb/src/climweb/pages/news/models.py:161
 msgid "Subtitle"
 msgstr "ንዑስ ርዕስ"
 
-#: climweb/src/climweb/pages/news/models.py:156
+#: climweb/src/climweb/pages/news/models.py:162
 msgid "Body"
 msgstr "አካል"
 
-#: climweb/src/climweb/pages/news/models.py:157
+#: climweb/src/climweb/pages/news/models.py:163
 msgid "Relevant Services"
 msgstr "ተዛማጅ አገልግሎቶች"
 
-#: climweb/src/climweb/pages/news/models.py:158
+#: climweb/src/climweb/pages/news/models.py:164
 msgid "Relevant Projects"
 msgstr "ተዛማጅ ፕሮጀክቶች"
 
-#: climweb/src/climweb/pages/news/models.py:159
+#: climweb/src/climweb/pages/news/models.py:165
 msgid ""
 "Should this news appear on the news landing paging as the featured one ?"
 msgstr "ይህ ዜና በዜና ማረፊያ ገጽ ላይ እንደ ተለይቶ መታየት አለበት?"
 
-#: climweb/src/climweb/pages/news/models.py:161
+#: climweb/src/climweb/pages/news/models.py:167
 msgid "Is featured"
 msgstr "ተለይቶ ቀርቧል"
 
-#: climweb/src/climweb/pages/news/models.py:162
+#: climweb/src/climweb/pages/news/models.py:168
 msgid "Is this an alert ?"
 msgstr "ይህ ማንቂያ ነው?"
 
-#: climweb/src/climweb/pages/news/models.py:162
+#: climweb/src/climweb/pages/news/models.py:168
 msgid "Is alert"
 msgstr "ንቁ ነው።"
 
-#: climweb/src/climweb/pages/news/models.py:164
+#: climweb/src/climweb/pages/news/models.py:170
 msgid "Should this appear in the homepage as an alert/latest update ?"
 msgstr "ይህ በመነሻ ገጹ ላይ እንደ ማንቂያ/የቅርብ ጊዜ ዝማኔ መታየት አለበት?"
 
-#: climweb/src/climweb/pages/news/models.py:166
+#: climweb/src/climweb/pages/news/models.py:172
 msgid "Is visible on homepage"
 msgstr "መነሻ ገጽ ላይ ይታያል"
 
-#: climweb/src/climweb/pages/news/models.py:167
+#: climweb/src/climweb/pages/news/models.py:173
 msgid "Extra links heading"
 msgstr "ተጨማሪ አገናኞች ርዕስ"
 
-#: climweb/src/climweb/pages/news/models.py:171
+#: climweb/src/climweb/pages/news/models.py:181
 msgid "Extra links"
 msgstr "ተጨማሪ ማገናኛዎች"
 
-#: climweb/src/climweb/pages/news/models.py:173
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:98
+#: climweb/src/climweb/pages/news/models.py:183
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:107
 msgid "Tags"
 msgstr "መለያዎች"
 
-#: climweb/src/climweb/pages/news/models.py:187
+#: climweb/src/climweb/pages/news/models.py:198
 msgid "Extra Links"
 msgstr "ተጨማሪ ማገናኛዎች"
 
-#: climweb/src/climweb/pages/news/models.py:205
+#: climweb/src/climweb/pages/news/models.py:216
 msgid "News Page"
 msgstr "የዜና ገጽ"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:56
+#: climweb/src/climweb/pages/news/templates/news/blocks/mosaic_gallery_block.html:17
+msgid "View full image"
+msgstr "ሙሉ ምስል ይመልከቱ"
+
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:65
 msgid "Find out more"
 msgstr "ተጨማሪ ለማወቅ"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:74
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:83
 msgid "Article info"
 msgstr "የጽሑፍ መረጃ"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:91
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:100
 msgid "Share"
 msgstr "አጋራ"
 
