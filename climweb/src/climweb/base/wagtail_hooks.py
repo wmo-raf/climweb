@@ -41,6 +41,8 @@ from .backups.views import (
     sftp_generate_key,
     sftp_clear_key,
     sftp_clear_hostkey,
+    backup_browser,
+    backup_download,
 )
 
 
@@ -103,6 +105,8 @@ def urlconf_base():
         path('backup/sftp/generate-key', sftp_generate_key, name='backup-sftp-generate-key'),
         path('backup/sftp/clear-key', sftp_clear_key, name='backup-sftp-clear-key'),
         path('backup/sftp/clear-hostkey', sftp_clear_hostkey, name='backup-sftp-clear-hostkey'),
+        path('backup/browse', backup_browser, name='backup-browser'),
+        path('backup/download', backup_download, name='backup-download'),
     ]
 
     if "capcomposer.cap" in settings.INSTALLED_APPS:

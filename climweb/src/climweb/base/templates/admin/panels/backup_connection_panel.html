@@ -5,6 +5,9 @@
 <div class="help-block help-info backup-conn-panel" style="margin-bottom:1.5em;">
   <p style="margin-top:0;">
     📖 <a href="{{ help_url }}">{% trans "Read the backup setup guide" %}</a>
+    {% if is_superuser %}
+      &nbsp;·&nbsp; 🗂 <a href="{{ browser_url }}">{% trans "Browse & download backups" %}</a>
+    {% endif %}
   </p>
 
   {% if provider == "sftp" %}

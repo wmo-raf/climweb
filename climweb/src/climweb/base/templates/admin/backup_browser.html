@@ -1,0 +1,71 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n %}
+
+{% block titletag %}{% trans "Backups" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .backup-browser { max-width: 60em; padding: 1.5em 2em; }
+    .backup-browser table { border-collapse: collapse; width: 100%; margin-bottom: 2em; }
+    .backup-browser th, .backup-browser td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; }
+    .backup-browser th { background: #f7f7f7; }
+    .backup-browser .muted { color: #666; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include "wagtailadmin/shared/header.html" with title="Backups" subtitle=provider icon="download" %}
+
+<div class="backup-browser">
+
+  {% if not ready %}
+    <p>{% trans "No backup destination is configured or connected yet. Set one up under Settings → Backup first." %}</p>
+  {% elif error %}
+    <p class="help-block help-critical">{% trans "Could not list backups:" %} {{ error }}</p>
+  {% else %}
+    <p class="muted">{% blocktrans %}Backups stored on your {{ provider }} destination. Downloads are streamed straight to you.{% endblocktrans %}</p>
+
+    <h2>{% trans "Database" %}</h2>
+    {% if db_files %}
+      <table>
+        <thead><tr><th>{% trans "File" %}</th><th>{% trans "Size" %}</th><th>{% trans "Modified" %}</th><th></th></tr></thead>
+        <tbody>
+          {% for f in db_files %}
+            <tr>
+              <td>{{ f.name }}</td>
+              <td>{{ f.size_h }}</td>
+              <td class="muted">{{ f.modified }}</td>
+              <td><a class="button button-small" href="{{ f.download_url }}">{% trans "Download" %}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">{% trans "No database backups found yet." %}</p>
+    {% endif %}
+
+    <h2>{% trans "Media" %}</h2>
+    {% if media_files %}
+      <table>
+        <thead><tr><th>{% trans "File" %}</th><th>{% trans "Size" %}</th><th>{% trans "Modified" %}</th><th></th></tr></thead>
+        <tbody>
+          {% for f in media_files %}
+            <tr>
+              <td>{{ f.name }}</td>
+              <td>{{ f.size_h }}</td>
+              <td class="muted">{{ f.modified }}</td>
+              <td><a class="button button-small" href="{{ f.download_url }}">{% trans "Download" %}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">{% trans "No media backups found yet." %}</p>
+    {% endif %}
+
+    <p class="help-block help-info" style="margin-top:1.5em;">
+      {% trans "These files are for recovery. Restoring the database is a maintenance-window operation done outside the CMS — see the setup guide." %}
+    </p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -136,6 +136,55 @@ def test_connection(backup_settings):
         transport.close()
 
 
+def _base_path(backup_settings):
+    return (backup_settings.sftp_remote_path or "climweb-backups").rstrip("/")
+
+
+def list_backups(backup_settings):
+    """Return {"db": [...], "media": [...]} of files on the remote. Each entry is
+    {name, size, modified, ref} where ref is the full remote path."""
+    base = _base_path(backup_settings)
+    sftp, transport = _connect(backup_settings)
+    result = {"db": [], "media": []}
+    try:
+        for sub in ("db", "media"):
+            path = base + "/" + sub
+            try:
+                for entry in sftp.listdir_attr(path):
+                    if stat.S_ISDIR(entry.st_mode):
+                        continue
+                    result[sub].append({
+                        "name": entry.filename,
+                        "size": entry.st_size,
+                        "modified": datetime.utcfromtimestamp(entry.st_mtime).isoformat(),
+                        "ref": path + "/" + entry.filename,
+                    })
+            except IOError:
+                pass
+    finally:
+        transport.close()
+    return result
+
+
+def download_stream(backup_settings, ref, chunk_size=1024 * 1024):
+    """Yield the bytes of the remote file ``ref`` in chunks. ``ref`` must live
+    under the configured backup directory (guards against path traversal)."""
+    base = _base_path(backup_settings)
+    if not (ref == base or ref.startswith(base + "/")) or ".." in ref.split("/"):
+        raise ValueError("Refusing to download a path outside the backup directory.")
+    sftp, transport = _connect(backup_settings)
+    try:
+        remote = sftp.open(ref, "rb")
+        while True:
+            chunk = remote.read(chunk_size)
+            if not chunk:
+                break
+            yield chunk
+        remote.close()
+    finally:
+        transport.close()
+
+
 def upload_backups(backup_settings, backup_dir, run_media=None):
     """Upload the latest DB dump (always) and media archive (on the configured
     weekday) to the remote server over SFTP, then prune old copies. Overwrites
