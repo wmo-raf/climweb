@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 11:00+0300\n"
+"POT-Creation-Date: 2026-07-21 12:32+0300\n"
 "PO-Revision-Date: 2026-06-22 11:39\n"
 "Last-Translator: \n"
 "Language-Team: Swahili\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: sw\n"
 "X-Crowdin-File: /climweb/src/climweb/base/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1286\n"
+"X-Crowdin-Language: sw\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/base/blocks.py:49 climweb/src/climweb/base/blocks.py:50
 #: climweb/src/climweb/base/blocks.py:62 climweb/src/climweb/base/blocks.py:63
@@ -55,6 +56,7 @@ msgid "A URL that returns Highcharts.js configuration, including the data"
 msgstr "URL inayorejesha usanidi wa Highcharts.js, ikijumuisha data"
 
 #: climweb/src/climweb/base/blocks.py:106
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:83
 msgid "Description"
 msgstr "Maelezo"
 
@@ -63,8 +65,12 @@ msgid "Action Link Internal"
 msgstr "Kiungo cha Kitendo cha Ndani"
 
 #: climweb/src/climweb/base/blocks.py:110
-msgid "An external link to a detailed resource on the internet.If provided, the internal link will be ignored"
-msgstr "Kiungo cha nje cha rasilimali ya kina kwenye mtandao. Ikitolewa, kiungo cha ndani kitapuuzwa"
+msgid ""
+"An external link to a detailed resource on the internet.If provided, the "
+"internal link will be ignored"
+msgstr ""
+"Kiungo cha nje cha rasilimali ya kina kwenye mtandao. Ikitolewa, kiungo cha "
+"ndani kitapuuzwa"
 
 #: climweb/src/climweb/base/blocks.py:116
 msgid "Feature Block"
@@ -76,7 +82,7 @@ msgstr "Kizuizi Kinachokunjwa"
 
 #: climweb/src/climweb/base/blocks.py:139
 msgid "Accordion"
-msgstr ""
+msgstr "Accordion"
 
 #: climweb/src/climweb/base/blocks.py:155
 #: climweb/src/climweb/base/blocks.py:285
@@ -149,12 +155,10 @@ msgid "Card"
 msgstr "Kadi"
 
 #: climweb/src/climweb/base/blocks.py:297
-#| msgid "Introduction button text"
 msgid "Card button text"
 msgstr "Maandishi ya kitufe cha kadi"
 
 #: climweb/src/climweb/base/blocks.py:298
-#| msgid "Introduction button link"
 msgid "Card button link"
 msgstr "Kiungo cha kitufe cha kadi"
 
@@ -162,104 +166,385 @@ msgstr "Kiungo cha kitufe cha kadi"
 msgid "Cards with Icon and Text"
 msgstr "Kadi zilizo na ikoni na maandishi"
 
-#: climweb/src/climweb/base/cap.py:103
+#: climweb/src/climweb/base/cap.py:105
 msgid "Go to warnings list"
 msgstr "Nenda kwenye orodha ya maonyo"
 
-#: climweb/src/climweb/base/forms.py:27
-#, python-format
-msgid "Supported formats: %(supported_formats)s. Maximum filesize: %(max_upload_size)s."
-msgstr "Miundo inayotumika: %(supported_formats)s. Upeo wa ukubwa wa faili: %(max_upload_size)s."
+#: climweb/src/climweb/base/cap_views.py:66
+msgid "No CAP alert list page found. Please create one before adding alerts."
+msgstr ""
+"Hakuna ukurasa wa orodha ya tahadhari ya CAP uliopatikana. Tafadhali unda "
+"moja kabla ya kuongeza arifa."
 
-#: climweb/src/climweb/base/forms.py:42
+#: climweb/src/climweb/base/forms.py:28
 #, python-format
-msgid "File size must be under %(max_upload_size)s. Current file size is %(current_file_size)s"
-msgstr "Ukubwa wa faili lazima uwe chini ya %(max_upload_size)s. Saizi ya sasa ya faili ni %(current_file_size)s"
+msgid ""
+"Supported formats: %(supported_formats)s. Maximum filesize: "
+"%(max_upload_size)s."
+msgstr ""
+"Miundo inayotumika: %(supported_formats)s. Upeo wa ukubwa wa faili: "
+"%(max_upload_size)s."
 
-#: climweb/src/climweb/base/forms.py:59
+#: climweb/src/climweb/base/forms.py:43
+#, python-format
+msgid ""
+"File size must be under %(max_upload_size)s. Current file size is "
+"%(current_file_size)s"
+msgstr ""
+"Ukubwa wa faili lazima uwe chini ya %(max_upload_size)s. Saizi ya sasa ya "
+"faili ni %(current_file_size)s"
+
+#: climweb/src/climweb/base/forms.py:60
 #, python-format
 msgid "Supported formats: PDF. Maximum filesize: %(max_upload_size)s."
-msgstr "Miundo inayotumika: PDF. Upeo wa ukubwa wa faili: %(max_upload_size)s."
+msgstr ""
+"Miundo inayotumika: PDF. Upeo wa ukubwa wa faili: %(max_upload_size)s."
 
-#: climweb/src/climweb/base/mixins.py:21
+#: climweb/src/climweb/base/mixins.py:30
 msgid "For search engines"
 msgstr "Kwa injini za utafutaji"
 
-#: climweb/src/climweb/base/mixins.py:27
+#: climweb/src/climweb/base/mixins.py:36
 msgid "For site menus"
 msgstr "Kwa menyu ya tovuti"
 
-#: climweb/src/climweb/base/models/__init__.py:21
+#: climweb/src/climweb/base/models/__init__.py:23
 msgid "File Submission"
 msgstr "Uwasilishaji wa Faili"
 
-#: climweb/src/climweb/base/models/__init__.py:22
+#: climweb/src/climweb/base/models/__init__.py:24
 msgid "File Submissions"
 msgstr "Mawasilisho ya Faili"
 
-#: climweb/src/climweb/base/models/abstracts.py:19
+#: climweb/src/climweb/base/models/abstracts.py:20
 msgid "Banner Image"
 msgstr "Picha ya Bango"
 
-#: climweb/src/climweb/base/models/abstracts.py:20
+#: climweb/src/climweb/base/models/abstracts.py:21
 msgid "A high quality banner image"
 msgstr "Picha ya bango yenye ubora wa juu"
 
-#: climweb/src/climweb/base/models/abstracts.py:26
+#: climweb/src/climweb/base/models/abstracts.py:27
 msgid "Banner Title"
 msgstr "Kichwa cha Bango"
 
-#: climweb/src/climweb/base/models/abstracts.py:27
+#: climweb/src/climweb/base/models/abstracts.py:28
 msgid "Banner Subtitle"
 msgstr "Manukuu ya Bango"
 
-#: climweb/src/climweb/base/models/abstracts.py:29
+#: climweb/src/climweb/base/models/abstracts.py:30
 msgid "Call to action button text"
 msgstr "Maandishi ya kitufe cha kupiga hatua"
 
-#: climweb/src/climweb/base/models/abstracts.py:36
+#: climweb/src/climweb/base/models/abstracts.py:37
 msgid "Call to action related page"
 msgstr "Wito kwa ukurasa unaohusiana na kitendo"
 
-#: climweb/src/climweb/base/models/abstracts.py:48
+#: climweb/src/climweb/base/models/abstracts.py:49
 msgid "Banner Section"
 msgstr "Sehemu ya Bango"
 
-#: climweb/src/climweb/base/models/abstracts.py:77
+#: climweb/src/climweb/base/models/abstracts.py:78
 msgid "Introduction Title"
 msgstr "Kichwa cha Utangulizi"
 
-#: climweb/src/climweb/base/models/abstracts.py:78
+#: climweb/src/climweb/base/models/abstracts.py:79
 msgid "Introduction section title"
 msgstr "Kichwa cha sehemu ya utangulizi"
 
-#: climweb/src/climweb/base/models/abstracts.py:79
+#: climweb/src/climweb/base/models/abstracts.py:80
 msgid "Introduction text"
 msgstr "Maandishi ya utangulizi"
 
-#: climweb/src/climweb/base/models/abstracts.py:80
+#: climweb/src/climweb/base/models/abstracts.py:81
 msgid "Introduction section description"
 msgstr "Maelezo ya sehemu ya utangulizi"
 
-#: climweb/src/climweb/base/models/abstracts.py:83
+#: climweb/src/climweb/base/models/abstracts.py:84
 msgid "Introduction Image"
 msgstr "Picha ya Utangulizi"
 
-#: climweb/src/climweb/base/models/abstracts.py:84
+#: climweb/src/climweb/base/models/abstracts.py:85
 msgid "A high quality image"
 msgstr "Picha ya ubora wa juu"
 
-#: climweb/src/climweb/base/models/abstracts.py:92
+#: climweb/src/climweb/base/models/abstracts.py:93
 msgid "Introduction button text"
 msgstr "Maandishi ya kitufe cha utangulizi"
 
-#: climweb/src/climweb/base/models/abstracts.py:99
+#: climweb/src/climweb/base/models/abstracts.py:100
 msgid "Introduction button link"
 msgstr "Kiungo cha kitufe cha utangulizi"
 
-#: climweb/src/climweb/base/models/abstracts.py:119
+#: climweb/src/climweb/base/models/abstracts.py:120
 msgid "Introduction Section"
 msgstr "Sehemu ya Utangulizi"
+
+#: climweb/src/climweb/base/models/abstracts.py:169
+msgid "Apply Now"
+msgstr "Tuma Ombi Sasa"
+
+#: climweb/src/climweb/base/models/abstracts.py:169
+#, fuzzy
+#| msgid "Card button text"
+msgid "Apply button text"
+msgstr "Tekeleza maandishi ya kitufe"
+
+#: climweb/src/climweb/base/models/abstracts.py:176
+#, fuzzy
+#| msgid "Application"
+msgid "Application Page"
+msgstr "Ukurasa wa Maombi"
+
+#: climweb/src/climweb/base/models/abstracts.py:177
+msgid ""
+"Select the page where applicants should submit their application, e.g. a "
+"Flexible Form page set up to collect applications. If left blank, the "
+"external link below is used instead."
+msgstr ""
+"Chagua ukurasa ambapo waombaji wanapaswa kutuma maombi yao, k.m. ukurasa wa "
+"Fomu Inayobadilika iliyoundwa kukusanya programu. Ikiachwa wazi, kiungo cha "
+"nje kilicho hapa chini kinatumika badala yake."
+
+#: climweb/src/climweb/base/models/abstracts.py:182
+#, fuzzy
+#| msgid "Application"
+msgid "External Application Link"
+msgstr "Kiungo cha Maombi ya Nje"
+
+#: climweb/src/climweb/base/models/abstracts.py:183
+msgid ""
+"External link to apply, e.g. a link to an external HR or procurement system."
+" Ignored if an application page is chosen above."
+msgstr ""
+"Kiungo cha nje cha kutuma maombi, k.m. kiungo kwa HR wa nje au mfumo wa "
+"manunuzi. Imepuuzwa ikiwa ukurasa wa programu umechaguliwa hapo juu."
+
+#: climweb/src/climweb/base/models/abstracts.py:194
+#: climweb/src/climweb/base/models/snippets.py:236
+msgid "Application"
+msgstr "Maombi"
+
+#: climweb/src/climweb/base/models/ai_settings.py:30
+msgid "OpenAI"
+msgstr "OpenAI"
+
+#: climweb/src/climweb/base/models/ai_settings.py:31
+msgid "Anthropic (Claude)"
+msgstr "Anthropic (Claude)"
+
+#: climweb/src/climweb/base/models/ai_settings.py:62
+msgid "Paste to set or change. Leave blank to keep the current key."
+msgstr ""
+"Bandika ili kuweka au kubadilisha. Acha wazi ili kuweka ufunguo wa sasa."
+
+#: climweb/src/climweb/base/models/ai_settings.py:84
+msgid "Enable AI assistant"
+msgstr "Washa msaidizi wa AI"
+
+#: climweb/src/climweb/base/models/ai_settings.py:86
+msgid ""
+"When enabled, AI writing tools appear in the rich text editor. You must "
+"select a provider and enter an API key below first."
+msgstr ""
+"Inapowashwa, zana za uandishi za AI huonekana kwenye kihariri cha maandishi "
+"tajiri. Lazima uchague mtoa huduma na uweke ufunguo wa API hapa chini "
+"kwanza."
+
+#: climweb/src/climweb/base/models/ai_settings.py:95
+#: climweb/src/climweb/base/models/backup_settings.py:141
+msgid "Provider"
+msgstr "Mtoa huduma"
+
+#: climweb/src/climweb/base/models/ai_settings.py:96
+msgid "The AI service to use. Choose the one you have an API key for."
+msgstr "Huduma ya AI ya kutumia. Chagua ule ambao una ufunguo wa API."
+
+#: climweb/src/climweb/base/models/ai_settings.py:102
+msgid "Model (optional)"
+msgstr "Muundo (si lazima)"
+
+#: climweb/src/climweb/base/models/ai_settings.py:104
+msgid ""
+"Leave blank to use a sensible default for the selected provider (OpenAI: "
+"gpt-4o-mini, Claude: claude-haiku-4.5). Only set this if you want a specific"
+" model. Provider model names change over time; if you get a 'model not "
+"found' error, enter a current one here."
+msgstr ""
+"Ondoka wazi ili kutumia chaguomsingi kinachoeleweka kwa mtoa huduma "
+"aliyechaguliwa (OpenAI: gpt-4o-mini, Claude: claude-haiku-4.5). Weka hii tu "
+"ikiwa unataka mfano maalum. Majina ya mifano ya watoa huduma hubadilika kwa "
+"wakati; ukipata hitilafu ya 'muundo haujapatikana', weka wa sasa hapa."
+
+#: climweb/src/climweb/base/models/ai_settings.py:115
+msgid "API key"
+msgstr "Kitufe cha API"
+
+#: climweb/src/climweb/base/models/ai_settings.py:119
+#: climweb/src/climweb/base/models/ai_settings.py:149
+msgid "AI Assistant"
+msgstr "Msaidizi wa AI"
+
+#: climweb/src/climweb/base/models/ai_settings.py:148
+msgid "AI provider"
+msgstr "Mtoa huduma wa AI"
+
+#: climweb/src/climweb/base/models/backup_settings.py:40
+msgid "Never run"
+msgstr "Usiwahi kukimbia"
+
+#: climweb/src/climweb/base/models/backup_settings.py:41
+msgid "Success"
+msgstr "Mafanikio"
+
+#: climweb/src/climweb/base/models/backup_settings.py:42
+msgid "Failed"
+msgstr "Imeshindwa"
+
+#: climweb/src/climweb/base/models/backup_settings.py:46
+msgid "Monday"
+msgstr "Jumatatu"
+
+#: climweb/src/climweb/base/models/backup_settings.py:47
+msgid "Tuesday"
+msgstr "Jumanne"
+
+#: climweb/src/climweb/base/models/backup_settings.py:48
+msgid "Wednesday"
+msgstr "Jumatano"
+
+#: climweb/src/climweb/base/models/backup_settings.py:49
+msgid "Thursday"
+msgstr "Alhamisi"
+
+#: climweb/src/climweb/base/models/backup_settings.py:50
+msgid "Friday"
+msgstr "Ijumaa"
+
+#: climweb/src/climweb/base/models/backup_settings.py:51
+msgid "Saturday"
+msgstr "Jumamosi"
+
+#: climweb/src/climweb/base/models/backup_settings.py:52
+msgid "Sunday"
+msgstr "Jumapili"
+
+#: climweb/src/climweb/base/models/backup_settings.py:86
+msgid "Paste to set or change. Leave blank to keep the current secret."
+msgstr "Bandika ili kuweka au kubadilisha. Acha wazi ili kuweka siri ya sasa."
+
+#: climweb/src/climweb/base/models/backup_settings.py:94
+msgid ""
+"Optional: paste a refresh token (or token JSON) generated elsewhere to "
+"connect without the button. Cleared after saving."
+msgstr ""
+"Hiari: bandika tokeni ya kuonyesha upya (au tokeni ya JSON) iliyotolewa "
+"mahali pengine ili kuunganisha bila kitufe. Imefutwa baada ya kuhifadhi."
+
+#: climweb/src/climweb/base/models/backup_settings.py:125
+#, fuzzy
+#| msgid "Google Search"
+msgid "Google Drive"
+msgstr "Hifadhi ya Google"
+
+#: climweb/src/climweb/base/models/backup_settings.py:130
+msgid "Enable cloud backups"
+msgstr "Washa chelezo za wingu"
+
+#: climweb/src/climweb/base/models/backup_settings.py:132
+msgid ""
+"When enabled, the daily backup will be uploaded to the connected cloud "
+"account. You must connect an account below first."
+msgstr ""
+"Ikiwashwa, nakala rudufu ya kila siku itapakiwa kwenye akaunti "
+"iliyounganishwa ya wingu. Lazima uunganishe akaunti iliyo hapa chini kwanza."
+
+#: climweb/src/climweb/base/models/backup_settings.py:147
+msgid "Remote folder"
+msgstr "Folda ya mbali"
+
+#: climweb/src/climweb/base/models/backup_settings.py:148
+msgid "Top-level folder created in the drive to hold backups."
+msgstr ""
+"Folda ya kiwango cha juu imeundwa kwenye hifadhi ili kuhifadhi nakala."
+
+#: climweb/src/climweb/base/models/backup_settings.py:153
+msgid "Database copies to keep"
+msgstr "Nakala za hifadhidata za kuhifadhi"
+
+#: climweb/src/climweb/base/models/backup_settings.py:154
+msgid "Number of daily database snapshots to retain on the remote."
+msgstr ""
+"Idadi ya vijipicha vya hifadhidata vya kila siku vya kuhifadhi kwenye "
+"kidhibiti cha mbali."
+
+#: climweb/src/climweb/base/models/backup_settings.py:159
+msgid "Media copies to keep"
+msgstr "Nakala za media za kuhifadhi"
+
+#: climweb/src/climweb/base/models/backup_settings.py:160
+msgid "Number of weekly media snapshots to retain on the remote."
+msgstr ""
+"Idadi ya vijipicha vya kila wiki vya maudhui ya kubaki kwenye kidhibiti cha "
+"mbali."
+
+#: climweb/src/climweb/base/models/backup_settings.py:166
+msgid "Media upload day"
+msgstr "Siku ya upakiaji wa media"
+
+#: climweb/src/climweb/base/models/backup_settings.py:167
+msgid "Day of the week the (larger) media archive is uploaded."
+msgstr "Siku ya wiki kumbukumbu (kubwa) ya media inapakiwa."
+
+#: climweb/src/climweb/base/models/backup_settings.py:174
+msgid "OAuth Client ID"
+msgstr "Kitambulisho cha Mteja cha OAuth"
+
+#: climweb/src/climweb/base/models/backup_settings.py:176
+msgid ""
+"From your Google Cloud OAuth 'Web application' client. This value is public."
+" Required for the Connect button."
+msgstr ""
+"Kutoka kwa mteja wako wa 'Programu ya Wavuti' ya Google Cloud OAuth. Thamani"
+" hii ni ya umma. Inahitajika kwa kitufe cha Unganisha."
+
+#: climweb/src/climweb/base/models/backup_settings.py:184
+msgid "OAuth Client Secret"
+msgstr "Siri ya Mteja wa OAuth"
+
+#: climweb/src/climweb/base/models/backup_settings.py:190
+msgid "Paste a token (fallback)"
+msgstr "Bandika ishara (rudi nyuma)"
+
+#: climweb/src/climweb/base/models/backup_settings.py:198
+msgid "Connected account"
+msgstr "Akaunti iliyounganishwa"
+
+#: climweb/src/climweb/base/models/backup_settings.py:203
+msgid "Encrypted OAuth refresh token. Never edit by hand."
+msgstr ""
+"Tokeni ya kuonyesha upya OAuth iliyosimbwa kwa njia fiche. Usiwahi kuhariri "
+"kwa mkono."
+
+#: climweb/src/climweb/base/models/backup_settings.py:217
+#, fuzzy
+#| msgid "Contact Settings"
+msgid "Backup Settings"
+msgstr "Mipangilio ya Hifadhi nakala"
+
+#: climweb/src/climweb/base/models/backup_settings.py:268
+msgid "Google credentials"
+msgstr "Vitambulisho vya Google"
+
+#: climweb/src/climweb/base/models/backup_settings.py:270
+#, fuzzy
+#| msgid "Banner Section"
+msgid "Connection"
+msgstr "Muunganisho"
+
+#: climweb/src/climweb/base/models/backup_settings.py:277
+msgid "Options"
+msgstr "Chaguo"
 
 #: climweb/src/climweb/base/models/cap_settings.py:14
 msgid "Show on MapViewer"
@@ -286,327 +571,352 @@ msgid "Auto Refresh interval in minutes"
 msgstr "Kiwango cha kuburudisha kiotomatiki katika dakika"
 
 #: climweb/src/climweb/base/models/cap_settings.py:26
-msgid "Refresh cap alerts on the map after this minutes. Leave blank to disable auto refreshing"
-msgstr "Furahisha arifu za cap kwenye ramani baada ya dakika hii. Acha tupu ili kulemaza kuburudisha kiotomatiki"
+msgid ""
+"Refresh cap alerts on the map after this minutes. Leave blank to disable "
+"auto refreshing"
+msgstr ""
+"Furahisha arifu za cap kwenye ramani baada ya dakika hii. Acha tupu ili "
+"kulemaza kuburudisha kiotomatiki"
 
-#: climweb/src/climweb/base/models/site_settings.py:31
+#: climweb/src/climweb/base/models/site_settings.py:33
 msgid "Country"
 msgstr "Nchi"
 
-#: climweb/src/climweb/base/models/site_settings.py:32
+#: climweb/src/climweb/base/models/site_settings.py:34
 msgid "Organisation Name"
 msgstr "Jina la shirika"
 
-#: climweb/src/climweb/base/models/site_settings.py:34
+#: climweb/src/climweb/base/models/site_settings.py:36
 msgid "Phone Number"
 msgstr "Nambari ya simu"
 
-#: climweb/src/climweb/base/models/site_settings.py:35
+#: climweb/src/climweb/base/models/site_settings.py:37
 msgid "Phone number"
 msgstr "Nambari ya simu"
 
-#: climweb/src/climweb/base/models/site_settings.py:36
-#: climweb/src/climweb/base/models/site_settings.py:37
+#: climweb/src/climweb/base/models/site_settings.py:38
+#: climweb/src/climweb/base/models/site_settings.py:39
 msgid "Email address"
 msgstr "Barua pepe"
 
-#: climweb/src/climweb/base/models/site_settings.py:38
+#: climweb/src/climweb/base/models/site_settings.py:40
 msgid "Postal Address"
 msgstr "Anuani ya posta"
 
-#: climweb/src/climweb/base/models/site_settings.py:39
+#: climweb/src/climweb/base/models/site_settings.py:41
 msgid "Postal address"
 msgstr "anuani ya posta"
 
-#: climweb/src/climweb/base/models/site_settings.py:47
+#: climweb/src/climweb/base/models/site_settings.py:49
 msgid "Organisation Logo"
 msgstr "Nembo ya shirika"
 
 #: climweb/src/climweb/base/models/site_settings.py:50
+msgid "Logo Append Text"
+msgstr "Nembo Ongeza Maandishi"
+
+#: climweb/src/climweb/base/models/site_settings.py:54
 msgid "Country Flag"
 msgstr "Bendera ya Nchi"
 
-#: climweb/src/climweb/base/models/site_settings.py:68
+#: climweb/src/climweb/base/models/site_settings.py:72
 msgid "Footer Logo"
 msgstr "Nembo ya Kijachini"
 
-#: climweb/src/climweb/base/models/site_settings.py:69
+#: climweb/src/climweb/base/models/site_settings.py:73
 msgid "Logo that appears on the footer"
 msgstr "Nembo inayoonekana kwenye kijachini"
 
-#: climweb/src/climweb/base/models/site_settings.py:78
+#: climweb/src/climweb/base/models/site_settings.py:82
 msgid "CMS Logo"
 msgstr "Nembo ya CMS"
 
-#: climweb/src/climweb/base/models/site_settings.py:79
-msgid "Logo that appears on the CMS. Should be a whit transparent logo preferably"
-msgstr "Nembo inayoonekana kwenye CMS. Inapaswa kuwa nembo ya uwazi kidogo ikiwezekana"
+#: climweb/src/climweb/base/models/site_settings.py:83
+msgid ""
+"Logo that appears on the CMS. Should be a whit transparent logo preferably"
+msgstr ""
+"Nembo inayoonekana kwenye CMS. Inapaswa kuwa nembo ya uwazi kidogo "
+"ikiwezekana"
 
-#: climweb/src/climweb/base/models/site_settings.py:88
+#: climweb/src/climweb/base/models/site_settings.py:92
 msgid "Page not Found Image"
 msgstr "Ukurasa haujapatikana Picha"
 
-#: climweb/src/climweb/base/models/site_settings.py:89
+#: climweb/src/climweb/base/models/site_settings.py:93
 msgid "Image shown on error 404 page"
 msgstr "Picha iliyoonyeshwa kwenye ukurasa wa 404 wa hitilafu"
 
-#: climweb/src/climweb/base/models/site_settings.py:98
+#: climweb/src/climweb/base/models/site_settings.py:102
 msgid "Server Error Image"
 msgstr "Picha ya Hitilafu ya Seva"
 
-#: climweb/src/climweb/base/models/site_settings.py:99
+#: climweb/src/climweb/base/models/site_settings.py:103
 msgid "Image shown on error 500 error page"
 msgstr "Picha iliyoonyeshwa kwenye ukurasa wa hitilafu 500"
 
-#: climweb/src/climweb/base/models/site_settings.py:113
+#: climweb/src/climweb/base/models/site_settings.py:118
 msgid "Logo"
 msgstr "Nembo"
 
-#: climweb/src/climweb/base/models/site_settings.py:121
+#: climweb/src/climweb/base/models/site_settings.py:126
 msgid "Error Images"
 msgstr "Picha za Hitilafu"
 
-#: climweb/src/climweb/base/models/site_settings.py:126
+#: climweb/src/climweb/base/models/site_settings.py:131
 msgid "Address Settings"
 msgstr "Mipangilio ya Anwani"
 
-#: climweb/src/climweb/base/models/site_settings.py:130
+#: climweb/src/climweb/base/models/site_settings.py:135
 msgid "Contact Settings"
 msgstr "Mipangilio ya Anwani"
 
-#: climweb/src/climweb/base/models/site_settings.py:134
+#: climweb/src/climweb/base/models/site_settings.py:139
 msgid "Organisation Settings"
 msgstr "Mipangilio ya Shirika"
 
-#: climweb/src/climweb/base/models/site_settings.py:144
+#: climweb/src/climweb/base/models/site_settings.py:149
 msgid "Youtube API Key"
 msgstr "Ufunguo wa API ya Youtube"
 
-#: climweb/src/climweb/base/models/site_settings.py:145
-#| msgid "Youtube API Key"
-msgid "To set up Youtube API Key refer to "
-msgstr ""
-
 #: climweb/src/climweb/base/models/site_settings.py:150
+msgid "To set up Youtube API Key refer to "
+msgstr "Ili kusanidi Ufunguo wa API ya Youtube rejelea"
+
+#: climweb/src/climweb/base/models/site_settings.py:155
 msgid "GA Tracking ID"
 msgstr "Kitambulisho cha Ufuatiliaji wa GA"
 
-#: climweb/src/climweb/base/models/site_settings.py:151
+#: climweb/src/climweb/base/models/site_settings.py:156
 msgid "Your Google Analytics tracking ID (begins with \"UA-\")"
-msgstr "Kitambulisho chako cha ufuatiliaji cha Google Analytics (huanza na \"UA-\")"
+msgstr ""
+"Kitambulisho chako cha ufuatiliaji cha Google Analytics (huanza na \"UA-\")"
 
-#: climweb/src/climweb/base/models/site_settings.py:155
+#: climweb/src/climweb/base/models/site_settings.py:160
 msgid "Track button clicks"
 msgstr "Mibofyo ya vitufe vya kufuatilia"
 
-#: climweb/src/climweb/base/models/site_settings.py:157
-msgid "Track all button clicks using Google Analytics event tracking, Event tracking details can be specified in each button’s advanced settings options."
-msgstr "Fuatilia mibofyo yote ya vitufe kwa kutumia ufuatiliaji wa matukio ya Google Analytics, maelezo ya ufuatiliaji wa matukio yanaweza kubainishwa katika chaguo za mipangilio ya kina ya kila kitufe."
-
 #: climweb/src/climweb/base/models/site_settings.py:162
+msgid ""
+"Track all button clicks using Google Analytics event tracking, Event "
+"tracking details can be specified in each button’s advanced settings "
+"options."
+msgstr ""
+"Fuatilia mibofyo yote ya vitufe kwa kutumia ufuatiliaji wa matukio ya Google"
+" Analytics, maelezo ya ufuatiliaji wa matukio yanaweza kubainishwa katika "
+"chaguo za mipangilio ya kina ya kila kitufe."
+
+#: climweb/src/climweb/base/models/site_settings.py:167
 msgid "Track pages internally"
 msgstr "Fuatilia kurasa ndani"
 
-#: climweb/src/climweb/base/models/site_settings.py:164
-msgid "Track   all pages internally. This will enable the internal analytics dashboard, alongside Google Analytics, if also enabled"
-msgstr "Fuatilia kurasa zote ndani. Hii itawezesha dashibodi ya uchanganuzi wa ndani, pamoja na Google Analytics, ikiwa pia imewashwa"
+#: climweb/src/climweb/base/models/site_settings.py:169
+msgid ""
+"Track   all pages internally. This will enable the internal analytics "
+"dashboard, alongside Google Analytics, if also enabled"
+msgstr ""
+"Fuatilia kurasa zote ndani. Hii itawezesha dashibodi ya uchanganuzi wa "
+"ndani, pamoja na Google Analytics, ikiwa pia imewashwa"
 
-#: climweb/src/climweb/base/models/site_settings.py:168
+#: climweb/src/climweb/base/models/site_settings.py:173
 msgid "Google Site Verification Key"
 msgstr "Ufunguo wa Uthibitishaji wa Tovuti ya Google"
 
-#: climweb/src/climweb/base/models/site_settings.py:173
+#: climweb/src/climweb/base/models/site_settings.py:178
 msgid "Youtube Integration"
 msgstr "Ushirikiano wa Youtube"
 
-#: climweb/src/climweb/base/models/site_settings.py:178
+#: climweb/src/climweb/base/models/site_settings.py:183
 msgid "Google Analytics"
-msgstr ""
+msgstr "Google Analytics"
 
-#: climweb/src/climweb/base/models/site_settings.py:181
+#: climweb/src/climweb/base/models/site_settings.py:186
 msgid "Google Search"
 msgstr "Utafutaji wa Google"
 
-#: climweb/src/climweb/base/models/site_settings.py:185
+#: climweb/src/climweb/base/models/site_settings.py:190
 msgid "Integration Settings"
 msgstr "Mipangilio ya Ujumuishaji"
 
-#: climweb/src/climweb/base/models/site_settings.py:191
+#: climweb/src/climweb/base/models/site_settings.py:196
 msgid "Default Language"
 msgstr "Lugha Chaguomsingi"
 
-#: climweb/src/climweb/base/models/site_settings.py:194
+#: climweb/src/climweb/base/models/site_settings.py:199
 msgid "languages"
 msgstr "lugha"
 
-#: climweb/src/climweb/base/models/site_settings.py:211
+#: climweb/src/climweb/base/models/site_settings.py:216
 msgid "Google Translate Languages"
 msgstr "Lugha za Tafsiri za Google"
 
-#: climweb/src/climweb/base/models/site_settings.py:219
+#: climweb/src/climweb/base/models/site_settings.py:224
 msgid "Is Default Theme"
 msgstr "Ni Mandhari Chaguomsingi"
 
-#: climweb/src/climweb/base/models/site_settings.py:220
+#: climweb/src/climweb/base/models/site_settings.py:225
 msgid "Enable if this is the default theme"
 msgstr "Washa ikiwa haya ndiyo mandhari chaguomsingi"
 
-#: climweb/src/climweb/base/models/site_settings.py:221
+#: climweb/src/climweb/base/models/site_settings.py:226
 msgid "Theme Name"
 msgstr "Jina la Mandhari"
 
-#: climweb/src/climweb/base/models/site_settings.py:223
+#: climweb/src/climweb/base/models/site_settings.py:228
 msgid "Primary Hover color (use color picker)"
 msgstr "Rangi ya Msingi ya Kuelea (tumia kichagua rangi)"
 
-#: climweb/src/climweb/base/models/site_settings.py:223
+#: climweb/src/climweb/base/models/site_settings.py:228
 msgid "Primary color"
 msgstr "Rangi ya msingi"
 
-#: climweb/src/climweb/base/models/site_settings.py:225
+#: climweb/src/climweb/base/models/site_settings.py:230
 msgid "Primary color (use color picker)"
 msgstr "Rangi ya msingi (tumia kichagua rangi)"
 
-#: climweb/src/climweb/base/models/site_settings.py:225
+#: climweb/src/climweb/base/models/site_settings.py:230
 msgid "Headings color"
 msgstr "Rangi ya vichwa"
 
-#: climweb/src/climweb/base/models/site_settings.py:227
+#: climweb/src/climweb/base/models/site_settings.py:232
 msgid "Secondary color (use color picker)"
 msgstr "Rangi ya pili (tumia kichagua rangi)"
 
-#: climweb/src/climweb/base/models/site_settings.py:227
+#: climweb/src/climweb/base/models/site_settings.py:232
 msgid "Background color"
 msgstr "Rangi ya usuli"
 
-#: climweb/src/climweb/base/models/site_settings.py:229
+#: climweb/src/climweb/base/models/site_settings.py:234
 msgid "Border radius (px)"
 msgstr "Radi ya mpaka (px)"
 
-#: climweb/src/climweb/base/models/site_settings.py:230
+#: climweb/src/climweb/base/models/site_settings.py:235
 msgid "Minimum 0 and Maximum 20 pixels"
 msgstr "Kima cha chini cha pikseli 0 na Upeo wa 20"
 
-#: climweb/src/climweb/base/models/site_settings.py:232
+#: climweb/src/climweb/base/models/site_settings.py:237
 msgid "Box shadow"
 msgstr "Kivuli cha sanduku"
 
-#: climweb/src/climweb/base/models/site_settings.py:233
+#: climweb/src/climweb/base/models/site_settings.py:238
 msgid "Elevation value minimum 1 and maximum 24"
 msgstr "Thamani ya mwinuko ya chini zaidi 1 na ya juu zaidi 24"
 
-#: climweb/src/climweb/base/models/site_settings.py:239
+#: climweb/src/climweb/base/models/site_settings.py:244
 msgid "Information"
 msgstr "Habari"
 
-#: climweb/src/climweb/base/models/site_settings.py:245
+#: climweb/src/climweb/base/models/site_settings.py:250
 msgid "Theme Colors"
 msgstr "Rangi za Mandhari"
 
-#: climweb/src/climweb/base/models/site_settings.py:249
+#: climweb/src/climweb/base/models/site_settings.py:254
 msgid "Borders and Box Shadow"
 msgstr "Mipaka na Kivuli cha Sanduku"
 
-#: climweb/src/climweb/base/models/site_settings.py:254
+#: climweb/src/climweb/base/models/site_settings.py:259
 msgid "Theme"
 msgstr "Mandhari"
 
-#: climweb/src/climweb/base/models/site_settings.py:286
+#: climweb/src/climweb/base/models/site_settings.py:291
 msgid "Navigation Setting"
 msgstr "Mipangilio ya Urambazaji"
 
-#: climweb/src/climweb/base/models/site_settings.py:287
+#: climweb/src/climweb/base/models/site_settings.py:292
 msgid "Navigation Settings"
 msgstr "Mipangilio ya Urambazaji"
 
-#: climweb/src/climweb/base/models/site_settings.py:294
+#: climweb/src/climweb/base/models/site_settings.py:299
 msgid "Mailing list sign up page"
 msgstr "Ukurasa wa usajili wa orodha ya barua"
 
-#: climweb/src/climweb/base/models/site_settings.py:297
+#: climweb/src/climweb/base/models/site_settings.py:302
 msgid "Contact us page"
 msgstr "Wasiliana nasi ukurasa"
 
-#: climweb/src/climweb/base/models/site_settings.py:300
+#: climweb/src/climweb/base/models/site_settings.py:305
 msgid "All products page"
 msgstr "Ukurasa wa bidhaa zote"
 
-#: climweb/src/climweb/base/models/site_settings.py:303
+#: climweb/src/climweb/base/models/site_settings.py:308
 msgid "All projects page"
 msgstr "Ukurasa wa miradi yote"
 
-#: climweb/src/climweb/base/models/site_settings.py:306
+#: climweb/src/climweb/base/models/site_settings.py:311
 msgid "All news page"
 msgstr "Ukurasa wote wa habari"
 
-#: climweb/src/climweb/base/models/site_settings.py:309
+#: climweb/src/climweb/base/models/site_settings.py:314
 msgid "All publications page"
 msgstr "Ukurasa wa machapisho yote"
 
-#: climweb/src/climweb/base/models/site_settings.py:312
+#: climweb/src/climweb/base/models/site_settings.py:317
 msgid "All videos page"
 msgstr "Ukurasa wa video zote"
 
-#: climweb/src/climweb/base/models/site_settings.py:315
+#: climweb/src/climweb/base/models/site_settings.py:320
 msgid "All applications page"
 msgstr "Ukurasa wa programu zote"
 
-#: climweb/src/climweb/base/models/site_settings.py:318
+#: climweb/src/climweb/base/models/site_settings.py:323
 msgid "All events page"
 msgstr "Matukio yote ukurasa"
 
-#: climweb/src/climweb/base/models/site_settings.py:321
+#: climweb/src/climweb/base/models/site_settings.py:326
 msgid "All partners page"
 msgstr "Ukurasa wa washirika wote"
 
-#: climweb/src/climweb/base/models/site_settings.py:324
+#: climweb/src/climweb/base/models/site_settings.py:329
 msgid "All tenders page"
 msgstr "Ukurasa wa zabuni zote"
 
-#: climweb/src/climweb/base/models/site_settings.py:327
+#: climweb/src/climweb/base/models/site_settings.py:332
 msgid "All vacancies page"
 msgstr "Ukurasa wa nafasi zote za kazi"
 
-#: climweb/src/climweb/base/models/site_settings.py:330
+#: climweb/src/climweb/base/models/site_settings.py:335
 msgid "Feedback page"
 msgstr "Ukurasa wa maoni"
 
-#: climweb/src/climweb/base/models/site_settings.py:333
+#: climweb/src/climweb/base/models/site_settings.py:338
 msgid "CAP Warnings List page"
 msgstr "Ukurasa wa Orodha ya Maonyo ya CAP"
 
-#: climweb/src/climweb/base/models/site_settings.py:353
-#: climweb/src/climweb/base/models/site_settings.py:354
+#: climweb/src/climweb/base/models/site_settings.py:341
+msgid "Anticipatory Action page"
+msgstr "Ukurasa wa Hatua ya Kutarajia"
+
+#: climweb/src/climweb/base/models/site_settings.py:366
+#: climweb/src/climweb/base/models/site_settings.py:367
 msgid "Important Pages"
 msgstr "Kurasa Muhimu"
 
 #: climweb/src/climweb/base/models/snippets.py:22
 msgid "Yearly"
-msgstr ""
+msgstr "Kila mwaka"
 
 #: climweb/src/climweb/base/models/snippets.py:23
 msgid "Monthly"
-msgstr ""
+msgstr "Kila mwezi"
 
 #: climweb/src/climweb/base/models/snippets.py:24
 msgid "Weekly"
-msgstr ""
+msgstr "Kila wiki"
 
 #: climweb/src/climweb/base/models/snippets.py:25
 msgid "Daily"
-msgstr ""
+msgstr "Kila siku"
 
 #: climweb/src/climweb/base/models/snippets.py:26
 msgid "Hourly"
-msgstr ""
+msgstr "Kila saa"
 
 #: climweb/src/climweb/base/models/snippets.py:27
 msgid "Dekadal"
-msgstr ""
+msgstr "Dekadal"
 
 #: climweb/src/climweb/base/models/snippets.py:28
 msgid "Pentadal"
-msgstr ""
+msgstr "Pentadali"
 
 #: climweb/src/climweb/base/models/snippets.py:51
 msgid "Product Name"
@@ -614,36 +924,53 @@ msgstr "Jina la bidhaa"
 
 #: climweb/src/climweb/base/models/snippets.py:55
 msgid "Variable Name"
-msgstr ""
+msgstr "Jina la Kubadilika"
 
 #: climweb/src/climweb/base/models/snippets.py:56
-msgid "Folder name for this product, e.g. 'daily_forecast'. Used as the top-level folder in the watch root path."
+msgid ""
+"Folder name for this product, e.g. 'daily_forecast'. Used as the top-level "
+"folder in the watch root path."
 msgstr ""
+"Jina la folda la bidhaa hii, k.m. 'daily_forecast'. Inatumika kama folda ya "
+"kiwango cha juu katika njia ya mizizi ya saa."
 
 #: climweb/src/climweb/base/models/snippets.py:63
 msgid "Temporal Resolution"
-msgstr ""
+msgstr "Azimio la Muda"
 
 #: climweb/src/climweb/base/models/snippets.py:64
-msgid "Determines the default filename date convention for product item types."
+msgid ""
+"Determines the default filename date convention for product item types."
 msgstr ""
+"Hubainisha mkataba chaguomsingi wa tarehe ya jina la faili kwa aina za "
+"bidhaa."
 
 #: climweb/src/climweb/base/models/snippets.py:69
 msgid "Watch Root Path"
-msgstr ""
+msgstr "Tazama Njia ya Mzizi"
 
 #: climweb/src/climweb/base/models/snippets.py:70
 #, python-brace-format
-msgid "Path containing the {variable_name} folder. Relative paths are resolved from MEDIA_ROOT (e.g. 'products'). Full scan path: {watch_root}/{variable_name}/{format}/{name_convention}.{format}"
+msgid ""
+"Path containing the {variable_name} folder. Relative paths are resolved from"
+" MEDIA_ROOT (e.g. 'products'). Full scan path: "
+"{watch_root}/{variable_name}/{format}/{name_convention}.{format}"
 msgstr ""
+"Njia iliyo na folda ya {variable_name}. Njia zinazohusiana zinatatuliwa "
+"kutoka kwa MEDIA_ROOT (k.m. 'bidhaa'). Njia kamili ya kuchanganua: "
+"{watch_root}/{variable_name}/{format}/{name_convention}.{format}"
 
 #: climweb/src/climweb/base/models/snippets.py:76
 msgid "Enable Auto-Ingestion"
-msgstr ""
+msgstr "Washa Uingizaji Kiotomatiki"
 
 #: climweb/src/climweb/base/models/snippets.py:77
-msgid "When enabled, the system will periodically scan the watch root for new files."
+msgid ""
+"When enabled, the system will periodically scan the watch root for new "
+"files."
 msgstr ""
+"Ukiwashwa, mfumo utachanganua mara kwa mara kizizi cha saa ili kupata faili "
+"mpya."
 
 #: climweb/src/climweb/base/models/snippets.py:86
 #: climweb/src/climweb/base/models/snippets.py:135
@@ -672,12 +999,16 @@ msgstr "Jina"
 
 #: climweb/src/climweb/base/models/snippets.py:121
 msgid "File Format"
-msgstr ""
+msgstr "Umbizo la Faili"
 
 #: climweb/src/climweb/base/models/snippets.py:122
 #, python-brace-format
-msgid "The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This also determines the subfolder name: {variable_name}/{format}/"
+msgid ""
+"The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This "
+"also determines the subfolder name: {variable_name}/{format}/"
 msgstr ""
+"Umbizo/kiendelezi cha faili cha kategoria hii, k.m. 'png', 'pdf', 'jpg'. Hii"
+" pia huamua jina la folda ndogo: {variable_name}/{format}/"
 
 #: climweb/src/climweb/base/models/snippets.py:131
 msgid "Product Item Types"
@@ -689,20 +1020,34 @@ msgstr "Aina ya Bidhaa"
 
 #: climweb/src/climweb/base/models/snippets.py:156
 msgid "Filename Convention"
-msgstr ""
+msgstr "Mkataba wa Jina la faili"
 
 #: climweb/src/climweb/base/models/snippets.py:158
 #, python-brace-format
-msgid "Filename pattern used to match and parse product files (without extension). Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-populated from the product temporal resolution. You may add a prefix or suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
+msgid ""
+"Filename pattern used to match and parse product files (without extension). "
+"Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-"
+"populated from the product temporal resolution. You may add a prefix or "
+"suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
 msgstr ""
+"Mchoro wa jina la faili unaotumika kulinganisha na kuchanganua faili za "
+"bidhaa (bila kiendelezi). Tumia {yyyy} kwa mwaka, {mm} kwa mwezi, {dd} kwa "
+"siku, {hh} kwa saa. Imejazwa kiotomatiki kutoka kwa azimio la muda la "
+"bidhaa. Unaweza kuongeza kiambishi awali au kiambishi tamati, k.m. ' "
+"temp_{yyyy}_{mm}_{dd}_00_00_00'."
 
 #: climweb/src/climweb/base/models/snippets.py:167
 msgid "Valid for (days)"
-msgstr ""
+msgstr "Inatumika kwa (siku)"
 
 #: climweb/src/climweb/base/models/snippets.py:169
-msgid "How many days this product remains effective after its issue date. Leave blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
+msgid ""
+"How many days this product remains effective after its issue date. Leave "
+"blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
 msgstr ""
+"Ni siku ngapi bidhaa hii inasalia kutumika baada ya tarehe ya toleo lake. "
+"Acha wazi ikiwa haitumiki. K.m. 1 kwa kila siku, 7 kwa wiki, 30 kwa kila "
+"mwezi."
 
 #: climweb/src/climweb/base/models/snippets.py:216
 msgid "Service Category"
@@ -718,15 +1063,11 @@ msgstr "Kijipicha"
 
 #: climweb/src/climweb/base/models/snippets.py:231
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: climweb/src/climweb/base/models/snippets.py:232
 msgid "Order"
 msgstr "Agizo"
-
-#: climweb/src/climweb/base/models/snippets.py:236
-msgid "Application"
-msgstr "Maombi"
 
 #: climweb/src/climweb/base/models/snippets.py:266
 msgid "GIS Application"
@@ -735,6 +1076,10 @@ msgstr "Maombi ya GIS"
 #: climweb/src/climweb/base/models/snippets.py:267
 msgid "GIS Applications"
 msgstr "Maombi ya GIS"
+
+#: climweb/src/climweb/base/templates/admin/backup_help.html:4
+msgid "Google Drive backup — setup guide"
+msgstr "Nakala ya Hifadhi ya Google - mwongozo wa usanidi"
 
 #: climweb/src/climweb/base/templates/admin/cms_upgrade_notification.html:7
 msgid "ClimWeb upgrade available. Your version:"
@@ -751,121 +1096,302 @@ msgstr "Boresha"
 #: climweb/src/climweb/base/templates/admin/cms_version.html:6
 #, python-format
 msgid "%(title)s"
-msgstr ""
+msgstr "%(title)s"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:34
+#: climweb/src/climweb/base/templates/admin/cms_version.html:92
 msgid "ClimWeb Version Check"
 msgstr "Ukaguzi wa Toleo la ClimWeb"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:51
+#: climweb/src/climweb/base/templates/admin/cms_version.html:109
 msgid "Current installed version"
 msgstr "Toleo la sasa lililosakinishwa"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:57
+#: climweb/src/climweb/base/templates/admin/cms_version.html:115
 msgid "Latest available version"
 msgstr "Toleo la hivi karibuni linalopatikana"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:65
+#: climweb/src/climweb/base/templates/admin/cms_version.html:123
 msgid "Your ClimWeb version is up to date."
 msgstr "Toleo lako la ClimWeb limesasishwa."
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:73
-msgid "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
-msgstr "Uboreshaji wa ClimWeb ulianzishwa. Tafadhali subiri uboreshaji ukamilike"
+#: climweb/src/climweb/base/templates/admin/cms_version.html:131
+#, fuzzy
+#| msgid "Upgrade now"
+msgid "Upgrade in progress…"
+msgstr "Uboreshaji unaendelea..."
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:78
+#: climweb/src/climweb/base/templates/admin/cms_version.html:133
+msgid "Connecting to upgrade service…"
+msgstr "Inaunganisha ili kuboresha huduma..."
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:139
 msgid "ClimWeb upgrade available"
 msgstr "Uboreshaji wa ClimWeb unapatikana"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:89
+#: climweb/src/climweb/base/templates/admin/cms_version.html:150
 msgid "Release notes"
 msgstr "Toa maelezo"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:117
+#: climweb/src/climweb/base/templates/admin/cms_version.html:178
 msgid "Upgrade now"
 msgstr "Kuboresha sasa"
 
+#: climweb/src/climweb/base/templates/admin/cms_version.html:224
+#, fuzzy
+#| msgid "Upgrade now"
+msgid "Upgrade complete"
+msgstr "Uboreshaji umekamilika"
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:230
+#, fuzzy
+#| msgid "Upgrade"
+msgid "Upgrade failed"
+msgstr "Imeshindwa kuboresha"
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:237
+msgid "Rolling back…"
+msgstr "Inarudi nyuma..."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:4
+msgid "Read the Google Drive backup setup guide"
+msgstr "Soma mwongozo wa usanidi wa Hifadhi ya Google"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:8
+#, python-format
+msgid "Connected as <strong>%(account_email)s</strong>."
+msgstr "Imeunganishwa kama <strong>%(account_email)s</strong>."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:13
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:18
+msgid "Back up now"
+msgstr "Hifadhi nakala sasa"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:17
+msgid "Enable cloud backups and save before running a backup."
+msgstr "Washa chelezo za wingu na uhifadhi kabla ya kuendesha nakala rudufu."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:22
+msgid "Disconnect"
+msgstr "Tenganisha"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:26
+msgid ""
+"Tick 'Enable cloud backups' and save to activate scheduled and manual "
+"uploads."
+msgstr ""
+"Weka alama kwenye 'Wezesha chelezo za wingu' na uhifadhi ili kuwezesha "
+"upakiaji ulioratibiwa na wa mikono."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:29
+msgid "No Google account connected."
+msgstr "Hakuna akaunti ya Google iliyounganishwa."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:30
+msgid ""
+"Backups will not be uploaded until you connect one. You have two options:"
+msgstr "Hifadhi rudufu hazitapakiwa hadi uunganishe moja. Una chaguzi mbili:"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:33
+msgid "1. One click:"
+msgstr "1. Mbofyo mmoja:"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:35
+msgid "Connect Google Drive"
+msgstr "Unganisha Hifadhi ya Google"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:40
+msgid ""
+"<strong>1.</strong> Enter your OAuth <strong>Client ID</strong> and "
+"<strong>Client Secret</strong> below and save — the one-click Connect button"
+" will then appear here."
+msgstr ""
+"<strong>1.</strong> Ingiza <strong>Kitambulisho cha Mteja</strong> chako cha"
+" OAuth na <strong>Siri ya Mteja</strong> hapa chini na uhifadhi — kisha "
+"kitufe cha kubofya mara moja Connect kitaonekana hapa."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:44
+msgid ""
+"<strong>2.</strong> Or paste a refresh token in the \"Paste a token\" field "
+"below and save."
+msgstr ""
+"<strong>2.</strong> Au bandika tokeni ya kuonyesha upya katika sehemu ya "
+"\"Bandika tokeni\" hapa chini na uhifadhi."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:51
+msgid "Last upload:"
+msgstr "Upakiaji wa mwisho:"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:5
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:72
+#: climweb/src/climweb/base/wagtail_hooks.py:115
+msgid "Plugins"
+msgstr "Programu-jalizi"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:82
+msgid "Plugin"
+msgstr "Programu-jalizi"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:84
+msgid "Author"
+msgstr "Mwandishi"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:111
+#, python-format
+msgid ""
+"Remove plugin %(name)s? This will reverse its database migrations and "
+"restart the server."
+msgstr ""
+"Ungependa kuondoa programu-jalizi %(name)s? Hii itabadilisha uhamishaji wake"
+" wa hifadhidata na kuanzisha upya seva."
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:113
+msgid "Remove"
+msgstr "Ondoa"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:123
+msgid "No plugins are currently installed."
+msgstr "Hakuna programu-jalizi zilizosakinishwa kwa sasa."
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:127
+msgid ""
+"Plugins are managed via the <code>CLIMWEB_PLUGIN_GIT_REPOS</code> setting in"
+" your <code>.env</code> file. To install, update, or remove a plugin, edit "
+"that value and restart the containers."
+msgstr ""
+"Programu-jalizi hudhibitiwa kupitia mipangilio ya "
+"<code>CLIMWEB_PLUGIN_GIT_REPOS</code> katika faili yako ya "
+"<code>.env</code>. Ili kusakinisha, kusasisha au kuondoa programu-jalizi, "
+"hariri thamani hiyo na uwashe upya vyombo."
+
 #: climweb/src/climweb/base/templates/blocks/main_menu.html:36
 #, python-format
-msgid "\n"
-"                    View all %(label)s\n"
-"                  "
-msgstr ""
+msgid "View all %(label)s"
+msgstr "Tazama %(label)s zote"
 
-#: climweb/src/climweb/base/views.py:42
+#: climweb/src/climweb/base/views.py:49
 msgid "Error fetching latest version. Please try again later."
-msgstr "Hitilafu katika kuleta toleo jipya zaidi. Tafadhali jaribu tena baadae."
+msgstr ""
+"Hitilafu katika kuleta toleo jipya zaidi. Tafadhali jaribu tena baadae."
 
-#: climweb/src/climweb/base/views.py:60
+#: climweb/src/climweb/base/views.py:67
 msgid "Error in extracting latest version number from the release"
 msgstr "Hitilafu katika kutoa nambari ya toleo jipya zaidi kutoka kwa toleo"
 
-#: climweb/src/climweb/base/wagtail_hooks.py:60
+#: climweb/src/climweb/base/views.py:133
+msgid "No plugin name provided."
+msgstr "Hakuna jina la programu-jalizi lililotolewa."
+
+#: climweb/src/climweb/base/views.py:135
+msgid "CMS_PLUGIN_MANAGE_HOOK_URL is not configured."
+msgstr "CMS_PLUGIN_MANAGE_HOOK_URL haijasanidiwa."
+
+#: climweb/src/climweb/base/views.py:141
+#, python-format
+msgid "Plugin '%(name)s' removal initiated. The server will restart shortly."
+msgstr ""
+"Uondoaji wa programu-jalizi '%(name)s' umeanzishwa. Seva itaanza tena baada "
+"ya muda mfupi."
+
+#: climweb/src/climweb/base/views.py:146
+msgid ""
+"Error sending remove command. Check that CMS_PLUGIN_MANAGE_HOOK_URL is "
+"reachable."
+msgstr ""
+"Hitilafu katika kutuma amri ya kuondoa. Hakikisha kuwa "
+"CMS_PLUGIN_MANAGE_HOOK_URL inapatikana."
+
+#: climweb/src/climweb/base/wagtail_hooks.py:131
 msgid "Themes"
 msgstr "Mandhari"
 
-#, python-format
-#~ msgid "View all %(label)s\n"
-#~ msgstr "View all %(label)s\n"
+#: climweb/src/climweb/base/wagtail_hooks.py:262
+msgid ""
+"This page could not be published because it contains content that violates "
+"the ClimWeb Harassment Protection Policy. Please review and edit the page "
+"before publishing."
+msgstr ""
+"Ukurasa huu haukuweza kuchapishwa kwa sababu una maudhui ambayo yanakiuka "
+"Sera ya Ulinzi ya Unyanyasaji ya ClimWeb. Tafadhali kagua na uhariri ukurasa"
+" kabla ya kuchapisha."
+
+#, fuzzy
+#~ msgid "Introduction Subtitle"
+#~ msgstr "Utangulizi Mada ndogo"
+
+#, fuzzy
+#~ msgid "Illustration Image"
+#~ msgstr "Picha ya Kielelezo"
+
+#, fuzzy
+#~ msgid "Upload Image"
+#~ msgstr "Pakia Picha"
 
 #~ msgid ""
-#~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
-#~ "v3/getting-started"
+#~ "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
 #~ msgstr ""
-#~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
-#~ "v3/getting-started"
+#~ "Uboreshaji wa ClimWeb ulianzishwa. Tafadhali subiri uboreshaji ukamilike"
+
+#, python-format
+#~ msgid "View all %(label)s\n"
+#~ msgstr "Tazama %(lebo) zote"
+
+#~ msgid ""
+#~ "To set up Youtube API Key refer to "
+#~ "https://developers.google.com/youtube/v3/getting-started"
+#~ msgstr ""
+#~ "Ili kusanidi Ufunguo wa API ya Youtube rejelea "
+#~ "https://developers.google.com/youtube/v3/getting-started"
 
 #~ msgid "What we do"
-#~ msgstr "What we do"
+#~ msgstr "Tunachofanya"
 
 #~ msgid "ClimWeb Logo"
-#~ msgstr "ClimWeb Logo"
+#~ msgstr "Nembo ya ClimWeb"
 
 #~ msgid "Introduction Heading"
-#~ msgstr "Introduction Heading"
+#~ msgstr "Kichwa cha Utangulizi"
 
 #~ msgid "Introduction section heading"
-#~ msgstr "Introduction section heading"
+#~ msgstr "Kichwa cha sehemu ya utangulizi"
 
 #~ msgid "Staff"
-#~ msgstr "Staff"
+#~ msgstr "Wafanyakazi"
 
 #~ msgid "Staff Page"
-#~ msgstr "Staff Page"
+#~ msgstr "Ukurasa wa Wafanyakazi"
 
 #~ msgid "Staff member's name"
-#~ msgstr "Staff member's name"
+#~ msgstr "Jina la mfanyakazi"
 
 #~ msgid "First and Last names of Staff member"
-#~ msgstr "First and Last names of Staff member"
+#~ msgstr "Majina ya kwanza na ya mwisho ya wafanyikazi"
 
 #~ msgid "Staff member's role"
-#~ msgstr "Staff member's role"
+#~ msgstr "Wajibu wa mfanyikazi"
 
 #~ msgid "The role/position of the Staff member"
-#~ msgstr "The role/position of the Staff member"
+#~ msgstr "Wajibu/nafasi ya Mfanyakazi"
 
 #~ msgid "Staff member Biography"
-#~ msgstr "Staff member Biography"
+#~ msgstr "Wasifu wa wafanyikazi"
 
 #~ msgid "Optional Summary biography of the Staff member"
-#~ msgstr "Optional Summary biography of the Staff member"
+#~ msgstr "Hiari muhtasari wasifu wa Mfanyikazi"
 
 #~ msgid "Staff member's Department"
-#~ msgstr "Staff member's Department"
+#~ msgstr "Idara ya wafanyikazi"
 
 #~ msgid "Staff member's Profile Image"
-#~ msgstr "Staff member's Profile Image"
+#~ msgstr "Picha ya Wasifu ya Mfanyikazi"
 
 #~ msgid "A high quality square image"
-#~ msgstr "A high quality square image"
+#~ msgstr "Picha ya mraba yenye ubora wa juu"
 
 #~ msgid "Staff Member"
-#~ msgstr "Staff Member"
+#~ msgstr "Mfanyakazi"
 
 #~ msgid "Staff Members"
-#~ msgstr "Staff Members"
+#~ msgstr "Wajumbe wa Wafanyakazi"
 
 #~ msgid "All good. You are running on the latest version"
-#~ msgstr "All good. You are running on the latest version"
-
+#~ msgstr "Zote nzuri. Unatumia toleo jipya zaidi"
