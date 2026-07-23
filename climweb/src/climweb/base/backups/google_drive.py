@@ -7,6 +7,7 @@ own Google account through the browser flow and we store only that account's
 refresh token (encrypted). Uploads use the ``drive.file`` scope, so ClimWeb can
 only see files it created — never the rest of the user's Drive.
 """
+import io
 import os
 from datetime import datetime
 
@@ -96,7 +97,8 @@ def _drive_service(refresh_token, client_id, client_secret):
     return build("drive", "v3", credentials=creds, cache_discovery=False)
 
 
-def _get_or_create_folder(service, name, parent_id=None):
+def _find_folder(service, name, parent_id=None):
+    """Return a folder id if it exists, else None (does not create)."""
     query = (
         "mimeType='application/vnd.google-apps.folder' "
         f"and name='{name}' and trashed=false"
@@ -105,9 +107,13 @@ def _get_or_create_folder(service, name, parent_id=None):
         query += f" and '{parent_id}' in parents"
     resp = service.files().list(q=query, fields="files(id)", spaces="drive").execute()
     files = resp.get("files", [])
-    if files:
-        return files[0]["id"]
+    return files[0]["id"] if files else None
 
+
+def _get_or_create_folder(service, name, parent_id=None):
+    existing = _find_folder(service, name, parent_id)
+    if existing:
+        return existing
     metadata = {"name": name, "mimeType": "application/vnd.google-apps.folder"}
     if parent_id:
         metadata["parents"] = [parent_id]
@@ -235,3 +241,59 @@ def _site_label(backup_settings):
     raw = (getattr(site, "site_name", None) or getattr(site, "hostname", None)
            or "climweb")
     return "".join(c if c.isalnum() else "-" for c in raw.lower()).strip("-") or "climweb"
+
+
+# --------------------------------------------------------------------------- #
+# Browsing / downloading existing backups (read-only)
+# --------------------------------------------------------------------------- #
+def _service_for(backup_settings):
+    refresh_token = backup_settings.get_refresh_token()
+    if not refresh_token:
+        raise RuntimeError("No connected Google account.")
+    client_id, client_secret = backup_settings.resolved_client_credentials()
+    return _drive_service(refresh_token, client_id, client_secret)
+
+
+def list_backups(backup_settings):
+    """Return {"db": [...], "media": [...]} of files already on Drive. Each entry
+    is {name, size, modified, ref} where ref is the Drive file id."""
+    service = _service_for(backup_settings)
+    result = {"db": [], "media": []}
+    root = _find_folder(service, backup_settings.remote_folder)
+    if not root:
+        return result
+    for sub in ("db", "media"):
+        folder_id = _find_folder(service, sub, root)
+        if not folder_id:
+            continue
+        resp = service.files().list(
+            q=f"'{folder_id}' in parents and trashed=false",
+            fields="files(id, name, size, modifiedTime)",
+            orderBy="name desc",
+            spaces="drive",
+        ).execute()
+        for f in resp.get("files", []):
+            result[sub].append({
+                "name": f["name"],
+                "size": int(f.get("size") or 0),
+                "modified": f.get("modifiedTime"),
+                "ref": f["id"],
+            })
+    return result
+
+
+def download_stream(backup_settings, ref, chunk_size=1024 * 1024):
+    """Yield the bytes of the file with Drive id ``ref`` in chunks."""
+    from googleapiclient.http import MediaIoBaseDownload
+    service = _service_for(backup_settings)
+    request = service.files().get_media(fileId=ref)
+    buffer = io.BytesIO()
+    downloader = MediaIoBaseDownload(buffer, request, chunksize=chunk_size)
+    done = False
+    while not done:
+        _status, done = downloader.next_chunk()
+        data = buffer.getvalue()
+        buffer.seek(0)
+        buffer.truncate(0)
+        if data:
+            yield data

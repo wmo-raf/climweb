@@ -37,5 +37,8 @@ class BackupConnectionPanel(Panel):
                 # shared
                 "run_now_url": reverse("backup-run-now"),
                 "help_url": reverse("backup-help"),
+                "browser_url": reverse("backup-browser"),
+                "is_superuser": getattr(getattr(self, "request", None), "user", None)
+                and self.request.user.is_superuser,
             })
             return context
