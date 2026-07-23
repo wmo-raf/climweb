@@ -53,13 +53,6 @@ psycopg2>=2.9.10
 python-dateutil==2.9.0.post0
 uvicorn[standard]==0.42.0
 wagtail==7.3.2
-# Optional AI assistant in the editor. Configured per-site from the CMS
-# (Settings -> AI Assistant); off by default. 3.x is required for Wagtail 7:
-# the 2.x editor JS is built for Wagtail 5-6's React and crashes on Wagtail 7.3
-# (React error #200). 3.x pulls in django-ai-core automatically (no INSTALLED_APPS
-# entry needed). llm-anthropic adds the Claude models to the "LLM" library.
-wagtail-ai==3.1.0
-llm-anthropic==0.25.1
 wagtail-2fa-v6==1.0.7
 wagtail-adminsortable @ https://github.com/wmo-raf/wagtail-admin-sortable/archive/33bf22f290e7a4210b44667e9ff56e4b35ad309e.zip
 wagtail-cache==3.0.0
