@@ -45,8 +45,8 @@
                 </div>
               </div>
               <div class="dropdown-menu" id="city-search-menu" role="menu"></div>
-              <a class="button is-dark is-small p-4 my-5 has-text-weight-bold" id="export-pdf">{% trans "Download PDF" %}</a>
             </div>
+            <button id="export-pdf">{% trans "Download PDF" %}</button>
           </div>
         </div>
 
@@ -287,19 +287,20 @@ $(document).ready(function () {
   }];
 
   const CHART_COLORS = {
-    primary: 'var(--primary-color, #185FA5)',
-    primaryLight: 'var(--primary-color-light, #185FA51A)',
-    primaryMedium: 'var(--primary-color-medium, #185FA54F)',
-    background: 'var(--background-color, #E8EFF6)',
-    text: 'var(--text-color, #2F4858)',
-    precipitation: 'color-mix(in srgb, var(--primary-color, #185FA5) 65%, var(--background-color, #E8EFF6))',
-    airPressure: 'color-mix(in srgb, var(--primary-color, #185FA5) 78%, var(--text-color, #2F4858))',
-    humidity: 'color-mix(in srgb, var(--primary-color, #185FA5) 50%, var(--background-color, #E8EFF6))'
+    primary: '#0C447C',
+    primaryLight: '#c2d0de',
+    primaryMedium: '#85A1BD',
+    background: '#ced9e4',
+    text: '#363636',
+    precipitation: 'color-mix(in srgb, #0C447C 50%, #ced9e4)',
+    airPressure: 'color-mix(in srgb, #0C447C 65%, #363636)',
+    humidity: 'color-mix(in srgb, #0C447C 78%, #ced9e4)'
   };
 
 
   /* ── TEMPERATURE LINE GRAPH ── */
   function renderTemperatureGraph(dayData, dayKey) {
+    console.log("test pdf changes 1");
     const singlePoint = dayData.time_data.length === 1;
 
     return Highcharts.chart('temperature-graph', {
@@ -424,26 +425,12 @@ $(document).ready(function () {
         name: 'Wind speed',
         data: windSpeedSeries,
         color: CHART_COLORS.primary,
+        pointWidth: singlePoint ? 50 : null,
         fillColor: singlePoint ? null : {
           linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
           stops: [
             [0, CHART_COLORS.primary],
-            [1, 'color-mix(in srgb, var(--primary-color, #185FA5) 25%, transparent)']
-          ]
-        },
-        pointWidth: singlePoint ? 50 : null,
-        fillColor: {
-          linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
-          stops: [
-            [0, CHART_COLORS.primary],
-            [
-              1,
-              `color-mix(
-                in srgb,
-                var(--primary-color, #185FA5) 25%,
-                transparent
-              )`
-            ]
+            [1, CHART_COLORS.primaryLight]
           ]
         },
         tooltip: {
@@ -671,7 +658,8 @@ $(document).ready(function () {
       style: style,
       center: [cityData.city_x, cityData.city_y],
       zoom: 7,
-      scrollZoom: false
+      scrollZoom: false,
+      preserveDrawingBuffer: true
     });
 
     // Add navigation control (zoom buttons)
@@ -685,7 +673,7 @@ $(document).ready(function () {
       const popup = new maplibregl.Popup({offset: 35}).setHTML(popupHtml);
 
       const marker = new maplibregl.Marker({
-        color: 'var(--primary-color, #185FA5)'
+        color: 'var(--primary-color, #0C447C)'
       })
       .setLngLat([cityData.city_x, cityData.city_y])
       .setPopup(popup)
@@ -752,15 +740,18 @@ $(document).ready(function () {
 
   /* ── GENERATE PDF ── */
   $('#export-pdf').on('click', function() {
-            const element = document.getElementById('wd-page');
-            const opt = {
-                margin:       0.5,
-                filename:     'myfile.pdf',
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
-            };
-            html2pdf().from(element).set(opt).save();
+    const element = document.getElementById('wd-page');
+    const cityName = document.querySelector('.wd-city') ? document.querySelector('.wd-city').textContent.trim() : 'weather';
+    const activeDay = document.querySelector('.wd-day-tab.active') ? document.querySelector('.wd-day-tab.active').textContent.trim() : '';
+    const filename = `${cityName.replace(/\s+/g, '_')}_${activeDay.replace(/\s+/g, '_')}_wd_page.pdf`;
+    const opt = {
+        margin:       0.5,
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { scale: 1 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(opt).save();
   });
   
 });
