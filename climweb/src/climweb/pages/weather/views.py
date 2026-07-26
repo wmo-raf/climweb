@@ -137,3 +137,20 @@ def get_home_map_forecast(request):
     }
     
     return JsonResponse(res_data, safe=False)
+
+
+@require_GET
+def get_city_locations(request):
+    cities = City.objects.filter(x__isnull=False, y__isnull=False).order_by("name")
+
+    city_data = [
+        {
+            "slug": city.slug,
+            "name": city.name,
+            "lng": city.x,
+            "lat": city.y,
+        }
+        for city in cities
+    ]
+
+    return JsonResponse({"cities": city_data}, safe=False)
