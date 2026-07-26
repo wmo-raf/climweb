@@ -142,9 +142,9 @@ Before publishing, preview the story to see how it will actually look and feel t
 
 2. The preview function lets you tap/click through each slide as a reader would in mobile, tablet and browser formats.
 <div style="display: flex; gap: 10px; align-items: flex-start;">
-  <img src="../_static/images/webstories/19_mobile_preview.png" alt="Mobile preview" style="width: 32%; aspect-ratio: 455 / 787; object-fit: cover;" />
-  <img src="../_static/images/webstories/20_tablet_preview.png" alt="Tablet preview" title="Expanded Menu View" style="width: 32%; aspect-ratio: 455 / 787; object-fit: cover;" />
-  <img src="../_static/images/webstories/21_browser_preview.png" alt="Browser preview" title="Web Stories Menu View" style="width: 32%; aspect-ratio: 455 / 787; object-fit: cover;" />
+  <img src="../_static/images/webstories/19_mobile_preview.png" alt="Mobile preview" style="height: 400px; width: auto;" />
+  <img src="../_static/images/webstories/20_tablet_preview.png" alt="Tablet preview" title="Expanded Menu View" style="height: 400px; width: auto;" />
+  <img src="../_static/images/webstories/21_browser_preview.png" alt="Browser preview" title="Web Stories Menu View" style="height: 400px; width: auto;" />
 </div>
 
 > **Note 12 - previewing changes:** Do note that any changes made must be saved using the **Save draft** button before it is reflected in the previews 
