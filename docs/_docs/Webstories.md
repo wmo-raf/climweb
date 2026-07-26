@@ -85,15 +85,15 @@ To add a slide:
 4. Supported formats are PNG, JPG, AVIF, GIF, JPEG, and WEBP, with a maximum file size of 10.0 MB per image.
 5. Adjust image on canvas as desired.
 
-![Insert panel with the upload icon highlighted](../_static/images/webstories/09_media_upload_dialog.png "Insert panel, upload icon")
+![Insert panel with the upload icon highlighted](../_static/images/webstories/08_media_upload_dialog.png "Insert panel, upload icon")
 
-![Upload tab of the image chooser](../_static/images/webstories/10_image_upload_tab.png "Image upload, Upload tab")
+![Upload tab of the image chooser](../_static/images/webstories/09_image_upload_tab.png "Image upload, Upload tab")
 
-![Search tab of the image chooser, showing existing library images available to insert](../_static/images/webstories/11_image_search_tab.png "Image chooser, Search tab")
+![Search tab of the image chooser, showing existing library images available to insert](../_static/images/webstories/10_image_search_tab.png "Image chooser, Search tab")
 
-![Slide with an image inserted, showing resize handles and the transform toolbar](../_static/images/webstories/12_slide_with_image.png "Slide with image, no text yet")
+![Slide with an image inserted, showing resize handles and the transform toolbar](../_static/images/webstories/11_slide_with_image.png "Slide with image, no text yet")
 
-![Slide with an image inserted, after user adjustments](../_static/images/webstories/13_slide_with_image_adjusted.png "Slide with image after adjustments")
+![Slide with an image inserted, after user adjustments](../_static/images/webstories/12_slide_with_image_adjusted.png "Slide with image after adjustments")
 
 > **Note 8 - Entering tags when uploading images:** Press "Enter" after typing in individual tags to enter them. Multi-word tags with spaces will automatically be enclosed in double quotes(" ") by ClimWeb.
 
@@ -111,13 +111,27 @@ To add a slide:
 2. Use the text toolbar to adjust font, size, colour, alignment, and position on the slide.
 3. Drag the text box to position it over the media so it stays readable (avoid busy parts of the image).
 
-![Slide with text types added, before text has been updated](../_static/images/webstories/14_slide_image_and_text.png "Slide with text types")
+![Slide with text types added, before text has been updated](../_static/images/webstories/13_slide_image_and_text.png "Slide with text types")
 
-![Slide with text that has been completed](../_static/images/webstories/15_slide_image_and_text_complete.png "Slide with text completed")
+![Slide with text that has been completed](../_static/images/webstories/14_slide_image_and_text_complete.png "Slide with text completed")
 
 > **Note 9 – Text Manipulation and Scaling:** To reposition a text element on the canvas, click and drag within the text box boundaries. You must ensure the element is not in active text-editing (typing) mode. If the typing cursor is active, dragging will select text rather than move the container. To move the element, click outside the box to deselect it, then click once to select and drag it. Additionally, dragging the corner handles of the bounding box will dynamically scale the font size proportionally. To adjust the box width or wrap text without changing the font size, use the manual width and height inputs or the dedicated font size selector in the right-hand styling properties panel.
 
+## Ordering slides
 
+Slides play in the order they appear in the story's slide list.
+
+1. Open the slide panel along the bottom of the editor.
+2. Drag a slide thumbnail to a new position to reorder it.
+
+![Slide thumbnail strip showing multiple slides in sequence](../_static/images/webstories/15_slide_thumbnail_strip.png "Slide order panel")
+
+![Slides after being reordered](../_static/images/webstories/16_slide_reordered.png "Reordered slides")
+
+> **Note 10 – Opening the slide panel:** The slide panel is open by default in the editor. The slide panel can be expanded or collapsed using the 'page' indicator (marked in red in the following image).
+![Slide panel collapsed](../_static/images/webstories/17_collapsed_side_panel.png "Collapsed slide panel")
+
+> **Note 11 – reordering slides:** All slide, including the first slide can be reordered. 
 
 ## Troubleshooting
 
