@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 
 if "capcomposer.cap" in settings.INSTALLED_APPS:
@@ -9,11 +11,12 @@ from django.db.models import CharField, TextField
 from django.http import HttpResponseRedirect
 from django.templatetags.static import static
 from django.urls import path, reverse
-from django.utils.html import format_html
+from django.utils.html import format_html, strip_tags
 from django.utils.translation import gettext_lazy as _
 from better_profanity import profanity
 from wagtail import hooks
 from wagtail.fields import RichTextField, StreamField
+from wagtail.rich_text import RichText
 from wagtail.admin.ui.components import Component
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
@@ -29,6 +32,18 @@ from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
 from .views import cms_version_view, plugin_manager_view, cms_upgrade_status_view
 from .cap_views import create_alert_from_geometry
+from .backups.views import (
+    google_drive_connect,
+    google_drive_callback,
+    google_drive_disconnect,
+    run_backup_now,
+    backup_help,
+    sftp_generate_key,
+    sftp_clear_key,
+    sftp_clear_hostkey,
+    backup_browser,
+    backup_download,
+)
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
@@ -47,12 +62,51 @@ def global_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static('css/admin.css'))
 
 
+@hooks.register('insert_global_admin_css')
+def hide_content_feedback_for_claude():
+    """Hide Wagtail AI's content-feedback panel when the site is on Claude.
+
+    Content feedback requests JSON-mode structured output, which the agent
+    library (any_llm) doesn't support for Anthropic, so it errors on a Claude
+    key. Hide its UI (the `wai-feedback` Stimulus controller) so editors don't
+    hit that error. It stays visible for OpenAI, where it works.
+    """
+    from django.utils.safestring import mark_safe
+
+    try:
+        from wagtail.models import Site
+
+        from climweb.base.models.ai_settings import AISettings
+
+        site = Site.objects.filter(is_default_site=True).first() or Site.objects.first()
+        if site is None:
+            return ""
+        ai_settings = AISettings.for_site(site)
+        if ai_settings.enabled and ai_settings.provider == "anthropic":
+            return mark_safe(
+                '<style>[data-controller~="wai-feedback"]{display:none !important;}</style>'
+            )
+    except Exception:
+        pass
+    return ""
+
+
 @hooks.register('register_admin_urls')
 def urlconf_base():
     urls = [
         path('cms-version', cms_version_view, name='cms-version'),
         path('cms-upgrade-status', cms_upgrade_status_view, name='cms-upgrade-status'),
         path('plugins', plugin_manager_view, name='plugin-manager'),
+        path('backup/google/connect', google_drive_connect, name='backup-google-connect'),
+        path('backup/google/callback', google_drive_callback, name='backup-google-callback'),
+        path('backup/google/disconnect', google_drive_disconnect, name='backup-google-disconnect'),
+        path('backup/run-now', run_backup_now, name='backup-run-now'),
+        path('backup/help', backup_help, name='backup-help'),
+        path('backup/sftp/generate-key', sftp_generate_key, name='backup-sftp-generate-key'),
+        path('backup/sftp/clear-key', sftp_clear_key, name='backup-sftp-clear-key'),
+        path('backup/sftp/clear-hostkey', sftp_clear_hostkey, name='backup-sftp-clear-hostkey'),
+        path('backup/browse', backup_browser, name='backup-browser'),
+        path('backup/download', backup_download, name='backup-download'),
     ]
 
     if "capcomposer.cap" in settings.INSTALLED_APPS:
@@ -124,8 +178,63 @@ if _EXTRA_TERMS:
     profanity.add_censor_words(_EXTRA_TERMS)
 
 
+def _richtext_to_text(source):
+    """Strip HTML from a rich text source string, keeping words that sit on either side
+    of a tag from being glued together (e.g. "<p>Foo</p><p>Bar</p>" should not become
+    "FooBar")."""
+    if not source:
+        return ""
+    # Replace tags with a space rather than deleting them outright.
+    spaced = re.sub(r"<[^>]+>", " ", str(source))
+    return strip_tags(spaced)
+
+
+def _stream_value_text(value, parts):
+    """Recursively collect only genuine author-written text from a StreamField/StructBlock/
+    ListBlock value tree, without ever rendering the stream to HTML.
+
+    Calling str()/render on a StreamValue executes its block templates, which pulls in CSS
+    classes, SVG icon markup, image URLs, and other markup noise into the scanned text. That
+    markup is mostly punctuation-separated "words" with no real relationship to each other,
+    and better-profanity treats any two such adjacent tokens as candidates for its multi-word
+    blocked phrases (e.g. "bomb threat"), producing false positives that have nothing to do
+    with what the editor actually typed. Walking the raw block values instead means only real
+    field content (headings, titles, rich text) ever reaches the profanity check.
+    """
+    if value is None:
+        return
+
+    if isinstance(value, RichText):
+        text = _richtext_to_text(value.source)
+        if text.strip():
+            parts.append(text)
+        return
+
+    if isinstance(value, str):
+        if value.strip():
+            parts.append(value)
+        return
+
+    # StructValue behaves like a dict of child block values.
+    if hasattr(value, "values") and callable(value.values):
+        for child in value.values():
+            _stream_value_text(child, parts)
+        return
+
+    # StreamValue / ListValue and plain lists/tuples of child blocks.
+    if hasattr(value, "__iter__"):
+        for item in value:
+            # StreamValue iterates over StreamChild objects; unwrap to the actual value.
+            _stream_value_text(getattr(item, "value", item), parts)
+        return
+
+    # Anything else (images, documents, pages, URLs, choosers, numbers, etc.) is not
+    # user-authored text and is intentionally skipped.
+
+
 def _page_text(page):
-    """Collect all text from every CharField, TextField, RichTextField, and StreamField on the specific page type."""
+    """Collect all author-written text from every CharField, TextField, RichTextField, and
+    StreamField on the specific page type, for the harassment-content profanity check."""
     specific = page.specific
     parts = [specific.title or ""]
     for field in specific._meta.get_fields():
@@ -134,9 +243,23 @@ def _page_text(page):
         if field.name == "title":
             continue
         value = getattr(specific, field.name, None)
-        if value:
+        if not value:
+            continue
+        if isinstance(field, StreamField):
+            _stream_value_text(value, parts)
+        elif isinstance(field, RichTextField):
+            text = _richtext_to_text(value)
+            if text.strip():
+                parts.append(text)
+        else:
             parts.append(str(value))
-    return " ".join(parts)
+    # Join with newlines rather than spaces: better-profanity's multi-word phrase matching
+    # (used by our custom terms like "bomb threat") requires an exact single-space separator
+    # to combine two tokens, so a newline here prevents two unrelated words from separate
+    # fields (e.g. one block's heading and the next block's heading) from being coincidentally
+    # read as a single blocked phrase, while a real phrase typed together within one field is
+    # unaffected since it still contains its own literal space.
+    return "\n".join(parts)
 
 
 @hooks.register("before_publish_page")
@@ -170,6 +293,7 @@ def register_icons(icons):
         'wagtailfontawesomesvg/brands/flickr.svg',
         'wagtailfontawesomesvg/brands/telegram.svg',
         'wagtailfontawesomesvg/brands/whatsapp.svg',
+        'wagtailfontawesomesvg/brands/tiktok.svg',
         'wagtailfontawesomesvg/solid/phone.svg',
         'wagtailfontawesomesvg/solid/box-archive.svg',
         'wagtailfontawesomesvg/solid/hourglass-start.svg',

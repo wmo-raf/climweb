@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.forms import CheckboxSelectMultiple
@@ -28,6 +29,11 @@ from .blocks import ExternalLinkBlock, MosaicImageGalleryBlock
 
 NEWS_ALLOWED_RICHTEXT_FEATURES = ['bold', 'italic', 'h4', 'h5', 'h6', 'ol', 'ul', 'hr', 'link', 'image',
                                   'document-link', 'embed', ]
+
+# Add the Wagtail AI "magic wand" to the news body editor when the assistant is
+# installed (explicit features= lists bypass the default feature set).
+if getattr(settings, "WAGTAIL_AI_ENABLED", False) and "ai" not in NEWS_ALLOWED_RICHTEXT_FEATURES:
+    NEWS_ALLOWED_RICHTEXT_FEATURES.append("ai")
 
 
 @register_snippet

@@ -20,6 +20,9 @@
           {% image settings.base.OrganisationSetting.country_flag original as country_flag %}
           <img src="{{ country_flag.url }}" alt="Flag" class="site-logo-flag">
         {% endif %}
+        {% if settings.base.OrganisationSetting.logo_append %}
+          <span class="site-logo-append">{{ settings.base.OrganisationSetting.logo_append }}</span>
+        {% endif %}
       </a>
 
       <!-- UTILITY LINKS -->
@@ -32,6 +35,14 @@
             <span>{% translate "Alerts" %}</span>
             <img src="{% static 'img/CAPLogo.jpeg' %}" alt="CAP Alerts"
                 style="height:16px;width:16px;border-radius:3px;">
+            </a>
+        {% endif %}
+
+        {% if settings.base.ImportantPages.anticipatory_action_page %}
+                    <a href="{{ settings.base.ImportantPages.anticipatory_action_page.url }}"
+            class="util-link util-link--anticipatory">
+            <span>{% translate "Anticipatory Action" %}</span>
+            <span class="util-icon">{% svg_icon name="advocacy" %}</span>
             </a>
         {% endif %}
 
@@ -121,6 +132,9 @@
             {% image settings.base.OrganisationSetting.logo original as logo %}
             <img src="{{ logo.url }}" alt="Logo" style="height:32px;">
           {% endif %}
+          {% if settings.base.OrganisationSetting.logo_append %}
+            <span class="site-logo-append">{{ settings.base.OrganisationSetting.logo_append }}</span>
+          {% endif %}
         </a>
         <button id="navBurger"
                 class="nav-burger navbar-burger"
@@ -154,6 +168,12 @@
               <a href="{{ settings.base.ImportantPages.cap_warnings_list_page.url }}"
                  class="button is-fullwidth mobile-util-link">
                 {% translate "Alerts" %}
+              </a>
+            {% endif %}
+            {% if settings.base.ImportantPages.anticipatory_action_page %}
+              <a href="{{ settings.base.ImportantPages.anticipatory_action_page.url }}"
+                 class="button is-fullwidth mobile-util-link mobile-util-link--anticipatory">
+                {% translate "Anticipatory Action" %}
               </a>
             {% endif %}
             {% if settings.base.ImportantPages.mailing_list_signup_page %}

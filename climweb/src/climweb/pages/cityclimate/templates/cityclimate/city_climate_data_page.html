@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags i18n wagtailiconchooser_tags %}
+{% load static wagtailcore_tags i18n wagtailiconchooser_tags get_share_url %}
 
 {% block extra_css %}
   {{ block.super }}
@@ -17,8 +17,17 @@
       {% if cities %}
 
         <div class="cc-page-header">
-          <p class="cc-eyebrow">{% translate "Climate Data" %}</p>
-          <h1 class="cc-page-title">{{ page.title }}</h1>
+          <div class="cc-page-header-text">
+            <p class="cc-eyebrow">{% translate "Climate Data" %}</p>
+            <h1 class="cc-page-title">{{ page.title }}</h1>
+          </div>
+
+          <div class="cc-share" id="cc-share-buttons">
+            <span class="cc-share-label">{% translate "Share" %}</span>
+            <div class="share-buttons">
+              {% share_buttons url=share_url text=share_text %}
+            </div>
+          </div>
         </div>
 
         <div class="cc-card">
@@ -165,8 +174,32 @@
 /* only bind month select if it exists in the DOM */
         if ($monthSelect.length) {
             $monthSelect.on("change", updateChart);
-        }       
+        }
         $("input[name='parameter']").on("change", updateChart);
+
+        /* ── PRESELECT CITY/MONTH/PARAMETERS FROM A SHARED LINK ──
+         * Runs before the pill-colour setup below (which reads `checked`
+         * to set initial styling) and before the single `updateChart()`
+         * call further down, so the shared city/month/parameters are
+         * already in place the first time the chart renders - no need to
+         * fire `change` events here (some of what those handlers touch,
+         * like `fetchCityData`, isn't defined yet at this point). */
+        const sharedParams  = new URLSearchParams(window.location.search);
+        const sharedCity    = sharedParams.get('city');
+        const sharedMonth   = sharedParams.get('month');
+        const sharedParamSlugs = (sharedParams.get('params') || '').split(',').filter(Boolean);
+
+        if (sharedCity && $citySelect.find(`option[value="${sharedCity}"]`).length) {
+          $citySelect.val(sharedCity);
+        }
+        if (sharedMonth && $monthSelect.length && $monthSelect.find(`option[value="${sharedMonth}"]`).length) {
+          $monthSelect.val(sharedMonth);
+        }
+        if (sharedParamSlugs.length) {
+          $("input[name='parameter']").prop('checked', function () {
+            return sharedParamSlugs.includes(this.value);
+          });
+        }
 
         /* ── PARAMETER PILL COLOURS ── */
         const PARAM_COLORS = [
@@ -185,6 +218,48 @@
             if (input.checked) pill.classList.add('checked');
           }
         });
+
+        /* ── SHARE LINKS ──
+         * The share button hrefs are rendered server-side with
+         * __CITY_ID__ / __MONTH__ / __PARAMS__ / __CITY_NAME__ placeholder
+         * tokens (see CityClimateDataPage.get_context). Swap in the real
+         * values whenever the selected city/month/parameters change, and
+         * mirror the selection in the address bar so it's both a valid link
+         * on its own and matches the og:image the shared link will show
+         * (see CityClimateDataPage.get_meta_image_url). */
+        function updateShareLinks(cityId, cityLabel, month, paramSlugs) {
+          $('#cc-share-buttons a[href]').each(function () {
+            const $a = $(this);
+
+            if ($a.data('shareHrefTemplate') === undefined) {
+              $a.data('shareHrefTemplate', $a.attr('href'));
+            }
+            $a.attr('href', $a.data('shareHrefTemplate')
+              .replace('__CITY_ID__', encodeURIComponent(cityId || ''))
+              .replace('__MONTH__', encodeURIComponent(month || ''))
+              .replace('__PARAMS__', encodeURIComponent(paramSlugs || ''))
+              .replace('__CITY_NAME__', encodeURIComponent(cityLabel || '')));
+
+            if ($a.attr('data-copy-link')) {
+              if ($a.data('shareCopyTemplate') === undefined) {
+                $a.data('shareCopyTemplate', $a.attr('data-copy-link'));
+              }
+              $a.attr('data-copy-link', $a.data('shareCopyTemplate')
+                .replace('__CITY_ID__', cityId || '')
+                .replace('__MONTH__', month || '')
+                .replace('__PARAMS__', paramSlugs || ''));
+            }
+          });
+
+          if (window.history && window.history.replaceState) {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (cityId) { urlParams.set('city', cityId); } else { urlParams.delete('city'); }
+            if (options.filterByMonth && month) { urlParams.set('month', month); } else { urlParams.delete('month'); }
+            if (paramSlugs) { urlParams.set('params', paramSlugs); } else { urlParams.delete('params'); }
+            const query = urlParams.toString();
+            window.history.replaceState(null, '', query ? `${window.location.pathname}?${query}` : window.location.pathname);
+          }
+        }
 
         /* ── MAP ── */
         let mapReady = false;
@@ -244,6 +319,9 @@
         function setChart(data) {
           const selectedCity      = $citySelect.val();
           const selectedCityLabel = $citySelect.find(`option[value="${selectedCity}"]:selected`).text();
+          const selectedParamSlugs = $("input[name='parameter']:checked").map(function () { return this.value; }).get().join(',');
+
+          updateShareLinks(selectedCity, selectedCityLabel, $monthSelect.length ? $monthSelect.val() : '', selectedParamSlugs);
 
           let apiData = data;
           if (options.filterByMonth && $monthSelect.length && $monthSelect.val()) {

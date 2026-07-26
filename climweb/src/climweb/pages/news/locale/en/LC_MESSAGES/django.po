@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 07:47+0300\n"
+"POT-Creation-Date: 2026-07-21 12:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,121 +18,183 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: climweb/src/climweb/pages/news/models.py:35
+#: climweb/src/climweb/pages/news/blocks.py:16
+#: climweb/src/climweb/pages/news/blocks.py:26
+msgid "Image"
+msgstr "Image"
+
+#: climweb/src/climweb/pages/news/blocks.py:20
+msgid "Caption"
+msgstr "Caption"
+
+#: climweb/src/climweb/pages/news/blocks.py:21
+msgid "Optional caption or image source credit"
+msgstr "Optional caption or image source credit"
+
+#: climweb/src/climweb/pages/news/blocks.py:33
+msgid "Gallery title"
+msgstr "Gallery title"
+
+#: climweb/src/climweb/pages/news/blocks.py:34
+msgid "Optional heading displayed above the gallery"
+msgstr "Optional heading displayed above the gallery"
+
+#: climweb/src/climweb/pages/news/blocks.py:38
+msgid "Uniform Grid – all images same height"
+msgstr "Uniform Grid – all images same height"
+
+#: climweb/src/climweb/pages/news/blocks.py:39
+msgid "Masonry – images keep natural proportions"
+msgstr "Masonry – images keep natural proportions"
+
+#: climweb/src/climweb/pages/news/blocks.py:42
+msgid "Layout style"
+msgstr "Layout style"
+
+#: climweb/src/climweb/pages/news/blocks.py:46
+msgid "2 columns"
+msgstr "2 columns"
+
+#: climweb/src/climweb/pages/news/blocks.py:47
+msgid "3 columns"
+msgstr "3 columns"
+
+#: climweb/src/climweb/pages/news/blocks.py:48
+msgid "4 columns"
+msgstr "4 columns"
+
+#: climweb/src/climweb/pages/news/blocks.py:51
+msgid "Columns"
+msgstr "Columns"
+
+#: climweb/src/climweb/pages/news/blocks.py:53
+msgid "Images"
+msgstr "Images"
+
+#: climweb/src/climweb/pages/news/blocks.py:59
+#: climweb/src/climweb/pages/news/models.py:177
+msgid "Image Gallery"
+msgstr "Image Gallery"
+
+#: climweb/src/climweb/pages/news/models.py:41
 msgid "Name"
 msgstr "Name"
 
-#: climweb/src/climweb/pages/news/models.py:47
+#: climweb/src/climweb/pages/news/models.py:53
 #: climweb/src/climweb/pages/news/templates/news_filter_include.html:8
 msgid "News Type"
 msgstr "News Type"
 
-#: climweb/src/climweb/pages/news/models.py:48
+#: climweb/src/climweb/pages/news/models.py:54
 msgid "News Types"
 msgstr "News Types"
 
-#: climweb/src/climweb/pages/news/models.py:59
+#: climweb/src/climweb/pages/news/models.py:65
 msgid "Items per page"
 msgstr "Items per page"
 
-#: climweb/src/climweb/pages/news/models.py:60
+#: climweb/src/climweb/pages/news/models.py:66
 msgid ""
 "How many items should be visible on the news landing page filter section ?"
 msgstr ""
 "How many items should be visible on the news landing page filter section ?"
 
-#: climweb/src/climweb/pages/news/models.py:69
+#: climweb/src/climweb/pages/news/models.py:75
 msgid "Other settings"
 msgstr "Other settings"
 
-#: climweb/src/climweb/pages/news/models.py:74
+#: climweb/src/climweb/pages/news/models.py:80
 msgid "News Index Page"
 msgstr "News Index Page"
 
-#: climweb/src/climweb/pages/news/models.py:153
+#: climweb/src/climweb/pages/news/models.py:159
 msgid "News type"
 msgstr "News type"
 
-#: climweb/src/climweb/pages/news/models.py:154
+#: climweb/src/climweb/pages/news/models.py:160
 msgid "Post date"
 msgstr "Post date"
 
-#: climweb/src/climweb/pages/news/models.py:155
+#: climweb/src/climweb/pages/news/models.py:161
 msgid "Optional subtitle"
 msgstr "Optional subtitle"
 
-#: climweb/src/climweb/pages/news/models.py:155
+#: climweb/src/climweb/pages/news/models.py:161
 msgid "Subtitle"
 msgstr "Subtitle"
 
-#: climweb/src/climweb/pages/news/models.py:156
+#: climweb/src/climweb/pages/news/models.py:162
 msgid "Body"
 msgstr "Body"
 
-#: climweb/src/climweb/pages/news/models.py:157
+#: climweb/src/climweb/pages/news/models.py:163
 msgid "Relevant Services"
 msgstr "Relevant Services"
 
-#: climweb/src/climweb/pages/news/models.py:158
+#: climweb/src/climweb/pages/news/models.py:164
 msgid "Relevant Projects"
 msgstr "Relevant Projects"
 
-#: climweb/src/climweb/pages/news/models.py:159
+#: climweb/src/climweb/pages/news/models.py:165
 msgid ""
 "Should this news appear on the news landing paging as the featured one ?"
 msgstr ""
 "Should this news appear on the news landing paging as the featured one ?"
 
-#: climweb/src/climweb/pages/news/models.py:161
+#: climweb/src/climweb/pages/news/models.py:167
 msgid "Is featured"
 msgstr "Is featured"
 
-#: climweb/src/climweb/pages/news/models.py:162
+#: climweb/src/climweb/pages/news/models.py:168
 msgid "Is this an alert ?"
 msgstr "Is this an alert ?"
 
-#: climweb/src/climweb/pages/news/models.py:162
+#: climweb/src/climweb/pages/news/models.py:168
 msgid "Is alert"
 msgstr "Is alert"
 
-#: climweb/src/climweb/pages/news/models.py:164
+#: climweb/src/climweb/pages/news/models.py:170
 msgid "Should this appear in the homepage as an alert/latest update ?"
 msgstr "Should this appear in the homepage as an alert/latest update ?"
 
-#: climweb/src/climweb/pages/news/models.py:166
+#: climweb/src/climweb/pages/news/models.py:172
 msgid "Is visible on homepage"
 msgstr "Is visible on homepage"
 
-#: climweb/src/climweb/pages/news/models.py:167
+#: climweb/src/climweb/pages/news/models.py:173
 msgid "Extra links heading"
 msgstr "Extra links heading"
 
-#: climweb/src/climweb/pages/news/models.py:171
+#: climweb/src/climweb/pages/news/models.py:181
 msgid "Extra links"
 msgstr "Extra links"
 
-#: climweb/src/climweb/pages/news/models.py:173
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:98
+#: climweb/src/climweb/pages/news/models.py:183
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:107
 msgid "Tags"
 msgstr "Tags"
 
-#: climweb/src/climweb/pages/news/models.py:187
+#: climweb/src/climweb/pages/news/models.py:198
 msgid "Extra Links"
 msgstr "Extra Links"
 
-#: climweb/src/climweb/pages/news/models.py:205
+#: climweb/src/climweb/pages/news/models.py:216
 msgid "News Page"
 msgstr "News Page"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:56
+#: climweb/src/climweb/pages/news/templates/news/blocks/mosaic_gallery_block.html:17
+msgid "View full image"
+msgstr "View full image"
+
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:65
 msgid "Find out more"
 msgstr "Find out more"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:74
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:83
 msgid "Article info"
 msgstr "Article info"
 
-#: climweb/src/climweb/pages/news/templates/news_detail_page.html:91
+#: climweb/src/climweb/pages/news/templates/news_detail_page.html:100
 msgid "Share"
 msgstr "Share"
 

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags %}
+{% load i18n static lazyimages_tags wagtailcore_tags wagtailiconchooser_tags bulma_tags antispam %}
 
 {% block extra_css %}
   {{ block.super }}
@@ -30,6 +30,7 @@
           <div class="cu-form-card">
             <form action="{% pageurl page %}" method="POST" class="cu-form">
               {% csrf_token %}
+              {% antispam_protect %}
               {{ form|bulma }}
               <div class="cu-form-footer">
                 <button type="submit" class="cu-submit-btn">

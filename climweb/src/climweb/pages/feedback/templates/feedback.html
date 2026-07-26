@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags bulma_tags nmhs_cms_tags i18n %}
+{% load static wagtailimages_tags lazyimages_tags wagtailcore_tags bulma_tags nmhs_cms_tags i18n antispam %}
 
 {% block body_class %}feedback_page{% endblock %}
 
@@ -56,6 +56,7 @@
             {% if form.fields %}
               <form action="{% pageurl page %}" method="POST" class="fb-form">
                 {% csrf_token %}
+                {% antispam_protect %}
                 {{ form|bulma }}
                 <div class="fb-form-footer">
                   <button type="submit" class="fb-submit-btn">

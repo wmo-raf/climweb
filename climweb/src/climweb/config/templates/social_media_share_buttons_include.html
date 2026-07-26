@@ -7,6 +7,7 @@
        data-ga-event-category="Social Media Share"
        data-ga-event-label="{{ share_url.name }}"
        data-ga-value="{{ share_url.url }}"
+       {% if share_url.copy_link %}data-copy-link="{{ share_url.copy_link }}"{% endif %}
     >
         <span class="icon share-icon">
               {% svg_icon name=share_url.svg_icon %}

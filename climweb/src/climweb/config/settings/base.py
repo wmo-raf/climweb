@@ -59,11 +59,13 @@ INSTALLED_APPS = [
     "climweb.pages.search",
     "climweb.pages.data_request",
     "climweb.pages.flex_page",
+    "climweb.pages.flexible_forms",
     "climweb.pages.stations",
     "climweb.pages.satellite_imagery",
     "climweb.pages.glossary",
     "climweb.pages.webstories",
     "climweb.pages.dashboards",
+    "climweb.pages.shortlinks",
     
     "adminboundarymanager",
     "geomanager",
@@ -169,6 +171,75 @@ if IS_METEOROLOGICAL:
               "capcomposer.cap",
           ] if importlib.util.find_spec("capcomposer") else []),
     ]
+
+# ---------------------------------------------------------------------------
+# Wagtail AI (optional assistant in the rich text editor).
+#
+# The app is only installed if the ``wagtail_ai`` package is present in the
+# image, so deployments that don't ship it are unaffected. Turning it on and
+# supplying an API key is done per-site from the CMS (Settings -> AI Assistant),
+# not from the environment — see climweb.base.models.ai_settings. The backend
+# below reads those DB-stored, encrypted credentials at request time.
+# ---------------------------------------------------------------------------
+# wagtail_ai must be listed BEFORE the core Wagtail apps so its Draftail editor
+# plugin and static assets take precedence, hence insert() rather than append.
+WAGTAIL_AI_ENABLED = importlib.util.find_spec("wagtail_ai") is not None
+
+if WAGTAIL_AI_ENABLED and "wagtail_ai" not in INSTALLED_APPS:
+    INSTALLED_APPS.insert(INSTALLED_APPS.index("wagtail.contrib.forms"), "wagtail_ai")
+
+if WAGTAIL_AI_ENABLED:
+    WAGTAIL_AI = {
+        # BACKENDS power the rich text editor "magic wand". Our custom backend
+        # pulls the model + API key from the CMS (AISettings) at request time.
+        "BACKENDS": {
+            "default": {
+                "CLASS": "climweb.base.ai.backend.CMSConfiguredLLMBackend",
+                "CONFIG": {
+                    # A fallback model + token limit so the backend config builds
+                    # cleanly at startup. The actual model and API key used per
+                    # request come from AISettings in the CMS.
+                    "MODEL_ID": "gpt-4o-mini",
+                    "TOKEN_LIMIT": 128000,
+                    # System prompt applied to every editor wand request. Keeps
+                    # the model from wrapping its answer in chatter ("Here is a
+                    # suggestion…", "Feel free to…", "---" separators). Markdown
+                    # for structure is still allowed — draftail.js converts it to
+                    # rich text.
+                    "PROMPT_KWARGS": {
+                        "system": (
+                            "You are editing text inside a CMS rich-text field. "
+                            "Return ONLY the requested content itself. Do not add "
+                            "any preamble, introduction, sign-off, commentary, "
+                            "explanation, or follow-up question, and do not wrap "
+                            "the answer in '---' separators or quotation marks. "
+                            "You may use Markdown for structure (bold, headings, "
+                            "lists, links) but nothing else."
+                        ),
+                    },
+                },
+            },
+        },
+        # Name of the backend above used for the editor "magic wand". Must match a
+        # key in BACKENDS (i.e. "default") — NOT a model id like "gpt-4o-mini".
+        "TEXT_COMPLETION_BACKEND": "default",
+        # PROVIDERS drive the newer agent features (image alt text, content
+        # feedback). We don't use those, but wagtail-ai 3.x expects the block to
+        # exist; providers resolve lazily so no key is needed at startup.
+        "PROVIDERS": {
+            "default": {
+                "provider": "openai",
+                "model": "gpt-4o-mini",
+            },
+        },
+    }
+
+    # NOTE: image upload/edit form wands (WAGTAILIMAGES_IMAGE_FORM_BASE =
+    # "wagtail_ai.forms.DescribeImageForm") are intentionally NOT enabled. They
+    # send the image in OpenAI's "image_url" format, which any_llm does not
+    # translate to Anthropic's "image" format, so both the title and description
+    # wands 400 on a Claude key. They work on OpenAI — enable the setting only for
+    # OpenAI-based deployments.
 
 ## Plugins loading logic start
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
@@ -322,6 +393,15 @@ DBBACKUP_CONNECTOR_MAPPING = {
     DB_ENGINE: "dbbackup.db.postgresql.PgDumpBinaryConnector",
 }
 
+# Google Drive cloud-backup OAuth application.
+# OPTIONAL fallback only — the Client ID/Secret are normally entered in the CMS
+# admin (Settings -> Backup) and stored in the database, so no env changes are
+# required. These env vars, if set, are used only when the admin fields are left
+# blank. Create one "Web application" OAuth client in Google Cloud Console with
+# the authorised redirect URI: <WAGTAILADMIN_BASE_URL>/<admin>/backup/google/callback
+GOOGLE_DRIVE_OAUTH_CLIENT_ID = env.str("GOOGLE_DRIVE_OAUTH_CLIENT_ID", default="")
+GOOGLE_DRIVE_OAUTH_CLIENT_SECRET = env.str("GOOGLE_DRIVE_OAUTH_CLIENT_SECRET", default="")
+
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
@@ -391,6 +471,7 @@ LOCALE_PATHS = [
     'climweb/src/climweb/pages/events/locale',
     'climweb/src/climweb/pages/feedback/locale',
     'climweb/src/climweb/pages/flex_page/locale',
+    'climweb/src/climweb/pages/flexible_forms/locale',
     'climweb/src/climweb/pages/glossary/locale',
     'climweb/src/climweb/pages/home/locale',
     'climweb/src/climweb/pages/mediacenter/locale',
@@ -409,6 +490,7 @@ LOCALE_PATHS = [
     'climweb/src/climweb/pages/satellite_imagery/locale',
     'climweb/src/climweb/pages/search/locale',
     'climweb/src/climweb/pages/services/locale',
+    'climweb/src/climweb/pages/shortlinks/locale',
     'climweb/src/climweb/pages/stations/locale',
     'climweb/src/climweb/pages/surveys/locale',
     'climweb/src/climweb/pages/videos/locale',
@@ -488,6 +570,14 @@ FULL_RICHTEXT_FRATURES = ['bold', 'italic', 'underline', 'strikethrough', 'super
                           'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'code', 'ol', 'ul', 'link', 'document-link',
                           'image', 'embed', 'hr', 'anchor', 'table', 'justifyLeft', 'justifyCenter', 'justifyRight',
                           'justifyFull', 'indent', 'outdent', 'html']
+
+# Fields with an explicit features= list bypass Wagtail's default feature set,
+# so the Wagtail AI "magic wand" (the "ai" feature) must be added to these lists
+# explicitly. Only when the assistant is installed.
+if WAGTAIL_AI_ENABLED:
+    for _rt_features in (SUMMARY_RICHTEXT_FEATURES, FULL_RICHTEXT_FRATURES):
+        if "ai" not in _rt_features:
+            _rt_features.append("ai")
 # RECAPTCHA Settings
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
@@ -500,6 +590,13 @@ if RECAPTCHA_VERIFY_REQUEST_TIMEOUT:
         RECAPTCHA_VERIFY_REQUEST_TIMEOUT = int(RECAPTCHA_VERIFY_REQUEST_TIMEOUT)
     except ValueError:
         RECAPTCHA_VERIFY_REQUEST_TIMEOUT = 60
+
+# ANTI-SPAM Settings (layered on top of reCAPTCHA for public form pages)
+# Minimum seconds between a form rendering and its submission. Faster = bot.
+ANTISPAM_MIN_SUBMIT_SECONDS = env.int('ANTISPAM_MIN_SUBMIT_SECONDS', default=3)
+# Max number of link-like tokens allowed across all text fields before a
+# submission is treated as spam.
+ANTISPAM_MAX_LINKS = env.int('ANTISPAM_MAX_LINKS', default=0)
 
 # EMAIL SETTINGS
 # Default email address used to send messages from the website.
@@ -564,6 +661,17 @@ ONLINE_SHARE_CONFIG = [
         "text_param": "text",
         "fa_icon": "telegram",
         "svg_icon": "telegram",
+        "enabled": True,
+    },
+    {
+        # TikTok has no public web "share this link" intent like the platforms
+        # above, so the share button instead copies the link to the
+        # clipboard and opens TikTok, ready for the user to paste it in.
+        "name": "TikTok",
+        "base_url": "https://www.tiktok.com/",
+        "fa_icon": "tiktok",
+        "svg_icon": "tiktok",
+        "copy_link": True,
         "enabled": True,
     },
 

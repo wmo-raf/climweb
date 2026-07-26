@@ -56,3 +56,8 @@ export ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev'
 export ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev' 
 ./climweb/src/climweb/manage.py compilemessages
 ```
+
+
+
+climweb makemessages -l es -l sw -l en -l pt -l ar -l am -fr
+translate_messages -l fr -u
