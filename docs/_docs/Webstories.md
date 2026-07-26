@@ -152,9 +152,45 @@ Before publishing, preview the story to see how it will actually look and feel t
 > **Note 13 - preview in a separate browser tab:** As Web Stories are built for mobile, there is a built-in function that allows previews to reflect that of a mobile platform as closely as possible.
 ![Preview in a separate browser tab](../_static/images/webstories/22_seperate_preview.png "Preview in a separate browser tab")
 
+## Publishing
+
+1. Once the story is complete, click **Publish**.
+2. **Pre-publish Validation:** Clicking **Publish** instantly publishes the Web Story directly without a confirmation dialog or pre-publish check.
+
+### Cover image requirement
+
+Google's Web Stories format recommends setting a cover/poster image. However, ClimWeb’s editor currently does not enforce pre-publish validation checks. 
+
+> **Note 14 - Observed Behavior:**
+> - **Validation / Enforcements:** None. There is no validation blocking publication, nor are there warning prompts before publishing.
+> - **Publishing without a Cover Image:** You can successfully publish a story without selecting or uploading a cover/poster image. No error message is shown, and a blank placeholder is assigned.
+> - **Publishing without a Title:** You can publish a story with a blank title. When published in this state, ClimWeb defaults the title to `"Untitled."`.
+
+![Published story without title and cover image](../_static/images/webstories/23_published_story_blank.png "Published story without title and cover image")
+
+### Setting a cover image
+
+1. **Story Title:** Click on the word **Untitled** to edit the story's main title.
+2. **Cover Image:** On the editing panel on right of the screen, click on **Document**. Use the **Poster image** field under the **Publishing** header to set the cover image of the story.
+
+![Setting title and cover image](../_static/images/webstories/24_setting_cover_img_and_title.png "Editing title and cover image")
+
+## Managing published stories
+
+- Published and draft stories are both listed in the **Web Stories** section, with a status indicator for each.
+![Draft and published stories](../_static/images/webstories/25_draft_and_published_stories.png "Draft and published stories")
+
+- To make edits after publishing, open the story, make your changes, and republish the story.
+
+- To take a story down, open the story editor and select **Unpublish** from the same menu as **Save draft**. This removes it from the public listing without deleting it.
+
+- To permanently remove a story, use the **Delete** action from the same menu as **Save draft**.
+![Unpublish](../_static/images/webstories/26_unpublish.png "Unpublish")
+
 
 ## Troubleshooting
 
 | Problem | Likely cause | What to do |
 |---|---|---|
-| Images fail to load in the story editor, browser console shows a CORS error | `WAGTAILADMIN_BASE_URL` and/or the Wagtail Site record does not match the host/port actually being used | Align both to the same value (e.g. `http://localhost:8000`) and restart the server |
+| Navigating to `/cms-admin/web-stories-list/` results in a Server Error (500), or the Web Story editor fails to function properly. | Missing Home Page or missing Web Story List Page child page.| Ensure a published Home Page exists under **Pages** and is assigned as the root page in **Settings** to **Sites**. Next, open the Home Page in the admin, select **Add child page**, choose **Web Story List Page**, give it a title (e.g. "Web Stories"), and click **Publish**. (Only one instance is required per site). |
+| Story is published but not visible on the public site | The Web Stories listing page is not configured, or has not been published itself | Ask your administrator to confirm the listing page is set up and published |
