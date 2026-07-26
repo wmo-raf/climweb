@@ -39,7 +39,7 @@ Without one, the Web Stories dashboard (`/cms-admin/web-stories-list/`) returns 
 <div style="display: flex; gap: 10px; align-items: flex-start;">
   <img src="../_static/images/webstories/03_landing_page_small_screen_collapsed_menu.png" alt="Small screen with the navigation menu collapsed" title="Collapsed Menu View" style="width: 32%;" />
   <img src="../_static/images/webstories/04_landing_page_small_screen_expanded_menu.png" alt="Small screen with the navigation menu expanded" title="Expanded Menu View" style="width: 32%;" />
-  <img src="../_static/images/webstories/05_landing_page_small_screen_expanded_menu_webstories.png" alt="Small screen showing the expanded Web Stories specific menu" title="Web Stories Menu View" style="width: 32%;" />
+  <img src="../_static/images/webstories/05_landing_page_small_screen_expanded_menu_create_webstories.png" alt="Small screen showing the expanded Web Stories specific menu" title="Web Stories Menu View" style="width: 32%;" />
 </div>
 
 3. Fill in the story title, then save as a draft:
@@ -129,9 +129,29 @@ Slides play in the order they appear in the story's slide list.
 ![Slides after being reordered](../_static/images/webstories/16_slide_reordered.png "Reordered slides")
 
 > **Note 10 – Opening the slide panel:** The slide panel is open by default in the editor. The slide panel can be expanded or collapsed using the 'page' indicator (marked in red in the following image).
-![Slide panel collapsed](../_static/images/webstories/17_collapsed_side_panel.png "Collapsed slide panel")
+![Slide panel collapsed](../_static/images/webstories/17_collapsed_slide_panel.png "Collapsed slide panel")
 
 > **Note 11 – reordering slides:** All slide, including the first slide can be reordered. 
+
+## Previewing
+
+Before publishing, preview the story to see how it will actually look and feel to a reader.
+
+1. Click **Preview** (mobile phone icon at the top right of the screen) in the story editor.
+![Preview button](../_static/images/webstories/18_preview_button.png "Preview button")
+
+2. The preview function lets you tap/click through each slide as a reader would in mobile, tablet and browser formats.
+<div style="display: flex; gap: 10px; align-items: flex-start;">
+  <img src="../_static/images/webstories/19_mobile_preview.png" alt="Mobile preview" style="width: 32%;" />
+  <img src="../_static/images/webstories/20_tablet_preview.png" alt="Tablet preview" title="Expanded Menu View" style="width: 32%;" />
+  <img src="../_static/images/webstories/21_browser_preview.png" alt="Browser preview" title="Web Stories Menu View" style="width: 32%;" />
+</div>
+
+> **Note 12 - previewing changes:** Do note that any changes made must be saved using the **Save draft** button before it is reflected in the previews 
+
+> **Note 13 - preview in a separate browser tab:** As Web Stories are built for mobile, there is a built-in function that allows previews to reflect that of a mobile platform as closely as possible.
+![Preview in a separate browser tab](../_static/images/webstories/22_seperate_preview.png "Preview in a separate browser tab")
+
 
 ## Troubleshooting
 
