@@ -286,15 +286,60 @@ $(document).ready(function () {
     }
   }];
 
+  // html2canvas (used for PDF export) can't resolve CSS var()/color-mix(), so
+  // theme colors are read from the CSS custom properties and pre-mixed to
+  // plain rgb()/rgba() strings here instead of relying on those CSS functions.
+  function readThemeColor(name, fallback) {
+    var value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return value || fallback;
+  }
+
+  function hexToRgba(hex) {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) {
+      hex = hex.split('').map(function (c) { return c + c; }).join('');
+    }
+    var alpha = hex.length === 8 ? parseInt(hex.slice(6, 8), 16) / 255 : 1;
+    return {
+      r: parseInt(hex.slice(0, 2), 16),
+      g: parseInt(hex.slice(2, 4), 16),
+      b: parseInt(hex.slice(4, 6), 16),
+      a: alpha
+    };
+  }
+
+  function toColorString(hex) {
+    var c = hexToRgba(hex);
+    return c.a < 1
+      ? 'rgba(' + c.r + ', ' + c.g + ', ' + c.b + ', ' + c.a.toFixed(2) + ')'
+      : 'rgb(' + c.r + ', ' + c.g + ', ' + c.b + ')';
+  }
+
+  function mixColors(hexA, percentA, hexB) {
+    var a = hexToRgba(hexA);
+    var b = hexToRgba(hexB);
+    var p = percentA / 100;
+    var r = Math.round(a.r * p + b.r * (1 - p));
+    var g = Math.round(a.g * p + b.g * (1 - p));
+    var bl = Math.round(a.b * p + b.b * (1 - p));
+    return 'rgb(' + r + ', ' + g + ', ' + bl + ')';
+  }
+
+  var themePrimary = readThemeColor('--primary-color', '#0C447C');
+  var themePrimaryLight = readThemeColor('--primary-color-light', '#c2d0de');
+  var themePrimaryMedium = readThemeColor('--primary-color-medium', '#85A1BD');
+  var themeBackground = readThemeColor('--background-color', '#ced9e4');
+  var themeText = readThemeColor('--text-color', '#363636');
+
   const CHART_COLORS = {
-    primary: 'var(--primary-color)',
-    primaryLight: 'var(--primary-color-light)',
-    primaryMedium: 'var(--primary-color-medium)',
-    background: 'var(--background-color)',
-    text: 'var(--text-color)',
-    precipitation: 'color-mix(in srgb, var(--primary-color) 50%, var(--background-color))',
-    airPressure: 'color-mix(in srgb, var(--primary-color) 65%, var(--text-color))',
-    humidity: 'color-mix(in srgb, var(--primary-color) 78%, var(--background-color))'
+    primary: toColorString(themePrimary),
+    primaryLight: toColorString(themePrimaryLight),
+    primaryMedium: toColorString(themePrimaryMedium),
+    background: toColorString(themeBackground),
+    text: toColorString(themeText),
+    precipitation: mixColors(themePrimary, 50, themeBackground),
+    airPressure: mixColors(themePrimary, 65, themeText),
+    humidity: mixColors(themePrimary, 78, themeBackground)
   };
 
 
@@ -695,8 +740,12 @@ $(document).ready(function () {
     }
   });
 
-  /* ── RENDER GRAPHS based on active tab if weather data present ── */ 
-  const graphPayloads = JSON.parse(document.getElementById('graph-forecast-data').textContent); 
+  /* ── RENDER GRAPHS based on active tab if weather data present ── */
+  const graphPayloads = JSON.parse(document.getElementById('graph-forecast-data').textContent);
+
+  // Kept so the PDF export can force each chart to reflow to the printable
+  // page width before capture (see '── GENERATE PDF ──' below).
+  let activeCharts = {};
 
   function renderGraphsForDay(dayKey) {
     if (!dayKey) {
@@ -708,24 +757,26 @@ $(document).ready(function () {
       return;
     }
 
+    activeCharts = {};
+
     if (dayData.has_temperature_data) {
-      renderTemperatureGraph(dayData, dayKey);
+      activeCharts.temperature = renderTemperatureGraph(dayData, dayKey);
     }
 
     if (dayData.has_wind_data) {
-      renderWindGraph(dayData, dayKey);
+      activeCharts.wind = renderWindGraph(dayData, dayKey);
     }
 
     if (dayData.has_precipitation_data) {
-      renderPrecipitationGraph(dayData, dayKey);
+      activeCharts.precipitation = renderPrecipitationGraph(dayData, dayKey);
     }
 
     if (dayData.has_air_pressure_data) {
-      renderAirPressureGraph(dayData, dayKey);
+      activeCharts.airPressure = renderAirPressureGraph(dayData, dayKey);
     }
 
     if (dayData.has_humidity_data) {
-      renderHumidityGraph(dayData, dayKey);
+      activeCharts.humidity = renderHumidityGraph(dayData, dayKey);
     }
   }
   
@@ -748,10 +799,41 @@ $(document).ready(function () {
         margin:       0.5,
         filename:     filename,
         image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 1 },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        html2canvas:  {
+          scale: 2,
+          useCORS: true,
+          scrollX: 0,
+          scrollY: 0
+        },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
     };
-    html2pdf().from(element).set(opt).save();
+
+    // html2pdf clones the page into a capture container that's forced to the
+    // PDF's printable width (~7.27in on A4 with these margins). Highcharts
+    // SVGs and the forecast table keep whatever pixel width they had on the
+    // live (much wider) screen, so without this they overflow that container
+    // and get clipped instead of scaled. Temporarily narrow the live layout
+    // to fit the printable width and reflow the charts before capturing,
+    // then restore the normal responsive layout afterwards.
+    function restoreLayout() {
+      element.classList.remove('wd-pdf-export');
+      Object.keys(activeCharts).forEach(function (key) {
+        if (activeCharts[key]) activeCharts[key].reflow();
+      });
+    }
+
+    element.classList.add('wd-pdf-export');
+    Object.keys(activeCharts).forEach(function (key) {
+      if (activeCharts[key]) activeCharts[key].reflow();
+    });
+
+    html2pdf().from(element).set(opt).save()
+      .then(restoreLayout)
+      .catch(function (err) {
+        restoreLayout();
+        console.error(err);
+      });
   });
   
 });

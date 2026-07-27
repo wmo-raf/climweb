@@ -9,6 +9,8 @@
   border: 1px solid #eee;
   border-radius: 14px;
   overflow: hidden;
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 /* ── HEADER ── */
@@ -297,6 +299,8 @@
   background: #fff;
   border: 1px solid #eee;
   border-radius: 14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 .wd-graph-text {
@@ -390,4 +394,39 @@
   }
   .wd-city        { font-size: 14px; }
   .wd-tab-day     { font-size: 11px; }
+}
+
+/* ── PDF EXPORT MODE ── */
+/* Applied to #wd-page while generating the PDF so wide content (the
+   forecast table, chart containers) reflows to the printable page width
+   instead of overflowing it. See the '── GENERATE PDF ──' script block. */
+.wd-pdf-export {
+  max-width: 680px;
+}
+
+.wd-pdf-export .wd-table-wrap {
+  overflow: visible;
+}
+
+.wd-pdf-export .wd-table {
+  min-width: 0;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 11px;
+}
+
+.wd-pdf-export .wd-table thead th,
+.wd-pdf-export .wd-table tbody td {
+  padding: 6px 8px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.wd-pdf-export .wd-condition-cell {
+  flex-wrap: wrap;
+}
+
+.wd-pdf-export .wd-condition-label,
+.wd-pdf-export .wd-param-cell {
+  white-space: normal;
 }
