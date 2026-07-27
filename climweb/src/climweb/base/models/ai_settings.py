@@ -18,12 +18,27 @@ from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from django.conf import settings
+
 from wagtail.admin.forms import WagtailAdminModelForm
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, ObjectList, TabbedInterface
 from wagtail.contrib.settings.models import BaseSiteSetting
 from wagtail.contrib.settings.registry import register_setting
 
 from climweb.base.backups.crypto import decrypt_text, encrypt_text
+
+
+def register_ai_setting(cls):
+    """Register the AI Assistant settings panel only when AI is enabled.
+
+    Unlike wagtail_ai's own menus (Prompts, Agents) which come/go with the
+    package, this panel is climweb's own and would otherwise show even after
+    wagtail_ai is removed. Gating it on WAGTAIL_AI_ENABLED keeps the whole AI
+    surface behind the single CLIMWEB_AI_ENABLED switch.
+    """
+    if getattr(settings, "WAGTAIL_AI_ENABLED", False):
+        return register_setting(icon="wand")(cls)
+    return cls
 
 
 class AIProvider(models.TextChoices):
@@ -75,7 +90,7 @@ class AISettingsForm(WagtailAdminModelForm):
         return instance
 
 
-@register_setting(icon="wand")
+@register_ai_setting
 class AISettings(BaseSiteSetting):
     base_form_class = AISettingsForm
 

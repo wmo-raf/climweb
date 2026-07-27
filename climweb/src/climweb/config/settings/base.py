@@ -183,7 +183,15 @@ if IS_METEOROLOGICAL:
 # ---------------------------------------------------------------------------
 # wagtail_ai must be listed BEFORE the core Wagtail apps so its Draftail editor
 # plugin and static assets take precedence, hence insert() rather than append.
-WAGTAIL_AI_ENABLED = importlib.util.find_spec("wagtail_ai") is not None
+# Master off-switch: set CLIMWEB_AI_ENABLED=False in the environment to hide all
+# AI features (editor wand, Prompts, Agents and the "AI Assistant" settings
+# panel) even when the wagtail_ai package is still installed in the image. This
+# needs only a restart — no rebuild/uninstall. Defaults to on when the package
+# is present, preserving previous behaviour.
+WAGTAIL_AI_ENABLED = (
+    env.bool("CLIMWEB_AI_ENABLED", default=False)
+    and importlib.util.find_spec("wagtail_ai") is not None
+)
 
 if WAGTAIL_AI_ENABLED and "wagtail_ai" not in INSTALLED_APPS:
     INSTALLED_APPS.insert(INSTALLED_APPS.index("wagtail.contrib.forms"), "wagtail_ai")

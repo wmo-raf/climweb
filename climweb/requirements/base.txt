@@ -21,18 +21,10 @@ amqp==5.3.1
     # via kombu
 annotated-types==0.7.0
     # via pydantic
-anthropic==0.117.0
-    # via llm-anthropic
-any-llm-sdk==0.20.3
-    # via django-ai-core
 anyascii==0.3.2
     # via wagtail
 anyio==4.8.0
-    # via
-    #   anthropic
-    #   httpx
-    #   openai
-    #   watchfiles
+    # via watchfiles
 asgiref==3.8.1
     # via
     #   channels
@@ -96,8 +88,6 @@ celery-singleton==0.3.1
 certifi==2024.12.14
     # via
     #   fiona
-    #   httpcore
-    #   httpx
     #   mailchimp-marketing
     #   netcdf4
     #   pyogrio
@@ -125,22 +115,15 @@ click==8.1.8
     # via
     #   capvalidator
     #   celery
-    #   click-default-group
     #   click-didyoumean
     #   click-plugins
     #   click-repl
     #   cligj
     #   fiona
-    #   llm
     #   mercantile
     #   rasterio
     #   rio-cogeo
-    #   sqlite-utils
     #   uvicorn
-click-default-group==1.2.4
-    # via
-    #   llm
-    #   sqlite-utils
 click-didyoumean==0.3.1
     # via celery
 click-plugins==1.1.1
@@ -156,8 +139,6 @@ cligj==0.7.2
     #   rasterio
 climweb-wdqms==0.1.0
     # via -r base.in
-condense-json==0.1.3
-    # via llm
 constantly==23.10.4
     # via twisted
 contourpy==1.3.0
@@ -194,10 +175,6 @@ deprecated==1.2.18
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http
     #   opentelemetry-semantic-conventions
-distro==1.9.0
-    # via
-    #   anthropic
-    #   openai
 dj-database-url==2.3.0
     # via -r base.in
 django==5.2.14
@@ -243,11 +220,8 @@ django==5.2.14
     #   modelsearch
     #   wagtail
     #   wagtail-2fa-v6
-    #   wagtail-ai
     #   wagtail-newsletter
     #   wagtailmedia
-django-ai-core==0.1.4
-    # via wagtail-ai
 django-allauth==65.14.1
     # via
     #   -r base.in
@@ -365,8 +339,6 @@ djangorestframework-xml==2.0.0
     # via
     #   -r base.in
     #   cap-composer
-docstring-parser==0.18.0
-    # via anthropic
 draftjs-exporter==5.0.0
     # via wagtail
 drf-spectacular==0.28.0
@@ -422,22 +394,13 @@ grpcio==1.70.0
 gunicorn==23.0.0
     # via -r base.in
 h11==0.16.0
-    # via
-    #   httpcore
-    #   uvicorn
-httpcore==1.0.9
-    # via httpx
+    # via uvicorn
 httplib2==0.22.0
     # via
     #   google-api-python-client
     #   google-auth-httplib2
 httptools==0.6.4
     # via uvicorn
-httpx==0.28.1
-    # via
-    #   anthropic
-    #   any-llm-sdk
-    #   openai
 hyperlink==21.0.0
     # via
     #   autobahn
@@ -445,7 +408,6 @@ hyperlink==21.0.0
 idna==3.18
     # via
     #   anyio
-    #   httpx
     #   hyperlink
     #   requests
     #   twisted
@@ -458,10 +420,6 @@ inflection==0.5.1
     # via drf-spectacular
 iso8601==2.1.0
     # via wagtail-zoom-integration
-jiter==0.16.0
-    # via
-    #   anthropic
-    #   openai
 jsonschema==4.23.0
     # via drf-spectacular
 jsonschema-specifications==2025.4.1
@@ -481,12 +439,6 @@ large-image-source-pil==1.34.0
     # via geomanager
 large-image-source-rasterio==1.34.0
     # via geomanager
-llm==0.31.1
-    # via
-    #   llm-anthropic
-    #   wagtail-ai
-llm-anthropic==0.25.1
-    # via -r base.in
 loguru==0.7.3
     # via cap-composer
 lxml==6.1.0
@@ -506,14 +458,10 @@ markdown==3.10.2
     # via
     #   cap-composer
     #   django-markdownify
-markdown-it-py==4.2.0
-    # via rich
 matplotlib==3.9.4
     # via
     #   cartopy
     #   geomanager
-mdurl==0.1.2
-    # via markdown-it-py
 mercantile==1.2.1
     # via geomanager
 metar-taf-parser-mivek==1.9.0
@@ -548,10 +496,6 @@ numpy==2.0.2
     #   xarray
 oauthlib==3.2.2
     # via requests-oauthlib
-openai==2.46.0
-    # via
-    #   any-llm-sdk
-    #   llm
 openpyxl==3.1.5
     # via wagtail
 opentelemetry-api==1.33.1
@@ -686,10 +630,6 @@ pillow==12.2.0
     #   weasyprint
 pillow-heif==0.21.0
     # via willow
-pluggy==1.6.0
-    # via
-    #   llm
-    #   sqlite-utils
 polib==1.2.0
     # via django-deep-translator
 prompt-toolkit==3.0.50
@@ -708,8 +648,6 @@ protobuf==5.29.6
     #   proto-plus
 psycopg2==2.9.10
     # via -r base.in
-puremagic==1.30
-    # via llm
 pyasn1==0.6.3
     # via
     #   pyasn1-modules
@@ -723,20 +661,14 @@ pycparser==2.22
     # via cffi
 pydantic==2.11.4
     # via
-    #   anthropic
-    #   any-llm-sdk
-    #   llm
     #   morecantile
-    #   openai
     #   rio-cogeo
 pydantic-core==2.33.2
     # via pydantic
 pydyf==0.11.0
     # via weasyprint
 pygments==2.20.0
-    # via
-    #   cap-composer
-    #   rich
+    # via cap-composer
 pyjwt==2.12.1
     # via djangorestframework-simplejwt
 pynacl==1.6.2
@@ -774,15 +706,12 @@ python-dateutil==2.9.0.post0
     #   owslib
     #   pandas
     #   python-crontab
-    #   sqlite-utils
 python-dotenv==1.2.2
     # via uvicorn
 python-ipware==3.0.0
     # via django-ipware
 python-magic==0.4.27
     # via cap-composer
-python-ulid==3.1.0
-    # via llm
 pytz==2025.2
     # via
     #   cap-composer
@@ -791,15 +720,12 @@ pytz==2025.2
 pyyaml==6.0.2
     # via
     #   drf-spectacular
-    #   llm
     #   owslib
     #   uvicorn
 qrcode==8.0
     # via wagtail-2fa-v6
 queryish==0.2
-    # via
-    #   django-ai-core
-    #   wagtail-newsletter
+    # via wagtail-newsletter
 rasterio==1.4.3
     # via
     #   geomanager
@@ -834,8 +760,6 @@ requests-oauthlib==2.0.0
     # via
     #   google-auth-oauthlib
     #   wagtail-mautic-integration
-rich==15.0.0
-    # via any-llm-sdk
 rio-cogeo==5.4.1
     # via geomanager
 rioxarray==0.19.0
@@ -869,28 +793,15 @@ six==1.17.0
     #   python-dateutil
     #   wagtail-2fa-v6
 sniffio==1.3.1
-    # via
-    #   anthropic
-    #   anyio
-    #   openai
+    # via anyio
 soupsieve==2.6
     # via beautifulsoup4
-sqlite-fts4==1.0.3
-    # via sqlite-utils
-sqlite-migrate==0.1b1
-    # via llm
-sqlite-utils==3.38
-    # via
-    #   llm
-    #   sqlite-migrate
 sqlparse==0.5.5
     # via
     #   django
     #   django-debug-toolbar
 staticmap==0.5.7
     # via cap-composer
-tabulate==0.10.0
-    # via sqlite-utils
 telepath==0.3.1
     # via wagtail
 tinycss2==1.4.0
@@ -902,9 +813,7 @@ tinycss2==1.4.0
 tinyhtml5==2.0.0
     # via weasyprint
 tqdm==4.67.1
-    # via
-    #   django-deep-translator
-    #   openai
+    # via django-deep-translator
 twisted[tls]==24.11.0
     # via daphne
 txaio==23.1.1
@@ -913,8 +822,6 @@ typing-extensions==4.15.0
     # via
     #   aiohttp
     #   aiosignal
-    #   anthropic
-    #   any-llm-sdk
     #   anyio
     #   cron-descriptor
     #   dj-database-url
@@ -922,7 +829,6 @@ typing-extensions==4.15.0
     #   django-stubs-ext
     #   django-tasks
     #   large-image
-    #   openai
     #   opentelemetry-sdk
     #   pydantic
     #   pydantic-core
@@ -965,7 +871,6 @@ wagtail==7.3.2
     #   geomanager
     #   wagtail-2fa-v6
     #   wagtail-adminsortable
-    #   wagtail-ai
     #   wagtail-cache
     #   wagtail-color-panel
     #   wagtail-humanitarian-icons
@@ -984,8 +889,6 @@ wagtail==7.3.2
 wagtail-2fa-v6==1.0.7
     # via -r base.in
 wagtail-adminsortable @ https://github.com/wmo-raf/wagtail-admin-sortable/archive/33bf22f290e7a4210b44667e9ff56e4b35ad309e.zip
-    # via -r base.in
-wagtail-ai==3.1.0
     # via -r base.in
 wagtail-cache==3.0.0
     # via
@@ -1098,13 +1001,10 @@ zopfli==0.2.3.post1
     # via fonttools
 
 # The following packages are considered to be unsafe in a requirements file:
-pip==26.1.2
-    # via llm
 setuptools==80.9.0
     # via
     #   -r base.in
     #   autobahn
     #   django-positions
     #   incremental
-    #   llm
     #   zope-interface
