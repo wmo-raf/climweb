@@ -66,14 +66,14 @@ Each story is made up of a sequence of slides. ClimWeb's slide editor supports a
 To add a slide:
 
 1. Open your story and click **+ New Page**.
-3. Build out the slide's content (see [Media and text overlays](#media-and-text-overlays) below).
+2. Build out the slide's content (see [Media and text overlays](#media-and-text-overlays) below).
 3. Repeat until you have all the slides you need.
 
 ![Web Stories editing canvas with additional pages](../_static/images/webstories/07_webstories_editing_canvas_additional_pages.png "Web Stories editing canvas with additional pages")
 
 > **Note 6 - Google distribution guidelines:** Google’s Web Stories format recommends a minimum of 4 pages to be eligible for indexing, organic Search, and appearance on the Google Discover feed. Stories shorter than 4 pages are deemed incomplete by Google's guidelines and are typically suppressed from distribution ([Source: Google Search Central](https://developers.google.com/search/docs/appearance/web-stories-creation-best-practices)).
 
-> **Note 7 - ClimWeb editor enforcement:**ClimWeb’s Web Story editor does not enforce this minimum page requirement at either the backend (Django) or frontend levels. While the underlying Web Stories editor contains a built-in pre-publish checklist helper, the editor does not block or pop up warnings during the publishing workflow if a story is under 4 pages or contains blank slides. Authors can successfully save and publish stories with only 2–3 slides, but should manually ensure they meet the 4-page minimum to guarantee search engine visibility.
+> **Note 7 - ClimWeb editor enforcement:** ClimWeb’s Web Story editor does not enforce this minimum page requirement at either the backend (Django) or frontend levels. While the underlying Web Stories editor contains a built-in pre-publish checklist helper, the editor does not block or pop up warnings during the publishing workflow if a story is under 4 pages or contains blank slides. Authors can successfully save and publish stories with only 2–3 slides, but should manually ensure they meet the 4-page minimum to guarantee search engine visibility.
 
 ## Media and text overlays
 
@@ -105,6 +105,24 @@ To add a slide:
 > 
 > This is a known display issue with the side list itself, not a sign that your upload failed. [Issue link: https://github.com/erick-otenyo/wagtail-webstories-editor/issues/2].
 
+### Adding videos
+
+1. On a slide, open the **Insert** tab in the left panel.
+2. Click the **video icon** in the row of small icons below the search bar, it sits directly to the right of the upload icon (cloud with an up arrow) used for images.
+3. In the dialog that opens, use the **Upload** tab to add a new file, or switch to the **Search** tab to choose an existing video from ClimWeb's media library.
+4. Supported formats are AVI, H264, M4V, MKV, MOV, MP4, MPEG, MPG, OGV, and WEBM. There is no video-specific filesize limit enforced by the editor, but the practical ceiling is the server's general upload limit of 25.0 MB by default, and may be lower if a reverse proxy in front of ClimWeb imposes its own limit.
+5. Adjust the video's position and size on the canvas as desired.
+
+![Insert panel with video upload icon highlighted](../_static/images/webstories/27_video_upload_dialog.png "Insert panel, video upload icon")
+
+![Upload tab of video chooser](../_static/images/webstories/28_video_upload_tab.png "Image upload, Upload tab")
+
+![Search tab of video chooser, showing existing videos available to insert](../_static/images/webstories/29_video_search_tab.png "Video chooser, Search tab")
+
+![Slide with a video inserted, showing resize handles and the transform toolbar](../_static/images/webstories/30_slide_with_video.png "Slide with video")
+
+> **Note 9 - Uploading of video:** Only **Title** and **File** are required fields when uploading videos to Climweb. Tags are highly recommended to make filtering for videos easier. **Duration**, **Width**, **Height** and **Thumbnail** fields are not required.
+
 ### Adding text overlay
 
 1. With the slide open, click on the desired text types to add them to the canvas (or drag desired text types to add them to the canvas).
@@ -115,7 +133,7 @@ To add a slide:
 
 ![Slide with text that has been completed](../_static/images/webstories/14_slide_image_and_text_complete.png "Slide with text completed")
 
-> **Note 9 – Text Manipulation and Scaling:** To reposition a text element on the canvas, click and drag within the text box boundaries. You must ensure the element is not in active text-editing (typing) mode. If the typing cursor is active, dragging will select text rather than move the container. To move the element, click outside the box to deselect it, then click once to select and drag it. Additionally, dragging the corner handles of the bounding box will dynamically scale the font size proportionally. To adjust the box width or wrap text without changing the font size, use the manual width and height inputs or the dedicated font size selector in the right-hand styling properties panel.
+> **Note 10 – Text Manipulation and Scaling:** To reposition a text element on the canvas, click and drag within the text box boundaries. You must ensure the element is not in active text-editing (typing) mode. If the typing cursor is active, dragging will select text rather than move the container. To move the element, click outside the box to deselect it, then click once to select and drag it. Additionally, dragging the corner handles of the bounding box will dynamically scale the font size proportionally. To adjust the box width or wrap text without changing the font size, use the manual width and height inputs or the dedicated font size selector in the right-hand styling properties panel.
 
 ## Ordering slides
 
@@ -128,10 +146,10 @@ Slides play in the order they appear in the story's slide list.
 
 ![Slides after being reordered](../_static/images/webstories/16_slide_reordered.png "Reordered slides")
 
-> **Note 10 – Opening the slide panel:** The slide panel is open by default in the editor. The slide panel can be expanded or collapsed using the 'page' indicator (marked in red in the following image).
+> **Note 11 – Opening the slide panel:** The slide panel is open by default in the editor. The slide panel can be expanded or collapsed using the 'page' indicator (marked in red in the following image).
 ![Slide panel collapsed](../_static/images/webstories/17_collapsed_slide_panel.png "Collapsed slide panel")
 
-> **Note 11 – reordering slides:** All slide, including the first slide can be reordered. 
+> **Note 12 – reordering slides:** All slide, including the first slide can be reordered. 
 
 ## Previewing
 
@@ -141,15 +159,15 @@ Before publishing, preview the story to see how it will actually look and feel t
 ![Preview button](../_static/images/webstories/18_preview_button.png "Preview button")
 
 2. The preview function lets you tap/click through each slide as a reader would in mobile, tablet and browser formats.
-<div style="display: flex; gap: 10px; align-items: flex-start;">
+<div style="display: flex; justify-content: center; gap: 10px; align-items: flex-start;">
   <img src="../_static/images/webstories/19_mobile_preview.png" alt="Mobile preview" style="height: 400px; width: auto;" />
   <img src="../_static/images/webstories/20_tablet_preview.png" alt="Tablet preview" title="Expanded Menu View" style="height: 400px; width: auto;" />
   <img src="../_static/images/webstories/21_browser_preview.png" alt="Browser preview" title="Web Stories Menu View" style="height: 400px; width: auto;" />
 </div>
 
-> **Note 12 - previewing changes:** Do note that any changes made must be saved using the **Save draft** button before it is reflected in the previews 
+> **Note 13 - previewing changes:** Do note that any changes made must be saved using the **Save draft** button before it is reflected in the previews 
 
-> **Note 13 - preview in a separate browser tab:** As Web Stories are built for mobile, there is a built-in function that allows previews to reflect that of a mobile platform as closely as possible.
+> **Note 14 - preview in a separate browser tab:** As Web Stories are built for mobile, there is a built-in function that allows previews to reflect that of a mobile platform as closely as possible.
 ![Preview in a separate browser tab](../_static/images/webstories/22_seperate_preview.png "Preview in a separate browser tab")
 
 ## Publishing
@@ -161,7 +179,7 @@ Before publishing, preview the story to see how it will actually look and feel t
 
 Google's Web Stories format recommends setting a cover/poster image. However, ClimWeb’s editor currently does not enforce pre-publish validation checks. 
 
-> **Note 14 - Observed Behavior:**
+> **Note 15 - Observed Behavior:**
 > - **Validation / Enforcements:** None. There is no validation blocking publication, nor are there warning prompts before publishing.
 > - **Publishing without a Cover Image:** You can successfully publish a story without selecting or uploading a cover/poster image. No error message is shown, and a blank placeholder is assigned.
 > - **Publishing without a Title:** You can publish a story with a blank title. When published in this state, ClimWeb defaults the title to `"Untitled."`.
@@ -187,6 +205,11 @@ Google's Web Stories format recommends setting a cover/poster image. However, Cl
 - To permanently remove a story, use the **Delete** action from the same menu as **Save draft**.
 ![Unpublish](../_static/images/webstories/26_unpublish.png "Unpublish")
 
+### Visibility in search and Google Discover
+
+Once a story is published, it is automatically added to the site's sitemap, which helps Google find and index it. However, indexing alone does not guarantee distribution. Google's Web Stories guidelines set additional bars for a story to be eligible for Search results and the Google Discover feed, most notably the 4-page minimum covered in **Note 6** above.
+
+Therefore a published story with a cover image and 4+ pages gives you the best chance of appearing in Discover and Search; a shorter story or one without a cover image will still be live on your site, just less likely to be searchable by Google.
 
 ## Troubleshooting
 
