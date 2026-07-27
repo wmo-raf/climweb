@@ -287,14 +287,14 @@ $(document).ready(function () {
   }];
 
   const CHART_COLORS = {
-    primary: '#0C447C',
-    primaryLight: '#c2d0de',
-    primaryMedium: '#85A1BD',
-    background: '#ced9e4',
-    text: '#363636',
-    precipitation: 'color-mix(in srgb, #0C447C 50%, #ced9e4)',
-    airPressure: 'color-mix(in srgb, #0C447C 65%, #363636)',
-    humidity: 'color-mix(in srgb, #0C447C 78%, #ced9e4)'
+    primary: 'var(--primary-color)',
+    primaryLight: 'var(--primary-color-light)',
+    primaryMedium: 'var(--primary-color-medium)',
+    background: 'var(--background-color)',
+    text: 'var(--text-color)',
+    precipitation: 'color-mix(in srgb, var(--primary-color) 50%, var(--background-color))',
+    airPressure: 'color-mix(in srgb, var(--primary-color) 65%, var(--text-color))',
+    humidity: 'color-mix(in srgb, var(--primary-color) 78%, var(--background-color))'
   };
 
 
