@@ -2,7 +2,7 @@
 
 # use osgeo gdal ubuntu small 3.7 image.
 # pre-installed with GDAL 3.7.0 and Python 3.10.6
-FROM ghcr.io/osgeo/gdal:ubuntu-small-3.7.0 as base
+FROM ghcr.io/osgeo/gdal:ubuntu-small-3.9.3 as base
 
 ARG UID
 ENV UID=${UID:-1001}
