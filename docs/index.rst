@@ -31,6 +31,7 @@ ClimWeb
    _docs/manage_content_assets/index
    _docs/manage_cap/index
    _docs/Manage-City-Forecasts
+   _docs/Webstories
    _docs/Manage-Mapviewer
    _docs/manage_atlas/index
    _docs/Mailing-Integrations
