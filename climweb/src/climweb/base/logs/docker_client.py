@@ -46,7 +46,17 @@ class LogViewerDisabled(LogViewerError):
 
 
 def is_enabled():
-    return bool(getattr(settings, "CLIMWEB_LOG_VIEWER_ENABLED", False))
+    """True only when the viewer is switched on *and* has somewhere to read from.
+
+    The flag defaults to on, so the deciding factor in practice is whether the
+    deployment runs the socket proxy and sets CLIMWEB_DOCKER_HOST. Requiring
+    both here means an instance on an older docker-compose.yml gets no menu item
+    and no error page — the feature simply isn't there.
+    """
+    return bool(
+        getattr(settings, "CLIMWEB_LOG_VIEWER_ENABLED", False)
+        and getattr(settings, "CLIMWEB_DOCKER_HOST", "")
+    )
 
 
 def _docker_host():
@@ -133,10 +143,22 @@ def list_containers(use_cache=True):
                 continue
         elif prefix and not name.startswith(prefix):
             continue
+        # Read straight from the attrs returned by /containers/json.
+        #
+        # Do NOT use docker-py's `container.image` here: that property issues a
+        # second request to /images/{id}/json, which the socket proxy blocks
+        # (IMAGES is deliberately off) and the whole listing 403s. The image
+        # reference is already in the list payload, so no extra call is needed.
+        # `containers.list()` inspects each container, so attrs are the inspect
+        # payload: Config.Image holds the readable reference while the top-level
+        # Image is a sha256 digest. Fall back to the digest (and to the sparse
+        # list shape, where Image *is* the reference) rather than failing.
+        attrs = container.attrs or {}
+        config = attrs.get("Config") or {}
         result.append({
             "name": name,
             "status": container.status,
-            "image": (container.image.tags or [""])[0] if container.image else "",
+            "image": config.get("Image") or attrs.get("Image") or "",
         })
 
     result.sort(key=lambda c: (c["name"] != "climweb", c["name"]))

@@ -68,6 +68,8 @@ check_and_run_script() {
 
 log "Building ${plugin_name}."
 
+clean_plugin_build_artifacts "$folder"
+
 pip3 install -e "$folder"
 
 check_and_run_script "$folder" build.sh

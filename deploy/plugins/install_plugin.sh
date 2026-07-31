@@ -198,6 +198,8 @@ if [[ -d "$folder" ]]; then
 
       cd /climweb
 
+      clean_plugin_build_artifacts "$folder"
+
       if [[ "$dev" == true ]]; then
           run_as_docker_user pip3 install -e "$folder"
       else
