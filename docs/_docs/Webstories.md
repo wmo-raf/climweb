@@ -1,6 +1,6 @@
-# Creating and publishing Web Stories
+# Web Stories
 
-## Introduction
+## Creating and publishing Web Stories
 
 Web Stories are short, full-screen videos(similar to those found on various social media platforms) built on Google's open Web Stories standard. They are designed for quick, mobile-first storytelling using images, videos and short texts that readers tap through one at a time.
 
