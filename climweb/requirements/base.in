@@ -101,3 +101,6 @@ opentelemetry-util-http==0.54b1
 urllib3==2.7.0
 requests==2.33.1
 setuptools==80.9.0
+# Read-only Docker API client, used by the admin log viewer to tail container
+# logs through the docker-socket-proxy sidecar (Settings -> Server logs).
+docker==7.1.0
