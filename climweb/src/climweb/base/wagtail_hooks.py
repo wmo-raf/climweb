@@ -44,6 +44,7 @@ from .backups.views import (
     backup_browser,
     backup_download,
 )
+from .logs.views import log_viewer, log_fetch, log_download
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
@@ -107,6 +108,9 @@ def urlconf_base():
         path('backup/sftp/clear-hostkey', sftp_clear_hostkey, name='backup-sftp-clear-hostkey'),
         path('backup/browse', backup_browser, name='backup-browser'),
         path('backup/download', backup_download, name='backup-download'),
+        path('logs', log_viewer, name='log-viewer'),
+        path('logs/fetch', log_fetch, name='log-fetch'),
+        path('logs/download', log_download, name='log-download'),
     ]
 
     if "capcomposer.cap" in settings.INSTALLED_APPS:
@@ -126,6 +130,28 @@ def register_plugin_manager_menu_item():
         reverse('plugin-manager'),
         icon_name='cog',
         order=960,
+    )
+
+
+@hooks.register('register_settings_menu_item')
+def register_log_viewer_menu_item():
+    from wagtail.admin.menu import MenuItem
+
+    class LogViewerMenuItem(MenuItem):
+        def is_shown(self, request):
+            # Logs regularly contain data ordinary editors have no business
+            # seeing, so this stays superuser-only — and stays hidden entirely
+            # on instances that haven't enabled the socket proxy.
+            return bool(
+                getattr(settings, "CLIMWEB_LOG_VIEWER_ENABLED", False)
+                and request.user.is_superuser
+            )
+
+    return LogViewerMenuItem(
+        _('Server logs'),
+        reverse('log-viewer'),
+        icon_name='doc-full-inverse',
+        order=970,
     )
 
 

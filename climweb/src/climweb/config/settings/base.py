@@ -840,6 +840,25 @@ LOGGING = {
     },
 }
 
+# Admin log viewer.
+#
+# Lets superusers read container logs from Settings -> Server logs instead of
+# SSHing in for `docker compose logs`. Reads go through a read-only
+# docker-socket-proxy sidecar on the internal compose network, so no port is
+# published and the CMS never sees /var/run/docker.sock itself.
+CLIMWEB_LOG_VIEWER_ENABLED = env.bool("CLIMWEB_LOG_VIEWER_ENABLED", False)
+CLIMWEB_DOCKER_HOST = env.str("CLIMWEB_DOCKER_HOST", "")
+CLIMWEB_LOG_VIEWER_TIMEOUT = env.int("CLIMWEB_LOG_VIEWER_TIMEOUT", 10)
+# Explicit allow-list of container names. When empty, any container whose name
+# starts with CLIMWEB_LOG_VIEWER_NAME_PREFIX is readable.
+CLIMWEB_LOG_VIEWER_CONTAINERS = env.list("CLIMWEB_LOG_VIEWER_CONTAINERS", default=[])
+CLIMWEB_LOG_VIEWER_NAME_PREFIX = env.str("CLIMWEB_LOG_VIEWER_NAME_PREFIX", "climweb")
+# Extra literal strings to mask in log output, on top of the secret-looking
+# values auto-detected from the environment.
+CLIMWEB_LOG_VIEWER_EXTRA_REDACTIONS = env.list(
+    "CLIMWEB_LOG_VIEWER_EXTRA_REDACTIONS", default=[]
+)
+
 VUE_FRONTEND_USE_TYPESCRIPT = False
 VUE_FRONTEND_USE_DEV_SERVER = DEBUG
 VUE_FRONTEND_DEV_SERVER_URL = 'http://localhost:5173'
