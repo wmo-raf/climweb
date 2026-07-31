@@ -44,6 +44,7 @@ from .backups.views import (
     backup_browser,
     backup_download,
 )
+from .logs.views import log_viewer, log_fetch, log_download
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
@@ -62,35 +63,6 @@ def global_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static('css/admin.css'))
 
 
-@hooks.register('insert_global_admin_css')
-def hide_content_feedback_for_claude():
-    """Hide Wagtail AI's content-feedback panel when the site is on Claude.
-
-    Content feedback requests JSON-mode structured output, which the agent
-    library (any_llm) doesn't support for Anthropic, so it errors on a Claude
-    key. Hide its UI (the `wai-feedback` Stimulus controller) so editors don't
-    hit that error. It stays visible for OpenAI, where it works.
-    """
-    from django.utils.safestring import mark_safe
-
-    try:
-        from wagtail.models import Site
-
-        from climweb.base.models.ai_settings import AISettings
-
-        site = Site.objects.filter(is_default_site=True).first() or Site.objects.first()
-        if site is None:
-            return ""
-        ai_settings = AISettings.for_site(site)
-        if ai_settings.enabled and ai_settings.provider == "anthropic":
-            return mark_safe(
-                '<style>[data-controller~="wai-feedback"]{display:none !important;}</style>'
-            )
-    except Exception:
-        pass
-    return ""
-
-
 @hooks.register('register_admin_urls')
 def urlconf_base():
     urls = [
@@ -107,6 +79,9 @@ def urlconf_base():
         path('backup/sftp/clear-hostkey', sftp_clear_hostkey, name='backup-sftp-clear-hostkey'),
         path('backup/browse', backup_browser, name='backup-browser'),
         path('backup/download', backup_download, name='backup-download'),
+        path('logs', log_viewer, name='log-viewer'),
+        path('logs/fetch', log_fetch, name='log-fetch'),
+        path('logs/download', log_download, name='log-download'),
     ]
 
     if "capcomposer.cap" in settings.INSTALLED_APPS:
@@ -126,6 +101,27 @@ def register_plugin_manager_menu_item():
         reverse('plugin-manager'),
         icon_name='cog',
         order=960,
+    )
+
+
+@hooks.register('register_settings_menu_item')
+def register_log_viewer_menu_item():
+    from wagtail.admin.menu import MenuItem
+
+    class LogViewerMenuItem(MenuItem):
+        def is_shown(self, request):
+            # Logs regularly contain data ordinary editors have no business
+            # seeing, so this stays superuser-only — and stays hidden entirely
+            # on instances that aren't running the socket proxy.
+            from .logs.docker_client import is_enabled
+
+            return bool(is_enabled() and request.user.is_superuser)
+
+    return LogViewerMenuItem(
+        _('Server logs'),
+        reverse('log-viewer'),
+        icon_name='doc-full-inverse',
+        order=970,
     )
 
 
@@ -372,6 +368,21 @@ def add_another_welcome_panel(request, panels):
 @hooks.register("register_permissions")
 def register_permissions():
     return Permission.objects.filter(content_type__app_label="base")
+
+
+@hooks.register("register_permissions")
+def register_2fa_permission():
+    """Keep "Enable 2FA" selectable in Settings -> Groups.
+
+    wagtail-2fa only registers this permission when it finds the literal string
+    "wagtail_2fa.middleware.VerifyUserPermissionsMiddleware" in MIDDLEWARE. We
+    run a subclass under our own path, so that check fails and the permission
+    would quietly vanish from the group editor — leaving no way to require 2FA
+    of anyone other than superusers.
+    """
+    return Permission.objects.filter(
+        content_type__app_label="wagtailadmin", codename="enable_2fa"
+    )
 
 
 @hooks.register('construct_main_menu')

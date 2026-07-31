@@ -339,6 +339,8 @@ djangorestframework-xml==2.0.0
     # via
     #   -r base.in
     #   cap-composer
+docker==7.1.0
+    # via -r base.in
 draftjs-exporter==5.0.0
     # via wagtail
 drf-spectacular==0.28.0
@@ -746,6 +748,7 @@ requests==2.33.1
     #   cap-composer
     #   climweb-wdqms
     #   deep-translator
+    #   docker
     #   google-api-core
     #   mailchimp-marketing
     #   mailchimp3
@@ -850,6 +853,7 @@ uritemplate==4.1.1
 urllib3==2.7.0
     # via
     #   -r base.in
+    #   docker
     #   mailchimp-marketing
     #   requests
 uvicorn[standard]==0.42.0

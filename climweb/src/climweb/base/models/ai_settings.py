@@ -1,18 +1,16 @@
 """
-Wagtail AI configuration, managed entirely from the CMS admin.
+DORMANT: AI assistant settings.
 
-ClimWeb runs one deployment per NMHS, and most do not have the capacity (or the
-budget) to manage an AI provider key from the server / docker-compose. So the
-provider and API key are configured here, in Settings -> AI Assistant, instead
-of the environment — no server access, no per-country redeploy.
+The optional Wagtail AI writing assistant has been removed from ClimWeb (the
+``wagtail-ai`` / ``llm-anthropic`` dependencies pulled in ``any-llm-sdk``, which
+is not installable in the build image). This model is deliberately kept — and
+still registered with Django — so that migrations 0048/0049 and the merge
+migrations that depend on them stay valid, and so that existing per-site rows
+are not dropped from deployed databases.
 
-The API key is stored ENCRYPTED at rest (same Fernet helper used for the backup
-OAuth secret, keyed off ``SECRET_KEY``) and is write-only in the form: it is
-never rendered back into the page after being saved.
-
-The values entered here are consumed at request time by the custom Wagtail AI
-backend in ``climweb.base.ai.backend`` — see that module for how the key and
-model are injected into the "LLM" library.
+It is NOT registered with ``@register_setting``, so it does not appear anywhere
+in the CMS admin. If the assistant is reinstated, re-add the decorator (and the
+``climweb.base.ai`` package + settings wiring) rather than recreating the model.
 """
 from django import forms
 from django.db import models
@@ -23,7 +21,6 @@ from django.conf import settings
 from wagtail.admin.forms import WagtailAdminModelForm
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, ObjectList, TabbedInterface
 from wagtail.contrib.settings.models import BaseSiteSetting
-from wagtail.contrib.settings.registry import register_setting
 
 from climweb.base.backups.crypto import decrypt_text, encrypt_text
 
@@ -90,7 +87,6 @@ class AISettingsForm(WagtailAdminModelForm):
         return instance
 
 
-@register_ai_setting
 class AISettings(BaseSiteSetting):
     base_form_class = AISettingsForm
 

@@ -143,6 +143,8 @@ check_and_run_script() {
 
 log "Building ${plugin_name}."
 
+clean_plugin_build_artifacts "$folder"
+
 if [[ "$dev" == true ]]; then
   pip3 install -e "$folder"
 else

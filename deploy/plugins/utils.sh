@@ -48,6 +48,35 @@ error(){
 }
 
 
+# Remove build artifacts left behind in a plugin's source tree by a previous
+# install.
+#
+# Plugin directories are usually bind-mounted from the host, so `build/` and
+# `*.egg-info` survive container recreates. setuptools' bdist_wheel reuses
+# `build/bdist.<platform>/wheel/` and aborts with
+#
+#   error: [Errno 17] File exists: 'build/bdist.linux-x86_64/wheel/<pkg>.dist-info'
+#
+# the next time the plugin is built. /climweb/container_markers is a tmpfs, so
+# the ".built" marker is wiped on every recreate and the plugin is rebuilt on
+# every start — which means one stale tree breaks startup indefinitely.
+clean_plugin_build_artifacts(){
+  local folder="$1"
+
+  if [[ -z "$folder" || ! -d "$folder" ]]; then
+    return 0
+  fi
+
+  local artifact
+  for artifact in "$folder"/build "$folder"/dist "$folder"/*.egg-info "$folder"/src/*.egg-info; do
+    if [[ -e "$artifact" ]]; then
+      log "Removing stale build artifact $artifact"
+      rm -rf "$artifact" || log "Could not remove $artifact, continuing anyway."
+    fi
+  done
+}
+
+
 startup_plugin_setup(){
   if [[ -z "${CLIMWEB_PLUGIN_SETUP_ALREADY_RUN:-}" ]]; then
     if [[ -z "${CLIMWEB_DISABLE_PLUGIN_INSTALL_ON_STARTUP:-}" ]]; then

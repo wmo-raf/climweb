@@ -1,7 +1,6 @@
 from urllib.parse import urlencode
 
 from adminboundarymanager.models import AdminBoundarySettings
-from django.conf import settings
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
@@ -60,8 +59,7 @@ class CityClimateDataPage(MetadataPageMixin, Page):
     )
     
     description = RichTextField(null=True, blank=True, verbose_name=_("Description"),
-                                features=["bold", "ul", "ol", "link", "superscript", "subscript"] + (
-                                    ["ai"] if getattr(settings, "WAGTAIL_AI_ENABLED", False) else []))
+                                features=["bold", "ul", "ol", "link", "superscript", "subscript"])
     time_format = models.CharField(max_length=100, choices=PERIOD_CHOICES, verbose_name=_("Time Format"),
                                    help_text=_("In none selected,the default format e.g '2023-01-01' will be used"),
                                    blank=True)

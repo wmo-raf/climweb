@@ -172,83 +172,6 @@ if IS_METEOROLOGICAL:
           ] if importlib.util.find_spec("capcomposer") else []),
     ]
 
-# ---------------------------------------------------------------------------
-# Wagtail AI (optional assistant in the rich text editor).
-#
-# The app is only installed if the ``wagtail_ai`` package is present in the
-# image, so deployments that don't ship it are unaffected. Turning it on and
-# supplying an API key is done per-site from the CMS (Settings -> AI Assistant),
-# not from the environment — see climweb.base.models.ai_settings. The backend
-# below reads those DB-stored, encrypted credentials at request time.
-# ---------------------------------------------------------------------------
-# wagtail_ai must be listed BEFORE the core Wagtail apps so its Draftail editor
-# plugin and static assets take precedence, hence insert() rather than append.
-# Master off-switch: set CLIMWEB_AI_ENABLED=False in the environment to hide all
-# AI features (editor wand, Prompts, Agents and the "AI Assistant" settings
-# panel) even when the wagtail_ai package is still installed in the image. This
-# needs only a restart — no rebuild/uninstall. Defaults to on when the package
-# is present, preserving previous behaviour.
-WAGTAIL_AI_ENABLED = (
-    env.bool("CLIMWEB_AI_ENABLED", default=False)
-    and importlib.util.find_spec("wagtail_ai") is not None
-)
-
-if WAGTAIL_AI_ENABLED and "wagtail_ai" not in INSTALLED_APPS:
-    INSTALLED_APPS.insert(INSTALLED_APPS.index("wagtail.contrib.forms"), "wagtail_ai")
-
-if WAGTAIL_AI_ENABLED:
-    WAGTAIL_AI = {
-        # BACKENDS power the rich text editor "magic wand". Our custom backend
-        # pulls the model + API key from the CMS (AISettings) at request time.
-        "BACKENDS": {
-            "default": {
-                "CLASS": "climweb.base.ai.backend.CMSConfiguredLLMBackend",
-                "CONFIG": {
-                    # A fallback model + token limit so the backend config builds
-                    # cleanly at startup. The actual model and API key used per
-                    # request come from AISettings in the CMS.
-                    "MODEL_ID": "gpt-4o-mini",
-                    "TOKEN_LIMIT": 128000,
-                    # System prompt applied to every editor wand request. Keeps
-                    # the model from wrapping its answer in chatter ("Here is a
-                    # suggestion…", "Feel free to…", "---" separators). Markdown
-                    # for structure is still allowed — draftail.js converts it to
-                    # rich text.
-                    "PROMPT_KWARGS": {
-                        "system": (
-                            "You are editing text inside a CMS rich-text field. "
-                            "Return ONLY the requested content itself. Do not add "
-                            "any preamble, introduction, sign-off, commentary, "
-                            "explanation, or follow-up question, and do not wrap "
-                            "the answer in '---' separators or quotation marks. "
-                            "You may use Markdown for structure (bold, headings, "
-                            "lists, links) but nothing else."
-                        ),
-                    },
-                },
-            },
-        },
-        # Name of the backend above used for the editor "magic wand". Must match a
-        # key in BACKENDS (i.e. "default") — NOT a model id like "gpt-4o-mini".
-        "TEXT_COMPLETION_BACKEND": "default",
-        # PROVIDERS drive the newer agent features (image alt text, content
-        # feedback). We don't use those, but wagtail-ai 3.x expects the block to
-        # exist; providers resolve lazily so no key is needed at startup.
-        "PROVIDERS": {
-            "default": {
-                "provider": "openai",
-                "model": "gpt-4o-mini",
-            },
-        },
-    }
-
-    # NOTE: image upload/edit form wands (WAGTAILIMAGES_IMAGE_FORM_BASE =
-    # "wagtail_ai.forms.DescribeImageForm") are intentionally NOT enabled. They
-    # send the image in OpenAI's "image_url" format, which any_llm does not
-    # translate to Anthropic's "image" format, so both the title and description
-    # wands 400 on a Claude key. They work on OpenAI — enable the setting only for
-    # OpenAI-based deployments.
-
 ## Plugins loading logic start
 CLIMWEB_ADDITIONAL_APPS = env.list("CLIMWEB_ADDITIONAL_APPS", default=[])
 
@@ -314,7 +237,9 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     
-    'wagtail_2fa.middleware.VerifyUserPermissionsMiddleware',
+    # Subclass of wagtail_2fa.middleware.VerifyUserPermissionsMiddleware that
+    # additionally forces 2FA for superusers. See climweb/base/middleware.py.
+    'climweb.base.middleware.SuperuserVerifyUserMiddleware',
     
     "allauth.account.middleware.AccountMiddleware",
     
@@ -579,13 +504,6 @@ FULL_RICHTEXT_FRATURES = ['bold', 'italic', 'underline', 'strikethrough', 'super
                           'image', 'embed', 'hr', 'anchor', 'table', 'justifyLeft', 'justifyCenter', 'justifyRight',
                           'justifyFull', 'indent', 'outdent', 'html']
 
-# Fields with an explicit features= list bypass Wagtail's default feature set,
-# so the Wagtail AI "magic wand" (the "ai" feature) must be added to these lists
-# explicitly. Only when the assistant is installed.
-if WAGTAIL_AI_ENABLED:
-    for _rt_features in (SUMMARY_RICHTEXT_FEATURES, FULL_RICHTEXT_FRATURES):
-        if "ai" not in _rt_features:
-            _rt_features.append("ai")
 # RECAPTCHA Settings
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
@@ -778,8 +696,21 @@ AXES_IPWARE_PROXY_COUNT = env.int("AXES_IPWARE_PROXY_COUNT", default=2)
 AXES_RESET_ON_SUCCESS = True
 AXES_LOCKOUT_TEMPLATE = "axes/lockout.html"
 
-# Wagtail 2FA settings
-WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=False)
+# Wagtail 2FA settings.
+#
+# Combined with VerifyUserPermissionsMiddleware (see MIDDLEWARE), this does NOT
+# force 2FA on every editor: that middleware exempts anyone without the
+# `wagtailadmin.enable_2fa` permission and without an existing device. Django
+# grants superusers every permission implicitly, so turning this on requires 2FA
+# of superusers and of any user explicitly given `enable_2fa`, and leaves
+# ordinary editors alone.
+WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=True)
+
+# Superusers are required to use 2FA regardless of WAGTAIL_2FA_REQUIRED, because
+# instances built from the old .env.sample have WAGTAIL_2FA_REQUIRED=False
+# written into their .env and an explicit value beats a settings default.
+# Set to False only to unstick a site that cannot enrol (see base/middleware.py).
+CLIMWEB_2FA_SUPERUSER_REQUIRED = env.bool("CLIMWEB_2FA_SUPERUSER_REQUIRED", default=True)
 
 
 class AttrDict(dict):
@@ -847,6 +778,30 @@ LOGGING = {
         "level": CLIMWEB_LOG_LEVEL,
     },
 }
+
+# Admin log viewer.
+#
+# Lets superusers read container logs from Settings -> Server logs instead of
+# SSHing in for `docker compose logs`. Reads go through a read-only
+# docker-socket-proxy sidecar on the internal compose network, so no port is
+# published and the CMS never sees /var/run/docker.sock itself.
+# On by default, but it only actually switches on where CLIMWEB_DOCKER_HOST
+# points at a running socket proxy (see is_enabled() in base/logs/docker_client).
+# That way an instance still running an older docker-compose.yml, which has
+# neither the proxy service nor the env var, silently keeps the feature hidden
+# instead of showing superusers a menu item that errors.
+CLIMWEB_LOG_VIEWER_ENABLED = env.bool("CLIMWEB_LOG_VIEWER_ENABLED", True)
+CLIMWEB_DOCKER_HOST = env.str("CLIMWEB_DOCKER_HOST", "")
+CLIMWEB_LOG_VIEWER_TIMEOUT = env.int("CLIMWEB_LOG_VIEWER_TIMEOUT", 10)
+# Explicit allow-list of container names. When empty, any container whose name
+# starts with CLIMWEB_LOG_VIEWER_NAME_PREFIX is readable.
+CLIMWEB_LOG_VIEWER_CONTAINERS = env.list("CLIMWEB_LOG_VIEWER_CONTAINERS", default=[])
+CLIMWEB_LOG_VIEWER_NAME_PREFIX = env.str("CLIMWEB_LOG_VIEWER_NAME_PREFIX", "climweb")
+# Extra literal strings to mask in log output, on top of the secret-looking
+# values auto-detected from the environment.
+CLIMWEB_LOG_VIEWER_EXTRA_REDACTIONS = env.list(
+    "CLIMWEB_LOG_VIEWER_EXTRA_REDACTIONS", default=[]
+)
 
 VUE_FRONTEND_USE_TYPESCRIPT = False
 VUE_FRONTEND_USE_DEV_SERVER = DEBUG

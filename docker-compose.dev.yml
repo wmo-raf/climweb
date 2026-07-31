@@ -11,7 +11,7 @@ services:
     restart: no
     build:
       context: .
-      dockerfile: ./climweb/Dockerfile
+      dockerfile: Dockerfile
       target: dev
       args:
         - UID=${UID}
@@ -35,3 +35,19 @@ services:
     command: celery-beat
     volumes:
       - ./climweb:/climweb/web
+
+  # Read-only Docker API for the admin log viewer (Settings -> Server logs).
+  # Mirrors the production sidecar in climweb-docker so the feature can be
+  # exercised locally. Nothing is published to the host.
+  climweb_docker_proxy_dev:
+    image: tecnativa/docker-socket-proxy:v0.4.2
+    container_name: climweb_docker_proxy_dev
+    restart: no
+    environment:
+      CONTAINERS: 1
+      LOGS: 1
+      POST: 0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    expose:
+      - 2375
