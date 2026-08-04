@@ -45,6 +45,7 @@ from .backups.views import (
     backup_download,
 )
 from .logs.views import log_viewer, log_fetch, log_download
+from .task_health.views import task_health
 
 
 class ModelAdminGroupWithHiddenItems(ModelAdminGroup):
@@ -82,6 +83,7 @@ def urlconf_base():
         path('logs', log_viewer, name='log-viewer'),
         path('logs/fetch', log_fetch, name='log-fetch'),
         path('logs/download', log_download, name='log-download'),
+        path('task-health', task_health, name='task-health'),
     ]
 
     if "capcomposer.cap" in settings.INSTALLED_APPS:
@@ -122,6 +124,23 @@ def register_log_viewer_menu_item():
         reverse('log-viewer'),
         icon_name='doc-full-inverse',
         order=970,
+    )
+
+
+@hooks.register('register_settings_menu_item')
+def register_task_health_menu_item():
+    from wagtail.admin.menu import MenuItem
+
+    class TaskHealthMenuItem(MenuItem):
+        def is_shown(self, request):
+            # Tracebacks can carry request data, so superuser-only like the logs.
+            return bool(request.user.is_superuser)
+
+    return TaskHealthMenuItem(
+        _('Task health'),
+        reverse('task-health'),
+        icon_name='tasks',
+        order=975,
     )
 
 
