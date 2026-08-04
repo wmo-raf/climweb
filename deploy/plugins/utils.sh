@@ -77,9 +77,74 @@ clean_plugin_build_artifacts(){
 }
 
 
+# Plugins that ClimWeb now ships as built-in apps.
+#
+# CLIMWEB_PLUGIN_DIR is a persistent volume, so upgrading does not remove a plugin that
+# an instance installed previously. Leaving one in place breaks startup in two ways:
+#
+#   1. The plugin registers a Django app with the same label as the built-in one, and
+#      Django aborts with "Application labels aren't unique".
+#   2. The upstream repo is now packaged as a normal pip module, so it no longer has the
+#      plugins/<name>/ layout install_plugin.sh expects. The install fails, and because
+#      the entrypoint runs with `set -e` that failure takes the whole container down.
+#
+# Each entry is "<plugin folder name>:<pip distribution name>".
+CLIMWEB_SUPERSEDED_PLUGINS=(
+  "dataset_helper_plugin:dataset-helper-plugin"
+)
+
+# Match a git repo url or tarball url against a superseded plugin. Repo urls do not
+# have to match the folder name (dataset-helper-plugin vs dataset_helper_plugin), so
+# compare on a normalised basename with punctuation folded to underscores.
+is_superseded_source(){
+  local source_url="$1"
+  local base
+  base="$(basename -- "${source_url%.git}")"
+  base="${base%.tar.gz}"
+  base="${base//-/_}"
+
+  local entry
+  for entry in "${CLIMWEB_SUPERSEDED_PLUGINS[@]}"; do
+    if [[ "$base" == "${entry%%:*}" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+# Delete any superseded plugin left over from a previous install, so the settings module
+# never sees it and install_plugin.sh is never asked to rebuild it.
+remove_superseded_plugins(){
+  local entry plugin dist folder
+  for entry in "${CLIMWEB_SUPERSEDED_PLUGINS[@]}"; do
+    plugin="${entry%%:*}"
+    dist="${entry##*:}"
+    folder="$CLIMWEB_PLUGIN_DIR/$plugin"
+
+    if [[ -d "$folder" ]]; then
+      simple_log "Removing superseded plugin $plugin from $folder. It now ships with
+      ClimWeb as a built-in app, and keeping the plugin would stop the site from starting."
+      rm -rf "$folder" || simple_log "Could not remove $folder, continuing anyway."
+      rm -f "/climweb/container_markers/$plugin.built" || true
+      rm -f "/climweb/container_markers/$plugin.runtime-setup" || true
+    fi
+
+    # The plugin was pip installed into the venv. Its database tables are kept by the
+    # built-in app, so only the now-orphaned distribution is removed - never the data.
+    if pip3 show "$dist" >/dev/null 2>&1; then
+      simple_log "Uninstalling superseded plugin distribution $dist."
+      pip3 uninstall -y "$dist" >/dev/null 2>&1 || simple_log "Could not uninstall $dist, continuing anyway."
+    fi
+  done
+}
+
+
 startup_plugin_setup(){
   if [[ -z "${CLIMWEB_PLUGIN_SETUP_ALREADY_RUN:-}" ]]; then
     if [[ -z "${CLIMWEB_DISABLE_PLUGIN_INSTALL_ON_STARTUP:-}" ]]; then
+      # Drop plugins that have become built-in apps before anything tries to build them.
+      remove_superseded_plugins
+
       # Make sure any plugins found in the data dir are installed in this container if not
       # already.
       for plugin_dir in "$CLIMWEB_PLUGIN_DIR"/*/; do
@@ -92,12 +157,22 @@ startup_plugin_setup(){
       # Make sure any plugins configured via the environment variable are installed.
       for url in $(echo "${CLIMWEB_PLUGIN_URLS:-}" | tr "," "\n")
       do
+        if is_superseded_source "$url"; then
+          simple_log "Skipping $url from CLIMWEB_PLUGIN_URLS: it now ships with ClimWeb as
+          a built-in app. Remove it from the variable to silence this message."
+          continue
+        fi
         log "Downloading and installing the plugin found at $url"
         /climweb/plugins/install_plugin.sh --runtime --url "$url"
       done
 
       for repo in $(echo "${CLIMWEB_PLUGIN_GIT_REPOS:-}" | tr "," "\n")
       do
+        if is_superseded_source "$repo"; then
+          simple_log "Skipping $repo from CLIMWEB_PLUGIN_GIT_REPOS: it now ships with
+          ClimWeb as a built-in app. Remove it from the variable to silence this message."
+          continue
+        fi
         log "Downloading and installing the plugin found at $repo"
         /climweb/plugins/install_plugin.sh --runtime --git "$repo"
       done
