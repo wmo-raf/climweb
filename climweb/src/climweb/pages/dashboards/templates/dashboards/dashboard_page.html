@@ -195,5 +195,34 @@
     <script type"text/javascript" src="{% static 'js/dashboard-map.js' %}"></script>
     <script type"text/javascript" src="{% static 'js/dashboard-chart.js' %}"></script>
     <script type"text/javascript" src="{% static 'js/modal.js' %}"></script>
+<script>
+        // If on smaller screens, collapse all filter items
+        $(document).ready(function () {
+            const windowWidth = $(window).width();
 
+            if (windowWidth <= 768) {
+                //for  smaller devices
+                $('.js-accordion-item').removeClass('active');
+            }
+
+            document.querySelectorAll('.ac-wrap').forEach(function (wrap) {
+                wrap.querySelectorAll('.ac-header').forEach(function (header) {
+                header.addEventListener('click', function () {
+                    const item = header.closest('.ac-item');
+                    const isOpen = item.classList.contains('ac-item--open');
+
+                    // close all items in this wrap
+                    wrap.querySelectorAll('.ac-item').forEach(function (i) {
+                    i.classList.remove('ac-item--open');
+                    });
+
+                    // open clicked if it was closed
+                    if (!isOpen) {
+                    item.classList.add('ac-item--open');
+                    }
+                });
+                });
+            });
+        })
+    </script>
 {% endblock extra_js %}
