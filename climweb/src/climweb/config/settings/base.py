@@ -69,7 +69,10 @@ INSTALLED_APPS = [
     
     "adminboundarymanager",
     "geomanager",
-    
+    # Module is `dataset_helper`; its Django app label is `dataset_helper_plugin`,
+    # kept from when this shipped as a ClimWeb plugin so existing tables resolve.
+    "dataset_helper",
+
     "wagtailmautic",
     "wagtailzoom",
     "wagtailsurveyjs",
@@ -185,10 +188,29 @@ if CLIMWEB_ADDITIONAL_APPS:
 CLIMWEB_PLUGIN_DIR = env.list("CLIMWEB_PLUGIN_DIR", default=["/climweb/plugins", ])
 CLIMWEB_PLUGIN_PACKAGE_FOLDERS = []
 
+# Plugins that ClimWeb now ships as built-in apps. CLIMWEB_PLUGIN_DIR lives on a
+# persistent volume, so an instance that installed one of these as a plugin still has
+# the old folder on disk after upgrading. Loading it would register a second Django app
+# with the same label as the built-in one and Django refuses to start:
+#
+#   ImproperlyConfigured: Application labels aren't unique, duplicates: dataset_helper_plugin
+#
+# Skipping the folder here keeps such instances bootable whether or not the leftover has
+# been cleaned up. deploy/plugins/utils.sh removes the folder itself on startup.
+SUPERSEDED_PLUGINS = ["dataset_helper_plugin"]
+
 for plugin_dir in CLIMWEB_PLUGIN_DIR:
     plugin_package = Path(plugin_dir)
     if plugin_package.exists():
         plugin_package_folders = [file for file in plugin_package.iterdir() if file.is_dir()]
+        superseded = [f for f in plugin_package_folders if f.name in SUPERSEDED_PLUGINS]
+        if superseded:
+            print(
+                f"Ignoring superseded ClimWeb plugin(s): "
+                f"{', '.join(f.name for f in superseded)}. These now ship with ClimWeb as "
+                f"built-in apps; the leftover plugin folder(s) can be deleted."
+            )
+        plugin_package_folders = [f for f in plugin_package_folders if f.name not in SUPERSEDED_PLUGINS]
         CLIMWEB_PLUGIN_PACKAGE_FOLDERS.extend(plugin_package_folders)
 
 if CLIMWEB_PLUGIN_PACKAGE_FOLDERS:
