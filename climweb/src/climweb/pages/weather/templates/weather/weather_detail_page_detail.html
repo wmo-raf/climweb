@@ -156,12 +156,14 @@
         <!-- GRAPHS -->
          <div class="wd-day-graphs">
             {{ graph_payloads|json_script:"graph-forecast-data" }}
-            {% if graph_payloads %}
+            {% if has_graph_data %}
               <div class="wd-graph" id="temperature-graph"></div>
               <div class="wd-graph" id="precipitation-graph"></div>
               <div class="wd-graph" id="wind-graph"></div>
               <div class="wd-graph" id="air-pressure-graph"></div>
               <div class="wd-graph" id="humidity-graph"></div>
+              {# Shown when the selected day alone has nothing plottable. #}
+              <p class="wd-graph-text wd-hidden" id="wd-no-graph-data">{% trans "No weather data to showcase at the moment." %}</p>
             {% else %}
                 <p class="wd-graph-text">{% trans "No weather data to showcase at the moment." %}</p>
             {% endif %}
@@ -342,10 +344,18 @@ $(document).ready(function () {
     humidity: mixColors(themePrimary, 78, themeBackground)
   };
 
+  /* Values the backend could not parse as numbers (e.g. "25-60, Max 60") come
+     through as null. Keep them null so Highcharts renders a gap instead of
+     Number(null) === 0, which would plot a misleading zero. */
+  function toNumericSeries(values) {
+    return (values || []).map(function (value) {
+      return value === null || value === undefined || value === '' ? null : Number(value);
+    });
+  }
+
 
   /* ── TEMPERATURE LINE GRAPH ── */
   function renderTemperatureGraph(dayData, dayKey) {
-    console.log("test pdf changes 1");
     const singlePoint = dayData.time_data.length === 1;
 
     return Highcharts.chart('temperature-graph', {
@@ -399,12 +409,12 @@ $(document).ready(function () {
       series: [
         {
           name: 'Maximum',
-          data: dayData.air_temperature_max.map(Number),
+          data: toNumericSeries(dayData.air_temperature_max),
           color: CHART_COLORS.primary
         },
         {
           name: 'Minimum',
-          data: dayData.air_temperature_min.map(Number),
+          data: toNumericSeries(dayData.air_temperature_min),
           color: CHART_COLORS.primaryMedium
         }
       ],
@@ -418,8 +428,8 @@ $(document).ready(function () {
   /* ── WIND BARB GRAPH ── */
   function renderWindGraph(dayData, dayKey) {
     const singlePoint = dayData.time_data.length === 1;
-    const windSpeeds = dayData.wind_speed.map(Number);
-    const windDirs = dayData.wind_from_direction.map(Number);
+    const windSpeeds = toNumericSeries(dayData.wind_speed);
+    const windDirs = toNumericSeries(dayData.wind_from_direction);
 
     let windSpeedSeries = [];
     let windBarbSeries = [];
@@ -506,7 +516,7 @@ $(document).ready(function () {
   /* ── PRECIPITATION BAR CHART ── */
   function renderPrecipitationGraph(dayData, dayKey) {
     const singlePoint = dayData.time_data.length === 1;
-    const precipitationData = dayData.precipitation_amount.map(Number);
+    const precipitationData = toNumericSeries(dayData.precipitation_amount);
 
     return Highcharts.chart('precipitation-graph', {
       chart: {
@@ -563,7 +573,7 @@ $(document).ready(function () {
   /* ── AIR PRESSURE BAR CHART ── */
   function renderAirPressureGraph(dayData, dayKey) {
     const singlePoint = dayData.time_data.length === 1;
-    const airPressureData = dayData.air_pressure_at_sea_level.map(Number);
+    const airPressureData = toNumericSeries(dayData.air_pressure_at_sea_level);
 
     return Highcharts.chart('air-pressure-graph', {
       chart: {
@@ -620,7 +630,7 @@ $(document).ready(function () {
   /* ── RELATIVE HUMIDITY BAR CHART ── */
   function renderHumidityGraph(dayData, dayKey) {
     const singlePoint = dayData.time_data.length === 1;
-    const humidityData = dayData.relative_humidity.map(Number);
+    const humidityData = toNumericSeries(dayData.relative_humidity);
 
     return Highcharts.chart('humidity-graph', {
       chart: {
@@ -747,17 +757,54 @@ $(document).ready(function () {
   // page width before capture (see '── GENERATE PDF ──' below).
   let activeCharts = {};
 
+  const GRAPH_CONTAINER_IDS = [
+    'temperature-graph',
+    'precipitation-graph',
+    'wind-graph',
+    'air-pressure-graph',
+    'humidity-graph'
+  ];
+
+  // Days are switched client side against containers laid out once, so any
+  // chart the new day does not draw has to be torn down explicitly. Otherwise
+  // the previous day's chart stays on screen and is read as this day's.
+  function destroyGraphs() {
+    Object.keys(activeCharts).forEach(function (key) {
+      const chart = activeCharts[key];
+      if (chart && typeof chart.destroy === 'function') {
+        chart.destroy();
+      }
+    });
+
+    activeCharts = {};
+
+    GRAPH_CONTAINER_IDS.forEach(function (id) {
+      const container = document.getElementById(id);
+      if (container) {
+        container.innerHTML = '';
+      }
+    });
+  }
+
   function renderGraphsForDay(dayKey) {
+    destroyGraphs();
+
+    const noDataMessage = document.getElementById('wd-no-graph-data');
+    const showNoDataMessage = function (show) {
+      if (noDataMessage) {
+        noDataMessage.classList.toggle('wd-hidden', !show);
+      }
+    };
+
     if (!dayKey) {
       return;
     }
 
     const dayData = graphPayloads[dayKey];
     if (!dayData || !dayData.time_data || !dayData.time_data.length) {
+      showNoDataMessage(true);
       return;
     }
-
-    activeCharts = {};
 
     if (dayData.has_temperature_data) {
       activeCharts.temperature = renderTemperatureGraph(dayData, dayKey);
@@ -778,6 +825,8 @@ $(document).ready(function () {
     if (dayData.has_humidity_data) {
       activeCharts.humidity = renderHumidityGraph(dayData, dayKey);
     }
+
+    showNoDataMessage(Object.keys(activeCharts).length === 0);
   }
   
   /* ── INITIALIZE ACTIVE TAB ── */

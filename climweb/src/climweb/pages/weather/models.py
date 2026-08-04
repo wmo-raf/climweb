@@ -18,7 +18,11 @@ from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import AbstractIntroPage
 from climweb.base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
 from .blocks import ExtremeWeatherBlock
-from .utils import get_city_forecast_detail_data, extract_forecast_metric
+from .utils import (
+    get_city_forecast_detail_data,
+    extract_forecast_metric_series,
+    series_is_plottable,
+)
 
 
 TEMPERATURE_MAX_SLUG = "air_temperature_max"
@@ -98,7 +102,6 @@ class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
             day_key = day.strftime('%Y-%m-%d')
             
             time_data = []
-            graph_values = {param_slug: [] for param_slug in GRAPH_PARAMETER_SLUGS}
 
             for forecast in forecasts:
                 if not city_condition:
@@ -106,32 +109,30 @@ class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
 
                 time_data.append(forecast.effective_period.label)
 
-                for param_slug in GRAPH_PARAMETER_SLUGS:
-                    value = extract_forecast_metric(forecast, param_slug, default=None)
-                    graph_values[param_slug].append(value)
+            series_by_slug = {
+                param_slug: extract_forecast_metric_series(forecasts, param_slug)
+                for param_slug in GRAPH_PARAMETER_SLUGS
+            }
+            graph_values = {
+                param_slug: series.values
+                for param_slug, series in series_by_slug.items()
+            }
 
-            # flags to indicate if the graph should be rendered or not
-            day_has_temperature_data = any(
-                value is not None
-                for value in graph_values[TEMPERATURE_MAX_SLUG]
-                + graph_values[TEMPERATURE_MIN_SLUG]
+            # A chart is only rendered when every parameter it draws is numeric
+            # throughout the day. Free text such as "25-60, Max 60" cannot be
+            # plotted, and charting the remaining slots would read as a
+            # complete forecast, so the chart is dropped instead. Wind and
+            # temperature list both of their series, since either one going
+            # non-numeric makes the whole chart misleading.
+            day_has_temperature_data = series_is_plottable(
+                series_by_slug, TEMPERATURE_MAX_SLUG, TEMPERATURE_MIN_SLUG
             )
-            day_has_wind_data = any(
-                value is not None
-                for value in graph_values[WIND_SPEED_SLUG]
+            day_has_wind_data = series_is_plottable(
+                series_by_slug, WIND_SPEED_SLUG, WIND_DIRECTION_SLUG
             )
-            day_has_precipitation_data = any(
-                value is not None
-                for value in graph_values[PRECIPITATION_SLUG]
-            )
-            day_has_air_pressure_data = any(
-                value is not None
-                for value in graph_values[AIR_PRESSURE_SLUG]
-            )
-            day_has_humidity_data = any(
-                value is not None
-                for value in graph_values[HUMIDITY_SLUG]
-            )
+            day_has_precipitation_data = series_is_plottable(series_by_slug, PRECIPITATION_SLUG)
+            day_has_air_pressure_data = series_is_plottable(series_by_slug, AIR_PRESSURE_SLUG)
+            day_has_humidity_data = series_is_plottable(series_by_slug, HUMIDITY_SLUG)
 
             graph_payloads[day_key] = {
                 "time_data": time_data,
@@ -140,8 +141,19 @@ class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
                 "has_precipitation_data": day_has_precipitation_data,
                 "has_air_pressure_data": day_has_air_pressure_data,
                 "has_humidity_data": day_has_humidity_data,
-                **graph_values                
+                **graph_values
             }
+
+        # Whether any day has at least one chart to draw. Days are switched
+        # client side, so the section is laid out once for all of them.
+        has_graph_data = any(
+            payload["has_temperature_data"]
+            or payload["has_wind_data"]
+            or payload["has_precipitation_data"]
+            or payload["has_air_pressure_data"]
+            or payload["has_humidity_data"]
+            for payload in graph_payloads.values()
+        )
 
         city_map_payload = {
             "city_y": city.y,
@@ -154,6 +166,7 @@ class WeatherDetailPage(MetadataPageMixin, RoutablePageMixin, Page):
             "city": city,
             "today": timezone.localtime().date(),
             "graph_payloads": graph_payloads,
+            "has_graph_data": has_graph_data,
             "city_map_payload": city_map_payload,
             **detail_data
         })
