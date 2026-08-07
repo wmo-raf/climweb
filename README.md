@@ -85,12 +85,16 @@ NMHSs that have adopted ClimWeb across Africa:
     - Live CAP creation and editing preview.
     - Draw/Select predefined Alert areas.
     - Alert to Alert/Alerts Reference Linkage.
+    - Publishing CAP Alerts in mutliple languages
+    - Onboarded 18 cap composer countries onto Google public Alerts (when someone in those countries searches for a storm or flood, or opens Google Maps, the national met service's alert appears directly in Google Search, Maps, and Android)
+    
 
 - 📆 Events registrations and Integration with Online Meeting Platforms (Zoom)
     - Create event registration forms hosted on the website.
     - Automatically send invitation emails to users as they register to events from the website.
     - Keep record of all your registrants for internal analysis.
     - Allow users registering to events to also subscribe to your products.
+      
 - 🌍 Interactive Georeferenced data visualisation
     - Upload and visualise own gridded data (forecasts, advisories, climate data products) on a map.
     - Upload and visualise vector data (Point, areas) on a map.
