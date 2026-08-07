@@ -51,19 +51,20 @@ NMHSs that have adopted ClimWeb across Africa:
 
 #### In progress
 
-33. 🇺🇬 Uganda
-34. 🇳🇦 Namibia
-35. 🇸🇹 Sao Tome Principe
+34. 🇺🇬 Uganda
+35. 🇳🇦 Namibia
 36. 🇲🇬 Madagascar
 37. 🇸🇿 Eswatini
 41. 🇨🇲 Cameroon
 42. 🇨🇲 RCC Douala
 43. 🇨🇲 RSMC Yaounde
+44. 🇸🇹 Sao Tome Principe
 
 ## 🌍 Other regions
 44. 🇸🇾 [Syria](https://climweb.med.gov.sy)
 
 ## 🌟 Core Features
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e182517d-277d-44e7-8800-e02761940375" />
 
 - 🙂 User friendly website Content Management System
     - Modern look and design, mobile friendly.
