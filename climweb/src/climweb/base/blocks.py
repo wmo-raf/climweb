@@ -67,6 +67,20 @@ class TitleOnlyBlock(blocks.StructBlock):
         icon = "h1"
         label = _("Title")
 
+
+class IframeBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=100, required=False, verbose_name=_('Section Title'),
+                             help_text=_("Optional heading shown above the embed"))
+    url = blocks.URLBlock(label=_("Embed URL"), help_text=_("The URL of the page to embed"))
+    height = blocks.IntegerBlock(default=500, label=_("Height (px)"))
+    allow_fullscreen = blocks.BooleanBlock(required=False, default=True, label=_("Allow fullscreen"))
+
+    class Meta:
+        template = "streams/iframe_block.html"
+        icon = "placeholder"
+        label = _("Iframe Embed")
+
+
 class TextOnlyBlock(blocks.StructBlock):
     text = blocks.RichTextBlock(features=FULL_RICHTEXT_FRATURES, verbose_name=_('Section Text'),
                                 help_text=_("Section description"))
