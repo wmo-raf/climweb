@@ -1,0 +1,20 @@
+{% load wagtailcore_tags %}
+
+<div class="work container">
+    {% if value.title %}
+        <h2 class="title is-3">
+            {{ value.title }}
+        </h2>
+    {% endif %}
+    <div class="iframe-embed-wrapper">
+        <iframe src="{{ value.url }}"
+                height="{{ value.height }}"
+                width="100%"
+                frameborder="0"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                {% if value.allow_fullscreen %}allow="fullscreen" allowfullscreen{% endif %}
+                title="{{ value.title|default:"Embedded content" }}">
+        </iframe>
+    </div>
+</div>

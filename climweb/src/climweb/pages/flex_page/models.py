@@ -23,6 +23,7 @@ class FlexPage(AbstractBannerPage):
             ("title_text_image", blocks.TitleTextImageBlock()),
             ("accordion", blocks.AccordionBlock()),
             ("table", blocks.TableInfoBlock()),
+            ("iframe", blocks.IframeBlock()),
 
         ],
         null=True,
