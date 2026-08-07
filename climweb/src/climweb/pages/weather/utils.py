@@ -1,3 +1,5 @@
+from typing import NamedTuple
+
 from django.utils import timezone
 from forecastmanager.forecast_settings import ForecastSetting
 from forecastmanager.models import CityForecast
@@ -36,12 +38,61 @@ def get_city_forecast_detail_data(city, multi_period=False, request=None, for_ho
         "weather_parameters": weather_parameters,
     }
 
-def extract_forecast_metric(forecast, param_slug, default=0.0):
+class ForecastSeries(NamedTuple):
     """
-    Extract a CityForecast metric from its data values dictionary.
-    """
-    params_dict = forecast.data_values_dict
+    A parameter's values across one day's forecasts, plus what they contained.
 
-    if param_slug in params_dict and params_dict[param_slug]["value"] not in (None, ''):
-        return float(params_dict[param_slug]["value"])
-    return default
+    ``has_numeric`` and ``has_text`` are not opposites: a day can hold both a
+    plottable number and free text in different time slots, and it is that
+    mixed case the graph flags need to distinguish.
+    """
+    values: list
+    has_numeric: bool
+    has_text: bool
+
+
+def extract_forecast_metric_series(forecasts, param_slug):
+    """
+    Collect one parameter's values across a day's forecasts, in order.
+
+    Empty and missing values become None (nothing was entered). Non-numeric
+    values also become None, but are reported separately via ``has_text`` so
+    callers can tell "the editor entered nothing" apart from "the editor
+    entered something we cannot plot".
+    """
+    values = []
+    has_numeric = False
+    has_text = False
+
+    for forecast in forecasts:
+        raw_value = (forecast.data_values_dict.get(param_slug) or {}).get("value")
+
+        if raw_value in (None, ''):
+            values.append(None)
+            continue
+
+        try:
+            values.append(float(raw_value))
+            has_numeric = True
+        except (TypeError, ValueError):
+            values.append(None)
+            has_text = True
+
+    return ForecastSeries(values=values, has_numeric=has_numeric, has_text=has_text)
+
+
+def series_is_plottable(series_by_slug, *param_slugs):
+    """
+    Decide whether a chart drawing ``param_slugs`` should be rendered at all.
+
+    A chart is drawn only when at least one of its parameters has a number and
+    none of them contain free text. Dropping the whole chart on any text value
+    is deliberate: a text slot has to be plotted as a gap, and a gap is
+    indistinguishable from missing data, so a partial curve would quietly
+    misrepresent the forecast. The daily table above still shows the raw text,
+    so nothing the editor entered is lost.
+    """
+    has_numeric = any(series_by_slug[slug].has_numeric for slug in param_slugs)
+    has_text = any(series_by_slug[slug].has_text for slug in param_slugs)
+
+    return has_numeric and not has_text
