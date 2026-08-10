@@ -277,9 +277,63 @@ def _page_text(page):
     return "\n".join(parts)
 
 
+_LETTER_RE = re.compile(r"[^\W\d_]", re.UNICODE)
+
+
+def _drop_letterless_tokens(text):
+    """Remove tokens that contain no letters at all before the profanity check.
+
+    better-profanity normalises leet-speak by mapping digits onto letters (7->t,
+    3->e, 5->s, 1->i, 0->o, 4->a). Machine-generated numeric strings therefore
+    decode into words by coincidence: a CAP area polygon coordinate such as
+    "-1.73375" splits on the period and the fragment "73375" normalises to
+    "teets", which is in the default word list. An alert with a drawn area
+    carries hundreds of such coordinates, so publishing fails at random.
+
+    Tokens with no letters are never author-written prose, so dropping them
+    removes the false positives. Genuine leet-speak evasion ("sh1t", "@ss")
+    always retains at least one letter and is still checked.
+    """
+    if not text:
+        return ""
+
+    return "\n".join(
+        " ".join(token for token in line.split() if _LETTER_RE.search(token))
+        for line in text.split("\n")
+    )
+
+
+# Page types the harassment check never blocks, as "app_label.ModelName".
+#
+# CAP alerts are exempt because a blocked publish means a weather warning does
+# not reach the public — a far worse outcome than an unfiltered word slipping
+# through. Their content is also a poor fit for a general-purpose profanity
+# filter: emergency vocabulary overlaps it, and the areas carry machine-generated
+# geometry that decodes into blocked words by coincidence (see
+# _drop_letterless_tokens). Alerts are authored by accredited NMHS staff and
+# reviewed through the CAP workflow, so the editorial safeguard sits elsewhere.
+_HARASSMENT_CHECK_EXEMPT_PAGE_TYPES = {
+    page_type.lower()
+    for page_type in getattr(
+        settings,
+        "CLIMWEB_HARASSMENT_CHECK_EXEMPT_PAGE_TYPES",
+        ["cap.CapAlertPage"],
+    )
+}
+
+
+def _is_exempt_from_harassment_check(page):
+    specific_class = page.specific_class or type(page)
+    page_type = f"{specific_class._meta.app_label}.{specific_class.__name__}"
+    return page_type.lower() in _HARASSMENT_CHECK_EXEMPT_PAGE_TYPES
+
+
 @hooks.register("before_publish_page")
 def block_harmful_content_on_publish(request, page):
-    text = _page_text(page)
+    if _is_exempt_from_harassment_check(page):
+        return
+
+    text = _drop_letterless_tokens(_page_text(page))
     if profanity.contains_profanity(text):
         messages.error(
             request,

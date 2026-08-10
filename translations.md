@@ -40,24 +40,24 @@ sphinx-build -b html -D language=fr . _build/html/fr
 
 ```sh
 export ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev'
-./climweb/src/climweb/manage.py makemessages -l fr
+climweb makemessages -l es -l sw -l en -l pt -l ar -l am -fr
 ```
 
 2. Translate ***.po** locales files listed in LOCALE_PATHS 
 
 ```sh
 export ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev' 
-./climweb/src/climweb/manage.py translate_messages -l fr
+climweb translate_messages -l es -l sw -l en -l pt -l ar -l am -fr -u
 ```
 
 3. Build docs in target language (generate ***.mo** files)
 
 ```sh
 export ENV DJANGO_SETTINGS_MODULE='climweb.config.settings.dev' 
-./climweb/src/climweb/manage.py compilemessages
+climweb compilemessages
 ```
 
-
-
-climweb makemessages -l es -l sw -l en -l pt -l ar -l am -fr
-translate_messages -l fr -u
+crowdin upload translations \
+  --token $CROWDIN_TOKEN \
+  --project-id 672958 \
+  --auto-approve-imported
