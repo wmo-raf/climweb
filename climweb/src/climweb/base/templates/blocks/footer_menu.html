@@ -21,8 +21,7 @@
              href="{{ item.value.page.url }}"
            {% else %}
              href="{{ item.value.external_url }}"
-             target="_blank"
-             rel="noopener noreferrer"
+             {% if item.value.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
            {% endif %}>
           {{ item.value.label }}
         </a>
@@ -32,8 +31,7 @@
              href="{{ item.value.page.url }}"
            {% else %}
              href="{{ item.value.external_url }}"
-             target="_blank"
-             rel="noopener noreferrer"
+             {% if item.value.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
            {% endif %}>
           {{ item.value.label }}
         </a>

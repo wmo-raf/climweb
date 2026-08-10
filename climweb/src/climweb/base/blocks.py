@@ -67,6 +67,20 @@ class TitleOnlyBlock(blocks.StructBlock):
         icon = "h1"
         label = _("Title")
 
+
+class IframeBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=100, required=False, verbose_name=_('Section Title'),
+                             help_text=_("Optional heading shown above the embed"))
+    url = blocks.URLBlock(label=_("Embed URL"), help_text=_("The URL of the page to embed"))
+    height = blocks.IntegerBlock(default=500, label=_("Height (px)"))
+    allow_fullscreen = blocks.BooleanBlock(required=False, default=True, label=_("Allow fullscreen"))
+
+    class Meta:
+        template = "streams/iframe_block.html"
+        icon = "placeholder"
+        label = _("Iframe Embed")
+
+
 class TextOnlyBlock(blocks.StructBlock):
     text = blocks.RichTextBlock(features=FULL_RICHTEXT_FRATURES, verbose_name=_('Section Text'),
                                 help_text=_("Section description"))
@@ -202,6 +216,7 @@ class NavigationSubItemBlock(blocks.StructBlock):
     label = blocks.CharBlock(label=_("Label"))
     page = blocks.PageChooserBlock(required=False, label=_("Page"))
     external_url = blocks.URLBlock(required=False, label=_("External URL"))
+    open_in_new_tab = blocks.BooleanBlock(required=False, default=True, label=_("Open in new tab. (Applies only to external URLs)"))
     is_action = blocks.BooleanBlock(required=False, label=_("Show as action button"))
 
 
@@ -220,6 +235,7 @@ class NavigationItemBlock(blocks.StructBlock):
     label = blocks.CharBlock(label=_("Label"))
     page = blocks.PageChooserBlock(required=False, label=_("Page"))
     external_url = blocks.URLBlock(required=False, label=_("External URL"))
+    open_in_new_tab = blocks.BooleanBlock(required=False, default=True, label=_("Open in new tab. (Applies only to external URLs)"))
     include_subpages = blocks.BooleanBlock(required=False, label=_("Include Subpages"))
     large_submenu = blocks.BooleanBlock(required=False, label=_("Large Submenu Dropdown"))
     sub_items = blocks.StreamBlock([
