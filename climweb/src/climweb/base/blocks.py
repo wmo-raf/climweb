@@ -216,6 +216,7 @@ class NavigationSubItemBlock(blocks.StructBlock):
     label = blocks.CharBlock(label=_("Label"))
     page = blocks.PageChooserBlock(required=False, label=_("Page"))
     external_url = blocks.URLBlock(required=False, label=_("External URL"))
+    open_in_new_tab = blocks.BooleanBlock(required=False, default=True, label=_("Open in new tab. (Applies only to external URLs)"))
     is_action = blocks.BooleanBlock(required=False, label=_("Show as action button"))
 
 
@@ -234,6 +235,7 @@ class NavigationItemBlock(blocks.StructBlock):
     label = blocks.CharBlock(label=_("Label"))
     page = blocks.PageChooserBlock(required=False, label=_("Page"))
     external_url = blocks.URLBlock(required=False, label=_("External URL"))
+    open_in_new_tab = blocks.BooleanBlock(required=False, default=True, label=_("Open in new tab. (Applies only to external URLs)"))
     include_subpages = blocks.BooleanBlock(required=False, label=_("Include Subpages"))
     large_submenu = blocks.BooleanBlock(required=False, label=_("Large Submenu Dropdown"))
     sub_items = blocks.StreamBlock([
