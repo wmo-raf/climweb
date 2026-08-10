@@ -1,8 +1,11 @@
-{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags %}
+{% load i18n wagtailcore_tags static wagtailimages_tags wagtailiconchooser_tags cap_alert_widgets %}
 {% url 'wagtailadmin_home' as wagtail_admin_url %}
 {% wagtail_site as current_site %}
 
 <header class="site-header">
+
+  <!-- active alert strip — sits above all other header chrome -->
+  <div class="nav-top-scroll-active-alert"></div>
 
   <!-- ── TOP UTILITY BAR ── -->
   <div class="site-header-top">
@@ -200,9 +203,6 @@
 
     </div>
   </nav>
-
-  <!-- alert containers -->
-  <div class="nav-top-scroll-active-alert"></div>
 
 </header>
 
