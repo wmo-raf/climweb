@@ -3,6 +3,7 @@ from wagtail import hooks
 from wagtail.admin import widgets as wagtail_admin_widgets
 
 from .models import ProductPage
+from .sync_views import product_sync_setup_view
 from .views import product_layers_integration_view, trigger_product_ingestion_view
 
 
@@ -13,6 +14,8 @@ def urlconf_products():
              name="product_layer_integration"),
         path('product-run-ingestion/<int:product_page_id>', trigger_product_ingestion_view,
              name="product_run_ingestion"),
+        path('product-sync-setup/<int:product_page_id>', product_sync_setup_view,
+             name="product_sync_setup"),
     ]
 
 
@@ -23,6 +26,11 @@ def page_listing_buttons(page, user, next_url=None):
             "MapViewer Integration",
             reverse("product_layer_integration", args=[page.pk]),
             priority=50,
+        )
+        yield wagtail_admin_widgets.PageListingButton(
+            "Automated Publishing",
+            reverse("product_sync_setup", args=[page.pk]),
+            priority=55,
         )
         if page.product.ingestion_enabled:
             yield wagtail_admin_widgets.PageListingButton(
