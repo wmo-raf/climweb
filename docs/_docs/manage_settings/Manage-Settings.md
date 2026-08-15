@@ -19,13 +19,7 @@ Organisation settings include the logo, country, address, contact information an
 
 ## Managing Themes
 
-The ClimWeb allows you to create/edit/delete a theme. You can also set a default theme which will be applied to all pages of the website. 
-
-![Themes](../../_static/images/settings/themes.png "Themes")
-
-The theme configurations include theme name, theme colors, borders and shadows.
-
-![Theme Detail](../../_static/images/settings/theme_detail.png "Theme Detail")
+For full instructions on creating, activating, and previewing themes, see [Themes](Manage-Themes.md).
 
 ## Managing Integrations
 
