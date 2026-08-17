@@ -316,6 +316,94 @@ class PingTests(SyncApiTestCase):
         self.assertEqual(response.status_code, 401)
 
 
+class FullSyncRequestTests(SyncApiTestCase):
+    """
+    The 'Sync all files' button in the admin.
+
+    Nothing can be pushed to the source server, so the request rides along on
+    the ping the client already makes, and is cleared only once the client
+    reports back.
+    """
+
+    def test_ping_reports_no_request_by_default(self):
+        _, token = self.issue_credential()
+        response = self.client.get("/api/product-sync/ping/", **self.auth(token))
+        self.assertEqual(response.json()["full_sync_requested"], "false")
+
+    def test_ping_reports_a_pending_request(self):
+        credential, token = self.issue_credential()
+        credential.request_full_sync()
+        response = self.client.get("/api/product-sync/ping/", **self.auth(token))
+        self.assertEqual(response.json()["full_sync_requested"], "true")
+
+    def test_the_env_form_carries_the_flag(self):
+        credential, token = self.issue_credential()
+        credential.request_full_sync()
+        response = self.client.get(
+            "/api/product-sync/ping/?format=env", **self.auth(token)
+        )
+        self.assertIn("FULL_SYNC_REQUESTED='true'", response.content.decode())
+
+    def test_reading_the_flag_does_not_clear_it(self):
+        """A run that dies after pinging must still get its full sync."""
+        credential, token = self.issue_credential()
+        credential.request_full_sync()
+
+        self.client.get("/api/product-sync/ping/", **self.auth(token))
+        credential.refresh_from_db()
+        self.assertTrue(credential.full_sync_pending)
+
+        response = self.client.get("/api/product-sync/ping/", **self.auth(token))
+        self.assertEqual(response.json()["full_sync_requested"], "true")
+
+    def test_the_client_clears_it_on_completion(self):
+        credential, token = self.issue_credential()
+        credential.request_full_sync()
+
+        response = self.client.post(
+            "/api/product-sync/full-sync-complete/", {}, **self.auth(token)
+        )
+        self.assertEqual(response.status_code, 200)
+
+        credential.refresh_from_db()
+        self.assertFalse(credential.full_sync_pending)
+        self.assertIsNotNone(credential.full_sync_completed_at)
+
+    def test_completion_without_a_request_is_harmless(self):
+        credential, token = self.issue_credential()
+        response = self.client.post(
+            "/api/product-sync/full-sync-complete/", {}, **self.auth(token)
+        )
+        self.assertEqual(response.status_code, 200)
+        credential.refresh_from_db()
+        self.assertIsNone(credential.full_sync_completed_at)
+
+    def test_completion_needs_a_valid_token(self):
+        response = self.client.post(
+            "/api/product-sync/full-sync-complete/", {}, **self.auth("nope")
+        )
+        self.assertEqual(response.status_code, 401)
+
+    def test_one_server_cannot_clear_anothers_request(self):
+        first, _ = self.issue_credential()
+        _, second_token = self.issue_credential()
+        first.request_full_sync()
+
+        self.client.post(
+            "/api/product-sync/full-sync-complete/", {}, **self.auth(second_token)
+        )
+
+        first.refresh_from_db()
+        self.assertTrue(first.full_sync_pending)
+
+    def test_a_request_can_be_cancelled(self):
+        credential, _ = self.issue_credential()
+        credential.request_full_sync()
+        credential.cancel_full_sync()
+        credential.refresh_from_db()
+        self.assertFalse(credential.full_sync_pending)
+
+
 class SetupScriptTests(TestCase):
     def test_the_bootstrap_script_is_served(self):
         response = self.client.get("/api/product-sync/setup.sh")

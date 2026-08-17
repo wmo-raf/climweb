@@ -294,10 +294,40 @@ def ping(request):
         "variable_name": product.variable_name,
         "formats": ",".join(product_formats(product)),
         "ingestion_enabled": "true" if product.ingestion_enabled else "false",
+        # This is how a "sync everything now" click in the admin reaches the
+        # source server: it cannot be pushed, so it rides along on the check
+        # the client already makes at the start of every run.
+        "full_sync_requested": "true" if credential.full_sync_pending else "false",
     }
     if request.GET.get("format") == "env":
         return _env_response(payload)
     return JsonResponse(payload)
+
+
+# -----------------------------------------------------------------------------
+# POST /api/product-sync/full-sync-complete/
+# -----------------------------------------------------------------------------
+@csrf_exempt
+@require_POST
+def full_sync_complete(request):
+    """
+    Acknowledge a completed full sync, clearing the request.
+
+    Acknowledging here rather than when the flag is read means a run that fails
+    partway leaves the request outstanding, so the next run retries it.
+    """
+    credential = _authenticate(request)
+    if credential is None:
+        return _error(401, "invalid_token", "The token was not accepted.")
+
+    if credential.full_sync_pending:
+        credential.complete_full_sync()
+        logger.info(
+            f"[PRODUCT-SYNC] Full sync completed for '{credential.product.name}' "
+            f"by '{credential.label}'"
+        )
+
+    return JsonResponse({"status": "ok"})
 
 
 # -----------------------------------------------------------------------------

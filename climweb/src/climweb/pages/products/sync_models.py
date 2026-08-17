@@ -190,6 +190,17 @@ class ProductSyncCredential(models.Model):
         null=True, blank=True, verbose_name=_("Revoked At")
     )
 
+    # Traffic only ever flows from the source server to here, so an editor
+    # cannot make that server send on demand. Instead the request is left as a
+    # flag: the client already contacts the API on every run, and picks it up
+    # then. The delay is one of the source server's cron intervals.
+    full_sync_requested_at = models.DateTimeField(
+        null=True, blank=True, verbose_name=_("Full Sync Requested At")
+    )
+    full_sync_completed_at = models.DateTimeField(
+        null=True, blank=True, verbose_name=_("Full Sync Completed At")
+    )
+
     class Meta:
         verbose_name = _("Product Sync Credential")
         verbose_name_plural = _("Product Sync Credentials")
@@ -246,3 +257,32 @@ class ProductSyncCredential(models.Model):
         if self.is_active:
             self.revoked_at = timezone.now()
             self.save(update_fields=["revoked_at"])
+
+    # -- full sync request -----------------------------------------------------
+    @property
+    def full_sync_pending(self):
+        return self.full_sync_requested_at is not None
+
+    def request_full_sync(self):
+        """Ask the source server to re-offer every file on its next run."""
+        self.full_sync_requested_at = timezone.now()
+        self.save(update_fields=["full_sync_requested_at"])
+
+    def complete_full_sync(self):
+        """
+        Called by the client once it has finished a requested full sync.
+
+        The flag is cleared here rather than when the client first reads it, so
+        a run that dies halfway leaves the request outstanding and the next run
+        picks it up again.
+        """
+        self.full_sync_completed_at = timezone.now()
+        self.full_sync_requested_at = None
+        self.save(
+            update_fields=["full_sync_completed_at", "full_sync_requested_at"]
+        )
+
+    def cancel_full_sync(self):
+        if self.full_sync_pending:
+            self.full_sync_requested_at = None
+            self.save(update_fields=["full_sync_requested_at"])

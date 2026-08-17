@@ -46,6 +46,7 @@
             background: #e8f5ee; color: #187948;
         }
         .sync-pill-off { background: #f4e6e6; color: #a33; }
+        .sync-pill-wait { background: #fbf0da; color: #855; }
     </style>
 {% endblock %}
 
@@ -76,6 +77,20 @@
                         </li>
                     {% endfor %}
                 </ul>
+
+                {% if product_edit_url %}
+                    <p style="margin-top:1.25rem; margin-bottom:0;">
+                        <a href="{{ product_edit_url }}" class="button">
+                            {% translate "Start Here" %}
+                        </a>
+                        <span class="sync-muted" style="margin-left:.5rem;">
+                            {% blocktranslate trimmed with name=product.name %}
+                                Opens the {{ name }} product settings, where all of
+                                the above are fixed.
+                            {% endblocktranslate %}
+                        </span>
+                    </p>
+                {% endif %}
             </div>
         {% endif %}
 
@@ -175,6 +190,21 @@
                                         <span class="sync-pill sync-pill-off">{% translate "Disconnected" %}</span>
                                     {% endif %}
                                     <div class="sync-muted">{{ credential.token_prefix }}…</div>
+
+                                    {% if credential.full_sync_pending %}
+                                        <div class="sync-muted" style="margin-top:.35rem;">
+                                            <span class="sync-pill sync-pill-wait">{% translate "Full sync pending" %}</span>
+                                            {% blocktranslate trimmed with when=credential.full_sync_requested_at|timesince %}
+                                                requested {{ when }} ago — runs when this server next checks in, within 10 minutes
+                                            {% endblocktranslate %}
+                                        </div>
+                                    {% elif credential.full_sync_completed_at %}
+                                        <div class="sync-muted" style="margin-top:.35rem;">
+                                            {% blocktranslate trimmed with when=credential.full_sync_completed_at|timesince %}
+                                                Last full sync {{ when }} ago
+                                            {% endblocktranslate %}
+                                        </div>
+                                    {% endif %}
                                 </td>
                                 <td>{{ credential.upload_count }}</td>
                                 <td>
@@ -184,9 +214,28 @@
                                         <span class="sync-muted">{% translate "never" %}</span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td style="text-align:right; white-space:nowrap;">
                                     {% if credential.is_active %}
-                                        <form method="POST"
+                                        {% if credential.full_sync_pending %}
+                                            <form method="POST" style="display:inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="cancel_full_sync">
+                                                <input type="hidden" name="credential_id" value="{{ credential.pk }}">
+                                                <button type="submit" class="button button-small button-secondary">
+                                                    {% translate "Cancel request" %}
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form method="POST" style="display:inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="request_full_sync">
+                                                <input type="hidden" name="credential_id" value="{{ credential.pk }}">
+                                                <button type="submit" class="button button-small">
+                                                    {% translate "Sync all files" %}
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        <form method="POST" style="display:inline;"
                                               onsubmit="return confirm('{% translate "Disconnect this server? It will stop sending new files." %}');">
                                             {% csrf_token %}
                                             <input type="hidden" name="action" value="revoke">
@@ -206,7 +255,7 @@
                     {% blocktranslate trimmed %}
                         No server has connected yet. Once the command above has been
                         run, the server appears here and files start arriving within
-                        the hour.
+                        about ten minutes.
                     {% endblocktranslate %}
                 </p>
             {% endif %}
@@ -225,6 +274,14 @@
                     <li><code>{{ product.watch_root }}/{{ product.variable_name }}/{{ format }}/</code></li>
                 {% endfor %}
             </ul>
+
+            {% if product_edit_url %}
+                {# The readiness card above carries the same link, but it is hidden once everything passes — leaving no way back to the settings these paths are derived from. #}
+                <p class="sync-muted" style="margin-top:1rem; margin-bottom:0">
+                    <a href="{{ product_edit_url }}" style="font-weight:800">{% translate "Edit product settings" %}</a>
+                    — {% translate "changing the variable name or format here changes where files must be sent." %}
+                </p>
+            {% endif %}
         </div>
 
     </div>
