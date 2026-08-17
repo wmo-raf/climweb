@@ -167,6 +167,16 @@ files:
     skip_untranslated_strings: true
     export_translated_only: true
 
+  - source: /climweb/src/climweb/pages/shortlinks/locale/en/LC_MESSAGES/django.po
+    translation: /climweb/src/climweb/pages/weather/locale/%two_letters_code%/LC_MESSAGES/django.po
+    skip_untranslated_strings: true
+    export_translated_only: true
+
+  - source: /climweb/src/climweb/pages/flexible_forms/locale/en/LC_MESSAGES/django.po
+    translation: /climweb/src/climweb/pages/weather/locale/%two_letters_code%/LC_MESSAGES/django.po
+    skip_untranslated_strings: true
+    export_translated_only: true
+
     # docs translations 
 
   - source: /docs/locale/en/LC_MESSAGES/_docs.po

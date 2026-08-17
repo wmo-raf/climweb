@@ -32,6 +32,7 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     
     path("", include("climweb.pages.home.urls")),
+    path("", include("climweb.pages.shortlinks.urls")),
     *([path("", include("climweb.pages.wdqms.urls"))] if "climweb.pages.wdqms" in settings.INSTALLED_APPS else []),
     *([path("", include("capcomposer.cap.urls"))] if "capcomposer.cap" in settings.INSTALLED_APPS else []),
     path("", include("climweb.pages.stations.urls"), name="stations"),

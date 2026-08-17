@@ -19,6 +19,7 @@ from climweb.base.forms import (
     FormDocumentField,
     CustomSubmissionsListView, CustomWagtailCaptchaFormBuilder
 )
+from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mail import get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.models import FormFileSubmission
@@ -114,8 +115,13 @@ class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
                 except Exception as e:
                     logger.error(f"[DATA_REQUEST_PAGE] Error checking for duplicate fields: {e}")
                     duplicate_fields = []
-                
-                if not duplicate_fields:
+
+                # honeypot / timing / link-flood checks on top of the captcha
+                spam_reason = get_spam_reason(request, form)
+                if spam_reason:
+                    logger.warning(f"[DATA_REQUEST_PAGE] Possible spam ({spam_reason}) blocked")
+
+                if not duplicate_fields and not spam_reason:
                     form_submission = self.process_form_submission(form)
                 else:
                     self.process_suspicious_form(form)

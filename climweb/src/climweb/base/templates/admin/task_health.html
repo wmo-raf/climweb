@@ -1,0 +1,221 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n %}
+
+{% block titletag %}{% trans "Task health" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .task-health { padding: 1.5em 2em; }
+    .task-health h2 { margin-top: 1.6em; }
+
+    .th-cards { display: flex; flex-wrap: wrap; gap: 1em; margin-bottom: 0.5em; }
+    .th-card {
+        border: 1px solid #ddd; border-radius: 4px; padding: 0.9em 1.2em; min-width: 9em;
+    }
+    .th-card .th-num { font-size: 1.7em; font-weight: 600; line-height: 1.1; }
+    .th-card .th-label { font-size: 0.8em; color: #666; text-transform: uppercase; }
+    .th-card.bad { border-color: #d9534f; }
+    .th-card.bad .th-num { color: #d9534f; }
+    .th-card.good .th-num { color: #2f855a; }
+
+    .task-health table { border-collapse: collapse; width: 100%; margin-bottom: 1.5em; }
+    .task-health th, .task-health td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; vertical-align: top; }
+    .task-health th { background: #f7f7f7; }
+    .task-health .muted { color: #666; }
+    .task-health tr.row-bad { background: #fdf2f2; }
+    .task-health tr.row-warn { background: #fffaf0; }
+
+    .th-pill {
+        display: inline-block; padding: 1px 8px; border-radius: 10px;
+        font-size: 0.8em; font-weight: 600; white-space: nowrap;
+    }
+    .th-pill.ok { background: #def7ec; color: #03543f; }
+    .th-pill.bad { background: #fde8e8; color: #9b1c1c; }
+    .th-pill.warn { background: #fdf6b2; color: #723b13; }
+    .th-pill.idle { background: #eee; color: #555; }
+
+    .task-health .th-filters { display: flex; flex-wrap: wrap; gap: 0.75em; align-items: flex-end; margin-bottom: 1.2em; }
+    .task-health .th-field { display: flex; flex-direction: column; gap: 0.25em; }
+    .task-health .th-field label { font-size: 0.8em; color: #666; text-transform: uppercase; }
+
+    .task-health details.th-trace { margin-top: 0.4em; }
+    .task-health details.th-trace summary { cursor: pointer; color: #9b1c1c; font-size: 0.9em; }
+    .task-health pre.th-trace-body {
+        background: #1b1b1b; color: #e6e6e6; padding: 0.75em 1em; border-radius: 4px;
+        overflow: auto; max-height: 24em; font-size: 12px; white-space: pre-wrap;
+        word-break: break-word; margin-top: 0.5em;
+    }
+    .task-health .th-note { color: #666; max-width: 55em; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include "wagtailadmin/shared/header.html" with title="Task health" subtitle="Scheduled and background jobs" icon="tasks" %}
+
+<div class="task-health">
+
+  {% if error %}
+    <p class="help-block help-critical">{% trans "Could not read task health:" %} {{ error }}</p>
+  {% else %}
+
+    {% if summary %}
+      <div class="th-cards">
+        <div class="th-card {% if summary.failed %}bad{% endif %}">
+          <div class="th-num">{{ summary.failed }}</div>
+          <div class="th-label">{% trans "Failed" %}</div>
+        </div>
+        <div class="th-card {% if summary.succeeded %}good{% endif %}">
+          <div class="th-num">{{ summary.succeeded }}</div>
+          <div class="th-label">{% trans "Succeeded" %}</div>
+        </div>
+        <div class="th-card">
+          <div class="th-num">{{ summary.in_flight }}</div>
+          <div class="th-label">{% trans "In flight" %}</div>
+        </div>
+        <div class="th-card {% if summary.worker_state == 'silent' %}bad{% endif %}">
+          <div class="th-num">
+            {% if summary.worker_state == 'active' %}{% trans "Active" %}
+            {% elif summary.worker_state == 'silent' %}{% trans "Silent" %}
+            {% else %}{% trans "Unknown" %}{% endif %}
+          </div>
+          <div class="th-label">{% trans "Worker" %}</div>
+        </div>
+      </div>
+
+      <p class="muted">
+        {% blocktrans with hours=summary.window_hours %}Counts cover the last {{ hours }}h.{% endblocktrans %}
+        {% if summary.last_result_at %}
+          {% blocktrans with when=summary.last_result_at worker=summary.last_worker %}Last result {{ when }} from {{ worker }}.{% endblocktrans %}
+        {% else %}
+          {% trans "No task results have ever been recorded." %}
+        {% endif %}
+      </p>
+
+      {% if summary.worker_state == 'silent' %}
+        <p class="help-block help-warning">
+          {% trans "Nothing has been recorded for over a day. The Celery worker is probably not running — check the container on the Server logs page." %}
+        </p>
+      {% endif %}
+    {% endif %}
+
+    <h2>{% trans "Scheduled tasks" %}</h2>
+
+    {% if scheduled %}
+      <table>
+        <thead>
+          <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Schedule" %}</th>
+            <th>{% trans "Last run" %}</th>
+            <th>{% trans "Runs" %}</th>
+            <th>{% trans "State" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in scheduled %}
+            <tr class="{% if row.overdue_by %}row-bad{% elif row.never_run and row.enabled %}row-warn{% endif %}">
+              <td>
+                {{ row.name }}
+                <div class="muted">{{ row.task }}</div>
+              </td>
+              <td class="muted">{{ row.schedule }}</td>
+              <td class="muted">
+                {% if row.last_run_at %}{{ row.last_run_at }}{% else %}{% trans "never" %}{% endif %}
+              </td>
+              <td>{{ row.total_run_count }}</td>
+              <td>
+                {% if not row.enabled %}
+                  <span class="th-pill idle">{% trans "Disabled" %}</span>
+                {% elif row.overdue_by %}
+                  <span class="th-pill bad">{% blocktrans with late=row.overdue_by %}Overdue by {{ late }}{% endblocktrans %}</span>
+                {% elif row.never_run %}
+                  <span class="th-pill warn">{% trans "Never run" %}</span>
+                {% else %}
+                  <span class="th-pill ok">{% trans "On schedule" %}</span>
+                {% endif %}
+                {% if row.last_status %}
+                  <div class="muted">{% trans "last:" %} {{ row.last_status }}</div>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="th-note">
+        {% trans "No periodic tasks are registered. If you expected some, the Celery beat container may not have started — it writes them to the database on boot." %}
+      </p>
+    {% endif %}
+
+    <h2>{% trans "Recent runs" %}</h2>
+
+    <form method="get" class="th-filters">
+      <div class="th-field">
+        <label for="th-window">{% trans "Window" %}</label>
+        <select name="window" id="th-window">
+          {% for choice in window_choices %}
+            <option value="{{ choice }}" {% if choice == window_hours %}selected{% endif %}>{{ choice }}h</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="th-field">
+        <label for="th-task">{% trans "Task" %}</label>
+        <input type="text" name="task" id="th-task" list="th-task-names" value="{{ task_name }}">
+        <datalist id="th-task-names">
+          {% for name in task_names %}<option value="{{ name }}"></option>{% endfor %}
+        </datalist>
+      </div>
+      <div class="th-field">
+        <label for="th-failures">{% trans "Failures only" %}</label>
+        <input type="checkbox" name="failures" id="th-failures" value="1" {% if only_failures %}checked{% endif %}>
+      </div>
+      <button type="submit" class="button">{% trans "Apply" %}</button>
+    </form>
+
+    {% if results %}
+      <table>
+        <thead>
+          <tr>
+            <th>{% trans "Task" %}</th>
+            <th>{% trans "Status" %}</th>
+            <th>{% trans "Started" %}</th>
+            <th>{% trans "Took" %}</th>
+            <th>{% trans "Worker" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for result in results %}
+            <tr class="{% if result.is_failure %}row-bad{% endif %}">
+              <td>
+                {% if result.periodic_task_name %}{{ result.periodic_task_name }}{% else %}{{ result.task_name }}{% endif %}
+                {% if result.periodic_task_name %}<div class="muted">{{ result.task_name }}</div>{% endif %}
+                {% if result.traceback %}
+                  <details class="th-trace">
+                    <summary>{% trans "Show traceback" %}</summary>
+                    <pre class="th-trace-body">{{ result.traceback }}</pre>
+                  </details>
+                {% endif %}
+              </td>
+              <td>
+                <span class="th-pill {% if result.is_failure %}bad{% elif result.status == 'SUCCESS' %}ok{% else %}warn{% endif %}">{{ result.status }}</span>
+              </td>
+              <td class="muted">{{ result.date_created }}</td>
+              <td class="muted">
+                {% if result.duration_seconds %}{{ result.duration_seconds|floatformat:1 }}s{% else %}—{% endif %}
+              </td>
+              <td class="muted">{{ result.worker }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="th-note">{% trans "No task runs recorded in this window." %}</p>
+    {% endif %}
+
+    <p class="th-note">
+      {% trans "Values that look like passwords, keys or tokens are masked in tracebacks, but they can still contain request data — treat this page as sensitive." %}
+    </p>
+
+  {% endif %}
+</div>
+{% endblock %}

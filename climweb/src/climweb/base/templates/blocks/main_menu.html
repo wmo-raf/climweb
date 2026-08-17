@@ -88,7 +88,7 @@
                   {% for item in value.sub_items %}
                     <a class="megamenu-pill"
                        {% if item.value.page.url %}href="{{ item.value.page.url }}"
-                       {% else %}href="{{ item.value.external_url }}" target="_blank" rel="noopener noreferrer"
+                       {% else %}href="{{ item.value.external_url }}"{% if item.value.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}
                        {% endif %}>
                       {{ item.value.label }}
                     </a>
@@ -123,7 +123,7 @@
           {% for item in value.sub_items %}
             <a class="navbar-item nav-dropdown-item"
                {% if item.value.page.url %}href="{{ item.value.page.url }}"
-               {% else %}href="{{ item.value.external_url }}" target="_blank" rel="noopener noreferrer"
+               {% else %}href="{{ item.value.external_url }}"{% if item.value.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}
                {% endif %}>
               <span class="nav-dropdown-label">{{ item.value.label }}</span>
               <span class="nav-dropdown-arrow">
@@ -144,7 +144,7 @@
   {% if value.page.url or value.external_url %}
     <a class="navbar-item nav-item-link"
        {% if value.page.url %}href="{{ value.page.url }}"
-       {% else %}href="{{ value.external_url }}" target="_blank" rel="noopener noreferrer"
+       {% else %}href="{{ value.external_url }}"{% if value.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}
        {% endif %}>
       {{ value.label }}
     </a>

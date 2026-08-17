@@ -59,15 +59,20 @@ INSTALLED_APPS = [
     "climweb.pages.search",
     "climweb.pages.data_request",
     "climweb.pages.flex_page",
+    "climweb.pages.flexible_forms",
     "climweb.pages.stations",
     "climweb.pages.satellite_imagery",
     "climweb.pages.glossary",
     "climweb.pages.webstories",
     "climweb.pages.dashboards",
+    "climweb.pages.shortlinks",
     
     "adminboundarymanager",
     "geomanager",
-    
+    # Module is `dataset_helper`; its Django app label is `dataset_helper_plugin`,
+    # kept from when this shipped as a ClimWeb plugin so existing tables resolve.
+    "dataset_helper",
+
     "wagtailmautic",
     "wagtailzoom",
     "wagtailsurveyjs",
@@ -183,10 +188,29 @@ if CLIMWEB_ADDITIONAL_APPS:
 CLIMWEB_PLUGIN_DIR = env.list("CLIMWEB_PLUGIN_DIR", default=["/climweb/plugins", ])
 CLIMWEB_PLUGIN_PACKAGE_FOLDERS = []
 
+# Plugins that ClimWeb now ships as built-in apps. CLIMWEB_PLUGIN_DIR lives on a
+# persistent volume, so an instance that installed one of these as a plugin still has
+# the old folder on disk after upgrading. Loading it would register a second Django app
+# with the same label as the built-in one and Django refuses to start:
+#
+#   ImproperlyConfigured: Application labels aren't unique, duplicates: dataset_helper_plugin
+#
+# Skipping the folder here keeps such instances bootable whether or not the leftover has
+# been cleaned up. deploy/plugins/utils.sh removes the folder itself on startup.
+SUPERSEDED_PLUGINS = ["dataset_helper_plugin"]
+
 for plugin_dir in CLIMWEB_PLUGIN_DIR:
     plugin_package = Path(plugin_dir)
     if plugin_package.exists():
         plugin_package_folders = [file for file in plugin_package.iterdir() if file.is_dir()]
+        superseded = [f for f in plugin_package_folders if f.name in SUPERSEDED_PLUGINS]
+        if superseded:
+            print(
+                f"Ignoring superseded ClimWeb plugin(s): "
+                f"{', '.join(f.name for f in superseded)}. These now ship with ClimWeb as "
+                f"built-in apps; the leftover plugin folder(s) can be deleted."
+            )
+        plugin_package_folders = [f for f in plugin_package_folders if f.name not in SUPERSEDED_PLUGINS]
         CLIMWEB_PLUGIN_PACKAGE_FOLDERS.extend(plugin_package_folders)
 
 if CLIMWEB_PLUGIN_PACKAGE_FOLDERS:
@@ -234,7 +258,9 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     
-    'wagtail_2fa.middleware.VerifyUserPermissionsMiddleware',
+    # Subclass of wagtail_2fa.middleware.VerifyUserPermissionsMiddleware that
+    # additionally forces 2FA for superusers. See climweb/base/middleware.py.
+    'climweb.base.middleware.SuperuserVerifyUserMiddleware',
     
     "allauth.account.middleware.AccountMiddleware",
     
@@ -321,6 +347,15 @@ DBBACKUP_CONNECTOR_MAPPING = {
     DB_ENGINE: "dbbackup.db.postgresql.PgDumpBinaryConnector",
 }
 
+# Google Drive cloud-backup OAuth application.
+# OPTIONAL fallback only — the Client ID/Secret are normally entered in the CMS
+# admin (Settings -> Backup) and stored in the database, so no env changes are
+# required. These env vars, if set, are used only when the admin fields are left
+# blank. Create one "Web application" OAuth client in Google Cloud Console with
+# the authorised redirect URI: <WAGTAILADMIN_BASE_URL>/<admin>/backup/google/callback
+GOOGLE_DRIVE_OAUTH_CLIENT_ID = env.str("GOOGLE_DRIVE_OAUTH_CLIENT_ID", default="")
+GOOGLE_DRIVE_OAUTH_CLIENT_SECRET = env.str("GOOGLE_DRIVE_OAUTH_CLIENT_SECRET", default="")
+
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
@@ -390,6 +425,7 @@ LOCALE_PATHS = [
     'climweb/src/climweb/pages/events/locale',
     'climweb/src/climweb/pages/feedback/locale',
     'climweb/src/climweb/pages/flex_page/locale',
+    'climweb/src/climweb/pages/flexible_forms/locale',
     'climweb/src/climweb/pages/glossary/locale',
     'climweb/src/climweb/pages/home/locale',
     'climweb/src/climweb/pages/mediacenter/locale',
@@ -408,6 +444,7 @@ LOCALE_PATHS = [
     'climweb/src/climweb/pages/satellite_imagery/locale',
     'climweb/src/climweb/pages/search/locale',
     'climweb/src/climweb/pages/services/locale',
+    'climweb/src/climweb/pages/shortlinks/locale',
     'climweb/src/climweb/pages/stations/locale',
     'climweb/src/climweb/pages/surveys/locale',
     'climweb/src/climweb/pages/videos/locale',
@@ -419,7 +456,7 @@ LOCALE_PATHS = [
 TIME_ZONE = env.str("TIME_ZONE", "UTC")
 
 USE_I18N = True
-# WAGTAIL_I18N_ENABLED = True
+# WAGTAIL_I18N_ENABLED = True  # Enabled for Arabic/RTL track (issue #542)
 
 USE_L10N = True
 
@@ -487,6 +524,7 @@ FULL_RICHTEXT_FRATURES = ['bold', 'italic', 'underline', 'strikethrough', 'super
                           'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'code', 'ol', 'ul', 'link', 'document-link',
                           'image', 'embed', 'hr', 'anchor', 'table', 'justifyLeft', 'justifyCenter', 'justifyRight',
                           'justifyFull', 'indent', 'outdent', 'html']
+
 # RECAPTCHA Settings
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '')
@@ -499,6 +537,13 @@ if RECAPTCHA_VERIFY_REQUEST_TIMEOUT:
         RECAPTCHA_VERIFY_REQUEST_TIMEOUT = int(RECAPTCHA_VERIFY_REQUEST_TIMEOUT)
     except ValueError:
         RECAPTCHA_VERIFY_REQUEST_TIMEOUT = 60
+
+# ANTI-SPAM Settings (layered on top of reCAPTCHA for public form pages)
+# Minimum seconds between a form rendering and its submission. Faster = bot.
+ANTISPAM_MIN_SUBMIT_SECONDS = env.int('ANTISPAM_MIN_SUBMIT_SECONDS', default=3)
+# Max number of link-like tokens allowed across all text fields before a
+# submission is treated as spam.
+ANTISPAM_MAX_LINKS = env.int('ANTISPAM_MAX_LINKS', default=0)
 
 # EMAIL SETTINGS
 # Default email address used to send messages from the website.
@@ -563,6 +608,17 @@ ONLINE_SHARE_CONFIG = [
         "text_param": "text",
         "fa_icon": "telegram",
         "svg_icon": "telegram",
+        "enabled": True,
+    },
+    {
+        # TikTok has no public web "share this link" intent like the platforms
+        # above, so the share button instead copies the link to the
+        # clipboard and opens TikTok, ready for the user to paste it in.
+        "name": "TikTok",
+        "base_url": "https://www.tiktok.com/",
+        "fa_icon": "tiktok",
+        "svg_icon": "tiktok",
+        "copy_link": True,
         "enabled": True,
     },
 
@@ -661,8 +717,21 @@ AXES_IPWARE_PROXY_COUNT = env.int("AXES_IPWARE_PROXY_COUNT", default=2)
 AXES_RESET_ON_SUCCESS = True
 AXES_LOCKOUT_TEMPLATE = "axes/lockout.html"
 
-# Wagtail 2FA settings
-WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=False)
+# Wagtail 2FA settings.
+#
+# Combined with VerifyUserPermissionsMiddleware (see MIDDLEWARE), this does NOT
+# force 2FA on every editor: that middleware exempts anyone without the
+# `wagtailadmin.enable_2fa` permission and without an existing device. Django
+# grants superusers every permission implicitly, so turning this on requires 2FA
+# of superusers and of any user explicitly given `enable_2fa`, and leaves
+# ordinary editors alone.
+WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=True)
+
+# Superusers are required to use 2FA regardless of WAGTAIL_2FA_REQUIRED, because
+# instances built from the old .env.sample have WAGTAIL_2FA_REQUIRED=False
+# written into their .env and an explicit value beats a settings default.
+# Set to False only to unstick a site that cannot enrol (see base/middleware.py).
+CLIMWEB_2FA_SUPERUSER_REQUIRED = env.bool("CLIMWEB_2FA_SUPERUSER_REQUIRED", default=True)
 
 
 class AttrDict(dict):
@@ -730,6 +799,30 @@ LOGGING = {
         "level": CLIMWEB_LOG_LEVEL,
     },
 }
+
+# Admin log viewer.
+#
+# Lets superusers read container logs from Settings -> Server logs instead of
+# SSHing in for `docker compose logs`. Reads go through a read-only
+# docker-socket-proxy sidecar on the internal compose network, so no port is
+# published and the CMS never sees /var/run/docker.sock itself.
+# On by default, but it only actually switches on where CLIMWEB_DOCKER_HOST
+# points at a running socket proxy (see is_enabled() in base/logs/docker_client).
+# That way an instance still running an older docker-compose.yml, which has
+# neither the proxy service nor the env var, silently keeps the feature hidden
+# instead of showing superusers a menu item that errors.
+CLIMWEB_LOG_VIEWER_ENABLED = env.bool("CLIMWEB_LOG_VIEWER_ENABLED", True)
+CLIMWEB_DOCKER_HOST = env.str("CLIMWEB_DOCKER_HOST", "")
+CLIMWEB_LOG_VIEWER_TIMEOUT = env.int("CLIMWEB_LOG_VIEWER_TIMEOUT", 10)
+# Explicit allow-list of container names. When empty, any container whose name
+# starts with CLIMWEB_LOG_VIEWER_NAME_PREFIX is readable.
+CLIMWEB_LOG_VIEWER_CONTAINERS = env.list("CLIMWEB_LOG_VIEWER_CONTAINERS", default=[])
+CLIMWEB_LOG_VIEWER_NAME_PREFIX = env.str("CLIMWEB_LOG_VIEWER_NAME_PREFIX", "climweb")
+# Extra literal strings to mask in log output, on top of the secret-looking
+# values auto-detected from the environment.
+CLIMWEB_LOG_VIEWER_EXTRA_REDACTIONS = env.list(
+    "CLIMWEB_LOG_VIEWER_EXTRA_REDACTIONS", default=[]
+)
 
 VUE_FRONTEND_USE_TYPESCRIPT = False
 VUE_FRONTEND_USE_DEV_SERVER = DEBUG

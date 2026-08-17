@@ -5,7 +5,52 @@
 
 /* ── PAGE HEADER ── */
 .cc-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
   margin-bottom: 1.25rem;
+}
+
+/* ── SHARE ── */
+.cc-share {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cc-share-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.cc-share .share-buttons {
+  gap: 6px;
+}
+
+.cc-share .share-buttons > a {
+  margin: 0;
+}
+
+.cc-share .share-button-title {
+  display: none;
+}
+
+.cc-share .share-icon {
+  width: 15px;
+  height: 15px;
+}
+
+@media (max-width: 480px) {
+  .cc-page-header {
+    align-items: flex-start;
+  }
 }
 
 .cc-eyebrow {

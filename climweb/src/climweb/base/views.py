@@ -232,5 +232,5 @@ def cms_upgrade_status_view(request):
         cache.set("cms_upgrade_pending", False)
     
     status_data["cms_upgrade_pending"] = cache.get("cms_upgrade_pending", False)
-    
+
     return JsonResponse(status_data)
