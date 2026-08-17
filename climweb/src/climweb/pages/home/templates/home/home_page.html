@@ -145,7 +145,7 @@
     const weatherWidgetWrapper = $("#weather-widget-wrapper");
 
     let singleForecastSlider;
-    let cityLocations;
+    let cityLocations = null;
 
     /* ── city select callback — triggers a full widget re-render ── */
     const onSelectCity = ({ label, value }) => {
@@ -377,29 +377,32 @@
       const d = R * c;
       return d; // distance in km
     }
+  
 
     /* Async function to fetch city locations from the backend, returns a promise that resolves to an array of city locations */
-    const fetchCityLocations = () => {
+    const fetchCityLocations = async () => {
       if (!weatherCityLocationsUrl) {
-        return Promise.resolve([]);
+        return [];
+      }
+
+      if (cityLocations) {
+        return cityLocations;
       }
 
       if (!cityLocations) {
-        fetch(weatherCityLocationsUrl)
-          .then(response => {
-            if (!response.ok) throw new Error('Error fetching city locations');
-            return response.json();
-          })
-          .then(data => {
-            cityLocations = Array.isArray(data.cities) ? data.cities : [];
-          })
-          .catch(error => {
-            console.error('CITY_LOCATIONS_ERROR:', error);
-            return [];
-          });
+        try {
+          const response = await fetch(weatherCityLocationsUrl);
+          if (!response.ok) throw new Error('Error fetching city locations');
+          
+          const data = await response.json();
+          cityLocations = Array.isArray(data.cities) ? data.cities : [];
+        } catch (error) {
+          console.error('CITY_LOCATIONS_ERROR:', error);
+          return [];
+        }
       }
       return cityLocations || [];
-    }
+    };
 
     /*  Async function to find nearest city to user  */
     let nearestCity = null;
@@ -414,15 +417,18 @@
         let minDistance = Infinity;
 
         cities.forEach(city => {
-          const distance = haversineDistanceKM(lat, lng, city.x, city.y);
+          const distance = haversineDistanceKM(lat, lng, city.lat, city.lng);
           if (distance < minDistance) {
             minDistance = distance;
             nearestCity = city;
           }
         });
-
         console.log(`Nearest city to user: ${nearestCity ? nearestCity.name : 'None found'}`);
+
+        renderWeatherWidgetForCity(nearestCity.slug)
         return nearestCity;
+
+        
       });
     };
 

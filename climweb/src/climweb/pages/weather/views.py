@@ -7,7 +7,7 @@ from django.views.decorators.http import require_GET
 from django.template.loader import render_to_string
 from forecastmanager.forecast_settings import ForecastSetting
 from forecastmanager.models import City, Forecast
-from forecastmanager.serializers import ForecastSerializer
+from forecastmanager.serializers import CitySerializer, ForecastSerializer
 from wagtail.api.v2.utils import get_full_url
 from wagtailcache.settings import wagtailcache_settings
 
@@ -141,16 +141,17 @@ def get_home_map_forecast(request):
 
 @require_GET
 def get_city_locations(request):
-    cities = City.objects.filter(x__isnull=False, y__isnull=False).order_by("name")
+    cities = City.objects.filter(location__isnull=False).order_by("name")
+    serialized_cities = CitySerializer(cities, many=True).data
 
     city_data = [
         {
-            "slug": city.slug,
-            "name": city.name,
-            "lng": city.x,
-            "lat": city.y,
+            "slug": city["slug"],
+            "name": city["name"],
+            "lat": city["coordinates"][1],
+            "lng": city["coordinates"][0],
         }
-        for city in cities
+        for city in serialized_cities
     ]
 
     return JsonResponse({"cities": city_data}, safe=False)
