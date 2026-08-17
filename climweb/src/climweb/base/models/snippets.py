@@ -76,6 +76,16 @@ class Product(ClusterableModel):
         verbose_name=_("Enable Auto-Ingestion"),
         help_text=_("When enabled, the system will periodically scan the watch root for new files."),
     )
+    auto_description_from_pdf = models.BooleanField(
+        default=False,
+        verbose_name=_("Use first paragraph of PDF as description"),
+        help_text=_(
+            "When a PDF is ingested, take its opening paragraph and use it as the "
+            "product description. Headings, dates and letterheads are skipped. "
+            "Leave off if your PDFs are scans or maps, which hold no readable text. "
+            "Descriptions you write yourself are never overwritten."
+        ),
+    )
 
     panels = [
         FieldPanel("name"),
@@ -83,6 +93,7 @@ class Product(ClusterableModel):
         FieldPanel("variable_name"),
         FieldPanel("temporal_resolution"),
         FieldPanel("watch_root"),
+        FieldPanel("auto_description_from_pdf"),
         InlinePanel("categories", heading=_("Product Categories"), label=_("Product Category")),
     ]
 
