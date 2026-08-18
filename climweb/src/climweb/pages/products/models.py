@@ -694,3 +694,8 @@ class SubNationalProductPage(BaseProductPage):
             print(f"Error recording page view: {e}")
         
         return super().serve(request, *args, **kwargs)
+
+
+# Registered with this app so migrations live alongside the other product
+# models. See sync_models.py for what these do.
+from .sync_models import ProductSyncCredential, ProductSyncSetupCode  # noqa: E402,F401

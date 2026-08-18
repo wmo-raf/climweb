@@ -57,6 +57,7 @@ urlpatterns = [
     
     path("api/satellite-imagery/", include("climweb.pages.satellite_imagery.urls")),
     *([path("api/cityclimate/", include("climweb.pages.cityclimate.urls"))] if "climweb.pages.cityclimate" in settings.INSTALLED_APPS else []),
+    path("api/product-sync/", include("climweb.pages.products.sync_urls")),
     path("api/_health/", public_health_check),
     path("api/token/", obtain_auth_token),
 ]
