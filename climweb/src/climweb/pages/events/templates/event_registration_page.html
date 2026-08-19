@@ -44,14 +44,14 @@
                                 </form>
                             {% elif page.event.is_ended %}
                                 <h5 style="color: red;display: flex">
-                                    <span class="icon event-meta-item-icon" style="margin-right: 8px">
+                                    <span class="icon event-meta-item-icon" style="margin-inline-end: 8px">
                                         {% svg_icon name="warning" %}
                                     </span>
                                     {{ page.event.event_type.event_type }} {% translate "ended" %}.
                                 </h5>
                             {% elif not page.event.registration_open %}
                                 <h5 style="color: red;display: flex">
-                                    <span class="icon event-meta-item-icon" style="margin-right: 8px">
+                                    <span class="icon event-meta-item-icon" style="margin-inline-end: 8px">
                                         {% svg_icon name="warning" %}
                                     </span>
                                     {% translate "Registration closed" %}.
