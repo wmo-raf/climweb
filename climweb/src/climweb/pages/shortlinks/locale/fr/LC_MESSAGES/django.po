@@ -1,0 +1,149 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-21 12:32+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: climweb/src/climweb/pages/shortlinks/forms.py:25
+msgid "URL to shorten"
+msgstr "URL à raccourcir"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:24
+msgid "Created in admin"
+msgstr "Créé dans l'administrateur"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:25
+msgid "Submitted via public form"
+msgstr "Soumis via un formulaire public"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:32
+msgid "Source"
+msgstr "Source"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:33
+msgid ""
+"Whether this link was created by a logged-in editor or submitted anonymously"
+" via the public form."
+msgstr ""
+"Si ce lien a été créé par un éditeur connecté ou soumis de manière anonyme "
+"via le formulaire public."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:39
+msgid "Short code"
+msgstr "Code court"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:41
+msgid ""
+"Leave blank to auto-generate. Only letters, numbers, - and _ are allowed. "
+"This is the part that appears after /s/ in the short link."
+msgstr ""
+"Laissez vide pour générer automatiquement. Seuls les lettres, chiffres - et "
+"_ sont autorisés. C'est la partie qui apparaît après /s/ dans le lien court."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:47
+msgid "Target URL"
+msgstr "URL cible"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:48
+msgid "The full URL this short link should redirect visitors to."
+msgstr ""
+"L'URL complète vers laquelle ce lien court doit rediriger les visiteurs."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:53
+msgid "Label"
+msgstr "Étiquette"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:54
+msgid "Optional note to help editors remember what this link is for."
+msgstr ""
+"Note facultative pour aider les éditeurs à se rappeler à quoi sert ce lien."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:58
+msgid "Active"
+msgstr "Actif"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:59
+msgid "Untick to disable this short link without deleting it."
+msgstr "Décochez pour désactiver ce lien court sans le supprimer."
+
+#: climweb/src/climweb/pages/shortlinks/models.py:61
+msgid "Click count"
+msgstr "Nombre de clics"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:62
+msgid "Created at"
+msgstr "Créé à"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:70
+msgid "Created by"
+msgstr "Créé par"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:81
+msgid "Short Link"
+msgstr "Lien court"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:82
+#: climweb/src/climweb/pages/shortlinks/models.py:136
+msgid "Short Links"
+msgstr "Liens courts"
+
+#: climweb/src/climweb/pages/shortlinks/models.py:121
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/shortlink_edit.html:8
+msgid "Short URL"
+msgstr "URL courte"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:18
+msgid "Link shortener"
+msgstr "Raccourcisseur de liens"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:19
+msgid "Shorten a link"
+msgstr "Raccourcir un lien"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:21
+msgid ""
+"Paste a long URL below to get a short link on our domain that's easy to "
+"share."
+msgstr ""
+"Collez une longue URL ci-dessous pour obtenir un lien court sur notre "
+"domaine facile à partager."
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:31
+msgid "Your short link is ready"
+msgstr "Votre lien court est prêt"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:37
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/shortlink_edit.html:14
+msgid "Copy"
+msgstr "Copie"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:49
+msgid "Shorten link"
+msgstr "Raccourcir le lien"
+
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/public_shorten.html:75
+#: climweb/src/climweb/pages/shortlinks/templates/shortlinks/shortlink_edit.html:32
+msgid "Copied!"
+msgstr "Copié!"
+
+#: climweb/src/climweb/pages/shortlinks/views.py:70
+msgid ""
+"You've reached the limit for creating short links from this location. Please"
+" try again later."
+msgstr ""
+"Vous avez atteint la limite de création de liens courts à partir de cet "
+"emplacement. Veuillez réessayer plus tard."

@@ -1,6 +1,8 @@
 from django.utils.translation import gettext_lazy as _
 
 from climweb.base.models.abstracts import *
+from climweb.base.models.ai_settings import *
+from climweb.base.models.backup_settings import *
 from climweb.base.models.cap_settings import *
 from climweb.base.models.custom import *
 from climweb.base.models.permissions import *

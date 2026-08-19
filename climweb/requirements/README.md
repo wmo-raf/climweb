@@ -29,3 +29,13 @@ We install the `base.txt` requirements into the ClimWeb docker image.
 
 1. Change the version in the corresponding `.in` file.
 2. Follow from step 2 above
+
+or 
+
+upgrade to the latest most compatible version
+
+pip-compile --upgrade-package "pillow" base.in --allow-unsafe
+
+or specific version
+
+pip-compile --upgrade-package "pillow==1.3.0" base.in --allow-unsafe

@@ -46,24 +46,25 @@ NMHSs that have adopted ClimWeb across Africa:
 29. 🇿🇲 [Mauritania](https://meteomauritanie.mr/)
 30. 🇨🇫 [Central African Republic](https://meteocentrafrique.com/)
 31. 🇱🇸 [Lesotho](https://lesmet.gov.ls)
-32. 🇸🇩 General Administration for Nile Waters Affairs
+32. 🇸🇩 [General Administration for Nile Waters Affairs](https://wre.gov.sd/)
 33. 🇲🇿 Mozambique Hydrology Department
 
 #### In progress
 
-33. 🇺🇬 Uganda
-34. 🇳🇦 Namibia
-35. 🇸🇹 Sao Tome Principe
+34. 🇺🇬 Uganda
+35. 🇳🇦 Namibia
 36. 🇲🇬 Madagascar
 37. 🇸🇿 Eswatini
 41. 🇨🇲 Cameroon
 42. 🇨🇲 RCC Douala
 43. 🇨🇲 RSMC Yaounde
+44. 🇸🇹 Sao Tome Principe
 
 ## 🌍 Other regions
 44. 🇸🇾 [Syria](https://climweb.med.gov.sy)
 
 ## 🌟 Core Features
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e182517d-277d-44e7-8800-e02761940375" />
 
 - 🙂 User friendly website Content Management System
     - Modern look and design, mobile friendly.
@@ -84,12 +85,16 @@ NMHSs that have adopted ClimWeb across Africa:
     - Live CAP creation and editing preview.
     - Draw/Select predefined Alert areas.
     - Alert to Alert/Alerts Reference Linkage.
+    - Publishing CAP Alerts in mutliple languages
+    - Onboarded 18 cap composer countries onto Google public Alerts (when someone in those countries searches for a storm or flood, or opens Google Maps, the national met service's alert appears directly in Google Search, Maps, and Android)
+    
 
 - 📆 Events registrations and Integration with Online Meeting Platforms (Zoom)
     - Create event registration forms hosted on the website.
     - Automatically send invitation emails to users as they register to events from the website.
     - Keep record of all your registrants for internal analysis.
     - Allow users registering to events to also subscribe to your products.
+      
 - 🌍 Interactive Georeferenced data visualisation
     - Upload and visualise own gridded data (forecasts, advisories, climate data products) on a map.
     - Upload and visualise vector data (Point, areas) on a map.

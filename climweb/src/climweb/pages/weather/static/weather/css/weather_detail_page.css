@@ -1,6 +1,6 @@
 /* ── SECTION ── */
 .wd-section {
-  padding: 1.5rem 0 4rem;
+  padding: 0.5rem 0 1.5rem;
 }
 
 /* ── CARD ── */
@@ -9,6 +9,8 @@
   border: 1px solid #eee;
   border-radius: 14px;
   overflow: hidden;
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 /* ── HEADER ── */
@@ -19,7 +21,7 @@
   gap: 1rem;
   padding: 14px 20px;
   border-bottom: 1px solid #f0f0f0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .wd-header-left { min-width: 0; }
@@ -58,9 +60,25 @@
 }
 
 /* SEARCH */
-.wd-header-right { flex-shrink: 0; }
+.wd-header-right {
+  width: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+}
 
-.wd-search-wrap { width: 240px; }
+.wd-search-wrap {
+  width: 240px;
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.wd-header-right #export-pdf {
+  flex-shrink: 0;
+}
 
 .wd-search-control {
   display: inline-flex;
@@ -275,16 +293,140 @@
   color: #1a1a1a;
 }
 
+/* GRAPHS */
+.wd-graph {
+  display: flex;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.wd-graph-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 14px;
+  padding-top: 12px;
+}
+
+/* MAPS */
+.wd-map {
+  display: block;
+  height: 300px;
+}
+
+.wd-map-marker {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* PDF BUTTON */
+#export-pdf {
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: var(--border-radius);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid var(--primary-color);
+  color: var(--primary-color);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+#export-pdf:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+#export-pdf--solid {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+#export-pdf--solid:hover { opacity: 0.9; color: #fff; }
+
+/* SECTION HEADERS */
+.wd-section-header {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #333333;
+  justify-content: space-between;
+  padding-bottom: 0px;
+}
+
+.wd-section-subheader {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #888;
+  justify-content: space-between;
+  padding-bottom: 0px;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .wd-section     { padding: 1rem 0 3rem; }
   .wd-header      { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-  .wd-search-wrap { width: 100%; }
+  .wd-header-right {
+    width: 100%;
+  }
+  .wd-search-wrap {
+    width: auto;
+    flex: 1 1 auto;
+  }
   .wd-city        { font-size: 16px; }
+  .wd-section-header { font-size: 16px; }
   .wd-day-tab     { padding: 8px 14px; }
 }
 
 @media (max-width: 480px) {
+  .wd-header-right {
+    width: 100%;
+  }
   .wd-city        { font-size: 14px; }
   .wd-tab-day     { font-size: 11px; }
+}
+
+/* ── PDF EXPORT MODE ── */
+/* Applied to #wd-page while generating the PDF so wide content (the
+   forecast table, chart containers) reflows to the printable page width
+   instead of overflowing it. See the '── GENERATE PDF ──' script block. */
+.wd-pdf-export {
+  max-width: 680px;
+}
+
+.wd-pdf-export .wd-table-wrap {
+  overflow: visible;
+}
+
+.wd-pdf-export .wd-table {
+  min-width: 0;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 11px;
+}
+
+.wd-pdf-export .wd-table thead th,
+.wd-pdf-export .wd-table tbody td {
+  padding: 6px 8px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.wd-pdf-export .wd-condition-cell {
+  flex-wrap: wrap;
+}
+
+.wd-pdf-export .wd-condition-label,
+.wd-pdf-export .wd-param-cell {
+  white-space: normal;
 }

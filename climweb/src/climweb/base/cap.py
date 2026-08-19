@@ -1,3 +1,5 @@
+import json
+
 from django.utils.translation import gettext as _
 
 from climweb.base.models import ImportantPages
@@ -241,5 +243,75 @@ def get_cap_map_style(geojson):
             del layer["filter"]
     
     style["layers"].extend(layers)
-    
+
     return style
+
+
+def extract_polygon_geometry(geojson):
+    """
+    Return the first Polygon/MultiPolygon geometry found in a GeoJSON geometry,
+    Feature or FeatureCollection, or None if none is found.
+    """
+    if not isinstance(geojson, dict):
+        return None
+
+    geojson_type = geojson.get("type")
+
+    if geojson_type == "FeatureCollection":
+        for feature in geojson.get("features") or []:
+            geometry = extract_polygon_geometry(feature)
+            if geometry is not None:
+                return geometry
+        return None
+
+    if geojson_type == "Feature":
+        return extract_polygon_geometry(geojson.get("geometry"))
+
+    if geojson_type in ("Polygon", "MultiPolygon"):
+        return geojson
+
+    return None
+
+
+def build_area_info_blocks(request):
+    """
+    Build the ``info`` StreamField raw value with a single Alert Information block
+    whose area is pre-filled from the ``geometry`` parameter, or None if no valid
+    Polygon/MultiPolygon geometry is provided.
+
+    The geometry is read from POST (the MapViewer submits it as a form body to
+    avoid GET URL length limits) with a GET fallback for manual testing.
+    """
+    data = request.POST if request.method == "POST" else request.GET
+
+    geometry_param = data.get("geometry")
+    if not geometry_param:
+        return None
+
+    try:
+        geojson = json.loads(geometry_param)
+    except (ValueError, TypeError):
+        return None
+
+    geometry = extract_polygon_geometry(geojson)
+    if geometry is None:
+        return None
+
+    area_desc = (data.get("areaDesc") or "").strip()
+
+    return [
+        {
+            "type": "alert_info",
+            "value": {
+                "area": [
+                    {
+                        "type": "polygon_block",
+                        "value": {
+                            "areaDesc": area_desc,
+                            "polygon": json.dumps(geometry),
+                        },
+                    }
+                ],
+            },
+        }
+    ]

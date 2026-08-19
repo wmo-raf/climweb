@@ -379,5 +379,35 @@ $(document).ready(function () {
                 ga_reg_event_from_el(this)
             });
         }
+
+        /*** Social share buttons with no native "share link" support
+         * (e.g. TikTok): copy the link to the clipboard, then open the
+         * platform so the user can paste it in. ***/
+        $(document).on('click', '[data-copy-link]', function (e) {
+            e.preventDefault();
+
+            const $btn = $(this);
+            const link = $btn.attr('data-copy-link');
+            const target = $btn.attr('href');
+            const platform = $btn.attr('data-ga-event-label') || 'the app';
+
+            const openTarget = function () {
+                window.open(target, '_blank', 'noopener');
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText && link) {
+                navigator.clipboard.writeText(link).then(function () {
+                    if (typeof bulmaToast !== 'undefined') {
+                        bulmaToast.toast({
+                            message: 'Link copied to clipboard — paste it in ' + platform,
+                            type: 'is-info',
+                        });
+                    }
+                    openTarget();
+                }, openTarget);
+            } else {
+                openTarget();
+            }
+        });
     }
 );

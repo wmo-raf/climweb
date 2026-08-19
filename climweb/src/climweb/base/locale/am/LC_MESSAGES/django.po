@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 11:00+0300\n"
+"POT-Creation-Date: 2026-07-21 12:32+0300\n"
 "PO-Revision-Date: 2026-06-22 11:39\n"
 "Last-Translator: \n"
 "Language-Team: Amharic\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: am\n"
 "X-Crowdin-File: /climweb/src/climweb/base/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1286\n"
+"X-Crowdin-Language: am\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/base/blocks.py:49 climweb/src/climweb/base/blocks.py:50
 #: climweb/src/climweb/base/blocks.py:62 climweb/src/climweb/base/blocks.py:63
@@ -55,6 +56,7 @@ msgid "A URL that returns Highcharts.js configuration, including the data"
 msgstr "ውሂቡን ጨምሮ Highcharts.js ውቅረትን የሚመልስ ዩአርኤል"
 
 #: climweb/src/climweb/base/blocks.py:106
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:83
 msgid "Description"
 msgstr "መግለጫ"
 
@@ -63,7 +65,9 @@ msgid "Action Link Internal"
 msgstr "የድርጊት ማገናኛ ውስጣዊ"
 
 #: climweb/src/climweb/base/blocks.py:110
-msgid "An external link to a detailed resource on the internet.If provided, the internal link will be ignored"
+msgid ""
+"An external link to a detailed resource on the internet.If provided, the "
+"internal link will be ignored"
 msgstr "በበይነመረቡ ላይ ላለ ዝርዝር መገልገያ ውጫዊ አገናኝ.ከቀረበ, የውስጥ ማገናኛው ችላ ይባላል"
 
 #: climweb/src/climweb/base/blocks.py:116
@@ -149,12 +153,10 @@ msgid "Card"
 msgstr "ካርድ"
 
 #: climweb/src/climweb/base/blocks.py:297
-#| msgid "Introduction button text"
 msgid "Card button text"
 msgstr "የካርድ አዝራር ጽሑፍ"
 
 #: climweb/src/climweb/base/blocks.py:298
-#| msgid "Introduction button link"
 msgid "Card button link"
 msgstr "የካርድ አዝራር አገናኝ"
 
@@ -162,104 +164,370 @@ msgstr "የካርድ አዝራር አገናኝ"
 msgid "Cards with Icon and Text"
 msgstr "ካርዶች ከአዶ እና ከጽሑፍ ጋር"
 
-#: climweb/src/climweb/base/cap.py:103
+#: climweb/src/climweb/base/cap.py:105
 msgid "Go to warnings list"
 msgstr "ወደ ማስጠንቀቂያዎች ዝርዝር ይሂዱ"
 
-#: climweb/src/climweb/base/forms.py:27
-#, python-format
-msgid "Supported formats: %(supported_formats)s. Maximum filesize: %(max_upload_size)s."
-msgstr "የሚደገፉ ቅርጸቶች፡ %(supported_formats)s። ከፍተኛው የፋይል መጠን፡ %(max_upload_size)s።"
+#: climweb/src/climweb/base/cap_views.py:66
+msgid "No CAP alert list page found. Please create one before adding alerts."
+msgstr "ምንም የ CAP ማንቂያ ዝርዝር ገጽ አልተገኘም። እባክዎ ማንቂያዎችን ከማከልዎ በፊት አንድ ይፍጠሩ።"
 
-#: climweb/src/climweb/base/forms.py:42
+#: climweb/src/climweb/base/forms.py:28
 #, python-format
-msgid "File size must be under %(max_upload_size)s. Current file size is %(current_file_size)s"
-msgstr "የፋይል መጠን ከ%(max_upload_size) s በታች መሆን አለበት። የአሁኑ የፋይል መጠን %(current_file_size)s ነው።"
+msgid ""
+"Supported formats: %(supported_formats)s. Maximum filesize: "
+"%(max_upload_size)s."
+msgstr ""
+"የሚደገፉ ቅርጸቶች፡ %(supported_formats)s። ከፍተኛው የፋይል መጠን፡ %(max_upload_size)s።"
 
-#: climweb/src/climweb/base/forms.py:59
+#: climweb/src/climweb/base/forms.py:43
+#, python-format
+msgid ""
+"File size must be under %(max_upload_size)s. Current file size is "
+"%(current_file_size)s"
+msgstr ""
+"የፋይል መጠን ከ%(max_upload_size) s በታች መሆን አለበት። የአሁኑ የፋይል መጠን "
+"%(current_file_size)s ነው።"
+
+#: climweb/src/climweb/base/forms.py:60
 #, python-format
 msgid "Supported formats: PDF. Maximum filesize: %(max_upload_size)s."
 msgstr "የሚደገፉ ቅርጸቶች፡ ፒዲኤፍ። ከፍተኛው የፋይል መጠን፡ %(max_upload_size)s።"
 
-#: climweb/src/climweb/base/mixins.py:21
+#: climweb/src/climweb/base/mixins.py:30
 msgid "For search engines"
 msgstr "ለፍለጋ ሞተሮች"
 
-#: climweb/src/climweb/base/mixins.py:27
+#: climweb/src/climweb/base/mixins.py:36
 msgid "For site menus"
 msgstr "ለጣቢያ ምናሌዎች"
 
-#: climweb/src/climweb/base/models/__init__.py:21
+#: climweb/src/climweb/base/models/__init__.py:23
 msgid "File Submission"
 msgstr "ፋይል ማስገባት"
 
-#: climweb/src/climweb/base/models/__init__.py:22
+#: climweb/src/climweb/base/models/__init__.py:24
 msgid "File Submissions"
 msgstr "የፋይል ማቅረቢያዎች"
 
-#: climweb/src/climweb/base/models/abstracts.py:19
+#: climweb/src/climweb/base/models/abstracts.py:20
 msgid "Banner Image"
 msgstr "የባነር ምስል"
 
-#: climweb/src/climweb/base/models/abstracts.py:20
+#: climweb/src/climweb/base/models/abstracts.py:21
 msgid "A high quality banner image"
 msgstr "ከፍተኛ ጥራት ያለው ባነር ምስል"
 
-#: climweb/src/climweb/base/models/abstracts.py:26
+#: climweb/src/climweb/base/models/abstracts.py:27
 msgid "Banner Title"
 msgstr "የባነር ርዕስ"
 
-#: climweb/src/climweb/base/models/abstracts.py:27
+#: climweb/src/climweb/base/models/abstracts.py:28
 msgid "Banner Subtitle"
 msgstr "የባነር ንዑስ ርዕስ"
 
-#: climweb/src/climweb/base/models/abstracts.py:29
+#: climweb/src/climweb/base/models/abstracts.py:30
 msgid "Call to action button text"
 msgstr "ወደ የተግባር አዝራር ጽሑፍ ይደውሉ"
 
-#: climweb/src/climweb/base/models/abstracts.py:36
+#: climweb/src/climweb/base/models/abstracts.py:37
 msgid "Call to action related page"
 msgstr "ወደ ተግባር ተዛማጅ ገጽ ይደውሉ"
 
-#: climweb/src/climweb/base/models/abstracts.py:48
+#: climweb/src/climweb/base/models/abstracts.py:49
 msgid "Banner Section"
 msgstr "ባነር ክፍል"
 
-#: climweb/src/climweb/base/models/abstracts.py:77
+#: climweb/src/climweb/base/models/abstracts.py:78
 msgid "Introduction Title"
 msgstr "የመግቢያ ርዕስ"
 
-#: climweb/src/climweb/base/models/abstracts.py:78
+#: climweb/src/climweb/base/models/abstracts.py:79
 msgid "Introduction section title"
 msgstr "የመግቢያ ክፍል ርዕስ"
 
-#: climweb/src/climweb/base/models/abstracts.py:79
+#: climweb/src/climweb/base/models/abstracts.py:80
 msgid "Introduction text"
 msgstr "የመግቢያ ጽሑፍ"
 
-#: climweb/src/climweb/base/models/abstracts.py:80
+#: climweb/src/climweb/base/models/abstracts.py:81
 msgid "Introduction section description"
 msgstr "የመግቢያ ክፍል መግለጫ"
 
-#: climweb/src/climweb/base/models/abstracts.py:83
+#: climweb/src/climweb/base/models/abstracts.py:84
 msgid "Introduction Image"
 msgstr "የመግቢያ ምስል"
 
-#: climweb/src/climweb/base/models/abstracts.py:84
+#: climweb/src/climweb/base/models/abstracts.py:85
 msgid "A high quality image"
 msgstr "ከፍተኛ ጥራት ያለው ምስል"
 
-#: climweb/src/climweb/base/models/abstracts.py:92
+#: climweb/src/climweb/base/models/abstracts.py:93
 msgid "Introduction button text"
 msgstr "የመግቢያ አዝራር ጽሑፍ"
 
-#: climweb/src/climweb/base/models/abstracts.py:99
+#: climweb/src/climweb/base/models/abstracts.py:100
 msgid "Introduction button link"
 msgstr "የመግቢያ አዝራር አገናኝ"
 
-#: climweb/src/climweb/base/models/abstracts.py:119
+#: climweb/src/climweb/base/models/abstracts.py:120
 msgid "Introduction Section"
 msgstr "የመግቢያ ክፍል"
+
+#: climweb/src/climweb/base/models/abstracts.py:169
+msgid "Apply Now"
+msgstr "አሁን ያመልክቱ"
+
+#: climweb/src/climweb/base/models/abstracts.py:169
+#, fuzzy
+#| msgid "Card button text"
+msgid "Apply button text"
+msgstr "የአዝራር ጽሑፍ ተግብር"
+
+#: climweb/src/climweb/base/models/abstracts.py:176
+#, fuzzy
+#| msgid "Application"
+msgid "Application Page"
+msgstr "የመተግበሪያ ገጽ"
+
+#: climweb/src/climweb/base/models/abstracts.py:177
+msgid ""
+"Select the page where applicants should submit their application, e.g. a "
+"Flexible Form page set up to collect applications. If left blank, the "
+"external link below is used instead."
+msgstr ""
+"አመልካቾች ማመልከቻቸውን የሚያቀርቡበትን ገጽ ይምረጡ፣ ለምሳሌ. አፕሊኬሽኖችን ለመሰብሰብ የተቀናበረ ተጣጣፊ ቅጽ ገጽ። "
+"ባዶ ከተተወ፣ በምትኩ ከዚህ በታች ያለው ውጫዊ ማገናኛ ጥቅም ላይ ይውላል።"
+
+#: climweb/src/climweb/base/models/abstracts.py:182
+#, fuzzy
+#| msgid "Application"
+msgid "External Application Link"
+msgstr "ውጫዊ መተግበሪያ አገናኝ"
+
+#: climweb/src/climweb/base/models/abstracts.py:183
+msgid ""
+"External link to apply, e.g. a link to an external HR or procurement system."
+" Ignored if an application page is chosen above."
+msgstr ""
+"ለማመልከት ውጫዊ አገናኝ, ለምሳሌ. ወደ ውጫዊ የሰው ኃይል ወይም የግዥ ስርዓት አገናኝ። የማመልከቻ ገጽ ከላይ ከተመረጠ"
+" ችላ ተብሏል."
+
+#: climweb/src/climweb/base/models/abstracts.py:194
+#: climweb/src/climweb/base/models/snippets.py:236
+msgid "Application"
+msgstr "መተግበሪያ"
+
+#: climweb/src/climweb/base/models/ai_settings.py:30
+msgid "OpenAI"
+msgstr "ክፍት AI"
+
+#: climweb/src/climweb/base/models/ai_settings.py:31
+msgid "Anthropic (Claude)"
+msgstr "አንትሮፖኒክ (ክላውድ)"
+
+#: climweb/src/climweb/base/models/ai_settings.py:62
+msgid "Paste to set or change. Leave blank to keep the current key."
+msgstr "ለማዘጋጀት ወይም ለመለወጥ ለጥፍ። የአሁኑን ቁልፍ ለማቆየት ባዶውን ይተውት።"
+
+#: climweb/src/climweb/base/models/ai_settings.py:84
+msgid "Enable AI assistant"
+msgstr "AI ረዳትን አንቃ"
+
+#: climweb/src/climweb/base/models/ai_settings.py:86
+msgid ""
+"When enabled, AI writing tools appear in the rich text editor. You must "
+"select a provider and enter an API key below first."
+msgstr ""
+"ሲነቃ AI የመጻፍ መሳሪያዎች በሀብታሙ የጽሑፍ አርታኢ ውስጥ ይታያሉ። መጀመሪያ አቅራቢን መርጠህ የኤፒአይ ቁልፍ "
+"አስገባ።"
+
+#: climweb/src/climweb/base/models/ai_settings.py:95
+#: climweb/src/climweb/base/models/backup_settings.py:141
+msgid "Provider"
+msgstr "አቅራቢ"
+
+#: climweb/src/climweb/base/models/ai_settings.py:96
+msgid "The AI service to use. Choose the one you have an API key for."
+msgstr "ለመጠቀም የ AI አገልግሎት. የኤፒአይ ቁልፍ ያለህበትን ምረጥ።"
+
+#: climweb/src/climweb/base/models/ai_settings.py:102
+msgid "Model (optional)"
+msgstr "ሞዴል (አማራጭ)"
+
+#: climweb/src/climweb/base/models/ai_settings.py:104
+msgid ""
+"Leave blank to use a sensible default for the selected provider (OpenAI: "
+"gpt-4o-mini, Claude: claude-haiku-4.5). Only set this if you want a specific"
+" model. Provider model names change over time; if you get a 'model not "
+"found' error, enter a current one here."
+msgstr ""
+"ለተመረጠው አቅራቢ (OpenAI: gpt-4o-mini, Claude: claude-haiku-4.5) ለመጠቀም አስተዋይ ነባሪ "
+"ለመጠቀም ባዶ ይተዉት። አንድ የተወሰነ ሞዴል ከፈለጉ ብቻ ይህንን ያዘጋጁ። የአቅራቢዎች ሞዴል ስሞች በጊዜ ሂደት "
+"ይለወጣሉ; የ'ሞዴል አልተገኘም' ስህተት ካገኘህ የአሁኑን እዚህ አስገባ።"
+
+#: climweb/src/climweb/base/models/ai_settings.py:115
+msgid "API key"
+msgstr "የኤፒአይ ቁልፍ"
+
+#: climweb/src/climweb/base/models/ai_settings.py:119
+#: climweb/src/climweb/base/models/ai_settings.py:149
+msgid "AI Assistant"
+msgstr "AI ረዳት"
+
+#: climweb/src/climweb/base/models/ai_settings.py:148
+msgid "AI provider"
+msgstr "AI አቅራቢ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:40
+msgid "Never run"
+msgstr "በጭራሽ አትሩጥ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:41
+msgid "Success"
+msgstr "ስኬት"
+
+#: climweb/src/climweb/base/models/backup_settings.py:42
+msgid "Failed"
+msgstr "አልተሳካም።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:46
+msgid "Monday"
+msgstr "ሰኞ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:47
+msgid "Tuesday"
+msgstr "ማክሰኞ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:48
+msgid "Wednesday"
+msgstr "እሮብ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:49
+msgid "Thursday"
+msgstr "ሐሙስ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:50
+msgid "Friday"
+msgstr "አርብ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:51
+msgid "Saturday"
+msgstr "ቅዳሜ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:52
+msgid "Sunday"
+msgstr "እሁድ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:86
+msgid "Paste to set or change. Leave blank to keep the current secret."
+msgstr "ለማዘጋጀት ወይም ለመለወጥ ለጥፍ። የአሁኑን ምስጢር ለመጠበቅ ባዶውን ይተውት።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:94
+msgid ""
+"Optional: paste a refresh token (or token JSON) generated elsewhere to "
+"connect without the button. Cleared after saving."
+msgstr ""
+"አማራጭ፡ ያለአዝራሩ ለመገናኘት ሌላ ቦታ የተፈጠረ የማደስ ማስመሰያ (ወይም ማስመሰያ JSON) ለጥፍ። ካስቀመጠ በኋላ "
+"ጸድቷል።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:125
+#, fuzzy
+#| msgid "Google Search"
+msgid "Google Drive"
+msgstr "ጎግል ድራይቭ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:130
+msgid "Enable cloud backups"
+msgstr "የደመና ምትኬዎችን አንቃ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:132
+msgid ""
+"When enabled, the daily backup will be uploaded to the connected cloud "
+"account. You must connect an account below first."
+msgstr ""
+"ሲነቃ ዕለታዊ ምትኬ ወደተገናኘው የደመና መለያ ይሰቀላል። መጀመሪያ ከዚህ በታች ያለውን መለያ ማገናኘት አለብህ።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:147
+msgid "Remote folder"
+msgstr "የርቀት አቃፊ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:148
+msgid "Top-level folder created in the drive to hold backups."
+msgstr "ምትኬዎችን ለመያዝ በድራይቭ ውስጥ የተፈጠረ ከፍተኛ ደረጃ አቃፊ።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:153
+msgid "Database copies to keep"
+msgstr "የሚቀመጡ የውሂብ ጎታ ቅጂዎች"
+
+#: climweb/src/climweb/base/models/backup_settings.py:154
+msgid "Number of daily database snapshots to retain on the remote."
+msgstr "በርቀት መቆጣጠሪያው ላይ የሚቆዩ የዕለታዊ የውሂብ ጎታ ቅጽበተ-ፎቶዎች ብዛት።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:159
+msgid "Media copies to keep"
+msgstr "የሚዲያ ቅጂዎች ለማቆየት"
+
+#: climweb/src/climweb/base/models/backup_settings.py:160
+msgid "Number of weekly media snapshots to retain on the remote."
+msgstr "በርቀት መቆጣጠሪያው ላይ የሚቆዩ ሳምንታዊ የሚዲያ ቅጽበተ-ፎቶዎች ብዛት።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:166
+msgid "Media upload day"
+msgstr "የሚዲያ ጭነት ቀን"
+
+#: climweb/src/climweb/base/models/backup_settings.py:167
+msgid "Day of the week the (larger) media archive is uploaded."
+msgstr "የሳምንቱ ቀን (ትልቁ) የሚዲያ ማህደር ተሰቅሏል።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:174
+msgid "OAuth Client ID"
+msgstr "የOAuth ደንበኛ መታወቂያ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:176
+msgid ""
+"From your Google Cloud OAuth 'Web application' client. This value is public."
+" Required for the Connect button."
+msgstr ""
+"ከእርስዎ የGoogle ደመና OAuth 'Web መተግበሪያ' ደንበኛ። ይህ ዋጋ ይፋዊ ነው። ለማገናኘት አዝራር ያስፈልጋል."
+
+#: climweb/src/climweb/base/models/backup_settings.py:184
+msgid "OAuth Client Secret"
+msgstr "የOAuth ደንበኛ ሚስጥር"
+
+#: climweb/src/climweb/base/models/backup_settings.py:190
+msgid "Paste a token (fallback)"
+msgstr "ማስመሰያ ለጥፍ (ወደ ኋላ)"
+
+#: climweb/src/climweb/base/models/backup_settings.py:198
+msgid "Connected account"
+msgstr "የተገናኘ መለያ"
+
+#: climweb/src/climweb/base/models/backup_settings.py:203
+msgid "Encrypted OAuth refresh token. Never edit by hand."
+msgstr "የተመሰጠረ OAuth አድስ ማስመሰያ። በጭራሽ በእጅ አያርትዑ።"
+
+#: climweb/src/climweb/base/models/backup_settings.py:217
+#, fuzzy
+#| msgid "Contact Settings"
+msgid "Backup Settings"
+msgstr "የመጠባበቂያ ቅንብሮች"
+
+#: climweb/src/climweb/base/models/backup_settings.py:268
+#, fuzzy
+#| msgid "Google Analytics"
+msgid "Google credentials"
+msgstr "Google ምስክርነቶች"
+
+#: climweb/src/climweb/base/models/backup_settings.py:270
+#, fuzzy
+#| msgid "Banner Section"
+msgid "Connection"
+msgstr "ግንኙነት"
+
+#: climweb/src/climweb/base/models/backup_settings.py:277
+msgid "Options"
+msgstr "አማራጮች"
 
 #: climweb/src/climweb/base/models/cap_settings.py:14
 msgid "Show on MapViewer"
@@ -286,327 +554,345 @@ msgid "Auto Refresh interval in minutes"
 msgstr "በደቂቃዎች ውስጥ የጊዜ ክፍተት ውስጥ የጊዜ ክፍተት ያድሳል"
 
 #: climweb/src/climweb/base/models/cap_settings.py:26
-msgid "Refresh cap alerts on the map after this minutes. Leave blank to disable auto refreshing"
+msgid ""
+"Refresh cap alerts on the map after this minutes. Leave blank to disable "
+"auto refreshing"
 msgstr "ከዚህ ደቂቃዎች በኋላ በካርታው ላይ አድስ ማዳን ያስቀራል. ራስ-ሰር መንፈስን ለማሰናከል ባዶ ይተው"
 
-#: climweb/src/climweb/base/models/site_settings.py:31
+#: climweb/src/climweb/base/models/site_settings.py:33
 msgid "Country"
 msgstr "ሀገር"
 
-#: climweb/src/climweb/base/models/site_settings.py:32
+#: climweb/src/climweb/base/models/site_settings.py:34
 msgid "Organisation Name"
 msgstr "የድርጅት ስም"
 
-#: climweb/src/climweb/base/models/site_settings.py:34
+#: climweb/src/climweb/base/models/site_settings.py:36
 msgid "Phone Number"
 msgstr "ስልክ ቁጥር"
 
-#: climweb/src/climweb/base/models/site_settings.py:35
+#: climweb/src/climweb/base/models/site_settings.py:37
 msgid "Phone number"
 msgstr "ስልክ ቁጥር"
 
-#: climweb/src/climweb/base/models/site_settings.py:36
-#: climweb/src/climweb/base/models/site_settings.py:37
+#: climweb/src/climweb/base/models/site_settings.py:38
+#: climweb/src/climweb/base/models/site_settings.py:39
 msgid "Email address"
 msgstr "የ ኢሜል አድራሻ"
 
-#: climweb/src/climweb/base/models/site_settings.py:38
+#: climweb/src/climweb/base/models/site_settings.py:40
 msgid "Postal Address"
 msgstr "የፖስታ አድራሻ"
 
-#: climweb/src/climweb/base/models/site_settings.py:39
+#: climweb/src/climweb/base/models/site_settings.py:41
 msgid "Postal address"
 msgstr "የፖስታ አድራሻ"
 
-#: climweb/src/climweb/base/models/site_settings.py:47
+#: climweb/src/climweb/base/models/site_settings.py:49
 msgid "Organisation Logo"
 msgstr "የድርጅት አርማ"
 
 #: climweb/src/climweb/base/models/site_settings.py:50
+msgid "Logo Append Text"
+msgstr "አርማ አባሪ ጽሑፍ"
+
+#: climweb/src/climweb/base/models/site_settings.py:54
 msgid "Country Flag"
 msgstr "የሀገር ባንዲራ"
 
-#: climweb/src/climweb/base/models/site_settings.py:68
+#: climweb/src/climweb/base/models/site_settings.py:72
 msgid "Footer Logo"
 msgstr "የግርጌ አርማ"
 
-#: climweb/src/climweb/base/models/site_settings.py:69
+#: climweb/src/climweb/base/models/site_settings.py:73
 msgid "Logo that appears on the footer"
 msgstr "በግርጌው ላይ የሚታየው አርማ"
 
-#: climweb/src/climweb/base/models/site_settings.py:78
+#: climweb/src/climweb/base/models/site_settings.py:82
 msgid "CMS Logo"
 msgstr "የሲኤምኤስ አርማ"
 
-#: climweb/src/climweb/base/models/site_settings.py:79
-msgid "Logo that appears on the CMS. Should be a whit transparent logo preferably"
+#: climweb/src/climweb/base/models/site_settings.py:83
+msgid ""
+"Logo that appears on the CMS. Should be a whit transparent logo preferably"
 msgstr "በሲኤምኤስ ላይ የሚታየው አርማ ነጭ ግልጽ አርማ መሆን ይሻላል"
 
-#: climweb/src/climweb/base/models/site_settings.py:88
+#: climweb/src/climweb/base/models/site_settings.py:92
 msgid "Page not Found Image"
 msgstr "ገጽ ምስል አልተገኘም።"
 
-#: climweb/src/climweb/base/models/site_settings.py:89
+#: climweb/src/climweb/base/models/site_settings.py:93
 msgid "Image shown on error 404 page"
 msgstr "ምስል በስህተት 404 ገጽ ላይ ይታያል"
 
-#: climweb/src/climweb/base/models/site_settings.py:98
+#: climweb/src/climweb/base/models/site_settings.py:102
 msgid "Server Error Image"
 msgstr "የአገልጋይ ስህተት ምስል"
 
-#: climweb/src/climweb/base/models/site_settings.py:99
+#: climweb/src/climweb/base/models/site_settings.py:103
 msgid "Image shown on error 500 error page"
 msgstr "ምስል በስህተት 500 ስህተት ገጽ ላይ ይታያል"
 
-#: climweb/src/climweb/base/models/site_settings.py:113
+#: climweb/src/climweb/base/models/site_settings.py:118
 msgid "Logo"
 msgstr "አርማ"
 
-#: climweb/src/climweb/base/models/site_settings.py:121
+#: climweb/src/climweb/base/models/site_settings.py:126
 msgid "Error Images"
 msgstr "የስህተት ምስሎች"
 
-#: climweb/src/climweb/base/models/site_settings.py:126
+#: climweb/src/climweb/base/models/site_settings.py:131
 msgid "Address Settings"
 msgstr "የአድራሻ ቅንብሮች"
 
-#: climweb/src/climweb/base/models/site_settings.py:130
+#: climweb/src/climweb/base/models/site_settings.py:135
 msgid "Contact Settings"
 msgstr "የእውቂያ ቅንብሮች"
 
-#: climweb/src/climweb/base/models/site_settings.py:134
+#: climweb/src/climweb/base/models/site_settings.py:139
 msgid "Organisation Settings"
 msgstr "የድርጅት ቅንብሮች"
 
-#: climweb/src/climweb/base/models/site_settings.py:144
+#: climweb/src/climweb/base/models/site_settings.py:149
 msgid "Youtube API Key"
 msgstr "የዩቲዩብ ኤፒአይ ቁልፍ"
 
-#: climweb/src/climweb/base/models/site_settings.py:145
-#| msgid "Youtube API Key"
-msgid "To set up Youtube API Key refer to "
-msgstr ""
-
 #: climweb/src/climweb/base/models/site_settings.py:150
+msgid "To set up Youtube API Key refer to "
+msgstr "የዩቲዩብ ኤፒአይ ቁልፍን ለማዋቀር ይመልከቱ"
+
+#: climweb/src/climweb/base/models/site_settings.py:155
 msgid "GA Tracking ID"
 msgstr "GA የመከታተያ መታወቂያ"
 
-#: climweb/src/climweb/base/models/site_settings.py:151
+#: climweb/src/climweb/base/models/site_settings.py:156
 msgid "Your Google Analytics tracking ID (begins with \"UA-\")"
 msgstr "የጉግል አናሌቲክስ መከታተያ መታወቂያዎ (በ\"UA- ይጀምራል\")"
 
-#: climweb/src/climweb/base/models/site_settings.py:155
+#: climweb/src/climweb/base/models/site_settings.py:160
 msgid "Track button clicks"
 msgstr "የትራክ ቁልፍ ጠቅታዎች"
 
-#: climweb/src/climweb/base/models/site_settings.py:157
-msgid "Track all button clicks using Google Analytics event tracking, Event tracking details can be specified in each button’s advanced settings options."
-msgstr "ጉግል አናሌቲክስ የክስተት ክትትልን በመጠቀም ሁሉንም የአዝራር ጠቅታዎች ይከታተሉ፣ የክስተት መከታተያ ዝርዝሮች በእያንዳንዱ አዝራር የላቀ የቅንጅቶች አማራጮች ውስጥ ሊገለጹ ይችላሉ።"
-
 #: climweb/src/climweb/base/models/site_settings.py:162
+msgid ""
+"Track all button clicks using Google Analytics event tracking, Event "
+"tracking details can be specified in each button’s advanced settings "
+"options."
+msgstr ""
+"ጉግል አናሌቲክስ የክስተት ክትትልን በመጠቀም ሁሉንም የአዝራር ጠቅታዎች ይከታተሉ፣ የክስተት መከታተያ ዝርዝሮች "
+"በእያንዳንዱ አዝራር የላቀ የቅንጅቶች አማራጮች ውስጥ ሊገለጹ ይችላሉ።"
+
+#: climweb/src/climweb/base/models/site_settings.py:167
 msgid "Track pages internally"
 msgstr "ገጾችን ከውስጥ ይከታተሉ"
 
-#: climweb/src/climweb/base/models/site_settings.py:164
-msgid "Track   all pages internally. This will enable the internal analytics dashboard, alongside Google Analytics, if also enabled"
-msgstr "ሁሉንም ገጾች ከውስጥ ይከታተሉ። ይህ ከነቃ ከ Google ትንታኔዎች ጋር የውስጣዊ ትንታኔ ዳሽቦርድን ያነቃል።"
+#: climweb/src/climweb/base/models/site_settings.py:169
+msgid ""
+"Track   all pages internally. This will enable the internal analytics "
+"dashboard, alongside Google Analytics, if also enabled"
+msgstr ""
+"ሁሉንም ገጾች ከውስጥ ይከታተሉ። ይህ ከነቃ ከ Google ትንታኔዎች ጋር የውስጣዊ ትንታኔ ዳሽቦርድን ያነቃል።"
 
-#: climweb/src/climweb/base/models/site_settings.py:168
+#: climweb/src/climweb/base/models/site_settings.py:173
 msgid "Google Site Verification Key"
 msgstr "የጎግል ጣቢያ ማረጋገጫ ቁልፍ"
 
-#: climweb/src/climweb/base/models/site_settings.py:173
+#: climweb/src/climweb/base/models/site_settings.py:178
 msgid "Youtube Integration"
 msgstr "የዩቲዩብ ውህደት"
 
-#: climweb/src/climweb/base/models/site_settings.py:178
+#: climweb/src/climweb/base/models/site_settings.py:183
 msgid "Google Analytics"
 msgstr "ጉግል አናሌቲክስ"
 
-#: climweb/src/climweb/base/models/site_settings.py:181
+#: climweb/src/climweb/base/models/site_settings.py:186
 msgid "Google Search"
 msgstr "ጎግል ፍለጋ"
 
-#: climweb/src/climweb/base/models/site_settings.py:185
+#: climweb/src/climweb/base/models/site_settings.py:190
 msgid "Integration Settings"
 msgstr "የውህደት ቅንብሮች"
 
-#: climweb/src/climweb/base/models/site_settings.py:191
+#: climweb/src/climweb/base/models/site_settings.py:196
 msgid "Default Language"
 msgstr "ነባሪ ቋንቋ"
 
-#: climweb/src/climweb/base/models/site_settings.py:194
+#: climweb/src/climweb/base/models/site_settings.py:199
 msgid "languages"
 msgstr "ቋንቋዎች"
 
-#: climweb/src/climweb/base/models/site_settings.py:211
+#: climweb/src/climweb/base/models/site_settings.py:216
 msgid "Google Translate Languages"
 msgstr "ጎግል ተርጓሚ ቋንቋዎች"
 
-#: climweb/src/climweb/base/models/site_settings.py:219
+#: climweb/src/climweb/base/models/site_settings.py:224
 msgid "Is Default Theme"
 msgstr "ነባሪ ጭብጥ ነው።"
 
-#: climweb/src/climweb/base/models/site_settings.py:220
+#: climweb/src/climweb/base/models/site_settings.py:225
 msgid "Enable if this is the default theme"
 msgstr "ይህ ነባሪ ገጽታ ከሆነ አንቃ"
 
-#: climweb/src/climweb/base/models/site_settings.py:221
+#: climweb/src/climweb/base/models/site_settings.py:226
 msgid "Theme Name"
 msgstr "የገጽታ ስም"
 
-#: climweb/src/climweb/base/models/site_settings.py:223
+#: climweb/src/climweb/base/models/site_settings.py:228
 msgid "Primary Hover color (use color picker)"
 msgstr "የመጀመሪያ ደረጃ ማንዣበብ ቀለም (ቀለም መራጭ ይጠቀሙ)"
 
-#: climweb/src/climweb/base/models/site_settings.py:223
+#: climweb/src/climweb/base/models/site_settings.py:228
 msgid "Primary color"
 msgstr "ዋና ቀለም"
 
-#: climweb/src/climweb/base/models/site_settings.py:225
+#: climweb/src/climweb/base/models/site_settings.py:230
 msgid "Primary color (use color picker)"
 msgstr "ዋና ቀለም (ቀለም መራጭ ይጠቀሙ)"
 
-#: climweb/src/climweb/base/models/site_settings.py:225
+#: climweb/src/climweb/base/models/site_settings.py:230
 msgid "Headings color"
 msgstr "የርዕሶች ቀለም"
 
-#: climweb/src/climweb/base/models/site_settings.py:227
+#: climweb/src/climweb/base/models/site_settings.py:232
 msgid "Secondary color (use color picker)"
 msgstr "ሁለተኛ ቀለም (ቀለም መራጭ ይጠቀሙ)"
 
-#: climweb/src/climweb/base/models/site_settings.py:227
+#: climweb/src/climweb/base/models/site_settings.py:232
 msgid "Background color"
 msgstr "የበስተጀርባ ቀለም"
 
-#: climweb/src/climweb/base/models/site_settings.py:229
+#: climweb/src/climweb/base/models/site_settings.py:234
 msgid "Border radius (px)"
 msgstr "የድንበር ራዲየስ (px)"
 
-#: climweb/src/climweb/base/models/site_settings.py:230
+#: climweb/src/climweb/base/models/site_settings.py:235
 msgid "Minimum 0 and Maximum 20 pixels"
 msgstr "ቢያንስ 0 እና ከፍተኛው 20 ፒክሰሎች"
 
-#: climweb/src/climweb/base/models/site_settings.py:232
+#: climweb/src/climweb/base/models/site_settings.py:237
 msgid "Box shadow"
 msgstr "የሳጥን ጥላ"
 
-#: climweb/src/climweb/base/models/site_settings.py:233
+#: climweb/src/climweb/base/models/site_settings.py:238
 msgid "Elevation value minimum 1 and maximum 24"
 msgstr "የከፍታ ዋጋ ቢያንስ 1 እና ከፍተኛው 24"
 
-#: climweb/src/climweb/base/models/site_settings.py:239
+#: climweb/src/climweb/base/models/site_settings.py:244
 msgid "Information"
 msgstr "መረጃ"
 
-#: climweb/src/climweb/base/models/site_settings.py:245
+#: climweb/src/climweb/base/models/site_settings.py:250
 msgid "Theme Colors"
 msgstr "ጭብጥ ቀለሞች"
 
-#: climweb/src/climweb/base/models/site_settings.py:249
+#: climweb/src/climweb/base/models/site_settings.py:254
 msgid "Borders and Box Shadow"
 msgstr "ድንበሮች እና የሳጥን ጥላ"
 
-#: climweb/src/climweb/base/models/site_settings.py:254
+#: climweb/src/climweb/base/models/site_settings.py:259
 msgid "Theme"
 msgstr "ጭብጥ"
 
-#: climweb/src/climweb/base/models/site_settings.py:286
+#: climweb/src/climweb/base/models/site_settings.py:291
 msgid "Navigation Setting"
 msgstr "የአሰሳ ቅንብር"
 
-#: climweb/src/climweb/base/models/site_settings.py:287
+#: climweb/src/climweb/base/models/site_settings.py:292
 msgid "Navigation Settings"
 msgstr "የአሰሳ ቅንብሮች"
 
-#: climweb/src/climweb/base/models/site_settings.py:294
+#: climweb/src/climweb/base/models/site_settings.py:299
 msgid "Mailing list sign up page"
 msgstr "የደብዳቤ መላኪያ ዝርዝር ምዝገባ ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:297
+#: climweb/src/climweb/base/models/site_settings.py:302
 msgid "Contact us page"
 msgstr "ያግኙን ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:300
+#: climweb/src/climweb/base/models/site_settings.py:305
 msgid "All products page"
 msgstr "ሁሉም ምርቶች ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:303
+#: climweb/src/climweb/base/models/site_settings.py:308
 msgid "All projects page"
 msgstr "ሁሉም ፕሮጀክቶች ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:306
+#: climweb/src/climweb/base/models/site_settings.py:311
 msgid "All news page"
 msgstr "ሁሉም የዜና ገፅ"
 
-#: climweb/src/climweb/base/models/site_settings.py:309
+#: climweb/src/climweb/base/models/site_settings.py:314
 msgid "All publications page"
 msgstr "ሁሉም የህትመት ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:312
+#: climweb/src/climweb/base/models/site_settings.py:317
 msgid "All videos page"
 msgstr "ሁሉም የቪዲዮዎች ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:315
+#: climweb/src/climweb/base/models/site_settings.py:320
 msgid "All applications page"
 msgstr "ሁሉም የመተግበሪያዎች ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:318
+#: climweb/src/climweb/base/models/site_settings.py:323
 msgid "All events page"
 msgstr "ሁሉም ክስተቶች ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:321
+#: climweb/src/climweb/base/models/site_settings.py:326
 msgid "All partners page"
 msgstr "የሁሉም አጋሮች ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:324
+#: climweb/src/climweb/base/models/site_settings.py:329
 msgid "All tenders page"
 msgstr "ሁሉም የጨረታዎች ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:327
+#: climweb/src/climweb/base/models/site_settings.py:332
 msgid "All vacancies page"
 msgstr "ሁሉም ክፍት የስራ ቦታዎች ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:330
+#: climweb/src/climweb/base/models/site_settings.py:335
 msgid "Feedback page"
 msgstr "የግብረመልስ ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:333
+#: climweb/src/climweb/base/models/site_settings.py:338
 msgid "CAP Warnings List page"
 msgstr "የ CAP ማስጠንቀቂያዎች ዝርዝር ገጽ"
 
-#: climweb/src/climweb/base/models/site_settings.py:353
-#: climweb/src/climweb/base/models/site_settings.py:354
+#: climweb/src/climweb/base/models/site_settings.py:341
+msgid "Anticipatory Action page"
+msgstr "የሚጠበቀው የድርጊት ገጽ"
+
+#: climweb/src/climweb/base/models/site_settings.py:366
+#: climweb/src/climweb/base/models/site_settings.py:367
 msgid "Important Pages"
 msgstr "ጠቃሚ ገጾች"
 
 #: climweb/src/climweb/base/models/snippets.py:22
 msgid "Yearly"
-msgstr ""
+msgstr "በየአመቱ"
 
 #: climweb/src/climweb/base/models/snippets.py:23
 msgid "Monthly"
-msgstr ""
+msgstr "ወርሃዊ"
 
 #: climweb/src/climweb/base/models/snippets.py:24
 msgid "Weekly"
-msgstr ""
+msgstr "በየሳምንቱ"
 
 #: climweb/src/climweb/base/models/snippets.py:25
 msgid "Daily"
-msgstr ""
+msgstr "በየቀኑ"
 
 #: climweb/src/climweb/base/models/snippets.py:26
 msgid "Hourly"
-msgstr ""
+msgstr "በየሰዓቱ"
 
 #: climweb/src/climweb/base/models/snippets.py:27
 msgid "Dekadal"
-msgstr ""
+msgstr "ዴካዳል"
 
 #: climweb/src/climweb/base/models/snippets.py:28
 msgid "Pentadal"
-msgstr ""
+msgstr "ፔንታዳል"
 
 #: climweb/src/climweb/base/models/snippets.py:51
 msgid "Product Name"
@@ -614,36 +900,48 @@ msgstr "የምርት ስም"
 
 #: climweb/src/climweb/base/models/snippets.py:55
 msgid "Variable Name"
-msgstr ""
+msgstr "ተለዋዋጭ ስም"
 
 #: climweb/src/climweb/base/models/snippets.py:56
-msgid "Folder name for this product, e.g. 'daily_forecast'. Used as the top-level folder in the watch root path."
+msgid ""
+"Folder name for this product, e.g. 'daily_forecast'. Used as the top-level "
+"folder in the watch root path."
 msgstr ""
+"የዚህ ምርት የአቃፊ ስም፣ ለምሳሌ 'ዕለታዊ_ትንበያ' በሰዓት ስር ዱካ ውስጥ እንደ ከፍተኛ-ደረጃ አቃፊ ጥቅም ላይ "
+"ይውላል።"
 
 #: climweb/src/climweb/base/models/snippets.py:63
 msgid "Temporal Resolution"
-msgstr ""
+msgstr "ጊዜያዊ ጥራት"
 
 #: climweb/src/climweb/base/models/snippets.py:64
-msgid "Determines the default filename date convention for product item types."
-msgstr ""
+msgid ""
+"Determines the default filename date convention for product item types."
+msgstr "የምርት ንጥል ዓይነቶች ነባሪውን የፋይል ስም ቀን ስምምነት ይወስናል።"
 
 #: climweb/src/climweb/base/models/snippets.py:69
 msgid "Watch Root Path"
-msgstr ""
+msgstr "የስር ዱካን ይመልከቱ"
 
 #: climweb/src/climweb/base/models/snippets.py:70
 #, python-brace-format
-msgid "Path containing the {variable_name} folder. Relative paths are resolved from MEDIA_ROOT (e.g. 'products'). Full scan path: {watch_root}/{variable_name}/{format}/{name_convention}.{format}"
+msgid ""
+"Path containing the {variable_name} folder. Relative paths are resolved from"
+" MEDIA_ROOT (e.g. 'products'). Full scan path: "
+"{watch_root}/{variable_name}/{format}/{name_convention}.{format}"
 msgstr ""
+"የ{variable_name} አቃፊ የያዘ ዱካ። አንጻራዊ መንገዶች ከMEDIA_ROOT (ለምሳሌ 'ምርቶች') ተፈትተዋል። ሙሉ "
+"የፍተሻ መንገድ፡ {watch_root}/{variable_name}/{format}/{name_convention}።{format}"
 
 #: climweb/src/climweb/base/models/snippets.py:76
 msgid "Enable Auto-Ingestion"
-msgstr ""
+msgstr "ራስ-ሰር ማስገባትን አንቃ"
 
 #: climweb/src/climweb/base/models/snippets.py:77
-msgid "When enabled, the system will periodically scan the watch root for new files."
-msgstr ""
+msgid ""
+"When enabled, the system will periodically scan the watch root for new "
+"files."
+msgstr "ሲነቃ ስርዓቱ አዲስ ፋይሎችን ለማግኘት የሰዓት ስርወውን በየጊዜው ይቃኛል።"
 
 #: climweb/src/climweb/base/models/snippets.py:86
 #: climweb/src/climweb/base/models/snippets.py:135
@@ -672,12 +970,16 @@ msgstr "ስም"
 
 #: climweb/src/climweb/base/models/snippets.py:121
 msgid "File Format"
-msgstr ""
+msgstr "የፋይል ቅርጸት"
 
 #: climweb/src/climweb/base/models/snippets.py:122
 #, python-brace-format
-msgid "The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This also determines the subfolder name: {variable_name}/{format}/"
+msgid ""
+"The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This "
+"also determines the subfolder name: {variable_name}/{format}/"
 msgstr ""
+"የዚህ ምድብ የፋይል ቅርጸት/ቅጥያ፣ ለምሳሌ 'png'፣ 'pdf'፣ 'jpg'። ይህ እንዲሁም የንዑስ አቃፊውን ስም "
+"ይወስናል፡ {variable_name}/{format}/"
 
 #: climweb/src/climweb/base/models/snippets.py:131
 msgid "Product Item Types"
@@ -689,20 +991,31 @@ msgstr "የምርት ንጥል ዓይነት"
 
 #: climweb/src/climweb/base/models/snippets.py:156
 msgid "Filename Convention"
-msgstr ""
+msgstr "የፋይል ስም ኮንቬንሽን"
 
 #: climweb/src/climweb/base/models/snippets.py:158
 #, python-brace-format
-msgid "Filename pattern used to match and parse product files (without extension). Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-populated from the product temporal resolution. You may add a prefix or suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
+msgid ""
+"Filename pattern used to match and parse product files (without extension). "
+"Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-"
+"populated from the product temporal resolution. You may add a prefix or "
+"suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
 msgstr ""
+"የምርት ፋይሎችን ለማዛመድ እና ለመተንተን (ያለ ቅጥያ) የፋይል ስም ጥለት ስራ ላይ ይውላል። {yyyy}ን ለአመት፣ "
+"{mm} በወር፣ {dd} በቀን፣ {hh} በሰአት ተጠቀም። ከምርቱ ጊዜያዊ ጥራት በራስ-የተሞላ። ቅድመ ቅጥያ ወይም ቅጥያ "
+"ማከል ይችላሉ፣ ለምሳሌ 'temp_{yyyy}_{mm}_{dd}_00_00_00'።"
 
 #: climweb/src/climweb/base/models/snippets.py:167
 msgid "Valid for (days)"
-msgstr ""
+msgstr "ለ (ቀናት) የሚሰራ"
 
 #: climweb/src/climweb/base/models/snippets.py:169
-msgid "How many days this product remains effective after its issue date. Leave blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
+msgid ""
+"How many days this product remains effective after its issue date. Leave "
+"blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
 msgstr ""
+"ይህ ምርት ከወጣበት ቀን በኋላ ለምን ያህል ቀናት ውጤታማ እንደሆነ ይቆያል። የማይተገበር ከሆነ ባዶ ይተዉት። ለምሳሌ. "
+"1 ለቀን ፣ 7 ለሳምንት ፣ 30 ለወር።"
 
 #: climweb/src/climweb/base/models/snippets.py:216
 msgid "Service Category"
@@ -718,15 +1031,11 @@ msgstr "ድንክዬ"
 
 #: climweb/src/climweb/base/models/snippets.py:231
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: climweb/src/climweb/base/models/snippets.py:232
 msgid "Order"
 msgstr "ማዘዝ"
-
-#: climweb/src/climweb/base/models/snippets.py:236
-msgid "Application"
-msgstr "መተግበሪያ"
 
 #: climweb/src/climweb/base/models/snippets.py:266
 msgid "GIS Application"
@@ -735,6 +1044,10 @@ msgstr "የጂአይኤስ መተግበሪያ"
 #: climweb/src/climweb/base/models/snippets.py:267
 msgid "GIS Applications"
 msgstr "የጂአይኤስ መተግበሪያዎች"
+
+#: climweb/src/climweb/base/templates/admin/backup_help.html:4
+msgid "Google Drive backup — setup guide"
+msgstr "Google Drive ምትኬ - የማዋቀር መመሪያ"
 
 #: climweb/src/climweb/base/templates/admin/cms_upgrade_notification.html:7
 msgid "ClimWeb upgrade available. Your version:"
@@ -751,123 +1064,294 @@ msgstr "አሻሽል።"
 #: climweb/src/climweb/base/templates/admin/cms_version.html:6
 #, python-format
 msgid "%(title)s"
-msgstr ""
+msgstr "%(title)s"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:34
+#: climweb/src/climweb/base/templates/admin/cms_version.html:92
 msgid "ClimWeb Version Check"
 msgstr "የሲኤምኤስ ስሪት ያረጋግጡ"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:51
+#: climweb/src/climweb/base/templates/admin/cms_version.html:109
 msgid "Current installed version"
 msgstr "የአሁኑ የተጫነ ስሪት"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:57
+#: climweb/src/climweb/base/templates/admin/cms_version.html:115
 msgid "Latest available version"
 msgstr "የቅርብ ጊዜ የሚገኝ ስሪት"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:65
+#: climweb/src/climweb/base/templates/admin/cms_version.html:123
 msgid "Your ClimWeb version is up to date."
 msgstr "የእርስዎ ClimWeb ስሪት ዘምኗል።"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:73
-msgid "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
-msgstr "የሲኤምኤስ ማሻሻያ ተጀመረ። እባክዎ ማሻሻያው እስኪጠናቀቅ ይጠብቁ"
+#: climweb/src/climweb/base/templates/admin/cms_version.html:131
+#, fuzzy
+#| msgid "Upgrade now"
+msgid "Upgrade in progress…"
+msgstr "ማሻሻያ በሂደት ላይ…"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:78
+#: climweb/src/climweb/base/templates/admin/cms_version.html:133
+msgid "Connecting to upgrade service…"
+msgstr "ወደ ማሻሻያ አገልግሎት በመገናኘት ላይ…"
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:139
 msgid "ClimWeb upgrade available"
 msgstr "የሲኤምኤስ ማሻሻያ አለ።"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:89
+#: climweb/src/climweb/base/templates/admin/cms_version.html:150
 msgid "Release notes"
 msgstr "የልቀት ማስታወሻዎች"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:117
+#: climweb/src/climweb/base/templates/admin/cms_version.html:178
 msgid "Upgrade now"
 msgstr "አሁን አሻሽል።"
 
+#: climweb/src/climweb/base/templates/admin/cms_version.html:224
+#, fuzzy
+#| msgid "Upgrade now"
+msgid "Upgrade complete"
+msgstr "ማሻሻል ተጠናቅቋል"
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:230
+#, fuzzy
+#| msgid "Upgrade"
+msgid "Upgrade failed"
+msgstr "ማላቅ አልተሳካም።"
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:237
+msgid "Rolling back…"
+msgstr "ወደኋላ በመመለስ ላይ…"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:4
+msgid "Read the Google Drive backup setup guide"
+msgstr "የGoogle Drive ምትኬ ማዋቀር መመሪያን ያንብቡ"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:8
+#, python-format
+msgid "Connected as <strong>%(account_email)s</strong>."
+msgstr "እንደ <strong>%(account_email)s</strong> ተገናኝቷል።"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:13
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:18
+msgid "Back up now"
+msgstr "አሁን ምትኬ ያስቀምጡ"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:17
+msgid "Enable cloud backups and save before running a backup."
+msgstr "የደመና ምትኬዎችን ያንቁ እና ምትኬን ከማሄድዎ በፊት ያስቀምጡ።"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:22
+msgid "Disconnect"
+msgstr "ግንኙነት አቋርጥ"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:26
+msgid ""
+"Tick 'Enable cloud backups' and save to activate scheduled and manual "
+"uploads."
+msgstr "'የደመና ምትኬን አንቃ' የሚለውን ምልክት ያድርጉ እና መርሐግብር ለተያዘላቸው እና በእጅ ለሚሰቀሉ አስቀምጥ።"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:29
+msgid "No Google account connected."
+msgstr "ምንም የጉግል መለያ አልተገናኘም።"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:30
+msgid ""
+"Backups will not be uploaded until you connect one. You have two options:"
+msgstr "አንዱን እስክታገናኙ ድረስ ምትኬዎች አይሰቀሉም። ሁለት አማራጮች አሉዎት፡-"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:33
+msgid "1. One click:"
+msgstr "1. አንድ ጠቅታ;"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:35
+msgid "Connect Google Drive"
+msgstr "Google Driveን ያገናኙ"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:40
+msgid ""
+"<strong>1.</strong> Enter your OAuth <strong>Client ID</strong> and "
+"<strong>Client Secret</strong> below and save — the one-click Connect button"
+" will then appear here."
+msgstr ""
+"<strong>1.</strong> የ OAuth <strong>የደንበኛ መታወቂያ</strong>እና <strong>የደንበኛ "
+"ሚስጥር</strong> ከታች አስገባ እና አስቀምጥ - አንድ-ጠቅታ የግንኙነት አዝራር እዚህ ይታያል።"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:44
+msgid ""
+"<strong>2.</strong> Or paste a refresh token in the \"Paste a token\" field "
+"below and save."
+msgstr ""
+"<strong>2.</strong>ወይም ከዚህ በታች ባለው \"ቶከን ለጥፍ\" መስክ ውስጥ የማደስ ማስመሰያ ይለጥፉ እና "
+"ያስቀምጡ።"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:51
+msgid "Last upload:"
+msgstr "የመጨረሻ ሰቀላ፡-"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:5
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:72
+#: climweb/src/climweb/base/wagtail_hooks.py:115
+msgid "Plugins"
+msgstr "ተሰኪዎች"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:82
+msgid "Plugin"
+msgstr "መሰካት"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:84
+msgid "Author"
+msgstr "ደራሲ"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:111
+#, python-format
+msgid "Remove plugin %(name)s? This will reverse its database migrations and restart the server."
+msgstr "ተሰኪ %(name)s ይወገድ? ይህ የውሂብ ጎታውን ፍልሰት ይለውጣል እና አገልጋዩን እንደገና ያስጀምራል።"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:113
+msgid "Remove"
+msgstr "አስወግድ"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:123
+msgid "No plugins are currently installed."
+msgstr "በአሁኑ ጊዜ ምንም ተሰኪዎች አልተጫኑም።"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:127
+msgid ""
+"Plugins are managed via the <code>CLIMWEB_PLUGIN_GIT_REPOS</code> setting in"
+" your <code>.env</code> file. To install, update, or remove a plugin, edit "
+"that value and restart the containers."
+msgstr ""
+"ተሰኪዎች የሚተዳደሩት በ<code>.env</code> ፋይልዎ ውስጥ ባለው "
+"የ<code>CLIMWEB_PLUGIN_GIT_REPOS</code> ቅንብር ነው። ተሰኪን ለመጫን፣ ለማዘመን ወይም ለማስወገድ "
+"ያንን እሴት ያርትዑ እና መያዣዎቹን እንደገና ያስጀምሩ።"
+
 #: climweb/src/climweb/base/templates/blocks/main_menu.html:36
 #, python-format
-msgid "\n"
+msgid ""
+"\n"
 "                    View all %(label)s\n"
 "                  "
-msgstr "\n"
+msgstr ""
+"\n"
 " ሁሉንም %(label)s\n"
 " "
 
-#: climweb/src/climweb/base/views.py:42
+#: climweb/src/climweb/base/views.py:49
 msgid "Error fetching latest version. Please try again later."
 msgstr "የቅርብ ጊዜውን ስሪት ማምጣት ላይ ስህተት። እባክዎ ቆየት ብለው ይሞክሩ."
 
-#: climweb/src/climweb/base/views.py:60
+#: climweb/src/climweb/base/views.py:67
 msgid "Error in extracting latest version number from the release"
 msgstr "የቅርብ ጊዜውን የስሪት ቁጥር ከልቀት ማውጣት ላይ ስህተት"
 
-#: climweb/src/climweb/base/wagtail_hooks.py:60
+#: climweb/src/climweb/base/views.py:133
+msgid "No plugin name provided."
+msgstr "ምንም የተሰኪ ስም አልተሰጠም።"
+
+#: climweb/src/climweb/base/views.py:135
+msgid "CMS_PLUGIN_MANAGE_HOOK_URL is not configured."
+msgstr "CMS_PLUGIN_MANAGE_HOOK_URL አልተዋቀረም።"
+
+#: climweb/src/climweb/base/views.py:141
+#, python-format
+msgid "Plugin '%(name)s' removal initiated. The server will restart shortly."
+msgstr "Plugin '%(name)s' መወገድ ተጀመረ። አገልጋዩ በቅርቡ እንደገና ይጀምራል።"
+
+#: climweb/src/climweb/base/views.py:146
+msgid ""
+"Error sending remove command. Check that CMS_PLUGIN_MANAGE_HOOK_URL is "
+"reachable."
+msgstr ""
+"የማስወገድ ትዕዛዝ በመላክ ላይ ስህተት። CMS_PLUGIN_MANAGE_HOOK_URL ሊደረስበት የሚችል መሆኑን ያረጋግጡ።"
+
+#: climweb/src/climweb/base/wagtail_hooks.py:131
 msgid "Themes"
 msgstr "ገጽታዎች"
 
-#, python-format
-#~ msgid "View all %(label)s\n"
-#~ msgstr "View all %(label)s\n"
+#: climweb/src/climweb/base/wagtail_hooks.py:262
+msgid ""
+"This page could not be published because it contains content that violates "
+"the ClimWeb Harassment Protection Policy. Please review and edit the page "
+"before publishing."
+msgstr ""
+"ይህ ገጽ የClimWeb ትንኮሳ ጥበቃ መመሪያን የሚጥስ ይዘት ስላለው ሊታተም አልቻለም። እባክዎ ከማተምዎ በፊት ገጹን "
+"ይገምግሙ እና ያርትዑ።"
+
+#, fuzzy
+#~ msgid "Introduction Subtitle"
+#~ msgstr "የመግቢያ ንዑስ ርዕስ"
+
+#, fuzzy
+#~ msgid "Illustration Image"
+#~ msgstr "የማሳያ ምስል"
+
+#, fuzzy
+#~ msgid "Upload Image"
+#~ msgstr "ምስል ስቀል"
 
 #~ msgid ""
-#~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
-#~ "v3/getting-started"
+#~ "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
+#~ msgstr "የClimWeb ማሻሻያ ተጀመረ። እባክዎ ማሻሻያው እስኪጠናቀቅ ይጠብቁ"
+
+#, python-format
+#~ msgid "View all %(label)s\n"
+#~ msgstr "ሁሉንም %(መለያ) ይመልከቱ"
+
+#~ msgid ""
+#~ "To set up Youtube API Key refer to "
+#~ "https://developers.google.com/youtube/v3/getting-started"
 #~ msgstr ""
-#~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
-#~ "v3/getting-started"
+#~ "የዩቲዩብ ኤፒአይ ቁልፍን ለማዋቀር https://developers.google.com/youtube/v3/getting-"
+#~ "started ይመልከቱ"
 
 #~ msgid "What we do"
-#~ msgstr "What we do"
+#~ msgstr "የምንሰራው"
 
 #~ msgid "ClimWeb Logo"
-#~ msgstr "ClimWeb Logo"
+#~ msgstr "ClimWeb አርማ"
 
 #~ msgid "Introduction Heading"
-#~ msgstr "Introduction Heading"
+#~ msgstr "የመግቢያ ርዕስ"
 
 #~ msgid "Introduction section heading"
-#~ msgstr "Introduction section heading"
+#~ msgstr "የመግቢያ ክፍል ርዕስ"
 
 #~ msgid "Staff"
-#~ msgstr "Staff"
+#~ msgstr "ሰራተኞች"
 
 #~ msgid "Staff Page"
-#~ msgstr "Staff Page"
+#~ msgstr "የሰራተኞች ገጽ"
 
 #~ msgid "Staff member's name"
-#~ msgstr "Staff member's name"
+#~ msgstr "የሰራተኛ ስም"
 
 #~ msgid "First and Last names of Staff member"
-#~ msgstr "First and Last names of Staff member"
+#~ msgstr "የሰራተኞች የመጀመሪያ እና የመጨረሻ ስሞች"
 
 #~ msgid "Staff member's role"
-#~ msgstr "Staff member's role"
+#~ msgstr "የሰራተኞች ሚና"
 
 #~ msgid "The role/position of the Staff member"
-#~ msgstr "The role/position of the Staff member"
+#~ msgstr "የሰራተኛ አባል ሚና / አቋም"
 
 #~ msgid "Staff member Biography"
-#~ msgstr "Staff member Biography"
+#~ msgstr "የሰራተኛ አባል የህይወት ታሪክ"
 
 #~ msgid "Optional Summary biography of the Staff member"
-#~ msgstr "Optional Summary biography of the Staff member"
+#~ msgstr "አማራጭ ማጠቃለያ የሰራተኛው አባል የህይወት ታሪክ"
 
 #~ msgid "Staff member's Department"
-#~ msgstr "Staff member's Department"
+#~ msgstr "የሰራተኞች ክፍል"
 
 #~ msgid "Staff member's Profile Image"
-#~ msgstr "Staff member's Profile Image"
+#~ msgstr "የሰራተኛ አባል መገለጫ ምስል"
 
 #~ msgid "A high quality square image"
-#~ msgstr "A high quality square image"
+#~ msgstr "ከፍተኛ ጥራት ያለው ካሬ ምስል"
 
 #~ msgid "Staff Member"
-#~ msgstr "Staff Member"
+#~ msgstr "የሰራተኛ አባል"
 
 #~ msgid "Staff Members"
-#~ msgstr "Staff Members"
+#~ msgstr "የሰራተኞች አባላት"
 
 #~ msgid "All good. You are running on the latest version"
-#~ msgstr "All good. You are running on the latest version"
-
+#~ msgstr "ሁሉም ጥሩ። በአዲሱ ስሪት ላይ እያሄዱ ነው።"

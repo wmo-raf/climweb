@@ -1,0 +1,284 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n %}
+
+{% block titletag %}{% trans "Server logs" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .log-viewer { padding: 1.5em 2em; }
+    .log-viewer .log-toolbar {
+        display: flex; flex-wrap: wrap; gap: 0.75em; align-items: flex-end; margin-bottom: 1em;
+    }
+    .log-viewer .log-field { display: flex; flex-direction: column; gap: 0.25em; }
+    .log-viewer .log-field label { font-size: 0.8em; color: #666; text-transform: uppercase; }
+    .log-viewer select, .log-viewer input[type="text"] { min-width: 12em; }
+    .log-viewer .log-console {
+        background: #1b1b1b; color: #e6e6e6; border-radius: 4px; padding: 0.75em 1em;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12px; line-height: 1.5; height: 60vh; overflow: auto; white-space: pre-wrap;
+        word-break: break-word;
+    }
+    .log-viewer .log-line { display: block; padding: 1px 0; }
+    .log-viewer .log-line .log-ts { color: #7d8b99; margin-right: 0.75em; }
+    .log-viewer .log-line.level-ERROR, .log-viewer .log-line.level-CRITICAL { color: #ff8a80; }
+    .log-viewer .log-line.level-WARNING { color: #ffcc80; }
+    .log-viewer .log-line.level-DEBUG { color: #9e9e9e; }
+    .log-viewer .log-status { margin-top: 0.6em; font-size: 0.85em; color: #666; }
+    .log-viewer .log-status .log-dot {
+        display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+        background: #3ba55d; margin-right: 0.4em;
+    }
+    .log-viewer .log-status.paused .log-dot { background: #999; }
+    .log-viewer .log-status.errored .log-dot { background: #d9534f; }
+    .log-viewer .log-note { color: #666; max-width: 55em; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include "wagtailadmin/shared/header.html" with title="Server logs" subtitle="Live container output" icon="doc-full-inverse" %}
+
+<div class="log-viewer">
+
+  {% if not enabled %}
+    <p class="log-note">
+      {% blocktrans trimmed %}
+        The log viewer is switched off on this instance. Enable it by setting
+        <code>CLIMWEB_LOG_VIEWER_ENABLED=True</code> and running the Docker socket proxy
+        described in the deployment guide.
+      {% endblocktrans %}
+    </p>
+  {% elif error %}
+    <p class="help-block help-critical">{% trans "Could not connect to the Docker socket proxy:" %} {{ error }}</p>
+    <p class="log-note">
+      {% blocktrans trimmed %}
+        Check that the <code>climweb_docker_proxy</code> service is running and that
+        <code>CLIMWEB_DOCKER_HOST</code> points at it.
+      {% endblocktrans %}
+    </p>
+  {% elif not containers %}
+    <p class="log-note">{% trans "No readable containers were found." %}</p>
+  {% else %}
+
+    <div class="log-toolbar">
+      <div class="log-field">
+        <label for="log-container">{% trans "Container" %}</label>
+        <select id="log-container">
+          {% for c in containers %}
+            <option value="{{ c.name }}" {% if c.name == selected %}selected{% endif %}>
+              {{ c.name }}{% if c.status != "running" %} ({{ c.status }}){% endif %}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="log-field">
+        <label for="log-tail">{% trans "Lines" %}</label>
+        <select id="log-tail">
+          {% for n in tail_choices %}
+            <option value="{{ n }}" {% if n == default_tail %}selected{% endif %}>{{ n }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="log-field">
+        <label for="log-level">{% trans "Minimum level" %}</label>
+        <select id="log-level">
+          <option value="">{% trans "All" %}</option>
+          <option value="DEBUG">DEBUG</option>
+          <option value="INFO">INFO</option>
+          <option value="WARNING">WARNING</option>
+          <option value="ERROR">ERROR</option>
+        </select>
+      </div>
+
+      <div class="log-field">
+        <label for="log-search">{% trans "Filter text" %}</label>
+        <input type="text" id="log-search" placeholder="{% trans 'e.g. Traceback' %}">
+      </div>
+
+      <button type="button" class="button button-secondary" id="log-pause">{% trans "Pause" %}</button>
+      <button type="button" class="button button-secondary" id="log-clear">{% trans "Clear" %}</button>
+      <a class="button button-secondary" id="log-download" href="#">{% trans "Download" %}</a>
+    </div>
+
+    <div class="log-console" id="log-console" aria-live="polite"></div>
+
+    <p class="log-status" id="log-status"><span class="log-dot"></span><span id="log-status-text">{% trans "Starting…" %}</span></p>
+
+    <p class="log-note">
+      {% blocktrans trimmed %}
+        Values that look like passwords, keys or tokens are masked before display, but
+        logs can still contain personal data — treat this page as sensitive.
+      {% endblocktrans %}
+    </p>
+
+    {% trans "Paused" as t_paused %}
+    {% trans "Resume" as t_resume %}
+    {% trans "Pause" as t_pause %}
+    {% trans "Resuming…" as t_resuming %}
+    {% trans "Following" as t_following %}
+    {% trans "updated" as t_updated %}
+    {% trans "Error:" as t_error %}
+
+    <script>
+    (function () {
+      // Piped through escapejs: a translation containing a quote would
+      // otherwise break out of the string and take the whole page with it.
+      var I18N = {
+        paused: "{{ t_paused|escapejs }}",
+        resume: "{{ t_resume|escapejs }}",
+        pause: "{{ t_pause|escapejs }}",
+        resuming: "{{ t_resuming|escapejs }}",
+        following: "{{ t_following|escapejs }}",
+        updated: "{{ t_updated|escapejs }}",
+        error: "{{ t_error|escapejs }}"
+      };
+
+      var fetchUrl = "{% url 'log-fetch' %}";
+      var downloadUrl = "{% url 'log-download' %}";
+      var LEVELS = { DEBUG: 10, INFO: 20, WARNING: 30, ERROR: 40, CRITICAL: 50 };
+      var POLL_MS = 4000;
+
+      var consoleEl = document.getElementById("log-console");
+      var containerEl = document.getElementById("log-container");
+      var tailEl = document.getElementById("log-tail");
+      var levelEl = document.getElementById("log-level");
+      var searchEl = document.getElementById("log-search");
+      var pauseEl = document.getElementById("log-pause");
+      var clearEl = document.getElementById("log-clear");
+      var downloadEl = document.getElementById("log-download");
+      var statusEl = document.getElementById("log-status");
+      var statusTextEl = document.getElementById("log-status-text");
+
+      var latest = "";
+      var paused = false;
+      var timer = null;
+      var inFlight = false;
+      var MAX_NODES = 5000;
+
+      function setStatus(text, state) {
+        statusTextEl.textContent = text;
+        statusEl.className = "log-status" + (state ? " " + state : "");
+      }
+
+      function atBottom() {
+        return consoleEl.scrollHeight - consoleEl.scrollTop - consoleEl.clientHeight < 40;
+      }
+
+      function visible(line) {
+        var min = levelEl.value;
+        if (min && LEVELS[min]) {
+          // Lines with no recognisable level are kept: dropping them hides
+          // tracebacks, which are exactly what people come here for.
+          if (line.level && LEVELS[line.level] < LEVELS[min]) return false;
+        }
+        var needle = searchEl.value.trim().toLowerCase();
+        if (needle && line.message.toLowerCase().indexOf(needle) === -1) return false;
+        return true;
+      }
+
+      function render(lines) {
+        var stick = atBottom();
+        var frag = document.createDocumentFragment();
+        lines.forEach(function (line) {
+          var el = document.createElement("span");
+          el.className = "log-line" + (line.level ? " level-" + line.level : "");
+          el.dataset.level = line.level || "";
+          el.dataset.message = line.message;
+          var ts = document.createElement("span");
+          ts.className = "log-ts";
+          ts.textContent = line.ts ? line.ts.replace("T", " ").slice(0, 19) : "";
+          el.appendChild(ts);
+          el.appendChild(document.createTextNode(line.message));
+          if (!visible(line)) el.style.display = "none";
+          frag.appendChild(el);
+        });
+        consoleEl.appendChild(frag);
+
+        while (consoleEl.childElementCount > MAX_NODES) {
+          consoleEl.removeChild(consoleEl.firstElementChild);
+        }
+        if (stick) consoleEl.scrollTop = consoleEl.scrollHeight;
+      }
+
+      function reapplyFilters() {
+        Array.prototype.forEach.call(consoleEl.children, function (el) {
+          var line = { level: el.dataset.level, message: el.dataset.message || "" };
+          el.style.display = visible(line) ? "" : "none";
+        });
+      }
+
+      function poll(reset) {
+        if (inFlight) return;
+        inFlight = true;
+
+        var params = new URLSearchParams({
+          container: containerEl.value,
+          tail: tailEl.value
+        });
+        if (!reset && latest) params.set("since", latest);
+
+        fetch(fetchUrl + "?" + params.toString(), {
+          credentials: "same-origin",
+          headers: { "Accept": "application/json" }
+        })
+          .then(function (resp) {
+            return resp.json().then(function (data) {
+              if (!resp.ok) throw new Error(data.error || resp.statusText);
+              return data;
+            });
+          })
+          .then(function (data) {
+            if (data.latest) latest = data.latest;
+            if (data.lines && data.lines.length) render(data.lines);
+            setStatus(
+              paused ? I18N.paused
+                     : I18N.following + " " + containerEl.value +
+                       " — " + I18N.updated + " " + new Date().toLocaleTimeString(),
+              paused ? "paused" : null
+            );
+          })
+          .catch(function (err) {
+            setStatus(I18N.error + " " + err.message, "errored");
+          })
+          .finally(function () {
+            inFlight = false;
+          });
+      }
+
+      function restart() {
+        latest = "";
+        consoleEl.innerHTML = "";
+        downloadEl.href = downloadUrl + "?container=" + encodeURIComponent(containerEl.value) +
+          "&tail=" + encodeURIComponent(tailEl.value);
+        poll(true);
+      }
+
+      function schedule() {
+        if (timer) clearInterval(timer);
+        timer = setInterval(function () {
+          // Don't hammer the server while the tab is in the background.
+          if (!paused && !document.hidden) poll(false);
+        }, POLL_MS);
+      }
+
+      containerEl.addEventListener("change", restart);
+      tailEl.addEventListener("change", restart);
+      levelEl.addEventListener("change", reapplyFilters);
+      searchEl.addEventListener("input", reapplyFilters);
+      clearEl.addEventListener("click", function () { consoleEl.innerHTML = ""; });
+      pauseEl.addEventListener("click", function () {
+        paused = !paused;
+        pauseEl.textContent = paused ? I18N.resume : I18N.pause;
+        setStatus(paused ? I18N.paused : I18N.resuming, paused ? "paused" : null);
+        if (!paused) poll(false);
+      });
+
+      restart();
+      schedule();
+    })();
+    </script>
+
+  {% endif %}
+</div>
+{% endblock %}

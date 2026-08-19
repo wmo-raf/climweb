@@ -47,6 +47,8 @@ class OrganisationSetting(BaseSiteSetting):
     # logo
     logo = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL, related_name="+",
                              verbose_name=_("Organisation Logo"))
+    logo_append = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Logo Append Text"))
+
     country_flag = models.ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=models.SET_NULL,
                                      related_name="+",
                                      verbose_name=_("Country Flag"))
@@ -107,6 +109,7 @@ class OrganisationSetting(BaseSiteSetting):
         MultiFieldPanel(
             [
                 FieldPanel("logo"),
+                FieldPanel("logo_append"),
                 FieldPanel("country_flag"),
                 FieldPanel("favicon"),
                 FieldPanel("footer_logo"),
@@ -333,8 +336,12 @@ class ImportantPages(BaseSiteSetting):
     cap_warnings_list_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
         verbose_name=_("CAP Warnings List page"))
+    anticipatory_action_page = models.ForeignKey(
+        'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
+        verbose_name=_("Anticipatory Action page"))
     
     panels = [
+        PageChooserPanel('anticipatory_action_page'),
         PageChooserPanel('mailing_list_signup_page'),
         PageChooserPanel('contact_us_page'),
         PageChooserPanel('feedback_page'),

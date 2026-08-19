@@ -21,16 +21,30 @@ def share_buttons(url, text=None):
         encode = config.get('encode', False)
         fa_icon = config.get('fa_icon', False)
         svg_icon = config.get('svg_icon', None)
-        
+        copy_link = config.get('copy_link', False)
+
         link_query = None
         text_query = None
-        
+
         item_url = url
         item_text = text
-        
-        if not enabled or not name or not base_url or not link_param:
+
+        if not enabled or not name or not base_url:
             continue
-        
+
+        # Some platforms (e.g. TikTok) don't support a "share this link" URL
+        # intent. For those, link straight to the platform and let the JS
+        # copy the link to the clipboard first so the user can paste it in.
+        if copy_link or not link_param:
+            share_urls.append({
+                'name': name,
+                'url': base_url,
+                'fa_icon': fa_icon,
+                'svg_icon': svg_icon,
+                'copy_link': item_url,
+            })
+            continue
+
         if encode:
             item_url = urllib.parse.quote(item_url)
             if item_text:
@@ -54,7 +68,8 @@ def share_buttons(url, text=None):
             'name': name,
             'url': share_url,
             'fa_icon': fa_icon,
-            "svg_icon": svg_icon
+            "svg_icon": svg_icon,
+            "copy_link": None,
         })
     
     return {"share_urls": share_urls}

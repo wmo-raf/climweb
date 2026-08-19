@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 11:00+0300\n"
+"POT-Creation-Date: 2026-07-21 12:32+0300\n"
 "PO-Revision-Date: 2026-06-22 11:39\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: nmhs-cms\n"
-"X-Crowdin-Project-ID: 672958\n"
-"X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /climweb/src/climweb/base/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 1286\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-Project: nmhs-cms\n"
+"X-Crowdin-Project-ID: 672958\n"
 
 #: climweb/src/climweb/base/blocks.py:49 climweb/src/climweb/base/blocks.py:50
 #: climweb/src/climweb/base/blocks.py:62 climweb/src/climweb/base/blocks.py:63
@@ -52,9 +53,11 @@ msgstr "Título y texto"
 
 #: climweb/src/climweb/base/blocks.py:102
 msgid "A URL that returns Highcharts.js configuration, including the data"
-msgstr "Una URL que devuelve la configuración de Highcharts.js, incluidos los datos."
+msgstr ""
+"Una URL que devuelve la configuración de Highcharts.js, incluidos los datos."
 
 #: climweb/src/climweb/base/blocks.py:106
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:83
 msgid "Description"
 msgstr "Descripción"
 
@@ -63,8 +66,12 @@ msgid "Action Link Internal"
 msgstr "Enlace de acción interno"
 
 #: climweb/src/climweb/base/blocks.py:110
-msgid "An external link to a detailed resource on the internet.If provided, the internal link will be ignored"
-msgstr "Un enlace externo a un recurso detallado en Internet. Si se proporciona, el enlace interno será ignorado."
+msgid ""
+"An external link to a detailed resource on the internet.If provided, the "
+"internal link will be ignored"
+msgstr ""
+"Un enlace externo a un recurso detallado en Internet. Si se proporciona, el "
+"enlace interno será ignorado."
 
 #: climweb/src/climweb/base/blocks.py:116
 msgid "Feature Block"
@@ -149,12 +156,10 @@ msgid "Card"
 msgstr "Tarjeta"
 
 #: climweb/src/climweb/base/blocks.py:297
-#| msgid "Introduction button text"
 msgid "Card button text"
 msgstr "Texto del botón de tarjeta"
 
 #: climweb/src/climweb/base/blocks.py:298
-#| msgid "Introduction button link"
 msgid "Card button link"
 msgstr "Enlace del botón de tarjeta"
 
@@ -162,104 +167,392 @@ msgstr "Enlace del botón de tarjeta"
 msgid "Cards with Icon and Text"
 msgstr "Tarjetas con icono y texto"
 
-#: climweb/src/climweb/base/cap.py:103
+#: climweb/src/climweb/base/cap.py:105
 msgid "Go to warnings list"
 msgstr "Ir a la lista de advertencias"
 
-#: climweb/src/climweb/base/forms.py:27
-#, python-format
-msgid "Supported formats: %(supported_formats)s. Maximum filesize: %(max_upload_size)s."
-msgstr "Formatos admitidos: %(supported_formats)s. Tamaño máximo de archivo: %(max_upload_size)s."
+#: climweb/src/climweb/base/cap_views.py:66
+msgid "No CAP alert list page found. Please create one before adding alerts."
+msgstr ""
+"No se encontró ninguna página de lista de alertas de CAP. Cree uno antes de "
+"agregar alertas."
 
-#: climweb/src/climweb/base/forms.py:42
+#: climweb/src/climweb/base/forms.py:28
 #, python-format
-msgid "File size must be under %(max_upload_size)s. Current file size is %(current_file_size)s"
-msgstr "El tamaño del archivo debe ser inferior a %(max_upload_size)s. El tamaño actual del archivo es %(current_file_size)s"
+msgid ""
+"Supported formats: %(supported_formats)s. Maximum filesize: "
+"%(max_upload_size)s."
+msgstr ""
+"Formatos admitidos: %(supported_formats)s. Tamaño máximo de archivo: "
+"%(max_upload_size)s."
 
-#: climweb/src/climweb/base/forms.py:59
+#: climweb/src/climweb/base/forms.py:43
+#, python-format
+msgid ""
+"File size must be under %(max_upload_size)s. Current file size is "
+"%(current_file_size)s"
+msgstr ""
+"El tamaño del archivo debe ser inferior a %(max_upload_size)s. El tamaño "
+"actual del archivo es %(current_file_size)s"
+
+#: climweb/src/climweb/base/forms.py:60
 #, python-format
 msgid "Supported formats: PDF. Maximum filesize: %(max_upload_size)s."
-msgstr "Formatos admitidos: PDF. Tamaño máximo de archivo: %(max_upload_size)s."
+msgstr ""
+"Formatos admitidos: PDF. Tamaño máximo de archivo: %(max_upload_size)s."
 
-#: climweb/src/climweb/base/mixins.py:21
+#: climweb/src/climweb/base/mixins.py:30
 msgid "For search engines"
 msgstr "Para motores de búsqueda"
 
-#: climweb/src/climweb/base/mixins.py:27
+#: climweb/src/climweb/base/mixins.py:36
 msgid "For site menus"
 msgstr "Para menús del sitio"
 
-#: climweb/src/climweb/base/models/__init__.py:21
+#: climweb/src/climweb/base/models/__init__.py:23
 msgid "File Submission"
 msgstr "Envío de archivos"
 
-#: climweb/src/climweb/base/models/__init__.py:22
+#: climweb/src/climweb/base/models/__init__.py:24
 msgid "File Submissions"
 msgstr "Envío de archivos"
 
-#: climweb/src/climweb/base/models/abstracts.py:19
+#: climweb/src/climweb/base/models/abstracts.py:20
 msgid "Banner Image"
 msgstr "Imagen de banner"
 
-#: climweb/src/climweb/base/models/abstracts.py:20
+#: climweb/src/climweb/base/models/abstracts.py:21
 msgid "A high quality banner image"
 msgstr "Una imagen de banner de alta calidad."
 
-#: climweb/src/climweb/base/models/abstracts.py:26
+#: climweb/src/climweb/base/models/abstracts.py:27
 msgid "Banner Title"
 msgstr "Título del banner"
 
-#: climweb/src/climweb/base/models/abstracts.py:27
+#: climweb/src/climweb/base/models/abstracts.py:28
 msgid "Banner Subtitle"
 msgstr "Subtítulo del banner"
 
-#: climweb/src/climweb/base/models/abstracts.py:29
+#: climweb/src/climweb/base/models/abstracts.py:30
 msgid "Call to action button text"
 msgstr "Texto del botón de llamada a la acción"
 
-#: climweb/src/climweb/base/models/abstracts.py:36
+#: climweb/src/climweb/base/models/abstracts.py:37
 msgid "Call to action related page"
 msgstr "Página relacionada con el llamado a la acción"
 
-#: climweb/src/climweb/base/models/abstracts.py:48
+#: climweb/src/climweb/base/models/abstracts.py:49
 msgid "Banner Section"
 msgstr "Sección de pancartas"
 
-#: climweb/src/climweb/base/models/abstracts.py:77
+#: climweb/src/climweb/base/models/abstracts.py:78
 msgid "Introduction Title"
 msgstr "Título de la introducción"
 
-#: climweb/src/climweb/base/models/abstracts.py:78
+#: climweb/src/climweb/base/models/abstracts.py:79
 msgid "Introduction section title"
 msgstr "Título de la sección de introducción"
 
-#: climweb/src/climweb/base/models/abstracts.py:79
+#: climweb/src/climweb/base/models/abstracts.py:80
 msgid "Introduction text"
 msgstr "Texto de introducción"
 
-#: climweb/src/climweb/base/models/abstracts.py:80
+#: climweb/src/climweb/base/models/abstracts.py:81
 msgid "Introduction section description"
 msgstr "Descripción de la sección de introducción"
 
-#: climweb/src/climweb/base/models/abstracts.py:83
+#: climweb/src/climweb/base/models/abstracts.py:84
 msgid "Introduction Image"
 msgstr "Imagen de introducción"
 
-#: climweb/src/climweb/base/models/abstracts.py:84
+#: climweb/src/climweb/base/models/abstracts.py:85
 msgid "A high quality image"
 msgstr "Una imagen de alta calidad"
 
-#: climweb/src/climweb/base/models/abstracts.py:92
+#: climweb/src/climweb/base/models/abstracts.py:93
 msgid "Introduction button text"
 msgstr "Texto del botón de introducción"
 
-#: climweb/src/climweb/base/models/abstracts.py:99
+#: climweb/src/climweb/base/models/abstracts.py:100
 msgid "Introduction button link"
 msgstr "Enlace del botón de introducción"
 
-#: climweb/src/climweb/base/models/abstracts.py:119
+#: climweb/src/climweb/base/models/abstracts.py:120
 msgid "Introduction Section"
 msgstr "Sección de introducción"
+
+#: climweb/src/climweb/base/models/abstracts.py:169
+msgid "Apply Now"
+msgstr "Aplicar ahora"
+
+#: climweb/src/climweb/base/models/abstracts.py:169
+#, fuzzy
+#| msgid "Card button text"
+msgid "Apply button text"
+msgstr "Aplicar texto del botón"
+
+#: climweb/src/climweb/base/models/abstracts.py:176
+#, fuzzy
+#| msgid "Application"
+msgid "Application Page"
+msgstr "Página de solicitud"
+
+#: climweb/src/climweb/base/models/abstracts.py:177
+msgid ""
+"Select the page where applicants should submit their application, e.g. a "
+"Flexible Form page set up to collect applications. If left blank, the "
+"external link below is used instead."
+msgstr ""
+"Seleccione la página donde los solicitantes deben enviar su solicitud, p. "
+"una página de formulario flexible configurada para recopilar solicitudes. Si"
+" se deja en blanco, se utiliza el siguiente enlace externo."
+
+#: climweb/src/climweb/base/models/abstracts.py:182
+#, fuzzy
+#| msgid "Application"
+msgid "External Application Link"
+msgstr "Enlace de aplicación externa"
+
+#: climweb/src/climweb/base/models/abstracts.py:183
+msgid ""
+"External link to apply, e.g. a link to an external HR or procurement system."
+" Ignored if an application page is chosen above."
+msgstr ""
+"Enlace externo para aplicar, p.e. un enlace a un sistema externo de recursos"
+" humanos o de adquisiciones. Se ignora si se elige una página de aplicación "
+"arriba."
+
+#: climweb/src/climweb/base/models/abstracts.py:194
+#: climweb/src/climweb/base/models/snippets.py:236
+msgid "Application"
+msgstr "Solicitud"
+
+#: climweb/src/climweb/base/models/ai_settings.py:30
+msgid "OpenAI"
+msgstr "Abierto AI"
+
+#: climweb/src/climweb/base/models/ai_settings.py:31
+msgid "Anthropic (Claude)"
+msgstr "Antrópico (Claude)"
+
+#: climweb/src/climweb/base/models/ai_settings.py:62
+msgid "Paste to set or change. Leave blank to keep the current key."
+msgstr ""
+"Pegar para configurar o cambiar. Déjelo en blanco para conservar la clave "
+"actual."
+
+#: climweb/src/climweb/base/models/ai_settings.py:84
+msgid "Enable AI assistant"
+msgstr "Habilitar asistente de IA"
+
+#: climweb/src/climweb/base/models/ai_settings.py:86
+msgid ""
+"When enabled, AI writing tools appear in the rich text editor. You must "
+"select a provider and enter an API key below first."
+msgstr ""
+"Cuando están habilitadas, las herramientas de escritura de IA aparecen en el"
+" editor de texto enriquecido. Primero debe seleccionar un proveedor e "
+"ingresar una clave API a continuación."
+
+#: climweb/src/climweb/base/models/ai_settings.py:95
+#: climweb/src/climweb/base/models/backup_settings.py:141
+msgid "Provider"
+msgstr "Proveedor"
+
+#: climweb/src/climweb/base/models/ai_settings.py:96
+msgid "The AI service to use. Choose the one you have an API key for."
+msgstr ""
+"El servicio de IA a utilizar. Elija aquel para el que tiene una clave API."
+
+#: climweb/src/climweb/base/models/ai_settings.py:102
+msgid "Model (optional)"
+msgstr "Modelo (opcional)"
+
+#: climweb/src/climweb/base/models/ai_settings.py:104
+msgid ""
+"Leave blank to use a sensible default for the selected provider (OpenAI: "
+"gpt-4o-mini, Claude: claude-haiku-4.5). Only set this if you want a specific"
+" model. Provider model names change over time; if you get a 'model not "
+"found' error, enter a current one here."
+msgstr ""
+"Déjelo en blanco para utilizar un valor predeterminado sensato para el "
+"proveedor seleccionado (OpenAI: gpt-4o-mini, Claude: claude-haiku-4.5). "
+"Configure esto solo si desea un modelo específico. Los nombres de los "
+"modelos de proveedores cambian con el tiempo; Si recibe el error \"modelo no"
+" encontrado\", ingrese uno actual aquí."
+
+#: climweb/src/climweb/base/models/ai_settings.py:115
+msgid "API key"
+msgstr "clave API"
+
+#: climweb/src/climweb/base/models/ai_settings.py:119
+#: climweb/src/climweb/base/models/ai_settings.py:149
+msgid "AI Assistant"
+msgstr "Asistente de IA"
+
+#: climweb/src/climweb/base/models/ai_settings.py:148
+msgid "AI provider"
+msgstr "Proveedor de IA"
+
+#: climweb/src/climweb/base/models/backup_settings.py:40
+msgid "Never run"
+msgstr "nunca corras"
+
+#: climweb/src/climweb/base/models/backup_settings.py:41
+msgid "Success"
+msgstr "Éxito"
+
+#: climweb/src/climweb/base/models/backup_settings.py:42
+msgid "Failed"
+msgstr "Fallido"
+
+#: climweb/src/climweb/base/models/backup_settings.py:46
+msgid "Monday"
+msgstr "Lunes"
+
+#: climweb/src/climweb/base/models/backup_settings.py:47
+msgid "Tuesday"
+msgstr "Martes"
+
+#: climweb/src/climweb/base/models/backup_settings.py:48
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: climweb/src/climweb/base/models/backup_settings.py:49
+msgid "Thursday"
+msgstr "Jueves"
+
+#: climweb/src/climweb/base/models/backup_settings.py:50
+msgid "Friday"
+msgstr "Viernes"
+
+#: climweb/src/climweb/base/models/backup_settings.py:51
+msgid "Saturday"
+msgstr "Sábado"
+
+#: climweb/src/climweb/base/models/backup_settings.py:52
+msgid "Sunday"
+msgstr "Domingo"
+
+#: climweb/src/climweb/base/models/backup_settings.py:86
+msgid "Paste to set or change. Leave blank to keep the current secret."
+msgstr ""
+"Pegar para configurar o cambiar. Déjelo en blanco para mantener el secreto "
+"actual."
+
+#: climweb/src/climweb/base/models/backup_settings.py:94
+msgid ""
+"Optional: paste a refresh token (or token JSON) generated elsewhere to "
+"connect without the button. Cleared after saving."
+msgstr ""
+"Opcional: pegue un token de actualización (o token JSON) generado en otro "
+"lugar para conectarse sin el botón. Se borra después de guardar."
+
+#: climweb/src/climweb/base/models/backup_settings.py:125
+#, fuzzy
+#| msgid "Google Search"
+msgid "Google Drive"
+msgstr "Google Drive"
+
+#: climweb/src/climweb/base/models/backup_settings.py:130
+msgid "Enable cloud backups"
+msgstr "Habilitar copias de seguridad en la nube"
+
+#: climweb/src/climweb/base/models/backup_settings.py:132
+msgid ""
+"When enabled, the daily backup will be uploaded to the connected cloud "
+"account. You must connect an account below first."
+msgstr ""
+"Cuando esté habilitado, la copia de seguridad diaria se cargará en la cuenta"
+" en la nube conectada. Primero debe conectar una cuenta a continuación."
+
+#: climweb/src/climweb/base/models/backup_settings.py:147
+msgid "Remote folder"
+msgstr "carpeta remota"
+
+#: climweb/src/climweb/base/models/backup_settings.py:148
+msgid "Top-level folder created in the drive to hold backups."
+msgstr ""
+"Carpeta de nivel superior creada en la unidad para guardar copias de "
+"seguridad."
+
+#: climweb/src/climweb/base/models/backup_settings.py:153
+msgid "Database copies to keep"
+msgstr "Copias de bases de datos para conservar"
+
+#: climweb/src/climweb/base/models/backup_settings.py:154
+msgid "Number of daily database snapshots to retain on the remote."
+msgstr ""
+"Número de instantáneas de bases de datos diarias que se conservarán en el "
+"control remoto."
+
+#: climweb/src/climweb/base/models/backup_settings.py:159
+msgid "Media copies to keep"
+msgstr "Copias de medios para conservar"
+
+#: climweb/src/climweb/base/models/backup_settings.py:160
+msgid "Number of weekly media snapshots to retain on the remote."
+msgstr ""
+"Número de instantáneas multimedia semanales que se conservarán en el control"
+" remoto."
+
+#: climweb/src/climweb/base/models/backup_settings.py:166
+msgid "Media upload day"
+msgstr "Día de carga de medios"
+
+#: climweb/src/climweb/base/models/backup_settings.py:167
+msgid "Day of the week the (larger) media archive is uploaded."
+msgstr "Día de la semana en que se carga el archivo multimedia (más grande)."
+
+#: climweb/src/climweb/base/models/backup_settings.py:174
+msgid "OAuth Client ID"
+msgstr "ID de cliente de OAuth"
+
+#: climweb/src/climweb/base/models/backup_settings.py:176
+msgid ""
+"From your Google Cloud OAuth 'Web application' client. This value is public."
+" Required for the Connect button."
+msgstr ""
+"Desde su cliente de 'aplicación web' Google Cloud OAuth. Este valor es "
+"público. Requerido para el botón Conectar."
+
+#: climweb/src/climweb/base/models/backup_settings.py:184
+msgid "OAuth Client Secret"
+msgstr "Secreto del cliente OAuth"
+
+#: climweb/src/climweb/base/models/backup_settings.py:190
+msgid "Paste a token (fallback)"
+msgstr "Pegar un token (alternativa)"
+
+#: climweb/src/climweb/base/models/backup_settings.py:198
+msgid "Connected account"
+msgstr "Cuenta conectada"
+
+#: climweb/src/climweb/base/models/backup_settings.py:203
+msgid "Encrypted OAuth refresh token. Never edit by hand."
+msgstr "Token de actualización de OAuth cifrado. Nunca edites a mano."
+
+#: climweb/src/climweb/base/models/backup_settings.py:217
+#, fuzzy
+#| msgid "Contact Settings"
+msgid "Backup Settings"
+msgstr "Configuración de copia de seguridad"
+
+#: climweb/src/climweb/base/models/backup_settings.py:268
+#, fuzzy
+#| msgid "Google Analytics"
+msgid "Google credentials"
+msgstr "Credenciales de Google"
+
+#: climweb/src/climweb/base/models/backup_settings.py:270
+#, fuzzy
+#| msgid "Banner Section"
+msgid "Connection"
+msgstr "Conexión"
+
+#: climweb/src/climweb/base/models/backup_settings.py:277
+msgid "Options"
+msgstr "Opciones"
 
 #: climweb/src/climweb/base/models/cap_settings.py:14
 msgid "Show on MapViewer"
@@ -286,327 +579,353 @@ msgid "Auto Refresh interval in minutes"
 msgstr "Intervalo de actualización automática en minutos"
 
 #: climweb/src/climweb/base/models/cap_settings.py:26
-msgid "Refresh cap alerts on the map after this minutes. Leave blank to disable auto refreshing"
-msgstr "Actualizar las alertas de límite en el mapa después de estos minutos. Déjelo en blanco para desactivar la actualización automática."
+msgid ""
+"Refresh cap alerts on the map after this minutes. Leave blank to disable "
+"auto refreshing"
+msgstr ""
+"Actualizar las alertas de límite en el mapa después de estos minutos. Déjelo"
+" en blanco para desactivar la actualización automática."
 
-#: climweb/src/climweb/base/models/site_settings.py:31
+#: climweb/src/climweb/base/models/site_settings.py:33
 msgid "Country"
 msgstr "País"
 
-#: climweb/src/climweb/base/models/site_settings.py:32
+#: climweb/src/climweb/base/models/site_settings.py:34
 msgid "Organisation Name"
 msgstr "nombre de la organización"
 
-#: climweb/src/climweb/base/models/site_settings.py:34
+#: climweb/src/climweb/base/models/site_settings.py:36
 msgid "Phone Number"
 msgstr "Número de teléfono"
 
-#: climweb/src/climweb/base/models/site_settings.py:35
+#: climweb/src/climweb/base/models/site_settings.py:37
 msgid "Phone number"
 msgstr "Número de teléfono"
 
-#: climweb/src/climweb/base/models/site_settings.py:36
-#: climweb/src/climweb/base/models/site_settings.py:37
+#: climweb/src/climweb/base/models/site_settings.py:38
+#: climweb/src/climweb/base/models/site_settings.py:39
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
-#: climweb/src/climweb/base/models/site_settings.py:38
+#: climweb/src/climweb/base/models/site_settings.py:40
 msgid "Postal Address"
 msgstr "Direccion postal"
 
-#: climweb/src/climweb/base/models/site_settings.py:39
+#: climweb/src/climweb/base/models/site_settings.py:41
 msgid "Postal address"
 msgstr "direccion postal"
 
-#: climweb/src/climweb/base/models/site_settings.py:47
+#: climweb/src/climweb/base/models/site_settings.py:49
 msgid "Organisation Logo"
 msgstr "Logotipo de la organización"
 
 #: climweb/src/climweb/base/models/site_settings.py:50
+msgid "Logo Append Text"
+msgstr "Logotipo anexar texto"
+
+#: climweb/src/climweb/base/models/site_settings.py:54
 msgid "Country Flag"
 msgstr "Bandera del país"
 
-#: climweb/src/climweb/base/models/site_settings.py:68
+#: climweb/src/climweb/base/models/site_settings.py:72
 msgid "Footer Logo"
 msgstr "Logotipo de pie de página"
 
-#: climweb/src/climweb/base/models/site_settings.py:69
+#: climweb/src/climweb/base/models/site_settings.py:73
 msgid "Logo that appears on the footer"
 msgstr "Logotipo que aparece en el pie de página."
 
-#: climweb/src/climweb/base/models/site_settings.py:78
+#: climweb/src/climweb/base/models/site_settings.py:82
 msgid "CMS Logo"
 msgstr "Logotipo de CMS"
 
-#: climweb/src/climweb/base/models/site_settings.py:79
-msgid "Logo that appears on the CMS. Should be a whit transparent logo preferably"
-msgstr "Logotipo que aparece en el CMS. Debe ser un logotipo blanco y transparente, preferiblemente."
+#: climweb/src/climweb/base/models/site_settings.py:83
+msgid ""
+"Logo that appears on the CMS. Should be a whit transparent logo preferably"
+msgstr ""
+"Logotipo que aparece en el CMS. Debe ser un logotipo blanco y transparente, "
+"preferiblemente."
 
-#: climweb/src/climweb/base/models/site_settings.py:88
+#: climweb/src/climweb/base/models/site_settings.py:92
 msgid "Page not Found Image"
 msgstr "Imagen de página no encontrada"
 
-#: climweb/src/climweb/base/models/site_settings.py:89
+#: climweb/src/climweb/base/models/site_settings.py:93
 msgid "Image shown on error 404 page"
 msgstr "Imagen mostrada en la página de error 404"
 
-#: climweb/src/climweb/base/models/site_settings.py:98
+#: climweb/src/climweb/base/models/site_settings.py:102
 msgid "Server Error Image"
 msgstr "Imagen de error del servidor"
 
-#: climweb/src/climweb/base/models/site_settings.py:99
+#: climweb/src/climweb/base/models/site_settings.py:103
 msgid "Image shown on error 500 error page"
 msgstr "Imagen mostrada en la página de error 500"
 
-#: climweb/src/climweb/base/models/site_settings.py:113
+#: climweb/src/climweb/base/models/site_settings.py:118
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
-#: climweb/src/climweb/base/models/site_settings.py:121
+#: climweb/src/climweb/base/models/site_settings.py:126
 msgid "Error Images"
 msgstr "Imágenes de error"
 
-#: climweb/src/climweb/base/models/site_settings.py:126
+#: climweb/src/climweb/base/models/site_settings.py:131
 msgid "Address Settings"
 msgstr "Configuración de dirección"
 
-#: climweb/src/climweb/base/models/site_settings.py:130
+#: climweb/src/climweb/base/models/site_settings.py:135
 msgid "Contact Settings"
 msgstr "Configuración de contacto"
 
-#: climweb/src/climweb/base/models/site_settings.py:134
+#: climweb/src/climweb/base/models/site_settings.py:139
 msgid "Organisation Settings"
 msgstr "Configuración de la organización"
 
-#: climweb/src/climweb/base/models/site_settings.py:144
+#: climweb/src/climweb/base/models/site_settings.py:149
 msgid "Youtube API Key"
 msgstr "Clave API de YouTube"
 
-#: climweb/src/climweb/base/models/site_settings.py:145
-#| msgid "Youtube API Key"
-msgid "To set up Youtube API Key refer to "
-msgstr ""
-
 #: climweb/src/climweb/base/models/site_settings.py:150
+msgid "To set up Youtube API Key refer to "
+msgstr "Para configurar la clave API de Youtube, consulte"
+
+#: climweb/src/climweb/base/models/site_settings.py:155
 msgid "GA Tracking ID"
 msgstr "ID de seguimiento de GA"
 
-#: climweb/src/climweb/base/models/site_settings.py:151
+#: climweb/src/climweb/base/models/site_settings.py:156
 msgid "Your Google Analytics tracking ID (begins with \"UA-\")"
 msgstr "Su ID de seguimiento de Google Analytics (comienza con \"UA-\")"
 
-#: climweb/src/climweb/base/models/site_settings.py:155
+#: climweb/src/climweb/base/models/site_settings.py:160
 msgid "Track button clicks"
 msgstr "Seguimiento de clics en el botón"
 
-#: climweb/src/climweb/base/models/site_settings.py:157
-msgid "Track all button clicks using Google Analytics event tracking, Event tracking details can be specified in each button’s advanced settings options."
-msgstr "Realice un seguimiento de todos los clics en los botones mediante el seguimiento de eventos de Google Analytics. Los detalles del seguimiento de eventos se pueden especificar en las opciones de configuración avanzada de cada botón."
-
 #: climweb/src/climweb/base/models/site_settings.py:162
+msgid ""
+"Track all button clicks using Google Analytics event tracking, Event "
+"tracking details can be specified in each button’s advanced settings "
+"options."
+msgstr ""
+"Realice un seguimiento de todos los clics en los botones mediante el "
+"seguimiento de eventos de Google Analytics. Los detalles del seguimiento de "
+"eventos se pueden especificar en las opciones de configuración avanzada de "
+"cada botón."
+
+#: climweb/src/climweb/base/models/site_settings.py:167
 msgid "Track pages internally"
 msgstr "Seguimiento de páginas internamente"
 
-#: climweb/src/climweb/base/models/site_settings.py:164
-msgid "Track   all pages internally. This will enable the internal analytics dashboard, alongside Google Analytics, if also enabled"
-msgstr "Realice un seguimiento de todas las páginas internamente. Esto habilitará el panel de análisis interno, junto con Google Analytics, si también está habilitado."
+#: climweb/src/climweb/base/models/site_settings.py:169
+msgid ""
+"Track   all pages internally. This will enable the internal analytics "
+"dashboard, alongside Google Analytics, if also enabled"
+msgstr ""
+"Realice un seguimiento de todas las páginas internamente. Esto habilitará el"
+" panel de análisis interno, junto con Google Analytics, si también está "
+"habilitado."
 
-#: climweb/src/climweb/base/models/site_settings.py:168
+#: climweb/src/climweb/base/models/site_settings.py:173
 msgid "Google Site Verification Key"
 msgstr "Clave de verificación del sitio de Google"
 
-#: climweb/src/climweb/base/models/site_settings.py:173
+#: climweb/src/climweb/base/models/site_settings.py:178
 msgid "Youtube Integration"
 msgstr "Integración de Youtube"
 
-#: climweb/src/climweb/base/models/site_settings.py:178
+#: climweb/src/climweb/base/models/site_settings.py:183
 msgid "Google Analytics"
 msgstr "Google analitico"
 
-#: climweb/src/climweb/base/models/site_settings.py:181
+#: climweb/src/climweb/base/models/site_settings.py:186
 msgid "Google Search"
 msgstr "Búsqueda de Google"
 
-#: climweb/src/climweb/base/models/site_settings.py:185
+#: climweb/src/climweb/base/models/site_settings.py:190
 msgid "Integration Settings"
 msgstr "Configuración de integración"
 
-#: climweb/src/climweb/base/models/site_settings.py:191
+#: climweb/src/climweb/base/models/site_settings.py:196
 msgid "Default Language"
 msgstr "Idioma predeterminado"
 
-#: climweb/src/climweb/base/models/site_settings.py:194
+#: climweb/src/climweb/base/models/site_settings.py:199
 msgid "languages"
 msgstr "idiomas"
 
-#: climweb/src/climweb/base/models/site_settings.py:211
+#: climweb/src/climweb/base/models/site_settings.py:216
 msgid "Google Translate Languages"
 msgstr "Idiomas del Traductor de Google"
 
-#: climweb/src/climweb/base/models/site_settings.py:219
+#: climweb/src/climweb/base/models/site_settings.py:224
 msgid "Is Default Theme"
 msgstr "Es el tema predeterminado"
 
-#: climweb/src/climweb/base/models/site_settings.py:220
+#: climweb/src/climweb/base/models/site_settings.py:225
 msgid "Enable if this is the default theme"
 msgstr "Habilitar si este es el tema predeterminado"
 
-#: climweb/src/climweb/base/models/site_settings.py:221
+#: climweb/src/climweb/base/models/site_settings.py:226
 msgid "Theme Name"
 msgstr "Nombre del tema"
 
-#: climweb/src/climweb/base/models/site_settings.py:223
+#: climweb/src/climweb/base/models/site_settings.py:228
 msgid "Primary Hover color (use color picker)"
 msgstr "Color primario al pasar el cursor (use el selector de color)"
 
-#: climweb/src/climweb/base/models/site_settings.py:223
+#: climweb/src/climweb/base/models/site_settings.py:228
 msgid "Primary color"
 msgstr "color primario"
 
-#: climweb/src/climweb/base/models/site_settings.py:225
+#: climweb/src/climweb/base/models/site_settings.py:230
 msgid "Primary color (use color picker)"
 msgstr "Color primario (use el selector de color)"
 
-#: climweb/src/climweb/base/models/site_settings.py:225
+#: climweb/src/climweb/base/models/site_settings.py:230
 msgid "Headings color"
 msgstr "Color de los títulos"
 
-#: climweb/src/climweb/base/models/site_settings.py:227
+#: climweb/src/climweb/base/models/site_settings.py:232
 msgid "Secondary color (use color picker)"
 msgstr "Color secundario (use el selector de color)"
 
-#: climweb/src/climweb/base/models/site_settings.py:227
+#: climweb/src/climweb/base/models/site_settings.py:232
 msgid "Background color"
 msgstr "Color de fondo"
 
-#: climweb/src/climweb/base/models/site_settings.py:229
+#: climweb/src/climweb/base/models/site_settings.py:234
 msgid "Border radius (px)"
 msgstr "Radio del borde (px)"
 
-#: climweb/src/climweb/base/models/site_settings.py:230
+#: climweb/src/climweb/base/models/site_settings.py:235
 msgid "Minimum 0 and Maximum 20 pixels"
 msgstr "Mínimo 0 y máximo 20 píxeles"
 
-#: climweb/src/climweb/base/models/site_settings.py:232
+#: climweb/src/climweb/base/models/site_settings.py:237
 msgid "Box shadow"
 msgstr "Sombra de la caja"
 
-#: climweb/src/climweb/base/models/site_settings.py:233
+#: climweb/src/climweb/base/models/site_settings.py:238
 msgid "Elevation value minimum 1 and maximum 24"
 msgstr "Valor de elevación mínimo 1 y máximo 24"
 
-#: climweb/src/climweb/base/models/site_settings.py:239
+#: climweb/src/climweb/base/models/site_settings.py:244
 msgid "Information"
 msgstr "Información"
 
-#: climweb/src/climweb/base/models/site_settings.py:245
+#: climweb/src/climweb/base/models/site_settings.py:250
 msgid "Theme Colors"
 msgstr "Colores del tema"
 
-#: climweb/src/climweb/base/models/site_settings.py:249
+#: climweb/src/climweb/base/models/site_settings.py:254
 msgid "Borders and Box Shadow"
 msgstr "Bordes y sombra de cuadro"
 
-#: climweb/src/climweb/base/models/site_settings.py:254
+#: climweb/src/climweb/base/models/site_settings.py:259
 msgid "Theme"
 msgstr "Tema"
 
-#: climweb/src/climweb/base/models/site_settings.py:286
+#: climweb/src/climweb/base/models/site_settings.py:291
 msgid "Navigation Setting"
 msgstr "Configuración de navegación"
 
-#: climweb/src/climweb/base/models/site_settings.py:287
+#: climweb/src/climweb/base/models/site_settings.py:292
 msgid "Navigation Settings"
 msgstr "Configuración de navegación"
 
-#: climweb/src/climweb/base/models/site_settings.py:294
+#: climweb/src/climweb/base/models/site_settings.py:299
 msgid "Mailing list sign up page"
 msgstr "Página de registro de la lista de correo"
 
-#: climweb/src/climweb/base/models/site_settings.py:297
+#: climweb/src/climweb/base/models/site_settings.py:302
 msgid "Contact us page"
 msgstr "Contáctenos página"
 
-#: climweb/src/climweb/base/models/site_settings.py:300
+#: climweb/src/climweb/base/models/site_settings.py:305
 msgid "All products page"
 msgstr "Página de todos los productos"
 
-#: climweb/src/climweb/base/models/site_settings.py:303
+#: climweb/src/climweb/base/models/site_settings.py:308
 msgid "All projects page"
 msgstr "Página de todos los proyectos"
 
-#: climweb/src/climweb/base/models/site_settings.py:306
+#: climweb/src/climweb/base/models/site_settings.py:311
 msgid "All news page"
 msgstr "Toda la pagina de noticias"
 
-#: climweb/src/climweb/base/models/site_settings.py:309
+#: climweb/src/climweb/base/models/site_settings.py:314
 msgid "All publications page"
 msgstr "Página de todas las publicaciones."
 
-#: climweb/src/climweb/base/models/site_settings.py:312
+#: climweb/src/climweb/base/models/site_settings.py:317
 msgid "All videos page"
 msgstr "Página de todos los vídeos"
 
-#: climweb/src/climweb/base/models/site_settings.py:315
+#: climweb/src/climweb/base/models/site_settings.py:320
 msgid "All applications page"
 msgstr "Página de todas las aplicaciones"
 
-#: climweb/src/climweb/base/models/site_settings.py:318
+#: climweb/src/climweb/base/models/site_settings.py:323
 msgid "All events page"
 msgstr "Página de todos los eventos"
 
-#: climweb/src/climweb/base/models/site_settings.py:321
+#: climweb/src/climweb/base/models/site_settings.py:326
 msgid "All partners page"
 msgstr "Página de todos los socios"
 
-#: climweb/src/climweb/base/models/site_settings.py:324
+#: climweb/src/climweb/base/models/site_settings.py:329
 msgid "All tenders page"
 msgstr "Página de todas las licitaciones"
 
-#: climweb/src/climweb/base/models/site_settings.py:327
+#: climweb/src/climweb/base/models/site_settings.py:332
 msgid "All vacancies page"
 msgstr "Página de todas las vacantes"
 
-#: climweb/src/climweb/base/models/site_settings.py:330
+#: climweb/src/climweb/base/models/site_settings.py:335
 msgid "Feedback page"
 msgstr "Página de comentarios"
 
-#: climweb/src/climweb/base/models/site_settings.py:333
+#: climweb/src/climweb/base/models/site_settings.py:338
 msgid "CAP Warnings List page"
 msgstr "Página de lista de advertencias de CAP"
 
-#: climweb/src/climweb/base/models/site_settings.py:353
-#: climweb/src/climweb/base/models/site_settings.py:354
+#: climweb/src/climweb/base/models/site_settings.py:341
+msgid "Anticipatory Action page"
+msgstr "Página de acción anticipatoria"
+
+#: climweb/src/climweb/base/models/site_settings.py:366
+#: climweb/src/climweb/base/models/site_settings.py:367
 msgid "Important Pages"
 msgstr "Páginas importantes"
 
 #: climweb/src/climweb/base/models/snippets.py:22
 msgid "Yearly"
-msgstr ""
+msgstr "Anual"
 
 #: climweb/src/climweb/base/models/snippets.py:23
 msgid "Monthly"
-msgstr ""
+msgstr "Mensual"
 
 #: climweb/src/climweb/base/models/snippets.py:24
 msgid "Weekly"
-msgstr ""
+msgstr "Semanalmente"
 
 #: climweb/src/climweb/base/models/snippets.py:25
 msgid "Daily"
-msgstr ""
+msgstr "A diario"
 
 #: climweb/src/climweb/base/models/snippets.py:26
 msgid "Hourly"
-msgstr ""
+msgstr "Cada hora"
 
 #: climweb/src/climweb/base/models/snippets.py:27
 msgid "Dekadal"
-msgstr ""
+msgstr "Decádal"
 
 #: climweb/src/climweb/base/models/snippets.py:28
 msgid "Pentadal"
-msgstr ""
+msgstr "Pentadal"
 
 #: climweb/src/climweb/base/models/snippets.py:51
 msgid "Product Name"
@@ -614,36 +933,53 @@ msgstr "nombre del producto"
 
 #: climweb/src/climweb/base/models/snippets.py:55
 msgid "Variable Name"
-msgstr ""
+msgstr "Nombre de la variable"
 
 #: climweb/src/climweb/base/models/snippets.py:56
-msgid "Folder name for this product, e.g. 'daily_forecast'. Used as the top-level folder in the watch root path."
+msgid ""
+"Folder name for this product, e.g. 'daily_forecast'. Used as the top-level "
+"folder in the watch root path."
 msgstr ""
+"Nombre de carpeta para este producto, p. 'pronóstico_diario'. Se utiliza "
+"como carpeta de nivel superior en la ruta raíz del reloj."
 
 #: climweb/src/climweb/base/models/snippets.py:63
 msgid "Temporal Resolution"
-msgstr ""
+msgstr "Resolución temporal"
 
 #: climweb/src/climweb/base/models/snippets.py:64
-msgid "Determines the default filename date convention for product item types."
+msgid ""
+"Determines the default filename date convention for product item types."
 msgstr ""
+"Determina la convención de fecha de nombre de archivo predeterminada para "
+"los tipos de artículos de productos."
 
 #: climweb/src/climweb/base/models/snippets.py:69
 msgid "Watch Root Path"
-msgstr ""
+msgstr "Ver ruta raíz"
 
 #: climweb/src/climweb/base/models/snippets.py:70
 #, python-brace-format
-msgid "Path containing the {variable_name} folder. Relative paths are resolved from MEDIA_ROOT (e.g. 'products'). Full scan path: {watch_root}/{variable_name}/{format}/{name_convention}.{format}"
+msgid ""
+"Path containing the {variable_name} folder. Relative paths are resolved from"
+" MEDIA_ROOT (e.g. 'products'). Full scan path: "
+"{watch_root}/{variable_name}/{format}/{name_convention}.{format}"
 msgstr ""
+"Ruta que contiene la carpeta {variable_name}. Las rutas relativas se "
+"resuelven desde MEDIA_ROOT (por ejemplo, 'productos'). Ruta de análisis "
+"completa: {watch_root}/{variable_name}/{format}/{name_convention}.{format}"
 
 #: climweb/src/climweb/base/models/snippets.py:76
 msgid "Enable Auto-Ingestion"
-msgstr ""
+msgstr "Habilitar la ingesta automática"
 
 #: climweb/src/climweb/base/models/snippets.py:77
-msgid "When enabled, the system will periodically scan the watch root for new files."
+msgid ""
+"When enabled, the system will periodically scan the watch root for new "
+"files."
 msgstr ""
+"Cuando está habilitado, el sistema escaneará periódicamente la raíz del "
+"reloj en busca de nuevos archivos."
 
 #: climweb/src/climweb/base/models/snippets.py:86
 #: climweb/src/climweb/base/models/snippets.py:135
@@ -672,12 +1008,17 @@ msgstr "Nombre"
 
 #: climweb/src/climweb/base/models/snippets.py:121
 msgid "File Format"
-msgstr ""
+msgstr "Formato de archivo"
 
 #: climweb/src/climweb/base/models/snippets.py:122
 #, python-brace-format
-msgid "The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This also determines the subfolder name: {variable_name}/{format}/"
+msgid ""
+"The file format/extension for this category, e.g. 'png', 'pdf', 'jpg'. This "
+"also determines the subfolder name: {variable_name}/{format}/"
 msgstr ""
+"El formato/extensión de archivo para esta categoría, p.e. 'png', 'pdf', "
+"'jpg'. Esto también determina el nombre de la subcarpeta: "
+"{variable_name}/{format}/"
 
 #: climweb/src/climweb/base/models/snippets.py:131
 msgid "Product Item Types"
@@ -689,20 +1030,34 @@ msgstr "Tipo de artículo del producto"
 
 #: climweb/src/climweb/base/models/snippets.py:156
 msgid "Filename Convention"
-msgstr ""
+msgstr "Convención de nombre de archivo"
 
 #: climweb/src/climweb/base/models/snippets.py:158
 #, python-brace-format
-msgid "Filename pattern used to match and parse product files (without extension). Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-populated from the product temporal resolution. You may add a prefix or suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
+msgid ""
+"Filename pattern used to match and parse product files (without extension). "
+"Use {yyyy} for year, {mm} for month, {dd} for day, {hh} for hour. Auto-"
+"populated from the product temporal resolution. You may add a prefix or "
+"suffix, e.g. 'temp_{yyyy}_{mm}_{dd}_00_00_00'."
 msgstr ""
+"Patrón de nombre de archivo utilizado para hacer coincidir y analizar "
+"archivos de productos (sin extensión). Utilice {yyyy} para año, {mm} para "
+"mes, {dd} para día, {hh} para hora. Se rellena automáticamente a partir de "
+"la resolución temporal del producto. Puede agregar un prefijo o sufijo, p. "
+"'temp_{yyyy}_{mm}_{dd}_00_00_00'."
 
 #: climweb/src/climweb/base/models/snippets.py:167
 msgid "Valid for (days)"
-msgstr ""
+msgstr "Válido por (días)"
 
 #: climweb/src/climweb/base/models/snippets.py:169
-msgid "How many days this product remains effective after its issue date. Leave blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
+msgid ""
+"How many days this product remains effective after its issue date. Leave "
+"blank if not applicable. E.g. 1 for daily, 7 for weekly, 30 for monthly."
 msgstr ""
+"Cuántos días este producto sigue siendo efectivo después de su fecha de "
+"emisión. Deje en blanco si no corresponde. P.ej. 1 por día, 7 por semana, 30"
+" por mes."
 
 #: climweb/src/climweb/base/models/snippets.py:216
 msgid "Service Category"
@@ -718,15 +1073,11 @@ msgstr "Miniatura"
 
 #: climweb/src/climweb/base/models/snippets.py:231
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: climweb/src/climweb/base/models/snippets.py:232
 msgid "Order"
 msgstr "Orden"
-
-#: climweb/src/climweb/base/models/snippets.py:236
-msgid "Application"
-msgstr "Solicitud"
 
 #: climweb/src/climweb/base/models/snippets.py:266
 msgid "GIS Application"
@@ -735,6 +1086,10 @@ msgstr "Aplicación SIG"
 #: climweb/src/climweb/base/models/snippets.py:267
 msgid "GIS Applications"
 msgstr "Aplicaciones SIG"
+
+#: climweb/src/climweb/base/templates/admin/backup_help.html:4
+msgid "Google Drive backup — setup guide"
+msgstr "Copia de seguridad de Google Drive: guía de configuración"
 
 #: climweb/src/climweb/base/templates/admin/cms_upgrade_notification.html:7
 msgid "ClimWeb upgrade available. Your version:"
@@ -751,121 +1106,306 @@ msgstr "Mejora"
 #: climweb/src/climweb/base/templates/admin/cms_version.html:6
 #, python-format
 msgid "%(title)s"
-msgstr ""
+msgstr "%(title)s"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:34
+#: climweb/src/climweb/base/templates/admin/cms_version.html:92
 msgid "ClimWeb Version Check"
 msgstr "Verificación de versión de ClimWeb"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:51
+#: climweb/src/climweb/base/templates/admin/cms_version.html:109
 msgid "Current installed version"
 msgstr "Versión instalada actual"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:57
+#: climweb/src/climweb/base/templates/admin/cms_version.html:115
 msgid "Latest available version"
 msgstr "Última versión disponible"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:65
+#: climweb/src/climweb/base/templates/admin/cms_version.html:123
 msgid "Your ClimWeb version is up to date."
 msgstr "Su versión de ClimWeb está actualizada."
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:73
-msgid "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
-msgstr "Se inició una actualización de ClimWeb. Espere a que se complete la actualización."
+#: climweb/src/climweb/base/templates/admin/cms_version.html:131
+#, fuzzy
+#| msgid "Upgrade now"
+msgid "Upgrade in progress…"
+msgstr "Actualización en curso..."
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:78
+#: climweb/src/climweb/base/templates/admin/cms_version.html:133
+msgid "Connecting to upgrade service…"
+msgstr "Conectándose al servicio de actualización…"
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:139
 msgid "ClimWeb upgrade available"
 msgstr "Actualización de ClimWeb disponible"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:89
+#: climweb/src/climweb/base/templates/admin/cms_version.html:150
 msgid "Release notes"
 msgstr "Notas de lanzamiento"
 
-#: climweb/src/climweb/base/templates/admin/cms_version.html:117
+#: climweb/src/climweb/base/templates/admin/cms_version.html:178
 msgid "Upgrade now"
 msgstr "Actualizar ahora"
 
+#: climweb/src/climweb/base/templates/admin/cms_version.html:224
+#, fuzzy
+#| msgid "Upgrade now"
+msgid "Upgrade complete"
+msgstr "Actualización completa"
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:230
+#, fuzzy
+#| msgid "Upgrade"
+msgid "Upgrade failed"
+msgstr "La actualización falló"
+
+#: climweb/src/climweb/base/templates/admin/cms_version.html:237
+msgid "Rolling back…"
+msgstr "Retrocediendo…"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:4
+msgid "Read the Google Drive backup setup guide"
+msgstr "Lea la guía de configuración de copia de seguridad de Google Drive"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:8
+#, python-format
+msgid "Connected as <strong>%(account_email)s</strong>."
+msgstr "Conectado como <strong>%(account_email)s</strong>."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:13
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:18
+msgid "Back up now"
+msgstr "Haz una copia de seguridad ahora"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:17
+msgid "Enable cloud backups and save before running a backup."
+msgstr ""
+"Habilite las copias de seguridad en la nube y guárdelas antes de ejecutar "
+"una copia de seguridad."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:22
+msgid "Disconnect"
+msgstr "Desconectar"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:26
+msgid ""
+"Tick 'Enable cloud backups' and save to activate scheduled and manual "
+"uploads."
+msgstr ""
+"Marque 'Habilitar copias de seguridad en la nube' y guarde para activar las "
+"cargas programadas y manuales."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:29
+msgid "No Google account connected."
+msgstr "No hay ninguna cuenta de Google conectada."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:30
+msgid ""
+"Backups will not be uploaded until you connect one. You have two options:"
+msgstr ""
+"Las copias de seguridad no se cargarán hasta que conectes una. Tienes dos "
+"opciones:"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:33
+msgid "1. One click:"
+msgstr "1. Un clic:"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:35
+msgid "Connect Google Drive"
+msgstr "Conectar Google Drive"
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:40
+msgid ""
+"<strong>1.</strong> Enter your OAuth <strong>Client ID</strong> and "
+"<strong>Client Secret</strong> below and save — the one-click Connect button"
+" will then appear here."
+msgstr ""
+"<strong>1.</strong> Introduzca su <strong>ID de cliente</strong> y su "
+"<strong>secreto de cliente</strong> de OAuth a continuación y guárdelos; el "
+"botón Conectar con un solo clic aparecerá aquí."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:44
+msgid ""
+"<strong>2.</strong> Or paste a refresh token in the \"Paste a token\" field "
+"below and save."
+msgstr ""
+"<strong>2.</strong> O pegue un token de actualización en el campo \"Pegar un"
+" token\" a continuación y guárdelo."
+
+#: climweb/src/climweb/base/templates/admin/panels/google_drive_connect_panel.html:51
+msgid "Last upload:"
+msgstr "Última carga:"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:5
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:72
+#: climweb/src/climweb/base/wagtail_hooks.py:115
+msgid "Plugins"
+msgstr "Complementos"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:82
+msgid "Plugin"
+msgstr "Complemento"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:84
+msgid "Author"
+msgstr "Autor"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:111
+#, python-format
+msgid ""
+"Remove plugin %(name)s? This will reverse its database migrations and "
+"restart the server."
+msgstr ""
+"¿Eliminar el complemento %(name)s? Esto revertirá las migraciones de su "
+"base de datos y reiniciará el servidor."
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:113
+msgid "Remove"
+msgstr "Eliminar"
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:123
+msgid "No plugins are currently installed."
+msgstr "Actualmente no hay complementos instalados."
+
+#: climweb/src/climweb/base/templates/admin/plugin_manager.html:127
+msgid ""
+"Plugins are managed via the <code>CLIMWEB_PLUGIN_GIT_REPOS</code> setting in"
+" your <code>.env</code> file. To install, update, or remove a plugin, edit "
+"that value and restart the containers."
+msgstr ""
+"Los complementos se administran a través de la configuración "
+"<code>CLIMWEB_PLUGIN_GIT_REPOS</code> en su archivo <code>.env</code>. Para "
+"instalar, actualizar o eliminar un complemento, edite ese valor y reinicie "
+"los contenedores."
+
 #: climweb/src/climweb/base/templates/blocks/main_menu.html:36
 #, python-format
-msgid "\n"
-"                    View all %(label)s\n"
-"                  "
-msgstr ""
+msgid "View all %(label)s"
+msgstr "Ver todos los %(label)s"
 
-#: climweb/src/climweb/base/views.py:42
+#: climweb/src/climweb/base/views.py:49
 msgid "Error fetching latest version. Please try again later."
 msgstr "Error al obtener la última versión. Inténtalo de nuevo más tarde."
 
-#: climweb/src/climweb/base/views.py:60
+#: climweb/src/climweb/base/views.py:67
 msgid "Error in extracting latest version number from the release"
 msgstr "Error al extraer el número de la última versión del lanzamiento"
 
-#: climweb/src/climweb/base/wagtail_hooks.py:60
+#: climweb/src/climweb/base/views.py:133
+msgid "No plugin name provided."
+msgstr "No se proporcionó ningún nombre de complemento."
+
+#: climweb/src/climweb/base/views.py:135
+msgid "CMS_PLUGIN_MANAGE_HOOK_URL is not configured."
+msgstr "CMS_PLUGIN_MANAGE_HOOK_URL no está configurado."
+
+#: climweb/src/climweb/base/views.py:141
+#, python-format
+msgid "Plugin '%(name)s' removal initiated. The server will restart shortly."
+msgstr ""
+"Se inició la eliminación del complemento '%(name)s'. El servidor se "
+"reiniciará en breve."
+
+#: climweb/src/climweb/base/views.py:146
+msgid ""
+"Error sending remove command. Check that CMS_PLUGIN_MANAGE_HOOK_URL is "
+"reachable."
+msgstr ""
+"Error al enviar el comando de eliminación. Compruebe que se pueda acceder a "
+"CMS_PLUGIN_MANAGE_HOOK_URL."
+
+#: climweb/src/climweb/base/wagtail_hooks.py:131
 msgid "Themes"
 msgstr "Temas"
 
-#, python-format
-#~ msgid "View all %(label)s\n"
-#~ msgstr "View all %(label)s\n"
+#: climweb/src/climweb/base/wagtail_hooks.py:262
+msgid ""
+"This page could not be published because it contains content that violates "
+"the ClimWeb Harassment Protection Policy. Please review and edit the page "
+"before publishing."
+msgstr ""
+"Esta página no se pudo publicar porque contiene contenido que viola la "
+"Política de protección contra el acoso de ClimWeb. Revise y edite la página "
+"antes de publicarla."
+
+#, fuzzy
+#~ msgid "Introduction Subtitle"
+#~ msgstr "Introducción Subtítulo"
+
+#, fuzzy
+#~ msgid "Illustration Image"
+#~ msgstr "Imagen de ilustración"
+
+#, fuzzy
+#~ msgid "Upload Image"
+#~ msgstr "Subir imagen"
 
 #~ msgid ""
-#~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
-#~ "v3/getting-started"
+#~ "A ClimWeb upgrade was initiated. Please wait for the upgrade to complete"
 #~ msgstr ""
-#~ "To set up Youtube API Key refer to https://developers.google.com/youtube/"
-#~ "v3/getting-started"
+#~ "Se inició una actualización de ClimWeb. Espere a que se complete la "
+#~ "actualización."
+
+#, python-format
+#~ msgid "View all %(label)s\n"
+#~ msgstr "Ver todos los %(label)s"
+
+#~ msgid ""
+#~ "To set up Youtube API Key refer to "
+#~ "https://developers.google.com/youtube/v3/getting-started"
+#~ msgstr ""
+#~ "Para configurar la clave API de Youtube, consulte "
+#~ "https://developers.google.com/youtube/v3/getting-started"
 
 #~ msgid "What we do"
-#~ msgstr "What we do"
+#~ msgstr "que hacemos"
 
 #~ msgid "ClimWeb Logo"
-#~ msgstr "ClimWeb Logo"
+#~ msgstr "Logotipo de ClimWeb"
 
 #~ msgid "Introduction Heading"
-#~ msgstr "Introduction Heading"
+#~ msgstr "Introducción Título"
 
 #~ msgid "Introduction section heading"
-#~ msgstr "Introduction section heading"
+#~ msgstr "Título de la sección de introducción"
 
 #~ msgid "Staff"
-#~ msgstr "Staff"
+#~ msgstr "Personal"
 
 #~ msgid "Staff Page"
-#~ msgstr "Staff Page"
+#~ msgstr "Página del personal"
 
 #~ msgid "Staff member's name"
-#~ msgstr "Staff member's name"
+#~ msgstr "Nombre del miembro del personal"
 
 #~ msgid "First and Last names of Staff member"
-#~ msgstr "First and Last names of Staff member"
+#~ msgstr "Nombre y apellido del miembro del personal"
 
 #~ msgid "Staff member's role"
-#~ msgstr "Staff member's role"
+#~ msgstr "El papel del miembro del personal"
 
 #~ msgid "The role/position of the Staff member"
-#~ msgstr "The role/position of the Staff member"
+#~ msgstr "El rol/posición del miembro del personal"
 
 #~ msgid "Staff member Biography"
-#~ msgstr "Staff member Biography"
+#~ msgstr "Biografía del miembro del personal"
 
 #~ msgid "Optional Summary biography of the Staff member"
-#~ msgstr "Optional Summary biography of the Staff member"
+#~ msgstr "Biografía resumida opcional del miembro del personal."
 
 #~ msgid "Staff member's Department"
-#~ msgstr "Staff member's Department"
+#~ msgstr "Departamento del miembro del personal"
 
 #~ msgid "Staff member's Profile Image"
-#~ msgstr "Staff member's Profile Image"
+#~ msgstr "Imagen de perfil del miembro del personal"
 
 #~ msgid "A high quality square image"
-#~ msgstr "A high quality square image"
+#~ msgstr "Una imagen cuadrada de alta calidad."
 
 #~ msgid "Staff Member"
-#~ msgstr "Staff Member"
+#~ msgstr "Miembro del personal"
 
 #~ msgid "Staff Members"
-#~ msgstr "Staff Members"
+#~ msgstr "Miembros del personal"
 
 #~ msgid "All good. You are running on the latest version"
-#~ msgstr "All good. You are running on the latest version"
-
+#~ msgstr "Todo está bien. Estás ejecutando la última versión."
