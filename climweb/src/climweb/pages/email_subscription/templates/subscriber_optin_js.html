@@ -32,7 +32,7 @@
 
                 var required_str = (merge_field['required'] ? " - (Required)" : "");
 
-                merge_field_html += '<label style="float:left;width: 100%">' + merge_field['name'] + required_str + '</label>';
+                merge_field_html += '<label class="subscriber-field-label">' + merge_field['name'] + required_str + '</label>';
                 if (subscriber_data['merge_fields'].hasOwnProperty(merge_field['tag'])) {
                     merge_field_html += '<div class="input"><input type="text" name="' + merge_field['tag'] + '"" value="' + subscriber_data['merge_fields'][merge_field['tag']] + '"></div>';
                 } else {
@@ -74,7 +74,7 @@
 
             for (var i in mailchimp_master_library[list_id_as_str]['interest_categories']) {
                 var interest_category = mailchimp_master_library[list_id_as_str]['interest_categories'][i];
-                interest_category_field_html += '<br /><label style="float:left;width: 100%">' + interest_category['title'] + '</label>';
+                interest_category_field_html += '<br /><label class="subscriber-field-label">' + interest_category['title'] + '</label>';
                 for (var j in interest_category['interests']) {
                     var interest = interest_category['interests'][j];
                     if (is_interest_checked(subscriber_data['interest_categories'], interest_category['id'], interest['id']) == true) {

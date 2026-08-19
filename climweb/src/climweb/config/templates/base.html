@@ -7,8 +7,8 @@
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
 <!DOCTYPE html>
-<html lang="{{ settings.base.LanguageSettings.default_language }}" 
-      dir="{% if settings.base.LanguageSettings.default_language|slice:":2" == "ar" %}rtl{% else %}ltr{% endif %}">
+<html lang="{{ LANGUAGE_CODE }}"
+      dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
     <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -44,7 +44,7 @@
           rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/google-translate.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/navigation.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navigation.css' %}?v=tablet-dropdown-fix-2">
     <link rel="stylesheet" type="text/css" href="{% static 'css/cms_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/components.css' %}">
