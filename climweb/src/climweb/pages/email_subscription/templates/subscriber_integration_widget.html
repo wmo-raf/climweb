@@ -1,5 +1,12 @@
 {% load i18n %}
 
+<style>
+    .subscriber-field-label {
+        float: inline-start;
+        width: 100%;
+    }
+</style>
+
 <input type="hidden" name="{{ widget.name }}"{% if widget.value != None %}
        value="{{ widget.value }}"{% endif %}{% include "django/forms/widgets/attrs.html" %}>
 <select name="list-selection-{{ widget.name }}">
@@ -10,7 +17,7 @@
 </select>
 <div name="email-field-{{ widget.name }}">
     <br/>
-    <label style="float:left;width: 100%">{% translate "Email Address - (Required)" %}  </label>
+    <label class="subscriber-field-label">{% translate "Email Address - (Required)" %}  </label>
     <div class="input">
         <input type="text" name="email-{{ widget.name }}" value=""/>
     </div>
