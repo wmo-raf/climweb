@@ -277,6 +277,7 @@ class HomePage(MetadataPageMixin, Page):
 
         if "forecastmanager" in settings.INSTALLED_APPS:
             context["home_weather_widget_url"] = get_full_url(request, reverse("home-weather-widget"))
+            context["weather_city_locations_url"] = get_full_url(request, reverse("weather-city-locations"))
 
             if self.show_city_forecast:
                 from climweb.pages.weather.utils import get_city_forecast_detail_data

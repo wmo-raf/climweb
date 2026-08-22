@@ -133,6 +133,7 @@
     <script>
     const homeMapSettingsUrl    = "{{ home_map_settings_url|default_if_none:'' }}";
     const homeWeatherWidgetUrl  = "{{ home_weather_widget_url|default_if_none:'' }}";
+    const weatherCityLocationsUrl = "{{ weather_city_locations_url|default_if_none:'' }}";
     const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
     const citySearchUrl         = "{{ city_search_url }}";
     const cityDetailUrl         = "{{ city_detail_page_url|default_if_none:'' }}";
@@ -144,6 +145,7 @@
     const weatherWidgetWrapper = $("#weather-widget-wrapper");
 
     let singleForecastSlider;
+    let cityLocations = null;
 
     /* ── city select callback — triggers a full widget re-render ── */
     const onSelectCity = ({ label, value }) => {
@@ -351,20 +353,156 @@
         });
     };
 
+    /*  ── GEOLOCATION FOR NEAREST CITY TO USER  ── */
+    /* Util Function to calculate the distance between two points on Earth, using the Haversine formula */
+    function haversineDistanceKM(lat1Deg, lng1Deg, lat2Deg, lng2Deg) {
+      function toRad(degree) {
+          return degree * Math.PI / 180;
+      }
+      
+      const lat1 = toRad(lat1Deg);
+      const lng1 = toRad(lng1Deg);
+      const lat2 = toRad(lat2Deg);
+      const lng2 = toRad(lng2Deg);
+      
+      const { sin, cos, sqrt, atan2 } = Math;
+      
+      const R = 6371; // earth radius in km 
+      const dLat = lat2 - lat1;
+      const dLon = lng2 - lng1;
+      const a = sin(dLat / 2) * sin(dLat / 2)
+              + cos(lat1) * cos(lat2)
+              * sin(dLon / 2) * sin(dLon / 2);
+      const c = 2 * atan2(sqrt(a), sqrt(1 - a)); 
+      const d = R * c;
+      return d; // distance in km
+    }
+  
+
+    /* Async function to call endpoint to fetch city locations from the backend, 
+    returns a promise that resolves to an array of city locations */
+    const fetchCityLocations = async () => {
+      if (!weatherCityLocationsUrl) {
+        return [];
+      }
+
+      if (cityLocations) {
+        return cityLocations;
+      }
+
+      if (!cityLocations) {
+        try {
+          const response = await fetch(weatherCityLocationsUrl);
+          if (!response.ok) throw new Error('Error fetching city locations');
+          
+          const data = await response.json();
+          cityLocations = Array.isArray(data.cities) ? data.cities : [];
+        } catch (error) {
+          console.error('CITY_LOCATIONS_ERROR:', error);
+          return [];
+        }
+      }
+      return cityLocations || [];
+    };
+
+    /*  Async function to find nearest city to user  */
+    let nearestCity = null;
+
+    const findNearestCity = (lat, lng) => {
+      return fetchCityLocations().then(cities => {
+        if (!cities || cities.length === 0) {
+          nearestCity = null;
+          return null;
+        }
+
+        let minDistance = Infinity;
+
+        cities.forEach(city => {
+          const distance = haversineDistanceKM(lat, lng, city.lat, city.lng);
+          if (distance < minDistance) {
+            minDistance = distance;
+            nearestCity = city;
+          }
+        });
+        console.log(`Nearest city to user: ${nearestCity ? nearestCity.name : 'None found'}`);
+        return nearestCity;
+
+        
+      });
+    };
+
+    /* Request for user geolocation.
+      Returns a Promise resolving to the nearest city (or null) */
+    const geoFindUser = async () => {
+      if (!navigator.geolocation) {
+        console.log('Geolocation is not supported by your browser');
+        return null;
+      }
+
+      return new Promise((resolve) => {
+        async function success(pos) {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const city = await findNearestCity(lat, lng);
+          if (!city) {
+            console.log('No nearby city found for the user\'s location');
+          }
+          resolve(city);
+        }
+
+        function error() {
+          console.log('Unable to retrieve your location');
+          resolve(null);
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error);
+      });
+    };
+
     /* ── boot ── */
     $(document).ready(function () {
 
-      const isSsrRendered = weatherWidgetWrapper.length
-        && weatherWidgetWrapper.children().length > 0
-        && !$('.forecast-widget-skeleton').length;
+      /* clicking the button always explicitly (re-)requests geolocation,
+         regardless of the auto-resolve logic below (delegated since the
+         button is re-rendered whenever the widget is re-fetched) */
+      weatherWidgetWrapper.on('click', '#use-my-location-btn', function () {
+        geoFindUser().then(city => {
+          if (city) renderWeatherWidgetForCity(city.slug);
+        });
+      });
 
-      if (isSsrRendered) {
-        initWeatherWidget(null);
-      } else if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
-        renderWeatherWidgetForCity();
+      const bootWeatherWidget = () => {
+        const isSsrRendered = weatherWidgetWrapper.length
+          && weatherWidgetWrapper.children().length > 0
+          && !$('.forecast-widget-skeleton').length;
+
+        if (isSsrRendered) {
+          initWeatherWidget(null);
+        } else if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
+          renderWeatherWidgetForCity();
+        } else {
+          const forecastSkeleton = $('.forecast-widget-skeleton');
+          if (forecastSkeleton.length) forecastSkeleton.hide();
+        }
+      };
+
+      /* If geolocation permission was already granted on a previous visit, resolve it
+         up front and render straight to the nearest city - this skips
+         rendering the default city first and then re-rendering once the
+         position resolves. 
+       */
+      if (navigator.permissions && navigator.permissions.query) {
+        navigator.permissions.query({ name: 'geolocation' }).then(status => {
+          if (status.state === 'granted') {
+            geoFindUser().then(city => {
+              if (city) renderWeatherWidgetForCity(city.slug);
+            });
+          } else {
+            bootWeatherWidget();
+          }
+        }).catch(bootWeatherWidget);
       } else {
-        const forecastSkeleton = $('.forecast-widget-skeleton');
-        if (forecastSkeleton.length) forecastSkeleton.hide();
+        bootWeatherWidget();
       }
 
       if (page_youtube_playlist) {
