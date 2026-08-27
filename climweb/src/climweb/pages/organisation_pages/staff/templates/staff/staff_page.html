@@ -14,6 +14,19 @@
         .staff-role {
             text-transform: uppercase;
         }
+
+        /* Make the whole modal box scroll as one unit, so the white
+           background always follows the content shown on screen instead
+           of the bio text overflowing onto the dark modal backdrop. */
+        .staff-modal-content {
+            overflow: visible !important;
+            max-height: none !important;
+        }
+
+        .staff-modal-content .box {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
     </style>
 
 {% endblock extra_css %}
@@ -81,7 +94,7 @@
                                                            style="font-size:12px">{{ staffmember.role }}</p>
                                                         <hr>
                                                         {% if staffmember.bio %}
-                                                            <div style="max-height:20rem">
+                                                            <div>
                                                                 <p>{{ staffmember.bio|richtext }}</p></div>
                                                         {% endif %}
                                                     </div>
