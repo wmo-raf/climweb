@@ -253,7 +253,7 @@
 
 /* ── TEXT COLUMN ── */
 .org-text-col {
-  padding-left: 2rem;
+  padding-inline-start: 2rem;
 }
 
 /* accent bar */
@@ -295,7 +295,7 @@
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
-  .org-text-col { padding-left: 1.5rem; }
+  .org-text-col { padding-inline-start: 1.5rem; }
   .org-title { font-size: 20px; }
 }
 
@@ -304,7 +304,7 @@
 
   /* stack — image top, text below on mobile */
   .org-image-col { margin-bottom: 1.5rem; }
-  .org-text-col  { padding-left: 0; }
+  .org-text-col  { padding-inline-start: 0; }
 
   .org-figure { padding: 1rem; }
 
@@ -423,13 +423,13 @@
 }
 
 .tl-item--left .tl-content {
-  text-align: right;
-  padding-right: 1.5rem;
+  text-align: end;
+  padding-inline-end: 1.5rem;
 }
 
 .tl-item--right .tl-content {
-  text-align: left;
-  padding-left: 1.5rem;
+  text-align: start;
+  padding-inline-start: 1.5rem;
 }
 
 .tl-spacer {
@@ -462,7 +462,7 @@
     transform: none;
   }
 
-  .tl-year-row { justify-content: flex-start; padding-left: 40px; }
+  .tl-year-row { justify-content: flex-start; padding-inline-start: 40px; }
 
   .tl-item,
   .tl-item--left,
@@ -483,9 +483,9 @@
 
   .tl-item--left .tl-content {
     order: 2;
-    text-align: left;
-    padding-right: 0;
-    padding-left: 0.5rem;
+    text-align: start;
+    padding-inline-end: 0;
+    padding-inline-start: 0.5rem;
   }
 
   .tl-item--left .tl-node {
@@ -499,7 +499,7 @@
 
   .tl-item--right .tl-content {
     order: 2;
-    padding-left: 0.5rem;
+    padding-inline-start: 0.5rem;
   }
 
   .tl-item--right .tl-node {

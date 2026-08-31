@@ -23,7 +23,7 @@
                 </figure>
             </div>
         {% endif %}
-        <div class="event-inline-detail" style="{% if show_thumbnail == False %}padding-left:0;{% endif %}">
+        <div class="event-inline-detail" style="{% if show_thumbnail == False %}padding-inline-start:0;{% endif %}">
             <a class="event-inline-title" href="{{ item.card_props.card_more_link }}">
                 {{ item.card_props.card_title }}
             </a>
@@ -51,7 +51,7 @@
 {% endfor %}
 
 {% if more_link and more_link_title %}
-    <div class="more-container" style="padding-left: 0">
+    <div class="more-container" style="padding-inline-start: 0">
         <a href="{{ more_link }}" class="more">
             {{ more_link_title }}
             <span class="icon btn-icon">
@@ -60,4 +60,3 @@
         </a>
     </div>
 {% endif %}
-
