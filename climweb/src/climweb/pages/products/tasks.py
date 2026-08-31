@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import subprocess
 import unicodedata
 import uuid
 from datetime import date, datetime, timedelta
@@ -165,7 +166,8 @@ def _append_image_block(page, item_type_pk, effective_date, image_pk, valid_unti
     _save_products_raw(page, raw)
 
 
-def _append_document_block(page, item_type_pk, effective_date, doc, valid_until=None):
+def _append_document_block(page, item_type_pk, effective_date, doc, valid_until=None,
+                           description=''):
     """Append a document_product block to the page's products StreamField."""
     raw = _get_products_raw(page)
     date_str = effective_date.isoformat()
@@ -188,10 +190,131 @@ def _append_document_block(page, item_type_pk, effective_date, doc, valid_until=
             'document': doc.pk,
             'auto_generate_thumbnail': False,
             'thumbnail': thumbnail.pk if thumbnail else None,
-            'description': '',
+            'description': description,
         },
     })
     _save_products_raw(page, raw)
+
+
+# Bulletins open with a letterhead before they say anything: an issuing office,
+# a title in capitals, a date line, sometimes a phone number. Taking literally
+# the first block of text would put that in the description on every product, so
+# the opening blocks are filtered before one is chosen.
+_DESCRIPTION_MIN_CHARS = 80
+_DESCRIPTION_MAX_CHARS = 600
+_DESCRIPTION_MIN_WORDS = 12
+
+
+# Lines that announce the document rather than say anything. A digit ratio alone
+# is not enough: "Issued: 12 August 2026 at 06:00 UTC by the National
+# Meteorological Agency, Reference NMA/WRB/2026/33" is long enough and prosaic
+# enough to pass every length check, and is exactly what must not become a
+# description.
+_METADATA_PREFIX = re.compile(
+    r'^\s*(issued|released|published|date[d]?|valid|ref|reference|bulletin\s+no|'
+    r'no\.|page|prepared\s+by|produced\s+by)\b[:.\s]',
+    re.IGNORECASE,
+)
+_DATE_TOKEN = re.compile(
+    r'\d{1,2}\s+\w+\s+\d{4}|\d{4}-\d{2}-\d{2}|\d{1,2}/\d{1,2}/\d{2,4}|\d{1,2}:\d{2}',
+)
+
+
+def _looks_like_heading(block):
+    """True for letterhead, titles, dates and reference lines."""
+    letters = [c for c in block if c.isalpha()]
+    if letters and sum(1 for c in letters if c.isupper()) / len(letters) > 0.7:
+        return True
+
+    # Heavy on digits: reference numbers, or a row of station readings. Set at
+    # 0.2 because a table row of four readings lands just above it, while prose
+    # quoting several rainfall totals stays well below.
+    if sum(1 for c in block if c.isdigit()) > len(block) * 0.2:
+        return True
+
+    if _METADATA_PREFIX.match(block):
+        return True
+
+    # Several dates or times in one block is a masthead, not a forecast. One is
+    # left alone, because prose legitimately refers to a single date.
+    if len(_DATE_TOKEN.findall(block)) >= 2:
+        return True
+
+    return False
+
+
+def _first_paragraph_from_text(text):
+    """
+    Pick the opening paragraph of prose from extracted PDF text.
+
+    Returns "" when nothing suitable is found, which is the normal outcome for a
+    scanned bulletin or a map with no text layer.
+    """
+    if not text:
+        return ''
+
+    # pdftotext keeps the page's visual line breaks, so a paragraph arrives as
+    # several short lines. Blank lines separate blocks; join each block back up.
+    blocks = []
+    for raw_block in re.split(r'\n\s*\n', text):
+        block = ' '.join(raw_block.split())
+        if block:
+            blocks.append(block)
+
+    for block in blocks:
+        if len(block) < _DESCRIPTION_MIN_CHARS:
+            continue
+        if len(block.split()) < _DESCRIPTION_MIN_WORDS:
+            continue
+        if _looks_like_heading(block):
+            continue
+
+        if len(block) <= _DESCRIPTION_MAX_CHARS:
+            return block
+
+        # Too long: cut at the last sentence end that fits, else the last word,
+        # so the description never stops mid-word.
+        clipped = block[:_DESCRIPTION_MAX_CHARS]
+        sentence_end = max(clipped.rfind('. '), clipped.rfind('! '), clipped.rfind('? '))
+        if sentence_end > _DESCRIPTION_MIN_CHARS:
+            return clipped[:sentence_end + 1]
+        return clipped[:clipped.rfind(' ')].rstrip(',;:') + '…'
+
+    return ''
+
+
+def _extract_pdf_description(file_path):
+    """
+    Read the opening paragraph of a PDF's first page.
+
+    Uses pdftotext from poppler-utils, which is already installed for thumbnail
+    generation, so this adds no dependency. Any failure returns "" — a missing
+    description must never stop a bulletin being published.
+    """
+    try:
+        result = subprocess.run(
+            ['pdftotext', '-f', '1', '-l', '1', '-q', file_path, '-'],
+            capture_output=True,
+            timeout=20,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        logger.warning(f"[INGESTION] Could not run pdftotext on {file_path}: {exc}")
+        return ''
+
+    if result.returncode != 0:
+        logger.debug(f"[INGESTION] pdftotext returned {result.returncode} for {file_path}")
+        return ''
+
+    text = result.stdout.decode('utf-8', errors='replace')
+    description = _first_paragraph_from_text(text)
+
+    if not description:
+        logger.info(
+            f"[INGESTION] No readable opening paragraph in {os.path.basename(file_path)} "
+            "(scanned or image-only PDFs have no text layer)"
+        )
+    return description
 
 
 def _resolve_watch_root(watch_root):
@@ -299,7 +422,11 @@ def _ingest_product(product):
                     _append_image_block(product_item_page, item_type.pk, dt.date(), media_obj.pk, valid_until)
                 else:
                     media_obj = _create_wagtail_document(file_path, title)
-                    _append_document_block(product_item_page, item_type.pk, dt.date(), media_obj, valid_until)
+                    description = ''
+                    if product.auto_description_from_pdf and fmt == 'pdf':
+                        description = _extract_pdf_description(file_path)
+                    _append_document_block(product_item_page, item_type.pk, dt.date(),
+                                           media_obj, valid_until, description=description)
                 _sync_page_valid_until(product_item_page)
 
                 ProductIngestedFile.objects.update_or_create(

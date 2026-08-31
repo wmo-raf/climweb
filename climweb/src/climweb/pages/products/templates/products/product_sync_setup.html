@@ -1,0 +1,330 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n wagtailadmin_tags %}
+
+{% block titletag %}{% translate "Automated publishing setup" %}{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .sync-setup { max-width: 52rem; }
+        .sync-card {
+            border: 1px solid var(--w-color-border-furniture, #e0e0e0);
+            border-radius: 6px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--w-color-surface-page, #fff);
+        }
+        .sync-card h2 { margin-top: 0; font-size: 1.15rem; }
+        .sync-step-num {
+            display: inline-block; width: 1.6rem; height: 1.6rem;
+            line-height: 1.6rem; text-align: center; border-radius: 50%;
+            background: var(--w-color-surface-button-default, #007d7e);
+            color: #fff; font-size: .85rem; margin-right: .5rem;
+        }
+        .sync-command {
+            display: block; width: 100%; box-sizing: border-box;
+            font-family: monospace; font-size: .85rem; line-height: 1.5;
+            padding: .75rem; border-radius: 4px; border: 1px solid #ccc;
+            background: #1f1f1f; color: #f0f0f0; resize: vertical;
+            word-break: break-all;
+        }
+        .sync-code {
+            font-family: monospace; font-size: 1.6rem; letter-spacing: .12em;
+            font-weight: 600;
+        }
+        .sync-muted { color: var(--w-color-text-meta, #5c5c5c); font-size: .9rem; }
+        .sync-check li { list-style: none; margin: .35rem 0; }
+        .sync-ok::before   { content: "✓ "; color: #187948; font-weight: 700; }
+        .sync-bad::before  { content: "✗ "; color: #cd4444; font-weight: 700; }
+        .sync-table { width: 100%; border-collapse: collapse; }
+        .sync-table th, .sync-table td {
+            text-align: left; padding: .5rem .5rem .5rem 0;
+            border-bottom: 1px solid var(--w-color-border-furniture, #e0e0e0);
+            font-size: .9rem;
+        }
+        .sync-pill {
+            font-size: .75rem; padding: .15rem .5rem; border-radius: 10px;
+            background: #e8f5ee; color: #187948;
+        }
+        .sync-pill-off { background: #f4e6e6; color: #a33; }
+        .sync-pill-wait { background: #fbf0da; color: #855; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% translate "Automated publishing setup" as header_str %}
+    {% include "wagtailadmin/shared/header.html" with title=header_str subtitle=product.name icon="cog" %}
+
+    <div class="nice-padding sync-setup">
+
+        {# ---------------------------------------------------------------- #}
+        {# Readiness: catch misconfiguration here rather than after setup    #}
+        {# ---------------------------------------------------------------- #}
+        {% if not ready %}
+            <div class="sync-card" style="border-color:#cd4444;">
+                <h2>{% translate "This product is not ready yet" %}</h2>
+                <p class="sync-muted">
+                    {% translate "Finish these on the product settings first, otherwise files will arrive but nothing will be published." %}
+                </p>
+                <ul class="sync-check">
+                    {% for item in readiness %}
+                        <li class="{% if item.ok %}sync-ok{% else %}sync-bad{% endif %}">
+                            {{ item.label }}
+                            {% if item.ok and item.value %}
+                                <span class="sync-muted">— {{ item.value }}</span>
+                            {% elif not item.ok %}
+                                <span class="sync-muted">— {{ item.fix }}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                {% if product_edit_url %}
+                    <p style="margin-top:1.25rem; margin-bottom:0;">
+                        <a href="{{ product_edit_url }}" class="button">
+                            {% translate "Start Here" %}
+                        </a>
+                        <span class="sync-muted" style="margin-left:.5rem;">
+                            {% blocktranslate trimmed with name=product.name %}
+                                Opens the {{ name }} product settings, where all of
+                                the above are fixed.
+                            {% endblocktranslate %}
+                        </span>
+                    </p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {# ---------------------------------------------------------------- #}
+        {# The actual instruction to hand over                               #}
+        {# ---------------------------------------------------------------- #}
+        <div class="sync-card">
+            <h2><span class="sync-step-num">1</span>{% translate "Send this to whoever runs the server that produces the files" %}</h2>
+
+            {% if active_code %}
+                <p class="sync-muted">
+                    {% blocktranslate trimmed %}
+                        They run this once, on the computer where these files are
+                        generated. It will ask them one question — which folder the
+                        files are in — and then set everything else up on its own.
+                    {% endblocktranslate %}
+                </p>
+
+                <textarea id="sync-command" class="sync-command" rows="3" readonly>{{ command }}</textarea>
+
+                <p style="margin-top:.75rem;">
+                    <button type="button" class="button" id="sync-copy">{% translate "Copy command" %}</button>
+                    <a class="button button-secondary" id="sync-email"
+                       href="mailto:?subject={% translate 'Publishing setup for' %} {{ product.name|urlencode }}">
+                        {% translate "Send by email" %}
+                    </a>
+                </p>
+
+                <hr style="margin:1.25rem 0;">
+
+                <p class="sync-muted" style="margin-bottom:.25rem;">
+                    {% translate "If they would rather type it in themselves, the setup code alone is:" %}
+                </p>
+                <p class="sync-code">{{ active_code.code }}</p>
+                <p class="sync-muted">
+                    {% blocktranslate trimmed with expires=active_code.expires_at %}
+                        Valid until {{ expires }}, and can only be used once.
+                    {% endblocktranslate %}
+                </p>
+
+                <form method="POST" style="margin-top:1rem;">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="generate">
+                    <button type="submit" class="button button-secondary button-small">
+                        {% translate "Generate a new code" %}
+                    </button>
+                    <span class="sync-muted">
+                        {% translate "The current code stops working." %}
+                    </span>
+                </form>
+
+            {% else %}
+                <p class="sync-muted">
+                    {% blocktranslate trimmed %}
+                        Generate a setup code, then send the command to the met
+                        service. The code expires in 48 hours and can only be used
+                        once, so it is safe to send by email.
+                    {% endblocktranslate %}
+                </p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="generate">
+                    <button type="submit" class="button" {% if not ready %}disabled{% endif %}>
+                        {% translate "Generate setup code" %}
+                    </button>
+                </form>
+                {% if not ready %}
+                    <p class="sync-muted">{% translate "Fix the items above first." %}</p>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        {# ---------------------------------------------------------------- #}
+        {# Connected servers                                                 #}
+        {# ---------------------------------------------------------------- #}
+        <div class="sync-card">
+            <h2><span class="sync-step-num">2</span>{% translate "Connected servers" %}</h2>
+
+            {% if credentials %}
+                <table class="sync-table">
+                    <thead>
+                        <tr>
+                            <th>{% translate "Server" %}</th>
+                            <th>{% translate "Files received" %}</th>
+                            <th>{% translate "Last seen" %}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for credential in credentials %}
+                            <tr>
+                                <td>
+                                    {{ credential.label }}
+                                    {% if credential.is_active %}
+                                        <span class="sync-pill">{% translate "Active" %}</span>
+                                    {% else %}
+                                        <span class="sync-pill sync-pill-off">{% translate "Disconnected" %}</span>
+                                    {% endif %}
+                                    <div class="sync-muted">{{ credential.token_prefix }}…</div>
+
+                                    {% if credential.full_sync_pending %}
+                                        <div class="sync-muted" style="margin-top:.35rem;">
+                                            <span class="sync-pill sync-pill-wait">{% translate "Full sync pending" %}</span>
+                                            {% blocktranslate trimmed with when=credential.full_sync_requested_at|timesince %}
+                                                requested {{ when }} ago — runs when this server next checks in, within 10 minutes
+                                            {% endblocktranslate %}
+                                        </div>
+                                    {% elif credential.full_sync_completed_at %}
+                                        <div class="sync-muted" style="margin-top:.35rem;">
+                                            {% blocktranslate trimmed with when=credential.full_sync_completed_at|timesince %}
+                                                Last full sync {{ when }} ago
+                                            {% endblocktranslate %}
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td>{{ credential.upload_count }}</td>
+                                <td>
+                                    {% if credential.last_used_at %}
+                                        {{ credential.last_used_at|timesince }} {% translate "ago" %}
+                                    {% else %}
+                                        <span class="sync-muted">{% translate "never" %}</span>
+                                    {% endif %}
+                                </td>
+                                <td style="text-align:right; white-space:nowrap;">
+                                    {% if credential.is_active %}
+                                        {% if credential.full_sync_pending %}
+                                            <form method="POST" style="display:inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="cancel_full_sync">
+                                                <input type="hidden" name="credential_id" value="{{ credential.pk }}">
+                                                <button type="submit" class="button button-small button-secondary">
+                                                    {% translate "Cancel request" %}
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form method="POST" style="display:inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="request_full_sync">
+                                                <input type="hidden" name="credential_id" value="{{ credential.pk }}">
+                                                <button type="submit" class="button button-small">
+                                                    {% translate "Sync all files" %}
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        <form method="POST" style="display:inline;"
+                                              onsubmit="return confirm('{% translate "Disconnect this server? It will stop sending new files." %}');">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="revoke">
+                                            <input type="hidden" name="credential_id" value="{{ credential.pk }}">
+                                            <button type="submit" class="button button-small button-secondary no">
+                                                {% translate "Disconnect" %}
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="sync-muted">
+                    {% blocktranslate trimmed %}
+                        No server has connected yet. Once the command above has been
+                        run, the server appears here and files start arriving within
+                        about ten minutes.
+                    {% endblocktranslate %}
+                </p>
+            {% endif %}
+        </div>
+
+        {# ---------------------------------------------------------------- #}
+        {# Where the files will land                                         #}
+        {# ---------------------------------------------------------------- #}
+        <div class="sync-card">
+            <h2>{% translate "Where files will be placed" %}</h2>
+            <p class="sync-muted">
+                {% translate "Set automatically from this product's settings — nobody needs to type it." %}
+            </p>
+            <ul class="sync-check">
+                {% for format in formats %}
+                    <li><code>{{ product.watch_root }}/{{ product.variable_name }}/{{ format }}/</code></li>
+                {% endfor %}
+            </ul>
+
+            {% if product_edit_url %}
+                {# The readiness card above carries the same link, but it is hidden once everything passes — leaving no way back to the settings these paths are derived from. #}
+                <p class="sync-muted" style="margin-top:1rem; margin-bottom:0">
+                    <a href="{{ product_edit_url }}" style="font-weight:800">{% translate "Edit product settings" %}</a>
+                    — {% translate "changing the variable name or format here changes where files must be sent." %}
+                </p>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    <script>
+        (function () {
+            var button = document.getElementById('sync-copy');
+            var field = document.getElementById('sync-command');
+            if (!button || !field) return;
+
+            button.addEventListener('click', function () {
+                field.select();
+                field.setSelectionRange(0, field.value.length);
+                var done = function () {
+                    var original = button.textContent;
+                    button.textContent = '{% translate "Copied" %}';
+                    setTimeout(function () { button.textContent = original; }, 2000);
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(field.value).then(done, function () {
+                        document.execCommand('copy');
+                        done();
+                    });
+                } else {
+                    document.execCommand('copy');
+                    done();
+                }
+            });
+
+            var email = document.getElementById('sync-email');
+            if (email) {
+                email.addEventListener('click', function () {
+                    var body = '{% translate "Please run this once, on the server where our products are generated:" %}'
+                        + '\n\n' + field.value + '\n\n'
+                        + '{% translate "It will ask which folder the files are in, then set up the rest automatically." %}';
+                    email.href = 'mailto:?subject='
+                        + encodeURIComponent('{% translate "Publishing setup for" %} {{ product.name|escapejs }}')
+                        + '&body=' + encodeURIComponent(body);
+                });
+            }
+        })();
+    </script>
+{% endblock %}
