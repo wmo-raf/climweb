@@ -48,20 +48,23 @@ NMHSs that have adopted ClimWeb across Africa:
 31. 🇱🇸 [Lesotho](https://lesmet.gov.ls)
 32. 🇸🇩 [General Administration for Nile Waters Affairs](https://wre.gov.sd/)
 33. 🇲🇿 Mozambique Hydrology Department
+34. 🇳🇪 RCC ACMAD
 
 #### In progress
 
-34. 🇺🇬 Uganda
-35. 🇳🇦 Namibia
-36. 🇲🇬 Madagascar
-37. 🇸🇿 Eswatini
-41. 🇨🇲 Cameroon
-42. 🇨🇲 RCC Douala
-43. 🇨🇲 RSMC Yaounde
-44. 🇸🇹 Sao Tome Principe
+35. 🇺🇬 Uganda 
+36. 🇳🇦 Namibia 
+37. 🇲🇬 Madagascar 
+38. 🇸🇿 Eswatini 
+39. 🇨🇲 Cameroon 
+40. 🇨🇲 RCC Douala 
+41. 🇨🇲 RSMC Yaounde 
+42. 🇸🇹 São Tomé and Príncipe 
+43. 🇨🇻 Cabo Verde
+44. 🇪🇬 Egypt
 
 ## 🌍 Other regions
-44. 🇸🇾 [Syria](https://climweb.med.gov.sy)
+47. 🇸🇾 [Syria](https://climweb.med.gov.sy)
 
 ## 🌟 Core Features
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e182517d-277d-44e7-8800-e02761940375" />
