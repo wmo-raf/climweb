@@ -133,7 +133,6 @@
     <script>
     const homeMapSettingsUrl    = "{{ home_map_settings_url|default_if_none:'' }}";
     const homeWeatherWidgetUrl  = "{{ home_weather_widget_url|default_if_none:'' }}";
-    const cityLocationsUrl = "{{ city_locations_url|default_if_none:'' }}";
     const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
     const citySearchUrl         = "{{ city_search_url }}";
     const cityDetailUrl         = "{{ city_detail_page_url|default_if_none:'' }}";
@@ -360,7 +359,7 @@
     /* Async function to call endpoint to fetch city locations from the backend, 
     returns a promise that resolves to an array of city locations */
     const fetchCityLocations = async () => {
-      if (!cityLocationsUrl) {
+      if (!citySearchUrl) {
         return [];
       }
 
@@ -370,7 +369,7 @@
 
       if (!cityLocations) {
         try {
-          const response = await fetch(cityLocationsUrl);
+          const response = await fetch(citySearchUrl);
           if (!response.ok) throw new Error('Error fetching city locations');
 
           const data = await response.json();

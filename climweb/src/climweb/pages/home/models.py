@@ -268,7 +268,6 @@ class HomePage(MetadataPageMixin, Page):
             city_search_url = get_full_url(request, reverse("cities-list"))
             context.update({
                 "city_search_url": city_search_url,
-                "city_locations_url": city_search_url,
             })
         
         map_settings_url = get_full_url(request, reverse("home-map-settings"))
