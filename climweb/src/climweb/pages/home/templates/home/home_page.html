@@ -473,6 +473,7 @@
           if (status.state === 'granted') {
             geoFindUser().then(city => {
               if (city) renderWeatherWidgetForCity(city.slug);
+              else bootWeatherWidget();
             });
           } else {
             bootWeatherWidget();
