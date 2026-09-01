@@ -137,21 +137,3 @@ def get_home_map_forecast(request):
     }
     
     return JsonResponse(res_data, safe=False)
-
-
-@require_GET
-def get_city_locations(request):
-    cities = City.objects.filter(location__isnull=False).order_by("name")
-    serialized_cities = CitySerializer(cities, many=True).data
-
-    city_data = [
-        {
-            "slug": city["slug"],
-            "name": city["name"],
-            "lat": city["coordinates"][1],
-            "lng": city["coordinates"][0],
-        }
-        for city in serialized_cities
-    ]
-
-    return JsonResponse({"cities": city_data}, safe=False)

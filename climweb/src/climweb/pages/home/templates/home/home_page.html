@@ -133,7 +133,7 @@
     <script>
     const homeMapSettingsUrl    = "{{ home_map_settings_url|default_if_none:'' }}";
     const homeWeatherWidgetUrl  = "{{ home_weather_widget_url|default_if_none:'' }}";
-    const weatherCityLocationsUrl = "{{ weather_city_locations_url|default_if_none:'' }}";
+    const cityLocationsUrl = "{{ city_locations_url|default_if_none:'' }}";
     const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
     const citySearchUrl         = "{{ city_search_url }}";
     const cityDetailUrl         = "{{ city_detail_page_url|default_if_none:'' }}";
@@ -354,35 +354,13 @@
     };
 
     /*  ── GEOLOCATION FOR NEAREST CITY TO USER  ── */
-    /* Util Function to calculate the distance between two points on Earth, using the Haversine formula */
-    function haversineDistanceKM(lat1Deg, lng1Deg, lat2Deg, lng2Deg) {
-      function toRad(degree) {
-          return degree * Math.PI / 180;
-      }
-      
-      const lat1 = toRad(lat1Deg);
-      const lng1 = toRad(lng1Deg);
-      const lat2 = toRad(lat2Deg);
-      const lng2 = toRad(lng2Deg);
-      
-      const { sin, cos, sqrt, atan2 } = Math;
-      
-      const R = 6371; // earth radius in km 
-      const dLat = lat2 - lat1;
-      const dLon = lng2 - lng1;
-      const a = sin(dLat / 2) * sin(dLat / 2)
-              + cos(lat1) * cos(lat2)
-              * sin(dLon / 2) * sin(dLon / 2);
-      const c = 2 * atan2(sqrt(a), sqrt(1 - a)); 
-      const d = R * c;
-      return d; // distance in km
-    }
-  
+    /* Nearest city lookup is done with Turf.js (https://turfjs.org/) `nearestPoint`,
+       which expects GeoJSON points in [lng, lat] order. */
 
     /* Async function to call endpoint to fetch city locations from the backend, 
     returns a promise that resolves to an array of city locations */
     const fetchCityLocations = async () => {
-      if (!weatherCityLocationsUrl) {
+      if (!cityLocationsUrl) {
         return [];
       }
 
@@ -392,11 +370,14 @@
 
       if (!cityLocations) {
         try {
-          const response = await fetch(weatherCityLocationsUrl);
+          const response = await fetch(cityLocationsUrl);
           if (!response.ok) throw new Error('Error fetching city locations');
-          
+
           const data = await response.json();
-          cityLocations = Array.isArray(data.cities) ? data.cities : [];
+          /* cities-list returns a plain array of
+             { id, name, slug, coordinates: [lng, lat] } */
+          cityLocations = Array.isArray(data) ? data : [];
+          console.log('city data:', data);
         } catch (error) {
           console.error('CITY_LOCATIONS_ERROR:', error);
           return [];
@@ -415,19 +396,16 @@
           return null;
         }
 
-        let minDistance = Infinity;
+        const userPoint  = turf.point([lng, lat]);
+        const cityPoints = turf.featureCollection(
+          cities.map(city => turf.point(city.coordinates, { city }))
+        );
 
-        cities.forEach(city => {
-          const distance = haversineDistanceKM(lat, lng, city.lat, city.lng);
-          if (distance < minDistance) {
-            minDistance = distance;
-            nearestCity = city;
-          }
-        });
+        const nearest = turf.nearestPoint(userPoint, cityPoints);
+        nearestCity = nearest ? nearest.properties.city : null;
+
         console.log(`Nearest city to user: ${nearestCity ? nearestCity.name : 'None found'}`);
         return nearestCity;
-
-        
       });
     };
 
