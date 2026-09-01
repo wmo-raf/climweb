@@ -144,6 +144,7 @@
     const weatherWidgetWrapper = $("#weather-widget-wrapper");
 
     let singleForecastSlider;
+    let cityLocations = null;
 
     /* ── city select callback — triggers a full widget re-render ── */
     const onSelectCity = ({ label, value }) => {
@@ -351,20 +352,135 @@
         });
     };
 
+    /*  ── GEOLOCATION FOR NEAREST CITY TO USER  ── */
+    /* Nearest city lookup is done with Turf.js (https://turfjs.org/) `nearestPoint`,
+       which expects GeoJSON points in [lng, lat] order. */
+
+    /* Async function to call endpoint to fetch city locations from the backend, 
+    returns a promise that resolves to an array of city locations */
+    const fetchCityLocations = async () => {
+      if (!citySearchUrl) {
+        return [];
+      }
+
+      if (cityLocations) {
+        return cityLocations;
+      }
+
+      if (!cityLocations) {
+        try {
+          const response = await fetch(citySearchUrl);
+          if (!response.ok) throw new Error('Error fetching city locations');
+
+          const data = await response.json();
+          /* cities-list returns a plain array of
+             { id, name, slug, coordinates: [lng, lat] } */
+          cityLocations = Array.isArray(data) ? data : [];
+          console.log('city data:', data);
+        } catch (error) {
+          console.error('CITY_LOCATIONS_ERROR:', error);
+          return [];
+        }
+      }
+      return cityLocations || [];
+    };
+
+    /*  Async function to find nearest city to user  */
+    let nearestCity = null;
+
+    const findNearestCity = (lat, lng) => {
+      return fetchCityLocations().then(cities => {
+        if (!cities || cities.length === 0) {
+          nearestCity = null;
+          return null;
+        }
+
+        const userPoint  = turf.point([lng, lat]);
+        const cityPoints = turf.featureCollection(
+          cities.map(city => turf.point(city.coordinates, { city }))
+        );
+
+        const nearest = turf.nearestPoint(userPoint, cityPoints);
+        nearestCity = nearest ? nearest.properties.city : null;
+
+        console.log(`Nearest city to user: ${nearestCity ? nearestCity.name : 'None found'}`);
+        return nearestCity;
+      });
+    };
+
+    /* Request for user geolocation.
+      Returns a Promise resolving to the nearest city (or null) */
+    const geoFindUser = async () => {
+      if (!navigator.geolocation) {
+        console.log('Geolocation is not supported by your browser');
+        return null;
+      }
+
+      return new Promise((resolve) => {
+        async function success(pos) {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const city = await findNearestCity(lat, lng);
+          if (!city) {
+            console.log('No nearby city found for the user\'s location');
+          }
+          resolve(city);
+        }
+
+        function error() {
+          console.log('Unable to retrieve your location');
+          resolve(null);
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error);
+      });
+    };
+
     /* ── boot ── */
     $(document).ready(function () {
 
-      const isSsrRendered = weatherWidgetWrapper.length
-        && weatherWidgetWrapper.children().length > 0
-        && !$('.forecast-widget-skeleton').length;
+      /* clicking the button always explicitly (re-)requests geolocation,
+         regardless of the auto-resolve logic below (delegated since the
+         button is re-rendered whenever the widget is re-fetched) */
+      weatherWidgetWrapper.on('click', '#use-my-location-btn', function () {
+        geoFindUser().then(city => {
+          if (city) renderWeatherWidgetForCity(city.slug);
+        });
+      });
 
-      if (isSsrRendered) {
-        initWeatherWidget(null);
-      } else if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
-        renderWeatherWidgetForCity();
+      const bootWeatherWidget = () => {
+        const isSsrRendered = weatherWidgetWrapper.length
+          && weatherWidgetWrapper.children().length > 0
+          && !$('.forecast-widget-skeleton').length;
+
+        if (isSsrRendered) {
+          initWeatherWidget(null);
+        } else if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
+          renderWeatherWidgetForCity();
+        } else {
+          const forecastSkeleton = $('.forecast-widget-skeleton');
+          if (forecastSkeleton.length) forecastSkeleton.hide();
+        }
+      };
+
+      /* If geolocation permission was already granted on a previous visit, resolve it
+         up front and render straight to the nearest city - this skips
+         rendering the default city first and then re-rendering once the
+         position resolves. 
+       */
+      if (navigator.permissions && navigator.permissions.query) {
+        navigator.permissions.query({ name: 'geolocation' }).then(status => {
+          if (status.state === 'granted') {
+            geoFindUser().then(city => {
+              if (city) renderWeatherWidgetForCity(city.slug);
+              else bootWeatherWidget();
+            });
+          } else {
+            bootWeatherWidget();
+          }
+        }).catch(bootWeatherWidget);
       } else {
-        const forecastSkeleton = $('.forecast-widget-skeleton');
-        if (forecastSkeleton.length) forecastSkeleton.hide();
+        bootWeatherWidget();
       }
 
       if (page_youtube_playlist) {

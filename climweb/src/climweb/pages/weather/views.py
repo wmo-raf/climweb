@@ -7,7 +7,7 @@ from django.views.decorators.http import require_GET
 from django.template.loader import render_to_string
 from forecastmanager.forecast_settings import ForecastSetting
 from forecastmanager.models import City, Forecast
-from forecastmanager.serializers import ForecastSerializer
+from forecastmanager.serializers import CitySerializer, ForecastSerializer
 from wagtail.api.v2.utils import get_full_url
 from wagtailcache.settings import wagtailcache_settings
 
