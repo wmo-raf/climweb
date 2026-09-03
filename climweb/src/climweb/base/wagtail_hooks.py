@@ -11,7 +11,8 @@ from django.db.models import CharField, TextField
 from django.http import HttpResponseRedirect
 from django.templatetags.static import static
 from django.urls import path, reverse
-from django.utils.html import format_html, strip_tags
+from django.utils.html import format_html, format_html_join, strip_tags
+from django.utils.text import capfirst
 from django.utils.translation import gettext_lazy as _
 from better_profanity import profanity
 from wagtail import hooks
@@ -204,9 +205,20 @@ def _richtext_to_text(source):
     return strip_tags(spaced)
 
 
-def _stream_value_text(value, parts):
+def _block_label(block, fallback):
+    """Human-readable label of a StreamField block, falling back to its name."""
+    label = getattr(block, "label", None) if block is not None else None
+    return str(label) if label else fallback
+
+
+def _stream_value_text(value, parts, label):
     """Recursively collect only genuine author-written text from a StreamField/StructBlock/
     ListBlock value tree, without ever rendering the stream to HTML.
+
+    Every collected piece of text is appended to ``parts`` as a ``(label, text)`` pair,
+    where ``label`` is the breadcrumb of field and block labels leading to it (for example
+    ``"Body › Heading"``), so a blocked word can be reported next to the form field it was
+    typed in.
 
     Calling str()/render on a StreamValue executes its block templates, which pulls in CSS
     classes, SVG icon markup, image URLs, and other markup noise into the scanned text. That
@@ -222,36 +234,58 @@ def _stream_value_text(value, parts):
     if isinstance(value, RichText):
         text = _richtext_to_text(value.source)
         if text.strip():
-            parts.append(text)
+            parts.append((label, text))
         return
 
     if isinstance(value, str):
         if value.strip():
-            parts.append(value)
+            parts.append((label, value))
         return
 
     # StructValue behaves like a dict of child block values.
     if hasattr(value, "values") and callable(value.values):
-        for child in value.values():
-            _stream_value_text(child, parts)
+        child_blocks = getattr(getattr(value, "block", None), "child_blocks", {}) or {}
+        for name, child in value.items():
+            child_label = _block_label(child_blocks.get(name), name)
+            _stream_value_text(child, parts, f"{label} › {child_label}")
         return
 
     # StreamValue / ListValue and plain lists/tuples of child blocks.
     if hasattr(value, "__iter__"):
         for item in value:
-            # StreamValue iterates over StreamChild objects; unwrap to the actual value.
-            _stream_value_text(getattr(item, "value", item), parts)
+            # StreamValue iterates over StreamChild objects (which carry the block whose
+            # label we want); ListValue iterates over ListChild objects. Unwrap both to the
+            # actual value.
+            child_block = getattr(item, "block", None)
+            child_label = _block_label(child_block, None)
+            item_label = f"{label} › {child_label}" if child_label else label
+            _stream_value_text(getattr(item, "value", item), parts, item_label)
         return
 
     # Anything else (images, documents, pages, URLs, choosers, numbers, etc.) is not
     # user-authored text and is intentionally skipped.
 
 
-def _page_text(page):
+def _field_label(field):
+    verbose_name = getattr(field, "verbose_name", None) or field.name
+    return capfirst(str(verbose_name))
+
+
+def _page_text_parts(page):
     """Collect all author-written text from every CharField, TextField, RichTextField, and
-    StreamField on the specific page type, for the harassment-content profanity check."""
+    StreamField on the specific page type, as ``(field label, text)`` pairs, for the
+    harassment-content profanity check.
+
+    Each field (and each block inside a StreamField) is kept as its own part rather than
+    joined into one string: better-profanity's multi-word phrase matching (used by our custom
+    terms like "bomb threat") requires an exact single-space separator to combine two tokens,
+    so scanning parts separately prevents two unrelated words from separate fields (e.g. one
+    block's heading and the next block's heading) from being coincidentally read as a single
+    blocked phrase, while a real phrase typed together within one field is unaffected since it
+    still contains its own literal space. It also lets the error message say exactly which
+    field the blocked word was found in."""
     specific = page.specific
-    parts = [specific.title or ""]
+    parts = [(str(_("Title")), specific.title or "")]
     for field in specific._meta.get_fields():
         if not isinstance(field, (CharField, TextField, RichTextField, StreamField)):
             continue
@@ -260,21 +294,22 @@ def _page_text(page):
         value = getattr(specific, field.name, None)
         if not value:
             continue
+        label = _field_label(field)
         if isinstance(field, StreamField):
-            _stream_value_text(value, parts)
+            _stream_value_text(value, parts, label)
         elif isinstance(field, RichTextField):
             text = _richtext_to_text(value)
             if text.strip():
-                parts.append(text)
+                parts.append((label, text))
         else:
-            parts.append(str(value))
-    # Join with newlines rather than spaces: better-profanity's multi-word phrase matching
-    # (used by our custom terms like "bomb threat") requires an exact single-space separator
-    # to combine two tokens, so a newline here prevents two unrelated words from separate
-    # fields (e.g. one block's heading and the next block's heading) from being coincidentally
-    # read as a single blocked phrase, while a real phrase typed together within one field is
-    # unaffected since it still contains its own literal space.
-    return "\n".join(parts)
+            parts.append((label, str(value)))
+    return parts
+
+
+def _page_text(page):
+    """All author-written page text as one newline-separated string (kept for callers that
+    only need a yes/no answer; see ``_page_text_parts`` for the per-field version)."""
+    return "\n".join(text for _label, text in _page_text_parts(page))
 
 
 _LETTER_RE = re.compile(r"[^\W\d_]", re.UNICODE)
@@ -303,6 +338,69 @@ def _drop_letterless_tokens(text):
     )
 
 
+# Longest blocked phrase, in words. better-profanity only ever matches phrases
+# made of adjacent whitespace-separated tokens, so this bounds the n-gram
+# windows _find_blocked_terms needs to test.
+_MAX_PHRASE_WORDS = max([1] + [len(term.split()) for term in _EXTRA_TERMS])
+
+# Punctuation trimmed from the ends of a flagged token purely for display, so
+# the editor sees "idiot" rather than "idiot,". Characters better-profanity
+# itself treats as letters in leet-speak ("@", "$", "*", ...) are deliberately
+# not trimmed, so "@ss" is reported as typed.
+_DISPLAY_TRIM_CHARS = ".,;:!?\"'()[]{}<>«»“”‘’…-–—/\\"
+
+
+def _find_blocked_terms(text):
+    """Return the blocked words/phrases found in ``text``, as typed by the author, in order of
+    first appearance and without duplicates.
+
+    better-profanity's ``censor()`` replaces every hit with a fixed "****" so it cannot be
+    mapped back onto the original text; instead each whitespace-separated token, and each
+    window of up to ``_MAX_PHRASE_WORDS`` adjacent tokens (for multi-word custom terms such
+    as "bomb threat"), is checked on its own. A window is only reported when none of its
+    sub-windows is already a hit, so "bomb threat" is reported once as a phrase rather than
+    as the phrase plus its words.
+    """
+    found = []
+    seen = set()
+
+    def _add(term):
+        display = term.strip(_DISPLAY_TRIM_CHARS) or term
+        key = display.lower()
+        if key not in seen:
+            seen.add(key)
+            found.append(display)
+
+    for line in text.split("\n"):
+        tokens = line.split()
+        hit_spans = []
+        for n in range(1, _MAX_PHRASE_WORDS + 1):
+            for start in range(0, len(tokens) - n + 1):
+                end = start + n
+                # Skip windows that contain a shorter hit: it is already reported.
+                if any(s >= start and e <= end for s, e in hit_spans):
+                    continue
+                window = " ".join(tokens[start:end])
+                if profanity.contains_profanity(window):
+                    hit_spans.append((start, end))
+                    _add(window)
+    return found
+
+
+def _find_blocked_content(page):
+    """Return ``[(field label, [blocked terms...]), ...]`` for every part of the page that
+    fails the profanity check. Empty when the page is clean."""
+    # Keyed by label so several hits under the same field (e.g. two items of one
+    # ListBlock) are reported as one entry, in first-seen order.
+    flagged = {}
+    for label, text in _page_text_parts(page):
+        for term in _find_blocked_terms(_drop_letterless_tokens(text)):
+            terms = flagged.setdefault(label, [])
+            if term.lower() not in (t.lower() for t in terms):
+                terms.append(term)
+    return list(flagged.items())
+
+
 # Page types the harassment check never blocks, as "app_label.ModelName".
 #
 # CAP alerts are exempt because a blocked publish means a weather warning does
@@ -328,21 +426,46 @@ def _is_exempt_from_harassment_check(page):
     return page_type.lower() in _HARASSMENT_CHECK_EXEMPT_PAGE_TYPES
 
 
+def _blocked_content_message(flagged):
+    """Build the (HTML-safe) error message listing each offending field and the blocked
+    words found in it, with the words highlighted so they are easy to spot on the form."""
+    intro = _(
+        "This page could not be published because it contains content "
+        "that violates the ClimWeb Harassment Protection Policy. "
+        "Please review and edit the page before publishing."
+    )
+    field_items = format_html_join(
+        "",
+        '<li><strong>{}</strong>: {}</li>',
+        (
+            (
+                label,
+                format_html_join(
+                    ", ",
+                    '<mark style="background:#fde2e2;color:#a00;padding:0 .25em;'
+                    'border-radius:3px;font-weight:600">{}</mark>',
+                    ((term,) for term in terms),
+                ),
+            )
+            for label, terms in flagged
+        ),
+    )
+    return format_html(
+        "{} <br><span>{}</span><ul style=\"margin:.4em 0 0 1.2em;list-style:disc\">{}</ul>",
+        intro,
+        _("Blocked words were found in the following fields:"),
+        field_items,
+    )
+
+
 @hooks.register("before_publish_page")
 def block_harmful_content_on_publish(request, page):
     if _is_exempt_from_harassment_check(page):
         return
 
-    text = _drop_letterless_tokens(_page_text(page))
-    if profanity.contains_profanity(text):
-        messages.error(
-            request,
-            _(
-                "This page could not be published because it contains content "
-                "that violates the ClimWeb Harassment Protection Policy. "
-                "Please review and edit the page before publishing."
-            ),
-        )
+    flagged = _find_blocked_content(page)
+    if flagged:
+        messages.error(request, _blocked_content_message(flagged))
         return HttpResponseRedirect(
             request.headers.get("Referer", reverse("wagtailadmin_home"))
         )
