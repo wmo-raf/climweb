@@ -639,6 +639,19 @@ header {
 .nav-burger.is-active span:nth-child(2) { opacity: 0; }
 .nav-burger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+/* ── TABLET NAV DROPDOWNS ── */
+/* Bulma only applies its closed dropdown state from 1024px upward. */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .navbar-item.has-dropdown > .navbar-dropdown {
+    display: none;
+  }
+
+  .navbar-item.has-dropdown:hover > .navbar-dropdown,
+  .navbar-item.has-dropdown:focus-within > .navbar-dropdown {
+    display: block;
+  }
+}
+
 /* ── MOBILE: override Bulma navbar-menu ── */
 @media (max-width: 768px) {
   .site-header-top { display: none; }

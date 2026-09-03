@@ -804,8 +804,8 @@
 
 /* left border accent */
 .pcta-text-border {
-  border-left: 0.05em solid var(--primary-color);
-  padding-left: 1.75rem;
+  border-inline-start: 0.05em solid var(--primary-color);
+  padding-inline-start: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -888,7 +888,7 @@
   .pcta-img { max-height: 260px; }
 
   .pcta-text-border {
-    padding-left: 1.25rem;
+    padding-inline-start: 1.25rem;
     border-left-width: 3px;
   }
 
@@ -902,7 +902,7 @@
 
 @media (max-width: 480px) {
   .pcta-title { font-size: 16px; }
-  .pcta-text-border { padding-left: 1rem; }
+  .pcta-text-border { padding-inline-start: 1rem; }
 }
 
 
@@ -1133,8 +1133,8 @@
 }
 
 .ev-item:hover {
-  padding-left: 6px;
-  padding-right: 6px;
+  padding-inline-start: 6px;
+  padding-inline-end: 6px;
   margin: 0 -6px;
   border-radius: 8px;
   border-color: transparent;
@@ -1255,8 +1255,8 @@
   }
 
   .ev-item:hover {
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-inline-start: 4px;
+    padding-inline-end: 4px;
     margin: 0 -4px;
   }
 }

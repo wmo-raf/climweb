@@ -431,13 +431,13 @@ a.leaflet-control-timecontrol { border-radius: 10px !important; }
 .icon-play, .icon-pause { height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; }
 .anim-icon svg { height: 100%; width: 100%; fill: #d49500; }
 .anim-icon .icon-pause { display: none; }
-.anim-progress-line { width: 500px; margin-left: 20px; position: relative; }
+.anim-progress-line { width: 500px; margin-inline-start: 20px; position: relative; }
 .anim-slider { border-radius: 8px; height: 8px; }
 .ui-slider { cursor: pointer; }
 .ui-slider .ui-slider-handle { border-radius: 50%; height: 20px; width: 20px; top: -8px; cursor: pointer; }
 .ui-slider-tooltip { position: absolute; background-color: #d49500; height: 24px; max-width: 150px; min-width: 40px; top: -32px; left: -12px; padding: 4px 8px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 13px; color: #fff; }
 .ui-slider-tooltip-val { width: max-content; }
-.ui-slider-tooltip::before { top: 100%; left: 20px; content: ''; height: 0; width: 0; position: absolute; border: 6px solid transparent; border-top-color: #d49500; margin-left: -0.5em; }
+.ui-slider-tooltip::before { top: 100%; left: 20px; content: ''; height: 0; width: 0; position: absolute; border: 6px solid transparent; border-top-color: #d49500; margin-inline-start: -0.5em; }
 
 .leaflet-top{
   z-index:1
