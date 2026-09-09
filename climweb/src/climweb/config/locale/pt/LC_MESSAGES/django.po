@@ -1,10 +1,9 @@
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-21 12:29+0300\n"
-"PO-Revision-Date: 2026-07-06 10:01\n"
+"PO-Revision-Date: 2026-07-27 09:36\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
@@ -12,11 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-File: /climweb/src/climweb/config/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-File-ID: 1296\n"
-"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-Project: nmhs-cms\n"
 "X-Crowdin-Project-ID: 672958\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-File: /climweb/src/climweb/config/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 1296\n"
 
 #: climweb/src/climweb/config/templates/404.html:20
 msgid "Page not found"
@@ -44,6 +43,7 @@ msgid "Tools & Apps"
 msgstr "Ferramentas e aplicativos"
 
 #: climweb/src/climweb/config/templates/applications_include.html:7
+#| msgid "Go to publication"
 msgid "Applications"
 msgstr "Aplicativos"
 
@@ -65,12 +65,8 @@ msgid "Account Locked"
 msgstr "Conta bloqueada"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:16
-msgid ""
-"Your account has been locked due to multiple failed login attempts. Please "
-"try again later."
-msgstr ""
-"Sua conta foi bloqueada devido a diversas tentativas de login malsucedidas. "
-"Por favor, tente novamente mais tarde."
+msgid "Your account has been locked due to multiple failed login attempts. Please try again later."
+msgstr "Sua conta foi bloqueada devido a diversas tentativas de login malsucedidas. Por favor, tente novamente mais tarde."
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:20
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/done.html:25
@@ -79,12 +75,11 @@ msgid "Back to sign in"
 msgstr "Voltar para fazer login"
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:23
-msgid ""
-"Your account has been locked due to multiple failed login attempts. Please "
-"contact our support team for assistance."
-msgstr ""
-"Sua conta foi bloqueada devido a várias tentativas de login. Por favor, "
-"entre em contato com nossa equipe de suporte para obter assistência."
+#| msgid ""
+#| "You account has been locked due to multiple failed login attempts. Please "
+#| "contact our support team for assistance."
+msgid "Your account has been locked due to multiple failed login attempts. Please contact our support team for assistance."
+msgstr "Sua conta foi bloqueada devido a várias tentativas de login. Por favor, entre em contato com nossa equipe de suporte para obter assistência."
 
 #: climweb/src/climweb/config/templates/axes/lockout.html:31
 #: climweb/src/climweb/config/templates/navigation/app_navbar.html:86
@@ -133,10 +128,9 @@ msgstr "Cores da marca"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:570
 #: climweb/src/climweb/config/templates/base/style_guide.html:888
-#, fuzzy
 #| msgid "Tools & Apps"
 msgid "Logos & Assets"
-msgstr "Logotipos e ativos"
+msgstr ""
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:572
 msgid "Components"
@@ -149,10 +143,9 @@ msgstr "Botões"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:574
 #: climweb/src/climweb/config/templates/base/style_guide.html:1021
-#, fuzzy
 #| msgid "Alerts"
 msgid "Cards & Alerts"
-msgstr "Cartões e Alertas"
+msgstr ""
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:576
 msgid "Developers"
@@ -163,12 +156,8 @@ msgid "CSS Variables"
 msgstr "Variáveis ​​CSS"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:590
-msgid ""
-"Live reference for designers and developers. Values reflect the active theme"
-" for this deployment."
-msgstr ""
-"Referência ao vivo para designers e desenvolvedores. Os valores refletem o "
-"tema ativo desta implantação."
+msgid "Live reference for designers and developers. Values reflect the active theme for this deployment."
+msgstr "Referência ao vivo para designers e desenvolvedores. Os valores refletem o tema ativo desta implantação."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:594
 msgid "Export tokens.json"
@@ -176,21 +165,15 @@ msgstr "Exportar tokens.json"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:596
 msgid "Tokens update when the theme changes in Admin → Settings → Theme"
-msgstr ""
-"Os tokens são atualizados quando o tema muda em Admin → Configurações → Tema"
+msgstr "Os tokens são atualizados quando o tema muda em Admin → Configurações → Tema"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:603
 msgid "How to Read This Guide"
 msgstr "Como ler este guia"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:605
-msgid ""
-"Every item in this guide is labelled with one of two badges indicating "
-"whether it can be changed per-instance or is fixed across all deployments."
-msgstr ""
-"Cada item neste guia é rotulado com um dos dois emblemas que indicam se ele "
-"pode ser alterado por instância ou se pode ser corrigido em todas as "
-"implantações."
+msgid "Every item in this guide is labelled with one of two badges indicating whether it can be changed per-instance or is fixed across all deployments."
+msgstr "Cada item neste guia é rotulado com um dos dois emblemas que indicam se ele pode ser alterado por instância ou se pode ser corrigido em todas as implantações."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:611
 msgid "Badge"
@@ -225,12 +208,8 @@ msgid "Fixed across all deployments"
 msgstr "Corrigido em todas as implantações"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:631
-msgid ""
-"Part of the shared ClimWeb design system. Cannot be changed through the "
-"admin panel"
-msgstr ""
-"Parte do sistema de design compartilhado ClimWeb. Não pode ser alterado "
-"através do painel de administração"
+msgid "Part of the shared ClimWeb design system. Cannot be changed through the admin panel"
+msgstr "Parte do sistema de design compartilhado ClimWeb. Não pode ser alterado através do painel de administração"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:634
 msgid "Open Sans font, type scale, component markup structure"
@@ -250,36 +229,24 @@ msgid "Configurable per depolyment"
 msgstr "Configurável por despolimento"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:644
-msgid ""
-"Set by the instance admin through the admin panel. Each deployment can have "
-"a different value."
-msgstr ""
-"Definido pelo administrador da instância por meio do painel de "
-"administração. Cada implantação pode ter um valor diferente."
+msgid "Set by the instance admin through the admin panel. Each deployment can have a different value."
+msgstr "Definido pelo administrador da instância por meio do painel de administração. Cada implantação pode ter um valor diferente."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:646
 msgid "Primary color, logos, country flag, border radius"
 msgstr "Cor primária, logotipos, bandeira do país, raio da fronteira"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:652
-msgid ""
-"Values marked CUSTOMIZABLE will differ between deployments. Retrieve them "
-"from the live"
-msgstr ""
-"Os valores marcados como CUSTOMIZÁVEL serão diferentes entre implantações. "
-"Recupere-os ao vivo"
+msgid "Values marked CUSTOMIZABLE will differ between deployments. Retrieve them from the live"
+msgstr "Os valores marcados como CUSTOMIZÁVEL serão diferentes entre implantações. Recupere-os ao vivo"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:654
 msgid "endpoint of the specific country instance you are targeting."
 msgstr "endpoint da instância específica do país que você está almejando."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:664
-msgid ""
-"Base palette derived from the active theme. Light and medium variants are "
-"computed by blending the primary color toward white."
-msgstr ""
-"Paleta base derivada do tema ativo. As variantes claras e médias são "
-"calculadas misturando a cor primária com o branco."
+msgid "Base palette derived from the active theme. Light and medium variants are computed by blending the primary color toward white."
+msgstr "Paleta base derivada do tema ativo. As variantes claras e médias são calculadas misturando a cor primária com o branco."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:669
 msgid "Primary"
@@ -326,8 +293,7 @@ msgstr "Texto"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:738
 msgid "Font family and type scale are fixed across all deployments."
-msgstr ""
-"A família de fontes e a escala de tipos são fixas em todas as implantações."
+msgstr "A família de fontes e a escala de tipos são fixas em todas as implantações."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:740
 msgid "Font Family"
@@ -451,9 +417,7 @@ msgstr "no"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:828
 msgid "element — handle directionality at document root in mobile apps"
-msgstr ""
-"elemento – lida com a direcionalidade na raiz do documento em aplicativos "
-"móveis"
+msgstr "elemento – lida com a direcionalidade na raiz do documento em aplicativos móveis"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:832
 msgid "Affected"
@@ -477,42 +441,29 @@ msgstr "Raio da Fronteira"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:852
 #, python-format
-msgid ""
-"Applied to\n"
+msgid "Applied to\n"
 "                    cards, buttons, and form inputs via <code>--sg-radius: %(radius)s</code>"
-msgstr ""
-"Aplicado a\n"
+msgstr "Aplicado a\n"
 "                    cartões, botões e entradas de formulário via <code>--sg-radius: %(radius)s</code>"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:856
 #, python-format
-msgid ""
-"BoxShadow\n"
+msgid "BoxShadow\n"
 "                — elevation %(elevation)s"
-msgstr ""
-"BoxShadow\n"
+msgstr "BoxShadow\n"
 "                — elevação %(elevation)s"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:871
-msgid ""
-"The active primary color drives the entire palette above. Change it in Admin"
-" → Settings → Theme → Primary Color to update all swatches, components, and "
-"the tokens.json export at once."
-msgstr ""
-"A cor primária ativa orienta toda a paleta acima. Altere-o em Admin → "
-"Configurações → Tema → Cor primária para atualizar todas as amostras, "
-"componentes e a exportação tokens.json de uma vez."
+msgid "The active primary color drives the entire palette above. Change it in Admin → Settings → Theme → Primary Color to update all swatches, components, and the tokens.json export at once."
+msgstr "A cor primária ativa orienta toda a paleta acima. Altere-o em Admin → Configurações → Tema → Cor primária para atualizar todas as amostras, componentes e a exportação tokens.json de uma vez."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:875
 msgid "Active primary:"
 msgstr "Primário ativo:"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:892
-msgid ""
-"All assets are uploaded per-country in Admin → Settings → Organisation."
-msgstr ""
-"Todos os ativos são carregados por país em Admin → Configurações → "
-"Organização."
+msgid "All assets are uploaded per-country in Admin → Settings → Organisation."
+msgstr "Todos os ativos são carregados por país em Admin → Configurações → Organização."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:902
 msgid "No logo set"
@@ -530,10 +481,9 @@ msgstr "PNG ou SVG · fundo transparente · largura mínima de 240px"
 #: climweb/src/climweb/config/templates/base/style_guide.html:929
 #: climweb/src/climweb/config/templates/base/style_guide.html:949
 #: climweb/src/climweb/config/templates/base/style_guide.html:969
-#, fuzzy
 #| msgid "Download CSV"
 msgid "Download"
-msgstr "Download"
+msgstr ""
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:922
 msgid "No footer logo set"
@@ -553,7 +503,7 @@ msgstr "Nenhum favicon definido"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:945
 msgid "Favicon"
-msgstr "Favicon"
+msgstr ""
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:946
 msgid "PNG · square · max 200×200px"
@@ -619,12 +569,8 @@ msgid "Card Title"
 msgstr "Título do cartão"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1029
-msgid ""
-"Supporting text goes here. Cards use the active border radius and a 1px "
-"border."
-msgstr ""
-"O texto de apoio vai aqui. Os cartões usam o raio da borda ativa e uma borda"
-" de 1px."
+msgid "Supporting text goes here. Cards use the active border radius and a 1px border."
+msgstr "O texto de apoio vai aqui. Os cartões usam o raio da borda ativa e uma borda de 1px."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1047
 msgid "Alert / Info Banner"
@@ -643,13 +589,8 @@ msgid "CSS Variables Reference"
 msgstr "Referência de variáveis ​​CSS"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1072
-msgid ""
-"All variables are injected on every page via the theme context processor. "
-"Use them directly in any custom CSS — no import needed."
-msgstr ""
-"Todas as variáveis ​​são injetadas em cada página através do processador de "
-"contexto do tema. Use-os diretamente em qualquer CSS personalizado – sem "
-"necessidade de importação."
+msgid "All variables are injected on every page via the theme context processor. Use them directly in any custom CSS — no import needed."
+msgstr "Todas as variáveis ​​são injetadas em cada página através do processador de contexto do tema. Use-os diretamente em qualquer CSS personalizado – sem necessidade de importação."
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1077
 msgid "Variable"
@@ -678,9 +619,7 @@ msgstr "Botões, links, plano de fundo da barra de navegação, estados ativos"
 #: climweb/src/climweb/config/templates/base/style_guide.html:1093
 #, python-format
 msgid "Primary + hex alpha <code>1A</code> (≈10%% opacity overlay)"
-msgstr ""
-"Primário + hexadecimal alfa <code>1A</code> (≈10%% de sobreposição de "
-"opacidade)"
+msgstr "Primário + hexadecimal alfa <code>1A</code> (≈10%% de sobreposição de opacidade)"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1095
 msgid "Hover backgrounds, subtle highlights"
@@ -689,9 +628,7 @@ msgstr "Passe o mouse sobre fundos, destaques sutis"
 #: climweb/src/climweb/config/templates/base/style_guide.html:1100
 #, python-format
 msgid "Primary + hex alpha <code>4F</code> (≈31%% opacity overlay)"
-msgstr ""
-"Primário + hexadecimal alfa <code>4F</code> (≈31%% de sobreposição de "
-"opacidade)"
+msgstr "Primário + hexadecimal alfa <code>4F</code> (≈31%% de sobreposição de opacidade)"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1102
 msgid "Active tab indicators, mid-weight tints"
@@ -699,11 +636,9 @@ msgstr "Indicadores de guias ativos, tonalidades de peso médio"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1107
 #, python-format
-msgid ""
-"<code>mix_with_white(primary, 0.80)</code> — blends 80%% toward\n"
+msgid "<code>mix_with_white(primary, 0.80)</code> — blends 80%% toward\n"
 "                        white"
-msgstr ""
-"<code>mix_with_white(primary, 0.80)</code> — combina 80%% para\n"
+msgstr "<code>mix_with_white(primary, 0.80)</code> — combina 80%% para\n"
 "                        branco"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1109
@@ -719,11 +654,9 @@ msgid "Body text, headings, labels"
 msgstr "Corpo do texto, títulos, rótulos"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1120
-msgid ""
-"<code>border_radius × 0.06em</code> (admin value 0–20 → em\n"
+msgid "<code>border_radius × 0.06em</code> (admin value 0–20 → em\n"
 "                        scale)"
-msgstr ""
-"<code>border_radius × 0,06em</code> (valor admin 0–20 → em\n"
+msgstr "<code>border_radius × 0,06em</code> (valor admin 0–20 → em\n"
 "                        escala)"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1122
@@ -731,15 +664,13 @@ msgid "All cards, buttons, form inputs, modals"
 msgstr "Todos os cartões, botões, entradas de formulário, modais"
 
 #: climweb/src/climweb/config/templates/base/style_guide.html:1127
-msgid ""
-"<strong>Note:</strong> <code>--primary-color-light</code> and\n"
+msgid "<strong>Note:</strong> <code>--primary-color-light</code> and\n"
 "                    <code>--primary-color-medium</code> in base.html are hex+alpha composites (the primary color hexwith\n"
 "                    an alpha suffix), different from the <code>primary-light</code> / <code>primary-medium</code>values\n"
 "                    in <code>tokens.json</code> which are fully opaque mixed colors. Use the opaque mix variantsfor\n"
 "                    mobile apps where alpha compositing behaves differently over non-white\n"
 "                    backgrounds."
-msgstr ""
-"<strong>Observação:</strong> <code>--primary-color-light</code> e\n"
+msgstr "<strong>Observação:</strong> <code>--primary-color-light</code> e\n"
 "                    <code>--primary-color-medium</code> em base.html são compostos hexadecimais + alfa (a cor primária hexadecimal com\n"
 "                    um sufixo alfa), diferente dos valores <code>primary-light</code> / <code>primary-medium</code>\n"
 "                    em <code>tokens.json</code> que são cores misturadas totalmente opacas. Use as variantes de mistura opaca para\n"
@@ -767,6 +698,7 @@ msgid "Upcoming"
 msgstr "Por vir"
 
 #: climweb/src/climweb/config/templates/events_include.html:9
+#| msgid "More Events"
 msgid "Events"
 msgstr "Eventos"
 
@@ -808,12 +740,8 @@ msgstr "Filtro"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:74
 #, python-format
-msgid ""
-"No %(name)s have been created yet. One of the following must be created "
-"before you can add any %(name)s:"
-msgstr ""
-"Nenhum %(name)s foi criado ainda. Um dos itens a seguir deve ser criado "
-"antes que você possa adicionar qualquer %(name)s:"
+msgid "No %(name)s have been created yet. One of the following must be created before you can add any %(name)s:"
+msgstr "Nenhum %(name)s foi criado ainda. Um dos itens a seguir deve ser criado antes que você possa adicionar qualquer %(name)s:"
 
 #: climweb/src/climweb/config/templates/modeladmin/index.html:79
 #, python-format
@@ -888,15 +816,14 @@ msgstr "Leia mais"
 
 #: climweb/src/climweb/config/templates/videos_include.html:29
 #: climweb/src/climweb/config/templates/videos_include.html:77
-#, python-format
+#| msgid "Published on : %(updated_on)s"
 msgid "Published on: %(updated_on)s"
 msgstr "Publicado em: %(updated_on)s"
 
 #: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:20
-#, fuzzy
 #| msgid "Enter your two-factor authentication code"
 msgid "Two-factor authentication"
-msgstr "Autenticação de dois fatores"
+msgstr ""
 
 #: climweb/src/climweb/config/templates/wagtail_2fa/otp_form.html:23
 msgid "Enter the verification code from your authenticator app."
@@ -927,12 +854,8 @@ msgid "Password updated"
 msgstr "Senha atualizada"
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/complete.html:21
-msgid ""
-"Your password has been changed successfully. You can now sign in with your "
-"new password."
-msgstr ""
-"Sua senha foi alterada com sucesso. Agora você pode fazer login com sua nova"
-" senha."
+msgid "Your password has been changed successfully. You can now sign in with your new password."
+msgstr "Sua senha foi alterada com sucesso. Agora você pode fazer login com sua nova senha."
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/confirm.html:5
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/confirm.html:23
@@ -948,18 +871,13 @@ msgid "Choose a strong password you don't use anywhere else."
 msgstr "Escolha uma senha forte que você não usa em nenhum outro lugar."
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/confirm.html:41
-#, fuzzy
 #| msgid "Invalid code"
 msgid "Invalid reset link"
-msgstr "Link de redefinição inválido"
+msgstr ""
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/confirm.html:42
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used."
-msgstr ""
-"O link de redefinição de senha era inválido, possivelmente porque já foi "
-"usado."
+msgid "The password reset link was invalid, possibly because it has already been used."
+msgstr "O link de redefinição de senha era inválido, possivelmente porque já foi usado."
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/confirm.html:46
 msgid "Request a new reset link"
@@ -970,23 +888,16 @@ msgid "Check your email"
 msgstr "Verifique seu e-mail"
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/done.html:21
-msgid ""
-"A link to reset your password has been emailed to you if an account exists "
-"for this address."
-msgstr ""
-"Um link para redefinir sua senha foi enviado a você por e-mail se existir "
-"uma conta para este endereço."
+msgid "A link to reset your password has been emailed to you if an account exists for this address."
+msgstr "Um link para redefinir sua senha foi enviado a você por e-mail se existir uma conta para este endereço."
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/form.html:16
 msgid "Reset your password"
 msgstr "Redefinir sua senha"
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/form.html:17
-msgid ""
-"Enter your account email and we'll send you a link to set a new password."
-msgstr ""
-"Digite o e-mail da sua conta e enviaremos um link para definir uma nova "
-"senha."
+msgid "Enter your account email and we'll send you a link to set a new password."
+msgstr "Digite o e-mail da sua conta e enviaremos um link para definir uma nova senha."
 
 #: climweb/src/climweb/config/templates/wagtailadmin/account/password_reset/form.html:36
 msgid "Send reset link"
@@ -1001,12 +912,8 @@ msgid "Your climate web content management system."
 msgstr "Seu sistema de gerenciamento de conteúdo climático da web."
 
 #: climweb/src/climweb/config/templates/wagtailadmin/home.html:156
-msgid ""
-"This is your dashboard on which helpful information about content you've "
-"created will be displayed."
-msgstr ""
-"Este é o seu painel no qual serão exibidas informações úteis sobre o "
-"conteúdo que você criou."
+msgid "This is your dashboard on which helpful information about content you've created will be displayed."
+msgstr "Este é o seu painel no qual serão exibidas informações úteis sobre o conteúdo que você criou."
 
 #: climweb/src/climweb/config/templates/wagtailadmin/login.html:20
 msgid "Sign in to"
@@ -1025,23 +932,24 @@ msgid "Remember me"
 msgstr "Lembre de mim"
 
 #~ msgid "View"
-#~ msgstr "Visualizar"
+#~ msgstr "View"
 
 #~ msgid "SUBSCRIBE"
-#~ msgstr "ASSINAR"
+#~ msgstr "SUBSCRIBE"
 
 #, python-format
 #~ msgid "Download - %(file_size)s"
-#~ msgstr "Baixar - %(tamanho_do_arquivo)s"
+#~ msgstr "Download - %(file_size)s"
 
 #~ msgid "Additional Materials"
-#~ msgstr "Materiais Adicionais"
+#~ msgstr "Additional Materials"
 
 #~ msgid "Download document"
-#~ msgstr "Baixar documento"
+#~ msgstr "Download document"
 
 #~ msgid "NMHS ClimWeb"
 #~ msgstr "NMHS ClimWeb"
 
 #~ msgid "What we do"
-#~ msgstr "O que fazemos"
+#~ msgstr "What we do"
+
