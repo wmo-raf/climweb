@@ -242,10 +242,6 @@ class Application(models.Model):
     url = models.URLField(verbose_name=_("URL"))
     order = models.PositiveIntegerField(default=0, verbose_name=_("Order"))
     
-    class Meta:
-        ordering = ["order"]
-        verbose_name = _("Application")
-    
     panels = [
         FieldPanel('title'),
         FieldPanel('thumbnail'),
@@ -274,5 +270,6 @@ class Application(models.Model):
         return self.title
     
     class Meta:
+        ordering = ["order"]
         verbose_name = _("GIS Application")
         verbose_name_plural = _("GIS Applications")
