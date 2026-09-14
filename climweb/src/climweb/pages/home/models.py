@@ -8,7 +8,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 if "forecastmanager" in settings.INSTALLED_APPS:
     from forecastmanager.forecast_settings import ForecastSetting
-    from forecastmanager.models import City
 from geomanager.models import RasterFileLayer, WmsLayer, VectorTileLayer
 from modelcluster.models import ClusterableModel
 from wagtail import blocks
@@ -268,6 +267,9 @@ class HomePage(MetadataPageMixin, Page):
             city_search_url = get_full_url(request, reverse("cities-list"))
             context.update({
                 "city_search_url": city_search_url,
+                "cities_with_forecast_url": get_full_url(
+                    request, reverse("cities-with-forecast-data")
+                ),
             })
         
         map_settings_url = get_full_url(request, reverse("home-map-settings"))
@@ -279,21 +281,22 @@ class HomePage(MetadataPageMixin, Page):
             context["home_weather_widget_url"] = get_full_url(request, reverse("home-weather-widget"))
 
             if self.show_city_forecast:
-                from climweb.pages.weather.utils import get_city_forecast_detail_data
+                from climweb.pages.weather.utils import get_home_widget_city_and_data
 
-                default_city = forecast_setting.default_city
-                if not default_city:
-                    default_city = City.objects.first()
+                forecast_periods_count = forecast_setting.periods.count()
+                multi_period = forecast_periods_count > 1
 
-                if default_city:
-                    forecast_periods_count = forecast_setting.periods.count()
-                    multi_period = forecast_periods_count > 1
-                    widget_data = get_city_forecast_detail_data(
-                        default_city, multi_period=multi_period, request=request, for_home_widget=True
-                    )
+                # Same resolution the home-weather-widget view uses, and it has
+                # to stay that way: this decides whether the section renders at
+                # all, so a disagreement drops the widget here while the view
+                # would have been happy to serve it.
+                widget_city, widget_data = get_home_widget_city_and_data(
+                    forecast_setting, multi_period=multi_period, request=request
+                )
 
+                if widget_city:
                     widget_context = {
-                        "city": default_city,
+                        "city": widget_city,
                         "show_condition_label": forecast_setting.show_conditions_label_on_widget,
                         "use_period_labels": forecast_setting.use_period_labels,
                         "city_search_url": context.get("city_search_url"),
@@ -305,7 +308,7 @@ class HomePage(MetadataPageMixin, Page):
                             widget_context["city_detail_page_url"] = (
                                 city_detail_page.get_full_url(request)
                                 + city_detail_page.reverse_subpage(
-                                    "daily_table_for_city", kwargs={"city_slug": default_city.slug}
+                                    "daily_table_for_city", kwargs={"city_slug": widget_city.slug}
                                 )
                             )
                         except Exception:
