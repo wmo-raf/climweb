@@ -271,5 +271,5 @@ class Application(models.Model):
     
     class Meta:
         ordering = ["order"]
-        verbose_name = _("GIS Application")
-        verbose_name_plural = _("GIS Applications")
+        verbose_name = _("Application")
+        verbose_name_plural = _("Applications")
