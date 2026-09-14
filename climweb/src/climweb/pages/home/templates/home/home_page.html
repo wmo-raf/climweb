@@ -405,7 +405,6 @@
     /* Async function to call endpoint to fetch city locations from the backend, 
     returns a promise that resolves to an array of city locations */
     const fetchCityLocations = async () => {
-      console.log("here")
       if (!citySearchUrl) {
         return [];
       }
@@ -423,7 +422,6 @@
           /* cities-list returns a plain array of
              { id, name, slug, coordinates: [lng, lat] } */
           cityLocations = Array.isArray(data) ? data : [];
-          console.log('city data:', data);
         } catch (error) {
           console.error('CITY_LOCATIONS_ERROR:', error);
           return [];
@@ -502,7 +500,6 @@
       const nearest = turf.nearestPoint(userPoint, cityPoints);
       nearestCity = nearest ? nearest.properties.city : null;
 
-      console.log(`Nearest city to user: ${nearestCity ? nearestCity.name : 'None found'}`);
       return nearestCity;
     };
 
@@ -510,7 +507,6 @@
       Returns a Promise resolving to the nearest city (or null) */
     const geoFindUser = async () => {
       if (!navigator.geolocation) {
-        console.log('Geolocation is not supported by your browser');
         return null;
       }
 
@@ -526,7 +522,6 @@
         }
 
         function error() {
-          console.log('Unable to retrieve your location');
           resolve(null);
         }
 
