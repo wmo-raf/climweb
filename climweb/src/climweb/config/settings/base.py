@@ -339,7 +339,9 @@ DBBACKUP_CONNECTORS = {
     "default": {
         "CONNECTOR": "dbbackup.db.postgresql.PgDumpBinaryConnector",  # Use pg_dump binary
         "DUMP_SUFFIX": "-e plpgsql",  # dump only system extensions
-        "RESTORE_SUFFIX": "--if-exists"  # Drop only if exists
+        "RESTORE_SUFFIX": "--if-exists",  # Drop only if exists
+        'HOST': 'climweb_db',   # bypass pgbouncer for dumps/restores
+        'PORT': 5432,
     }
 }
 

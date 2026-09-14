@@ -8,18 +8,20 @@
             <div class="columns is-multiline is-mobile">
                 <div class="column is-full-mobile is-one-quarter-desktop">
                     <div class="footer-brand">
+                        {% if settings.base.OrganisationSetting.footer_logo%} 
                         <a
                             class="footer-logo-link"
                             href="{{ current_site.root_url }}"
                         >
-                            {% if settings.base.OrganisationSetting.footer_logo%} {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}
+                            {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}
                             <img
                                 src="{{ footer_logo.url }}"
                                 alt="Logo"
                                 class="footer-logo-img"
                             />
-                            {% endif %}
                         </a>
+                        {% endif %}
+
 
                         {% if settings.base.OrganisationSetting.name %}
                         <p class="footer-brand-name">
