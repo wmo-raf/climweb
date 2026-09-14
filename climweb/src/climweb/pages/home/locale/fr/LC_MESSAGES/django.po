@@ -1,10 +1,9 @@
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: nmhs-cms\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-21 12:29+0300\n"
-"PO-Revision-Date: 2026-06-22 11:39\n"
+"PO-Revision-Date: 2026-07-27 09:36\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -12,11 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-File: /climweb/src/climweb/pages/home/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-File-ID: 1388\n"
-"X-Crowdin-Language: fr\n"
 "X-Crowdin-Project: nmhs-cms\n"
 "X-Crowdin-Project-ID: 672958\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /climweb/src/climweb/pages/home/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File-ID: 1388\n"
 
 #: climweb/src/climweb/pages/home/blocks.py:62
 msgid "Level 0"
@@ -73,13 +72,8 @@ msgid "Pre Title"
 msgstr "Pré-titre"
 
 #: climweb/src/climweb/pages/home/models.py:85
-msgid ""
-"Text to show before the name of the institution. For example, if the "
-"institution is under a ministry, the ministry name can added here"
-msgstr ""
-"Texte à afficher avant le nom de l'institution. Par exemple, si "
-"l'institution relève d'un ministère, le nom du ministère peut être ajouté "
-"ici"
+msgid "Text to show before the name of the institution. For example, if the institution is under a ministry, the ministry name can added here"
+msgstr "Texte à afficher avant le nom de l'institution. Par exemple, si l'institution relève d'un ministère, le nom du ministère peut être ajouté ici"
 
 #: climweb/src/climweb/pages/home/models.py:88
 msgid "Institution Name"
@@ -106,23 +100,20 @@ msgid "Use YouTube Video as Banner"
 msgstr "Utiliser la vidéo YouTube comme bannière"
 
 #: climweb/src/climweb/pages/home/models.py:95
-msgid ""
-"If enabled, the YouTube video will be used as the banner background instead "
-"of the banner image"
-msgstr ""
-"Si cette option est activée, la vidéo YouTube sera utilisée comme arrière-"
-"plan de la bannière au lieu de l'image de la bannière."
+msgid "If enabled, the YouTube video will be used as the banner background instead of the banner image"
+msgstr "Si cette option est activée, la vidéo YouTube sera utilisée comme arrière-plan de la bannière au lieu de l'image de la bannière."
 
 #: climweb/src/climweb/pages/home/models.py:97
 msgid "YouTube Video ID"
 msgstr "Identifiant vidéo YouTube"
 
 #: climweb/src/climweb/pages/home/models.py:98
-msgid ""
-"YouTube Video ID. Only used if 'Use YouTube Video as Banner' is enabled."
-msgstr ""
-"Identifiant vidéo YouTube. Utilisé uniquement si « Utiliser la vidéo YouTube"
-" comme bannière » est activé."
+#| msgid ""
+#| "YouTube Video ID (e.g., 'dQw4w9WgXcQ' from "
+#| "https://www.youtube.com/watch?v=dQw4w9WgXcQ). Only used if 'Use YouTube "
+#| "Video as Banner' is enabled."
+msgid "YouTube Video ID. Only used if 'Use YouTube Video as Banner' is enabled."
+msgstr "Identifiant vidéo YouTube. Utilisé uniquement si « Utiliser la vidéo YouTube comme bannière » est activé."
 
 #: climweb/src/climweb/pages/home/models.py:99
 msgid "Banner Text Color"
@@ -141,18 +132,22 @@ msgid "Call to action related page"
 msgstr "Page relative à l'appel à l'action"
 
 #: climweb/src/climweb/pages/home/models.py:114
+#| msgid "Call to action button text"
 msgid "Call to action button text 2"
 msgstr "Texte du bouton d'appel pour l'action 2"
 
 #: climweb/src/climweb/pages/home/models.py:121
+#| msgid "Call to action related page"
 msgid "Call to action related page 2"
 msgstr "Page relative à l'appel à l'action"
 
 #: climweb/src/climweb/pages/home/models.py:125
+#| msgid "Call to action button text"
 msgid "Call to action button text 3"
 msgstr "Texte du bouton d'appel pour l'action 3"
 
 #: climweb/src/climweb/pages/home/models.py:132
+#| msgid "Call to action related page"
 msgid "Call to action related page 3"
 msgstr "Page relative à l'appel à l'action 3"
 
@@ -214,17 +209,15 @@ msgid "Stats Bar"
 msgstr "Barre de statistiques"
 
 #: climweb/src/climweb/pages/home/models.py:164
-msgid ""
-"Displayed below the hero on non-meteorological sites. Add up to 4 items."
-msgstr ""
-"Affiché sous le héros sur les sites non météorologiques. Ajoutez jusqu'à 4 "
-"éléments."
+msgid "Displayed below the hero on non-meteorological sites. Add up to 4 items."
+msgstr "Affiché sous le héros sur les sites non météorologiques. Ajoutez jusqu'à 4 éléments."
 
 #: climweb/src/climweb/pages/home/models.py:176
 msgid "Banner Section"
 msgstr "Section bannière"
 
 #: climweb/src/climweb/pages/home/models.py:184
+#| msgid "MapViewer Call to Action Title"
 msgid "Banner Call to Action Buttons"
 msgstr "Bannières avec boutons d'appel à l'action"
 
@@ -253,10 +246,9 @@ msgid "Home Pages"
 msgstr "Pages d'accueil"
 
 #: climweb/src/climweb/pages/home/models.py:318
-#, fuzzy, python-format
 #| msgid "Forecast Summary for %(forecast_date)s"
 msgid "Forecast Data Source: %(forecast_source)s"
-msgstr "Source de données de prévision : %(forecast_source)s"
+msgstr ""
 
 #: climweb/src/climweb/pages/home/models.py:409
 msgid "Icon"
@@ -264,9 +256,7 @@ msgstr "Icône"
 
 #: climweb/src/climweb/pages/home/models.py:411
 msgid "Name to display on the map. Leave blank to use the original layer name"
-msgstr ""
-"Nom à afficher sur la carte. Laissez vide pour utiliser le nom d'origine de "
-"la couche"
+msgstr "Nom à afficher sur la carte. Laissez vide pour utiliser le nom d'origine de la couche"
 
 #: climweb/src/climweb/pages/home/models.py:413
 msgid "Enabled"
@@ -277,12 +267,8 @@ msgid "Show on map by default ?"
 msgstr "Afficher sur la carte par défaut ?"
 
 #: climweb/src/climweb/pages/home/models.py:415
-msgid ""
-"You can only select one layer to be shown on the map by default. If multiple"
-" layers are selected, only the first one will be shown"
-msgstr ""
-"Vous ne pouvez sélectionner qu’une seule couche à afficher sur la carte par "
-"défaut. Si plusieurs calques sont sélectionnés, seul le premier sera affiché"
+msgid "You can only select one layer to be shown on the map by default. If multiple layers are selected, only the first one will be shown"
+msgstr "Vous ne pouvez sélectionner qu’une seule couche à afficher sur la carte par défaut. Si plusieurs calques sont sélectionnés, seul le premier sera affiché"
 
 #: climweb/src/climweb/pages/home/models.py:434
 msgid "Hour minute:second - (E.g 2023-01-01 00:00)"
@@ -301,6 +287,7 @@ msgid "Show CAP Warnings Layer"
 msgstr "Afficher la couche des Alertes CAP"
 
 #: climweb/src/climweb/pages/home/models.py:440
+#| msgid "Latest Weather Warnings"
 msgid "Weather Warnings"
 msgstr "Alertes météorologiques"
 
@@ -309,10 +296,12 @@ msgid "CAP Warnings Layer Display Name"
 msgstr "Nom d’affichage de la couche des Alertes CAP"
 
 #: climweb/src/climweb/pages/home/models.py:442
+#| msgid "Show city forecast section"
 msgid "Show Location forecast Layer"
 msgstr "Afficher la couche des prévisions de localisation"
 
 #: climweb/src/climweb/pages/home/models.py:443
+#| msgid "Forecasts"
 msgid "Location Forecast"
 msgstr "Prévisions de localisation"
 
@@ -333,12 +322,8 @@ msgid "Cluster Minimum number of Points"
 msgstr "Nombre minimum de points pour le regroupement cluster"
 
 #: climweb/src/climweb/pages/home/models.py:451
-msgid ""
-"Minimum number of points necessary to form a cluster if clustering is "
-"enabled"
-msgstr ""
-"Nombre minimum de points nécessaires pour former un cluster si le clustering"
-" est activé"
+msgid "Minimum number of points necessary to form a cluster if clustering is enabled"
+msgstr "Nombre minimum de points nécessaires pour former un cluster si le clustering est activé"
 
 #: climweb/src/climweb/pages/home/models.py:454
 msgid "Cluster Radius"
@@ -349,6 +334,7 @@ msgid "Radius of each cluster if clustering is enabled"
 msgstr "Rayon de chaque cluster si le clustering est activé"
 
 #: climweb/src/climweb/pages/home/models.py:457
+#| msgid "Show city forecast section"
 msgid "Show Location Forecast Attribution"
 msgstr "Afficher l'attribution des prévisions de localisation"
 
@@ -389,6 +375,7 @@ msgid "Geomanager Map Layers"
 msgstr "Couches cartographiques Geomanager"
 
 #: climweb/src/climweb/pages/home/models.py:480
+#| msgid "Boundary"
 msgid "Boundary Settings"
 msgstr "Paramètres des Limites"
 
@@ -421,12 +408,8 @@ msgid "Our Partners"
 msgstr "Nos partenaires"
 
 #: climweb/src/climweb/pages/home/templates/home/home_page.html:78
-msgid ""
-"Working alongside leading institutions to advance climate science and "
-"resilience."
-msgstr ""
-"Travailler aux côtés d’institutions de premier plan pour faire progresser la"
-" science climatique et la résilience."
+msgid "Working alongside leading institutions to advance climate science and resilience."
+msgstr "Travailler aux côtés d’institutions de premier plan pour faire progresser la science climatique et la résilience."
 
 #: climweb/src/climweb/pages/home/templates/home/home_page.html:109
 msgid "More Partners"
@@ -441,9 +424,9 @@ msgid "Issued:"
 msgstr "Émis:"
 
 #: climweb/src/climweb/pages/home/templates/home/section/home_map_alerts_include.html:64
-#, python-format
+#| msgid "%(issue_date)s"
 msgid "%(issued_on)s"
-msgstr "%(issued_on)s"
+msgstr ""
 
 #: climweb/src/climweb/pages/home/templates/home/section/home_map_alerts_include.html:96
 msgid "No active alerts currently"
@@ -487,8 +470,7 @@ msgstr "Actualités, événements et publications"
 
 #: climweb/src/climweb/pages/home/templates/home/section/updates_include.html:13
 msgid "Stay informed thanks to our latest news, events, and publications"
-msgstr ""
-"Restez informé grâce à nos dernières actualités, événements et publications"
+msgstr "Restez informé grâce à nos dernières actualités, événements et publications"
 
 #: climweb/src/climweb/pages/home/templates/home/section/updates_include.html:30
 msgid "All News"
@@ -517,13 +499,8 @@ msgid "National Meteorological &amp; Hydrological Service"
 msgstr "Météorologie nationale et amp; Service hydrologique"
 
 #: climweb/src/climweb/pages/home/templates/home/welcome_page.html:50
-msgid ""
-"Trusted weather forecasts, early warnings and climate services — built to "
-"keep our communities safe and informed."
-msgstr ""
-"Des prévisions météorologiques, des alertes précoces et des services "
-"climatiques fiables — conçus pour assurer la sécurité et l'information de "
-"nos communautés."
+msgid "Trusted weather forecasts, early warnings and climate services — built to keep our communities safe and informed."
+msgstr "Des prévisions météorologiques, des alertes précoces et des services climatiques fiables — conçus pour assurer la sécurité et l'information de nos communautés."
 
 #: climweb/src/climweb/pages/home/templates/home/welcome_page.html:55
 msgid "Explore the site"
@@ -534,20 +511,18 @@ msgid "Go to dashboard"
 msgstr "Aller au tableau de bord"
 
 #: climweb/src/climweb/pages/home/templates/home/welcome_page.html:93
-#, fuzzy
-#| msgid "Location Forecast"
+#| msgid "Forecasts"
 msgid "Forecasts"
-msgstr "Prévisions"
+msgstr ""
 
 #: climweb/src/climweb/pages/home/templates/home/welcome_page.html:94
 msgid "Daily and multi-day outlooks for your region"
 msgstr "Perspectives quotidiennes et sur plusieurs jours pour votre région"
 
 #: climweb/src/climweb/pages/home/templates/home/welcome_page.html:102
-#, fuzzy
-#| msgid "Weather Warnings"
+#| msgid "Latest Weather Warnings"
 msgid "Early warnings"
-msgstr "Alertes précoces"
+msgstr ""
 
 #: climweb/src/climweb/pages/home/templates/home/welcome_page.html:103
 msgid "Timely alerts for hazardous weather"
@@ -569,92 +544,93 @@ msgstr "Alimenté par"
 #~ "Stay informed with real-time bulletins, seasonal outlooks, and updates from "
 #~ "us."
 #~ msgstr ""
-#~ "Restez informé grâce aux bulletins en temps réel, aux perspectives "
-#~ "saisonnières et aux mises à jour de notre part."
+#~ "Stay informed with real-time bulletins, seasonal outlooks, and updates from "
+#~ "us."
 
 #~ msgid "City Weather Forecast"
-#~ msgstr "Prévisions météorologiques pour la ville"
+#~ msgstr "City Weather Forecast"
 
 #~ msgid "Download Image"
-#~ msgstr "Télécharger l'image"
+#~ msgstr "Download Image"
 
 #~ msgid "City"
-#~ msgstr "Ville"
+#~ msgstr "City"
 
 #, python-format
 #~ msgid "%(forecast_date)s"
-#~ msgstr "%(date_prévision)s"
+#~ msgstr "%(forecast_date)s"
 
 #~ msgid "Alert Severity"
-#~ msgstr "Gravité de l'alerte"
+#~ msgstr "Alert Severity"
 
 #~ msgid "Extreme"
-#~ msgstr "Extrême"
+#~ msgstr "Extreme"
 
 #~ msgid "Severe"
-#~ msgstr "Grave"
+#~ msgstr "Severe"
 
 #~ msgid "Moderate"
-#~ msgstr "Modéré"
+#~ msgstr "Moderate"
 
 #~ msgid "Minor"
-#~ msgstr "Mineure"
+#~ msgstr "Minor"
 
 #, fuzzy
 #~ msgid "All Locations"
-#~ msgstr "Tous les emplacements"
+#~ msgstr "All Locations"
 
 #, fuzzy
 #~ msgid "Daily Weather Reports"
-#~ msgstr "Rapports météorologiques quotidiens"
+#~ msgstr "Daily Weather Reports"
 
 #~ msgid "Unknown"
-#~ msgstr "Inconnu"
+#~ msgstr "Unknown"
 
 #, python-format
 #~ msgid "Issued on %(issue_date)s"
-#~ msgstr "Publié le %(issue_date)s"
+#~ msgstr "Issued on %(issue_date)s"
 
 #~ msgid "Stations with Extreme Measurements"
-#~ msgstr "Stations avec mesures extrêmes"
+#~ msgstr "Stations with Extreme Measurements"
 
 #, python-format
 #~ msgid "Past Weather Summary for %(summary_date)s"
-#~ msgstr "Résumé météo passé pour %(summary_date)s"
+#~ msgstr "Past Weather Summary for %(summary_date)s"
 
 #~ msgid "No report at the moment"
-#~ msgstr "Aucun rapport pour le moment"
+#~ msgstr "No report at the moment"
 
 #~ msgid " All City Forecast"
-#~ msgstr "Prévisions pour toutes les villes"
+#~ msgstr "All City Forecast"
 
 #~ msgid "Analysis"
-#~ msgstr "Analyse"
+#~ msgstr "Analysis"
 
 #~ msgid "sunrise"
-#~ msgstr "lever du soleil"
+#~ msgstr "sunrise"
 
 #~ msgid "sunset"
-#~ msgstr "coucher de soleil"
+#~ msgstr "sunset"
 
 #~ msgid "moonrise"
-#~ msgstr "lever de lune"
+#~ msgstr "moonrise"
 
 #~ msgid "Satellite Imagery"
-#~ msgstr "Imagerie satellite"
+#~ msgstr "Satellite Imagery"
 
 #, fuzzy
 #~ msgid "Show media section"
-#~ msgstr "Afficher la section média"
+#~ msgstr "Show media section"
 
 #~ msgid "Media Section Title"
-#~ msgstr "Titre de la section Médias"
+#~ msgstr "Media Section Title"
 
 #~ msgid "Media Section Description"
-#~ msgstr "Description de la section Médias"
+#~ msgstr "Media Section Description"
 
 #~ msgid "Fecthing Tweets from"
-#~ msgstr "Récupérer des tweets de"
+#~ msgstr "Fecthing Tweets from"
 
 #~ msgid "Fetching Facebook Feed from"
-#~ msgstr "Récupération du flux Facebook à partir de"
+#~ msgstr "Fetching Facebook Feed from"
+
