@@ -135,6 +135,7 @@
     const homeWeatherWidgetUrl  = "{{ home_weather_widget_url|default_if_none:'' }}";
     const page_youtube_playlist = {{ page.youtube_playlist|yesno:'true,false' }};
     const citySearchUrl         = "{{ city_search_url }}";
+    const citiesWithForecastUrl = "{{ cities_with_forecast_url|default_if_none:'' }}";
     const cityDetailUrl         = "{{ city_detail_page_url|default_if_none:'' }}";
     const countryBounds         = {{ country_bounds|default_if_none:'[]' }};
 
@@ -144,6 +145,43 @@
     const weatherWidgetWrapper = $("#weather-widget-wrapper");
 
     let singleForecastSlider;
+    let cityLocations = null;
+    let citiesWithForecastData = null;
+
+    /* ── geolocation state ──
+       geolocationActive: the widget is currently showing a city resolved from
+       the visitor's position (as opposed to the default city or a searched one).
+       It drives the label on #use-my-location-btn and what a click on it does.
+
+       The opt-out is persisted because the browser permission can't be
+       withdrawn from page script: once a visitor has granted it, every visit
+       would otherwise auto-resolve to their nearest city with no way back. */
+    let geolocationActive = false;
+    const GEO_OPT_OUT_KEY = 'climweb:home-widget:geolocation-off';
+
+    const geolocationOptedOut = () => {
+      try { return localStorage.getItem(GEO_OPT_OUT_KEY) === '1'; }
+      catch (e) { return false; }
+    };
+
+    const setGeolocationOptOut = (off) => {
+      try {
+        if (off) localStorage.setItem(GEO_OPT_OUT_KEY, '1');
+        else     localStorage.removeItem(GEO_OPT_OUT_KEY);
+      } catch (e) { /* storage unavailable - opt-out lasts this page only */ }
+    };
+
+    /* Bring the button in line with geolocationActive. The widget markup is
+       replaced on every fetch, so this has to run after each render rather
+       than once at boot. */
+    const syncLocationButton = () => {
+      const $btn = weatherWidgetWrapper.find('#use-my-location-btn');
+      if (!$btn.length) return;
+
+      const label = geolocationActive ? $btn.data('defaultLabel') : $btn.data('locateLabel');
+      if (label) $btn.find('.cf-location-label').text(label);
+      $btn.attr('data-mode', geolocationActive ? 'default' : 'locate');
+    };
 
     /* ── city select callback — triggers a full widget re-render ── */
     const onSelectCity = ({ label, value }) => {
@@ -165,6 +203,8 @@
           <p class="cf-no-data-title">${message}</p>
           <p class="cf-no-data-desc">${description}</p>
         </div>`;
+
+      syncLocationButton();
 
       /* 1. single slider — replace the panel area only */
       const $panel = weatherWidgetWrapper.find('.cf-panel');
@@ -212,6 +252,8 @@
     const initWeatherWidget = (citySlug) => {
       const loader           = $('#weather-widget-loader');
       const forecastSkeleton = $('.forecast-widget-skeleton');
+
+      syncLocationButton();
 
       /* ── SINGLE SLIDER (daily) ── */
       const $single = $('#single-forecast-slider');
@@ -284,7 +326,12 @@
     };
 
     /* ── main render ── */
-    const renderWeatherWidgetForCity = (citySlug) => {
+    const renderWeatherWidgetForCity = (citySlug, { viaGeolocation = false } = {}) => {
+
+      /* Set up front, not on success: a geolocated city that comes back
+         empty still leaves the visitor "in" geolocation, and the button must
+         offer the way out. Searching or loading the default clears it. */
+      geolocationActive = viaGeolocation;
 
       let url = homeWeatherWidgetUrl;
       if (citySlug) url = url + '?city=' + citySlug;
@@ -351,20 +398,205 @@
         });
     };
 
+    /*  ── GEOLOCATION FOR NEAREST CITY TO USER  ── */
+    /* Nearest city lookup is done with Turf.js (https://turfjs.org/) `nearestPoint`,
+       which expects GeoJSON points in [lng, lat] order. */
+
+    /* Async function to call endpoint to fetch city locations from the backend, 
+    returns a promise that resolves to an array of city locations */
+    const fetchCityLocations = async () => {
+      if (!citySearchUrl) {
+        return [];
+      }
+
+      if (cityLocations) {
+        return cityLocations;
+      }
+
+      if (!cityLocations) {
+        try {
+          const response = await fetch(citySearchUrl);
+          if (!response.ok) throw new Error('Error fetching city locations');
+
+          const data = await response.json();
+          /* cities-list returns a plain array of
+             { id, name, slug, coordinates: [lng, lat] } */
+          cityLocations = Array.isArray(data) ? data : [];
+        } catch (error) {
+          console.error('CITY_LOCATIONS_ERROR:', error);
+          return [];
+        }
+      }
+      return cityLocations || [];
+    };
+
+    /* Slugs of the cities that actually have a forecast to show.
+       Resolves to null when the set could not be determined, which is treated
+       as "unknown" rather than "none" - an endpoint hiccup should not stop the
+       lookup, it should just fall back to the plain nearest city. */
+    const fetchCitiesWithForecastData = async () => {
+      if (citiesWithForecastData) {
+        return citiesWithForecastData;
+      }
+
+      if (!citiesWithForecastUrl) {
+        return null;
+      }
+
+      try {
+        const response = await fetch(citiesWithForecastUrl);
+        if (!response.ok) throw new Error('Error fetching cities with forecast data');
+
+        const data = await response.json();
+        citiesWithForecastData = new Set(data.slugs || []);
+        return citiesWithForecastData;
+      } catch (error) {
+        console.error('CITIES_WITH_FORECAST_ERROR:', error);
+        return null;
+      }
+    };
+
+    /*  Async function to find nearest city to user  */
+    let nearestCity = null;
+
+    const findNearestCity = async (lat, lng) => {
+      const cities = await fetchCityLocations();
+      if (!cities || cities.length === 0) {
+        nearestCity = null;
+        return null;
+      }
+
+      /* turf.point throws on a missing or malformed pair, which would take the
+         whole lookup down over one badly-entered city */
+      const locatable = cities.filter(city =>
+        Array.isArray(city.coordinates) && city.coordinates.length === 2
+      );
+
+      if (locatable.length === 0) {
+        nearestCity = null;
+        return null;
+      }
+
+      /* Search among cities that can answer, not among all of them. The
+         geometrically nearest city is often empty - a station that is behind on
+         data entry - and picking it anyway is what produced the "No forecast
+         data available" dead end for a visitor who simply asked for their own
+         location. The next city out is a far better answer than nothing.
+
+         When no city has data the filtered set is empty, and we search the full
+         list instead, so the widget's own no-data state explains the situation
+         rather than the lookup silently coming up empty-handed. */
+      const withData  = await fetchCitiesWithForecastData();
+      const answerable = withData
+        ? locatable.filter(city => withData.has(city.slug))
+        : [];
+      const candidates = answerable.length > 0 ? answerable : locatable;
+
+      const userPoint  = turf.point([lng, lat]);
+      const cityPoints = turf.featureCollection(
+        candidates.map(city => turf.point(city.coordinates, { city }))
+      );
+
+      const nearest = turf.nearestPoint(userPoint, cityPoints);
+      nearestCity = nearest ? nearest.properties.city : null;
+
+      return nearestCity;
+    };
+
+    /* Request for user geolocation.
+      Returns a Promise resolving to the nearest city (or null) */
+    const geoFindUser = async () => {
+      if (!navigator.geolocation) {
+        return null;
+      }
+
+      return new Promise((resolve) => {
+        async function success(pos) {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const city = await findNearestCity(lat, lng);
+          if (!city) {
+            console.log('No nearby city found for the user\'s location');
+          }
+          resolve(city);
+        }
+
+        function error() {
+          resolve(null);
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error);
+      });
+    };
+
     /* ── boot ── */
     $(document).ready(function () {
 
-      const isSsrRendered = weatherWidgetWrapper.length
-        && weatherWidgetWrapper.children().length > 0
-        && !$('.forecast-widget-skeleton').length;
+      /* clicking the button always explicitly (re-)requests geolocation,
+         regardless of the auto-resolve logic below (delegated since the
+         button is re-rendered whenever the widget is re-fetched) */
+      weatherWidgetWrapper.on('click', '#use-my-location-btn', function () {
+        /* Showing a geolocated city: the button reads "Use default city".
+           Go back to the default and remember the choice so the next visit
+           doesn't auto-resolve straight back to the nearest city. */
+        if (geolocationActive) {
+          setGeolocationOptOut(true);
+          renderWeatherWidgetForCity();
+          return;
+        }
 
-      if (isSsrRendered) {
-        initWeatherWidget(null);
-      } else if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
-        renderWeatherWidgetForCity();
+        /* An explicit click is consent again, whatever was stored. */
+        setGeolocationOptOut(false);
+        geoFindUser().then(city => {
+          if (city) {
+            renderWeatherWidgetForCity(city.slug, { viaGeolocation: true });
+          } else {
+            /* an explicit click that resolves to nothing needs to say so -
+               silently leaving the previous city on screen reads as a dead button */
+            showNoData(
+              _t('Could not find a location near you'),
+              _t('We could not match your position to a location with forecast data. Please search for a location instead.')
+            );
+          }
+        });
+      });
+
+      const bootWeatherWidget = () => {
+        const isSsrRendered = weatherWidgetWrapper.length
+          && weatherWidgetWrapper.children().length > 0
+          && !$('.forecast-widget-skeleton').length;
+
+        if (isSsrRendered) {
+          initWeatherWidget(null);
+        } else if (weatherWidgetWrapper.length && homeWeatherWidgetUrl) {
+          renderWeatherWidgetForCity();
+        } else {
+          const forecastSkeleton = $('.forecast-widget-skeleton');
+          if (forecastSkeleton.length) forecastSkeleton.hide();
+        }
+      };
+      
+
+      /* If geolocation permission was already granted on a previous visit, resolve it
+         up front and render straight to the nearest city - this skips
+         rendering the default city first and then re-rendering once the
+         position resolves. 
+       */
+      if (navigator.permissions && navigator.permissions.query) {
+
+        navigator.permissions.query({ name: 'geolocation' }).then(status => {
+          if (status.state === 'granted' && !geolocationOptedOut()) {
+            geoFindUser().then(city => {
+              if (city) renderWeatherWidgetForCity(city.slug, { viaGeolocation: true });
+              else bootWeatherWidget();
+            });
+          } else {
+            bootWeatherWidget();
+          }
+        }).catch(bootWeatherWidget);
       } else {
-        const forecastSkeleton = $('.forecast-widget-skeleton');
-        if (forecastSkeleton.length) forecastSkeleton.hide();
+
+        bootWeatherWidget();
       }
 
       if (page_youtube_playlist) {

@@ -19,6 +19,13 @@
           <span class="cf-detail-icon">{% svg_icon "info-circle" %}</span>
         </a>
       {% endif %}
+        {# Label is swapped client-side between the two data-* strings depending on whether the widget is currently showing a geolocated city. Both live here rather than in JS so they go through Django's catalog. #}
+        <div class="cf-detail-btn" id="use-my-location-btn"
+             data-locate-label="{% translate 'Use my location' %}"
+             data-default-label="{% translate 'Use default city' %}">
+          <span class="is-hidden-mobile cf-location-label">{% translate "Use my location" %}</span>
+          <span class="cf-detail-icon">{% svg_icon "location" %}</span>
+        </div>
     </div>
 
     <div class="cf-search-wrap">
