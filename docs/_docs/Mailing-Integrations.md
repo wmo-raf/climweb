@@ -1,5 +1,9 @@
 # Mailing Integrations
 
+```{note}
+This page covers third-party mailing list and newsletter integrations (such as Mautic and Mailchimp) for bulk email campaigns. If you want to configure email notifications for website form submissions (such as Contact Us, Data Request, or Feedback), see [Forms and Email Notifications](manage_pages/Manage-Forms.md).
+```
+
 ## Mautic
 
 Mautic is an open-source alternative to Mailchimp. 
