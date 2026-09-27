@@ -11,84 +11,7 @@ const props = defineProps({
   },
 });
 
-const {t} = useI18n({
-  locale: 'en',
-  messages: {
-    en: {
-      alert: {
-        certainty: 'Certainty',
-        urgency: 'Urgency',
-        sent: 'Sent',
-        onset: 'Onset',
-        expires: 'Expires',
-        event: 'Event',
-        headline: 'Headline',
-        moreDetail: 'More Detail'
-      }
-    },
-    fr: {
-      alert: {
-        certainty: 'Certitude',
-        urgency: 'Urgence',
-        sent: 'Envoyé',
-        onset: 'Début',
-        expires: 'Expire',
-        event: 'Événement',
-        headline: 'Titre',
-        moreDetail: 'Plus de détails'
-      }
-    },
-    ar: {
-      alert: {
-        certainty: 'اليقين',
-        urgency: 'الاستعجال',
-        sent: 'تم الإرسال',
-        onset: 'البداية',
-        expires: 'تنتهي',
-        event: 'الحدث',
-        headline: 'العنوان',
-        moreDetail: 'مزيد من التفاصيل'
-      }
-    },
-    am: {
-      alert: {
-        certainty: 'እርግጠኝነት',
-        urgency: 'አስቸኳይነት',
-        sent: 'ተልኳል',
-        onset: 'መጀመሪያ',
-        expires: 'ጊዜው ያበቃል',
-        event: 'ክስተት',
-        headline: 'ርዕስ',
-        moreDetail: 'ተጨማሪ መረጃ'
-      }
-    },
-    es: {
-      alert: {
-        certainty: 'Certeza',
-        urgency: 'Urgencia',
-        sent: 'Enviado',
-        onset: 'Comienzo',
-        expires: 'Expira',
-        event: 'Evento',
-        headline: 'Titular',
-        moreDetail: 'Más detalles'
-      }
-    },
-    sw: {
-      alert: {
-        certainty: 'Uhakika',
-        urgency: 'Uharaka',
-        sent: 'Imetumwa',
-        onset: 'Mwanzo',
-        expires: 'Inaisha',
-        event: 'Tukio',
-        headline: 'Kichwa cha Habari',
-        moreDetail: 'Maelezo Zaidi'
-      }
-    }
-  }
-})
-
+const {t} = useI18n()
 
 const alert = computed(() => {
   const alert = {...props.properties}
@@ -119,10 +42,6 @@ const alert = computed(() => {
   return null;
 })
 
-//
-// Urgency
-//    Sent
-//    Expire Time
 
 </script>
 
