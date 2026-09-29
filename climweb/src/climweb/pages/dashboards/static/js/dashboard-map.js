@@ -122,30 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const containers = document.querySelectorAll(".map-container");
 
     const { datasetsUrl, countryBounds, boundaryTilesUrl } = mapConfig() || {};
-    const dashboardBasemapStyle = {
-      version: 8,
-      sources: {
-        "carto-dark": {
-          type: "raster",
-          tiles: [
-            "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-            "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-            "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-            "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-          ],
-          tileSize: 256,
-        },
-      },
-      layers: [
-        {
-          id: "carto-dark",
-          source: "carto-dark",
-          type: "raster",
-          minzoom: 0,
-          maxzoom: 22,
-        },
-      ],
-    };
+    const dashboardBasemapStyle = "https://tiles.openfreemap.org/styles/dark";
 
 
 

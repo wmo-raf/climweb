@@ -1,42 +1,7 @@
-export const defaultMapStyle = {
+const rasterMapStyle = {
     version: 8,
-    glyphs: "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
     sources: {
        
-        // --- existing ---
-        'voyager': {
-            type: 'raster',
-            tiles: [
-                "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
-                "https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
-                "https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
-                "https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png"
-            ],
-            tileSize: 256,
-            attribution: '© OpenStreetMap © CARTO'
-        },
-        'carto-dark': {
-            type: 'raster',
-            tiles: [
-                "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png",
-                "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"
-            ],
-            tileSize: 256,
-            attribution: '© OpenStreetMap © CARTO'
-        },
-        'carto-light': {
-            type: 'raster',
-            tiles: [
-                "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-                "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
-            ],
-            tileSize: 256,
-            attribution: '© OpenStreetMap © CARTO'
-        },
         // --- OSM variants ---
         'osm-standard': {
             type: 'raster',
@@ -73,12 +38,57 @@ export const defaultMapStyle = {
     },
 
     layers: [
-        { id: 'voyager',                source: 'voyager',                type: 'raster', minzoom: 0, maxzoom: 22, layout: { visibility: 'none' }, metadata: { 'mapbox:groups': 'background' } },
-        { id: 'carto-light',            source: 'carto-light',            type: 'raster', minzoom: 0, maxzoom: 22, layout: { visibility: 'none'    }, metadata: { 'mapbox:groups': 'background' } },
-        { id: 'carto-dark',             source: 'carto-dark',             type: 'raster', minzoom: 0, maxzoom: 22, layout: { visibility: 'none'    }, metadata: { 'mapbox:groups': 'background' } },
-        { id: 'osm-standard',           source: 'osm-standard',           type: 'raster', minzoom: 0, maxzoom: 19, layout: { visibility: 'none'    }, metadata: { 'mapbox:groups': 'background' } },
-        { id: 'open-topo',              source: 'open-topo',              type: 'raster', minzoom: 0, maxzoom: 17, layout: { visibility: 'none'    }, metadata: { 'mapbox:groups': 'background' } },
-        { id: 'esri-light-gray',        source: 'esri-light-gray',        type: 'raster', minzoom: 0, maxzoom: 16, layout: { visibility: 'visible'    }, metadata: { 'mapbox:groups': 'background' } },
+        { id: 'osm-standard',           source: 'osm-standard',           type: 'raster', minzoom: 0, maxzoom: 19, layout: { visibility: 'none'    }, metadata: { 'mapbox:groups': 'background', basemap: 'osm-standard' } },
+        { id: 'open-topo',              source: 'open-topo',              type: 'raster', minzoom: 0, maxzoom: 17, layout: { visibility: 'none'    }, metadata: { 'mapbox:groups': 'background', basemap: 'open-topo' } },
+        { id: 'esri-light-gray',        source: 'esri-light-gray',        type: 'raster', minzoom: 0, maxzoom: 16, layout: { visibility: 'none'    }, metadata: { 'mapbox:groups': 'background', basemap: 'esri-light-gray' } },
 
      ]
+};
+
+// OpenFreeMap vector styles. They all share the same sources, sprite and glyphs,
+// so they can be merged into one style and toggled via layer visibility.
+export const OPENFREEMAP_STYLES = {
+    'ofm-light': 'https://tiles.openfreemap.org/styles/positron',
+    'ofm-bright': 'https://tiles.openfreemap.org/styles/bright',
+    'ofm-dark': 'https://tiles.openfreemap.org/styles/dark',
+};
+
+export const getDefaultMapStyle = async (visibleBasemap) => {
+    const style = {
+        ...rasterMapStyle,
+        sources: {...rasterMapStyle.sources},
+        layers: rasterMapStyle.layers.map(layer => ({
+            ...layer,
+            layout: {...layer.layout, visibility: layer.id === visibleBasemap ? 'visible' : 'none'},
+        })),
+    };
+
+    const ofmStyles = await Promise.all(
+        Object.entries(OPENFREEMAP_STYLES).map(([id, url]) =>
+            fetch(url)
+                .then(res => res.json())
+                .then(json => [id, json])
+                .catch(e => {
+                    console.error(`Error loading basemap style ${url}`, e);
+                    return null;
+                })
+        )
+    );
+
+    ofmStyles.filter(Boolean).forEach(([basemapId, ofmStyle]) => {
+        style.glyphs = ofmStyle.glyphs;
+        style.sprite = ofmStyle.sprite;
+        Object.assign(style.sources, ofmStyle.sources);
+
+        ofmStyle.layers.forEach(layer => {
+            style.layers.push({
+                ...layer,
+                id: `${basemapId}-${layer.id}`,
+                layout: {...layer.layout, visibility: basemapId === visibleBasemap ? 'visible' : 'none'},
+                metadata: {...layer.metadata, 'mapbox:groups': 'background', basemap: basemapId},
+            });
+        });
+    });
+
+    return style;
 };
