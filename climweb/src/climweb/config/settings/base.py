@@ -714,7 +714,13 @@ AXES_FAILURE_LIMIT = 3
 AXES_COOLOFF_TIME = timedelta(minutes=30)
 
 AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
+# Number of our own proxies in front of Django, each appending to
+# X-Forwarded-For. The client is the Nth entry from the right; see
+# climweb.base.client_ip. (django-ipware is not used: its proxy_count is off by
+# one from this meaning, and axes calls it in strict mode, so any forged
+# left-hand entry made it return None.)
 AXES_IPWARE_PROXY_COUNT = env.int("AXES_IPWARE_PROXY_COUNT", default=2)
+AXES_CLIENT_IP_CALLABLE = "climweb.base.client_ip.client_ip"
 
 AXES_RESET_ON_SUCCESS = True
 AXES_LOCKOUT_TEMPLATE = "axes/lockout.html"
