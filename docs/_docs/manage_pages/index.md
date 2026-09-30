@@ -14,6 +14,7 @@ Manage-Services
 Manage-News
 Manage-Publications
 Manage-Flex
+Manage-Forms
 ```
 
 ## Creating new pages

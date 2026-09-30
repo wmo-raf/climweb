@@ -30,3 +30,7 @@ To open it: **Settings → Important Pages**.
 | CAP Warnings List page | Page chooser | No | Adds a link to your alert listing page in the site navigation and the home page weather section. Only shown when the site is configured as a meteorological service. |
 
 All fields are optional. A blank field means the corresponding link won't render on the public site.
+
+```{tip}
+To learn how to create Contact Us and Feedback pages and set up email notifications for form submissions, see the [Forms and Email Notifications](../manage_pages/Manage-Forms.md) guide.
+```
