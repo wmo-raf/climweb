@@ -1,0 +1,12 @@
+{% load i18n %}{% autoescape off %}{% blocktrans with name=user.get_short_name|default:user.get_username %}Hello {{ name }},{% endblocktrans %}
+
+{% blocktrans %}Your {{ site_name }} sign-in code is:{% endblocktrans %}
+
+    {{ token }}
+
+{% blocktrans %}It expires in {{ minutes }} minutes and can only be used once.{% endblocktrans %}
+
+{% trans "After you enter the code you will be taken to your 2FA devices page, where you can set up your new phone." %}
+
+{% trans "If you did not ask for this code, someone else knows your password. Change your password straight away and tell your site administrator." %}
+{% endautoescape %}

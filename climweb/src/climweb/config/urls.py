@@ -17,6 +17,7 @@ from wagtail.urls import WAGTAIL_FRONTEND_LOGIN_TEMPLATE, serve_pattern
 from wagtailcache.cache import cache_page
 
 from climweb.base.registries import plugin_registry
+from climweb.base.signup_throttling import ThrottledRegisterView, ThrottledResetPasswordView
 from climweb.base.views import humans, public_health_check, style_guide, style_guide_tokens
 from climweb.pages.search import views as search_views
 from .api import api_router
@@ -39,6 +40,10 @@ urlpatterns = [
     path("", include("climweb.pages.videos.urls")),
     *([path("weather/", include("climweb.pages.weather.urls"))] if "climweb.pages.weather" in settings.INSTALLED_APPS else []),
     
+    # geomanager's public account endpoints, re-mounted with rate limits. They
+    # must come before geomanager's URLs so these match first.
+    path("api/auth/register/", ThrottledRegisterView.as_view()),
+    path("api/auth/reset-password/", ThrottledResetPasswordView.as_view()),
     path("", include("geomanager.urls"), name="geomanager"),
     # path("", include("django_nextjs.urls")),
     path("", include("wagtailsurveyjs.urls")),
