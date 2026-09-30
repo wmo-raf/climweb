@@ -841,3 +841,5 @@ MARKDOWNIFY = {
         "BLEACH": False
     }
 }
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"

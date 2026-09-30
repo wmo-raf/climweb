@@ -17,7 +17,7 @@ import CAPWarningPopup from "./popup/CAPWarningPopup.vue";
 import LocationForecastPopup from "./popup/LocationForecastPopup.vue";
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-import {defaultMapStyle} from "@/utils/basemap.js";
+import {getDefaultMapStyle} from "@/utils/basemap.js";
 
 
 const props = defineProps({
@@ -101,7 +101,7 @@ const initializeMap = async () => {
 
   // add attribution
   map.addControl(new maplibregl.AttributionControl({
-    customAttribution: '<a href="https://maplibre.org" target="_blank">MapLibre</a>   &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+    customAttribution: '<a href="https://maplibre.org" target="_blank">MapLibre</a>   &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://openfreemap.org" target="_blank">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org" target="_blank">OpenMapTiles</a>',
     compact: false,
   }), "bottom-left");
 
@@ -222,12 +222,12 @@ const initializeMapLayers = async (mapSettings) => {
 
         setLabels()
       } else {
-        map.setStyle(defaultMapStyle);
+        map.setStyle(await getDefaultMapStyle(mapStore.selectedBasemap));
       }
     }
   } else {
     // if no basemaps are provided, set the default style
-    map.setStyle(defaultMapStyle);
+    map.setStyle(await getDefaultMapStyle(mapStore.selectedBasemap));
   }
 
   if (zoomLocations) {
@@ -866,7 +866,7 @@ watch(() => mapStore.selectedBasemap, (newBasemap) => {
   const backgroundLayers = mapStyle.layers.filter(layer => layer.metadata && layer.metadata["mapbox:groups"] === "background")
 
   backgroundLayers.forEach(layer => {
-    if (layer.id === newBasemap) {
+    if (layer.metadata.basemap === newBasemap) {
       map.setLayoutProperty(layer.id, 'visibility', 'visible')
     } else {
       map.setLayoutProperty(layer.id, 'visibility', 'none')

@@ -124,28 +124,7 @@
 <script>
   const locationStr  = JSON.parse($('#location').val());
 
-  const defaultStyle = {
-    version: 8,
-    glyphs: "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
-    sources: {
-      'carto-light': {
-        type: 'raster',
-        tiles: [
-          "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-          "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-          "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-          "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png",
-        ],
-      },
-    },
-    layers: [{
-      id: 'carto-light-layer',
-      source: 'carto-light',
-      type: 'raster',
-      minzoom: 0,
-      maxzoom: 22,
-    }],
-  };
+  const defaultStyle = "https://tiles.openfreemap.org/styles/positron";
 
   const map = new maplibregl.Map({
     container: "contact-map",
