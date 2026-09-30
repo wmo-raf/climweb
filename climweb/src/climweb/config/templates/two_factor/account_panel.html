@@ -1,0 +1,7 @@
+{% load i18n %}
+{% if has_authenticator %}
+    <p>{% trans "Two-factor authentication is set up on your account. Add a second device as a backup, or replace a lost phone." %}</p>
+{% else %}
+    <p>{% trans "Protect your account with a code from an authenticator app on your phone, as well as your password." %}</p>
+{% endif %}
+<a href="{{ devices_url }}" class="button button-secondary">{% trans "Manage 2FA devices" %}</a>
