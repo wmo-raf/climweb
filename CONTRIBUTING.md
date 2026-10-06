@@ -180,13 +180,7 @@ brew services start redis
 sudo systemctl start redis
 ```
 
-### 7. Run Migrations
-
-```bash
-climweb migrate
-```
-
-### 8. Setting Up Development Data
+### 7. Setting Up Development Data
 
 Download the latest seed data:
 
@@ -212,6 +206,12 @@ Extract media files:
 
 ```bash
 tar -xzf media_backup.tar.gz -C climweb/src/climweb/
+```
+
+### 8. Run Migrations
+
+```bash
+climweb migrate
 ```
 
 Rebuild search index:
