@@ -130,6 +130,7 @@ All code contributions go through pull requests. Before writing code, please:
 
 ```bash
 git clone --depth 1 https://github.com/wmo-raf/climweb.git
+ls -d .claude .cursor .gemini .vscode .github/setup.* 2>/dev/null  # should print nothing
 cd climweb
 ```
 
