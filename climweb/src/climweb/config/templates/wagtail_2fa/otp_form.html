@@ -68,6 +68,14 @@
             </footer>
         </form>
 
-        {% block below_login %}{% endblock %}
+        {% block below_login %}
+            {# Fallback for a lost or replaced phone; see base/two_factor.py. #}
+            <form action="{% url 'climweb_2fa_email_code' %}" method="post" class="climweb-2fa-email-fallback">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}"/>
+                <p>{% trans "Lost your phone or can't open your authenticator app?" %}</p>
+                <button type="submit" class="button button-secondary">{% trans "Email me a code instead" %}</button>
+            </form>
+        {% endblock %}
     </main>
 {% endblock %}

@@ -14,3 +14,10 @@ class BaseConfig(AppConfig):
         # both the admin viewset hook and the StreamField block widget.
         _wmc_viewsets.viewset_factory = searchable_viewset_factory
         _wmc_blocks.viewset_factory = searchable_viewset_factory
+
+        # Connects the signal that removes the 2FA email fallback together with
+        # a user's last authenticator app.
+        from . import two_factor  # noqa: F401
+
+        # Connects the signal that emails superusers about new user accounts.
+        from . import user_notifications  # noqa: F401

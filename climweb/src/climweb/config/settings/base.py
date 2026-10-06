@@ -150,6 +150,8 @@ INSTALLED_APPS = [
     'wagtail_2fa',
     'django_otp',
     'django_otp.plugins.otp_totp',
+    # Emailed one-time codes, the fallback for a lost phone. See base/two_factor.py.
+    'django_otp.plugins.otp_email',
     'django_vue_utilities',
     'wagtail_newsletter',
     'markdownify',
@@ -734,6 +736,24 @@ WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=True)
 # written into their .env and an explicit value beats a settings default.
 # Set to False only to unstick a site that cannot enrol (see base/middleware.py).
 CLIMWEB_2FA_SUPERUSER_REQUIRED = env.bool("CLIMWEB_2FA_SUPERUSER_REQUIRED", default=True)
+
+# No public sign-up through allauth; administrators create accounts in the CMS.
+ACCOUNT_ADAPTER = "climweb.base.account_adapter.NoSignupAccountAdapter"
+
+# Rate limits for geomanager's public map-viewer account endpoints, as
+# "<count>/<second|minute|hour|day>". See base/signup_throttling.py.
+PUBLIC_ACCOUNT_RATE_LIMITS = {
+    "register_per_ip": env.str("PUBLIC_REGISTER_RATE_PER_IP", default="5/hour"),
+    "register_site_wide": env.str("PUBLIC_REGISTER_RATE_SITE_WIDE", default="50/day"),
+    "password_reset_per_ip": env.str("PUBLIC_PASSWORD_RESET_RATE_PER_IP", default="5/hour"),
+    "password_reset_site_wide": env.str("PUBLIC_PASSWORD_RESET_RATE_SITE_WIDE", default="100/day"),
+}
+
+# Emailed fallback codes for someone who has lost their authenticator app.
+# OTP_EMAIL_SENDER falls back to DEFAULT_FROM_EMAIL when left as None.
+OTP_EMAIL_SUBJECT = f"{WAGTAIL_SITE_NAME} sign-in code"
+OTP_EMAIL_BODY_TEMPLATE_PATH = "two_factor/email_token.txt"
+OTP_EMAIL_TOKEN_VALIDITY = 600
 
 
 class AttrDict(dict):

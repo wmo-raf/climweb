@@ -11,6 +11,11 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+# No two-factor authentication in development, even for accounts that already
+# have a device. Set both to True in .env to work on the 2FA flow itself.
+WAGTAIL_2FA_REQUIRED = env.bool("WAGTAIL_2FA_REQUIRED", default=False)
+CLIMWEB_2FA_SUPERUSER_REQUIRED = env.bool("CLIMWEB_2FA_SUPERUSER_REQUIRED", default=False)
+
 try:
     from .local import *
 except ImportError:

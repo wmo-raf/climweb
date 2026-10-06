@@ -36,6 +36,12 @@ logger = logging.getLogger(__name__)
 class SuperuserVerifyUserMiddleware(VerifyUserPermissionsMiddleware):
     """Force 2FA for superusers; behave exactly like wagtail-2fa otherwise."""
 
+    # The "email me a code" button sits on the verification page, so it has to
+    # be reachable before the user is verified (see base/two_factor.py).
+    _allowed_url_names = VerifyUserPermissionsMiddleware._allowed_url_names + [
+        "climweb_2fa_email_code",
+    ]
+
     def _admin_paths(self):
         """URL prefixes the superuser rule applies to.
 
