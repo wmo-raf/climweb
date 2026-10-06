@@ -248,10 +248,11 @@ class HomePage(MetadataPageMixin, Page):
             if city_detail_page:
                 city_detail_page = city_detail_page.specific
                 all_city_detail_page_url = city_detail_page.get_full_url(request)
-                city_detail_page_url = all_city_detail_page_url + city_detail_page.detail_page_base_url
-                context.update({
-                    "city_detail_page_url": city_detail_page_url,
-                })
+                if all_city_detail_page_url:
+                    city_detail_page_url = all_city_detail_page_url + city_detail_page.detail_page_base_url
+                    context.update({
+                        "city_detail_page_url": city_detail_page_url,
+                    })
 
             city_search_url = get_full_url(request, reverse("cities-list"))
             context.update({

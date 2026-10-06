@@ -4,6 +4,7 @@
 {% block extra_css %}
   {{ block.super }}
   <link rel="stylesheet" href="{% static 'css/leaflet.css' %}">
+  <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
   <link rel="stylesheet" href="{% static 'css/leaflet.fullscreen.css' %}">
   <link rel="stylesheet" href="{% static 'css/leaflet.timedimension.control.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
@@ -169,6 +170,8 @@
   {{ block.super }}
   {% if msg_layers %}
     <script src="{% static 'js/leaflet.js' %}"></script>
+    <script src="{% static 'js/maplibre-gl.js' %}"></script>
+    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js"></script>
     <script src="{% static 'js/iso8601.min.js' %}"></script>
     <script src="{% static 'js/leaflet.timedimension.min.js' %}"></script>
     <script src="{% static 'js/Leaflet.fullscreen.min.js' %}"></script>
@@ -262,11 +265,9 @@
                 map.addControl(new L.Control.Fullscreen({position: "topright"}));
 
 
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}' + (L.Browser.retina ? '@2x.png' : '.png'), {
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                    subdomains: 'abcd',
-                    maxZoom: 20,
-                    minZoom: 0
+                L.maplibreGL({
+                    style: 'https://tiles.openfreemap.org/styles/positron',
+                    attribution: '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org">OpenMapTiles</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                 }).addTo(map);
 
                 // disable auto-updating on these events
