@@ -72,6 +72,8 @@ INSTALLED_APPS = [
     # Module is `dataset_helper`; its Django app label is `dataset_helper_plugin`,
     # kept from when this shipped as a ClimWeb plugin so existing tables resolve.
     "dataset_helper",
+    # Bulletin Studio: subclasses products.ProductItemPage, so it needs climweb.pages.products.
+    "bulletin_studio",
 
     "wagtailmautic",
     "wagtailzoom",
