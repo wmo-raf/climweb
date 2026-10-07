@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -6,7 +7,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET
 from django.template.loader import render_to_string
 from forecastmanager.forecast_settings import ForecastSetting
-from forecastmanager.models import City, Forecast
+from forecastmanager.models import City, CityForecast, DataValue, Forecast
 from forecastmanager.serializers import CitySerializer, ForecastSerializer
 from wagtail.api.v2.utils import get_full_url
 from wagtailcache.settings import wagtailcache_settings
@@ -163,6 +164,20 @@ def get_home_map_forecast(request):
     else:
         forecasts = Forecast.objects.filter(forecast_date__gte=timezone.localtime().date())
     
+    # Fetch everything get_geojson() touches in a fixed number of queries
+    # instead of one per city / condition / parameter. City forecasts are
+    # ordered by id so that the feature order within a forecast is
+    # deterministic; it was previously left to the database.
+    data_values = DataValue.objects.select_related("parameter").order_by("id")
+    city_forecasts = (
+        CityForecast.objects.order_by("id")
+        .select_related("city", "condition")
+        .prefetch_related(Prefetch("data_values", queryset=data_values))
+    )
+    forecasts = forecasts.select_related("effective_period").prefetch_related(
+        Prefetch("city_forecasts", queryset=city_forecasts)
+    )
+
     forecast_data = ForecastSerializer(forecasts, many=True, context={"request": request, }).data
     
     res_data = {
