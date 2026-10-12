@@ -18,6 +18,7 @@ from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtail.rich_text import RichText
+from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 from climweb.base.choosers import register_searchable_chooser
 
@@ -208,12 +209,20 @@ class ProductPage(BaseProductPage):
     map_layers = StreamField([
         ('layers', LayerBlock(label="Layer"))
     ], blank=True, null=True, use_json_field=True, verbose_name=_("Map Layers"))
+
+    audio_playlists = StreamField(
+        [
+            ('playlist', SnippetChooserBlock('audio.AudioPlaylist', label=_("Audio playlist"))),
+        ],
+        null=True, blank=True, verbose_name=_("Audio playlists"),
+        help_text=_("Playlists or podcasts from SoundCloud, YouTube Music, Spotify, Apple Podcasts or an RSS feed"))
     
     content_panels = Page.content_panels + [
         FieldPanel('service'),
         FieldPanel('other_services', widget=forms.CheckboxSelectMultiple),
         FieldPanel('product'),
         *AbstractIntroPage.content_panels,
+        FieldPanel('audio_playlists'),
         MultiFieldPanel(
             [
                 FieldPanel('products_per_page'),

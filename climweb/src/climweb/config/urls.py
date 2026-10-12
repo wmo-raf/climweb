@@ -38,6 +38,7 @@ urlpatterns = [
     *([path("", include("capcomposer.cap.urls"))] if "capcomposer.cap" in settings.INSTALLED_APPS else []),
     path("", include("climweb.pages.stations.urls"), name="stations"),
     path("", include("climweb.pages.videos.urls")),
+    path("", include("climweb.pages.audio.urls")),
     *([path("weather/", include("climweb.pages.weather.urls"))] if "climweb.pages.weather" in settings.INSTALLED_APPS else []),
     
     # geomanager's public account endpoints, re-mounted with rate limits. They
