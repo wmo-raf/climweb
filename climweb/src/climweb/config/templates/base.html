@@ -7,8 +7,10 @@
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
 <!DOCTYPE html>
-<html lang="{{ settings.base.LanguageSettings.default_language }}" 
-      dir="{% if settings.base.LanguageSettings.default_language|slice:":2" == "ar" %}rtl{% else %}ltr{% endif %}">
+{# lang comes from site settings, not the browser, so visitors always land on the site's default language #}
+<html lang="{{ settings.base.LanguageSettings.default_language }}"
+      data-default-lang="{{ settings.base.LanguageSettings.default_language }}"
+      dir="{% if settings.base.LanguageSettings.default_language|is_rtl_language %}rtl{% else %}ltr{% endif %}">
     <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -66,7 +68,7 @@
             --primary-color: {{ primary_color }};
         }
 
-        {% if settings.base.LanguageSettings.default_language|slice:":2" == "ar" %}
+        {% if settings.base.LanguageSettings.default_language|is_rtl_language %}
             .title is-3{
                 text-align:right !important;
             }
@@ -112,6 +114,12 @@
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
+<a class="skip-link" href="#main-content">{% translate "Skip to main content" %}</a>
+
+{# Screen reader announcements for toasts and other dynamic updates – see announce() in common_cms.js #}
+<div id="a11y-announcer-polite" class="is-sr-only" role="status" aria-live="polite"></div>
+<div id="a11y-announcer-assertive" class="is-sr-only" role="alert" aria-live="assertive"></div>
+
 {% wagtailuserbar %}
 
 {% block navbar %}
@@ -119,7 +127,10 @@
 {% endblock navbar %}
 
 <div class="page-container is-medium">
-    {% block content %}{% endblock %}
+    {# role="main" rather than <main> so existing `main section` styles don't apply to every page #}
+    <div id="main-content" class="site-main" role="main" tabindex="-1">
+        {% block content %}{% endblock %}
+    </div>
     {% block footer %}
         {% include 'navigation/footer.html' %}
     {% endblock %}
@@ -157,11 +168,26 @@
         position: 'top-center',
         closeOnClick: true,
     })
+
+    // Announce every toast to screen readers, and keep errors up long enough to read
+    const showToast = bulmaToast.toast;
+    bulmaToast.toast = function (options) {
+        const isError = options.type === "is-danger";
+        if (isError && !("duration" in options)) {
+            options.duration = 8000;
+            options.dismissible = true;
+        }
+        announce(options.message, isError);
+        return showToast.call(bulmaToast, options);
+    };
+
     {% if messages %}
         {% for message in messages %}
-            const level = {{ message.level }}
-            const type = level === 25 ? "is-success" : level === 30 ? "is-warning" : level === 40 ? "is-error" : "is-info"
-            bulmaToast.toast({message: "{{ message }}", type: type})
+            {
+                const level = {{ message.level }}
+                const type = level === 25 ? "is-success" : level === 30 ? "is-warning" : level === 40 ? "is-danger" : "is-info"
+                bulmaToast.toast({message: "{{ message }}", type: type})
+            }
         {% endfor %}
     {% endif %}
 </script>

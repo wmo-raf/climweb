@@ -8,6 +8,7 @@
 
 <div id="sl-share" class="sl-share">
   <button type="button" class="sl-share-btn" id="sl-share-btn"
+          aria-expanded="false" aria-controls="sl-share-panel"
           aria-label="{% translate 'Get a short link to this page' %}"
           title="{% translate 'Get a short link to this page' %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -17,14 +18,15 @@
     </svg>
   </button>
 
-  <div class="sl-share-panel" id="sl-share-panel" hidden>
+  <div class="sl-share-panel" id="sl-share-panel" role="group" aria-labelledby="sl-share-title" hidden>
     <div class="sl-share-panel-head">
-      <span class="sl-share-panel-title">{% translate "Short link" %}</span>
+      <span class="sl-share-panel-title" id="sl-share-title">{% translate "Short link" %}</span>
       <button type="button" class="sl-share-close" id="sl-share-close"
               aria-label="{% translate 'Close' %}">&times;</button>
     </div>
     <div class="sl-share-row">
       <input type="text" id="sl-share-url" class="sl-share-input" readonly
+             aria-label="{% translate 'Short link' %}"
              onclick="this.select();" placeholder="{% translate 'Generating…' %}">
       <button type="button" class="sl-share-copy" id="sl-share-copy">{% translate "Copy" %}</button>
     </div>
@@ -161,10 +163,12 @@
       msg.textContent = text;
       msg.classList.toggle('is-error', !!isError);
       msg.hidden = !text;
+      if (text && typeof announce === 'function') announce(text, isError);
     }
 
     function openPanel() {
       panel.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
       if (fetched) { input.select(); return; }
 
       btn.classList.add('is-loading');
@@ -205,18 +209,32 @@
         });
     }
 
-    function closePanel() { panel.hidden = true; }
+    function closePanel() {
+      panel.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+    }
 
     btn.addEventListener('click', function () {
       if (panel.hidden) { openPanel(); } else { closePanel(); }
     });
-    close.addEventListener('click', closePanel);
+    close.addEventListener('click', function () {
+      closePanel();
+      btn.focus();
+    });
+
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) {
+        closePanel();
+        btn.focus();
+      }
+    });
 
     copy.addEventListener('click', function () {
       if (!input.value) return;
       navigator.clipboard.writeText(input.value).then(function () {
         var label = copy.textContent;
         copy.textContent = '{% translate "Copied!" %}';
+        if (typeof announce === 'function') announce('{% translate "Copied!" %}');
         setTimeout(function () { copy.textContent = label; }, 1500);
       });
     });
