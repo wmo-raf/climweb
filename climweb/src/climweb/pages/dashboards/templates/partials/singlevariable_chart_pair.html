@@ -35,6 +35,8 @@
                 {% if chart.chart_type == "warm_stripes" %}
                 <div
                     class="warming-stripes-chart"
+                    data-title="{{ chart.title }}"
+                    data-unit="{{ chart.data_unit|default:'' }}"
                     id="warming-stripes-{{ section_index }}-{{ index|add:forloop.counter  }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"
@@ -46,6 +48,8 @@
                 {% elif chart.chart_type == "rain_stripes" %}
                 <div
                     class="rainfall-stripes-chart"
+                    data-title="{{ chart.title }}"
+                    data-unit="{{ chart.data_unit|default:'' }}"
                     id="rainfall-stripes-{{ section_index }}-{{ index|add:forloop.counter  }}-{{block_index}}"
                     data-layer-id="{{ chart.dataset.id }}"
                     data-geostore-id="{{ chart.geostore_id|stringformat:"s" }}"

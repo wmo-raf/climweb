@@ -187,7 +187,14 @@
     <script type"text/javascript" src="{% static 'js/maplibre-gl.js' %}"></script>
     <script type"text/javascript" src="{% static 'js/d3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/exporting.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/export-data.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
+    <script>
+        // exporting/export-data are loaded so screen reader users get "View as data table";
+        // hide the export menu icon so charts look the same as before
+        Highcharts.setOptions({ exporting: { buttons: { contextButton: { enabled: false } } } });
+    </script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="{% static 'js/datepicker.min.js' %}"></script>
     <script src="{% static 'js/date-utils.js' %}"></script>

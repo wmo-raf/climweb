@@ -336,7 +336,29 @@ function initializeCalendar(id, onChange, defaultDates, dateFormat, availableDat
 
 }
 
-function initChart({ chartType, chartId, dataUnit, dateFormat }) {
+// Title that screen readers announce (instead of "Chart") but is not drawn;
+// the card header already shows it visually.
+function screenReaderTitle(text) {
+    return { text: text || null, style: { display: "none" } };
+}
+
+// Stripes are plain coloured divs, so give screen readers a text summary instead.
+function describeStripes(container, data, kind) {
+    const unit = container.dataset.unit ? ` ${container.dataset.unit}` : "";
+    const round = v => Math.round(v * 100) / 100;
+    const yearOf = d => new Date(d.date).getFullYear();
+    const lowest = data.reduce((a, b) => (b.value < a.value ? b : a));
+    const highest = data.reduce((a, b) => (b.value > a.value ? b : a));
+    const name = container.dataset.title ? `${kind}: ${container.dataset.title}` : kind;
+
+    container.setAttribute("role", "img");
+    container.setAttribute("aria-label",
+        `${name}, ${yearOf(data[0])} to ${yearOf(data[data.length - 1])}. ` +
+        `Lowest ${round(lowest.value)}${unit} in ${yearOf(lowest)}, highest ${round(highest.value)}${unit} in ${yearOf(highest)}.`
+    );
+}
+
+function initChart({ chartType, chartId, title, dataUnit, dateFormat }) {
     // Determine appropriate tick interval based on date format
     let minTickInterval;
     let tickPixelInterval = 200;
@@ -365,7 +387,7 @@ function initChart({ chartType, chartId, dataUnit, dateFormat }) {
     
     const chart = Highcharts.chart(chartId, {
         chart: { type: chartType || "line", backgroundColor: "transparent", spacingTop: 40 },
-        title: { text: null },
+        title: screenReaderTitle(title),
         credits: { enabled: false },
         xAxis: {
             labels: { formatter: function () { return formatDateTimeJS(this.value, dateFormat) } },
@@ -465,7 +487,7 @@ async function loadChart(container) {
     if (!layerId || !adminPath) return;
 
     const dateFormat = getDateFormatFromContainer(container);
-    const chartConfig = { chartId, chartType: container.dataset.type, dataUnit: container.dataset.unit, dateFormat };
+    const chartConfig = { chartId, chartType: container.dataset.type, title: container.dataset.title, dataUnit: container.dataset.unit, dateFormat };
     const chart = initChart(chartConfig);
 
     let timestamps;
@@ -585,6 +607,7 @@ async function renderWarmingStripes(container) {
             <div style="height:100%;display:flex;align-items:stretch;">${stripesHtml}</div>
             <div style="height:18px;display:flex;align-items:flex-start;">${yearLabelsHtml}</div>
         `;
+        describeStripes(container, data, "Warming stripes");
     }
 
     // ✅ unified calendar init with DateRangePicker
@@ -659,6 +682,11 @@ async function renderRainfallStripes(container) {
       return;
     }
 
+    if (!Array.isArray(data) || !data.length) {
+      container.innerHTML = `<p style="color:red;">No data</p>`;
+      return;
+    }
+
     data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
     const values = data.map(d => d.value);
@@ -690,6 +718,7 @@ async function renderRainfallStripes(container) {
       <div style="height:100%;display:flex;">${stripesHtml}</div>
       <div style="height:18px;display:flex;">${labelsHtml}</div>
     `;
+    describeStripes(container, data, "Rainfall stripes");
   }
 
   // ✅ unified calendar init with DateRangePicker
@@ -725,7 +754,7 @@ async function fetchMultiTimeseries(datasetId, geostoreId, timeFrom, timeTo, cha
     }
 }
 
-function initMultiChart({ chartId, datasets, dateFormat }) {
+function initMultiChart({ chartId, title, datasets, dateFormat }) {
     const yAxis = datasets.map((ds, i) => ({
         title: { text: ds.chart_variable || "Y-Axis" },
         labels: { 
@@ -736,7 +765,7 @@ function initMultiChart({ chartId, datasets, dateFormat }) {
     }));
     return Highcharts.chart(chartId, {
         chart: { backgroundColor: "transparent", spacingTop: 40 },
-        title: { text: null },
+        title: screenReaderTitle(title),
         credits: { enabled: false },
         xAxis: {
             type: 'datetime',
@@ -789,7 +818,7 @@ async function loadMultiVariableChart(container) {
     allTimestamps = [...new Set([].concat(...allTimestamps))].sort((a, b) => new Date(a) - new Date(b));
     const defaultDates = [new Date(allTimestamps[0]), new Date(allTimestamps[allTimestamps.length - 1])];
 
-    const chart = initMultiChart({ chartId, datasets, dateFormat });
+    const chart = initMultiChart({ chartId, title: container.dataset.title, datasets, dateFormat });
 
     async function updateChartForRange(dateRange) {
         // Always clear all series before adding new
