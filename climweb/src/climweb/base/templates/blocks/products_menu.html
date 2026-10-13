@@ -5,7 +5,7 @@
     {% if product.show_in_menus and product.live %}
       <a class="megamenu-item" href="{{ product.url }}">
 
-        <div class="megamenu-item-icon">
+        <div class="megamenu-item-icon" aria-hidden="true">
           {% if product.specific.products_listing_image %}
             {% image product.specific.products_listing_image original as prod_img %}
             <img src="{{ prod_img.url }}" alt="{{ product.title }}">

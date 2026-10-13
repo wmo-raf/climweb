@@ -293,6 +293,26 @@ function ga_reg_event_from_el(el) {
     ga_reg_event(action, gtag_data)
 }
 
+/**
+ * Read a message out to screen reader users via the live regions in base.html.
+ * Pass assertive=true for errors that should interrupt.
+ */
+function announce(message, assertive) {
+    const region = document.getElementById(assertive ? "a11y-announcer-assertive" : "a11y-announcer-polite");
+    if (!region || !message) return;
+
+    // Messages may contain HTML; parse as an inert document so only the text is read
+    const text = typeof message === "string"
+        ? new DOMParser().parseFromString(message, "text/html").body.textContent
+        : message.textContent;
+
+    // Clear first so repeating the same message is announced again
+    region.textContent = "";
+    setTimeout(function () {
+        region.textContent = (text || "").trim();
+    }, 100);
+}
+
 
 $(document).ready(function () {
 
@@ -316,11 +336,16 @@ $(document).ready(function () {
         const searchInput   = document.getElementById('search-input');
         const inputEl       = document.getElementById('input-el');
 
+        const setSearchOpen = function (open) {
+            searchInput.style.display = open ? 'block' : 'none';
+            searchTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+
         if (searchTrigger && searchInput) {
         searchTrigger.addEventListener('click', function (e) {
             e.stopPropagation();
             const isVisible = searchInput.style.display !== 'none';
-            searchInput.style.display = isVisible ? 'none' : 'block';
+            setSearchOpen(!isVisible);
             if (!isVisible && inputEl) inputEl.focus();
         });
 
@@ -331,7 +356,7 @@ $(document).ready(function () {
             !searchInput.contains(e.target) &&
             !searchTrigger.contains(e.target)
             ) {
-            searchInput.style.display = 'none';
+            setSearchOpen(false);
             }
         });
         }
@@ -350,8 +375,48 @@ $(document).ready(function () {
         /* close search on Escape */
         document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && searchInput && searchInput.style.display !== 'none') {
-            searchInput.style.display = 'none';
+            setSearchOpen(false);
+            searchTrigger.focus();
         }
+        });
+
+        /* ── LANGUAGE MENU ── opens on hover (CSS) or click/Enter/Space; Esc closes */
+        $(".util-dropdown").each(function () {
+            const dropdown = this;
+            const trigger = dropdown.querySelector(".util-dropdown-trigger");
+            if (!trigger) return;
+
+            const setOpen = function (open) {
+                dropdown.classList.toggle("is-open", open);
+                trigger.setAttribute("aria-expanded", open ? "true" : "false");
+            };
+
+            trigger.addEventListener("click", function (e) {
+                e.stopPropagation();
+                setOpen(!dropdown.classList.contains("is-open"));
+            });
+
+            dropdown.addEventListener("keydown", function (e) {
+                if (e.key === "Escape" && dropdown.classList.contains("is-open")) {
+                    setOpen(false);
+                    trigger.focus();
+                }
+            });
+
+            dropdown.querySelectorAll(".util-dropdown-item").forEach(function (item) {
+                item.addEventListener("click", function () {
+                    setOpen(false);
+                    trigger.focus();
+                });
+            });
+
+            dropdown.addEventListener("focusout", function (e) {
+                if (!dropdown.contains(e.relatedTarget)) setOpen(false);
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!dropdown.contains(e.target)) setOpen(false);
+            });
         });
         const default_lang = "en-us"
 
