@@ -127,8 +127,8 @@
 {% endblock navbar %}
 
 <div class="page-container is-medium">
-    {# role="main" rather than <main> so existing `main section` styles don't apply to every page #}
-    <div id="main-content" class="site-main" role="main" tabindex="-1">
+    {# Skip link target only: page templates provide their own <main> landmark #}
+    <div id="main-content" class="site-main" tabindex="-1">
         {% block content %}{% endblock %}
     </div>
     {% block footer %}

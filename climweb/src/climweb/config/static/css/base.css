@@ -16,12 +16,12 @@ html, body {
     align-items: stretch;
 }
 
-main, .page-main {
+main {
     background: #fff;
     flex-grow: 1;
 }
 
-/* Main landmark wrapping {% block content %} in base.html */
+/* Wraps {% block content %} in base.html; skip link target */
 .site-main {
     flex-grow: 1;
     display: flex;
@@ -56,7 +56,7 @@ main, .page-main {
     border: none !important;
 }
 
-.hero-header, main, .page-main, footer {
+.hero-header, main, footer {
     flex-shrink: 0;
 }
 
@@ -90,7 +90,7 @@ main, .page-main {
 }
 
 
-main section, .page-main section {
+main section {
     padding: 90px 0;
 }
 
@@ -242,7 +242,7 @@ input[type='checkbox'] {
 /*768px and lower*/
 @media screen and (max-width: 768px) {
 
-    main section, .page-main section {
+    main section {
         padding: 40px 0;
     }
 
