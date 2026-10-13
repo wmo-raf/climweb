@@ -182,7 +182,8 @@
         </div>
 
         <!-- MAP -->
-        <div id="city-map" class="wd-map">
+        <div id="city-map" class="wd-map"
+             data-map-label="{% blocktranslate trimmed with city=city_map_payload.city_name %}Map showing the location of {{ city }}{% endblocktranslate %}">
           {{ city_map_payload | json_script:"city-map-data" }}
         </div>
       </div>
