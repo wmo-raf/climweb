@@ -6,7 +6,7 @@
     <img class="progressive__img progressive--not-loaded"
          data-progressive="{{ img.url }}"
          src="{% lazy_image_url img %}"
-         alt="{{ value.title }}" />
+         alt="{% firstof img.image.description value.title %}" />
   </figure>
 {% endif %}
 
