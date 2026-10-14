@@ -523,13 +523,8 @@ class CMSUpgradeNotificationPanel(Component):
     def get_webhook_url(self):
         return getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
     
-    def has_required_variables(self):
-        current_version = get_main_version()
-        webhook_url = self.get_webhook_url()
-        
-        return current_version and webhook_url
-    
     def get_context_data(self, parent_context):
+        request = parent_context["request"]
         current_version = get_main_version()
         try:
             latest_release = get_latest_cms_release()
@@ -540,7 +535,8 @@ class CMSUpgradeNotificationPanel(Component):
                 "has_new_version": latest_release_greater_than_current,
                 "latest_release": latest_release,
                 "current_version": current_version,
-                "cms_upgrade_hook_url": self.get_webhook_url(),
+                # Release notes are shown to every CMS user, upgrading is reserved for superusers
+                "can_upgrade": request.user.is_superuser and bool(self.get_webhook_url()),
                 "version_upgrade_url": reverse("cms-version")
             }
         except Exception as e:
@@ -549,13 +545,9 @@ class CMSUpgradeNotificationPanel(Component):
         return {}
     
     def render_html(self, parent_context):
-        if (
-                parent_context["request"].user.is_superuser
-                and self.has_required_variables()
-        ):
+        if get_main_version():
             return super().render_html(parent_context)
-        else:
-            return ""
+        return ""
 
 
 @hooks.register('construct_homepage_panels')
