@@ -13,6 +13,55 @@ from .models import HomeMapSettings
 
 
 def home_map_settings(request):
+    map_settings = HomeMapSettings.for_request(request)
+    config = get_map_config(request, map_settings, map_settings.map_layers)
+    return JsonResponse(config)
+
+
+def serialize_map_layers(request, map_layers):
+    """
+    Serialize a StreamField of raster/wms/vector tile layer blocks
+    (see climweb.pages.home.models.BaseLayerBlock) into the config the home map Vue component expects
+    """
+    dynamic_map_layers = []
+    for index, block in enumerate(map_layers or []):
+        
+        # check if the layer is enabled
+        enabled = block.value.get("enabled")
+        if not enabled:
+            continue
+        
+        LayerSerializer = None
+        if block.block_type == "raster_file_layer":
+            LayerSerializer = RasterFileLayerSerializer
+        elif block.block_type == "wms_layer":
+            LayerSerializer = WmsLayerSerializer
+        elif block.block_type == "vector_tile_layer":
+            LayerSerializer = VectorTileLayerSerializer
+        
+        if LayerSerializer:
+            layer = block.value.get("layer")
+            layer_config = LayerSerializer(layer, context={"request": request}).data
+            
+            layer_config.update({
+                "icon": block.value.get("icon"),
+                "display_name": block.value.get("display_name"),
+                "position": index,
+                "show_by_default": block.value.get("default"),
+            })
+            
+            dynamic_map_layers.append(layer_config)
+    
+    return dynamic_map_layers
+
+
+def get_map_config(request, map_settings, map_layers, show_location_forecast=True, cap_geojson_url=None):
+    """
+    Build the config consumed by the home map Vue component.
+    
+    Boundaries, basemaps, zoom locations and display options come from HomeMapSettings, while the layers,
+    and optionally the CAP alerts GeoJSON url, can be provided by the caller, so that other pages can reuse the map
+    """
     config = {
         "zoomLocations": []
     }
@@ -38,14 +87,12 @@ def home_map_settings(request):
     if "capcomposer.cap" in settings.INSTALLED_APPS:
         config.update({
             "homeMapAlertsUrl": get_full_url(request, reverse("home_map_alerts")),
-            "capGeojsonUrl": get_full_url(request, reverse("cap_alerts_geojson")),
+            "capGeojsonUrl": cap_geojson_url or get_full_url(request, reverse("cap_alerts_geojson")),
         })
     
     if org_settings.country_info:
         config["countryInfo"] = org_settings.country_info
     
-    map_settings = HomeMapSettings.for_request(request)
-
     for location in map_settings.zoom_locations:
         config["zoomLocations"].append({
             "id": location.id,
@@ -68,7 +115,8 @@ def home_map_settings(request):
     config.update({
         "showWarningsLayer": map_settings.show_warnings_layer,
         "capWarningsLayerDisplayName": map_settings.warnings_layer_display_name,
-        "showLocationForecastLayer": map_settings.show_location_forecast_layer and settings.IS_METEOROLOGICAL,
+        "showLocationForecastLayer": show_location_forecast and map_settings.show_location_forecast_layer
+                                     and settings.IS_METEOROLOGICAL,
         "locationForecastLayerDisplayName": map_settings.location_forecast_layer_display_name,
         "locationForecastDateDisplayFormat": map_settings.location_forecat_date_display_format,
     })
@@ -94,36 +142,6 @@ def home_map_settings(request):
         if base_maps_data:
             config["basemaps"] = base_maps_data
     
-    dynamic_map_layers = []
-    for index, block in enumerate(map_settings.map_layers):
-        
-        # check if the layer is enabled
-        enabled = block.value.get("enabled")
-        if not enabled:
-            continue
-        
-        LayerSerializer = None
-        if block.block_type == "raster_file_layer":
-            LayerSerializer = RasterFileLayerSerializer
-        elif block.block_type == "wms_layer":
-            LayerSerializer = WmsLayerSerializer
-        elif block.block_type == "vector_tile_layer":
-            LayerSerializer = VectorTileLayerSerializer
-
-        
-        if LayerSerializer:
-            layer = block.value.get("layer")
-            layer_config = LayerSerializer(layer, context={"request": request}).data
-            
-            layer_config.update({
-                "icon": block.value.get("icon"),
-                "display_name": block.value.get("display_name"),
-                "position": index,
-                "show_by_default": block.value.get("default"),
-            })
-            
-            dynamic_map_layers.append(layer_config)
+    config["dynamicMapLayers"] = serialize_map_layers(request, map_layers)
     
-    config["dynamicMapLayers"] = dynamic_map_layers
-    
-    return JsonResponse(config)
+    return config
