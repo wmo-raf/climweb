@@ -1,12 +1,14 @@
 from adminboundarymanager.models import AdminBoundary
 from django.contrib.gis.geos import MultiPolygon, Polygon
 from django.test import RequestFactory
+from django.utils import timezone
 from wagtail.models import Site
 from wagtail.test.utils import WagtailPageTestCase
 
-from ..models import SubNationalRegion
+from ..models import SubNationalProductPage, SubNationalRegion
 from .factories import (
     ProductIndexPageFactory,
+    ProductItemPageFactory,
     SubNationalProductsLandingPageFactory,
     SubNationalProductPageFactory,
     SubNationalRegionFactory,
@@ -144,6 +146,42 @@ class TestSubNationalProducts(WagtailPageTestCase):
         
         groups = [label for label, _choices in self.region_form().fields["admin_boundary"].choices[1:]]
         self.assertEqual(groups, ["Region (admin level 1)", "District (admin level 2)"])
+    
+    def test_product_page_context(self):
+        request = RequestFactory().get("/")
+        request.site = self.landing_page.get_site()
+        context = self.nyali_page.get_context(request)
+        
+        self.assertEqual(context["location"]["district"]["name"], "Mombasa")
+        self.assertEqual(context["location"]["sub_district"]["name"], "Nyali Beach")
+        self.assertEqual(context["area_name"], "Sub-district")
+        self.assertTrue(context["boundary_thumbnail"]["path"].startswith("M"))
+        self.assertFalse(context["has_updates"])
+        # each page has its own product, so there are no other areas to switch to
+        self.assertIsNone(context["other_areas"])
+    
+    def test_product_page_switches_between_areas_of_the_same_product(self):
+        SubNationalProductPage.objects.filter(pk=self.westlands_page.pk).update(product=self.nyali_page.product)
+        
+        request = RequestFactory().get("/")
+        request.site = self.landing_page.get_site()
+        context = self.nyali_page.get_context(request)
+        
+        self.assertEqual([p.pk for p in context["other_areas"]], [self.nyali_page.pk, self.westlands_page.pk])
+    
+    def test_product_page_renders_with_updates(self):
+        item_types = self.nairobi_page.product.product_item_types
+        ProductItemPageFactory(
+            parent=self.nairobi_page,
+            products__0__image_product__product_type=item_types[0][0],
+            products__0__image_product__date=timezone.now().date(),
+        )
+        
+        response = self.client.get(self.nairobi_page.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["has_updates"])
+        self.assertContains(response, "pub-filter")
+        self.assertNotContains(response, "subnational-detail-empty")
     
     def test_landing_page_shows_level_names(self):
         self.landing_page.admin_level_1_name = "Region"

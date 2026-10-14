@@ -771,22 +771,25 @@ class SubNationalProductsLandingPage(AbstractIntroPage, Page):
             "labels": {"type": "FeatureCollection", "features": labels},
         }
     
+    def get_location(self, region):
+        """The district and sub-district a region is linked to, if any"""
+        index = self.boundary_index
+        location = {"district": None, "sub_district": None}
+        
+        if region.admin_level == 1:
+            location["district"] = index["districts"].get(region.admin_gid)
+        elif region.admin_level == 2:
+            location["sub_district"] = index["sub_districts"].get(region.admin_gid)
+            if location["sub_district"]:
+                location["district"] = index["districts"].get(location["sub_district"]["district_gid"])
+        
+        return location
+    
     def add_listing_details(self, product_pages):
         """Location, latest update and a boundary outline thumbnail for each listed product page"""
-        index = self.boundary_index
-        
         for product_page in product_pages:
-            location = {"district": None, "sub_district": None}
-            
             region = product_page.region
-            if region.admin_level == 1:
-                location["district"] = index["districts"].get(region.admin_gid)
-            elif region.admin_level == 2:
-                location["sub_district"] = index["sub_districts"].get(region.admin_gid)
-                if location["sub_district"]:
-                    location["district"] = index["districts"].get(location["sub_district"]["district_gid"])
-            
-            product_page.location = location
+            product_page.location = self.get_location(region)
             product_page.latest_update = ProductItemPage.objects.live().child_of(product_page) \
                 .aggregate(latest=models.Max("date"))["latest"]
             
@@ -935,6 +938,39 @@ class SubNationalProductPage(BaseProductPage):
     def listing_summary(self):
         summary = self.get_meta_description()
         return summary
+    
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        
+        landing_page = self.get_parent().specific
+        region = self.region
+        boundary = region.boundary
+        
+        if region.admin_level == 2:
+            area_name = landing_page.admin_level_2_name
+        elif region.admin_level == 1:
+            area_name = landing_page.admin_level_1_name
+        else:
+            area_name = _("Region")
+        
+        # the same product for other areas, to switch between them
+        other_areas = SubNationalProductPage.objects.live().sibling_of(self) \
+            .filter(product_id=self.product_id).select_related("region").order_by("region__name")
+        
+        context.update({
+            "landing_page": landing_page,
+            "location": landing_page.get_location(region),
+            "area_name": area_name,
+            "other_areas": other_areas if other_areas.count() > 1 else None,
+            "boundary_thumbnail": boundary_svg(boundary.geom) if boundary else None,
+            "latest_update": self.all_products.aggregate(latest=models.Max("productitempage__date"))["latest"],
+            "has_updates": self.all_products.exists(),
+            # hide the introduction text when it only repeats a title
+            "show_introduction_text": strip_tags(str(self.introduction_text or "")).strip()
+                                      not in ((self.introduction_title or "").strip(), self.title.strip()),
+        })
+        
+        return context
     
     @property
     def view_count(self):
