@@ -1,5 +1,9 @@
-from adminboundarymanager.models import AdminBoundarySettings
+from collections import Counter
+
+from adminboundarymanager.models import AdminBoundary, AdminBoundarySettings
 from django import forms
+from django.contrib.gis.db.models import Extent
+from django.contrib.gis.db.models.functions import PointOnSurface
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.template.defaultfilters import truncatechars
@@ -7,12 +11,13 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.dates import MONTHS
 from django.utils.functional import cached_property
+from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 from geomanager.models import RasterFileLayer
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
 from wagtail import blocks
-from wagtail.admin.forms import WagtailAdminPageForm
+from wagtail.admin.forms import WagtailAdminModelForm, WagtailAdminPageForm
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import StreamField
@@ -27,6 +32,7 @@ from climweb.base.models import Product, ProductItemType
 from climweb.base.models import ServiceCategory, AbstractIntroPage
 from climweb.base.utils import paginate, query_param_to_list, get_first_non_empty_p_string
 from climweb.pages.publications.models import PageView
+from .subnational import boundary_svg, querystring
 from .blocks import (
     ProductItemImageContentBlock,
     ProductItemDocumentContentBlock,
@@ -563,7 +569,22 @@ class SubNationalProductsLandingPage(AbstractIntroPage, Page):
     
     max_count = 1
     
-    content_panels = Page.content_panels + AbstractIntroPage.content_panels
+    admin_level_1_name = models.CharField(
+        max_length=100, default="District", verbose_name=_("Admin level 1 name"),
+        help_text=_("What admin level 1 boundaries are called in this country, e.g. Region, Province, County"))
+    admin_level_2_name = models.CharField(
+        max_length=100, default="Sub-district", verbose_name=_("Admin level 2 name"),
+        help_text=_("What admin level 2 boundaries are called in this country, e.g. District, Sub-county"))
+    
+    content_panels = Page.content_panels + AbstractIntroPage.content_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel("admin_level_1_name"),
+                FieldPanel("admin_level_2_name"),
+            ],
+            heading=_("Admin boundary level names"),
+        ),
+    ]
     
     class Meta:
         verbose_name = _('Subnational Product Landing Page')
@@ -575,19 +596,106 @@ class SubNationalProductsLandingPage(AbstractIntroPage, Page):
         return product_pages
     
     @cached_property
+    def product_pages(self):
+        return SubNationalProductPage.objects.live().child_of(self)
+    
+    @cached_property
+    def boundary_index(self):
+        """
+        Districts (admin level 1) and sub-districts (admin level 2) that have live products, with
+        product counts and a label point for the map. Districts are included when only their
+        sub-districts have products.
+        """
+        linked = self.product_pages.filter(region__admin_level__isnull=False, region__admin_gid__isnull=False) \
+            .values_list("region__admin_level", "region__admin_gid", "region__name")
+        counts = Counter((level, gid) for level, gid, _name in linked)
+        # regions can be named differently from the boundary data, e.g. "Nkhata Bay" for "Nkhatabay"
+        region_names = {(level, gid): name for level, gid, name in linked}
+        
+        sub_districts = {}
+        for boundary in AdminBoundary.objects.filter(level=2, gid_2__in=[g for (l, g) in counts if l == 2]) \
+                .annotate(label_point=PointOnSurface("geom")):
+            sub_districts[boundary.gid_2] = {
+                "gid": boundary.gid_2,
+                "name": region_names.get((2, boundary.gid_2), boundary.name_2),
+                "district_gid": boundary.gid_1,
+                "count": counts[(2, boundary.gid_2)],
+                "point": boundary.label_point.coords,
+            }
+        
+        district_gids = {g for (l, g) in counts if l == 1} | {s["district_gid"] for s in sub_districts.values()}
+        
+        districts = {}
+        for boundary in AdminBoundary.objects.filter(level=1, gid_1__in=district_gids) \
+                .annotate(label_point=PointOnSurface("geom")):
+            districts[boundary.gid_1] = {
+                "gid": boundary.gid_1,
+                "name": region_names.get((1, boundary.gid_1), boundary.name_1),
+                "count": counts[(1, boundary.gid_1)],
+                "point": boundary.label_point.coords,
+                "sub_districts": [],
+            }
+        
+        for sub_district in sorted(sub_districts.values(), key=lambda s: s["name"]):
+            district = districts.get(sub_district["district_gid"])
+            if district:
+                district["sub_districts"].append(sub_district)
+                district["count"] += sub_district["count"]
+        
+        districts = dict(sorted(districts.items(), key=lambda d: d[1]["name"]))
+        
+        return {"districts": districts, "sub_districts": sub_districts}
+    
+    @cached_property
     def filters(self):
-        regions = {p.region.id: p.region for p in self.all_items.all()}
-        return {'regions': list(regions.values())}
+        """
+        Districts with their sub-districts nested, built from the boundaries linked to the product
+        pages' regions. Regions without a boundary are listed separately.
+        """
+        region_counts = Counter(
+            self.product_pages.filter(region__admin_gid__isnull=True).values_list("region", flat=True)
+        )
+        other_regions = [
+            {"id": region.id, "name": region.name, "count": region_counts[region.id]}
+            for region in SubNationalRegion.objects.filter(id__in=region_counts).order_by("name")
+        ]
+        
+        return {
+            "districts": list(self.boundary_index["districts"].values()),
+            "other_regions": other_regions,
+        }
+    
+    def get_selection(self, request):
+        return {
+            "districts": query_param_to_list(request.GET.get("district")) or [],
+            "sub_districts": query_param_to_list(request.GET.get("subdistrict")) or [],
+            "regions": query_param_to_list(request.GET.get("region"), as_int=True) or [],
+        }
     
     def filter_items(self, request):
         items = self.all_items
+        selection = self.get_selection(request)
+        districts, sub_districts, regions = selection["districts"], selection["sub_districts"], selection["regions"]
         
-        regions = query_param_to_list(request.GET.get("region"), as_int=True)
+        if not districts and not sub_districts and not regions:
+            return items
         
         filters = models.Q()
         
+        # a selected sub-district narrows down its district
+        if sub_districts:
+            filters |= models.Q(subnationalproductpage__region__admin_level=2,
+                                subnationalproductpage__region__admin_gid__in=sub_districts)
+        elif districts:
+            district_sub_districts = AdminBoundary.objects.filter(level=2, gid_1__in=districts) \
+                .values_list("gid_2", flat=True)
+            filters |= models.Q(subnationalproductpage__region__admin_level=1,
+                                subnationalproductpage__region__admin_gid__in=districts)
+            filters |= models.Q(subnationalproductpage__region__admin_level=2,
+                                subnationalproductpage__region__admin_gid__in=list(district_sub_districts))
+        
         if regions:
-            filters &= models.Q(subnationalproductpage__region__id__in=regions)
+            filters |= models.Q(subnationalproductpage__region__id__in=regions)
         
         return items.filter(filters)
     
@@ -600,17 +708,185 @@ class SubNationalProductsLandingPage(AbstractIntroPage, Page):
         
         return paginated_products
     
+    def get_active_filters(self, request):
+        """Chips for the current selection, each with a link that removes it"""
+        selection = self.get_selection(request)
+        index = self.boundary_index
+        chips = []
+        
+        for gid in selection["districts"]:
+            district = index["districts"].get(gid)
+            if district:
+                chips.append({"label": district["name"],
+                              "url": querystring(request, district=None, subdistrict=None)})
+        
+        for gid in selection["sub_districts"]:
+            sub_district = index["sub_districts"].get(gid)
+            if sub_district:
+                chips.append({"label": sub_district["name"], "url": querystring(request, subdistrict=None)})
+        
+        regions = {r["id"]: r for r in self.filters["other_regions"]}
+        for region_id in selection["regions"]:
+            if region_id in regions:
+                chips.append({"label": regions[region_id]["name"], "url": querystring(request, region=None)})
+        
+        return chips
+    
+    def get_map_config(self, request):
+        index = self.boundary_index
+        
+        if not index["districts"]:
+            return None
+        
+        selection = self.get_selection(request)
+        
+        # zoom to the selection if there is one, otherwise to all areas with products
+        if selection["districts"] or selection["sub_districts"]:
+            area = models.Q(level=1, gid_1__in=selection["districts"]) | \
+                   models.Q(level=2, gid_2__in=selection["sub_districts"])
+        else:
+            area = models.Q(level=1, gid_1__in=list(index["districts"])) | \
+                   models.Q(level=2, gid_2__in=list(index["sub_districts"]))
+        
+        extent = AdminBoundary.objects.filter(area).aggregate(extent=Extent("geom"))["extent"]
+        abm_settings = AdminBoundarySettings.for_request(request)
+        
+        def label(area, level):
+            return {
+                "type": "Feature",
+                "geometry": {"type": "Point", "coordinates": area["point"]},
+                "properties": {"name": area["name"], "count": area["count"], "level": level},
+            }
+        
+        labels = [label(d, 1) for d in index["districts"].values()] + \
+                 [label(s, 2) for s in index["sub_districts"].values()]
+        
+        return {
+            "boundaryTilesUrl": get_full_url(request, abm_settings.boundary_tiles_url),
+            "bounds": list(extent) if extent else abm_settings.combined_countries_bounds,
+            "districts": list(index["districts"]),
+            "subDistricts": list(index["sub_districts"]),
+            "selectedDistricts": selection["districts"],
+            "selectedSubDistricts": selection["sub_districts"],
+            "labels": {"type": "FeatureCollection", "features": labels},
+        }
+    
+    def add_listing_details(self, product_pages):
+        """Location, latest update and a boundary outline thumbnail for each listed product page"""
+        index = self.boundary_index
+        
+        for product_page in product_pages:
+            location = {"district": None, "sub_district": None}
+            
+            region = product_page.region
+            if region.admin_level == 1:
+                location["district"] = index["districts"].get(region.admin_gid)
+            elif region.admin_level == 2:
+                location["sub_district"] = index["sub_districts"].get(region.admin_gid)
+                if location["sub_district"]:
+                    location["district"] = index["districts"].get(location["sub_district"]["district_gid"])
+            
+            product_page.location = location
+            product_page.latest_update = ProductItemPage.objects.live().child_of(product_page) \
+                .aggregate(latest=models.Max("date"))["latest"]
+            
+            product_page.boundary_thumbnail = None
+            if not product_page.introduction_image and not product_page.default_listing_thumbnail:
+                boundary = region.boundary
+                if boundary:
+                    product_page.boundary_thumbnail = boundary_svg(boundary.geom)
+    
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         
-        context['items'] = self.filter_and_paginate_items(request)
+        items = self.filter_and_paginate_items(request)
+        self.add_listing_details(items)
+        
+        selection = self.get_selection(request)
+        selected_district = self.boundary_index["districts"].get(next(iter(selection["districts"]), None))
+        
+        context.update({
+            "items": items,
+            "map_config": self.get_map_config(request),
+            "selection": selection,
+            "selected_district": selected_district,
+            "active_filters": self.get_active_filters(request),
+            # hide the introduction text when it only repeats the title
+            "show_introduction_text": strip_tags(str(self.introduction_text or "")).strip()
+                                      != (self.introduction_title or "").strip(),
+        })
         
         return context
 
 
+class SubNationalRegionForm(WagtailAdminModelForm):
+    admin_boundary = forms.ChoiceField(
+        required=False,
+        label=_("Admin boundary"),
+        help_text=_("Optional. The admin boundary this region matches. Used to browse products by area "
+                    "and on the map. Leave empty for regions that do not match a single boundary."),
+    )
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        landing_page = SubNationalProductsLandingPage.objects.first()
+        if landing_page:
+            level_1_name, level_2_name = landing_page.admin_level_1_name, landing_page.admin_level_2_name
+        else:
+            level_1_name, level_2_name = _("Admin level 1"), _("Admin level 2")
+        
+        level_1_names = dict(AdminBoundary.objects.filter(level=1).values_list("gid_1", "name_1"))
+        level_1 = sorted(level_1_names.items(), key=lambda b: b[1] or "")
+        level_2 = AdminBoundary.objects.filter(level=2).order_by("name_1", "name_2") \
+            .values_list("gid_1", "gid_2", "name_1", "name_2")
+        
+        self.fields["admin_boundary"].choices = [
+            ("", "---------"),
+            (f"{level_1_name} ({_('admin level 1')})", [(f"1:{gid}", name) for gid, name in level_1]),
+            (f"{level_2_name} ({_('admin level 2')})", [
+                (f"2:{gid_2}", f"{level_1_names.get(gid_1, name_1)} › {name_2}")
+                for gid_1, gid_2, name_1, name_2 in level_2
+            ]),
+        ]
+        
+        if self.instance.admin_level and self.instance.admin_gid:
+            self.initial["admin_boundary"] = f"{self.instance.admin_level}:{self.instance.admin_gid}"
+    
+    def save(self, commit=True):
+        value = self.cleaned_data.get("admin_boundary")
+        
+        if value:
+            level, gid = value.split(":", 1)
+            self.instance.admin_level = int(level)
+            self.instance.admin_gid = gid
+        else:
+            self.instance.admin_level = None
+            self.instance.admin_gid = None
+        
+        return super().save(commit=commit)
+
+
 @register_snippet
 class SubNationalRegion(models.Model):
+    base_form_class = SubNationalRegionForm
+    
+    ADMIN_LEVEL_CHOICES = (
+        (1, _("Admin level 1")),
+        (2, _("Admin level 2")),
+    )
+    
     name = models.CharField(max_length=255, verbose_name=_("Name"))
+    # Stored as boundary codes rather than a foreign key, because reloading boundary data
+    # deletes and recreates AdminBoundary rows.
+    admin_level = models.PositiveSmallIntegerField(blank=True, null=True, choices=ADMIN_LEVEL_CHOICES,
+                                                   verbose_name=_("Admin level"))
+    admin_gid = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Admin boundary code"))
+    
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("admin_boundary"),
+    ]
     
     def __str__(self):
         return self.name
@@ -618,6 +894,13 @@ class SubNationalRegion(models.Model):
     class Meta:
         verbose_name = _('Subnational Region')
         verbose_name_plural = _('Subnational Regions')
+    
+    @cached_property
+    def boundary(self):
+        if not self.admin_level or not self.admin_gid:
+            return None
+        return AdminBoundary.objects.filter(level=self.admin_level,
+                                            **{f"gid_{self.admin_level}": self.admin_gid}).first()
 
 
 class SubNationalProductPage(BaseProductPage):

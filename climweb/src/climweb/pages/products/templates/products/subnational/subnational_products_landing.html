@@ -2,7 +2,13 @@
 {% load static wagtailiconchooser_tags i18n wagtailcore_tags %}
 
 {% block extra_css %}
+    {% if map_config %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/maplibre-gl.css' %}">
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{% static 'products/css/product.css' %}">
 {% endblock %}
+
+{% block body_class %}subnational-landing-page{% endblock %}
 
 {% block content %}
     <main>
@@ -13,82 +19,64 @@
                 </div>
             </section>
         {% else %}
-            <section>
-                <div class="work container">
-                    <h2 class="title is-3">
+            <section class="subnational-intro">
+                <div class="container">
+                    <h1 class="title is-3">
                         {{ page.introduction_title }}
-                    </h2>
-                    <div class="intro-description format-text">
-                        {{ page.introduction_text|richtext }}
-                    </div>
+                    </h1>
+                    {% if show_introduction_text %}
+                        <div class="intro-description format-text">
+                            {{ page.introduction_text|richtext }}
+                        </div>
+                    {% endif %}
                 </div>
             </section>
         {% endif %}
 
-        <section class="listing-section">
-            <div id="browse">
-                <h2 id="results"
-                    class="section-title has-text-centered">
-                    {% translate "Browse Products" %}
-                </h2>
-                <div class="container">
-                    <div class="columns" style="width: 100%;margin: 0">
-                        <div class="column is-3 is-full-mobile">
-                            {% include 'products/subnational/subnational_products_landing_filter_include.html' with filters=page.filters %}
+        <section id="results" class="subnational-browse">
+            <div class="container">
+                <div class="columns is-desktop">
+                    {% if map_config %}
+                        <div class="column is-6-desktop">
+                            <div class="subnational-map-panel">
+                                <button type="button" class="subnational-map-toggle" aria-expanded="true"
+                                        aria-controls="subnational-map-container">
+                                    <span class="when-expanded">{% translate "Hide map" %}</span>
+                                    <span class="when-collapsed">{% translate "Show map" %}</span>
+                                </button>
+                                <div id="subnational-map-container" class="subnational-map-container">
+                                    <div id="subnational-map"></div>
+                                    <div class="subnational-map-legend">
+                                        <span><i class="swatch available"></i>{% translate "Has products" %}</span>
+                                        <span><i class="swatch selected"></i>{% translate "Selected" %}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="column is-9 is-full-mobile">
-                            {% include 'products/subnational/subnational_product_page_list_include.html' with items=items %}
-                        </div>
+                    {% endif %}
+                    <div class="column">
+                        {% include 'products/subnational/subnational_products_landing_filter_include.html' with filters=page.filters %}
+                        {% include 'products/subnational/subnational_product_page_list_include.html' with items=items %}
                     </div>
                 </div>
             </div>
         </section>
-
-
     </main>
 {% endblock content %}
 
 {% block extra_js %}
+    {% if map_config %}
+        {{ map_config|json_script:"subnational-map-config" }}
+        <script src="{% static "js/maplibre-gl.js" %}"></script>
+        <script src="{% static "products/js/subnational_map.js" %}"></script>
+    {% endif %}
 
     <script>
-        // If on smaller screens, collapse all filter items
-        const windowWidth = $(window).width();
-
-        if (windowWidth <= 768) {
-            //for  smaller devices
-            $('.results-filter .js-accordion-item').removeClass('active');
-        }
-
-        const listButton = $("#list-view-button");
-        const gridButton = $("#grid-view-button");
-        const wrapper = $(".results-list");
-        const resultItem = $(".result-list-item");
-
-
-        const params = getParams(window.location.href);
-
-        // mark checkboxes from params url, on load
-        markCheckboxesFromUrlParams('product-filter', params, function (params) {
-            if (params && params.view) {
-                if (params.view === 'grid') {
-                    listButton.removeClass("active");
-                    gridButton.addClass("active");
-                    wrapper.removeClass("list-view").addClass("grid-view columns is-mobile is-multiline");
-                    resultItem.addClass("column is-one-third-desktop is-full-mobile");
-                } else {
-                    gridButton.removeClass("active");
-                    listButton.addClass("active");
-                    wrapper.removeClass("grid-view columns is-mobile is-multiline").addClass("list-view");
-                    resultItem.removeClass("column is-one-third-desktop is-full-mobile");
-                }
-            }
-        });
-
-        const baseUrl = "{{ page.url }}";
-
-        filterChangeListener('product-filter', params, function (clickedEl, url_params) {
-            window.location.href = `${baseUrl}?${url_params}#results`;
+        document.querySelectorAll(".subnational-filter-select").forEach(function (select) {
+            select.addEventListener("change", function () {
+                const option = select.options[select.selectedIndex];
+                window.location.href = option.dataset.url + "#results";
+            });
         });
     </script>
-
 {% endblock %}

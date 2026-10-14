@@ -197,3 +197,296 @@
   height: 12px;
   fill: #bbb;
 }
+
+/***** Subnational products ******/
+.subnational-intro {
+    padding: 2rem 0 1rem;
+}
+
+.subnational-intro .title {
+    margin-bottom: 0.75rem;
+}
+
+.subnational-browse {
+    padding: 1rem 0 3rem;
+}
+
+/* map */
+.subnational-map-panel {
+    position: sticky;
+    top: 1rem;
+}
+
+.subnational-map-container {
+    position: relative;
+}
+
+#subnational-map {
+    height: calc(100vh - 2rem);
+    max-height: 640px;
+    min-height: 420px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 25%);
+}
+
+.subnational-map-legend {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 12px;
+    background: rgb(255 255 255 / 92%);
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+}
+
+.subnational-map-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.subnational-map-legend .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid rgb(0 0 0 / 30%);
+}
+
+.subnational-map-legend .swatch.available {
+    background: var(--primary-color-medium);
+}
+
+.subnational-map-legend .swatch.selected {
+    background: #f5a524;
+}
+
+.subnational-map-toggle {
+    display: none;
+}
+
+/* filters */
+.subnational-filters {
+    margin-bottom: 1.25rem;
+}
+
+.subnational-filter-selects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.subnational-filter-field {
+    flex: 1 1 200px;
+}
+
+.subnational-filter-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.subnational-sub-districts,
+.subnational-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.subnational-sub-districts {
+    margin-top: 0.85rem;
+}
+
+.subnational-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 13px;
+    border-radius: 999px;
+    border: 1px solid var(--primary-color-medium);
+    color: var(--primary-color);
+    background: #fff;
+}
+
+.subnational-chip:hover {
+    background: var(--primary-color-lightest);
+    color: var(--primary-color);
+}
+
+.subnational-chip.is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+.subnational-chip-count {
+    font-size: 11px;
+    opacity: 0.75;
+}
+
+.subnational-clear {
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+/* results */
+.subnational-results-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.subnational-results-count {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.subnational-cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.subnational-card {
+    display: flex;
+    gap: 1rem;
+    padding: 0.85rem;
+    margin: 0 -0.85rem;
+    border-radius: 8px;
+    transition: background-color 0.15s;
+}
+
+.subnational-card + .subnational-card {
+    border-top: 1px solid #f0f1f3;
+}
+
+.subnational-card:hover,
+.subnational-card.is-highlighted {
+    background: var(--primary-color-lightest);
+}
+
+.subnational-card-thumb {
+    flex: 0 0 120px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--primary-color-light);
+}
+
+.subnational-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.subnational-card-thumb svg {
+    width: 80%;
+    height: 80%;
+}
+
+.subnational-card-thumb path {
+    fill: var(--primary-color-medium);
+    stroke: var(--primary-color);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+}
+
+.subnational-card-thumb-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--primary-color);
+}
+
+.subnational-card-body {
+    min-width: 0;
+}
+
+.subnational-card-location {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.subnational-card-location svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+}
+
+.subnational-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0.2rem 0 0.35rem;
+}
+
+.subnational-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.subnational-card-product {
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 1023px) {
+    .subnational-map-panel {
+        position: static;
+    }
+
+    #subnational-map {
+        height: 260px;
+        min-height: 0;
+    }
+
+    .subnational-map-toggle {
+        display: inline-block;
+        margin-bottom: 0.5rem;
+        padding: 0;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--primary-color);
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .subnational-map-toggle .when-collapsed,
+    .subnational-map-panel.is-collapsed .subnational-map-toggle .when-expanded,
+    .subnational-map-panel.is-collapsed .subnational-map-container {
+        display: none;
+    }
+
+    .subnational-map-panel.is-collapsed .subnational-map-toggle .when-collapsed {
+        display: inline;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .subnational-card-thumb {
+        flex-basis: 80px;
+        height: 64px;
+    }
+}
