@@ -16,7 +16,8 @@
     <main class="is-index">
         {% include 'hero.html' with page=page %}
 
-        {% if page.has_status %}
+        <div class="aa-sticky-nav">
+{% if page.has_status %}
             <section class="aa-status" aria-label="{% translate 'Current status' %}">
                 <div class="container aa-status-inner">
                     <div class="aa-status-main">
@@ -88,6 +89,8 @@
                 </ul>
             </div>
         </nav>
+        </div>
+        
 
         {% if page.risk_summary or page.key_facts %}
             <section class="section aa-section" id="situation">
