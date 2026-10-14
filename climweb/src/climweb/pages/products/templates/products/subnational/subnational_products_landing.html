@@ -12,26 +12,18 @@
 
 {% block content %}
     <main>
-        {% if page.introduction_image %}
-            <section class="nmhs-work is-desktop">
-                <div class="work container">
-                    {% include 'service_introduction.html' with page=page what_we_do=False %}
-                </div>
-            </section>
-        {% else %}
-            <section class="subnational-intro">
-                <div class="container">
-                    <h1 class="title is-3">
-                        {{ page.introduction_title }}
-                    </h1>
-                    {% if show_introduction_text %}
-                        <div class="intro-description format-text">
-                            {{ page.introduction_text|richtext }}
-                        </div>
-                    {% endif %}
-                </div>
-            </section>
-        {% endif %}
+        <section class="subnational-intro">
+            <div class="container">
+                <h1 class="title is-3">
+                    {{ page.introduction_title }}
+                </h1>
+                {% if show_introduction_text %}
+                    <div class="intro-description format-text">
+                        {{ page.introduction_text|richtext }}
+                    </div>
+                {% endif %}
+            </div>
+        </section>
 
         <section id="results" class="subnational-browse">
             <div class="container">
