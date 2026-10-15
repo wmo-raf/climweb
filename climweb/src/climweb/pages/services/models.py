@@ -1,11 +1,15 @@
+from adminboundarymanager.models import AdminBoundarySettings
 from django.db import models
 from django.db.models import Q
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel)
+from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, Orderable
+from wagtailiconchooser.utils import get_svg_sprite_for_icons
 from wagtailmetadata.models import MetadataPageMixin
 
 from climweb.base import blocks
@@ -14,6 +18,7 @@ from climweb.base.models import ServiceCategory, AbstractBannerWithIntroPage
 from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
 from climweb.pages.events.models import EventPage
 from climweb.pages.flex_page.models import FlexPage
+from climweb.pages.home.models import RasterFileLayerBlock, WMSLayerBlock, VectorTileLayerBlock
 from climweb.pages.news.models import NewsPage
 from climweb.pages.organisation_pages.projects.models import ServiceProject
 from climweb.pages.products.models import ProductPage, SubNationalProductPage
@@ -109,6 +114,15 @@ class ServicePage(AbstractBannerWithIntroPage):
         blank=True
     )
     
+    map_title = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Map heading"))
+    map_layers = StreamField([
+        ("raster_file_layer", RasterFileLayerBlock(label=_("Raster Layer"), icon="map")),
+        ("wms_layer", WMSLayerBlock(label=_("WMS Layer"), icon="map")),
+        ("vector_tile_layer", VectorTileLayerBlock(label=_("Vector Tile Layer"), icon="map")),
+    ], blank=True, null=True, use_json_field=True, verbose_name=_("Map Layers"),
+        help_text=_("Products to show on an interactive map on this page, e.g. rainfall outlooks for "
+                    "agriculture. The map section is hidden when no layers are added"))
+    
     youtube_playlist = models.ForeignKey(
         YoutubePlaylist,
         null=True,
@@ -130,6 +144,12 @@ class ServicePage(AbstractBannerWithIntroPage):
         ),
         FieldPanel('feature_block_items'),
         FieldPanel("extra_content"),
+        MultiFieldPanel([
+            FieldPanel('map_title'),
+            FieldPanel('map_layers'),
+        ],
+            heading=_("Map section"),
+        ),
         MultiFieldPanel([
             FieldPanel('projects_description'),
         ],
@@ -245,7 +265,22 @@ class ServicePage(AbstractBannerWithIntroPage):
         if self.youtube_playlist:
             context['youtube_playlist_url'] = self.youtube_playlist.get_playlist_items_api_url(request)
         
+        if self.has_map:
+            map_layer_icons = ["warning", "layer-group"]
+            map_layer_icons.extend([layer.value.get("icon") for layer in self.map_layers if layer.value.get("icon")])
+            
+            context.update({
+                "country_bounds": AdminBoundarySettings.for_request(request).combined_countries_bounds,
+                "map_layer_svg_sprite": get_svg_sprite_for_icons(map_layer_icons),
+                "map_settings_url": get_full_url(request, reverse("service-map-settings", args=[self.pk])),
+            })
+        
         return context
+    
+    @cached_property
+    def has_map(self):
+        # a layer deleted from GeoManager comes back as None, so it does not count
+        return any(layer.value.get("enabled") and layer.value.get("layer") for layer in self.map_layers or [])
 
 
 class ServiceApplication(Orderable):

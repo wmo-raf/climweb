@@ -4,7 +4,13 @@ import maplibregl from "maplibre-gl";
 import {bbox as turfBbox} from "@turf/bbox";
 
 import {useMapStore} from "@/stores/map";
-import {getRasterLayerConfig, getVectorTileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
+import {
+  getRasterLayerConfig,
+  getVectorTileLayerConfig,
+  removeTileUrlParams,
+  updateSourceTileUrl,
+  updateTileUrl
+} from "@/utils/map";
 import {getTimeFromList} from "@/utils/date";
 import {getTimeValuesFromWMS} from "@/utils/wms";
 
@@ -280,13 +286,15 @@ const initializeMapLayers = async (mapSettings) => {
       }
 
       handleDynamicLayer(mapStoreLayer)
-      const defaultDynamicLayer = dynamicMapLayers.find(layer => layer.show_by_default)
-
-      if (defaultDynamicLayer) {
-        toggleDynamicLayer(defaultDynamicLayer.id, true)
-        mapStore.updateLayerVisibility(defaultDynamicLayer.id, true)
-      }
     })
+
+    // toggle the default layer once all layers are in the store
+    const defaultDynamicLayer = dynamicMapLayers.find(layer => layer.show_by_default)
+
+    if (defaultDynamicLayer && mapStore.getLayerById(defaultDynamicLayer.id)) {
+      toggleDynamicLayer(defaultDynamicLayer.id, true)
+      mapStore.updateLayerVisibility(defaultDynamicLayer.id, true)
+    }
   }
 };
 
@@ -594,6 +602,10 @@ const fetchTimestamps = (layer) => {
 
   if (layerType === "raster_file" || layerType === "vector_tile") {
     const {tileJsonUrl, timestampsResponseObjectKey} = layer
+    // layers without a time dimension have no tileJsonUrl
+    if (!tileJsonUrl) {
+      return []
+    }
     return getTimeValuesFromTileJson(tileJsonUrl, timestampsResponseObjectKey)
   } else if (layerType === "wms") {
     const {getCapabilitiesUrl, getCapabilitiesLayerName} = layer
@@ -674,6 +686,58 @@ const addDynamicLayer = async (layerId) => {
 
         setLabels()
       }
+    } else if (layerType === "wms") {
+      // WMS layers without a time dimension: show the server's default image, without a time selector
+      const sourceId = mapLayerConfig.source.id
+      const tileUrl = removeTileUrlParams(mapLayerConfig.source.tiles[0], ["time"])
+
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, {
+          ...mapLayerConfig.source,
+          tiles: [tileUrl],
+        });
+      }
+
+      if (!map.getLayer(layerId)) {
+        map.addLayer({
+          id: layerId,
+          type: "raster",
+          source: sourceId,
+        });
+      }
+
+      alwaysOnTopLayers.forEach(l => {
+        if (map.getLayer(l)) {
+          map.moveLayer(l)
+        }
+      });
+
+      setLabels()
+    } else if (layerType === "vector_tile") {
+      // Vector tile layers without a time dimension: use the base tile url, without a time selector
+      const sourceId = mapLayerConfig.source.id
+
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, mapLayerConfig.source);
+      }
+
+      const {layers} = mapLayerConfig
+      layers && layers.forEach(layer => {
+        if (!map.getLayer(layer.id)) {
+          map.addLayer({
+            ...layer,
+            source: sourceId,
+          });
+        }
+      })
+
+      alwaysOnTopLayers.forEach(l => {
+        if (map.getLayer(l)) {
+          map.moveLayer(l)
+        }
+      });
+
+      setLabels()
     }
 
     mapStore.setLoading(false)

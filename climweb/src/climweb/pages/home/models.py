@@ -29,7 +29,6 @@ from climweb.pages.events.models import EventPage
 from climweb.pages.news.models import NewsPage
 from climweb.pages.organisation_pages.partners.models import Partner
 from climweb.pages.publications.models import PublicationPage
-from climweb.pages.services.models import ServicePage
 from climweb.pages.videos.models import YoutubePlaylist
 from .blocks import AreaBoundaryBlock, AreaPolygonBlock
 
@@ -55,7 +54,8 @@ HOME_SUBPAGE_TYPES = [
     'satellite_imagery.SatelliteImageryPage',
     'glossary.GlossaryIndexPage',
     'webstories.WebStoryListPage',
-    'dashboards.DashboardGalleryPage'
+    'dashboards.DashboardGalleryPage',
+    'anticipatory_action.AnticipatoryActionPage',
 ]
 
 if "forecastmanager" in settings.INSTALLED_APPS:
@@ -389,6 +389,9 @@ class HomePage(MetadataPageMixin, Page):
     
     @cached_property
     def services(self):
+        # imported here because services.models uses the map layer blocks defined in this module
+        from climweb.pages.services.models import ServicePage
+        
         services = ServicePage.objects.live()
         return services
 

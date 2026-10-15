@@ -1,0 +1,542 @@
+/* Anticipatory Action page. Colours come from --anticipatory-* in navigation.css */
+
+/* Keep every section on a white background, instead of the alternating
+   section backgrounds from cms_style.css (.is-index section:nth-child) */
+body.anticipatory-action-page .is-index section {
+    background-color: #fff;
+}
+
+/* Status bar */
+body.anticipatory-action-page .is-index section.aa-status {
+    padding: 0;
+    background-color: #fffaf0;
+    border-bottom: 1px solid #f3e2b3;
+}
+
+.aa-status-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding: 1.25rem 0;
+}
+
+.aa-status-main {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.aa-risk-level {
+    flex: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    align-self: start;
+}
+
+.aa-risk-level--low { background: #dcfce7; color: #14532d; }
+.aa-risk-level--moderate { background: #fef9c3; color: #713f12; }
+.aa-risk-level--high { background: #ffedd5; color: #7c2d12; }
+.aa-risk-level--very_high { background: #fee2e2; color: #7f1d1d; }
+
+.aa-status-hazard {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.aa-status-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Phase indicator */
+.aa-phase-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #555;
+    margin-bottom: 0.35rem;
+}
+
+.aa-phase-steps {
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.aa-phase-step {
+    min-width: 90px;
+    padding: 6px 10px;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #e5d9bd;
+    color: #777;
+    background: #fff;
+}
+
+.aa-phase-step.is-past {
+    background: #fdf1d6;
+    color: #8a6a1f;
+    border-color: #fdf1d6;
+}
+
+.aa-phase-step.is-current {
+    background: var(--anticipatory-color, #F59E0B);
+    border-color: var(--anticipatory-color, #F59E0B);
+    color: var(--anticipatory-text-color, #1F1300);
+    font-weight: 700;
+}
+
+.aa-sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+/* In-page menu */
+.aa-page-nav {
+    
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+/* Line the menu up with the section content, whose containers are narrowed
+   by "section .container" in nmhs_cms.css. The menu is a nav, not a section */
+@media screen and (min-width: 769px) and (max-width: 1605px) {
+    .aa-page-nav .container {
+        max-width: 75vw !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .aa-page-nav .container {
+        max-width: 90vw !important;
+    }
+}
+
+.aa-page-nav ul {
+    position: relative;
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.aa-page-nav ul::-webkit-scrollbar {
+    display: none;
+}
+
+.aa-page-nav a {
+    display: block;
+    white-space: nowrap;
+    padding: 0.85rem 0.75rem;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+
+.aa-page-nav li:first-child a {
+    padding-inline-start: 0;
+}
+
+.aa-page-nav a:hover,
+.aa-page-nav a.is-active {
+    color: var(--primary-color);
+}
+
+.aa-page-nav a.is-active {
+    border-bottom-color: var(--primary-color);
+}
+
+/* leave room for the sticky menu when jumping to a section */
+.aa-section {
+    scroll-margin-top: 150px;
+}
+
+/* Section headers */
+.aa-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.aa-section-header .title {
+    margin-bottom: 0;
+}
+
+.aa-section-subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-top: 0.35rem;
+}
+
+.aa-section-link {
+    flex: none;
+}
+
+.aa-eyebrow {
+    color: var(--anticipatory-color-hover, #D97706);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.aa-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--primary-color);
+}
+
+.aa-empty {
+    color: #555;
+}
+
+/* What's happening */
+.aa-situation {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+.aa-situation.is-single {
+    grid-template-columns: 1fr;
+}
+
+.aa-risk-summary {
+    max-width: 75ch;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.aa-key-facts {
+    display: grid;
+    gap: 0;
+    margin: 0;
+}
+
+.aa-situation.is-single .aa-key-facts {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+}
+
+.aa-key-fact {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.aa-key-fact:first-child {
+    padding-top: 0;
+}
+
+.aa-key-fact dt {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--primary-color);
+}
+
+.aa-key-fact dd {
+    margin: 0.25rem 0 0;
+    color: #555;
+}
+
+/* Where: full width, edge to edge */
+.aa-map-section {
+    padding-bottom: 0 !important;
+    padding-inline: 0 !important;
+}
+
+.aa-map {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.aa-map #home-map {
+    height: 560px;
+    width: 100%;
+    position: relative;
+}
+
+/* What to do */
+.aa-audience-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.aa-chip {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #d6d6d6;
+    background: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    color: #444;
+}
+
+.aa-chip:hover {
+    border-color: var(--primary-color);
+}
+
+.aa-chip.is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+.aa-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.aa-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: var(--border-radius, 8px);
+    padding: 1.25rem;
+    color: inherit;
+}
+
+.aa-card[hidden] {
+    display: none;
+}
+
+.aa-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aa-card-icon {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+}
+
+.aa-card-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+}
+
+.aa-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.aa-card .format-text ul {
+    list-style: disc;
+    padding-inline-start: 1.25rem;
+}
+
+/* Warnings */
+.aa-warning-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.aa-warning {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: var(--border-radius, 8px);
+    padding: 1.25rem;
+}
+
+.aa-warning-header {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.aa-warning-severity {
+    background: var(--aa-severity-bg, #eee);
+    color: var(--aa-severity-color, #333);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.aa-warning-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.aa-warning-title a {
+    color: inherit;
+}
+
+.aa-warning-headline {
+    color: #444;
+    margin-bottom: 0.75rem;
+}
+
+.aa-warning-instruction {
+    background: #fff7e6;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.aa-warning-instruction-label {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.aa-warning-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 13px;
+    color: #555;
+}
+
+/* Evidence and contacts */
+.aa-resources {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+}
+
+.aa-resources.is-single {
+    grid-template-columns: 1fr;
+}
+
+.aa-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.aa-list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+    color: inherit;
+}
+
+.aa-list li:first-child .aa-list-item {
+    padding-top: 0;
+}
+
+.aa-list-thumb {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f0f3f8;
+}
+
+.aa-list-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.aa-list-initial {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.aa-list-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.aa-list-title {
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.aa-list-item:hover .aa-list-title {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.aa-list-description {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Bulma containers have no side padding below desktop, so put back
+   the section padding the map section gives up */
+@media (max-width: 1023px) {
+    .aa-map-section > .container {
+        padding-inline: 1.5rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .aa-situation,
+    .aa-resources {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .aa-status-inner {
+        padding: 1rem 0;
+    }
+
+    .aa-phase,
+    .aa-phase-steps {
+        width: 100%;
+    }
+
+    .aa-phase-step {
+        flex: 1;
+        min-width: 0;
+        padding: 6px 4px;
+        font-size: 12px;
+    }
+
+    .aa-map #home-map {
+        height: 380px;
+    }
+}

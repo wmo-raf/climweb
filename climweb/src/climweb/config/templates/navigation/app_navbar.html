@@ -28,6 +28,15 @@
                              style="height: 18px;width: 18px;border-radius:4px">
                     </a>
                 {% endif %}
+                {% with aa_page=settings.base.ImportantPages.anticipatory_action_button_page %}
+                {% if aa_page %}
+                    <a href="{{ aa_page.url }}"
+                       class="level-item top-nav-item top-nav-item--anticipatory"
+                    >
+                        <span>{% firstof settings.base.ImportantPages.anticipatory_action_button_label _("Anticipatory Action") %}</span>
+                    </a>
+                {% endif %}
+                {% endwith %}
                 {% if settings.base.ImportantPages.mailing_list_signup_page %}
                     <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
                        class="level-item top-nav-item"
