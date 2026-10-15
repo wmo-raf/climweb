@@ -39,8 +39,13 @@ def serialize_map_layers(request, map_layers):
         elif block.block_type == "vector_tile_layer":
             LayerSerializer = VectorTileLayerSerializer
         
+        layer = block.value.get("layer")
+        
+        # the layer was deleted from GeoManager after it was added here
+        if layer is None:
+            continue
+        
         if LayerSerializer:
-            layer = block.value.get("layer")
             layer_config = LayerSerializer(layer, context={"request": request}).data
             
             layer_config.update({

@@ -128,3 +128,26 @@
 .accordion__item.js-accordion-item.active .icon svg {
     fill: #fff;
 }
+
+/* Map section */
+.service-map-section {
+    padding-bottom: 0 !important;
+    padding-inline: 0 !important;
+}
+
+.service-map {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.service-map #home-map {
+    height: 560px;
+    width: 100%;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .service-map #home-map {
+        height: 380px;
+    }
+}
