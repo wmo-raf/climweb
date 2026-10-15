@@ -1,5 +1,6 @@
 from adminboundarymanager.models import AdminBoundarySettings
 from django import forms
+from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -80,13 +81,6 @@ class AnticipatoryActionPage(AbstractBannerPage):
         ("very_high", _("Very high")),
     )
 
-    PHASE_CHOICES = (
-        ("normal", _("Normal")),
-        ("watch", _("Watch")),
-        ("readiness", _("Readiness")),
-        ("activation", _("Activation")),
-    )
-
     # Status
     hazard = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Hazard"),
                               help_text=_("The hazard or climate driver, e.g. Drought, El Niño, Dry spell"))
@@ -96,9 +90,11 @@ class AnticipatoryActionPage(AbstractBannerPage):
                                       help_text=_("Short list of the areas at risk, e.g. North-eastern counties"))
     show_phase = models.BooleanField(default=False, verbose_name=_("Show anticipatory action phase"),
                                      help_text=_("For services working with a trigger-based anticipatory action "
-                                                 "framework. Shows the current phase in the status bar"))
-    current_phase = models.CharField(max_length=20, choices=PHASE_CHOICES, default="normal",
-                                     verbose_name=_("Current phase"))
+                                                 "framework. Shows the phases below in the status bar"))
+    phases = StreamField(aa_blocks.PhasesBlock(), blank=True, default=aa_blocks.default_phases,
+                         use_json_field=True, verbose_name=_("Phases"),
+                         help_text=_("The phases of your anticipatory action framework, in order. Rename, add or "
+                                     "remove phases to match it, e.g. Ready / Set / Go, and tick the current one"))
 
     # Situation
     risk_summary_title = models.CharField(max_length=255, default=_("What's happening"),
@@ -166,7 +162,7 @@ class AnticipatoryActionPage(AbstractBannerPage):
             FieldPanel("affected_areas"),
             FieldPanel("situation_last_updated"),
             FieldPanel("show_phase"),
-            FieldPanel("current_phase"),
+            FieldPanel("phases"),
         ], heading=_("Status")),
         MultiFieldPanel([
             FieldPanel("risk_summary_title"),
@@ -223,21 +219,34 @@ class AnticipatoryActionPage(AbstractBannerPage):
         return bool(self.hazard or self.risk_level or self.affected_areas or self.show_phase)
 
     @property
-    def phases(self):
+    def phase_steps(self):
         """
         Phases in order, each marked as past, current or upcoming, for the phase indicator
         """
-        current_index = [value for value, label in self.PHASE_CHOICES].index(self.current_phase)
-        phases = []
-        for index, (value, label) in enumerate(self.PHASE_CHOICES):
-            if index < current_index:
-                state = "past"
+        phases = [block.value for block in self.phases or []]
+        current_index = next((index for index, phase in enumerate(phases) if phase.get("is_current")), None)
+        
+        steps = []
+        for index, phase in enumerate(phases):
+            if current_index is None or index > current_index:
+                state = "upcoming"
             elif index == current_index:
                 state = "current"
             else:
-                state = "upcoming"
-            phases.append({"value": value, "label": label, "state": state})
-        return phases
+                state = "past"
+            steps.append({"label": phase.get("label"), "description": phase.get("description"), "state": state})
+        return steps
+    
+    @property
+    def current_phase(self):
+        return next((step for step in self.phase_steps if step["state"] == "current"), None)
+    
+    def clean(self):
+        super().clean()
+        if self.show_phase and not self.current_phase:
+            raise ValidationError({
+                "phases": _("Tick the current phase, or turn off 'Show anticipatory action phase'")
+            })
 
     @property
     def action_audiences(self):

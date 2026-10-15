@@ -74,7 +74,15 @@ def get_template_content():
         "affected_areas": _("Replace with the areas at risk, e.g. North-eastern counties"),
         "situation_last_updated": timezone.localdate(),
         "show_phase": True,
-        "current_phase": "watch",
+        "phases": [
+            ("phase", {"label": _("Normal"), "description": "", "is_current": False}),
+            ("phase", {"label": _("Watch"), "is_current": True,
+                       "description": _("Forecasts show a raised risk. Partners are monitoring and reviewing plans")}),
+            ("phase", {"label": _("Readiness"), "is_current": False,
+                       "description": _("Trigger thresholds are close. Partners are preparing to act")}),
+            ("phase", {"label": _("Activation"), "is_current": False,
+                       "description": _("Trigger reached. Anticipatory actions are under way")}),
+        ],
         "risk_summary": "<p>{}</p><p>{}</p>".format(
             _("Below-average rainfall is forecast for the coming season. Pasture and water availability are "
               "expected to decline, with the greatest impact on pastoralist and agro-pastoral livelihoods."),

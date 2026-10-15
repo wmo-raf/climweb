@@ -2,16 +2,59 @@ import json
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.forms.utils import ErrorList
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from shapely.geometry import shape
 from wagtail import blocks
 from wagtail.blocks import StructValue
+from wagtail.blocks.stream_block import StreamBlockValidationError
 from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
 
 from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
+
+
+class PhaseBlock(blocks.StructBlock):
+    label = blocks.CharBlock(max_length=30, label=_("Phase name"), help_text=_("e.g. Watch, Ready, Alarm"))
+    description = blocks.CharBlock(max_length=200, required=False, label=_("What it means"),
+                                   help_text=_("Shown under the phases when this phase is current, "
+                                               "e.g. Trigger reached, partners are preparing activities"))
+    is_current = blocks.BooleanBlock(required=False, label=_("Current phase"))
+    
+    class Meta:
+        icon = "list-ol"
+        label = _("Phase")
+
+
+class PhasesBlock(blocks.StreamBlock):
+    phase = PhaseBlock()
+    
+    class Meta:
+        max_num = 6
+    
+    def clean(self, value):
+        value = super().clean(value)
+        current = [child for child in value if child.value.get("is_current")]
+        if len(current) > 1:
+            raise StreamBlockValidationError(non_block_errors=ErrorList([
+                ValidationError(_("Only one phase can be the current phase"))
+            ]))
+        return value
+
+
+def default_phases():
+    """
+    Phases for services without their own framework. Editors can rename, add or remove phases,
+    e.g. Ready / Set / Go, or Normal / Alert / Alarm / Emergency / Recovery
+    """
+    return [
+        ("phase", {"label": str(_("Normal")), "description": "", "is_current": True}),
+        ("phase", {"label": str(_("Watch")), "description": "", "is_current": False}),
+        ("phase", {"label": str(_("Readiness")), "description": "", "is_current": False}),
+        ("phase", {"label": str(_("Activation")), "description": "", "is_current": False}),
+    ]
 
 
 class KeyFactBlock(blocks.StructBlock):

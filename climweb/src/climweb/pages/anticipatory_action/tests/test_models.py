@@ -13,6 +13,7 @@ from climweb.base.models import ImportantPages
 from climweb.pages.home.tests.factories import get_or_create_homepage
 from climweb.pages.news.tests.factories import NewsIndexPageFactory, NewsPageFactory
 from ..cap import info_matches
+from ..models import AnticipatoryActionPage
 from .factories import AnticipatoryActionPageFactory
 
 
@@ -37,22 +38,54 @@ class TestAnticipatoryActionPage(WagtailPageTestCase):
     def test_latest_updates_only_include_flagged_content(self):
         self.assertEqual(self.page.latest_updates, [self.aa_news])
     
+    def ready_set_go(self, current):
+        return [
+            ("phase", {"label": label, "description": f"{label} description", "is_current": label == current})
+            for label in ["Ready", "Set", "Go"]
+        ]
+    
     def test_status_bar_and_phase_rendered(self):
         self.page.show_phase = True
-        self.page.current_phase = "readiness"
+        self.page.phases = self.ready_set_go("Set")
         self.page.save_revision().publish()
         
         resp = self.client.get(self.page.get_url())
         self.assertContains(resp, "aa-risk-level--high")
         self.assertContains(resp, "North-eastern counties")
         self.assertContains(resp, 'class="aa-phase-step is-current"')
+        self.assertContains(resp, "Set description")
+        self.assertNotContains(resp, "Ready description")
+    
+    def test_default_phases(self):
+        page = AnticipatoryActionPage()
+        self.assertEqual([step["label"] for step in page.phase_steps],
+                         ["Normal", "Watch", "Readiness", "Activation"])
+        self.assertEqual(page.current_phase["label"], "Normal")
     
     def test_phase_states(self):
-        self.page.current_phase = "readiness"
-        states = {phase["value"]: phase["state"] for phase in self.page.phases}
-        self.assertEqual(states, {
-            "normal": "past", "watch": "past", "readiness": "current", "activation": "upcoming",
-        })
+        self.page.phases = self.ready_set_go("Set")
+        states = {step["label"]: step["state"] for step in self.page.phase_steps}
+        self.assertEqual(states, {"Ready": "past", "Set": "current", "Go": "upcoming"})
+    
+    def test_only_one_current_phase_allowed(self):
+        from wagtail.blocks.stream_block import StreamBlockValidationError
+        block = AnticipatoryActionPage._meta.get_field("phases").stream_block
+        value = block.to_python([
+            {"type": "phase", "value": {"label": "Ready", "description": "", "is_current": True}},
+            {"type": "phase", "value": {"label": "Set", "description": "", "is_current": True}},
+        ])
+        with self.assertRaises(StreamBlockValidationError):
+            block.clean(value)
+    
+    def test_shown_phase_needs_a_current_phase(self):
+        from django.core.exceptions import ValidationError
+        self.page.show_phase = True
+        self.page.phases = [("phase", {"label": "Ready", "description": "", "is_current": False})]
+        with self.assertRaises(ValidationError):
+            self.page.clean()
+        
+        self.page.show_phase = False
+        self.page.clean()
     
     def test_phase_hidden_by_default(self):
         resp = self.client.get(self.page.get_url())
