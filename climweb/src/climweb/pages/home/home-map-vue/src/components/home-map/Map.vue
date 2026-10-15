@@ -4,7 +4,13 @@ import maplibregl from "maplibre-gl";
 import {bbox as turfBbox} from "@turf/bbox";
 
 import {useMapStore} from "@/stores/map";
-import {getRasterLayerConfig, getVectorTileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
+import {
+  getRasterLayerConfig,
+  getVectorTileLayerConfig,
+  removeTileUrlParams,
+  updateSourceTileUrl,
+  updateTileUrl
+} from "@/utils/map";
 import {getTimeFromList} from "@/utils/date";
 import {getTimeValuesFromWMS} from "@/utils/wms";
 
@@ -674,6 +680,33 @@ const addDynamicLayer = async (layerId) => {
 
         setLabels()
       }
+    } else if (layerType === "wms") {
+      // WMS layers without a time dimension: show the server's default image, without a time selector
+      const sourceId = mapLayerConfig.source.id
+      const tileUrl = removeTileUrlParams(mapLayerConfig.source.tiles[0], ["time"])
+
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, {
+          ...mapLayerConfig.source,
+          tiles: [tileUrl],
+        });
+      }
+
+      if (!map.getLayer(layerId)) {
+        map.addLayer({
+          id: layerId,
+          type: "raster",
+          source: sourceId,
+        });
+      }
+
+      alwaysOnTopLayers.forEach(l => {
+        if (map.getLayer(l)) {
+          map.moveLayer(l)
+        }
+      });
+
+      setLabels()
     }
 
     mapStore.setLoading(false)
