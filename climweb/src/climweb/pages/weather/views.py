@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -6,7 +7,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET
 from django.template.loader import render_to_string
 from forecastmanager.forecast_settings import ForecastSetting
-from forecastmanager.models import City, Forecast
+from forecastmanager.models import City, CityForecast, DataValue, Forecast
 from forecastmanager.serializers import CitySerializer, ForecastSerializer
 from wagtail.api.v2.utils import get_full_url
 from wagtailcache.settings import wagtailcache_settings
@@ -153,21 +154,55 @@ def get_cities_with_forecast_data(request):
 
 
 def get_home_map_forecast(request):
+    today = timezone.localtime().date()
+
+    # Keyed on the date so the map moves on at midnight without waiting for the
+    # timeout. Edits to forecast data clear it early (see signals.py).
+    cache_key = get_home_map_forecast_cache_key(today)
+
+    if wagtailcache_settings.WAGTAIL_CACHE:
+        cached = wagcache.get(cache_key)
+        if cached is not None:
+            return cached
+
     forecast_setting = ForecastSetting.for_request(request)
     forecast_periods_count = forecast_setting.periods.count()
-    
+
     multi_period = forecast_periods_count > 1
-    
+
+    # Drafts await review, so the public map shows published forecasts only.
+    forecasts = Forecast.objects.filter(status=Forecast.STATUS_PUBLISHED)
+
     if multi_period:
-        forecasts = Forecast.objects.filter(forecast_date=timezone.localtime().date())
+        forecasts = forecasts.filter(forecast_date=today)
     else:
-        forecasts = Forecast.objects.filter(forecast_date__gte=timezone.localtime().date())
-    
+        forecasts = forecasts.filter(forecast_date__gte=today)
+
+    # Forecast.get_geojson walks every city forecast and its data values, so
+    # without this each city costs several queries of its own.
+    forecasts = forecasts.select_related("effective_period").prefetch_related(
+        Prefetch(
+            "city_forecasts",
+            queryset=CityForecast.objects.select_related("city", "condition").prefetch_related(
+                Prefetch("data_values", queryset=DataValue.objects.select_related("parameter"))
+            ),
+        )
+    )
+
     forecast_data = ForecastSerializer(forecasts, many=True, context={"request": request, }).data
-    
+
     res_data = {
         "data": forecast_data,
         "multi_period": multi_period
     }
-    
-    return JsonResponse(res_data, safe=False)
+
+    response = JsonResponse(res_data, safe=False)
+
+    if wagtailcache_settings.WAGTAIL_CACHE:
+        wagcache.set(cache_key, response, 60 * 20)
+
+    return response
+
+
+def get_home_map_forecast_cache_key(date):
+    return f"home_map_forecast_data_{date.isoformat()}"
