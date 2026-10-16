@@ -1,0 +1,14 @@
+{% load wagtailiconchooser_tags %}
+<div class="aa-section-header">
+    <div>
+        {% if eyebrow %}<p class="aa-eyebrow">{{ eyebrow }}</p>{% endif %}
+        <h2 class="title is-3">{{ title }}</h2>
+        {% if subtitle %}<p class="aa-section-subtitle">{{ subtitle }}</p>{% endif %}
+    </div>
+    {% if link_url %}
+        <a href="{{ link_url }}" class="aa-link aa-section-link">
+            {{ link_text }}
+            <span class="icon is-small">{% svg_icon name="arrow-right-full" %}</span>
+        </a>
+    {% endif %}
+</div>

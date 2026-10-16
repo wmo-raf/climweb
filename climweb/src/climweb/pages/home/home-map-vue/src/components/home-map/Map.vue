@@ -4,7 +4,13 @@ import maplibregl from "maplibre-gl";
 import {bbox as turfBbox} from "@turf/bbox";
 
 import {useMapStore} from "@/stores/map";
-import {getRasterLayerConfig, getVectorTileLayerConfig, updateSourceTileUrl, updateTileUrl} from "@/utils/map";
+import {
+  getRasterLayerConfig,
+  getVectorTileLayerConfig,
+  removeTileUrlParams,
+  updateSourceTileUrl,
+  updateTileUrl
+} from "@/utils/map";
 import {getTimeFromList} from "@/utils/date";
 import {getTimeValuesFromWMS} from "@/utils/wms";
 
@@ -395,7 +401,7 @@ const addWarningsLayer = (capGeojsonUrl) => {
         source: "weather-warnings",
         paint: {
           "fill-color": ["case", ["==", ["get", "severity"], "Extreme"], "#d42d41", ["==", ["get", "severity"], "Severe"], "#f08c11", ["==", ["get", "severity"], "Moderate"], "#f4cf00", ["==", ["get", "severity"], "Minor"], "#399cc7", ["==", ["get", "severity"], "Unknown"], "#82a8df", "black",],
-          "fill-opacity": 1,
+          "fill-opacity": mapStore.getLayerById("weather-warnings")?.opacity ?? 1,
           "fill-outline-color": ["case", ["==", ["get", "severity"], "Extreme"], "#DC2626", ["==", ["get", "severity"], "Severe"], "#C2600A", ["==", ["get", "severity"], "Moderate"], "#A16207", ["==", ["get", "severity"], "Minor"], "#0E7490", ["==", ["get", "severity"], "Unknown"], "#4B6CB7", "black",],
         },
       }, beforeLayer);
@@ -486,7 +492,16 @@ const handleLayerOpacityChange = ({ layerId, opacity }) => {
   const layer = mapStore.getLayerById(layerId);
   if (!layer) return;
 
-  const { layerType, mapLayerConfig } = layer;
+  const { layerType, mapLayerConfig, homeMapLayerType } = layer;
+
+  // fixed layers with an opacity control, e.g. the weather warnings fill layer
+  if (homeMapLayerType === "fixed") {
+    const mapLayer = map.getLayer(layerId);
+    if (mapLayer && mapLayer.type === "fill") {
+      map.setPaintProperty(layerId, "fill-opacity", opacity);
+    }
+    return;
+  }
 
   if (layerType === "raster_file" || layerType === "wms") {
     if (map.getLayer(layerId)) {
@@ -594,6 +609,10 @@ const fetchTimestamps = (layer) => {
 
   if (layerType === "raster_file" || layerType === "vector_tile") {
     const {tileJsonUrl, timestampsResponseObjectKey} = layer
+    // layers without a time dimension, e.g. static vector tiles, have no tile json to read timestamps from
+    if (!tileJsonUrl) {
+      return []
+    }
     return getTimeValuesFromTileJson(tileJsonUrl, timestampsResponseObjectKey)
   } else if (layerType === "wms") {
     const {getCapabilitiesUrl, getCapabilitiesLayerName} = layer
@@ -674,6 +693,58 @@ const addDynamicLayer = async (layerId) => {
 
         setLabels()
       }
+    } else if (layerType === "vector_tile") {
+      // vector tile layers without a time dimension: add the tiles as they are, without a time selector
+      const sourceId = mapLayerConfig.source.id
+
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, mapLayerConfig.source);
+      }
+
+      const {layers} = mapLayerConfig
+      layers && layers.forEach(layer => {
+        if (!map.getLayer(layer.id)) {
+          map.addLayer({
+            ...layer,
+            source: sourceId,
+          });
+        }
+      })
+
+      alwaysOnTopLayers.forEach(l => {
+        if (map.getLayer(l)) {
+          map.moveLayer(l)
+        }
+      });
+
+      setLabels()
+    } else if (layerType === "wms") {
+      // WMS layers without a time dimension: show the server's default image, without a time selector
+      const sourceId = mapLayerConfig.source.id
+      const tileUrl = removeTileUrlParams(mapLayerConfig.source.tiles[0], ["time"])
+
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, {
+          ...mapLayerConfig.source,
+          tiles: [tileUrl],
+        });
+      }
+
+      if (!map.getLayer(layerId)) {
+        map.addLayer({
+          id: layerId,
+          type: "raster",
+          source: sourceId,
+        });
+      }
+
+      alwaysOnTopLayers.forEach(l => {
+        if (map.getLayer(l)) {
+          map.moveLayer(l)
+        }
+      });
+
+      setLabels()
     }
 
     mapStore.setLoading(false)
