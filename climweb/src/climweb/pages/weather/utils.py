@@ -2,13 +2,18 @@ from typing import NamedTuple
 
 from django.utils import timezone
 from forecastmanager.forecast_settings import ForecastSetting
-from forecastmanager.models import City, CityForecast
+from forecastmanager.models import City, CityForecast, Forecast
 from wagtail.models import Site
+
+
+def published_city_forecasts():
+    """City forecasts the public may see: drafts are still awaiting review."""
+    return CityForecast.objects.filter(parent__status=Forecast.STATUS_PUBLISHED)
 
 
 def get_city_forecast_detail_data(city, multi_period=False, request=None, for_home_widget=False):
     localtime = timezone.localtime()
-    city_forecasts = CityForecast.objects.filter(
+    city_forecasts = published_city_forecasts().filter(
         city=city, parent__forecast_date__gte=localtime.date()
     ).select_related('parent', 'condition').prefetch_related('data_values__parameter')
 
@@ -74,7 +79,7 @@ def get_home_widget_city_and_data(forecast_setting, multi_period=False, request=
 
     localtime = timezone.localtime()
     cities_with_forecasts = (
-        CityForecast.objects
+        published_city_forecasts()
         .filter(parent__forecast_date__gte=localtime.date())
         .values_list("city_id", flat=True)
         .distinct()
@@ -121,7 +126,7 @@ def get_city_slugs_with_forecast_data(multi_period=False):
     rather than stored, but it is still one query for every city at once.
     """
     localtime = timezone.localtime()
-    upcoming = CityForecast.objects.filter(parent__forecast_date__gte=localtime.date())
+    upcoming = published_city_forecasts().filter(parent__forecast_date__gte=localtime.date())
 
     if not multi_period:
         return set(upcoming.values_list("city__slug", flat=True).distinct())
