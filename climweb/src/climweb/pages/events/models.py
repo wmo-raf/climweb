@@ -33,6 +33,7 @@ from wagtailzoom.models import AbstractZoomIntegrationForm
 from climweb.base import blocks
 from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mixins import MetadataPageMixin
+from climweb.base.recaptcha import SiteCaptchaFormBuilder
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import (
     get_pytz_gmt_offset_str,
@@ -489,6 +490,7 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
 class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, AbstractMailchimpIntegrationForm,
                             AbstractZoomIntegrationForm):
     base_form_class = EventPageCustomForm
+    form_builder = SiteCaptchaFormBuilder
     
     template = 'event_registration_page.html'
     landing_page_template = 'form_thank_you_landing.html'

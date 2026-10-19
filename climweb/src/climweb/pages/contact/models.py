@@ -19,11 +19,13 @@ from wagtailgeowidget.panels import LeafletPanel, GeoAddressPanel
 from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mail import send_mail, get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
+from climweb.base.recaptcha import SiteCaptchaFormBuilder
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import get_duplicates
 
 
 class ContactPage(MetadataPageMixin, WagtailCaptchaEmailForm):
+    form_builder = SiteCaptchaFormBuilder
     template = 'contact/contact_page.html'
     parent_page_types = ['home.HomePage']
     subpage_types = []

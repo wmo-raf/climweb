@@ -13,11 +13,13 @@ from wagtailcaptcha.models import WagtailCaptchaEmailForm
 from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mail import send_mail, get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
+from climweb.base.recaptcha import SiteCaptchaFormBuilder
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import get_duplicates
 
 
 class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
+    form_builder = SiteCaptchaFormBuilder
     required_css_class = 'required'
     
     template = 'feedback.html'

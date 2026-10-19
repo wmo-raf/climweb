@@ -6,6 +6,7 @@ from climweb.base.models.backup_settings import *
 from climweb.base.models.cap_settings import *
 from climweb.base.models.custom import *
 from climweb.base.models.permissions import *
+from climweb.base.models.recaptcha_settings import *
 from climweb.base.models.site_settings import *
 from climweb.base.models.snippets import *
 
