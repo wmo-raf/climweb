@@ -107,7 +107,7 @@ const initializeMap = async () => {
 
   // add attribution
   map.addControl(new maplibregl.AttributionControl({
-    customAttribution: '<a href="https://maplibre.org" target="_blank">MapLibre</a>   &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://openfreemap.org" target="_blank">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org" target="_blank">OpenMapTiles</a>',
+    // customAttribution: '<a href="https://maplibre.org" target="_blank">MapLibre</a>   &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://openfreemap.org" target="_blank">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org" target="_blank">OpenMapTiles</a>',
     compact: false,
   }), "bottom-left");
 
@@ -208,6 +208,15 @@ const initializeMapLayers = async (mapSettings) => {
     showLevel1Boundaries
   } = mapSettings;
 
+  // kicked off now so it downloads while the basemap style loads
+  const locationForecastRequest = showLocationForecastLayer
+    ? fetchLocationForecastData(forecastSettingsUrl, homeForecastDataUrl, weatherIconsUrl)
+    : null;
+
+  // failures are handled further down, once the layer is added; this stops the
+  // browser reporting them as unhandled while the basemap is still loading
+  locationForecastRequest?.catch(() => {});
+
   if (basemaps && !!basemaps.length) {
     const defaultBasemap = basemaps.find(basemap => basemap.default) || basemaps[0]
 
@@ -257,14 +266,17 @@ const initializeMapLayers = async (mapSettings) => {
     mapStore.updateLayerState("weather-forecast", true);
     mapStore.setWeatherForecastLayerDateFormat({currentTime: locationForecastDateDisplayFormat});
 
-    try {
-      const forecastSettings = await fetch(forecastSettingsUrl).then(res => res.json());
-      mapStore.setForecastSettings(forecastSettings)
-      addLocationForecastLayer(homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig)
+    mapStore.setLoading(true)
 
-    } catch (e) {
-      console.log("Error fetching forecast settings", e)
-    }
+    // not awaited, so the dynamic layers below don't wait on the forecast
+    locationForecastRequest.then(async ([forecastSettings, forecastResponse, icons]) => {
+      mapStore.setForecastSettings(forecastSettings)
+      await addLocationForecastLayer(forecastResponse, icons, forecastClusterConfig)
+    }).catch(e => {
+      console.log("Error fetching city forecast", e)
+    }).finally(() => {
+      mapStore.setLoading(false)
+    });
   } else {
     mapStore.updateLayerState("weather-forecast", false);
   }
@@ -403,7 +415,7 @@ const addWarningsLayer = (capGeojsonUrl) => {
         source: "weather-warnings",
         paint: {
           "fill-color": ["case", ["==", ["get", "severity"], "Extreme"], "#d42d41", ["==", ["get", "severity"], "Severe"], "#f08c11", ["==", ["get", "severity"], "Moderate"], "#f4cf00", ["==", ["get", "severity"], "Minor"], "#399cc7", ["==", ["get", "severity"], "Unknown"], "#82a8df", "black",],
-          "fill-opacity": 1,
+          "fill-opacity": mapStore.getLayerById("weather-warnings")?.opacity ?? 1,
           "fill-outline-color": ["case", ["==", ["get", "severity"], "Extreme"], "#DC2626", ["==", ["get", "severity"], "Severe"], "#C2600A", ["==", ["get", "severity"], "Moderate"], "#A16207", ["==", ["get", "severity"], "Minor"], "#0E7490", ["==", ["get", "severity"], "Unknown"], "#4B6CB7", "black",],
         },
       }, beforeLayer);
@@ -414,7 +426,23 @@ const addWarningsLayer = (capGeojsonUrl) => {
 }
 
 
-const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecastClusterConfig) => {
+// Start all city forecast requests together, so they don't wait on each other
+// or on the basemap style.
+const fetchLocationForecastData = (forecastSettingsUrl, homeForecastDataUrl, weatherIconsUrl) => {
+  const getJson = (url) => fetch(url).then(res => res.json());
+
+  return Promise.all([
+    getJson(forecastSettingsUrl),
+    getJson(homeForecastDataUrl),
+    // missing icons should not keep the forecast data off the map
+    getJson(weatherIconsUrl).catch(e => {
+      console.log("Error fetching weather icons", e)
+      return []
+    }),
+  ])
+}
+
+const addLocationForecastLayer = async (forecastResponse, icons, forecastClusterConfig) => {
   // add city forecast source
   map.addSource("weather-forecast", {
     type: "geojson",
@@ -427,43 +455,37 @@ const addLocationForecastLayer = (homeForecastDataUrl, weatherIconsUrl, forecast
     id: "weather-forecast",
     type: "symbol",
     layout: {
-      'icon-image': ['get', 'condition'], 'icon-size': 0.3, 'icon-allow-overlap': true
+      'icon-image': ['coalesce', ['get', 'condition'], ''], 'icon-size': 0.3, 'icon-allow-overlap': true
     },
     source: "weather-forecast"
   });
 
-  mapStore.setLoading(true)
+  // icons first, so cities appear with their icons rather than before them
+  await addWeatherIcons(icons)
 
-  fetch(homeForecastDataUrl).then(res => res.json()).then(response => {
-    // get and set weather icons
-    addWeatherIcons(weatherIconsUrl)
-    // set city forecast data
-    setCityForecastData(response)
+  setCityForecastData(forecastResponse)
 
-    const {data} = response
+  const {data} = forecastResponse
 
-    if (data && !!data.length) {
-      mapStore.updateLayerVisibility("weather-forecast", true)
-    }
+  if (data && !!data.length) {
+    mapStore.updateLayerVisibility("weather-forecast", true)
+  }
 
-    mapStore.setLoading(false)
-
-    setLabels()
-
-  }).catch(e => {
-    mapStore.setLoading(false)
-  });
+  setLabels()
 }
 
-const addWeatherIcons = (weatherIconsUrl) => {
-  fetch(weatherIconsUrl).then(response => response.json()).then(icons => {
-    if (icons && Array.isArray(icons))
-      icons.forEach(icon => {
-        map.loadImage(icon.url).then(image => {
-          map.addImage(icon.id, image.data);
-        });
-      });
-  });
+const addWeatherIcons = (icons) => {
+  if (!icons || !Array.isArray(icons)) {
+    return Promise.resolve()
+  }
+
+  return Promise.allSettled(icons.map(icon =>
+    map.loadImage(icon.url).then(image => {
+      if (!map.hasImage(icon.id)) {
+        map.addImage(icon.id, image.data);
+      }
+    })
+  ));
 }
 
 
@@ -494,7 +516,16 @@ const handleLayerOpacityChange = ({ layerId, opacity }) => {
   const layer = mapStore.getLayerById(layerId);
   if (!layer) return;
 
-  const { layerType, mapLayerConfig } = layer;
+  const { layerType, mapLayerConfig, homeMapLayerType } = layer;
+
+  // fixed layers with an opacity control, e.g. the weather warnings fill layer
+  if (homeMapLayerType === "fixed") {
+    const mapLayer = map.getLayer(layerId);
+    if (mapLayer && mapLayer.type === "fill") {
+      map.setPaintProperty(layerId, "fill-opacity", opacity);
+    }
+    return;
+  }
 
   if (layerType === "raster_file" || layerType === "wms") {
     if (map.getLayer(layerId)) {
@@ -602,7 +633,7 @@ const fetchTimestamps = (layer) => {
 
   if (layerType === "raster_file" || layerType === "vector_tile") {
     const {tileJsonUrl, timestampsResponseObjectKey} = layer
-    // layers without a time dimension have no tileJsonUrl
+    // layers without a time dimension, e.g. static vector tiles, have no tile json to read timestamps from
     if (!tileJsonUrl) {
       return []
     }
@@ -686,6 +717,31 @@ const addDynamicLayer = async (layerId) => {
 
         setLabels()
       }
+    } else if (layerType === "vector_tile") {
+      // vector tile layers without a time dimension: add the tiles as they are, without a time selector
+      const sourceId = mapLayerConfig.source.id
+
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, mapLayerConfig.source);
+      }
+
+      const {layers} = mapLayerConfig
+      layers && layers.forEach(layer => {
+        if (!map.getLayer(layer.id)) {
+          map.addLayer({
+            ...layer,
+            source: sourceId,
+          });
+        }
+      })
+
+      alwaysOnTopLayers.forEach(l => {
+        if (map.getLayer(l)) {
+          map.moveLayer(l)
+        }
+      });
+
+      setLabels()
     } else if (layerType === "wms") {
       // WMS layers without a time dimension: show the server's default image, without a time selector
       const sourceId = mapLayerConfig.source.id

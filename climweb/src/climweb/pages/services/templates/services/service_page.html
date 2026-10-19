@@ -196,6 +196,7 @@
             </section>
         {% endif %}
 
+        {% include 'audio/playlist_section.html' with playlists=page.audio_playlists %}
 
         {% if page.applications.all %}
             <section class="pb-6">

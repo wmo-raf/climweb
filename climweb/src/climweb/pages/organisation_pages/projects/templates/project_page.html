@@ -122,6 +122,8 @@
             </section>
         {% endif %}
 
+        {% include 'audio/playlist_section.html' with playlists=page.audio_playlists %}
+
 
         {% if page.events.all %}
             <section>

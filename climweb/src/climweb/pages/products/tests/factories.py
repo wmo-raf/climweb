@@ -124,3 +124,31 @@ class ProductItemPageFactory(wagtail_factories.PageFactory):
         "image_product": factory.SubFactory(ProductItemImageContentBlockFactory),
         "document_product": factory.SubFactory(ProductItemDocumentContentBlockFactory),
     })
+
+
+class SubNationalProductsLandingPageFactory(wagtail_factories.PageFactory):
+    class Meta:
+        model = models.SubNationalProductsLandingPage
+    
+    title = "Subnational Products"
+    introduction_title = "Subnational Products"
+    introduction_image = factory.SubFactory(wagtail_factories.ImageFactory)
+    
+    @factory.lazy_attribute
+    def introduction_text(self):
+        p = fake.paragraph()
+        return RichText(f"<p>{p}</p>")
+
+
+class SubNationalRegionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.SubNationalRegion
+    
+    name = factory.Sequence(lambda n: f"Region {n}")
+
+
+class SubNationalProductPageFactory(ProductPageFactory):
+    class Meta:
+        model = models.SubNationalProductPage
+    
+    region = factory.SubFactory(SubNationalRegionFactory)

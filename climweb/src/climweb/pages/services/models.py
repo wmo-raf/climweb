@@ -9,6 +9,7 @@ from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, PageChooserPanel,
 from wagtail.api.v2.utils import get_full_url
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, Orderable
+from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtailiconchooser.utils import get_svg_sprite_for_icons
 from wagtailmetadata.models import MetadataPageMixin
 
@@ -131,6 +132,13 @@ class ServicePage(AbstractBannerWithIntroPage):
         related_name='+',
         verbose_name=_("Youtube playlist")
     )
+
+    audio_playlists = StreamField(
+        [
+            ('playlist', SnippetChooserBlock('audio.AudioPlaylist', label=_("Audio playlist"))),
+        ],
+        null=True, blank=True, verbose_name=_("Audio playlists"),
+        help_text=_("Playlists or podcasts from SoundCloud, YouTube Music, Spotify, Apple Podcasts or an RSS feed"))
     
     content_panels = Page.content_panels + [
         FieldPanel('service'),
@@ -156,6 +164,7 @@ class ServicePage(AbstractBannerWithIntroPage):
             heading=_("Projects Section"),
         ),
         FieldPanel('youtube_playlist'),
+        FieldPanel('audio_playlists'),
         InlinePanel('applications', heading=_("Applications"), label=_("Heading")),
     ]
     

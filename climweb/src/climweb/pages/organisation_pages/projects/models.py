@@ -12,6 +12,7 @@ from positions import PositionField
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel)
 from wagtail.fields import StreamField
 from wagtail.models import Page
+from wagtail.snippets.blocks import SnippetChooserBlock
 
 from climweb.base import blocks
 from climweb.base.models import ServiceCategory, AbstractBannerWithIntroPage
@@ -140,6 +141,13 @@ class ProjectPage(AbstractBannerWithIntroPage):
         related_name='+',
         verbose_name=_("Youtube playlist")
     )
+
+    audio_playlists = StreamField(
+        [
+            ('playlist', SnippetChooserBlock('audio.AudioPlaylist', label=_("Audio playlist"))),
+        ],
+        null=True, blank=True, verbose_name=_("Audio playlists"),
+        help_text=_("Playlists or podcasts from SoundCloud, YouTube Music, Spotify, Apple Podcasts or an RSS feed"))
     
     content_panels = Page.content_panels + [
         FieldPanel('services', widget=CheckboxSelectMultiple),
@@ -158,6 +166,7 @@ class ProjectPage(AbstractBannerWithIntroPage):
         FieldPanel('feature_block'),
         FieldPanel('project_materials'),
         FieldPanel('youtube_playlist'),
+        FieldPanel('audio_playlists'),
         FieldPanel('partners', widget=CheckboxSelectMultiple),
     ]
     

@@ -32,6 +32,8 @@ class TestCreateDraftPage(TestCase):
         self.assertEqual(page.action_audiences, ["Farmers", "Pastoralists"])
         self.assertEqual(len(page.institutions), 2)
         self.assertIsNotNone(page.banner_image)
+        self.assertTrue(page.show_phase)
+        self.assertEqual(page.current_phase["label"], "Watch")
         self.assertEqual(ImportantPages.for_site(self.site).anticipatory_action_page_id, page.pk)
     
     def test_template_draft_renders(self):

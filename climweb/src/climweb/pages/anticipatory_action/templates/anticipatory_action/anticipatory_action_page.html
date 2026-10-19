@@ -47,17 +47,20 @@
                         </div>
                     </div>
 
-                    {% if page.show_phase %}
+                    {% if page.show_phase and page.current_phase %}
                         <div class="aa-phase">
                             <p class="aa-phase-label">{% translate "Phase" %}</p>
                             <ol class="aa-phase-steps">
-                                {% for phase in page.phases %}
+                                {% for phase in page.phase_steps %}
                                     <li class="aa-phase-step is-{{ phase.state }}"
                                         {% if phase.state == "current" %}aria-current="step"{% endif %}>
                                         {{ phase.label }}
                                     </li>
                                 {% endfor %}
                             </ol>
+                            {% if page.current_phase.description %}
+                                <p class="aa-phase-description">{{ page.current_phase.description }}</p>
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>
