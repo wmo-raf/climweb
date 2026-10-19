@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     
     "climweb.pages.home",
     "climweb.pages.services",
+    "climweb.pages.anticipatory_action",
     "climweb.pages.products",
     "climweb.pages.mediacenter",
     "climweb.pages.news",

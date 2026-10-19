@@ -273,6 +273,9 @@ class PublicationPage(MetadataPageMixin, Page):
                                                  help_text="Should this appear in the homepage as"
                                                            " an alert/latest update ?",
                                                  verbose_name=_("Is visible on homepage"))
+    is_anticipatory_action = models.BooleanField(
+        default=False, verbose_name=_("Is related to Anticipatory Action"),
+        help_text=_("Show this publication on the Anticipatory Action page"))
     featured = models.BooleanField(
         _("Mark as featured"), default=False,
         help_text=_("Featured publications appear on the publications landing page"))
@@ -330,6 +333,7 @@ class PublicationPage(MetadataPageMixin, Page):
         FieldPanel('summary'),
         FieldPanel('featured'),
         FieldPanel('is_visible_on_homepage'),
+        FieldPanel('is_anticipatory_action'),
         FieldPanel('peer_reviewed'),
         MultiFieldPanel([
             FieldPanel('period_start_date'),
