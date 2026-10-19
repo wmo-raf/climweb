@@ -101,7 +101,7 @@ const initializeMap = async () => {
 
   // add attribution
   map.addControl(new maplibregl.AttributionControl({
-    customAttribution: '<a href="https://maplibre.org" target="_blank">MapLibre</a>   &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://openfreemap.org" target="_blank">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org" target="_blank">OpenMapTiles</a>',
+    // customAttribution: '<a href="https://maplibre.org" target="_blank">MapLibre</a>   &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://openfreemap.org" target="_blank">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org" target="_blank">OpenMapTiles</a>',
     compact: false,
   }), "bottom-left");
 
