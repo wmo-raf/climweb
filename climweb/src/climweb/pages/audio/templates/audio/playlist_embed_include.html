@@ -1,0 +1,98 @@
+{% load i18n %}
+{% if embed_url %}
+    <figure class="audio-embed audio-embed--{{ platform }}"
+            {% if embed_height %}style="--audio-embed-height: {{ embed_height }}px"{% endif %}>
+        <div class="audio-embed-frame">
+            <iframe src="{{ embed_url }}"
+                    title="{{ playlist.title }} ({{ platform_label }})"
+                    loading="lazy"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+            </iframe>
+        </div>
+        <figcaption class="audio-embed-caption">
+            <div class="audio-embed-meta">
+                <span class="audio-embed-tag">{{ platform_label }}</span>
+                <span class="audio-embed-title">{{ playlist.title }}</span>
+                {% if details.author %}
+                    <span class="audio-embed-author">
+                        {% if details.author_url %}
+                            <a href="{{ details.author_url }}" target="_blank" rel="noopener noreferrer">{{ details.author }}</a>
+                        {% else %}
+                            {{ details.author }}
+                        {% endif %}
+                    </span>
+                {% endif %}
+                {% if playlist.description %}
+                    <p class="audio-embed-description">{{ playlist.description }}</p>
+                {% endif %}
+            </div>
+            <a class="audio-embed-link" href="{{ playlist.playlist_url }}" target="_blank" rel="noopener noreferrer">
+                {% blocktranslate trimmed with platform=platform_label %}
+                    Open on {{ platform }}
+                {% endblocktranslate %}
+                <span class="is-sr-only">{% translate "(opens in a new tab)" %}</span>
+            </a>
+        </figcaption>
+    </figure>
+{% elif episodes %}
+    <div class="audio-podcast">
+        <div class="audio-podcast-header">
+            {% if details.thumbnail %}
+                <img class="audio-podcast-artwork" src="{{ details.thumbnail }}" alt="" loading="lazy">
+            {% endif %}
+            <div class="audio-embed-meta">
+                <span class="audio-embed-tag">{{ platform_label }}</span>
+                <span class="audio-embed-title">{{ playlist.title }}</span>
+                {% if details.author %}
+                    <span class="audio-embed-author">{{ details.author }}</span>
+                {% endif %}
+                {% if playlist.description %}
+                    <p class="audio-embed-description">{{ playlist.description }}</p>
+                {% elif details.subtitle %}
+                    <p class="audio-embed-description">{{ details.subtitle|truncatechars:200 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <ol class="audio-episodes" aria-label="{% blocktranslate trimmed with title=playlist.title %}Episodes of {{ title }}{% endblocktranslate %}">
+            {% for episode in episodes %}
+                <li class="audio-episode">
+                    <div class="audio-episode-header">
+                        <h3 class="audio-episode-title" id="audio-episode-{{ playlist.pk }}-{{ forloop.counter }}">
+                            {% if episode.link %}
+                                <a href="{{ episode.link }}" target="_blank" rel="noopener noreferrer">{{ episode.title }}</a>
+                            {% else %}
+                                {{ episode.title }}
+                            {% endif %}
+                        </h3>
+                        <div class="audio-episode-details">
+                            {% if episode.published %}
+                                <time datetime="{{ episode.published|date:'c' }}">{{ episode.published|date:'d M Y' }}</time>
+                            {% endif %}
+                            {% if episode.duration %}
+                                <span class="audio-episode-duration">{{ episode.duration }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if episode.summary %}
+                        <p class="audio-episode-summary">{{ episode.summary }}</p>
+                    {% endif %}
+                    <audio controls preload="none"
+                           aria-labelledby="audio-episode-{{ playlist.pk }}-{{ forloop.counter }}">
+                        <source src="{{ episode.audio_url }}" type="{{ episode.audio_type }}">
+                        <a href="{{ episode.audio_url }}" download>{% translate "Download episode" %}</a>
+                    </audio>
+                </li>
+            {% endfor %}
+        </ol>
+        {% if details.link %}
+            <div class="audio-embed-caption audio-podcast-footer">
+                <a class="audio-embed-link" href="{{ details.link }}" target="_blank" rel="noopener noreferrer">
+                    {% translate "View all episodes" %}
+                    <span class="is-sr-only">{% translate "(opens in a new tab)" %}</span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
