@@ -1,0 +1,92 @@
+{% load static i18n %}
+{% comment %}
+    Renders a page's audio playlists. Usage:
+        {% include 'audio/playlist_section.html' with playlists=page.audio_playlists %}
+    Each player is fetched asynchronously from the audio playlist API so that slow
+    platforms never block page rendering; players that fail to load are removed.
+{% endcomment %}
+{% if playlists %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/audio_playlist.css' %}">
+    <section class="section audio-playlists" id="audioSection" aria-labelledby="audioSectionTitle">
+        <div class="container">
+            <div class="my-6">
+                <p class="is-uppercase has-text-weight-bold is-size-8 mb-1"
+                   style="color:var(--primary-color); letter-spacing:0.08em;">
+                    {% translate "Listen" %}
+                </p>
+                <h2 class="title is-3" id="audioSectionTitle">
+                    {% if heading %}{{ heading }}{% else %}{% translate "Audio & Podcasts" %}{% endif %}
+                </h2>
+            </div>
+            <div class="audio-playlists-grid">
+                {% for block in playlists %}
+                    {% with playlist=block.value %}
+                        {% if playlist %}
+                            <div class="audio-playlist"
+                                 data-audio-playlist
+                                 data-url="{% url 'audio_playlist_embed' playlist.pk %}"
+                                 aria-busy="true"
+                                 aria-live="polite">
+                                <div class="audio-skeleton" aria-hidden="true">
+                                    <div class="audio-skeleton-bar audio-skeleton-bar--title"></div>
+                                    <div class="audio-skeleton-bar"></div>
+                                    <div class="audio-skeleton-bar audio-skeleton-bar--short"></div>
+                                </div>
+                                <p class="audio-playlist-loading-text">
+                                    {% blocktranslate trimmed with title=playlist.title %}
+                                        Loading {{ title }}…
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <script>
+        (function () {
+            var section = document.getElementById('audioSection');
+            if (!section) return;
+            var players = Array.prototype.slice.call(section.querySelectorAll('[data-audio-playlist]'));
+            var pending = players.length;
+            var loaded = 0;
+
+            if (!pending) {
+                section.remove();
+                return;
+            }
+
+            function finished() {
+                pending -= 1;
+                if (pending === 0 && loaded === 0) {
+                    // nothing could be loaded, hide the whole section
+                    section.remove();
+                }
+            }
+
+            players.forEach(function (el) {
+                fetch(el.getAttribute('data-url'), {
+                    credentials: 'same-origin',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
+                })
+                    .then(function (response) {
+                        return response.ok ? response.text() : '';
+                    })
+                    .then(function (html) {
+                        if (html && html.trim()) {
+                            el.innerHTML = html;
+                            el.removeAttribute('aria-busy');
+                            loaded += 1;
+                        } else {
+                            el.remove();
+                        }
+                    })
+                    .catch(function () {
+                        el.remove();
+                    })
+                    .then(finished);
+            });
+        })();
+    </script>
+{% endif %}

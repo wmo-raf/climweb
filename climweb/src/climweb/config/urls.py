@@ -33,11 +33,13 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     
     path("", include("climweb.pages.home.urls")),
+    path("", include("climweb.pages.anticipatory_action.urls")),
     path("", include("climweb.pages.shortlinks.urls")),
     *([path("", include("climweb.pages.wdqms.urls"))] if "climweb.pages.wdqms" in settings.INSTALLED_APPS else []),
     *([path("", include("capcomposer.cap.urls"))] if "capcomposer.cap" in settings.INSTALLED_APPS else []),
     path("", include("climweb.pages.stations.urls"), name="stations"),
     path("", include("climweb.pages.videos.urls")),
+    path("", include("climweb.pages.audio.urls")),
     *([path("weather/", include("climweb.pages.weather.urls"))] if "climweb.pages.weather" in settings.INSTALLED_APPS else []),
     
     # geomanager's public account endpoints, re-mounted with rate limits. They
@@ -62,7 +64,6 @@ urlpatterns = [
     
     path("api/satellite-imagery/", include("climweb.pages.satellite_imagery.urls")),
     *([path("api/cityclimate/", include("climweb.pages.cityclimate.urls"))] if "climweb.pages.cityclimate" in settings.INSTALLED_APPS else []),
-    path("api/product-sync/", include("climweb.pages.products.sync_urls")),
     path("api/_health/", public_health_check),
     path("api/token/", obtain_auth_token),
 ]

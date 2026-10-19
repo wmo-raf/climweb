@@ -57,6 +57,20 @@ export const updateTileUrl = (tileUrl, params) => {
     return decodeURIComponent(url.href)
 }
 
+export const removeTileUrlParams = (tileUrl, keys) => {
+    // drop query params, e.g. an unfilled time={time} for layers without timestamps
+    const url = new URL(tileUrl)
+    const qs = new URLSearchParams(url.search);
+    const lowerKeys = keys.map(key => key.toLowerCase())
+    for (const key of [...qs.keys()]) {
+        if (lowerKeys.includes(key.toLowerCase())) {
+            qs.delete(key)
+        }
+    }
+    url.search = decodeURIComponent(qs);
+    return decodeURIComponent(url.href)
+}
+
 export const updateSourceTileUrl = (map, sourceId, params) => {
     // Get the source object from the map using the specified source ID.
     const source = map.getSource(sourceId);

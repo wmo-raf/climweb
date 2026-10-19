@@ -1,0 +1,70 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n wagtailadmin_tags %}
+
+{% block titletag %}{% translate "New Anticipatory Action page" %}{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <style>
+        .aa-start-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 900px; }
+        .aa-start-option { border: 1px solid var(--w-color-border-furniture); border-radius: 6px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .aa-start-option h2 { margin: 0; font-size: 1.15rem; }
+        .aa-start-option ul { margin: 0; padding-inline-start: 1.25rem; }
+        .aa-start-option .aa-start-action { margin-top: auto; }
+        .aa-start-notes { max-width: 900px; margin-top: 1.5rem; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% translate "New Anticipatory Action page" as header_title %}
+    {% include "wagtailadmin/shared/header.html" with title=header_title subtitle=parent_page.get_admin_display_title icon="warning" %}
+
+    <div class="nice-padding">
+        <div class="aa-start-options">
+            <div class="aa-start-option">
+                <h2>{% translate "Quick Start" %}</h2>
+                <p>{% translate "A draft filled with example content for a slow-onset drought, so you replace text rather than start from empty fields:" %}</p>
+                <ul>
+                    <li>{% translate "A sample banner illustration" %}</li>
+                    <li>{% translate "Status, risk level and phase" %}</li>
+                    <li>{% translate "Situation summary and key facts" %}</li>
+                    <li>{% translate "Recommended actions for farmers and pastoralists" %}</li>
+                    <li>{% translate "Example institutions to contact" %}</li>
+                </ul>
+                <p class="help">{% translate "Add map layers and products yourself. Replace every example, and ideally the banner, before publishing." %}</p>
+                <form method="post" action="{% url 'anticipatory_action_create_from_template' parent_page.pk %}" class="aa-start-action">
+                    {% csrf_token %}
+                    <button type="submit" class="button">{% translate "Use template" %}</button>
+                </form>
+            </div>
+
+            <div class="aa-start-option">
+                <h2>{% translate "Create from scratch" %}</h2>
+                <p>{% translate "An empty page with the default section headings. Use this if you already have your own content ready." %}</p>
+                <div class="aa-start-action">
+                    <a href="{{ from_scratch_url }}" class="button button-secondary">{% translate "Start blank" %}</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="aa-start-notes help-block help-info">
+            <p>
+                {% blocktranslate trimmed with url="/"|add:slug|add:"/" %}
+                    The page will be created under {{ parent_page }} at <code>{{ url }}</code>.
+                {% endblocktranslate %}
+                {% if slug_taken %}
+                    {% translate "Another page already uses /anticipatory-action/, so a different address is used. You can change it in the page's Promote tab." %}
+                {% endif %}
+            </p>
+            <p>
+                {% if linked_page %}
+                    {% blocktranslate trimmed with page=linked_page %}
+                        The header button keeps linking to <strong>{{ page }}</strong> until you choose the new page in Settings → Important Pages.
+                    {% endblocktranslate %}
+                {% else %}
+                    {% translate "Pages created from the template are linked from the header button in Settings → Important Pages. The button only appears once the page is published." %}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+{% endblock %}

@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     
     "climweb.pages.home",
     "climweb.pages.services",
+    "climweb.pages.anticipatory_action",
     "climweb.pages.products",
     "climweb.pages.mediacenter",
     "climweb.pages.news",
     "climweb.pages.videos",
+    "climweb.pages.audio",
     "climweb.pages.publications",
     "climweb.pages.contact",
     "climweb.pages.feedback",
@@ -72,8 +74,6 @@ INSTALLED_APPS = [
     # Module is `dataset_helper`; its Django app label is `dataset_helper_plugin`,
     # kept from when this shipped as a ClimWeb plugin so existing tables resolve.
     "dataset_helper",
-    # Bulletin Studio: subclasses products.ProductItemPage, so it needs climweb.pages.products.
-    "bulletin_studio",
 
     "wagtailmautic",
     "wagtailzoom",
@@ -454,6 +454,7 @@ LOCALE_PATHS = [
     'climweb/src/climweb/pages/stations/locale',
     'climweb/src/climweb/pages/surveys/locale',
     'climweb/src/climweb/pages/videos/locale',
+    'climweb/src/climweb/pages/audio/locale',
     'climweb/src/climweb/pages/wdqms/locale',
     'climweb/src/climweb/pages/weather/locale',
     'climweb/src/climweb/pages/webstories/locale',

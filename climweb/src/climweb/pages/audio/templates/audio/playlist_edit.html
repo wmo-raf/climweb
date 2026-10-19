@@ -1,0 +1,87 @@
+{% extends "wagtailadmin/base.html" %}
+{% load static wagtailadmin_tags i18n %}
+{% block titletag %}{% blocktrans trimmed with snippet_type_name=model_opts.verbose_name %}Editing
+    {{ snippet_type_name }} - {{ object }}{% endblocktrans %}{% endblock %}
+{% block bodyclass %}{% if locked_for_user %}content-locked{% endif %}{% endblock %}
+{% block content %}
+    {% include 'wagtailadmin/shared/headers/slim_header.html' %}
+
+    {% include "wagtailadmin/shared/header.html" with title=object icon=header_icon merged=1 only %}
+
+    <div class="row row-flush">
+        <div class="{% if uc_enabled %}col10 divider-after{% else %}col12{% endif %}">
+            <form action="{{ action_url }}" method="POST" novalidate{% if form.is_multipart %}
+                  enctype="multipart/form-data"{% endif %} data-edit-form>
+                {% csrf_token %}
+                <div class="nice-padding">
+                    {{ panel.render_form_content }}
+                </div>
+                <footer class="footer">
+                    <nav aria-label="{% trans 'Actions' %}">
+                        <ul>
+                            <li class="actions actions--primary footer__container">
+                                <div class="dropdown dropup dropdown-button match-width {% if view.view_name == 'revisions_revert' %}warning{% endif %}">
+                                    {{ action_menu.render_html }}
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <div class="nice-padding" style="margin-top: 50px;margin-bottom: 50px">
+        <div style="margin-bottom: 30px">
+            <a href="{{ object.playlist_url }}" target="_blank"
+               rel="noopener noreferrer" class="button bicolor button--icon button-secondary">
+                <span class="icon-wrapper">
+                    <svg class="icon icon-link-external icon" aria-hidden="true">
+                        <use href="#icon-link-external"></use>
+                    </svg>
+                </span>
+                {% blocktrans trimmed with platform=object.platform_label %}View on {{ platform }}{% endblocktrans %}
+            </a>
+        </div>
+        <h2>{% trans "Preview" %}</h2>
+        <p class="help-block help-info" style="margin-bottom: 20px">
+            {% blocktrans trimmed with minutes=object.refresh_interval_minutes %}
+                Details fetched from the platform are refreshed every {{ minutes }} minutes. Saving forces a refresh.
+            {% endblocktrans %}
+        </p>
+        {% if embed_context %}
+            <div class="audio-playlists-grid" style="max-width: 720px">
+                <div class="audio-playlist">
+                    {% include "audio/playlist_embed_include.html" with playlist=embed_context.playlist platform=embed_context.platform platform_label=embed_context.platform_label details=embed_context.details embed_url=embed_context.embed_url embed_height=embed_context.embed_height episodes=embed_context.episodes %}
+                </div>
+            </div>
+        {% else %}
+            <div class="help-block help-warning">
+                {% trans "The player could not be generated. Check that the platform and URL are correct and that the playlist is public." %}
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    {{ media.css }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/audio_playlist.css' %}">
+{% endblock %}
+{% block extra_js %}
+    {{ block.super }}
+    {% include "wagtailadmin/pages/_editor_js.html" %}
+    {{ media.js }}
+
+    <script>
+        {% if locale %}
+            window.wagtailConfig = window.wagtailConfig || {};
+            window.wagtailConfig.ACTIVE_CONTENT_LOCALE = '{{ locale.language_code|escapejs }}';
+        {% endif %}
+    </script>
+
+    {% if workflow_enabled %}
+        {% include "wagtailadmin/shared/_workflow_init.html" %}
+    {% endif %}
+{% endblock %}

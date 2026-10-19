@@ -41,13 +41,15 @@
             </a>
         {% endif %}
 
-        {% if settings.base.ImportantPages.anticipatory_action_page %}
-                    <a href="{{ settings.base.ImportantPages.anticipatory_action_page.url }}"
+        {% with aa_page=settings.base.ImportantPages.anticipatory_action_button_page %}
+        {% if aa_page %}
+            <a href="{{ aa_page.url }}"
             class="util-link util-link--anticipatory">
-            <span>{% translate "Anticipatory Action" %}</span>
+            <span>{% firstof settings.base.ImportantPages.anticipatory_action_button_label _("Anticipatory Action") %}</span>
             <span class="util-icon">{% svg_icon name="advocacy" %}</span>
             </a>
         {% endif %}
+        {% endwith %}
 
         {% if settings.base.ImportantPages.mailing_list_signup_page %}
             <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
@@ -173,12 +175,14 @@
                 {% translate "Alerts" %}
               </a>
             {% endif %}
-            {% if settings.base.ImportantPages.anticipatory_action_page %}
-              <a href="{{ settings.base.ImportantPages.anticipatory_action_page.url }}"
+            {% with aa_page=settings.base.ImportantPages.anticipatory_action_button_page %}
+            {% if aa_page %}
+              <a href="{{ aa_page.url }}"
                  class="button is-fullwidth mobile-util-link mobile-util-link--anticipatory">
-                {% translate "Anticipatory Action" %}
+                {% firstof settings.base.ImportantPages.anticipatory_action_button_label _("Anticipatory Action") %}
               </a>
             {% endif %}
+            {% endwith %}
             {% if settings.base.ImportantPages.mailing_list_signup_page %}
               <a href="{{ settings.base.ImportantPages.mailing_list_signup_page.url }}"
                  class="button is-fullwidth mobile-util-link">

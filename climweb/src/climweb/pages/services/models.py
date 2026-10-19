@@ -6,6 +6,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel)
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, Orderable
+from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtailmetadata.models import MetadataPageMixin
 
 from climweb.base import blocks
@@ -117,6 +118,13 @@ class ServicePage(AbstractBannerWithIntroPage):
         related_name='+',
         verbose_name=_("Youtube playlist")
     )
+
+    audio_playlists = StreamField(
+        [
+            ('playlist', SnippetChooserBlock('audio.AudioPlaylist', label=_("Audio playlist"))),
+        ],
+        null=True, blank=True, verbose_name=_("Audio playlists"),
+        help_text=_("Playlists or podcasts from SoundCloud, YouTube Music, Spotify, Apple Podcasts or an RSS feed"))
     
     content_panels = Page.content_panels + [
         FieldPanel('service'),
@@ -136,6 +144,7 @@ class ServicePage(AbstractBannerWithIntroPage):
             heading=_("Projects Section"),
         ),
         FieldPanel('youtube_playlist'),
+        FieldPanel('audio_playlists'),
         InlinePanel('applications', heading=_("Applications"), label=_("Heading")),
     ]
     
