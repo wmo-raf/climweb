@@ -1,22 +1,24 @@
 """
 reCAPTCHA keys configured from the CMS.
 
-Settings -> reCAPTCHA lets a superuser enter the site and secret keys in the
-browser, so a country no longer needs server access (or a docker-compose
-change) to set up or replace them. The secret key is stored encrypted with the
-same key as the backup credentials (see ``backups/crypto.py``).
+Settings -> Integration Settings -> reCAPTCHA (a tab only superusers see) lets
+a superuser enter the site and secret keys in the browser, so a country no
+longer needs server access (or a docker-compose change) to set up or replace
+them. The secret key is stored encrypted with the same key as the backup
+credentials (see ``backups/crypto.py``).
 
 django-recaptcha reads ``RECAPTCHA_PUBLIC_KEY`` / ``RECAPTCHA_PRIVATE_KEY``
 from Django settings when a ``ReCaptchaField`` is created, and wagtailcaptcha
 creates one each time a form page builds its form. ``SiteCaptchaFormBuilder``
 swaps that field for ``SiteReCaptchaField``, which is created with the keys
-from ``get_active_keys()`` instead:
+from ``get_active_keys()`` for the form page's site instead:
 
-  * CMS settings switched on  -> the keys saved in the CMS,
-  * otherwise                 -> the RECAPTCHA_* environment variables, as before.
+  * CMS keys switched on  -> the keys saved in the CMS,
+  * otherwise             -> the RECAPTCHA_* environment variables, as before.
 
-Every form page with a captcha must use ``SiteCaptchaFormBuilder`` (directly or
-through ``climweb.base.forms.CustomWagtailCaptchaFormBuilder``).
+Every form page with a captcha must inherit ``SiteCaptchaFormMixin`` (which
+uses ``SiteCaptchaFormBuilder`` unless the page sets a subclass of it, such as
+``climweb.base.forms.CustomWagtailCaptchaFormBuilder``).
 """
 import re
 from dataclasses import dataclass
@@ -48,25 +50,31 @@ def get_server_keys():
     )
 
 
-def get_cms_keys():
-    """The keys saved in the CMS, or None to use the environment variables.
+def get_cms_keys(site=None):
+    """The keys saved in the CMS for ``site`` (default: the default site), or
+    None to use the environment variables.
 
-    Never raises: a missing table (before migrating), an undecryptable secret
-    key (SECRET_KEY rotated) or missing keys all fall back to the environment
-    so that the forms keep working.
+    Never raises: a missing table or column (before migrating), an
+    undecryptable secret key (SECRET_KEY rotated) or missing keys all fall back
+    to the environment so that the forms keep working.
     """
-    from climweb.base.models.recaptcha_settings import RecaptchaSettings
+    from wagtail.models import Site
+
+    from climweb.base.models import IntegrationSettings
 
     try:
-        recaptcha_settings = RecaptchaSettings.load()
+        site = site or Site.objects.filter(is_default_site=True).first()
+        if site is None:
+            return None
+        integration_settings = IntegrationSettings.for_site(site)
     except DatabaseError:
         return None
 
-    if not recaptcha_settings.enabled:
+    if not integration_settings.recaptcha_enabled:
         return None
 
     try:
-        keys = recaptcha_settings.get_keys()
+        keys = integration_settings.get_recaptcha_keys()
     except Exception as e:
         logger.warning(f"[RECAPTCHA] CMS reCAPTCHA keys unusable, using server settings instead: {e!r}")
         return None
@@ -76,26 +84,41 @@ def get_cms_keys():
     return keys
 
 
-def get_active_keys():
-    return get_cms_keys() or get_server_keys()
+def get_active_keys(site=None):
+    return get_cms_keys(site) or get_server_keys()
 
 
 class SiteReCaptchaField(ReCaptchaField):
     """``ReCaptchaField`` using the keys from ``get_active_keys()``."""
 
-    def __init__(self, public_key=None, private_key=None, *args, **kwargs):
+    def __init__(self, public_key=None, private_key=None, *args, site=None, **kwargs):
         if not public_key and not private_key:
-            keys = get_active_keys()
+            keys = get_active_keys(site)
             public_key, private_key = keys.public_key, keys.private_key
         super().__init__(public_key, private_key, *args, **kwargs)
 
 
 class SiteCaptchaFormBuilder(WagtailCaptchaFormBuilder):
+    # Set by SiteCaptchaFormMixin; None means the default site.
+    site = None
+
     @property
     def formfields(self):
         fields = super().formfields
-        fields[self.CAPTCHA_FIELD_NAME] = SiteReCaptchaField(label="")
+        fields[self.CAPTCHA_FIELD_NAME] = SiteReCaptchaField(label="", site=self.site)
         return fields
+
+
+class SiteCaptchaFormMixin:
+    """For form pages with a captcha: builds the form with the reCAPTCHA keys
+    of the page's own site. List it before ``WagtailCaptchaEmailForm``."""
+
+    form_builder = SiteCaptchaFormBuilder
+
+    def get_form_class(self):
+        builder = self.form_builder(self.get_form_fields())
+        builder.site = self.get_site()
+        return builder.get_form_class()
 
 
 class KeyCheckError(Exception):

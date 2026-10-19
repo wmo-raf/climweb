@@ -22,12 +22,13 @@ from climweb.base.forms import (
 from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mail import get_default_from_email
 from climweb.base.mixins import MetadataPageMixin
+from climweb.base.recaptcha import SiteCaptchaFormMixin
 from climweb.base.models import FormFileSubmission
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import get_duplicates
 
 
-class DataRequestPage(MetadataPageMixin, WagtailCaptchaEmailForm):
+class DataRequestPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailForm):
     required_css_class = 'required'
     form_builder = CustomWagtailCaptchaFormBuilder
     submissions_list_view_class = CustomSubmissionsListView

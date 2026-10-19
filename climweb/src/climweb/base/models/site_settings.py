@@ -22,8 +22,11 @@ from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 from wagtailcache.cache import clear_cache
 
+from climweb.base.backups.crypto import decrypt_text
 from climweb.base.blocks import NavigationItemBlock, FooterNavigationItemBlock, LanguageItemBlock, SocialMediaBlock
 from climweb.base.constants import LANGUAGE_CHOICES, LANGUAGE_CHOICES_DICT, COUNTRY_CHOICES
+from climweb.base.recaptcha import RecaptchaKeys
+from climweb.base.recaptcha_admin import IntegrationSettingsForm, recaptcha_tab
 from climweb.base.utils import get_country_info
 
 
@@ -172,6 +175,28 @@ class IntegrationSettings(BaseSiteSetting):
     google_site_verification_key = models.CharField(max_length=255, blank=True, null=True,
                                                     verbose_name=_("Google Site Verification Key"), )
     
+    # reCAPTCHA: superusers only, see climweb.base.recaptcha_admin.
+    recaptcha_enabled = models.BooleanField(
+        default=False,
+        verbose_name=_("Use these keys on the website's forms"),
+        help_text=_(
+            "When off, the forms use the reCAPTCHA keys from the server "
+            "configuration, as before. Switching on, or changing the keys while "
+            "on, needs the test box above ticked; nothing is saved if Google "
+            "rejects the keys."
+        ),
+    )
+    recaptcha_public_key = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("Site key"),
+        help_text=_("Shown in the page to visitors, so it is not secret."),
+    )
+    # Stored ENCRYPTED at rest; edited via the write-only form field.
+    recaptcha_private_key = models.CharField(max_length=512, blank=True, verbose_name=_("Secret key"))
+    
+    base_form_class = IntegrationSettingsForm
+    
     edit_handler = TabbedInterface([
         ObjectList([
             FieldPanel('youtube_api')
@@ -184,10 +209,17 @@ class IntegrationSettings(BaseSiteSetting):
         ObjectList([
             FieldPanel('google_site_verification_key'),
         ], heading=_("Google Search")),
+        recaptcha_tab(),
     ])
     
     class Meta:
         verbose_name = _("Integration Settings")
+    
+    def get_recaptcha_keys(self):
+        """Raises if the stored secret key can't be decrypted (e.g. SECRET_KEY
+        was changed)."""
+        private_key = decrypt_text(self.recaptcha_private_key) if self.recaptcha_private_key else ""
+        return RecaptchaKeys(public_key=self.recaptcha_public_key, private_key=private_key)
 
 
 @register_setting(icon="site")

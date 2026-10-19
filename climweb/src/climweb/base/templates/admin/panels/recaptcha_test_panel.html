@@ -24,7 +24,7 @@
 
   function parts() {
     return {
-      key: document.querySelector('input[name="public_key"]'),
+      key: document.querySelector('input[name="{{ key_name }}"]'),
       box: document.querySelector('.recaptcha-test-box'),
       empty: document.querySelector('.recaptcha-test-empty'),
       token: document.querySelector('.recaptcha-test-token'),
