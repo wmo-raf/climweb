@@ -1,0 +1,79 @@
+{% load i18n %}
+<div class="help-block help-info">
+  <p>
+    {% if enabled %}
+      <strong>{% trans "The site is sending email with the settings on this page." %}</strong>
+    {% else %}
+      <strong>{% trans "The site is sending email with the server's own settings." %}</strong>
+      {% if server_host %}({% trans "server" %}: {{ server_host }}){% endif %}
+      {% trans "Fill in this page and switch it on to manage email here instead." %}
+    {% endif %}
+  </p>
+  <p>
+    {% blocktrans trimmed %}
+      Every save asks you to confirm it's you. Switching these
+      settings on sends a test email to your own address first; nothing is
+      saved unless it is delivered.
+    {% endblocktrans %}
+  </p>
+
+  <div class="email-provider-tips" data-provider="gmail">
+    <p><strong>{% trans "Gmail / Google Workspace" %}</strong></p>
+    <ul>
+      <li>{% trans "The normal account password will not work. Turn on 2-Step Verification for the Google account, then create an App Password (Google Account → Security → App passwords) and paste it as the password." %}</li>
+      <li>{% trans "Username and 'Send emails from' should both be the Gmail address. Gmail replaces any other sender address with the account's own." %}</li>
+      <li>{% trans "Google limits sending to about 500 emails a day (2,000 for Workspace)." %}</li>
+    </ul>
+  </div>
+
+  <div class="email-provider-tips" data-provider="microsoft">
+    <p><strong>{% trans "Microsoft 365 / Outlook" %}</strong></p>
+    <ul>
+      <li>{% trans "SMTP AUTH must be enabled for the mailbox. Your IT administrator can turn it on in the Microsoft 365 admin centre (Users → Mail → Manage email apps → Authenticated SMTP)." %}</li>
+      <li>{% trans "If the account uses multi-factor sign-in, use an app password." %}</li>
+      <li>{% trans "Microsoft rejects emails from any address other than the signed-in mailbox (or one it may 'send as'), so 'Send emails from' should be the same as the username." %}</li>
+    </ul>
+  </div>
+
+  <div class="email-provider-tips" data-provider="custom">
+    <p><strong>{% trans "Other providers" %}</strong></p>
+    <ul>
+      <li>{% trans "Enter the server details from your email provider or IT department. Port 587 usually uses STARTTLS; port 465 uses SSL/TLS." %}</li>
+    </ul>
+  </div>
+
+  <p>
+    {% blocktrans trimmed %}
+      Locked out? A server administrator can switch back to the server's own
+      settings by running <code>python manage.py disable_cms_email</code>.
+    {% endblocktrans %}
+  </p>
+</div>
+
+<script>
+(function () {
+  function apply() {
+    var select = document.querySelector('select[name="provider"]');
+    if (!select) return;
+    var value = select.value;
+    document.querySelectorAll('.email-provider-tips').forEach(function (el) {
+      el.style.display = (el.dataset.provider === value) ? '' : 'none';
+    });
+    // Gmail and Microsoft use fixed server details.
+    document.querySelectorAll('.email-custom-server').forEach(function (el) {
+      el.style.display = (value === 'custom') ? '' : 'none';
+    });
+  }
+  function init() {
+    var select = document.querySelector('select[name="provider"]');
+    if (!select) return;
+    select.addEventListener('change', apply);
+    apply();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
