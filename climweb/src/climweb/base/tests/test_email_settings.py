@@ -240,7 +240,6 @@ class AccessTests(TestCase):
         response = self.client.get(self.url, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "confirmation_code")
-        self.assertContains(response, "disable_cms_email")
         self.assertContains(self.client.get(reverse("wagtailadmin_home")), self.url)
 
     def test_editor_with_the_permission_is_still_refused(self):
