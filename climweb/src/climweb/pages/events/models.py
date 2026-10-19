@@ -628,7 +628,8 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         if not email:
             return
 
-        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'no-reply@example.com'
+        from climweb.base.mail import get_default_from_email
+        from_email = get_default_from_email() or 'no-reply@example.com'
         subject = self.subject or "Registration Confirmation"
         raw_message = self.email_confirmation_message or "Thank you for registering!"
 

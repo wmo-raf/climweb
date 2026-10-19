@@ -4,6 +4,7 @@ from climweb.base.models.abstracts import *
 from climweb.base.models.ai_settings import *
 from climweb.base.models.backup_settings import *
 from climweb.base.models.cap_settings import *
+from climweb.base.models.email_settings import *
 from climweb.base.models.custom import *
 from climweb.base.models.permissions import *
 from climweb.base.models.site_settings import *

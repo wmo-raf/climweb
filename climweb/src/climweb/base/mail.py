@@ -23,12 +23,7 @@ def send_mail(subject, message, recipient_list, from_email=None, **kwargs):
     Custom from_email handling and special Auto-Submitted header.
     """
     if not from_email:
-        if hasattr(settings, 'WAGTAILADMIN_NOTIFICATION_FROM_EMAIL'):
-            from_email = settings.WAGTAILADMIN_NOTIFICATION_FROM_EMAIL
-        elif hasattr(settings, 'DEFAULT_FROM_EMAIL'):
-            from_email = settings.DEFAULT_FROM_EMAIL
-        else:
-            from_email = 'climweb@localhost'
+        from_email = get_default_from_email()
     
     connection = kwargs.get('connection', False) or get_connection(
         username=kwargs.get('auth_user', None),
@@ -54,6 +49,14 @@ def send_mail(subject, message, recipient_list, from_email=None, **kwargs):
 
 
 def get_default_from_email():
+    # The sender configured in Settings -> Email wins when those settings are
+    # in use: mail servers generally refuse any other address.
+    from climweb.base.smtp import get_active_config
+
+    config = get_active_config()
+    if config and config.sender:
+        return config.sender
+
     if hasattr(settings, 'WAGTAILADMIN_NOTIFICATION_FROM_EMAIL'):
         return settings.WAGTAILADMIN_NOTIFICATION_FROM_EMAIL
     elif hasattr(settings, 'DEFAULT_FROM_EMAIL'):

@@ -25,7 +25,9 @@ FILE_UPLOAD_TEMP_DIR = env.str("FILE_UPLOAD_TEMP_DIR", None)
 if FILE_UPLOAD_TEMP_DIR is None or not os.path.exists(FILE_UPLOAD_TEMP_DIR):
     FILE_UPLOAD_TEMP_DIR = "/climweb/tmp"
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# Uses Settings -> Email from the CMS when switched on there, otherwise the
+# EMAIL_* variables below. See climweb/base/smtp.py.
+EMAIL_BACKEND = "climweb.base.smtp.SiteSMTPBackend"
 EMAIL_HOST = env.str('EMAIL_HOST', default="localhost")
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", False)
 EMAIL_PORT = os.getenv("EMAIL_PORT", "")
