@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailsettings_tags i18n wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+{% load static wagtailsettings_tags i18n wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags vue_utils %}
 {% get_settings use_default_site=True %}
 
 {% block extra_css %}
@@ -9,6 +9,11 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.skeleton.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/video_include.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail.css' %}">
+    {% endif %}
+    {% if page.has_map %}
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <link rel="stylesheet" href="{% static 'css/maplibre-gl.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/zoom-to-location-control.css' %}">
     {% endif %}
 {% endblock %}
 
@@ -125,6 +130,27 @@
                 </div>            
             </section>
         {% endif %}
+        {% if page.has_map %}
+            <section class="section service-map-section" id="map">
+                {% if page.map_title %}
+                    <div class="container">
+                        <h2 class="section-title has-text-centered">{{ page.map_title }}</h2>
+                    </div>
+                {% endif %}
+
+                <div id="django-svg-data-sprite" style="display: none;">
+                    {{ map_layer_svg_sprite|safe }}
+                </div>
+                <div class="service-map">
+                    <div id="home-map"
+                         data-map-settings-url="{{ map_settings_url }}"
+                         data-initial-bounds="{{ country_bounds }}"
+                         data-language-code="{{ LANGUAGE_CODE }}"
+                         data-primary-color="{{ primary_color }}"
+                    ></div>
+                </div>
+            </section>
+        {% endif %}
         {% if page.extra_content %}
             {% for block in page.extra_content %}
                 <section class="section {% if block.block_type == "accordion" %}ac-section{% endif %}">
@@ -190,6 +216,12 @@
 {% block extra_js %}
     {% if page.youtube_playlist %}
         <script src="{% static 'js/jquery.scheletrone.js' %}"></script>
+    {% endif %}
+    {% if page.has_map %}
+        <script src="{% static 'js/maplibre-gl.js' %}"></script>
+        <script src="{% static 'js/turf.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/zoom-to-location-control.js' %}"></script>
+        <script type="module" crossorigin src="{% vue_bundle_url 'home-map' %}"></script>
     {% endif %}
     <script>
 
