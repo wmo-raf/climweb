@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
@@ -371,9 +372,24 @@ class ImportantPages(BaseSiteSetting):
     anticipatory_action_page = models.ForeignKey(
         'wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
         verbose_name=_("Anticipatory Action page"))
-    
+    show_anticipatory_action_button = models.BooleanField(
+        default=True, verbose_name=_("Show Anticipatory Action button"),
+        help_text=_("Show the Anticipatory Action button in the site header. "
+                    "Turn off when there is no relevant anticipatory action information to communicate"))
+    anticipatory_action_button_label = models.CharField(
+        max_length=50, blank=True, null=True, verbose_name=_("Anticipatory Action button label"),
+        help_text=_("Leave blank to use 'Anticipatory Action'"))
+    anticipatory_action_button_expires_at = models.DateTimeField(
+        blank=True, null=True, verbose_name=_("Hide Anticipatory Action button after"),
+        help_text=_("The button is hidden automatically after this date and time. Leave blank to never expire"))
+
     panels = [
-        PageChooserPanel('anticipatory_action_page'),
+        MultiFieldPanel([
+            PageChooserPanel('anticipatory_action_page'),
+            FieldPanel('show_anticipatory_action_button'),
+            FieldPanel('anticipatory_action_button_label'),
+            FieldPanel('anticipatory_action_button_expires_at'),
+        ], heading=_("Anticipatory Action")),
         PageChooserPanel('mailing_list_signup_page'),
         PageChooserPanel('contact_us_page'),
         PageChooserPanel('feedback_page'),
@@ -397,6 +413,23 @@ class ImportantPages(BaseSiteSetting):
     class Meta:
         verbose_name = _("Important Pages")
         verbose_name_plural = _("Important Pages")
+
+    @property
+    def anticipatory_action_button_page(self):
+        """
+        The Anticipatory Action page to link the header button to,
+        or None if the button should not be displayed
+        """
+        page = self.anticipatory_action_page
+
+        if not page or not page.live or not self.show_anticipatory_action_button:
+            return None
+
+        expires_at = self.anticipatory_action_button_expires_at
+        if expires_at and expires_at <= timezone.now():
+            return None
+
+        return page
 
 
 # clear wagtail cache on saving the following models

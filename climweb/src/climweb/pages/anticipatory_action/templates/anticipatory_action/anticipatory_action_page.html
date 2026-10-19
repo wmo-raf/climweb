@@ -1,0 +1,414 @@
+{% extends 'base.html' %}
+{% load static i18n wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags vue_utils %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/services_page.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href='{% static "css/maplibre-gl.css" %}' rel='stylesheet'/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/zoom-to-location-control.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/anticipatory_action_page.css' %}">
+{% endblock %}
+
+{% block body_class %}anticipatory-action-page{% endblock %}
+
+{% block content %}
+    <main class="is-index">
+        {% include 'hero.html' with page=page %}
+
+        <div class="aa-sticky-nav">
+{% if page.has_status %}
+            <section class="aa-status" aria-label="{% translate 'Current status' %}">
+                <div class="container aa-status-inner">
+                    <div class="aa-status-main">
+                        {% if page.risk_level %}
+                            <span class="aa-risk-level aa-risk-level--{{ page.risk_level }}">
+                                {% blocktranslate trimmed with level=page.get_risk_level_display %}
+                                    {{ level }} risk
+                                {% endblocktranslate %}
+                            </span>
+                        {% endif %}
+                        <div>
+                            {% if page.hazard %}
+                                <p class="aa-status-hazard">{{ page.hazard }}</p>
+                            {% endif %}
+                            <p class="aa-status-meta">
+                                {% if page.affected_areas %}
+                                    <span>{{ page.affected_areas }}</span>
+                                {% endif %}
+                                {% if page.situation_last_updated %}
+                                    <span>
+                                        {% blocktranslate trimmed with updated=page.situation_last_updated|date:"d M Y" %}
+                                            Updated {{ updated }}
+                                        {% endblocktranslate %}
+                                    </span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+
+                    {% if page.show_phase and page.current_phase %}
+                        <div class="aa-phase">
+                            <p class="aa-phase-label">{% translate "Phase" %}</p>
+                            <ol class="aa-phase-steps">
+                                {% for phase in page.phase_steps %}
+                                    <li class="aa-phase-step is-{{ phase.state }}"
+                                        {% if phase.state == "current" %}aria-current="step"{% endif %}>
+                                        {{ phase.label }}
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                            {% if page.current_phase.description %}
+                                <p class="aa-phase-description">{{ page.current_phase.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+
+        <nav class="aa-page-nav" aria-label="{% translate 'On this page' %}">
+            <div class="container">
+                <ul>
+                    {% if page.risk_summary or page.key_facts %}
+                        <li><a href="#situation">{% translate "What's happening" %}</a></li>
+                    {% endif %}
+                    <li><a href="#map">{% translate "Where" %}</a></li>
+                    {% if page.recommended_actions %}
+                        <li><a href="#actions">{% translate "What to do" %}</a></li>
+                    {% endif %}
+                    {% if show_warnings %}
+                        <li><a href="#warnings">{% translate "Warnings" %}</a></li>
+                    {% endif %}
+                    {% if page.product_pages or page.institutions %}
+                        <li><a href="#resources">{% translate "Evidence and contacts" %}</a></li>
+                    {% endif %}
+                    {% if page.latest_updates or page.events %}
+                        <li><a href="#updates">{% translate "Updates" %}</a></li>
+                    {% endif %}
+                    {% if page.applications.all %}
+                        <li><a href="#applications">{% translate "Applications" %}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        </div>
+        
+
+        {% if page.risk_summary or page.key_facts %}
+            <section class="section aa-section" id="situation">
+                <div class="container">
+                    {% translate "Situation" as eyebrow %}
+                    {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=page.risk_summary_title only %}
+
+                    <div class="aa-situation{% if not page.key_facts or not page.risk_summary %} is-single{% endif %}">
+                        {% if page.risk_summary %}
+                            <div class="format-text aa-risk-summary">{{ page.risk_summary|richtext }}</div>
+                        {% endif %}
+                        {% if page.key_facts %}
+                            <dl class="aa-key-facts">
+                                {% for block in page.key_facts %}
+                                    <div class="aa-key-fact">
+                                        <dt>{{ block.value.value }}</dt>
+                                        <dd>{{ block.value.label }}</dd>
+                                    </div>
+                                {% endfor %}
+                            </dl>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        <section class="section aa-section aa-map-section" id="map">
+            <div class="container">
+                {% translate "Areas at risk" as eyebrow %}
+                {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=page.map_title subtitle=page.affected_areas only %}
+            </div>
+
+            <div id="django-svg-data-sprite" style="display: none;">
+                {{ map_layer_svg_sprite|safe }}
+            </div>
+            <div class="aa-map">
+                <div id="home-map"
+                     data-map-settings-url="{{ map_settings_url }}"
+                     data-initial-bounds="{{ country_bounds }}"
+                     data-language-code="{{ LANGUAGE_CODE }}"
+                     data-primary-color="{{ primary_color }}"
+                ></div>
+            </div>
+        </section>
+
+        {% if page.recommended_actions %}
+            <section class="section aa-section" id="actions">
+                <div class="container">
+                    {% translate "Act early" as eyebrow %}
+                    {% translate "What to do" as title %}
+                    {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=title only %}
+
+                    {% with audiences=page.action_audiences %}
+                        {% if audiences|length > 1 %}
+                            <div class="aa-audience-filter" role="group" aria-label="{% translate 'Show actions for' %}">
+                                <button type="button" class="aa-chip is-active" data-audience="" aria-pressed="true">
+                                    {% translate "Everyone" %}
+                                </button>
+                                {% for audience in audiences %}
+                                    <button type="button" class="aa-chip" data-audience="{{ audience }}" aria-pressed="false">
+                                        {{ audience }}
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+
+                    <div class="aa-card-grid">
+                        {% for block in page.recommended_actions %}
+                            <div class="aa-card" data-audience="{{ block.value.audience }}">
+                                <div class="aa-card-heading">
+                                    {% if block.value.icon %}
+                                        <span class="aa-card-icon">{% svg_icon name=block.value.icon %}</span>
+                                    {% endif %}
+                                    <h3 class="aa-card-title">{{ block.value.audience }}</h3>
+                                </div>
+                                <div class="format-text">{{ block.value.actions|richtext }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if show_warnings %}
+            <section class="section aa-section" id="warnings">
+                <div class="container">
+                    {% translate "Warnings in force" as eyebrow %}
+                    {% translate "Related CAP warnings" as title %}
+                    {% translate "See all warnings" as link_text %}
+                    {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=title link_url=settings.base.ImportantPages.cap_warnings_list_page.url link_text=link_text only %}
+
+                    {% if active_alert_infos %}
+                        <div class="aa-warning-list">
+                            {% for alert_info in active_alert_infos %}
+                                <article class="aa-warning"
+                                         style="--aa-severity-color: {{ alert_info.severity.border_color }}; --aa-severity-bg: {{ alert_info.severity.background_color }};">
+                                    <div class="aa-warning-header">
+                                        <span class="aa-warning-severity">{{ alert_info.severity.label|default:alert_info.severity.severity }}</span>
+                                        <span class="aa-warning-status">{% translate alert_info.status %}</span>
+                                    </div>
+                                    <h3 class="aa-warning-title">
+                                        <a href="{{ alert_info.url }}">
+                                            {{ alert_info.event }}{% if alert_info.area_desc %} ({{ alert_info.area_desc }}){% endif %}
+                                        </a>
+                                    </h3>
+                                    {% if alert_info.headline %}
+                                        <p class="aa-warning-headline">{{ alert_info.headline }}</p>
+                                    {% endif %}
+                                    {% if alert_info.instruction %}
+                                        <div class="aa-warning-instruction">
+                                            <p class="aa-warning-instruction-label">{% translate "What you should do" %}</p>
+                                            <p>{{ alert_info.instruction|linebreaksbr }}</p>
+                                        </div>
+                                    {% endif %}
+                                    <div class="aa-warning-footer">
+                                        {% if alert_info.expires %}
+                                            <span>
+                                                {% translate "Expires:" %} {{ alert_info.expires|date:"d M Y H:i" }}
+                                            </span>
+                                        {% endif %}
+                                        <a href="{{ alert_info.url }}" class="aa-link">
+                                            {% translate "Full warning details" %}
+                                            <span class="icon is-small">{% svg_icon name="arrow-right-full" %}</span>
+                                        </a>
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="aa-empty">{% translate "There are currently no related warnings in force." %}</p>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.product_pages or page.institutions %}
+            <section class="section aa-section" id="resources">
+                <div class="container">
+                    <div class="aa-resources{% if not page.product_pages or not page.institutions %} is-single{% endif %}">
+                        {% if page.product_pages %}
+                            <div>
+                                {% translate "Evidence" as eyebrow %}
+                                {% translate "Monitoring products" as title %}
+                                {% translate "All products" as link_text %}
+                                {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=title link_url=settings.base.ImportantPages.all_products_page.url link_text=link_text only %}
+                                <ul class="aa-list">
+                                    {% for product in page.product_pages %}
+                                        <li>
+                                            <a class="aa-list-item" href="{{ product.url }}">
+                                                <span class="aa-list-thumb">
+                                                    {% if product.introduction_image %}
+                                                        {% image product.introduction_image fill-96x96 %}
+                                                    {% else %}
+                                                        <span class="aa-list-initial" aria-hidden="true">{{ product.title|slice:":1" }}</span>
+                                                    {% endif %}
+                                                </span>
+                                                <span class="aa-list-text">
+                                                    <span class="aa-list-title">{{ product.title }}</span>
+                                                    {% if product.service %}
+                                                        <span class="aa-list-description">{{ product.service }}</span>
+                                                    {% endif %}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        {% if page.institutions %}
+                            <div>
+                                {% translate "Who to contact" as eyebrow %}
+                                {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=page.institutions_heading only %}
+                                <ul class="aa-list">
+                                    {% for block in page.institutions %}
+                                        <li>
+                                            <a class="aa-list-item" href="{{ block.value.url }}"
+                                               {% if block.value.is_external %}target="_blank" rel="noopener noreferrer"{% endif %}>
+                                                <span class="aa-list-thumb">
+                                                    {% if block.value.logo %}
+                                                        {% image block.value.logo max-96x96 %}
+                                                    {% else %}
+                                                        <span class="aa-list-initial" aria-hidden="true">{{ block.value.name|slice:":1" }}</span>
+                                                    {% endif %}
+                                                </span>
+                                                <span class="aa-list-text">
+                                                    <span class="aa-list-title">{{ block.value.name }}</span>
+                                                    {% if block.value.description %}
+                                                        <span class="aa-list-description">{{ block.value.description }}</span>
+                                                    {% endif %}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if page.extra_content %}
+            {% for block in page.extra_content %}
+                <section class="section {% if block.block_type == "accordion" %}ac-section{% endif %}">
+                    {% include_block block %}
+                </section>
+            {% endfor %}
+        {% endif %}
+
+        {% if page.latest_updates or page.events %}
+            <div id="updates" class="aa-section">
+                {% if page.latest_updates %}
+                    {% include 'home/section/updates_include.html' %}
+                {% endif %}
+                {% if page.events %}
+                    <section class="section">
+                        <div class="container">
+                            {% translate "Upcoming" as eyebrow %}
+                            {% translate "Events" as title %}
+                            {% translate "All events" as link_text %}
+                            {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=title link_url=settings.base.ImportantPages.all_events_page.url link_text=link_text only %}
+                            {% include 'events_include.html' with events=page.events %}
+                        </div>
+                    </section>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if page.applications.all %}
+            <section class="section aa-section" id="applications">
+                <div class="container">
+                    {% translate "Tools" as eyebrow %}
+                    {% translate "Applications" as title %}
+                    {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=title only %}
+                    {% include 'applications_include.html' with applications=page.applications.all %}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static 'js/maplibre-gl.js' %}"></script>
+    <script src="{% static 'js/turf.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/zoom-to-location-control.js' %}"></script>
+    <script type="module" crossorigin src="{% vue_bundle_url 'home-map' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.ac-wrap').forEach(function (wrap) {
+                wrap.querySelectorAll('.ac-header').forEach(function (header) {
+                    header.addEventListener('click', function () {
+                        const item = header.closest('.ac-item');
+                        const isOpen = item.classList.contains('ac-item--open');
+                        wrap.querySelectorAll('.ac-item').forEach(function (i) {
+                            i.classList.remove('ac-item--open');
+                        });
+                        if (!isOpen) {
+                            item.classList.add('ac-item--open');
+                        }
+                    });
+                });
+            });
+
+            // filter recommended actions by audience
+            const chips = document.querySelectorAll('.aa-audience-filter .aa-chip');
+            chips.forEach(function (chip) {
+                chip.addEventListener('click', function () {
+                    const audience = chip.dataset.audience;
+                    chips.forEach(function (c) {
+                        c.classList.toggle('is-active', c === chip);
+                        c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
+                    });
+                    document.querySelectorAll('#actions .aa-card[data-audience]').forEach(function (card) {
+                        card.hidden = Boolean(audience) && card.dataset.audience !== audience;
+                    });
+                });
+            });
+
+            // highlight the section currently in view in the page menu
+            const navLinks = document.querySelectorAll('.aa-page-nav a');
+            if (!navLinks.length || !('IntersectionObserver' in window)) {
+                return;
+            }
+
+            const linkFor = {};
+            navLinks.forEach(function (link) {
+                linkFor[link.getAttribute('href').slice(1)] = link;
+            });
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    const link = linkFor[entry.target.id];
+                    if (link && entry.isIntersecting) {
+                        navLinks.forEach(function (l) {
+                            l.classList.remove('is-active');
+                            l.removeAttribute('aria-current');
+                        });
+                        link.classList.add('is-active');
+                        link.setAttribute('aria-current', 'true');
+                        // keep the active link visible when the menu scrolls sideways on small screens
+                        const menu = link.closest('ul');
+                        const item = link.parentElement;
+                        menu.scrollLeft = item.offsetLeft - (menu.clientWidth - item.offsetWidth) / 2;
+                    }
+                });
+            }, {rootMargin: '-30% 0px -60% 0px'});
+
+            Object.keys(linkFor).forEach(function (id) {
+                const section = document.getElementById(id);
+                if (section) {
+                    observer.observe(section);
+                }
+            });
+        });
+    </script>
+{% endblock extra_js %}

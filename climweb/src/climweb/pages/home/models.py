@@ -55,7 +55,8 @@ HOME_SUBPAGE_TYPES = [
     'satellite_imagery.SatelliteImageryPage',
     'glossary.GlossaryIndexPage',
     'webstories.WebStoryListPage',
-    'dashboards.DashboardGalleryPage'
+    'dashboards.DashboardGalleryPage',
+    'anticipatory_action.AnticipatoryActionPage',
 ]
 
 if "forecastmanager" in settings.INSTALLED_APPS:

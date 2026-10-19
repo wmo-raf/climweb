@@ -7,7 +7,7 @@ from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
+from wagtail.admin.panels import MultiFieldPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm
 from wagtail.contrib.forms.models import AbstractFormField, FORM_FIELD_CHOICES
 from wagtailcaptcha.forms import remove_captcha_field
@@ -19,7 +19,7 @@ from climweb.base.forms import (
     CustomSubmissionsListView, CustomWagtailCaptchaFormBuilder
 )
 from climweb.base.anti_spam import get_spam_reason
-from climweb.base.mail import send_mail, get_default_from_email
+from climweb.base.mail import send_mail
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.recaptcha import SiteCaptchaFormMixin
 from climweb.base.models import FormFileSubmission
@@ -28,6 +28,11 @@ from climweb.base.utils import get_duplicates
 
 
 class FlexibleFormPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailForm):
+    # Removed: every email is sent from the address in Settings -> Email (or
+    # the server's default sender). Mail providers reject or rewrite any other
+    # sender, which made submissions silently fail. The submitter's address
+    # goes in Reply-To instead.
+    from_address = None
     """
     A generic, reusable form page.
 
@@ -74,10 +79,7 @@ class FlexibleFormPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEm
         InlinePanel('flexible_form_fields', label=_("Form fields")),
         FieldPanel('thank_you_text'),
         MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('from_address', classname="col6"),
-                FieldPanel('to_address', classname="col6"),
-            ]),
+            FieldPanel('to_address'),
             FieldPanel('subject'),
         ], _("Email")),
     ]
@@ -210,7 +212,6 @@ class FlexibleFormPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEm
         return super(FlexibleFormPage, self).process_form_submission(form)
 
     def send_mail(self, form):
-        from_address = self.from_address or get_default_from_email()
         try:
             addresses = [x.strip() for x in self.to_address.split(',')]
             email = form.cleaned_data.get("email", None)
@@ -219,7 +220,7 @@ class FlexibleFormPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEm
             }
             if email:
                 options["reply_to"] = [email]
-            send_mail(self.subject, self.render_email(form), addresses, from_address, **options)
+            send_mail(self.subject, self.render_email(form), addresses, **options)
         except Exception as e:
             logger.error(f"[FLEXIBLE_FORM_PAGE] Error sending email: {e}")
 

@@ -7,7 +7,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
+from wagtail.admin.panels import MultiFieldPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.fields import RichTextField
 from wagtailcaptcha.forms import remove_captcha_field
@@ -17,7 +17,7 @@ from wagtailgeowidget.helpers import geosgeometry_str_to_struct
 from wagtailgeowidget.panels import LeafletPanel, GeoAddressPanel
 
 from climweb.base.anti_spam import get_spam_reason
-from climweb.base.mail import send_mail, get_default_from_email
+from climweb.base.mail import send_mail
 from climweb.base.mixins import MetadataPageMixin
 from climweb.base.recaptcha import SiteCaptchaFormMixin
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
@@ -25,6 +25,11 @@ from climweb.base.utils import get_duplicates
 
 
 class ContactPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailForm):
+    # Removed: every email is sent from the address in Settings -> Email (or
+    # the server's default sender). Mail providers reject or rewrite any other
+    # sender, which made submissions silently fail. The submitter's address
+    # goes in Reply-To instead.
+    from_address = None
     template = 'contact/contact_page.html'
     parent_page_types = ['home.HomePage']
     subpage_types = []
@@ -59,10 +64,7 @@ class ContactPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailFo
         InlinePanel('contact_us_form_fields', label="Form fields"),
         FieldPanel('thank_you_text'),
         MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('from_address', classname="col6"),
-                FieldPanel('to_address', classname="col6"),
-            ]),
+            FieldPanel('to_address'),
             FieldPanel('subject'),
         ], _("Email")),
     ]
@@ -125,7 +127,6 @@ class ContactPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailFo
         )
     
     def send_confirmation_email(self, form):
-        from_email = self.from_address or get_default_from_email()
         email = form.get('email')
         subject = form.get('subject')
         
@@ -133,7 +134,7 @@ class ContactPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailFo
             message = "Thank you for getting in touch!\nWe appreciate you contacting us. Our team will" \
                       "get back to you as soon as possible. Thanks!"
             
-            send_mail("Confirmation", message, [email], fail_silently=True, from_email=from_email)
+            send_mail("Confirmation", message, [email], fail_silently=True)
     
     def process_suspicious_form(self, form):
         remove_captcha_field(form)
@@ -143,20 +144,17 @@ class ContactPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailFo
             pass
     
     def send_mail(self, form):
-        from_address = self.from_address or get_default_from_email()
-        
-        if from_address:
-            try:
-                addresses = [x.strip() for x in self.to_address.split(',')]
-                email = form.cleaned_data.get("email", None)
-                options = {
-                    "fail_silently": True,
-                }
-                if email:
-                    options["reply_to"] = [email]
-                send_mail(self.subject, self.render_email(form), addresses, self.from_address, **options)
-            except Exception as e:
-                logger.error("[CONTACT_US_PAGE] Error sending email: {}".format(e))
+        try:
+            addresses = [x.strip() for x in self.to_address.split(',')]
+            email = form.cleaned_data.get("email", None)
+            options = {
+                "fail_silently": True,
+            }
+            if email:
+                options["reply_to"] = [email]
+            send_mail(self.subject, self.render_email(form), addresses, **options)
+        except Exception as e:
+            logger.error("[CONTACT_US_PAGE] Error sending email: {}".format(e))
     
     def send_suspicious_form_to_admin(self, form):
         try:

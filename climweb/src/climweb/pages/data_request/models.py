@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from loguru import logger
 from modelcluster.fields import ParentalKey
 from wagtail.admin.mail import send_mail
-from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
+from wagtail.admin.panels import MultiFieldPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm
 from wagtail.contrib.forms.models import AbstractFormField, FORM_FIELD_CHOICES
 from wagtailcaptcha.forms import remove_captcha_field
@@ -29,6 +29,11 @@ from climweb.base.utils import get_duplicates
 
 
 class DataRequestPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailForm):
+    # Removed: every email is sent from the address in Settings -> Email (or
+    # the server's default sender). Mail providers reject or rewrite any other
+    # sender, which made submissions silently fail. The submitter's address
+    # goes in Reply-To instead.
+    from_address = None
     required_css_class = 'required'
     form_builder = CustomWagtailCaptchaFormBuilder
     submissions_list_view_class = CustomSubmissionsListView
@@ -60,10 +65,7 @@ class DataRequestPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEma
         InlinePanel('datarequest_form_fields', label="Form fields"),
         FieldPanel('thank_you_text'),
         MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('from_address', classname="col6"),
-                FieldPanel('to_address', classname="col6"),
-            ]),
+            FieldPanel('to_address'),
             FieldPanel('subject'),
         ], "Email"),
     ]
@@ -197,14 +199,13 @@ class DataRequestPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEma
         return super(DataRequestPage, self).process_form_submission(form)
     
     def send_mail(self, form):
-        from_address = self.from_address or get_default_from_email()
         try:
             addresses = [x.strip() for x in self.to_address.split(",")]
             send_mail(
                 self.subject,
                 self.render_email(form),
                 addresses,
-                from_email=from_address
+                from_email=get_default_from_email(),
             )
         except Exception as e:
             logger.error(f"[DATA_REQUEST_PAGE] Error sending email: {e}")
