@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailiconchooser_tags i18n wagtailcore_tags %}
+{% load static wagtailiconchooser_tags i18n wagtailcore_tags wagtailimages_tags %}
 
 {% block extra_css %}
     {% if page.map_layers %}
@@ -7,55 +7,111 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/ion.rangeSlider.min.css' %}">
     {% endif %}
 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/publication.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'products/css/product.css' %}">
 {% endblock %}
 
-{% block body_class %}product-page{% endblock %}
+{% block body_class %}product-page subnational-product-page{% endblock %}
 
 {% block content %}
     <main class="is-index">
-        {% if page.introduction_image %}
-            <section class="nmhs-work is-desktop">
-                <div class="work container">
-                    {% include 'service_introduction.html' with page=page what_we_do=False %}
-                </div>
-            </section>
-        {% else %}
-            <section>
-                <div class="work container">
-                    <h2 class="title is-3">
-                        {{ page.introduction_title }}
-                    </h2>
-                    <div class="intro-description format-text">
-                        {{ page.introduction_text|richtext }}
+        <section class="subnational-detail-header">
+            <div class="container">
+                <a href="{{ landing_page.url }}" class="subnational-back">
+                    <span aria-hidden="true">←</span> {{ landing_page.title }}
+                </a>
+                <div class="subnational-detail-hero">
+                    <div class="subnational-detail-text">
+                        <div class="subnational-card-location">
+                            {% svg_icon name="map-pin" %}
+                            {% if location.district %}
+                                <span>{{ location.district.name }}</span>
+                                {% if location.sub_district %}
+                                    <span class="separator" aria-hidden="true">›</span>
+                                    <span>{{ location.sub_district.name }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span>{{ page.region.name }}</span>
+                            {% endif %}
+                        </div>
+                        <h1 class="subnational-detail-title">{{ page.title }}</h1>
+                        <div class="subnational-card-meta">
+                            <span class="subnational-card-product">{{ page.product.name }}</span>
+                            {% if latest_update %}
+                                <span>
+                                    {% blocktranslate with date=latest_update|date:"j M Y" %}Updated {{ date }}{% endblocktranslate %}
+                                </span>
+                            {% endif %}
+                        </div>
+                        {% if show_introduction_text %}
+                            <div class="subnational-detail-intro format-text">
+                                {{ page.introduction_text|richtext }}
+                            </div>
+                        {% endif %}
+                        {% if other_areas %}
+                            <div class="subnational-filter-field subnational-area-switcher">
+                                <label for="subnational-area" class="subnational-filter-label">
+                                    {% blocktranslate with name=area_name %}Switch {{ name }}{% endblocktranslate %}
+                                </label>
+                                <div class="select is-fullwidth">
+                                    <select id="subnational-area" class="subnational-filter-select">
+                                        {% for area_page in other_areas %}
+                                            <option data-url="{{ area_page.url }}"
+                                                    {% if area_page.pk == page.pk %}selected{% endif %}>
+                                                {{ area_page.region.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
+                    {% if boundary_thumbnail %}
+                        <div class="subnational-detail-shape" aria-hidden="true">
+                            <svg viewBox="{{ boundary_thumbnail.view_box }}" preserveAspectRatio="xMidYMid meet">
+                                <path d="{{ boundary_thumbnail.path }}"/>
+                            </svg>
+                        </div>
+                    {% elif page.introduction_image %}
+                        <div class="subnational-detail-shape">
+                            {% image page.introduction_image fill-320x240 %}
+                        </div>
+                    {% endif %}
                 </div>
-            </section>
-        {% endif %}
-        <section class="listing-section">
-            <div>
-                <div id="browse" class="content-tab">
-                    <h2 id="results"
-                        class="section-title has-text-centered">
-                        {% translate "Browse Product Updates" %}
-                    </h2>
-                    <div class="container">
-                        <div class="columns" style="width: 100%;margin: 0">
-                            <div class="column is-3 is-full-mobile">
-                                {% include 'products/product_filter_include.html' with filters=page.filters %}
-                            </div>
-                            <div class="column is-9 is-full-mobile">
-                                {% include 'products/product_list_include.html' with products=products %}
-                            </div>
+            </div>
+        </section>
+
+        <section id="results" class="subnational-detail-updates listing-section">
+            <div class="container">
+                <h2 class="subnational-section-heading">{% translate "Product updates" %}</h2>
+                {% if has_updates %}
+                    <div class="columns">
+                        <div class="column is-3 is-full-mobile">
+                            {% include 'products/product_filter_include.html' with filters=page.filters %}
+                        </div>
+                        <div class="column is-9 is-full-mobile">
+                            {% include 'products/product_list_include.html' with products=products %}
                         </div>
                     </div>
-                </div>
+                {% else %}
+                    <div class="subnational-detail-empty">
+                        {% svg_icon name="empty-tray" %}
+                        <p>{% translate "No updates have been published for this product yet." %}</p>
+                    </div>
+                {% endif %}
             </div>
         </section>
     </main>
 {% endblock content %}
 
 {% block extra_js %}
+    <script>
+        document.querySelectorAll(".subnational-filter-select").forEach(function (select) {
+            select.addEventListener("change", function () {
+                window.location.href = select.options[select.selectedIndex].dataset.url;
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
 
