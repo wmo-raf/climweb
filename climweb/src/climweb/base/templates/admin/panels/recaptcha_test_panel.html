@@ -1,0 +1,63 @@
+{% load i18n %}
+<p class="help" style="margin-bottom: 0.75rem;">
+  {% blocktrans trimmed %}
+    This is the box visitors will see with the site key entered above. Tick it
+    before saving with the keys switched on. If it shows an error such as
+    "Invalid domain for site key" or "Invalid key type", fix the site in the
+    reCAPTCHA admin console or enter different keys.
+  {% endblocktrans %}
+</p>
+{% if token_errors %}
+  <div class="w-field__errors" role="alert" style="margin-bottom: 0.75rem;">
+    {% for error in token_errors %}<p class="error-message">{{ error }}</p>{% endfor %}
+  </div>
+{% endif %}
+<p class="recaptcha-test-empty help">{% trans "Enter a site key above to show the test box." %}</p>
+<div class="recaptcha-test-box"></div>
+{# Tokens are single-use, so this always starts empty. #}
+<input type="hidden" name="{{ token_name }}" value="" class="recaptcha-test-token">
+
+<script>
+(function () {
+  var KEY_PATTERN = /^[A-Za-z0-9_-]{40}$/;
+  var renderedKey = null;
+
+  function parts() {
+    return {
+      key: document.querySelector('input[name="{{ key_name }}"]'),
+      box: document.querySelector('.recaptcha-test-box'),
+      empty: document.querySelector('.recaptcha-test-empty'),
+      token: document.querySelector('.recaptcha-test-token'),
+    };
+  }
+
+  function render() {
+    var p = parts();
+    if (!p.key || !window.grecaptcha || !window.grecaptcha.render) return;
+    var key = p.key.value.trim();
+    if (key === renderedKey) return;
+    renderedKey = key;
+    p.token.value = '';
+    // A widget can't change its key, so draw a new one each time.
+    p.box.innerHTML = '';
+    var valid = KEY_PATTERN.test(key);
+    p.empty.style.display = valid ? 'none' : '';
+    if (!valid) return;
+    var holder = document.createElement('div');
+    p.box.appendChild(holder);
+    grecaptcha.render(holder, {
+      sitekey: key,
+      callback: function (token) { p.token.value = token; },
+      'expired-callback': function () { p.token.value = ''; },
+      'error-callback': function () { p.token.value = ''; },
+    });
+  }
+
+  window.climwebRecaptchaTestLoaded = function () {
+    render();
+    var key = parts().key;
+    if (key) key.addEventListener('input', render);
+  };
+})();
+</script>
+<script src="https://{{ recaptcha_domain }}/recaptcha/api.js?onload=climwebRecaptchaTestLoaded&render=explicit" async defer></script>

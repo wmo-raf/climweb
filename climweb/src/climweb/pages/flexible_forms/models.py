@@ -21,12 +21,13 @@ from climweb.base.forms import (
 from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mail import send_mail
 from climweb.base.mixins import MetadataPageMixin
+from climweb.base.recaptcha import SiteCaptchaFormMixin
 from climweb.base.models import FormFileSubmission
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import get_duplicates
 
 
-class FlexibleFormPage(MetadataPageMixin, WagtailCaptchaEmailForm):
+class FlexibleFormPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailForm):
     # Removed: every email is sent from the address in Settings -> Email (or
     # the server's default sender). Mail providers reject or rewrite any other
     # sender, which made submissions silently fail. The submitter's address
