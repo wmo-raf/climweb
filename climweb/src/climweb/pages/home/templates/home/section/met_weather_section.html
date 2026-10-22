@@ -79,6 +79,7 @@
         </div>
         <div
           id="home-map"
+          data-map-label="{% translate 'Weather map' %}"
           data-map-settings-url="{{ home_map_settings_url }}"
           data-initial-bounds="{{ country_bounds }}"
           data-location-forecast-detail-url="{{ city_detail_page_url|default_if_none:'' }}"

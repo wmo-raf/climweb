@@ -1,4 +1,4 @@
-{% load wagtailiconchooser_tags wagtailcore_tags %}
+{% load i18n wagtailiconchooser_tags wagtailcore_tags %}
 <div class="card elevation-1">
     <header class="card-header elevation-0" style="align-items: center;">
         <p class="card-header-title">
@@ -55,6 +55,7 @@
             <div
                 class="map-container"
                 id="map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                data-map-label="{{ map.title }}"
                 data-map-type="{{ map.map_type }}"
                 data-tilejson="{{ map_snippet.datasetsurl }}{{ map.map_layer.0.value.dataset.id }}"
                 data-dataset="{{ map.map_layer.0.value.dataset.id }}"
@@ -92,6 +93,7 @@
                 <div
                     class="map-container"
                     id="before-map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                    data-map-label="{% blocktranslate trimmed with title=map.title %}{{ title }}, left map{% endblocktranslate %}"
                     data-map-type="{{ map.map_type }}"
                     data-tilejson="{{ map_snippet.datasetsurl }}{{ map.map_layer.0.value.dataset.id }}"
                     data-dataset="{{ map.map_layer.0.value.dataset.id }}"
@@ -125,6 +127,7 @@
                 <div
                     class="map-container"
                     id="after-map-{{ section_index }}-{{ index }}-{{ block_index }}"
+                    data-map-label="{% blocktranslate trimmed with title=map.title %}{{ title }}, right map{% endblocktranslate %}"
                     data-map-type="{{ map.map_type }}"
                     data-tilejson="{{ map_snippet.datasetsurl }}{{ map.map_layer.1.value.dataset.id }}"
                     data-dataset="{{ map.map_layer.1.value.dataset.id }}"
