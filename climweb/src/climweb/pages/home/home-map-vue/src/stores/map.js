@@ -13,6 +13,8 @@ export const useMapStore = defineStore('map', {
                 enabled: false,
                 icon: "icon-warning",
                 multiTemporal: false,
+                opacityControl: true,
+                opacity: 1.0,
                 legendConfig: {
                     type: "basic",
                     title: "Weather Warnings",

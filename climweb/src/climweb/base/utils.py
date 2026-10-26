@@ -7,6 +7,7 @@ import pytz
 import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -180,8 +181,16 @@ def get_country_info(country_iso):
     return COUNTRIES.get(country_iso)
 
 
+LATEST_CMS_RELEASE_CACHE_KEY = "latest_cms_release"
+
+
 def get_latest_cms_release():
-    r = requests.get("https://api.github.com/repos/wmo-raf/climweb/releases/latest")
+    # Shown on every CMS user's dashboard, so cache to stay within GitHub's unauthenticated rate limit
+    cached = cache.get(LATEST_CMS_RELEASE_CACHE_KEY)
+    if cached:
+        return cached
+    
+    r = requests.get("https://api.github.com/repos/wmo-raf/climweb/releases/latest", timeout=10)
     r.raise_for_status()
     res = r.json()
     version = res.get("name")
@@ -189,12 +198,15 @@ def get_latest_cms_release():
     body = res.get("body")
     published_at = res.get("published_at")
     
-    return {
+    release = {
         "version": version,
         "html_url": res.get("html_url"),
         "published_at": published_at,
         "body": body,
     }
+    cache.set(LATEST_CMS_RELEASE_CACHE_KEY, release, 60 * 60)
+    
+    return release
 
 
 def send_upgrade_command(latest_version):

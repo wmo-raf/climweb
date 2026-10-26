@@ -36,32 +36,81 @@ function getValidTimestamps(rangeString) {
     return valid_timestamps;
 }
 
-export const getTimeValuesFromWMS = async (wmsUrl, layerName, params = {}) => {
+/**
+ * Build the GetCapabilities url. The configured url may already carry WMS parameters
+ * (e.g. ...?SERVICE=WMS&REQUEST=GetCapabilities), so existing service/request/version parameters
+ * are replaced, whatever their case, rather than appended a second time
+ */
+export const buildCapabilitiesUrl = (wmsUrl, params = {}) => {
     const defaultParams = {
         service: "WMS",
         request: "GetCapabilities",
         version: "1.3.0",
+        ...params,
     };
 
-    const queryParams = new URLSearchParams({...defaultParams, ...params}).toString();
-    const fullUrl = `${wmsUrl}?${queryParams}`;
+    const url = new URL(wmsUrl, window.location.href);
+    const overridden = Object.keys(defaultParams).map(key => key.toLowerCase());
 
+    for (const key of [...url.searchParams.keys()]) {
+        if (overridden.includes(key.toLowerCase())) {
+            url.searchParams.delete(key);
+        }
+    }
+
+    for (const [key, value] of Object.entries(defaultParams)) {
+        url.searchParams.set(key, value);
+    }
+
+    return url.toString();
+};
+
+/**
+ * Find a layer by name anywhere in the capabilities layer tree. Layers can sit directly under
+ * Capability.Layer, or be nested deeper, e.g. in layer groups
+ */
+const findLayer = (layer, layerName) => {
+    if (!layer) {
+        return null;
+    }
+
+    const layers = Array.isArray(layer) ? layer : [layer];
+
+    for (const l of layers) {
+        if (l.Name === layerName) {
+            return l;
+        }
+        const match = findLayer(l.Layer, layerName);
+        if (match) {
+            return match;
+        }
+    }
+
+    return null;
+};
+
+export const getTimeValuesFromWMS = async (wmsUrl, layerName, params = {}) => {
     try {
         // Fetch the GetCapabilities document from the WMS server
-        const xmlText = await fetch(fullUrl).then(res => res.text());
+        const xmlText = await fetch(buildCapabilitiesUrl(wmsUrl, params)).then(res => res.text());
 
         // parse xml
         const capabilities = new WMSCapabilities(xmlText).toJSON();
 
-        // get all layers
-        const layers = capabilities?.Capability?.Layer?.Layer || [];
+        const match = findLayer(capabilities?.Capability?.Layer, layerName);
 
-        // find matching layer by name
-        const match = layers.find((l) => l.Name === layerName) || {};
+        if (!match) {
+            console.warn(`WMS layer "${layerName}" not found in GetCapabilities document`);
+            return [];
+        }
 
-        // get time values
-        const timeValueStr =
-            match?.Dimension?.find((d) => d.name === "time")?.values || [];
+        // get time values. Layers without a time dimension have none
+        const dimensions = Array.isArray(match.Dimension) ? match.Dimension : [];
+        const timeValueStr = (dimensions.find((d) => d.name === "time")?.values || "").trim();
+
+        if (!timeValueStr) {
+            return [];
+        }
 
         let dateRange = timeValueStr.split("/");
 
@@ -85,7 +134,7 @@ export const getTimeValuesFromWMS = async (wmsUrl, layerName, params = {}) => {
             return getValidTimestamps(timeValueStr);
         }
 
-        return timeValueStr.split(",")
+        return timeValueStr.split(",").map(value => value.trim()).filter(Boolean)
     } catch (error) {
         console.error(
             `Error fetching or parsing GetCapabilities document: ${error.message}`

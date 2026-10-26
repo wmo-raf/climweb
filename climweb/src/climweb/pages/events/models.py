@@ -33,6 +33,7 @@ from wagtailzoom.models import AbstractZoomIntegrationForm
 from climweb.base import blocks
 from climweb.base.anti_spam import get_spam_reason
 from climweb.base.mixins import MetadataPageMixin
+from climweb.base.recaptcha import SiteCaptchaFormMixin
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import (
     get_pytz_gmt_offset_str,
@@ -249,6 +250,9 @@ class EventPage(MetadataPageMixin, Page):
     is_visible_on_homepage = models.BooleanField(
         default=False,
         help_text=_("Show this event on the homepage ?"), verbose_name=_("Is visible on homepage"))
+    is_anticipatory_action = models.BooleanField(
+        default=False, verbose_name=_("Is related to Anticipatory Action"),
+        help_text=_("Show this event on the Anticipatory Action page"))
     
     panelists = StreamField([
         ('panelist', PanelistBlock()),
@@ -299,6 +303,7 @@ class EventPage(MetadataPageMixin, Page):
         FieldPanel('featured'),
         FieldPanel('is_hidden'),
         FieldPanel('is_visible_on_homepage'),
+        FieldPanel('is_anticipatory_action'),
         FieldPanel('sponsors'),
         # FieldPanel('youtube_video_id'),
     ]
@@ -486,7 +491,7 @@ class EventPageCustomForm(WagtailAdminFormPageForm):
             self.fields.pop('audience_list_id', None)
 
 
-class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, AbstractMailchimpIntegrationForm,
+class EventRegistrationPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailForm, AbstractMailchimpIntegrationForm,
                             AbstractZoomIntegrationForm):
     base_form_class = EventPageCustomForm
     
@@ -624,7 +629,8 @@ class EventRegistrationPage(MetadataPageMixin, WagtailCaptchaEmailForm, Abstract
         if not email:
             return
 
-        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'no-reply@example.com'
+        from climweb.base.mail import get_default_from_email
+        from_email = get_default_from_email() or 'no-reply@example.com'
         subject = self.subject or "Registration Confirmation"
         raw_message = self.email_confirmation_message or "Thank you for registering!"
 

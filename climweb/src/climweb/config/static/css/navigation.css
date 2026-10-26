@@ -1,3 +1,10 @@
+/* Anticipatory Action: amber, to stand apart from both normal buttons and red CAP warnings */
+:root {
+  --anticipatory-color: #F59E0B;
+  --anticipatory-color-hover: #D97706;
+  --anticipatory-text-color: #1F1300;
+}
+
 header {
     width: 100%;
     z-index: 999;
@@ -206,6 +213,19 @@ header {
     border-bottom-right-radius: var(--border-radius);
 }
 
+.top-nav-item--anticipatory {
+    background: var(--anticipatory-color);
+    color: var(--anticipatory-text-color);
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-weight: 700;
+}
+
+.top-nav-item--anticipatory:hover {
+    background: var(--anticipatory-color-hover);
+    color: var(--anticipatory-text-color);
+}
+
 .top-nav-item.button {
     font-size: 11px;
     font-weight: 700;
@@ -328,29 +348,29 @@ button.util-link {
 .util-link--alert:hover { color: #B91C1C; opacity: 0.85; }
 
 .util-link--anticipatory {
-  background: var(--primary-color);
-  color: #fff;
+  background: var(--anticipatory-color);
+  color: var(--anticipatory-text-color);
   padding: 5px 12px;
   border-radius: 5px;
   font-weight: 700;
   font-size: 12px;
-  border: 2px solid var(--primary-color);
-  box-shadow: 0 2px 8px rgba(28, 70, 185, 0.35);
+  border: 2px solid var(--anticipatory-color);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
   animation: anticipatory-pulse 2.5s ease-in-out infinite;
 }
 
 .util-link--anticipatory:hover {
-  color: #fff;
-  background: var(--primary-color);
-  border-color: var(--primary-color);
+  color: var(--anticipatory-text-color);
+  background: var(--anticipatory-color-hover);
+  border-color: var(--anticipatory-color-hover);
   opacity: 1;
-  box-shadow: 0 4px 14px rgba(28, 70, 185, 0.5);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.5);
   animation: none;
 }
 
 @keyframes anticipatory-pulse {
-  0%, 100% { box-shadow: 0 2px 8px rgba(28, 70, 185, 0.35); }
-  50%       { box-shadow: 0 2px 16px rgba(28, 70, 185, 0.65); }
+  0%, 100% { box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35); }
+  50%       { box-shadow: 0 2px 16px rgba(245, 158, 11, 0.65); }
 }
 
 .util-icon {
@@ -800,15 +820,15 @@ button.util-dropdown-item {
   }
 
   .mobile-util-link--anticipatory {
-    background: #1c46b9 !important;
-    color: #fff !important;
+    background: var(--anticipatory-color) !important;
+    color: var(--anticipatory-text-color) !important;
     font-weight: 700;
-    border-color: #1c46b9 !important;
+    border-color: var(--anticipatory-color) !important;
   }
 
   .mobile-util-link--anticipatory:hover {
-    background: #1538a0 !important;
-    color: #fff !important;
+    background: var(--anticipatory-color-hover) !important;
+    color: var(--anticipatory-text-color) !important;
   }
 
   /* hide desktop-only nav elements */
