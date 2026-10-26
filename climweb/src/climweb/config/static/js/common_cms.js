@@ -476,3 +476,29 @@ $(document).ready(function () {
         });
     }
 );
+/**
+ * MapLibre labels every map just "Map". To tell screen reader users what a map shows,
+ * add data-map-label="..." to its container; the label is copied onto the map's
+ * focusable element once the map exists, whichever script created it.
+ * Works for MapLibre (the canvas) and Leaflet (the container itself).
+ */
+(function () {
+    if (!document.querySelector("[data-map-label]")) return;
+
+    function labelMaps() {
+        document.querySelectorAll("[data-map-label]").forEach(function (container) {
+            const target = container.querySelector(".maplibregl-canvas") ||
+                (container.classList.contains("leaflet-container") ? container : null);
+            const label = container.dataset.mapLabel;
+            if (target && label && target.getAttribute("aria-label") !== label) {
+                target.setAttribute("aria-label", label);
+                // MapLibre's canvas already has role="region"; Leaflet's container has no role
+                if (!target.hasAttribute("role")) target.setAttribute("role", "region");
+            }
+        });
+    }
+
+    labelMaps();
+    // maps are created after page load (and some after data fetches), so watch for them
+    new MutationObserver(labelMaps).observe(document.body, { childList: true, subtree: true });
+})();
