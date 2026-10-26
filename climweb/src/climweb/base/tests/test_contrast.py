@@ -62,5 +62,8 @@ class TestSeverityTextColor(SimpleTestCase):
     def test_falls_back_to_border_color_for_unknown_ids(self):
         self.assertEqual(severity_text_color({"id": 99, "border_color": "#123456"}), "#123456")
 
+    def test_prefers_cap_composer_text_color(self):
+        self.assertEqual(severity_text_color({"id": 4, "text_color": "#123456", "border_color": "#000000"}), "#123456")
+
     def test_empty_severity(self):
         self.assertEqual(severity_text_color(None), "")

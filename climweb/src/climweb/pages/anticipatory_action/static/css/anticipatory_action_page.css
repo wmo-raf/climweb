@@ -203,7 +203,8 @@ body.anticipatory-action-page .is-index section.aa-status {
 }
 
 .aa-eyebrow {
-    color: var(--anticipatory-color-hover, #D97706);
+    /* darker than --anticipatory-color-hover so the small label reads on white */
+    color: #b45309;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.08em;

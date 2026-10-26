@@ -155,6 +155,7 @@
       // Glide's keyboard option listens for arrow keys on the whole page (moving the slider while
       // typing in search or panning a map); the Previous/Next buttons are the keyboard controls
       keyboard: false,
+      animationDuration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 400,
       type: 'slider', perView: currentPerView, gap: 8, bound: true, rewind: false, breakpoints: {},
     }).mount();
 
