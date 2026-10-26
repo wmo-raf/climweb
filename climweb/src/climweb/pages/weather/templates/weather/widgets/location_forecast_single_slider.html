@@ -69,7 +69,7 @@
 
                   <div class="cf-slot-icon">
                     <img src="{{ forecast.condition.icon_url }}"
-                         alt="{{ forecast.condition.label }}"
+                         alt=""
                          title="{{ forecast.condition.label }}">
                   </div>
 
@@ -106,10 +106,10 @@
       </div>
 
       <div class="glide__arrows cf-arrows-wrap" data-glide-el="controls">
-        <button class="cf-arrow cf-arrow--left glide__arrow glide__arrow--left" data-glide-dir="<">
+        <button class="cf-arrow cf-arrow--left glide__arrow glide__arrow--left" data-glide-dir="<" aria-label="{% translate 'Previous' %}">
           {% svg_icon "arrow-left" %}
         </button>
-        <button class="cf-arrow cf-arrow--right glide__arrow glide__arrow--right" data-glide-dir=">">
+        <button class="cf-arrow cf-arrow--right glide__arrow glide__arrow--right" data-glide-dir=">" aria-label="{% translate 'Next' %}">
           {% svg_icon "arrow-right" %}
         </button>
       </div>

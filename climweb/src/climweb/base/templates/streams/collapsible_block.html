@@ -26,7 +26,7 @@
           <img class="progressive__img progressive--not-loaded"
                data-progressive="{{ goal_img.url }}"
                src="{% lazy_image_url goal_img %}"
-               alt="{{ value.heading }}" />
+               alt="{% firstof goal_img.image.description value.heading %}" />
         </div>
       {% endif %}
 

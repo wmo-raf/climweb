@@ -8,7 +8,7 @@
                     {% image item_image original as itm_img %}
                     <img class="progressive__img progressive--not-loaded"
                          data-progressive="{{ itm_img.url }}"
-                         src="{% lazy_image_url itm_img %}" alt="{{ item_title }}"
+                         src="{% lazy_image_url itm_img %}" alt=""
                          style="object-fit: cover"
                     />
                 {% else %}
