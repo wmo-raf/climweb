@@ -83,7 +83,7 @@
                         <div class="report-base-selectors">
                             <div class="control has-icons-left is-expanded my-3">
                                 <div class="select is-fullwidth is-dark">
-                                    <select id="station-select" style="text-transform:capitalize">
+                                    <select id="station-select" style="text-transform:capitalize" aria-label="{% translate 'Station' %}">
                                         <option value="all_stations">{% trans 'All Stations' %}</option>
 
                                         {% for station in stations %}
