@@ -273,6 +273,9 @@
         );
 
         singleForecastSlider = new Glide('#single-forecast-slider', {
+          // Glide's keyboard option listens for arrow keys on the whole page (moving the slider while
+          // typing in search or panning a map); the Previous/Next buttons are the keyboard controls
+          keyboard: false,
           type: 'slider', perView: currentPerView,
           gap: 8, bound: true, rewind: false, breakpoints: {},
         }).mount();

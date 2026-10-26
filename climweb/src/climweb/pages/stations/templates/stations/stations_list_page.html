@@ -64,16 +64,20 @@
         <!-- SEARCH -->
         <div class="stn-search-row">
           <div class="stn-search-box">
-            <svg class="stn-search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="stn-search-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <circle cx="8.5" cy="8.5" r="5.5" stroke="#aaa" stroke-width="1.6"/>
               <path d="M13 13l3.5 3.5" stroke="#aaa" stroke-width="1.6" stroke-linecap="round"/>
             </svg>
             <input type="text" id="stn-search-input"
                    placeholder="{% translate 'Search by station name or WIGOS ID…' %}"
+                   aria-label="{% translate 'Search by station name or WIGOS ID' %}"
+                   role="combobox" aria-autocomplete="list"
+                   aria-controls="stn-search-results" aria-expanded="false"
                    autocomplete="off">
-            <button class="stn-search-clear" id="stn-search-clear" aria-label="{% translate 'Clear' %}" hidden>&#x2715;</button>
+            <button type="button" class="stn-search-clear" id="stn-search-clear" aria-label="{% translate 'Clear search' %}" hidden>&#x2715;</button>
           </div>
-          <ul class="stn-search-results" id="stn-search-results" hidden></ul>
+          <ul class="stn-search-results" id="stn-search-results" role="listbox"
+              aria-label="{% translate 'Matching stations' %}" hidden></ul>
         </div>
       </div>
 
@@ -351,15 +355,43 @@
       const searchResults = document.getElementById("stn-search-results");
       const searchClear   = document.getElementById("stn-search-clear");
 
+      let resultItems = [];
+      let activeIndex = -1;
+
+      function setResultsOpen(open) {
+        searchResults.hidden = !open;
+        searchInput.setAttribute("aria-expanded", open ? "true" : "false");
+        if (!open) setActiveResult(-1);
+      }
+
+      function setActiveResult(index) {
+        resultItems.forEach((li, i) => {
+          li.classList.toggle("is-active", i === index);
+          li.setAttribute("aria-selected", i === index ? "true" : "false");
+        });
+        activeIndex = index;
+        if (index >= 0) {
+          searchInput.setAttribute("aria-activedescendant", resultItems[index].id);
+          resultItems[index].scrollIntoView({ block: "nearest" });
+        } else {
+          searchInput.removeAttribute("aria-activedescendant");
+        }
+      }
+
       function showResults(matches) {
         searchResults.innerHTML = "";
+        resultItems = [];
         if (!matches.length) {
-          searchResults.hidden = true;
+          setResultsOpen(false);
+          if (typeof announce === "function") announce("{{ _('No matching stations')|escapejs }}");
           return;
         }
-        matches.slice(0, 10).forEach(s => {
+        matches.slice(0, 10).forEach((s, i) => {
           const li = document.createElement("li");
           li.className = "stn-search-result-item";
+          li.id = "stn-search-result-" + i;
+          li.setAttribute("role", "option");
+          li.setAttribute("aria-selected", "false");
           li.innerHTML =
             `<span class="stn-result-name">${s.name || "—"}</span>` +
             `<span class="stn-result-wigos">${s.wigos_id || ""}</span>`;
@@ -376,18 +408,44 @@
               )
               .addTo(map);
             searchInput.value = s.name;
-            searchResults.hidden = true;
+            setResultsOpen(false);
             searchClear.hidden = false;
+            // keyboard users can't click the map: take them to the popup's detail link
+            const detailLink = document.querySelector(".maplibregl-popup .stn-popup-detail-btn");
+            if (detailLink) detailLink.focus();
           });
           searchResults.appendChild(li);
+          resultItems.push(li);
         });
-        searchResults.hidden = false;
+        setResultsOpen(true);
+        if (typeof announce === "function") {
+          announce(resultItems.length + " {{ _('matching stations. Use up and down arrows to choose.')|escapejs }}");
+        }
       }
+
+      searchInput.addEventListener("keydown", (e) => {
+        const open = !searchResults.hidden;
+        if (e.key === "ArrowDown" && resultItems.length) {
+          e.preventDefault();
+          if (!open) setResultsOpen(true);
+          setActiveResult(activeIndex < resultItems.length - 1 ? activeIndex + 1 : 0);
+        } else if (e.key === "ArrowUp" && resultItems.length) {
+          e.preventDefault();
+          if (!open) setResultsOpen(true);
+          setActiveResult(activeIndex > 0 ? activeIndex - 1 : resultItems.length - 1);
+        } else if (e.key === "Enter" && open && activeIndex >= 0) {
+          e.preventDefault();
+          resultItems[activeIndex].click();
+        } else if (e.key === "Escape" && open) {
+          e.preventDefault();
+          setResultsOpen(false);
+        }
+      });
 
       searchInput.addEventListener("input", () => {
         const q = searchInput.value.trim().toLowerCase();
         searchClear.hidden = !q;
-        if (!q) { searchResults.hidden = true; return; }
+        if (!q) { setResultsOpen(false); return; }
         const matches = allStations.filter(s =>
           (s.name    && s.name.toLowerCase().includes(q)) ||
           (s.wigos_id && s.wigos_id.toLowerCase().includes(q))
@@ -398,13 +456,13 @@
       searchClear.addEventListener("click", () => {
         searchInput.value = "";
         searchClear.hidden = true;
-        searchResults.hidden = true;
+        setResultsOpen(false);
         searchInput.focus();
       });
 
       // Close dropdown when clicking outside
       document.addEventListener("click", (e) => {
-        if (!e.target.closest(".stn-search-row")) searchResults.hidden = true;
+        if (!e.target.closest(".stn-search-row")) setResultsOpen(false);
       });
     });
   </script>

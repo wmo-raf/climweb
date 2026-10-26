@@ -147,6 +147,16 @@
   cursor: pointer;
 }
 
+/* .si-layer-info is a <button>; drop the browser's button styling */
+button.si-layer-info {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+}
+
 .si-layer-name {
   font-size: 12px;
   color: #444;
@@ -264,6 +274,12 @@
   left: 2px;
   transition: transform 0.2s;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* the real checkbox is 0x0, so show keyboard focus on the visible switch */
+.si-auto-label input:focus-visible ~ .si-auto-toggle-track {
+  outline: 3px solid #0b0c0c;
+  box-shadow: 0 0 0 6px #fff;
 }
 
 .si-auto-label input:checked ~ .si-auto-toggle-track {
@@ -426,7 +442,7 @@ a.leaflet-control-timecontrol { border-radius: 10px !important; }
 .animate-image-container { position: relative; height: 400px; background-color: rgba(78,142,203,0.1); }
 .anim-canvas { width: 100%; height: 100%; cursor: grab; }
 .anim-controls { width: 100%; margin: 40px 20px 20px; display: flex; align-items: center; justify-content: center; }
-.anim-play-pause { height: 30px; width: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 2px 0 black; border-radius: 40px; }
+.anim-play-pause { background: #fff; border: 0; padding: 0; height: 30px; width: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 2px 0 black; border-radius: 40px; }
 .anim-icon { height: 18px; width: 18px; display: flex; align-items: center; justify-content: center; }
 .icon-play, .icon-pause { height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; }
 .anim-icon svg { height: 100%; width: 100%; fill: #d49500; }

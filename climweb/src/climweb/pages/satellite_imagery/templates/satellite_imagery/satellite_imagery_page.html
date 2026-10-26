@@ -32,27 +32,29 @@
 
           <!-- SEARCH -->
           <div class="si-search-wrap">
-            <span class="si-search-icon">{% svg_icon name="search" %}</span>
+            <span class="si-search-icon" aria-hidden="true">{% svg_icon name="search" %}</span>
             <input type="text"
                    id="si-layer-search"
                    class="si-search-input"
                    placeholder="{% translate 'Search layers…' %}"
+                   aria-label="{% translate 'Search layers' %}"
                    autocomplete="off">
           </div>
 
           <!-- LAYER LIST -->
-          <div class="si-layer-list" id="si-layer-list">
+          <div class="si-layer-list" id="si-layer-list" role="group" aria-label="{% translate 'Layers' %}">
             {% for msg_layer in msg_layers %}
               <div class="si-layer-item menu-category {% if forloop.first %}active{% endif %}"
                    data-label="{{ msg_layer.label|lower }}">
 
-                <div class="si-layer-dot"></div>
+                <div class="si-layer-dot" aria-hidden="true"></div>
 
-                <div class="si-layer-info layer-title"
+                <button type="button" class="si-layer-info layer-title"
+                     aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
                      data-layer="{{ msg_layer.name }}"
                      {% if msg_layer.legend_url %}data-legend="{{ msg_layer.legend_url }}"{% endif %}>
                   <span class="si-layer-name layer-label">{{ msg_layer.label }}</span>
-                </div>
+                </button>
 
                 {% if msg_layer.abstract %}
                   <button class="si-layer-info-btn layer-info-modal-trigger"
@@ -75,7 +77,7 @@
           <!-- PLAYBACK FOOTER -->
           <div class="si-playback">
 
-            <div class="si-playback-time" id="si-playback-time">—</div>
+            <div class="si-playback-time" id="si-playback-time" aria-live="polite">—</div>
 
             <div class="si-auto-row">
               <label class="si-auto-label" for="auto_update">
@@ -92,7 +94,7 @@
                         data-target="modal-animation"
                         style="display:none;">
                   {% translate "Today's animation" %}
-                  {% svg_icon name="player-play" %}
+                  <span aria-hidden="true">{% svg_icon name="player-play" %}</span>
                 </button>
               {% endif %}
             </div>
@@ -223,8 +225,10 @@
 
                     if (selectedLayerName) {
                         $layerInput.removeClass("active")
+                        $layerInput.find(".layer-title").attr("aria-pressed", "false")
 
                         $this.addClass("active")
+                        $layer.attr("aria-pressed", "true")
                         updateLayer()
                     }
                 })

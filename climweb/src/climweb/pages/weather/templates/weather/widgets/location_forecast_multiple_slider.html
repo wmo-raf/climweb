@@ -204,6 +204,9 @@
     var perView   = getMultiPerView(measured);
 
     var glide = new Glide('#' + sliderElId, {
+      // Glide's keyboard option listens for arrow keys on the whole page (moving the slider while
+      // typing in search or panning a map); the Previous/Next buttons are the keyboard controls
+      keyboard: false,
       type:        'slider',
       perView:     perView,
       gap:         8,
