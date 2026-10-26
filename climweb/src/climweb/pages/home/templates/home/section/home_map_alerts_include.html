@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n %}
+{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags i18n nmhs_cms_tags %}
 
 <div class="alerts-item-wrapper"
      data-alerts-available="{{ has_alerts|yesno:"true,false" }}">
@@ -46,7 +46,7 @@
               {% endif %}
 
               <div class="alert-severity-label"
-                   style="color: {{ alert_info.severity.border_color }};">
+                   style="color: {{ alert_info.severity|severity_text_color }};">
                 {% translate alert_info.status %}
               </div>
 
@@ -75,7 +75,7 @@
           <!-- SEVERITY PILL -->
           <span class="alert-severity-pill"
                 style="background-color: {{ alert_info.severity.background_color }};
-                       color: {{ alert_info.severity.border_color }};">
+                       color: {{ alert_info.severity|severity_text_color }};">
             {{ alert_info.severity.severity }}
           </span>
 

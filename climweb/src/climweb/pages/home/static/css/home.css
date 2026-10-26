@@ -29,7 +29,7 @@
 }
 
 .media-item:hover a {
-    color: #a3a3a3
+    color: var(--text-muted, #6b6b6b)
 }
 
 .media-item hr {
@@ -39,11 +39,11 @@
 }
 
 .home .post-sub {
-    color: #aaa
+    color: var(--text-muted, #6b6b6b)
 }
 
 .home .post-sub a {
-    color: #aaa
+    color: var(--text-muted, #6b6b6b)
 }
 
 
@@ -334,7 +334,7 @@
   font-size: 11px;
   font-weight: 700;
   color: #fff;
-  background: #E24B4A;
+  background: #c62828;
   border-radius: 50%;
   line-height: 1;
   transition: background 0.2s;
@@ -467,7 +467,7 @@
 
 .alert-expires {
   font-size: 10px;
-  color: #aaa;
+  color: var(--text-muted, #6b6b6b);
   font-weight: 400;
 }
 
@@ -525,7 +525,7 @@
   align-items: center;
   gap: 4px;
   font-size: 10px;
-  color: #aaa;
+  color: var(--text-muted, #6b6b6b);
   margin-top: 1px;
   flex-wrap: wrap;
 }
@@ -544,7 +544,7 @@
 
 .alert-time-info .time-em {
   font-weight: 600;
-  color: #888;
+  color: var(--text-muted, #6b6b6b);
 }
 
 /* ── EMPTY STATE ── */
@@ -557,7 +557,7 @@
   padding: 2rem 1rem;
   font-size: 12px;
   font-weight: 500;
-  color: #bbb;
+  color: var(--text-muted, #6b6b6b);
   text-align: center;
   background: #fff;
   flex: 1;
@@ -611,7 +611,7 @@
   padding: 2rem 1rem;
   font-size: 12px;
   font-weight: 500;
-  color: #bbb;
+  color: var(--text-muted, #6b6b6b);
   text-align: center;
   background: #fff;
   flex: 1;

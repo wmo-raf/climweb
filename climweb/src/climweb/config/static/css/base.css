@@ -1,3 +1,11 @@
+/*
+ * Shared colours that meet WCAG 2.1 AA contrast. --text-muted is the lightest grey that
+ * stays at least 4.5:1 on white and on the light grey panels used across the site.
+ */
+:root {
+    --text-muted: #6b6b6b;
+}
+
 html, body {
     font-size: 16px;
     width: 100%;
@@ -166,7 +174,7 @@ main section {
     position: absolute;
     top: 0;
     left: 0;
-    color: #999;
+    color: var(--text-muted, #6b6b6b);
 }
 
 
@@ -224,7 +232,7 @@ a.cta-btn {
 
 label:not(:empty).required:after {
     content: '*';
-    color: red;
+    color: #c00000;
     padding-left: 2px;
 }
 
