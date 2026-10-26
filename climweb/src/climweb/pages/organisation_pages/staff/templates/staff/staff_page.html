@@ -91,6 +91,7 @@
                                         <button class="modal-close is-large" aria-label="close"></button>
                                     </div>
                                     <div data-target="{{ staffmember.name }}-{{ staffmember.role }}"
+                                         role="button" tabindex="0" aria-haspopup="dialog"
                                          class="js-modal-trigger column is-one-quarter-desktop is-one-third-tablet is-one-quarter-fullhd is-half-mobile">
                                         <div class="card elevation-1">
                                             <div class="card-image">
@@ -158,6 +159,14 @@
                     }
 
                     openModal($target);
+                });
+
+                // the staff card is a div acting as a button
+                $trigger.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        $trigger.click();
+                    }
                 });
             });
 

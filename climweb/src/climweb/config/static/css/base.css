@@ -33,6 +33,27 @@ main {
     outline: none;
 }
 
+/*
+ * Visible keyboard focus everywhere (WCAG 2.4.7). Dark ring with a white halo so it shows
+ * on white pages and on the admin-chosen brand colour (footer, buttons) alike.
+ * !important because many component styles remove the outline on :focus.
+ */
+:focus-visible {
+    outline: 3px solid #0b0c0c !important;
+    outline-offset: 0 !important;
+    box-shadow: 0 0 0 6px #fff !important;
+}
+
+.site-main:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Bulma's hover-only dropdowns: also open while the keyboard is inside them */
+.dropdown.is-hoverable:focus-within .dropdown-menu {
+    display: block;
+}
+
 .skip-link {
     position: absolute;
     top: 0;

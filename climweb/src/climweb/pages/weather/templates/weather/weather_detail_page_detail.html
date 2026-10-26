@@ -63,7 +63,9 @@
           <!-- ── DAY TABS ── -->
           <div class="wd-day-tabs" id="wd-day-tabs">
             {% for day, forecasts in city_forecasts_by_date.items %}
-              <button class="wd-day-tab {% if forloop.first %}active{% endif %}"
+              <button type="button" class="wd-day-tab {% if forloop.first %}active{% endif %}"
+                      aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                      aria-controls="wd-day-{{ day|date:'Y-m-d' }}"
                       data-target="wd-day-{{ day|date:'Y-m-d' }}">
                 <span class="wd-tab-day">
                   {% if day|date:"Y-m-d" == today %}
@@ -224,6 +226,7 @@ $(document).ready(function () {
     tabs.forEach(function (t) {
       const tabDay = getDayKeyFromTab(t);
       t.classList.toggle('active', tabDay === dayKey);
+      t.setAttribute('aria-pressed', tabDay === dayKey ? 'true' : 'false');
     });
 
     panels.forEach(function (p) {
