@@ -39,6 +39,13 @@ def cms_version_view(request):
     template_name = "admin/cms_version.html"
     cms_upgrade_hook_url = getattr(settings, "CMS_UPGRADE_HOOK_URL", None)
     
+    # Every CMS user can read the release notes, but only superusers may trigger an upgrade
+    can_upgrade = request.user.is_superuser
+    
+    if request.method == "POST" and not can_upgrade:
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied
+    
     try:
         latest_release = get_latest_cms_release()
         latest_version = latest_release.get("version")
@@ -47,7 +54,7 @@ def cms_version_view(request):
                       context={
                           "error": True,
                           "error_message": _("Error fetching latest version. Please try again later."),
-                          "error_traceback": str(e)
+                          "error_traceback": str(e) if can_upgrade else None
                       })
     
     current_version = get_main_version()
@@ -56,6 +63,7 @@ def cms_version_view(request):
         "latest_release": latest_release,
         "current_version": current_version,
         "cms_upgrade_hook_url": cms_upgrade_hook_url,
+        "can_upgrade": can_upgrade,
     }
     
     try:
@@ -65,7 +73,7 @@ def cms_version_view(request):
                       context={
                           "error": True,
                           "error_message": _("Error in extracting latest version number from the release"),
-                          "error_traceback": str(e)
+                          "error_traceback": str(e) if can_upgrade else None
                       })
     
     context.update({

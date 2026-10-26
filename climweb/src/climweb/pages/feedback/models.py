@@ -5,19 +5,25 @@ from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
+from wagtail.admin.panels import MultiFieldPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtailcaptcha.forms import remove_captcha_field
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
 from climweb.base.anti_spam import get_spam_reason
-from climweb.base.mail import send_mail, get_default_from_email
+from climweb.base.mail import send_mail
 from climweb.base.mixins import MetadataPageMixin
+from climweb.base.recaptcha import SiteCaptchaFormMixin
 from climweb.base.seo_utils import get_homepage_meta_image, get_homepage_meta_description
 from climweb.base.utils import get_duplicates
 
 
-class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
+class FeedbackPage(MetadataPageMixin, SiteCaptchaFormMixin, WagtailCaptchaEmailForm):
+    # Removed: every email is sent from the address in Settings -> Email (or
+    # the server's default sender). Mail providers reject or rewrite any other
+    # sender, which made submissions silently fail. The submitter's address
+    # goes in Reply-To instead.
+    from_address = None
     required_css_class = 'required'
     
     template = 'feedback.html'
@@ -49,10 +55,7 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
         InlinePanel('feedback_form_fields', label="Form fields"),
         FieldPanel('thank_you_text'),
         MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('from_address', classname="col6"),
-                FieldPanel('to_address', classname="col6"),
-            ]),
+            FieldPanel('to_address'),
             FieldPanel('subject'),
         ], _("Email")),
     ]
@@ -139,14 +142,13 @@ class FeedbackPage(MetadataPageMixin, WagtailCaptchaEmailForm):
     # override send_mail to extract sender email from form, to use in 'reply_to'
     # This will allow replying to the sender directly from the email client
     def send_mail(self, form):
-        from_address = self.from_address or get_default_from_email()
         try:
             addresses = [x.strip() for x in self.to_address.split(',')]
             email = form.cleaned_data.get("email", None)
             options = {}
             if email:
                 options["reply_to"] = [email]
-            send_mail(self.subject, self.render_email(form), addresses, from_address, **options)
+            send_mail(self.subject, self.render_email(form), addresses, **options)
         except Exception as e:
             logger.error(f"[FEEDBACK_PAGE] Error sending email: {e}")
     

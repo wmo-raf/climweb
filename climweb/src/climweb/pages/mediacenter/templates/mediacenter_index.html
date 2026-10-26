@@ -114,6 +114,8 @@
             </section>
         {% endif %}
 
+        {% include 'audio/playlist_section.html' with playlists=page.audio_playlists %}
+
         {% if page.feature_block_items %}
             <section class="drm-feature-blocks-section">
                 {% include 'feature_block_section.html' with feature_blocks=page.feature_block_items %}

@@ -1,0 +1,33 @@
+{% load i18n %}
+<div class="help-block help-info">
+  <p style="margin-bottom: 0.75rem;">
+    {% if using_cms %}
+      <strong>{% trans "The website's forms are using the keys saved on this page." %}</strong>
+    {% elif enabled %}
+      <strong>{% trans "The keys saved on this page can't be used, so the forms are using the server's own keys." %}</strong>
+      {% trans "This happens if the server's secret key was changed. Enter the secret key again and save." %}
+    {% elif has_server_keys %}
+      <strong>{% trans "The website's forms are using the reCAPTCHA keys from the server configuration." %}</strong>
+      {% trans "Fill in this page and switch it on to manage the keys here instead." %}
+    {% else %}
+      <strong>{% trans "No reCAPTCHA keys are set up, so the website's forms can't be protected or submitted." %}</strong>
+    {% endif %}
+  </p>
+
+  <p><strong>{% trans "Getting keys" %}</strong></p>
+  <ul style="list-style: disc; padding-inline-start: 1.25rem; margin: 0.25rem 0 0.75rem;">
+    <li style="list-style: disc; margin-bottom: 0.25rem;">{% blocktrans trimmed %}Sign in to the <a href="https://www.google.com/recaptcha/admin/create" target="_blank" rel="noopener noreferrer">reCAPTCHA admin console</a> with your organisation's Google account and create a new site.{% endblocktrans %}</li>
+    <li style="list-style: disc; margin-bottom: 0.25rem;">{% trans "Choose <strong>reCAPTCHA v2 and the “I'm not a robot” checkbox</strong>. Other types will not work with these forms." %}</li>
+    <li style="list-style: disc; margin-bottom: 0.25rem;">{% trans "Add the website's domain (for example met.example.org) under Domains." %}</li>
+    <li style="list-style: disc; margin-bottom: 0.25rem;">{% trans "Copy the site key and the secret key into the fields below." %}</li>
+  </ul>
+
+  <p style="margin-bottom: 0;">
+    {% blocktrans trimmed %}
+      Only superusers see this tab. Changing anything on it asks you to confirm
+      it's you. Switching the keys on, or changing them while on, also needs the
+      test box below ticked, so the keys are checked with Google before visitors
+      see them; nothing is saved if they are rejected.
+    {% endblocktrans %}
+  </p>
+</div>

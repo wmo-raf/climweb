@@ -1,35 +1,59 @@
-{% load static i18n wagtailiconchooser_tags %}
+{% load i18n subnational_tags %}
 
-<div class="results-filter">
-    <div class="accordion js-accordion" id="subnational-products-filter-accordion">
-        {% if filters.regions %}
-            <div class="accordion__item js-accordion-item active">
-                <h6 class="accordion-header js-accordion-header filter-item-header">
-                    <span>
-                        {% translate "Filter by Region" %}
-                    </span>
-                    <span class="icon">
-                          {% svg_icon name="arrow-down" %}
-                      </span>
-                </h6>
-                <div class="accordion-body js-accordion-body">
-                    <div class="accordion-body__contents">
-                        {% for region in filters.regions %}
-                            <label class="checkbox-container" for="{{ region.id }}">
-                                <span class="filter-sub-item">{{ region.name }}</span>
-                                <input type="checkbox" id="{{ region.id }}" name="region" value="{{ region.id }}"
-                                       class="product-filter region">
-                                <span class="checkmark"></span>
-                            </label>
+<div class="subnational-filters">
+    <div class="subnational-filter-selects">
+        {% if filters.districts %}
+            <div class="subnational-filter-field">
+                <label for="subnational-district" class="subnational-filter-label">{{ page.admin_level_1_name }}</label>
+                <div class="select is-fullwidth">
+                    <select id="subnational-district" class="subnational-filter-select">
+                        <option data-url="{% filter_url district=None subdistrict=None region=None %}">
+                            {% translate "All" %}
+                        </option>
+                        {% for district in filters.districts %}
+                            <option data-url="{% filter_url district=district.gid subdistrict=None region=None %}"
+                                    {% if district.gid in selection.districts %}selected{% endif %}>
+                                {{ district.name }} ({{ district.count }})
+                            </option>
                         {% endfor %}
-                    </div>
+                    </select>
                 </div>
             </div>
         {% endif %}
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                new Accordion("subnational-products-filter-accordion");
-            });
-        </script>
+        {% if filters.other_regions %}
+            <div class="subnational-filter-field">
+                <label for="subnational-region" class="subnational-filter-label">
+                    {% if filters.districts %}{% translate "Other regions" %}{% else %}{% translate "Region" %}{% endif %}
+                </label>
+                <div class="select is-fullwidth">
+                    <select id="subnational-region" class="subnational-filter-select">
+                        <option data-url="{% filter_url district=None subdistrict=None region=None %}">
+                            {% translate "All" %}
+                        </option>
+                        {% for region in filters.other_regions %}
+                            <option data-url="{% filter_url district=None subdistrict=None region=region.id %}"
+                                    {% if region.id in selection.regions %}selected{% endif %}>
+                                {{ region.name }} ({{ region.count }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        {% endif %}
     </div>
+
+    {% if selected_district.sub_districts %}
+        <nav class="subnational-sub-districts" aria-label="{{ page.admin_level_2_name }}">
+            <a href="{% filter_url subdistrict=None %}#results"
+               class="subnational-chip{% if not selection.sub_districts %} is-active{% endif %}">
+                {% blocktranslate with name=selected_district.name %}All of {{ name }}{% endblocktranslate %}
+            </a>
+            {% for sub_district in selected_district.sub_districts %}
+                <a href="{% filter_url subdistrict=sub_district.gid %}#results"
+                   class="subnational-chip{% if sub_district.gid in selection.sub_districts %} is-active{% endif %}">
+                    {{ sub_district.name }} <span class="subnational-chip-count">{{ sub_district.count }}</span>
+                </a>
+            {% endfor %}
+        </nav>
+    {% endif %}
 </div>

@@ -92,7 +92,7 @@ const handleTimeChange = (newDate) => {
     />
 
     <input
-      v-if="homeMapLayerType === 'dynamic' && isVisible"
+      v-if="(homeMapLayerType === 'dynamic' || mapStore.getLayerById(id)?.opacityControl) && isVisible"
       type="range"
       min="0"
       max="1"
