@@ -1,3 +1,8 @@
+// Respect the visitor's reduced-motion setting for jQuery animations (slideToggle, fadeIn, ...)
+if (window.jQuery && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    jQuery.fx.off = true;
+}
+
 class Accordion {
     constructor(id, options = {}) {
         this.$accordion = $(`#${id}`);

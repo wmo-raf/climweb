@@ -361,4 +361,7 @@ CAP_SEVERITY_TEXT_COLORS = {
 def severity_text_color(severity):
     if not severity:
         return ""
+    # cap-composer provides text_color from the release after 1.3.6; fall back for older versions
+    if severity.get("text_color"):
+        return severity["text_color"]
     return CAP_SEVERITY_TEXT_COLORS.get(severity.get("id"), severity.get("border_color", ""))

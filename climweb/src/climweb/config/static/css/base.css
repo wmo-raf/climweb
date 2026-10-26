@@ -6,6 +6,25 @@
     --text-muted: #6b6b6b;
 }
 
+/*
+ * Visitors who ask their system for reduced motion: stop pulsing, looping and sliding
+ * animations, and jump instead of smooth-scrolling. Content still appears; it just
+ * doesn't move to get there.
+ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Bulma's grey utility (#7a7a7a) is 4.29:1 on white; templates use it for dates and meta text */
+.has-text-grey {
+    color: var(--text-muted) !important;
+}
+
 html, body {
     font-size: 16px;
     width: 100%;
