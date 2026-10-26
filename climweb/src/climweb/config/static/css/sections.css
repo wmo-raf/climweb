@@ -327,6 +327,16 @@
   transition: background 0.12s;
 }
 
+/* .ac-header is a <button>; drop the browser's button styling */
+button.ac-header {
+  width: 100%;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+}
+
 .ac-header:hover {
   background: #fafafa;
 }

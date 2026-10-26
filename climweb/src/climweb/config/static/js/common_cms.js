@@ -16,9 +16,28 @@ class Accordion {
     }
 
     init() {
+        // Headers are headings, not buttons: make them focusable and operable by keyboard
+        this.$accordion_header.each((i, header) => {
+            const body = $(header).next(".js-accordion-body")[0];
+            if (body && !body.id) body.id = `${this.$accordion.attr("id")}-panel-${i}`;
+            header.setAttribute("role", "button");
+            header.setAttribute("tabindex", "0");
+            if (body) header.setAttribute("aria-controls", body.id);
+        });
+
         this.$accordion_header.on("click", (event) => {
             this.toggle($(event.currentTarget));
         });
+
+        this.$accordion_header.on("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                this.toggle($(event.currentTarget));
+            }
+        });
+
+        // Some pages change the open items after init (e.g. collapsed on mobile)
+        this.$accordion_header.on("focus", () => this.syncExpanded());
 
         if (this.settings.firstOpen) {
             this.$accordion.find(".js-accordion-item:first").addClass("active");
@@ -27,6 +46,14 @@ class Accordion {
 
         // Reveal the active accordion bodies
         this.$accordion.find(".js-accordion-item.active").find("> .js-accordion-body").show();
+        this.syncExpanded();
+    }
+
+    syncExpanded() {
+        this.$accordion_header.each((i, header) => {
+            const open = $(header).closest(".js-accordion-item").hasClass("active");
+            header.setAttribute("aria-expanded", open ? "true" : "false");
+        });
     }
 
     toggle($this) {
@@ -51,6 +78,7 @@ class Accordion {
             .next()
             .stop()
             .slideToggle(this.settings.speed);
+        this.syncExpanded();
     }
 }
 
@@ -501,4 +529,196 @@ $(document).ready(function () {
     labelMaps();
     // maps are created after page load (and some after data fetches), so watch for them
     new MutationObserver(labelMaps).observe(document.body, { childList: true, subtree: true });
+})();
+
+/**
+ * Collapsible blocks (.ac-wrap): each page's own script opens/closes items by toggling
+ * .ac-item--open. This keeps the header buttons' aria-expanded/aria-controls in step.
+ * Runs on document, so it fires after the page's handler on the header.
+ */
+(function () {
+    function syncCollapsibles(root) {
+        root.querySelectorAll(".ac-header").forEach(function (header) {
+            const item = header.closest(".ac-item");
+            const body = item && item.querySelector(".ac-body");
+            if (!item) return;
+            if (body) {
+                if (!body.id) body.id = "ac-body-" + Math.random().toString(36).slice(2, 9);
+                header.setAttribute("aria-controls", body.id);
+            }
+            header.setAttribute("aria-expanded", item.classList.contains("ac-item--open") ? "true" : "false");
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        syncCollapsibles(document);
+    });
+
+    document.addEventListener("click", function (e) {
+        const header = e.target.closest && e.target.closest(".ac-header");
+        if (header) syncCollapsibles(header.closest(".ac-wrap") || document);
+    });
+})();
+
+/**
+ * Bulma modals (.modal): pages open and close them by toggling .is-active, each with
+ * its own script. This adds the keyboard/screen reader behaviour to all of them:
+ * dialog semantics, focus moved into the modal and kept there, Esc to close, and
+ * focus returned to whatever opened it.
+ */
+(function () {
+    const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), ' +
+        'select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    let lastActivated = null;
+
+    function focusableIn(modal) {
+        return Array.prototype.filter.call(modal.querySelectorAll(FOCUSABLE), function (el) {
+            return !el.closest(".modal-background") && el.offsetParent !== null;
+        });
+    }
+
+    function activeModal() {
+        return document.querySelector(".modal.is-active");
+    }
+
+    function onOpen(modal) {
+        modal.setAttribute("role", "dialog");
+        modal.setAttribute("aria-modal", "true");
+        const title = modal.querySelector(".modal-card-title, h1, h2, h3, h4, h5, h6");
+        if (title && !modal.hasAttribute("aria-labelledby") && !modal.hasAttribute("aria-label")) {
+            if (!title.id) title.id = "modal-title-" + Math.random().toString(36).slice(2, 9);
+            modal.setAttribute("aria-labelledby", title.id);
+        }
+        modal._a11yOpener = lastActivated;
+
+        const targets = focusableIn(modal);
+        if (targets.length) {
+            targets[0].focus();
+        } else {
+            const content = modal.querySelector(".modal-card, .modal-content") || modal;
+            content.setAttribute("tabindex", "-1");
+            content.focus();
+        }
+    }
+
+    function onClose(modal) {
+        const opener = modal._a11yOpener;
+        modal._a11yOpener = null;
+        if (opener && document.contains(opener) && !activeModal()) opener.focus();
+    }
+
+    // Remember the control that was activated, so focus can go back to it on close
+    document.addEventListener("click", function (e) {
+        const el = e.target.closest && e.target.closest(FOCUSABLE);
+        if (el && !el.closest(".modal")) lastActivated = el;
+    }, true);
+
+    document.addEventListener("keydown", function (e) {
+        const modal = activeModal();
+        if (!modal) return;
+        if (e.key === "Escape") {
+            modal.classList.remove("is-active");
+        } else if (e.key === "Tab") {
+            const targets = focusableIn(modal);
+            if (!targets.length) { e.preventDefault(); return; }
+            const first = targets[0], last = targets[targets.length - 1];
+            if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+                e.preventDefault(); last.focus();
+            } else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
+                e.preventDefault(); first.focus();
+            }
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (m) {
+                const modal = m.target;
+                const wasActive = (m.oldValue || "").split(/\s+/).indexOf("is-active") !== -1;
+                const isActive = modal.classList.contains("is-active");
+                if (isActive && !wasActive) onOpen(modal);
+                if (!isActive && wasActive) onClose(modal);
+            });
+        });
+        document.querySelectorAll(".modal").forEach(function (modal) {
+            observer.observe(modal, { attributes: true, attributeFilter: ["class"], attributeOldValue: true });
+        });
+    });
+})();
+
+/**
+ * Bulma tabs used as in-page tabs (<div class="tabs"><ul><li><a> with no href):
+ * each page switches panels with its own click handler on the <li>. This makes the tabs
+ * reachable and operable by keyboard and announces which one is selected.
+ * Tab bars made of real links (<a href>) are navigation and are left alone.
+ */
+(function () {
+    function panelFor(li) {
+        const key = li.dataset.content || li.dataset.target || li.dataset.id;
+        return key ? document.getElementById(key) : null;
+    }
+
+    function sync(list) {
+        list.querySelectorAll(":scope > li > a").forEach(function (a) {
+            a.setAttribute("aria-selected", a.parentElement.classList.contains("is-active") ? "true" : "false");
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".tabs > ul").forEach(function (list) {
+            const links = list.querySelectorAll(":scope > li > a");
+            if (!links.length || list.querySelector(":scope > li > a[href]")) return;
+
+            list.setAttribute("role", "tablist");
+            list.querySelectorAll(":scope > li").forEach(function (li) {
+                li.setAttribute("role", "presentation");
+            });
+            links.forEach(function (a) {
+                a.setAttribute("role", "tab");
+                a.setAttribute("tabindex", "0");
+                const panel = panelFor(a.parentElement);
+                if (panel) {
+                    if (!a.id) a.id = "tab-" + Math.random().toString(36).slice(2, 9);
+                    a.setAttribute("aria-controls", panel.id);
+                    panel.setAttribute("role", "tabpanel");
+                    panel.setAttribute("aria-labelledby", a.id);
+                }
+                a.addEventListener("keydown", function (e) {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        a.click();
+                    }
+                });
+            });
+
+            sync(list);
+            // page handlers toggle .is-active on click; update after they run
+            list.addEventListener("click", function () { setTimeout(function () { sync(list); }, 0); });
+        });
+    });
+})();
+
+/**
+ * Toggle buttons that pages mark with .active (list/grid view switches, the stations
+ * "Colour by" switch): expose that state to screen readers as aria-pressed, whether it
+ * changes on click or is restored from the URL on load.
+ */
+(function () {
+    const TOGGLES = "#list-view-button, #grid-view-button, .stn-toggle-btn";
+
+    function sync(btn) {
+        btn.setAttribute("aria-pressed", btn.classList.contains("active") ? "true" : "false");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(TOGGLES);
+        if (!buttons.length) return;
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (m) { sync(m.target); });
+        });
+        buttons.forEach(function (btn) {
+            sync(btn);
+            observer.observe(btn, { attributes: true, attributeFilter: ["class"] });
+        });
+    });
 })();
