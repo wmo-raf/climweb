@@ -222,6 +222,17 @@ def get_default_site_lang():
     return default_language
 
 
+# Keep in sync with rtlLangs in static/js/google-translate.js
+RTL_LANGUAGES = ("ar", "fa", "he", "ur")
+
+
+@register.filter
+def is_rtl_language(language_code):
+    if not language_code:
+        return False
+    return language_code[:2].lower() in RTL_LANGUAGES
+
+
 class ExcludeImagesParser(HTMLParser):
     def __init__(self):
         super().__init__()

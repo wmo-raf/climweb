@@ -330,6 +330,14 @@ header {
 
 .util-link:hover { color: var(--primary-color); }
 
+/* util links that are <button>s (language, search) look like the <a> ones */
+button.util-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: inherit;
+}
+
 .util-link--alert {
   background: #FEE2E2;
   color: #B91C1C;
@@ -408,7 +416,8 @@ header {
   height: 8px;
 }
 
-.util-dropdown:hover .util-dropdown-menu { display: block; }
+.util-dropdown:hover .util-dropdown-menu,
+.util-dropdown.is-open .util-dropdown-menu { display: block; }
 
 .util-dropdown-item {
   display: block;
@@ -419,7 +428,17 @@ header {
   transition: background 0.12s;
 }
 
-.util-dropdown-item:hover {
+button.util-dropdown-item {
+  width: 100%;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.util-dropdown-item:hover,
+.util-dropdown-item:focus-visible {
   background: #f4f6f9;
   color: var(--primary-color);
 }
@@ -670,6 +689,13 @@ header {
   .navbar-item.has-dropdown:focus-within > .navbar-dropdown {
     display: block;
     background: white;
+  }
+}
+
+/* Esc closes a dropdown even while focus is still inside it (see navbar.html) */
+@media (min-width: 769px) {
+  .navbar-item.has-dropdown.is-dismissed > .navbar-dropdown {
+    display: none !important;
   }
 }
 
