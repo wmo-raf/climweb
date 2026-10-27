@@ -737,6 +737,10 @@ $(document).ready(function () {
       .setLngLat([cityData.city_x, cityData.city_y])
       .setPopup(popup)
       .addTo(map);
+    // with a popup, MapLibre makes the marker focusable and opens it on Enter/Space: expose it as a button
+    marker.getElement().setAttribute('role', 'button');
+    marker.getElement().setAttribute('aria-label',
+      '{{ _("Show details for")|escapejs }} ' + (cityData.city_name || ''));
 
       marker.addClassName('wd-map-marker');
     });

@@ -466,10 +466,12 @@
         <span class="has-text-weight-semibold">{{ page.weather_watch_header }}</span>
       </div>
       <div>
-        <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}">
+        {% if page.mapviewer_cta_url %}
+        <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}" aria-label="{{ page.mapviewer_cta_title }}">
           <span class="is-hidden-mobile">{{ page.mapviewer_cta_title }}</span>
-          <span class="cf-detail-icon">{% svg_icon "globe" %}</span>
+          <span class="cf-detail-icon" aria-hidden="true">{% svg_icon "globe" %}</span>
         </a>
+        {% endif %}
       </div>
     </div>
     {% if home_map_layer_svg_sprite %}

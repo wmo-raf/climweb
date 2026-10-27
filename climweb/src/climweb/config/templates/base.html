@@ -22,6 +22,9 @@
     {% block page_meta %}
         {% if page.get_meta_title %}
             {% meta_tags %}
+        {% else %}
+            {# Views that aren't Wagtail pages (search, 404, 500) fill the title block #}
+            <title>{% block title %}{{ page.title }}{% endblock %}{% if settings.base.OrganisationSetting.name %} | {{ settings.base.OrganisationSetting.name }}{% endif %}</title>
         {% endif %}
     {% endblock %}
 

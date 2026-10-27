@@ -138,9 +138,12 @@
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
 
   map.on("load", function () {
-    new maplibregl.Marker({ color: 'var(--primary-color, #185FA5)' })
+    const marker = new maplibregl.Marker({ color: 'var(--primary-color, #185FA5)' })
       .setLngLat([locationStr.x, locationStr.y])
       .addTo(map);
+    // MapLibre's marker is a plain div with aria-label, which needs a role to be valid
+    marker.getElement().setAttribute('role', 'img');
+    marker.getElement().setAttribute('aria-label', '{{ _("Our location")|escapejs }}');
   });
 </script>
 {% endblock extra_js %}
