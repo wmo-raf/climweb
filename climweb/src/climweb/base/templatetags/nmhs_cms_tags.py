@@ -365,3 +365,17 @@ def severity_text_color(severity):
     if severity.get("text_color"):
         return severity["text_color"]
     return CAP_SEVERITY_TEXT_COLORS.get(severity.get("id"), severity.get("border_color", ""))
+
+
+@register.simple_tag
+def image_alt(image, fallback=""):
+    """
+    Alt text for an image chosen in a StreamField block: empty if the editor marked this
+    use as decorative, otherwise the editor's alt text for this use (OptionalAltImageBlock),
+    then the image's own description, then `fallback`.
+    """
+    if not image:
+        return fallback
+    if getattr(image, "decorative", False):
+        return ""
+    return getattr(image, "contextual_alt_text", None) or getattr(image, "description", "") or fallback

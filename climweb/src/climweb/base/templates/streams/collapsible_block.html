@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags nmhs_cms_tags %}
 
 <div class="ac-item {% if is_first %}ac-item--open{% endif %}">
 
@@ -26,7 +26,7 @@
           <img class="progressive__img progressive--not-loaded"
                data-progressive="{{ goal_img.url }}"
                src="{% lazy_image_url goal_img %}"
-               alt="{% firstof goal_img.image.description value.heading %}" />
+               alt="{% image_alt value.image value.heading %}" />
         </div>
       {% endif %}
 
