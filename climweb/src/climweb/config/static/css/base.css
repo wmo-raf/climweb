@@ -249,6 +249,39 @@ a.cta-btn {
 }
 
 
+/* Option groups render as <fieldset>/<legend> (bulma/forms/field.html); look like a plain field */
+fieldset.field {
+    border: 0;
+    padding: 0;
+    margin-inline: 0;
+    min-width: 0;
+}
+
+fieldset.field > legend.label {
+    padding: 0;
+}
+
+/* Error summary at the top of a form after a failed submit (bulma/forms/form.html) */
+.form-error-summary .form-error-summary-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-error-summary ul {
+    list-style: disc;
+    margin-inline-start: 1.25rem;
+}
+
+.form-error-summary a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.form-required-note {
+    margin-bottom: 0.75rem;
+}
+
+legend.required:after,
 label:not(:empty).required:after {
     content: '*';
     color: #c00000;
