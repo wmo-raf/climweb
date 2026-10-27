@@ -15,11 +15,13 @@ const {t} = useI18n({
     en: {
       legend: {
         title: 'Legend',
+        collapse: 'Collapse legend',
       }
     },
     fr: {
       legend: {
         title: 'Légende',
+        collapse: 'Réduire la légende',
       }
     },
     ar: {
@@ -35,6 +37,7 @@ const {t} = useI18n({
     es: {
       legend: {
         title: 'Leyenda',
+        collapse: 'Contraer la leyenda',
       }
     },
     sw: {
@@ -71,14 +74,15 @@ const collapsed = ref(false)
     </svg>
     <div>
       <div v-if="!collapsed">
-        <button class="legend-collapse" @click="collapsed = !collapsed">
-          <svg class="legend-collapse-icon">
+        <button class="legend-collapse" @click="collapsed = !collapsed"
+                :aria-label="t('legend.collapse')" aria-expanded="true">
+          <svg class="legend-collapse-icon" aria-hidden="true">
             <use xlink:href="#icon-arrow-down"></use>
           </svg>
         </button>
       </div>
       <button v-if="collapsed" class="legend-expand"
-              @click="collapsed = !collapsed">
+              @click="collapsed = !collapsed" aria-expanded="false">
         <span>{{ t('legend.title') }}</span>
         <svg class="legend-expand-icon">
           <use xlink:href="#icon-arrow-up"></use>

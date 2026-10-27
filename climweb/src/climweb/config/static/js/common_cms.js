@@ -669,37 +669,49 @@ $(document).ready(function () {
         });
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".tabs > ul").forEach(function (list) {
-            const links = list.querySelectorAll(":scope > li > a");
-            if (!links.length || list.querySelector(":scope > li > a[href]")) return;
+    function enhance(list) {
+        const links = list.querySelectorAll(":scope > li > a");
+        if (list.dataset.a11yTabs || !links.length || list.querySelector(":scope > li > a[href]")) return;
+        list.dataset.a11yTabs = "true";
 
-            list.setAttribute("role", "tablist");
-            list.querySelectorAll(":scope > li").forEach(function (li) {
-                li.setAttribute("role", "presentation");
-            });
-            links.forEach(function (a) {
-                a.setAttribute("role", "tab");
-                a.setAttribute("tabindex", "0");
-                const panel = panelFor(a.parentElement);
-                if (panel) {
-                    if (!a.id) a.id = "tab-" + Math.random().toString(36).slice(2, 9);
-                    a.setAttribute("aria-controls", panel.id);
-                    panel.setAttribute("role", "tabpanel");
-                    panel.setAttribute("aria-labelledby", a.id);
-                }
-                a.addEventListener("keydown", function (e) {
-                    if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        a.click();
-                    }
-                });
-            });
-
-            sync(list);
-            // page handlers toggle .is-active on click; update after they run
-            list.addEventListener("click", function () { setTimeout(function () { sync(list); }, 0); });
+        list.setAttribute("role", "tablist");
+        list.querySelectorAll(":scope > li").forEach(function (li) {
+            li.setAttribute("role", "presentation");
         });
+        links.forEach(function (a) {
+            a.setAttribute("role", "tab");
+            a.setAttribute("tabindex", "0");
+            const panel = panelFor(a.parentElement);
+            if (panel) {
+                if (!a.id) a.id = "tab-" + Math.random().toString(36).slice(2, 9);
+                a.setAttribute("aria-controls", panel.id);
+                panel.setAttribute("role", "tabpanel");
+                panel.setAttribute("aria-labelledby", a.id);
+            }
+            a.addEventListener("keydown", function (e) {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    a.click();
+                }
+            });
+        });
+
+        sync(list);
+        // page handlers toggle .is-active on click; update after they run
+        list.addEventListener("click", function () { setTimeout(function () { sync(list); }, 0); });
+    }
+
+    function enhanceWithin(root) {
+        if (root.matches && root.matches(".tabs > ul")) enhance(root);
+        if (root.querySelectorAll) root.querySelectorAll(".tabs > ul").forEach(enhance);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        enhanceWithin(document);
+        // some widgets (e.g. the home page forecast) insert their tabs after load
+        new MutationObserver(function (mutations) {
+            mutations.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) enhanceWithin(n); }); });
+        }).observe(document.body, { childList: true, subtree: true });
     });
 })();
 

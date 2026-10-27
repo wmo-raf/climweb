@@ -179,7 +179,10 @@
       if (!$btn.length) return;
 
       const label = geolocationActive ? $btn.data('defaultLabel') : $btn.data('locateLabel');
-      if (label) $btn.find('.cf-location-label').text(label);
+      if (label) {
+        $btn.find('.cf-location-label').text(label);
+        $btn.attr('aria-label', label);  // visible text is hidden on mobile
+      }
       $btn.attr('data-mode', geolocationActive ? 'default' : 'locate');
     };
 
