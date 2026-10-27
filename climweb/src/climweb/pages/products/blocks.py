@@ -7,6 +7,8 @@ from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
 
+from climweb.base.blocks import OptionalAltImageBlock
+
 
 class ProductItemStructValue(StructValue):
     def product_item_type(self):
@@ -54,7 +56,7 @@ class ProductItemImageContentBlock(blocks.StructBlock):
     valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
                                    help_text=_("The last day this product remains effective. "
                                                "Leave blank if not applicable"))
-    image = ImageChooserBlock(required=True, label=_("Image"))
+    image = OptionalAltImageBlock(required=True, label=_("Image"))
     description = blocks.RichTextBlock(required=False, label=_("Summary of the map/image information"))
 
     class Meta:
@@ -79,7 +81,7 @@ class ProductItemGifContentBlock(blocks.StructBlock):
     valid_until = blocks.DateBlock(required=False, label=_("Effective until"),
                                    help_text=_("The last day this product remains effective. "
                                                "Leave blank if not applicable"))
-    gif = ImageChooserBlock(required=True, label=_("GIF file"),
+    gif = OptionalAltImageBlock(required=True, label=_("GIF file"),
                             help_text=_("Upload a GIF file. Animated GIFs are supported."))
     description = blocks.RichTextBlock(required=False, label=_("Summary of the GIF information"))
 
