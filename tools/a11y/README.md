@@ -4,7 +4,7 @@ ClimWeb aims for WCAG 2.1 AA. Two kinds of automated check keep it there:
 
 | Check | What it catches | How to run |
 |---|---|---|
-| Template tests (`climweb/base/tests/test_template_a11y.py`, `test_a11y_forms.py`, `test_contrast.py`, `test_image_block.py`) | `<img>` without `alt`, icon-only links/buttons without a name, positive `tabindex`, form labels and error linking, colour contrast helpers | Part of the normal test suite: `python manage.py test climweb.base` |
+| Template tests (`climweb/base/tests/test_template_a11y.py`, `test_a11y_forms.py`, `test_contrast.py`, `test_image_block.py`) | `<img>` without `alt`, icon-only links/buttons without a name, positive `tabindex`, form labels and error linking, colour contrast helpers | Part of the normal test suite: `climweb test climweb.base` |
 | Page scan (`scan.py`, axe-core) | Problems that only show on a rendered page: contrast, landmarks, ARIA misuse, duplicate ids, unlabelled controls, missing page language | Against a running site, see below |
 
 Automated tools find roughly a third of accessibility problems. They don't replace a keyboard and screen reader pass before a release.
