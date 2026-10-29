@@ -25,10 +25,12 @@ from wagtail_modeladmin.options import (
     ModelAdmin,
     modeladmin_register, ModelAdminGroup,
 )
+from wagtail_modeladmin.views import CreateView, EditView
 from wagtailcache.cache import clear_cache
 
 from climweb.utils.version import get_main_version, check_version_greater_than_current
 from .cap import create_cap_geomanager_dataset
+from .contrast import AA_TEXT, contrast_ratio
 from .models import Theme, ServiceCategory, CAPGeomanagerSettings
 from .utils import get_latest_cms_release
 from .two_factor import TwoFactorSettingsPanel, send_email_code
@@ -154,6 +156,42 @@ class ServiceViewSet(SnippetViewSet):
 register_snippet(ServiceViewSet)
 
 
+def theme_contrast_warnings(theme):
+    """Colours in a theme that are hard to read as text on white (WCAG AA, 4.5:1)."""
+    checks = [
+        (theme.primary_hover_color, _("Primary color"),
+         _("It is used for links, buttons and white text on coloured backgrounds.")),
+        (theme.primary_color, _("Headings color"), _("It is used for headings and body text.")),
+    ]
+    warnings = []
+    for color, label, usage in checks:
+        if color and contrast_ratio(color, "#ffffff") < AA_TEXT:
+            warnings.append(
+                _("%(label)s %(color)s has a contrast of %(ratio).1f:1 against white, below the 4.5:1 needed "
+                  "for readable text. %(usage)s Choose a darker shade.")
+                % {"label": label, "color": color, "ratio": contrast_ratio(color, "#ffffff"), "usage": usage}
+            )
+    return warnings
+
+
+class ThemeContrastWarningMixin:
+    """Save the theme as usual, then warn (without blocking) about colours that fail contrast."""
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        for warning in theme_contrast_warnings(form.instance):
+            messages.warning(self.request, warning)
+        return response
+
+
+class ThemeCreateView(ThemeContrastWarningMixin, CreateView):
+    pass
+
+
+class ThemeEditView(ThemeContrastWarningMixin, EditView):
+    pass
+
+
 class ThemeSettings(ModelAdmin):
     model = Theme
     menu_label = _('Themes')
@@ -161,6 +199,8 @@ class ThemeSettings(ModelAdmin):
     menu_order = 950
     add_to_settings_menu = True
     exclude_from_explorer = False
+    create_view_class = ThemeCreateView
+    edit_view_class = ThemeEditView
 
 
 modeladmin_register(ThemeSettings)

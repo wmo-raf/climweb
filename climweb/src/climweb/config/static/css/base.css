@@ -1,3 +1,46 @@
+/*
+ * Shared colours that meet WCAG 2.1 AA contrast. --text-muted is the lightest grey that
+ * stays at least 4.5:1 on white and on the light grey panels used across the site.
+ */
+:root {
+    --text-muted: #6b6b6b;
+}
+
+/*
+ * Type scale. Sizes are in rem so text follows the visitor's browser font-size setting.
+ * --fs-xs is the smallest text on the site (tags, labels, dates); nothing goes below it.
+ * Reading text (articles, descriptions, alert details) uses --fs-base; dense data views
+ * such as tables and station lists may use --fs-sm.
+ */
+:root {
+    --fs-xs: 0.75rem;    /* 12px */
+    --fs-sm: 0.875rem;   /* 14px */
+    --fs-base: 1rem;     /* 16px */
+    --fs-lg: 1.125rem;   /* 18px */
+    --fs-xl: 1.25rem;    /* 20px */
+    --fs-2xl: 1.5rem;    /* 24px */
+    --fs-3xl: 2rem;      /* 32px */
+}
+
+/*
+ * Visitors who ask their system for reduced motion: stop pulsing, looping and sliding
+ * animations, and jump instead of smooth-scrolling. Content still appears; it just
+ * doesn't move to get there.
+ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Bulma's grey utility (#7a7a7a) is 4.29:1 on white; templates use it for dates and meta text */
+.has-text-grey {
+    color: var(--text-muted) !important;
+}
+
 html, body {
     font-size: 16px;
     width: 100%;
@@ -19,6 +62,58 @@ html, body {
 main {
     background: #fff;
     flex-grow: 1;
+}
+
+/* Wraps {% block content %} in base.html; skip link target */
+.site-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Programmatic focus target for the skip link, not an interactive control */
+.site-main:focus {
+    outline: none;
+}
+
+/*
+ * Visible keyboard focus everywhere (WCAG 2.4.7). Dark ring with a white halo so it shows
+ * on white pages and on the admin-chosen brand colour (footer, buttons) alike.
+ * !important because many component styles remove the outline on :focus.
+ */
+:focus-visible {
+    outline: 3px solid #0b0c0c !important;
+    outline-offset: 0 !important;
+    box-shadow: 0 0 0 6px #fff !important;
+}
+
+.site-main:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Bulma's hover-only dropdowns: also open while the keyboard is inside them */
+.dropdown.is-hoverable:focus-within .dropdown-menu {
+    display: block;
+}
+
+.skip-link {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    z-index: 10000;
+    padding: 12px 20px;
+    background: #000;
+    color: #fff;
+    font-weight: 600;
+    transform: translateY(-120%);
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+    color: #fff;
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
 }
 
 .has-no-border {
@@ -114,7 +209,7 @@ main section {
     position: absolute;
     top: 0;
     left: 0;
-    color: #999;
+    color: var(--text-muted, #6b6b6b);
 }
 
 
@@ -170,9 +265,42 @@ a.cta-btn {
 }
 
 
+/* Option groups render as <fieldset>/<legend> (bulma/forms/field.html); look like a plain field */
+fieldset.field {
+    border: 0;
+    padding: 0;
+    margin-inline: 0;
+    min-width: 0;
+}
+
+fieldset.field > legend.label {
+    padding: 0;
+}
+
+/* Error summary at the top of a form after a failed submit (bulma/forms/form.html) */
+.form-error-summary .form-error-summary-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-error-summary ul {
+    list-style: disc;
+    margin-inline-start: 1.25rem;
+}
+
+.form-error-summary a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.form-required-note {
+    margin-bottom: 0.75rem;
+}
+
+legend.required:after,
 label:not(:empty).required:after {
     content: '*';
-    color: red;
+    color: #c00000;
     padding-left: 2px;
 }
 

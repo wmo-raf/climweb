@@ -14,18 +14,19 @@
         <span class="cf-city-name">{{ city.name }}</span>
       {% endif %}
       {% if city_detail_page_url %}
-        <a class="cf-detail-btn" href="{{ city_detail_page_url }}">
+        <a class="cf-detail-btn" href="{{ city_detail_page_url }}" aria-label="{% translate 'Detail' %}">
           <span class="is-hidden-mobile">{% translate "Detail" %}</span>
-          <span class="cf-detail-icon">{% svg_icon "info-circle" %}</span>
+          <span class="cf-detail-icon" aria-hidden="true">{% svg_icon "info-circle" %}</span>
         </a>
       {% endif %}
         {# Label is swapped client-side between the two data-* strings depending on whether the widget is currently showing a geolocated city. Both live here rather than in JS so they go through Django's catalog. #}
-        <div class="cf-detail-btn" id="use-my-location-btn"
+        <button type="button" class="cf-detail-btn" id="use-my-location-btn"
+             aria-label="{% translate 'Use my location' %}"
              data-locate-label="{% translate 'Use my location' %}"
              data-default-label="{% translate 'Use default city' %}">
           <span class="is-hidden-mobile cf-location-label">{% translate "Use my location" %}</span>
-          <span class="cf-detail-icon">{% svg_icon "location" %}</span>
-        </div>
+          <span class="cf-detail-icon" aria-hidden="true">{% svg_icon "location" %}</span>
+        </button>
     </div>
 
     <div class="cf-search-wrap">
@@ -155,10 +156,10 @@
             </div>
 
             <div class="glide__arrows" data-glide-el="controls">
-              <button class="slider-arrow glide__arrow glide__arrow--left" data-glide-dir="<">
+              <button class="slider-arrow glide__arrow glide__arrow--left" data-glide-dir="<" aria-label="{% translate 'Previous' %}">
                 {% svg_icon "arrow-left" %}
               </button>
-              <button class="slider-arrow glide__arrow glide__arrow--right" data-glide-dir=">">
+              <button class="slider-arrow glide__arrow glide__arrow--right" data-glide-dir=">" aria-label="{% translate 'Next' %}">
                 {% svg_icon "arrow-right" %}
               </button>
             </div>
@@ -204,6 +205,10 @@
     var perView   = getMultiPerView(measured);
 
     var glide = new Glide('#' + sliderElId, {
+      // Glide's keyboard option listens for arrow keys on the whole page (moving the slider while
+      // typing in search or panning a map); the Previous/Next buttons are the keyboard controls
+      keyboard: false,
+      animationDuration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 400,
       type:        'slider',
       perView:     perView,
       gap:         8,

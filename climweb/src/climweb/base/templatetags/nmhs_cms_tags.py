@@ -222,6 +222,17 @@ def get_default_site_lang():
     return default_language
 
 
+# Keep in sync with rtlLangs in static/js/google-translate.js
+RTL_LANGUAGES = ("ar", "fa", "he", "ur")
+
+
+@register.filter
+def is_rtl_language(language_code):
+    if not language_code:
+        return False
+    return language_code[:2].lower() in RTL_LANGUAGES
+
+
 class ExcludeImagesParser(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -332,3 +343,39 @@ def render_chart_or_map(context, block, block_type="map", section_index=0, block
             rendered_output += rendered
             i += 1
     return mark_safe(rendered_output)
+
+
+# Text colours for CAP severity labels that meet WCAG AA (4.5:1) on the severity's own
+# light background and on white. cap-composer's border_color falls short for most levels.
+# Keyed by severity id because the severity names are translated.
+CAP_SEVERITY_TEXT_COLORS = {
+    4: "#b91c1c",  # Extreme
+    3: "#9a3412",  # Severe
+    2: "#854d0e",  # Moderate
+    1: "#0e7490",  # Minor
+    0: "#3b5aa0",  # Unknown
+}
+
+
+@register.filter
+def severity_text_color(severity):
+    if not severity:
+        return ""
+    # cap-composer provides text_color from the release after 1.3.6; fall back for older versions
+    if severity.get("text_color"):
+        return severity["text_color"]
+    return CAP_SEVERITY_TEXT_COLORS.get(severity.get("id"), severity.get("border_color", ""))
+
+
+@register.simple_tag
+def image_alt(image, fallback=""):
+    """
+    Alt text for an image chosen in a StreamField block: empty if the editor marked this
+    use as decorative, otherwise the editor's alt text for this use (OptionalAltImageBlock),
+    then the image's own description, then `fallback`.
+    """
+    if not image:
+        return fallback
+    if getattr(image, "decorative", False):
+        return ""
+    return getattr(image, "contextual_alt_text", None) or getattr(image, "description", "") or fallback

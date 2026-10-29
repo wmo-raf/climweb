@@ -83,7 +83,7 @@
                         <div class="report-base-selectors">
                             <div class="control has-icons-left is-expanded my-3">
                                 <div class="select is-fullwidth is-dark">
-                                    <select id="station-select" style="text-transform:capitalize">
+                                    <select id="station-select" style="text-transform:capitalize" aria-label="{% translate 'Station' %}">
                                         <option value="all_stations">{% trans 'All Stations' %}</option>
 
                                         {% for station in stations %}
@@ -119,7 +119,7 @@
                     <div class="column">
                         <div class="card map-card elevation-1">
                             <div class="card-content p-1">
-                                <div id="overall-map"></div>
+                                <div id="overall-map" data-map-label="{% translate 'Map of observing stations' %}"></div>
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,14 @@
 <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/series-label.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/variable-pie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/exporting.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/export-data.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/accessibility.js' %}"></script>
+<script>
+    // exporting/export-data are loaded so screen reader users get "View as data table";
+    // hide the export menu icon so charts look the same as before
+    Highcharts.setOptions({ exporting: { buttons: { contextButton: { enabled: false } } } });
+</script>
 <script type="text/javascript" src="{% static 'js/html2canvas.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jspdf.umd.min.js' %}"></script>
 
@@ -248,7 +255,6 @@
                         map.flyTo({
                             center: selected_station_feature.geometry.coordinates, // new center coordinates
                             zoom: 9, // new zoom level
-                            essential: true // animation is essential
                         });
                     }else{
 
@@ -360,11 +366,6 @@
             Highcharts.chart(id, {
                 credits: {
                     enabled: false
-                },
-                exporting: {
-                    accessibility: {
-                        enabled: false
-                    },
                 },
                 chart: {
                     backgroundColor: 'transparent',

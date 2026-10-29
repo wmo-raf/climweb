@@ -35,7 +35,7 @@
 }
 
 .si-eyebrow {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -73,7 +73,7 @@
 .si-search-icon svg {
   width: 14px;
   height: 14px;
-  fill: #aaa;
+  fill: var(--text-muted, #6b6b6b);
 }
 
 .si-search-input {
@@ -147,6 +147,16 @@
   cursor: pointer;
 }
 
+/* .si-layer-info is a <button>; drop the browser's button styling */
+button.si-layer-info {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+}
+
 .si-layer-name {
   font-size: 12px;
   color: #444;
@@ -197,7 +207,7 @@
 /* NO RESULTS */
 .si-no-results {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-muted, #6b6b6b);
   text-align: center;
   padding: 1.5rem 1rem;
 }
@@ -214,7 +224,7 @@
 }
 
 .si-playback-time {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-family: monospace;
   color: #666;
   letter-spacing: 0.04em;
@@ -266,6 +276,12 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* the real checkbox is 0x0, so show keyboard focus on the visible switch */
+.si-auto-label input:focus-visible ~ .si-auto-toggle-track {
+  outline: 3px solid #0b0c0c;
+  box-shadow: 0 0 0 6px #fff;
+}
+
 .si-auto-label input:checked ~ .si-auto-toggle-track {
   background: var(--primary-color);
 }
@@ -290,7 +306,7 @@
   background: var(--primary-color);
   color: #fff;
   border: none;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.15s;
@@ -335,9 +351,9 @@
 }
 
 .si-legend-title {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  color: #aaa;
+  color: var(--text-muted, #6b6b6b);
   text-transform: uppercase;
   letter-spacing: 0.07em;
   margin-bottom: 4px;
@@ -426,16 +442,16 @@ a.leaflet-control-timecontrol { border-radius: 10px !important; }
 .animate-image-container { position: relative; height: 400px; background-color: rgba(78,142,203,0.1); }
 .anim-canvas { width: 100%; height: 100%; cursor: grab; }
 .anim-controls { width: 100%; margin: 40px 20px 20px; display: flex; align-items: center; justify-content: center; }
-.anim-play-pause { height: 30px; width: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 2px 0 black; border-radius: 40px; }
+.anim-play-pause { background: #fff; border: 0; padding: 0; height: 30px; width: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 2px 0 black; border-radius: 40px; }
 .anim-icon { height: 18px; width: 18px; display: flex; align-items: center; justify-content: center; }
 .icon-play, .icon-pause { height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; }
-.anim-icon svg { height: 100%; width: 100%; fill: #d49500; }
+.anim-icon svg { height: 100%; width: 100%; fill: #9a5b00; }
 .anim-icon .icon-pause { display: none; }
 .anim-progress-line { width: 500px; margin-inline-start: 20px; position: relative; }
 .anim-slider { border-radius: 8px; height: 8px; }
 .ui-slider { cursor: pointer; }
 .ui-slider .ui-slider-handle { border-radius: 50%; height: 20px; width: 20px; top: -8px; cursor: pointer; }
-.ui-slider-tooltip { position: absolute; background-color: #d49500; height: 24px; max-width: 150px; min-width: 40px; top: -32px; left: -12px; padding: 4px 8px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 13px; color: #fff; }
+.ui-slider-tooltip { position: absolute; background-color: #d49500; height: 24px; max-width: 150px; min-width: 40px; top: -32px; left: -12px; padding: 4px 8px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 13px; color: #1a1a1a; }
 .ui-slider-tooltip-val { width: max-content; }
 .ui-slider-tooltip::before { top: 100%; left: 20px; content: ''; height: 0; width: 0; position: absolute; border: 6px solid transparent; border-top-color: #d49500; margin-inline-start: -0.5em; }
 

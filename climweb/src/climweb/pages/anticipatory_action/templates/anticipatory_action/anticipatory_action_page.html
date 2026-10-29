@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags vue_utils %}
+{% load static i18n wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags vue_utils nmhs_cms_tags %}
 
 {% block extra_css %}
     {{ block.super }}
@@ -190,7 +190,7 @@
                         <div class="aa-warning-list">
                             {% for alert_info in active_alert_infos %}
                                 <article class="aa-warning"
-                                         style="--aa-severity-color: {{ alert_info.severity.border_color }}; --aa-severity-bg: {{ alert_info.severity.background_color }};">
+                                         style="--aa-severity-color: {{ alert_info.severity|severity_text_color }}; --aa-severity-bg: {{ alert_info.severity.background_color }};">
                                     <div class="aa-warning-header">
                                         <span class="aa-warning-severity">{{ alert_info.severity.label|default:alert_info.severity.severity }}</span>
                                         <span class="aa-warning-status">{% translate alert_info.status %}</span>

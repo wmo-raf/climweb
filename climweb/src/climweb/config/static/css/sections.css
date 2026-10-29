@@ -327,6 +327,16 @@
   transition: background 0.12s;
 }
 
+/* .ac-header is a <button>; drop the browser's button styling */
+button.ac-header {
+  width: 100%;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+}
+
 .ac-header:hover {
   background: #fafafa;
 }
@@ -489,7 +499,7 @@
 }
 
 .mat-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -671,7 +681,7 @@
   display: inline-block;
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 20px;
@@ -813,7 +823,7 @@
 
 /* ── EYEBROW ── */
 .pcta-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -917,7 +927,7 @@
 }
 
 .wwd-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
@@ -1072,7 +1082,7 @@
 }
 
 .ev-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -1173,7 +1183,7 @@
 }
 
 .ev-mon {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -1196,7 +1206,7 @@
 }
 
 .ev-type {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -1219,8 +1229,8 @@
 }
 
 .ev-date-range {
-  font-size: 11px;
-  color: #aaa;
+  font-size: var(--fs-xs);
+  color: var(--text-muted, #6b6b6b);
 }
 
 /* ── ARROW ── */
@@ -1279,7 +1289,7 @@
 }
 
 .app-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -1401,7 +1411,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.65);
   transition: color 0.15s, gap 0.15s;

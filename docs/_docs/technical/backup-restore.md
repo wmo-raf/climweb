@@ -42,7 +42,7 @@ EXTENSION IF EXISTS postgis_tiger_geocoder;
 Then, you can run the restore command as below:
 
 ```bash
-python manage.py dbrestore
+climweb dbrestore
 ```
 
 

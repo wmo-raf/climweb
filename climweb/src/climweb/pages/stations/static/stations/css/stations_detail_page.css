@@ -73,7 +73,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: #bbb;
+  color: var(--text-muted, #6b6b6b);
 }
 
 .std-map-empty svg {
@@ -128,9 +128,9 @@
 }
 
 .std-stat-lbl {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 600;
-  color: #aaa;
+  color: var(--text-muted, #6b6b6b);
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
@@ -159,7 +159,7 @@
 }
 
 .std-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: #eeeeee;
   text-transform: uppercase;
@@ -193,7 +193,7 @@
 
 .std-row-lbl {
   font-size: 13px;
-  color: #888;
+  color: var(--text-muted, #6b6b6b);
   font-weight: 500;
   flex-shrink: 0;
   min-width: 140px;
@@ -248,7 +248,7 @@
 
 .std-not-found-desc {
   font-size: 14px;
-  color: #888;
+  color: var(--text-muted, #6b6b6b);
   margin-bottom: 1.5rem;
   max-width: 340px;
 }

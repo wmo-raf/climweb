@@ -45,7 +45,7 @@
   position: absolute;
   bottom: 10px;
   left: 12px;
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: #fff;
   background: var(--primary-color);
@@ -79,8 +79,8 @@
 }
 
 .feat-date {
-  font-size: 11px;
-  color: #aaa;
+  font-size: var(--fs-xs);
+  color: var(--text-muted, #6b6b6b);
 }
 
 /* featured footer */
@@ -94,7 +94,7 @@
 }
 
 .feat-subscribe {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-decoration: none;
@@ -196,7 +196,7 @@
 }
 
 .row-tag {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -220,8 +220,8 @@
 }
 
 .row-date {
-  font-size: 10px;
-  color: #aaa;
+  font-size: var(--fs-xs);
+  color: var(--text-muted, #6b6b6b);
 }
 
 /* row actions */
@@ -234,7 +234,7 @@
 }
 
 .row-subscribe {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-decoration: none;

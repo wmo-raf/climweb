@@ -22,7 +22,7 @@
                         {% image value.image original as intro_img %}
                         <img class="progressive__img progressive--not-loaded"
                              data-progressive="{{ intro_img.url }}"
-                             src="{% lazy_image_url intro_img %}" alt=""/>
+                             src="{% lazy_image_url intro_img %}" alt="{% image_alt value.image %}"/>
                     {% endif %}
                 {% endif %}
             </figure>

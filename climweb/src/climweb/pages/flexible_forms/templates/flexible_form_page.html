@@ -27,7 +27,7 @@
                                 <img class="progressive__img progressive--not-loaded"
                                      style="border-radius: 8px;"
                                      data-progressive="{{ p_image.url }}"
-                                     src="{% lazy_image_url p_image %}" alt="{{ page.title }}"
+                                     src="{% lazy_image_url p_image %}" alt="{{ p_image.image.description }}"
                                 />
                             </figure>
                         {% endif %}

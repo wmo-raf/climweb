@@ -48,7 +48,7 @@
                         </button>
                     </div>
                     {% if request.GET.q %}
-                        <a class="delete" style="margin-inline-start: 14px" id="qClear" title="Clear"></a>
+                        <button type="button" class="delete" style="margin-inline-start: 14px" id="qClear" title="{% translate 'Clear search' %}" aria-label="{% translate 'Clear search' %}"></button>
                     {% endif %}
                 </div>
             </form>
