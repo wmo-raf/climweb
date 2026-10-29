@@ -185,7 +185,7 @@
 
 .vd-share .button {
   border-radius: 20px !important;
-  font-size: 11px !important;
+  font-size: var(--fs-xs) !important;
   font-weight: 600 !important;
   height: auto !important;
   padding: 5px 12px !important;
@@ -202,7 +202,7 @@
 
 /* ── DESCRIPTION ── */
 .vd-description {
-  font-size: 15px;
+  font-size: var(--fs-base);
   color: #444;
   line-height: 1.8;
 }
@@ -214,8 +214,8 @@
   margin: 1.5rem 0 0.75rem;
 }
 
-.vd-description h2 { font-size: 20px; }
-.vd-description h3 { font-size: 17px; }
+.vd-description h2 { font-size: var(--fs-xl); }
+.vd-description h3 { font-size: var(--fs-lg); }
 
 .vd-description p  { margin-bottom: 1rem; }
 .vd-description ul,
@@ -243,7 +243,7 @@
   .vd-title  { font-size: 20px; }
 
   .vd-pills  { gap: 6px; }
-  .vd-pill   { font-size: 11px; padding: 4px 10px; }
+  .vd-pill   { font-size: var(--fs-xs); padding: 4px 10px; }
 
   .vd-apply-btn,
   .vd-dl-btn { width: 100%; justify-content: center; }

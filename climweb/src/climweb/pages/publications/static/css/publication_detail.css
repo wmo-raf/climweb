@@ -56,7 +56,7 @@
 }
 
 .pd-dl-label {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--text-muted, #6b6b6b);
   text-transform: uppercase;
@@ -108,7 +108,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: var(--text-muted, #6b6b6b);
   padding: 7px 0;
   border-top: 1px solid #f0f0f0;
@@ -159,7 +159,7 @@
   gap: 5px;
   background: var(--background-color);
   color: var(--primary-color);
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 20px;
@@ -178,7 +178,7 @@
 
 /* description */
 .pd-description {
-  font-size: 15px;
+  font-size: var(--fs-base);
   color: #444;
   line-height: 1.8;
 }
@@ -187,8 +187,8 @@
 .pd-description p:last-child { margin-bottom: 0; }
 .pd-description h2,
 .pd-description h3 { font-weight: 700; color: #1a1a1a; margin: 1.5rem 0 0.75rem; }
-.pd-description h2 { font-size: 18px; }
-.pd-description h3 { font-size: 16px; }
+.pd-description h2 { font-size: var(--fs-xl); }
+.pd-description h3 { font-size: var(--fs-lg); }
 .pd-description ul,
 .pd-description ol { margin: 0.75rem 0 1rem 1.5rem; }
 .pd-description li { margin-bottom: 0.4rem; }
@@ -283,7 +283,7 @@
   display: inline-block;
   background: #f4f6f9;
   color: #555;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   padding: 3px 9px;
   border-radius: 6px;
   border: 1px solid #eee;
@@ -329,7 +329,7 @@
 /* share buttons */
 .pd-share .button {
   border-radius: 20px !important;
-  font-size: 11px !important;
+  font-size: var(--fs-xs) !important;
   font-weight: 600 !important;
   height: auto !important;
   padding: 5px 12px !important;
