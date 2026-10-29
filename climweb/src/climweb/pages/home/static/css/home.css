@@ -163,7 +163,7 @@
     }
 
     #users .box p {
-        font-size: 11px
+        font-size: var(--fs-xs)
     }
 }
 
@@ -331,7 +331,7 @@
   min-width: 20px;
   height: 20px;
   padding: 0 5px;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: #fff;
   background: #c62828;
@@ -450,30 +450,33 @@
   gap: 2px;
 }
 
+/* Two lines rather than one: the affected area is usually at the end of the title */
 .alert-item-title {
-  font-size: 13px;
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: #1a1a1a;
   line-height: 1.35;
-  white-space: nowrap;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .alert-severity-label {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 600;
 }
 
 .alert-expires {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   color: var(--text-muted, #6b6b6b);
   font-weight: 400;
 }
 
 /* ── SEVERITY PILL ── */
 .alert-severity-pill {
-  font-size: 12px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   padding: 2px 7px;
   border-radius: var(--border-radius);
@@ -511,7 +514,7 @@
 
 /* ── HEADLINE ── */
 .alert-info-headline {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: #555;
   line-height: 1.3;
   white-space: nowrap;
@@ -524,7 +527,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 10px;
+  font-size: var(--fs-xs);
   color: var(--text-muted, #6b6b6b);
   margin-top: 1px;
   flex-wrap: wrap;
@@ -590,7 +593,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   color: #185FA5;
   text-decoration: none;
@@ -644,7 +647,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   color: #185FA5;
   text-decoration: none;

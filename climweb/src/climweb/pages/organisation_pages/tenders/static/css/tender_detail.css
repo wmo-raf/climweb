@@ -260,7 +260,7 @@
 
 .td-share .button {
   border-radius: 20px !important;
-  font-size: 11px !important;
+  font-size: var(--fs-xs) !important;
   font-weight: 600 !important;
   height: auto !important;
   padding: 5px 12px !important;
@@ -277,7 +277,7 @@
 
 /* ── DESCRIPTION ── */
 .td-description {
-  font-size: 15px;
+  font-size: var(--fs-base);
   color: #444;
   line-height: 1.8;
 }
@@ -289,8 +289,8 @@
   margin: 1.5rem 0 0.75rem;
 }
 
-.td-description h2 { font-size: 20px; }
-.td-description h3 { font-size: 17px; }
+.td-description h2 { font-size: var(--fs-xl); }
+.td-description h3 { font-size: var(--fs-lg); }
 
 .td-description p  { margin-bottom: 1rem; }
 .td-description ul,
@@ -311,7 +311,7 @@
   .td-title   { font-size: 20px; }
 
   .td-pills   { gap: 6px; }
-  .td-pill    { font-size: 11px; padding: 4px 10px; }
+  .td-pill    { font-size: var(--fs-xs); padding: 4px 10px; }
 
   .td-actions {
     flex-direction: column;

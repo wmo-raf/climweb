@@ -7,6 +7,22 @@
 }
 
 /*
+ * Type scale. Sizes are in rem so text follows the visitor's browser font-size setting.
+ * --fs-xs is the smallest text on the site (tags, labels, dates); nothing goes below it.
+ * Reading text (articles, descriptions, alert details) uses --fs-base; dense data views
+ * such as tables and station lists may use --fs-sm.
+ */
+:root {
+    --fs-xs: 0.75rem;    /* 12px */
+    --fs-sm: 0.875rem;   /* 14px */
+    --fs-base: 1rem;     /* 16px */
+    --fs-lg: 1.125rem;   /* 18px */
+    --fs-xl: 1.25rem;    /* 20px */
+    --fs-2xl: 1.5rem;    /* 24px */
+    --fs-3xl: 2rem;      /* 32px */
+}
+
+/*
  * Visitors who ask their system for reduced motion: stop pulsing, looping and sliding
  * animations, and jump instead of smooth-scrolling. Content still appears; it just
  * doesn't move to get there.

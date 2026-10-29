@@ -130,7 +130,7 @@
   gap: 5px;
   padding: 6px 12px;
   border-radius: 20px;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   border: 1px solid #eee;
   background: #fff;
@@ -336,7 +336,7 @@
 
 .pd-panel-foot .button {
   border-radius: 20px !important;
-  font-size: 11px !important;
+  font-size: var(--fs-xs) !important;
   font-weight: 600 !important;
   height: auto !important;
   padding: 5px 12px !important;
@@ -392,13 +392,13 @@
   }
 
   .pd-cat-hdr { padding: 8px 10px; }
-  .pd-cat-name { font-size: 11px; }
+  .pd-cat-name { font-size: var(--fs-xs); }
 
   .pd-tab {
     padding: 7px 10px;
     border-left: none;
     border-bottom: 2px solid transparent;
-    font-size: 11px;
+    font-size: var(--fs-xs);
   }
 
   .pd-tab.active {
@@ -408,7 +408,7 @@
   }
 
   .pd-page-title { font-size: 18px; }
-  .pd-date-pill { font-size: 10px; padding: 5px 10px; }
+  .pd-date-pill { font-size: var(--fs-xs); padding: 5px 10px; }
 
   .pd-btn-dl,
   .pd-btn-view {

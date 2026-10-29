@@ -58,7 +58,7 @@ h6,
 }
 
 p {
-    font-size: 16px;
+    font-size: var(--fs-base);
     line-height: 1.5;
     padding-bottom: 12px;
 }
@@ -201,7 +201,7 @@ hr {
     align-items: center;
     line-height: 28px;
     border-radius: var(--border-radius);
-    font-size: 10px
+    font-size: var(--fs-xs)
 }
 
 .pagination a.active {
@@ -1118,7 +1118,7 @@ figure.work {
 
     h6,
     .stats {
-        font-size: 11px
+        font-size: var(--fs-xs)
     }
 
     body {
@@ -1171,7 +1171,7 @@ figure.work {
 
 
     .nmhs-work .sec-btn {
-        font-size: 11px;
+        font-size: var(--fs-xs);
         min-width: 160px;
         height: 30px
     }
@@ -1273,12 +1273,8 @@ figure.work {
     h6,
     .stats,
     .date {
-        font-size: 11px;
+        font-size: var(--fs-xs);
         font-weight: bold
-    }
-
-    p, li {
-        font-size: 14px
     }
 
 
@@ -1292,7 +1288,7 @@ figure.work {
     }
 
     .sec-btn {
-        font-size: 11px;
+        font-size: var(--fs-xs);
         min-width: 160px;
         height: 30px
     }
@@ -1345,7 +1341,7 @@ figure.work {
 @media screen and (max-width: 1024px) {
 
     body {
-        font-size: 11px
+        font-size: var(--fs-xs)
     }
 
     h1,
@@ -1370,10 +1366,6 @@ figure.work {
     h5,
     .title h5 {
         font-size: 16px
-    }
-
-    p, li {
-        font-size: 14px
     }
 
     .section-title {

@@ -211,7 +211,7 @@
 }
 
 .partner-name {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: var(--text-muted, #6b6b6b);
   text-align: center;
   line-height: 1.3;
@@ -247,7 +247,7 @@
 }
 
 .more-partners {
-    font-size: 11px;
+    font-size: var(--fs-xs);
     font-weight: 700;
     color: var(--primary-color);
     text-decoration: none;
@@ -348,7 +348,7 @@
 
 @media (max-width: 480px) {
   .about-nav-btn {
-    font-size: 11px;
+    font-size: var(--fs-xs);
     padding: 6px 12px;
   }
 }
@@ -423,9 +423,9 @@
 @media (max-width: 768px) {
   .bc-nav { padding: 0.6rem 0; }
 
-  .bc-item     { font-size: 11px; }
+  .bc-item     { font-size: var(--fs-xs); }
   .bc-item--active {
-    font-size: 11px;
+    font-size: var(--fs-xs);
     max-width: 180px;
   }
 
