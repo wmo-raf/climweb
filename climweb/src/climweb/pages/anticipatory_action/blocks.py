@@ -34,8 +34,9 @@ class PhasesBlock(blocks.StreamBlock):
     class Meta:
         max_num = 6
     
-    def clean(self, value):
-        value = super().clean(value)
+    def clean(self, value, *args, **kwargs):
+        # Wagtail passes ignore_required_constraints when the field is optional or saved as a draft
+        value = super().clean(value, *args, **kwargs)
         current = [child for child in value if child.value.get("is_current")]
         if len(current) > 1:
             raise StreamBlockValidationError(non_block_errors=ErrorList([

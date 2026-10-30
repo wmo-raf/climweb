@@ -1,6 +1,7 @@
 import json
 from datetime import timedelta
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -8,6 +9,7 @@ from shapely.geometry import box
 from wagtail.models import Site
 from wagtail.rich_text import RichText
 from wagtail.test.utils import WagtailPageTestCase
+from wagtail.test.utils.form_data import inline_formset, nested_form_data, streamfield
 
 from climweb.base.models import ImportantPages
 from climweb.pages.home.tests.factories import get_or_create_homepage
@@ -77,6 +79,31 @@ class TestAnticipatoryActionPage(WagtailPageTestCase):
         with self.assertRaises(StreamBlockValidationError):
             block.clean(value)
     
+    def test_phases_clean_accepts_ignore_required_constraints(self):
+        from wagtail.blocks.stream_block import StreamBlockValidationError
+        block = AnticipatoryActionPage._meta.get_field("phases").stream_block
+        value = block.to_python([
+            {"type": "phase", "value": {"label": "Ready", "description": "", "is_current": True}},
+            {"type": "phase", "value": {"label": "Set", "description": "", "is_current": False}},
+        ])
+        block.clean(value, ignore_required_constraints=True)
+        
+        value = block.to_python([
+            {"type": "phase", "value": {"label": "Ready", "description": "", "is_current": True}},
+            {"type": "phase", "value": {"label": "Set", "description": "", "is_current": True}},
+        ])
+        with self.assertRaises(StreamBlockValidationError):
+            block.clean(value, ignore_required_constraints=True)
+    
+    def test_phases_form_field_clean(self):
+        # the admin form field is optional, so Wagtail cleans it with ignore_required_constraints=True
+        field = AnticipatoryActionPage._meta.get_field("phases").formfield()
+        block = field.block
+        value = block.to_python([
+            {"type": "phase", "value": {"label": "Ready", "description": "", "is_current": True}},
+        ])
+        self.assertEqual(len(field.clean(value)), 1)
+    
     def test_shown_phase_needs_a_current_phase(self):
         from django.core.exceptions import ValidationError
         self.page.show_phase = True
@@ -114,6 +141,65 @@ class TestAnticipatoryActionPage(WagtailPageTestCase):
             self.assertEqual(self.client.get(url).status_code, 404)
         finally:
             self.page.save_revision().publish()
+
+
+class TestAnticipatoryActionPageAdmin(WagtailPageTestCase):
+    def setUp(self):
+        self.home_page = get_or_create_homepage()
+        user = get_user_model().objects.create_superuser("admin", "admin@example.com", "password")
+        self.client.force_login(user)
+    
+    def post_data(self, **extra):
+        return nested_form_data({
+            "title": "Anticipatory Action",
+            "slug": "anticipatory-action",
+            "banner_title": "Know the risk, act before the impact",
+            "risk_summary_title": "What's happening",
+            "map_title": "Where",
+            "institutions_heading": "Preparedness and response",
+            "show_cap_alerts": "on",
+            "phases": streamfield([
+                ("phase", {"label": "Ready", "description": "", "is_current": "on"}),
+                ("phase", {"label": "Set", "description": ""}),
+            ]),
+            "key_facts": streamfield([]),
+            "recommended_actions": streamfield([]),
+            "extra_content": streamfield([]),
+            "map_layers": streamfield([]),
+            "cap_areas": streamfield([]),
+            "institutions": streamfield([]),
+            "products": inline_formset([]),
+            "applications": inline_formset([]),
+            **extra,
+        })
+    
+    def create(self, **extra):
+        url = reverse("wagtailadmin_pages:add",
+                      args=("anticipatory_action", "anticipatoryactionpage", self.home_page.pk))
+        return self.client.post(url, self.post_data(**extra))
+    
+    def test_create_draft_in_admin(self):
+        response = self.create()
+        page = AnticipatoryActionPage.objects.get()
+        self.assertRedirects(response, reverse("wagtailadmin_pages:edit", args=(page.pk,)))
+        self.assertFalse(page.live)
+        self.assertEqual(page.current_phase["label"], "Ready")
+    
+    def test_publish_in_admin(self):
+        response = self.create(**{"action-publish": "publish"})
+        self.assertRedirects(response, reverse("wagtailadmin_explore", args=(self.home_page.pk,)),
+                             fetch_redirect_response=False)
+        self.assertTrue(AnticipatoryActionPage.objects.get().live)
+    
+    def test_admin_rejects_two_current_phases(self):
+        data = self.post_data()
+        data["phases-1-value-is_current"] = "on"
+        url = reverse("wagtailadmin_pages:add",
+                      args=("anticipatory_action", "anticipatoryactionpage", self.home_page.pk))
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Only one phase can be the current phase")
+        self.assertFalse(AnticipatoryActionPage.objects.exists())
 
 
 class TestAnticipatoryActionButton(TestCase):
