@@ -230,6 +230,16 @@ class TestAnticipatoryActionPageAdmin(WagtailPageTestCase):
                              fetch_redirect_response=False)
         self.assertTrue(AnticipatoryActionPage.objects.get().live)
     
+    def test_preview_new_page_in_admin(self):
+        url = reverse("wagtailadmin_pages:preview_on_add",
+                      args=("anticipatory_action", "anticipatoryactionpage", self.home_page.pk))
+        response = self.client.post(url, self.post_data())
+        self.assertEqual(response.json()["is_valid"], True)
+        
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'id="home-map"')
+    
     def test_admin_rejects_two_current_phases(self):
         data = self.post_data()
         data["phases-1-value-is_current"] = "on"

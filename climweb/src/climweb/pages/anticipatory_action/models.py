@@ -312,8 +312,9 @@ class AnticipatoryActionPage(AbstractBannerPage):
             "country_bounds": self.cap_areas_bounds or AdminBoundarySettings.for_request(
                 request).combined_countries_bounds,
             "map_layer_svg_sprite": get_svg_sprite_for_icons(map_layer_icons),
+            # a new page being previewed has no id yet, so there is no map settings endpoint for it
             "map_settings_url": get_full_url(request, reverse("anticipatory-action-map-settings",
-                                                              args=[self.pk])),
+                                                              args=[self.pk])) if self.pk else None,
             "active_alert_infos": get_alert_display_infos(self.active_cap_alerts, request),
             "show_warnings": is_cap_installed() and self.show_cap_alerts,
         })
