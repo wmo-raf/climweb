@@ -207,6 +207,8 @@ class TestAnticipatoryActionPageAdmin(WagtailPageTestCase):
             "institutions": streamfield([]),
             "products": inline_formset([]),
             "applications": inline_formset([]),
+            "updates": inline_formset([]),
+            "aa_events": inline_formset([]),
             **extra,
         })
     
