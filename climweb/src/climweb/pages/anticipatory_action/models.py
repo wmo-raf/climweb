@@ -287,6 +287,15 @@ class AnticipatoryActionPage(AbstractBannerPage):
         return geometries
 
     @cached_property
+    def cap_areas_bounds(self):
+        geometries = self.cap_area_geometries
+        if not geometries:
+            return None
+        bounds = [geometry.bounds for geometry in geometries]
+        return [min(b[0] for b in bounds), min(b[1] for b in bounds),
+                max(b[2] for b in bounds), max(b[3] for b in bounds)]
+
+    @cached_property
     def active_featured_cap_alert(self):
         return get_active_alert(self.featured_cap_alert_id)
 
@@ -303,7 +312,9 @@ class AnticipatoryActionPage(AbstractBannerPage):
         map_layer_icons.extend([layer.value.get("icon") for layer in self.map_layers or [] if layer.value.get("icon")])
         
         context.update({
-            "country_bounds": AdminBoundarySettings.for_request(request).combined_countries_bounds,
+            # start the map on the areas of interest, falling back to the country
+            "country_bounds": self.cap_areas_bounds or AdminBoundarySettings.for_request(
+                request).combined_countries_bounds,
             "map_layer_svg_sprite": get_svg_sprite_for_icons(map_layer_icons),
             "map_settings_url": get_full_url(request, reverse("anticipatory-action-map-settings",
                                                               args=[self.pk])),

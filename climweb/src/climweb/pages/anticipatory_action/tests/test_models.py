@@ -1,6 +1,6 @@
 import json
 from datetime import timedelta
-from unittest import skipUnless
+from unittest import mock, skipUnless
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -261,6 +261,36 @@ class TestCapAreaBlocks(TestCase):
         value = AreaOfInterestBoundaryBlock().to_python({"areaDesc": "North", "boundary": geom})
         self.assertEqual(value.name, "North")
         self.assertIsNotNone(value.geometry)
+
+
+@skipUnless("capcomposer.capeditor" in settings.INSTALLED_APPS, "CAP composer not installed")
+class TestCapAreasMapBounds(TestCase):
+    @staticmethod
+    def polygon(minx, miny, maxx, maxy):
+        return json.dumps({"type": "Polygon", "coordinates": [[
+            [minx, miny], [minx, maxy], [maxx, maxy], [maxx, miny], [minx, miny]
+        ]]})
+    
+    def setUp(self):
+        self.page = AnticipatoryActionPageFactory(parent=get_or_create_homepage())
+    
+    def test_map_starts_on_cap_areas(self):
+        self.page.cap_areas = [
+            ("polygon_block", {"areaDesc": "North", "polygon": self.polygon(30, 1, 32, 3)}),
+            ("polygon_block", {"areaDesc": "South", "polygon": self.polygon(34, -2, 35, 0)}),
+        ]
+        self.page.save()
+        self.assertEqual(self.page.cap_areas_bounds, [30, -2, 35, 3])
+        
+        resp = self.client.get(self.page.get_url())
+        self.assertEqual(resp.context["country_bounds"], [30, -2, 35, 3])
+    
+    def test_map_falls_back_to_country_without_cap_areas(self):
+        self.assertIsNone(self.page.cap_areas_bounds)
+        with mock.patch("climweb.pages.anticipatory_action.models.AdminBoundarySettings.for_request") as settings_for:
+            settings_for.return_value.combined_countries_bounds = [5, -22, 33, 23]
+            resp = self.client.get(self.page.get_url())
+        self.assertEqual(resp.context["country_bounds"], [5, -22, 33, 23])
 
 
 class FakeInfoValue(dict):
