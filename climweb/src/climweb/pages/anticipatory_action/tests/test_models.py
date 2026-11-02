@@ -1,6 +1,8 @@
 import json
 from datetime import timedelta
+from unittest import skipUnless
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -241,6 +243,24 @@ class TestAnticipatoryActionButton(TestCase):
         self.get_settings(show_anticipatory_action_button=False)
         resp = self.client.get("/")
         self.assertNotContains(resp, "util-link--anticipatory")
+
+
+@skipUnless("capcomposer.capeditor" in settings.INSTALLED_APPS, "CAP composer not installed")
+class TestCapAreaBlocks(TestCase):
+    def test_boundary_block_has_admin_level_for_map_widget(self):
+        # the boundary map widget filters boundaries by the sibling admin_level field
+        from ..blocks import AreaOfInterestBoundaryBlock
+        block = AreaOfInterestBoundaryBlock()
+        self.assertIn("admin_level", block.child_blocks)
+        self.assertEqual(block.child_blocks["admin_level"].get_default(), 1)
+    
+    def test_boundary_value_without_admin_level_still_loads(self):
+        # areas saved before admin_level existed
+        from ..blocks import AreaOfInterestBoundaryBlock
+        geom = json.dumps({"type": "MultiPolygon", "coordinates": [[[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]]]})
+        value = AreaOfInterestBoundaryBlock().to_python({"areaDesc": "North", "boundary": geom})
+        self.assertEqual(value.name, "North")
+        self.assertIsNotNone(value.geometry)
 
 
 class FakeInfoValue(dict):
