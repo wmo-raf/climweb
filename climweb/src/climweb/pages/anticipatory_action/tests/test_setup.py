@@ -50,9 +50,19 @@ class TestCreateDraftPage(TestCase):
         self.assertEqual(first.pk, second.pk)
         self.assertEqual((first.width, first.height), (2400, 900))
     
-    def test_returns_existing_page(self):
+    def test_creates_another_page_with_free_slug(self):
         first, _ = create_draft_page(self.home_page)
         second, created = create_draft_page(self.home_page)
+        
+        self.assertTrue(created)
+        self.assertNotEqual(first.pk, second.pk)
+        self.assertEqual(second.slug, "anticipatory-action-2")
+        # the header button keeps linking to the first page
+        self.assertEqual(ImportantPages.for_site(self.site).anticipatory_action_page_id, first.pk)
+    
+    def test_reuse_existing_returns_existing_page(self):
+        first, _ = create_draft_page(self.home_page)
+        second, created = create_draft_page(self.home_page, reuse_existing=True)
         
         self.assertFalse(created)
         self.assertEqual(first.pk, second.pk)

@@ -17,7 +17,9 @@ from climweb.base.models import ImportantPages
 from climweb.pages.home.tests.factories import get_or_create_homepage
 from climweb.pages.news.tests.factories import NewsIndexPageFactory, NewsPageFactory
 from ..cap import info_matches
-from ..models import AnticipatoryActionPage
+from climweb.pages.events.tests.factories import EventIndexPageFactory, EventPageFactory
+from climweb.pages.publications.tests.factories import PublicationPageFactory, PublicationsIndexPageFactory
+from ..models import AnticipatoryActionEvent, AnticipatoryActionPage, AnticipatoryActionUpdate
 from .factories import AnticipatoryActionPageFactory
 
 
@@ -28,8 +30,13 @@ class TestAnticipatoryActionPage(WagtailPageTestCase):
         cls.page = AnticipatoryActionPageFactory(parent=home_page)
         
         news_index = NewsIndexPageFactory(parent=home_page)
-        cls.aa_news = NewsPageFactory(parent=news_index, is_anticipatory_action=True)
-        cls.other_news = NewsPageFactory(parent=news_index)
+        cls.news = NewsPageFactory(parent=news_index)
+        cls.draft_news = NewsPageFactory(parent=news_index, live=False)
+        publications_index = PublicationsIndexPageFactory(parent=home_page)
+        cls.publication = PublicationPageFactory(parent=publications_index)
+        events_index = EventIndexPageFactory(parent=home_page)
+        cls.event = EventPageFactory(parent=events_index)
+        cls.hidden_event = EventPageFactory(parent=events_index, is_hidden=True)
     
     def test_page_render(self):
         self.assertPageIsRenderable(self.page)
@@ -39,8 +46,36 @@ class TestAnticipatoryActionPage(WagtailPageTestCase):
         from ..models import AnticipatoryActionPage
         self.assertAllowedParentPageTypes(AnticipatoryActionPage, {HomePage})
     
-    def test_latest_updates_only_include_flagged_content(self):
-        self.assertEqual(self.page.latest_updates, [self.aa_news])
+    def test_latest_updates_are_chosen_on_the_page(self):
+        self.page.updates = [
+            AnticipatoryActionUpdate(update=self.publication),
+            AnticipatoryActionUpdate(update=self.draft_news),
+            AnticipatoryActionUpdate(update=self.news),
+        ]
+        self.page.save()
+        page = AnticipatoryActionPage.objects.get(pk=self.page.pk)
+        # in the chosen order, skipping unpublished pages
+        self.assertEqual(page.latest_updates, [self.publication, self.news])
+    
+    def test_events_are_chosen_on_the_page(self):
+        self.page.aa_events = [
+            AnticipatoryActionEvent(event=self.hidden_event),
+            AnticipatoryActionEvent(event=self.event),
+        ]
+        self.page.save()
+        page = AnticipatoryActionPage.objects.get(pk=self.page.pk)
+        self.assertEqual(page.events, [self.event])
+    
+    def test_updates_are_per_page(self):
+        other = AnticipatoryActionPageFactory(parent=get_or_create_homepage(), slug="floods")
+        self.page.updates = [AnticipatoryActionUpdate(update=self.news)]
+        self.page.save()
+        self.assertEqual(other.latest_updates, [])
+    
+    def test_more_than_one_page_allowed(self):
+        AnticipatoryActionPageFactory(parent=get_or_create_homepage(), slug="floods")
+        self.assertIsNone(AnticipatoryActionPage.max_count)
+        self.assertTrue(AnticipatoryActionPage.can_create_at(get_or_create_homepage()))
     
     def ready_set_go(self, current):
         return [

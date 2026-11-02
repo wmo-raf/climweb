@@ -24,10 +24,7 @@ from wagtailiconchooser.utils import get_svg_sprite_for_icons
 from climweb.base import blocks as base_blocks
 from climweb.base.models import AbstractBannerPage
 from climweb.config.settings.base import SUMMARY_RICHTEXT_FEATURES
-from climweb.pages.events.models import EventPage
 from climweb.pages.home.models import RasterFileLayerBlock, WMSLayerBlock, VectorTileLayerBlock
-from climweb.pages.news.models import NewsPage
-from climweb.pages.publications.models import PublicationPage
 from . import blocks as aa_blocks
 from .cap import (
     get_active_alert,
@@ -70,7 +67,6 @@ class AnticipatoryActionPage(AbstractBannerPage):
     template = "anticipatory_action/anticipatory_action_page.html"
     parent_page_types = ["home.HomePage"]
     subpage_types = ["flex_page.FlexPage"]
-    max_count = 1
     show_in_menus_default = False
     base_form_class = AnticipatoryActionPageForm
 
@@ -190,6 +186,10 @@ class AnticipatoryActionPage(AbstractBannerPage):
 
     links_panels = [
         InlinePanel("products", heading=_("Products"), label=_("Product")),
+        InlinePanel("updates", heading=_("Latest updates"), label=_("Update"), max_num=4,
+                    help_text=_("News and publications to show on this page, in this order")),
+        InlinePanel("aa_events", heading=_("Events"), label=_("Event"), max_num=3,
+                    help_text=_("Events to show on this page, in this order")),
         MultiFieldPanel([
             FieldPanel("institutions_heading"),
             FieldPanel("institutions"),
@@ -264,18 +264,14 @@ class AnticipatoryActionPage(AbstractBannerPage):
 
     @cached_property
     def events(self):
-        return EventPage.objects.live().filter(
-            is_anticipatory_action=True, is_archived=False, is_hidden=False).order_by("-date_from")[:3]
+        events = [item.event.specific for item in self.aa_events.select_related("event")
+                  if item.event and item.event.live]
+        return [event for event in events if not event.is_archived and not event.is_hidden]
 
     @cached_property
     def latest_updates(self):
-        news = list(NewsPage.objects.live().filter(is_anticipatory_action=True).order_by("-is_featured", "-date")[:2])
-
-        # fill up to 4 items with publications
-        publications = PublicationPage.objects.live().filter(is_anticipatory_action=True).order_by(
-            "-featured", "-publication_date")[:4 - len(news)]
-
-        return news + list(publications)
+        return [item.update.specific for item in self.updates.select_related("update")
+                if item.update and item.update.live]
 
     @cached_property
     def cap_area_geometries(self):
@@ -332,6 +328,26 @@ class AnticipatoryActionProduct(Orderable):
 
     panels = [
         PageChooserPanel("product", page_type=["products.ProductPage", "products.SubNationalProductPage"]),
+    ]
+
+
+class AnticipatoryActionUpdate(Orderable):
+    page = ParentalKey(AnticipatoryActionPage, on_delete=models.CASCADE, related_name="updates")
+    update = models.ForeignKey("wagtailcore.Page", on_delete=models.CASCADE, related_name="+",
+                               verbose_name=_("News or publication"))
+
+    panels = [
+        PageChooserPanel("update", page_type=["news.NewsPage", "publications.PublicationPage"]),
+    ]
+
+
+class AnticipatoryActionEvent(Orderable):
+    page = ParentalKey(AnticipatoryActionPage, on_delete=models.CASCADE, related_name="aa_events")
+    event = models.ForeignKey("wagtailcore.Page", on_delete=models.CASCADE, related_name="+",
+                              verbose_name=_("Event"))
+
+    panels = [
+        PageChooserPanel("event", page_type="events.EventPage"),
     ]
 
 
