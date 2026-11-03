@@ -251,6 +251,38 @@ class TestAnticipatoryActionPageAdmin(WagtailPageTestCase):
         self.assertFalse(AnticipatoryActionPage.objects.exists())
 
 
+class TestUpdateChooser(WagtailPageTestCase):
+    def setUp(self):
+        self.home_page = get_or_create_homepage()
+        home_page = self.home_page
+        self.news_index = NewsIndexPageFactory(parent=home_page, title="Newsroom")
+        NewsPageFactory(parent=self.news_index)
+        self.publications_index = PublicationsIndexPageFactory(parent=home_page, title="Library")
+        PublicationPageFactory(parent=self.publications_index)
+        events_index = EventIndexPageFactory(parent=home_page, title="Calendar")
+        EventPageFactory(parent=events_index)
+        
+        user = get_user_model().objects.create_superuser("admin", "admin@example.com", "password")
+        self.client.force_login(user)
+    
+    def browse(self, page_type, parent=None):
+        url = reverse("wagtailadmin_choose_page_child", args=[parent.pk]) if parent else reverse(
+            "wagtailadmin_choose_page")
+        response = self.client.get(url, {"page_type": page_type})
+        self.assertEqual(response.status_code, 200)
+        return response.json()["html"]
+    
+    def test_lists_only_news_and_publications_sections(self):
+        html = self.browse("news.newspage,publications.publicationpage")
+        self.assertIn("Newsroom", html)
+        self.assertIn("Library", html)
+        self.assertNotIn("Calendar", html)
+    
+    def test_other_choosers_are_unchanged(self):
+        html = self.browse("events.eventpage,publications.publicationpage", parent=self.home_page)
+        self.assertIn("Calendar", html)
+
+
 class TestAnticipatoryActionButton(TestCase):
     @classmethod
     def setUpTestData(cls):

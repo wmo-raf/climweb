@@ -322,13 +322,17 @@ class AnticipatoryActionPage(AbstractBannerPage):
         return context
 
 
+PRODUCT_PAGE_TYPES = ["products.ProductPage", "products.SubNationalProductPage"]
+UPDATE_PAGE_TYPES = ["news.NewsPage", "publications.PublicationPage"]
+
+
 class AnticipatoryActionProduct(Orderable):
     page = ParentalKey(AnticipatoryActionPage, on_delete=models.CASCADE, related_name="products")
     product = models.ForeignKey("wagtailcore.Page", on_delete=models.CASCADE, related_name="+",
                                 verbose_name=_("Product"))
 
     panels = [
-        PageChooserPanel("product", page_type=["products.ProductPage", "products.SubNationalProductPage"]),
+        PageChooserPanel("product", page_type=PRODUCT_PAGE_TYPES),
     ]
 
 
@@ -338,7 +342,7 @@ class AnticipatoryActionUpdate(Orderable):
                                verbose_name=_("News or publication"))
 
     panels = [
-        PageChooserPanel("update", page_type=["news.NewsPage", "publications.PublicationPage"]),
+        PageChooserPanel("update", page_type=UPDATE_PAGE_TYPES),
     ]
 
 
