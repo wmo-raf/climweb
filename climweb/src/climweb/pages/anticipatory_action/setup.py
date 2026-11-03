@@ -22,8 +22,7 @@ SAMPLE_BANNER_TITLE = "Anticipatory Action sample banner"
 
 
 def get_existing_page():
-    # max_count is 1, so there is at most one
-    return AnticipatoryActionPage.objects.first()
+    return AnticipatoryActionPage.objects.order_by("pk").first()
 
 
 def get_home_page(site):
@@ -131,17 +130,18 @@ def get_template_content():
     }
 
 
-def create_draft_page(parent, user=None, site=None):
+def create_draft_page(parent, user=None, site=None, reuse_existing=False):
     """
     Create an unpublished Anticipatory Action page from the template under the given (home) page.
 
-    Returns (page, created). If a page already exists it is returned unchanged.
+    Returns (page, created). With reuse_existing, an existing page is returned unchanged instead.
     The page is linked as the site's Anticipatory Action page in Important Pages
     only if no page is linked yet, so an existing page keeps working until editors switch.
     """
-    existing = get_existing_page()
-    if existing:
-        return existing, False
+    if reuse_existing:
+        existing = get_existing_page()
+        if existing:
+            return existing, False
 
     page = AnticipatoryActionPage(
         title=_("Anticipatory Action"),

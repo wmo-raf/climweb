@@ -34,8 +34,9 @@ class PhasesBlock(blocks.StreamBlock):
     class Meta:
         max_num = 6
     
-    def clean(self, value):
-        value = super().clean(value)
+    def clean(self, value, *args, **kwargs):
+        # Wagtail passes ignore_required_constraints when the field is optional or saved as a draft
+        value = super().clean(value, *args, **kwargs)
         current = [child for child in value if child.value.get("is_current")]
         if len(current) > 1:
             raise StreamBlockValidationError(non_block_errors=ErrorList([
@@ -128,7 +129,11 @@ class AreaOfInterestStructValue(StructValue):
 
 
 if "capcomposer.capeditor" in settings.INSTALLED_APPS:
-    from capcomposer.capeditor.blocks import BoundaryFieldBlock, PolygonOrMultiPolygonFieldBlock
+    from capcomposer.capeditor.blocks import (
+        AlertAreaBoundaryBlock,
+        BoundaryFieldBlock,
+        PolygonOrMultiPolygonFieldBlock,
+    )
 
 
     class AreaOfInterestBoundaryBlock(blocks.StructBlock):
@@ -136,6 +141,9 @@ if "capcomposer.capeditor" in settings.INSTALLED_APPS:
             value_class = AreaOfInterestStructValue
 
         areaDesc = blocks.TextBlock(label=_("Area/Region Name"))
+        # the boundary map widget only shows boundaries for the level picked in this sibling field
+        admin_level = blocks.ChoiceBlock(choices=AlertAreaBoundaryBlock.ADMIN_LEVEL_CHOICES, default=1,
+                                         label=_("Administrative Level"))
         boundary = BoundaryFieldBlock(label=_("Boundary"), help_text=_("Click to select boundary on the map"))
 
 
