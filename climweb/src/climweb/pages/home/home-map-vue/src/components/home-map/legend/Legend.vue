@@ -56,7 +56,9 @@ const hasLegend = computed(() => {
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const isDesktop = breakpoints.greater('md')
 
-const collapsed = ref(false)
+// start collapsed on small screens so the legend doesn't cover the map.
+// isDesktop is only set after mount, so query the screen width directly
+const collapsed = ref(window.matchMedia('(max-width: 768px)').matches)
 
 </script>
 
@@ -152,6 +154,7 @@ const collapsed = ref(false)
   border: none;
   padding: 10px;
   background: #fff;
+  color: var(--text-color, #212121);
   font-size: 13px;
   font-weight: 600;
 }
