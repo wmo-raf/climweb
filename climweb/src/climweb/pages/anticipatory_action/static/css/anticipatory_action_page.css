@@ -108,32 +108,52 @@ body.anticipatory-action-page .is-index section.aa-status {
 
 /* While pinned, the status bar shows the banner image as frosted glass:
    a blurred copy of the banner under a navy tint, with white text.
-   The 62% tint keeps white text at 4.5:1 even over a white part of the photo */
-body.anticipatory-action-page .is-index .aa-sticky-nav.has-banner.is-stuck section.aa-status {
+   The glass layers are always there but invisible, and fade in when the
+   bar pins, so the change is a cross-fade rather than a jump */
+body.anticipatory-action-page .is-index .aa-sticky-nav.has-banner section.aa-status {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    background-color: rgb(10, 35, 75);
+    transition: background-color 0.35s ease, border-color 0.35s ease;
+}
+
+.aa-sticky-nav.has-banner .aa-status::before,
+.aa-sticky-nav.has-banner .aa-status::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.aa-sticky-nav.has-banner .aa-status::before {
+    inset: -40px;
+    background: var(--aa-banner) center / cover no-repeat;
+    filter: blur(18px) saturate(1.2);
+}
+
+.aa-sticky-nav.has-banner .aa-status::after {
+    inset: 0;
+    background: rgba(10, 35, 75, 0.45);
+}
+
+.aa-sticky-nav.has-banner .aa-status-hazard,
+.aa-sticky-nav.has-banner .aa-status-meta,
+.aa-sticky-nav.has-banner .aa-phase-label,
+.aa-sticky-nav.has-banner .aa-phase-description,
+.aa-sticky-nav.has-banner .aa-phase-step {
+    transition: color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
+}
+
+body.anticipatory-action-page .is-index .aa-sticky-nav.has-banner.is-stuck section.aa-status {
     border-bottom-color: rgba(255, 255, 255, 0.18);
     color: #fff;
 }
 
 .aa-sticky-nav.has-banner.is-stuck .aa-status::before,
 .aa-sticky-nav.has-banner.is-stuck .aa-status::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-}
-
-.aa-sticky-nav.has-banner.is-stuck .aa-status::before {
-    inset: -40px;
-    background: var(--aa-banner) center / cover no-repeat;
-    filter: blur(18px) saturate(1.2);
-}
-
-.aa-sticky-nav.has-banner.is-stuck .aa-status::after {
-    inset: 0;
-    background: rgba(10, 35, 75, 0.62);
+    opacity: 1;
 }
 
 .aa-sticky-nav.has-banner.is-stuck .aa-status-hazard,
@@ -151,9 +171,27 @@ body.anticipatory-action-page .is-index .aa-sticky-nav.has-banner.is-stuck secti
 
 /* people who ask for less transparency get a solid navy bar instead */
 @media (prefers-reduced-transparency: reduce) {
-    .aa-sticky-nav.has-banner.is-stuck .aa-status::before,
-    .aa-sticky-nav.has-banner.is-stuck .aa-status::after {
+    .aa-sticky-nav.has-banner .aa-status::before,
+    .aa-sticky-nav.has-banner .aa-status::after {
         content: none;
+    }
+
+    body.anticipatory-action-page .is-index .aa-sticky-nav.has-banner.is-stuck section.aa-status {
+        background-color: rgb(10, 35, 75) ;
+    }
+}
+
+/* people who ask for less motion get the switch without the fade */
+@media (prefers-reduced-motion: reduce) {
+    body.anticipatory-action-page .is-index .aa-sticky-nav.has-banner section.aa-status,
+    .aa-sticky-nav.has-banner .aa-status::before,
+    .aa-sticky-nav.has-banner .aa-status::after,
+    .aa-sticky-nav.has-banner .aa-status-hazard,
+    .aa-sticky-nav.has-banner .aa-status-meta,
+    .aa-sticky-nav.has-banner .aa-phase-label,
+    .aa-sticky-nav.has-banner .aa-phase-description,
+    .aa-sticky-nav.has-banner .aa-phase-step {
+        transition: none;
     }
 }
 
