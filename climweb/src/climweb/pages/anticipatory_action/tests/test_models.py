@@ -74,6 +74,18 @@ class TestAnticipatoryActionPage(WagtailPageTestCase):
         # the section header comes from the AA page, not the shared events include
         self.assertNotContains(resp, 'class="ev-header"')
 
+    def test_sticky_bar_gets_the_banner_for_its_frosted_look(self):
+        resp = self.client.get(self.page.get_url())
+        self.assertContains(resp, 'class="aa-sticky-nav has-banner"')
+        self.assertContains(resp, "--aa-banner: url(")
+
+    def test_sticky_bar_without_banner_keeps_plain_look(self):
+        self.page.banner_image = None
+        self.page.save()
+        resp = self.client.get(self.page.get_url())
+        self.assertContains(resp, 'class="aa-sticky-nav"')
+        self.assertNotContains(resp, "--aa-banner")
+
     def test_updates_are_per_page(self):
         other = AnticipatoryActionPageFactory(parent=get_or_create_homepage(), slug="floods")
         self.page.updates = [AnticipatoryActionUpdate(update=self.news)]

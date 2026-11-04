@@ -16,7 +16,13 @@
     <main class="is-index">
         {% include 'hero.html' with page=page %}
 
-        <div class="aa-sticky-nav">
+        {# Marks where the sticky bar starts, so a script can tell when it's pinned to the top #}
+        <div class="aa-sticky-sentinel" aria-hidden="true"></div>
+        {% if page.banner_image %}
+            {% image page.banner_image width-800 as glass_img %}
+        {% endif %}
+        <div class="aa-sticky-nav{% if glass_img %} has-banner{% endif %}"
+             {% if glass_img %}style="--aa-banner: url('{{ glass_img.url }}');"{% endif %}>
 {% if page.has_status %}
             <section class="aa-status" aria-label="{% translate 'Current status' %}">
                 <div class="container aa-status-inner">
@@ -375,6 +381,17 @@
                     });
                 });
             });
+
+            // mark the status bar while it's pinned to the top, so it can take the banner's frosted look
+            const stickyNav = document.querySelector('.aa-sticky-nav');
+            const sentinel = document.querySelector('.aa-sticky-sentinel');
+            if (stickyNav && sentinel && 'IntersectionObserver' in window) {
+                new IntersectionObserver(function (entries) {
+                    const entry = entries[0];
+                    stickyNav.classList.toggle('is-stuck',
+                        !entry.isIntersecting && entry.boundingClientRect.top < 0);
+                }).observe(sentinel);
+            }
 
             // highlight the section currently in view in the page menu
             const navLinks = document.querySelectorAll('.aa-page-nav a');

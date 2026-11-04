@@ -106,6 +106,57 @@ body.anticipatory-action-page .is-index section.aa-status {
     z-index: 20;
 }
 
+/* While pinned, the status bar shows the banner image as frosted glass:
+   a blurred copy of the banner under a navy tint, with white text.
+   The 62% tint keeps white text at 4.5:1 even over a white part of the photo */
+body.anticipatory-action-page .is-index .aa-sticky-nav.has-banner.is-stuck section.aa-status {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background-color: rgb(10, 35, 75);
+    border-bottom-color: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+.aa-sticky-nav.has-banner.is-stuck .aa-status::before,
+.aa-sticky-nav.has-banner.is-stuck .aa-status::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+}
+
+.aa-sticky-nav.has-banner.is-stuck .aa-status::before {
+    inset: -40px;
+    background: var(--aa-banner) center / cover no-repeat;
+    filter: blur(18px) saturate(1.2);
+}
+
+.aa-sticky-nav.has-banner.is-stuck .aa-status::after {
+    inset: 0;
+    background: rgba(10, 35, 75, 0.62);
+}
+
+.aa-sticky-nav.has-banner.is-stuck .aa-status-hazard,
+.aa-sticky-nav.has-banner.is-stuck .aa-status-meta,
+.aa-sticky-nav.has-banner.is-stuck .aa-phase-label,
+.aa-sticky-nav.has-banner.is-stuck .aa-phase-description {
+    color: #fff;
+}
+
+.aa-sticky-nav.has-banner.is-stuck .aa-phase-step:not(.is-current):not(.is-past) {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+/* people who ask for less transparency get a solid navy bar instead */
+@media (prefers-reduced-transparency: reduce) {
+    .aa-sticky-nav.has-banner.is-stuck .aa-status::before,
+    .aa-sticky-nav.has-banner.is-stuck .aa-status::after {
+        content: none;
+    }
+}
+
 .aa-phase-description {
     margin-top: 0.4rem;
     font-size: 14px;
