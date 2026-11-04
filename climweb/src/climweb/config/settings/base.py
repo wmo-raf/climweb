@@ -872,3 +872,8 @@ MARKDOWNIFY = {
 }
 
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+CAP_STATIC_MAP_TILE_URL = env.str("CAP_STATIC_MAP_TILE_URL",
+                                  default="https://tile.openstreetmap.org/{z}/{x}/{y}.png")
+
+CAP_STATIC_MAP_USER_AGENT = env.str("CAP_STATIC_MAP_USER_AGENT",
+                                    default="CAPComposer (+https://github.com/wmo-raf/cap-composer)")
