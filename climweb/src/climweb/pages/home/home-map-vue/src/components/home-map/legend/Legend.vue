@@ -109,10 +109,17 @@ const collapsed = ref(window.matchMedia('(max-width: 768px)').matches)
 
 .m-legend {
   min-width: 150px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  pointer-events: auto;
 }
 
 
 .m-legend-wrapper {
+  min-height: 0;
+  overflow-y: auto;
   z-index: 1000;
   background-color: white;
   border-radius: 10px;

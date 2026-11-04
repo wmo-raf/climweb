@@ -1199,10 +1199,19 @@ onUnmounted(() => map?.remove());
   padding: 10px;
 }
 
+/* spans from below the zoom, basemap and date controls to the bottom of the
+   map, so a long legend scrolls inside the map instead of spilling out */
 .legend-control {
   position: absolute;
+  top: 185px;
   bottom: 12px;
   right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 1;
 }
 
 
