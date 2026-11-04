@@ -1042,9 +1042,6 @@ onUnmounted(() => map?.remove());
     </Popover>
   </div>
 
-  <!-- DatePicker for screens < desktop size -->
-  <div id="datepicker-mobile"></div>
-
   <!-- Fixed Layers -->
   <div class="fixed-layer-control">
       <LayerItem
@@ -1166,12 +1163,6 @@ onUnmounted(() => map?.remove());
   fill: #fff;
 }
 
-#datepicker-mobile {
-  position: absolute;
-  top: 130px;
-  right: 10px;
-}
-
 .fixed-layer-control {
   position: absolute;
   top: 20px;
@@ -1199,11 +1190,11 @@ onUnmounted(() => map?.remove());
   padding: 10px;
 }
 
-/* spans from below the zoom, basemap and date controls to the bottom of the
+/* spans from below the zoom and basemap controls to the bottom of the
    map, so a long legend scrolls inside the map instead of spilling out */
 .legend-control {
   position: absolute;
-  top: 185px;
+  top: 150px;
   bottom: 12px;
   right: 10px;
   display: flex;

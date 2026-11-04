@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from "vue";
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 import { dFormatter } from "@/utils/date";
 
 const props = defineProps({
@@ -41,19 +40,14 @@ const selectPrev = () => {
     emit("change", props.dates[props.selectedIndex - 1]);
   }
 };
-
-const breakpoints = useBreakpoints(breakpointsTailwind);
-const isDesktop = breakpoints.greater("md");
 </script>
 
 <template>
-  <Teleport to="#datepicker-mobile" :disabled="isDesktop">
-    <div class="time-picker" v-if="dates.length">
-      <button @click="selectPrev" :disabled="prevDisabled" class="nav-button">◄</button>
-      <span class="date-display">{{ selectedDateFormatted }}</span>
-      <button @click="selectNext" :disabled="nextDisabled" class="nav-button">►</button>
-    </div>
-  </Teleport>
+  <div class="time-picker" v-if="dates.length">
+    <button @click="selectPrev" :disabled="prevDisabled" class="nav-button">◄</button>
+    <span class="date-display">{{ selectedDateFormatted }}</span>
+    <button @click="selectNext" :disabled="nextDisabled" class="nav-button">►</button>
+  </div>
 </template>
 
 
