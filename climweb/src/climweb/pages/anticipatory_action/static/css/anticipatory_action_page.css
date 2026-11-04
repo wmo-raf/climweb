@@ -15,7 +15,7 @@ body.anticipatory-action-page .is-index section.aa-status {
 
 .aa-status-inner {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     gap: 1rem 2rem;
@@ -546,5 +546,16 @@ body.anticipatory-action-page .is-index section.aa-status {
 
     .aa-map #home-map {
         height: 380px;
+    }
+}
+
+
+@media (max-width: 425px){
+    .aa-status-inner {
+        flex-wrap: wrap-reverse;
+    }
+
+    .aa-phase-label {
+        display:none
     }
 }

@@ -319,7 +319,7 @@
                             {% translate "Events" as title %}
                             {% translate "All events" as link_text %}
                             {% include "anticipatory_action/section_header.html" with eyebrow=eyebrow title=title link_url=settings.base.ImportantPages.all_events_page.url link_text=link_text only %}
-                            {% include 'events_include.html' with events=page.events %}
+                            {% include 'events_include.html' with events=page.events hide_header=True %}
                         </div>
                     </section>
                 {% endif %}
