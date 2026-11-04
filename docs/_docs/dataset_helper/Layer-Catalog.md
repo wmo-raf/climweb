@@ -57,7 +57,7 @@ Only a synchronization turns the orange and red statuses into green and grey.
 
 ## The layer tree
 
-The layers are organised in a tree of categories and sub-categories. In the MapViewer, each category becomes a theme and each sub-category a sub-theme. When the page opens, all the categories are collapsed.
+The layers are organised in a tree of categories and sub-categories. In the MapViewer, each category becomes a theme and each sub-category a sub-theme. When the page opens, all the categories are collapsed. You can also display the layers by data source, see [Group the layers by source](#group-the-layers-by-source).
 
 ![Layer tree](../../_static/images/dataset_helper/dataset_helper_tree.png "Layer tree")
 
@@ -116,21 +116,63 @@ Click a layer row to display its details. Click it again to close them.
 
 ---
 
+## Group the layers by source
+
+By default, the tree follows the categories of the catalog. To work on the layers of one data provider, for example all the EUMETSAT satellite images or the forecasts of one weather model, click **Sources** above the search bar: the tree then lists the data sources, each with all its layers, whatever their category.
+
+![Layers grouped by source](../../_static/images/dataset_helper/dataset_helper_sources.png "Layers grouped by source")
+
+**1. Categories / Sources**: displays the tree by category or by data source. Your choice is remembered in your browser.
+
+**2. Source**: click it to show or hide its layers.
+
+**3. Source checkbox**: checks or unchecks all the layers of the source at once, in all the categories. A dash means that only some of its layers are checked.
+
+**4. Source summary**: a small status bar with the colours of the [layer statuses](#layer-status), followed by the number of enabled layers of the source.
+
+| Source | Layers |
+| --- | --- |
+| **ECMWF** | Forecasts, extreme forecast indices and air quality (CAMS) of the European Centre for Medium-Range Weather Forecasts. |
+| **EFAS** | Flood forecasts and observations of the European Flood Awareness System (Copernicus Emergency Management Service). |
+| **EUMETSAT** | Satellite images and products, such as Meteosat, Metop or Sentinel-3. |
+| **GloFAS** | Flood forecasts of the Global Flood Awareness System. |
+| **JRC eStation** | The eStation products, such as rainfall estimates, vegetation indices, drought indices, fires or ocean products. |
+| **Open-Meteo** | The forecasts of the global weather models published by Open-Meteo, divided by weather model. |
+| **Other sources** | The layers of the other providers, such as WorldPop, Overture Maps or OurAirports, divided by provider. |
+
+### Weather models and providers
+
+**Open-Meteo** and **Other sources** are divided into sub-groups: one per weather model for Open-Meteo, one per provider for the other sources.
+
+![Open-Meteo weather models](../../_static/images/dataset_helper/dataset_helper_sources_models.png "Open-Meteo weather models")
+
+**1. Weather model**: click it to show or hide its layers. Its checkbox checks or unchecks all the layers of the model at once.
+
+**2. Category › sub-category**: in the Sources view, each layer shows its place in the catalog, which is the theme and the sub-theme where it is displayed in the MapViewer.
+
+In this example, the two layers of the *CAMS Global* model have just been checked and are waiting to be created (orange).
+
+```{note}
+The Sources view only changes how the tree is displayed. The layers keep their category and sub-category, and they are published in the same theme and sub-theme of the MapViewer, whichever view you used to check them.
+```
+
+---
+
 ## Search and filter
 
 The bar above the tree helps you find layers in a large catalog. Searching and filtering only change what is displayed: they do not change your selection.
 
 ![Search and filter](../../_static/images/dataset_helper/dataset_helper_filter.png "Search and filter")
 
-**1. Search**: type a few words to keep only the layers whose name, identifier, provider, category or sub-category matches. The matching categories and sub-categories are expanded automatically. Click the cross, or press **Esc**, to clear the search.
+**1. Search**: type a few words to keep only the layers whose name, identifier, provider, category, sub-category, source or weather model matches. The matching groups of the tree are expanded automatically. Click the cross, or press **Esc**, to clear the search.
 
 **2. Status filters**: **All** shows all the layers. **To add**, **To remove** and **Disabled** only show the layers with that [status](#layer-status), with their number. In this example, the **To add** filter shows the two layers that will be created at the next synchronization: a quick way to review your changes before synchronizing.
 
 **3. Select all layers / Deselect all layers**: checks or unchecks every layer of the catalog.
 
-**4. Expand all / Collapse all**: opens or closes all the categories and sub-categories.
+**4. Expand all / Collapse all**: opens or closes all the groups of the tree: the categories and sub-categories, or the sources and their sub-groups.
 
-When nothing matches the search or the filter, the tree shows *No layer matches your search*. When you clear them, the tree goes back to the categories you had expanded.
+When nothing matches the search or the filter, the tree shows *No layer matches your search*. When you clear them, the tree goes back to the groups you had expanded.
 
 ---
 
@@ -140,6 +182,7 @@ To choose the layers to publish, use the checkboxes of the tree:
 
 - the checkbox of a **layer** checks or unchecks this layer,
 - the checkbox of a **sub-category** or of a **category** checks or unchecks all its layers,
+- in the [Sources view](#group-the-layers-by-source), the checkbox of a **source**, of a **weather model** or of a **provider** checks or unchecks all its layers,
 - the **Select all layers** and **Deselect all layers** buttons of the [search bar](#search-and-filter) check or uncheck the whole catalog.
 
 Your selection is saved immediately, and the statuses are updated: a layer that you check becomes *To add*, a published layer that you uncheck becomes *To remove*. The MapViewer is not modified until you [synchronize with ClimWeb](#synchronize-with-climweb), so you can prepare all your changes before publishing them.

@@ -116,7 +116,7 @@ variable.
 To create a superuser for the Climweb application, you can run the following command in a separate terminal window:
 
 ```
-$ docker compose -f docker-compose.yml -f docker-compose.dev.yml exec climweb climweb createsuperuser
+$ docker compose -f docker-compose.yml -f docker-compose.dev.yml exec climweb climweb user
 ```
 
 ### Keep the container running

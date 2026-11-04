@@ -40,9 +40,11 @@ The first time you open it, the Dataset Helper shows the **Settings** tab: the o
 
 **5. Catalog status**: the number of layers in the catalog, how many are enabled and how many are already published in ClimWeb. See [Catalog status](Layer-Catalog.md#catalog-status).
 
-**6. Search and filters**: find a layer by its name or provider, or show only the layers that are waiting for synchronization. See [Search and filter](Layer-Catalog.md#search-and-filter).
+**6. Categories / Sources**: displays the layer tree by category or by data source. See [Group the layers by source](Layer-Catalog.md#group-the-layers-by-source).
 
-**7. Layer tree**: the layers of the catalog, organised by category and sub-category, each with a checkbox to enable or disable it. See [The layer tree](Layer-Catalog.md#the-layer-tree).
+**7. Search and filters**: find a layer by its name or provider, or show only the layers that are waiting for synchronization. See [Search and filter](Layer-Catalog.md#search-and-filter).
+
+**8. Layer tree**: the layers of the catalog, organised by category and sub-category, each with a checkbox to enable or disable it. See [The layer tree](Layer-Catalog.md#the-layer-tree).
 
 ---
 
