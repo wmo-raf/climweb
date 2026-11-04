@@ -171,9 +171,14 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/windbarb.js"></script>
 <script src="https://code.highcharts.com/modules/datagrouping.js"></script>
-{% comment %} <script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script> {% endcomment %}
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script>
+    // exporting/export-data are loaded so screen reader users get "View as data table";
+    // hide the export menu icon so charts look the same as before
+    Highcharts.setOptions({ exporting: { buttons: { contextButton: { enabled: false } } } });
+</script>
 
 
 
@@ -353,8 +358,10 @@ function compareByDate(a, b) {
                           scrollPositionX: 1
                       }
                   },
+                  // announced by screen readers, not drawn (the subtitle shows it visually)
                   title:{
-                      text:''
+                      text: title || null,
+                      style: { display: 'none' }
                   },
               
                   subtitle: {

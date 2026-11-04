@@ -333,7 +333,6 @@ class PublicationPage(MetadataPageMixin, Page):
         FieldPanel('summary'),
         FieldPanel('featured'),
         FieldPanel('is_visible_on_homepage'),
-        FieldPanel('is_anticipatory_action'),
         FieldPanel('peer_reviewed'),
         MultiFieldPanel([
             FieldPanel('period_start_date'),

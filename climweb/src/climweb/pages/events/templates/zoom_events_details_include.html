@@ -370,7 +370,7 @@
                     <div class="speaker-content">
                         <div class="speaker-img">
                             <img src="{% if speaker.avatar %}{{ speaker.avatar }}{% else %}{% static "images/portrait_placeholder.png" %}{% endif %}"
-                                 alt="{{ speaker.name }}">
+                                 alt="">
                         </div>
                         <div class="speaker-info-wrap">
                             <div class="speaker-name">{{ speaker.name }}</div>
@@ -392,7 +392,7 @@
                         <div class="sponsor-item-wrap">
                             <div class="image sponsor-cover">
                                 <div class="img-wrap">
-                                    <img src="{{ sponsor.logoUrl }}" alt="{{ sponsor.name }}">
+                                    <img src="{{ sponsor.logoUrl }}" alt="">
                                 </div>
                             </div>
                             <div class="sponsor-content is-hidden-mobile">

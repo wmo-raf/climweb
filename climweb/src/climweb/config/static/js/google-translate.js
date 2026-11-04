@@ -12,9 +12,13 @@ function triggerHtmlEvent(element, eventName) {
 }
 
 function setDirectionBasedOnLang(lang) {
+    // Keep in sync with RTL_LANGUAGES in base/templatetags/nmhs_cms_tags.py
     const rtlLangs = ["ar", "fa", "he", "ur"];  // Add more RTL languages if needed
 
-    if (rtlLangs.includes(lang)) {
+    // Tell screen readers which language the page is now in, so they use the right voice
+    document.documentElement.setAttribute("lang", lang);
+
+    if (rtlLangs.includes(lang.slice(0, 2))) {
         document.documentElement.setAttribute("dir", "rtl");
         document.body.classList.add("rtl");
         document.body.classList.remove("ltr");
@@ -56,7 +60,7 @@ function doGoogleLanguageTranslator(default_lang, lang_prefix) {
                     .click();
 
                  // ✅ Reset to default language direction
-                setDirectionBasedOnLang(default_lang);
+                setDirectionBasedOnLang(document.documentElement.dataset.defaultLang || default_lang);
             }
         }
     }

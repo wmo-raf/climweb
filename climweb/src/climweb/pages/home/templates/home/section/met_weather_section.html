@@ -71,14 +71,17 @@
             <span>{{ page.weather_watch_header }}</span>
           </div>
           <div>
-            <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}">
+            {% if page.mapviewer_cta_url %}
+            <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}" aria-label="{{ page.mapviewer_cta_title }}">
               <span class="is-hidden-mobile">{{ page.mapviewer_cta_title }}</span>
-              <span class="cf-detail-icon">{% svg_icon "globe" %}</span>
+              <span class="cf-detail-icon" aria-hidden="true">{% svg_icon "globe" %}</span>
             </a>
+            {% endif %}
           </div>
         </div>
         <div
           id="home-map"
+          data-map-label="{% translate 'Weather map' %}"
           data-map-settings-url="{{ home_map_settings_url }}"
           data-initial-bounds="{{ country_bounds }}"
           data-location-forecast-detail-url="{{ city_detail_page_url|default_if_none:'' }}"

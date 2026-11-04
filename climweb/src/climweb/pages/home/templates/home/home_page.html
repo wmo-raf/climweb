@@ -179,7 +179,10 @@
       if (!$btn.length) return;
 
       const label = geolocationActive ? $btn.data('defaultLabel') : $btn.data('locateLabel');
-      if (label) $btn.find('.cf-location-label').text(label);
+      if (label) {
+        $btn.find('.cf-location-label').text(label);
+        $btn.attr('aria-label', label);  // visible text is hidden on mobile
+      }
       $btn.attr('data-mode', geolocationActive ? 'default' : 'locate');
     };
 
@@ -273,6 +276,10 @@
         );
 
         singleForecastSlider = new Glide('#single-forecast-slider', {
+          // Glide's keyboard option listens for arrow keys on the whole page (moving the slider while
+          // typing in search or panning a map); the Previous/Next buttons are the keyboard controls
+          keyboard: false,
+          animationDuration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 400,
           type: 'slider', perView: currentPerView,
           gap: 8, bound: true, rewind: false, breakpoints: {},
         }).mount();

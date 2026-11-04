@@ -11,7 +11,7 @@
     <style>
 
         .metadata {
-            color: #aaaaaa;
+            color: var(--text-muted, #6b6b6b);
             font-weight: 500;
         }
 
@@ -97,17 +97,18 @@
                 {% if page.detail_description %}
                     <div class="card">
                         <header class="card-header">
-                            <div class="card-toggle"
-                                 style="width: 100%; display: flex;justify-content: space-between;cursor: pointer">
-                                <p class="card-header-title">
+                            <button type="button" class="card-toggle"
+                                    aria-expanded="{% if page.local_definitions %}false{% else %}true{% endif %}"
+                                    style="width: 100%; display: flex;justify-content: space-between;cursor: pointer;background: none;border: 0;padding: 0;font: inherit;text-align: start">
+                                <span class="card-header-title">
                                     {% translate "More detail" %}
-                                </p>
-                                <a class="card-header-icon">
+                                </span>
+                                <span class="card-header-icon" aria-hidden="true">
                                     <span class="icon btn-icon arrow-icon">
                                         {% svg_icon name="expand-down" %}
                                     </span>
-                                </a>
-                            </div>
+                                </span>
+                            </button>
                         </header>
                         <div class="card-content {% if page.local_definitions %}is-hidden{% endif %}">
                             <div class="content">
@@ -129,11 +130,12 @@
                                 <p class="card-header-title">
                                     {% translate "Language" %}: {{ local_def.value.language_name }}
                                 </p>
-                                <a class="card-header-icon card-toggle">
-                                    <span class="icon btn-icon arrow-icon">
+                                <button type="button" class="card-header-icon card-toggle" aria-expanded="false"
+                                        aria-label="{% blocktranslate trimmed with language=local_def.value.language_name %}{{ language }} definition{% endblocktranslate %}">
+                                    <span class="icon btn-icon arrow-icon" aria-hidden="true">
                                         {% svg_icon name="expand-down" %}
                                     </span>
-                                </a>
+                                </button>
                             </header>
                             <div class="card-content is-hidden">
                                 <div class="content">
@@ -186,7 +188,8 @@
             let cardToggles = document.getElementsByClassName('card-toggle');
             for (let i = 0; i < cardToggles.length; i++) {
                 cardToggles[i].addEventListener('click', e => {
-                    e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+                    const hidden = e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+                    e.currentTarget.setAttribute('aria-expanded', hidden ? 'false' : 'true');
                 });
             }
         })

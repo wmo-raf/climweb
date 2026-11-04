@@ -19,7 +19,7 @@
 
             if (mailchimp_master_library[list_id_as_str]['merge_fields'].length > 0) {
                 merge_field_html = '<br /><div><strong>MERGE FIELDS</strong> <br/>' +
-                    '* <i style="color: grey"> Match fields in the current form to the Mailchimp Form fields below.' +
+                    '* <i style="color: var(--text-muted, #6b6b6b)"> Match fields in the current form to the Mailchimp Form fields below.' +
                     ' Use <a style="text-decoration: underline" href="https://en.wikipedia.org/wiki/Snake_case" target="_blank" rel="noopener">snake_casing.<a/>' +
                     '<br/> For example if you have a field with label First Name, to match it with Mailchimp, type in the matching field as first_name.<br/>' +
                     'If the field is optional in Mailchimp and you dont have a matching field in your form, you can leave it blank, otherwise you must fill it in</i> ' +

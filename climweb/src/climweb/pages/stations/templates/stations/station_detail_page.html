@@ -33,7 +33,7 @@
               <!-- MAP -->
               <div class="std-map-wrap">
                 {% if station.geom %}
-                  <div id="station-map" class="std-map"></div>
+                  <div id="station-map" class="std-map" data-map-label="{% translate 'Map showing the station location' %}"></div>
                 {% else %}
                   <div class="std-map-empty">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

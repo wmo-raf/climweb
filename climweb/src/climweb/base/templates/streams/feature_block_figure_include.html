@@ -1,4 +1,4 @@
-{% load wagtailimages_tags lazyimages_tags %}
+{% load wagtailimages_tags lazyimages_tags nmhs_cms_tags %}
 
 {% if value.figure_type == 'image' and value.image %}
   <figure class="fb-figure-img">
@@ -6,7 +6,7 @@
     <img class="progressive__img progressive--not-loaded"
          data-progressive="{{ img.url }}"
          src="{% lazy_image_url img %}"
-         alt="{{ value.title }}" />
+         alt="{% image_alt value.image value.title %}" />
   </figure>
 {% endif %}
 

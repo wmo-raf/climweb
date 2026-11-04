@@ -1,10 +1,10 @@
-{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+{% load wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags nmhs_cms_tags %}
 
 <div class="ac-item {% if is_first %}ac-item--open{% endif %}">
 
-  <div class="ac-header">
+  <button type="button" class="ac-header" aria-expanded="{% if is_first %}true{% else %}false{% endif %}">
     <span class="ac-header-title">{{ value.heading }}</span>
-    <div class="ac-icon">
+    <span class="ac-icon" aria-hidden="true">
       <svg class="ac-icon-plus" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="2.5">
         <line x1="12" y1="5" x2="12" y2="19"/>
@@ -14,8 +14,8 @@
            stroke="currentColor" stroke-width="2.5">
         <line x1="5" y1="12" x2="19" y2="12"/>
       </svg>
-    </div>
-  </div>
+    </span>
+  </button>
 
   <div class="ac-body">
     <div class="ac-body-inner">
@@ -26,7 +26,7 @@
           <img class="progressive__img progressive--not-loaded"
                data-progressive="{{ goal_img.url }}"
                src="{% lazy_image_url goal_img %}"
-               alt="{{ value.heading }}" />
+               alt="{% image_alt value.image value.heading %}" />
         </div>
       {% endif %}
 

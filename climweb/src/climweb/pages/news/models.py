@@ -197,7 +197,6 @@ class NewsPage(MetadataPageMixin, Page):
         FieldPanel('is_featured'),
         FieldPanel('is_alert'),
         FieldPanel('is_visible_on_homepage'),
-        FieldPanel('is_anticipatory_action'),
     ]
     
     api_fields = [

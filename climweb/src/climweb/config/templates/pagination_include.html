@@ -1,18 +1,19 @@
-{% load nmhs_cms_tags %}
+{% load i18n nmhs_cms_tags %}
 
 {% if items.paginator.num_pages > 1 %}
-    <div class="center">
+    <nav class="center" aria-label="{% translate 'Pagination' %}">
         <div class="pagination" style="justify-content: center">
             {% if items.has_previous %}
                 <a href="?page={{ items.previous_page_number }}&
                         {{ request.META.QUERY_STRING|remove_param:"page" }}#results"
                    style="margin: 0 10px"
-                   title="Previous Page"
+                   title="{% translate 'Previous page' %}"
+                   aria-label="{% translate 'Previous page' %}"
                    data-ga-event-category="Pagination Click"
                    data-ga-event-label="{{ page.title }}"
                    data-ga-value="{{ items.previous_page_number }}"
                 >
-                    <span>&laquo;</span>
+                    <span aria-hidden="true">&laquo;</span>
                 </a>
             {% endif %}
             {% for page_num in items.paginator.page_range %}
@@ -20,6 +21,7 @@
                     <a href="?page={{ page_num }}&{{ request.META.QUERY_STRING|remove_param:"page" }}#results"
                        style="margin: 0 10px"
                        class="active"
+                       aria-current="page"
                        data-ga-event-category="Pagination Click"
                        data-ga-event-label="{{ page.title }}"
                        data-ga-value="{{ page_num }}"
@@ -43,14 +45,15 @@
             {% if items.has_next %}
                 <a href="?page={{ items.next_page_number }}&{{ request.META.QUERY_STRING|remove_param:"page" }}#results"
                    style="margin: 0 10px"
-                   title="Next Page"
+                   title="{% translate 'Next page' %}"
+                   aria-label="{% translate 'Next page' %}"
                    data-ga-event-category="Pagination Click"
                    data-ga-event-label="{{ page.title }}"
                    data-ga-value="{{ items.next_page_number }}"
                 >
-                    <span>&raquo;</span>
+                    <span aria-hidden="true">&raquo;</span>
                 </a>
             {% endif %}
         </div>
-    </div>
+    </nav>
 {% endif %}

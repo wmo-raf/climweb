@@ -28,7 +28,7 @@
 
 /* FORM HEADER */
 .cu-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -46,7 +46,7 @@
 
 .cu-subtitle {
   font-size: 14px;
-  color: #888;
+  color: var(--text-muted, #6b6b6b);
   line-height: 1.6;
   margin: 0;
 }
@@ -95,8 +95,8 @@
 }
 
 .cu-form .help {
-  font-size: 11px;
-  color: #aaa;
+  font-size: var(--fs-xs);
+  color: var(--text-muted, #6b6b6b);
   margin-top: 3px;
 }
 

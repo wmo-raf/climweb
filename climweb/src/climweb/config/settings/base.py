@@ -641,7 +641,7 @@ FORCE_SCRIPT_NAME = env.str("FORCE_SCRIPT_NAME", default="")
 
 WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
 
-DJANGO_TABLES2_TEMPLATE = "django-tables2/bulma.html"
+DJANGO_TABLES2_TEMPLATE = "django-tables2/climweb_bulma.html"
 
 ADMIN_URL_PATH = env.str("ADMIN_URL_PATH", "cms-admin")
 DJANGO_ADMIN_URL_PATH = env.str("DJANGO_ADMIN_URL_PATH", default="dj-ad-admin")

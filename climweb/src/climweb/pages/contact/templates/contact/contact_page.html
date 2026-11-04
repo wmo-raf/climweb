@@ -49,7 +49,7 @@
 
           <!-- MAP -->
           <div class="cu-map-card">
-            <div id="contact-map" class="cu-map"></div>
+            <div id="contact-map" class="cu-map" data-map-label="{% translate 'Map showing our location' %}"></div>
             <input type="hidden" value="{{ page.point }}" id="location"/>
           </div>
 
@@ -101,6 +101,7 @@
                   <a class="cu-social-btn"
                      href="{{ account.value.full_url }}"
                      title="{{ account.value.name }}"
+                     aria-label="{{ account.value.name }}"
                      target="_blank"
                      rel="noopener">
                     {% svg_icon name=account.value.icon %}
@@ -137,9 +138,12 @@
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
 
   map.on("load", function () {
-    new maplibregl.Marker({ color: 'var(--primary-color, #185FA5)' })
+    const marker = new maplibregl.Marker({ color: 'var(--primary-color, #185FA5)' })
       .setLngLat([locationStr.x, locationStr.y])
       .addTo(map);
+    // MapLibre's marker is a plain div with aria-label, which needs a role to be valid
+    marker.getElement().setAttribute('role', 'img');
+    marker.getElement().setAttribute('aria-label', '{{ _("Our location")|escapejs }}');
   });
 </script>
 {% endblock extra_js %}

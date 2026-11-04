@@ -21,7 +21,7 @@ sphinx-intl update -p _build/gettext -l fr
 2. While at **root of project**, Translate ***.po** locales files listed in LOCALE_PATHS 
 
 ```sh
-python manage.py translate_messages -l fr
+climweb translate_messages -l fr
 ```
 
 ---

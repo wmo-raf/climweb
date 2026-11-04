@@ -1,12 +1,13 @@
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
-from wagtail.blocks import StructValue
+from wagtail.blocks import StructBlockValidationError, StructValue
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.documents.blocks import DocumentChooserBlock
-from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images.blocks import ImageBlock, ImageChooserBlock
 from wagtailiconchooser.blocks import IconChooserBlock
 from wagtailmodelchooser.blocks import ModelChooserBlock
 
@@ -45,12 +46,48 @@ class AbstractFormBlock(blocks.StructBlock):
         icon = 'form'
 
 
+class OptionalAltImageBlock(ImageBlock):
+    """
+    Wagtail's ImageBlock (an image plus "Alt text" and "Image is decorative" options for
+    this use of it) with the alt text optional, so publishing is never blocked. When left
+    blank, templates fall back to the image's description (see the image_alt template tag).
+    Existing ImageChooserBlock data loads without a data migration.
+    """
+
+    def clean(self, value):
+        # ImageBlock.clean also insists on alt text or "decorative"; keep only the image check
+        try:
+            self.child_blocks["image"].clean(value)
+        except ValidationError as e:
+            raise StructBlockValidationError(block_errors={"image": e}) from e
+        return value
+
+    # Data saved by the old ImageChooserBlock is a bare image id. ImageBlock turns that into
+    # alt text from image.default_alt_text, which falls back to the image *title* - usually a
+    # file name - and would pre-fill the editor's alt text box with it. Use the description only.
+
+    def to_python(self, value):
+        image = super().to_python(value)
+        if image and (value is None or isinstance(value, int)):
+            image.contextual_alt_text = image.description or ""
+        return image
+
+    def bulk_to_python(self, values):
+        values = list(values)
+        images = super().bulk_to_python(values)
+        if values and all(value is None or isinstance(value, int) for value in values):
+            for image in images:
+                if image:
+                    image.contextual_alt_text = image.description or ""
+        return images
+
+
 class TitleTextImageBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=100, verbose_name=_('Section Title'),
                              help_text=_("Section Title"), )
     text = blocks.RichTextBlock(features=FULL_RICHTEXT_FRATURES, verbose_name=_('Section Text'),
                                 help_text=_("Section description"))
-    image = ImageChooserBlock(required=False)
+    image = OptionalAltImageBlock(required=False)
 
     class Meta:
         template = "streams/title_text_image.html"
@@ -112,7 +149,7 @@ class FeatureBlock(blocks.StructBlock):
 
     figure_type = blocks.ChoiceBlock(choices=FIGURE_TYPE_CHOICES)
     # image_of_change = blocks.PageChooserBlock(required=False, target_model='imagesofchange.ImageOfChangePage')
-    image = ImageChooserBlock(required=False)
+    image = OptionalAltImageBlock(required=False)
     chart_config_url = blocks.URLBlock(required=False, help_text=_("A URL that returns Highcharts.js configuration, "
                                                                    "including the data"))
 
@@ -133,7 +170,7 @@ class FeatureBlock(blocks.StructBlock):
 class CollapsibleBlock(blocks.StructBlock):
     heading = blocks.CharBlock()
     description = blocks.RichTextBlock(features=SUMMARY_RICHTEXT_FEATURES)
-    image = ImageChooserBlock(required=False)
+    image = OptionalAltImageBlock(required=False)
 
     class Meta:
         template = "streams/collapsible_block.html"

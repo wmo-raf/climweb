@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
+{% load i18n static wagtailcore_tags wagtailimages_tags lazyimages_tags wagtailiconchooser_tags %}
 
 <style>
   .rcc-hero {
@@ -78,7 +78,7 @@
     padding: 4px 10px;
     border-radius: 20px;
     border: 1.5px solid var(--primary-color);
-    font-size: 11px;
+    font-size: var(--fs-xs);
     font-weight: 600;
     text-decoration: none;
     background: var(--primary-color);
@@ -125,7 +125,7 @@
   /* ── Badge ── */
   .rcc-badge {
     display: inline-block;
-    font-size: 11px;
+    font-size: var(--fs-xs);
     font-weight: 500;
     background: var(--primary-color-light);
     color: var(--primary-color);
@@ -309,8 +309,8 @@
   }
 
   .rcc-stat-lbl {
-    font-size: 11px;
-    color: #919191;
+    font-size: var(--fs-xs);
+    color: var(--text-muted, #6b6b6b);
     margin-top: 6px;
     text-transform: uppercase;
     letter-spacing: 0.07em;
@@ -398,12 +398,12 @@
     .rcc-hero { padding: 1.5rem 1rem; }
 
     .rcc-title  { font-size: 22px; }
-    .rcc-badge  { font-size: 10px; }
+    .rcc-badge  { font-size: var(--fs-xs); }
 
     #home-map { height: 260px; }
 
     .rcc-stat-num { font-size: 24px; letter-spacing: -0.5px; }
-    .rcc-stat-lbl { font-size: 10px; }
+    .rcc-stat-lbl { font-size: var(--fs-xs); }
   }
 </style>
 
@@ -466,10 +466,12 @@
         <span class="has-text-weight-semibold">{{ page.weather_watch_header }}</span>
       </div>
       <div>
-        <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}">
+        {% if page.mapviewer_cta_url %}
+        <a class="cf-detail-btn" href="{{ page.mapviewer_cta_url }}" aria-label="{{ page.mapviewer_cta_title }}">
           <span class="is-hidden-mobile">{{ page.mapviewer_cta_title }}</span>
-          <span class="cf-detail-icon">{% svg_icon "globe" %}</span>
+          <span class="cf-detail-icon" aria-hidden="true">{% svg_icon "globe" %}</span>
         </a>
+        {% endif %}
       </div>
     </div>
     {% if home_map_layer_svg_sprite %}
@@ -479,6 +481,7 @@
     {% endif %}
     <div
       id="home-map"
+      data-map-label="{% translate 'Weather map' %}"
       data-map-settings-url="{{ home_map_settings_url }}"
       data-initial-bounds="{{ country_bounds }}"
       data-location-forecast-detail-url="{{ city_detail_page_url }}"

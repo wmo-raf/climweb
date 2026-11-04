@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { useMapStore } from "@/stores/map";
 import DateNavigator from "./DateNavigator.vue";
 
@@ -12,6 +13,15 @@ const props = defineProps({
   enabled: { type: Boolean, default: false },
   visible: { type: Boolean, default: false },
   multiTemporal: { type: Boolean, default: false }
+});
+
+const { t } = useI18n({
+  messages: {
+    en: { layer: { opacity: "{title} opacity" } },
+    fr: { layer: { opacity: "Opacité de {title}" } },
+    es: { layer: { opacity: "Opacidad de {title}" } },
+    pt: { layer: { opacity: "Opacidade de {title}" } },
+  },
 });
 
 const emit = defineEmits([
@@ -99,6 +109,7 @@ const handleTimeChange = (newDate) => {
       step="0.05"
       :value="mapStore.getLayerById(id)?.opacity ?? 1"
       @input="onOpacityChange"
+      :aria-label="t('layer.opacity', { title })"
       class="opacity-slider"
     />
 

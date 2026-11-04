@@ -1,0 +1,16 @@
+{% extends "django-tables2/bulma.html" %}
+{% load i18n %}
+{% comment %}
+    django-tables2-bulma-template with named previous/next links: the package shows only
+    « / » (hidden from screen readers), which leaves the links without an accessible name.
+{% endcomment %}
+
+{% block pagination.previous.text %}
+    <span aria-hidden="true">&laquo;</span>
+    <span class="is-sr-only">{% translate "Previous page" %}</span>
+{% endblock pagination.previous.text %}
+
+{% block pagination.next.text %}
+    <span aria-hidden="true">&raquo;</span>
+    <span class="is-sr-only">{% translate "Next page" %}</span>
+{% endblock pagination.next.text %}

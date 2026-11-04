@@ -4,9 +4,11 @@
   <div class="navbar-item nav-item has-dropdown is-hoverable {% if value.large_submenu %}is-mega{% endif %}">
 
     <a class="navbar-item nav-item-link"
-       {% if value.page.url %}href="{{ value.page.url }}"{% endif %}>
+       {% if value.page.url %}href="{{ value.page.url }}"{% else %}role="button" tabindex="0"{% endif %}
+       {% if page and value.page and page.pk == value.page.pk %}aria-current="page"{% endif %}
+       aria-expanded="false">
       {{ value.label }}
-      <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </a>
@@ -36,7 +38,7 @@
                   {% blocktranslate with label=value.label %}
                     View all {{ label }}
                   {% endblocktranslate %}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
                 </a>
@@ -61,8 +63,8 @@
                   <div class="megamenu-grid">
                     {% for sub_page in value.page.get_children %}
                       {% if sub_page.show_in_menus and sub_page.live %}
-                        <a class="megamenu-item" href="{{ sub_page.url }}">
-                          <div class="megamenu-item-icon">
+                        <a class="megamenu-item" href="{{ sub_page.url }}"{% if page and page.pk == sub_page.pk %} aria-current="page"{% endif %}>
+                          <div class="megamenu-item-icon" aria-hidden="true">
                             {% if sub_page.specific.nav_menu_icon %}
                               {% svg_icon sub_page.specific.nav_menu_icon %}
                             {% elif sub_page.specific.banner_image %}
@@ -87,7 +89,7 @@
                 <div class="megamenu-sub-row">
                   {% for item in value.sub_items %}
                     <a class="megamenu-pill"
-                       {% if item.value.page.url %}href="{{ item.value.page.url }}"
+                       {% if item.value.page.url %}href="{{ item.value.page.url }}"{% if page and page.pk == item.value.page.pk %} aria-current="page"{% endif %}
                        {% else %}href="{{ item.value.external_url }}"{% if item.value.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}
                        {% endif %}>
                       {{ item.value.label }}
@@ -108,9 +110,9 @@
         {% if value.page %}
           {% for sub_page in value.page.get_children %}
             {% if sub_page.show_in_menus and sub_page.live %}
-              <a class="navbar-item nav-dropdown-item" href="{{ sub_page.url }}">
+              <a class="navbar-item nav-dropdown-item" href="{{ sub_page.url }}"{% if page and page.pk == sub_page.pk %} aria-current="page"{% endif %}>
                 <span class="nav-dropdown-label">{{ sub_page.title }}</span>
-                <span class="nav-dropdown-arrow">
+                <span class="nav-dropdown-arrow" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
@@ -122,11 +124,11 @@
         {% if value.sub_items %}
           {% for item in value.sub_items %}
             <a class="navbar-item nav-dropdown-item"
-               {% if item.value.page.url %}href="{{ item.value.page.url }}"
+               {% if item.value.page.url %}href="{{ item.value.page.url }}"{% if page and page.pk == item.value.page.pk %} aria-current="page"{% endif %}
                {% else %}href="{{ item.value.external_url }}"{% if item.value.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}
                {% endif %}>
               <span class="nav-dropdown-label">{{ item.value.label }}</span>
-              <span class="nav-dropdown-arrow">
+              <span class="nav-dropdown-arrow" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -143,7 +145,7 @@
 {% else %}
   {% if value.page.url or value.external_url %}
     <a class="navbar-item nav-item-link"
-       {% if value.page.url %}href="{{ value.page.url }}"
+       {% if value.page.url %}href="{{ value.page.url }}"{% if page and page.pk == value.page.pk %} aria-current="page"{% endif %}
        {% else %}href="{{ value.external_url }}"{% if value.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}
        {% endif %}>
       {{ value.label }}

@@ -83,7 +83,7 @@ body.anticipatory-action-page .is-index section.aa-status {
     font-size: 13px;
     border-radius: 4px;
     border: 1px solid #e5d9bd;
-    color: #777;
+    color: var(--text-muted, #6b6b6b);
     background: #fff;
 }
 
@@ -203,7 +203,8 @@ body.anticipatory-action-page .is-index section.aa-status {
 }
 
 .aa-eyebrow {
-    color: var(--anticipatory-color-hover, #D97706);
+    /* darker than --anticipatory-color-hover so the small label reads on white */
+    color: #b45309;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.08em;

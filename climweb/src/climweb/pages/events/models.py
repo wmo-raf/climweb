@@ -303,7 +303,6 @@ class EventPage(MetadataPageMixin, Page):
         FieldPanel('featured'),
         FieldPanel('is_hidden'),
         FieldPanel('is_visible_on_homepage'),
-        FieldPanel('is_anticipatory_action'),
         FieldPanel('sponsors'),
         # FieldPanel('youtube_video_id'),
     ]

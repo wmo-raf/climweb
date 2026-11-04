@@ -63,7 +63,9 @@
           <!-- ── DAY TABS ── -->
           <div class="wd-day-tabs" id="wd-day-tabs">
             {% for day, forecasts in city_forecasts_by_date.items %}
-              <button class="wd-day-tab {% if forloop.first %}active{% endif %}"
+              <button type="button" class="wd-day-tab {% if forloop.first %}active{% endif %}"
+                      aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                      aria-controls="wd-day-{{ day|date:'Y-m-d' }}"
                       data-target="wd-day-{{ day|date:'Y-m-d' }}">
                 <span class="wd-tab-day">
                   {% if day|date:"Y-m-d" == today %}
@@ -105,7 +107,7 @@
                           <td class="wd-condition-cell">
                             <img class="wd-condition-img"
                                  src="{{ forecast.condition.icon_url }}"
-                                 alt="{{ forecast.condition.label }}"
+                                 alt=""
                                  title="{{ forecast.condition.label }}">
                             {% if forecast.condition.label %}
                               <span class="wd-condition-label">
@@ -182,7 +184,8 @@
         </div>
 
         <!-- MAP -->
-        <div id="city-map" class="wd-map">
+        <div id="city-map" class="wd-map"
+             data-map-label="{% blocktranslate trimmed with city=city_map_payload.city_name %}Map showing the location of {{ city }}{% endblocktranslate %}">
           {{ city_map_payload | json_script:"city-map-data" }}
         </div>
       </div>
@@ -223,6 +226,7 @@ $(document).ready(function () {
     tabs.forEach(function (t) {
       const tabDay = getDayKeyFromTab(t);
       t.classList.toggle('active', tabDay === dayKey);
+      t.setAttribute('aria-pressed', tabDay === dayKey ? 'true' : 'false');
     });
 
     panels.forEach(function (p) {
@@ -733,6 +737,10 @@ $(document).ready(function () {
       .setLngLat([cityData.city_x, cityData.city_y])
       .setPopup(popup)
       .addTo(map);
+    // with a popup, MapLibre makes the marker focusable and opens it on Enter/Space: expose it as a button
+    marker.getElement().setAttribute('role', 'button');
+    marker.getElement().setAttribute('aria-label',
+      '{{ _("Show details for")|escapejs }} ' + (cityData.city_name || ''));
 
       marker.addClassName('wd-map-marker');
     });

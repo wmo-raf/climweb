@@ -15,7 +15,7 @@
               <img class="progressive__img progressive--not-loaded org-img"
                    data-progressive="{{ struct_img.url }}"
                    src="{% lazy_image_url struct_img %}"
-                   alt="{{ page.org_struct_heading }}" />
+                   alt="{% firstof struct_img.image.description page.org_struct_heading %}" />
             {% endif %}
           {% endif %}
         </figure>

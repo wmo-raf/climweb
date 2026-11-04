@@ -8,16 +8,16 @@
                 <figure class="image event-inline-img">
                     {% if news_item.card_props.card_image %}
                         {% if news_item.card_props.card_image_type == 'url' %}
-                            <img src="{{ news_item.card_props.card_image }}" alt="{{ news_item.news_item }}"/>
+                            <img src="{{ news_item.card_props.card_image }}" alt=""/>
                         {% else %}
                             {% image news_item.image original as news_image %}
                             <img class="progressive__img progressive--not-loaded"
                                  data-progressive="{{ news_image.url }}"
-                                 src="{% lazy_image_url news_image %}" alt="{{ news_item.news_item }}"
+                                 src="{% lazy_image_url news_image %}" alt=""
                             />
                         {% endif %}
                     {% else %}
-                        <img src="{% static 'images/event_placeholder.png' %}" alt="{{ news_item.news_item }}">
+                        <img src="{% static 'images/event_placeholder.png' %}" alt="">
                     {% endif %}
                 </figure>
             </div>

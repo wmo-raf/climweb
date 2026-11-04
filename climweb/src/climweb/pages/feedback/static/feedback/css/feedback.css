@@ -30,7 +30,7 @@
 
 /* INTRO HEADER */
 .fb-eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -100,7 +100,7 @@
 }
 
 .fb-form-eyebrow {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -154,12 +154,12 @@
 
 .fb-form .input::placeholder,
 .fb-form .textarea::placeholder {
-  color: #bbb;
+  color: var(--text-muted, #6b6b6b);
 }
 
 .fb-form .help {
-  font-size: 11px;
-  color: #aaa;
+  font-size: var(--fs-xs);
+  color: var(--text-muted, #6b6b6b);
   margin-top: 3px;
 }
 

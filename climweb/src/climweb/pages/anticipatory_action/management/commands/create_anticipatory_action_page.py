@@ -22,7 +22,7 @@ class Command(BaseCommand):
         if home_page is None:
             raise CommandError("The site's root page is not a Home Page")
         
-        page, created = create_draft_page(home_page, site=site)
+        page, created = create_draft_page(home_page, site=site, reuse_existing=True)
         
         if created:
             self.stdout.write(self.style.SUCCESS(

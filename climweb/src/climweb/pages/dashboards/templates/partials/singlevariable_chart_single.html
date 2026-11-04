@@ -42,6 +42,8 @@
                 {% if singlevariable_chart.chart_type == "warm_stripes" %}
                 <div
                     class="warming-stripes-chart"
+                    data-title="{{ singlevariable_chart.title }}"
+                    data-unit="{{ singlevariable_chart.data_unit|default:'' }}"
                     id="warming-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ singlevariable_chart.dataset.id }}"
                     data-geostore-id="{{ singlevariable_chart.geostore_id|stringformat:"s" }}"
@@ -53,6 +55,8 @@
                 {% elif singlevariable_chart.chart_type == "rain_stripes" %}
                 <div
                     class="rainfall-stripes-chart"
+                    data-title="{{ singlevariable_chart.title }}"
+                    data-unit="{{ singlevariable_chart.data_unit|default:'' }}"
                     id="rainfall-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ singlevariable_chart.dataset.id }}"
                     data-geostore-id="{{ singlevariable_chart.geostore_id|stringformat:"s" }}"
@@ -147,6 +151,8 @@
                 {% if singlevariable_chart.chart_type == "warm_stripes" %}
                 <div
                     class="warming-stripes-chart"
+                    data-title="{{ singlevariable_chart.title }}"
+                    data-unit="{{ singlevariable_chart.data_unit|default:'' }}"
                     id="warming-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ singlevariable_chart.dataset.id }}"
                     data-geostore-id="{{ singlevariable_chart.geostore_id|stringformat:"s" }}"
@@ -158,6 +164,8 @@
                 {% elif singlevariable_chart.chart_type == "rain_stripes" %}
                 <div
                     class="rainfall-stripes-chart"
+                    data-title="{{ singlevariable_chart.title }}"
+                    data-unit="{{ singlevariable_chart.data_unit|default:'' }}"
                     id="rainfall-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ singlevariable_chart.dataset.id }}"
                     data-geostore-id="{{ singlevariable_chart.geostore_id|stringformat:"s" }}"
@@ -257,6 +265,8 @@
                 {% if singlevariable_chart.chart_type == "warm_stripes" %}
                 <div
                     class="warming-stripes-chart"
+                    data-title="{{ singlevariable_chart.title }}"
+                    data-unit="{{ singlevariable_chart.data_unit|default:'' }}"
                     id="warming-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ singlevariable_chart.dataset.id }}"
                     data-geostore-id="{{ singlevariable_chart.geostore_id|stringformat:"s" }}"
@@ -268,6 +278,8 @@
                 {% elif singlevariable_chart.chart_type == "rain_stripes" %}
                 <div
                     class="rainfall-stripes-chart"
+                    data-title="{{ singlevariable_chart.title }}"
+                    data-unit="{{ singlevariable_chart.data_unit|default:'' }}"
                     id="rainfall-stripes-{{ section_index }}-{{ index }}-{{block_index}}"
                     data-layer-id="{{ singlevariable_chart.dataset.id }}"
                     data-geostore-id="{{ singlevariable_chart.geostore_id|stringformat:"s" }}"

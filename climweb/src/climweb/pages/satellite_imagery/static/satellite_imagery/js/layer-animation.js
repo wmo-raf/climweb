@@ -41,12 +41,12 @@ LayerAnimation.prototype.initMarkup = function () {
 
     $(`<div class="animate-image-wrapper">
             <div class="animate-image-container">
-                <canvas id="anim-image-canvas" class="anim-canvas"></canvas>
+                <canvas id="anim-image-canvas" class="anim-canvas" role="img" aria-label="Satellite image animation"></canvas>
             </div>
             <div class="anim-controls">
                 <div id="loading-indicator" class="anim-loading-indicator">Loading <span>0</span>%</div>
-                <div id="anim-play-pause" class="anim-play-pause" style="display: none">
-                    <div class="anim-icon">
+                <button type="button" id="anim-play-pause" class="anim-play-pause" aria-label="Play animation" style="display: none">
+                    <div class="anim-icon" aria-hidden="true">
                         <div class="icon-play">
                             <svg id="icon-play" viewbox="0 0 448 512">
                                 <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>
@@ -58,7 +58,7 @@ LayerAnimation.prototype.initMarkup = function () {
                             </svg>
                         </div>
                     </div>
-                </div>
+                </button>
                 <div class="anim-progress-line">
                     <div id="anim-slider" class="anim-slider"></div>
                 </div>
@@ -82,11 +82,13 @@ LayerAnimation.prototype.initMarkup = function () {
 
                 this.$pauseIcon.hide()
                 this.$playIcon.show()
+                this.$playPause.attr("aria-label", "Play animation")
             } else {
                 this.plugin.play()
 
                 this.$playIcon.hide()
                 this.$pauseIcon.show()
+                this.$playPause.attr("aria-label", "Pause animation")
             }
         }
 
@@ -130,6 +132,7 @@ LayerAnimation.prototype.initPlugin = function () {
                 const dateStr = formatDate(dateValue)
 
                 that.$sliderEl.find(".ui-slider-tooltip-val").text(dateStr)
+                that.setSliderAria(valueIndex, dateStr)
             }
         },
     })
@@ -160,6 +163,7 @@ LayerAnimation.prototype.initControls = function () {
             const dateValue = that.layerDates[ui.value]
             const dateStr = formatDate(dateValue)
             $(ui.handle).find('.ui-slider-tooltip-val').text(dateStr);
+            that.setSliderAria(ui.value, dateStr)
 
             const frame = ui.value + 1
             that.plugin.setFrame(frame)
@@ -171,6 +175,14 @@ LayerAnimation.prototype.initControls = function () {
 
             tooltip.find(".ui-slider-tooltip-val").text(dateStr)
             $(event.target).find('.ui-slider-handle').append(tooltip);
+
+            $(event.target).find('.ui-slider-handle').attr({
+                "role": "slider",
+                "aria-label": "Animation frame",
+                "aria-valuemin": minIndex,
+                "aria-valuemax": maxIndex,
+            })
+            that.setSliderAria(initialIndex, dateStr)
 
             const frame = initialIndex + 1
             that.plugin.setFrame(frame)
@@ -184,6 +196,13 @@ LayerAnimation.prototype.initControls = function () {
             }
         }
     });
+}
+
+LayerAnimation.prototype.setSliderAria = function (index, dateStr) {
+    this.$sliderEl.find(".ui-slider-handle").attr({
+        "aria-valuenow": index,
+        "aria-valuetext": dateStr,
+    })
 }
 
 LayerAnimation.prototype.destroy = function () {

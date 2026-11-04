@@ -164,7 +164,7 @@
 .tl-new-badge {
   display: inline-flex;
   align-items: center;
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   padding: 3px 9px;
   border-radius: 20px;
@@ -177,7 +177,7 @@
 .tl-closed-badge {
   display: inline-flex;
   align-items: center;
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   padding: 3px 9px;
   border-radius: 20px;
@@ -218,7 +218,7 @@
   gap: 5px;
   background: #f4f6f9;
   color: #555;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 500;
   padding: 4px 10px;
   border-radius: 20px;
@@ -241,7 +241,7 @@
 
 .tl-pill-label {
   font-weight: 700;
-  color: #888;
+  color: var(--text-muted, #6b6b6b);
 }
 
 .tl-pill--closed {
@@ -311,7 +311,7 @@
   .tl-item-header { padding: 1rem 1.25rem 0.875rem; }
   .tl-item-body   { padding: 0.875rem 1.25rem 1rem; }
   .tl-item-title  { font-size: 15px; }
-  .tl-pill        { font-size: 10px; padding: 3px 8px; }
+  .tl-pill        { font-size: var(--fs-xs); padding: 3px 8px; }
 }
 
 @media (max-width: 480px) {

@@ -15,13 +15,13 @@
       <button id="list-view-button"
               class="pub-view-btn news-filter view active"
               name="view" value="list"
-              title="List view">
+              title="{% translate 'List view' %}" aria-label="{% translate 'List view' %}">
         <span class="icon">{% svg_icon name="table-list" %}</span>
       </button>
       <button id="grid-view-button"
               class="pub-view-btn news-filter view"
               name="view" value="grid"
-              title="Grid view">
+              title="{% translate 'Grid view' %}" aria-label="{% translate 'Grid view' %}">
         <span class="icon">{% svg_icon name="grip" %}</span>
       </button>
     </div>
@@ -36,12 +36,12 @@
           <div class="pub-item-inner">
 
             <!-- THUMBNAIL -->
-            <a href="{{ news_item.url }}" class="pub-thumb">
+            <a href="{{ news_item.url }}" class="pub-thumb" tabindex="-1" aria-hidden="true">
               {% if news_item.card_props.card_image %}
                 <img class="progressive__img progressive--not-loaded"
                      data-progressive="{{ news_item.card_props.card_image }}"
                      src="{{ news_item.card_props.card_image }}"
-                     alt="{{ news_item.title }}" />
+                     alt="" />
               {% else %}
                 <div class="pub-thumb-placeholder"></div>
               {% endif %}

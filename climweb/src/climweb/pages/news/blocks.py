@@ -1,5 +1,5 @@
 from wagtail import blocks
-from wagtail.images.blocks import ImageChooserBlock
+from climweb.base.blocks import OptionalAltImageBlock
 from django.utils.translation import gettext_lazy as _
 
 
@@ -13,7 +13,7 @@ class ExternalLinkBlock(blocks.StructBlock):
 
 
 class GalleryImageBlock(blocks.StructBlock):
-    image = ImageChooserBlock(label=_("Image"))
+    image = OptionalAltImageBlock(label=_("Image"))
     caption = blocks.CharBlock(
         required=False,
         max_length=255,

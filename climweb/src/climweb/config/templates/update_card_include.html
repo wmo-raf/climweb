@@ -9,13 +9,13 @@
         <span class="tag is-link is-light update-card-top-tag">{{ top_tag }}</span>
       {% endif %}
       {% if card.card_image_type == "url" %}
-        <img src="{{ card.card_image }}" alt="{{ card.card_title }}" style="object-fit:cover;" />
+        <img src="{{ card.card_image }}" alt="" style="object-fit:cover;" />
       {% else %}
         {% image card.card_image original as item_card_img %}
         <img class="progressive__img progressive--not-loaded"
              data-progressive="{{ item_card_img.url }}"
              src="{% lazy_image_url item_card_img %}"
-             alt="{{ card.card_title }}"
+             alt=""
              style="object-fit:cover;" />
       {% endif %}
     </figure>

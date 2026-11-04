@@ -78,7 +78,7 @@
                         <img class="progressive__img progressive--not-loaded"
                              data-progressive="{{ product_item_image.url }}"
                              src="{% lazy_image_url product_item_image %}"
-                             alt="{{ product_item.value.product_item_type.name }}" />
+                             alt="{% image_alt product_item.value.image product_item.value.product_item_type.name %}" />
                       </div>
                       <div class="pd-panel-foot share-buttons">
                         <a class="pd-btn-view"
@@ -99,7 +99,7 @@
                     {% elif product_item.block_type == "gif_product" %}
                       <div class="pd-panel-img">
                         <img src="{{ product_item.value.gif.file.url }}"
-                             alt="{{ product_item.value.product_item_type.name }}" />
+                             alt="{% image_alt product_item.value.gif product_item.value.product_item_type.name %}" />
                       </div>
                       <div class="pd-panel-foot share-buttons">
                         <a class="pd-btn-view"

@@ -8,7 +8,7 @@ a.result-list-item-more {
 
 
 a.result-list-item-more:hover {
-    color: #cc7c09;
+    color: #9a5b00;
 }
 
 a.result-list-item-title:hover {
@@ -57,7 +57,7 @@ a.result-list-item-title:hover {
 .pub-filter-header svg {
   width: 14px;
   height: 14px;
-  color: #aaa;
+  color: var(--text-muted, #6b6b6b);
   flex-shrink: 0;
   transition: transform 0.2s;
 }
@@ -136,7 +136,7 @@ a.result-list-item-title:hover {
 
 .pub-count {
   font-size: 12px;
-  color: #888;
+  color: var(--text-muted, #6b6b6b);
   font-weight: 500;
 }
 
@@ -167,7 +167,7 @@ a.result-list-item-title:hover {
 .pub-view-btn .icon svg {
   width: 14px;
   height: 14px;
-  fill: #aaa;
+  fill: var(--text-muted, #6b6b6b);
 }
 
 .pub-view-btn.active .icon svg {
@@ -229,8 +229,11 @@ a.result-list-item-title:hover {
   height: 20px;
   flex-shrink: 0;
   cursor: pointer;
-  color: #aaa;
+  color: var(--text-muted, #6b6b6b);
   transition: color 0.12s;
+  background: none;
+  border: 0;
+  padding: 0;
 }
 
 .pub-search-clear:hover { color: #555; }
@@ -329,7 +332,7 @@ a.result-list-item-title:hover {
 }
 
 .pub-tag {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--primary-color);
   text-transform: uppercase;
@@ -357,7 +360,7 @@ a.result-list-item-title:hover {
 /* ── SNIPPET ── */
 .pub-snippet {
   font-size: 14px;
-  color: #777;
+  color: var(--text-muted, #6b6b6b);
   line-height: 1.6;
   margin: 0;
   -webkit-line-clamp: 2;
@@ -375,15 +378,15 @@ a.result-list-item-title:hover {
 }
 
 .pub-date {
-  font-size: 10px;
-  color: #bbb;
+  font-size: var(--fs-xs);
+  color: var(--text-muted, #6b6b6b);
 }
 
 .pub-read-more {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   color: var(--primary-color);
   text-decoration: none;
@@ -430,9 +433,9 @@ a.result-list-item-title:hover {
 }
 
 .pub-stat-val {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  color: #aaa;
+  color: var(--text-muted, #6b6b6b);
 }
 
 /* ── GRID VIEW ── */

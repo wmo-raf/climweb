@@ -1,5 +1,6 @@
-{% load static wagtailiconchooser_tags %}
-<div id="product-map" style="height: 600px;width: 100%">
+{% load i18n static wagtailiconchooser_tags %}
+<div id="product-map" style="height: 600px;width: 100%"
+     data-map-label="{% blocktranslate trimmed with title=page.title %}Map of {{ title }}{% endblocktranslate %}">
     <div class="menu-control" style="position: absolute">
         <div class="map-menu">
             {% for map_layer in layers %}

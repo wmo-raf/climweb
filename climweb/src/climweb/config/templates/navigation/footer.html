@@ -16,7 +16,7 @@
                             {% image settings.base.OrganisationSetting.footer_logo original as footer_logo %}
                             <img
                                 src="{{ footer_logo.url }}"
-                                alt="Logo"
+                                alt="{% firstof settings.base.OrganisationSetting.name _('Home') %}"
                                 class="footer-logo-img"
                             />
                         </a>
@@ -55,11 +55,12 @@
                             <a
                                 class="footer-brand-social-icon"
                                 title="{{ account.value.name }}"
+                                aria-label="{{ account.value.name }}"
                                 href="{{ account.value.full_url }}"
                                 target="_blank"
                                 rel="noopener"
                             >
-                                <span class="icon">
+                                <span class="icon" aria-hidden="true">
                                     {% svg_icon name=account.value.icon %}
                                 </span>
                             </a>
@@ -68,11 +69,11 @@
                     </div>
                 </div>
                 <div class="column">
-                    <div class="columns is-multiline is-mobile">
+                    <nav class="columns is-multiline is-mobile" aria-label="{% translate 'Footer' %}">
                         <!-- NAV COLUMNS — rendered by footer_menu.html -->
                         {% for block in settings.base.NavigationSettings.footer_menu %} 
                         {% include_block block %} {% endfor %}
-                    </div>
+                    </nav>
                 </div>
             </div>
         </div>
