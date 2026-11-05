@@ -3,6 +3,7 @@
 
 <div class="ev-section">
 
+  {% if not hide_header %}
   <div class="ev-header">
     <div>
       <p class="ev-eyebrow">{% translate "Upcoming" %}</p>
@@ -15,9 +16,10 @@
       </a>
     {% endif %}
   </div>
+  {% endif %}
 
   <div class="ev-list">
-    {% for event in events.all %}
+    {% for event in events %}
       <a href="{{ event.url }}" class="ev-item">
 
         <!-- DATE BADGE -->
